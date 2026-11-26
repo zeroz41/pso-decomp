@@ -76,7 +76,7 @@ s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }
 int GuildCardEntry::is_active() const { return flags & 1; }
 s8 GuildCardEntry::get_char_class() { return char_class; }
 
-s32 GuildCardEntry::sub_8007B6F4() const {
+s32 GuildCardEntry::is_own_card() const {
     if (flags & 2) {
         return 0;
     }
@@ -96,7 +96,7 @@ void G_SendGuildCard_6x06::send_to(u32 client) {
     ((game_command *)&header)->send_to_client(client);
 }
 
-int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
+GuildCardEntry *TWindowSubComCard::get_own_guild_card() { return own_guild_card; }
 
 G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
     header.subcommand = 6;

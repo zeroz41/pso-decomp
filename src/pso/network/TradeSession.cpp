@@ -427,7 +427,7 @@ const char *format_trade_out_of_range_message(s32 client_id) {
     text_builder_reset();
     refresh_player_status(client_id);
     text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xEF));
-    return (const char *)get_shared_text_buffer();
+    return get_shared_text_buffer();
 }
 
 s32 TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
@@ -637,7 +637,7 @@ void handle_trade_partner_cancel(G_ModifyTradeProposal_6xA6 *proposal) {
         text_builder_reset();
         refresh_player_status(trade_partner_client_id);
         text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xED));
-        reset_trade_session((const char *)get_shared_text_buffer());
+        reset_trade_session(get_shared_text_buffer());
         break;
     case 3:
         break;
@@ -743,7 +743,7 @@ void update_status_message(G_ModifyTradeProposal_6xA6 *proposal) {
         text_builder_reset();
         refresh_player_status(trade_partner_client_id);
         text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xF1));
-        reset_trade_session((const char *)get_shared_text_buffer());
+        reset_trade_session(get_shared_text_buffer());
         break;
     case 1:
     case 2:
@@ -762,7 +762,7 @@ void handle_trade_request_reply(G_ModifyTradeProposal_6xA6 *proposal) {
         text_builder_reset();
         refresh_player_status(trade_partner_client_id);
         text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xD8));
-        reset_trade_session((const char *)get_shared_text_buffer());
+        reset_trade_session(get_shared_text_buffer());
         return;
     case 0:
         send_trade_busy_reply(trade_partner_client_id);

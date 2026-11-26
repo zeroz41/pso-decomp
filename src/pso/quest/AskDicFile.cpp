@@ -871,12 +871,9 @@ s32 is_char_allowed(const u8 *text, s16 len) {
   else
   {
     u8 d = *p;
-    if (1)
+    if (d < 0xA1)
     {
-      if (d < 0xA1)
-      {
-        return 0;
-      }
+      return 0;
     }
     bit = d - 0xA0;
   }

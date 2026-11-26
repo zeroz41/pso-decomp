@@ -23,11 +23,11 @@ void receive_short_mail(TChatMessage &message) { if (message.is_text_too_long() 
 
 void TLobby::send_simple_mail(s32 target_card_id, void *message) {
     TChatMessage mail;
-    GuildCardEntry *card;
+    GuildCardEntry *own_card;
     if (protocol_instance != NULL) {
-        card = reinterpret_cast<GuildCardEntry *>(TWindowSubComCard::get_keyboard_mode());
+        own_card = TWindowSubComCard::get_own_guild_card();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&mail.tag, &protocol_instance->m_guildcard_tag);
-        strncpy(mail.name, card->get_name(), 0x17);
+        strncpy(mail.name, own_card->get_name(), 0x17);
         mail.to_guildcard_number = target_card_id;
         // The game terminates the name as if it were 0x18 bytes long; the byte lands in the text.
         mail.name[0x17] = 0;

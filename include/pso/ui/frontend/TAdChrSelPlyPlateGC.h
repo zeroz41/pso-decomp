@@ -14,8 +14,8 @@ struct CharacterSelectionQuad {
 };
 
 // Multiplayer character-select player plates. The class name is the string its constructor
-// stores in m_name; the vtable it installs (0x804E0B10) holds the dtor, run_task (0x802C6AC8)
-// and render (0x802C54C4).
+// stores in m_name; the vtable it installs holds the dtor, run_task
+// and render.
 struct TAdChrSelPlyPlateGC : public TObject {
     static const char *name;
     TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos);
@@ -54,8 +54,8 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void start_selected_slot_anim();
     void update_cell_uvs();
 
-    s32 input_frames;
-    s32 prev_ready_count;
+    s32 frame_counter;
+    s32 ready_count;
     CharacterSelectionQuad quad[8][3]; // Four selection rows, then four confirmation rows.
     f32 cursor[3][8];
     vec2f home[4][3];
@@ -72,8 +72,8 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 selection;
     s32 ready;
     s32 slot_active[4][3];
-    s32 start_requested;
-    s32 input_enabled;
+    s32 confirm_pressed;
+    s32 accepting_input;
 };
 
 LAYOUT_ASSERT(CharacterSelectionQuadSize, sizeof(CharacterSelectionQuad) == 0x20);
@@ -86,6 +86,8 @@ LAYOUT_ASSERT(CharacterSelectionPositionSize, sizeof(vec2f) == 8);
 LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
+// The player whose cursor the plate is moving.
+extern int multi_ply_chr_select_active_player;
 
 extern "C" {
 u32 get_multiplayer_controller_active_index(int index);

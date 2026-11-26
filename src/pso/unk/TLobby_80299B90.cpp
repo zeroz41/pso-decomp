@@ -28,7 +28,7 @@ s32 init_scene_delo2(void) {
     init_area_lights();
     TLobby::create_tasks();
     create_boss7_tunnel();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     play_area_music("delo2.adx");
     if (is_split_screen() == 0) {
         new TFloorReflection(tl_particlemodel);

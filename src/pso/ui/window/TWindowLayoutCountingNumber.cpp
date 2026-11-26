@@ -84,7 +84,7 @@ void TWindowLayoutCountingNumber::update() {
 
 TWindowLayoutCountingNumber::~TWindowLayoutCountingNumber() {}
 
-TWindowLayoutCountingNumber::TWindowLayoutCountingNumber(u8 *rec, s32 m_2) : TWindowLayoutNumber(rec, m_2) {
+TWindowLayoutCountingNumber::TWindowLayoutCountingNumber(ValueLayoutRecord *rec, s32 client) : TWindowLayoutNumber(rec, client) {
     this->target = this->value;
     this->current = this->value;
     this->step = 0.0f;

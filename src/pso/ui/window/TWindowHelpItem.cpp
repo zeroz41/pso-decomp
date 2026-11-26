@@ -1,3 +1,6 @@
+#include "pso/system/TLanguage.h"
+#include "pso/player/PlayerStats.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/item/MagStats.h"
@@ -25,6 +28,8 @@
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/WindowSpritePart.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -48,7 +53,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern u8 *text_language_group_table;
 saddr format_item_description(u8 *item);
 
 const char *window_help_item_class_name = "TWindowHelpItem";
@@ -150,12 +154,12 @@ void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 s32 HelpItemStatCompareRow::get_value() { return value; }
 
 const char *get_help_text_string(s32 id) {
-    return ((const char ***)text_language_group_table)[6][id];
+    return text_language_group_table[6][id];
 }
 
-TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
+TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
-    copy_vec2(target_position, pos);
+    copy_vec2(target_position, (void *)pos);
     this->save_position();
     this->help_flags = 0;
     page_indicator = new PageIndicator(0, 3, client_index);
@@ -217,12 +221,12 @@ void TWindowHelpItem::render() {
 void TWindowHelpItem::update_cursor_selection() {
     this->help_flags = (u8) (this->help_flags | 1);
     if ((s32) this->primary_id != -1) {
-        active_item = reinterpret_cast<TItemData *>(primary_item);
+        active_item = primary_item;
         this->active_id = (s32) this->primary_id;
         return;
     }
     if ((s32) this->secondary_id != -1) {
-        active_item = reinterpret_cast<TItemData *>(secondary_item);
+        active_item = secondary_item;
         this->active_id = (s32) this->secondary_id;
         return;
     }
@@ -245,47 +249,47 @@ void TWindowHelpItem::clear_help_item() {
 
 void TWindowHelpItem::update_help_item(s8 page) { if (fn_8026C7C0(page_indicator, page) != 0) { this->dispatch_item_help(); } }
 
-void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->secondary_id = a2; *(void* *)&this->secondary_item = a1; update_cursor_selection(); dispatch_item_help(); }
+void TWindowHelpItem::set_items_and_refresh(TItemData *item, s32 id) { this->secondary_id = id; this->secondary_item = item; update_cursor_selection(); dispatch_item_help(); }
 
-void TWindowHelpItem::set_displayed_item_data(void* a1, void* a2) { *(void* *)&this->primary_id = a2; *(void* *)&this->primary_item = a1; update_cursor_selection(); dispatch_item_help(); }
+void TWindowHelpItem::set_displayed_item_data(TItemData *item, s32 id) { this->primary_id = id; this->primary_item = item; update_cursor_selection(); dispatch_item_help(); }
 
-void TWindowHelpItem::set_displayed_item_colored(uaddr displayed_item_colored) {
+void TWindowHelpItem::set_displayed_item_colored(TItemData *item) {
     saddr id;
     id = -0x100;
-    if (displayed_item_colored == 0U) {
+    if (item == NULL) {
         id = -1;
     }
-    set_displayed_item_data((void*)displayed_item_colored, (void*)id);
+    set_displayed_item_data(item, id);
 }
 
 void TWindowHelpItem::show_item_by_id(saddr id) {
     TItem *item;
     if (id == -1) {
-        set_items_and_refresh(NULL, (void *)-1);
+        set_items_and_refresh(NULL, -1);
         return;
     }
     item = find_item_by_id(id);
     if (item == NULL) {
-        set_items_and_refresh(NULL, (void *)id);
+        set_items_and_refresh(NULL, id);
         return;
     }
     item->copy_to_item_data(&item_copy);
-    set_items_and_refresh(&item_copy, (void *)id);
+    set_items_and_refresh(&item_copy, id);
 }
 
 void TWindowHelpItem::set_displayed_item_by_id(saddr id) {
     TItem *item;
     if (id == -1) {
-        set_displayed_item_data(NULL, (void *)-1);
+        set_displayed_item_data(NULL, -1);
         return;
     }
     item = find_item_by_id(id);
     if (item == NULL) {
-        set_displayed_item_data(NULL, (void *)id);
+        set_displayed_item_data(NULL, id);
         return;
     }
     item->copy_to_item_data(&displayed_item);
-    set_displayed_item_data(&displayed_item, (void *)id);
+    set_displayed_item_data(&displayed_item, id);
 }
 
 void TWindowHelpItem::dispatch_item_help() {
@@ -381,7 +385,7 @@ void TWindowHelpItem::invoke_callback_pmf() {
 
 void TWindowHelpItem::show_weapon_requirements() {
     TObjPlayer *pl;
-    WeaponParams *item;
+    WeaponParams *pmt;
     s32 flags;
     WindowSpritePart *a;
     WindowTextEntry *b;
@@ -400,7 +404,7 @@ void TWindowHelpItem::show_weapon_requirements() {
         d = (WindowTextEntry *)get_array_entry(9);
         e = (TWindowLayoutNumber *)get_array_entry(10);
         f = (WindowTextEntry *)get_array_entry(11);
-        item = (WeaponParams *)lookup_item_pmt_record((u8 *)active_item);
+        pmt = (WeaponParams *)lookup_item_pmt_record((u8 *)active_item);
         if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
             a->set_sprite_uv_from_pixels(0.0f, 132.0f);
             b->hide();
@@ -410,28 +414,28 @@ void TWindowHelpItem::show_weapon_requirements() {
             f->hide();
             return;
         }
-        if (item->atp_required != 0) {
+        if (pmt->atp_required != 0) {
             a->set_sprite_uv_from_pixels(0.0f, 172.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
-            c->value = item->atp_required;
+            c->value = pmt->atp_required;
             return;
         }
-        if (item->mst_required != 0) {
+        if (pmt->mst_required != 0) {
             a->set_sprite_uv_from_pixels(0.0f, 192.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
-            c->value = item->mst_required;
+            c->value = pmt->mst_required;
             return;
         }
-        if (item->ata_required != 0) {
+        if (pmt->ata_required != 0) {
             a->set_sprite_uv_from_pixels(0.0f, 212.0f);
             b->reveal_all();
             d->reveal_all();
             f->reveal_all();
-            c->value = item->ata_required;
+            c->value = pmt->ata_required;
             return;
         }
         a->hide();
@@ -574,23 +578,23 @@ void TWindowHelpItem::update_requirements() {
 
 void TWindowHelpItem::update_level_requirement() {
     s32 requirement;
-    u8 *level_value;
-    u8 *item_pmt_record;
+    TWindowLayoutNumber *level_value;
+    ArmorPmtEntry *item_pmt_record;
     TObjPlayer *player;
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
         if (player->get_stats() != 0U) {
             update_stat_comparison();
-            level_value = (u8 *)(((u8 *)get_array_entry(0xA)));
-            item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)active_item));
+            level_value = (TWindowLayoutNumber *)get_array_entry(0xA);
+            item_pmt_record = (ArmorPmtEntry *)lookup_item_pmt_record((u8 *)active_item);
             if (check_equip_requirements(player, active_item, &requirement) == 0) {
                 if (!(requirement & 1)) {
                     goto block_4;
                 }
             } else {
 block_4:
-                if ((u8) *(u8 *)((s8 *)item_pmt_record + 0x10) != 0) {
-                    ((TWindowLayoutNumber *)level_value)->value = (s32) (player->get_actor_level_index() + 1);
+                if (item_pmt_record->required_level != 0) {
+                    level_value->value = (s32) (player->get_actor_level_index() + 1);
                 }
             }
         }
@@ -643,7 +647,7 @@ void TWindowHelpItem::update_stat_comparison() {
     e4->set_compare_value(st.evp);
     e2->set_compare_value(st.mst);
     e5->set_compare_value(st.lck);
-    if (check_equip_requirements(pl, (TItemData *)primary_item, &flags) != 0) {
+    if (check_equip_requirements(pl, primary_item, &flags) != 0) {
         e0->set_compare_enabled(1);
         e3->set_compare_enabled(1);
         e1->set_compare_enabled(1);
@@ -661,14 +665,14 @@ void TWindowHelpItem::update_stat_comparison() {
 }
 
 void TWindowHelpItem::show_weapon_attributes() {
-    saddr player;
+    TObjPlayer *player;
     HelpItemStatCompareRow *a;
     HelpItemStatCompareRow *b;
     HelpItemStatCompareRow *c;
     HelpItemStatCompareRow *d;
     HelpItemStatCompareRow *e;
 
-    player = (saddr)get_player_by_client_id(client_index);
+    player = get_player_by_client_id(client_index);
     if (player != 0) {
         init_window_layout_entries(
             &entry_list,
@@ -690,12 +694,12 @@ void TWindowHelpItem::show_weapon_attributes() {
         c->set_flag0_bit20();
         d->set_flag0_bit20();
         e->set_flag0_bit20();
-        set_percentage_rows(((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
+        set_percentage_rows(player->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
         if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 set_percentage_rows(NULL, &HelpItemStatCompareRow::set_compare_value);
             } else {
-                set_percentage_rows((WeaponAttribute *)(primary_item + 6), &HelpItemStatCompareRow::set_compare_value);
+                set_percentage_rows((WeaponAttribute *)&primary_item->data1.data_u8[6], &HelpItemStatCompareRow::set_compare_value);
             }
             e->update_visible_flags();
         }
@@ -709,11 +713,11 @@ void TWindowHelpItem::update_stat_disp2() {
     HelpItemStatCompareRow *machine_row;
     HelpItemStatCompareRow *dark_row;
     HelpItemStatCompareRow *hit_row;
-    saddr player;
-    uaddr item;
-    player = (saddr)get_player_by_client_id(client_index);
-    if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = primary_item, (item == 0U) == 0))) {
-        if (check_equip_requirements((void *)player, (TItemData *)item, &requirement) != 0) {
+    TObjPlayer *player;
+    TItemData *item;
+    player = get_player_by_client_id(client_index);
+    if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = primary_item, (item == NULL) == 0))) {
+        if (check_equip_requirements(player, item, &requirement) != 0) {
             native_row->set_compare_enabled(1);
             abeast_row->set_compare_enabled(1);
             machine_row->set_compare_enabled(1);
@@ -817,8 +821,8 @@ void TWindowHelpItem::update_resistance_rows() {
         d->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8C));
         e->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8D));
         a->set_value(pl->get_efr());
-        b->set_value(pl->get_class_id());
-        c->set_value(pl->get_item_index());
+        b->set_value(pl->get_eic());
+        c->set_value(pl->get_eth());
         d->set_value(pl->get_edk());
         e->set_value(pl->get_elt());
         if (primary_item != 0) {
@@ -843,9 +847,9 @@ void TWindowHelpItem::update_stat_disp() {
     HelpItemStatCompareRow *c;
     HelpItemStatCompareRow *d;
     HelpItemStatCompareRow *e;
-    saddr player;
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id(this->client_index);
+    player = get_player_by_client_id(this->client_index);
     if (player != 0) {
         a = (HelpItemStatCompareRow *)this->get_array_entry(0);
         b = (HelpItemStatCompareRow *)this->get_array_entry(1);
@@ -853,7 +857,7 @@ void TWindowHelpItem::update_stat_disp() {
         d = (HelpItemStatCompareRow *)this->get_array_entry(3);
         e = (HelpItemStatCompareRow *)this->get_array_entry(4);
         if (this->primary_item != 0) {
-            if (check_equip_requirements((void *)player, (TItemData *)this->primary_item, &requirement) != 0) {
+            if (check_equip_requirements(player, this->primary_item, &requirement) != 0) {
                 a->set_compare_enabled(1);
                 b->set_compare_enabled(1);
                 c->set_compare_enabled(1);
@@ -873,7 +877,7 @@ void TWindowHelpItem::update_stat_disp() {
 #pragma push
 #pragma fp_contract on
 void TWindowHelpItem::show_mag_growth() {
-    s32 mag[4];
+    MagStats mag;
     WindowTextEntry *a;
     TWindowLayoutNumber *b;
     TWindowStatusGaugeFeedback *c;
@@ -881,13 +885,13 @@ void TWindowHelpItem::show_mag_growth() {
     HelpItemStatCompareRow *sy;
     HelpItemStatCompareRow *iq;
     WindowTextEntry *up;
-    ((MagStats *)mag)->init();
+    mag.init();
     init_window_layout_entries(
         &entry_list,
         &help_item_stats_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    TItemData::deserialize_mag(active_item, (void *)mag);
+    TItemData::deserialize_mag(active_item, &mag);
     lv = (HelpItemStatCompareRow *)get_array_entry(0);
     sy = (HelpItemStatCompareRow *)get_array_entry(1);
     iq = (HelpItemStatCompareRow *)get_array_entry(2);
@@ -896,9 +900,9 @@ void TWindowHelpItem::show_mag_growth() {
     sy->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA3));
     iq->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA4));
     sy->set_flag0_bit20();
-    lv->set_value(((MagStats *)(mag))->get_level());
-    sy->set_value(((MagStats *)mag)->get_synchro());
-    iq->set_value(((MagStats *)mag)->get_iq());
+    lv->set_value(mag.get_level());
+    sy->set_value(mag.get_synchro());
+    iq->set_value(mag.get_iq());
     measure_message_text_width_default(up);
     up->x = 110.0f - 0.5f * up->width;
     up->hide();
@@ -906,94 +910,96 @@ void TWindowHelpItem::show_mag_growth() {
     b = (TWindowLayoutNumber *)get_array_entry(4);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(5);
     a->reveal_all();
-    b->value = ((MagStats *)mag)->get_def_level();
-    c->target = (f32) ((MagStats *)(mag))->get_def_progress();
+    b->value = mag.get_def_level();
+    c->target = (f32) mag.get_def_progress();
     c->calc_bar_width();
     a = (WindowTextEntry *)get_array_entry(6);
     b = (TWindowLayoutNumber *)get_array_entry(7);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(8);
     a->reveal_all();
-    b->value = ((MagStats *)mag)->get_pow_level();
-    c->target = (f32) ((MagStats *)(mag))->get_pow_progress();
+    b->value = mag.get_pow_level();
+    c->target = (f32) mag.get_pow_progress();
     c->calc_bar_width();
     a = (WindowTextEntry *)get_array_entry(9);
     b = (TWindowLayoutNumber *)get_array_entry(0xA);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
     a->reveal_all();
-    b->value = ((MagStats *)mag)->get_dex_level();
-    c->target = (f32) ((MagStats *)(mag))->get_dex_progress();
+    b->value = mag.get_dex_level();
+    c->target = (f32) mag.get_dex_progress();
     c->calc_bar_width();
     a = (WindowTextEntry *)get_array_entry(0xC);
     b = (TWindowLayoutNumber *)get_array_entry(0xD);
     c = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
     a->reveal_all();
-    b->value = ((MagStats *)mag)->get_mind_level();
-    c->target = (f32) ((MagStats *)(mag))->get_mind_progress();
+    b->value = mag.get_mind_level();
+    c->target = (f32) mag.get_mind_progress();
     c->calc_bar_width();
 }
 #pragma pop
 
 s32 TWindowHelpItem::update_mag_status_gauges() {
     MagStats mag;
-    saddr a;
-    saddr b;
-    saddr c;
-    saddr d;
+    TWindowLayoutEntry *panel;
+    HelpItemStatCompareRow *synchro;
+    HelpItemStatCompareRow *iq;
+    TWindowLayoutEntry *growth;
+    TWindowLayoutNumber *level;
+    TWindowStatusGaugeFeedback *gauge;
     s32 changed;
     mag.init();
     changed = 0;
     TItemData::deserialize_mag(active_item, &mag);
-    a = reinterpret_cast<saddr>(get_array_entry(0));
-    b = reinterpret_cast<saddr>(get_array_entry(1));
-    c = reinterpret_cast<saddr>(get_array_entry(2));
-    d = reinterpret_cast<saddr>(get_array_entry(0xF));
-    ((HelpItemStatCompareRow *)a)->show();
-    ((WindowTextEntry *)d)->hide();
-    ((HelpItemStatCompareRow *)b)->set_compare_color((s32) mag.get_synchro());
-    ((HelpItemStatCompareRow *)c)->set_compare_color((s32) mag.get_iq());
-    b = reinterpret_cast<saddr>(get_array_entry(4));
-    a = reinterpret_cast<saddr>(get_array_entry(5));
-    if (((TWindowLayoutNumber *)b)->value < mag.get_def_level()) {
+    panel = (TWindowLayoutEntry *)get_array_entry(0);
+    synchro = (HelpItemStatCompareRow *)get_array_entry(1);
+    iq = (HelpItemStatCompareRow *)get_array_entry(2);
+    growth = (TWindowLayoutEntry *)get_array_entry(0xF);
+    panel->show();
+    growth->hide();
+    synchro->set_compare_color((s32) mag.get_synchro());
+    iq->set_compare_color((s32) mag.get_iq());
+    level = (TWindowLayoutNumber *)get_array_entry(4);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(5);
+    if (level->value < mag.get_def_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_def_progress()) {
+        if (gauge->target != (f32) mag.get_def_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_def_progress();
+        gauge->target = (f32) mag.get_def_progress();
     }
-    b = reinterpret_cast<saddr>(get_array_entry(7));
-    a = reinterpret_cast<saddr>(get_array_entry(8));
-    if (((TWindowLayoutNumber *)b)->value < mag.get_pow_level()) {
+    level = (TWindowLayoutNumber *)get_array_entry(7);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+    if (level->value < mag.get_pow_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_pow_progress()) {
+        if (gauge->target != (f32) mag.get_pow_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_pow_progress();
+        gauge->target = (f32) mag.get_pow_progress();
     }
-    a = reinterpret_cast<saddr>(get_array_entry(0xA));
-    b = reinterpret_cast<saddr>(get_array_entry(0xB));
-    if (((TWindowLayoutNumber *)a)->value < mag.get_dex_level()) {
+    level = (TWindowLayoutNumber *)get_array_entry(0xA);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
+    if (level->value < mag.get_dex_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)b)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)b)->target != (f32) mag.get_dex_progress()) {
+        if (gauge->target != (f32) mag.get_dex_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)b)->target = (f32) mag.get_dex_progress();
+        gauge->target = (f32) mag.get_dex_progress();
     }
-    b = reinterpret_cast<saddr>(get_array_entry(0xD));
-    a = reinterpret_cast<saddr>(get_array_entry(0xE));
-    if (((TWindowLayoutNumber *)b)->value < mag.get_mind_level()) {
+    level = (TWindowLayoutNumber *)get_array_entry(0xD);
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
+    if (level->value < mag.get_mind_level()) {
         changed = 1;
-        ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
+        gauge->target = 100.0f;
     } else {
-        if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_mind_progress()) {
+        if (gauge->target != (f32) mag.get_mind_progress()) {
             changed = 1;
         }
-        ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_mind_progress();
+        gauge->target = (f32) mag.get_mind_progress();
     }
     return changed;
 }
@@ -1131,7 +1137,7 @@ void TWindowHelpItem::show_item_description() {
 
 void TWindowHelpItem::update_tech_disk_details() {
     s32 requirement;
-    saddr player;
+    TObjPlayer *player;
     WindowTextEntry *e0;
     WindowSpritePart *e1;
     WindowTextEntry *e2;
@@ -1139,7 +1145,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     WindowTextEntry *e4;
     TWindowLayoutNumber *e5;
     WindowTextEntry *e6;
-    player = (saddr)get_player_by_client_id(this->client_index);
+    player = get_player_by_client_id(this->client_index);
     if (player != 0) {
         init_window_layout_entries(
             &this->entry_list,
@@ -1160,7 +1166,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e4 = (WindowTextEntry *)this->get_array_entry(4);
         e5 = (TWindowLayoutNumber *)this->get_array_entry(5);
         e6 = (WindowTextEntry *)this->get_array_entry(6);
-        check_equip_requirements((void *)player, active_item, &requirement);
+        check_equip_requirements(player, active_item, &requirement);
         if (requirement & 1) {
             e1->set_sprite_uv_from_pixels(0.0f, 152.0f);
             e2->hide();
@@ -1200,7 +1206,7 @@ void TWindowHelpItem::update_tech_disk_stats() {
 
 void TWindowHelpItem::update_displayed_item() {
     this->format_description_with_price();
-    this->init_text((void *)(get_shared_text_buffer()));
+    this->init_text((get_shared_text_buffer()));
 }
 
 void TWindowHelpItem::init_text(void *str) {

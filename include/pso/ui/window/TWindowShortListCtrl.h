@@ -12,7 +12,7 @@ struct TWindowShortListCtrl : public TObject {
     TWindowShortListCtrl(TObject *parent, s32 client_id);
     virtual ~TWindowShortListCtrl();
     static const char *class_name;
-    void refresh_technique_rows(saddr, void *);
+    void refresh_technique_rows(saddr tech_window, const NJS_POINT2 *position);
     void cycle_list_page();
     void enter_page_first_state();
     virtual void run_task();
@@ -22,10 +22,11 @@ struct TWindowShortListCtrl : public TObject {
     u8 state;
     // Frames since open (run_task counts it, wraps to 2; the close button is ignored below 3).
     s16 timer;
-    // TWindowSubTechnique::get_current_selection / update_selection snapshot (s16, then s32 at 0x28).
-    void* m_20;
+    // tp and hold status the technique list was built for (TWindowSubTechnique::update_selection).
+    s16 shown_tp;
+    u8 pad_22[2];
     u32 client_id;
-    void* m_28;
+    s32 shown_hold_status;
     // Technique list (create_window, page 3).
     TWindowMenu *tech_window;
     // Item / shortcut list (create_equip_kind_window, pages 0-2).
@@ -38,10 +39,10 @@ struct TWindowShortListCtrl : public TObject {
     static s32 get_card_status_bits(s32 client_id);
     void set_displayed_item(s32 item_id);
     s32 is_technique_usable();
-    void swap_card_entries(s32 arg1, s32 arg2);
+    void swap_card_entries(s32 index_a, s32 index_b);
     static void assign_item_to_palette(u32 item_id, u32 client_id);
     void destroy_children();
-    void *create_window(const NJS_POINT2 *position, saddr arg2_arg);
+    TWindowMenu *create_window(const NJS_POINT2 *position, const NJS_POINT2 *list_position);
     virtual void render();
     static void set_card_window_flags(saddr client_id, s32 page);
     static void assign_shortcut(s32 slot, saddr item, s32 client_id);

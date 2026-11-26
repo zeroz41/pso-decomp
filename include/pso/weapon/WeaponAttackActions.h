@@ -3,7 +3,9 @@
 
 #include "types.h"
 
-u32 pack_weapon_trail_color(void *weapon);
+struct TItemWeapon;
+
+u32 pack_weapon_trail_color(TItemWeapon *weapon);
 
 struct NJS_OBJECT;
 

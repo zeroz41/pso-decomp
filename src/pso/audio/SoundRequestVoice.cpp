@@ -93,31 +93,12 @@ void SoundRequestVoice::update() {
 #pragma push
 
 
-struct Voice_80241FD8 {
-    u32 pad0; s32 state; u32 pad1; s32 kind; u8 pad2[0x20 - 0x10]; s32 token;
-    u8 pad3[0x48 - 0x24]; s32 fade; s32 fadeStep;
-};
-
-struct Sound_80241798 {
-    SoundControlState *owner;
-    u8 pad4[0x4];
-    s32 flags;
-    u8 padC[0x4];
-    s32 group;
-    s32 id;
-    u8 pad18[0x58];
-    s32 pitch;
-    s32 velocity;
-    u8 pad78[0x14];
-    s16 field_8C;
-};
-
 extern "C" {
 s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
 extern s8 gba_joyboot_states[];
-void TLobby__sub_80241798(Sound_80241798 *sound);
+void TLobby__sub_80241798(SoundRequestVoice *sound);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(SoundRequestVoice *voice);
@@ -155,7 +136,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             break;
         }
         TLobby__sub_80241A0C(v);
-        TLobby__sub_80241798((Sound_80241798 *)(v));
+        TLobby__sub_80241798(v);
     start:
         TLobby__sub_80240F38(v);
         TLobby__sub_80240F3C(v);
@@ -547,16 +528,16 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
     }
 }
 
-void TLobby__sub_80241798(Sound_80241798 *sound) {
+void TLobby__sub_80241798(SoundRequestVoice *sound) {
     s32 num = 1;
     s32 den = 1;
     s32 mask = 0;
     s32 min = 0;
     switch (sound->owner->group_state) {
     case 16:
-        switch (sound->group) {
+        switch (sound->bank) {
         case 4:
-            switch (sound->id) {
+            switch (sound->index) {
             case 5: case 6: case 7: case 8: case 9:
                 mask = 0x3F;
                 min = 0x40;
@@ -567,9 +548,9 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
         }
         break;
     case 2:
-        switch (sound->group) {
+        switch (sound->bank) {
         case 4:
-            switch (sound->id) {
+            switch (sound->index) {
             case 6:
                 mask = 0x3F;
                 min = 0x20;
@@ -580,9 +561,9 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
         }
         break;
     case 9:
-        switch (sound->group) {
+        switch (sound->bank) {
         case 3:
-            switch (sound->id) {
+            switch (sound->index) {
             case 0: case 1:
                 mask = 0x3F;
                 min = 0x80;
@@ -593,9 +574,9 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
         }
         break;
     case 12:
-        switch (sound->group) {
+        switch (sound->bank) {
         case 4:
-            switch (sound->id) {
+            switch (sound->index) {
             case 11:
                 mask = 0x3F;
                 min = 0x20;
@@ -609,22 +590,22 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
             }
             break;
         case 3:
-            switch (sound->id) {
+            switch (sound->index) {
             case 20:
                 den = 6;
                 mask = 0x3F;
                 min = 0x20;
                 sound->flags |= 0x80;
-                sound->field_8C = 0x1000;
+                sound->pitchLimit = 0x1000;
                 break;
             }
             break;
         }
         break;
     case 13:
-        switch (sound->group) {
+        switch (sound->bank) {
         case 3:
-            switch (sound->id) {
+            switch (sound->index) {
             case 5:
                 num = 2;
                 mask = 0x3F;
@@ -642,10 +623,10 @@ void TLobby__sub_80241798(Sound_80241798 *sound) {
         break;
     }
     if (sound->flags & 0x80) {
-        sound->pitch = num * ((s32)((sound->owner->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
-        sound->velocity = min + (mask & sound->owner->advance_rng());
+        sound->pitchMoving = num * ((s32)((sound->owner->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
+        sound->pitchVelocity = min + (mask & sound->owner->advance_rng());
         if ((s32)(sound->owner->advance_rng() & 0x3F) < 0x20) {
-            sound->velocity = -sound->velocity;
+            sound->pitchVelocity = -sound->pitchVelocity;
         }
     }
 }
@@ -812,7 +793,7 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
     v->surroundSpatial = surround;
 }
 
-s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step) {
+s32 start_voice_fade(SoundRequestVoice *v, s32 step) {
     switch (v->kind) {
     case 0:
         if (v->fadeStep == 0) {

@@ -56,7 +56,7 @@ void TWindowPartyStatus::draw_background(WindowDrawContext *context) {
     quad.u1 = 0.4453125f;
     quad.v1 = 0.8828125f;
     context->transform_quad(&quad);
-    draw_textured_quad_at_depth((f32 *)&quad, depth);
+    draw_textured_quad_at_depth(&quad.x0, depth);
     end_screen_draw();
     if (scanline_crosses_window(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);

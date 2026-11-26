@@ -158,11 +158,11 @@ void TAdGameStartSubGC::destroy_instance() {
         multiplay_texture_f512_handle = NULL;
     }
 }
-extern const unsigned char lbl_80472C28[];
+extern const unsigned char multiplay_texture_name[];
 __declspec(section ".data") extern NJS_TEXLIST texture_f512_multiplay_descriptor;
-void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = &texture_f512_multiplay_descriptor; load_streamed_prs_texture((const char *)lbl_80472C28, &texture_f512_multiplay_descriptor); }
-__declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
-__declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";
-NJS_TEXNAME lbl_804E3B60[1] = {{(char *)lbl_80472C28, 0, {0}}};
-__declspec(section ".data") NJS_TEXLIST texture_f512_multiplay_descriptor = {lbl_804E3B60, 1};
-void *ad_game_start_name_ptr[2] = {(void *)TAdGameStartGC__class_name_string, 0};
+void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = &texture_f512_multiplay_descriptor; load_streamed_prs_texture((const char *)multiplay_texture_name, &texture_f512_multiplay_descriptor); }
+__declspec(section ".rodata") extern const unsigned char multiplay_texture_name[] = "f512_multiplay";
+__declspec(section ".rodata") extern const char TAdGameStartGC_class_name_string[] = "TAdGameStartGC";
+NJS_TEXNAME texture_f512_multiplay_texnames[1] = {{(char *)multiplay_texture_name, 0, {0}}};
+__declspec(section ".data") NJS_TEXLIST texture_f512_multiplay_descriptor = {texture_f512_multiplay_texnames, 1};
+void *ad_game_start_name_ptr[2] = {(void *)TAdGameStartGC_class_name_string, 0};

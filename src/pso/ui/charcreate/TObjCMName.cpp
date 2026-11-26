@@ -49,25 +49,6 @@
 #include "pso/unk/text_80290BE0.h"
 
 
-struct Menu_80296D68
-{
-  u8 pad0[0x1C];
-  u8 *app;
-  s32 enabled;
-  s32 index;
-  s32 value;
-  s32 limit;
-  s32 wrap;
-  u8 pad34[4];
-  s32 ticks;
-  s32 active;
-  f32 fade;
-  s32 step;
-  s32 target;
-  s32 columns;
-  u8 pad50[8];
-  f32 scroll;
-};
 
 
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
@@ -196,7 +177,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     reveal = 0.0f;
     submenu_fade = 0.0f;
     slide_offset = 0.0f;
-    name_alpha = 0.0f;
+    name_fade = 0.0f;
     progress = 0.0f;
     idle_ticks = 0;
     preview = 0.0f;
@@ -649,14 +630,14 @@ void TObjCMMainMenu::draw_character_name() {
     if ((state == 0 ||
          (state == 1 && entries[selected_entry] != 7)) &&
         validate_character_name((s8 *)name)) {
-        if ((name_alpha += 0.16666667f) > 1.0f) {
-            name_alpha = 1.0f;
+        if ((name_fade += 0.16666667f) > 1.0f) {
+            name_fade = 1.0f;
         }
-    } else if ((name_alpha += -0.083333336f) < 0.0f) {
-        name_alpha = 0.0f;
+    } else if ((name_fade += -0.083333336f) < 0.0f) {
+        name_fade = 0.0f;
         return;
     }
-    if (name_alpha <= 0.0f) {
+    if (name_fade <= 0.0f) {
         return;
     }
     f32 x = 604.0f - (f32)calc_text_width(name);
@@ -667,7 +648,7 @@ void TObjCMMainMenu::draw_character_name() {
     // the name keeps its RGB; the alpha comes from the fade
     static const u32 rgb_mask = 0x00FFFFFF;
     name_color &= rgb_mask;
-    u32 color = ((u32)(255.0f * name_alpha) << 24) | name_color;
+    u32 color = ((u32)(255.0f * name_fade) << 24) | name_color;
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(x, 396.0f * get_scale(), name, color);
     TCameraCtrl::restore_saved_view();
@@ -922,7 +903,7 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
   s32 t;
   f32 fade;
   s32 off;
-  Menu_80296D68 *self = (Menu_80296D68 *) menu;
+  TObjCMAssignMenu *self = (TObjCMAssignMenu *)menu;
   u8 *app;
   s32 delta;
   self->ticks++;
@@ -931,7 +912,7 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     if ((self->fade += -0.083333336f) <= 0.0f)
     {
       self->fade = 0.0f;
-      ((TObject *)self)->queue_destruction();
+      self->queue_destruction();
     }
     return;
   }
@@ -951,23 +932,23 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     {
       delta = -1;
     }
-    if (self->columns > 1)
+    if (self->pages > 1)
     {
       if (creation_direction_repeated(0x20) != 0)
       {
-        delta = self->step;
+        delta = self->columns;
       }
       else
         if (creation_direction_repeated(0x10) != 0)
       {
-        delta = -self->step;
+        delta = -self->columns;
       }
     }
   }
   if (delta != 0)
   {
-    app = self->app;
-    off = (self->index * 2) + 0x38;
+    app = (u8 *)self->appearance;
+    off = (self->kind * 2) + 0x38;
     old = *((s16 *) (((s8 *) app) + off));
     *((s16 *) (((s8 *) app) + off)) = old + delta;
     if ((delta == 1) || (delta == (-1)))
@@ -985,10 +966,10 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     }
     else
     {
-      step = self->step;
+      step = self->columns;
       v = *((s16 *) (((s8 *) app) + off));
       r = old % step;
-      wrap = self->wrap;
+      wrap = self->item_count;
       if (v >= wrap)
       {
         *((s16 *) (((s8 *) app) + off)) = r;
@@ -1016,22 +997,22 @@ void run_task__16TObjCMAssignMenuFv(void *menu) {
     }
     self->value = *target;
   }
-  ((TObjCMAssignMenu *)self)->calc_grid_layout();
-  if (self->scroll < ((f32) self->target))
+  self->calc_grid_layout();
+  if (self->scroll < ((f32) self->page))
   {
     self->scroll += 0.33333334f;
-    if (self->scroll > ((f32) self->target))
+    if (self->scroll > ((f32) self->page))
     {
-      self->scroll = (f32) self->target;
+      self->scroll = (f32) self->page;
     }
   }
   else
-    if (self->scroll > ((f32) self->target))
+    if (self->scroll > ((f32) self->page))
   {
     self->scroll -= 0.33333334f;
-    if (self->scroll < ((f32) self->target))
+    if (self->scroll < ((f32) self->page))
     {
-      self->scroll = (f32) self->target;
+      self->scroll = (f32) self->page;
     }
   }
   if ((self->enabled != 0) && (creation_buttons_pressed(6) != 0))
@@ -1758,7 +1739,7 @@ TObjCMProportion *TObjCMProportion::create(TObject *parent) {
 #pragma push
 #pragma fp_contract on
 void TObjCMProportion::run_task() {
-    TObjCMProportion *self = this;
+
     s32 angle;
     f32 magnitude;
     f32 visible;
@@ -1770,30 +1751,30 @@ void TObjCMProportion::run_task() {
     CharacterAppearanceFields *fields;
 
     proportion = TObjCMMainMenu::get_proportion();
-    if (self->active != 0) {
-        if (1.0f == self->fade) {
+    if (this->active != 0) {
+        if (1.0f == this->fade) {
             proportion += -0.033333335f;
             if (proportion < 0.0f) {
                 proportion = 0.0f;
             }
         }
     } else {
-        visible = 1.0f - self->fade;
+        visible = 1.0f - this->fade;
         proportion = (proportion > visible) ? proportion : visible;
     }
     set_creation_projection_center(proportion);
-    if (self->initialized == 0) {
-        self->initialized = 1;
+    if (this->initialized == 0) {
+        this->initialized = 1;
         return;
     }
-    if (self->active == 0) {
-        if ((self->fade += -0.083333336f) <= 0.0f) {
-            self->fade = 0.0f;
-            ((TObject *)self)->queue_destruction();
+    if (this->active == 0) {
+        if ((this->fade += -0.083333336f) <= 0.0f) {
+            this->fade = 0.0f;
+            ((TObject *)this)->queue_destruction();
         }
     } else {
-        if ((self->fade += 0.16666667f) > 1.0f) {
-            self->fade = 1.0f;
+        if ((this->fade += 0.16666667f) > 1.0f) {
+            this->fade = 1.0f;
         }
         get_creation_pad_stick(&angle, &magnitude);
         d_width = 0.016666668f * (magnitude * sin_table_lookup(angle));
@@ -1810,15 +1791,15 @@ void TObjCMProportion::run_task() {
                 d_height = -0.013333335f;
             }
         }
-        self->appearance->width += d_width;
-        self->appearance->height += d_height;
-        appearance = self->appearance;
+        this->appearance->width += d_width;
+        this->appearance->height += d_height;
+        appearance = this->appearance;
         if (appearance->width > 0.99f) {
             appearance->width -= 0.99f;
         } else if (appearance->width < 0.0f) {
             appearance->width += 0.99f;
         }
-        fields = self->appearance;
+        fields = this->appearance;
         height = fields->height;
         if (height > 0.99f) {
             fields->height = 0.99f;
@@ -1828,7 +1809,7 @@ void TObjCMProportion::run_task() {
         if (creation_buttons_pressed(6) != 0) {
             play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu::clear_task_state();
-            self->active = 0;
+            this->active = 0;
         }
     }
 }

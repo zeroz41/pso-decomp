@@ -12,7 +12,7 @@
 
 #pragma readonly_strings on
 
-struct Light_801401D0 {
+struct AreaLightParams {
     f32 dir[3];
     f32 pad[3];
     f32 amb[3];
@@ -34,7 +34,7 @@ void cleanup_dragon_area_scene(void) {
 }
 
 s32 init_dragon_area_scene(void) {
-    Light_801401D0 l;
+    AreaLightParams l;
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

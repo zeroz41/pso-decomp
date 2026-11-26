@@ -78,7 +78,7 @@ s32 area_random_seed;
 
 
 
-#define FIND_TAIL_800F7118(q) \
+#define FIND_LIST_TAIL(q) \
     if (this->next == NULL && tail == NULL) { \
         while (q->next != NULL) { \
             q = q->next; \
@@ -135,11 +135,11 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
 TObjEnemy::~TObjEnemy() {
     u16 entity_id;
     this->apply_player_54a00();
-    if ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) {
+    if ((u32) (u32)this->set_entry != 0U) {
         entity_id = this->entity_id;
         if ((entity_id >= 0x1000U) && (entity_id < 0x4000U)) {
             this->mask_sub_flags(-3);
-            *(u32 *)((s8 *)this + 0x80) = 0U;
+            this->set_entry = NULL;
         }
     }
 }
@@ -278,7 +278,7 @@ void TObjEneBeastBase::link_into_group_chain() {
             case 2:
                 switch (p->subtype) {
                 case 2:
-                    FIND_TAIL_800F7118(p);
+                    FIND_LIST_TAIL(p);
                     break;
                 }
                 break;
@@ -289,11 +289,11 @@ void TObjEneBeastBase::link_into_group_chain() {
                         q = p->children;
                         if (q == NULL) {
                             head = p;
-                        } else FIND_TAIL_800F7118(q);
+                        } else FIND_LIST_TAIL(q);
                     }
                     break;
                 case 1:
-                    FIND_TAIL_800F7118(p);
+                    FIND_LIST_TAIL(p);
                     break;
                 }
                 break;
@@ -308,7 +308,7 @@ void TObjEneBeastBase::link_into_group_chain() {
                             r = q->children;
                             if (r == NULL) {
                                 head = q;
-                            } else FIND_TAIL_800F7118(r);
+                            } else FIND_LIST_TAIL(r);
                         }
                     }
                     break;
@@ -316,10 +316,10 @@ void TObjEneBeastBase::link_into_group_chain() {
                     q = p->children;
                     if (q == NULL) {
                         head = p;
-                    } else FIND_TAIL_800F7118(q);
+                    } else FIND_LIST_TAIL(q);
                     break;
                 default:
-                    FIND_TAIL_800F7118(p);
+                    FIND_LIST_TAIL(p);
                     break;
                 }
                 break;
@@ -335,7 +335,7 @@ void TObjEneBeastBase::link_into_group_chain() {
     }
 }
 
-#undef FIND_TAIL_800F7118
+#undef FIND_LIST_TAIL
 void TObjEneBeastBase::unlink_enemy_group_relations() {
     TObjEnemy *head_next_children;
     TObjEnemy *children;

@@ -76,7 +76,7 @@ void TChCrLoadAfs::start_download() {
             load_state = 3;
             return;
         }
-        ADXF_ReadNw(load_handle, count, (void *)buffer_address);
+        ADXF_ReadNw(load_handle, count, buffer_address);
         load_state = 1;
     }
 }

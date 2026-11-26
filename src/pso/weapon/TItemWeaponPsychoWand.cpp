@@ -18,9 +18,6 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-extern "C" {
-}
-
 void TItemWeaponPsychoWand::activate_effect(s32 effect) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor()) {

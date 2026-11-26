@@ -69,8 +69,8 @@ struct TWindowMainMenu : public TObject {
     s32 is_log_active();
     s32 is_open();
     void update_submenu();
-    void close_submenu(void* window_main_menu_entry);
-    void refresh_submenu(void* window_main_menu_entry);
+    void close_submenu(TWindowMainMenuEntry *window_main_menu_entry);
+    void refresh_submenu(TWindowMainMenuEntry *window_main_menu_entry);
     void close();
     virtual void run_task();
     virtual void render();

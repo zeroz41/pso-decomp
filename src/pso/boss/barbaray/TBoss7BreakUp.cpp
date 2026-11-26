@@ -216,7 +216,7 @@ void TBoss7JointBreakUp::render() {
         pop_matrix();
         piece++;
     }
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
 }
 
 void TBoss7BodyBreakUp::load_static_resource() {
@@ -307,7 +307,7 @@ void TBoss7BodyBreakUp::render() {
         piece++;
     }
     pop_matrix();
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
 }
 
 saddr get_multiplay_texture_list() { return (saddr)multiplay_texture_f512_handle; }

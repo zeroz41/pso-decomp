@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -178,7 +179,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
-    state36C = *(s16 *)((s8 *)setData + 0x3E);
+    state36C = ((EnemyPlacement *)setData)->unknown3e;
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
     set_action_table(action_table);
@@ -211,7 +212,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     alternateBeam = 0;
     set_param(0xF);
     sinkingOffset = 0.0f;
-    if (*(s16 *)((s8 *)setData + 0xA) != 0 && !(behavior_flags & 0x40000)) {
+    if (((EnemyPlacement *)setData)->wave != 0 && !(behavior_flags & 0x40000)) {
         start_appear();
     }
     flightHeight = 0.0f;
@@ -240,7 +241,7 @@ void TObjEneNanoDrago::load_resources() {
     TObjNpcEnemy::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
-    if ((uaddr) nano_drago_entry_params_resource != 0U) {
+    if (nano_drago_entry_params_resource != 0U) {
         delete nano_drago_entry_params_resource;
         nano_drago_entry_params_resource = NULL;
     }
@@ -828,7 +829,7 @@ void TObjEneNanoDrago::update_growth_state() {
 void TObjEneNanoDrago::update_knockback_state() {
     s16 previousHp;
     s16 animation;
-    uaddr entity;
+    TObjBase *entity;
     s32 retaliate;
     switch (state) {
     case 0:
@@ -868,10 +869,10 @@ void TObjEneNanoDrago::update_knockback_state() {
         resume_action = 1;
         previousHp = referenceHp;
         if (((s32) (previousHp - hp) > (s32) (previousHp / 4)) && !(actorFlags & 2)) {
-            entity = (uaddr)find_entity_by_id(attacker_id);
+            entity = find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
-                if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), &((TObjBase *)entity)->position) > 400.0f)) {
+                if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), &entity->position) > 400.0f)) {
                     retaliate = 0;
                 }
             }

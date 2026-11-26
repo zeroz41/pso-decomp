@@ -30,14 +30,8 @@
 
 #pragma readonly_strings on
 
-struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
-
 // The {width, height} of the option value window create_option_value_window opens.
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
-
-extern "C" {
-extern Ent_8027CFC8 quest_board_handlers[];
-}
 
 const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
 
@@ -96,27 +90,27 @@ void TWindowSubQuestBoard::run_task() {
 void TWindowSubQuestBoard::render() {  }
 
 void set_card_flags_direct(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, value, -2);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value, -2);
 }
 
 void set_card_flags_scaled(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, value * 2, -3);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 2, -3);
 }
 
-void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, value * 4, -5);
+void set_card_flag_4(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 4, -5);
 }
 
 void clear_card_window_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, value * 8, -9);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 8, -9);
 }
 
 void set_card_window_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, value << 8, -0x301);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 8, -0x301);
 }
 
 void set_board_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, value << 0xA, -0x1C01);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 0xA, -0x1C01);
 }
 
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -259,7 +253,7 @@ void TWindowSubOption::update_quest_board_card_flags() {
         set_card_flags_scaled(client_id, value);
         return;
     case 2:
-        TWindowSubQuestBoard__sub_8027CF50(client_id, value);
+        set_card_flag_4(client_id, value);
         return;
     case 4:
         clear_card_window_flags(client_id, value);

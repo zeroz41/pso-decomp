@@ -357,7 +357,7 @@ void TBoss4Type2::draw_hanger() {
         switch (i) {
         case 1:
             model_render_flags |= 0x20000;
-            TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
+            set_texture_scroll(0.0f, texture_scroll);
             node_capture->install();
             draw_model_motion(get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
                 get_bml_motion(archive, TBoss4Type2::attack_pattern_table[anim].motions[i]),

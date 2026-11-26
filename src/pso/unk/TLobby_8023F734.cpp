@@ -500,7 +500,6 @@ u16 sound_bank_group_ids[38] = {
 #include <dolphin/os/OSTime.h>
 #undef PSO_SDK_COMPACT_MATH
 #pragma readonly_strings on
-struct Voice_80241FD8;
 #pragma push
 
 #include "types.h"
@@ -621,7 +620,7 @@ s32 TLobby__sub_8023F880(s32 voice) {
 }
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
-    ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[slot], step);
+    start_voice_fade(&sound_request_voices[slot], step);
 }
 
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
@@ -738,7 +737,7 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 extern "C" {
 
-s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
+s32 free_sound_entry_data(SoundControlState *self, int id);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 s32 SoundControlState::is_ready() {
@@ -764,7 +763,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     if (pos == -1) {
         self->route_pos = 0;
-        TLobby__sub_8023FFB8(self, self->route[self->route_pos]);
+        free_sound_entry_data(self, self->route[self->route_pos]);
         return;
     }
     errors = 0;
@@ -816,7 +815,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     self->route_pos++;
     if (self->route[self->route_pos] >= 0) {
-        TLobby__sub_8023FFB8(self, self->route[self->route_pos]);
+        free_sound_entry_data(self, self->route[self->route_pos]);
         return;
     }
     self->group_state = self->next_group_state;
@@ -836,10 +835,10 @@ void reset_sound_group_fade() {
 void fade_voice_channels(s32 step) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[i], step);
+        start_voice_fade(&sound_request_voices[i], step);
     }
 }
-s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
+s32 free_sound_entry_data(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].file_data[3] != 0) {

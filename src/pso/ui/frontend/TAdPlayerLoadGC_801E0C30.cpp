@@ -322,7 +322,7 @@ void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index) {
 }
 
 int get_card_wait_state(void) {  return card_wait_state; }
-s32 card_blocks_for_size(void *arg0, s32 arg1, u32 size) {
+s32 card_blocks_for_size(void *, s32, u32 size) {
     return (s32) (((size >> 0xDU) + 3) << 0xD) / 8192;
 }
 s32 TAdPlayerLoadGC::get_load_result(s32) {
@@ -617,10 +617,9 @@ s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
             card_result_code = 0;
             return 1;
         }
-        goto block_17;
+    } else {
+        card_result_code = -0xDF;
     }
-    card_result_code = -0xDF;
-block_17:
     return 1;
 }
 s32 TAdPlayerLoadGC::check_memcard_status(s32 chan) {

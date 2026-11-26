@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowSpritePart.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "types.h"
 #include "pso/ui/ItemListRow.h"
@@ -30,6 +32,8 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TObjLuker_801329B0.h"
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
 #pragma readonly_strings on
@@ -67,7 +71,6 @@ WindowDescriptor lock_on_window_descriptor = {
     {0.0f, 0.0f}, 50000.0f, NULL, 0x23,
 };
 
-s32 get_status_effect_icon_index(u32);
 
 TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lock_on_window_descriptor, player, (u8 *)get_window_layout_position(0x1E)) {
     this->m_name = TWindowLockOn::class_name;
@@ -279,18 +282,18 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     target_position[1] = get_window_layout_y(0x1E) - target_size[1] * height_scale;
     tween_ticks = 0;
     p = (TWindowStatusGaugeFeedback *)get_array_entry(7);
-    p->scale = target_size[0] - 28.0f;
+    p->length = target_size[0] - 28.0f;
     p->maximum = (f32)enemy->get_hpmax();
     p->target = (f32)enemy->hp;
     p = (TWindowStatusGaugeFeedback *)get_array_entry(8);
-    p->scale = target_size[0] - 28.0f;
+    p->length = target_size[0] - 28.0f;
     p->maximum = (f32)enemy->get_tpmax();
     p->target = (f32)enemy->tp;
 }
 #pragma pop
 
 void TWindowLockOn::update_photon_blast_marker() {
-    update_photon_blast_player_marker(reinterpret_cast<saddr>(get_array_entry(0)), target_id);
+    update_photon_blast_player_marker(static_cast<WindowSpritePart *>(get_array_entry(0)), target_id);
 }
 
 void TWindowLockOn::refresh_ground_item() {}
@@ -310,7 +313,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     i = 0;
     do {
         mode = get_status_effect_icon_index(enemy->get_status_effect_type(i));
-        ((TWindowComCard *)get_array_entry(i + 3))->set_help_mode(mode);
+        static_cast<WindowSpritePart *>(get_array_entry(i + 3))->set_help_mode(mode);
         i++;
     } while (i < 4);
     {

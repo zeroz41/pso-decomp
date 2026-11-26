@@ -13,7 +13,7 @@ void middleware_interrupt_lock_leave(void) {
 }
 
 void middleware_interrupt_lock_enter(void) {
-    if ((s32) middleware_interrupt_lock_depth == 0) {
+    if (middleware_interrupt_lock_depth == 0) {
         middleware_saved_interrupt_state = OSDisableInterrupts();
     }
     middleware_interrupt_lock_depth += 1;

@@ -74,7 +74,7 @@ void TAdPlyStatusGC::close_window(s32 index) {
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
-s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 start_memcard_format(s32, s32, s32, s32, s32);
 }
 
 // One entry per state: enter is called by change_state, run by run_task every frame.
@@ -787,15 +787,11 @@ s32 TAdTimeSetGC::check_capacity() {
 }
 
 void TAdTimeSetGC::create_backgrounds() {
-    void *object;
-
     if (back == NULL) {
-        object = new TAdBackGC(this);
-        back = (TAdBackGC *)object;
+        back = new TAdBackGC(this);
     }
     if (back_text == NULL) {
-        object = new TAdBackTxtGC(this);
-        back_text = (TAdBackTxtGC *)object;
+        back_text = new TAdBackTxtGC(this);
     }
 }
 
@@ -887,15 +883,15 @@ void TAdTimeSetGC::close_and_next(s32 entry, s32 sel, s32 first_entry, s32 secon
 }
 
 void TAdTimeSetGC::apply_settings() {
-    s8 *state = (s8 *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *state = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
 
     if (state == NULL) {
         change_state(1);
         return;
     }
-    TLanguage::set_language(state[7]);
-    update_music_stream_gain(*(s16 *)(state + 4));
-    set_cue_stream_user_gain(state[6]);
+    TLanguage::set_language(state->language);
+    update_music_stream_gain(state->music_stream_gain);
+    set_cue_stream_user_gain(state->cue_stream_gain);
     TLobby::init_sound_mode();
     unload_lobby_scene_resources();
     load_lobby_scene_resources();
@@ -1043,15 +1039,12 @@ T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {
 T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
     m_name = T_ATS_DrawCalendar::name;
     visible = 0;
-    // The two-float copy at 0x80052EA0 is declared as a member of TWindowSubSymbolChatPartsSet.
     copy_vec2(&pos, (void *)time_set_calendar_pos);
 }
 
 T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {
 }
 
-// render reaches each of its three format strings and the conversion constant 0x80472980 with a lis/addi of
-// its own, while the static initialiser addresses the unit's .data from one base register.
 #pragma pool_data off
 void T_ATS_DrawCalendar::render() {
     char buf[0x24];
@@ -1063,7 +1056,6 @@ void T_ATS_DrawCalendar::render() {
     if (visible != 0) {
         T_ATS_DrawCalendarPos p = pos;
         s = (char *)get_localized_text_entry(0x1C, 0xC);
-        // The text drawing function at 0x80145778 is declared as a member of TAdSinglePlyChrSelectGC.
         draw_menu_font_string_white(s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
         p.y += 30.0f;
         getDateStamp(&date);

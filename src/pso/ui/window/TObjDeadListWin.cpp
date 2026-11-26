@@ -41,17 +41,17 @@ void TObjDeadListWin::build_dead_list_window() {
 }
 
 void TObjDeadListWin::update_countdown() {
-    s32 temp_r0;
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
-    if ((player == 0) || (((TObjCollidable *)player)->test_actor_flags(0x02000000) != 0)) {
+    s32 countdown;
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
+    if ((player == NULL) || (player->test_actor_flags(0x02000000) != 0)) {
         queue_destruction();
         return;
     }
-    if ((((TObjPlayer *)player)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
-    temp_r0 = m_countdown - 1;
-    m_countdown = temp_r0;
-    if (temp_r0 < 0) {
+    if ((player->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
+    countdown = m_countdown - 1;
+    m_countdown = countdown;
+    if (countdown < 0) {
         if (m_window_handle != NULL) {
             m_window_handle->close();
             m_window_handle = NULL;

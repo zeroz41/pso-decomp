@@ -57,8 +57,8 @@ static const NJS_POINT2 trade_list_window_pos = {326.0f, 104.0f};
 // Child-window flag helpers; their only callers are TWindowSubTradeMain's
 // set_child_windows_enabled and run_task, and they follow its dtor/ctor here.
 void TWindowMenuIconLine::clear_flag4() { state_flags &= ~4; }
-void TWindowInputNumber::clear_flag_40() { inputFlags &= ~0x40; }
-void TWindowInputNumber::set_flag_40() { inputFlags |= 0x40; }
+void TWindowInputNumber::enable_input() { inputFlags &= ~0x40; }
+void TWindowInputNumber::disable_input() { inputFlags |= 0x40; }
 
 TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     TObjPlayer *player;
@@ -173,7 +173,7 @@ void TWindowSubTradeMain::run_task() {
         if (this->menu == NULL) {
             this->menu = build_trade_menu();
         }
-        window_request_show(this->menu);
+        this->menu->request_show();
         this->menu->clear_flag_and_release();
         this->menu->clear_cancelled();
         this->state = 2;
@@ -378,11 +378,11 @@ void TWindowSubTradeMain::run_task() {
         if (this->menu != NULL) {
             this->menu->open();
         }
-        window_request_show(this->menu);
+        this->menu->request_show();
         if (this->confirm == NULL) {
             this->confirm = create_trade_menu();
         }
-        window_request_show(this->confirm);
+        this->confirm->request_show();
         this->confirm->clear_flag_and_release();
         set_local_trade_offer_confirmation();
         this->state = 0x15;
@@ -644,7 +644,7 @@ TWindowInputNumber *TWindowSubTradeMain::create_input_number(s32 maximum) {
 }
 
 TWindowHelpItem *TWindowSubTradeMain::create_help_item() {
-    TWindowHelpItem *window = new TWindowHelpItem((void *)get_window_layout_position(2), client_id);
+    TWindowHelpItem *window = new TWindowHelpItem(get_window_layout_position(2), client_id);
     displayed_item = -1;
     return window;
 }
@@ -658,36 +658,36 @@ void TWindowSubTradeMain::set_displayed_item(s32 id) {
 
 void TWindowSubTradeMain::set_labels(s32 labels) {
     if (this->menu != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->menu, (u8 *)(get_window_layout_position(labels + 0x5C)));
+        update_position_if_changed(this->menu, (NJS_POINT2 *)get_window_layout_position(labels + 0x5C));
     }
     if (this->confirm != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->confirm, (u8 *)(get_window_layout_position(labels + 0x5E)));
+        update_position_if_changed(this->confirm, (NJS_POINT2 *)get_window_layout_position(labels + 0x5E));
     }
     if (dialog != NULL) {
         dialog->move_to(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(labels + 0x5F)));
     }
     if (this->offer != NULL) {
         if (this->list != NULL) {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->offer, (u8 *)(get_window_layout_position(labels + 0x62)));
+            update_position_if_changed(this->offer, (NJS_POINT2 *)get_window_layout_position(labels + 0x62));
         } else {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->offer, (u8 *)(get_window_layout_position(labels + 0x60)));
+            update_position_if_changed(this->offer, (NJS_POINT2 *)get_window_layout_position(labels + 0x60));
         }
     }
     if (this->request != NULL) {
         if (this->list != NULL) {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->request, (u8 *)(get_window_layout_position(labels + 0x63)));
+            update_position_if_changed(this->request, (NJS_POINT2 *)get_window_layout_position(labels + 0x63));
         } else {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->request, (u8 *)(get_window_layout_position(labels + 0x61)));
+            update_position_if_changed(this->request, (NJS_POINT2 *)get_window_layout_position(labels + 0x61));
         }
     }
     if (this->list != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->list, (u8 *)(get_window_layout_position(labels + 0x64)));
+        update_position_if_changed(this->list, (NJS_POINT2 *)get_window_layout_position(labels + 0x64));
     }
     if (this->input_number != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->input_number, (u8 *)(get_window_layout_position(labels + 0x5D)));
+        update_position_if_changed(this->input_number, (NJS_POINT2 *)get_window_layout_position(labels + 0x5D));
     }
     if (this->help_item != NULL) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->help_item, (u8 *)(get_window_layout_position(labels + 0x65)));
+        update_position_if_changed(this->help_item, (NJS_POINT2 *)get_window_layout_position(labels + 0x65));
     }
 }
 
@@ -696,9 +696,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 2:
         if (this->menu != NULL) {
             if (on != 0) {
-                this->menu->clear_flag_40();
+                this->menu->enable_input();
             } else {
-                this->menu->set_flag_40();
+                this->menu->disable_input();
             }
         }
         break;
@@ -712,9 +712,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->list != NULL) {
             if (on != 0) {
-                this->list->clear_flag_40();
+                this->list->enable_input();
             } else {
-                this->list->set_flag_40();
+                this->list->disable_input();
             }
         }
         break;
@@ -722,9 +722,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 14:
         if (this->input_number != NULL) {
             if (on != 0) {
-                this->input_number->clear_flag_40();
+                this->input_number->enable_input();
             } else {
-                this->input_number->set_flag_40();
+                this->input_number->disable_input();
             }
         }
         break;
@@ -738,9 +738,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->request != NULL) {
             if (on != 0) {
-                this->request->clear_flag_40();
+                this->request->enable_input();
             } else {
-                this->request->set_flag_40();
+                this->request->disable_input();
             }
         }
         break;
@@ -754,18 +754,18 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->offer != NULL) {
             if (on != 0) {
-                this->offer->clear_flag_40();
+                this->offer->enable_input();
             } else {
-                this->offer->set_flag_40();
+                this->offer->disable_input();
             }
         }
         break;
     case 21:
         if (this->confirm != NULL) {
             if (on != 0) {
-                this->confirm->clear_flag_40();
+                this->confirm->enable_input();
             } else {
-                this->confirm->set_flag_40();
+                this->confirm->disable_input();
             }
         }
         break;
@@ -773,9 +773,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 27:
         if (this->dialog != NULL) {
             if (on != 0) {
-                this->dialog->clear_choice_menu_flag_40();
+                this->dialog->enable_choice_input();
             } else {
-                this->dialog->set_choice_menu_flag_40();
+                this->dialog->disable_choice_input();
             }
         }
         break;
@@ -784,9 +784,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     }
 }
 
-void TWindowSubTradeMain::update_position_if_changed(saddr owner, u8 *window, u8 *position) {
-    if ((*(f32 *)((s8 *)window + 0x30) != *(f32 *)((s8 *)position + 0)) || (*(f32 *)((s8 *)window + 0x34) != *(f32 *)((s8 *)position + 4))) {
-        ((TWindowBase *)window)->slide_to((f32 *)position);
+void TWindowSubTradeMain::update_position_if_changed(TWindowBase *window, NJS_POINT2 *position) {
+    if (window->target_position[0] != position->x || window->target_position[1] != position->y) {
+        window->slide_to((f32 *)position);
     }
 }
 

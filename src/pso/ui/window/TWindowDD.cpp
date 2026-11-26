@@ -3,6 +3,7 @@
 #include "pso/system/ControllerInputState.h"
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 
 // Window layout constants shared by the TWindowDD files (one definition here, extern elsewhere).

@@ -265,7 +265,7 @@ void TPlayerBattleCtrl4P::wait_for_start_countdown() {
 
 void TPlayerBattleCtrl4P::close_intro_and_start_battle() {
     TWindowMessage *intro_window = this->intro_window;
-    if ((uaddr) intro_window != 0U) {
+    if (intro_window != 0U) {
         intro_window->close();
         this->intro_window = 0U;
     }
@@ -438,7 +438,7 @@ void TPlayerBattleCtrl4P::record_battle_results_after_delay() {
 
 void TPlayerBattleCtrl4P::close_battle_results() {
     s32 i;
-    uaddr p;
+    TObjBase *p;
     if (intro_window != NULL) {
         intro_window->close();
         intro_window = NULL;
@@ -449,9 +449,9 @@ void TPlayerBattleCtrl4P::close_battle_results() {
     }
     close_player_windows();
     for (i = 0; i < 4; i++) {
-        p = (uaddr)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != 0) {
-            obj_clear_flag30_20000((TObjBase *)p);
+            obj_clear_flag30_20000(p);
         }
     }
     TWindowCtrl::close_timer_window();
@@ -543,7 +543,7 @@ void TPlayerBattleCtrl4P::init_battle() {
 void TPlayerBattleCtrl4P::start_duel() {
     s32 i;
     s32 j;
-    uaddr p;
+    TObjBase *p;
     const char *name;
     s32 st;
     TObjEneRe4Sorcerer__sub_801E3F14(4);
@@ -551,9 +551,9 @@ void TPlayerBattleCtrl4P::start_duel() {
     battle_start_ticks = OSGetTime();
     for (i = 0; i < 4; i++) {
         release_player(i, 1);
-        p = (uaddr)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != 0) {
-            obj_clear_flag30_20000((TObjBase *)p);
+            obj_clear_flag30_20000(p);
         }
     }
     this->reset_score_counters();
@@ -650,7 +650,7 @@ void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         cur = child;
         child = cur->m_next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(dead_spot_class_name) != 0) {
+        if (cur->check_value_equals(dead_spot_class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_dead_spots(cur);
@@ -1047,7 +1047,7 @@ void TPlayerBattleCtrl4P::record_results() {
         i++;
         off += sizeof(BattleRanking);
     } while (i < 4);
-    TAdSinglePlyChrSelectGC__sub_801FCE6C();
+    save_active_character_to_card();
 }
 
 void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; unknown_290 = 0; }

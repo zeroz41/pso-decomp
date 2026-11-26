@@ -7,6 +7,7 @@
 struct TWindowMainMenu;
 struct TWindowMessageLog;
 class TWindowChat;
+struct TWindowMessageLog;
 
 struct TWindowSubLog : public TObject {
     TWindowSubLog(TObject *parent, s32 client);

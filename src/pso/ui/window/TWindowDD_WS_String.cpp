@@ -34,7 +34,7 @@ void TWindowDD_WS_String::render() {
 
 void TWindowDD_WS_String::draw_entry_if_visible(WindowDrawContext *context) {
     if (context->open_tick >= 0) {
-        draw((saddr)context, text_style, 0.0f);
+        draw(context, text_style, 0.0f);
     }
 }
 

@@ -8,6 +8,7 @@
 struct CameraAngles;
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
+struct NJS_OBJECT;
 
 class TObjBase : public TObject {
 public:

@@ -4,11 +4,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/QuestVm.h"
 
+struct QuestBinHeader;
+
 class TQuestManager : public TObject {
 public:
     u8 unk_1C[0x24 - 0x1C];
     QuestVmContext ctx;
-    u8 *script;
+    QuestBinHeader *script;
     u8 unk_19C[4];
     s32 kind;
 

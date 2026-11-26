@@ -76,12 +76,12 @@ void TWindowMeseta::run_task() {
 }
 
 TWindowMeseta::~TWindowMeseta() {}
-TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
-    : TWindowBase((u8 *)&TWindowMeseta::window_descriptor, (s16)arg2, (u8 *)position) {
+TWindowMeseta::TWindowMeseta(void *position, s32 client, s32 str)
+    : TWindowBase((u8 *)&TWindowMeseta::window_descriptor, (s16)client, (u8 *)position) {
     WindowTextEntry *a;
     TWindowLayoutCountingNumber *b;
     m_name = TWindowMeseta::class_name;
-    client = arg2;
+    this->client = client;
     meseta = this->get_meseta_value();
     a = (WindowTextEntry *)get_array_entry(0);
     b = static_cast<TWindowLayoutCountingNumber *>(get_array_entry(1));

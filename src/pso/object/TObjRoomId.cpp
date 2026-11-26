@@ -147,7 +147,7 @@ u16 get_entity_id_kind(u16 entity_id) {
     return r;
 }
 
-s32 TObjPlayer::sub_801A1DDC() {
+s32 TObjPlayer::is_local_or_split_screen() {
     if (is_split_screen() != 0) {
         return (u8)(1U);
     }

@@ -118,9 +118,9 @@ u8 * TObjPlayer::get_cast_motion_record() {
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {
-  int new_var;
-  new_var = this->get_clamped_index() * 4;
-  return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (picture * 4);
+  int row_offset;
+  row_offset = this->get_clamped_index() * 4;
+  return (*((s32 *) (((s8 *)player_anim_table_pointers) + row_offset))) + (picture * 4);
 }
 
 saddr TObjPlayer::get_table_entry_by_clamped_index() {

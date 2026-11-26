@@ -45,11 +45,11 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
     this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
     this->equip_list->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
     this->equip_list->set_flag70_bit10();
-    this->window_help_item = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
+    this->window_help_item = new TWindowHelpItem(get_window_layout_position(2), this->client_id);
     this->window_help_item->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 2));
     this->equip_kind_list = 0;
     this->shown_item_id = -1;
-    this->shown_cursor_value = -1;
+    this->shown_kind_item_id = -1;
     this->state = 0;
 }
 
@@ -72,7 +72,7 @@ void TWindowSubEquip::run_task() {
         }
         this->window_help_item->clear_help_item();
         this->shown_item_id = -1;
-        this->shown_cursor_value = -1;
+        this->shown_kind_item_id = -1;
         equip_list->refresh_equipment_list();
         this->equip_list->clear_decided();
         equip_list->start_scroll(188.0f);
@@ -125,14 +125,14 @@ void TWindowSubEquip::run_task() {
 
 void TWindowSubEquip::render() {  }
 
-TWindowMenuIconLine *TWindowSubEquip::open_equip_kind_list(u32 arg1) {
+TWindowMenuIconLine *TWindowSubEquip::open_equip_kind_list(u32 slot) {
     TWindowSubEquipKind *equip_kind_window;
     equip_kind_window = create_equip_kind_window(
         get_window_layout_position(1), &equip_kind_window_size, this->client_id);
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 1));
     equip_kind_window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
-    switch (arg1) {
+    switch (slot) {
     case 6:
         equip_kind_window->refresh_mag_item_list(0);
         break;
@@ -164,38 +164,38 @@ void TWindowSubEquip::apply_slot_selection() {
 
 void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) {
     uaddr slot_value;
-    saddr player;
+    TObjPlayer *player;
     saddr item_id;
     uaddr temp_r3b;
 
-    player = (saddr)get_player_by_client_id(client_id);
+    player = get_player_by_client_id(client_id);
     if (player != 0) {
-        slot_value = TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
+        slot_value = TObjPlayer::get_slot_value(player->equipped_items.items, slot);
         temp_r3b = (uaddr)find_item_by_id(item);
         if (slot_value == temp_r3b) {
-            TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item);
+            TObjPlayer::send_6x26_unequip_item(player, item);
             return;
         }
         if (((TItem *)temp_r3b)->test_item_flags(8) != 0U) {
-            TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item);
+            TObjPlayer::send_6x26_unequip_item(player, item);
         }
         if (slot_value != 0U) {
             item_id = ((TItem *)slot_value)->get_item_id();
-            TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item_id);
+            TObjPlayer::send_6x26_unequip_item(player, item_id);
         }
-        send_6x25_equip_item((TObjPlayer *)player, item, slot);
+        send_6x25_equip_item(player, item, slot);
     }
 }
 
 void TWindowSubEquip::update() {
-    saddr player;
+    TObjPlayer *player;
     s32 item_id;
     s32 slot;
 
-    player = (saddr)get_player_by_client_id(this->client_id);
+    player = get_player_by_client_id(this->client_id);
     if (player != 0) {
         slot = this->equip_list->get_cursor_value();
-        TItem *item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
+        TItem *item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, slot);
         if (item == NULL) {
             item_id = -1;
         } else {
@@ -212,8 +212,8 @@ void TWindowSubEquip::update_displayed_item() {
     s32 cursor_value;
 
     cursor_value = this->equip_kind_list->get_cursor_value();
-    if (cursor_value != (s32) this->shown_cursor_value) {
-        this->shown_cursor_value = cursor_value;
+    if (cursor_value != (s32) this->shown_kind_item_id) {
+        this->shown_kind_item_id = cursor_value;
         this->window_help_item->set_displayed_item_by_id(cursor_value);
     }
 }

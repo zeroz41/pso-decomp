@@ -395,10 +395,10 @@ void TItemMagSub::set_model(void *model_arg, NJS_TEXLIST *textures_arg, void *an
     }
 }
 
-void TItemMagSub::set_material_node(s32 node, void *parameters) {
+void TItemMagSub::set_material_node(s32 node, NJS_ARGB *parameters) {
     node_ids[0] = node;
     if (parameters != 0) {
-        copy_argb((NJS_ARGB *)material_parameters, (NJS_ARGB *)parameters);
+        copy_argb((NJS_ARGB *)material_parameters, parameters);
     }
 }
 

@@ -96,7 +96,7 @@ TAdRayGC::TAdRayGC(TObject *parent) : TObject(parent) {
     frames = -1;
 }
 
-NJS_TEXNAME lbl_804DC0F8[40] = {
+NJS_TEXNAME ray_texnames[40] = {
     { "f128_ray_left01", 0, 0 },
     { "f128_ray_left02", 0, 0 },
     { "f128_ray_left03", 0, 0 },
@@ -138,7 +138,7 @@ NJS_TEXNAME lbl_804DC0F8[40] = {
     { "f128_ray_right19", 0, 0 },
     { "f128_ray_right20", 0, 0 },
 };
-__declspec(section ".data") NJS_TEXLIST lbl_804DC2D8 = { lbl_804DC0F8, 40 };
+__declspec(section ".data") NJS_TEXLIST ray_texture_list = { ray_texnames, 40 };
 
 f32 TAdRayGC_ray_quad_table[4][8] = {
     { 0.0f, 0.0f, 319.0f, 239.0f, 0.0f, 0.0f, 1.0f, 1.0f },
@@ -157,4 +157,4 @@ void TAdRayGC::destroy_instance() {
 }
 
 
-void register_texture_f128_ray(void) { TAdRayGC::ray_texture_list = &lbl_804DC2D8; load_streamed_prs_texture("f128_ray", &lbl_804DC2D8); }
+void register_texture_f128_ray(void) { TAdRayGC::ray_texture_list = &ray_texture_list; load_streamed_prs_texture("f128_ray", &ray_texture_list); }

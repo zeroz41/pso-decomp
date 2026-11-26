@@ -48,7 +48,7 @@ TObjNpcARW00::TObjNpcARW00(TObject *parent, void *set_data) : TObjNpcFemale(pare
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *static_model;
+    this->model = (NJS_OBJECT *)*static_model;
     this->texlist = gvm_texture_handle;
     this->setup_common();
 }

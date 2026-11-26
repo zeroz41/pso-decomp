@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -210,8 +211,8 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;
-    variant = *(s16 *)((u8 *)set_data + 0x3C) ? 1 : 0;
-    state36C = *(s16 *)((u8 *)set_data + 0x3E);
+    variant = ((EnemyPlacement *)set_data)->variant ? 1 : 0;
+    state36C = ((EnemyPlacement *)set_data)->unknown3e;
     init_level_stats(variant);
     action_table = dubchik_action_table;
     set_action_table(action_table);
@@ -240,7 +241,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
         set_param(24);
     }
     saver = TAttackTraceStrip::create(0x00FFFFFF, 0xA0707070);
-    if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
+    if (((EnemyPlacement *)set_data)->wave != 0) {
         start_appear();
     }
     effect = NULL;
@@ -478,7 +479,6 @@ void TObjEneDubchik::render() {
 void TObjEneDubchik::run_demo_task() {}
 
 void TObjEneDubchik::update_proximity_state() {
-    f32 temp_f31;
     TObjChara *current_target;
     switch (this->mode) {
     case 8:

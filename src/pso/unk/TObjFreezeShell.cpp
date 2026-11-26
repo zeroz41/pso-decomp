@@ -188,7 +188,7 @@ void TObjFreezeShell::create(TObjChara *chara, CollisionBody *body, s32 duration
 
     if ((is_current_area_item_enabled() != 0) && (chara != NULL)) {
         entity_id = chara->get_entity_id();
-        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U)) {
+        if ((entity_id != 0xFFFF) && (entity_id < 0x4000U)) {
             new TObjFreezeShell(chara, body, duration);
         }
     }

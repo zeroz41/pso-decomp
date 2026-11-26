@@ -218,7 +218,7 @@ void TObjEneRe4Sorcerer::free_bits() {
         re4_sorcerer_uv_scroll_buffer = NULL;
     }
     TObjEneRe4Bit::free_resources();
-    if ((uaddr) sorcerer_bml_resource != 0U) {
+    if (sorcerer_bml_resource != 0U) {
         delete sorcerer_bml_resource;
         sorcerer_bml_resource = 0U;
     }
@@ -1334,7 +1334,7 @@ void TObjEneRe4Sorcerer::render() {
         TObjEneDD::clear_global_flag_400();
         re4_sorcerer_uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         model_render_flags |= 0x20000;
-        TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
+        set_texture_scroll(0.0f, texture_scroll);
         toggle_particle_effect();
         draw_model = 1;
         if (behavior_flags & 4) {
@@ -1400,7 +1400,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         re4_sorcerer_uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         texture_scroll += 0.01f;
         model_render_flags |= 0x20000;
-        TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
+        set_texture_scroll(0.0f, texture_scroll);
         toggle_particle_effect();
         draw_chunk_object(model);
         TParticleCtrl::end_effect_render();

@@ -81,7 +81,7 @@ public:
     static TItemMagSub *drawing;
     static s32 drawn_node;
 
-    static void clear_optional_oscillation_flag(void *sub);
+    static void clear_optional_oscillation_flag(TItemMagSub *sub);
     void reset_oscillation(s32 from, s32 to);
     void apply_node_oscillation(void* node);
     static void update_node_oscillation(NJS_OBJECT *node);
@@ -97,7 +97,7 @@ public:
     void set_growth_flag();
     void set_flags(u32 value);
     void set_node_id(s32 index, s32 id);
-    void set_material_node(s32 node, void* parameters);
+    void set_material_node(s32 node, NJS_ARGB *parameters);
     void set_model(void* model, NJS_TEXLIST *textures, void* animation);
     void scale_owner_height(f32 factor);
     int is_growth_inactive();

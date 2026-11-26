@@ -21,6 +21,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowGetComCard.h"
+#include "pso/player/TPlyCharData.h"
 
 
 void TWindowSubComCard::set_card_text(saddr src) {
@@ -75,9 +76,7 @@ void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
 }
 
 void clear_entry_active_flag(GuildCardEntry *entry);
-extern "C" {
-
-s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
+s32 has_inactive_card(GuildCardSlot *cards, s32 n) {
     s32 i;
     for (i = 0; i < n; i++, cards++) {
         if (cards->is_active() == 0) {
@@ -87,8 +86,10 @@ s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
     return 0;
 }
 
+extern "C" {
+
 s32 TWindowSubComCard::init_com_card() {
-    return has_inactive_card__17TWindowSubComCardFPvi(TWindowSubComCard::get_card_entry(0), 0xD2);
+    return has_inactive_card(TWindowSubComCard::get_card_entry(0), 0xD2);
 }
 
 void TWindowSubComCard::remove_card_at(s32 i) {
@@ -110,9 +111,9 @@ s32 update_matching_card(GuildCardSlotBase *card, GuildCardSlot *cards, s32 coun
             return 0;
         }
         if (id == cards->get_card_id()) {
-            if (card->sub_8007B6F4() != 0) {
+            if (card->is_own_card() != 0) {
                 cards->GuildCardSlotBase::operator=(*card);
-            } else if (cards->sub_8007B6F4() == 0) {
+            } else if (cards->is_own_card() == 0) {
                 if (card->get_char_class() < 12) {
                     cards->GuildCardSlotBase::operator=(*card);
                 } else {
@@ -125,15 +126,17 @@ s32 update_matching_card(GuildCardSlotBase *card, GuildCardSlot *cards, s32 coun
     return 0;
 }
 
-s32 TWindowSubComCard::send_guild_card() {
+s32 GuildCardEntry::update_in_card_file() {
     GuildCardSlot *temp;
-    if (((s32 (*)())is_guild_card_invalid)() != 0) {
+    if (is_guild_card_invalid(this) != 0) {
         return 0;
     }
     temp = TWindowSubComCard::get_card_entry(0);
-    return update_matching_card(reinterpret_cast<GuildCardSlotBase *>(this), temp, 0xD2);
+    return update_matching_card(static_cast<GuildCardSlotBase *>(this), temp, 0xD2);
 }
-void forward_to_matching_card__17TWindowSubComCardFPvPvi(GuildCardSlotBase *card, GuildCardSlot *slots, s32 count) {
+}
+
+void copy_card_to_matching_slot(GuildCardSlotBase *card, GuildCardSlot *slots, s32 count) {
     s32 i;
     u32 id = card->get_card_id();
     for (i = 0; i < count; i++, slots++) {
@@ -149,28 +152,26 @@ void forward_to_matching_card__17TWindowSubComCardFPvPvi(GuildCardSlotBase *card
     }
 }
 
-}
-
 extern "C" {
 s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count);
 
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
-    u32 temp;
-    if (is_guild_card_invalid(reinterpret_cast<GuildCardEntry *>(ply_guild_card_tag)) == 0) {
-        temp = reinterpret_cast<uaddr>(TWindowSubComCard::get_card_entry(0));
-        ((s32 (*)(s32, s32, s32))forward_to_matching_card__17TWindowSubComCardFPvPvi)(ply_guild_card_tag, (s32) temp, 0xD2);
+    GuildCardSlot *slots;
+    if (is_guild_card_invalid((GuildCardEntry *)ply_guild_card_tag) == 0) {
+        slots = TWindowSubComCard::get_card_entry(0);
+        copy_card_to_matching_slot((GuildCardSlotBase *)ply_guild_card_tag, slots, 0xD2);
         TAdSinglePlyChrSelectGC::load_player_data();
     }
 }
 }
 void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
-    saddr card;
+    GuildCardEntry *card;
     cmd->bswap();
-    card = reinterpret_cast<saddr>(&cmd->card);
-    if ((is_guild_card_invalid(&cmd->card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
+    card = &cmd->card;
+    if ((is_guild_card_invalid(card) == 0) && (card->update_in_card_file() == 0)) {
         set_guild_card_receive_active();
-        if (((s32 (*)(int, void *, int))update_matching_card_slot)(card, TWindowGetComCard::received_guild_card_tags, 4) == 0) {
-            ((s32 (*)(int, void *, int))replace_matching_card)(card, TWindowGetComCard::received_guild_card_tags, 4);
+        if (update_matching_card_slot((GuildCardSlotBase *)card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4) == 0) {
+            replace_matching_card((GuildCardSlotBase *)card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4);
         }
     }
 }
@@ -184,7 +185,7 @@ extern "C" {
 }
 void send_guild_card_to_client(saddr client_id) {
     G_SendGuildCard_6x06 cmd;
-    const GuildCardEntry *card = reinterpret_cast<const GuildCardEntry *>(TWindowSubComCard::get_keyboard_mode());
+    const GuildCardEntry *card = TWindowSubComCard::get_own_guild_card();
     cmd.card = *card;
     cmd.send_to(client_id);
 }
@@ -248,9 +249,9 @@ s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards,
             return 0;
         }
         if (id == cards->get_card_id()) {
-            if (card->sub_8007B6F4() != 0) {
+            if (card->is_own_card() != 0) {
                 *cards = *card;
-            } else if (cards->sub_8007B6F4() == 0) {
+            } else if (cards->is_own_card() == 0) {
                 if (card->char_class < 12) {
                     *cards = *card;
                 } else {
@@ -294,7 +295,7 @@ extern "C" {
 
 int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
-void TWindowSubComCard::clear_and_init(void* local_client_id) { clear(this); ((GuildCardEntry *)this)->fill_from_char((saddr)local_client_id); }
+void GuildCardEntry::clear_and_fill_from_char(s32 index) { clear(this); fill_from_char(index); }
 }
 s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id) {
     ShortMailEntry *mail;
@@ -312,53 +313,55 @@ s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id) {
     return 1;
 }
 
-s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
-  unsigned char new_var;
-  saddr player;
-  u8 *temp_r4;
-  player = (saddr)get_player_by_client_id(client);
-  if (player == 0)
+s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client) {
+  unsigned char language;
+  TObjPlayer *player;
+  PlayerGuildCardTag *player_tag;
+  player = get_player_by_client_id(client);
+  if (player == NULL)
   {
     return 0;
   }
-  *((u8 *) (((s8 *) ply_guild_card_tag) + 0x8C)) = (u8) ((*((u8 *) (((s8 *) ply_guild_card_tag) + 0x8C))) | 3);
-  strncpy((char *)(ply_guild_card_tag + 8), (const char *)((TPlyPhotonChair *)(player))->get_name(), 0x17);
-  *((s8 *) (((s8 *) ply_guild_card_tag) + 0x1F)) = 0;
-  *((u8 *) (((s8 *) ply_guild_card_tag) + 0x8F)) = (u8) (*((u8 *) (((s8 *) player) + 0x88D)));
-  *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8E)) = ((TObjPlayer *)player)->get_section_id();
-  new_var = ((TObjPlayer *)player)->get_language();
-  temp_r4 = (u8 *)(player + 0xDAC);
-  *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8D)) = new_var;
-  if (temp_r4 == 0)
+  card->flags |= 3;
+  strncpy(card->name, (const char *)((TPlyPhotonChair *)(player))->get_name(), 0x17);
+  card->name[0x17] = 0;
+  card->char_class = player->class_index;
+  card->section_id = player->get_section_id();
+  language = player->get_language();
+  player_tag = &player->guild_card_tag;
+  card->language = language;
+  if (player_tag == 0)
   {
     return 0;
   }
-  if (((u32) (*((u32 *) (((s8 *) temp_r4) + 4)))) == 0U)
+  if (player_tag->guildcard_number == 0U)
   {
     return 0;
   }
-  __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(ply_guild_card_tag, temp_r4);
+  __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(card, player_tag);
   return 1;
 }
 
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(u16 *)((s8 *)dst + 2) = (u16) *(u16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    TPlyGuildCardTag *to = (TPlyGuildCardTag *)dst;
+    TPlyGuildCardTag *from = (TPlyGuildCardTag *)src;
+    to->m_tag0 = from->m_tag0;
+    to->m_tag1 = from->m_tag1;
+    to->m_tag2 = from->m_tag2;
+    to->m_guildcard_number = from->m_guildcard_number;
 }
 void GuildCardEntry::fill_from_char(s32 index) {
-    uaddr char_index;
-    u8 *temp_r31;
-    char_index = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(index);
-    if (char_index != 0U) {
-        temp_r31 = (unsigned char *) (char_index + 0x370);
-        if (temp_r31 != NULL) {
+    TPlyCharData *chr;
+    disp_data_part2 *disp;
+    chr = TAdSinglePlyChrSelectGC::get_char_index(index);
+    if (chr != NULL) {
+        disp = &chr->m_disp_part2;
+        if (disp != NULL) {
             flags |= 1;
-            strncpy(name, (const char *)temp_r31, 0x17);
+            strncpy(name, disp->name, 0x17);
             name[0x17] = 0;
-            char_class = *(u8 *)((s8 *)temp_r31 + 0x31);
-            section_id = *(u8 *)((s8 *)temp_r31 + 0x30);
+            char_class = disp->char_class;
+            section_id = disp->section_id;
             language = current_language;
             if (TLobby::protocol_instance != NULL) {
                 TPlyGuildCardTag *src = &TLobby::protocol_instance->m_guildcard_tag;
@@ -370,19 +373,19 @@ void GuildCardEntry::fill_from_char(s32 index) {
     }
 }
 
-s32 com_card_keyboard_mode;
+GuildCardEntry *own_guild_card;
 
 void TObjPlayer::set_com_card_window(s32 client) {
-    saddr temp_r31;
-    u32 character_save_record;
+    GuildCardEntry *card;
+    CharacterSaveRecord *record;
 
-    com_card_keyboard_mode = 0;
-    character_save_record = ((u32)get_character_save_record((u32)client));
-    if (character_save_record != 0U) {
-        temp_r31 = character_save_record + 0x1510;
-        if (temp_r31 != 0) {
-            ((GuildCardEntry *)temp_r31)->fill_from_char(client);
-            com_card_keyboard_mode = temp_r31;
+    own_guild_card = NULL;
+    record = (CharacterSaveRecord *)get_character_save_record((u32)client);
+    if (record != NULL) {
+        card = (GuildCardEntry *)record->guild_card;
+        if (card != NULL) {
+            card->fill_from_char(client);
+            own_guild_card = card;
         }
     }
 }
@@ -416,5 +419,5 @@ void clear_received_guild_cards(s32 _w0) {
         clear_entry_active_flag(&TWindowGetComCard::received_guild_card_tags[i]);
     }
 }
-void TWindowGetComCard__sub_8007B65C(void* p) { clear_received_guild_cards((saddr)p); }
-void TWindowGetComCard__sub_8007B67C(void* p) { clear_received_guild_cards((saddr)p); }
+void free_received_guild_cards(void* p) { clear_received_guild_cards((saddr)p); }
+void init_received_guild_cards(void* p) { clear_received_guild_cards((saddr)p); }

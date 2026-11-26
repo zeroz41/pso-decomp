@@ -24,8 +24,9 @@ struct TWindowMessageLog : public TWindowMessage {
     void append_line(s32 shared_text_buffer);
     void load_chat_history();
     void reset_scroll();
-    void advance_scroll(f32 v);
     void add_pending_scroll(f32 v);
+    void advance_scroll(f32 v);
+    // Starts a 3-tick resize when the height changes.
     void set_target_height(f32 height);
 };
 

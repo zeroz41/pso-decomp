@@ -76,7 +76,7 @@ void TWindowMenuIconLine::fill_trade_item_list(TradeItemEntry *entries) {
             u32 id = p->id;
             if (count > 0) {
                 if (id == 0xFFFFFF01) {
-                    push_status_disp_entry(count, id);
+                    add_meseta_entry(count, id);
                 } else {
                     sid = id;
                     item = find_item_by_id(sid);

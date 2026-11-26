@@ -80,7 +80,7 @@ void KeyboardKeyState::disable_disconnected_ports() {
     } while (chan < 4);
 }
 s32 KeyboardKeyState::check_input_ready() {
-    if (sub_80132310() != 0) {
+    if (is_shift_held() != 0) {
         return 0;
     }
     if (is_key_57_pressed() != 0) {
@@ -117,7 +117,7 @@ s32 KeyboardKeyState::is_key_57_pressed() {
     return is_key_pressed(0x57) != 0;
 }
 #pragma pop
-s32 KeyboardKeyState::sub_80132310() {
+s32 KeyboardKeyState::is_shift_held() {
     if ((is_key_pressed(0x54) != 0) || (is_key_pressed(0x55) != 0)) {
         return 1;
     }
@@ -134,7 +134,7 @@ s32 KeyboardKeyState::has_any_key_pressed() {
     return 0;
 }
 
-u8 KeyboardKeyState::sub_8013239C(u8 index) {
+u8 KeyboardKeyState::get_pending_key(u8 index) {
     if (index >= pending_count) {
         return 0;
     }

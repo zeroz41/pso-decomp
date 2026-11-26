@@ -35,11 +35,11 @@ struct CharacterBufferTable {
 struct SystemSaveData {
     s32 fields_equal(SystemSaveData *other);
     u32 checksum;
-    s16 version_4;
-    s8 flags_6;
+    s16 music_stream_gain;
+    s8 cue_stream_gain;
     s8 language;
     s32 clock_offset_frames;
-    s16 field_c;
+    s16 udp_option; // option menu "UDP Option": 0 auto, 1 on, 2 off
     s16 field_e;
     u8 data_10[0x110 - 0x10];
     u8 serial_number[8];
@@ -119,7 +119,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 has_matching_entry(CharacterAppearanceFields *character);
     static CreationTextureCacheEntry *find_free_slot();
     static s32 evict_char_entries(s32 limit);
-    void update_char_panels();
     static void free_global();
     static void render(void *self);
     TWindowMenu *create_chr_warp(NJS_POINT2 *pos);
@@ -275,7 +274,7 @@ extern s32 chr_select_save_slot;
 
 class TAdTitleTexGC;
 struct NJS_POINT2;
-extern "C" void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
+extern "C" void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 
 s32 get_guild_card_file_block_count(void);
 

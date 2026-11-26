@@ -6,6 +6,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -30,9 +31,9 @@ s32 TObjSoloPlayWin::area_allows_win_timer() {
     return 1;
 }
 s32 TObjSoloPlayWin::can_start_win_timer() {
-    uaddr player = (uaddr)get_player_by_client_id(local_client_id);
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (has_window_task_root() == 1 && area_allows_win_timer() != 0 &&
-        player != 0U && ((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) {
+        player != NULL && player->test_actor_flags(0x02000000) == 0) {
         return 1;
     }
     return 0;

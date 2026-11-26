@@ -30,14 +30,8 @@ LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
 void set_board_flags(saddr client_id, s32 value);
 void set_card_window_flags(saddr client_id, s32 value);
 void clear_card_window_flags(saddr client_id, s32 value);
+void set_card_flag_4(saddr client_id, s32 value);
 void set_card_flags_scaled(saddr client_id, s32 value);
 void set_card_flags_direct(saddr client_id, s32 value);
-
-// --- C functions defined in TWindowSubQuestBoard.cpp ---
-extern "C" {
-void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value);
-}
-// --- end of C functions
-
 
 #endif

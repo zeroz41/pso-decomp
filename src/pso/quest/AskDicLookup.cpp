@@ -738,8 +738,8 @@ const QuestDownloadMatchToken *find_longest_match_entry(u8 *text, s32 remaining,
 
 void latch_slot_value(s32 index) {
     QuestDownloadSlot *slot = &quest_download_slot_chain_table[index];
-    if (slot->latched_length == 0 && slot->is_fixed != 0) {
-        slot->latched_length = slot->segment_length;
+    if (slot->latched_length == 0 && slot->fixed != 0) {
+        slot->latched_length = slot->length;
     }
 }
 
@@ -749,10 +749,10 @@ s32 get_slot_entry_length(s32 slot_index) {
         return 0;
     }
     r = &quest_download_slot_chain_table[slot_index];
-    if (lbl_805D7848 == 2 && r->is_fixed == 0) {
+    if (lbl_805D7848 == 2 && r->fixed == 0) {
         return 0;
     }
-    return r->segment_length;
+    return r->length;
 }
 
 QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry) {
@@ -1161,7 +1161,7 @@ s32 count_leading_entries(s32 i, s32 end) {
     s32 n;
     s32 total = 0;
     while (i < end) {
-        n = e->segment_length;
+        n = e->length;
         if (n == 0) {
             return -1;
         }
@@ -1257,8 +1257,8 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
     selectedEnd = start + selectedLength;
     while (pos < limit) {
         slot = QUEST_WORKSPACE_SLOT(workspaceAddress, pos);
-        if (slot->segment_length > 0) {
-            pos += slot->segment_length;
+        if (slot->length > 0) {
+            pos += slot->length;
             continue;
         }
         if (slot->items == NULL && build_slot_items(pos, limit) == 0) {
@@ -1293,11 +1293,11 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
         if (pos == start) {
             if (ask_convert_mode == 1) {
                 select_best_slot_entry(pos, limit, selectedLength);
-                first->is_fixed = 1;
+                first->fixed = 1;
                 length = selectedLength;
                 goto chosen_length;
             } else if (ask_convert_mode == 2) {
-                first->is_fixed = 1;
+                first->fixed = 1;
                 length = selectedLength;
                 goto chosen_length;
             }
@@ -1321,15 +1321,15 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
             prunedEntry = *link;
         }
         build_best_candidate(pos, length);
-        slot->segment_length = length;
+        slot->length = length;
         pos += length;
     }
     for (groupPos = start; groupPos < limit;) {
         slot = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos);
         walk = slot;
-        covered = walk->segment_length;
+        covered = walk->length;
 
-        if (walk->is_fixed != 0) {
+        if (walk->fixed != 0) {
             groupLength = covered;
         } else {
             groupLength = count_leading_entries(groupPos, limit);
@@ -1340,26 +1340,26 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
                 groupLength = covered;
             }
             if (groupLength == covered) {
-                walk->is_fixed = 1;
+                walk->fixed = 1;
             } else {
                 while (covered < groupLength) {
                     if ((uaddr)walk->head != 0xFFFFFFFF) {
                         free_quest_entry_chain(walk->head);
                     }
                     walk->head = NULL;
-                    walk->segment_length = 0;
+                    walk->length = 0;
                     free_quest_text_chain(walk->chain);
                     walk->chain = NULL;
-                    covered += (walk = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos + covered))->segment_length;
+                    covered += (walk = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos + covered))->length;
                 }
                 if ((uaddr)walk->head != 0xFFFFFFFF) {
                     free_quest_entry_chain(walk->head);
                 }
                 walk->head = NULL;
-                walk->segment_length = 0;
+                walk->length = 0;
                 free_quest_text_chain(walk->chain);
                 walk->chain = NULL;
-                slot->segment_length = groupLength;
+                slot->length = groupLength;
                 allocated = alloc_quest_entry_node();
                 if (allocated != NULL) {
                     allocated->prefix.off = groupLength;
@@ -1370,7 +1370,7 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
                     allocated->base = 0;
                     allocated->next = NULL;
                     slot->head = allocated;
-                    slot->is_fixed = 1;
+                    slot->fixed = 1;
                     build_best_candidate(groupPos, groupLength);
                 }
             }
@@ -1401,8 +1401,8 @@ void reset_slot(QuestDownloadSlot *slot, s32 mode) {
     }
     slot->chain = NULL;
     slot->timer = 0;
-    slot->is_fixed = 0;
-    slot->segment_length = 0;
+    slot->fixed = 0;
+    slot->length = 0;
 }
 
 void reset_slot_range(s32 begin, s32 end, s32 mode) {
@@ -1423,8 +1423,8 @@ void init_entries() {
         slot->head = NULL;
         slot->chain = NULL;
         slot->timer = 0;
-        slot->is_fixed = 0;
-        slot->segment_length = 0;
+        slot->fixed = 0;
+        slot->length = 0;
         slot->latched_length = 0;
         slot->width = -1;
         slot->token_length = -1;

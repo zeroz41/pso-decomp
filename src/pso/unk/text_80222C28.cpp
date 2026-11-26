@@ -50,7 +50,7 @@ saddr get_shop_text(s32 index) {
 
 
 void TLobby::free_singleton() {
-    if ((uaddr) shop_text_groups != 0U) {
+    if (shop_text_groups != 0U) {
         TLobby::free_nodes_with_id((uaddr)((void*)shop_text_groups));
         shop_text_groups = 0U;
     }

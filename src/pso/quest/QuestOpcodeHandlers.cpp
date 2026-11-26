@@ -115,6 +115,7 @@
 #include "pso/object/quest/TObjQuestColA.h"
 #include "pso/object/quest/TObjQuestColALock.h"
 #include "pso/object/quest/TObjQuestColApc.h"
+#include "pso/object/quest/TObjQuestColApcIN.h"
 #include "pso/quest/TQuestColCtrl.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/object/TObjTombstone.h"
@@ -187,11 +188,11 @@ u8 TLobby__data_805D5EA8;
 u8 TLobby__data_805D5EA9;
 u16 TLobby__data_805D5EAA;
 u16 TLobby__data_805D5EAC;
-void *qst_item_name_entry;
-void *qst_item_name_select;
-void *qst_item_ok_window;
-void *qst_pack_select_window;
-void *qst_pack_select_help_window;
+TObjItemNameEntry *qst_item_name_entry;
+TObjItemNameSelect *qst_item_name_select;
+TObjItemOKWindow *qst_item_ok_window;
+TWindowMenuIconLine *qst_pack_select_window;
+TWindowHelpItem *qst_pack_select_help_window;
 u32 qst_flag_buf;
 u16 qst_statistic_arg1;
 u16 qst_statistic_arg2;
@@ -583,7 +584,7 @@ void qst_op_check_for_keyword(void) {
 }
 
 
-void qst_op_enable_keyword_detect() { TOChatSensorCapture::create_instance((void*)tl_01); }
+void qst_op_enable_keyword_detect() { TOChatSensorCapture::create_instance(tl_01); }
 
 void qst_op_prepare_statistic(void) {
     qst_statistic_id = (s16) qst_args[0];
@@ -708,7 +709,6 @@ extern VaCallPair lbl_80449A38[];
 struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 extern QuestNpcVisualRecord quest_npc_visual_record;
 extern s32 symbolchat_colli_param_table[];
-extern u8 quest_board_handlers[];
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -781,7 +781,7 @@ void qst_op_delayed_switch_episode(s32 reg) {
 void qst_op_chat_bubble(void) {
     s32 id = qst_args[0];
     const char *text = (const char *)qst_args[1];
-    void *player;
+    TObjPlayer *player;
     s32 start;
     s32 end;
     s32 i;
@@ -795,9 +795,9 @@ void qst_op_chat_bubble(void) {
     start = TLobby::get_game_mode();
     end = start + TLobby::get_lobby_flag();
     for (i = start; i < end; i++) {
-        player = (void *)TObjPlayer::get_player_data(i);
+        player = TObjPlayer::get_player_data(i);
         if (player != NULL) {
-            win = ((TObjBase *)(player))->get_entity_id();
+            win = player->get_entity_id();
             if (win < 0x4000) {
                 v = fn_get_field_3ac(player);
             } else {
@@ -857,9 +857,9 @@ void qst_op_prevent_item_select(s32 reg) {
 }
 
 void qst_op_open_pack_select() {
-    qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), &pack_select_window_pos, local_client_id);
+    qst_pack_select_window = (TWindowMenuIconLine *)create_equip_kind_window(get_window_layout_position(3), &pack_select_window_pos, local_client_id);
     ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
-    qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
+    qst_pack_select_help_window = new TWindowHelpItem(get_window_layout_position(2), local_client_id);
 }
 
 void qst_op_prepare_gba_rom_from_disk(void) {
@@ -1021,10 +1021,10 @@ void qst_op_get_slot_meseta(u8 i) {
 void qst_op_get_guildcard_total(int a0) { qst_registers[(unsigned char)(a0)] = TWindowSubComCard::count_active_cards(); }
 
 void qst_op_get_time_played(s32 reg) {
-    u8 *character_save_record;
-    character_save_record = (u8 *)(get_character_save_record(0xFFFFU));
+    CharacterSaveRecord *character_save_record;
+    character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
     if (character_save_record != NULL) {
-        qst_registers[(u8)reg] = *(s32 *)((s8 *)character_save_record + 0xC);
+        qst_registers[(u8)reg] = character_save_record->play_time;
         return;
     }
     qst_registers[(u8)reg] = -1;
@@ -1343,7 +1343,7 @@ void qst_op_set_obj_param_ex(u8 i, u8 out) {
 
 void qst_op_party_coords_call_ex(u8 i, u8 out) {
     ObjectSetData s;
-    void *obj;
+    TObjQuestColApcIN *obj;
     u8 first = i;
     init_object_set_data(&s);
     s.position.x = qst_registers[i++];
@@ -1354,7 +1354,7 @@ void qst_op_party_coords_call_ex(u8 i, u8 out) {
     s.set_params[0] = qst_registers[i];
     obj = create_quest_col_apc_in(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = ((TObjBase *)(obj))->get_entity_id();
+        qst_registers[out] = obj->get_entity_id();
     }
 }
 
@@ -1919,7 +1919,7 @@ void qst_op_write_flag_buf_to_event_flags(u8 reg) {
     s32 idx = qst_registers[reg];
     QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && idx >= 0 && idx < 0xFD) {
-        move_data(((&w->event_flags[idx])), (const void *)(&qst_flag_buf), 4);
+        move_data(((&w->event_flags[idx])), (&qst_flag_buf), 4);
     }
 }
 
@@ -2014,7 +2014,7 @@ void qst_op_reset_map(void) {
     if (quest_mission_manager != NULL) {
         TQuestThread::clear_buffer(quest_mission_manager);
     }
-    TQuestThread::destroy_all_in((TObject *)tl_00);
+    TQuestThread::destroy_all_in(tl_00);
     TLobby::init_sub_objects();
     reset_id_tables();
     clear_floor_event_flags();
@@ -2309,7 +2309,7 @@ void qst_op_set_eventflag32() {
     s32 v = qst_args[1];
     QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFD) {
-        move_data(((&w->event_flags[i])), (const void *)(&v), 4);
+        move_data(((&w->event_flags[i])), (&v), 4);
     }
 }
 
@@ -2343,7 +2343,7 @@ void qst_op_set_eventflag16() {
     s16 v = qst_args[1];
     QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFF) {
-        move_data(((&w->event_flags[i])), (const void *)(&v), 2);
+        move_data(((&w->event_flags[i])), (&v), 2);
     }
 }
 
@@ -2491,7 +2491,7 @@ void qst_op_enable_techs(s32 slot_reg) {
 void qst_op_disable_stealth_suit_effect(s32 slot_reg) {
     TObjPlayer *player;
     player = get_player_by_client_id((int)(qst_registers[(u8)slot_reg]));
-    if ((player != NULL) && (player->sub_801A1DDC() != 0)) {
+    if ((player != NULL) && (player->is_local_or_split_screen() != 0)) {
         player->send_disable_stealth_suit_effect();
     }
 }
@@ -2499,7 +2499,7 @@ void qst_op_disable_stealth_suit_effect(s32 slot_reg) {
 void qst_op_enable_stealth_suit_effect(s32 slot_reg) {
     TObjPlayer *player;
     player = get_player_by_client_id((int)(qst_registers[(u8)slot_reg]));
-    if ((player != NULL) && (player->sub_801A1DDC() != 0)) {
+    if ((player != NULL) && (player->is_local_or_split_screen() != 0)) {
         player->send_enable_stealth_suit_effect();
     }
 }
@@ -2535,7 +2535,7 @@ int qst_op_ba_clear_trapself(void) { return TOMineTrap::set_trap_count(0); }
 
 int qst_op_ba_set_trapself() { return TOMineTrap::set_trap_count(1); }
 
-void qst_op_award_item_ok(int a0) { qst_item_ok_window = (void *)TObjItemOKWindow::create((void*)tl_01); qst_registers[(unsigned char)(a0)] = 0; qst_result_register = a0; qst_suspend_reason = QST_WAIT_ITEM_OK; }
+void qst_op_award_item_ok(int a0) { qst_item_ok_window = TObjItemOKWindow::create(tl_01); qst_registers[(unsigned char)(a0)] = 0; qst_result_register = a0; qst_suspend_reason = QST_WAIT_ITEM_OK; }
 
 void qst_op_ba_set_box_drop_area(s32 reg) {
     TItemDropSub::create_instance((int) (qst_registers[(u8)reg]));
@@ -2663,9 +2663,9 @@ void qst_op_award_item_give(u8 reg) {
     }
 }
 
-void qst_op_award_item_select() { qst_item_name_select = (void *)TObjItemNameSelect::create((void*)tl_01); qst_suspend_reason = QST_WAIT_ITEM_NAME_SELECT; }
+void qst_op_award_item_select() { qst_item_name_select = TObjItemNameSelect::create(tl_01); qst_suspend_reason = QST_WAIT_ITEM_NAME_SELECT; }
 
-void qst_op_award_item_name() { qst_item_name_entry = (void *)TObjItemNameEntry::create((void *)tl_01); qst_suspend_reason = QST_WAIT_ITEM_NAME_ENTRY; }
+void qst_op_award_item_name() { qst_item_name_entry = TObjItemNameEntry::create(tl_01); qst_suspend_reason = QST_WAIT_ITEM_NAME_ENTRY; }
 
 void qst_op_set_cmode_rank_result(void) {
     s32 color;
@@ -2928,7 +2928,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u32 record_addr;
     record_addr = ((u32 (*)(void *))qst_label_address)((void *)label);
     if (record_addr != 0U) {
-        copy_player_visual_record((void *) (&quest_npc_visual_record.value), record_addr);
+        copy_player_visual_record((&quest_npc_visual_record.value), record_addr);
     }
 }
 
@@ -3500,7 +3500,7 @@ void qst_op_setevt(void) {
 
 void qst_op_clear_quest_board_handler(void) {
     if ((u32)qst_args[0] <= 5U) {
-        memset((void *) ((u8 *)&quest_board_handlers + ((u32)qst_args[0] * 0x24)), 0, 0x24);
+        memset(&quest_board_handlers[(u32)qst_args[0]], 0, sizeof(QuestBoardHandler));
     }
 }
 
@@ -3509,8 +3509,8 @@ void qst_op_set_quest_board_handler(void) {
     s32 v = qst_args[1];
     s32 n = qst_args[2];
     if (i <= 5) {
-        SetQuestBoardHandlerEntry* e = &((SetQuestBoardHandlerEntry *)&quest_board_handlers)[i];
-        e->v = v;
+        QuestBoardHandler *e = &quest_board_handlers[i];
+        e->label = v;
         ((void* (*)(void*, s32, s32))strncpy)(e, n, 0x20);
     }
 }
@@ -3541,7 +3541,8 @@ void qst_op_map_designate(u32 first) {
 void qst_op_find_inventory_item_ex(u8 regs, u8 dst) {
     TItemData item;
     TObjPlayer *player;
-    void *obj;
+    TItemList *slot;
+    TItem *owner;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         item.init();
@@ -3549,11 +3550,11 @@ void qst_op_find_inventory_item_ex(u8 regs, u8 dst) {
         item.data1.data_u8[1] = qst_registers[(u8)regs++];
         item.data1.data_u8[2] = qst_registers[(u8)regs++];
         item.data1.data_u8[4] = qst_registers[regs];
-        obj = player->inventory_objects->set_mode_and_refresh_object(&item);
-        if (obj != NULL) {
-            obj = (void *)((TItemList *)obj)->get_owner_if_alive();
-            if (obj != NULL) {
-                qst_registers[dst] = ((TItem *)obj)->get_item_id();
+        slot = player->inventory_objects->set_mode_and_refresh_object(&item);
+        if (slot != NULL) {
+            owner = slot->get_owner_if_alive();
+            if (owner != NULL) {
+                qst_registers[dst] = owner->get_item_id();
             } else {
                 qst_registers[dst] = -1;
             }
@@ -3569,7 +3570,7 @@ void qst_op_item_check(u32 first, u32 destination) {
     TItemData item;
     TObjPlayer *player;
     TItemList *slot;
-    void *owner;
+    TItem *owner;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         item.init();
@@ -3578,9 +3579,9 @@ void qst_op_item_check(u32 first, u32 destination) {
         item.data1.data_u8[2] = qst_registers[(u8)first];
         slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != 0) {
-            owner = (void *)slot->get_owner_if_alive();
+            owner = slot->get_owner_if_alive();
             if (owner != 0) {
-                qst_registers[(u8) destination] = ((TItem *)owner)->get_item_id();
+                qst_registers[(u8) destination] = owner->get_item_id();
                 return;
             }
             qst_registers[(u8) destination] = -1;
@@ -3596,7 +3597,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
     TItemData item;
     TObjPlayer *player;
     TItemList *slot;
-    void *owner;
+    TItem *owner;
     if ((u8)dst > 0xF4) {
         return;
     }
@@ -3608,9 +3609,9 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         item.data1.data_u8[2] = qst_registers[(u8)src];
         slot = player->inventory_objects->set_mode_and_refresh_object(&item);
         if (slot != 0) {
-            owner = (void *)slot->get_owner_if_alive();
+            owner = slot->get_owner_if_alive();
             if (owner != 0) {
-                ((TItem *)owner)->copy_to_item_data(&item);
+                owner->copy_to_item_data(&item);
                 qst_registers[(u8)dst++] = item.data1.data_u8[0];
                 qst_registers[(u8)dst++] = item.data1.data_u8[1];
                 qst_registers[(u8)dst++] = item.data1.data_u8[2];
@@ -3639,7 +3640,7 @@ void qst_op_item_delete(u32 src, u32 dst) {
     TItemData item;
     TObjPlayer *player;
     TItemList *slot;
-    void *owner;
+    TItem *owner;
     if ((u8)dst > 0xF4) {
         return;
     }
@@ -3647,9 +3648,9 @@ void qst_op_item_delete(u32 src, u32 dst) {
     if (player != NULL) {
         slot = player->inventory_objects->start_inventory_update(qst_registers[(u8)src]);
         if (slot != 0) {
-            owner = (void *)slot->get_owner_if_alive();
+            owner = slot->get_owner_if_alive();
             if (owner != 0) {
-                ((TItem *)owner)->copy_to_item_data(&item);
+                owner->copy_to_item_data(&item);
                 qst_registers[(u8)dst++] = item.data1.data_u8[0];
                 qst_registers[(u8)dst++] = item.data1.data_u8[1];
                 qst_registers[(u8)dst++] = item.data1.data_u8[2];
@@ -4152,7 +4153,7 @@ void qst_op_player_effect_nc(u8 regs) {
     s32 extra;
     f32 dy;
     TObjCollidable *actor;
-    uaddr r;
+    TParticleCtrl *r;
     s32 i;
 
     i = regs;
@@ -4164,9 +4165,9 @@ void qst_op_player_effect_nc(u8 regs) {
     if (actor != NULL) {
         VecCopy(&v, &actor->position);
         v.y += dy;
-        r = (uaddr)create_timed_particle_emitter(&v, kind, 0, extra);
+        r = create_timed_particle_emitter(&v, kind, 0, extra);
         if (r != 0) {
-            ((TParticleCtrl *)r)->set_flags(0x40);
+            r->set_flags(0x40);
         }
     }
 }
@@ -4205,7 +4206,7 @@ void qst_op_particle_effect_nc(u8 regs) {
     f32 z;
     s16 kind;
     s32 extra;
-    uaddr r;
+    TParticleCtrl *r;
 
     i = regs;
     x = qst_registers[i++];
@@ -4216,9 +4217,9 @@ void qst_op_particle_effect_nc(u8 regs) {
     v.x = x;
     v.y = y;
     v.z = z;
-    r = (uaddr)create_timed_particle_emitter(&v, kind, 0, extra);
+    r = create_timed_particle_emitter(&v, kind, 0, extra);
     if (r != 0) {
-        ((TParticleCtrl *)r)->set_flags(0x40);
+        r->set_flags(0x40);
     }
 }
 
@@ -4389,7 +4390,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     appearance = qst_registers[i++];
     slot = qst_registers[i++];
     TLobby::free_luker_object();
-    player = new TObjPlayer((TObject *)tl_03, slot, 6, load_npc_player_template(appearance));
+    player = new TObjPlayer(tl_03, slot, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         player->control_state = 6;
         send_6x24_teleport_player(slot, &pos, heading);
@@ -4418,7 +4419,7 @@ void qst_op_npc_crptalk(u8 first) {
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    player = new TObjPlayer((TObject *)tl_03, 3, 6, load_npc_player_template(appearance));
+    player = new TObjPlayer(tl_03, 3, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         player->control_state = 6;
         send_6x24_teleport_player(3, &pos, heading);
@@ -4528,8 +4529,8 @@ void qst_op_npc_crt(void) {
     s32 *npc_addr;
     s32 npc_type;
     TLobby::free_luker_object();
-    npc_addr = (s32 *)qst_args;
-    npc_addr = (s32 *)qst_args;
+    npc_addr = qst_args;
+    npc_addr = qst_args;
     npc_type = qst_args[1];
     npc_addr = (s32 *)((u8 *)((s32 *)(uaddr) (u16) qst_args[0]));
     send_npc_create((saddr)npc_addr, npc_type);
@@ -4549,7 +4550,7 @@ void qst_op_winend(void) {
 
 void qst_op_mesend(void) {
     s32 id;
-    void *p;
+    TObjPlayer *p;
     s32 start;
     s32 end;
     s32 i;
@@ -4566,9 +4567,9 @@ void qst_op_mesend(void) {
     start = TLobby::get_game_mode();
     end = start + TLobby::get_lobby_flag();
     for (i = start; i < end; i++) {
-        p = (void *)TObjPlayer::get_player_data(i);
+        p = TObjPlayer::get_player_data(i);
         if (p != NULL) {
-            f = ((TObjBase *)(p))->get_entity_id();
+            f = p->get_entity_id();
             if (f < 0x4000) {
                 v = fn_get_field_3ac(p);
             } else {
@@ -4681,7 +4682,7 @@ void qst_op_message(void) {
     s32 speaker = qst_args[0];
     const char *text = (const char *)qst_args[1];
     s32 first;
-    void *actor;
+    TObjPlayer *actor;
     s32 end;
     s32 i;
     close_window_if_active(local_client_id);
@@ -4696,9 +4697,9 @@ void qst_op_message(void) {
         first = TLobby::get_game_mode();
         end = first + TLobby::get_lobby_flag();
         for (i = first; i < end; i++) {
-            actor = (void *)TObjPlayer::get_player_data(i);
+            actor = TObjPlayer::get_player_data(i);
             if (actor != NULL) {
-                s32 identity = ((TObjBase *)(actor))->get_entity_id();
+                s32 identity = actor->get_entity_id();
                 s32 entity;
                 if (identity < 0x4000) {
                     entity = fn_get_field_3ac(actor);
@@ -5229,23 +5230,23 @@ void close_windows() {
         qst_list_window = NULL;
     }
     if (qst_item_name_entry != NULL) {
-        ((TObject *)qst_item_name_entry)->queue_destruction();
+        qst_item_name_entry->queue_destruction();
         qst_item_name_entry = NULL;
     }
     if (qst_item_name_select != NULL) {
-        ((TObject *)qst_item_name_select)->queue_destruction();
+        qst_item_name_select->queue_destruction();
         qst_item_name_select = NULL;
     }
     if (qst_item_ok_window != NULL) {
-        ((TObject *)qst_item_ok_window)->queue_destruction();
+        qst_item_ok_window->queue_destruction();
         qst_item_ok_window = NULL;
     }
     if (qst_pack_select_window != NULL) {
-        ((TObject *)qst_pack_select_window)->queue_destruction();
+        qst_pack_select_window->queue_destruction();
         qst_pack_select_window = NULL;
     }
     if (qst_pack_select_help_window != NULL) {
-        ((TObject *)qst_pack_select_help_window)->queue_destruction();
+        qst_pack_select_help_window->queue_destruction();
         qst_pack_select_help_window = NULL;
     }
 }

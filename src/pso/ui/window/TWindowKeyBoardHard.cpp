@@ -17,7 +17,7 @@ const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
 
 void TWindowKeyBoardHard::reset_status_text() {
-    input_delay = 0;
+    mode_label_timer = 0;
     input_flags |= 0x100;
 }
 
@@ -40,7 +40,7 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
     }
     n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
-        c = hardware_keyboard_state.sub_8013239C(i);
+        c = hardware_keyboard_state.get_pending_key(i);
         if (c != 0x61 && c != 0x4C && c != 0x50 && c != 0x5E && c != 0x5D && c != 0x5C && c != 0x5F) {
             return 1;
         }
@@ -305,7 +305,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         &TWindowKeyBoardBase::key_f10,
         &TWindowKeyBoardBase::key_f11,
         &TWindowKeyBoardBase::key_f12,
-        &TWindowKeyBoardBase::sub_8025B928,
+        &TWindowKeyBoardBase::key_none,
         &TWindowKeyBoardBase::key_home,
         &TWindowKeyBoardBase::key_end,
         &TWindowKeyBoardBase::convert_composition,
@@ -440,7 +440,7 @@ void TWindowKeyBoardHard::process_all_key_states() {
     if (!(input_flags & 2)) {
         n = hardware_keyboard_state.get_pending_count();
         for (i = 0; i < n; i++) {
-            process_key_input(hardware_keyboard_state.sub_8013239C(i));
+            process_key_input(hardware_keyboard_state.get_pending_key(i));
         }
     }
 }
@@ -563,7 +563,7 @@ void TWindowKeyBoardHard::draw_status_text(WindowDrawContext *ctx) {
         NJS_POINT2 pt;
         pt.x = ctx->inner_x;
         pt.y = ctx->inner_y;
-        set_text_draw_params(ctx, 0, 0, (f32)inv, 100000.0f);
+        set_text_draw_params(ctx, 0, 0, inv, 100000.0f);
         flags = m_control->composition_flags;
         if (!(flags & 1)) {
             draw_window_text((f32 *)&pt, "\x94\xBC\x89\x70\x90\x94", -1, 0, 1000000.0f); // 半英数
@@ -585,7 +585,7 @@ void TWindowKeyBoardHard::draw_status_text(WindowDrawContext *ctx) {
 #pragma pool_data reset
 
 void TWindowKeyBoardHard::render() {
-    if ((input_delay > 0) && (is_key_active() == 0)) {
+    if ((mode_label_timer > 0) && (is_key_active() == 0)) {
         WindowDrawContext *context = draw_default_entry();
         draw_status_text(context);
     }
@@ -607,7 +607,7 @@ void TWindowKeyBoardHard::run_task() {
         if ((is_key_active() == 0) && (m_control->is_confirmed() == 0)) {
             if (has_non_modifier_key() != 0) {
                 if (current_language == LANGUAGE_JAPANESE) {
-                    this->input_delay = 0x3C;
+                    this->mode_label_timer = 0x3C;
                 }
                 this->input_flags = (s32) (this->input_flags & 0xFFFFFEFF);
                 m_control->composition_flags &= ~0x40;
@@ -618,9 +618,9 @@ void TWindowKeyBoardHard::run_task() {
             update_modifier_flags();
             process_all_key_states();
         }
-        delay = this->input_delay;
+        delay = this->mode_label_timer;
         if (delay > 0) {
-            this->input_delay = (delay - 1);
+            this->mode_label_timer = (delay - 1);
         }
         update_window();
         update_fade();
@@ -633,7 +633,7 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
     this->input_flags = 0;
     m_control = control;
     this->m_64 = 0;
-    this->input_delay = 0;
+    this->mode_label_timer = 0;
     this->accent_index = 7;
     this->release_keyboard();
 }
@@ -641,16 +641,16 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
 
 
 void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 7), -0x81);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 7), -0x81);
 }
 void TWindowKeyBoardHard::update_card_window_page_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 6), -0x41);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 6), -0x41);
 }
 void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 4), -0x11);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 4), -0x11);
 }
 void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 5), -0x21);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 5), -0x21);
 }
 int TWindowKeyBoardHard::sub_8026042C() { return (this->input_flags >> 6) & 0x1; }
 int TWindowKeyBoardHard::sub_80260438() { return (this->input_flags >> 10) & 0x1; }

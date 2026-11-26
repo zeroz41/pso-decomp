@@ -102,7 +102,7 @@ void TObjPlayer::place_on_area_entry() {
     clear_movement_history(&this->movement_history);
     if (TObjPlayer::is_single_screen() != 0) {
         reset_cameras_to_actor(this, 0);
-    } else if (this->sub_801A1DDC() != 0) {
+    } else if (this->is_local_or_split_screen() != 0) {
         TObjPlayer *player;
         if (this->is_locally_controlled() == 0 && (player = get_player_by_client_id(local_client_id)) != NULL) {
             reset_cameras_to_actor(player, 0);
@@ -288,7 +288,7 @@ void TObjPlayer::update_state() {
         sync_current_area();
         sync_current_floor();
     }
-    if (TObjPlayer::is_final_phase() != 0 && sub_801A1DDC() != 0) {
+    if (TObjPlayer::is_final_phase() != 0 && is_local_or_split_screen() != 0) {
         apply_state_transform();
     }
 }
@@ -315,7 +315,7 @@ void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
     resend_status_effects();
 }
 
-int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((saddr)this); }
+int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable(this); }
 
 void TObjPlayer::release_char_data() {}
 
@@ -645,9 +645,9 @@ void TObjPlayer::refresh_player_lobby_headers() {
     } while (client < 12);
 }
 
-TObjPlayer *create_remote_player_object(void *record) {
+TObjPlayer *create_remote_player_object(PlayerSyncRecord *record) {
     decode_remote_player_inventory(record);
-    return new TObjPlayer(tl_03, (PlayerSyncRecord *)record);
+    return new TObjPlayer(tl_03, record);
 }
 
 TObjPlayer *TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {

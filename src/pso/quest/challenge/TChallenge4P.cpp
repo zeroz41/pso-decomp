@@ -83,7 +83,6 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 
 
-s32 get_challenge4p_retry_choice(void);
 char split_screen_player_name[0x20];
 // challenge_check_rank_time passes card unextended: it saw an int card, the definition takes u16.
 extern "C" s32 record_challenge_stage_clear(s32 seed, u16 card);
@@ -220,7 +219,7 @@ s32 challenge_check_rank_time(s32 seed, s32 card) {
         return -2;
     }
     CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record((u16)card);
-    if ((uaddr)record != 0 && record->is_bank_full() != 0) {
+    if (record != 0 && record->is_bank_full() != 0) {
         challenge4p_mode_state.result_rank = -3;
         return -3;
     }
@@ -681,8 +680,6 @@ void load_tombstone_resources() { TObjTombstone::load_resources(); }
 
 
 
-void save_challenge_tombstone_spot(s32 client);
-void setup_split_screen(void);
 
 
 void setup_split_screen(void) {
@@ -788,7 +785,7 @@ void TChallenge4P::refresh_challenge_windows() {
         old = challenge4p_mode_state.current_floor;
         challenge4p_mode_state.current_floor = -1;
         if (old != -1) {
-            create_obj_tag_challenge((void *)tl_07);
+            create_obj_tag_challenge(tl_07);
             if (challenge4p_mode_state.failed == 0) {
                 create_ch_time_win(tl_07);
             }

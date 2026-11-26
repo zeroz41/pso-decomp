@@ -43,7 +43,7 @@ struct TItemAttackCol : public TItemAttackColBase {
     TParticleCtrl *continuous_particle;
     static void add_to_active_list(void* node);
     void shift_collision_bounds();
-    void move_with_collision(void *to);
+    void move_with_collision(Vec *to);
     virtual void render();
     virtual void run_task();
     static void create(TObject *parent, WeaponEffectDescriptor *params);

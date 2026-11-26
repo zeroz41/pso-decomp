@@ -121,10 +121,9 @@ void TShopEquipmentGearSequence::open_greeting() {
 }
 
 
-void TShopEquipmentGearSequence::update_buy_sell_choice(void *sequence_ptr) {
+void TShopEquipmentGearSequence::update_buy_sell_choice(TShopEquipmentGearSequence *sequence) {
     s32 id;
     s32 r;
-    TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(sequence_ptr);
     if (sequence->choice_menu == NULL) {
         id = ((TObjBase *)(sequence->player))->get_entity_id();
         sequence->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);

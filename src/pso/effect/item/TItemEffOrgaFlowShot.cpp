@@ -21,6 +21,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
 #pragma readonly_strings on
 
@@ -33,13 +34,13 @@ extern "C" {
 int olga_flow_subordinate_actions_enabled;
 }
 
-void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
+void send_6xAD_olga_flow_subordinate_boss_actions(u8 *actions) {
     Send6xADOlgaFlowSubordinateBossActionsB b;
     s32 i;
     if (is_local_client_floor_leader() != 0) {
         build_6xAD_olga_flow_subordinate_boss_actions(&b);
         for (i = 0; i < 0x40; i++) {
-            b.d[i] = arg0[i];
+            b.d[i] = actions[i];
         }
         ((TItemEffOrgaFlowShot *)(&b))->bswap_6xAD_subordinate_action();
     }
@@ -115,7 +116,6 @@ void read_be16_field2_forward(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 void build_6xAD_olga_flow_subordinate_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 173; *(u8*)((char*)p + 0x1) = 17; }
 
 extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 
 #pragma push
 #pragma fp_contract on

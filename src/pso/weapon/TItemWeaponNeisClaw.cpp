@@ -32,7 +32,7 @@
 #include "pso/system/MatrixOps.h"
 
 // Gi Gue bazooka (TItemWeaponGiGueBazooka), TItemWeaponNeisClaw and the fire-explosion spawners: its own
-// TU, since its 10.0f literal at 0x805DFE00 sits between two 4-byte pads.
+// TU, since its 10.0f literal sits between two 4-byte pads.
 // Built with -inline off,deferred like TItemEffPG.cpp: functions are written last to first.
 
 TItem *TItemWeaponNeisClaw::create(u8 *item) {

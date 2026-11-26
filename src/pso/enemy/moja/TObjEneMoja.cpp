@@ -216,13 +216,13 @@ TObjEneMoja::~TObjEneMoja() {
 void TObjEneMoja::load_resources() {
     switch (game_difficulty_selection) {
     case 3: {
-        void *memory = new BmlResource(1, &moja_ultimate_bml_descriptor, 0, 0, NULL);
-        moja_bml_resource = (BmlResource *)memory;
+        BmlResource *memory = new BmlResource(1, &moja_ultimate_bml_descriptor, 0, 0, NULL);
+        moja_bml_resource = memory;
         break;
     }
     default: {
-        void *memory = new BmlResource(1, &moja_bml_descriptor, 0, 0, NULL);
-        moja_bml_resource = (BmlResource *)memory;
+        BmlResource *memory = new BmlResource(1, &moja_bml_descriptor, 0, 0, NULL);
+        moja_bml_resource = memory;
         break;
     }
     }

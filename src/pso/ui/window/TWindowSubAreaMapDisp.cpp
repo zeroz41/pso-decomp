@@ -30,22 +30,22 @@
 
 
 void TWindowSubAreaMapDisp::update_visibility() {
-    if ((s32) this->map_open != 0) {
+    if (this->manual_scroll != 0) {
         if (this->is_closed() != 0) {
-            this->map_open = 0;
+            this->manual_scroll = 0;
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
     } else if (!(this->window_flags & 2) && (this->is_closed() == 0)) {
-        this->map_open = 1;
+        this->manual_scroll = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();
         TWindowCtrl::set_flag_bit0();
         {
             f32 c = 0.0f;
-            this->pan_x = c;
-            this->pan_y = c;
-            this->zoom = c;
+            this->pan_x_speed = c;
+            this->pan_y_speed = c;
+            this->zoom_speed = c;
         }
     }
 }
@@ -82,7 +82,7 @@ void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     r.u1 = 0.91796875f;
     r.v1 = 0.21875f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     r.x0 = 484.0f;
     r.y0 = 346.0f;
     r.x1 = 12.0f + r.x0;
@@ -90,7 +90,7 @@ void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     r.u0 = 0.9296875f;
     r.u1 = 0.9765625f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     r.x0 = 249.0f;
     r.y0 = 272.0f;
     r.x1 = 14.0f + r.x0;
@@ -100,7 +100,7 @@ void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     r.u1 = 0.9921875f;
     r.v1 = 0.046875f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     r.x0 = 249.0f;
     r.y0 = 4.2e+02f;
     r.x1 = 14.0f + r.x0;
@@ -108,7 +108,7 @@ void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     r.v0 = 0.109375f;
     r.v1 = 0.15625f;
     context->transform_quad(&r);
-    draw_textured_quad_at_depth((f32 *)&r, scale);
+    draw_textured_quad_at_depth(&r.x0, scale);
     end_screen_draw();
 }
 
@@ -135,7 +135,7 @@ void TWindowSubAreaMapDisp::render() {
     WindowDrawContext *context = draw_default_entry();
     draw_window_frame(context);
     heading->render(context);
-    if ((s32) this->map_open != 0) {
+    if (this->manual_scroll != 0) {
         draw_zoom_button_hints(context);
         draw_pan_arrows(context);
     }
@@ -145,7 +145,7 @@ void TWindowSubAreaMapDisp::run_task() {
     update_window();
     this->update_visibility();
     this->update_manual_scroll();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)this->open_tick >= 7.5f) {
         heading->update();
     }
 }
@@ -154,7 +154,7 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
         mem_free(title);
         title = NULL;
     }
-    if ((s32) this->map_open != 0) {
+    if (this->manual_scroll != 0) {
         TWindowCtrl::clear_active_flag();
         TRaderMapCore::clear();
     }
@@ -171,7 +171,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
         text_builder_append((const char *)(get_message_text(0x67)));
         append_text_space();
         append_padded_number((get_window_count_ratio_value()), (2U));
-        str = (u8 *)(get_shared_text_buffer());
+        str = (u8 *)get_shared_text_buffer();
     } else {
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
@@ -180,6 +180,6 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     strncpy(title, (const char *)str, (u32)title_len + 1);
     display = new WindowHeading(reinterpret_cast<saddr>(title), client_index);
     heading = display;
-    this->map_open = 0;
+    this->manual_scroll = 0;
 }
 

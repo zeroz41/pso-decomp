@@ -47,7 +47,7 @@ void TWindowQuantity::run_task() {
 
 TWindowQuantity::~TWindowQuantity() {}
 
-TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x2A))) {
+TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_window_layout, (s16)client, (u8 *)(get_window_layout_position(0x2A))) {
     u8 *e1;
     WindowTextEntry *e0;
     s32 id;

@@ -144,7 +144,7 @@ void destroy_floor_decoration_objects(void);
 extern "C" {
 void TLobby__sub_8020BCE4(void);
 }
-void send_6x76_set_entity_set_flags(void *object, s16 flags);
+void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags);
 void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 // 1 when every enemy set row of the room on that floor has flag 8 (the quest zone-clear check).

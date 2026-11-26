@@ -89,7 +89,7 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     fn_8026C708(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
     fn_8026C664(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
     end_screen_draw();
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(r), 0, 1, scale, (f32)1e+05f);
+    set_text_draw_params(r, 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
     text_builder_append_int(self->page + 1);
     pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));
@@ -97,7 +97,7 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     pos.x -= 0.5f * (f32)advance;
     text_builder_append("/");
     text_builder_append_int(self->count);
-    draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);
+    draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, (f32)1e+05f);
 }
 #pragma pop
 #pragma push

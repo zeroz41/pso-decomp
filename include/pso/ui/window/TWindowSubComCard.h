@@ -50,8 +50,8 @@ struct TWindowSubComCard : public TObject {
     u8 _pad1E[0x2];
     uaddr client_id;
     uaddr selected_card;
-    uaddr shown_card_index;
-    uaddr idle_time;
+    uaddr shown_message;  // help or card index last written to message_window, -1 for none
+    uaddr wait_ticks;  // frames waited in state 0x26 before giving up
     ChoiceSearchSelection choice_selections[5];
     // The options the server offered, taken from get_choice_search_options once they arrive.
     TRecvChoiceSearchOptions *search_options;
@@ -74,10 +74,10 @@ struct TWindowSubComCard : public TObject {
     static ChoiceSearchResultList *get_choice_search_results();
     static void release();
     static TRecvChoiceSearchOptions *get_choice_search_options();
-    void clear_and_init(void* local_client_id);
     s32 get_card_id();
     int is_active();
-    static int get_keyboard_mode();
+    // The local player's own guild card (set by TObjPlayer::set_com_card_window).
+    static GuildCardEntry *get_own_guild_card();
     TKeyBoardControl *create_keyboard();
     TKeyBoardControl *create_keyboard(s32 card_index);
     static s32 init_card();
@@ -85,7 +85,7 @@ struct TWindowSubComCard : public TObject {
     static s32 scroll_list(s32 ply_guild_card_tag);
     static void init_and_press_a(s32 id);
     static void init_and_press_b(s32 client_id);
-    void update_press();
+    static void update_press(s32 index);
     static void select_card_entry(saddr ply_guild_card_tag);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
@@ -97,7 +97,6 @@ struct TWindowSubComCard : public TObject {
     static void swap_cards(s32 first_index, s32 second_index);
     static s32 init_com_card();
     static void remove_card_at(s32 i);
-    s32 send_guild_card();
     static void start_player_data_load(s32 ply_guild_card_tag);
     static s32 count_active_cards();
     static s32 count_leading_active(GuildCardEntry *cards, s32 count);
@@ -119,8 +118,6 @@ struct TWindowSubComCard : public TObject {
     TWindowMessageYesNo *open_yesno_dialog();
     TWindowMessageYesNo *confirm_and_free();
     static void set_com_param(saddr client_id, s32 com_param);
-    void set_page(s16 v);
-    void set_display_page();
     static TWindowComCard *create_com_card_window(const NJS_POINT2 *position);
     TWindowMenu *create_menu();
     TWindowMenu *create_single_entry_window();
@@ -130,7 +127,8 @@ struct TWindowSubComCard : public TObject {
     TWindowMenu *create_menu_window();
     TWindowMenu *create_player_select_window();
     TWindowMessage *create();
-    static void cleanup(void* p);
+    // Asks the server where the selected card's owner is.
+    void send_find_user_for_selected_card();
     static TWindowSubComCardList *send_cmd_133();
     static TWindowSubComCardList *init_layout();
     void *get_message_10(s32 index);

@@ -13,13 +13,13 @@
 
 
 
-__declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { mode_window_x, mode_window_y };
-TWindowPlacement TWindowDD__layout_constants = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };
+__declspec(section ".data") f32 word_select_mode_window_position[2] = { mode_window_x, mode_window_y };
+TWindowPlacement word_select_mode_window_placement = { mode_window_placement_x, mode_window_placement_y, mode_window_depth, 0, 3 };
 
 TWindowWordSelectMode *TWindowWordSelectMode::create() { return new TWindowWordSelectMode; }
 
 TWindowWordSelectMode::TWindowWordSelectMode()
-    : TWindowBase((u8 *)&TWindowDD__layout_constants, 4, (u8 *)TWindowDD__layout_constant_pair) {
+    : TWindowBase((u8 *)&word_select_mode_window_placement, 4, (u8 *)word_select_mode_window_position) {
     highlight_hidden = 1;
     grey_row_count = 2;
     selected_row = 2;
@@ -148,7 +148,7 @@ void TWindowWordSelectMode::render() {
             color = 0xFF808080;
         }
         set_constant_material_color(color);
-        draw_textured_quad_at_depth((f32 *)&q, depth);
+        draw_textured_quad_at_depth(&q.x0, depth);
         q.y0 += step;
         q.y1 += step;
         q.v0 = q.v1;

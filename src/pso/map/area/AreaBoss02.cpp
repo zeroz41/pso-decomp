@@ -33,9 +33,9 @@ s32 init_boss2_area(void) {
     init_area_lights();
     TLobby::create_tasks();
     create_boss2_tunnel();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     play_area_music("delo.adx");
     return 1;
 }
 
-void TLobby__sub_801403B4(s32 _w0) {}
+void debug_area_hook(s32 _w0) {}

@@ -1,3 +1,5 @@
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/system/memory.h"
 #include "pso/ui/charcreate/CharacterPreviewModels.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
@@ -23,16 +25,16 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/unk/text_80290B3C.h"
+#include "pso/unk/text_80290BE0.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
+TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index);
 extern "C" {
 f32 vector_length(f32 *v);
 }
-// Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
-struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
-struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -63,11 +65,8 @@ void copy_player_visual_record(void *, void *);
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
-extern s32 memcard_access_active;
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
-void rotate_matrix_y(int, u32);
-s32 release_texture_list(void *);
 }
 
 #pragma push
@@ -237,8 +236,6 @@ __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {
 }
 void load_creation_shape_rel(TCMCharacter *character);
 s32 scan_creation_resources(void *context);
-uaddr relocate_data_block_pointers(uaddr data, u32 size);
-void reset_character_creation_figure_rotation(void);
 
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint creation_shape_corners[9];
 #pragma defer_codegen on
@@ -287,10 +284,10 @@ TCMCharacter::~TCMCharacter() {
     CreationTextureCacheEntry *end;
     for (p = creation_texture_cache, end = creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY; p < end; p++) {
         if (p->in_use != 0) {
-            ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
+            p->release_texture_lists();
         }
     }
-    free_field_FC();
+    free_shape_rel();
     delete (BmlResource *)chara_select_preview_resource;
     chara_select_preview_resource = 0;
     reset_model_parts();
@@ -371,7 +368,7 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
 extern "C" void copy_creation_model_node(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void reset_creation_shape_set(saddr node) {
-    copy_creation_model_node((void*)node, (void *)&creation_empty_model_node);
+    copy_creation_model_node((void*)node, &creation_empty_model_node);
 }
 #pragma push
 #pragma fp_contract on
@@ -437,14 +434,14 @@ void reset_creation_body_shapes() {
 }
 #pragma pop
 
-void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
     reset_creation_body_shapes();
     make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_body_shape_destination);
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }
 }
-void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
     reset_creation_head_shapes();
     make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_head_shape_destination);
     s32 head = appearance->head + 1;
@@ -477,7 +474,7 @@ void load_creation_shape_rel(TCMCharacter *character) {
         }
     }
 }
-void TCMCharacter::free_field_FC() {
+void TCMCharacter::free_shape_rel() {
     safe_free(shape_rel);
     shape_rel = NULL;
 }
@@ -531,8 +528,8 @@ void TCMCharacter::apply_character_appearance() {
         chara_select_head_node = creation_head_model_parts[head].model;
     }
     char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
-    TCharaMaking__bind_body_shape_nodes(app, this->model);
-    TCharaMaking__bind_head_shape_nodes(app, (void *)chara_select_head_node);
+    bind_body_shape_nodes(app, this->model);
+    bind_head_shape_nodes(app, (void *)chara_select_head_node);
     blend_creation_proportion_shapes(&creation_player_character->width);
     memcard_access_active = 0;
     char_select_active_flag = 1;
@@ -545,7 +542,7 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            TCharaMaking__bind_head_shape_nodes(creation_player_character, (void *)((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
+            bind_head_shape_nodes(creation_player_character, ((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
         }
         break;
     case 4: {
@@ -586,26 +583,26 @@ void TCMCharacter::draw_creation_figure() {
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, creation_figure_rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x460));
+        set_texture_list(&char_select_current_entry->body_textures.textures.list);
         this->draw_player_model();
         push_matrix_from((void *)get_joint_matrix(0x3A));
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x2EC));
-        TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
+        set_texture_list(&char_select_current_entry->head_textures.textures.list);
+        TObjPlayer::play_phase_transition_sound(creation_head_model_parts[char_select_current_entry->head].model);
         pop_matrix();
-        v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
+        v = creation_cap_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
+            set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
-        v = creation_hair_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
+        v = creation_hair_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
+            set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -780,10 +777,10 @@ s32 blend_shape_chunk_vertices(void) {
     CreationModelNodeState *dst = creation_shape_blend.destination;
     for (k = 0; k < 3; k++) {
     }
-    d = ((CreationShapeNode *)dst->node)->model->vertex_list;
-    a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->vertex_list;
-    b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->vertex_list;
-    c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->vertex_list;
+    d = dst->node->model->vertex_list;
+    a = creation_shape_blend.sources[0]->node->model->vertex_list;
+    b = creation_shape_blend.sources[1]->node->model->vertex_list;
+    c = creation_shape_blend.sources[2]->node->model->vertex_list;
     for (n = 1000; n > 0; n--) {
         extra = TAdSinglePlyChrSelectGC::map_button_code(*d & 0xFF);
         if (extra < 0) {
@@ -852,7 +849,7 @@ void blend_creation_proportion_shapes(f32 *point) {
     creation_shape_blend.sources[2] = creation_head_shape_samples[samples[2]].nodes;
     for (n = 5; n > 0; n--) {
         if (creation_shape_blend.destination->node != NULL) {
-            CreationShapeModel *dst = ((CreationShapeNode *)creation_shape_blend.destination->node)->model;
+            CreationShapeModel *dst = creation_shape_blend.destination->node->model;
             if (dst != NULL) {
                 f32 *a;
                 f32 *b;
@@ -860,19 +857,19 @@ void blend_creation_proportion_shapes(f32 *point) {
                 s32 k;
                 for (k = 0; k < 3; k++) {
                 }
-                a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->center;
-                b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->center;
-                c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->center;
+                a = creation_shape_blend.sources[0]->node->model->center;
+                b = creation_shape_blend.sources[1]->node->model->center;
+                c = creation_shape_blend.sources[2]->node->model->center;
                 dst->center[0] = creation_shape_blend.weights[2] * c[0] + (creation_shape_blend.weights[0] * a[0] + creation_shape_blend.weights[1] * b[0]);
                 dst->center[1] = creation_shape_blend.weights[2] * c[1] + (creation_shape_blend.weights[0] * a[1] + creation_shape_blend.weights[1] * b[1]);
                 dst->center[2] = creation_shape_blend.weights[2] * c[2] + (creation_shape_blend.weights[0] * a[2] + creation_shape_blend.weights[1] * b[2]);
             }
             if ((creation_shape_blend.sources[0]->flags | creation_shape_blend.sources[1]->flags | creation_shape_blend.sources[2]->flags) & 1) {
-                ((CreationShapeNode *)creation_shape_blend.destination->node)->eval_flags &= ~1;
-                clear_creation_shape_eval_masks(((CreationShapeNode *)creation_shape_blend.destination->node)->pos,
-                    ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->pos,
-                    ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->pos,
-                    ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->pos);
+                creation_shape_blend.destination->node->eval_flags &= ~1;
+                clear_creation_shape_eval_masks(creation_shape_blend.destination->node->pos,
+                    creation_shape_blend.sources[0]->node->pos,
+                    creation_shape_blend.sources[1]->node->pos,
+                    creation_shape_blend.sources[2]->node->pos);
             }
             if (creation_shape_blend.sources[0]->flags & 0x10) {
                 blend_shape_chunk_vertices();
@@ -888,29 +885,29 @@ void blend_creation_proportion_shapes(f32 *point) {
     creation_shape_blend.sources[1] = creation_body_shape_samples[samples[1]].nodes;
     creation_shape_blend.sources[2] = creation_body_shape_samples[samples[2]].nodes;
     for (m = 64; m > 0; m--) {
-        CreationShapeModel *dst = ((CreationShapeNode *)creation_shape_blend.destination->node)->model;
+        CreationShapeModel *dst = creation_shape_blend.destination->node->model;
         if (dst != NULL) {
-            f32 *a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->center;
-            f32 *b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->center;
-            f32 *c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->center;
+            f32 *a = creation_shape_blend.sources[0]->node->model->center;
+            f32 *b = creation_shape_blend.sources[1]->node->model->center;
+            f32 *c = creation_shape_blend.sources[2]->node->model->center;
             dst->center[0] = creation_shape_blend.weights[2] * c[0] + (creation_shape_blend.weights[0] * a[0] + creation_shape_blend.weights[1] * b[0]);
             dst->center[1] = creation_shape_blend.weights[2] * c[1] + (creation_shape_blend.weights[0] * a[1] + creation_shape_blend.weights[1] * b[1]);
             dst->center[2] = creation_shape_blend.weights[2] * c[2] + (creation_shape_blend.weights[0] * a[2] + creation_shape_blend.weights[1] * b[2]);
         }
         flags = creation_shape_blend.sources[0]->flags | creation_shape_blend.sources[1]->flags | creation_shape_blend.sources[2]->flags;
         if (flags & 1) {
-            ((CreationShapeNode *)creation_shape_blend.destination->node)->eval_flags &= ~1;
-            clear_creation_shape_eval_masks(((CreationShapeNode *)creation_shape_blend.destination->node)->pos,
-                ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->pos,
-                ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->pos,
-                ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->pos);
+            creation_shape_blend.destination->node->eval_flags &= ~1;
+            clear_creation_shape_eval_masks(creation_shape_blend.destination->node->pos,
+                creation_shape_blend.sources[0]->node->pos,
+                creation_shape_blend.sources[1]->node->pos,
+                creation_shape_blend.sources[2]->node->pos);
         }
         if (flags & 4) {
-            ((CreationShapeNode *)creation_shape_blend.destination->node)->eval_flags &= ~4;
-            clear_creation_shape_eval_masks(((CreationShapeNode *)creation_shape_blend.destination->node)->scl,
-                ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->scl,
-                ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->scl,
-                ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->scl);
+            creation_shape_blend.destination->node->eval_flags &= ~4;
+            clear_creation_shape_eval_masks(creation_shape_blend.destination->node->scl,
+                creation_shape_blend.sources[0]->node->scl,
+                creation_shape_blend.sources[1]->node->scl,
+                creation_shape_blend.sources[2]->node->scl);
         }
         if (flags & 0x10) {
             blend_shape_chunk_vertices();
@@ -961,7 +958,7 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
     saddr index;
-    TCharaMaking__bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
+    bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
     index = character_display_index(reinterpret_cast<uaddr>(appearance));
     slot = &entry->hair_textures;
     if (slot->textures.present != 0) {
@@ -987,7 +984,7 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
             if (p != char_select_current_entry && p->in_use != 0 && (p->hair_textures.textures.present == 0 || p->hair_textures.complete != 0) && (p->head_textures.textures.present == 0 || p->head_textures.complete != 0) && p->body_textures.complete != 0 &&
                 p->count_char_diffs(creation_player_character) >= k) {
                 p->in_use = 0;
-                ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
+                p->release_texture_lists();
                 if (++n == limit) {
                     return n;
                 }
@@ -996,16 +993,15 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     }
     return n;
 }
-void TAdSinglePlyChrSelectGC::update_char_panels() {
-    u8 *base = (u8 *)this;
-    if (((saddr) this->m_down != 0) && ((saddr) this->m_up != 0)) {
-        release_texture_list(base + 0x178);
+void CreationTextureCacheEntry::release_texture_lists() {
+    if (hair_textures.textures.present != 0 && hair_textures.complete != 0) {
+        release_texture_list(&hair_textures.textures.list);
     }
-    if (((s32) *(s32 *)((s8 *)base + 0x188) != 0) && ((s32) *(s32 *)((s8 *)base + 0x184) != 0)) {
-        release_texture_list(base + 0x2EC);
+    if (head_textures.textures.present != 0 && head_textures.complete != 0) {
+        release_texture_list(&head_textures.textures.list);
     }
-    if ((s32) *(s32 *)((s8 *)base + 0x2F8) != 0) {
-        release_texture_list(base + 0x460);
+    if (body_textures.complete != 0) {
+        release_texture_list(&body_textures.textures.list);
     }
 }
 

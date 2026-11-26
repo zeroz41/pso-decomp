@@ -8,12 +8,12 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 s32 is_chat_shortcut_set(int);
-saddr get_shared_text_buffer();
 
 int TWindowKeyBoardBase::is_alnum(u16 code) {
     if ((s32) code < 0x30) {
@@ -49,7 +49,7 @@ void TWindowKeyBoardBase::key_clear() {
     state_flags = (u16) (state_flags | 0x20);
 }
 
-void TWindowKeyBoardBase::sub_8025B928() {  }
+void TWindowKeyBoardBase::key_none() {  }
 
 void TWindowKeyBoardBase::convert_composition() {
     char text[0x100];
@@ -66,7 +66,7 @@ void TWindowKeyBoardBase::convert_composition() {
                     this->candidate_count = count;
                     count = ime_request_extend_segment(name, text);
                 } while (count != 0);
-                sub_8025CFA8(name);
+                add_conversion_candidate(name);
                 name[0] = 0;
                 write_name_and_text(name, name);
                 goto block_5;
@@ -162,7 +162,7 @@ void TWindowKeyBoardBase::key_f7() {
                         this->candidate_count = count;
                         count = ime_request_extend_segment(name, text);
                     } while (count != 0);
-                    sub_8025CFA8(name);
+                    add_conversion_candidate(name);
                     name[0] = 0;
                     write_name_and_text(name, name);
                     goto block_6;
@@ -194,7 +194,7 @@ void TWindowKeyBoardBase::key_f6() {
                         this->candidate_count = count;
                         count = ime_request_extend_segment(name, text);
                     } while (count != 0);
-                    sub_8025CFA8(name);
+                    add_conversion_candidate(name);
                     name[0] = 0;
                     write_name_and_text(name, name);
                     goto block_6;
@@ -440,7 +440,7 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
     flags = state_flags;
     if (flags & 2) {
         if (flags & 4) {
-            sub_8025DBDC(1);
+            convert_trailing_romaji(1);
         }
         commit_composition_text();
     }
@@ -451,14 +451,14 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
         if (cursor != 0U) {
             if (cursor == m_text.length) {
                 text_builder_append(" > ");
-                text_builder_append(name);
+                text_builder_append((const char *)name);
             } else {
                 text_builder_append(" ");
-                text_builder_append(name);
+                text_builder_append((const char *)name);
                 text_builder_append(" ");
             }
         } else {
-            text_builder_append(name);
+            text_builder_append((const char *)name);
             if (m_text.length != 0U) {
                 text_builder_append(" ");
             }
@@ -475,7 +475,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         return;
     }
     if (!(state_flags & 0x80) && m_input_mode >= 1U) {
-        sub_8025DBDC(1);
+        convert_trailing_romaji(1);
         if (m_input_mode == 2) {
             state_flags |= 0x80;
         }
@@ -510,7 +510,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     }
     active_text->insert_char(code);
     if (m_input_mode == 0 && !(state_flags & 0x80)) {
-        sub_8025DBDC(0);
+        convert_trailing_romaji(0);
     }
 }
 
@@ -533,7 +533,7 @@ void TWindowKeyBoardBase::commit_composition_text() {
     u16 *s;
     u16 *d;
     if (state_flags & 4) {
-        sub_8025DBDC(1);
+        convert_trailing_romaji(1);
         src = reinterpret_cast<s8 *>(candidate_buffer);
         i = 0;
         dst = m_text2.buffer;

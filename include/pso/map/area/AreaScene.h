@@ -47,7 +47,7 @@ void cleanup_temple_area(void);
 
 extern "C" {
 // Empty; defined with BOSS02, and the CAVE, FOREST02, LOBBY, MACHINE and VERSUS02 inits call it with 0.
-void TLobby__sub_801403B4(s32 _w0);
+void debug_area_hook(s32 _w0);
 }
 // Defined in TFontSmallTask.cpp on its {load, release} pair type: runs each pair's load hook.
 s32 run_load_callback_table(void *table, u32 size);

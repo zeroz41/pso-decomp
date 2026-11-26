@@ -820,7 +820,7 @@ void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; clear_cont
 
 
 void flag_pending_area_transfer(void) {
-    if ((u32) main_phase_deferred_callback != 0U) {
+    if (main_phase_deferred_callback != 0U) {
         area_transfer_pending_flag = 1;
     }
 }
@@ -872,7 +872,7 @@ void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
 void TLobby::flush_pending() {
     uaddr destination;
     s32 count;
-    if ((s32) pending_file_read_flush_requested != 0) {
+    if (pending_file_read_flush_requested != 0) {
         destination = pending_file_read_destination;
         pending_file_read_flush_requested = 0;
         if ((destination != 0U)) {
@@ -895,7 +895,7 @@ void TLobby::flush_checked_reads() {
     }
 }
 
-void TLobby::reset_read_state() { (*(int *)&pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
+void TLobby::reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
 void TLobby::clear_player_slot_tables(s32 n) {
     s32 i;
     if (n == -1) {
@@ -970,7 +970,7 @@ void set_lobby_state_byte_flag(void) { lobby_state_byte_flag = 1; }
 
 
 void TLobby::reset_state_byte() {
-    if ((u8) lobby_wait_ready_flag == 0) {
+    if (lobby_wait_ready_flag == 0) {
         lobby_state_byte_flag = 0;
     }
 }

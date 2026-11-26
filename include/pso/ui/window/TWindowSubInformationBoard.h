@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/network/TProtocol.h"
 
 struct TWindowMainMenu;
 struct TKeyBoardControl;
@@ -21,21 +22,20 @@ struct TWindowSubInformationBoard : public TObject {
     u32 shown_index;    // index set_page/set_message_index last showed; -1 after a new message window
     TWindowMainMenu *parent_menu;
     TWindowMenu *menu_window;    // create_info_board_menu (TWindowMenu)
-    uaddr page_menu;      // create_board_menu: one entry per info-board page, picks set_page
+    TWindowMenu *page_menu;      // create_board_menu: one entry per info-board page, picks set_page
     TWindowMessage *message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
     TWindowMessageYesNo *dialog_window;
     TKeyBoardControl *keyboard;
-    void* m_40;
+    TRecvInfoBoard board;  // TLobby::request_info_board copies the D8 reply here
     virtual void render();
     virtual void run_task();
-    static void clear_if_current(u32 arg0);
+    static void clear_if_current(TRecvInfoBoard *board);
     void set_page(s32 page);
     void set_message_index(s32 index);
-    static TKeyBoardControl *open_keyboard(saddr parent);
+    TKeyBoardControl *open_keyboard();
     TWindowMessage *show_card_a7();
     TWindowMenu *create_info_board_menu();
-    u32 create_board_menu();
-    u8 pad_44[0x8D0];
+    TWindowMenu *create_board_menu();
 };
 
 LAYOUT_ASSERT(TWindowSubInformationBoard_size, sizeof(TWindowSubInformationBoard) == 0x914);

@@ -120,7 +120,7 @@ void TQuestListOnline::close_windows_and_reset() {
 }
 void TQuestListOnline::handle_quest_ready() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     OnlineQuestDownloadState *q;
     s32 r;
     s32 m;
@@ -174,7 +174,7 @@ void TQuestListOnline::handle_quest_ready() {
         p = get_player_by_client_id(i);
         if (p != NULL) {
             TObjPlayer::clear_lobby_flag(p);
-            ((TObjPlayer *)p)->activate_body_collision();
+            p->activate_body_collision();
         }
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
@@ -309,7 +309,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
 }
 extern "C" {
 
-void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu) {
+void copy_quest_list_data(OnlineQuestMenu &menu) {
     if (quest_list_online_quest_list_buffer != NULL) {
         memcpy(quest_list_online_quest_list_buffer, &menu, sizeof(OnlineQuestMenu));
         set_quest_list_online_state(1);
@@ -346,11 +346,11 @@ void TQuestListOnline::release_resources() {
         online_quest_download_barrier_window->close();
         online_quest_download_barrier_window = NULL;
     }
-    (*(s32 *)&quest_download_active) = 0;
+    quest_download_active = 0;
     memset(&quest_list_online_dat_download_state, 0, sizeof(OnlineQuestDownloadState));
     memset(&quest_list_online_bin_download_state, 0, sizeof(OnlineQuestDownloadState));
-    (*(s32 *)&online_quest_bin_download_complete) = 0;
-    (*(s32 *)&online_quest_dat_download_complete) = 0;
+    online_quest_bin_download_complete = 0;
+    online_quest_dat_download_complete = 0;
     quest_list_online_instance = 0;
 }
 
@@ -360,11 +360,11 @@ void TQuestListOnline::init_download_buffers() {
     online_quest_download_window = NULL;
     online_quest_info_window = NULL;
     online_quest_download_barrier_window = NULL;
-    (*(s32 *)&quest_download_active) = 0;
+    quest_download_active = 0;
     memset(&quest_list_online_dat_download_state, 0, sizeof(OnlineQuestDownloadState));
     memset(&quest_list_online_bin_download_state, 0, sizeof(OnlineQuestDownloadState));
-    (*(s32 *)&online_quest_bin_download_complete) = 0;
-    (*(s32 *)&online_quest_dat_download_complete) = 0;
+    online_quest_bin_download_complete = 0;
+    online_quest_dat_download_complete = 0;
     quest_list_online_instance = 0;
 }
 

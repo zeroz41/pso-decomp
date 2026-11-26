@@ -31,16 +31,16 @@ TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
 
 extern "C" {
 
-void TItemMenuCtrl::open_menu(u32 arg0) {
+void TItemMenuCtrl::open_menu(u32 menu) {
     if (TItemMenuCtrl::instance == NULL) {
         new TItemMenuCtrl(tl_05);
     }
-    if (arg0 < 7U) {
-        if (arg0 == 0) {
+    if (menu < 7U) {
+        if (menu == 0) {
             TItemMenuCtrl::instance->queue_destruction();
             return;
         }
-        TItemMenuCtrl::instance->set_menu_flags(1U << arg0);
+        TItemMenuCtrl::instance->set_menu_flags(1U << menu);
     }
 }
 

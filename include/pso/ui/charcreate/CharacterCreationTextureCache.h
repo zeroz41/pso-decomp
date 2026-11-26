@@ -38,6 +38,9 @@ struct CreationTextureCacheEntry {
     s32 is_entry_equal(CharacterAppearanceFields *character);
     s32 count_char_diffs(CharacterAppearanceFields *character);
     void copy_slot_data(CharacterAppearanceFields *character);
+
+    // Releases the texture lists of the parts that finished loading.
+    void release_texture_lists();
 };
 enum { CREATION_TEXTURE_CACHE_CAPACITY = 128 };
 LAYOUT_ASSERT(CreationTextureLoadSlot_size, sizeof(CreationTextureLoadSlot) == 0x174);
@@ -51,7 +54,7 @@ LAYOUT_ASSERT(CreationTextureCacheEntry_hair, offsetof(CreationTextureCacheEntry
 LAYOUT_ASSERT(CreationTextureCacheEntry_head, offsetof(CreationTextureCacheEntry, head_textures) == 0x184);
 LAYOUT_ASSERT(CreationTextureCacheEntry_body, offsetof(CreationTextureCacheEntry, body_textures) == 0x2F8);
 extern "C" {
-void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair,
+void bind_appearance_texture_lists(CharacterTextureLoadSet *hair,
     CharacterTextureLoadSet *head, CharacterTextureLoadSet *body, CharacterAppearanceFields *appearance);
 extern CreationHeadModelStates creation_head_shape_destination;
 extern CreationHeadModelStates creation_head_shape_samples[7];

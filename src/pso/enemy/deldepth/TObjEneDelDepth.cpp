@@ -121,7 +121,7 @@ TObjEneDelDepth::ActionPair deldepth_actions[] = {
 };
 
 
-void TObjEneDelDepth::setup_draw_material(f32 opacity, f32 farg1, f32 farg2, f32 farg3) {
+void TObjEneDelDepth::setup_draw_material(f32 opacity, f32 red, f32 green, f32 blue) {
     NJS_ARGB color;
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -129,10 +129,10 @@ void TObjEneDelDepth::setup_draw_material(f32 opacity, f32 farg1, f32 farg2, f32
     model_render_flags |= 0x8820;
     set_chunk_material_override_pair(0xFF00, 0x800);
     set_chunk_blend(0x2100);
-    color.r = farg1;
-    color.g = farg2;
+    color.r = red;
+    color.g = green;
     color.a = -1.0f + opacity;
-    color.b = farg3;
+    color.b = blue;
     set_constant_material(&color);
 }
 

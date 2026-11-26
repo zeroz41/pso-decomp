@@ -171,4 +171,6 @@ s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c);
 SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *record);
 SceneMaterialNode *resolve_indirect_object_record(void *, SceneMaterialAnimated *record);
 
+s32 player_auxiliary_surfaces_enabled();
+
 #endif

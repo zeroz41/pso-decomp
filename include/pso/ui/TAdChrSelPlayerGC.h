@@ -41,6 +41,7 @@ public:
     CharacterPreview *preview_data;  // the character being shown, while it loads and after
 };
 extern TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4];
+extern TObjMotionAction chr_sel_player_actions[9];
 LAYOUT_ASSERT(CharacterSelectPlayerAppearanceOffset, offsetof(TAdChrSelPlayerGC, visual_record) == 0x120);
 LAYOUT_ASSERT(CharacterSelectPlayerPreviewOffset, offsetof(TAdChrSelPlayerGC, preview_data) == 0x170);
 LAYOUT_ASSERT(CharacterSelectPlayerSpinOffset, offsetof(TAdChrSelPlayerGC, spin_model) == 0x11C);
@@ -54,9 +55,9 @@ LAYOUT_ASSERT(TAdChrSelPlayerGC_status_index_offset, offsetof(TAdChrSelPlayerGC,
 void load_multi_ply_chr_select_resources(void);
 void free_multi_ply_chr_select_resources(void);
 extern "C" {
-void TAdMultiConfirmGC__sub_802E03D0(void *p);
-void TAdMultiConfirmGC__sub_802E0448(void *p);
-void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha);
-void TObjPlayer__sub_802E0580(void *_w0, int _w1, void *_w2);
+void reset_animation_ticks(TAdChrSelPlayerGC *player);
+void enable_spin_model(TAdChrSelPlayerGC *player);
+void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f32 alpha);
+void draw_model_tinted_opaque(void *_w0, int _w1, void *_w2);
 }
 #endif

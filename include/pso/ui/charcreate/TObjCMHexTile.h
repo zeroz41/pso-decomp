@@ -29,10 +29,5 @@ extern "C" {
 void fn_802947A8(void);
 }
 
-// --- C functions defined in TObjCMHexTile.cpp ---
-extern "C" {
-void fn_802947A8(void);
-}
-// --- end of C functions
 
 #endif

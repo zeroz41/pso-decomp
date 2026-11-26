@@ -416,7 +416,7 @@ void TLobby::invoke_command(u8 opcode) {
 s32 read_be_u32(void) {
     u32 value;
 
-    memcpy(&value, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
+    memcpy(&value, (wave_event_stream_base + wave_event_stream_cursor), 4);
     wave_event_stream_cursor += 4;
     bswap_32(&value);
     return value;

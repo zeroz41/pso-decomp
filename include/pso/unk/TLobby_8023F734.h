@@ -85,8 +85,7 @@ void set_sound_voice_position(s32 slot, const Vec *position);
 s32 TLobby__sub_8023F880(s32 voice);
 int TLobby__sub_802401C8(SoundControlState *self);
 extern "C" {
-void TLobby__sub_802422EC(void *arg0, void *arg1);
-void TLobby__sub_8024259C(saddr arg0);
+void TLobby__sub_802422EC(void *dst, void *src);
 }
 // Keeps a looping voice alive for five more updates.
 void sound_request_voice_set_refresh(struct SoundRequestVoice *voice);
@@ -97,7 +96,7 @@ void TLobby__sub_80241A0C(struct SoundRequestVoice *v);
 void reset_com_card_list_callback(void);
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
 extern "C" {
-s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step);
+s32 start_voice_fade(SoundRequestVoice *v, s32 step);
 }
 void fade_out_sound_slot(s32 slot, s32 step);
 s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags);

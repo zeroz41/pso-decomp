@@ -78,15 +78,15 @@ void TWindowTimer::update_chat_parts() {
     copy_vec2(target_position, (void*)window_layout_position);
 }
 
-void TWindowTimer::draw(s32 arg1, s32 arg2) {
+void TWindowTimer::draw(s32 minutes, s32 seconds) {
     WindowTextEntry *array_entry;
 
     array_entry = (WindowTextEntry *)get_array_entry(0);
     text_builder_reset();
     text_builder_append("\tC8");
-    append_padded_number(arg1, 3);
+    append_padded_number(minutes, 3);
     text_builder_append("\tC7:\tC3");
-    append_padded_number(arg2, 3);
+    append_padded_number(seconds, 3);
     set_text_entry_string(array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
     array_entry->reveal_all();
 }

@@ -453,10 +453,10 @@ f32 TBoss6PlotFalz::arena_center_distance(const Vec *pos) {
     return vector_length(&d);
 }
 __declspec(section ".sdata2") const f32 plot_falz_length_epsilon[1] = { 1e-05f };
-s32 boss6_sphere_blocks_player_view(void *pos, f32 r) {
+s32 boss6_sphere_blocks_player_view(Vec *pos, f32 r) {
     Vec c;
     Vec pl;
-    Vec p = *(Vec *)pos;
+    Vec p = *pos;
     Vec d1;
     Vec d2;
     Vec d3;

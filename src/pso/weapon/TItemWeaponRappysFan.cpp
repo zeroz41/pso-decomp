@@ -42,7 +42,7 @@ void *find_entity_by_id(s32);
 }
 
 // Rappy's fan (TItemWeaponRappysFan) and the TItemWeaponRikasClaw weapon: its own TU, since its
-// 2.0f literal at 0x805DFDF8 is followed by a 4-byte pad before the next pool.
+// 2.0f literal is followed by a 4-byte pad before the next pool.
 // Built with -inline off,deferred like TItemEffPG.cpp: functions are written last to first.
 
 TItem *TItemWeaponRappysFan::create(u8 *item) {

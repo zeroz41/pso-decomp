@@ -168,7 +168,6 @@ void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
     }
 }
 
-void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
 
 s32 PhotonBlastGauge::subtract_photon_blast_charge(f32 amount) {
     f32 charge = this->charge;
@@ -336,13 +335,13 @@ PlayerSubObjectSlots::PlayerSubObjectSlots() {
 }
 
 s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {
-  f32 new_var;
+  f32 value;
   f32 weighted;
   DamageStatSlot *slot = (DamageStatSlot *)slotp;
-  new_var = (f32) amount;
-  slot->accumulated = slot->accumulated + new_var;
-  new_var = damage_weight(slot, attacker, amount);
-  weighted = new_var;
+  value = (f32) amount;
+  slot->accumulated = slot->accumulated + value;
+  value = damage_weight(slot, attacker, amount);
+  weighted = value;
   slot->total = slot->total + weighted;
   return (s32) weighted;
 }

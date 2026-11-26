@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off the weapon attack actions at 0x8043E828; the referencing unit keeps these extern.
+// Data-only unit split off the weapon attack actions; the referencing unit keeps these extern.
 
 __declspec(section ".rodata") extern const u32 srank_weapon_model_ids[4] = {
     0xAAABACAD, 0xAEAFB0B1, 0xB2B3B4B5, 0xB6B7B800,

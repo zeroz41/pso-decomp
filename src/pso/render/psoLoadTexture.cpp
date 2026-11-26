@@ -30,6 +30,8 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/nuReLoadTexture.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/network/TPacket.h"
 
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
@@ -137,7 +139,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
         }
         return NULL;
     }
-    res = (NJS_TEXLIST *)TQuestVmDownLoadServer__sub_8007EBDC(1, count * 0x2C + 8);
+    res = (NJS_TEXLIST *)alloc_zeroed_array(1, count * 0x2C + 8);
     res->nbTexture = count;
     i = 0;
     res->textures = (NJS_TEXNAME *)(res + 1);

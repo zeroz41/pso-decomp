@@ -57,7 +57,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (player != NULL && player->get_stats() != 0) {
             text_builder_append("LEVEL ");
             text_builder_append_int(player->get_actor_level_index() + 1);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 2;
         }
         break;
@@ -65,7 +65,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (stat_gains.hp_max > 0) {
             text_builder_append("HP +");
             text_builder_append_int(stat_gains.hp_max);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 3;
             break;
         }
@@ -73,7 +73,7 @@ void TWindowSetLevelUp::update_stat_messages() {
         if (stat_gains.tp_max > 0) {
             text_builder_append("TP +");
             text_builder_append_int(stat_gains.tp_max);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 4;
             break;
         }
@@ -82,7 +82,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x83)));
             text_builder_append(" +");
             text_builder_append_int(stat_gains.atp);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 5;
             break;
         }
@@ -91,7 +91,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x84)));
             text_builder_append(" +");
             text_builder_append_int(stat_gains.dfp);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 6;
             break;
         }
@@ -100,7 +100,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x85)));
             text_builder_append(" +");
             text_builder_append_int(stat_gains.mst);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 7;
             break;
         }
@@ -109,7 +109,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x86)));
             text_builder_append(" +");
             text_builder_append_int(stat_gains.ata);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 8;
             break;
         }
@@ -118,7 +118,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x87)));
             text_builder_append(" +");
             text_builder_append_int(stat_gains.evp);
-            TWindowCtrl::append_client_message(client, (const char *)get_shared_text_buffer());
+            TWindowCtrl::append_client_message(client, get_shared_text_buffer());
             state = 9;
             break;
         }

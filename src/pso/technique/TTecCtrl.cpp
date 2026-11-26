@@ -58,6 +58,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/technique/TechniqueRingwaveList.h"
 #include "pso/network/client_id.h"
+#include "pso/render/gjSystem.h"
 
 TechniqueParams calculated_technique_params;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -68,7 +69,6 @@ extern "C" {
 void set_target__20PlayerTechniqueStateFlls(void *, int, u16, s16);
 u8 get_cast_technique_level(void *, int);
 }
-extern u8 identity_matrix[];
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
@@ -134,7 +134,6 @@ TechniqueCostScale technique_scale_table[19] = {
     {0.1f, 5.0f}, {1.0f, 10.0f}, {1.0f, 30.0f}, {0.3f, 5.0f},
 };
 
-void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
 NJS_TEXLIST *technique_texture_list;

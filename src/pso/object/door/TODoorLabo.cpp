@@ -65,7 +65,7 @@ NJS_TEXLIST *seabed_door_unlit_textures;
 BmlResource *seabed_four_light_door_bml_resource;
 NJS_TEXLIST *seabed_four_light_door_textures;
 NJS_TEXLIST *door_four_light_seabed_u_texture_list;
-BmlResource *TODoorLabo__bml_resource;
+BmlResource *labo_door_bml_resource;
 NJS_TEXLIST *door_labo_green_texture_list;
 NJS_TEXLIST *labo_door_red_textures;
 BmlResource *door_labo_model_archive;
@@ -439,7 +439,7 @@ s32 TODoorFourLightSeabedU::get_lit_textures() {
 
 void load_labo_door_resources(void) {
     saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
-    TODoorLabo__bml_resource = (BmlResource *)r;
+    labo_door_bml_resource = (BmlResource *)r;
     door_labo_green_texture_list = LoadPvmFileTls("obj_o_labodoor_l_grn.GVM");
     labo_door_red_textures = LoadPvmFileTls("obj_o_labodoor_l_red.GVM");
 }
@@ -459,9 +459,9 @@ void TAdSinglePlyChrSelectGC::free_all_resources() {
         safe_free(door_labo_green_texture_list);
         door_labo_green_texture_list = NULL;
     }
-    if (TODoorLabo__bml_resource != NULL) {
-        delete TODoorLabo__bml_resource;
-        TODoorLabo__bml_resource = NULL;
+    if (labo_door_bml_resource != NULL) {
+        delete labo_door_bml_resource;
+        labo_door_bml_resource = NULL;
     }
 }
 
@@ -474,7 +474,7 @@ TODoorLabo::TODoorLabo(TObject *parent, void *set_data) : TODoorFourLightBase(pa
     refresh_collision_body_centers();
     register_object_by_id();
     init_model_by_type();
-    motion = (AnimationMotion *)get_bml_motion(TODoorLabo__bml_resource, 0);
+    motion = (AnimationMotion *)get_bml_motion(labo_door_bml_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 0.5f;
     tbl = door_labo_link_table;
@@ -508,7 +508,7 @@ void TODoorLabo::init_model_by_type() {
     if (this->set_params[1] > 1) {
         this->set_params[1] = 1;
     }
-    model = get_bml_model(TODoorLabo__bml_resource, tbl[this->set_params[1]]);
+    model = get_bml_model(labo_door_bml_resource, tbl[this->set_params[1]]);
 }
 
 void TODoorLabo::load_resources() {

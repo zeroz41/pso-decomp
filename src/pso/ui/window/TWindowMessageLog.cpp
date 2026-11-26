@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "pso/system/memory.h"
@@ -216,7 +217,7 @@ void cache_last_chat_line(const char *text) {
             }
             size -= 2;
         }
-        strncpy(dest, (const char *)text, size);
+        strncpy(dest, text, size);
     }
 }
 
@@ -239,8 +240,6 @@ void chat_log_add_line(const char *text) {
     *(char *)(num + (size_t)chat_log_lines[slot]) = 0;
 }
 
-void append_text_space(void);
-
 void post_chat_log_message(u16 id, const char *text) {
     char *str;
     if ((s32) id == (s32) local_client_id) {
@@ -255,7 +254,7 @@ void post_chat_log_message(u16 id, const char *text) {
         append_text_space();
     }
     text_builder_append(text);
-    text = (const char *)get_shared_text_buffer();
+    text = get_shared_text_buffer();
     chat_log_add_line(text);
     {
         TWindowMessageLog *log = TWindowCtrl::get_field44();

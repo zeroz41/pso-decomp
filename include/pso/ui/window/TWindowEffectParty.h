@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 class TParticleCtrl;
 
@@ -23,8 +24,8 @@ struct TWindowEffectParty : public TObject {
     virtual void render();
     virtual void run_task();
     s32 step_toward_target(f32 to_x, f32 to_y);
-    void calc_effect_position(NJS_POINT3 *out);
-    static void set_slot_position(s32 unused, s32 slot, f32 *position);
+    void calc_effect_position(Vec *out);
+    void set_slot_position(s32 slot, f32 *position);
     static void *create(void *owner, u16 from, u16 to, u32 kind);
 };
 

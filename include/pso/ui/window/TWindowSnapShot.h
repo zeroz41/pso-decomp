@@ -7,11 +7,11 @@
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSnapShot : public TWindowBase {
-    TWindowSnapShot(saddr arg1);
+    TWindowSnapShot(saddr position);
     virtual ~TWindowSnapShot();
     static const char *class_name;
     virtual void render();
-    u8 state_flags; // bit 0 closed by the player, bit 1 no valid snapshot
+    u8 result_flags; // bit 0 closed by the player (is_done), bit 1 no valid snapshot
     void play_open_sound();
     int is_done();
     virtual void run_task();

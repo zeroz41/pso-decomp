@@ -36,12 +36,12 @@ s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
 s32 override_enemy_bp_index;
 
-extern TextBuilderBuffer text_builder_buffer;
+extern char text_builder_buffer[0x100];
 
 
 
-s32 *get_shared_text_buffer(void) {
-    return &text_builder_buffer.value;
+char *get_shared_text_buffer(void) {
+    return text_builder_buffer;
 }
 
 void load_battle_param_entry(void) {
@@ -77,7 +77,7 @@ void load_battle_param_entry(void) {
     read_disc_file(name, file);
     idx = battle_parameter_difficulty;
     bank = (dst = battle_parameter_buffer);
-    move_data(((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
+    move_data(((dst->stats)), (file->stats[idx]), sizeof(dst->stats));
     {
       player_stats *p = dst->stats;
       s32 i;
@@ -88,7 +88,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data(((bank->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
+    move_data(((bank->attacks)), ((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
     {
       AttackParams *p = bank->attacks;
       s32 i;
@@ -99,7 +99,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data(((bank->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
+    move_data(((bank->resistances)), ((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
     {
       s32 i;
       ActorParamBlock *p = bank->resistances;
@@ -110,7 +110,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data(((bank->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
+    move_data(((bank->movement)), ((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
     {
       s32 i;
       BattleMovementParams *p = bank->movement;
@@ -419,7 +419,7 @@ s32 TLobby::calc_time_from_hms() {
   hours = parse_two_digit_number((void *)(text + 0xC));
   text_ref = &text;
   minutes = (hours * 0x3C) + parse_two_digit_number((void *)(text + 0xF));
-  seconds = (minutes * 0x3C) + parse_two_digit_number((void *)((void *) ((*text_ref) + 0x12)));
+  seconds = (minutes * 0x3C) + parse_two_digit_number(((void *) ((*text_ref) + 0x12)));
   return (s32) (30.0f * ((f32) seconds));
 }
 s32 parse_two_digit_number(void *text) {
@@ -516,7 +516,7 @@ void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha) {
         color = TLobby::calc_alpha_shifted(clamped);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x, (f32)(-1.0f + y), scale);
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, get_shared_text_buffer(), x, (f32)(-1.0f + y), scale);
         }
     }
 }
@@ -560,7 +560,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
                 append_padded_number((elapsed / 60) % 60, 2);
                 text_builder_append("/");
             }
-            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x,
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, get_shared_text_buffer(), x,
                                  -1.0f + y, scale);
             x += 57.0f;
         }

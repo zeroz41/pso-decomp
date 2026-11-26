@@ -73,7 +73,6 @@ struct InventorySortBuffer {
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
 }
-s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 const char *TItemList::class_name = "TItemList";
 const char *TPlyItem::class_name = "TPlyItem";
@@ -98,7 +97,7 @@ u8 item_reduce_group;
 #pragma defer_codegen on
 
 // Deferred codegen emits these functions last to first: they are
-// written here from the highest address (0x801D57A8) down to 0x801D3780.
+// written here from the highest address down.
 
 void TItemList::set_owner(TItem *item) { item_owner = item; }
 
@@ -141,7 +140,7 @@ TItemList *find_matching_inventory_item_node(TObject *root) {
             owner = node->get_owner_if_alive();
             if (owner != NULL) {
                 owner->copy_to_item_data((TItemData *)data);
-                if (item_identity_matches((u8 *)((s32 *)data), (u8 *)inventory_search_item_data) != 0) {
+                if (item_identity_matches((u8 *)(data), (u8 *)inventory_search_item_data) != 0) {
                     return node;
                 }
             }
@@ -164,7 +163,7 @@ TItemList *TItemList::find_inventory_item_matching_data() {
             owner = node->get_owner_if_alive();
             if (owner != NULL) {
                 owner->copy_to_item_data((TItemData *)data);
-                if (compare_item_data_masked((void *)data, (void *)inventory_search_item_data, 0) != 0) {
+                if (compare_item_data_masked(data, inventory_search_item_data, 0) != 0) {
                     return node;
                 }
             }
@@ -791,10 +790,10 @@ s32 copy_equipped_weapon_and_mag(s32 count, const TPlyInventoryItem *source, TPl
     for (s32 i = 0; i < count; i++) {
         if (source->m_flags & 8) {
             if (source->m_data.data1.data_u8[0] == 0) {
-                fn_801C1BA8(slots, source);
+                copy_inventory_item(slots, source);
             }
             if (source->m_data.data1.data_u8[0] == 2) {
-                fn_801C1BA8(slots + 1, source);
+                copy_inventory_item(slots + 1, source);
             }
         }
         source++;

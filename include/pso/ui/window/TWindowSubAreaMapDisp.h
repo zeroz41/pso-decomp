@@ -15,10 +15,10 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
     static const char *class_name;
-    f32 pan_x;
-    f32 pan_y;
-    f32 zoom;
-    u32 map_open;
+    f32 pan_x_speed;
+    f32 pan_y_speed;
+    f32 zoom_speed;
+    s32 manual_scroll; // nonzero while the player scrolls and zooms the map by hand
     WindowHeading *heading;
     char *title;
     void update_manual_scroll();

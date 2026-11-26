@@ -166,9 +166,9 @@ void TBoss7LaserPtcl::update_position() {
     displacement.z = direction.z * travel_distance;
 }
 
-void TBoss7LaserPtcl::calc_world_position(void *out) {
+void TBoss7LaserPtcl::calc_world_position(Vec *out) {
     if (out != NULL) {
-        Vec *dst = (Vec *)out;
+        Vec *dst = out;
         dst->x = position.x + displacement.x;
         dst->y = position.y + displacement.y;
         dst->z = position.z + displacement.z;

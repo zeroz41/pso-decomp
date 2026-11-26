@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-u8 fn_80203284(void);
+u8 is_challenge_task_running(void);
 }
 
 #endif

@@ -65,14 +65,14 @@ void TWindowSoundBalance::apply_balance(WindowDrawContext *context) {
 void TWindowSoundBalance::handle_cancel() {
     if (is_active() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->state_flags = (u8) (this->state_flags | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
 }
 
 
 void TWindowSoundBalance::play_open_sound() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->state_flags = (u8) (this->state_flags | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
 }
 
 
@@ -173,7 +173,7 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     SoundBalanceSettings *st;
 
     this->m_name = TWindowSoundBalance::class_name;
-    this->state_flags = 0;
+    this->result_flags = 0;
     this->selection = 0;
     this->music_gain = 1;
     this->sound_effect_gain = 1;

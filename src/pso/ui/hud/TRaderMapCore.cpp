@@ -1,3 +1,4 @@
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/memory.h"
@@ -64,6 +65,7 @@
 #include "pso/ui/hud/RadarMapData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
+#include "pso/unk/text_803D8F74.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
@@ -89,7 +91,6 @@ extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
 extern "C" {
-void rotate_matrix_y(void *, s32);
 }
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
@@ -165,7 +166,6 @@ s16 *TRaderMapCore::floor_discovery_table[18];
 
 
 struct RadarSceneEntry { s32 a; char *name; };
-extern s32 memcard_access_active;
 
 
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
@@ -225,11 +225,11 @@ void TRaderMapCore::load_map_resources() {
     area = get_current_floor_area();
     status = TScene::get_status();
     e = (RadarSceneEntry *)get_floor_scene_table(area);
-    TLobby::replace_file_extension((char *)buf, (char *)e[status].name, (char *)"r.rel");
+    TLobby::replace_file_extension(buf, (char *)e[status].name, (char *)"r.rel");
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore::floor_map_resource != NULL && RADAR_REGION_MAP->textures != 0) {
-        TLobby::replace_file_extension((char *)buf, (char *)e[status].name, "r");
-        bind_gvm_texture_list((const char *)buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
+        TLobby::replace_file_extension(buf, (char *)e[status].name, "r");
+        bind_gvm_texture_list(buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
     }
     copy_name("..");
     memcard_access_active = 0;

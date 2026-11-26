@@ -279,9 +279,9 @@ int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidat
 
 void TBoss8Dragon__sub_800BB7DC(void *self) {  }
 
-void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale) {  }
+void debug_effect_hook_scaled(void *self, s32 id, f32 scale) {  }
 
-void TBoss8Dragon__sub_800BB7D4(void *self, int id) {  }
+void debug_effect_hook(void *self, int id) {  }
 
 void TBoss8Dragon::noop() {  }
 
@@ -416,8 +416,8 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
     return best;
 }
 
-u16 enemy_nearest_visible_enemy(void *self, f32 range) {
-    return enemy_nearest_visible_enemy_sq((TObjChara *)self, range * range);
+u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range) {
+    return enemy_nearest_visible_enemy_sq(self, range * range);
 }
 
 CsnHit *TObjEneDD::snap_to_ground_at(u8 *dest) {
@@ -1023,7 +1023,7 @@ s32 TObjEneDD::clamp_frame_index(s32 frame) {
 
 void TObjEneDD__sub_800B9B24(f32) {}
 
-void TObjEneDD::init_lights() { current_scene_light->sub_801337F8(); TObjLight__sub_801337FC(lbl_805D555C); }
+void TObjEneDD::init_lights() { current_scene_light->debug_scene_light_hook(); TObjLight__sub_801337FC(lbl_805D555C); }
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
@@ -1197,7 +1197,7 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (f32)(dz), (f32)(dist));
+    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1205,7 +1205,7 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)(dist));
+    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
 }
 
 CsnHit *TObjEneDD_ST::enemy_turn_and_move_shot_step(s32 iscale, f32 scale) {

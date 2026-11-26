@@ -64,7 +64,7 @@ struct DestroyEventShuffleTableSpawnRecord;
 SubtractiveRng *item_drop_rng;
 EventShuffleTable *challenge_event_shuffle;
 u8 *challenge_event_source;
-u8 *lbl_805D60AC;
+u8 *destroy_event_data;
 u8 *item_data_table_buffer;
 u8 *challenge_enemy_buffer;
 DestroyEventShuffleTableEntry *lbl_805D60B8;
@@ -159,14 +159,14 @@ struct AppendRecord;
 
 void select_event_shuffle_table(s16 id) {
     EventShuffleTableIndexEntry e;
-    TLobbyHdr2 hdr = *(TLobbyHdr2 *)lbl_805D60AC;
+    TLobbyHdr2 hdr = *(TLobbyHdr2 *)destroy_event_data;
     u8 *table;
     s32 lo;
     s32 hi;
     s32 mid;
 
     ((TLobby *)(&hdr))->bswap_vec3();
-    table = lbl_805D60AC + hdr.table;
+    table = destroy_event_data + hdr.table;
     lo = 0;
     hi = hdr.count - 1;
     while (lo < hi) {
@@ -182,7 +182,7 @@ void select_event_shuffle_table(s16 id) {
     copy_event_table_entry(&e, table + lo * 8);
     bswap_event_table_entry(&e);
     if (e.id == id) {
-        lbl_805D60B8 = (DestroyEventShuffleTableEntry *)((uaddr)lbl_805D60AC + hdr.data + e.offset);
+        lbl_805D60B8 = (DestroyEventShuffleTableEntry *)((uaddr)destroy_event_data + hdr.data + e.offset);
         init_event_shuffle_table(challenge_event_shuffle, e.count);
     }
 }
@@ -232,7 +232,7 @@ void lookup_item_data_record(AppendOut *out, s32 key) {
     TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
-    p = (AppendRecord *)TLobby::bsearch_record((void *)(item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (AppendRecord *)TLobby::bsearch_record((item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);
@@ -473,10 +473,10 @@ void TLobby::init_buffers(int id, u8 *quest) {
     QuestChunkHeader *items;
 
     challenge_event_source = (u8 *)find_header_by_id(chunks, id);
-    lbl_805D60AC = (u8 *)find_chunk_by_id(chunks, id);
+    destroy_event_data = (u8 *)find_chunk_by_id(chunks, id);
     items = find_type5_header(chunks, id);
     item_data_table_buffer = (u8 *)items;
-    if (challenge_event_source != NULL && lbl_805D60AC != NULL && items != NULL) {
+    if (challenge_event_source != NULL && destroy_event_data != NULL && items != NULL) {
         challenge_enemy_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeEnemyBufferSize));
         challenge_event_buffer = static_cast<ChallengeFixedEvent *>(TQuestVmDownLoadServer::alloc(ChallengeEventBufferSize));
         challenge_event_count = 0;

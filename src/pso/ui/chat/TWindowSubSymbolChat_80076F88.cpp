@@ -32,7 +32,7 @@ void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *preset_index) {
     init_symbol_chat_header((&packet.header));
     symbol_chat_preset = ((s32)((saddr)get_symbol_chat_preset((saddr)(*preset_index))));
     packet.client_id = local_client_id;
-    TLobby::copy_symbol_chat_entry((void *)&packet.data[0], (void *)(symbol_chat_preset + 0x1C));
+    TLobby::copy_symbol_chat_entry(&packet.data[0], (void *)(symbol_chat_preset + 0x1C));
     ((TWindowSubSymbolChat *)(&packet.header))->send_symbol_chat();
 }
 
@@ -217,7 +217,7 @@ void SavedSymbolChatPresets::load_symbol_chat_data() {
     SymbolChatPreset *e;
     e = entries;
     data = (saddr)load_disc_file("symbolchat.dat");
-    move_data(e, (const void *)((const void *)data), (u32)0x420);
+    move_data(e, ((const void *)data), (u32)0x420);
     safe_free(reinterpret_cast<void *>(data));
     for (i = 0; i < 6; i++) {
         e[i].bswap_entry();

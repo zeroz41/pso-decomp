@@ -57,7 +57,6 @@ extern TObject *tl_00;
 struct StatusWindowPos { f32 a; f32 b; };
 extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
-extern s32 memcard_access_active;
 
 
 #include "pso/render/TDLGraph.h"
@@ -71,6 +70,7 @@ extern s32 memcard_access_active;
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/window/TWindowMessagePage.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 extern u8 quest_memcard_key[];
 QuestDownloadRecord quest_download_file_state;
@@ -331,7 +331,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     quest_download_cipher_state.apply_rng_cipher(((u32 *)this), size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), (const void *)((const void *)this), size);
+    move_data((src), ((const void *)this), size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.permute_save_blocks((const u8*)src, (u8*)dst, (u32)size);
@@ -344,7 +344,7 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *dst;
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), (const void *)((const void *)((u32 *)data)), size);
+    move_data((src), ((const void *)((u32 *)data)), size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.unshuffle((const u8 *)src, (u8 *)dst, (u32)size);
@@ -437,20 +437,19 @@ TQuestVmDownLoadServer::~TQuestVmDownLoadServer() {
 }
 
 void TQuestVmDownLoadServer::run_task() {
-    TQuestVmDownLoadServer *self_bytes = (TQuestVmDownLoadServer *)this;
-    self_bytes->check_client_connections();
+    this->check_client_connections();
     switch (state) {
     case 0:
-        self_bytes->count_download_file_blocks();
+        this->count_download_file_blocks();
         break;
     case 1:
-        self_bytes->close_window();
+        this->close_window();
         break;
     case 2:
-        self_bytes->open();
+        this->open();
         break;
     case 3:
-        self_bytes->update_mc_select();
+        this->update_mc_select();
         break;
     case 4:
         if (lbl_805D55C0 != 0) {
@@ -467,65 +466,65 @@ void TQuestVmDownLoadServer::run_task() {
             if (mc_select != NULL) {
                 mc_select->clear_update_suspension();
             }
-            self_bytes->handle_confirm_input();
+            this->handle_confirm_input();
         }
         break;
     case 5:
-        self_bytes->check_memcard_slot();
+        this->check_memcard_slot();
         break;
     case 6:
-        self_bytes->handle_confirm_window();
+        this->handle_confirm_window();
         break;
     case 7:
-        self_bytes->find_free_file_names();
+        this->find_free_file_names();
         break;
     case 8:
-        self_bytes->build_file_slot_image();
+        this->build_file_slot_image();
         break;
     case 9:
-        self_bytes->load_quest_data();
+        this->load_quest_data();
         break;
     case 10:
-        self_bytes->abort_download();
+        this->abort_download();
         break;
     case 11:
-        self_bytes->write_memcard_file();
+        this->write_memcard_file();
         break;
     case 12:
-        self_bytes->write_quest_data_named();
+        this->write_quest_data_named();
         break;
     case 13:
-        self_bytes->finish_download();
+        this->finish_download();
         break;
     case 14:
-        self_bytes->build_file_info_image();
+        this->build_file_info_image();
         break;
     case 15:
-        self_bytes->write_quest_data();
+        this->write_quest_data();
         break;
     case 16:
-        self_bytes->close_download();
+        this->close_download();
         break;
     case 19:
-        self_bytes->handle_download_done_input();
+        this->handle_download_done_input();
         break;
     case 20:
-        self_bytes->check_cancel_input();
+        this->check_cancel_input();
         break;
     case 17:
-        self_bytes->close();
+        this->close();
         break;
     case 18:
-        self_bytes->handle_status_message_input();
+        this->handle_status_message_input();
         break;
     case 21:
-        self_bytes->destroy();
+        this->destroy();
         break;
     case 22:
-        self_bytes->close_message();
+        this->close_message();
         break;
     case 23:
-        self_bytes->check_dismiss_to_close_input();
+        this->check_dismiss_to_close_input();
         break;
     }
 }
@@ -582,11 +581,11 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     this->state = 0x15;
 }
 void TQuestVmDownLoadServer::close_window() {
-    uaddr window;
+    TWindowBase *window;
     this->state = 2;
-    window = (uaddr) this->status_window;
+    window = this->status_window;
     if (window != 0U) {
-        ((TWindowBase *)window)->close();
+        window->close();
         this->status_window = 0U;
     }
     close_message();
@@ -824,7 +823,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
 void TQuestVmDownLoadServer::load_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
     memcard_access_active = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)&this->slot_file_name, (s32)(*(s32 *)&this->save_image), (s32)(this->slot_file_blocks)) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)&this->slot_file_name, (s32)(this->save_image), (s32)(this->slot_file_blocks)) == 0) {
         this->state = 0xA;
         show_status_message(get_message_text(0xC), 1);
         quest_download_in_progress = 1;
@@ -973,7 +972,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
 void TQuestVmDownLoadServer::write_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
     memcard_access_active = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)quest_file_99_name, (s32)(*(s32 *)&this->save_image), (s32)(this->info_file_blocks)) == 0) {
+    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)quest_file_99_name, (s32)(this->save_image), (s32)(this->info_file_blocks)) == 0) {
         this->state = 0x10;
         show_status_message(get_message_text(0xC), 1);
         return;

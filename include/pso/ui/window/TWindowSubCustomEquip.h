@@ -7,6 +7,7 @@
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowSubCustomSelect.h"
 
 class TWindowSubStatusDisp;
 class WindowSpritePart;
@@ -25,16 +26,16 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void update_palette_slot(s32, u16, u16);
     void get_cursor_origin(NJS_POINT2 *position);
     virtual void render();
-    u8 state_flags;
+    s8 state_flags;
     u8 slot;
     u8 bank;
     u8 bank_swap_timer;
-    u8 front_bank;
-    u8 back_bank;
+    s8 front_bank;
+    s8 back_bank;
     s16 cursor_frame;
     u32 angle;
     WindowHeading *status_disp;
-    void layout_selection_parts(void *arg1);
+    void layout_selection_parts(void *selection);
     void layout_entry_group(void *index);
     void reset_selection();
     void refresh_palette_slots();

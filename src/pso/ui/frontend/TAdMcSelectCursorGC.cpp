@@ -17,8 +17,8 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
 
-NJS_TEXNAME lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
-__declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
+NJS_TEXNAME mc_select_cursor_texname = { "f256_memorycard_select", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &mc_select_cursor_texname, 1 };
 
 const char *TAdMcSelectCursorGC::class_name = "TAdMcSelectCursorGC";
 
@@ -37,17 +37,17 @@ void TAdMcSelectCursorGC::render() {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
-        goto block_5;
-    }
-    if ((s32)this->defer_render() == 0) {
-        set_depth_buffer_settings_2();
-block_5:
-        set_additive_blend();
-        render_cursor();
-        set_default_alpha_blend();
-        if ((s32) this->render_direct == 0) {
-            restore_saved_depth_alpha_state();
+    } else {
+        if ((s32)this->defer_render() != 0) {
+            return;
         }
+        set_depth_buffer_settings_2();
+    }
+    set_additive_blend();
+    render_cursor();
+    set_default_alpha_blend();
+    if ((s32) this->render_direct == 0) {
+        restore_saved_depth_alpha_state();
     }
 }
 

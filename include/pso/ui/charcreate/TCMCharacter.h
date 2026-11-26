@@ -9,7 +9,7 @@ public:
     virtual ~TCMCharacter();
     virtual void run_task();
     virtual void render();
-    void free_field_FC();
+    void free_shape_rel();
     void draw_player_model();
     void draw_creation_figure();
     void apply_character_appearance();

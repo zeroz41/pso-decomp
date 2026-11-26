@@ -61,16 +61,9 @@ void TAdGameStartLineGC::run_task() {
 #pragma push
 #pragma fp_contract on
 TAdGameStartLineGC::~TAdGameStartLineGC() {}
-extern "C" {
-void *__ct__7TObjectFP7TObject(void *, TObject *);
-extern void *__vt__18TAdGameStartLineGC[];
-TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *self, TObject *parent);
-}
-
-TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *self, TObject *parent) {
+TAdGameStartLineGC::TAdGameStartLineGC(TObject *parent) : TObject(parent) {
+    TAdGameStartLineGC *self = this;
     s32 i;
-    __ct__7TObjectFP7TObject(self, parent);
-    *(void **)((u8 *)self + 0x18) = __vt__18TAdGameStartLineGC;
     self->m_name = TAdGameStartLineGC::name;
     self->m_left_x = 27.0f;
     self->m_left_y = 191.0f;
@@ -111,6 +104,5 @@ TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *sel
         self->m_quads[i * 2 + 1].u1 = 1.0f;
         self->m_quads[i * 2 + 1].v1 = 0.75f;
     }
-    return self;
 }
 #pragma pop

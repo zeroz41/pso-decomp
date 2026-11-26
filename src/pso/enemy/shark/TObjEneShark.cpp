@@ -242,9 +242,9 @@ void TObjEneShark::render() {
       case 8:
       case 9:
       {
-        u8 *p = *((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 4)))) + 4));
-        s16 t = *((s16 *) (((s8 *) p) + 6));
-        *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 4)))) + 4)))) + 6)) = (u8) (*((s16 *) (((s8 *) p) + 6)));
+        s16 *p = ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list;
+        s16 t = p[3];
+        ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = (u8) (p[3]);
         v28 = t;
       }
         break;
@@ -253,13 +253,13 @@ void TObjEneShark::render() {
     {
       s16 a;
       s16 b;
-      u8 *p = *((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4));
-      a = *((s16 *) (((s8 *) p) + 4));
-      b = *((s16 *) (((s8 *) p) + 6));
-      *((s16 *) (((s8 *) p) + 4)) = -0xB4;
+      s16 *p = ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list;
+      a = p[2];
+      b = p[3];
+      p[2] = -0xB4;
       v26 = a;
       v27 = b;
-      *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 6)) = -1;
+      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[3] = -1;
     }
     toggle_particle_effect();
     shark_render_node_index = 0;
@@ -322,8 +322,8 @@ void TObjEneShark::render() {
     TParticleCtrl::end_effect_render();
     if (in_group == 0)
     {
-      *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 4)) = v26;
-      *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 6)) = v27;
+      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[2] = v26;
+      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[3] = v27;
     }
     switch (this->mode)
     {
@@ -331,7 +331,7 @@ void TObjEneShark::render() {
       case 1:
       case 8:
       case 9:
-        *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 4)))) + 4)))) + 6)) = v28;
+        ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = v28;
         break;
     }
   }

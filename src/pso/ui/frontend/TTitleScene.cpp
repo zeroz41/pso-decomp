@@ -367,8 +367,8 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         cam.scissor.y0 = cam.scissor.x0 = 0.0f;
         cam.scissor.x1 = 20.0f;
         cam.scissor.y1 = 15.0f;
-        cam.pad_40[0] = 1.0f;
-        cam.pad_40[1] = 0.85f;
+        cam.view_scale[0] = 1.0f;
+        cam.view_scale[1] = 0.85f;
         cam.begin_override();
     }
     {

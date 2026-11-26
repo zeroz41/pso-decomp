@@ -69,7 +69,7 @@ void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
 
 TBoss6CrushRock::TBoss6CrushRock(TObject *parent, const Vec *point, s32 model_index) : TObject(parent) {
     m_name = TBoss6CrushRock::name;
-    model = (void *)get_bml_model((BmlResource *)TBoss6Rock::get_resource(), model_index);
+    model = get_bml_model((BmlResource *)TBoss6Rock::get_resource(), model_index);
     texture_list = TBoss6Rock::get_texture_list();
     VecCopy(&position, point);
     velocity.x = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));

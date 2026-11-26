@@ -33,7 +33,7 @@ TObject *TAdMcCheckGC::create(s32 message) {
 
     menu = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
     menu->add_text_entry(get_localized_text_entry(0x16, message), 0x20, 0);
-    menu->set_flag_40();
+    menu->disable_input();
     TQuestThread::set_status_flag_80(menu);
     menu->calc_layout_height(190.0f);
     return menu;

@@ -47,6 +47,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/gjSystem.h"
+#include "pso/object/TObjLuker.h"
 
 
 
@@ -96,15 +98,11 @@ extern "C" {
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 }
-void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 void free_collision_body_parts(TObjCollidable *actor);
 extern "C" {
 s32 submit_cursor_candidate(void *, s32);
 }
-extern u8 identity_matrix[];
-void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
-s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
 s32 PlacementSlot::is_placed() { return (u8)(state == 2); }
 
 s32 PlacementQueue::is_first_slot_placed() { return slots[0].is_placed(); }
@@ -456,7 +454,7 @@ void TTelepipeEffect::run_task() {
   s32 j;
   s32 i;
   s32 area;
-  uaddr player;
+  TObjBase *player;
   nearest_sq = 10000.0f;
   j = get_current_floor_area();
   area = j;
@@ -468,10 +466,10 @@ void TTelepipeEffect::run_task() {
   {
     for (j = 0; j < 4; j++)
     {
-      player = (uaddr)get_player_by_client_id(j);
+      player = get_player_by_client_id(j);
       if (player != 0)
       {
-        dist_sq = horizontal_distance_squared(&pos, &((TObjBase *)player)->position);
+        dist_sq = horizontal_distance_squared(&pos, &player->position);
         if (dist_sq <= nearest_sq)
         {
           nearest_sq = dist_sq;
@@ -537,8 +535,8 @@ void TTelepipeEffect::run_task() {
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     TObjPlayer *player;
     TelepipeState *rec;
-    uaddr other;
-    uaddr local;
+    TObjPlayer *other;
+    TObjPlayer *local;
     command->bswap();
     if (command->state.owner_client_id == 0xffff) {
         return;
@@ -558,10 +556,10 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (is_split_screen() == 0 && command->state.owner_client_id == local_client_id) {
         return;
     }
-    other = (uaddr)get_player_by_client_id(command->state.owner_client_id);
-    local = (uaddr)get_player_by_client_id(local_client_id);
+    other = get_player_by_client_id(command->state.owner_client_id);
+    local = get_player_by_client_id(local_client_id);
     if (other != 0 && local != 0) {
-        if (((TObjPlayer *)other)->get_floor() == ((TObjPlayer *)local)->get_floor()) {
+        if (other->get_floor() == local->get_floor()) {
             TTecLuker::create(player, &player->position, &player->position, 0);
         }
     }

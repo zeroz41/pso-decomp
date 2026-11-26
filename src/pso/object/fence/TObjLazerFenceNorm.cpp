@@ -164,7 +164,7 @@ void TObjLazerFenceNorm::run_task() {
 }
 
 void TObjLazerFenceNorm::reset_by_door() {
-    if (is_current_floor_switch_set((u16) *(s16 *)&this->switch_id) == 0) {
+    if (is_current_floor_switch_set((u16) this->switch_id) == 0) {
         set_indexed_flags(0, 1);
         this->state = 0;
     }

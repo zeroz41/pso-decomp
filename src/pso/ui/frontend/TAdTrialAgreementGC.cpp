@@ -40,10 +40,11 @@ void TAdTrialAgreementGC::on_decline() { request_main_phase((saddr)((void*)0)); 
 void TAdTrialAgreementGC::on_agree() { TAdMultiChgGameModeGC::open_time_set_scene(); }
 void TAdTrialAgreementGC::on_closing() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 void TAdTrialAgreementGC::wait_for_load() {
-loop_1:
-    if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (poll_memcard_result(0) != 0)) {
+    for (;;) {
+        if ((TAdPlayerLoadGC::probe_card_slot(0) == 0) || (poll_memcard_result(0) == 0)) {
+            break;
+        }
         render_tick();
-        goto loop_1;
     }
 }
 
@@ -51,7 +52,7 @@ loop_1:
 const char *TAdTrialAgreementGC::name = "TAdTrialAgreementGC";
 
 
-s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
+s32 TAdTrialAgreementGC::check_card_file() {
     s32 card_file;
 
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
@@ -60,11 +61,11 @@ s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         return 0;
     }
-    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
+    wait_for_load();
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 0;
     }
-    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
+    wait_for_load();
     card_file = TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename);
     if ((card_file == 0) || ((card_file + 0x10000) == 0xFF41U)) {
         return 1;
@@ -83,7 +84,7 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
     m_name = TAdTrialAgreementGC::name;
     scroll_window = NULL;
-    if (TAdTrialAgreementGC::check_card_file((saddr)this) != 0) {
+    if (check_card_file() != 0) {
         on_agree();
         queue_destruction();
         return;

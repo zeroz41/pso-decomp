@@ -30,11 +30,11 @@ static const char *const volatile adxt_build_string = "\nADXT/GC Ver.8.05 Build:
 AdxtPlayer adx_stream_player_pool[16];
 
 void adxt_finish() {
-    s32 temp_r0;
+    s32 remaining;
 
-    temp_r0 = adxt_init_count - 1;
-    adxt_init_count = temp_r0;
-    if (temp_r0 == 0) {
+    remaining = adxt_init_count - 1;
+    adxt_init_count = remaining;
+    if (remaining == 0) {
         gcrna_bridge_shutdown();
         adxf_finish();
         adxstm_finish_fs();

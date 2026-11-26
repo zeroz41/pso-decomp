@@ -447,7 +447,7 @@ void TSceneDirectionalLight::render() {
 
 void TObjLight__sub_801337FC(void *light) {}
 
-void TObjLight::sub_801337F8() {}
+void TObjLight::debug_scene_light_hook() {}
 
 void TObjLight::init_directional_light() {
     init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);

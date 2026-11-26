@@ -107,9 +107,9 @@ void TAdPlyPltAnimCtrlGC::run_task() {
     }
 }
 
-void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168(this); copy_vec2(((char*)this + 0x24), a1); this->state = 1; }
+void TAdPlyPltAnimCtrlGC::init(void* a1) { reset_plate_animations(this); copy_vec2(((char*)this + 0x24), a1); this->state = 1; }
 
-void TAdPlyPltAnimCtrlGC__sub_80355168(TAdPlyPltAnimCtrlGC *ctrl) {
+void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl) {
     s32 i;
     i = 0;
     ctrl->state = 0;
@@ -123,7 +123,7 @@ void TAdPlyPltAnimCtrlGC__sub_80355168(TAdPlyPltAnimCtrlGC *ctrl) {
     } while (i < 5);
 }
 
-s32 TAdPlyPltAnimCtrlGC__sub_80355148(TAdPlyPltAnimCtrlGC *self) {
+s32 is_plate_animation_running(TAdPlyPltAnimCtrlGC *self) {
     s32 r = 1;
     if ((s32)self->state == 7 || (s32)self->state == 0) {
         r = 0;

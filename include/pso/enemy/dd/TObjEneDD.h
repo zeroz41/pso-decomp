@@ -132,7 +132,7 @@ struct TargetCandidate {
 extern TargetCandidate enemy_target_candidate_table[4];
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
-u16 enemy_nearest_visible_enemy(void *self, f32 range);
+u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range);
 u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
 s32 is_player_entity_id(u16 id);
 // 1 for an enemy's entity id (0x1000-0x3FFF).
@@ -143,8 +143,8 @@ void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src);
-void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
+void debug_effect_hook(void *self, int id);
+void debug_effect_hook_scaled(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 
 void set_collider_contact_high(CollisionBody *body);

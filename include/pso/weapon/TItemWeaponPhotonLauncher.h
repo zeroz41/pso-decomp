@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Same shape as TItemWeaponSRankLauncher (vtable 0x804E24F0); made by its weapon_factory_table entry.
+// Same shape as TItemWeaponSRankLauncher; made by its weapon_factory_table entry.
 class TItemWeaponPhotonLauncher : public TItemWeapon {
 public:
     TItemWeaponPhotonLauncher(TObject *parent, u8 *item);

@@ -15,9 +15,9 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/HeadingEntry.h"
 
-void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
+void TWindowMenuIconLine::add_list_entry(u8 icon, s32 src, s32 item) {
     if (this->entry_count < this->entry_capacity) {
-        ((ItemListRow *)get_array_entry(entry_count))->init_list_entry(icon, arg2, arg3);
+        ((ItemListRow *)get_array_entry(entry_count))->init_list_entry(icon, src, item);
         this->entry_count = (this->entry_count + 1);
     }
 }
@@ -29,7 +29,7 @@ void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
 const char *TWindowShop::class_name = "TWindowShop";
 
 // Item list window position per camera id (1, 2, 3-4).
-static const NJS_POINT2 TShopJudgmentItemWindow__item_list_rect_table[3] = {
+static const NJS_POINT2 shop_judgment_item_list_rect_table[3] = {
     { 385.0f, 184.0f }, { 385.0f, 104.0f }, { 300.0f, 104.0f }
 };
 
@@ -51,14 +51,14 @@ TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
     camera_id = TCameraCtrl::get_camera_id();
     switch (camera_id) {
     case 1:
-        set_menu_icon_line_params(&TShopJudgmentItemWindow__item_list_rect_table[0], count);
+        set_menu_icon_line_params(&shop_judgment_item_list_rect_table[0], count);
         break;
     case 2:
-        set_menu_icon_line_params(&TShopJudgmentItemWindow__item_list_rect_table[1], count);
+        set_menu_icon_line_params(&shop_judgment_item_list_rect_table[1], count);
         break;
     case 3:
     case 4:
-        set_menu_icon_line_params(&TShopJudgmentItemWindow__item_list_rect_table[2], count);
+        set_menu_icon_line_params(&shop_judgment_item_list_rect_table[2], count);
         break;
     }
     return new TWindowShop(title, count, client);

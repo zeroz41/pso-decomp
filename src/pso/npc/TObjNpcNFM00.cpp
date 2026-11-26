@@ -44,7 +44,7 @@ TObjNpcNFM00::TObjNpcNFM00(TObject *parent, void *set_data) : TObjNpcMale(parent
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *shared_named_model_object;
+    this->model = (NJS_OBJECT *)*shared_named_model_object;
     this->texlist = texture_gvm_handle;
     this->setup_common();
 }

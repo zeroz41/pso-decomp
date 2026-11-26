@@ -61,7 +61,6 @@ void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
 
 }
-s32 update_challenge_result_player_locks();
 void resume_challenge_result_processing(void *result);
 extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";

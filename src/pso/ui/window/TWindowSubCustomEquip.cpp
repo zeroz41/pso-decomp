@@ -81,9 +81,9 @@ WindowDescriptor custom_equip_window_descriptor = {
 
 
 int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
-int TWindowSubCustomEquip__sub_80275DA8(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
+int is_custom_equip_cancelled(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
-    *(s8 *)&this->state_flags &= ~1;
+    this->state_flags &= ~1;
     status_disp->set_state(1);
 }
 
@@ -135,14 +135,14 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
     draw_cursor_sprite(0.8f, context, &position, cursor_frame);
 }
 
-void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
+void TWindowSubCustomEquip::update_palette_slot(s32 slot, u16 kind, u16 index) {
     TObjPlayer *pl;
     WindowSpritePart *icon;
     TWindowLayoutNumber *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[arg1]));
-        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[arg1]));
+        icon = static_cast<WindowSpritePart *>(get_array_entry(custom_equip_slot_icon_entries[slot]));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(custom_equip_slot_number_entries[slot]));
         if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
@@ -248,14 +248,14 @@ void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry) {
     position->y = entry->y - 15.0f;
 }
 
-void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
+void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     NJS_POINT2 pos;
     WindowSpritePart *p;
     WindowSpritePart *a;
     WindowSpritePart *b;
     WindowSpritePart *c;
     WindowSpritePart *d;
-    if (*(s8 *)&this->front_bank == 0) {
+    if (this->front_bank == 0) {
         a = static_cast<WindowSpritePart *>(get_array_entry(0x11));
         b = static_cast<WindowSpritePart *>(get_array_entry(0x10));
         c = static_cast<WindowSpritePart *>(get_array_entry(8));
@@ -314,12 +314,12 @@ void TWindowSubCustomEquip::refresh_palette_slots() {
     if (player == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
-    update_palette_slot(0, palette->get_tag_mode(*(s8 *)&this->front_bank, 2), palette->get_tag_slot(*(s8 *)&this->front_bank, 2));
-    update_palette_slot(1, palette->get_tag_mode(*(s8 *)&this->front_bank, 1), palette->get_tag_slot(*(s8 *)&this->front_bank, 1));
-    update_palette_slot(2, palette->get_tag_mode(*(s8 *)&this->front_bank, 3), palette->get_tag_slot(*(s8 *)&this->front_bank, 3));
-    update_palette_slot(3, palette->get_tag_mode(*(s8 *)&this->back_bank, 2), palette->get_tag_slot(*(s8 *)&this->back_bank, 2));
-    update_palette_slot(4, palette->get_tag_mode(*(s8 *)&this->back_bank, 1), palette->get_tag_slot(*(s8 *)&this->back_bank, 1));
-    update_palette_slot(5, palette->get_tag_mode(*(s8 *)&this->back_bank, 3), palette->get_tag_slot(*(s8 *)&this->back_bank, 3));
+    update_palette_slot(0, palette->get_tag_mode(this->front_bank, 2), palette->get_tag_slot(this->front_bank, 2));
+    update_palette_slot(1, palette->get_tag_mode(this->front_bank, 1), palette->get_tag_slot(this->front_bank, 1));
+    update_palette_slot(2, palette->get_tag_mode(this->front_bank, 3), palette->get_tag_slot(this->front_bank, 3));
+    update_palette_slot(3, palette->get_tag_mode(this->back_bank, 2), palette->get_tag_slot(this->back_bank, 2));
+    update_palette_slot(4, palette->get_tag_mode(this->back_bank, 1), palette->get_tag_slot(this->back_bank, 1));
+    update_palette_slot(5, palette->get_tag_mode(this->back_bank, 3), palette->get_tag_slot(this->back_bank, 3));
 }
 
 #pragma push
@@ -418,9 +418,9 @@ void TWindowSubCustomEquip::handle_cursor_input() {
         array_entry->color = 0xFF666666;
     }
     window_choice_setting = &controller_input_state.controllers[controller_index];
-    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
+    if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (get_control_button_mask((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
-        if (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
+        if (test_pressed_buttons_packed(window_choice_setting, (int) (get_control_button_mask((int)this->client_index))) != 0) {
             this->bank = (u8) (1 - this->bank);
             this->bank_swap_timer = 3U;
         }

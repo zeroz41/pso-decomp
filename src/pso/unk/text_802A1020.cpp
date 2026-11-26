@@ -114,7 +114,7 @@ void update_movie_phase(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
-    if ((s32) (*(u8 *)&movie_finished_flag) == 1) {
+    if ((s32) (movie_finished_flag) == 1) {
         request_queued_main_phase();
     }
     if (static_cast<s8>(poll_reset_request()) != 0) {

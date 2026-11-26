@@ -239,7 +239,7 @@ void TObjDFDemo1::draw_zanzo_parts() {
         begin_alpha_blend(alpha);
     }
     model_render_flags |= 0x20000;
-    TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, scroll);
+    set_texture_scroll(0.0f, scroll);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&pos.x);

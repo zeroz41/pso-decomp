@@ -57,7 +57,6 @@ TWindowSubShortCut::~TWindowSubShortCut() {
 }
 
 void TWindowSubShortCut::run_task() {
-    u32 var_r0;
     switch (this->state) {
     case 0:
     case 1:

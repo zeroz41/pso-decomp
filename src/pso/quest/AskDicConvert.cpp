@@ -1110,16 +1110,16 @@ s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
   s32 hi;
   u16 c;
   s32 lo;
-  int code_lo;
+  int lo_byte;
   u16 a;
   c = ch;
   a = (attr & 0xF) << 12;
-  code_lo = ch & 0xFF;
+  lo_byte = ch & 0xFF;
   hi = (ch >> 8) & 0xFF;
-  lo = code_lo;
-  if (is_sjis_char(code_lo, hi))
+  lo = lo_byte;
+  if (is_sjis_char(lo_byte, hi))
   {
-    if (sjis_code_kind(c, code_lo) == 1)
+    if (sjis_code_kind(c, lo_byte) == 1)
     {
       a |= 0x300;
     }
@@ -1129,7 +1129,7 @@ s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
     }
   }
   else
-    if (is_jis_char(code_lo, hi))
+    if (is_jis_char(lo_byte, hi))
   {
     a |= 0x500;
     if (ch == 0x2474)
@@ -2138,7 +2138,7 @@ void process_entry_text_range(s32 pos, s32 end) {
             pos += n;
             continue;
         }
-        if (slot->latched_length != 0 && slot->latched_length != slot->segment_length) {
+        if (slot->latched_length != 0 && slot->latched_length != slot->length) {
             name = lbl_8058DC98;
             text = lbl_8058DC48;
             len = n;
@@ -2685,7 +2685,7 @@ s32 delete_name_entry(QuestDownloadRequest *msg) {
     }
     strncpy(buf, msg->name, msg->len);
     buf[msg->len] = 0;
-    p = get_cached_page(find_name_index(reinterpret_cast<const char *>(buf)));
+    p = get_cached_page(find_name_index(buf));
     for (end = p; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
     }
     for (; p < end; p += record_size(p)) {
@@ -2735,7 +2735,7 @@ s32 register_name_entry(QuestDownloadRequest *msg) {
     }
     strncpy(buf, msg->name, msg->len);
     buf[msg->len] = 0;
-    page = get_cached_page(find_name_index(reinterpret_cast<const char *>(buf)));
+    page = get_cached_page(find_name_index(buf));
     for (end = page; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
     }
     for (p = page; p < end; p += (u16)(p[0] + (p[1] << 8))) {

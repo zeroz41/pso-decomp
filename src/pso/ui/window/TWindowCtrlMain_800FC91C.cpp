@@ -14,11 +14,9 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
-extern "C" {
-s32 get_shared_text_buffer(void);
-}
-const char *TFontSmallLobby__name = "TFontSmallLobby";
+const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 
 // One letter per language (J/E/G/F/S), appended after the player name.
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
@@ -35,7 +33,7 @@ void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     }
     update_card_window_flags(local_client_id, card_status_bits);
 }
-s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
+char *TWindowSubStatusDisp::build_status_text(s32 client_id) {
     s32 mode;
     char *name;
     u8 *info;
@@ -78,7 +76,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
         if ((s8)info[0x33] < 2) {
             return 0;
         }
-        text_builder_append(TWindowSubStatusDisp__sub_80071820(&lobby_player_status_records[client_id].challenge));
+        text_builder_append(decode_challenge_rank_title(&lobby_player_status_records[client_id].challenge));
         break;
     case 4:
         return 0;
@@ -93,25 +91,25 @@ void *TFontSmallLobby::create(s32 id) {
 void TFontPlayerStatusHelp::run_task() {
     s32 status_bits;
     s32 client;
-    uaddr text_source;
-    saddr player;
+    const char *text_source;
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id((s32)this->player_id);
-    if (player == 0) {
+    player = get_player_by_client_id((s32)this->player_id);
+    if (player == NULL) {
         queue_destruction();
         return;
     }
     status_bits = TWindowShortListCtrl::get_card_status_bits((s32)this->player_id);
     if (this->card_status_bits != status_bits) {
         this->card_status_bits = status_bits;
-        text_source = (u32)TWindowSubStatusDisp::build_status_text((s32)this->player_id);
-        set_help_text((const char *)text_source);
-        if (text_source != 0U) {
+        text_source = TWindowSubStatusDisp::build_status_text((s32)this->player_id);
+        set_help_text(text_source);
+        if (text_source != NULL) {
             if (this->card_status_bits == 3) {
                 client = (s32)this->player_id;
                 set_color(challenge_title_color(&lobby_player_status_records[client].challenge));
             } else {
-                set_color(get_player_status_color((void *)player));
+                set_color(get_player_status_color(player));
             }
         }
     }
@@ -123,6 +121,6 @@ TFontPlayerStatusHelp::~TFontPlayerStatusHelp() {
 
 }
 
-TFontPlayerStatusHelp::TFontPlayerStatusHelp(u32 player) : TFontSmallHelp(player, -1, -1, 0) {
+TFontPlayerStatusHelp::TFontPlayerStatusHelp(u32 id) : TFontSmallHelp(id, -1, -1, 0) {
     card_status_bits = 5;
 }

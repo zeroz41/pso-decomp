@@ -96,9 +96,9 @@ void WindowSpritePart::render(WindowDrawContext *context) {
     q.v1 = this->v1;
     if (this->flags & 0x10) {
         context->transform_quad(&q);
-        draw_textured_quad_at_depth((f32 *)&q, scale);
+        draw_textured_quad_at_depth(&q.x0, scale);
     } else if (context->clip_and_transform_quad(&q) != 0) {
-        draw_textured_quad_at_depth((f32 *)&q, scale);
+        draw_textured_quad_at_depth(&q.x0, scale);
     }
     end_screen_draw();
     set_default_alpha_blend();

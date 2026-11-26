@@ -14,7 +14,7 @@ struct TWindowTimer : public TWindowBase {
     virtual void run_task();
     u32 flags;  // bit 0: counter display (init_timer_window_layout) vs play time (_alt)
     void update_chat_parts();
-    void draw(s32 arg1, s32 arg2);
+    void draw(s32 minutes, s32 seconds);
     void set_time(u32 secs);
     void draw_tab(WindowDrawContext *context);
     static TWindowTimer *create();

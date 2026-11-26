@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/memory.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
@@ -44,23 +45,17 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/ControllerInput.h"
 
-struct CharacterSelectCallbackTable {
-    s32 value;
-    u8 remaining[0x194];
-};
-
-
 // Window position and size setup passes to create_message_window_for_size
-static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
-static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
+static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
+static const f32 char_save_message_window_size[2] = { 479.0f, 267.0f };
 // Window position init_warp and init_warps pass to create_window_menu_default
 static const NJS_POINT2 char_save_menu_position = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
-static const Vec lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
-static const Vec lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
+static const Vec char_select_camera_position = { 0.0f, 0.0f, 0.0f };
+static const Vec char_select_camera_target = { 0.0f, 0.0f, -100.0f };
 // Camera position and target of run_frame
-static const Vec lbl_80477D78 = { 0.0f, 0.0f, 0.0f };
-static const Vec lbl_80477D84 = { 0.0f, 0.0f, -100.0f };
+static const Vec char_save_frame_camera_position = { 0.0f, 0.0f, 0.0f };
+static const Vec char_save_frame_camera_target = { 0.0f, 0.0f, -100.0f };
 
 s32 chr_select_logo_state;
 s32 lbl_805D6D84;
@@ -71,12 +66,11 @@ extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
 s32 start_memcard_read(s32, void *, u32, s32);
-s32 __ct__15TWindowCtrlMainFv(u32);
 }
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
-void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { (*(int *)&single_ply_quest_download_server) = quest_download_server; }
+void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { single_ply_quest_download_server = quest_download_server; }
 void TAdSinglePlyChrSelectGC::init_logo_state(s32 state) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;
@@ -310,7 +304,7 @@ void TCharSaveSequence::wait_card_check() {
             check_memory_card->queue_destruction();
             check_memory_card = NULL;
             state = 2;
-            message_window = create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
+            message_window = create_message_window_for_size((NJS_POINT2 *)char_save_message_window_pos, (NJS_POINT2 *)char_save_message_window_size);
             char_save_message_flags |= 1;
             return;
         }
@@ -348,7 +342,7 @@ void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
     TLobby::stop_audio_streams();
     TLobby::set_and_notify(0);
-    TLobby::call_funcs_reverse((void *)&character_select_scene_resource_callbacks, 0x30);
+    TLobby::call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
 
@@ -356,8 +350,8 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     begin_gx_frame();
     controller_stuff();
     update_keyboard_input_frame();
-    Vec a = lbl_80477D78;
-    Vec b = lbl_80477D84;
+    Vec a = char_save_frame_camera_position;
+    Vec b = char_save_frame_camera_target;
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     main_task.begin_frame();
@@ -379,23 +373,18 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     render_tick();
 }
 
-struct CharacterSelectCallbackTable;
 #pragma pool_data off
 void init_single_player_char_select_scene(void) {
-    u32 p;
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    run_load_callback_table(&(*(CharacterSelectCallbackTable *)&character_select_scene_resource_callbacks), 0x30);
+    run_load_callback_table(&character_select_scene_resource_callbacks, 0x30);
     init_menu_scene_lights(&default_scene_light_config, 4);
     new TCameraCtrl(tl_camera);
-    Vec a = lbl_80477D60;
-    Vec b = lbl_80477D6C;
+    Vec a = char_select_camera_position;
+    Vec b = char_select_camera_target;
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
-    p = (uaddr)TObject::operator new(0x1C);
-    if (p != 0) {
-        __ct__15TWindowCtrlMainFv(p);
-    }
+    new TWindowCtrlMain();
     new TCharSaveSequence();
     set_fallback_main_phase(2);
     char_save_message_flags = 0;
@@ -429,13 +418,11 @@ void TCharSaveSequence::init_warps() {
     menu->update_layout_height(289.0f);
 }
 
-LAYOUT_ASSERT(CharacterSelectCallbackTable_size, sizeof(CharacterSelectCallbackTable) == 0x198);
 
 #pragma pop
 
 #pragma push
 
-#include "pso/ui/window/TWindowCtrlMain.h"
 
 typedef void (TCharSaveSequence::*Handler)();
 

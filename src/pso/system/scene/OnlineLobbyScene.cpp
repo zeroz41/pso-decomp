@@ -98,7 +98,7 @@
 #include "pso/object/warp/TObjLaboMapWarp.h"
 
 
-struct Pair_801A3CFC { s32 f0; s32 f4; };
+struct UdpTestGameEntry { s32 f0; s32 f4; };
 
 extern "C" {
 int clear_keyboard_input_flag(void);
@@ -158,7 +158,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
     {reset_info_board_on_load, reset_info_board_on_unload},
-    {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
+    {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
@@ -184,7 +184,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { update_battle_params, NULL },
     { clear_boss6_player_snapshots, NULL },
 };
-Pair_801A3CFC lobby_udp_test_game_entries[2] = {
+UdpTestGameEntry lobby_udp_test_game_entries[2] = {
     {0x9D6D3202, 0},
     {0x9D6D3201, 0},
 };
@@ -345,7 +345,7 @@ void reload_floor_scene() {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -424,7 +424,7 @@ void start_quest_mission(void) {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -480,7 +480,7 @@ void change_floor_reload_area(void) {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -511,7 +511,7 @@ void cleanup_online_lobby_scene(void) {
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
-    ((TObject *)tl_su)->delete_children();
+    (tl_su)->delete_children();
     PPCSync();
     i = 0;
     do {

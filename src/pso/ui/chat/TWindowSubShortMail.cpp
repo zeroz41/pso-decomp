@@ -32,6 +32,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -40,11 +41,8 @@ const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
 static const NJS_POINT2 short_mail_item_size = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
-extern "C" {
-s32 *get_shared_text_buffer(void);
-}
 
-extern saddr tl_00;
+extern TObject *tl_00;
 
 s8 ShortMailEntry::get_flags() { return flags; }
 
@@ -161,11 +159,11 @@ void TWindowSubShortMail::run_task() {
         if (card_list->is_cancelled() != 0) {
             state = 1;
         } else if (card_list->is_decided() != 0) {
-            void *p;
+            GuildCardEntry *p;
             reply_mail_id = -1;
             p = TWindowSubComCard::get_card_entry(card_list->get_selected_value());
             if (p != NULL) {
-                target_card_id = reinterpret_cast<GuildCardEntry *>(p)->get_card_id();
+                target_card_id = p->get_card_id();
             }
             state = 0xB;
         }
@@ -464,7 +462,7 @@ TWindowMenu *TWindowSubShortMail::build_menu(void) {
 
 #pragma pop
 TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
-    TKeyBoardControl *keyboard = new TKeyBoardControl(reinterpret_cast<TObject *>(tl_00), 0xC6, 5, 4, local_client_id);
+    TKeyBoardControl *keyboard = new TKeyBoardControl(tl_00, 0xC6, 5, 4, local_client_id);
     keyboard->set_composer_flag62_bit4();
     keyboard->set_sub_position(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBB))));
     keyboard->set_flag62_bit2();
@@ -472,7 +470,7 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
     return keyboard;
 }
 
-saddr TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
+saddr TWindowSubShortMail::open_confirm_prompt(TObject *parent, int client_id) {
     TWindowMessageYesNo *dialog;
     dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(parent, client_id, 0, 0);
     open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
@@ -504,8 +502,8 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 0, 0);
         add_gray_text_entry(list, (const char *)(get_card_window_area()), 0, 0);
     }
-    list->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)list);
+    list->disable_input();
+    TQuestThread::set_status_flag_80(list);
     list->set_scroll_target(206.0f, 140.0f);
     return list;
 }
@@ -569,8 +567,8 @@ void TWindowSubShortMail::close() {
     s32 i;
 
     src = (saddr)this->keyboard->realloc_buffer();
-    TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
-    TLobby::send_simple_mail(this->target_card_id, (void *)(get_shared_text_buffer()));
+    TWindowSubComCard::mask_profanity_words((char *)src, get_shared_text_buffer());
+    TLobby::send_simple_mail(this->target_card_id, (get_shared_text_buffer()));
     mem_free((void *)src);
     short_mail_ctrl = TLobby::get_short_mail_ctrl();
     for (i = 0; i < short_mail_ctrl; i += 1) {

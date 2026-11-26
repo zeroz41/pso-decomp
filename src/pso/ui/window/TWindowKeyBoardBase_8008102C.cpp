@@ -12,6 +12,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
@@ -44,7 +45,6 @@ KeyboardTextBuffer::~KeyboardTextBuffer() {
     }
 }
 
-extern s32 local_client_id;
 
 KeyboardTextBuffer::KeyboardTextBuffer() {
     buffer = NULL;

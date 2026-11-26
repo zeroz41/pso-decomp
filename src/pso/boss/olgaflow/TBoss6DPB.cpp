@@ -116,8 +116,8 @@ void TBoss6DPB::spawn_shower() {
 }
 #pragma pop
 
-void* create_TDPBShower(void* parent, void* position) {
-    return new TDPBShower((TObject *)parent, position);
+void* create_TDPBShower(TObject *parent, void* position) {
+    return new TDPBShower(parent, position);
 }
 
 TDPBShower::TDPBShower(TObject *parent, void *pos) : TObject(parent) {

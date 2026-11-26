@@ -80,7 +80,7 @@ LAYOUT_ASSERT(QuestListOnline_sequence, (offsetof(TQuestListOnline,sequence)==0x
 extern TQuestListOnline *quest_list_online_instance;
 
 extern "C" {
-void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);
+void copy_quest_list_data(OnlineQuestMenu &menu);
 }
 
 #endif

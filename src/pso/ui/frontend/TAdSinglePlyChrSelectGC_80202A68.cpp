@@ -17,47 +17,49 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct B1C_80202DD4 { u32 w[7]; };
+struct BattleRecordBlock { u32 w[7]; };
 
-struct B10_80202DD4 { u32 w[4]; };
+struct CardAccountBlock { u32 w[7]; };
 
-struct B400_80202DD4 { u32 w[0x100]; };
+struct CardUserNameBlock { u32 w[4]; };
 
-struct B90_80202DD4 { u32 w[0x24]; };
+struct CardPaddingBlock { u32 w[0x100]; };
 
-struct B420_80202DD4 { u32 w[0x108]; };
+struct GuildCardBlock { u32 w[0x24]; };
 
-struct BAC_80202DD4 { u32 w[0x2B]; };
+struct SymbolChatBlock { u32 w[0x108]; };
 
-struct B100_80202DD4 { u32 w[0x40]; };
+struct MailTextBlock { u32 w[0x2B]; };
 
-struct B28_80202DD4 { u32 w[0xA]; };
+struct ChallengeBlock { u32 w[0x40]; };
 
-struct BC0_80202DD4 { u32 w[0x30]; };
+struct ListSettingsBlock { u32 w[0xA]; };
 
-struct B21FC_80202DD4 { u32 w[0x87F]; };
+struct Pso3SettingsBlock { u32 w[0x30]; };
+
+struct Pso3TailBlock { u32 w[0x87F]; };
 
 
 
-struct S_80202DD4 {
+struct Pso3SaveRecordView {
     s32 flags, creation_seconds, magic, play_time, card_window_flags, save_count;
-    B1C_80202DD4 account;
-    B10_80202DD4 user_name;
-    B400_80202DD4 pad_44;
+    CardAccountBlock account;
+    CardUserNameBlock user_name;
+    CardPaddingBlock padding;
     s32 death_count, bank_item_count, bank_meseta;
-    BankItemRecord bank_items[4];
-    B90_80202DD4 guild_card;
-    B420_80202DD4 symbol_chat_presets;
+    BankItemRecord items[4];
+    GuildCardBlock guild_card;
+    SymbolChatBlock symbol_chat_presets;
     ChatShortcut chat_shortcuts[20];
-    BAC_80202DD4 short_mail_text;
-    BAC_80202DD4 info_board_text;
-    B1C_80202DD4 online_battle;
-    B100_80202DD4 challenge;
-    B28_80202DD4 short_list_order;
-    B28_80202DD4 choice_search;
-    BC0_80202DD4 pad_12B4;
-    B1C_80202DD4 split_screen_battle;
-    B21FC_80202DD4 pad_1390;
+    MailTextBlock short_mail_text;
+    MailTextBlock info_board_text;
+    BattleRecordBlock online_battle;
+    ChallengeBlock challenge;
+    ListSettingsBlock short_list_order;
+    ListSettingsBlock choice_search;
+    Pso3SettingsBlock settings;
+    BattleRecordBlock split_screen_battle;
+    Pso3TailBlock tail;
 };
 
 #pragma inline_depth(1)
@@ -172,8 +174,8 @@ void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
 #undef src
 
 u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
-    S_80202DD4 *d = (S_80202DD4 *)this;
-    S_80202DD4 *s = (S_80202DD4 *)source;
+    Pso3SaveRecordView *d = (Pso3SaveRecordView *)this;
+    Pso3SaveRecordView *s = (Pso3SaveRecordView *)source;
     ChatShortcut *p;
     ChatShortcut *q;
     d->flags = s->flags;
@@ -184,14 +186,14 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     d->save_count = s->save_count;
     d->account = s->account;
     d->user_name = s->user_name;
-    d->pad_44 = s->pad_44;
+    d->padding = s->padding;
     d->death_count = s->death_count;
     d->bank_item_count = s->bank_item_count;
     d->bank_meseta = s->bank_meseta;
-    d->bank_items[0] = s->bank_items[0];
-    d->bank_items[1] = s->bank_items[1];
-    d->bank_items[2] = s->bank_items[2];
-    d->bank_items[3] = s->bank_items[3];
+    d->items[0] = s->items[0];
+    d->items[1] = s->items[1];
+    d->items[2] = s->items[2];
+    d->items[3] = s->items[3];
     d->guild_card = s->guild_card;
     d->symbol_chat_presets = s->symbol_chat_presets;
     p = d->chat_shortcuts;
@@ -207,9 +209,9 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     d->challenge = s->challenge;
     d->short_list_order = s->short_list_order;
     d->choice_search = s->choice_search;
-    d->pad_12B4 = s->pad_12B4;
+    d->settings = s->settings;
     d->split_screen_battle = s->split_screen_battle;
-    d->pad_1390 = s->pad_1390;
+    d->tail = s->tail;
     return ((u8 *)this);
 }
 

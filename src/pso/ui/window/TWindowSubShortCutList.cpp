@@ -25,7 +25,7 @@ static const NJS_POINT2 short_cut_list_icon_line_size = {405.0f, 188.0f};
 
 void TWindowSubShortCutList::refresh_entries() {
     s32 *chat_shortcut;
-    s32 temp_r0;
+    s32 text;
     s32 i;
     s32 index;
     save_cursor_selection();
@@ -40,8 +40,8 @@ void TWindowSubShortCutList::refresh_entries() {
             draw_entry(index, 0x33, 0, index);
             break;
         case 1:
-            temp_r0 = (saddr)get_chat_shortcut_text(chat_shortcut + 1);
-            draw_entry(index, 0x12, temp_r0, index);
+            text = (saddr)get_chat_shortcut_text(chat_shortcut + 1);
+            draw_entry(index, 0x12, text, index);
             break;
         case 2:
             TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(chat_shortcut + 1), reinterpret_cast<char *>(get_shared_text_buffer()), (u16)local_client_id);

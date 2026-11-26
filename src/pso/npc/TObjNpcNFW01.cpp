@@ -44,7 +44,7 @@ TObjNpcNFW01::TObjNpcNFW01(TObject *parent, void *set_data) : TObjNpcFemale(pare
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *shared_object_resource;
+    this->model = (NJS_OBJECT *)*shared_object_resource;
     this->texlist = texture_gvm;
     this->setup_common();
 }

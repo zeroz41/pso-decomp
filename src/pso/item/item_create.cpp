@@ -582,8 +582,8 @@ s32 is_valid_drop_floor(s32 floor) {
     }
     return 0;
 }
-s32 is_valid_area_id(s32 arg0) {
-    if ((arg0 >= 0) && (arg0 < 0x24)) {
+s32 is_valid_area_id(s32 index) {
+    if ((index >= 0) && (index < 0x24)) {
         return 1;
     }
     return 0;
@@ -646,7 +646,7 @@ s32 item_identity_matches(u8 *item, u8 *other) {
   s32 result;
   u8 item_type;
   u8 item_group;
-  if ((((((uaddr) item) != 0) && (((uaddr) other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
+  if (((((item) != 0) && ((other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
   {
     switch ((s32) item_type)
     {
@@ -772,7 +772,7 @@ void TMainTask::cleanup_game_objects() {
 // ---- TItemData_80104D0C.cpp
 
 
-s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
+s32 TItemData::is_item_usable(saddr player, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
         return (u8)(1U);
     }
@@ -780,25 +780,25 @@ s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
         if (*(s32 *)((s8 *)(lookup_item_pmt_record(item)) + 0x10) & 1) {
             return (u8)(1U);
         }
-        return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
+        return (u8)((u8) (find_eligible_combination_recipe(player, item) != 0));
     }
-    return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
+    return (u8)((u8) (find_eligible_combination_recipe(player, item) != 0));
 }
-#define o ((TObjPlayer *)arg0)
-saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
+#define o ((TObjPlayer *)player)
+saddr find_eligible_combination_recipe(saddr player, u8 *item) {
     TItemData d;
     TItemData d2;
     MagStats mag;
     s16 m;
     ItemCombination *rec;
-    void *it;
+    TItem *it;
     u8 v;
     rec = NULL;
     if (o != NULL && item != NULL) {
         it = find_unique_combination_target(o, (TItemData *)item);
         if (it != NULL) {
             d.init();
-            ((TItem *)it)->copy_to_item_data(&d);
+            it->copy_to_item_data(&d);
             rec = find_item_combination_recipe(item, it);
         } else {
             return 0;
@@ -922,7 +922,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   int meseta_limit;
   s32 r;
   void *player;
-  if (((saddr) self == 0) || (item == 0))
+  if ((self == 0) || (item == 0))
   {
     if (out != 0)
     {
@@ -1152,7 +1152,7 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
     return 1;
 }
 
-u8 roll_weapon_special_channel15(u8 arg0) { return roll_weapon_special_for_stars(arg0); }
+u8 roll_weapon_special_channel15(u8 stars) { return roll_weapon_special_for_stars(stars); }
 
 TItem *construct_item(TItemData *data) {
     TItemData *src = data;
@@ -1193,14 +1193,14 @@ void clear_drop_request_position(Vec *v) {
 }
 
 void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
-    void *p1;
-    void *p2;
+    TObjPlayer *p1;
+    TObjPlayer *p2;
     if (self != 0) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
-                (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
+                (p1->get_floor() != p2->get_floor() ||
                  designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
                     EnemyStateRecord e = enemy_state_records[self->f2c];
@@ -1230,13 +1230,13 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
 }
 
 void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
-    void *p1;
-    void *p2;
+    TObjPlayer *p1;
+    TObjPlayer *p2;
     if (this != NULL) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0 && is_valid_area_id(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
-            (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
+            (p1->get_floor() != p2->get_floor() ||
              designated_client_id == local_client_id)) {
             if (this->set_index != -1) {
                 Entry_8010567C e = quest_object_entries[this->set_index];
@@ -1347,9 +1347,9 @@ void PlayerRequirementStats::clear_fields() {
 
 extern "C" {
 
-s32 TItemMenuCtrl::query_flag(s32 arg0) {
+s32 TItemMenuCtrl::query_flag(s32 flag_bit) {
     if (TItemMenuCtrl::instance != NULL) {
-        return TItemMenuCtrl::instance->menu_flags.test_flags_any(1 << arg0);
+        return TItemMenuCtrl::instance->menu_flags.test_flags_any(1 << flag_bit);
     }
     return 0;
 }

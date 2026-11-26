@@ -50,15 +50,8 @@ void TAdSelectTxtSubGC::run_task() {
 #pragma push
 #pragma fp_contract on
 TAdSelectTxtSubGC::~TAdSelectTxtSubGC() {}
-extern "C" {
-void *__ct__7TObjectFP7TObject(void *, TObject *);
-extern void *__vt__17TAdSelectTxtSubGC[];
-TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSelectTxtSubGC *self, TObject *parent, TAdSelectTxtEntry *entry);
-}
-
-TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSelectTxtSubGC *self, TObject *parent, TAdSelectTxtEntry *entry) {
-    __ct__7TObjectFP7TObject(self, parent);
-    *(void **)((u8 *)self + 0x18) = __vt__17TAdSelectTxtSubGC;
+TAdSelectTxtSubGC::TAdSelectTxtSubGC(TObject *parent, TAdSelectTxtEntry *entry) : TObject(parent) {
+    TAdSelectTxtSubGC *self = this;
     self->m_name = ad_select_txt_sub_gc_class_name;
     self->m_row = entry->value;
     self->m_column = entry->index;
@@ -80,7 +73,6 @@ TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSe
     self->m_quad.v0 = (28.0f * (f32)self->m_row) / 256.0f;
     self->m_quad.u1 = (32.0f * (self->m_column + 1) - 1.0f) / 256.0f;
     self->m_quad.v1 = (28.0f * (self->m_row + 1) - 1.0f) / 256.0f;
-    return self;
 }
 #pragma pop
 

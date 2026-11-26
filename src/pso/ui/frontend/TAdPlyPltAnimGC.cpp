@@ -11,15 +11,15 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 
-NJS_TEXNAME lbl_804F1418 = { "f256_player_prate", 0, NULL };
-__declspec(section ".data") NJS_TEXLIST player_prate_texture_list = { &lbl_804F1418, 1 };
+NJS_TEXNAME player_prate_texname = { "f256_player_prate", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST player_prate_texture_list = { &player_prate_texname, 1 };
 TAdPlyPltAnimGC *TAdPlyPltAnimGC::instances[5] = { NULL, NULL, NULL, NULL, NULL };
 const PlyPltAnimVec2 ply_plt_anim_target_position_table[5] = {
     { 4.0f, 10.0f }, { 8.0f, 3.0f }, { 10.0f, 2.0f }, { 6.0f, 5.0f }, { 2.0f, 1.0f },
 };
 const u32 ply_plt_anim_duration_table[5] = { 16, 14, 12, 10, 14 };
 // plate size in pixels (width, height)
-static const PlyPltAnimVec2 lbl_80479350[1] = { { 180.0f, 38.0f } };
+static const PlyPltAnimVec2 plate_size[1] = { { 180.0f, 38.0f } };
 const char *TAdPlyPltAnimGC::class_name = "TAdPlyPltAnimGC";
 NJS_TEXLIST *player_prate_texture_list_ptr;
 
@@ -54,8 +54,8 @@ void TAdPlyPltAnimGC::reset_to_idle() {
 void TAdPlyPltAnimGC::start_anim_rect(PlyPltAnimVec2 *pos) {
     target.x0 = pos->x;
     target.y0 = pos->y;
-    target.x1 = pos->x + lbl_80479350[0].x;
-    target.y1 = pos->y + lbl_80479350[0].y;
+    target.x1 = pos->x + plate_size[0].x;
+    target.y1 = pos->y + plate_size[0].y;
     center_x = 0.5f * (target.x1 - target.x0) + target.x0;
     center_y = 0.5f * (target.y1 - target.y0) + target.y0;
     set_anim_state(1);
@@ -101,9 +101,9 @@ TAdPlyPltAnimGC::TAdPlyPltAnimGC(TObject *parent, s32 plate) : TObject(parent) {
     frame = -1;
     state = 0;
     quad.u0 = 0.0f;
-    quad.v0 = (f32)plate * lbl_80479350[0].y / 256.0f;
-    quad.u1 = lbl_80479350[0].x / 256.0f;
-    quad.v1 = ((f32)plate * lbl_80479350[0].y + lbl_80479350[0].y) / 256.0f;
+    quad.v0 = (f32)plate * plate_size[0].y / 256.0f;
+    quad.u1 = plate_size[0].x / 256.0f;
+    quad.v1 = ((f32)plate * plate_size[0].y + plate_size[0].y) / 256.0f;
     alpha = 0xFF;
     index = plate;
 }

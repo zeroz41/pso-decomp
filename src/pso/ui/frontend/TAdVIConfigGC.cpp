@@ -91,19 +91,19 @@ __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;
-    u8 *p;
+    TObjPlayer *p;
     if (((WarpPartyCheck *)this)->win != 0) {
         ((TWindowBase *)(((WarpPartyCheck *)this)->win))->close();
         ((WarpPartyCheck *)this)->win = 0;
     }
     ((WarpPartyCheck *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
     if (((WarpPartyCheck *)this)->win != 0) {
-        ((WarpPartyCheck *)this)->win->set_flag_40();
+        ((WarpPartyCheck *)this)->win->disable_input();
         ((WarpPartyCheck *)this)->win->set_close_flag();
         for (i = 0; i < 4; i++) {
-            p = (u8 *)get_player_by_client_id(i);
-            if (p != 0) {
-                strncpy(((WarpPartyCheck *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
+            p = get_player_by_client_id(i);
+            if (p != NULL) {
+                strncpy(((WarpPartyCheck *)this)->names[i].s, p->name, 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
                 ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), i);
             } else {
@@ -161,7 +161,7 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     this->exit_state = 0;
     memset((u8 *)&this->state_frames, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();
-    *(s32 *)&this->m_down = 0;
+    this->m_down = 0;
     *(s32 *)((s8 *)base + 0x18) = 0;
     ((TAdVIConfigGC *)base)->open_player_names_window();
     this->state = 0;

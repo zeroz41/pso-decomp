@@ -70,7 +70,7 @@ s32 adx_check_packet_header(u16 *p, s32 size, s32 *out) {
     *out = size;
     return 1;
 }
-s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
+s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *out_data_start) {
     s32 a7;
     s32 a8;
     s32 a9;
@@ -88,7 +88,7 @@ s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
     if (adx_parse_header_info((u8 *)hdr, size, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
         return 0;
     }
-    *arg2 = len;
+    *out_data_start = len;
     return 1;
 }
 }
@@ -270,7 +270,7 @@ extern "C" {
 u32 adxt_resync_enabled = 1;
 }
 
-inline void adxt_get_decoded_time(AdxtPlayer *p, s32 *pos, s32 *rate) {
+inline void compute_play_position(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 st = p->stat;
     if (st == 3 || st == 4) {
         s32 total;
@@ -295,7 +295,7 @@ void adxt_get_time(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 st;
 
     if (adxt_rate_mode == 0) {
-        adxt_get_decoded_time(p, pos, rate);
+        compute_play_position(p, pos, rate);
         return;
     }
     adxt_sync_drift_ms = 0.0f;
@@ -306,7 +306,7 @@ void adxt_get_time(AdxtPlayer *p, s32 *pos, s32 *rate) {
         } else {
             *pos = p->base_time;
         }
-        adxt_get_decoded_time(p, &cur_pos, &cur_rate);
+        compute_play_position(p, &cur_pos, &cur_rate);
         adxt_sync_drift_ms = 1000.0f * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)adxt_time_rate);
         if (adxt_sync_drift_ms > 60.0f || adxt_sync_drift_ms < -60.0f) {
             if (adxt_resync_enabled == 1) {

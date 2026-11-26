@@ -43,7 +43,7 @@ public:
     class TWindowBase *auxiliaryWindow;
     class TSymbolChatMenu *symbolChatWindow;
     class TWindowDD *wordSelectWindow;
-    ChatShortcut *result;  // what the player chose: kind 1 text, 2 word select, 3 symbol chat, then its body
+    ChatShortcut *result;  // what the player chose: kind 1 text, 2 word select, 3 symbol chat, then its payload
 public:
     void update();
     void handle_input();

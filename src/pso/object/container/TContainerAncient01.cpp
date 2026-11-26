@@ -264,7 +264,7 @@ void TContainerAncient01::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion((void *)(*(saddr *)&this->model), (void *)(*(saddr *)&this->current_motion), this->frame);
+            draw_ginja_model_with_motion((this->model), (this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -544,7 +544,7 @@ void TContainerAncient01R::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion((void *)(*(saddr *)&this->model), (void *)(*(saddr *)&this->current_motion), this->frame);
+            draw_ginja_model_with_motion((this->model), (this->current_motion), this->frame);
         }
         pop_matrix();
     }

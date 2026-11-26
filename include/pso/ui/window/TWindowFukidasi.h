@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+class WindowTextEntry;
+
 struct RotatedQuadSpriteRect;
 
 class TWindowFukidasi : public TWindowAddition {
@@ -27,7 +29,7 @@ public:
     void calc_text_size(f32 *);
     s32 calc_name_plate_angle(f32 *, f32 *, f32 *, f32 *);  // dead-stripped
     void clear_width();  // dead-stripped
-    void measure_text_unbounded(int);  // dead-stripped
+    void measure_text_unbounded(WindowTextEntry *entry);  // dead-stripped
     virtual void render();
     void clear_flag();
     u16 get_speaker_id();
@@ -54,7 +56,7 @@ public:
     void clear_overlapped();
     int get_visible_flag();
     int is_bit8_set();
-    int is_bit10_set();
+    int is_overlapped();
     s32 check_card_match_enabled(const char *text);
     void sync_display_pos();
     s32 approach(f32 target);

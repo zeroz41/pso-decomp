@@ -40,7 +40,7 @@ void TItemWeaponBelraCannon::update_weapon() {
     }
 }
 
-u32 belra_cannon_create_extra_shot(void *player, s32 pos, s32 dir, f32 life) {
+u32 belra_cannon_create_extra_shot(TItemWeapon *player, s32 pos, s32 dir, f32 life) {
     uaddr model_shot;
     uaddr particle_shot;
     NJS_OBJECT *model;
@@ -49,7 +49,7 @@ u32 belra_cannon_create_extra_shot(void *player, s32 pos, s32 dir, f32 life) {
     model_shot = TObjPlayer::create_shoot_model((uaddr)player, pos, dir, life);
     particle_shot = (uaddr)TObjPlayer::spawn_shoot_particle((saddr)player, pos, dir, life);
     if ((model_shot != 0U) && (particle_shot != 0U)) {
-        model = ((TItemWeapon *)player)->second_model;
+        model = player->second_model;
         if (model != NULL) {
             flags = model->evalflags;
             if ((flags & (NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL)) == (NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL)) {
@@ -64,10 +64,10 @@ u32 belra_cannon_create_extra_shot(void *player, s32 pos, s32 dir, f32 life) {
     return model_shot;
 }
 
-saddr belra_cannon_create_shot(void *owner, s32 pos, s32 dir, f32 life) {
+saddr belra_cannon_create_shot(TItemWeapon *owner, s32 pos, s32 dir, f32 life) {
     uaddr shot = TObjPlayer::create_shoot_model((uaddr)owner, pos, dir, life);
     if (shot != 0) {
-        NJS_OBJECT *model = ((TItemWeapon *)owner)->second_model;
+        NJS_OBJECT *model = owner->second_model;
         if (model != NULL) {
             u32 flags = model->evalflags;
             if ((flags & (NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL)) == (NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL)) {

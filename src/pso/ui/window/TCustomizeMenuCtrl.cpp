@@ -82,7 +82,7 @@ void TCustomizeMenuCtrl::run_task() {
     case 2:
         ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
         update_customize_help_text(&ev);
-        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
+        if (is_custom_equip_cancelled((void *)this->custom_equip) != 0) {
             main_menu->on_submenu_closed();
             state = 5;
         } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {
@@ -112,13 +112,13 @@ void TCustomizeMenuCtrl::run_task() {
 void TCustomizeMenuCtrl::render() {  }
 
 void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
-    u8 *pl;
+    TObjPlayer *pl;
     s32 lvl;
     toggle_help_window_on_button(help_window, client_id);
     if (ev == NULL) {
         return;
     }
-    pl = (u8 *)get_player_by_client_id(client_id);
+    pl = get_player_by_client_id(client_id);
     if (pl == NULL) {
         return;
     }
@@ -141,12 +141,12 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
         text_builder_append(get_help_text_string(ev->slot + 0x13));
         break;
     case 3:
-        if (TObjPlayer::validate_and_clear_slot(pl + 0x428, ev->slot) != 0) {
+        if (TObjPlayer::validate_and_clear_slot(&pl->technique_state, ev->slot) != 0) {
             break;
         }
         text_builder_append(get_technique_name(ev->slot));
         if (ev->slot != 0x11 && ev->slot != 0xE) {
-            lvl = get_cast_technique_level(pl + 0x428, ev->slot);
+            lvl = get_cast_technique_level(&pl->technique_state, ev->slot);
             if (current_language != LANGUAGE_JAPANESE) {
                 append_text_space();
             }

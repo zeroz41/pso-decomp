@@ -3,6 +3,8 @@
 
 #include "types.h"
 struct NJS_POINT2;
+
+struct TItemData;
 #include "pso/unk/TWindowLayoutRect.h"
 
 struct TItem;
@@ -33,24 +35,24 @@ public:
   void update_stat_line(s32 value);
   void update_stat_line_if_positive(s32 count);
   void update_item_icon_colors(TItem *item);
-  void update_item_colors(saddr item);
+  void update_item_colors(TItemData *item);
   void select_item_icon(s32 item_data, u8 item_type, u8 item_group, s32 wrapped);
   void setup_entry_msg_d1(s32 item);
   void setup_entry_msg_d0(s32 item);
   void init_no_item_entry(s32 item);
   void init_entry(u8 status_icon, u8 category_icon, u8 status_style, u32 src, s32 item);
   void setup_stat_line(s32 src, s32 stat, s32 item);
-  void init_meseta(s32 count, s32 item);
+  void init_meseta(s32 meseta, s32 item);
   void init_status_entry_by_flag(s32 flag, u32 src, s32 item);
   void init_list_entry(u8 icon, s32 src, s32 item);
   void init_status_entry(u8 category_icon, u32 src, s32 item);
   void set_inventory_item(TItem *item, s32 count, s32 sid);
   void update_from_player(TItem *item, s32 price, s32 index);
   void init_item_row(TItem *item, s32 index);
-  void set_item_info(void *a1, s32 index, s32 count);
-  void set_ground_item(void *it, s32 index);
+  void set_item_info(TItemData *item, s32 index, s32 count);
+  void set_ground_item(TItemData *item, s32 index);
   void init_display(s32 src, s32 item);
-  saddr replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy);
+  char *replace_owned_string(const char *src, char *buf, s32 mask, s32 copy);
   void calc_row_width();
 };
 

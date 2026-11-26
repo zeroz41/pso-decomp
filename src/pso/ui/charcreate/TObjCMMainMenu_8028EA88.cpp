@@ -27,14 +27,14 @@
 #pragma readonly_strings on
 
 
-CharacterCreationEffects lbl_8051C070;
+CharacterCreationEffects character_creation_effects;
 char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 
 void init_creation_menu_scene(void) {
-    void *p;
+    BmlResource *p;
     init_menu_scene_lights(&default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
@@ -47,9 +47,9 @@ void init_creation_menu_scene(void) {
     TLobby::set_ending_callback();
     load_keyboard_resources();
     TWindowCtrlMain::reset_all((void*)1);
-    p = (void *)new TWindowCtrlMain();
+    new TWindowCtrlMain();
     p = new BmlResource(1, (BmlResourceDescriptor *)&creation_menu_resource_descriptor, 0, 0, NULL);
-    creation_menu_main_obj = (BmlResource *)p;
+    creation_menu_main_obj = p;
     if (p != NULL) {
         fn_80291178();
         fn_8028D940();
@@ -60,13 +60,13 @@ void init_creation_menu_scene(void) {
             clear_creation_name_buffer();
             invalidate_creation_visual_record();
             TChCrCharSelect::init_and_create(tl_03);
-            create_fade_effect((void *)0xF, (void *)1);
+            create_fade_effect(0xF, 1);
         } else {
             enable_dressing_room_mode();
             select_char_menu();
             invalidate_creation_visual_record();
-            TCharaMaking::create(tl_03, (void *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            create_fade_effect((void *)0xF, (void *)1);
+            TCharaMaking::create(tl_03, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            create_fade_effect(0xF, 1);
         }
     }
 }

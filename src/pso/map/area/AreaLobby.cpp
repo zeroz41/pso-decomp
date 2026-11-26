@@ -48,6 +48,6 @@ s32 init_lobby_area(void) {
     lobby_rule_settings.reset_settings_to_default();
     TLobby::create_tasks();
     TObjBgmColCtrl::create_controller();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     return 1;
 }

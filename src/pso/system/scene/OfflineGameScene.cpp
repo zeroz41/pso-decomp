@@ -225,7 +225,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
     {reset_info_board_on_load, reset_info_board_on_unload},
-    {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
+    {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
@@ -430,7 +430,7 @@ void TLobby::teardown_scene() {
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
     main_task.resume_layers();
-    ((TObject *)tl_su)->delete_children();
+    (tl_su)->delete_children();
     run_area_scene_cleanup(&floor_transition_state);
     TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();

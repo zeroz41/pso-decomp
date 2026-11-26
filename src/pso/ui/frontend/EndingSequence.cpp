@@ -122,31 +122,31 @@ TItemWeaponSBerillsHands::TItemWeaponSBerillsHands(TObject *parent, u8 *item) : 
     if (get_item_index() == 1) {
         set_weapon_flags(0x800);
     }
-    pad_1f8 = 5;
-    pad_1fc = 0;
-    pad_200 = 0;
+    charge_ticks = 5;
+    sway_offset = 0;
+    sway_angle = 0;
 }
 
 void TItemWeaponSBerillsHands::transform_model_node() {
     s32 player_list;
-    if (pad_1f8 == 0) {
+    if (charge_ticks == 0) {
         player_list = get_model_node_counter();
         begin_particle_tev();
-        load_projection_tex(182.04445f * (f32)(pad_1fc + player_list * 3));
+        load_projection_tex(182.04445f * (f32)(sway_offset + player_list * 3));
     }
 }
 
 void TItemWeaponSBerillsHands::update_weapon() {
-    if (pad_1f8 > 0) {
+    if (charge_ticks > 0) {
         if (get_item_index() == 1) {
-            pad_1f8--;
-            if (pad_1f8 == 0) {
+            charge_ticks--;
+            if (charge_ticks == 0) {
                 set_weapon_flags(0x800);
             }
         }
     } else {
-        pad_200 += 0xB6;
-        pad_1fc = 182.0f * sin_table_lookup(pad_200);
+        sway_angle += 0xB6;
+        sway_offset = 182.0f * sin_table_lookup(sway_angle);
     }
 }
 
@@ -159,6 +159,6 @@ void TItemWeaponSBerillsHands::draw_held_model() {
 }
 
 void TItemWeaponSBerillsHands::emit_marker_effects() {
-    pad_1f8 = 5;
+    charge_ticks = 5;
     clear_weapon_flags(0x800U);
 }

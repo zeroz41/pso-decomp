@@ -21,6 +21,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 const char *TWindowMessage::class_name = "TWindowMessage";
 
 extern "C" {
@@ -148,28 +149,27 @@ void TWindowMessage::update_scroll() {
 
 #pragma push
 #pragma fp_contract on
-s32 get_shared_text_buffer(void);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
-s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value, u32 flags) {
+s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u32 flags) {
     const char *sep;
     f32 x;
     s32 r;
-    u8 *e;
+    WindowTextEntry *e;
 
     sep = " : ";
     text_builder_reset();
     text_builder_append(label);
     text_builder_append(sep);
     text_builder_append(value);
-    e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
-    r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), flags | 2, -1);
+    e = (WindowTextEntry *)get_array_entry(next_line);
+    r = append_message_window_line(this, (saddr)get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
-        x = (0.5f) * (*(f32 *)(((u8 *)this) + 0x38) - 8.0f);
+        x = (0.5f) * (target_size[0] - 8.0f);
         x -= (f32)calc_text_width((char *)label);
         x -= (0.5f) * (f32)calc_text_width((char *)sep);
-        *(f32 *)(e + 8) = x;
+        e->x = x;
     }
     return r;
 }
@@ -273,8 +273,8 @@ void set_message_window_default_flags(void) {
     message_window_settings.flags = 3;
 }
 
-void set_message_window_flags(s32 arg0) {
-    message_window_settings.flags = arg0;
+void set_message_window_flags(s32 flags) {
+    message_window_settings.flags = flags;
 }
 
 WindowDescriptor *get_message_window_settings(void) {

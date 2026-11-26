@@ -13,6 +13,8 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TObjPlayer_801D84A8.h"
+#include "pso/item/TItemIdCounters.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
@@ -45,7 +47,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
         if (test_actor_flags(0x20006) != 0 || is_current_area_item_enabled() == 0 || get_camera_field() == 0) {
             return 0;
         }
-        if ((u8)sub == 2) {
+        if (sub == 2) {
             TItem *weapon = get_equipped_weapon(this);
             if (weapon != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
@@ -83,7 +85,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
         if (get_camera_field() == 0) {
             return 0;
         }
-        switch ((u8)sub) {
+        switch (sub) {
         case 9:
             if (get_game_play_mode() == 1) {
                 return 0;

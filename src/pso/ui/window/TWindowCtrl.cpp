@@ -276,7 +276,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     }
     break_in = new TWindowBreakIn();
     if (is_split_screen() == 0) {
-        chat_window = new TWindowChat(tl_00, &chat_submission);
+        chat_window = new TWindowChat(tl_00, &submission);
         chat_window->set_flag1e_bit40();
     }
     if (is_split_screen() != 0) {
@@ -390,7 +390,7 @@ void TWindowCtrl::update() { update_party_status_rows(); update_window_visibilit
 void TWindowCtrl::update_party_status_rows() {
     f32 y;
     u32 i;
-    void *pl;
+    TObjPlayer *pl;
     TWindowSimpleStatus *w;
     y = get_window_layout_y(0xAB);
     for (i = 0; i < 3; i++) {
@@ -399,12 +399,12 @@ void TWindowCtrl::update_party_status_rows() {
             pl = get_player_by_client_id(w->get_width());
             if (pl == NULL || TWindowCtrl::has_player_active_menu(local_client_id) != 0 ||
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
-                ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
-                (((TObjChara *)pl)->obj_isState3_324() != 0 &&
-                 (((TObjPlayer *)pl)->is_pk_enabled() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
+                pl->is_script_controlled() != 0 ||
+                (pl->obj_isState3_324() != 0 &&
+                 (pl->is_pk_enabled() != 0 || pl->get_npc_controller() == 0xFFFF))) {
                 w->request_close();
             } else {
-                window_request_show(w);
+                w->request_show();
                 if (w->target_position[1] != y) {
                     w->target_position[1] = y;
                     w->tween_ticks = 0xF;
@@ -436,7 +436,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         chat_window->open_input();
-        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->chat_submission) != 0)) {
+        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->submission) != 0)) {
             consume_active_flag(chat_window);
         }
         if (chat_window->is_visible() != 0) {
@@ -495,7 +495,7 @@ void prune_destroyed_balloons(TWindowCtrl *ctrl) {
 
 
 void TWindowCtrl::handle_controller() {
-    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], fn_8002AE08(local_client_id)) != 0)) {
+    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], get_control_button_mask(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
 }
@@ -508,7 +508,7 @@ void TWindowCtrl::update_trade_window() {
             this->area_window->request_close();
             return;
         }
-        window_request_show(this->area_window);
+        this->area_window->request_show();
     }
 }
 
@@ -520,7 +520,7 @@ void update_timer_window(TWindowCtrl *ctrl) {
             ctrl->timer_window->request_close();
             return;
         }
-        window_request_show(ctrl->timer_window);
+        ctrl->timer_window->request_show();
     }
 }
 
@@ -672,7 +672,7 @@ void complete_actor_speech_balloons(u16 id) {
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
-            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == w->get_speaker_id()) {
                 w->show_immediately();
             }
         }
@@ -944,8 +944,8 @@ void TWindowCtrl::handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
     u32 key;
     char *v;
     TObjPlayer *p;
-    if (instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(instance, message);
+    if (TWindowCtrl::instance != NULL) {
+        v = TWindowCtrl::skip_name_prefix(TWindowCtrl::instance, message);
         key = tag.m_guildcard_number;
         for (i = 0; i < 12; i++) {
             p = get_player_by_client_id(i);

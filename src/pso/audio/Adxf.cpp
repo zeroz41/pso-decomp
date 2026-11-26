@@ -67,7 +67,7 @@ void adxf_set_req_rd_sct(AdxfHandle *adxf, s32 nsct) {
     adxf->requested_read_sectors = nsct;
 }
 
-inline s32 adxf_check_file_id(s32 partition, s32 file_index) {
+inline s32 check_partition_range(s32 partition, s32 file_index) {
     if (partition < 0 || partition >= 0x100) {
         adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
@@ -89,7 +89,7 @@ s32 ADXF_GetFnameRangeEx(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *o
     s32 sum;
     s32 i;
     AdxfPartitionInfo *next;
-    st = adxf_check_file_id(archive, file_id);
+    st = check_partition_range(archive, file_id);
     if (st < 0) {
         *mode = 0;
         *offset = -1;
@@ -378,7 +378,7 @@ inline s32 read_le32(u8 *p) {
     return p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24);
 }
 
-inline AdxfHandle *adxf_find_free_handle(void) {
+inline AdxfHandle *find_free_adxf_handle(void) {
     AdxfHandle *r = NULL;
     s32 i;
     for (i = 0; i < 16; i++) {
@@ -389,8 +389,8 @@ inline AdxfHandle *adxf_find_free_handle(void) {
     }
     return r;
 }
-inline AdxfHandle *adxf_alloc_handle(void) {
-    AdxfHandle *s = adxf_find_free_handle();
+inline AdxfHandle *alloc_adxf_handle(void) {
+    AdxfHandle *s = find_free_adxf_handle();
     if (s == NULL) {
         return NULL;
     }
@@ -405,7 +405,7 @@ inline AdxfHandle *adxf_alloc_handle(void) {
     s->used = 1;
     return s;
 }
-inline s32 adxf_open_afs_file(AdxfHandle *s, s32 partition, s32 file_index) {
+inline s32 open_partition_file(AdxfHandle *s, s32 partition, s32 file_index) {
     char filename[0x10C];
     s32 c;
     s32 b;
@@ -496,9 +496,9 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
         adxf_log_write_index = i + 1;
     }
     adx_lock();
-    s = adxf_alloc_handle();
+    s = alloc_adxf_handle();
     if (s != NULL) {
-        if (adxf_open_afs_file(s, partition, file) < 0) {
+        if (open_partition_file(s, partition, file) < 0) {
             ADXF_Close(s);
             s = NULL;
         }
@@ -518,7 +518,7 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
     return s;
 }
 
-inline s32 adxf_open_named_file(AdxfHandle *s, const void *name, s32 mode) {
+inline s32 open_named_file(AdxfHandle *s, const void *name, s32 mode) {
     AdxStreamFile *h;
     s32 sz;
     if (name == 0) {
@@ -555,9 +555,9 @@ AdxfHandle *ADXF_Open(const void *name, s32 mode) {
         adxf_log_write_index = i + 1;
     }
     adx_lock();
-    s = adxf_alloc_handle();
+    s = alloc_adxf_handle();
     if (s != NULL) {
-        if (adxf_open_named_file(s, name, mode) < 0) {
+        if (open_named_file(s, name, mode) < 0) {
             ADXF_Close(s);
             s = NULL;
         }

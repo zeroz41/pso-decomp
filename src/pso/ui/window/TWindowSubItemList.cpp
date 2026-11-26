@@ -8,16 +8,15 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TWindowLayoutRect.h"
+#include "pso/unk/TLobby_800FD78C.h"
 #pragma readonly_strings on
 
-extern s32 actor_frame_tick;
-
 void TWindowSubItemList::draw_blinking_selection(WindowDrawContext *context) {
-    s16 temp_r5;
+    s16 selected;
     TWindowLayoutRect *entry;
-    temp_r5 = this->selected_index;
-    if ((temp_r5 >= 0) && !(actor_frame_tick & 0x10)) {
-        entry = (TWindowLayoutRect *)get_array_entry((s32) temp_r5);
+    selected = this->selected_index;
+    if ((selected >= 0) && !(actor_frame_tick & 0x10)) {
+        entry = (TWindowLayoutRect *)get_array_entry((s32) selected);
         if (entry->flags & 1) {
             draw_selection_bar(context, entry, 1);
         }

@@ -317,9 +317,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 extern "C" {
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
-void emit_grass_footstep_effect(PlayerFollowParticles *particles);
-void emit_water_footstep_effect(PlayerFollowParticles *particles);
-void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 
 #pragma defer_codegen on
@@ -540,8 +537,8 @@ void emit_photon_blast_feedback_effects(saddr owner, u16 target_id) {
 }
 
 void TObjPlayer::emit_photon_blast_feedback_from_packet() {
-    u16 *arg0 = (u16 *)this;
-    emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), *arg0);
+    u16 *record = (u16 *)this;
+    emit_photon_blast_feedback_effects((saddr)((s8 *)record + 4), *record);
 }
 
 Vec *PlayerFollowParticles::get_grass_contact_point() { return &contact_points[1]; }
@@ -561,8 +558,8 @@ void emit_sand_footstep_effect(PlayerFollowParticles *particles) {
 }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
-    u16 *arg0 = (u16 *)this;
-    TObjPlayer::check_hit_by_id_431((s8 *)arg0 + 4, *arg0);
+    u16 *record = (u16 *)this;
+    TObjPlayer::check_hit_by_id_431((s8 *)record + 4, *record);
 }
 
 int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 276); }
@@ -855,7 +852,7 @@ int PlayerActionProvider::load_motions(s32) { return 0; }
 int TObjPlayer::sub_802a7290_fwd() { return ((PlayerMotionKey *)this)->get_motion_type(); }
 int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_type(); }
 
-// Data-only unit split off the shared player model buffers at 0x805D5D78.
+// Data-only unit split off the shared player model buffers.
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
 // keeps these extern.
 
@@ -1504,7 +1501,7 @@ u16 LockOnNearestTarget::get_published_target_id() { return published_target_id;
 
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
-TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
+TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
     InventoryEntryLayout *dst = (InventoryEntryLayout *)destination;
     const InventoryEntryLayout *src = (const InventoryEntryLayout *)source;
     dst->a = src->a;
@@ -1606,7 +1603,7 @@ s32 TObjPlayer::free_owned_buffer_b(saddr buffer, s16 flags) {
 
 
 extern "C" {
-s32 __ct__12TPlyCharDataFv(s32 arg0);
+s32 __ct__12TPlyCharDataFv(s32 self);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 

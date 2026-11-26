@@ -13,7 +13,7 @@ void TKeyBoardControl::update_main_menu_scene() {
     reset_controller_input_state();
     set_fallback_main_phase(2);
     set_queued_main_phase(6);
-    if ((u8) main_menu_scene_active_flag != 0) {
+    if (main_menu_scene_active_flag != 0) {
         clear_main_menu_scene_flag();
         switch_to_fallback_main_phase();
         return;

@@ -13,6 +13,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -24,7 +25,6 @@ const char *TWindowEffectLight::class_name = "TWindowEffectLight";
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-extern saddr tl_window;
 
 
 #pragma fp_contract on
@@ -36,7 +36,7 @@ void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id)
 
 }
 
-TWindowEffectLight::TWindowEffectLight(void *position, s16 kind, u32 id) : TObject((TObject *)tl_window) {
+TWindowEffectLight::TWindowEffectLight(void *position, s16 kind, u32 id) : TObject(tl_window) {
     this->m_name = TWindowEffectLight::class_name;
     copy_vec2(&x, position);
     WindowDrawContext::adjust_pos_for_split_screen(reinterpret_cast<NJS_POINT2 *>(&x), TCameraCtrl::get_split_screen_view_index(id));
@@ -75,16 +75,16 @@ void TWindowEffectLight::render() {
           draw_outline_quad(0xFFFFFF);
           break;
         case 3:
-          sub_802AD040(20.0f);
+          draw_capped_bar(20.0f);
           break;
         case 4:
-          sub_802AD040(39.0f);
+          draw_capped_bar(39.0f);
           break;
         case 5:
-          sub_802AD040(77.0f);
+          draw_capped_bar(77.0f);
           break;
         case 6:
-          sub_802AD040(191.0f);
+          draw_capped_bar(191.0f);
           break;
       }
     }
@@ -114,17 +114,17 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
     q.v0 = 0.60546875f;
     q.u1 = 0.98828125f;
     q.v1 = 0.7734375f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+    draw_textured_quad_at_depth(&q.x0, 0.5f);
 }
 
-void TWindowEffectLight::sub_802AD040(f32 f) {
+void TWindowEffectLight::draw_capped_bar(f32 width) {
     TexturedQuad q;
     f32 h;
     f32 dx;
     s32 color = this->calc_alpha() | 0xFFFFFF;
     f32 s = this->calc_scale();
     set_draw_texture_and_color(2, color);
-    dx = 0.5f * (f - 20.0f);
+    dx = 0.5f * (width - 20.0f);
     h = 10.0f * s;
 
     q.x0 = x - dx - h;
@@ -135,7 +135,7 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     q.v0 = 0.5f;
     q.u1 = 0.953125f;
     q.v1 = 0.578125f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+    draw_textured_quad_at_depth(&q.x0, 0.5f);
 
     q.x0 = x + dx;
     q.y0 = y - h;
@@ -145,9 +145,9 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     q.v0 = 0.5f;
     q.u1 = 0.9921875f;
     q.v1 = 0.578125f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+    draw_textured_quad_at_depth(&q.x0, 0.5f);
 
-    if (f > 20.0f) {
+    if (width > 20.0f) {
         q.x0 = x - dx;
         q.y0 = y - h;
         q.x1 = x + dx;
@@ -156,7 +156,7 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
         q.v0 = 0.5f;
         q.u1 = 0.953125f;
         q.v1 = 0.578125f;
-        draw_textured_quad_at_depth((f32 *)&q, 0.5f);
+        draw_textured_quad_at_depth(&q.x0, 0.5f);
     }
 }
 

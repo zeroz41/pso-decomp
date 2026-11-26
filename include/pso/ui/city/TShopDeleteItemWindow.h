@@ -14,7 +14,7 @@ struct TWindowHelpItem;
 struct TShopDeleteItemWindow : public TShopWindowBase {
     TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player);
     virtual ~TShopDeleteItemWindow();
-    void sub_80337E2C();
+    void open_item_list();
     virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
@@ -32,7 +32,7 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     s32 last_cursor;                    // the entry the help window shows
     TShopWindowBase *sequence;          // the bank sequence that opened it; messages go to it
     void destroy();
-    static void update_item_select(void *window_ptr);
+    void update_item_select();
     void handle_number_input();
     void handle_confirm_dialog();
 };

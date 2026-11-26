@@ -37,6 +37,8 @@ public:
     void set_sprite_uv_bounds(f32 u0, f32 v0, f32 u1, f32 v1);
     void set_sprite_uv_from_pixels(f32 x, f32 y);
     void set_sprite_dimensions(f32 width, f32 height);
+    // Shows the guild card help panel for help_mode (hidden for 0xE).
+    void set_help_mode(s32 help_mode);
 };
 
 LAYOUT_ASSERT(WindowSpritePartSize, sizeof(WindowSpritePart) == 0x38);

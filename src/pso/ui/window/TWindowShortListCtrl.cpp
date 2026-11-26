@@ -65,7 +65,7 @@ void TWindowMenu::update_cursor_pos() {
 s16 TWindowMenu::get_cursor_pos() { return selected_row; }
 
 void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
+    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {
@@ -149,7 +149,7 @@ void TWindowShortListCtrl::run_task() {
     case 1:
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (help_window == NULL) {
-                help_window = new TWindowHelpItem((void *)get_window_layout_position(2), client_id);
+                help_window = new TWindowHelpItem(get_window_layout_position(2), client_id);
                 help_item_id = -1;
                 TWindowCtrl::clear_flag_8();
             } else {
@@ -261,15 +261,15 @@ void TWindowShortListCtrl::run_task() {
         return;
     case 9:
         if (tech_window == NULL) {
-            TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
-            tech_window = (TWindowMenu *)create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
+            TWindowSubTechnique::get_current_selection(&shown_tp, &shown_hold_status, client_id);
+            tech_window = create_window(get_window_layout_position(1), &short_list_window_pos);
         }
         tech_window->clear_flag_and_release();
         state = 10;
     case 10:
         player->update_cursor((s16)tech_window->get_selected_value());
-        if (TWindowSubTechnique::update_selection((s16 *)&m_20, (s32 *)&m_28, client_id) != 0) {
-            refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
+        if (TWindowSubTechnique::update_selection(&shown_tp, &shown_hold_status, client_id) != 0) {
+            refresh_technique_rows((saddr)tech_window, &short_list_window_pos);
         }
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (tech_window->get_selected_index() == -1) {
@@ -277,7 +277,7 @@ void TWindowShortListCtrl::run_task() {
             } else {
                 swap_card_entries(tech_window->get_selected_index(), tech_window->get_cursor_pos());
                 tech_window->reset_selection();
-                refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
+                refresh_technique_rows((saddr)tech_window, &short_list_window_pos);
             }
         }
         if (tech_window->is_cancelled() != 0) {
@@ -301,7 +301,7 @@ void TWindowShortListCtrl::run_task() {
             return;
         }
         if (TWindowSubTechnique::is_technique_available((s16)tech_window->get_selected_value(), client_id) == 0) {
-            refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
+            refresh_technique_rows((saddr)tech_window, &short_list_window_pos);
             state = 9;
             return;
         }
@@ -315,19 +315,19 @@ void TWindowShortListCtrl::run_task() {
 
 void TWindowShortListCtrl::render() {}
 
-void *TWindowShortListCtrl::create_window(const NJS_POINT2 *position, saddr arg2_arg) {
-    void *window_menu;
+TWindowMenu *TWindowShortListCtrl::create_window(const NJS_POINT2 *position, const NJS_POINT2 *list_position) {
+    TWindowMenu *window_menu;
 
-    window_menu = (void *)create_window_menu(position, 0x13, client_id);
-    ((TWindowMenu *)window_menu)->set_flag70_bit10();
+    window_menu = (TWindowMenu *)create_window_menu(position, 0x13, client_id);
+    window_menu->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
-    ((TWindowMenu *)window_menu)->set_flag70_bit100();
-    refresh_technique_rows((saddr)window_menu, (void *)arg2_arg);
+    window_menu->set_flag70_bit100();
+    refresh_technique_rows((saddr)window_menu, list_position);
     return window_menu;
 }
 
-void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_arg) {
-    const NJS_POINT2 *pos = (const NJS_POINT2 *)arg2_arg;
+void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, const NJS_POINT2 *position) {
+    const NJS_POINT2 *pos = position;
     s32 i;
     s16 cur;
     s16 *order = (s16 *)(get_character_save_record(client_id) + 0x22C4);
@@ -343,7 +343,7 @@ void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_
 
 void TWindowShortListCtrl::cycle_list_page() {
     s32 port = is_player_input_active(client_id);
-    if (test_pressed_buttons_packed(&controller_input_state.controllers[port], fn_8002AE08(client_id)) != 0) {
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[port], get_control_button_mask(client_id)) != 0) {
         s8 old_page = page;
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
@@ -410,11 +410,11 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
     }
 }
 
-void TWindowShortListCtrl::swap_card_entries(s32 arg1, s32 arg2) {
+void TWindowShortListCtrl::swap_card_entries(s32 index_a, s32 index_b) {
     s16 *p = (s16 *)(get_character_save_record(client_id) + 0x22C4);
-    s16 t = p[arg1];
-    p[arg1] = p[arg2];
-    p[arg2] = t;
+    s16 t = p[index_a];
+    p[index_a] = p[index_b];
+    p[index_b] = t;
 }
 
 void init_default_short_list_order(s16 *dst) {

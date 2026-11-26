@@ -36,7 +36,7 @@ CharacterPreview::CharacterPreview(TObject *parent, void *visual, s32 load_slot)
     CharacterPreviewLoadArgs args;
     copy_player_visual_record(&appearance, visual);
     completion_flags = 0xFF;
-    TCharaMaking__bind_appearance_texture_lists(&head_textures, &other_textures, &body_textures, &appearance);
+    bind_appearance_texture_lists(&head_textures, &other_textures, &body_textures, &appearance);
     args.appearance = &appearance;
     args.completion_flags = &completion_flags;
     args.load_slot = load_slot;

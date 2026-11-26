@@ -4,6 +4,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowTextEntry.h"
 s32 TWindowMessagePage::is_message_window_ready() {
     WindowTextEntry *e;
     u32 i;

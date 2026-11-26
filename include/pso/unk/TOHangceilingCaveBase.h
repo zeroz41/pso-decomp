@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
-// Base of the TOHangceilingCave01 hanging-ceiling objects (vtable 0x804B2578).
+// Base of the TOHangceilingCave01 hanging-ceiling objects.
 class TOHangceilingCaveBase : public TObjChara {
 public:
     TOHangceilingCaveBase(TObject *parent, void *set_data);

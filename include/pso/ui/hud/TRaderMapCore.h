@@ -123,8 +123,8 @@ struct TRaderMapCore : public TObjBase {
     static s32 should_show_map();
 };
 
-// A TObject subclass of this unit: its destructor (0x801FB9C8) is the unit's last function and its
-// vtable (0x804C88A8) follows TRaderMapCore's. Nothing in the DOL constructs it.
+// A TObject subclass of this unit: its destructor is the unit's last function and its
+// vtable follows TRaderMapCore's. Nothing in the DOL constructs it.
 class TUnk_804C88A8 : public TObject {
 public:
     virtual ~TUnk_804C88A8();

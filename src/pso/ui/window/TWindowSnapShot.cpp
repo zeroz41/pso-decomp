@@ -79,7 +79,7 @@ const char *get_player_motion_filename(void) { return player_motion_data_filenam
 
 void TWindowSnapShot::play_open_sound() {
     play_sound_effect(0x52F16, 0, 0, 0);
-    this->state_flags = (u8) (this->state_flags | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
 }
 
 void TWindowSnapShot::render() {
@@ -87,7 +87,7 @@ void TWindowSnapShot::render() {
     WindowDrawContext *context = draw_default_entry();
     draw_window_frame(context);
     draw_visible_window_entries(this, &this->entry_list, context);
-    if (!(state_flags & 2)) {
+    if (!(result_flags & 2)) {
         if (context->open_tick > 0) {
             position[0] = 18.0f + context->inner_x;
             position[1] = context->inner_y;
@@ -111,12 +111,12 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
+TWindowSnapShot::TWindowSnapShot(saddr position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
     saddr entry_1;
     m_name = TWindowSnapShot::class_name;
-    this->state_flags = 0U;
+    this->result_flags = 0U;
     if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
-        this->state_flags = (u8) (this->state_flags | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
     entry_1 = reinterpret_cast<saddr>(this->get_array_entry(1));
     TWindowDuelResult::set_default_status((void *) entry_1, get_localized_text_entry(0xF, 0x13));

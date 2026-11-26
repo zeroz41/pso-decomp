@@ -13,7 +13,7 @@ class TCustomizeMenuCtrl : public TObject {
 public:
     TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client);
     virtual ~TCustomizeMenuCtrl();
-    void update_customize_help_text(const PaletteAction *action);
+    void update_customize_help_text(const PaletteAction *ev);
     virtual void render();
     virtual void run_task();
     u8 state;

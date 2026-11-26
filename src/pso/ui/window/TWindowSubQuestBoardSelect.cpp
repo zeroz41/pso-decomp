@@ -67,14 +67,10 @@ WindowDescriptor TWindowSubQuestBoardSelect::window_parameters = {
     {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
 
-
-
-extern u8 quest_board_handlers[];
-
 void TWindowSubQuestBoardSelect::update_slot_title() {
-    u8 *str;
+    char *str;
     WindowTextEntry *entry_1;
-    str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
+    str = quest_board_handlers[(s8) this->slot].title;
     entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     set_text_entry_string(entry_1, (uaddr)str, 0);
     entry_1->measure_text(100000.0f);
@@ -255,8 +251,8 @@ void TWindowSubQuestBoardSelect::run_task() {
         }
     }
     update_window();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        *(s32 *)&this->open_tick = 0x186A0;
+    if ((f32)this->open_tick >= 7.5f) {
+        this->open_tick = 0x186A0;
         this->status_disp->update();
     }
     this->update_fade();

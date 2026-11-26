@@ -1,3 +1,4 @@
+#include "pso/render/model_render_state.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -31,6 +32,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -63,13 +65,13 @@ void select_char_menu() {
     copy_char_name(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.name);
 }
 
-s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
+s32 TObjCMMainMenu::validate_character_name(s8 *name) {
     s8 buf[13];
     s8 out[16];
     s32 found;
     s8 *p;
     s8 *q;
-    strncpy((char *)buf, (const char *)arg0, 0xC);
+    strncpy((char *)buf, (const char *)name, 0xC);
     buf[12] = 0;
     found = 0;
     p = buf;
@@ -81,11 +83,11 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
         p++;
     }
     if (found == 0) {
-        *arg0 = 0;
+        *name = 0;
         return 0;
     }
     if (TWindowSubComCard::contains_profanity((char *)buf) != 0) {
-        *arg0 = 0;
+        *name = 0;
         return 0;
     }
     p = buf;
@@ -99,7 +101,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
     }
     *q = 0;
     if (TWindowSubComCard::contains_profanity((char *)out) != 0) {
-        *arg0 = 0;
+        *name = 0;
         return 0;
     }
     return 1;
@@ -161,7 +163,8 @@ const s32 player_class_texture_archive_length[19] = {
     16, 17, 14, 14, 14, 14, 14,
 };
 
-struct P_8028DCCC { f32 a; f32 b; };
+// The height of a class at the top and the bottom of the height slider.
+struct CharacterHeightRange { f32 max_height; f32 min_height; };
 
 u8 player_class_texture_buffer_00[0x228];
 u8 player_class_texture_buffer_01[0x384];
@@ -193,7 +196,7 @@ void *player_class_texture_buffer_table[19] = {
 s32 player_class_trait_table[12] = {
     0x25, 0x2A, 0x31, 0x45, 0x51, 0x52, 0x86, 0x89, 0x8A, 0x32, 0x85, 0x46,
 };
-P_8028DCCC character_proportion_height_table[12] = {
+CharacterHeightRange character_proportion_height_table[12] = {
     {15.0f, 20.0f}, {14.0f, 18.0f}, {18.0f, 21.5f}, {16.0f, 20.0f},
     {17.0f, 21.0f}, {14.5f, 19.0f}, {14.5f, 17.5f}, {16.5f, 20.0f},
     {14.0f, 17.5f}, {13.0f, 18.0f}, {14.8f, 20.5f}, {14.2f, 18.3f},
@@ -202,12 +205,6 @@ P_8028DCCC character_proportion_height_table[12] = {
 extern "C" {
 s32 TCharaMaking__sub_8028E3A0(f32 *uv);
 }
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
@@ -240,8 +237,8 @@ f32 calc_character_height(CharacterAppearanceFields *appearance) {
     f32 b;
     f32 v = appearance->height;
     s32 k = appearance->classId;
-    a = character_proportion_height_table[k].a;
-    b = character_proportion_height_table[k].b;
+    a = character_proportion_height_table[k].max_height;
+    b = character_proportion_height_table[k].min_height;
     if (v < 0.0f || v > 1.0f) {
         v = 0.0f;
     }
@@ -258,8 +255,8 @@ static const s32 hair_render_flags[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
-    struct Color { f32 a, r, g, b; } color;
+void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
+    NJS_ARGB color;
     s32 flags_masked;
     s32 second;
     s32 first;
@@ -293,7 +290,7 @@ void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearance
 #pragma pop
 
 void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appearance) {
-    TCharaMaking__draw_colored_hair(1.0f, model, appearance, 0);
+    draw_colored_hair(1.0f, model, appearance, 0);
 }
 
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {
@@ -331,7 +328,7 @@ void TCharaMaking::update_body_parts() {
     u8 *base = (u8 *)this;
     validate_player_visual_record(base + 0x85C);
     *(f32 *)((s8 *)base + 0xD48) = calc_character_height((CharacterAppearanceFields *)(base + 0x85C));
-    TCharaMaking__bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
+    bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
         reinterpret_cast<CharacterTextureLoadSet *>(base + 0xA24),
         reinterpret_cast<CharacterTextureLoadSet *>(base + 0xB90),
         reinterpret_cast<CharacterAppearanceFields *>(base + 0x85C));
@@ -443,7 +440,7 @@ s32 validate_player_visual_record(void *record) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
-void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextureLoadSet *head, CharacterTextureLoadSet *body, CharacterAppearanceFields *appearance) {
+void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextureLoadSet *head, CharacterTextureLoadSet *body, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **hairTextures;
   CharacterTextureList **headTextures;
@@ -495,21 +492,21 @@ s32 TCharaMaking::is_end() {
 }
 
 s32 character_display_index(uaddr appearance_record) {
-    const char *appearance = reinterpret_cast<const char *>(appearance_record);
+    const CharacterAppearanceFields *appearance = reinterpret_cast<const CharacterAppearanceFields *>(appearance_record);
     u8 model;
 
-    if (!(appearance[offsetof(CharacterAppearanceFields, flags)] & 0xA)) {
-        return appearance[offsetof(CharacterAppearanceFields, classId)];
+    if (!(appearance->flags & 0xA)) {
+        return appearance->classId;
     }
-    if ((appearance[offsetof(CharacterAppearanceFields, version)] <= 0) ||
-        ((s8)(model = appearance[offsetof(CharacterAppearanceFields, extraModel)]) < 0) ||
+    if (((s8)appearance->version <= 0) ||
+        ((s8)(model = appearance->extraModel) < 0) ||
         ((s8)model >= 7)) {
-        return appearance[offsetof(CharacterAppearanceFields, classId)];
+        return appearance->classId;
     }
     if (TCharaMaking::is_end() != 0) {
-        return 0x12 - appearance[offsetof(CharacterAppearanceFields, extraModel)];
+        return 0x12 - (s8)appearance->extraModel;
     }
-    return appearance[offsetof(CharacterAppearanceFields, classId)];
+    return appearance->classId;
 }
 void CharacterTextureLoadSet::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
@@ -587,7 +584,7 @@ void request_chara_making_archives(void) {
 
 void TCharaMaking__sub_8028E790(void) {  }
 
-extern saddr tl_03;
+extern TObject *tl_03;
 
 void TCharaMaking::update_light_direction() {
     f32 cos_pitch;
@@ -613,7 +610,7 @@ s32 TCharaMaking::update_main_menu(saddr task) {
     }
     if (creation_main_menu_obj->is_state_4() != 0) {
         ((TObject *)task)->queue_destruction();
-        TChCrCharSelect::create((TObject *)tl_03);
+        TChCrCharSelect::create(tl_03);
         return 1;
     }
     return 0;

@@ -45,7 +45,7 @@ const NJS_POINT2 serial_message_window_size = { 548.0f, 120.0f };
 const NJS_POINT2 serial_draw_window_position = { 85.0f, 220.0f };
 const NJS_POINT2 serial_draw_window_size = { 470.0f, 60.0f };
 const NJS_POINT2 TAdEnterSerialAccessGC::selection_positions[2] = { { 155.0f, 231.0f }, { 155.0f, 251.0f } };
-const NJS_POINT2 lbl_804764F8 = { 330.0f, 20.0f };
+const NJS_POINT2 serial_access_cursor_size = { 330.0f, 20.0f };
 const char *TAdEnterSerialAccessGC::name = "TAdEnterSerialAccessGC";
 
 __declspec(section ".data") NJS_POINT2 serial_entry_status_line_position = { 0.0f, 0.0f };
@@ -96,7 +96,7 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    cursor = new TAdSelectCurGC(tl_clipout, &selection_positions[0], &lbl_804764F8);
+    cursor = new TAdSelectCurGC(tl_clipout, &selection_positions[0], &serial_access_cursor_size);
 }
 
 TAdEnterSerialAccessGC::~TAdEnterSerialAccessGC() {
@@ -351,7 +351,7 @@ void TAdEnterSerialAccessGC::initialize_serial_input(const char *serial) {
     set_raw_serial(serial_to_hex_string(serial));
 }
 
-char *TAdEnterSerialAccessGC__sub_80321874(void) {
+char *format_entered_serial(void) {
     memset(TAdEnterSerialAccessGC_serial_buffer, 0, 0x14);
     u32 lengths[3] = { 2, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(TAdEnterSerialAccessGC_serial_buffer,
@@ -365,14 +365,14 @@ s32 TAdEnterSerialAccessGC::parse_serial_value() {
     return value;
 }
 
-char *TAdEnterSerialAccessGC__sub_803217B8(void) {
+char *format_entered_access_key(void) {
     memset(access_key_dashed_buffer, 0, 0x18);
     u32 lengths[3] = { 4, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(access_key_dashed_buffer, TAdEnterSerialAccessGC::access_key_input_buffer, 3, lengths);
     return access_key_dashed_buffer;
 }
 
-char *TAdEnterSerialAccessGC__sub_80321738(void) {
+char *format_saved_serial(void) {
     memset(stored_serial_dashed_buffer, 0, 0x14);
     u32 lengths[3] = { 2, 4, 4 };
     TAdEnterSerialAccessGC::format_dashed_serial(stored_serial_dashed_buffer,

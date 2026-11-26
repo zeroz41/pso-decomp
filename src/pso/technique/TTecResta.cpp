@@ -34,7 +34,7 @@ struct RecoveryEffectRow { s32 delay; s32 duration; s32 entry; u32 flags; };
 
 
 extern "C" {
-RecoveryEffectRow TTecResta__self_recovery_effect_table[3] = {
+RecoveryEffectRow resta_self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
     {0, 1, 0x2D, 1},
     {0x14, 1, 0x2E, 0},
@@ -178,7 +178,7 @@ TTecRestaEff::TTecRestaEff(Vec *pos, TObjBase *owner, TObject *parent) : TObject
     m_owner = owner;
     for (i = 0; i < 3; i++) {
         VecCopy(&v, pos);
-        row = &TTecResta__self_recovery_effect_table[i];
+        row = &resta_self_recovery_effect_table[i];
         if (row->flags & 1) {
             v.y -= 5.0f;
         }

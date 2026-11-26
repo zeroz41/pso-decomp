@@ -189,7 +189,7 @@ void TItemReverseTech::free() {
 }
 
 void TItemReverseTech::create() {
-    new TItemReverseTech((TObject *)tl_01);
+    new TItemReverseTech(tl_01);
 }
 
 TItemReverseTech::TItemReverseTech(TObject *parent) : TObject(parent) {
@@ -267,7 +267,7 @@ void TItemReverseTechPart1::run_task() {
             state = 3;
             timer = 0;
             if (ring != NULL) {
-                ring->sub_8001B4A0(fade_in_time);
+                ring->start_rings_anim(fade_in_time);
                 ring = NULL;
             }
         } else {

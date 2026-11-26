@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Madam's Parasol weapon class (vtable 0x804A6200): the canopy opens while
+// The Madam's Parasol weapon class: the canopy opens while
 // idle and closes during an attack; on_equipped starts a regeneration timer.
 class TItemWeaponMadamsParasol : public TItemWeapon {
 public:

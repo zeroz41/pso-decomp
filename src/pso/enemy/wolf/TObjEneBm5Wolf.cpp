@@ -116,7 +116,7 @@ s32 bm5_wolf_render_joint_y_rotation;
 #pragma push
 #pragma fp_contract on
 
-struct Globals_800B8A40 {
+struct WolfGlobalObjects {
     u8 pad[0x2c];
     u8 chain0[0xc];
     TObjEneBm5WolfList list0;
@@ -141,7 +141,7 @@ s32 actor_rand_int(TObjChara *actor, s32 range) {
 }
 
 void TObjEneBm5Wolf::register_global_objects() {
-    Globals_800B8A40 *g = (Globals_800B8A40 *)bm5_wolf_stat_params;
+    WolfGlobalObjects *g = (WolfGlobalObjects *)bm5_wolf_stat_params;
     __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, g->chain0);
     __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, g->chain1);
 }
@@ -1671,7 +1671,7 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     switch (event) {
     case 4:
         this->clear_intangible();
-        TBoss8Dragon__sub_800BB7D4(this, 0xF1);
+        debug_effect_hook(this, 0xF1);
         this->state_timer = 0;
         this->target_heading = 0;
         this->requested_action = 6;
@@ -1747,7 +1747,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         } else {
             this->requested_action = 0xE;
         }
-        TBoss8Dragon__sub_800BB7D4(this, 0xF1);
+        debug_effect_hook(this, 0xF1);
         this->substate = 0;
         this->stopping_distance = calc_death_slide_speed(this->action_table[9].speed);
         this->wall_reach = this->sink_depth = 0.0f;

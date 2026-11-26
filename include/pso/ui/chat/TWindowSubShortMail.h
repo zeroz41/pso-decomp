@@ -21,7 +21,7 @@ struct TWindowSubShortMail : public TObject {
     virtual void render();
     TWindowMenuIconLine *create_list_item();
     static TKeyBoardControl *create_keyboard();
-    static saddr open_confirm_prompt(void *parent, int client_id);
+    static saddr open_confirm_prompt(TObject *parent, int client_id);
     TWindowMessageYesNo *open_confirm_dialog();
     TWindowMessageYesNo *open_delete_confirm_dialog();
     void find_target_user();

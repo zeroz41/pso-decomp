@@ -18,7 +18,7 @@ struct TWindowSubMag : public TObject {
     virtual void run_task();
     virtual void render();
     u8 state;
-    s8 shown_blast;
+    s8 help_blast; // photon blast whose help text is shown, -1 for none
     s8 slots;
     u8 pad_1f[0x1];
     s16 timer;

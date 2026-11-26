@@ -121,7 +121,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     q.v0 = 0.3125f;
     q.u1 = 0.73046875f;
     q.v1 = 0.625f;
-    draw_textured_quad_at_depth((f32 *)&q, s);
+    draw_textured_quad_at_depth(&q.x0, s);
     q.x0 = context->x;
     q.y0 = context->y;
     q.x1 = 228.0f + q.x0;
@@ -131,7 +131,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
     context->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, s);
+    draw_textured_quad_at_depth(&q.x0, s);
     end_screen_draw();
     if (scanline_crosses_window(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);

@@ -47,9 +47,9 @@ TItem *TItemWeaponFlightCutter::create(u8 *item) {
     return NULL;
 }
 
-void enlarge_flight_cutter_slicer(void *object) {
+void enlarge_flight_cutter_slicer(TObjBase *object) {
     if (object != NULL) {
-        TObjBase *slicer = (TObjBase *)object;
+        TObjBase *slicer = object;
         slicer->scale.x = 1.6f;
         slicer->scale.y = 1.6f;
         slicer->scale.z = 1.6f;

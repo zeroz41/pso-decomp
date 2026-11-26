@@ -43,4 +43,6 @@ struct G_SetTelepipeState_6x68;
 
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 
+void reset_telepipe_visit_counts(void);
+
 #endif

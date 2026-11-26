@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayerSet.h"
 
 #include "pso/system/task/TObject.h"
-
+#include "pso/system/task/TMainTask.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -13,16 +13,13 @@ const char *TObjPlayerSet::class_name = "TObjPlayerSet";
 void TObjPlayerSet::render() {  }
 void TObjPlayerSet::run_task() {  }
 
-extern void *tl_06;
-
 void *TObjPlayerSet::create(void *set_data) {
-    return new TObjPlayerSet((TObject *)tl_06, set_data);
+    return new TObjPlayerSet(tl_06, set_data);
 }
 
 TObjPlayerSet::~TObjPlayerSet() {
 
 }
-
 
 #pragma push
 #pragma opt_common_subs off

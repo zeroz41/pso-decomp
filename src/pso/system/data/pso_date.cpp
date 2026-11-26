@@ -13,11 +13,11 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Tbl_801E2B24 { s32 v[12]; };
+struct MonthStartDays { s32 v[12]; };
 
 extern "C" {
 
-extern const Tbl_801E2B24 date_month_start_days[] = {
+extern const MonthStartDays date_month_start_days[] = {
     {{0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334}}
 };
 }
@@ -101,7 +101,7 @@ u8 calc_day_of_week(u16 year, u8 month, u8 day) {
 #pragma opt_propagation off
 void DateToSeconds(DateStamp *ds, int *out) {
     s32 tbl[12];
-    *(Tbl_801E2B24 *)tbl = *date_month_start_days;
+    *(MonthStartDays *)tbl = *date_month_start_days;
     s32 y = ds->year - 0x7D0;
     u32 t = y + 2;
     s32 d = (t >> 2) + y * 0x16D;

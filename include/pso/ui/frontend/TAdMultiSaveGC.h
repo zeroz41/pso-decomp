@@ -23,11 +23,11 @@ struct TAdMultiSaveGC : public TObject {
     TWindowBase *load_error_window;  // step 2: system file or save load fails
     TWindowMenu *retry_menu;         // step 2/3: 1 leaves (step 8), 0 retries (step 0)
     static void queue_destruction(TObject *fade);
-    TWindowSubComCardList *sub_802FF170();
-    TWindowMessage *sub_802FF1F4();
-    TWindowMessage *sub_802FF254();
-    TWindowMessage *sub_802FF2B4();
-    TWindowMessage *sub_802FF314();
+    TWindowSubComCardList *create_save_or_exit_menu();
+    TWindowMessage *create_saving_message();
+    TWindowMessage *create_card_status_message();
+    TWindowMessage *create_load_error_message();
+    TWindowMessage *create_no_card_message();
 };
 
 LAYOUT_ASSERT(TAdMultiSaveGC_size, sizeof(TAdMultiSaveGC) == 0x34);

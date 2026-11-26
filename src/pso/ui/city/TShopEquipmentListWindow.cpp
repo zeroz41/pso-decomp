@@ -160,11 +160,11 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
         this->item_list->clamp_selection_to_valid_entry();
     }
     if (this->help_window == NULL) {
-        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
+        this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
         if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             this->help_window->set_scale(0.75f, 0.75f);
         }
-        this->help_window->set_displayed_item_colored((uaddr)this->stock);
+        this->help_window->set_displayed_item_colored(this->stock);
     }
     if (this->cost_window == NULL) {
         this->cost_window = create_cost_window(this->player->get_entity_id());
@@ -205,7 +205,7 @@ void TShopEquipmentListWindow::handle_selection() {
     if (this->item_list != NULL) {
         i = this->item_list->get_cursor_value();
         if (this->help_window != NULL && i != this->last_cursor) {
-            this->help_window->set_displayed_item_colored((uaddr)&this->stock[i]);
+            this->help_window->set_displayed_item_colored(&this->stock[i]);
         }
         if (i != this->last_cursor) {
             update_list(&this->stock[i]);

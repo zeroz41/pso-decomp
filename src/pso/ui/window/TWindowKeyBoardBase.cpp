@@ -35,31 +35,30 @@ WindowDescriptor TWindowKeyBoardBase::window_descriptor = {
     {0.0f, 0.0f}, 50026.0f, NULL, 0x23,
 };
 u32 keyboard_key_colors[3] = { 0x00000000, 0xC03040C0, 0x1030A0C0 };
-// Shift-JIS characters, zero-terminated, scanned by TWindowKeyBoardBase::sub_8025CFA8.
+// Shift-JIS characters, zero-terminated, scanned by TWindowKeyBoardBase::add_conversion_candidate.
 u16 soft_keyboard_conversion_exclusions[20] = {
     0x8141, 0x8142, 0x8145, 0x8158, 0x815B, 0x815F, 0x8175, 0x8176, 0x8177, 0x8178,
     0x818F, 0x8191, 0x8192, 0x81CA, 0x8396, 0x8199, 0x8163, 0x81F4, 0x0000, 0x0000,
 };
 
-struct Rec_8025D3CC { u8 a; s8 len; };
-
-
-struct KbRec_8025D264 {
-    u8 tag;
+// One entry of the conversion candidate list: the previous entry's length (to step back), this entry's text length,
+// the candidate index chosen for it, then the text.
+struct CandidateRecord {
+    u8 prev_len;
     s8 len;
-    u8 kind;
+    u8 candidate_index;
     char str[1];
 };
 
 extern "C" {
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
+extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
 struct Stack_8025E6DC {
     NJS_POINT2 caret;
     NJS_POINT2 cursor;
 };
 
-u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
 void draw_textured_quad_at_depth(void *, f32);
 extern s32 actor_frame_tick;
 
@@ -150,7 +149,7 @@ void TWindowKeyBoardBase::skip_ime_candidates(int count) {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025CFA8(char *text) {
+void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
     char out[0x100];
     char tmp[0x100];
     char *p;
@@ -169,7 +168,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(char *text) {
         if ((s32)(u16)ch == 0x5C) {
             return;
         }
-        if ((u16)ch >= 0xA0 && (u16)ch <= 0xFF) {
+        if (ch >= 0xA0 && ch <= 0xFF) {
             return;
         }
     }
@@ -201,7 +200,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(char *text) {
             ch <<= 8;
             ch |= *p++ & 0xFF;
             for (t = soft_keyboard_conversion_exclusions; *t != 0; t++) {
-                if ((u16)ch == *t) {
+                if (ch == *t) {
                     return;
                 }
             }
@@ -215,7 +214,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(char *text) {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025D1C8(void *record) {
+void TWindowKeyBoardBase::remove_candidate(void *record) {
     s8 *src = (s8 *)record;
     s8 *dst = src;
     s32 len = src[1];
@@ -224,11 +223,11 @@ void TWindowKeyBoardBase::sub_8025D1C8(void *record) {
     src += len + 3;
     *src = *dst;
     while (*src != 0) {
-        KbRec_8025D264 *from = (KbRec_8025D264 *)src;
-        KbRec_8025D264 *to = (KbRec_8025D264 *)dst;
-        to->tag = from->tag;
+        CandidateRecord *from = (CandidateRecord *)src;
+        CandidateRecord *to = (CandidateRecord *)dst;
+        to->prev_len = from->prev_len;
         to->len = n = from->len;
-        to->kind = from->kind;
+        to->candidate_index = from->candidate_index;
         src += 3;
         dst += 3;
         while (n-- != 0) {
@@ -247,8 +246,8 @@ void TWindowKeyBoardBase::sub_8025D1C8(void *record) {
 void TWindowKeyBoardBase::insert_string(char *src) {
     s32 n;
     u8 *p = current_candidate;
-    s8 len = measure_string_len(reinterpret_cast<const char *>(src));
-    KbRec_8025D264 *rec;
+    s8 len = measure_string_len(src);
+    CandidateRecord *rec;
     u8 *dst;
     s8 total;
     s8 *q;
@@ -278,12 +277,12 @@ void TWindowKeyBoardBase::insert_string(char *src) {
 }
 #pragma pop
 
-void TWindowKeyBoardBase::update_input(void* a1) { sub_8025D1C8(current_candidate); insert_string((char *)(a1)); }
+void TWindowKeyBoardBase::update_input(void* a1) { remove_candidate(current_candidate); insert_string((char *)(a1)); }
 
 #pragma push
 #pragma optimization_level 2
 s32 TWindowKeyBoardBase::can_fit_candidate(void *window_sub_status_disp) {
-    s32 len = ((KbRec_8025D264 *)current_candidate)->len;
+    s32 len = ((CandidateRecord *)current_candidate)->len;
     s32 need = measure_string_len(reinterpret_cast<const char *>(window_sub_status_disp));
 
     return (candidate_bytes_remaining >= need - len) ? 1 : 0;
@@ -291,11 +290,11 @@ s32 TWindowKeyBoardBase::can_fit_candidate(void *window_sub_status_disp) {
 #pragma pop
 
 void TWindowKeyBoardBase::append_text_entry(u8 *text) {
-    Rec_8025D3CC *rec;
+    CandidateRecord *rec;
     s32 idx;
     s32 n;
     u8 *p;
-    rec = reinterpret_cast<Rec_8025D3CC *>(current_candidate);
+    rec = reinterpret_cast<CandidateRecord *>(current_candidate);
     idx = rec->len;
     p = (u8 *)(idx + (saddr)rec);
     n = TWindowKeyBoardSoft::strnlen((const char *)text, 0x100);
@@ -387,10 +386,10 @@ void TWindowKeyBoardBase::select_next_segment() {
         return;
     }
     rec = current_candidate;
-    current_candidate += ((KbRec_8025D264 *)rec)->len + 3;
+    current_candidate += ((CandidateRecord *)rec)->len + 3;
     if (current_candidate > last_candidate) {
         i = 1;
-        sub_8025CFA8(name);
+        add_conversion_candidate(name);
         while (candidate_fits(name, text) == 0) {
             ime_request_next_candidate(name, text);
             i++;
@@ -445,7 +444,7 @@ void TWindowKeyBoardBase::shrink_segment() {
         return;
     }
     i = 1;
-    sub_8025CFA8(name);
+    add_conversion_candidate(name);
     while (candidate_fits(name, text) == 0) {
         ime_request_next_candidate(name, text);
         i++;
@@ -474,7 +473,7 @@ void TWindowKeyBoardBase::extend_segment() {
         return;
     }
     i = 1;
-    sub_8025CFA8(name);
+    add_conversion_candidate(name);
     while (candidate_fits(name, text) == 0) {
         ime_request_next_candidate(name, text);
         i++;
@@ -530,7 +529,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     u8 *dst;
 
     if (!(state_flags & 0x80)) {
-        sub_8025DBDC(1);
+        convert_trailing_romaji(1);
     }
     src = this->m_text2.buffer;
     dst = candidate_buffer;
@@ -556,7 +555,7 @@ void TWindowKeyBoardBase::convert_input_text() {
         state_flags = (u16) (state_flags & 0xFFFFFFEF);
         candidate_count = ime_request_convert(candidate_buffer, name, text);
         candidate_index = 1;
-        sub_8025CFA8(name);
+        add_conversion_candidate(name);
     }
     candidate_bytes_remaining = 0x94;
     if (candidate_fits(name, text) != 0) {
@@ -565,7 +564,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025DBDC(s32 finalize) {
+void TWindowKeyBoardBase::convert_trailing_romaji(s32 finalize) {
     u16 *p;
     s32 lim; u32 n; s32 j; s32 rb; s32 ret; char c; char *q;
     u32 cnt;
@@ -779,7 +778,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(WindowDrawContext *context, NJS_POIN
                 n--;
                 ch |= *p++ & 0xFF;
             }
-            adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(map_char_to_font_code(ch), &q, -1);
+            adv = bind_menu_font_glyph(map_char_to_font_code(ch), &q, -1);
             if (cursor->x + (f32)adv > context->inner_x + context->inner_w) {
                 cursor->x = context->inner_x;
                 cursor->y += 20.0f;
@@ -810,7 +809,7 @@ void TWindowKeyBoardBase::layout_wrapped_glyphs(WindowDrawContext *box, NJS_POIN
         ch = *text++;
         code = map_char_to_font_code(ch);
         if (scaled != 0) {
-            adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(code, &q, -1);
+            adv = bind_menu_font_glyph(code, &q, -1);
         } else {
             adv = get_font_char_advance(code);
         }

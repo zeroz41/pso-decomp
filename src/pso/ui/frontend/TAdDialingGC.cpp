@@ -108,8 +108,8 @@ void TAdDialingGC::render_if_flag_set() {
 }
 
 void TAdDialingGC::draw_if_flag_set() {
-    TAdDialingGC *self = this;
-    if (self->dial_flags & 1) {
+
+    if (this->dial_flags & 1) {
         draw_dialing_rectangle(dialing_bottom_rect_position, dialing_bottom_rect_size);
     }
 }
@@ -319,8 +319,8 @@ void TAdDialingGC::show_guide_button() {
 }
 
 void TAdDialingGC::update_state_display() {
-    if (*(s32 *)&this->dial_step == 2) {
-        switch (*(s16 *)&this->selection) {
+    if (this->dial_step == 2) {
+        switch (this->selection) {
         case 0:
             this->update_status_display();
             break;
@@ -337,8 +337,8 @@ void TAdDialingGC::update_state_display() {
             break;
         }
     }
-    if (*(s32 *)&this->dial_step == 1) {
-        switch (*(s16 *)&this->selection) {
+    if (this->dial_step == 1) {
+        switch (this->selection) {
         case 0:
             TAdDialingGC::update_dialing_display(0x17);
             break;
@@ -363,14 +363,14 @@ void TAdDialingGC::update_state_display() {
 }
 
 void TAdDialingGC::update_selection() {
-    *(s16 *)&this->prev_selection = (s16) *(s16 *)&this->selection;
+    this->prev_selection = this->selection;
     if ((s32) net_session_mode != 0) {
-        *(s16 *)&this->selection = 0;
+        this->selection = 0;
         return;
     }
     ppp_stat((NetLinkStatus *)&this->_pad2C);
-    if ((s16) *(s16 *)&this->prev_selection != (s16) *(s16 *)&this->selection) {
-        *(s32 *)&this->frame = 0;
+    if ((s16) this->prev_selection != this->selection) {
+        this->frame = 0;
     }
 }
 
@@ -443,18 +443,13 @@ void TAdDialingGC::update_state() {
         return;
     case 2:
         status = this->status_code;
-        if (status < 0x10) {
-            if (status == 0) {
-                goto block_11;
-            }
-            goto block_12;
-        }
-        if (status < 0x12) {
-block_11:
+        switch (status) {
+        case 0:
+        case 16:
+        case 17:
             this->dial_step = 3;
             return;
         }
-block_12:
         if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
             this->dial_step = 3;
         }
@@ -474,18 +469,13 @@ void TAdDialingGC::update_dial_state() {
         return;
     case 2:
         status = this->status_code;
-        if (status < 0x10) {
-            if (status == 0) {
-                goto block_11;
-            }
-            goto block_12;
-        }
-        if (status < 0x12) {
-block_11:
+        switch (status) {
+        case 0:
+        case 16:
+        case 17:
             this->dial_step = 3;
             return;
         }
-block_12:
         if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
             this->dial_step = 3;
         }

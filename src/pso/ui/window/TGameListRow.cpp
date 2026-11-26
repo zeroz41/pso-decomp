@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include <string.h>
 
-void TGameListRow::fill(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mark, s8 level, s32 index) {
+void TGameListRow::fill(s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mode, s8 episode, s32 index) {
     saddr len;
     if (locked != 0) {
         this->icon = 0x18;
@@ -20,8 +20,8 @@ void TGameListRow::fill(s32 locked, const char *name, s8 player_count, s8 max_pl
     this->text = (char *)mem_alloc(len + 1);
     strncpy(this->text, name, len);
     *((s8 *)len + (saddr)this->text) = 0;
-    this->level = level;
-    this->mark = mark;
+    this->episode = episode;
+    this->mode = mode;
     this->difficulty = difficulty;
     this->player_count = player_count;
     this->max_players = max_players;
@@ -33,18 +33,18 @@ const char *TGameListRow::get_difficulty_name(s8 difficulty) {
     return (const char *)TWindowSubStatusDisp::get_message_10(difficulty + 0x113);
 }
 
-const char *TGameListRow::get_game_mode_name(s8 mark) {
-    if (mark == 0) {
+const char *TGameListRow::get_game_mode_name(s8 mode) {
+    if (mode == 0) {
         return NULL;
     }
-    return (const char *)TWindowSubStatusDisp::get_message_10(mark + 0x110);
+    return (const char *)TWindowSubStatusDisp::get_message_10(mode + 0x110);
 }
 
-const char *TGameListRow::get_episode_name(s8 level) {
-    if (level == 0) {
+const char *TGameListRow::get_episode_name(s8 episode) {
+    if (episode == 0) {
         return NULL;
     }
-    return (const char *)TWindowSubStatusDisp::get_message_10(level + 0x10D);
+    return (const char *)TWindowSubStatusDisp::get_message_10(episode + 0x10D);
 }
 
 void TGameListRow::render(WindowDrawContext *context) {
@@ -78,9 +78,9 @@ void TGameListRow::render(WindowDrawContext *context) {
   set_text_draw_params(win, 1, 1, scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
-  draw_window_text((f32 *)&pos, get_episode_name(this->level), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_episode_name(this->episode), -1, 0, 100000.0f);
   pos.x += 108.0f;
-  draw_window_text((f32 *)&pos, get_game_mode_name(this->mark), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_game_mode_name(this->mode), -1, 0, 100000.0f);
   pos.x += 96.0f;
   draw_window_text((f32 *)&pos, get_difficulty_name(this->difficulty), -1, 0, 100000.0f);
   pos.x += 126.0f;
@@ -88,7 +88,7 @@ void TGameListRow::render(WindowDrawContext *context) {
   text_builder_append_int(this->player_count);
   text_builder_append(separator);
   text_builder_append_int(this->max_players);
-  draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, 100000.0f);
 }
 
 void TGameListRow::update() {}
@@ -103,8 +103,8 @@ TGameListRow::~TGameListRow() {
 TGameListRow::TGameListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
     this->height = 18.0f;
     this->icon = 51;
-    this->level = -1;
-    this->mark = -1;
+    this->episode = -1;
+    this->mode = -1;
     this->difficulty = -1;
     this->player_count = -1;
     this->max_players = -1;

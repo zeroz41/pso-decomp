@@ -139,7 +139,7 @@ void TEnding::run_task() {
         }
         f32 duration = 2.0f * (f32)rate;
         if (ending_frame_counter > (u32)((rate * 139) - __cvt_fp2unsigned(duration)))
-            ring_controller->sub_8001B4A0(duration);
+            ring_controller->start_rings_anim(duration);
         return;
     }
     case 2:

@@ -35,8 +35,8 @@ const u32 text_control_color_palette[10] = {
 
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
 GinjaTextureInput menu_font_render_rects[2];
-NJS_TEXNAME lbl_8050C090[2];
-__declspec(section ".data") NJS_TEXLIST menu_font_texture_list[1] = {{lbl_8050C090, 2}};
+NJS_TEXNAME menu_font_texnames[2];
+__declspec(section ".data") NJS_TEXLIST menu_font_texture_list[1] = {{menu_font_texnames, 2}};
 s32 menu_font_char_advance_table[191] = {
     7, 9, 13, 11, 15, 14, 7, 8, 8, 11, 11, 7, 11, 7, 11, 12,
     12, 12, 12, 12, 12, 12, 12, 12, 12, 7, 7, 9, 11, 9, 10, 15,
@@ -397,12 +397,12 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     return free_slot;
 }
 
-u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
+// Binds the cached glyph's page and color, sets the quad's top-left uv and returns the glyph width.
+extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     void *cached_glyph;
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
     MenuGlyphEntry *entry = (MenuGlyphEntry *)cached_glyph;
-    TexturedQuad *pos = static_cast<TexturedQuad *>(quad);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
     pos->u0 = (f32) ((f32) entry->x / 256.0f);
@@ -478,7 +478,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
       }
       code = (hi << 8) & 0xFF00;
       code = code | lo;
-      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &quad, color);
+      w = bind_menu_font_glyph(((u16 (*)(u32)) map_char_to_font_code)(code), &quad, color);
       set_glyph_quad_extents(w, &quad);
       draw_textured_quad_at_depth(&quad.x0, scale);
       quad.x0 += (f32) w;
@@ -542,7 +542,7 @@ void load_menu_font(void) {
     TLobby::release_menu_font();
     for (i = 0; i < 2; i++) {
         menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);
-        set_texture_name(lbl_8050C090 + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);
+        set_texture_name(menu_font_texnames + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);
     }
     load_texture_list(menu_font_texture_list);
     for (m = 0; m < 2; m++) {

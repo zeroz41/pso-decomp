@@ -23,14 +23,14 @@ struct TWindowKeyBoardHard : public TWindowBase {
     int sub_8026042C();
     u32 input_flags;
     u32 m_64;
-    s32 input_delay;
+    s32 mode_label_timer;  // frames the input-mode label stays drawn after a key press (60 in Japanese)
     u32 accent_index;
     TWindowKeyBoardBase *m_control;
     void release_keyboard();
     virtual void render();
     static s32 test_card_flag(s32 client, s32 mask);
     static s32 test_card_flag_2(s32 client_id);
-    static void set_card_window_flags(void *client_id, s32 bits, s32 keep_mask);
+    static void set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask);
     static s32 is_card_flag_set(s32 client_id);
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();
@@ -41,7 +41,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     int is_key_active();
     // Stops the input-mode status text and sets input flag 0x100 until the next key.
     void reset_status_text();
-    // input_delay counts the frames the input-mode status text stays up.
+    // mode_label_timer counts the frames the input-mode status text stays up.
     s32 is_status_text_shown();
     s32 is_printable_key(u8 key);
     s32 has_non_modifier_key();

@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowFukidasi.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/TLobby.h"

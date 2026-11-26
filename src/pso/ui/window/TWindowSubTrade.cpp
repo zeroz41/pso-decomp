@@ -162,11 +162,11 @@ TWindowSubComCardList *create_trade_partner_menu(TWindowSubTrade *) {
         if (is_trade_range_bit_set(i)) {
             list->add_text_entry((saddr)player->get_name(), 7, i);
         } else {
-            add_gray_text_entry((TWindowMenu *)list, (const char *)(player->get_name()), 7, i);
+            add_gray_text_entry(list, (const char *)(player->get_name()), 7, i);
         }
     }
     if (list->get_entry_count() <= 0) {
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     list->set_flag70_bit10();
     list->set_scroll_target(224.0f, 88.0f);

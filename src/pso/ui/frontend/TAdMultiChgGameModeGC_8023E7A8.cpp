@@ -80,13 +80,13 @@
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_800F9B84.h"
+#include "pso/render/GinjaView.h"
 
-void set_screen_size(f32, f32);
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
 // before it (sync_mode_state).
 s32 multi_chg_game_mode_state = 29;
-int lbl_805D384C = 29;
+int chg_game_mode_state_synced = 29;
 
 // Scene change request: the set_* functions set the next mode and 1; the frame loop
 // (run_game_mode_select_frame) then destroys the current scene object (2) and creates the next one (0).
@@ -316,7 +316,7 @@ void TAdMultiChgGameModeGC::open_title_scene() {
     game_mode_scene_change_state = 1;
 }
 void TAdMultiChgGameModeGC::create_mode_scene() {
-    void *p;
+    TObject *p;
     switch (multi_chg_game_mode_state) {
     case 0:
     case 8:
@@ -383,7 +383,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         break;
     case 19:
         p = new TLogo(tl_01);
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = p;
         break;
     case 20:
         game_mode_scene_instance = new TAdSnAkPassConfirmGC(tl_01);
@@ -544,4 +544,4 @@ void TAdMultiChgGameModeGC::init_multi_save_phase() { init_game_mode_select_scen
 void TAdMultiChgGameModeGC::init_time_set_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_time_set_scene(); render_tick(); }
 void TAdMultiChgGameModeGC::init_story_select_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_story_select_scene(); render_tick(); }
 void TAdMultiChgGameModeGC::init_title_phase() { init_game_mode_select_scene(); TAdMultiChgGameModeGC::open_title_scene(); render_tick(); }
-void TAdMultiChgGameModeGC::sync_mode_state() { lbl_805D384C = multi_chg_game_mode_state; }
+void TAdMultiChgGameModeGC::sync_mode_state() { chg_game_mode_state_synced = multi_chg_game_mode_state; }

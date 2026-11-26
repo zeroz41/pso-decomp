@@ -30,21 +30,21 @@ struct TItemEquipBase;
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/weapon/SpecialProjectileWeapons.h"
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
-void drill_launcher_return_timer(void *weapon);
 
 
 void TItemShootDrillLauncher::render() {
-    u8 *render_node;
-    u8 *object;
+    NJS_OBJECT *render_node;
+    NJS_OBJECT *object;
 
     if (TItemShootModel::is_owner_alive() != 0) {
-        object = (unsigned char *) (this->model);
+        object = (NJS_OBJECT *) (this->model);
         if ((object != NULL) && ((uaddr) this->texture_list != 0U)) {
-            render_node = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)object + 0x2C))) + 0x30));
-            *(s32 *)((s8 *)render_node + 0) = (s32) (*(s32 *)((s8 *)render_node + 0) & 0xFFFFFFFB);
-            *(f32 *)((s8 *)render_node + 0x20) = (f32) 10.0f;
+            render_node = object->child->sibling;
+            render_node->evalflags = (u32) (render_node->evalflags & 0xFFFFFFFB);
+            render_node->scl[0] = (f32) 10.0f;
             push_matrix();
             set_texlist(this->texture_list);
             post_translate_matrix(&this->m_pos.x);
@@ -52,7 +52,7 @@ void TItemShootDrillLauncher::render() {
             rotate_matrix_x(0, this->rot_x - 0x4000);
             draw_ginja_object((this->model));
             pop_matrix();
-            *(f32 *)((s8 *)render_node + 0x20) = (f32) 1.0f;
+            render_node->scl[0] = (f32) 1.0f;
         }
     }
 }
@@ -117,14 +117,14 @@ void TItemWeaponDrillLauncher::transform_model_node() {
 }
 
 void TItemWeaponDrillLauncher::update_weapon() {
-    void *second;
-    void *angled;
+    NJS_OBJECT *second;
+    NJS_OBJECT *angled;
     projectile_spin = (projectile_spin + 0x1999);
-    second = this->second_model;
+    second = (NJS_OBJECT *)this->second_model;
     if (second != NULL) {
-        angled = *(void **)((s8 *)second + 0x2C);
-        *(s32 *)((s8 *)angled + 0) = (s32) (*(s32 *)((s8 *)angled + 0) & 0xFFFFFFFD);
-        *(s32 *)((s8 *)angled + 0x18) = (s32) projectile_spin;
+        angled = second->child;
+        angled->evalflags = (u32) (angled->evalflags & 0xFFFFFFFD);
+        angled->ang[1] = (s32) projectile_spin;
     }
     switch (recoil_phase) {
     case 1:

@@ -84,9 +84,9 @@ struct QuestDownloadSlot {
     QuestDownloadEntryNode *head;
     QuestDownloadTextNode *chain;
     s32 timer;
-    s8 is_fixed;       // the segment starting here is settled
-    s8 segment_length; // characters in the segment starting here
-    s8 latched_length; // segment_length when the segment was first settled
+    s8 fixed;          // the segment starting here is settled
+    s8 length;         // characters in the segment starting here
+    s8 latched_length; // length when the segment was first settled
     s8 width;
     s8 token_length;   // length of the longest dictionary match starting here
     s8 x19;

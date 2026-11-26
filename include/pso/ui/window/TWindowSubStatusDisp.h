@@ -64,7 +64,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void render_forward();
     static void end_render_forward();
     static void begin_render();
-    static saddr get_download_server();
+    static saddr get_meseta_unit();
     static u32 calc_text_width(char *s);
     static s32 is_alpha_char(u16 arg0);
     void pack_status_flags(u32 arg1);
@@ -83,10 +83,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_split_screen_hud();
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
-    static s32 build_status_text(s32 client_id);
+    static char *build_status_text(s32 client_id);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
-    static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);

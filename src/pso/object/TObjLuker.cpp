@@ -60,10 +60,10 @@ void TObjLuker::hide_part(u16 part) {
 #pragma push
 #pragma opt_common_subs off
 void TObjLuker::show_part(u16 part_index) {
-    saddr arg0 = (saddr)this;
+    saddr self_addr = (saddr)this;
     u8 *slot_base;
     u8 *slot;
-    slot_base = (u8 *)(arg0 + ((part_index * 4) & 0x3FFFC));
+    slot_base = (u8 *)(self_addr + ((part_index * 4) & 0x3FFFC));
     slot = (u8 *)(*(u8 **)((s8 *)slot_base + 0x90));
     if (slot != NULL) {
         if (*(u16 *)((s8 *)slot + 4) & 4) {
@@ -120,7 +120,7 @@ void TObjLuker::open_destination_windows() {
             if (windows[i] != 0) {
                 this->current_floor = target;
                 ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
-                ((TWindowMenu *)(windows[i]))->set_flag_40();
+                ((TWindowMenu *)(windows[i]))->disable_input();
                 ((TWindowMenu *)(windows[i]))->calc_window_size();
                 align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
                 windows[i]->suspend_update();
@@ -188,7 +188,7 @@ s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range
     return ret;
 }
 
-s32 TObjLuker::is_player_in_range(f32 farg0) {
+s32 TObjLuker::is_player_in_range(f32 range) {
     TObjPlayer *p;
     s32 found;
     found = 0;
@@ -196,7 +196,7 @@ s32 TObjLuker::is_player_in_range(f32 farg0) {
         for (s32 i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != NULL) {
-                if (horizontal_distance_squared(&position, &p->position) < (farg0 * farg0)) {
+                if (horizontal_distance_squared(&position, &p->position) < (range * range)) {
                     found = 1;
                     if ((p != NULL) && (p->is_controls_locked() == 0)) {
                         show_part(p->get_entity_id());
@@ -214,7 +214,7 @@ s32 TObjLuker::is_player_in_range(f32 farg0) {
         }
     } else {
         p = get_player_by_client_id(local_client_id);
-        if ((p != NULL) && (horizontal_distance_squared(&p->position, &position) < (farg0 * farg0))) {
+        if ((p != NULL) && (horizontal_distance_squared(&p->position, &position) < (range * range))) {
             found = 1;
         }
         if (found != 0) {

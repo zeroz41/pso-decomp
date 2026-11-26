@@ -24,9 +24,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
-
-
-extern void *tl_00;
+#include "pso/system/task/TMainTask.h"
 
 void TAdDialingSelectGC::run_task() {
     Vec pos = {0.0f, 0.0f, 0.0f};
@@ -37,11 +35,11 @@ void TAdDialingSelectGC::run_task() {
     case 0:
         this->state = 1;
     case 1:
-        if (this->list != NULL) {
-            if (TWindowShortListCtrl__sub_801A5144(this->list) != 0) {
+        if (this->option_window != NULL) {
+            if (this->option_window->is_finished() != 0) {
                 this->state = 2;
             } else {
-                this->selection = TWindowShortListCtrl__sub_801A513C(this->list);
+                this->selection = this->option_window->get_dial_selection();
                 if (this->selection != 4) {
                     this->state = 2;
                 }
@@ -49,9 +47,9 @@ void TAdDialingSelectGC::run_task() {
         }
         break;
     case 2:
-        if (this->list != NULL) {
-            this->list->queue_destruction();
-            this->list = NULL;
+        if (this->option_window != NULL) {
+            this->option_window->queue_destruction();
+            this->option_window = NULL;
         }
         this->state = 3;
     case 3:
@@ -96,7 +94,7 @@ void TAdDialingSelectGC::run_task() {
     case 8:
         this->timer++;
         if ((f32)this->timer > 7.5f) {
-            this->sub_801A4CA4();
+            this->update_dial_image();
             this->state = 9;
             TAdMultiChgGameModeGC::open_time_set_scene();
         }
@@ -116,13 +114,13 @@ TAdDialingSelectGC::~TAdDialingSelectGC() {
         this->window->queue_destruction();
         this->window = NULL;
     }
-    if (this->list != NULL) {
-        this->list->queue_destruction();
-        this->list = NULL;
+    if (this->option_window != NULL) {
+        this->option_window->queue_destruction();
+        this->option_window = NULL;
     }
 }
 
-TAdDialingSelectGC::TAdDialingSelectGC() : TObject((TObject *)tl_00) {
+TAdDialingSelectGC::TAdDialingSelectGC() : TObject(tl_00) {
     void *o;
     void *o2;
     o = new TAdBackGC(this);
@@ -132,13 +130,13 @@ TAdDialingSelectGC::TAdDialingSelectGC() : TObject((TObject *)tl_00) {
     this->selection = 4;
     this->state = 0;
     this->timer = 0;
-    this->list = new TWindowOptionCtrl(this);
+    this->option_window = new TWindowOptionCtrl(this);
     this->window = NULL;
     this->card = NULL;
 }
 
-s32 TWindowShortListCtrl__sub_801A513C(void *p) { return *(s32 *)((char *)p + 0x24); }
-int TWindowShortListCtrl__sub_801A5144(void *p) { return *(u8 *)((char *)p + 0x1d) & 0x1; }
+s32 TWindowOptionCtrl::get_dial_selection() { return dial_selection; }
+int TWindowOptionCtrl::is_finished() { return flags & 0x1; }
 
 // Bits 16-17 of the client's character save record word at +0x10.
 s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
@@ -161,7 +159,7 @@ s32 TWindowShortListCtrl::get_card_status_bits(s32 client_id) {
 // Card window scale for each of the four card window flag values.
 const f32 card_window_scale_table[4] = {34.0f, 51.0f, 68.0f, 0.0f};
 
-// Idle time allowed for each idle timeout setting (fn_801A51F0).
+// Idle time allowed for each idle timeout setting.
 const s32 short_list_ctrl_interval_table[6] = {900, 1800, 2700, 3600, 0, 0};
 
 s32 get_idle_timeout_limit(u32 client_id) {

@@ -14,8 +14,8 @@ struct TWindowSubEquip : public TObject {
     static const char *class_name;
     u8 state;
     u8 _pad1D[0x3];
-    u32 shown_item_id;
-    u32 shown_cursor_value;
+    u32 shown_item_id;       // item id the help window shows for the equipment list cursor
+    u32 shown_kind_item_id;  // same for the equipment kind list cursor
     u32 client_id;
     TWindowMainMenu *parent;
     TWindowHelpItem *window_help_item;
@@ -23,7 +23,7 @@ struct TWindowSubEquip : public TObject {
     TWindowMenuIconLine *equip_kind_list;
     void update_displayed_item();
     void update();
-    TWindowMenuIconLine *open_equip_kind_list(u32 arg1);
+    TWindowMenuIconLine *open_equip_kind_list(u32 slot);
     virtual void render();
     virtual void run_task();
     void apply_slot_selection();

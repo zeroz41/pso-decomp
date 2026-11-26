@@ -9,12 +9,11 @@ const char *TWindowMessageInfomation::class_name = "TWindowMessageInfomation";
 
 
 void TWindowMessageInfomation::render() {
-    s32 arg0 = (saddr)this;
-    s8 *tmp = reinterpret_cast<s8 *>(get_draw_context());
+    WindowDrawContext *context = get_draw_context();
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(tmp));
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        context);
 }
 
 TWindowMessageInfomation::~TWindowMessageInfomation() {

@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -50,15 +51,15 @@ void TWindowSubTechnique::get_selection(s16 *tp, s32 *hold_status, s32 client) {
 }
 
 s32 TWindowSubTechnique::update_selection(s16 *tp, s32 *hold_status, s32 client) {
-    s32 current_status;
-    s16 current_tp;
+    s32 new_hold_status;
+    s16 new_tp;
 
-    TWindowSubTechnique::get_selection(&current_tp, &current_status, client);
-    if ((current_tp == *tp) && (current_status == *hold_status)) {
+    TWindowSubTechnique::get_selection(&new_tp, &new_hold_status, client);
+    if ((new_tp == *tp) && (new_hold_status == *hold_status)) {
         return 0;
     }
-    *tp = current_tp;
-    *hold_status = current_status;
+    *tp = new_tp;
+    *hold_status = new_hold_status;
     return 1;
 }
 
@@ -145,7 +146,6 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
 }
 }
 
-extern u8 *text_language_group_table;
 extern "C" {
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 u8 *calc_technique_parameters(s16, u8, s32);
@@ -226,14 +226,14 @@ void TWindowSubTechnique::run_task() {
         if (technique_menu == 0) {
             technique_menu = create_title_window(category_menu->get_selected_value());
         }
-        technique_menu->set_flag_40();
+        technique_menu->disable_input();
         TQuestThread::set_status_flag_80(technique_menu);
-        TWindowSubTechnique::get_current_selection(&m_20, &m_24, playerIndex);
+        TWindowSubTechnique::get_current_selection(&shown_tp, &shown_hold_status, playerIndex);
         category_menu->clear_flag_and_release();
         state = 2;
     case 2: {
         s32 r = category_changed();
-        if (r == 1 || TWindowSubTechnique::update_selection(&m_20, &m_24, playerIndex) != 0) {
+        if (r == 1 || TWindowSubTechnique::update_selection(&shown_tp, &shown_hold_status, playerIndex) != 0) {
             rebuildTechniqueList((saddr)technique_menu, (s32)(category_menu->get_selected_value()));
             if (r != 0) {
                 technique_menu->set_selected_index(0);
@@ -251,14 +251,14 @@ void TWindowSubTechnique::run_task() {
         help_window = TWindowMessage::create(get_window_layout_position(0x14), technique_help_window_size, 1, (s32)playerIndex);
         help_window->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
-        technique_menu->clear_flag_40();
-        ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();
+        technique_menu->enable_input();
+        technique_menu->show_selection_highlight();
         technique_menu->clear_flag_and_release();
         technique_menu->clear_cancelled();
         state = 4;
     case 4:
         player->update_cursor((s16)technique_menu->get_selected_value());
-        if (TWindowSubTechnique::update_selection(&m_20, &m_24, playerIndex) != 0) {
+        if (TWindowSubTechnique::update_selection(&shown_tp, &shown_hold_status, playerIndex) != 0) {
             rebuildTechniqueList((saddr)technique_menu, (s32)(category_menu->get_selected_value()));
         }
         update_selected_help((s16)technique_menu->get_selected_value());
@@ -316,8 +316,8 @@ TWindowSubTechnique::TWindowSubTechnique(TWindowMainMenu *parent, s32 client) : 
 }
 
 saddr get_technique_description_text(s32 technique) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x14)) + (technique * 4));
+    return (saddr)text_language_group_table[5][technique];
 }
 
-void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
-void TWindowMenu::clear_flag_40() { menu_flags &= ~0x40; }
+void TWindowMenu::show_selection_highlight() { menu_flags &= ~0x80; }
+void TWindowMenu::enable_input() { menu_flags &= ~0x40; }

@@ -6,8 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_802C422C.h"
 
-int init_new_character_data(void *data) {
-    TPlyCharData *record = (TPlyCharData *)data;
+int init_new_character_data(TPlyCharData *record) {
     record->m_inventory.m_num_items = 0;
     record->clear_inventory();
     init_character_action_config(&record->m_config);

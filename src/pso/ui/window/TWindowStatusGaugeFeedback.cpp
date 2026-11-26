@@ -140,7 +140,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
     if (this->maximum <= 0.0f || this->target <= 0.0f) {
         ratio = 0.0f;
     } else {
-        ratio = this->target * this->scale / this->maximum;
+        ratio = this->target * this->length / this->maximum;
     }
     cur = this->width;
     if (cur <= ratio) {
@@ -191,11 +191,11 @@ void TWindowStatusGaugeFeedback::update() {
         if (max <= 0.0f || cur <= 0.0f) {
             bar_width = 0.0f;
         } else {
-            bar_width = (cur * scale) / max;
+            bar_width = (cur * length) / max;
         }
         width = bar_width;
-        if ((flags & 0x20) && width > scale) {
-            width = scale;
+        if ((flags & 0x20) && width > length) {
+            width = length;
         }
         shown = (s16)target;
         timer = 36;

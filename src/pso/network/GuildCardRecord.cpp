@@ -25,6 +25,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
+#include "pso/unk/TLobby_8001D6A0.h"
 
 
 typedef struct Src_8024220C
@@ -113,10 +114,10 @@ void load_selected_guild_card_record(Src_8024220C *src) {
 }
 }
 
-void TLobby__sub_802422EC(void *arg0, void *arg1) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
+void TLobby__sub_802422EC(void *dst, void *src) {
+    *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)src + 0);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(s16 *)((s8 *)dst + 8) = (s16) *(s16 *)((s8 *)src + 8);
 }
 
 void find_and_load_com_card(u32 serial) {
@@ -201,26 +202,26 @@ char *build_text_from_comma_list(char *list) {
     return get_shared_text_buffer();
 }
 
-void TLobby__sub_8024259C(saddr arg0) {
+void jump_to_guild_card_owner(GuildCardRecord *entry) {
     if (TLobby::protocol_instance != NULL) {
         memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, (char *)(arg0 + 0x19), 0x10);
+        strncpy(lobby_ship_name, entry->s19, 0x10);
         lobby_ship_name[0x10] = 0;
-        TLobby::protocol_instance->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
+        TLobby::protocol_instance->seq_jump(entry->f4C, entry->ext);
     }
 }
 #pragma pop
 
 
 void init_player_entry(GuildCardRecord *entry, u8 *response) {
-    s32 serial;
+    s32 serial_no;
     char *p;
 
     entry->id = *(s32 *)((s8 *)response + 0xC);
-    serial = lbl_805D63D8;
-    lbl_805D63D8 = serial + 1;
-    entry->serial = serial;
-    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, serial);
+    serial_no = lbl_805D63D8;
+    lbl_805D63D8 = serial_no + 1;
+    entry->serial = serial_no;
+    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, serial_no);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
@@ -242,7 +243,7 @@ void remove_com_card_entry(s32 index) {
         lobby = (u8 *)&com_card_entries[index];
         move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - index) * 0xBC) >> 2);
     }
-    (*(s32 *)&com_card_entry_count) -= 1;
+    (com_card_entry_count) -= 1;
 }
 
 void add_found_user_com_card(TUserAns &response) {

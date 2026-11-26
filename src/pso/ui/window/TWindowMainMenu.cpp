@@ -32,6 +32,7 @@ struct TWindowSubItem;
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -189,19 +190,19 @@ void TWindowMainMenu::close() {
     }
 }
 
-void TWindowMainMenu::refresh_submenu(void *window_main_menu_entry) {
+void TWindowMainMenu::refresh_submenu(TWindowMainMenuEntry *window_main_menu_entry) {
     if (menu_window != NULL) {
         menu_window->park_selection();
         menu_window->clear_menu_flags();
-        populate_menu(static_cast<TWindowMainMenuEntry *>(window_main_menu_entry));
+        populate_menu(window_main_menu_entry);
     }
 }
 
-void TWindowMainMenu::close_submenu(void *window_main_menu_entry) {
+void TWindowMainMenu::close_submenu(TWindowMainMenuEntry *window_main_menu_entry) {
     if (menu_window != NULL) {
         menu_window->pop_level();
         menu_window->clear_menu_flags();
-        populate_menu(static_cast<TWindowMainMenuEntry *>(window_main_menu_entry));
+        populate_menu(window_main_menu_entry);
     }
 }
 
@@ -223,7 +224,7 @@ void TWindowMainMenu::update_trade_submenu() {
 
 void TWindowMainMenu::show_child_window() {
     if (menu_window != NULL) {
-        window_request_show(menu_window);
+        menu_window->request_show();
         menu_window->update_scaled_position();
     }
 }
@@ -310,7 +311,7 @@ void TWindowMainMenu1P::create_char_select_slot() {
     *(void * *)&this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
 }
 
-void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); *(int *)&this->submenu = 0; } }
+void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); this->submenu = 0; } }
 
 void TWindowMainMenu::update_description_text(s32 id) {
     if ((s32)description_item_id != id) {
@@ -332,14 +333,14 @@ void TWindowMainMenu::toggle_help_window() {
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
-    u8 *base;
-    u8 *p;
+    TObjPlayer *player;
+    CharacterAppearanceFields *p;
     s32 area;
-    base = (u8 *)get_player_by_client_id(this->client_index);
-    if (base == NULL) {
+    player = get_player_by_client_id(this->client_index);
+    if (player == NULL) {
         return 0;
     }
-    p = base + 0x85C;
+    p = (CharacterAppearanceFields *)player->name;
     if (p == NULL) {
         return 0;
     }
@@ -367,7 +368,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
         }
         break;
     case 3:
-        if (*(s32 *)((s8 *)p + 0x34) & 0x10) {
+        if (p->classFlags & 0x10) {
             return 0;
         }
         if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
@@ -440,14 +441,14 @@ void TWindowMainMenu::open(TWindowMainMenuEntry *entries) {
 }
 
 void TWindowMainMenu::close_and_clear_flags() {
-    void *player;
+    TObjPlayer *player;
 
     menu_flags = (s32) (menu_flags & ~5);
     close_child_window();
     destroy_submenu();
     close();
-    if ((player = (void *)get_player_by_client_id((s32)this->client_index)) != 0U) {
-        ((TObjPlayer *)player)->init_parts();
+    if ((player = get_player_by_client_id((s32)this->client_index)) != NULL) {
+        player->init_parts();
     }
 }
 
@@ -461,7 +462,7 @@ s32 TWindowMainMenu::close_active_submenu() {
     description_item_id = 0x1F;
     load_submenu_entries();
     update_selection_value();
-    close_submenu((void*)active_entries);
+    close_submenu(active_entries);
     return 1;
 }
 

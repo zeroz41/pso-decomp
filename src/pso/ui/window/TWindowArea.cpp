@@ -16,6 +16,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 // The functions are generated last to first.
 #pragma defer_codegen on

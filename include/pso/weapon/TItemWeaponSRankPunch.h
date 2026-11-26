@@ -19,7 +19,7 @@ public:
 };
 
 // The weapon's hit callback (hit_callback).
-void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body);
+void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body);
 
 void debug_weapon_attack_hook(void);
 

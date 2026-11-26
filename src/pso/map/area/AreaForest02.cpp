@@ -28,7 +28,7 @@ s32 init_forest2_area(void) {
     init_area_lights();
     TLobby::create_tasks();
     TObjRainCtrl::create();
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     if (is_split_screen() != 0) {
         play_area_music("forest_b.adx");
     } else {

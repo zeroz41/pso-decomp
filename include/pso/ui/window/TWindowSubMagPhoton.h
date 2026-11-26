@@ -18,7 +18,7 @@ struct TWindowSubMagPhoton : public TWindowBase {
     int is_cancelled();
     s32 get_selected_blast();
     virtual void render();
-    u8 state_flags;
+    u8 result_flags; // 1 chosen, 2 cancelled
     u8 selected_blast_index;
     s16 cursor_frame;
     s32 photon_blasts[3];

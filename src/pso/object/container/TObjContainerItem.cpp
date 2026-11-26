@@ -209,7 +209,7 @@ void free_forest_box_resources() {
         safe_free(forest_box_textures);
         forest_box_textures = NULL;
     }
-    if ((uaddr) forest_box_model_archive != 0U) {
+    if (forest_box_model_archive != 0U) {
         delete forest_box_model_archive;
         forest_box_model_archive = NULL;
     }
@@ -243,7 +243,7 @@ void free_container_breakup_resources() {
         safe_free(container_breakup_textures);
         container_breakup_textures = NULL;
     }
-    if ((uaddr) container_breakup_model_archive != 0U) {
+    if (container_breakup_model_archive != 0U) {
         delete container_breakup_model_archive;
         container_breakup_model_archive = NULL;
     }
@@ -649,7 +649,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
-        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
+        draw_ginja_box_tree(this->model);
         pop_matrix();
             break;
         }

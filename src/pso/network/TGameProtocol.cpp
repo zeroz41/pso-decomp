@@ -362,7 +362,7 @@ void TGameProtocol::run_task() {
             n->recv();
         }
         if (n->m_id == frame_slot) {
-            TLobby__sub_801A54E8((u8 *)n);
+            flush_packet_send_buffer(n);
             n->clear_send_buffer();
         }
     }
@@ -378,10 +378,6 @@ TGameProtocol::TGameProtocol(TObject *parent) : TObject(parent) {
     instance = this;
     frame_slot = 0;
     game_protocol_instance = new TObject(this);
-}
-
-extern "C" {
-s32 append_command_to_batch_buffer(void *, void *);
 }
 
 void long_game_command_union::send_to_client(u32 client_id) {
@@ -458,7 +454,7 @@ void broadcast_subcommand(void *cmd) {
     if (game_protocol_instance != NULL) {
         client = game_protocol_instance->m_down;
         while (client != NULL) {
-            append_command_to_batch_buffer(client, cmd);
+            append_command_to_batch_buffer((TPacket *)client, (u8 *)cmd);
             client = client->m_next;
         }
     }

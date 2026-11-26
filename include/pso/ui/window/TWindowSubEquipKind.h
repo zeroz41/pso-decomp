@@ -5,6 +5,8 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 struct WindowDrawContext;
 
+struct WindowDrawContext;
+
 struct TWindowSubEquipKind : public TWindowMenuIconLine {
     static const char *class_name;
     TWindowSubEquipKind(u8 *parent, s32 client);

@@ -16,14 +16,14 @@ struct TWindowSoundBalance : public TWindowBase {
     TWindowSoundBalance(const NJS_POINT2 *position);
     virtual ~TWindowSoundBalance();
     static const char *class_name;
-    // Bit 0 of state_flags: the balance was confirmed.
+    // Bit 0 of result_flags: the balance was confirmed.
     int is_active();
-    // Bit 1 of state_flags: the window was left with the cancel button.
+    // Bit 1 of result_flags: the window was left with the cancel button.
     int is_cancelled();
     s32 get_music_gain();
     s32 get_sound_effect_gain();
     virtual void render();
-    u8 state_flags;
+    u8 result_flags;  // 0x1 done, 0x2 cancelled (TWindowOptionCtrl polls them)
     s8 selection;
     s16 music_gain;
     s16 sound_effect_gain;

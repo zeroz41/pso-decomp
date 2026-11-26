@@ -25,7 +25,7 @@ s32 get_floor_switch_flag(u32 id, s16 floor);
 void init_switch_table(void);
 u8 is_current_floor_switch_set(u32 id);
 u8 is_floor_switch_set(u32 id, s16 floor);
-void restore_switch_table(saddr src, s32 arg1);
+void restore_switch_table(saddr src, s32 size);
 void set_current_floor_switch(s32 id);
 void set_floor_switch_flag(u32 id, s16 floor);
 

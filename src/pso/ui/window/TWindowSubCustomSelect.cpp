@@ -183,8 +183,8 @@ void TWindowSubCustomSelect::run_task() {
     s32 controller_index;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
-    if (!(*(s32 *)&this->window_flags & 2)) {
-        *(s32 *)&this->open_tick = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
     if (this->is_active() == 0) {
         handle_grid_navigation();
@@ -197,19 +197,20 @@ void TWindowSubCustomSelect::run_task() {
         }
     }
     update_list_scroll();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32)this->open_tick >= 7.5f) {
         this->status_display->update();
         scroll_bar->increment_counter();
     }
     update_window();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
-    *(s32 *)&this->cursor_frame = (s32) (*(s32 *)&this->cursor_frame + 1);
+    this->cursor_frame = (s32) (this->cursor_frame + 1);
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
     delete scroll_bar;
     delete status_display;
 }
+// The palette actions offered per row of 3 cells; mode 8 ends the list.
 const PaletteAction custom_select_organic_action_table[40] = {
     {2, 0x0}, {2, 0x1}, {2, 0x2},
     {3, 0x0}, {3, 0x6}, {3, 0x3},
@@ -243,17 +244,17 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     : TWindowAddition((u8 *)&TWindowSubCustomSelect::window_settings,
                       static_cast<s16>(client), (u8 *)get_window_layout_position(0x10)) {
     NJS_POINT2 pos;
-    TObjPlayer *p;
+    TObjPlayer *player;
     CharacterAppearanceFields *q;
     const PaletteAction *e;
     WindowHeading *o;
     m_name = TWindowSubCustomSelect::class_name;
     client_index = client;
-    p = get_player_by_client_id(client_index);
-    if (p == NULL) {
+    player = get_player_by_client_id(client_index);
+    if (player == NULL) {
         return;
     }
-    q = (CharacterAppearanceFields *)p->name;
+    q = (CharacterAppearanceFields *)player->name;
     if (q == NULL) {
         return;
     }

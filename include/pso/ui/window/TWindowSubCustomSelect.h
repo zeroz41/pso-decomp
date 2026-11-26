@@ -8,6 +8,12 @@ class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+// An action palette slot reference: the tag mode and the slot it points to.
+struct PaletteTag {
+    u16 mode;
+    u16 slot;
+};
+
 struct WindowScrollBar;
 struct PaletteAction;
 

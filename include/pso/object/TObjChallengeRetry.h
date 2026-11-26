@@ -27,8 +27,8 @@ public:
     void update_destroy_countdown();
     void open_loss_menu();
     void close_window_2c();
-    void sub_80072BB0();
-    void sub_80072B70();
+    void open_message();
+    void close_message();
     // Hides the local player's window slot, then play_player_default_effect.
     void show_ctrl_and_play_effect();
     // Disables the local client's main menu, then play_player_default_effect.

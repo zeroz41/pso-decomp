@@ -6,6 +6,7 @@
 
 struct TWindowSimpleStatus;
 struct WindowDrawContext;
+class WindowSpritePart;
 
 // Points the lock-on child (array entry 1) at the window's player.
 void update_lockon_window(TWindowSimpleStatus *window);
@@ -14,7 +15,7 @@ void draw_photon_blast_fan(TWindowSimpleStatus *window, NJS_POINT2 *center, Wind
 // Draws the photon blast charge ring at pos: one full ring in the colour of the
 // current hundred and the next colour over the part already charged.
 void draw_photon_blast_gauge_ring(TWindowSimpleStatus *window, WindowDrawContext *ctx, const NJS_POINT2 *pos, f32 charge, f32 radius);
-void update_photon_blast_player_marker(saddr help, s32 client);
+void update_photon_blast_player_marker(WindowSpritePart *help, s32 client);
 // Updates the photon blast marker (array entry 0) for the window's player; none in the lobby.
 void update_status_help_item(TWindowSimpleStatus *window);
 

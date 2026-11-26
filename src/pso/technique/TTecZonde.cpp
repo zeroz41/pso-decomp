@@ -15,7 +15,6 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/TObjBase.h"
 
-
 #pragma readonly_strings on
 
 const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
@@ -33,8 +32,6 @@ void TTecZonde::init_parameters() {
     }
 
 }
-
-
 
 void TTecZonde::create(TObjBase *source, Vec *origin, TargetCursorList *targets, s32 level) {
     new TTecZonde(source, origin, targets, level);
@@ -55,6 +52,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/task/TMainTask.h"
 
 // One bolt of Zonde: it starts at `start`, travels along the unit vector `dir` for `len`.
 struct ZondeBolt { Vec start; Vec dir; f32 len; };

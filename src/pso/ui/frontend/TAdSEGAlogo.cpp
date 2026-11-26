@@ -19,7 +19,7 @@
 #pragma readonly_strings on
 #pragma const_strings off
 // The logo textures: eight ADX, eight SEGA and eight Sonic Team frames.
-NJS_TEXNAME lbl_80480A70[24] = {
+NJS_TEXNAME texture_logo_e_texnames[24] = {
     { "gc_adx01", 0, 0 },
     { "gc_adx02", 0, 0 },
     { "gc_adx03", 0, 0 },
@@ -45,7 +45,7 @@ NJS_TEXNAME lbl_80480A70[24] = {
     { "st_logo07", 0, 0 },
     { "st_logo08", 0, 0 },
 };
-__declspec(section ".data") NJS_TEXLIST texture_logo_e_descriptor = { lbl_80480A70, 24 };
+__declspec(section ".data") NJS_TEXLIST texture_logo_e_descriptor = { texture_logo_e_texnames, 24 };
 const char *TAdSEGAlogo::class_name = "TAdSEGAlogo";
 #pragma pop
 

@@ -14,7 +14,7 @@
 
 #pragma readonly_strings on
 
-struct Light_80140514 {
+struct AreaLightParams {
     f32 dir[3];
     f32 pad[3];
     f32 amb[3];
@@ -39,7 +39,7 @@ void cleanup_gryphon_area(void) {
 }
 
 s32 init_gryphon_area(void) {
-    Light_80140514 l;
+    AreaLightParams l;
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

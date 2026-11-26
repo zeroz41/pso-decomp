@@ -62,7 +62,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void convert_input_text();
     s32 get_state();
     void update_input_state();
-    void sub_8025B928();
+    void key_none();
     void convert_composition();
     void key_end();
     void key_home();
@@ -98,14 +98,16 @@ struct TWindowKeyBoardBase : public TWindowBase {
     // Symbols, user-defined and half-width katakana characters the IME is not asked to convert.
     s32 has_unconvertible_char(u8 *text);
     void skip_ime_candidates(int count);
-    void sub_8025CFA8(char *text);
-    void sub_8025D1C8(void *record);
+    // Adds the first IME conversion of text (requests 0x25, 0x26, 0x28, then 0x27)
+    // that differs from it, unless text holds characters the conversions skip.
+    void add_conversion_candidate(char *text);
+    void remove_candidate(void *record);
     s32 can_fit_candidate(void *window_sub_status_disp);
     s32 candidate_fits(char *name, char *text);
     void select_next_segment();
     void shrink_segment();
     void extend_segment();
-    void sub_8025DBDC(s32 finalize);
+    void convert_trailing_romaji(s32 finalize);
     void draw_composition_background(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count);
     void layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled);
     void insert_party_member_name(s32 slot);

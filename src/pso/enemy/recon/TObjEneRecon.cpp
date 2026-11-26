@@ -300,7 +300,7 @@ void TObjEneRecon::state_death(s32 reason) {
         set_entry = 0;
         refresh_lobby_state();
         TBoss8Dragon__sub_800BB7DC(this);
-        TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
+        debug_effect_hook_scaled(this, 0xF1, 1.0f);
         state_step = 0;
         rise_speed = 0.0f;
         velocity.x = TObjChara::velocity.x;

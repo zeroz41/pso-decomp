@@ -774,7 +774,7 @@ void init_char_slots(void) {
 
 void free_char_slots(void) {
     if (lobby_char_slot_array != 0) {
-        __destroy_new_array(lobby_char_slot_array, (void *)__dt__19PlayerCharDataEntryFv);
+        __destroy_new_array(lobby_char_slot_array, __dt__19PlayerCharDataEntryFv);
         lobby_char_slot_array = 0;
     }
 }
@@ -1010,7 +1010,7 @@ void record_local_battle_placement(void *arg0) {
     }
     s = get_active_disconnect_count() - 1;
     set_active_disconnect_count((u16)(s > 0 ? s : 0));
-    TAdSinglePlyChrSelectGC__sub_801FCE6C();
+    save_active_character_to_card();
 }
 
 void play_duel_result_stream(const char *file, saddr duration) {
@@ -1048,7 +1048,7 @@ void TDelayedAreaMusic::run_task() {
 void TPlayerBattleCtrl::init_battle_round() {
   s32 char_select_slot;
   TObjPlayer *player;
-  s32 var_r3;
+  s32 clamped_slot;
   s32 i;
   time_limit = get_battle_time_limit_frames();
   TWindowCtrl::create_alt_timer();
@@ -1056,13 +1056,13 @@ void TPlayerBattleCtrl::init_battle_round() {
   TOMineTrap::destroy_matching_traps();
   char_select_slot = get_active_disconnect_count();
   char_select_slot = char_select_slot + 1;
-  var_r3 = 0xFFFF;
-  if (char_select_slot < var_r3)
+  clamped_slot = 0xFFFF;
+  if (char_select_slot < clamped_slot)
   {
-    var_r3 = char_select_slot;
+    clamped_slot = char_select_slot;
   }
-  set_active_disconnect_count((u16) var_r3);
-  TAdSinglePlyChrSelectGC__sub_801FCE6C();
+  set_active_disconnect_count((u16) clamped_slot);
+  save_active_character_to_card();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
   player = get_local_player();
@@ -1200,24 +1200,24 @@ void TPlayerBattleCtrl::send_player_ready() {
 }
 
 s32 TPlayerBattleCtrl::check_all_players_ready() {
-    u8 *var_r31;
-    s32 var_r30;
-    s32 var_r29;
+    u8 *ready_flag;
+    s32 all_ready;
+    s32 client;
 
-    var_r31 = battle_player_ready_flags;
-    var_r30 = 1;
-    var_r29 = 0;
+    ready_flag = battle_player_ready_flags;
+    all_ready = 1;
+    client = 0;
 loop_1:
-    if ((get_player_by_client_id(var_r29) != NULL) && ((s8) *var_r31 == 0)) {
-        var_r30 = 0;
+    if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
+        all_ready = 0;
     } else {
-        var_r29 += 1;
-        var_r31 += 1;
-        if (var_r29 < 4) {
+        client += 1;
+        ready_flag += 1;
+        if (client < 4) {
             goto loop_1;
         }
     }
-    return var_r30;
+    return all_ready;
 }
 
 void TPlayerBattleCtrl::show_score_results() {
@@ -1382,16 +1382,16 @@ u8 is_battle_mode_running(void) {
 
 s32 TPlayerBattleCtrl::check_all_battle_flags() {
     TObjPlayer *player;
-    s32 var_r31;
+    s32 client;
 
-    var_r31 = 0;
+    client = 0;
 loop_1:
-    player = get_player_by_client_id(var_r31);
+    player = get_player_by_client_id(client);
     if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
         return 0;
     }
-    var_r31 += 1;
-    if (var_r31 >= 4) {
+    client += 1;
+    if (client >= 4) {
         return 1;
     }
     goto loop_1;

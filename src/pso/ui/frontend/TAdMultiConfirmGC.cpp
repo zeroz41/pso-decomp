@@ -19,14 +19,12 @@
 #pragma defer_codegen on
 
 const char *multi_confirm_name = "TAdMultiConfirmGC";
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 extern "C" {
-void TAdMultiConfirmGC__sub_802E03D0(void *);
-void TAdMultiConfirmGC__sub_802E0448(void *);
-s32 fn_802E0454(void *);
+s32 is_player_model_shown(void *);
 extern const u8 lbl_805DEF30 = 0;
 }
-s32 is_multiplayer_character_slot_selected(s32 arg0);
 #pragma push
 #pragma opt_common_subs off
 TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
@@ -93,7 +91,7 @@ void TAdMultiConfirmGC::run_task() {
     case 2:
         i = 1;
         for (j = 0; j < this->count; j++) {
-            if (players[j] != NULL && fn_802E0454(players[j]) == 0) {
+            if (players[j] != NULL && is_player_model_shown(players[j]) == 0) {
                 i = 0;
                 break;
             }
@@ -101,8 +99,8 @@ void TAdMultiConfirmGC::run_task() {
         if ((s32)i == 1) {
             for (i = 0; i < this->count; i++) {
                 if (players[i] != NULL) {
-                    TAdMultiConfirmGC__sub_802E0448(players[i]);
-                    TAdMultiConfirmGC__sub_802E03D0(players[i]);
+                    enable_spin_model(players[i]);
+                    reset_animation_ticks(players[i]);
                 }
             }
             this->state = 3;

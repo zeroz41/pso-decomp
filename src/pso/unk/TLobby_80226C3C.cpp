@@ -40,7 +40,7 @@ u32 lbl_804CB838[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
 void *lbl_805D62D8;
-void *lbl_805D62DC;
+void *adx_rna_work_buffer;
 s32 music_active;
 s32 music_state;
 s32 music_fade_slot_index;
@@ -66,7 +66,7 @@ s16 music_current_slot;
 
 extern char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
-    if ((s32) music_state == 1) {
+    if (music_state == 1) {
         return (u8 *)music_slot_entries[music_fade_slot_index];
     }
     return (u8 *)lobby_current_slot_entry;
@@ -92,13 +92,13 @@ void set_music_streams_volume(s32 total) {
     if (value <= -0x140) {
         value = -0x3E7;
     }
-    if ((s32) bgm_stream_active == 0) {
+    if (bgm_stream_active == 0) {
         adxt_set_output_vol(adxt_players[0], value);
     }
     adxt_set_output_vol(adxt_players[1], value);
 }
 void TLobby::release_bgm_resource() {
-    if ((s32) bgm_stream_active != 0) {
+    if (bgm_stream_active != 0) {
         stop_audio_stream(adxt_players[1]);
         bgm_stream_active = 0;
         TLobby::init_layout_positions();
@@ -235,13 +235,13 @@ void update_music_sequencer(void) {
 }
 
 void set_dark_falz_music_request(s32 request) {
-    if ((s32) music_program_index == 4) {
+    if (music_program_index == 4) {
         music_target_id = request;
     }
 }
 
 void TLobby::set_target_id(s32 target_id) {
-    if ((s32) music_program_index != 4) {
+    if (music_program_index != 4) {
         music_target_id = target_id;
     }
 }
@@ -559,9 +559,9 @@ void TLobby::shutdown_buffers() {
     for (i = 0; i < 3; i++) {
         adx_destroy_stream_player(adxt_players[i]);
     }
-    if (lbl_805D62DC != NULL) {
-        xfree(lbl_805D62DC);
-        lbl_805D62DC = NULL;
+    if (adx_rna_work_buffer != NULL) {
+        xfree(adx_rna_work_buffer);
+        adx_rna_work_buffer = NULL;
     }
     adxt_finish();
     if (lbl_805D62EC != 0U) {
@@ -577,8 +577,8 @@ void init_adx_audio_system(void) {
     bgm_stream_buffers[0] = xmalloc(0x2D1E4);
     bgm_stream_buffers[1] = xmalloc(0x2D1E4);
     lbl_805D62D8 = xmalloc(0xA924);
-    lbl_805D62DC = xmalloc(0xA000);
-    gcrna_bridge_init_buffers(lbl_805D62DC, 0xA000, 5);
+    adx_rna_work_buffer = xmalloc(0xA000);
+    gcrna_bridge_init_buffers(adx_rna_work_buffer, 0xA000, 5);
     adxt_init();
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);

@@ -7,7 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
-// One flame of Gifoie, a task TTecGiFoie creates per orbit (vtable lbl_804CC800).
+// One flame of Gifoie, a task TTecGiFoie creates per orbit.
 class TTecGiFoieFlame : public TObject {
 public:
     TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single);

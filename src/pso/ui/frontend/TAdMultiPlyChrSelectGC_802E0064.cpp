@@ -7,8 +7,6 @@
 
 void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
-    extern int multi_ply_chr_select_active_player;
-
 void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
     unk_4f4 = field_4f4;
     unk_4f0 = field_4f0;
@@ -17,7 +15,7 @@ void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
 void TAdChrSelPlyPlateGC::restore_selection() { TAdMultiPlyChrSelectGC::selected_slot = multi_ply_chr_select_active_player; }
 
 void TAdChrSelPlyPlateGC::capture_card_index() { captured_card_index = get_active_card_slot(); }
-s32 TAdChrSelPlyPlateGC::is_confirm_pressed() { return start_requested; }
+s32 TAdChrSelPlyPlateGC::is_confirm_pressed() { return confirm_pressed; }
 void TAdChrSelBSlotGC::set_state(s32 value) { state = value; }
 s32 TAdChrSelBSlotGC::get_state() { return state; }
 
@@ -35,6 +33,6 @@ s32 TAdChrSelBSlotGC::is_state_closing() {
 
 TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return chr_move_effect_instance; }
 
-    extern int lbl_805D384C;
-int TAdMultiPlyChrSelectGC::get_select_flag() {  return lbl_805D384C; }
+    extern int chg_game_mode_state_synced;
+int TAdMultiPlyChrSelectGC::get_select_flag() {  return chg_game_mode_state_synced; }
 

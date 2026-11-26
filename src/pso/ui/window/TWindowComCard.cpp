@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -44,9 +45,8 @@ WindowDescriptor com_card_window_descriptor = {
 };
 
 const char *TWindowComCard::class_name = "TWindowComCard";
-void *com_card_status_text_table[6] = {
-    (void *)"Jpn.", (void *)"Eng.", (void *)"Ger.", (void *)"Fr.",
-    (void *)"Span.", (void *)"??????",
+const char *com_card_status_text_table[6] = {
+    "Jpn.", "Eng.", "Ger.", "Fr.", "Span.", "??????",
 };
 const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {0.0f, 180.0f}, {32.0f, 180.0f}, {64.0f, 180.0f}, {96.0f, 180.0f}, {128.0f, 180.0f},
@@ -54,32 +54,31 @@ const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {72.0f, 167.0f}, {104.0f, 167.0f}, {136.0f, 167.0f}, {168.0f, 167.0f},
 };
 
-extern "C" void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card);
+void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card);
 
-extern u8 *text_language_group_table;
 
 
 s32 get_chain_help_mode(s32 chain_slot) { return chain_slot + 10; }
 
-void TWindowComCard::set_help_mode(s32 help_mode) {
-    const ComCardHelpRect *temp_r4;
+void WindowSpritePart::set_help_mode(s32 help_mode) {
+    const ComCardHelpRect *rect;
 
     if (help_mode == 0xE) {
-        *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
+        flags = (u16)(flags | 2);
         return;
     }
-    *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
+    flags = (u16)(flags & 0xFFFFFFFD);
     if (help_mode < 0xA) {
-        reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
+        kind = 1;
     } else {
-        reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
+        kind = 2;
     }
-    temp_r4 = &com_card_help_panel_rect_table[help_mode];
-    reinterpret_cast<WindowSpritePart *>(this)->set_sprite_uv_from_pixels(temp_r4->x, temp_r4->y);
+    rect = &com_card_help_panel_rect_table[help_mode];
+    this->set_sprite_uv_from_pixels(rect->x, rect->y);
 }
 
 s32 get_class_name_text(s32 class_index) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
+    return (saddr)text_language_group_table[7][class_index];
 }
 
 s8 GuildCardEntry::get_language() { return language; }
@@ -109,14 +108,14 @@ void TWindowComCard::render() {
 }
 
 TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *position) {
-    saddr keyboard_mode = TWindowSubComCard::get_keyboard_mode();
-    if (keyboard_mode == 0) {
+    GuildCardEntry *own_card = TWindowSubComCard::get_own_guild_card();
+    if (own_card == NULL) {
         return 0;
     }
-    if (is_guild_card_invalid(reinterpret_cast<GuildCardEntry *>(keyboard_mode)) != 0) {
-        ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
+    if (is_guild_card_invalid(own_card) != 0) {
+        own_card->clear_and_fill_from_char(local_client_id);
     }
-    return new TWindowComCard(position, (void *)keyboard_mode);
+    return new TWindowComCard(position, own_card);
 }
 
 TWindowComCard *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
@@ -149,7 +148,7 @@ void TWindowComCard::set_display_entry(s32 card_index, s32 records) {
     }
 }
 
-extern "C" void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card) {
+void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card) {
     WindowTextEntry *t4;
     WindowTextEntry *t14;
     WindowTextEntry *t0;
@@ -182,7 +181,7 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, GuildCardE
         n = 0xA;
     }
     TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
-    if (card->sub_8007B6F4() != 0) {
+    if (card->is_own_card() != 0) {
         id = card->get_card_id();
         if (id == 0) {
             t4->flags |= 2;

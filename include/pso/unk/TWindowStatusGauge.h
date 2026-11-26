@@ -19,7 +19,7 @@ public:
     f32 depth;
     f32 x;
     f32 y;
-    f32 scale;
+    f32 length;   // full bar width: the bar shows target * length / maximum
     u32 color;
     f32 width;
     f32 maximum;

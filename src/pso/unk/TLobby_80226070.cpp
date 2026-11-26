@@ -105,7 +105,7 @@ void update_music_stream_gain(s32 user) {
   unsigned int offset;
   s32 total;
   offset = music_gain_offset;
-  total = user + (*(s32 *)&music_gain_adjust);
+  total = user + (music_gain_adjust);
   if (music_gain_offset && music_gain_offset)
   {
   }

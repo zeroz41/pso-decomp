@@ -210,7 +210,7 @@ struct TObjPlayer : public TObjChara {
     void init_body_parts(void *visual);
     void init_model_and_idle_pose();
     void init_model_buffer_and_actions(void *data);
-    s32 sub_801A1DDC();
+    s32 is_local_or_split_screen();
     void gain_photon_blast_chain_charge(f32 amount);
     void spend_photon_blast_charge(f32 charge);
     void gain_photon_blast_charge(f32);
@@ -377,7 +377,7 @@ struct TObjPlayer : public TObjChara {
     void apply_velocity();
     void damp_planar_velocity();
     s16 clamp_tp();
-    static void clear_s16_arrays(void* p);
+    static void clear_s16_arrays(TObjChara *p);
     s32 add_capped_counter_999(s32 amount);
     int get_tp_materials_clamped();
     int get_hp_material_points();
@@ -388,8 +388,9 @@ struct TObjPlayer : public TObjChara {
     void copy_entry_bytes(void* q);
     WeaponAttribute *get_attribute_entry(s32 i);
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
-    s16 get_class_id();
-    s16 get_item_index();
+    // Thunder and ice resistance (element_resist 1 and 2), named as in the item help window.
+    s16 get_eth();
+    s16 get_eic();
     s32 get_floor();
     s32 is_on_current_floor();
     s32 get_area();
@@ -641,7 +642,7 @@ struct TObjPlayer : public TObjChara {
     void update_if_flag_set();
     void set_flag_0x100000();
     static void apply_velocity_if_free(saddr player);
-    static void apply_velocity_if_free(void *player);
+    static void apply_velocity_if_free(TObjPlayer *player);
     void complete_guard_reaction();
     void select_hit_action();
     static void create_photon_blast_party_effects(u16 id);
@@ -838,7 +839,7 @@ struct TObjPlayer : public TObjChara {
     s32 record_death(TObject *killer, s32 count);
     s16 get_handle_value();
     s32 get_class_flags();
-    static s32 check_technique_castable(saddr player);
+    static s32 check_technique_castable(TObjPlayer *player);
     void sync_current_floor();
     void sync_current_area();
     static int get_key_machine_global_state(void* p);
@@ -921,7 +922,7 @@ struct TObjPlayer : public TObjChara {
     LockOnActionSlot *find_palette_lockon_slot();
     s32 is_quest_interaction_blocked();
     s32 has_action_palette_entry();
-    static s32 is_effect_channel_active(saddr player, s32 index);
+    static s32 is_effect_channel_active(TObjPlayer *player, s32 index);
     void refresh_party_cursors();
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
     u16 select_action_palette_and_apply(s32 secondary, s32 row, s32 index);
@@ -954,7 +955,7 @@ struct TObjPlayer : public TObjChara {
     s32 find_inventory_item_id(s8 kind, s8 group);
     s32 try_add_sale_meseta(s32 item_id, s32 amount, s32 count);
     void drop_items_on_death();
-    static void send_6x2A_drop_item(TObjPlayer *player, s32 item_id, void *pos, s32 amount);
+    static void send_6x2A_drop_item(TObjPlayer *player, s32 item_id, Vec *pos, s32 amount);
     s32 send_trap_packet(int kind);
     void request_meseta_drop(s32 amount);
     void request_item_drop(s32 key, s32 count);
@@ -1296,4 +1297,10 @@ void on_inventory_item_added(TItem *item, s32 slot);
 
 // Whether any of mask is set in the flags of collision body `body` (name inferred).
 s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask);
+void emit_sand_footstep_effect(PlayerFollowParticles *particles);
+
+void emit_water_footstep_effect(PlayerFollowParticles *particles);
+
+void emit_grass_footstep_effect(PlayerFollowParticles *particles);
+
 #endif

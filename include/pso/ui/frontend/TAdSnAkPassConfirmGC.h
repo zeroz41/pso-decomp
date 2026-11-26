@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
+#include "pso/ui/window/TWindowBase.h"
 
 class TWindowBase;
 
@@ -22,12 +23,8 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
 
 LAYOUT_ASSERT(TAdSnAkPassConfirmGC_size, sizeof(TAdSnAkPassConfirmGC) == 0x4C);
 
-extern "C" {
-}
 
 // --- C functions defined in TAdSnAkPassConfirmGC.cpp ---
-extern "C" {
-}
 // --- end of C functions
 
 #endif

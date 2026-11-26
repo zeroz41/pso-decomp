@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #pragma readonly_strings on
 

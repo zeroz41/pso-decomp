@@ -19,7 +19,7 @@
 
 extern "C" {
 u8 get_small_font_glyph_width(u8);
-s32 TWindowSubStatusDisp__sub_800FC248(u8);
+s32 get_small_font_glyph_id(u8);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
 
@@ -107,7 +107,7 @@ void WindowTextEntry::measure_text(f32 max_width) {
                 p++;
             }
             if (small) {
-                w = get_small_font_glyph_width(TWindowSubStatusDisp__sub_800FC248(c));
+                w = get_small_font_glyph_width(get_small_font_glyph_id(c));
             } else {
                 w = get_font_char_advance(((u16 (*)(s32))map_char_to_font_code)(c));
             }
@@ -176,7 +176,7 @@ void WindowTextEntry::render(WindowDrawContext *context) {
     NJS_POINT2 pt;
     f32 scale;
     f32 clip;
-    s32 clipped;
+    s32 fully_shown;
     if (text != NULL && *text != 0) {
     pt.x = context->inner_x + x;
     pt.y = context->inner_y + y;
@@ -195,11 +195,11 @@ void WindowTextEntry::render(WindowDrawContext *context) {
     }
     set_text_draw_params(context, (!(flags & 0x100)), (flags & 0x80), scale, clip);
     if (flags & 4) {
-        clipped = draw_small_font_string_clipped((f32 *)&pt, text, color, len);
+        fully_shown = draw_small_font_string_clipped((f32 *)&pt, text, color, len);
     } else {
-        clipped = draw_window_text((f32 *)&pt, text, color, ((flags >> 9) & 1), len);
+        fully_shown = draw_window_text((f32 *)&pt, text, color, ((flags >> 9) & 1), len);
     }
-    if (clipped != 0) {
+    if (fully_shown != 0) {
         flags |= 0x10;
     } else {
         flags &= ~0x10;

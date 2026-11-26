@@ -37,7 +37,7 @@ struct AntiEmitterRow { s32 delay; s32 count; s32 id; s32 flags; };
 
 
 
-AntiEmitterRow TTecAnti__self_effect_rows[4] = {
+AntiEmitterRow anti_self_effect_rows[4] = {
     {0xF, 1, 0x30, 0},
     {0xF, 1, 0x32, 0},
     {0, 0xF, 0x31, 1},
@@ -164,7 +164,7 @@ TTecAntiEff::TTecAntiEff(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObject *
     VecCopy(&m_body_pos, body_pos);
     VecCopy(&m_ground_pos, ground_pos);
     for (i = 0; i < 4; i++) {
-        AntiEmitterRow *row = &TTecAnti__self_effect_rows[i];
+        AntiEmitterRow *row = &anti_self_effect_rows[i];
         TParticleCtrl *p;
         if (row->flags & 1) {
             p = create_timed_particle_emitter_with_flags(&m_ground_pos, row->id, row->delay, row->count, 0x10);

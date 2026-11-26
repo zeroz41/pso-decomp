@@ -37,9 +37,9 @@ TObjTradeCollision::~TObjTradeCollision() {
 
 
 TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)trade_collision_name);
+    *(s32 *)((s8 *)this + 0) = (s32) (trade_collision_name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
-    *(f32 *)((s8 *)this + 0xAC) = (f32) this->scale.x;
+    trade_radius = this->scale.x;
     ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 

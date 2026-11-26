@@ -32,4 +32,6 @@ struct TObjLuker : public TObjBase {
 };
 
 LAYOUT_ASSERT(TObjLuker_size, sizeof(TObjLuker) == 0xBC);
+s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
+
 #endif

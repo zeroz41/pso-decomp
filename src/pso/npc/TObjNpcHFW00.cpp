@@ -48,7 +48,7 @@ TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *set_data) : TObjNpcFomarl(pare
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *shared_resource_obj;
+    this->model = (NJS_OBJECT *)*shared_resource_obj;
     this->texlist = texture_handle;
     this->setup_common();
 }

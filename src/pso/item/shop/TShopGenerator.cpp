@@ -100,7 +100,7 @@ s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
 void TShopGenerator::run_task() {
     ShopService *service;
     s32 i;
-    saddr p;
+    TObjPlayer *p;
     int (*get_slot_flag)(int);
     service = &service_dispatch_table[this->set_params[0]];
     if (this->service_check_delay > 0) {
@@ -118,33 +118,33 @@ void TShopGenerator::run_task() {
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            p = (saddr)get_player_by_client_id(i);
+            p = get_player_by_client_id(i);
             if (p == 0) continue;
             if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
-            if (is_slot_active(((TObjBase *)(p))->get_entity_id()) == 1) continue;
-            if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(p))->get_entity_id()) == 1) continue;
-            if (((TObjPlayer *)p)->is_action_input_disabled() == 1) continue;
-            if (((TObjPlayer *)p)->is_controls_locked() == 1) continue;
+            if (is_slot_active(p->get_entity_id()) == 1) continue;
+            if (TMedicalCenterMes::get_slot_flag(p->get_entity_id()) == 1) continue;
+            if (p->is_action_input_disabled() == 1) continue;
+            if (p->is_controls_locked() == 1) continue;
             get_slot_flag = service->get_slot_flag;
-            if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(p))->get_entity_id())) == 1) continue;
-            if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) == 0) continue;
-            service->create((void *)p);
+            if (get_slot_flag((u16)get_client_split_screen_slot(p->get_entity_id())) == 1) continue;
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[p->get_controller_port()], 4) == 0) continue;
+            service->create(p);
         }
     } else {
-        saddr q;
+        TObjPlayer *q;
         int (*get_slot_flag2)(int);
-        q = (saddr)get_player_by_client_id(local_client_id);
+        q = get_player_by_client_id(local_client_id);
         if (q == 0) return;
-        if (is_slot_active(((TObjBase *)(q))->get_entity_id()) == 1) return;
-        if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(q))->get_entity_id()) == 1) return;
-        if (((TObjPlayer *)q)->is_action_input_disabled() == 1) return;
-        if (((TObjPlayer *)q)->is_controls_locked() == 1) return;
-        if (is_no_service_active(this, q) == 0) return;
+        if (is_slot_active(q->get_entity_id()) == 1) return;
+        if (TMedicalCenterMes::get_slot_flag(q->get_entity_id()) == 1) return;
+        if (q->is_action_input_disabled() == 1) return;
+        if (q->is_controls_locked() == 1) return;
+        if (is_no_service_active(this, (saddr)q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
-        if (get_slot_flag2((u16)get_client_split_screen_slot(((TObjBase *)(q))->get_entity_id())) == 1) return;
+        if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
-        if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)q)->get_controller_port()], 4) == 0) return;
-        service->create((void *)q);
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[q->get_controller_port()], 4) == 0) return;
+        service->create(q);
     }
 }
 

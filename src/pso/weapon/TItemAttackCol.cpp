@@ -33,6 +33,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/item/item_pmt.h"
+#include "pso/render/render_util.h"
 
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
 TItemAttackCol *attack_collider_render_owner;
@@ -47,7 +48,6 @@ const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
@@ -171,12 +171,12 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     s32 damage;
     TObjChara *target;
     TObjPlayer *player;
-    uaddr item;
+    TItem *item;
     s32 kind;
     f32 dealt;
     target = (TObjChara *)hit->target;
     player = get_player_by_client_id(this->client_id);
-    item = (uaddr)find_item_by_id((this->item_id));
+    item = find_item_by_id((this->item_id));
     target_body = &hit->target->bodies[hit->body];
     if ((player != NULL) && (item != 0U) && (target->calc_distance_accuracy_penalty(player, target_body, NULL, this->accuracy) != 0)) {
         kind = this->attack_kind;
@@ -197,8 +197,8 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
         player->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(player, damage));
         player->apply_camera_shake(target, damage);
         sound.clear();
-        sound.group = ((TItem *)item)->get_item_group();
-        sound.index = ((TItem *)item)->get_item_index();
+        sound.group = item->get_item_group();
+        sound.index = item->get_item_index();
         sound.player = player;
         sound.target = target;
         sound.collider = hit->body;
@@ -408,9 +408,9 @@ void TItemAttackCol::render() {
     }
 }
 
-void TItemAttackCol::move_with_collision(void *to) {
+void TItemAttackCol::move_with_collision(Vec *to) {
     CsnHit *hit;
-    hit = csnVector(&position, (const Vec *)to, 0x8100);
+    hit = csnVector(&position, to, 0x8100);
     if (hit != NULL) {
         hit_wall_flags.set(1);
         VecCopy(&position, &hit->contact->point);
@@ -418,7 +418,7 @@ void TItemAttackCol::move_with_collision(void *to) {
             hit_wall(item_id, &position, &velocity);
         }
     } else {
-        VecCopy(&position, (const Vec *)(to));
+        VecCopy(&position, to);
     }
 }
 

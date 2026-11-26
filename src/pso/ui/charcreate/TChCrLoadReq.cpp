@@ -95,7 +95,7 @@ TChCrLoadReq::TChCrLoadReq(TObject *parent, const CharacterPreviewLoadArgs *args
 void TChCrLoadReq::reset_request() {
     s32 i;
     s32 index;
-    head_model = inputs.part_models + 2;
+    head_model_slot = inputs.part_models + 2;
     index = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
     class_appearance = &class_appearance_table[index];
     reset_character_load_buffer(inputs.load_slot);
@@ -315,7 +315,7 @@ void TChCrLoadReq::load_preview_models() {
         }
     }
     models.appearance = inputs.appearance;
-    models.head = reinterpret_cast<NJS_OBJECT *>(*head_model);
+    models.head = reinterpret_cast<NJS_OBJECT *>(*head_model_slot);
     models.body = reinterpret_cast<NJS_OBJECT *>(*inputs.body_model);
     for (i = 0; i < 3; i++) {
         models.sample_indices[i] = sample_indices[i];

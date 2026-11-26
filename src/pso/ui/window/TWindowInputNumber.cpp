@@ -94,13 +94,13 @@ void TWindowInputNumber::move_cursor_next() {
     u8 digits;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    *(u8 *)&this->selectedDigit = (u8) (*(u8 *)&this->selectedDigit + 1);
-    if ((s8) *(u8 *)&this->selectedDigit >= (s8) (digits = *(u8 *)&this->digitCount)) {
+    this->selectedDigit = (u8) (this->selectedDigit + 1);
+    if ((s8) this->selectedDigit >= (s8) (digits = *(u8 *)&this->digitCount)) {
         if (this->inputFlags & 1) {
-            *(u8 *)&this->selectedDigit = (digits - 1);
+            this->selectedDigit = (digits - 1);
             return;
         }
-        *(u8 *)&this->selectedDigit = 0U;
+        this->selectedDigit = 0U;
     }
 }
 
@@ -212,7 +212,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.u1 = (14.0f + uv->u) / 256.0f;
     q.v1 = (12.0f + uv->v) / 256.0f;
     ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    draw_textured_quad_at_depth(&q.x0, depth);
     q.x0 = x;
     q.y0 = 25.0f + y;
     q.x1 = 14.0f + q.x0;
@@ -222,7 +222,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.u1 = (14.0f + uv->u) / 256.0f;
     q.v1 = (28.0f + (12.0f + uv->v)) / 256.0f;
     ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    draw_textured_quad_at_depth(&q.x0, depth);
     q.x0 = x;
     q.y0 = 19.0f + y;
     q.x1 = 14.0f + q.x0;
@@ -232,7 +232,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber
     q.u1 = (14.0f + uv->u) / 256.0f;
     q.v1 = (13.0f + (12.0f + uv->v)) / 256.0f;
     ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    draw_textured_quad_at_depth(&q.x0, depth);
     end_screen_draw();
 }
 #pragma pop
@@ -340,5 +340,5 @@ s32 TWindowInputNumber::is_locked(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }

@@ -154,7 +154,7 @@ s32 select_destination_away_from(TObjChara *chara, Vec point);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 void * find_entity_by_id(s32 id);
-s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
+s32 record_damage_stats(void *, void *, void *);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 angle_units_per_radian;
 extern TObjCollidable *entity_table[];
@@ -460,9 +460,9 @@ s16 TObjChara::get_base_dfp() { return this->base_dfp; }
 
 void TObjChara::adjust_dfp(int amount) { this->dfp = (this->dfp + amount); }
 
-s16 TObjPlayer::get_item_index() { return this->element_resist[1]; }
+s16 TObjPlayer::get_eth() { return this->element_resist[1]; }
 
-s16 TObjPlayer::get_class_id() { return this->element_resist[2]; }
+s16 TObjPlayer::get_eic() { return this->element_resist[2]; }
 
 #pragma push
 #pragma scheduling off
@@ -1836,7 +1836,7 @@ void TObjChara::run_hit_reaction() {  }
 
 void TObjChara::run_death_reaction() {  }
 
-void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; this->tp = this->tpmax; }
+void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); this->hp = this->hpmax; this->tp = this->tpmax; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
@@ -3196,10 +3196,10 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 
 #pragma push
 #pragma opt_pointer_analysis on
-void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
-  if ((((lobby_rule_settings.get_rules_active() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
+void record_local_damage_if_enabled(TObjChara *mine_trap, void *att, saddr damage) {
+  if ((((lobby_rule_settings.get_rules_active() == 1) && (mine_trap->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
   {
-    record_damage_stats__10TOMineTrapFUiUis(mine_trap, att, (void *) damage);
+    record_damage_stats(mine_trap, att, (void *) damage);
   }
 }
 
@@ -3297,13 +3297,13 @@ void TObjChara::apply_switch_attack() {
 
 void TObjChara::enemy_spawn_jellen_effect() {
     Angle3 rotation;
-    saddr oneshot_particle_emitter;
+    TParticleCtrl *oneshot_particle_emitter;
     rotation.y = 0;
     rotation.x = 0;
     rotation.z = -0x8000;
-    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FD, 0x50);
+    oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -3318,13 +3318,13 @@ void TObjChara::trigger_switch_attack() {
 
 void TObjChara::enemy_spawn_zalure_effect() {
     Angle3 rotation;
-    saddr oneshot_particle_emitter;
+    TParticleCtrl *oneshot_particle_emitter;
     rotation.y = 0;
     rotation.x = 0;
     rotation.z = -0x8000;
-    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FE, 0x50);
+    oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -3332,9 +3332,9 @@ void TObjChara::recalc_stats() {}
 
 s32 TObjChara::sync_enemy_state(s32) { return 0; }
 
-void TObjPlayer::clear_s16_arrays(void *p) {
+void TObjPlayer::clear_s16_arrays(TObjChara *p) {
     for (s32 i = 0; i < 4; i++) {
-        static_cast<TObjChara *>(p)->clear_attack_credit_slot(i);
+        p->clear_attack_credit_slot(i);
     }
 }
 
@@ -3466,7 +3466,7 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *targe
     f32 chance;
 
     if ((attacker->get_entity_id() >= 0x1000U) && (target->get_entity_id() < 0x1000U)) {
-        chance = 0.75f - ((f32) (actor)->get_item_index() / 100.0f);
+        chance = 0.75f - ((f32) (actor)->get_eth() / 100.0f);
         if (chance < 0.0f) {
             chance = 0.0f;
         }
@@ -3483,7 +3483,7 @@ s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *targ
 
     chance = base_chance;
     if ((attacker->get_entity_id() >= 0x1000U) && (attacker->get_entity_id() < 0x4000U) && (target->get_entity_id() < 0x1000U)) {
-        chance = 0.75f - ((f32) (actor)->get_class_id() / 100.0f);
+        chance = 0.75f - ((f32) (actor)->get_eic() / 100.0f);
         if (chance < 0.0f) {
             chance = 0.0f;
         }

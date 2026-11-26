@@ -971,7 +971,7 @@ s32 TOMineTrap::show_owner_message(TObjChara *player) {
                 text_builder_append("\x09""C4");
                 text_builder_append(name);
                 text_builder_append(" TRAP\n");
-                TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
+                TWindowCtrl::append_message_all(get_shared_text_buffer(), 0x200);
                 return 1;
             }
         }

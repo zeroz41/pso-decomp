@@ -203,7 +203,7 @@ void TItemTimerEventArmorParticle::apply_effect() {
 
     if ((((TObjPlayer *)this->player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->player))->is_flag_20000_set() == 0)) {
                 if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjCollidable *)((void *)this->player))->test_actor_flags(0x800) == 0)) {
-            particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->player + 0x2FC), this->particle_id, 0x10);
+            particle = spawn_particle_effect_with_flags((const Vec *)(this->player + 0x2FC), this->particle_id, 0x10);
             if (particle != 0) {
                 particle->set_owner_id(((TObjBase *)this->player)->get_entity_id());
             }

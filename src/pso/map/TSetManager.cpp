@@ -51,6 +51,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <dolphin/ar.h>
 #include "pso/system/scene/TScene.h"
+#include "pso/system/scene/TSceneMaterial.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/NinjaUtil.h"
@@ -64,10 +65,6 @@
 #pragma readonly_strings on
 
 
-extern TObject *tl_02;
-extern TObject *tl_05;
-extern TObject *tl_06;
-extern TObject *tl_07;
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
 int pack_floor_set_flags(FloorSetFlagsPayload *buf) {
@@ -357,10 +354,10 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
 struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
 
-void send_6x76_set_entity_set_flags(void *object, s16 flags) {
+void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
     Send6x76SetEntitySetFlagsPacket pkt;
     build_6x76_set_entity_set_flags(&pkt);
-    pkt.a = ((TObjBase *)(object))->get_entity_id();
+    pkt.a = object->get_entity_id();
     pkt.b = ((s16 (*)())get_current_floor)();
     pkt.c = flags;
     ((TLobby *)(&pkt))->send_player_update();
@@ -472,7 +469,7 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
 }
 
 s32 TWindowDD::check_all_ready(s32 floor) {
-    s16 temp_r3_2;
+    s16 flags;
     s32 object_type;
     s32 i;
     u8 *active_floor_enemy_rows;
@@ -481,8 +478,8 @@ s32 TWindowDD::check_all_ready(s32 floor) {
     object_type = TLobby::get_object_type(floor);
     if (active_floor_enemy_rows != NULL) {
         for (i = 0; i < object_type; i++) {
-            temp_r3_2 = *(s16 *)((s8 *)active_floor_enemy_rows + 2);
-            if (!(temp_r3_2 & 8) && (temp_r3_2 & 2)) {
+            flags = *(s16 *)((s8 *)active_floor_enemy_rows + 2);
+            if (!(flags & 8) && (flags & 2)) {
                 return 0;
             }
             active_floor_enemy_rows += 0x48;
@@ -1067,19 +1064,21 @@ s32 is_battle_mode_running();
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr matrix, u8 *rotation, u8 *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
-s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq);
+s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq);
 void spawn_decorations_in_range(TSetManager *manager);
-void apply_room_transform(saddr matrix, u8 *rotation, u8 *room) {
+void apply_room_transform(saddr matrix, u8 *rotation, u8 *room_arg) {
+    SceneMaterialSection *room = (SceneMaterialSection *)room_arg;
+    s32 *angles = (s32 *)rotation;
     push_matrix_from(&identity_matrix.value);
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)room + 4)), (f32) (*(f32 *)((s8 *)room + 8)), (f32) (*(f32 *)((s8 *)room + 0xC)));
-    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)room + 0x18)));
-    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)room + 0x10)));
-    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)room + 0x14)));
+    translate_matrix(0, room->position.x, room->position.y, room->position.z);
+    rotate_matrix_z(0, room->angles[2]);
+    rotate_matrix_x(0, room->angles[0]);
+    rotate_matrix_y(0, room->angles[1]);
     matrix_mult_vec(0, (void *)matrix, (void *)matrix);
     pop_matrix();
-    *(s32 *)((s8 *)rotation + 0) = (s32) (*(s32 *)((s8 *)rotation + 0) + *(s32 *)((s8 *)room + 0x10));
-    *(s32 *)((s8 *)rotation + 4) = (s32) (*(s32 *)((s8 *)rotation + 4) + *(s32 *)((s8 *)room + 0x14));
-    *(s32 *)((s8 *)rotation + 8) = (s32) (*(s32 *)((s8 *)rotation + 8) + *(s32 *)((s8 *)room + 0x18));
+    angles[0] = angles[0] + room->angles[0];
+    angles[1] = angles[1] + room->angles[1];
+    angles[2] = angles[2] + room->angles[2];
 }
 
 void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
@@ -1136,19 +1135,19 @@ void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int 
     }
 }
 
-s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq) {
+s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq) {
     s32 n;
     s32 i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
-                if (xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->split_pos[i]) < max_dist_sq) {
+                if (xyz_distance_squared(pos, &camera_ctrl_instance->split_pos[i]) < max_dist_sq) {
                     return 1;
                 }
             }
         }
-    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->pos) < max_dist_sq) {
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(pos, &camera_ctrl_instance->pos) < max_dist_sq) {
         return 1;
     }
     return 0;
@@ -1252,7 +1251,7 @@ extern const char decoration_file_suffix_online[7] = "ad.dat";
 extern const char decoration_file_suffix_offline[6] = "d.dat";
 
 void TSetManager::create() {
-    new TSetManager((TObject *)tl_02);
+    new TSetManager(tl_02);
 }
 
 void free_floor_decorations() {
@@ -1548,8 +1547,8 @@ void init_item_drop_tables(void) {
     memset(floor_object_set_counts, 0, 0x48);
     memset(floor_enemy_set_counts, 0, 0x48);
     memset(TLobby__data_80513D10, 0, 0x24);
-    quest_object_entries = (QuestObjectEntry *)TQuestVmDownLoadServer__sub_8007EBDC(0xBA0, 4);
-    enemy_state_records = (EnemyStateRecord *)TQuestVmDownLoadServer__sub_8007EBDC(0xB50, 0xC);
+    quest_object_entries = (QuestObjectEntry *)alloc_zeroed_array(0xBA0, 4);
+    enemy_state_records = (EnemyStateRecord *)alloc_zeroed_array(0xB50, 0xC);
     k = 0;
     for (i = 0; i < 0xBA0; i++) {
         quest_object_entries[i].drop_id_base = k++ + 0x100;

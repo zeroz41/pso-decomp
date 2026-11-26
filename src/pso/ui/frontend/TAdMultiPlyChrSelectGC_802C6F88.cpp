@@ -25,11 +25,11 @@ int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cu
 NJS_TEXLIST *get_player_tex_texture_list(void) {  return player_tex_texture_list_ptr; }
 
 
-TAdMultiPlyChrSelectTransitionGC *lbl_805D67E8;
+TAdMultiPlyChrSelectTransitionGC *multi_chr_select_transition_instance;
 
 extern "C" void update_transition_anim_if_active(void *, void *) {
-    if (lbl_805D67E8 != NULL) {
-        lbl_805D67E8->update_transition_anim();
+    if (multi_chr_select_transition_instance != NULL) {
+        multi_chr_select_transition_instance->update_transition_anim();
     }
 }
 
@@ -92,7 +92,7 @@ TAdMultiPlyChrSelectTransitionGC::~TAdMultiPlyChrSelectTransitionGC() {
         this->statusWindow->close();
         this->statusWindow = NULL;
     }
-    lbl_805D67E8 = NULL;
+    multi_chr_select_transition_instance = NULL;
 }
 
 TAdMultiPlyChrSelectTransitionGC::TAdMultiPlyChrSelectTransitionGC(TObject *parent, s32 client) : TObject(parent) {
@@ -107,7 +107,7 @@ TAdMultiPlyChrSelectTransitionGC::TAdMultiPlyChrSelectTransitionGC(TObject *pare
     this->target1Y = 425.0f;
     this->client = client;
     this->timer = 0;
-    lbl_805D67E8 = this;
+    multi_chr_select_transition_instance = this;
     this->statusWindow = new TWindowSubStatusDisp(this->client);
     this->callback = (TWindowBase *)create_callback_at_zero_vec2(update_transition_anim_if_active);
 }

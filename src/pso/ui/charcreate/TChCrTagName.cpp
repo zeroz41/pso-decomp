@@ -10,8 +10,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 
-__declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
-const char *TChCrTagName::class_name = TChCrTagName__class_name_string;
+__declspec(section ".rodata") extern const char TChCrTagName_class_name_string[] = "TChCrTagName";
+const char *TChCrTagName::class_name = TChCrTagName_class_name_string;
 extern const vec2f name_tag_back_scale;
 extern const vec2f name_tag_edge_scale;
 extern const vec2f name_tag_corner_scale;

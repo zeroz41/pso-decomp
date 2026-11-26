@@ -26,7 +26,7 @@ void TKeyBoardControl::run_task() {
             flags = (u16)(flags & 0xFFFE);
             m_hard->reset_status_text();
             if (m_soft != NULL) {
-                window_request_show(m_soft);
+                m_soft->request_show();
             }
         }
     } else if (m_hard->is_key_held() == 0) {

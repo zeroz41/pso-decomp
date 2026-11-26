@@ -46,6 +46,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/task/TMainTask.h"
 const char *window_ctrl_main_class_name = "TWindowCtrlMain";
 const char *window_ctrl_screen_class_name = "TWindowCtrlScreen";
 const char *window_ctrl_sub_class_name = "TWindowCtrlSub";
@@ -61,13 +62,9 @@ TWindowCtrlScreen *TWindowCtrlMain::screen_controller;
 TWindowCtrlSub *TWindowCtrlMain::sub_controller;
 TWindowCtrlClipOut *window_clip_out_instance;
 f32 window_depth_order_cursor;
-extern TObject *tl_01;
-extern TObject *tl_window;
-extern TObject *tl_clipout;
-extern TObject *tl_fadeafter;
 void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
-extern "C" s32 fn_8002AE08(s32 client_id);
+extern "C" s32 get_control_button_mask(s32 client_id);
 
 // -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
 s32 TWindowCtrlPlayer::is_main_menu_locked() { return (flags >> 6) & 0x1; }
@@ -147,7 +144,7 @@ void TWindowCtrlPlayer::update_trade_window_visibility() {
             simple_status->request_close();
             return;
         }
-        window_request_show(simple_status);
+        simple_status->request_show();
     }
 }
 
@@ -159,7 +156,7 @@ void TWindowCtrlPlayer::update_child_window_visibility() {
             action_palette->request_close();
             return;
         }
-        window_request_show(action_palette);
+        action_palette->request_show();
     }
 }
 
@@ -243,7 +240,7 @@ void TWindowCtrlPlayer::show_active_window() {
             message_information->request_close();
             return;
         }
-        window_request_show(message_information);
+        message_information->request_show();
         if (is_main_menu_open() != 0) {
             message_information->set_position((f32 *)get_window_layout_position(0x21));
             return;
@@ -276,7 +273,7 @@ void TWindowCtrlPlayer::update_short_list_request() {
                     short_list = NULL;
                 }
             } else if (short_list == NULL && is_keyboard_held() == 0) {
-                if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], fn_8002AE08(client_id)) != 0 &&
+                if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], get_control_button_mask(client_id)) != 0 &&
                     test_pressed_buttons_packed(btn, 0x200) != 0) {
                     short_list = new TWindowShortListCtrl(this, client_id);
                 }
@@ -604,7 +601,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
         q.v0 = 0.93359375f;
         q.u1 = 0.13671875f;
         q.v1 = 0.99609375f;
-        draw_textured_quad_at_depth((f32 *)&q, 0.1f);
+        draw_textured_quad_at_depth(&q.x0, 0.1f);
     }
     for (y = s->bottom; y < 480.0f; y += 16.0f) {
         q.x0 = 0.0f;
@@ -615,7 +612,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
         q.v0 = 0.93359375f;
         q.u1 = 0.13671875f;
         q.v1 = 0.99609375f;
-        draw_textured_quad_at_depth((f32 *)&q, 0.1f);
+        draw_textured_quad_at_depth(&q.x0, 0.1f);
     }
     q.x0 = s->left;
     q.y0 = s->bottom - 16.0f;
@@ -625,7 +622,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     q.v0 = 0.93359375f;
     q.u1 = 0.06640625f;
     q.v1 = 0.99609375f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.1f);
+    draw_textured_quad_at_depth(&q.x0, 0.1f);
     end_screen_draw();
 
     line.verts = lverts;

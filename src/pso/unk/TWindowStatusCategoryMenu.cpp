@@ -59,6 +59,6 @@ TWindowMenu *TWindowStatusCategoryMenu::create_status_category_menu() {
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10C)), 0x36, 2);
     (menu)->set_flag70_bit10();
     (menu)->update_layout_height(202.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
+    align_menu_entry_positions(menu);
     return menu;
 }

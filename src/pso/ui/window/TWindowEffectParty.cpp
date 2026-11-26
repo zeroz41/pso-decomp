@@ -32,12 +32,12 @@ void *get_simple_status_window(s8 i) {
 }
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
-    NJS_POINT3 position;
+    Vec position;
     m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
+    set_slot_position(this->source_slot, &this->pos_x);
     this->target_slot = target;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->target_slot, &this->target_x);
+    set_slot_position(this->target_slot, &this->target_x);
     this->calc_effect_position(&position);
     this->m_particle = spawn_continuous_particle_effect_with_flags(&position, (saddr)effect_id, (s32)(0xC0));
     this->state = 0;
@@ -48,7 +48,7 @@ TWindowEffectParty::~TWindowEffectParty() {
 }
 
 void TWindowEffectParty::run_task() {
-    NJS_POINT3 pos;
+    Vec pos;
     u8 slot;
 
     void *window;
@@ -142,9 +142,8 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     return w;
 }
 
-void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) {
+void TWindowEffectParty::set_slot_position(s32 slot, f32 *position) {
     TWindowBase *window;
-    (void)unused;
 
     if (slot <= 0) {
         copy_vec2(position, (void*)(get_window_layout_position(0x1C)));
@@ -159,7 +158,7 @@ void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) 
     }
 }
 
-void TWindowEffectParty::calc_effect_position(NJS_POINT3 *out) {
+void TWindowEffectParty::calc_effect_position(Vec *out) {
     out->x = this->pos_x;
     out->y = this->pos_y;
     out->z = (f32)(-1.0f / TWindowCtrlMain::get_scale(local_client_id));

@@ -82,18 +82,18 @@ WindowDescriptor TWindowSubMagPhoton::layout_descriptor = {
 void TWindowSubMagPhoton::handle_cancel() {
     if (get_active_flag() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->state_flags = (u8) (this->state_flags | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
 }
 
 void TWindowSubMagPhoton::play_open_sound() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->state_flags = (u8) (this->state_flags | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
 }
 
 void TWindowSubMagPhoton::update_selection_input() {
-    u8 temp_r3;
-    u8 temp_r3_2;
+    u8 index;
+    u8 index_after;
     ControllerInputContext *window_choice_setting;
     window_choice_setting = &controller_input_state.controllers[is_player_input_active(((s32) this->client_index))];
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
@@ -110,13 +110,13 @@ void TWindowSubMagPhoton::update_selection_input() {
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
             this->selected_blast_index = (this->selected_blast_index - 1);
         }
-        temp_r3 = this->selected_blast_index;
-        if ((s8) temp_r3 < 0) {
-            this->selected_blast_index = (temp_r3 + 3);
+        index = this->selected_blast_index;
+        if ((s8) index < 0) {
+            this->selected_blast_index = (index + 3);
         }
-        temp_r3_2 = this->selected_blast_index;
-        if ((s8) temp_r3_2 >= 3) {
-            this->selected_blast_index = (temp_r3_2 - 3);
+        index_after = this->selected_blast_index;
+        if ((s8) index_after >= 3) {
+            this->selected_blast_index = (index_after - 3);
         }
     }
 }
@@ -166,7 +166,7 @@ TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *
     save_position();
     client_index = client;
     mag_item = mag_state;
-    state_flags = 0;
+    result_flags = 0;
     selected_blast_index = 1;
     cursor_frame++;
     init_photon_blast_entries();

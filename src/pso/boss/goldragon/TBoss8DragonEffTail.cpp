@@ -93,12 +93,12 @@ TBoss8DragonEffTail::~TBoss8DragonEffTail() {
 
 TBoss8DragonEffTail::TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes)
     : TAttackCollider(NULL, dragon, boss8_dragon_eff_tail_init_data, 0x11) {
-    void *data;
+    CollisionBody *data;
     s32 i;
     data = boss8_dragon_eff_tail_init_data;
     m_name = TBoss8DragonEffTail::name;
     for (i = 1; i < 0x11; i++) {
-        copy_collision_body(&bodies[i], (const CollisionBody *)data);
+        copy_collision_body(&bodies[i], data);
     }
     this->dragon = dragon;
     this->nodes = nodes;

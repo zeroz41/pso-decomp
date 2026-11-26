@@ -90,12 +90,12 @@ TBoss1DragonEffTail::~TBoss1DragonEffTail() {
 }
 TBoss1DragonEffTail::TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes)
     : TAttackCollider(NULL, dragon, TBoss1DragonEffTail::collision_body_templates, 0x11) {
-    void *data;
+    CollisionBody *data;
     s32 i;
     data = TBoss1DragonEffTail::collision_body_templates;
     m_name = TBoss1DragonEffTail::name;
     for (i = 1; i < 0x11; i++) {
-        copy_collision_body(&bodies[i], (const CollisionBody *)data);
+        copy_collision_body(&bodies[i], data);
     }
     this->dragon = dragon;
     this->nodes = nodes;

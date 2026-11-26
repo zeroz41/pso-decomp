@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/system/BmlAccessors.h"
@@ -226,21 +227,21 @@ extern s16 *dark_gunner_cly_line_polygons;
 #pragma dont_inline off
 #pragma inline_depth(4)
 extern "C" {
-inline f32 fmax_800A2390(f32 a, f32 b) {
+inline f32 max_f32(f32 a, f32 b) {
     if (a > b) {
         return a;
     }
     return b;
 }
 
-inline f32 fmin_800A28A4(f32 a, f32 b) {
+inline f32 min_f32(f32 a, f32 b) {
     if (a < b) {
         return a;
     }
     return b;
 }
 
-inline f32 fmax_800A28A4(f32 a, f32 b) {
+inline f32 max_f32_b(f32 a, f32 b) {
     if (a > b) {
         return a;
     }
@@ -306,7 +307,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     variant = 0;
     set_param(0x22);
     add_flags_2e4(8);
-    state36C = *(s16 *)((u8 *)set_data + 0x3E);
+    state36C = ((EnemyPlacement *)set_data)->unknown3e;
     resetTimer = 0xF;
     timer = resetTimer;
     VecCopy(&prev_position, &position);
@@ -477,9 +478,9 @@ void TObjEneDarkGunner::run_task() {
     body_center.y += render_y_offset;
     VecCopy(&center, &shadow_pos);
     if (behavior_flags & 0x80000) {
-        render_y_offset = fmin_800A28A4(0.5f + render_y_offset, 10.0f);
+        render_y_offset = min_f32(0.5f + render_y_offset, 10.0f);
     } else {
-        render_y_offset = fmax_800A28A4(render_y_offset - 0.5f, 0.0f);
+        render_y_offset = max_f32_b(render_y_offset - 0.5f, 0.0f);
     }
     update_hover();
     bodies->offset.y = 4.0f + render_y_offset;
@@ -620,7 +621,7 @@ void TObjEneDarkGunner::update_move() {
         enemy_set_heading_velocity(move_speed, this, move_heading);
         step_along_ground();
         move_distance += move_speed;
-        move_speed = fmax_800A2390(-0.2f + move_speed, 0.5f);
+        move_speed = max_f32(-0.2f + move_speed, 0.5f);
         if (move_distance >= get_float_parameter(1)) {
             behavior_flags &= ~0x80000;
             state = 3;

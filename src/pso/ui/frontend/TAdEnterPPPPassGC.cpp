@@ -23,14 +23,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include <string.h>
+#include "pso/ui/keyboard/SystemBootInit.h"
 
-static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
+static const f32 pass_selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
 
 typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
-extern s32 password_entry_dispatch_state;
-extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 
 void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -65,8 +64,8 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
     char *buf;
     s32 cur;
     buf = password_entry_keyboard_control->realloc_buffer();
-    if ((m_40 == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
-        (m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((text_length == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
+        (text_length == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         mem_free(buf);
         TAdEnterPPPPassGC::set_password("");
         pending_dispatch_state = 2;
@@ -103,11 +102,11 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         if (cur != 0) {
             if (select_cursor != NULL) {
                 select_cursor->reset_entries();
-                select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[3]);
+                select_cursor->append_entry(pass_selection_positions[3]);
             }
         } else if (select_cursor != NULL) {
             select_cursor->reset_entries();
-            select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[2]);
+            select_cursor->append_entry(pass_selection_positions[2]);
         }
     }
     if (select_cursor->confirmation_result() == 1 &&
@@ -116,7 +115,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         pending_dispatch_state = 3;
         password_entry_dispatch_state = 4;
     }
-    m_40 = strlen(buf);
+    text_length = strlen(buf);
     mem_free(buf);
 }
 
@@ -125,7 +124,7 @@ void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
-        select_cursor->append_entry(TAdEnterPPPPassGC__selection_positions[2]);
+        select_cursor->append_entry(pass_selection_positions[2]);
         select_cursor->lock_navigation();
     }
     password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 3);
@@ -138,9 +137,8 @@ void *ppp_password_buffer[8] = {
 };
 
 void TAdEnterPPPPassGC::run_task() {
-    TAdEnterPPPPassGC *self = this;
-    self->fn_8032B318(password_screen_status_line_position);
-    self->prev_state = password_entry_dispatch_state;
+    this->get_title_position(password_screen_status_line_position);
+    this->prev_state = password_entry_dispatch_state;
     static StateHandler tbl[5] = {
         (StateHandler)&TAdEnterPPPPassGC::open_keyboard_window,
         (StateHandler)&TAdEnterPPPPassGC::update_password_input,
@@ -148,9 +146,9 @@ void TAdEnterPPPPassGC::run_task() {
         (StateHandler)&TAdEnterPPPPassGC::forward_chg_game_mode,
         (StateHandler)&TAdEnterPPPPassGC::close_windows_and_advance,
     };
-    (self->*tbl[password_entry_dispatch_state])();
-    if (self->prev_state != password_entry_dispatch_state) {
-        self->close_delay_ticks = 0;
+    (this->*tbl[password_entry_dispatch_state])();
+    if (this->prev_state != password_entry_dispatch_state) {
+        this->close_delay_ticks = 0;
     }
 }
 
@@ -168,9 +166,9 @@ TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}
 TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     s32 ok;
     m_name = TAdEnterPPPPassGC::name;
-    sub_8032B460(3);
+    reset(3);
     password_entry_dispatch_state = 0;
-    m_40 = 0;
+    text_length = 0;
     if (load_network_info() != 0) {
         init_account_entries();
     } else {

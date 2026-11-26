@@ -5,13 +5,14 @@
 
 struct TCheckMemoryCard;
 struct TWindowMessage;
+struct TWindowOptionCtrl;
 
 // The scene TAdMultiChgGameModeGC creates for game mode 3: a short list (TWindowOptionCtrl) whose
 // choice picks the dial image, then the system file check and load (reading inferred).
 class TAdDialingSelectGC : public TObject {
 public:
     TAdDialingSelectGC();
-    void sub_801A4CA4();
+    void update_dial_image();
     // render is the first virtual declared: the vtable comes out with it, ahead of run_task's
     // jump table.
     virtual void render();
@@ -22,7 +23,7 @@ public:
     s16 timer;
     // The short list choice; 4 until one is made (name inferred).
     s32 selection;
-    TObject *list;
+    TWindowOptionCtrl *option_window;
     TWindowMessage *window;
     TCheckMemoryCard *card;
 };

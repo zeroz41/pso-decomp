@@ -889,7 +889,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
 
 void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
     Vec edge_b;
-    Vec sp14;
+    Vec edge_a;
     Vec v;
     f32 d;
     s32 angle;
@@ -1003,9 +1003,9 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 set_matrix_identity(0);
                 post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
-                matrix_mult_vec_array(NULL, entry, &sp14, 2);
+                matrix_mult_vec_array(NULL, entry, &edge_a, 2);
                 pop_matrix();
-                this->attack_traces[0]->add_segment(&sp14, &edge_b);
+                this->attack_traces[0]->add_segment(&edge_a, &edge_b);
             }
         }
         break;

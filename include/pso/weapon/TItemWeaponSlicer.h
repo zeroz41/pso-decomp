@@ -22,6 +22,6 @@ public:
     Vec scale; // 0x1FC: blade scale (variant 5) or offset (variant 7)
 };
 
-void enlarge_flight_cutter_slicer(void *arg0);
+void enlarge_flight_cutter_slicer(TObjBase *object);
 
 #endif

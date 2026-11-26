@@ -199,7 +199,7 @@ void stop_adx_stream(AdxStreamFile *file) {
     adx_unlock();
 }
 
-static inline s32 adxstm_tell(AdxStreamFile *s) {
+static inline s32 get_stream_position_b(AdxStreamFile *s) {
     if (s->handle != 0) {
         return cvFsTell(s->handle) - s->base_offset;
     }
@@ -213,7 +213,7 @@ s32 init_adx_stream_position(AdxStreamFile *file) {
     } else {
         file->stat = 2;
         file->bytes_read = 0;
-        file->start_position = adxstm_tell(file);
+        file->start_position = get_stream_position_b(file);
         file->retry = 0;
     }
     return 1;

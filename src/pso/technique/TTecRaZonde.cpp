@@ -36,9 +36,6 @@
 
 #pragma fp_contract on
 
-extern "C" {
-}
-
 // Per band: the particle emitters spawn_effects places along the bolt points.
 extern const TechniqueEmitter razonde_emitters_low[1] = {{147}};
 extern const TechniqueEmitter razonde_emitters_mid[2] = {{170}, {173}};
