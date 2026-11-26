@@ -102,7 +102,7 @@ TOHangceilingCaveBase::~TOHangceilingCaveBase() {
 }
 
 void load_turiten_singo_resources(void) {
-    void *p;
+    BmlResource *p;
 
     hangceiling_cave01_model_archive = NULL;
     turiten_singo_texture_lists = NULL;
@@ -110,7 +110,7 @@ void load_turiten_singo_resources(void) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
         p = new BmlResource(5, &turiten_singo_resource_descriptor, 0, 0, NULL);
-        hangceiling_cave01_model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
@@ -122,7 +122,7 @@ void load_turiten_singo_resources(void) {
         break;
     default:
         p = new BmlResource(5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, NULL);
-        hangceiling_cave01_model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");

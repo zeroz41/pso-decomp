@@ -221,20 +221,20 @@ void free_forest_box_resources() {
 NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
 
 void load_container_breakup_resources() {
-    void *p;
+    BmlResource *p;
     container_breakup_model_archive = 0;
     switch (get_current_floor_area()) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
         p = new BmlResource(5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, NULL);
-        container_breakup_model_archive = (BmlResource *)p;
+        container_breakup_model_archive = p;
         container_breakup_textures = LoadPvmFileTls("obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
         p = new BmlResource(5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, NULL);
-        container_breakup_model_archive = (BmlResource *)p;
+        container_breakup_model_archive = p;
         container_breakup_textures = LoadPvmFileTls("obj_abecon.gvm");
         break;
     }
