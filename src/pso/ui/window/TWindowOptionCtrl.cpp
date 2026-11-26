@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"

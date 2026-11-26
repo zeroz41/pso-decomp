@@ -38,7 +38,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_803D8F74.h"

@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_8026CB5C_H
-#define PSO_UNK_TEXT_8026CB5C_H
+#ifndef PSO_MATH_VEC2CONSTANTS_H
+#define PSO_MATH_VEC2CONSTANTS_H
 
 #include "types.h"
 

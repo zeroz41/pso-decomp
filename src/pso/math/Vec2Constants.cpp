@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/system/NinjaTypes.h"
 
 // The constant points the window code takes by address, defined in this order.

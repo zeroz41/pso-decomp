@@ -31,7 +31,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"

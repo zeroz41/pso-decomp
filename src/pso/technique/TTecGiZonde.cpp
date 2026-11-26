@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecShot.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecZondeHitEffect.h"

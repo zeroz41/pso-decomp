@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_803F3BF8_H
-#define PSO_UNK_TEXT_803F3BF8_H
+#ifndef PSO_NETWORK_NETWORKCONFIG_H
+#define PSO_NETWORK_NETWORKCONFIG_H
 
 #include "types.h"
 

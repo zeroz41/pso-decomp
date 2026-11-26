@@ -8,7 +8,7 @@
 #include "pso/unk/text_8026A328.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80072230.h"
+#include "pso/network/ChallengePackets.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "pso/map/FloorArea.h"

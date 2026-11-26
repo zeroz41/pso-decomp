@@ -27,7 +27,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"

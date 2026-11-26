@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_803F3BF8.h"
+#include "pso/network/NetworkConfig.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include <dolphin/os/OSAlloc.h>
 

@@ -11,7 +11,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_801F3774.h"
+#include "pso/quest/QuestFlagSync.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"

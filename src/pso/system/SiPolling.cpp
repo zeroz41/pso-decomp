@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_803F1804.h"
+#include "pso/system/SiPolling.h"
 
 extern "C" {
 s32 SIRegisterPollingHandler(void *);

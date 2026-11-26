@@ -8,7 +8,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 extern "C" {
 __declspec(section ".data") u32 support_charge_effect_ids[2] = {0x1F4, 0x1F5};
 }

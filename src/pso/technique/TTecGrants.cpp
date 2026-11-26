@@ -20,7 +20,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecGrantsEffect.h"
 #include "pso/technique/TTimedSoundEffect.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecGrants.h"

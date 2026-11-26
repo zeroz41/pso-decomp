@@ -44,7 +44,7 @@ struct NJS_OBJECT;
 
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"

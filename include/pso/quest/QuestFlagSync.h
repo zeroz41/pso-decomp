@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_801F3774_H
-#define PSO_UNK_TEXT_801F3774_H
+#ifndef PSO_QUEST_QUESTFLAGSYNC_H
+#define PSO_QUEST_QUESTFLAGSYNC_H
 
 #include "types.h"
 

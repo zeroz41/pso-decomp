@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_80320358_H
-#define PSO_UNK_TEXT_80320358_H
+#ifndef PSO_SYSTEM_RELMODULE_H
+#define PSO_SYSTEM_RELMODULE_H
 
 #include "types.h"
 #include "pso/system/RelModuleBuffer.h"

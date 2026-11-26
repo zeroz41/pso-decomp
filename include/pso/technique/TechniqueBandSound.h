@@ -2,7 +2,7 @@
 #define PSO_TECHNIQUE_BAND_SOUND_H
 #include "pso/technique/TTecShot.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 
 // Barta, GiBarta and Megid share the same band-dependent pitch schedule.
 // An unsupported band plays nothing; failed handles never receive a pitch update.

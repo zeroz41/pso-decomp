@@ -48,12 +48,12 @@
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_801F3774.h"
+#include "pso/quest/QuestFlagSync.h"
 
 
 #pragma readonly_strings on

@@ -7,7 +7,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TechniqueEmitter.h"
 #include "pso/player/TargetCursorList.h"

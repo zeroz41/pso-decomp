@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/unk/text_803F1804.h"
+#include "pso/system/SiPolling.h"
 
 KeyboardKeyState hardware_keyboard_state;
 

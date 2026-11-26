@@ -1,6 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/unk/text_80072230.h"
+#include "pso/network/ChallengePackets.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
@@ -12,7 +12,7 @@
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
-#include "pso/unk/text_80072230.h"
+#include "pso/network/ChallengePackets.h"
 
 
 

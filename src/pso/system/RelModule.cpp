@@ -2,10 +2,10 @@
 #include <dolphin/os/OSLink.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/unk/text_80320358.h"
+#include "pso/system/RelModule.h"
 #include "pso/system/memory.h"
 
-// movie.rel hooks (see text_80320358.h). Only movie.rel reads most of them, so the DOL link must keep them.
+// movie.rel hooks (see RelModule.h). Only movie.rel reads most of them, so the DOL link must keep them.
 #pragma push
 #pragma force_active on
 void (*mwPlyInitSfdFx_hook)(MovieFrameRate *);

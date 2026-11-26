@@ -61,7 +61,7 @@
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/ui/font/TNECFontEORFunction.h"

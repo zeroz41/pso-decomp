@@ -14,7 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TFireExplosion.h"

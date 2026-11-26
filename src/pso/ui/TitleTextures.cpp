@@ -1,6 +1,6 @@
 // ---- pso/misc/TLobby_80335E08: separate TU (own .sdata2 pool)
 #include "types.h"
-#include "pso/unk/TLobby_80335E7C.h"
+#include "pso/ui/TitleTextures.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/unk/TTitleScene.h"

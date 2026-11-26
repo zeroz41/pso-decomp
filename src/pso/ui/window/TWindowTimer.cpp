@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowTimer.h"
 #include "pso/ui/window/TWindowDD.h"

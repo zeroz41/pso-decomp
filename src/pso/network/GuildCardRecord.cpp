@@ -9,7 +9,7 @@
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/TLobby_8023F734.h"
+#include "pso/audio/SoundControlState.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"

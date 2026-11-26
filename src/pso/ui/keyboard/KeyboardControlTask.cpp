@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/unk/text_803F1804.h"
+#include "pso/system/SiPolling.h"
 
 void TKeyBoardControl::render() {}
 

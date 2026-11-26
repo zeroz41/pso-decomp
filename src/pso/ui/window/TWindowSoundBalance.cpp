@@ -2,7 +2,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "types.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"

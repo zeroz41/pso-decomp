@@ -31,7 +31,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

@@ -9,7 +9,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/system/NinjaTypes.h"

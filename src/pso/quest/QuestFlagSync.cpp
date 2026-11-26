@@ -4,7 +4,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "types.h"
 #include "pso/network/TGameProtocol.h"
-#include "pso/unk/text_801F3774.h"
+#include "pso/quest/QuestFlagSync.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TLobby.h"

@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TTecMegidCharge.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/technique/TTecDeband.h"

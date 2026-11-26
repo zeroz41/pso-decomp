@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_80226C3C_H
-#define PSO_UNK_TLOBBY_80226C3C_H
+#ifndef PSO_AUDIO_MUSICCONTROL_H
+#define PSO_AUDIO_MUSICCONTROL_H
 
 #include "types.h"
 

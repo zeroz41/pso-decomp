@@ -8,7 +8,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_8026CB5C.h"
+#include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowDD.h"

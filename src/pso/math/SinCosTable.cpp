@@ -14,9 +14,9 @@ f32 round_away_from_zero(f32 value) {
 #pragma pop
 
 asm f32 sin_table_lookup(s32 angle) {
-#include "orig_asm/pso/unk/text_803D647C/sin_table_lookup.inc"
+#include "orig_asm/pso/math/SinCosTable/sin_table_lookup.inc"
 }
 
 asm f32 cos_table_lookup(s32 angle) {
-#include "orig_asm/pso/unk/text_803D647C/cos_table_lookup.inc"
+#include "orig_asm/pso/math/SinCosTable/cos_table_lookup.inc"
 }

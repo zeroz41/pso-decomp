@@ -47,7 +47,7 @@
 #include "pso/player/Palettex.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/unk/TLobby_80227AA0.h"
+#include "pso/audio/SoundPlayback.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/PlayerCharDataEntry.h"

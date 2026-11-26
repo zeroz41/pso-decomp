@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_80227AA0_H
-#define PSO_UNK_TLOBBY_80227AA0_H
+#ifndef PSO_AUDIO_SOUNDPLAYBACK_H
+#define PSO_AUDIO_SOUNDPLAYBACK_H
 
 #include "types.h"
 #include "pso/system/SoundEffect.h"
@@ -7,7 +7,7 @@
 struct Vec;
 struct AdxtPlayer;
 
-// --- C functions defined in TLobby_80227AA0.cpp ---
+// --- C functions defined in SoundPlayback.cpp ---
 void TLobby__sub_80227AA8(AdxtPlayer *tracks);
 void set_sound_request_position(s32 slot, const Vec *position);
 void TLobby__sub_80227D38(void);

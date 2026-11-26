@@ -12,7 +12,7 @@
 #include "pso/item/item_param.h"
 #include "pso/item/item_pmt.h"
 #include "pso/item/TItemLoad.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/SoundEffect.h"

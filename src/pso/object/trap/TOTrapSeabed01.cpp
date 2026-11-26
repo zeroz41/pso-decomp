@@ -23,7 +23,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80226070.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/FloorArea.h"
