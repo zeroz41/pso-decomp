@@ -35,7 +35,6 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/item/TObjItemNameSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -151,6 +150,12 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
+#include "pso/ui/city/THunterGuildSeqOffline_801F3718.h"
 
 
 
@@ -419,8 +424,6 @@ s32 parse_f_index(const char *a0) {
 #undef read_byte_advance__6TLobbyFv
 
 extern "C" {
-s32 is_split_screen();
-
 s32 parse_r_index(const char *text) {
     s32 index;
 
@@ -800,9 +803,6 @@ struct PlWalkObject {
     u32 f30;
 };
 
-s32 get_current_floor();
-f64 atan2_float(void *, f32, f32);
-int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 }
@@ -810,22 +810,9 @@ extern "C" {
 s32 advance_item_id_counter(u16);
 }
 extern "C" {
-int clear_enabled_main_warps(void*);
-int set_hashi_versus2_flag(void*);
-int clear_hashi_versus2_flag(void*);
-}
-extern "C" {
-int set_quest_exit_callback(void*);
-int set_quest_cancel_callback(void*);
-int set_quest_success_callback(void*);
-int set_quest_failure_callback(void*);
-}
-extern "C" {
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 delete_bank_item(u8 *item, s32 slot);
-void receive_short_mail(void *p);
-void request_active_window_close(void);
 }
 extern "C" {
 saddr create_equip_kind_window(saddr, const f32 *, s32);
@@ -1345,7 +1332,7 @@ void qst_op_get_total_deaths() {
 void qst_op_atan2_int(void) {
     u8 dest_reg;
     dest_reg = (u8) qst_args[0];
-    qst_registers[dest_reg] = (s32) (10430.38043493439 * atan2_float((void *) qst_args, (f32) (*(f32 *)&qst_args[1]), (f32) (*(f32 *)&qst_args[2])));
+    qst_registers[dest_reg] = (s32) (10430.38043493439 * atan2_float(*(f32 *)&qst_args[1], *(f32 *)&qst_args[2]));
 }
 
 void qst_op_tan() {
@@ -1692,7 +1679,7 @@ void qst_op_close_chat_bubble(s32 reg) {
 
 void qst_op_set_screen_bw() { set_screen_bw(); }
 
-int qst_op_set_motion_blur() { return set_camera_capture_overlay_alpha((void*)(143)); }
+void qst_op_set_motion_blur() { set_camera_capture_overlay_alpha(143); }
 
 void qst_op_restore_tp(s32 reg) {
     apply_player_slot_status(qst_registers[(u8)reg], 0xB);
@@ -3615,10 +3602,10 @@ void qst_op_enable_mainmenu() { TWindowCtrl::enable_client_main_menu(local_clien
 
 void qst_op_nop_BC(void) {  }
 
-int qst_op_clr_qt_exit(void) { return set_quest_exit_callback((void*)(-1)); }
+void qst_op_clr_qt_exit(void) { set_quest_exit_callback(-1); }
 
 void qst_op_set_qt_exit(u16 label) {
-    set_quest_exit_callback((void *)(uaddr)label);
+    set_quest_exit_callback(label);
 }
 
 void qst_op_get_difficulty_level_v1(s32 reg) {
@@ -3896,22 +3883,22 @@ void qst_op_pl_add_meseta(void) {
     }
 }
 
-int qst_op_clr_qt_cancel(void) { return set_quest_cancel_callback((void*)(-1)); }
+void qst_op_clr_qt_cancel(void) { set_quest_cancel_callback(-1); }
 
-int qst_op_clr_qt_success(void) { return set_quest_success_callback((void*)(-1)); }
+void qst_op_clr_qt_success(void) { set_quest_success_callback(-1); }
 
-int qst_op_clr_qt_failure(void) { return set_quest_failure_callback((void*)(-1)); }
+void qst_op_clr_qt_failure(void) { set_quest_failure_callback(-1); }
 
 void qst_op_set_qt_cancel(u16 label) {
-    set_quest_cancel_callback((void *)(uaddr)label);
+    set_quest_cancel_callback(label);
 }
 
 void qst_op_set_qt_success(u16 label) {
-    set_quest_success_callback((void *)(uaddr)label);
+    set_quest_success_callback(label);
 }
 
 void qst_op_set_qt_failure(u16 label) {
-    set_quest_failure_callback((void *)(uaddr)label);
+    set_quest_failure_callback(label);
 }
 
 void qst_op_clr_floor_handler(void) {
@@ -3936,7 +3923,7 @@ void qst_op_pcam_param(u8 regs) {
     request_follow_camera_offsets(&a, &b, 0xFFFF);
 }
 
-int qst_op_clear_mainwarp_all(void* p) { return clear_enabled_main_warps(p); }
+void qst_op_clear_mainwarp_all() { clear_enabled_main_warps(); }
 
 void qst_op_clear_mainwarp() {
     TObjCityMainWarp::clear_active_bit(qst_args[0]);
@@ -4435,9 +4422,9 @@ void qst_op_pl_walk(u8 regs) {
 void qst_op_p_look(void) {
     quest_player_look_at_partner((u16) qst_args[0]);
 }
-int qst_op_p_col(void* p) { return set_hashi_versus2_flag(p); }
+void qst_op_p_col() { set_hashi_versus2_flag(); }
 
-int qst_op_p_noncol(void* p) { return clear_hashi_versus2_flag(p); }
+void qst_op_p_noncol() { clear_hashi_versus2_flag(); }
 
 void qst_op_enable_movement1(void) {
     send_code_45_to_player((u16) qst_args[0]);

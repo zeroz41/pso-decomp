@@ -25,11 +25,9 @@ int hashi_versus2_flag;
 
 
 // The quest opcodes p_noncol and p_col.
-extern "C" {
 void clear_hashi_versus2_flag(void) { hashi_versus2_flag = 0; }
 
 void set_hashi_versus2_flag(void) { hashi_versus2_flag = 1; }
-}
 
 void set_player_quest_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x8000);
