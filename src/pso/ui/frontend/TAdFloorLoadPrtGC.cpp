@@ -66,7 +66,7 @@ TAdFloorLoadPrtGC::TAdFloorLoadPrtGC(TObject *parent) : TObject(parent) {
         VecCopy(&emitters[i].position, &floor_load_particle_positions[i]);
         copy_xyz(&emitters[i].angles, (void *)&TAdFloorLoadPrtGC::emitter_angles[i]);
         emitters[i].particle = (TObject *)create_particle_controller_with_angles(
-            (void *)&floor_load_particle_positions[i], (void *)&TAdFloorLoadPrtGC::emitter_angles[i], 0x65, 1, 0x40);
+            &floor_load_particle_positions[i], (void *)&TAdFloorLoadPrtGC::emitter_angles[i], 0x65, 1, 0x40);
     }
-    origin_particle = (TObject *)create_particle_controller_with_angles((void *)origin_particle_position, (void *)origin_particle_angles, 0x2F, 1, 0x40);
+    origin_particle = (TObject *)create_particle_controller_with_angles(origin_particle_position, (void *)origin_particle_angles, 0x2F, 1, 0x40);
 }

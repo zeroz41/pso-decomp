@@ -694,7 +694,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
                 ((TWindowBase *)this->status_window)->close();
                 this->status_window = NULL;
             }
-            this->status_window = (TWindowBase *)init_shop_judgment_window((void *)(get_window_layout_position(0x2B)));
+            this->status_window = (TWindowBase *)init_shop_judgment_window(get_window_layout_position(0x2B));
             show_status_message(get_message_text(0x40), 1);
             this->memcard_slot = slot;
             this->state = 6;
@@ -1173,7 +1173,7 @@ void TMCFormatSequence::open_windows() {
         show_message(get_localized_text_entry(this->message_group, this->message_id), 0);
     }
     if (this->confirm_menu == NULL) {
-        this->confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x2B));
+        this->confirm_menu = init_shop_judgment_window(get_window_layout_position(0x2B));
     }
     this->state = 1;
 }

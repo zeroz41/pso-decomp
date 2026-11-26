@@ -67,6 +67,6 @@ s32 init_city_area(void) {
         new TObjCityAirCar_Ctrl(tl_05);
     }
     new TQuestBgmCtrl(tl_05);
-    create_bag_warn_window_4p((saddr)tl_07);
+    create_bag_warn_window_4p(tl_07);
     return 1;
 }

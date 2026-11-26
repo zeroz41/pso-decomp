@@ -15,8 +15,8 @@ const char *TWindowSubEquipList::class_name = "TWindowSubEquipList";
 
 
 
-u8 *create_equip_list_window(saddr parent, saddr position, s32 client) {
-    set_menu_icon_line_params(reinterpret_cast<const NJS_POINT2 *>(position), 8);
+u8 *create_equip_list_window(saddr parent, const NJS_POINT2 *position, s32 client) {
+    set_menu_icon_line_params(position, 8);
     return (u8 *)new TWindowSubEquipList((u8 *)parent, client);
 }
 

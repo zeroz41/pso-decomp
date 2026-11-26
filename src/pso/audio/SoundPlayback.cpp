@@ -139,7 +139,7 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
     return -1;
 }
 
-s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options) {
+s32 play_packed_sound_once(u32 id, const Vec *position, s32 offset, s32 options) {
     s32 r;
     s32 m;
     s32 flags;
@@ -174,7 +174,7 @@ s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options) {
     }
     m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
-        h = alloc_one_shot_sound_slot(m, reinterpret_cast<const Vec *>(position), r, flags);
+        h = alloc_one_shot_sound_slot(m, position, r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
         }

@@ -201,16 +201,16 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
     }
 }
 
-WindowSpritePart *get_shortcut_icon_entry(void *window, s32 sel) {
-    return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 0x1);
+WindowSpritePart *get_shortcut_icon_entry(TWindowBase *window, s32 sel) {
+    return (WindowSpritePart *)window->get_array_entry(sel + 0x1);
 }
 
 WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr index) {
     return (WindowSpritePart *)get_array_entry(index + 9);
 }
 
-WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
-    return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 5);
+WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(TWindowBase *window, int sel) {
+    return (WindowSpritePart *)window->get_array_entry(sel + 5);
 }
 extern "C" {
 

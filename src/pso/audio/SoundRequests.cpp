@@ -297,7 +297,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
         }
     }
     if (idx < 0) {
-        idx = play_packed_sound_once(id, (saddr)position, volume, flags);
+        idx = play_packed_sound_once(id, position, volume, flags);
     }
     if (idx >= 0) {
         if (position != NULL) {

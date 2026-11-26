@@ -21,7 +21,7 @@ extern "C" {
 void load_floor_sound_bank(s32 floor);
 }
 s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 offset, s32 options);
-s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options);
+s32 play_packed_sound_once(u32 id, const Vec *position, s32 offset, s32 options);
 void release_sound_with_fade(s32 slot);
 void update_global_sound_frame(void);
 // --- end of C functions

@@ -55,8 +55,8 @@ void aix_demuxer_exec_server(void) {
     }
 }
 
-static inline s32 parse_aix_packet_header(u8 *data, u32 size, void *out) {
-    AixPacketHeader *header = (AixPacketHeader *)out;
+static inline s32 parse_aix_packet_header(u8 *data, u32 size, AixPacketHeader *out) {
+    AixPacketHeader *header = out;
     u8 *p;
     if (size < 0x10) {
         return 0;

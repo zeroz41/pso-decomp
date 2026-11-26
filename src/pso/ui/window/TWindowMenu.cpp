@@ -544,7 +544,7 @@ TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char
   return window_menu;
 }
 
-TWindowMenu *init_shop_judgment_window(void *p) { return create_yes_no_window((const NJS_POINT2 *)p, 4, NULL, NULL); }
+TWindowMenu *init_shop_judgment_window(const NJS_POINT2 *p) { return create_yes_no_window(p, 4, NULL, NULL); }
 
 TWindowMenu *create_window_menu(const NJS_POINT2 *position, s32 count, s32 client_id) {
     set_window_menu_rows(count);

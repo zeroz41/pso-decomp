@@ -777,7 +777,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     s32 name;
 
     m_name = obj_item_ok_window_class_name;
-    confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x57));
+    confirm_menu = init_shop_judgment_window(get_window_layout_position(0x57));
     if (confirm_menu != NULL) {
         confirm_menu->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions(confirm_menu);

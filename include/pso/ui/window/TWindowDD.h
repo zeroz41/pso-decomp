@@ -260,7 +260,8 @@ void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices
 void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices);
 f32 word_select_inverse_depth(f32 depth, f32 offset);
 saddr get_word_select_token_text(s16 id);
-void handle_6x74_word_select(u8 *window_dd);
+struct G_WordSelect_6x74;
+void handle_6x74_word_select(G_WordSelect_6x74 *window_dd);
 
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
 struct WsRecentState {

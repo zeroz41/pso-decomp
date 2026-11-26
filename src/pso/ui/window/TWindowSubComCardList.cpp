@@ -28,7 +28,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/HeadingEntry.h"
-void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
+void TWindowSubComCardList::draw_card_list_selection(WindowDrawContext *window_key_board_soft) {
   s16 page_row;
   u16 *array_entry;
   if (!(actor_frame_tick & 0x10))
@@ -39,7 +39,7 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
       array_entry = (u16 *) this->get_array_entry((s32) page_row);
       if ((*array_entry) & 1)
       {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (TWindowLayoutRect *)array_entry, 1);
+        draw_selection_bar(window_key_board_soft, (TWindowLayoutRect *)array_entry, 1);
       }
     }
   }
@@ -108,7 +108,7 @@ void TWindowSubComCardList::render() {
         &this->entry_list,
         ctx);
     this->render_selected_entry(ctx);
-    this->draw_card_list_selection((u8 *)ctx);
+    this->draw_card_list_selection(ctx);
     if (this->heading != 0) {
         this->heading->render(ctx);
     }

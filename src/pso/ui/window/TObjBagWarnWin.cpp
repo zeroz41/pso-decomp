@@ -148,9 +148,9 @@ s32 TObjBagWarnWin::should_show_warning() {
     return 1;
 }
 
-TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent) {
+TObjBagWarnWin4P *create_bag_warn_window_4p(TObject *parent) {
     if (is_map_visible() == 0) {
-        return new TObjBagWarnWin4P((TObject *)parent);
+        return new TObjBagWarnWin4P(parent);
     }
     return NULL;
 }
