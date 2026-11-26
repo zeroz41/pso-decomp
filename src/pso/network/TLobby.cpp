@@ -434,7 +434,7 @@ void TLobby::update_idle_timeout(void *object) {
     if (has_window_task_root() == 0) {
         lobby_idle_timeout_window = 0;
     }
-    if (hardware_keyboard_state.has_any_key_pressed() != 0 || TKeyBoardControl::any_pad_input_active() != 0) {
+    if (hardware_keyboard_state.has_any_key_pressed() != 0 || any_pad_input_active() != 0) {
         t->start = t->now;
         t->state = 0;
         if (lobby_idle_timeout_window != 0) {

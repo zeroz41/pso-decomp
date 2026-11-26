@@ -26,7 +26,7 @@ void run_main_frame(void) {
     s32 *task;
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     task = (s32 *)&main_task;
     task = (s32 *)&main_task;
     main_task.begin_frame();

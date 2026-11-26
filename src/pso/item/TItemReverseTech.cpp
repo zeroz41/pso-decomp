@@ -128,7 +128,7 @@ void TItemReverseTech::run_cleanup_callbacks() {
 
 void TItemReverseTech::run_frame() {
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

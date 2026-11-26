@@ -50,7 +50,7 @@ void start_ending_sequence(void) {
 void TKeyBoardControl::run_main_frame() {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

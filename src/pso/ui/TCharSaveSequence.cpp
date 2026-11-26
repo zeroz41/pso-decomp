@@ -356,7 +356,7 @@ void release_single_ply_chr_select_scene(void) {
 void TAdSinglePlyChrSelectGC::run_frame() {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     Vec a = lbl_80477D78;
     Vec b = lbl_80477D84;
     activate_camera_mode(9);

@@ -1,6 +1,7 @@
 #include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
 
@@ -20,7 +21,7 @@ void TItemReverseTechCtrl::run_task() {
     s32 *progress;
     s32 key;
     s32 i;
-    key = TKeyBoardControl::get_ascii_key();
+    key = keyboard_get_ascii_key();
     if (key >= 'a' && key <= 'z') {
         letter = key - 'a';
     } else if (key >= 'A' && key <= 'Z') {

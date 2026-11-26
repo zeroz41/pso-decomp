@@ -106,7 +106,7 @@ void fn_802A1154(void) {
 
 void update_movie_phase(void) {
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

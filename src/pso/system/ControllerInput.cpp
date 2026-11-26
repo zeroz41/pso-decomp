@@ -39,10 +39,10 @@ ControllerInputState controller_input_state;
 ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
 
-void TKeyBoardControl::reset() { controller_reset_requested = 0; }
+void clear_controller_reset_request() { controller_reset_requested = 0; }
 
 
-s32 TKeyBoardControl::any_pad_input_active() {
+s32 any_pad_input_active() {
     s32 i;
     for (i = 0; i < 4; i++) {
         PadSlot *slot = controller_input_state.sources[i];
@@ -53,7 +53,7 @@ s32 TKeyBoardControl::any_pad_input_active() {
     return 0;
 }
 
-s32 TKeyBoardControl::check_reset_button() {
+s32 check_reset_button() {
     if (OSGetResetButtonState() != 0) {
         keyboard_reset_button_pressed = 1;
     }
@@ -75,21 +75,21 @@ s32 is_keyboard_shift_held(void) {
     return hardware_keyboard_state.sub_80132310();
 }
 
-s32 TKeyBoardControl::check_and_read(s32 key) {
+s32 keyboard_check_and_read(s32 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return TKeyBoardControl::is_key_down(key);
+        return keyboard_is_key_down(key);
     }
     return 0;
 }
 
-s32 TKeyBoardControl::read_input(u8 key) {
+s32 keyboard_read_input(u8 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
         return is_keyboard_key_pressed(key);
     }
     return 0;
 }
 
-s32 TKeyBoardControl::is_key_down(s32 key) {
+s32 keyboard_is_key_down(s32 key) {
     s32 i;
     s32 n;
     n = hardware_keyboard_state.get_pending_count();
@@ -140,7 +140,7 @@ StickEscapeDetector::StickEscapeDetector() {
     input = NULL;
 }
 
-s32 TKeyBoardControl::get_ascii_key() {
+s32 keyboard_get_ascii_key() {
   short new_var;
   s32 shift_held;
   s32 result;
@@ -246,7 +246,7 @@ void update_pad_recalibration(void) {
             pad_recalibration_counters[i] = 0;
         }
     }
-    if (TKeyBoardControl::check_reset_button() != 0) {
+    if (check_reset_button() != 0) {
         controller_reset_requested = 1;
         for (j = 0; j < 4; j++) {
             PADRecalibrate(channels[j]);
@@ -256,16 +256,16 @@ void update_pad_recalibration(void) {
 
 // Resets on the reset button while the disc is out; reports a pending reset unless a memory card is busy.
 s32 poll_reset_request(void) {
-    if ((DVDCheckDisk() == 0) && (TKeyBoardControl::check_reset_button() != 0)) {
+    if ((DVDCheckDisk() == 0) && (check_reset_button() != 0)) {
         reset_system();
     }
     return (memcard_access_active != 0) ? 0 : controller_reset_requested;
 }
 
-s32 TKeyBoardControl::read_key_checked(u8 key) {
-    return TKeyBoardControl::check_and_read((s32)(key));
+s32 keyboard_read_key_checked(u8 key) {
+    return keyboard_check_and_read((s32)(key));
 }
-void TKeyBoardControl::update_input_frame() {
+void update_keyboard_input_frame() {
     hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
         ControllerInputContext *keyboard = &controller_input_state.keyboard;
@@ -513,7 +513,7 @@ void reset_controller_input_state(void) {
         pad++;
     }
     copy_controller_input(&controller_input_state.keyboard, controller_input_state.controllers);
-    TKeyBoardControl::reset();
+    clear_controller_reset_request();
 }
 
 #pragma inline_depth(1)
@@ -546,7 +546,7 @@ void copy_controller_input(ControllerInputContext *destination, ControllerInputC
   new_var->pressed_with_sticks = source->pressed_with_sticks;
 }
 
-void TKeyBoardControl::init_pad_state() {
+void init_pad_state() {
     s32 i;
     for (i = 0; i < 4; i++) {
         pad_recalibration_counters[i] = 0;
@@ -570,7 +570,7 @@ s32 ControllerInputContext::poll_key_state() {
     buttons = 0;
     pressed_buttons = 0;
     for (i = 0; i < 6; i++) {
-        if (TKeyBoardControl::read_input((u8)keyboard_poll_key_codes[i]) != 0) {
+        if (keyboard_read_input((u8)keyboard_poll_key_codes[i]) != 0) {
             buttons |= TKeyBoardControl_key_bit_table[i];
         }
     }

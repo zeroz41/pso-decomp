@@ -99,7 +99,7 @@ void TLogo::run_frame() {
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

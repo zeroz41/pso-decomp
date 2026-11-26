@@ -33,6 +33,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80226C3C.h"
+#include "pso/system/ControllerInput.h"
 
 
     extern int lobby_game_mode_state;
@@ -298,7 +299,7 @@ void TTitleScene::run_task() {
         return;
     }
     if (attract_tick < attract_timeout) {
-        if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (TKeyBoardControl::any_pad_input_active() != 0)) {
+        if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (any_pad_input_active() != 0)) {
             attract_tick = 0;
         }
         handle_menu_selection();

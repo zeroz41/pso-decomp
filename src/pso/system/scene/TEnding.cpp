@@ -67,7 +67,7 @@ void release_ending_scene(void) {
 void run_game_frame(void) {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render();

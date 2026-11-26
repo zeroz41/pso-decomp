@@ -301,28 +301,28 @@ s16 TKeyBoardControl::get_function_key_menu(void *menu) {
     if (is_keyboard_shift_held() == 0) {
         return 0x1F;
     }
-    if (TKeyBoardControl::is_key_down(0x44) != 0) {
+    if (keyboard_is_key_down(0x44) != 0) {
         return 0x13;
     }
-    if (TKeyBoardControl::is_key_down(0x45) != 0) {
+    if (keyboard_is_key_down(0x45) != 0) {
         return 0x15;
     }
-    if (TKeyBoardControl::is_key_down(0x46) != 0) {
+    if (keyboard_is_key_down(0x46) != 0) {
         return 0xE;
     }
-    if (TKeyBoardControl::is_key_down(0x47) != 0) {
+    if (keyboard_is_key_down(0x47) != 0) {
         return 0x1A;
     }
-    if (TKeyBoardControl::is_key_down(0x48) != 0) {
+    if (keyboard_is_key_down(0x48) != 0) {
         return 0x17;
     }
-    if (TKeyBoardControl::is_key_down(0x49) != 0) {
+    if (keyboard_is_key_down(0x49) != 0) {
         return 0xC;
     }
-    if (TKeyBoardControl::is_key_down(0x4A) != 0) {
+    if (keyboard_is_key_down(0x4A) != 0) {
         return 0xB;
     }
-    if (TKeyBoardControl::is_key_down(0x4B) != 0) {
+    if (keyboard_is_key_down(0x4B) != 0) {
         return 0;
     }
     return 0x1F;

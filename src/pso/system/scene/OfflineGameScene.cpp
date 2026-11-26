@@ -101,8 +101,8 @@
 #include "pso/quest/QuestStoryFlags.h"
 
 
-void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void TLobby::shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void TLobby__sub_801A2DF4(void) {  }
 void TLobby__sub_801A2DF8(void) {  }
 void TLobby__sub_801A2DFC(void) {  }
@@ -441,7 +441,7 @@ void TLobby::teardown_scene() {
 void run_offline_game_frame(void) {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     debug_printf("Condition E%d", enemy_condition_count * 0xC);
     debug_printf("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {
@@ -473,7 +473,7 @@ void run_offline_game_frame(void) {
 void run_offline_transfer_frame(void) {
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     debug_printf("Condition E%d", enemy_condition_count * 0xC);
     debug_printf("Condition O%d", object_condition_count * 4);
     if (is_split_screen() != 0) {

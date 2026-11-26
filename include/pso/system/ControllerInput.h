@@ -16,6 +16,19 @@ void controller_stuff();
 
 void bind_controller_devices(void);
 void reset_controller_input_state(void);
+// Clears the pending reset request (controller_reset_requested).
+void clear_controller_reset_request(void);
+// Whether any pad has a button down or a trigger or the main stick pushed past 10.
+s32 any_pad_input_active(void);
+// 1 the frame the reset button is let go.
+s32 check_reset_button(void);
+s32 keyboard_check_and_read(s32 key);
+s32 keyboard_read_input(u8 key);
+s32 keyboard_is_key_down(s32 key);
+s32 keyboard_get_ascii_key(void);
+s32 keyboard_read_key_checked(u8 key);
+void update_keyboard_input_frame(void);
+void init_pad_state(void);
 void update_pad_recalibration(void);
 // inferred: key 0x56 (left control) held; key 0x5B also counts in some keyboard states.
 s32 is_keyboard_control_held(void);

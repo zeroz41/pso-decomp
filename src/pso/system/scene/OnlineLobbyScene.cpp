@@ -197,7 +197,7 @@ s32 online_lobby_scene_handle;
 s32 online_lobby_frame_counter;
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
-void init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
+void init_chr_select() { clear_controller_reset_request(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); clear_keyboard_input_flag(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby__sub_801A3CF8(void) {  }
 
@@ -294,7 +294,7 @@ void blocking_vsync() {
         render_tick();
     } else {
         controller_stuff();
-        TKeyBoardControl::update_input_frame();
+        update_keyboard_input_frame();
         main_task.begin_frame();
         main_task.run_task();
         main_task.render();
@@ -538,7 +538,7 @@ void run_lobby_frame() {
     s32 frame_count;
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render_shadows();
@@ -587,7 +587,7 @@ void run_main_frame() {
     s32 frame_count;
     begin_gx_frame();
     controller_stuff();
-    TKeyBoardControl::update_input_frame();
+    update_keyboard_input_frame();
     main_task.begin_frame();
     main_task.run_task();
     main_task.render_shadows();
@@ -680,7 +680,7 @@ void run_online_lobby_scene(void) {
     while (TAdDialingGC::get_instance() != 0) {
         begin_gx_frame();
         controller_stuff();
-        TKeyBoardControl::update_input_frame();
+        update_keyboard_input_frame();
         main_task.begin_frame();
         main_task.run_task();
         main_task.render();

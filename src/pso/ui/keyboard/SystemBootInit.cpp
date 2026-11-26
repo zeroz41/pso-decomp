@@ -73,6 +73,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/system/ControllerInput.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -289,7 +290,7 @@ void init_game_systems(void) {
     init_pad_slots_and_read(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
-    TKeyBoardControl::init_pad_state();
+    init_pad_state();
     set_shape_vertex_buffer((u32 *)motion_blend_buffer);
     keyboard_input_buffer = (DebugTextRecord *)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);

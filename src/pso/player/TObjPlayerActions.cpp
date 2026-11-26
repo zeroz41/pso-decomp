@@ -259,8 +259,8 @@ void TObjPlayer::update_lobby_chair_controls() {
     f32 amount;
     if (this->is_controls_locked() == 0 && this->phase != 0 &&
         (this->pad_binding.is_button_pressed(2) != 0 ||
-         (this->is_action_flag_28() == 0 && is_keyboard_control_held() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
-         (this->is_action_flag_28() != 0 && is_keyboard_control_held() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
+         (this->is_action_flag_28() == 0 && is_keyboard_control_held() != 0 && keyboard_is_key_down(0x24) != 0) ||
+         (this->is_action_flag_28() != 0 && is_keyboard_control_held() != 0 && keyboard_is_key_down(0x18) != 0))) {
         this->run_action_state_phase(1, 5);
         return;
     }
@@ -332,149 +332,149 @@ s16 TObjPlayer::select_idle_action() {
         return -1;
     }
     if ((get_player_action_provider_selector() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
-        if (((is_keyboard_control_held() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
+        if (((is_keyboard_control_held() != 0) && (keyboard_is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
             return action_provider->get_chair_sit_action();
         }
-        if (((is_keyboard_control_held() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
+        if (((is_keyboard_control_held() != 0) && (keyboard_is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
             return action_provider->get_alt_chair_sit_action();
         }
         if (is_keyboard_control_held() != 0) {
-            if (TKeyBoardControl::is_key_down(0x40) != 0) {
+            if (keyboard_is_key_down(0x40) != 0) {
                 return action_provider->get_knockdown_action();
             }
-            if (TKeyBoardControl::is_key_down(0x41) != 0) {
+            if (keyboard_is_key_down(0x41) != 0) {
                 return action_provider->get_hurt_action();
             }
-            if (TKeyBoardControl::is_key_down(0x42) != 0) {
+            if (keyboard_is_key_down(0x42) != 0) {
                 return action_provider->get_interact_action();
             }
-            if (TKeyBoardControl::is_key_down(0x43) != 0) {
+            if (keyboard_is_key_down(0x43) != 0) {
                 return action_provider->get_use_item_action();
             }
-            if (TKeyBoardControl::is_key_down(0x44) != 0) {
+            if (keyboard_is_key_down(0x44) != 0) {
                 return action_provider->get_key_f5_action();
             }
-            if (TKeyBoardControl::is_key_down(0x45) != 0) {
+            if (keyboard_is_key_down(0x45) != 0) {
                 return action_provider->get_key_f6_action();
             }
-            if (TKeyBoardControl::is_key_down(0x46) != 0) {
+            if (keyboard_is_key_down(0x46) != 0) {
                 return action_provider->get_key_f7_action();
             }
-            if (TKeyBoardControl::is_key_down(0x47) != 0) {
+            if (keyboard_is_key_down(0x47) != 0) {
                 return action_provider->get_key_f8_action();
             }
-            if (TKeyBoardControl::is_key_down(0x48) != 0) {
+            if (keyboard_is_key_down(0x48) != 0) {
                 return action_provider->get_key_f9_action();
             }
-            if (TKeyBoardControl::is_key_down(0x49) != 0) {
+            if (keyboard_is_key_down(0x49) != 0) {
                 return action_provider->get_key_f10_action();
             }
-            if (TKeyBoardControl::is_key_down(0x4A) != 0) {
+            if (keyboard_is_key_down(0x4A) != 0) {
                 return action_provider->get_key_f11_action();
             }
-            if (TKeyBoardControl::is_key_down(0x4B) != 0) {
+            if (keyboard_is_key_down(0x4B) != 0) {
                 return action_provider->get_key_f12_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1C) != 0) {
+            if (keyboard_is_key_down(0x1C) != 0) {
                 return action_provider->get_death_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2E) != 0) {
+            if (keyboard_is_key_down(0x2E) != 0) {
                 return action_provider->get_lock_on_idle_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2F) != 0) {
+            if (keyboard_is_key_down(0x2F) != 0) {
                 return action_provider->get_key_6_action();
             }
-            if (TKeyBoardControl::is_key_down(0x30) != 0) {
+            if (keyboard_is_key_down(0x30) != 0) {
                 return action_provider->get_key_7_action();
             }
-            if (TKeyBoardControl::is_key_down(0x31) != 0) {
+            if (keyboard_is_key_down(0x31) != 0) {
                 return action_provider->get_key_8_action();
             }
-            if (TKeyBoardControl::is_key_down(0x32) != 0) {
+            if (keyboard_is_key_down(0x32) != 0) {
                 return action_provider->get_key_9_action();
             }
-            if (TKeyBoardControl::is_key_down(0x33) != 0) {
+            if (keyboard_is_key_down(0x33) != 0) {
                 return action_provider->get_key_0_action();
             }
-            if (TKeyBoardControl::is_key_down(0x17) != 0) {
+            if (keyboard_is_key_down(0x17) != 0) {
                 return action_provider->get_key_h_action();
             }
-            if (TKeyBoardControl::is_key_down(0x11) != 0) {
+            if (keyboard_is_key_down(0x11) != 0) {
                 return action_provider->get_key_b_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1E) != 0) {
+            if (keyboard_is_key_down(0x1E) != 0) {
                 return action_provider->get_key_o_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1D) != 0) {
+            if (keyboard_is_key_down(0x1D) != 0) {
                 return action_provider->get_key_n_action();
             }
-            if (TKeyBoardControl::is_key_down(0x20) != 0) {
+            if (keyboard_is_key_down(0x20) != 0) {
                 return action_provider->get_key_q_action();
             }
-            if (TKeyBoardControl::is_key_down(0x19) != 0) {
+            if (keyboard_is_key_down(0x19) != 0) {
                 return action_provider->get_key_j_action();
             }
-            if (TKeyBoardControl::is_key_down(0x21) != 0) {
+            if (keyboard_is_key_down(0x21) != 0) {
                 return action_provider->get_key_r_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1A) != 0) {
+            if (keyboard_is_key_down(0x1A) != 0) {
                 return action_provider->get_key_k_action();
             }
-            if (TKeyBoardControl::is_key_down(0x26) != 0) {
+            if (keyboard_is_key_down(0x26) != 0) {
                 return action_provider->get_key_w_action();
             }
-            if (TKeyBoardControl::is_key_down(0x22) != 0) {
+            if (keyboard_is_key_down(0x22) != 0) {
                 return action_provider->get_key_s_action();
             }
-            if (TKeyBoardControl::is_key_down(0x23) != 0) {
+            if (keyboard_is_key_down(0x23) != 0) {
                 return action_provider->get_key_t_action();
             }
-            if (TKeyBoardControl::is_key_down(0x12) != 0) {
+            if (keyboard_is_key_down(0x12) != 0) {
                 return action_provider->get_key_c_action();
             }
-            if (TKeyBoardControl::is_key_down(0x13) != 0) {
+            if (keyboard_is_key_down(0x13) != 0) {
                 return action_provider->get_key_d_action();
             }
-            if (TKeyBoardControl::is_key_down(0x15) != 0) {
+            if (keyboard_is_key_down(0x15) != 0) {
                 return action_provider->get_key_f_action();
             }
-            if (TKeyBoardControl::is_key_down(0x16) != 0) {
+            if (keyboard_is_key_down(0x16) != 0) {
                 return action_provider->get_key_g_action();
             }
-            if (TKeyBoardControl::is_key_down(0x28) != 0) {
+            if (keyboard_is_key_down(0x28) != 0) {
                 return action_provider->get_key_y_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1F) != 0) {
+            if (keyboard_is_key_down(0x1F) != 0) {
                 return action_provider->get_key_p_action();
             }
-            if (TKeyBoardControl::is_key_down(0x10) != 0) {
+            if (keyboard_is_key_down(0x10) != 0) {
                 return action_provider->get_key_a_action();
             }
-            if (TKeyBoardControl::is_key_down(0x14) != 0) {
+            if (keyboard_is_key_down(0x14) != 0) {
                 return action_provider->get_key_e_action();
             }
-            if (TKeyBoardControl::is_key_down(0x29) != 0) {
+            if (keyboard_is_key_down(0x29) != 0) {
                 return action_provider->get_key_z_action();
             }
-            if (TKeyBoardControl::is_key_down(0x27) != 0) {
+            if (keyboard_is_key_down(0x27) != 0) {
                 return action_provider->get_key_x_action();
             }
-            if (TKeyBoardControl::is_key_down(0x25) != 0) {
+            if (keyboard_is_key_down(0x25) != 0) {
                 return action_provider->get_key_v_action();
             }
-            if (TKeyBoardControl::is_key_down(0x1B) != 0) {
+            if (keyboard_is_key_down(0x1B) != 0) {
                 return action_provider->get_key_l_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2A) != 0) {
+            if (keyboard_is_key_down(0x2A) != 0) {
                 return action_provider->get_key_1_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2B) != 0) {
+            if (keyboard_is_key_down(0x2B) != 0) {
                 return action_provider->get_key_2_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2C) != 0) {
+            if (keyboard_is_key_down(0x2C) != 0) {
                 return action_provider->get_key_3_action();
             }
-            if (TKeyBoardControl::is_key_down(0x2D) != 0) {
+            if (keyboard_is_key_down(0x2D) != 0) {
                 return action_provider->get_key_4_action();
             }
             goto block_109;

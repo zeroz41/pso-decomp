@@ -19,6 +19,7 @@
 
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/system/ControllerInput.h"
 
 TLoadCtrl *TLoadCtrl::instance;
 
@@ -67,7 +68,7 @@ void TLoadCtrl::run_task() {
         }
         if (m_poll_input != 0) {
             controller_stuff();
-            TKeyBoardControl::update_input_frame();
+            update_keyboard_input_frame();
         }
         update_sound_request_slots();
         Vec position = {0.0f, 0.0f, 0.0f};
