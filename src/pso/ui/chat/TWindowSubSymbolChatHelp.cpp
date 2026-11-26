@@ -33,9 +33,6 @@ WindowDescriptor symbol_chat_help_window_layout = {
     {242.0f, 116.0f}, 50050.0f, NULL, 3,
 };
 
-extern "C" {
-int get_chat_help_color(int);
-
 
 #pragma push
 #pragma fp_contract on
@@ -239,4 +236,3 @@ TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s8 *selection, s32 *mode)
     flip_v = NULL;
 }
 
-}

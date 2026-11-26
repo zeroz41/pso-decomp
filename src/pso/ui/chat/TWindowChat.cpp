@@ -36,8 +36,6 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 extern "C" {
 s32 fn_8002AE08(s32 client_id);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
-    extern int chat_help_color_table[];
-int get_chat_help_color(int a0);
 s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
     if (w->composer->has_text() != 0) {
         return 1;
@@ -463,4 +461,3 @@ s32 TWindowChat::sub_80247EC0() {
 
 void TWindowKeyBoardSoft::set_flag60_bit1() { state_flags |= 0x2; }
 
-int get_chat_help_color(int a0) {  return chat_help_color_table[a0]; }

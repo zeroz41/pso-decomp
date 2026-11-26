@@ -11,6 +11,7 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
     void draw_help_entry(struct WindowDrawContext *context, s32 row, s32 color);
     void draw_color_palette(struct WindowDrawContext *context);
     void draw_help_icon(struct WindowDrawContext *context, s32 row, s32 color);
+    static int get_chat_help_color(int index);
     s8 feature_flags;
     u8 _pad61[0x3];
     // Borrowed selection, mode and optional toggle targets.

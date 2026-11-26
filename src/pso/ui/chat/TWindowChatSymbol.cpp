@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -115,6 +116,8 @@ const int chat_help_color_table[8] = {
     0xFF676767, 0xFF79281E, 0xFF805117, 0xFF6FB002, 0xFF3CB03C, 0xFF3E56AF, 0xFF6A407B, 0xFF3C3C3C,
 };
 
+
+int TWindowSubSymbolChatHelp::get_chat_help_color(int index) { return chat_help_color_table[index]; }
 
 int TWindowSubSymbolChatPartsSet::get_parts_color(int index) { return symbol_chat_parts_color_table[index]; }
 
