@@ -7,6 +7,7 @@ struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
+struct CharacterAppearanceFields;
 struct OSContext;
 class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
@@ -115,7 +116,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void reset_creation_parts();
     static s32 map_button_code(s32 code);
     static s32 count_remaining_slots();
-    static s32 has_matching_entry(void *character);
+    static s32 has_matching_entry(CharacterAppearanceFields *character);
     static CreationTextureCacheEntry *find_free_slot();
     static s32 evict_char_entries(s32 limit);
     void update_char_panels();
@@ -160,9 +161,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void run_save_load_sequence();
     static s32 init();
     static s32 load_character_from_card(int);
-    static void copy_slot_data(void *, void *);
-    static s32 is_entry_equal(void *, void *);
-    static s32 count_char_diffs(void *, void *);
     static s32 save_character_to_card();
     static s32 forward_to_global_instance(TItemData *item);
     static s32 increment_frame();

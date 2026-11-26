@@ -34,6 +34,10 @@ struct CreationTextureCacheEntry {
     CreationTextureLoadSlot hair_textures;
     CreationTextureLoadSlot head_textures;
     CreationTextureLoadSlot body_textures;
+
+    s32 is_entry_equal(CharacterAppearanceFields *character);
+    s32 count_char_diffs(CharacterAppearanceFields *character);
+    void copy_slot_data(CharacterAppearanceFields *character);
 };
 enum { CREATION_TEXTURE_CACHE_CAPACITY = 128 };
 LAYOUT_ASSERT(CreationTextureLoadSlot_size, sizeof(CreationTextureLoadSlot) == 0x174);
