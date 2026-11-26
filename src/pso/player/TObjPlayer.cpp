@@ -387,7 +387,6 @@ s32 TObjPlayer::get_entrance_id() { return entrance_id; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_8 { u8 bytes[0x8]; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -925,13 +924,13 @@ void init_arrival_override(ArrivalOverride *entry) {
 
 s32 FlagWord::get_bits() { return bits; }
 
-u8 *TObjPlayer::copy_hold_params(u8 *src) {
-    copy_subcommand_header(this, src);
-    this->m_flags = (s16) *(s16 *)((s8 *)src + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)src + 6);
-    *(ByteBlock_8 *)((saddr) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((saddr) src + 8);
-    *(f32 *)((s8 *)((u8 *)this) + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
-    return ((u8 *)this);
+G_ImposeHold_6x2C &G_ImposeHold_6x2C::operator=(G_ImposeHold_6x2C &src) {
+    copy_subcommand_header(this, &src);
+    frames = src.frames;
+    effect_type = src.effect_type;
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    trigger_radius2 = src.trigger_radius2;
+    return *this;
 }
 
 s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
@@ -1185,10 +1184,10 @@ void G_UseMedicalCenter_6x31::init() { header.subcommand = 0x31; header.size = 1
 void G_UseMedicalCenter_6x31::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_ReleaseHold_6x2D::init() { header.subcommand = 0x2D; header.size = 1; }
 void G_ReleaseHold_6x2D::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
-void G_ImposeHold_6x2C::bswap() { header.bswap(); bswap_16(&unknown_a1); bswap_16(&unknown_a2); bswap_32((u32 *)&trigger_radius2); pos.bswap(); }
+void G_ImposeHold_6x2C::bswap() { header.bswap(); bswap_16((u16 *)&frames); bswap_16((u16 *)&effect_type); bswap_32((u32 *)&trigger_radius2); pos.bswap(); }
 void G_ImposeHold_6x2C::init() {
-    unknown_a1 = 0;
-    unknown_a2 = 0;
+    frames = 0;
+    effect_type = 0;
     pos.z = player_zero;
     pos.x = player_zero;
     header.subcommand = 0x2C;

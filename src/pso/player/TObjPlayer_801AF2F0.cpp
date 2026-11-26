@@ -220,15 +220,6 @@ struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 
 
-struct Pkt_801B5328 {
-    u8 hdr[2];
-    s16 actor_id;
-    s16 a;
-    s16 b;
-    f32 x;
-    f32 z;
-    f32 radius_sq;
-};
 
 struct Obj_801B4FD8 {
     u16 f0;
@@ -259,15 +250,6 @@ struct Obj_801B4FD8 {
     s32 f488;
 };
 
-struct Pkt_801B5254 {
-    u8 hdr[2];
-    u16 client;
-    s16 f4;
-    s16 f6;
-    f32 f8;
-    f32 fC;
-    f32 f10;
-};
 
 struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 
@@ -3362,39 +3344,39 @@ void TObjPlayer::play_effect(TObjPlayer *player, s32 effect_id, s32 mode) {
 }
 
 void send_6x2C_impose_hold(TObjPlayer *player, Vec *pos, s32 frames, s32 mode, f32 radius) {
-    struct Pkt_801B5328 pkt;
+    G_ImposeHold_6x2C pkt;
     if (player == NULL || player->obj_isState2_324() == 0) {
-        ((G_ImposeHold_6x2C *)&pkt)->init();
-        pkt.actor_id = player->get_entity_id();
-        pkt.b = static_cast<s16>(mode);
-        pkt.a = static_cast<s16>(frames);
-        pkt.x = pos->x;
-        pkt.z = pos->z;
-        pkt.radius_sq = radius * radius;
-        ((G_ImposeHold_6x2C *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = player->get_entity_id();
+        pkt.effect_type = mode;
+        pkt.frames = frames;
+        pkt.pos.x = pos->x;
+        pkt.pos.z = pos->z;
+        pkt.trigger_radius2 = radius * radius;
+        pkt.send();
     }
 }
 
 void handle_6x2C_impose_hold(G_ImposeHold_6x2C *command) {
-    Pkt_801B5254 pkt;
+    G_ImposeHold_6x2C pkt;
     TObjPlayer * player;
-    ((G_ImposeHold_6x2C *)&pkt)->init();
-    ((TObjPlayer *)(&pkt))->copy_hold_params((u8 *)command);
-    ((G_ImposeHold_6x2C *)&pkt)->bswap();
-    if (validate_6x2C_impose_hold((G_ImposeHold_6x2C *)&pkt) == 0) {
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x2C_impose_hold(&pkt) == 0) {
         return;
     }
-    player = get_player_by_client_id(pkt.client);
+    player = get_player_by_client_id(pkt.header.client_id);
     if (player == 0) {
         return;
     }
-    player->movement_hold.set_effect_type(pkt.f6);
-    player->movement_hold.set_frames(pkt.f4);
-    player->movement_hold.set_center(pkt.f8, pkt.fC);
-    player->movement_hold.set_radius_sq(pkt.f10);
+    player->movement_hold.set_effect_type(pkt.effect_type);
+    player->movement_hold.set_frames(pkt.frames);
+    player->movement_hold.set_center(pkt.pos.x, pkt.pos.z);
+    player->movement_hold.set_radius_sq(pkt.trigger_radius2);
     player->set_state_flags(1);
     if (player->check_flag_4() == 0 && player->is_on_current_floor() != 0) {
-        TObjEneHoldEffect::create(player, pkt.f6, pkt.f4);
+        TObjEneHoldEffect::create(player, pkt.effect_type, pkt.frames);
     }
 }
 

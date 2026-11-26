@@ -989,7 +989,6 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle(void *data);
     void reset_area_entry_state();
-    u8 *copy_hold_params(u8 *src);
     void send_6x30_change_player_level();
     void swap_inventory_items(s32 first_id, s32 second_id);
     void update_warp_relocation();

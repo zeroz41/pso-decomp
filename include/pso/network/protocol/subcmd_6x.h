@@ -608,13 +608,14 @@ struct G_IdentifyItemRequest_6xB8 {
 
 struct G_ImposeHold_6x2C {
  struct G_ClientIDHeader header;
- u16 unknown_a1;
- u16 unknown_a2;
+ s16 frames;       // the receiver's movement_hold.set_frames
+ s16 effect_type;  // the receiver's movement_hold.set_effect_type
  struct VectorXZF pos;
  f32 trigger_radius2;
  void bswap();
  void init();
  void send();
+ G_ImposeHold_6x2C &operator=(G_ImposeHold_6x2C &src);
 };
 
 struct G_IncrementEnemyDamage_Extension_6xE4 {
