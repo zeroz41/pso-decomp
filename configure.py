@@ -1192,7 +1192,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/derolle/TBoss2Joint.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/TObjBoss1Crater.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/ObjBoss1CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/olgaflow/Boss6Type2Data.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjBoss7Dust.cpp holds TObjBoss7Dust and TObjBoss7DustCtrl: Dust's code comes first in .text,
     # yet DustCtrl's class name precedes Dust's in .sdata/.rodata and Dust's vtable precedes
     # DustCtrl's: deferred, written from the unit's last function back.
@@ -1358,7 +1357,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .data holds the vtable (0x804DFADC) ahead of the switch table of sub_802BBC74: deferred generation of the
     # last-to-first source. Inlining stays on: copy_block's struct assignment and the two motion-track constant
     # references are inlined, and the constants come out at their first user inside the literal pool.
-    "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-fp_contract on")},
+    "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-fp_contract on", "-str reuse,readonly")},
     # send_subordinate_actions loads its two flag bytes from .sdata2 ahead of its float literals: constant references
     # inlined at the use (the TBoss6Type2.cpp form), so this unit is built with inlining on.
     "pso/boss/olgaflow/TBoss6Type2_80356E50.cpp": {"cflags": _switch(cflags_pso, "-inline on")},

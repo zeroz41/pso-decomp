@@ -204,7 +204,6 @@ pso/boss/galgryphon/TBoss5Gryphon.cpp
 pso/boss/galgryphon/Boss5GryphonBehaviorSdata2.cpp
 pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.cpp
 pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.cpp
-pso/boss/olgaflow/Boss6Type2Data.cpp
 pso/boss/olgaflow/TBoss6Demo21_TYPE2_DEAD.cpp
 pso/boss/dragon/ObjBoss1CommonJResource.cpp
 pso/boss/dragon/ObjBoss1CommonResource.cpp
