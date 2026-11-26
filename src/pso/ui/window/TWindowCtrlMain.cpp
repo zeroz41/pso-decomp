@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowMessageInfomation.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -22,7 +23,6 @@
 #include "pso/ui/window/TWindowChoiceSetting_80249610.h"
 #include "pso/unk/WindowControlState.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
-#include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_803DA798.h"
@@ -46,7 +46,6 @@
 
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -185,7 +184,7 @@ void TWindowCtrlPlayer::update_target_info_window() {
     if ((lock_on_window != NULL) && ((lock_on_window->all_parents_unqueued_for_destruction() == 0) || (lock_on_window->is_open_and_unblocked() == 0))) {
         lock_on_window = NULL;
     }
-    if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
+    if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (TWindowCtrl::fn_8024A314() != 0)) {
         if (lock_on_window != NULL) {
             lock_on_window->close();
             lock_on_window = NULL;

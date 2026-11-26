@@ -60,6 +60,7 @@ struct TWindowCtrl : public TObject {
     static s32 is_submit_cooldown_clear();
     static void update_focused();
     static s32 get_active_sub();
+    static s32 fn_8024A314();
     static void open_status_111();
     static void open_status_112();
     static void close_active_window();
@@ -149,5 +150,10 @@ LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 extern u16 short_mail_flags;
 
 void close_window_if_active(s32 client);
+void update_timer_window(TWindowCtrl *ctrl);
+void complete_actor_speech_balloons(u16 id);
+s32 is_actor_speech_balloon_done(u16 id);
+saddr get_party_member_name(s32 n);
+s32 fn_8024C5C4(const TWindowChat *chat);
 
 #endif

@@ -49,6 +49,7 @@ struct WindowDrawContext
 
 // The one context every window draws through (name inferred; TWindowCtrlMain creates and frees it).
 extern WindowDrawContext *shared_window_draw_context;
+void clear_shared_window_draw_context(void);
 
 LAYOUT_ASSERT(TexturedQuad_size, sizeof(TexturedQuad) == 0x20);
 LAYOUT_ASSERT(TexturedQuad_uv_offset, offsetof(TexturedQuad, u0) == 0x10);

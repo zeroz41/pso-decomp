@@ -25,16 +25,13 @@
 #include "pso/object/switch/TOChatSensorCapture.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrlPlayer.h"
-#include "pso/ui/window/TWindowCtrl_8024B1A0.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowEffectParty.h"
-#include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
-#include "pso/ui/window/TWindowCtrl_8024B9C0.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -223,7 +220,7 @@ void TWindowChat::set_flag1e_bit40() { flags |= 0x40; }
 
 
 
-s32 TWindowCtrl__sub_8024C5C4(const TWindowChat *chat) {
+s32 fn_8024C5C4(const TWindowChat *chat) {
     if (chat->flags & 2) return 0;
     return 1;
 }
@@ -520,8 +517,7 @@ void TWindowCtrl::update_trade_window() {
 
 
 
-void update_timer_window(void *ctrl_arg) {
-    TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
+void update_timer_window(TWindowCtrl *ctrl) {
     if (ctrl->timer_window != NULL) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
             ctrl->timer_window->request_close();
@@ -1209,7 +1205,7 @@ void TWindowCtrl::open_status_111() {
 
 
 
-s32 TWindowCtrl__sub_8024A314(void) {
+s32 TWindowCtrl::fn_8024A314() {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
@@ -1228,7 +1224,7 @@ s32 TWindowCtrl::get_active_sub() {
     if (instance->chat_window == NULL) {
         return 0;
     }
-    return TWindowCtrl__sub_8024C5C4(instance->chat_window);
+    return fn_8024C5C4(instance->chat_window);
 }
 
 

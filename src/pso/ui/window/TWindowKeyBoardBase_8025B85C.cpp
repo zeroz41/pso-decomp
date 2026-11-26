@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowCtrl_8024B7D4.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"

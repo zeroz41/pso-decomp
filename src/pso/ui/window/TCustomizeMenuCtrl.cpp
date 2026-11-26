@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"

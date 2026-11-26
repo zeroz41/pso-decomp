@@ -21,13 +21,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";
 __declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f, 370.0f};
@@ -122,7 +122,7 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
     TWindowCtrl::show_client_lock_on_window(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
-    if ((TWindowCtrl__sub_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
+    if ((TWindowCtrl::fn_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
     }
 }

@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/WindowLayout.h"
 

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/window/TObjCHTimeWin_80074C94.h"
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"

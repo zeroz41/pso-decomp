@@ -26,7 +26,6 @@
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
-#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
