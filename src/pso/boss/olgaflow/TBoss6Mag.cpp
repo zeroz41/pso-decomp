@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -81,7 +82,7 @@ void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src) {
 }
 
 TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(parent) {
-    TBoss6MagStateRecord record;
+    EnemyStateRecord record;
     f32 *tuning;
     s32 param_index;
     m_name = boss6_mag_name;
@@ -93,7 +94,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     apply_set_data(params);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     scene_archive = TBoss6PlotFalz::get_scene_archive();

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -233,7 +234,7 @@ u8 *copy_boss6_type1_vec(saddr dest, saddr source) {
 #pragma push
 #pragma opt_common_subs off
 TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEnemy(parent) {
-    TBoss6Type1StateRecord record;
+    EnemyStateRecord record;
     s32 i;
 
     m_name = TBoss6Type1::name;
@@ -242,7 +243,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     bml_resource = TBoss6PlotFalz::get_scene_archive();

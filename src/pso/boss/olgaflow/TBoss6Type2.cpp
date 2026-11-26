@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
@@ -160,7 +161,7 @@ void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec) {
 #pragma push
 #pragma opt_common_subs off
 TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEnemy(parent) {
-    TBoss6Type2StateRecord record;
+    EnemyStateRecord record;
     s32 i;
     s32 id;
     m_name = TBoss6Type2::name;
@@ -168,7 +169,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     archive = TBoss6PlotFalz::get_scene_archive();

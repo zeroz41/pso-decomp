@@ -63,11 +63,5 @@ struct TBoss7Crawfish : public TObjEnemy {
 LAYOUT_ASSERT(TBoss7Crawfish_collision_body, offsetof(TBoss7Crawfish, collision_body) == 0x374);
 LAYOUT_ASSERT(TBoss7Crawfish_hits, offsetof(TBoss7Crawfish, hits) == 0x3A8);
 LAYOUT_ASSERT(TBoss7Crawfish_size, sizeof(TBoss7Crawfish) == 0x3D0);
-// The record exchange_object_state reads and writes.
-struct Boss7CrawfishStateRecord {
-    s32 flags;
-    u8 unk_4[0x2];
-    s16 value;
-};
 
 #endif

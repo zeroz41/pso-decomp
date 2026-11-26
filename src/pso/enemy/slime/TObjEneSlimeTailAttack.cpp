@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -58,12 +59,6 @@ extern "C" {
 extern void *slime_model_index_by_type[2];
 extern TObjMotionAction slime_motion_action_table[7];
 
-struct SlimeSavedState {
-    s32 flags;
-    u16 unknown4;
-    s16 unknown6;
-    u8 unknown8[4];
-};
 
 
 
@@ -470,13 +465,13 @@ saddr TObjEneSlimeOne::create(saddr owner, saddr set_data, saddr velocity) {
 #pragma opt_common_subs off
 TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data)
     : TObjEnemy(parent) {
-    SlimeSavedState state;
+    EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
     add_flags_2e4(2);
     apply_set_data(set_data);
     if (exchange_object_state(&state, 1) != 0) {
         state.flags = 0;
-        state.unknown6 = 0;
+        state.damage = 0;
         exchange_object_state(&state, 0);
     }
     parent_slime = owner;
@@ -491,13 +486,13 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set
 #pragma opt_common_subs off
 TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data, const Vec *velocity)
     : TObjEnemy(parent) {
-    SlimeSavedState state;
+    EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
     add_flags_2e4(2);
     apply_set_data(set_data);
     if (exchange_object_state(&state, 1) != 0) {
         state.flags = 0;
-        state.unknown6 = 0;
+        state.damage = 0;
         exchange_object_state(&state, 0);
     }
     parent_slime = owner;

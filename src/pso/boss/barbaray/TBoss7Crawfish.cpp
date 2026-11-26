@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -184,10 +185,10 @@ void TBoss7Crawfish::render() {
 }
 
 void TBoss7Crawfish::clear_object_state_exchange() {
-    Boss7CrawfishStateRecord record;
+    EnemyStateRecord record;
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
 }

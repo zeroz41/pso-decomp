@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/system/memory.h"
@@ -419,7 +420,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
             VecCopy(&body_center, &saved);
         }
     }
-    TBoss6PlotFalzStateRecord record;
+    EnemyStateRecord record;
     record.flags = 0x800;
     send_6x0A_enemy_state(&record);
     exchange_object_state(&record, 0);
@@ -980,7 +981,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 #pragma push
 #pragma opt_common_subs off
 TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    TBoss6PlotFalzStateRecord record;
+    EnemyStateRecord record;
     player_stats *base_params;
     AttackParams *attack_params;
     ActorParamBlock *resistance_params;
@@ -993,7 +994,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     set_entry.kind = 0;
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));

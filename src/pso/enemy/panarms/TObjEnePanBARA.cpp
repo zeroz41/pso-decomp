@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -245,14 +246,6 @@ struct PanBARAParams {
     f32 unk_8;
 };
 
-// The 12-byte record TObjEnemy::exchange_object_state fills (mode 1) or stores (mode 0).
-struct PanBARAObjectState {
-    u32 unk_0;
-    u16 unk_4;
-    s16 unk_6;
-    u8 unk_8[4];
-};
-
 TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 index) : TObjEnemy(parent) {
     s32 i;
 
@@ -260,10 +253,10 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     add_flags_2e4(2);
     apply_set_data(setData);
     // The statements of TObjEnemy::clear_lobby_object_state, expanded here.
-    PanBARAObjectState objectState;
+    EnemyStateRecord objectState;
     if (this->exchange_object_state(&objectState, 1) != 0) {
-        objectState.unk_0 = 0;
-        objectState.unk_6 = 0;
+        objectState.flags = 0;
+        objectState.damage = 0;
         this->exchange_object_state(&objectState, 0);
     }
     half_index = index;

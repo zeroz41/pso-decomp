@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -268,7 +269,7 @@ TBoss6MagMine::~TBoss6MagMine() {
 #pragma push
 #pragma opt_common_subs off
 TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : TObjEnemy(parent) {
-    TBoss6MagMineStateRecord record;
+    EnemyStateRecord record;
     f32 *params;
     m_name = TBoss6MagMine::class_name;
     VecCopy(&position, &set_data->origin);
@@ -277,7 +278,7 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     apply_set_data(set_data);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     archive = TBoss6PlotFalz::get_scene_archive();

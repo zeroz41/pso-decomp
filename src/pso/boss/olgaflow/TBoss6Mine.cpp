@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -335,7 +336,7 @@ TBoss6Mine::~TBoss6Mine() {
 #pragma push
 #pragma fp_contract on
 TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy(parent) {
-    TBoss6MineStateRecord record;
+    EnemyStateRecord record;
     f32 f;
     m_name = TBoss6Mine::class_name;
     owner = set_data->owner;
@@ -347,7 +348,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     apply_set_data(set_data);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     scene_archive = TBoss6PlotFalz::get_scene_archive();

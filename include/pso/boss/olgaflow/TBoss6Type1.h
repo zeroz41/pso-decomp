@@ -348,7 +348,5 @@ LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_n
 // The two motions and frames draw_model_blend_motion blends.
 struct Boss6BlendMotion { AnimationMotion *motions[2]; f32 frames[2]; };
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
-// The record exchange_object_state reads and writes.
-struct TBoss6Type1StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 #endif

@@ -65,12 +65,5 @@ public:
 LAYOUT_ASSERT(Boss6MagMineSetData_size, sizeof(Boss6MagMineSetData) == 0x58);
 LAYOUT_ASSERT(TBoss6MagMine_size, sizeof(TBoss6MagMine) == 0x3B4);
 
-// The record exchange_object_state reads and writes.
-struct TBoss6MagMineStateRecord {
-    s32 flags;
-    s16 pad_04;
-    s16 value;
-    s32 pad_08;
-};
 
 #endif
