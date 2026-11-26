@@ -17,7 +17,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -66,7 +66,7 @@ void TObjBoss2CeilJunk::render() {
     set_chunk_blend(0x2500);
   }
   push_matrix();
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
+  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
   post_translate_matrix(&position.x);
   rotate_matrix_y(0, this->rotation_y);
   rotate_matrix_x(0, this->rotation_x);

@@ -9,8 +9,6 @@
 #include "pso/object/ambient/TOBiwaMushi.h"
 #include "pso/object/TOMekaFish00.h"
 #include "pso/object/TOMekaFish01.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include <stdlib.h>
 
 // The source is written from the last function back: the unit is built

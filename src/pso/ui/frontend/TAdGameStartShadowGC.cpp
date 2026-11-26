@@ -6,7 +6,7 @@
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 const char *TAdGameStartShadowGC::name = "TAdGameStartShadowGC";
 saddr TAdGameStartShadowGC::texture_list;
@@ -14,7 +14,7 @@ saddr TAdGameStartShadowGC::texture_list;
 void TAdGameStartShadowGC::draw_band() {
     u32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdGameStartShadowGC::texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(TAdGameStartShadowGC::texture_list));
     set_draw_texture_and_color(0, m_color);
     for (i = 0; i < 5; i++) {
         draw_textured_quad_at_depth(&m_quads[i].x0, 0.74f);

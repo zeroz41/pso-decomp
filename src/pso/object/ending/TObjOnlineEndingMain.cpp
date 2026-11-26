@@ -6,8 +6,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
@@ -290,7 +289,7 @@ void TObjOnlineEnding::render() {
     push_matrix();
     post_translate_matrix(&online_ending_scene_origin.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(scene_textures);
+    set_texture_list(scene_textures);
     draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
     for (i = 0; i < player_count; i++) {

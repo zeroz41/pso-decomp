@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TItemData.h"
@@ -615,7 +615,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
     if ((u8)icon != 0x33) {
         p = pos;
         begin_screen_draw(1);
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(1, style);
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
         offset = 18.0f;

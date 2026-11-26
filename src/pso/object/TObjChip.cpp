@@ -17,7 +17,7 @@
 
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/DebugFont.h"
 #include "pso/object/TObjChip.h"
@@ -251,7 +251,7 @@ void TObjChip::tick_chips() {
 }
 #pragma pop
 void TObjChip::render_chips() {
-    TObjFish::set_global_param(params.textures);
+    set_texture_list(params.textures);
     if (params.flags & 0x10) {
         draw_ginja_chips();
         return;

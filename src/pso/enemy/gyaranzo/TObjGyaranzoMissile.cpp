@@ -9,7 +9,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjEneGyaranzoMine.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
@@ -69,7 +69,7 @@ void TObjGyaranzoMissile::explode() {
 }
 
 void TObjGyaranzoMissile::render() {
-    TObjFish::set_global_param(get_bml_texlist(gyaranzo_bml_resource, 6));
+    set_texture_list(get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_x(0, rotation_x);

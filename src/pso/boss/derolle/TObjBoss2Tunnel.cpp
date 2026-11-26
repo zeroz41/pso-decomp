@@ -30,7 +30,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -724,7 +724,7 @@ void draw_snapshot_capture_overlay(void) {
     setup_projected_color_draw(1);
     draw_projected_quads(v, 4);
     end_projected_color_draw();
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
     q.x0 = snapshot_frame_center.x - 27.0f;

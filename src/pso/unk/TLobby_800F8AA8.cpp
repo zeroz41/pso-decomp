@@ -20,7 +20,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/unk/text_800F8A78.h"
@@ -937,7 +937,7 @@ void TLobby::draw_fullscreen_texture_quad() {
     v[3] = 432.0f;
     v[5] = v[4] = 0.0f;
     v[7] = v[6] = 1.0f;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
     begin_screen_draw(0);
     set_draw_texture_and_color((saddr)this, -1);
     draw_textured_quad_at_depth(v, (0.5f));

@@ -18,8 +18,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -333,7 +332,7 @@ void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
         update_state();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

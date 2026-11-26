@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
@@ -42,7 +42,7 @@ extern NJS_OBJECT tentacle_model_nodes[];
 void TBoss2Tentacle::render() {
     s32 i;
     set_motion_packed_rotation();
-    TObjFish::set_global_param(boss2_tentacle_texlist);
+    set_texture_list(boss2_tentacle_texlist);
     push_matrix();
     switch (state) {
     case 0:

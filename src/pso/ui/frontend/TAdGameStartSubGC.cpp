@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/system/vector.h"
@@ -21,7 +21,7 @@ s32 game_start_player_instance;
 
 void TAdGameStartSubGC::draw_background() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(game_start_player_instance));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(game_start_player_instance));
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_quad.x0, 0.01f * (f32)m_cell + 0.8f);
     end_screen_draw();

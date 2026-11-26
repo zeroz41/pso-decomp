@@ -31,7 +31,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
@@ -209,7 +209,7 @@ void TRaderMapCore::free_statics() {
 
 s32 TRaderMapCore::apply_compass_param(const s32 *counter) {
     if (radar_frame_texlist != NULL) {
-        TObjFish::set_global_param(radar_frame_texlist);
+        set_texture_list(radar_frame_texlist);
         return 1;
     }
     return -1;
@@ -567,7 +567,7 @@ void TRaderMapCore::render_region_records(s32 mode) {
     model_render_flags |= core->radar_render_flags;
     set_chunk_material_override_pair(-0xFF01, 0x900);
     if (RADAR_BACKDROP_MAP->tex != NULL) {
-        TObjFish::set_global_param(RADAR_BACKDROP_MAP->tex);
+        set_texture_list(RADAR_BACKDROP_MAP->tex);
     }
     i = 0;
     {

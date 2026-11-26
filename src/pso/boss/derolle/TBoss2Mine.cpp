@@ -7,7 +7,7 @@
 #include "pso/boss/derolle/TBoss2TargetMine.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/AltModel.h"
 #include "pso/boss/DragonAttackParams.h"
@@ -362,7 +362,7 @@ void TBoss2Mine::render() {
         Vec shadow_scale = boss2_mine_shadow_scale;
         TObjEnemy::draw_ground_shadow(&shadow_scale, 0);
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect();

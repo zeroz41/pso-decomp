@@ -3,7 +3,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/NinjaTypes.h"
@@ -29,7 +29,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     w = width;
     w += (8e+01f);
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, context->color);
     r1.x0 = pos[0];
     r1.y0 = pos[1];

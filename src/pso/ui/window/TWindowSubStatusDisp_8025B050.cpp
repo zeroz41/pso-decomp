@@ -9,7 +9,7 @@
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
@@ -90,7 +90,7 @@ void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *con
     } else {
         begin_screen_draw(0);
     }
-    TObjFish::set_global_param(*sprite->texture_list_slot);
+    set_texture_list(*sprite->texture_list_slot);
     set_draw_texture_and_color(sprite->kind, sprite->color);
     w = sprite->w;
     lo = (0.5f) - len;

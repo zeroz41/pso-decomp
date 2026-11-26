@@ -1,4 +1,3 @@
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/BmlAccessors.h"
@@ -9,7 +8,7 @@
 #include "pso/enemy/deldepth/TObjEneDelDepth.h"
 #include "pso/enemy/deldepth/TObjEneDelDepthBomb.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 
 struct DelDepthMotionBinding { s32 motion; f32 speed; };
@@ -111,21 +110,21 @@ void DelDepthMotion::draw_model_part() {
     current_motion = motion;
     if (current_motion != -1) {
         if (current_motion < 6) {
-            TObjFish::set_global_param(get_bml_texlist(TObjEneDelDepth::get_data(), 0));
+            set_texture_list(get_bml_texlist(TObjEneDelDepth::get_data(), 0));
             actor->draw();
             return;
         }
         if (current_motion < 0xA) {
-            TObjFish::set_global_param(texture);
+            set_texture_list(texture);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, frame);
             clear_motion_packed_rotation();
             return;
         }
         set_motion_packed_rotation();
-        TObjFish::set_global_param(texture);
+        set_texture_list(texture);
         draw_model_motion(model, animation, frame);
-        TObjFish::set_global_param(secondTexture);
+        set_texture_list(secondTexture);
         draw_model_motion(secondModel, secondAnimation, frame);
         clear_motion_packed_rotation();
     }

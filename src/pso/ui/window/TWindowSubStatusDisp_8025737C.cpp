@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
@@ -168,7 +168,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
         sz = this->depth;
         scale = -1.0f / (0.299f * sz + context->depth);
         begin_screen_draw(1);
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(0xB, -1);
         if (this->flags & 8) {
             TWindowSubStatusDisp__sub_80256C40(this, context, &pos, scale);

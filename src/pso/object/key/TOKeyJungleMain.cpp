@@ -8,8 +8,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -83,7 +82,7 @@ void TOKeyJungleMain::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
         switch (is_on) {
         case 0:
-            TObjFish::set_global_param(get_bml_texlist(key_jungle_main_static_model_resource, 1));
+            set_texture_list(get_bml_texlist(key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
@@ -91,7 +90,7 @@ void TOKeyJungleMain::render() {
             pop_matrix();
             return;
         case 1:
-            TObjFish::set_global_param(get_bml_texlist(key_jungle_main_static_model_resource, 1));
+            set_texture_list(get_bml_texlist(key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

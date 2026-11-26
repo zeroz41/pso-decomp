@@ -20,7 +20,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/render/GinjaView.h"
 #include "pso/object/city/CitySeasonResources.h"
@@ -384,7 +384,7 @@ void TObjCityAirCar_Car::render() {
         if (model_type != 0) {
             rotate_matrix_z(0, this->rotation_z);
         }
-        TObjFish::set_global_param(city_common_texture_list);
+        set_texture_list(city_common_texture_list);
         draw_chunk_object(get_city_common_model(city_aircar_model_indices[model_type]));
         TParticleCtrl::begin_effect_render();
         draw_ginja_object(get_city_common_model(city_air_car_model_index_table[model_type]));
@@ -394,7 +394,7 @@ void TObjCityAirCar_Car::render() {
             if (light_blink >= 0x14) {
                 texture_entries[2].global_index = texture_entries[0].global_index;
             }
-            TObjFish::set_global_param(city_air_car_model_handle);
+            set_texture_list(city_air_car_model_handle);
             air_car_buffer_pair_table[model_type]->scroll_uvs(uv_scroll, 0);
             draw_chunk_object(city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
             city_air_car_model_handle->textures[2].global_index = texture_index;

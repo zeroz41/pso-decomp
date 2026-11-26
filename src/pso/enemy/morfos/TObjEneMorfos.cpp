@@ -15,7 +15,7 @@
 #include "pso/enemy/morfos/TObjEneMorfos.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/FloatRounding.h"
@@ -1162,7 +1162,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &part_fades[idx];
     part->update();
     vis = part->updateFromCamera(&body_center);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
@@ -1239,7 +1239,7 @@ void TObjEneMorfos::render() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1259,7 +1259,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(morfos_instance->models[2].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(morfos_instance->models[2].texlist));
         push_matrix();
         post_translate_matrix(&node_points[0].x);
         rotate_matrix_y(0, (int) (rotation_y));
@@ -1347,7 +1347,7 @@ void TObjEneMorfos::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

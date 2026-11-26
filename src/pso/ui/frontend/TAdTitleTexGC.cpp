@@ -5,7 +5,7 @@
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
@@ -125,12 +125,12 @@ void TAdTitleTexGC::render() {
 
 void TAdTitleTexGC::render_status_pair(s32 color) {
     begin_screen_draw(1);
-    TObjFish::set_global_param(player_tex_texture_list_ptr);
+    set_texture_list(player_tex_texture_list_ptr);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
     end_screen_draw();
     begin_screen_draw(1);
-    TObjFish::set_global_param(player_tex_texture_list_ptr);
+    set_texture_list(player_tex_texture_list_ptr);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
     end_screen_draw();

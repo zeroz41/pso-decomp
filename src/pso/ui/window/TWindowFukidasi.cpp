@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -233,7 +233,7 @@ void TWindowFukidasi::draw_body(WindowDrawContext *context, u32 argb, f32 *offse
     s.edge_a_v = 0.0f;
     s.edge_b_u = 0.0f;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, argb);
     if (frame_size[1] < 64.0f) {
         capY = 0.5f * frame_size[1];

@@ -7,7 +7,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/memory.h"
 #include "pso/render/NinjaUtil.h"
@@ -93,12 +92,13 @@ s32 TLobby__sub_800F9FF4(saddr);
 
 }
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
+// Whether the archive has finished loading (set_flag_and_notify sets 0x400 in its flags).
+s32 is_bml_loaded(BmlResource *resource) {
+    return (resource->flags >> 10) & 1;
+}
+
 extern "C" {
-
-
 extern "C" {
-int fn_8001ED90(void* p) { return (*(u32*)((char*)p + 0x0) >> 10) & 0x1; }
-
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }

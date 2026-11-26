@@ -38,7 +38,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjBase.h"
 extern "C" const char rappy_variant_na_name[3] = "NA";
 
@@ -166,7 +166,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 
 
 #include <stddef.h>
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -312,7 +311,7 @@ void TObjEneLappy::render() {
         detail = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (detail != 0) {
             set_speed_params(this->variant);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

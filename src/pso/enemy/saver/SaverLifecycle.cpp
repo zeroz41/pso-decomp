@@ -46,7 +46,7 @@
 
 #include "pso/network/TLobby.h"
 #include "pso/effect/TAttackTrace.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -825,7 +825,7 @@ void TObjEneSaver::render() {
     v = classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);

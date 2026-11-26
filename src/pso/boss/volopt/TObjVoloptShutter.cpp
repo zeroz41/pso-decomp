@@ -4,7 +4,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/text_803D96A8.h"
@@ -59,7 +59,7 @@ void TObjVoloptShutter::update_shutter_state() {
 
 void TObjVoloptShutter::render() {
     toggle_particle_effect();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_shutter_global_param));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(volopt_shutter_global_param));
     push_matrix();
     model_render_flags &= ~0x400;
     rotate_matrix_y(NULL, rotation_y);

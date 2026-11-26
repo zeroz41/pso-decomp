@@ -9,7 +9,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -174,7 +174,7 @@ void TODoorMachine01::render() {
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             lit = (door_flags >> LIGHT_LIT_SHIFT) & 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model(node->model);
@@ -182,7 +182,7 @@ void TODoorMachine01::render() {
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 1)) & 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model(node->model);
@@ -190,19 +190,19 @@ void TODoorMachine01::render() {
             draw_switch_light(node, lit);
             node = node->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 2)) & 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             draw_switch_light(node, lit);
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 3)) & 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model(node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();

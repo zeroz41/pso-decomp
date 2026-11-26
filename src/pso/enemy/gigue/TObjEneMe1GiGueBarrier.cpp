@@ -6,7 +6,7 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGue.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
@@ -42,7 +42,7 @@ void TObjEneMe1GiGueBarrier::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TParticleCtrl::end_effect_render();
         draw();
         pop_matrix();

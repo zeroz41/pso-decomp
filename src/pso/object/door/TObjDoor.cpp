@@ -14,7 +14,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"
@@ -278,7 +278,7 @@ void TObjDoor::update_opening_glow() {
 void TObjDoor::update_open() {}
 
 void TObjDoor::draw_locked() {
-    TObjFish::set_global_param(resource_param);
+    set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -313,7 +313,7 @@ void TObjDoor::update_timer() {
 }
 
 void TObjDoor::draw_closed() {
-    TObjFish::set_global_param(resource_param);
+    set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -339,7 +339,7 @@ void TObjDoor::draw_closed() {
 }
 
 void TObjDoor::draw_closing() {
-    TObjFish::set_global_param(resource_param);
+    set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -356,7 +356,7 @@ void TObjDoor::draw_closing() {
 }
 
 void TObjDoor::draw_opening() {
-    TObjFish::set_global_param(resource_param);
+    set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -382,7 +382,7 @@ void TObjDoor::draw_opening() {
 }
 
 void TObjDoor::draw_model() {
-    TObjFish::set_global_param(resource_param);
+    set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);

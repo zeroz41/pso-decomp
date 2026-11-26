@@ -14,7 +14,6 @@
 #include "pso/object/container/TContainerAncient01R.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResourceLoad.h"
 
@@ -41,7 +40,7 @@ static const f32 ancient01_zero[1] = {0.0f};
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -255,7 +254,7 @@ void TContainerAncient01::run_task() {
 
 void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -535,7 +534,7 @@ void TContainerAncient01R::run_task() {
 
 void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

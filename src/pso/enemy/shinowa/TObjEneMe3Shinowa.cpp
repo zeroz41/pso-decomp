@@ -37,7 +37,7 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
@@ -1529,7 +1529,7 @@ void TObjEneMe3Shinowa::render() {
     }
     if (detail != 0) {
         update_player_state_default();
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
@@ -1592,7 +1592,7 @@ void TObjEneMe3Shinowa::render_demo() {
     }
     gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         toggle_particle_effect();
         if (gold != 0) {
             textures = texlist->textures;

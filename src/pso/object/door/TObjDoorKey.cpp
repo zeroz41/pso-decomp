@@ -21,7 +21,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
@@ -118,7 +118,7 @@ void TObjDoorKey::draw_active_beam() {
         PPCSync();
         beam_uv_scroll_last_tick = actor_frame_tick;
     }
-    TObjFish::set_global_param(door_key_texture_handle);
+    set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -139,7 +139,7 @@ void TObjDoorKey::draw_active_beam() {
 }
 
 void TObjDoorKey::draw_inactive_badge() {
-    TObjFish::set_global_param(door_key_texture_handle);
+    set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

@@ -5,7 +5,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/task/TObject.h"
@@ -24,7 +23,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 
 #pragma readonly_strings on
@@ -155,7 +154,7 @@ void TObjDFDemo3::render() {
     set_motion_packed_rotation();
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(part.texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(part.texlist));
     node_list->install();
     set_chunk_render_flags(1);
     draw_model_motion(part.model, part.motion, frame);

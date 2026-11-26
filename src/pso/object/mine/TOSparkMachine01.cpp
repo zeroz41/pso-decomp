@@ -9,7 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
@@ -73,7 +73,7 @@ void TOSparkMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         n = ((NJS_OBJECT *)model)->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {

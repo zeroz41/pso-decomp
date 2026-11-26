@@ -8,8 +8,7 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/BmlResource.h"
@@ -182,7 +181,7 @@ void TObjDFDemo4::draw_zanzo_parts() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[i].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[i].texlist));
         draw_model_motion(zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
     }
     clear_motion_packed_rotation();
@@ -200,7 +199,7 @@ void TObjDFDemo4::draw_body_parts() {
         post_translate_matrix(&pos.x);
         rotate_matrix_y(NULL, angle);
         for (i = 0; i < 3; i++) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_parts[i].texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(body_parts[i].texlist));
             if (i == 0) {
                 node_list->install();
             }

@@ -31,7 +31,7 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGue.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/dubchik/TDubchikPart.h"
 #include "pso/enemy/dubchik/TDubchikShot.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -437,9 +437,9 @@ void TObjEneDubchik::render() {
             select_actor_lighting(this);
             toggle_particle_effect();
             if (collapsed != 0) {
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
             } else {
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             drew = 1;
             push_matrix();

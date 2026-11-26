@@ -17,7 +17,7 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -69,7 +69,6 @@ extern s32 memcard_access_active;
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 void rotate_matrix_y(int, u32);
-int fn_8001ED90(void *p);
 s32 release_texture_list(void *);
 
 #pragma push
@@ -517,7 +516,7 @@ void TCMCharacter::apply_character_appearance() {
     CharacterAppearanceFields *raw;
     s32 hair;
     s32 head;
-    if (fn_8001ED90((void *)chara_select_preview_resource) == 0 || this->shape_rel_ready == 0) {
+    if (is_bml_loaded((BmlResource *)chara_select_preview_resource) == 0 || this->shape_rel_ready == 0) {
         return;
     }
     TAdSinglePlyChrSelectGC::update_pair(this);
@@ -590,17 +589,17 @@ void TCMCharacter::draw_creation_figure() {
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, creation_figure_rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x460));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x460));
         this->draw_player_model();
         push_matrix_from((void *)get_joint_matrix(0x3A));
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x2EC));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x2EC));
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
         pop_matrix();
         v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -609,7 +608,7 @@ void TCMCharacter::draw_creation_figure() {
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((u8 *)char_select_current_entry + 0x178));
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();

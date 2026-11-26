@@ -8,7 +8,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -22,7 +22,6 @@
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
 // Written from its last function back: the unit is built -inline off,deferred
@@ -211,7 +210,7 @@ void TObjLobbyMain::render() {
         if (fade_state != 2) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {

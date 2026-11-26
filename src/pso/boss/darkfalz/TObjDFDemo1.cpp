@@ -10,8 +10,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/BmlResource.h"
@@ -183,7 +182,7 @@ void TObjDFDemo1::draw_fading_model() {
     rotate_matrix_y(NULL, angle);
     max = 30.0f;
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_parts[i].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(body_parts[i].texlist));
         f = frame;
         switch (i) {
         case 0:
@@ -246,7 +245,7 @@ void TObjDFDemo1::draw_zanzo_parts() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (j = 0; j < 2; j++) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[j].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[j].texlist));
         draw_model_motion(zanzo_parts[j].model, zanzo_parts[j].motion, frame);
     }
     clear_motion_packed_rotation();

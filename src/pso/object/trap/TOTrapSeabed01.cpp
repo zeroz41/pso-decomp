@@ -12,8 +12,7 @@
 #include "pso/object/TObjChip.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -224,7 +223,7 @@ void TOTrapSeabed01::draw() {
         set_depth_buffer_settings_3();
         set_draw_list_mask(1);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(trap_seabed01_texture_file);
+        set_texture_list(trap_seabed01_texture_file);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -253,7 +252,7 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
         if (!(flags & 8)) {
             if (projected != 0) {
                 setup_particle_tev(0);
-                TObjFish::set_global_param(trap_seabed01_texture_file);
+                set_texture_list(trap_seabed01_texture_file);
                 load_projection_tex_matrix(0x38E);
                 draw_ginja_model(object->model);
                 reset_particle_tev();
@@ -270,7 +269,7 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
 }
 
 void TOTrapSeabed01::render_effect_layers() {
-    TObjFish::set_global_param(trap_seabed01_texture_file);
+    set_texture_list(trap_seabed01_texture_file);
     if (actor_frame_tick != effect_uv_scroll_last_tick) {
         if (trap_seabed01_ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
             scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(trap_seabed01_ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);

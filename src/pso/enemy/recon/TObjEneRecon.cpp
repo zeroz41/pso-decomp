@@ -16,7 +16,7 @@
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -87,7 +87,7 @@ void TObjEneRecon::render_shadows() {
     translate_matrix(0, position.x, position.y, position.z);
     rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
     scale_matrix(0, 1.5f, 1.5f, 1.5f);
-    TObjFish::set_global_param(bml_texlist);
+    set_texture_list(bml_texlist);
     draw_chunk_object(bml_model);
     pop_matrix();
   }
@@ -97,7 +97,7 @@ void TObjEneRecon::render_shadows() {
 void TObjEneRecon::render_demo() {
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -113,7 +113,7 @@ void TObjEneRecon::render_demo() {
 s32 TObjEneRecon::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
             rotate_matrix_y(0, (int) (this->rotation_y));
@@ -164,7 +164,7 @@ void TObjEneRecon::render() {
                         draw_ground_shadow(&v, 0);
                     }
                     update_secondary_light();
-                    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
                     push_matrix();
                     translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
                     rotate_matrix_y(0, (int) (rotation_y));

@@ -33,6 +33,8 @@ s32 reload_texture_state_pixels(struct GinjaTextureState *texture, s32 src, u32 
 s32 reload_list_texture_pixels(s32 index, s32 src, u32 use_header);
 #ifdef __cplusplus
 }
+// Makes texlist the current texture list, the one set_texture_num selects from; returns 1.
+s32 set_texture_list(NJS_TEXLIST *texlist);
 s32 set_texture_num(s32 i);
 #endif
 

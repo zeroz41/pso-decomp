@@ -13,7 +13,7 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -109,7 +109,7 @@ void load_menu_font(void) {
     menu_font_palette[1] = 0x3FFF;
     menu_font_palette[2] = 0x5FFF;
     menu_font_palette[3] = 0x7FFF;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
     for (i = 0; i < 2; i++) {
         set_context_texture_palette_bank(i, 0);
     }

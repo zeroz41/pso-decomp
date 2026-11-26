@@ -4,7 +4,7 @@
 
 #include "types.h"
 #include <stdlib.h>
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixOps.h"
@@ -25,7 +25,7 @@ void TObjBoss1Rock::render() {
         set_chunk_material_override_pair(0xFF00, 0x800);
         set_constant_material(&m_color);
         push_matrix();
-        TObjFish::set_global_param(dragon_common_texture_list);
+        set_texture_list(dragon_common_texture_list);
         post_translate_matrix(&m_position.x);
         rotate_matrix_y(NULL, m_rotation_y);
         rotate_matrix_x(NULL, m_rotation_x);
@@ -35,7 +35,7 @@ void TObjBoss1Rock::render() {
         model_render_flags = saved_model_render_flags;
     } else {
         push_matrix();
-        TObjFish::set_global_param(dragon_common_texture_list);
+        set_texture_list(dragon_common_texture_list);
         post_translate_matrix(&m_position.x);
         rotate_matrix_y(NULL, m_rotation_y);
         rotate_matrix_x(NULL, m_rotation_x);

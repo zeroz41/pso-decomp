@@ -11,8 +11,7 @@
 #include "pso/boss/darkfalz/TOBoss4Bird.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/boss/darkfalz/TOBoss4Tower.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
@@ -124,7 +123,7 @@ void TOBoss4Bird::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         for (i = 0; i < count; i++) {
             push_matrix();
             translate_matrix(0, 0.0f, bob_offset, 0.0f);
@@ -194,7 +193,7 @@ void TOBoss4Tower::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }
@@ -279,7 +278,7 @@ void TOBoss4Rock::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         for (i = 0; i < count; i++) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlists[i]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlists[i]));
             push_matrix();
             post_translate_matrix(&positions[i].x);
             rotate_matrix_z(NULL, rotations[i].z);

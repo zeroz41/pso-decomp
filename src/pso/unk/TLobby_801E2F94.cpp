@@ -32,7 +32,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/render/Draw2D.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/MatrixStack.h"
@@ -58,7 +57,7 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
     f32 ey, ex, cx, cy, z;
     f32 u0, v0, u1, v1;
 
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
     set_texture_num(sprite->tanim->texid);
     u0 = 0.01f;
     u1 = 0.99f;

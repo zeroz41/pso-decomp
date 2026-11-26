@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
@@ -781,7 +781,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
                 set_color_blending_mode(0, 8);
                 set_color_blending_mode(1, 0xA);
                 begin_screen_draw(1);
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D4));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D4));
                 set_draw_texture_and_color(0, cursor_color[i][j]);
                 draw_textured_quad_at_depth(cursor[0], 0.53f);
                 draw_textured_quad_at_depth(cursor[1], 0.53f);
@@ -802,7 +802,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags() {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             s32 alpha = (s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f);
             begin_screen_draw(1);
-            TObjFish::set_global_param(lbl_805D67D0);
+            set_texture_list(lbl_805D67D0);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);
             draw_textured_quad_at_depth(&quad[i + 4][0].x, 0.54f);
             end_screen_draw();
@@ -821,7 +821,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
     for (i = 0; i < 4; i++) {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(lbl_805D67D0);
+            set_texture_list(lbl_805D67D0);
             set_draw_texture_and_color(0, ((s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f) << 24) | 0xFFFFFF);
             q.u0 = quad[i + 4][0].u0;
             q.u1 = quad[i + 4][0].u1;

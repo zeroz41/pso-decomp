@@ -22,7 +22,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/switch/TSwitch.h"
@@ -99,7 +99,7 @@ void TODoorFourLightBase::render() {
     case 1:
     case 3:
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion(model, motion, (f32)animation_frame);
@@ -107,7 +107,7 @@ void TODoorFourLightBase::render() {
         break;
     case 2:
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion(model, motion, (f32)animation_end_frame);
@@ -119,7 +119,7 @@ void TODoorFourLightBase::render() {
             break;
         }
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object(model);
@@ -175,9 +175,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
     do {
         eval_flags = cur->evalflags;
         if (eval_flags & 0x100000) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
         if (cur->evalflags & 0x200000) {
             TParticleCtrl::begin_effect_render();

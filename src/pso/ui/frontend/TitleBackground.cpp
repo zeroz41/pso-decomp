@@ -2,7 +2,8 @@
 #include "pso/ui/frontend/TitleBackground.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803DA798.h"
 
 struct TitleBackgroundTile {
     u32 x;
@@ -23,7 +24,7 @@ void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s3
     int i;
 
     begin_screen_draw(mode);
-    TObjFish::set_global_param(static_cast<NJS_TEXLIST *>(texture_list));
+    set_texture_list(static_cast<NJS_TEXLIST *>(texture_list));
     for (i = 0; i < 8; i++) {
         set_draw_texture_and_color(tex_base + title_background_tiles[i].tex, color);
         q[0] = s_offset_x0 + (f32)title_background_tiles[i].x;

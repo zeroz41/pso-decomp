@@ -2,7 +2,7 @@
 #include "pso/object/fence/TOFenceBase.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -85,7 +85,7 @@ void TOFenceBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (is_open == 0) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {

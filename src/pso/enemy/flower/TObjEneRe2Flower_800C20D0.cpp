@@ -6,7 +6,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/render_util.h"
@@ -61,7 +61,7 @@ void TObjEneRe2Flower::render_demo() {
         texlist->textures[0].texaddr = texlist->textures[2].texaddr;
         texlist->textures[1].texaddr = texlist->textures[3].texaddr;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -112,7 +112,7 @@ void TObjEneRe2Flower::render() {
             texlist->textures[0].texaddr = texlist->textures[2].texaddr;
             texlist->textures[1].texaddr = texlist->textures[3].texaddr;
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, base_yaw);

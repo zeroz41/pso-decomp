@@ -14,7 +14,7 @@
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
@@ -174,7 +174,7 @@ void TODoorAncient09::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             draw_ginja_model_with_motion(model, motion, animation_frame);
             pop_matrix();
             return;
@@ -182,7 +182,7 @@ void TODoorAncient09::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             draw_ginja_model_with_motion(model, motion, animation_end_frame - 1.0f);
             pop_matrix();
             return;
@@ -217,7 +217,7 @@ void TODoorAncient09::draw_switch_lights() {
     }
     on[1] = set;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
     rotate_matrix_y(NULL, rotation_y);
@@ -226,9 +226,9 @@ void TODoorAncient09::draw_switch_lights() {
     TParticleCtrl::begin_effect_render();
     for (i = 0; i < 2; i++) {
         if (on[i] != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
         }
         push_matrix();
         pair = pairs[i];

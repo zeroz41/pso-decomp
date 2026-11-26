@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_CAVE_CAVE_SIGN_RENDER_H
 #define PSO_OBJECT_CAVE_CAVE_SIGN_RENDER_H
 #include "pso/object/base/TObjMapObject.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaMaterial.h"
@@ -13,7 +13,7 @@
 inline void render_cave_sign(TObjMapObject *sign) {
     NJS_OBJECT *node;
     if (sign->update_object_view_visibility(sign->view_range, sign->model_radius) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sign->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sign->texlist));
         push_matrix();
         post_translate_matrix(&sign->position.x);
         rotate_matrix_y(NULL, sign->rotation_y);

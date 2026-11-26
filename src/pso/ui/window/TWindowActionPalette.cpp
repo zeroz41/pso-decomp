@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/hud/TMainCursor.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
@@ -240,7 +240,7 @@ void TWindowActionPalette::draw_frame(saddr context) {
     scale = get_transition_progress();
     depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(2, ctx->color);
     if (is_split_screen() == 0) {
         corner.x0 = 640.0f - 71.0f * scale;

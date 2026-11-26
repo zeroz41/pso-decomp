@@ -65,7 +65,7 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 
 #undef get_player_by_client_id
@@ -218,7 +218,7 @@ void TPlayerLobbyMarker::render() {
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
-        TObjFish::set_global_param(&shared_effect_texture_list);
+        set_texture_list(&shared_effect_texture_list);
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, reinterpret_cast<u8 *>(get_marker_position(&player->marker_position)));
         rotate_matrix_y(NULL, camera_ctrl_instance->yaw + rotation);

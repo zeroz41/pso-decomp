@@ -9,7 +9,6 @@
 class ModelNodePositionCapture;
 struct TBoss6Zanzo;
 struct TBoss6PlotFalz;
-struct TObjFish;
 class TParticleCtrl;
 
 class TBoss6Demo21_TYPE2_DEAD : public TObject {

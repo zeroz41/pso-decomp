@@ -10,7 +10,7 @@
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/fence/TObjLazerFenceExtra.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
@@ -197,7 +197,7 @@ void TObjLazerFenceNorm::render() {
 }
 
 void TObjLazerFenceNorm::draw_model() {
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
@@ -210,7 +210,7 @@ void TObjLazerFenceNorm::draw_animated_beam() {
     for (i = 0; i < 4; i++) {
         set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lazer_fence_texture_slots[scale_level]));
     }
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -336,7 +336,7 @@ void TObjLazerFenceExtra::render() {
 }
 
 void TObjLazerFenceExtra::render_lazer_fence_model() {
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
@@ -349,7 +349,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     for (i = 0; i < 4; i++) {
         set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lazer_fence_texture_slots[this->scale_level]);
     }
-    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, this->rotation_y);

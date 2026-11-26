@@ -69,7 +69,7 @@ struct NJS_OBJECT;
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -5088,7 +5088,7 @@ void TBoss1Dragon::render() {
             *(s32 *)&this->model = saved;
             pop_matrix();
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -5229,7 +5229,7 @@ void TBoss1Dragon::render_low_detail() {
     if (this->update_object_view_visibility((400.0f), (20.0f)) == 0) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);

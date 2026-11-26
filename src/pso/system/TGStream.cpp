@@ -3,7 +3,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_800F8AA8.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/prs.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"

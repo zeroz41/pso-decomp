@@ -16,7 +16,7 @@ struct NJS_TEXLIST;
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/UvScrollBuffer.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
@@ -134,7 +134,7 @@ void TObjDoorJung::render() {
                 set_ginja_model_texture_slot(door_jung_child_table[j], static_cast<u16>(door_jung_signal_blue_texture));
             }
         }
-        TObjFish::set_global_param(door_jung_texlist);
+        set_texture_list(door_jung_texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

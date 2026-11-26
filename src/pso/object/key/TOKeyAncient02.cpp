@@ -6,8 +6,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient02.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -43,7 +42,7 @@ void TOKeyAncient02::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         object = (NJS_OBJECT *)model;
         push_matrix();
         post_translate_matrix(object->pos);
@@ -62,7 +61,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(key_ancient02_texture_lists[is_on]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_ancient02_texture_lists[is_on]));
         TParticleCtrl::begin_effect_render();
         object = key_ancient02_glass_model;
         push_matrix();

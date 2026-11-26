@@ -44,7 +44,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
@@ -357,7 +357,7 @@ void TObjEneDolmOlm::render() {
     if (vis != 0 && render_model_if_visible() == 0) {
     select_actor_lighting(this);
     model_render_flags |= 1;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
@@ -437,7 +437,7 @@ void TObjEneDolmOlm::render() {
 s32 TObjEneDolmOlm::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

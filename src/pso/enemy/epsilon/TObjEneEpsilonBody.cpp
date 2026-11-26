@@ -15,7 +15,6 @@ struct NJS_OBJECT;
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/render/render_util.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -26,7 +25,7 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/TBoss3VoloptSweepLine.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
@@ -1003,7 +1002,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
         return;
     }
     update_secondary_light();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -1051,7 +1050,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
         TParticleCtrl::end_effect_render();

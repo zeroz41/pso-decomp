@@ -8,7 +8,7 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/TNeedleShoot.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
@@ -19,7 +19,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -76,7 +75,7 @@ void TObjEneMe1GiGueMissile::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(gigue_missile_resource->models[1].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(gigue_missile_resource->models[1].texlist));
     set_motion_packed_rotation();
     draw_model_motion(get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
     clear_motion_packed_rotation();

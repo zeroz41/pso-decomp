@@ -24,7 +24,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -1345,7 +1345,7 @@ void TObjEneDf2Bringer::render() {
             }
         }
         df2_bringer_uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         {
             NJS_TEXNAME *textures = texlist->textures;
             saved_texture = textures[1].texture;
@@ -1395,7 +1395,7 @@ void TObjEneDf2Bringer::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
         toggle_particle_effect();
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -246,13 +246,13 @@ void TEndingAB::set_fish_global_param() {
     switch (game_difficulty_selection) {
     case 0:
     case 1:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        set_texture_list(ending_ab_wall_texture_list);
         break;
     case 2:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        set_texture_list(ending_ab_wall_texture_list);
         break;
     case 3:
-        TObjFish::set_global_param(ending_ab_wall_texture_list);
+        set_texture_list(ending_ab_wall_texture_list);
         break;
     }
 }

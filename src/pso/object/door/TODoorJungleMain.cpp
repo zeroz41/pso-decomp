@@ -7,7 +7,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 
@@ -215,7 +215,7 @@ void TODoorJungleMain::render() {
     Ids_8029B428 ids = {{2, 1, 0}};
     s32 i;
     if (update_object_view_visibility(view_range, model_radius) == 1) {
-        TObjFish::set_global_param(door_jungle_main_gvm_texture);
+        set_texture_list(door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

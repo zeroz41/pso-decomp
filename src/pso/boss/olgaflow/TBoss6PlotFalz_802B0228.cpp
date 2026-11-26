@@ -17,7 +17,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
 #include "pso/quest/QuestStoryFlags.h"
 

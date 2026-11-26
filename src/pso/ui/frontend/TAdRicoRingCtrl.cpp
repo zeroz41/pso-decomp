@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
@@ -153,7 +153,7 @@ void TAdRicoRing::set_scale4(f32 value) {
 
 void TAdRicoRing::render() {
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(NULL, angles[0], angles[1], angles[2]);
     set_chunk_render_flags(1);

@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/collision/TObjInfoCol.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/ActorCollision.h"
@@ -23,10 +23,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/DebugFont.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
-
-// The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
-// a model's texture list (TObjFish_8001ED90), still named after their units.
 
 // The unit's .sdata2 float pool is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no
@@ -167,7 +163,7 @@ void TObjHashiBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (motion != NULL) {
             draw_model_motion(model, motion, animation_frame);
         } else {

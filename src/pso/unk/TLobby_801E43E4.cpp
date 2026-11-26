@@ -21,7 +21,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DD5E0.h"
@@ -292,7 +292,7 @@ s32 TLanguage::read_u16_le() {
 
 void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
         advance_wrapped_cursor();
         distort_texture_wave_image(this);
     }

@@ -13,7 +13,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
@@ -125,7 +125,7 @@ void TLightGlare::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[31].texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[31].texlist));
     set_draw_texture_and_color(particle_definitions[31].texture, -1);
     if (facing < 0.0f) {
         color.argb.a = 0;

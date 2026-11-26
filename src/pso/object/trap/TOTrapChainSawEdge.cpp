@@ -4,7 +4,6 @@
 #include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/network/protocol/protocol_types.h"
 
 #include "types.h"
@@ -52,7 +51,7 @@
 
 #include "pso/npc/TObjNpcEnemy.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/network/client_id.h"
 #include "pso/object/switch/TSwitch.h"
@@ -476,7 +475,7 @@ void TOTrapChainSawDamage::update_state() {
 }
 #pragma pop
 void TOTrapChainSawDamage::draw_model() {
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
@@ -589,7 +588,7 @@ void TOTrapChainSawKey::draw_debug_labels() {
 }
 
 void TOTrapChainSawKey::draw_model() {
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
@@ -693,7 +692,7 @@ void TOTrapChainSawEdge::update_sweep() {
 }
 
 void TOTrapChainSawEdge::draw_model() {
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();

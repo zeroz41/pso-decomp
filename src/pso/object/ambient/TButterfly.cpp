@@ -10,10 +10,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/ModelDrawContext.h"
 #include <stdlib.h>
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/ObjectSetData.h"
@@ -52,7 +51,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(butterfly_bml_resource, 0));
+        set_texture_list(get_bml_texlist(butterfly_bml_resource, 0));
         draw_model();
     }
 }

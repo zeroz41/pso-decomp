@@ -5,8 +5,7 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/TNeedleShoot.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
@@ -69,7 +68,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
-    TObjFish::set_global_param(get_bml_texlist(gee_needle_resource, 1));
+    set_texture_list(get_bml_texlist(gee_needle_resource, 1));
     draw_ginja_object(get_bml_model(gee_needle_resource, 1));
     TParticleCtrl::end_effect_render();
     pop_matrix();

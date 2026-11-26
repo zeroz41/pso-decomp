@@ -18,7 +18,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/DebugFont.h"
@@ -94,7 +94,7 @@ void TObjWarpLobby::open_lobby_menu() {
 
 void TObjWarpLobby::render() {
     if ((show_beam != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
-        TObjFish::set_global_param(lobby_warp_textures);
+        set_texture_list(lobby_warp_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

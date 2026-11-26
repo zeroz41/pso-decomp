@@ -1,10 +1,9 @@
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/enemy/slime/SlimeAnimationState.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/render_util.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803E2D70.h"
@@ -79,7 +78,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 7) {
-        TObjFish::set_global_param(get_bml_texlist(TObjEneSlimeOne::get_instance(), slime_one_part_texture_index_table[owner->get_attack_target()]));
+        set_texture_list(get_bml_texlist(TObjEneSlimeOne::get_instance(), slime_one_part_texture_index_table[owner->get_attack_target()]));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -98,7 +97,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 9) {
-        TObjFish::set_global_param(texture_list);
+        set_texture_list(texture_list);
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -116,13 +115,13 @@ void SlimeAnimationState::draw(s32 deferred) {
         clear_chunk_render_flags();
         return;
     }
-    TObjFish::set_global_param(texture_list);
+    set_texture_list(texture_list);
     set_motion_packed_rotation();
     if (deferred != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param(second_texture_list);
+        set_texture_list(second_texture_list);
         draw_model_motion(second_model, second_motion, frame);
         clear_chunk_render_flags();
         model_render_flags &= ~0x400000;
@@ -132,7 +131,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         draw_model_motion(model, motion, frame);
         set_cull_front();
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param(second_texture_list);
+        set_texture_list(second_texture_list);
         set_cull_back();
         draw_model_motion(second_model, second_motion, frame);
         set_cull_front();

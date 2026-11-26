@@ -9,8 +9,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
@@ -113,7 +112,7 @@ void TObjTuitate::render() {
     if (fading != 0) {
         fade.set_flags_and_apply_damage_color();
     }
-    TObjFish::set_global_param(get_bml_texlist(bml_resource, 0));
+    set_texture_list(get_bml_texlist(bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -187,7 +186,7 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         fade.set_flags_and_apply_damage_color();
     }
-    TObjFish::set_global_param(get_bml_texlist(bml_resource, 0));
+    set_texture_list(get_bml_texlist(bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

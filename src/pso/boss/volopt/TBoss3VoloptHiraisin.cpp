@@ -7,7 +7,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
@@ -20,7 +20,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -188,7 +187,7 @@ void TBoss3VoloptHiraisin::update_hit() {
 void TBoss3VoloptHiraisin::render() {
     f32 scale;
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting(this);
@@ -215,7 +214,7 @@ void TBoss3VoloptHiraisin::render() {
             scale = 1.0f - 0.02202643f * (position.y - 4.6f);
             translate_matrix(0, position.x, 4.5f, position.z);
             scale_matrix(NULL, scale, scale, scale);
-            TObjFish::set_global_param(get_bml_texlist(volopt_hiraisin_resources, 0));
+            set_texture_list(get_bml_texlist(volopt_hiraisin_resources, 0));
             draw_chunk_object(get_bml_model(volopt_hiraisin_resources, 0));
             pop_matrix();
         }

@@ -6,7 +6,7 @@
 #include "pso/system/scene/TEndingC.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/NinjaTypes.h"
 
 #include "pso/system/scene/TEndingC_8008D00C.h"
@@ -199,7 +199,7 @@ void TEndingC::run_task() {
 }
 
 void TEndingC::render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&ending_c_wall_texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(&ending_c_wall_texlist));
     begin_screen_draw(1);
     set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(render_geometry[0], 0.98f);

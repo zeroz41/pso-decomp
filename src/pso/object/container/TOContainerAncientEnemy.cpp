@@ -32,7 +32,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/TObjChip.h"
 #include "pso/player/TObjPlayer.h"
@@ -46,7 +46,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -263,7 +262,7 @@ void TUnk_804B08BC::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
@@ -422,7 +421,7 @@ void TOContainerAncientEnemy::draw_model() {
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);

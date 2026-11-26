@@ -1,7 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "types.h"
 #include "pso/object/jungle/TOJungleDesign.h"
 #include "pso/render/GinjaMaterial.h"
@@ -10,7 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -53,7 +52,7 @@ CollisionBody jungle_design_collision_desc_table[3] = {
 
 void TOJungleDesign::render() {
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));

@@ -21,7 +21,7 @@
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -1183,7 +1183,7 @@ void TScene::render_map_sections() {
             render_callback();
         }
         if (scene_material_root->texlist != NULL) {
-            TObjFish::set_global_param(scene_material_root->texlist);
+            set_texture_list(scene_material_root->texlist);
         }
         sec = scene_material_root->sections;
         prepare_ginja_model();
@@ -1287,7 +1287,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 } else {
                     play_reflection_particles(-1);
                 }
-                TObjFish::set_global_param(scene_material_root->texlist);
+                set_texture_list(scene_material_root->texlist);
                 set_material_alpha_compare_reference(scene_material_root->flags);
                 draw_ginja_object(node);
                 reset_reflection_tev_stages();
@@ -1313,7 +1313,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 if (m != NULL) {
                     if (m->effect != NULL) {
                         enable_indirect_tev(tex = m->effect, m->sampler, m->scale, 0);
-                        TObjFish::set_global_param(scene_material_root->texlist);
+                        set_texture_list(scene_material_root->texlist);
                         set_material_alpha_compare_reference(scene_material_root->flags);
                         draw_ginja_object(node);
                         disable_indirect_tev(tex, 0);
@@ -1410,7 +1410,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
         if (tex != 0)
         {
           enable_indirect_tev(texture = tex, m->sampler, m->scale, 0);
-          TObjFish::set_global_param(scene_material_root->texlist);
+          set_texture_list(scene_material_root->texlist);
           set_material_alpha_compare_reference(scene_material_root->flags);
           draw_ginja_model_with_motion(node, e->motion, e->frame);
           disable_indirect_tev(texture, 0);

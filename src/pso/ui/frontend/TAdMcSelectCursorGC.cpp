@@ -12,7 +12,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
@@ -26,7 +26,7 @@ NJS_TEXLIST *TAdMcSelectCursorGC::texture_entry;
 
 void TAdMcSelectCursorGC::render_cursor() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC::texture_entry));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC::texture_entry));
     set_draw_texture_and_color(0, ((this->cursor_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&quads[0].x0, 0.9f);
     end_screen_draw();

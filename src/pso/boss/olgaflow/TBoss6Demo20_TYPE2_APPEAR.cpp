@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -17,7 +16,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
@@ -53,7 +52,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type2_appear_origin.x);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model12.texture));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model12.texture));
     draw_model_motion(model12.model, model12.motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -75,7 +74,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         if (fade < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(fade);
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model1.texture));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model1.texture));
         set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix(&effect_positions[4].x);
@@ -87,7 +86,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         pop_matrix();
         clear_motion_packed_rotation();
         if (fade < 1.0f) {
-            TObjFish::reset_fish_globals();
+            TBoss6PlotFalz::restore_fade_material_color();
         }
     }
 }
@@ -112,14 +111,14 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&boss6_type2_appear_origin.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model4.texture));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model4.texture));
         capture->install();
         draw_model_motion(model4.model, model4.motion, frame);
         capture->clear();
         clear_motion_packed_rotation();
         pop_matrix();
         if (fade < 1.0f) {
-            TObjFish::reset_fish_globals();
+            TBoss6PlotFalz::restore_fade_material_color();
         }
     }
 }
@@ -144,14 +143,14 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         post_translate_matrix(&boss6_type2_appear_origin.x);
         s32 i = 0;
         do {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(opening_parts[i].texture));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(opening_parts[i].texture));
             draw_model_motion(opening_parts[i].model, opening_parts[i].motion, frame);
             i++;
         } while (i < 2);
         clear_motion_packed_rotation();
         pop_matrix();
         if (fade < 1.0f) {
-            TObjFish::reset_fish_globals();
+            TBoss6PlotFalz::restore_fade_material_color();
         }
     }
 }

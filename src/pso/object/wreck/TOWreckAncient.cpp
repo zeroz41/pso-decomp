@@ -17,7 +17,7 @@
 #include "pso/object/wreck/TOWreckAncient07.h"
 #include "pso/object/wreck/TOWreckAncientBrakable.h"
 #include "pso/object/wreck/TOWreckAncientBrakable05.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
@@ -168,7 +168,7 @@ void TOWreckAncient::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }

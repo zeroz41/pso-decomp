@@ -18,7 +18,6 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 
@@ -199,4 +198,4 @@ void TBGLightningCtrl::spawn_lightning_at_angle(s32 angle) {
     TBGLightning::create(this, &pos, scale.z * (0.3f * (3.0517578e-05f * (f32)rand()) + 1.0f));
 }
 
-void bind_lightning_texture(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
+void bind_lightning_texture(void) { set_texture_list(bg_lightning_texture_handle); }

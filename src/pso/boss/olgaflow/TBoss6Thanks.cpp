@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -12,7 +11,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -139,18 +138,18 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture0));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture0));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model0, motions[current_motion], frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture1));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture1));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model1, motion1, frame1);
     pop_matrix();
     clear_motion_packed_rotation();
-    TObjFish::reset_fish_globals();
+    TBoss6PlotFalz::restore_fade_material_color();
 }
 
 

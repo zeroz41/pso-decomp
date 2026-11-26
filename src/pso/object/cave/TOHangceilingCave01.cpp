@@ -14,8 +14,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer.h"
@@ -201,7 +200,7 @@ void TOHangceilingCaveBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[2]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[2]));
         if (model != NULL && current_motion != NULL) {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
@@ -213,7 +212,7 @@ void TOHangceilingCaveBase::render() {
                 lit0 = level <= step;
                 lit1 = level <= 2.0f * step;
                 lit2 = level <= 3.0f * step;
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 if (lit0 == 1) {
                     draw_ginja_model(hangceiling_cave01_model_root->child->model);
                 }
@@ -223,7 +222,7 @@ void TOHangceilingCaveBase::render() {
                 if (lit2 == 1) {
                     draw_ginja_model(hangceiling_cave01_model_root->child->child->child->model);
                 }
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
                 if (lit0 == 0) {
                     draw_ginja_model(hangceiling_cave01_model_root->child->model);
                 }
@@ -235,9 +234,9 @@ void TOHangceilingCaveBase::render() {
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {
-                    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
+                    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
                 } else {
-                    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
+                    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 }
                 draw_ginja_object(hangceiling_cave01_model_root);
             }

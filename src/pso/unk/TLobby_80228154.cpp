@@ -7,7 +7,7 @@
 #include <stddef.h>
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/MatrixOps.h"
@@ -42,7 +42,7 @@ void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 dept
     if (sprite->tlist == NULL) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
     NJS_TEXANIM *frame = &sprite->tanim[frame_index];
     f32 left = -frame->cx;
     f32 top = -frame->cy;

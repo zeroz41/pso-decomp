@@ -8,7 +8,7 @@
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/door/TODoorBase.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -92,7 +92,7 @@ void TODoorFourLightRuins::render() {
         case 1:
         case 3:
             push_matrix();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_frame);
@@ -100,7 +100,7 @@ void TODoorFourLightRuins::render() {
             return;
         case 2:
             push_matrix();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_end_frame);
@@ -113,7 +113,7 @@ void TODoorFourLightRuins::render() {
                 return;
             }
             push_matrix();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             draw_ginja_object((void *)this->model_tree);
@@ -145,7 +145,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     {
     NJS_OBJECT *body = (NJS_OBJECT *)this->model_tree;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_model(body->model);
@@ -154,9 +154,9 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     TParticleCtrl::begin_effect_render();
     for (s32 i = 0; i < 4; i++) {
         if (lit[i] == 1) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         }
         if (*lamp != 0) {
             push_matrix();
@@ -292,7 +292,7 @@ void TODoorFourLightSpace::render() {
         case 1:
         case 3:
             push_matrix();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_frame);
@@ -300,7 +300,7 @@ void TODoorFourLightSpace::render() {
             return;
         case 2:
             push_matrix();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_end_frame);
@@ -313,7 +313,7 @@ void TODoorFourLightSpace::render() {
                 return;
             }
             push_matrix();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             draw_ginja_object((void *)this->model_tree);
@@ -346,7 +346,7 @@ void TODoorFourLightSpace::draw_lights() {
     pa = &light_nodes[0];
     pb = &light_nodes[4];
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     post_translate_matrix(mdl->pos);
@@ -362,9 +362,9 @@ void TODoorFourLightSpace::draw_lights() {
     i = 0;
     do {
         if (flags[i] == 1) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         }
         if (*pa != NULL) {
             push_matrix();

@@ -9,7 +9,6 @@
 class ModelNodePositionCapture;
 
 class TParticleCtrl;
-struct TObjFish;
 
 struct TObjDFDemo4 : public TObjBase {
     TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle);

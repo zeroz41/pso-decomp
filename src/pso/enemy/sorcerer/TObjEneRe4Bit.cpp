@@ -5,7 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -535,7 +535,7 @@ void TObjEneRe4Bit::render() {
     textures = texlist->textures;
     saved = textures[3].texaddr;
     textures[3].texaddr = textures[texture_index].texaddr;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect();

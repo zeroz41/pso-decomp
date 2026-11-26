@@ -17,7 +17,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
@@ -88,7 +88,7 @@ void TODragonfly::render() {
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_model_with_motion(model, motion, animation_frame);
         pop_matrix();
     }

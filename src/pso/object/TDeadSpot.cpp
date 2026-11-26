@@ -22,7 +22,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -196,7 +195,7 @@ void TDeadSpot::render() {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);
-        TObjFish::set_global_param(texture);
+        set_texture_list(texture);
         set_texture_num(selector);
         draw_particle_strip(verts, 4, 1);
         restore_saved_depth_alpha_state();

@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
@@ -19,7 +18,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/math/InverseTrig.h"
 #include "pso/system/vector.h"
@@ -368,7 +367,7 @@ void TBoss6Mag::draw_model_motion_blend() {
     set_motion_packed_rotation();
     texlist = get_bml_texlist(scene_archive, 1);
     model = get_bml_model(scene_archive, 1);
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     if (0.0f == motion_state.track.blend) {
         capture->install();
         draw_model_motion(model, motion_state.track.motion, motion_state.track.frame);

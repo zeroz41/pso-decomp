@@ -50,7 +50,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/TItem.h"
@@ -1495,7 +1495,7 @@ void TObjEneDellBiter::render() {
                 draw = 0;
             }
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (draw != 0) {
             push_matrix();
             post_translate_matrix(&position.x);
@@ -1545,7 +1545,7 @@ void TObjEneDellBiter::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         TObjEneDD::draw_ground_shadow(&v, 0);
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1562,7 +1562,7 @@ void TObjEneDellBiter::render_demo() {
 s32 TObjEneDellBiter::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_position) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

@@ -10,7 +10,7 @@
 #include "pso/player/TObjEndingPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerClassStats.h"
 #include "pso/map/FloorArea.h"
@@ -90,7 +90,7 @@ void TObjEndingPlayer::render() {
         rotate_matrix_y(0, rotation_y);
         render_material_state.save();
         apply_material_color_override();
-        TObjFish::set_global_param(&body_textures);
+        set_texture_list(&body_textures);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();

@@ -30,7 +30,7 @@ struct NJS_TEXLIST;
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/ActorCollision.h"
@@ -89,7 +89,7 @@ void TLazerFenceSw::draw_laser_beam() {
     for (i = 0; i < 3; i++) {
         set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], color_slot);
     }
-    TObjFish::set_global_param(lazer_fence_sw_texture_list);
+    set_texture_list(lazer_fence_sw_texture_list);
     if (actor_frame_tick != last_scroll_tick && uv_scroll >= 1.0f) {
         last_scroll_tick = actor_frame_tick;
         scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model), 0, (s32)uv_scroll, 5, 1);

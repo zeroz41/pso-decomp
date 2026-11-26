@@ -9,7 +9,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/object/base/TObjMotion.h"
@@ -307,15 +307,15 @@ void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix((u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(preview_data->get_status_sub());
+    set_texture_list(preview_data->get_status_sub());
     draw_model_with_arg((void *)preview_data->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));
-    TObjFish::set_global_param(preview_data->get_status_data());
+    set_texture_list(preview_data->get_status_data());
     TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
     pop_matrix();
     if (preview_data->get_head_model() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
-        TObjFish::set_global_param(preview_data->get_chara_making_data());
+        set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
         TObjPlayer::play_phase_transition_sound(preview_data->get_head_model());
         TCharaMaking::clear_flag_bit0();
@@ -323,7 +323,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
     }
     if (preview_data->get_hair_model() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
-        TObjFish::set_global_param(preview_data->get_chara_making_data());
+        set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
         TObjPlayer__sub_802E0580(this, preview_data->get_hair_model(), &visual_record);
         TCharaMaking::clear_flag_bit0();

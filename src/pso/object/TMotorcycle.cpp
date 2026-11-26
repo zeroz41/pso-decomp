@@ -9,7 +9,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TMotorcycle.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -70,7 +70,7 @@ void TMotorcycle::render() {
     if ((TMainTask::get_render_pass() != 1) && (update_object_view_visibility(400.0f, 50.0f) != 0)) {
         set_draw_list_mask(3);
         if (motorcycle_texture_list != NULL) {
-            TObjFish::set_global_param(motorcycle_texture_list);
+            set_texture_list(motorcycle_texture_list);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));

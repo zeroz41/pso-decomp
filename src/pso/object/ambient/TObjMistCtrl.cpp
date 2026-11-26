@@ -10,7 +10,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TPlayerFootStamp.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"

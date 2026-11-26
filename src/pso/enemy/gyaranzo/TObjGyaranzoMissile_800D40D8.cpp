@@ -8,7 +8,7 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D8F74.h"
@@ -96,7 +96,7 @@ void TObjEneGyaranzoMine::explode() {
 }
 
 void TObjEneGyaranzoMine::render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(mine_textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(mine_textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, yaw);

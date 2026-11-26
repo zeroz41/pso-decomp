@@ -71,7 +71,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -132,7 +132,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/system/BmlResource.h"
 
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/barbaray/TBoss7JointBreakUp.h"
@@ -3694,7 +3693,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { TObjFish::set_global_param(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
+void TObjPlayer::draw_effect() { set_texture_list(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
 NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 

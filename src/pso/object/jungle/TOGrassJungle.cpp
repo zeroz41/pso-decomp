@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -53,7 +53,7 @@ void TOGrassJungle::load_resources() {
 
 void TOGrassJungle::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
-        TObjFish::set_global_param(grass_jungle_grass_gvm_texture);
+        set_texture_list(grass_jungle_grass_gvm_texture);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);

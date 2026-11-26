@@ -7,7 +7,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
@@ -133,7 +133,7 @@ void TWindowSubSymbolChatHelp::draw_help_icon(WindowDrawContext *context, s32 ro
 void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
     if (context->open_tick >= 0) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(2, -1);
         draw_help_icon(context, 0, -1);
         draw_help_icon(context, 1, -1);

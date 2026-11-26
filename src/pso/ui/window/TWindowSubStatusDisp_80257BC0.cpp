@@ -15,7 +15,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TItemData.h"

@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/TObjChip.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -88,7 +88,7 @@ void TOExplosiveMachine::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }

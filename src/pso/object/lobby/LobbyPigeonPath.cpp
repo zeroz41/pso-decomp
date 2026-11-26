@@ -15,7 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjPathObj.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -112,7 +112,6 @@ extern const f64 path_angle_units_per_radian[1] = {10430.38043493439};
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/render_util.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
@@ -238,7 +237,7 @@ void TObjSeabedDolphin::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(seabed_dolphin_texture_handle);
+    set_texture_list(seabed_dolphin_texture_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -406,7 +405,7 @@ void TObjJungleEbi::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(jungle_ebi_texture_gvm_handle);
+    set_texture_list(jungle_ebi_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -578,7 +577,7 @@ void TObjJungleBird::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(lobby_pigeon_texture_gvm);
+    set_texture_list(lobby_pigeon_texture_gvm);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -743,7 +742,7 @@ void TObjJungleKamome::draw() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
-    TObjFish::set_global_param(lobby_kamome_texture_gvm_handle);
+    set_texture_list(lobby_kamome_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -943,7 +942,7 @@ void TObjLobbyPigeon::draw() {
     draw_line_strip(this->model, this->path, (1.0f));
   if (this->phase == 0 || lobby_pigeon_lobby_type == NULL)
     return;
-  TObjFish::set_global_param(lobby_pigeon_lobby_type);
+  set_texture_list(lobby_pigeon_lobby_type);
   push_matrix();
   post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);

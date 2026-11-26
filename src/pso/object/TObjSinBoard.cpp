@@ -12,7 +12,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/player/TObjPlayer.h"
@@ -143,7 +142,7 @@ void TObjSinBoard::render() {
         fan.tex = uvs;
         fan.num = 4;
         set_default_alpha_blend();
-        TObjFish::set_global_param(&signboard_texture_list);
+        set_texture_list(&signboard_texture_list);
         set_texture_num(0);
         TParticleCtrl::begin_effect_render();
         push_matrix();

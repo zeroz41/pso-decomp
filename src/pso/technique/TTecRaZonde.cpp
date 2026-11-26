@@ -23,7 +23,6 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecRaFoie.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"

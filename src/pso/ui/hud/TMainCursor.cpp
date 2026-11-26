@@ -27,7 +27,7 @@
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -338,7 +338,7 @@ void TLockOnCursor::renderSecondaryCursor(CollisionBody *body, s16 type, s32 act
         if (player != NULL) {
             color_index = TMainCursor::check_visible(&player->action_palettes.m_smth, player, type, action);
             if (color_index != -1) {
-                TObjFish::set_global_param(&shared_effect_texture_list);
+                set_texture_list(&shared_effect_texture_list);
                 y = body->radius;
                 push_matrix();
                 offset_point_toward_camera(&body->center, (Vec *)&offset, y);
@@ -1153,7 +1153,7 @@ void TMainCursor::render() {
     default:
         return;
     }
-    TObjFish::set_global_param(&shared_effect_texture_list);
+    set_texture_list(&shared_effect_texture_list);
     render_marker(this);
 }
 

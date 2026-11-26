@@ -28,7 +28,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -1127,7 +1127,7 @@ void TObjEneDelDepthBomb::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
-    TObjFish::set_global_param(texture);
+    set_texture_list(texture);
     draw_chunk_object(model);
     pop_matrix();
     push_matrix();

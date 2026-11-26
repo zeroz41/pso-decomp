@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjMapObject.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -71,7 +71,7 @@ void TObjMapObject::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (motion != NULL) {
             if (detail == 1) {
                 draw_model_motion(model, motion, animation_frame);

@@ -31,7 +31,7 @@
 
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyMachine01.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -335,7 +335,7 @@ void TParticleBallistic::render() {
                 apply_particle_model_fade_color(0);
             }
         }
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
         set_draw_list_mask(3);
         if (motion != NULL) {
             draw_ginja_model_with_motion(model, motion, motion_frame);

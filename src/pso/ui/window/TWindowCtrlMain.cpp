@@ -25,7 +25,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -607,7 +607,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     a = (s32)(255.0f * alpha) << 24;
     set_draw_texture_and_color(11, a | 0xFFFFFF);
 

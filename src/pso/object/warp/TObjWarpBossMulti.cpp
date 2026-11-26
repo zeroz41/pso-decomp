@@ -13,7 +13,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/warp/TObjWarpBoss.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -30,7 +30,6 @@
 #include <string.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/render/DebugFont.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -260,11 +259,11 @@ void TObjWarpBoss::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    TObjFish::set_global_param(boss_warp_base_textures);
+    set_texture_list(boss_warp_base_textures);
     draw_ginja_object(boss_warp_base_model);
     if (model != NULL) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(boss_warp_effect_textures);
+        set_texture_list(boss_warp_effect_textures);
         draw_ginja_model_with_motion(model, motion, frame);
         TParticleCtrl::end_effect_render();
     }
@@ -873,10 +872,10 @@ void TObjWarpBossMulti::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model_handle));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model_handle));
     draw_ginja_object(base_model);
     TParticleCtrl::begin_effect_render();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
     switch (state) {
     case 0:
         draw_ginja_model_with_motion(confirmation_model, motion, frame);

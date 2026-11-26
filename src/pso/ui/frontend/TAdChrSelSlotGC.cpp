@@ -27,7 +27,7 @@ NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 #include "pso/render/GinjaTexture.h"
 
@@ -41,7 +41,7 @@ void TAdChrSelSlotGC::draw_slot_icons() {
     for (i = 0; i < 5; i++) {
         if (visible[i] != 0) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(chr_sel_slot_texlist_current);
+            set_texture_list(chr_sel_slot_texlist_current);
             set_draw_texture_and_color(0, colors[i]);
             draw_textured_quad_at_depth((f32 *)&quads[i], 0.1f);
             end_screen_draw();

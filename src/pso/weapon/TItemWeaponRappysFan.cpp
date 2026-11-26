@@ -24,7 +24,6 @@
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/item/TItemAttackColBase.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"

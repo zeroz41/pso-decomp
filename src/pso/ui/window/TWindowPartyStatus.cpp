@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -56,7 +56,7 @@ void TWindowPartyStatus::draw_background(WindowDrawContext *context) {
     f32 depth;
     depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0xB, context->color);
     quad.x0 = context->inner_x;
     quad.y0 = context->inner_y;

@@ -10,7 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/fence/TObjLazerFenceExtra.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -48,7 +48,7 @@ void TKomorebi::render() {
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         post_translate_matrix(&position.x);
         rotate_matrix_yxz(0, rotation_x, rotation_y, rotation_z);
         horizontal_scale = scale.z;

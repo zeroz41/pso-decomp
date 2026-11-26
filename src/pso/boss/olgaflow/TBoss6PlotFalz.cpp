@@ -46,7 +46,6 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
@@ -645,7 +644,11 @@ s32 next_random_seed(s32 seed) {
     return seed & 0x7FFF;
 }
 
-void TObjFish::reset_fish_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
+void TBoss6PlotFalz::restore_fade_material_color() {
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    model_render_flags = saved_model_render_flags;
+}
 void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range) {
     s32 n;
     s32 i;
@@ -699,7 +702,7 @@ void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio) {
 __declspec(section ".sdata2") const s32 plot_falz_tint_render_flags[1] = { 0x8810 };
 #pragma push
 #pragma fp_contract on
-// Tints the material toward (r, g, b) by fade; the render state is saved for reset_fish_globals.
+// Tints the material toward (r, g, b) by fade; the render state is saved for restore_fade_material_color.
 void TBoss6PlotFalz::apply_fade_material_color(f32 fade, f32 r, f32 g, f32 b) {
     NJS_ARGB color;
     if (((-1.0f) != TBoss6PlotFalz::fade_amount) || (fade < 0.0f) || (fade > 1.0f) || (r < 0.0f) || (r > 1.0f) || (g < 0.0f) || (g > 1.0f) || (b < 0.0f) || (b > 1.0f)) {

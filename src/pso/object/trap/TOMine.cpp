@@ -34,14 +34,13 @@ struct game_command_header;
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/trap/TOMineIcon02.h"
 #include "pso/object/trap/TOMineIcon03.h"
 #include "pso/object/trap/TOMineIcon04.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -200,9 +199,9 @@ void TOMine::render() {
         pop_matrix();
     }
 }
-void TOMine::draw_body() { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist)); draw_ginja_object(this->model); }
+void TOMine::draw_body() { set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist)); draw_ginja_object(this->model); }
 void TOMine::draw_light() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(light_textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_textures));
     draw_ginja_object(light_model);
 }
 void TOMine::run_task() {

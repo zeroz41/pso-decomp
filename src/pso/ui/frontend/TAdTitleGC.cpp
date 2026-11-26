@@ -6,7 +6,7 @@
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/unk/text_802A1020.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -135,7 +135,7 @@ block_5:
 void TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
     s32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(title_midashi_texlist_current));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(title_midashi_texlist_current));
     set_draw_texture_and_color(layer > 0xB, color);
     for (i = 0; i < 8; i++) {
         draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));

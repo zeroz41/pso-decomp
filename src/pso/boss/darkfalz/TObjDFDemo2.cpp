@@ -4,7 +4,6 @@
 
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -22,7 +21,7 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -129,7 +128,7 @@ void TObjDFDemo2::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[i].texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[i].texlist));
         draw_model_motion(parts[i].model, parts[i].motion, frame);
     }
     clear_motion_packed_rotation();

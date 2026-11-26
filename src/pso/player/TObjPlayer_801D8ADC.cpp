@@ -9,7 +9,6 @@
 #include "pso/player/TObjEndingPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerClassStats.h"
 #include "pso/map/FloorArea.h"

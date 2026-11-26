@@ -43,7 +43,6 @@
 #include "pso/object/TObjEneGyaranzoMine.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjControl.h"
 #include "pso/network/TLobby.h"
@@ -54,7 +53,7 @@
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -401,7 +400,7 @@ void TObjEneGyaranzo::render() {
                 }
             }
             hide_broken_parts();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

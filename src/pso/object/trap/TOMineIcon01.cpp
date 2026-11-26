@@ -8,7 +8,6 @@
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/TLevelSelect.h"

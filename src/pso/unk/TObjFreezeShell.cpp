@@ -22,7 +22,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TPlyDispData.h"
@@ -160,7 +160,7 @@ void TObjFreezeShell::render() {
         visible = owner->update_object_view_visibility(400.0f, 20.0f);
     }
     if (visible != 0) {
-        TObjFish::set_global_param(get_bml_texlist(freeze_shell_bml_resource, 1));
+        set_texture_list(get_bml_texlist(freeze_shell_bml_resource, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

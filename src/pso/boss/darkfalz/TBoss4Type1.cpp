@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include <stdlib.h>
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
@@ -24,7 +23,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 
 #include <stddef.h>
@@ -514,7 +513,7 @@ void TBoss4Type1::draw_parts() {
     NJS_OBJECT *body_model;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param(get_bml_texlist(archive, boss4_type1_model_ids[i]));
+        set_texture_list(get_bml_texlist(archive, boss4_type1_model_ids[i]));
         switch (i) {
         case 2:
         case 3:

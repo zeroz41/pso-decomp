@@ -11,7 +11,7 @@ __declspec(section ".data") NJS_TEXLIST multi_confirm_texture_descriptor = { mul
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 NJS_TEXLIST *multi_confirm_texture_list;
 
@@ -167,7 +167,7 @@ void TAdMultiOkGC::draw_entry(int index) {
     f32 base;
     if (m_entries[index].flags & 2) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(multi_confirm_texture_list);
+        set_texture_list(multi_confirm_texture_list);
         base = 0.0050000004f * (f32)index;
         for (i = 0; i < 5; i++) {
             set_draw_texture_and_color(0, m_entries[index].colors[i]);

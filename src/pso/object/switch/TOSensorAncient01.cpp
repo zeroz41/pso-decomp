@@ -5,7 +5,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TOSensorAncient01.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -70,7 +70,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)ancient_sensor_resource_pair_table[set_params[2]].red));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)ancient_sensor_resource_pair_table[set_params[2]].red));
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
@@ -78,7 +78,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->child;
         if ((f32)lamp_timer < 30.0f) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
         }
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
@@ -86,7 +86,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->sibling;
         if ((f32)lamp_timer < 60.0f) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
         }
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
@@ -94,7 +94,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         object = object->sibling;
         if ((f32)lamp_timer < 90.0f) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(ancient_sensor_resource_pair_table[sensor_texture_table_index].plain));
         }
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);

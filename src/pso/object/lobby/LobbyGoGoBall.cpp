@@ -24,7 +24,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/object/lobby/TGoGoBallRocket.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -366,7 +365,7 @@ void TObjGoGoBall::render() {
     if (lobby_gvm_texture_handles != 0 && gogo_ball_bml_resource != 0) {
         switch (gogo_ball_configuration.ball_type) {
         case 0:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[0]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[0]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 3));
             set_cull_front();
@@ -374,7 +373,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 1:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[1]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[1]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -382,7 +381,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 2:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[2]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[2]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -390,7 +389,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 3:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[3]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[3]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -398,7 +397,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 6:
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[6]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[6]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 2));
             set_cull_front();
@@ -784,9 +783,9 @@ void TGoGoBallRocket::run_task() {
 void TGoGoBallRocket::render() {
     if (((gogo_ball_bml_resource != NULL) || (lobby_gvm_texture_handles[4] != NULL)) && (gogo_ball_configuration.ball_type != 6)) {
         if (this->team0 == 1) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[4]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[4]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[5]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[5]));
         }
         push_matrix();
         post_translate_matrix(&this->pos.x);
@@ -923,9 +922,9 @@ void TGoGoBallGoal::render() {
     bml_model = get_bml_model(gogo_ball_bml_resource, 1);
     if (bml_model != NULL) {
         if ((s32) this->team0 != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[7]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[7]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[8]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[8]));
         }
         push_matrix();
         post_translate_matrix(&this->pos.x);

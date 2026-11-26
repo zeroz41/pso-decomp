@@ -11,12 +11,11 @@
 #include "pso/object/base/TDrawableModel.h"
 #include "pso/object/base/TMotionModel.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TMainCursor.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
@@ -69,7 +68,7 @@ void TPlyPhotonChair::render() {
         copy_xyz(&rotation_x, &player->rotation_x);
         if (player->is_inactive() != 0) {
             save_model_draw_state(&marker);
-            TObjFish::set_global_param(texlist);
+            set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);

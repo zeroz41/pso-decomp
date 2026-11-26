@@ -48,12 +48,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/object/warp/TObjWarpJung.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/technique/TTecLuker.h"
@@ -471,7 +470,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -675,7 +674,7 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -767,7 +766,7 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -884,7 +883,7 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

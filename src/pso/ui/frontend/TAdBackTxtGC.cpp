@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
@@ -17,7 +17,7 @@ NJS_TEXLIST *TAdBackTxtGC::backtext_texture_list;
 void TAdBackTxtGC::draw_character_background_frame(s32 texture_index, s32 color) {
     f32 quad[8];
     begin_screen_draw(1);
-    TObjFish::set_global_param(backtext_texture_list);
+    set_texture_list(backtext_texture_list);
     set_draw_texture_and_color(texture_index, color);
     quad[0] = 0.0f;
     quad[1] = 0.0f;

@@ -19,7 +19,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
@@ -323,7 +322,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(2, -1);
     q.x0 = x - 2.0f;
     q.y0 = y;
@@ -448,7 +447,7 @@ void begin_window_sweep_draw(s32 texture) {
     }
     set_additive_blend();
     set_tev_swap_channels(3, 3, 3, 3);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_texture_num(texture);
     begin_screen_textured_draw(1);
 }
@@ -525,7 +524,7 @@ void TWindowBase::draw_quest_message_frame(void *context) {
   f32 rem;
   f32 half;
   begin_screen_draw(1);
-  TObjFish::set_global_param(hud_texlist);
+  set_texture_list(hud_texlist);
   set_draw_texture_and_color(1, -1);
   if (frame_size[1] < 64.0f)
   {
@@ -712,7 +711,7 @@ void TWindowBase::draw_window_frame(WindowDrawContext *context) {
   f32 dy;
   f32 rem;
   begin_screen_draw(1);
-  TObjFish::set_global_param(hud_texlist);
+  set_texture_list(hud_texlist);
   set_draw_texture_and_color(1, context->color);
   n = (s32) frame_size[1];
   n += (4 - (n & 3)) & 3;
@@ -895,7 +894,7 @@ void load_hud_palette_textures(void) {
     TLobby::tmp_buf_release("TWindowBase");
     load_disc_prs_texture(f256_hyouji_texture_file, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
-    TObjFish::set_global_param(&f256_hyouji_texlist);
+    set_texture_list(&f256_hyouji_texlist);
     set_context_texture_palette_bank(0, 0x40);
     set_context_texture_palette_bank(1, 0x41);
     set_context_texture_palette_bank(2, 0x42);

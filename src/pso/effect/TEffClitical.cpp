@@ -16,7 +16,7 @@
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -47,7 +47,7 @@ void TEffClitical::render() {
     set_constant_material(&color);
     copy_anim_frame_to_slot(&slot);
     push_matrix();
-    TObjFish::set_global_param(&clitical_texture_list);
+    set_texture_list(&clitical_texture_list);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     scale_matrix(0, scale.x, scale.y, scale.z);

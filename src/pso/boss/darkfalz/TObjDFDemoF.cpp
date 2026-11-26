@@ -4,7 +4,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -17,7 +16,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
@@ -95,7 +94,7 @@ void TObjDFDemoF::render() {
     post_translate_matrix(&three_part_model_translate_offset.x);
     s32 i = 0;
     do {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures[i]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures[i]));
         AnimationMotion *motion = motions[i];
         if (motion == NULL) {
             draw_chunk_object(models[i]);

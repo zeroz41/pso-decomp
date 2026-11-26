@@ -19,7 +19,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
@@ -184,7 +184,7 @@ void TBoss6Rock::draw_model() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    TObjFish::set_global_param(boss6_rock_texture_list);
+    set_texture_list(boss6_rock_texture_list);
     draw_ginja_object(get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id));
     pop_matrix();
 }
@@ -543,10 +543,10 @@ void TBoss6RockMarker::render() {
         rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_z(NULL, rotation_z);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TBoss6PlotFalz::set_fade_material_color(0.5f);
         draw_ginja_object((void *)model);
-        TObjFish::reset_fish_globals();
+        TBoss6PlotFalz::restore_fade_material_color();
         pop_matrix();
     }
 }

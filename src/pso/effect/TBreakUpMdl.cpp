@@ -21,7 +21,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -217,7 +217,7 @@ void TBreakUpMdl::render() {
     BreakUpPiece *piece;
     s32 i;
     if (texlist != NULL) {
-        TObjFish::set_global_param(texlist);
+        set_texture_list(texlist);
     }
     saved_model_render_flags = model_render_flags;
     if (alpha < 1.0f) {

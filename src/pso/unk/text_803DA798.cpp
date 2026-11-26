@@ -1,7 +1,6 @@
 #include "types.h"
 
 #include <stddef.h>
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/RenderSbssGlobals.h"
@@ -16,7 +15,7 @@ s32 is_palette_texture_format(int format);
 s32 init_texture_from_gvr_desc(GinjaTextureState *texture, GvrTextureDesc *desc);
 }
 
-s32 TObjFish::set_global_param(NJS_TEXLIST *texlist) {
+s32 set_texture_list(NJS_TEXLIST *texlist) {
     current_render_context->textures = texlist;
     return 1;
 }

@@ -72,7 +72,7 @@
 
 #include "pso/ui/hud/TNowLoading.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 
@@ -888,9 +888,9 @@ void TObjEneDarkGunner::render() {
                 color.g = s;
                 color.b = s;
                 set_constant_material(&color);
-                TObjFish::set_global_param(dark_gunner_effect_resource);
+                set_texture_list(dark_gunner_effect_resource);
             } else {
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
@@ -947,9 +947,9 @@ void TObjEneDarkGunner::run_demo_task() {  }
 void TObjEneDarkGunner::render_shadow() {
     if (test_actor_flags(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(dark_gunner_cly_line_texlist);
+            set_texture_list(dark_gunner_cly_line_texlist);
         } else {
-            TObjFish::set_global_param(dark_gunner_rcly_line_texlist);
+            set_texture_list(dark_gunner_rcly_line_texlist);
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);

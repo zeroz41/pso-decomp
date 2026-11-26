@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"

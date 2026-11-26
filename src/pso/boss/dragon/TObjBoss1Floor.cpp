@@ -16,7 +16,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -56,7 +56,7 @@ void TObjBoss1Floor::render() {
         model_render_flags = 1;
         set_draw_list_mask(3);
         bind_shadow_map_texture();
-        TObjFish::set_global_param(dragon_common_texture_list);
+        set_texture_list(dragon_common_texture_list);
         floor = dragon_ground_resource->models[5].model;
         render_projected_shadow_receiver(floor->pos, floor->ang);
         draw_ginja_model(floor->model);
@@ -120,7 +120,7 @@ extern "C" void TObjBoss1Floor__sub_8002CB78(void) {  }
 
 
 void TObjBoss1MokoHill_Solo::render() {
-    TObjFish::set_global_param(dragon_common_texture_list);
+    set_texture_list(dragon_common_texture_list);
     update_dragon_trail_uvs(&position);
     push_matrix();
     translate_matrix(0, position.x, height, position.z);

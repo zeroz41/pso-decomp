@@ -6,13 +6,12 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
@@ -71,10 +70,10 @@ void TOBind::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         if ((s32) this->triggered != 1) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(animated_textures));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(animated_textures));
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();

@@ -10,7 +10,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -176,7 +176,7 @@ void TObjLaboDesignBase::draw_node_tree(NJS_OBJECT *node) {
 }
 
 void TObjLaboDesignBase::render_model() {
-    TObjFish::set_global_param(get_bml_texlist(model_resource, 0));
+    set_texture_list(get_bml_texlist(model_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

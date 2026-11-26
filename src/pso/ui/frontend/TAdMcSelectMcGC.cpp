@@ -8,7 +8,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
 NJS_TEXNAME lbl_804ED9C0 = { "f256_memorycard", 0, NULL };
@@ -18,7 +18,7 @@ NJS_TEXLIST *TAdMcSelectMcGC::texture_list_ptr;
 
 void TAdMcSelectMcGC::draw_status_window() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(TAdMcSelectMcGC::texture_list_ptr);
+    set_texture_list(TAdMcSelectMcGC::texture_list_ptr);
     set_draw_texture_and_color(0, (pad_120 << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(&quads[0].x0, 0.8f);
     end_screen_draw();

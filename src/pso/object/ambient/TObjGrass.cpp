@@ -38,7 +38,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -324,7 +324,7 @@ void TObjGrass::render() {
         return;
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     push_matrix();
     translate_matrix(0, (0.0f), parameters[2], (0.0f));
     post_translate_matrix(&this->position.x);

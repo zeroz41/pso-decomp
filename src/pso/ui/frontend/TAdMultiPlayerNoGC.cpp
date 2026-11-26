@@ -5,7 +5,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/network/TLobby.h"
@@ -92,7 +92,7 @@ void TAdMultiPlayerNoGC::render() {
 
 void TAdMultiPlayerNoGC::render_status() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(player_ad_texture_list_ptr);
+    set_texture_list(player_ad_texture_list_ptr);
     set_draw_texture_and_color(0, -1);
     draw_textured_quad_at_depth(quad, 0.25f);
     end_screen_draw();

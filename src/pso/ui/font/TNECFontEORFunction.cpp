@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
@@ -413,7 +413,7 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
 }
 
 void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
 }
 
 void TWindowSubStatusDisp::end_render_forward() { end_screen_draw(); }

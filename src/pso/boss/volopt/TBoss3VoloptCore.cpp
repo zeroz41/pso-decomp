@@ -6,7 +6,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptParticleSpray.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -231,7 +231,7 @@ void TBoss3VoloptCore::run_demo_task() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);

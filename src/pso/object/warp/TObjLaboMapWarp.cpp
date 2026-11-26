@@ -8,7 +8,6 @@
 #include "pso/object/city/CityTraffic.h"
 #include "types.h"
 #include "pso/system/BmlResourceLoader.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
@@ -67,7 +66,7 @@
 
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -512,7 +511,7 @@ void TObjCityMainWarp::run_task() {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -577,7 +576,7 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -650,7 +649,7 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -747,7 +746,7 @@ void TObjLaboMapWarp::run_task() {
 
 void TObjLaboMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(labo_map_warp_resource_bundle, 1));
+        set_texture_list(get_bml_texlist(labo_map_warp_resource_bundle, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);

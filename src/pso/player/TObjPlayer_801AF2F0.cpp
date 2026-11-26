@@ -85,7 +85,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/CollisionBodySet.h"
@@ -749,7 +749,7 @@ void TObjPlayer::draw_body(s32 detail) {
         set_chunk_material_override_pair(-1, 0x800);
         set_shadow_material_state();
     }
-    TObjFish::set_global_param(&body_textures);
+    set_texture_list(&body_textures);
     set_motion_packed_rotation();
     if (detail == 2) {
         motion_flags |= 0x400;
@@ -774,7 +774,7 @@ void TObjPlayer::draw_head_attachments() {
     if ((u32) this->attachment_model != 0U) {
         this->get_joint_matrix(0x3A);
         ((s32 (*)(void))push_matrix_from)();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->attachment_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->attachment_textures));
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
         }
@@ -785,7 +785,7 @@ void TObjPlayer::draw_head_attachments() {
     if (this->head_model != NULL) {
         this->get_joint_matrix(0x3B);
         ((s32 (*)(void))push_matrix_from)();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->head_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->head_textures));
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
         }
@@ -798,7 +798,7 @@ void TObjPlayer::draw_head_attachments() {
     if (this->hair_model != NULL) {
         this->get_joint_matrix(0x3B);
         ((s32 (*)(void))push_matrix_from)();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->head_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->head_textures));
         special_color = 0;
         if (this->m_flags & 0x400) {
             special_color = 1;

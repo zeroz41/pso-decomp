@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
@@ -132,7 +132,7 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
         draw_photon_blast_gauge_ring(this, context, &pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0xB, context->color);
     { f32 r = get_transition_progress();
     s = -1.0f / (0.0598f + this->draw_depth);

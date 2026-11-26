@@ -8,7 +8,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjChip.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/BlobShadow.h"
@@ -67,12 +67,12 @@ void TObjVoloptPillar::render() {
         toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));
         draw_chunk_object((void *)volopt_pillar_model);
         pop_matrix();
         push_matrix();
         translate_matrix(0, position.x, start_y, position.z);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_base_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_base_textures));
         draw_chunk_object((void *)volopt_pillar_base_model);
         pop_matrix();
         restore_scene_lighting();

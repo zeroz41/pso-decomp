@@ -14,7 +14,8 @@
 #include "pso/unk/text_80145A94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInputState.h"
 
@@ -132,7 +133,7 @@ void TAdScrollWinGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 
 void TAdScrollWinGC::render_status_value() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(scroll_win_texture_handle);
+    set_texture_list(scroll_win_texture_handle);
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_marker.x0, 0.1f);
     end_screen_draw();

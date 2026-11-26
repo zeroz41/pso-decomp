@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
@@ -90,7 +90,7 @@ void TDuelEffectNumber::render() {
     calc_digit_uv(&quad, digit);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(6, -1);
     draw_digit(&quad);
     draw_echo(&quad);

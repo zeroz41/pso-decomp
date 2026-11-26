@@ -19,7 +19,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
@@ -153,7 +153,7 @@ void TObjComputer::draw_model() {
     if (screen_model == NULL) {
         return;
     }
-    TObjFish::set_global_param(computer_texture_gvm_handle);
+    set_texture_list(computer_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -212,7 +212,7 @@ void TObjGbAdvance::update_idle() {
 
 void TObjGbAdvance::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(TObjGbAdvance::resource, 0));
+        set_texture_list(get_bml_texlist(TObjGbAdvance::resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);

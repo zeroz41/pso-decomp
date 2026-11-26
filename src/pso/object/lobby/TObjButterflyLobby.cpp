@@ -2,7 +2,6 @@
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "types.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/object/lobby/TObjButterflyLobby_80350958.h"
@@ -10,7 +9,7 @@
 #include "pso/system/vector.h"
 
 #include "pso/network/TLobby.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/TLobbyEventTheme.h"
@@ -65,7 +64,7 @@ void TObjButterflyLobby::init_params() {
 
 void TObjButterflyLobby::render() {
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && ((s32) this->appear_state != 0)) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->model_textures));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->model_textures));
         draw_butterfly();
     }
 }

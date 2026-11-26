@@ -17,7 +17,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjChip.h"
@@ -440,7 +440,7 @@ void TObjContainerItem::draw_model() {
     if (forest_box_model_archive != 0) {
         switch (mode) {
         case 0:
-            TObjFish::set_global_param(forest_box_textures);
+            set_texture_list(forest_box_textures);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
@@ -531,7 +531,7 @@ void TObjContainerEnemy::draw_model() {
     }
     switch (mode) {
     case 0:
-        TObjFish::set_global_param(forest_box_textures);
+        set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -644,7 +644,7 @@ void TObjContainerNoItem::draw_model() {
         case 1:
             break;
         case 0:
-        TObjFish::set_global_param(forest_box_textures);
+        set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -735,7 +735,7 @@ void TObjContainerBase::draw_model() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(container_breakup_textures);
+            set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -838,7 +838,7 @@ void TObjContainerAbeEnemy::draw_model() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(container_breakup_textures);
+            set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);

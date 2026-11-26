@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/task/TObject.h"
@@ -23,7 +23,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame;
         for (i = 0; i < 2; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(TAdRayGC::ray_texture_list);
+            set_texture_list(TAdRayGC::ray_texture_list);
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             end_screen_draw();
@@ -33,7 +33,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame + 0x14;
         for (i = 2; i < 4; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(TAdRayGC::ray_texture_list);
+            set_texture_list(TAdRayGC::ray_texture_list);
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             end_screen_draw();

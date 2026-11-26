@@ -14,7 +14,7 @@
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
@@ -502,7 +502,7 @@ void TObjEneBalClawClaw::render() {
         detail = classify_actor_view_detail(120.0f, 400.0f, 10.0f);
         if (detail != 0) {
             shadow = 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

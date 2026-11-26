@@ -18,7 +18,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 
 const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
@@ -349,7 +349,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
     y = 0.0f;
     h = frame->inner_h;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(11, frame->color);
     if (is_not_split_screen() != 0) {
         q.x0 = frame->x;

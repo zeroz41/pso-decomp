@@ -6,7 +6,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 const char *lbl_805D4190 = "TAdChrSelMovePlateGC";
 NJS_TEXLIST *chr_sel_move_plate_texture;
@@ -15,7 +15,7 @@ void TAdChrSelMovePlateGC::draw_move_plate_quads() {
     u32 i;
     for (i = 0; i < count; i++) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(chr_sel_move_plate_texture);
+        set_texture_list(chr_sel_move_plate_texture);
         set_draw_texture_and_color(0, ((u32)opacity[i] << 24) | 0xFFFFFF);
         draw_textured_quad_at_depth(quads[i].values, 0.52f);
         end_screen_draw();

@@ -17,7 +17,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TWindowLayoutNumber.h"
@@ -432,7 +432,7 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0xB, ctx->color);
     r.x0 = pos.x;
     r.y0 = pos.y;

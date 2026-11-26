@@ -21,7 +21,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -410,7 +410,7 @@ void TObjNpcBase::render() {
     if ((update_object_view_visibility(view_distance, view_radius) != 0) && (visible == 1)) {
         select_actor_lighting(this);
         model_render_flags |= 1;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, (u8 *) &position);
         rotate_matrix_y(0, rotation_y);

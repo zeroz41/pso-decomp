@@ -16,7 +16,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjCitySeasonBase.h"
@@ -143,7 +143,7 @@ void TObjCity_Season_EasterEgg::run_task() {
 void TObjCity_Season_EasterEgg::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[0]);
+        set_texture_list(city_season_texlists[0]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -181,7 +181,7 @@ void TObjCity_Season_ValentineHeart::run_task() { advance_anim_time(1, 0.2f); }
 void TObjCity_Season_ValentineHeart::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[1]);
+        set_texture_list(city_season_texlists[1]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -219,7 +219,7 @@ void TObjCity_Season_XmasTree::run_task() { advance_anim_time(1, 0.2f); }
 void TObjCity_Season_XmasTree::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[2]);
+        set_texture_list(city_season_texlists[2]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -246,7 +246,7 @@ void TObjCity_Season_XmasWreath::render() {
     BmlResource *resource;
     resource = city_season_resources[2];
     if ((resource != NULL) && (update_object_view_visibility(400.0f, 20.0f) != 0)) {
-        TObjFish::set_global_param(city_season_texlists[2]);
+        set_texture_list(city_season_texlists[2]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -276,7 +276,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
     BmlResource *resource;
     resource = city_season_resources[3];
     if ((resource != NULL) && (update_object_view_visibility(800.0f, 80.0f) != 0)) {
-        TObjFish::set_global_param(city_season_texlists[3]);
+        set_texture_list(city_season_texlists[3]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -322,7 +322,7 @@ void TObjCity_Season_21_21::render() {
     BmlResource *resource = get_anim_frame();
     if (resource != NULL) {
         if (update_object_view_visibility(800.0f, 60.0f) != 0) {
-            TObjFish::set_global_param(city_season_texlists[4]);
+            set_texture_list(city_season_texlists[4]);
             city_season_strips->scroll_uvs(0, uv_scroll);
             push_matrix();
             post_translate_matrix(&position.x);
@@ -363,7 +363,7 @@ void TObjCity_Season_SonicAdv2::render() {
     Vec scale;
     resource = get_anim_frame();
     if (resource != NULL && update_object_view_visibility(800.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(city_season_texlists[5]);
+        set_texture_list(city_season_texlists[5]);
         model = get_model_variant();
         push_matrix();
         post_translate_matrix(&position.x);
@@ -409,7 +409,7 @@ void TObjCity_Season_Board::run_task() {
 }
 void TObjCity_Season_Board::render() {
     if ((city_season_board_resource != NULL) && (update_object_view_visibility(800.0f, 200.0f) != 0)) {
-        TObjFish::set_global_param(city_season_board_texlist);
+        set_texture_list(city_season_board_texlist);
         city_season_board_strips->scroll_uvs(uv_scroll, 0);
         push_matrix();
         post_translate_matrix(&position.x);

@@ -16,7 +16,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -187,7 +187,7 @@ void TODoorCave01::update_door_switch_state() {
 void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     u32 flags;
     NJS_OBJECT *child;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model(node->model);
@@ -232,7 +232,7 @@ void TODoorCave01::render() {
                 node = node->sibling;
             } while (i < 4);
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();

@@ -6,7 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/math/AngleLookup.h"
@@ -51,7 +51,7 @@ void draw_network_wait_icon(void) {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     begin_screen_draw(1);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(5, -1);
     pos[0] = (545.0f);
     pos[1] = (3.9e+02f);

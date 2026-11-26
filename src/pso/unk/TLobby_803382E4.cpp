@@ -21,7 +21,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/GinjaView.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
@@ -102,7 +101,7 @@ void TLobby__sub_803382E4(void) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param(&loading_texture_list);
+        set_texture_list(&loading_texture_list);
         set_texture_num(0);
         begin_screen_textured_draw(0);
         draw_projected_textured_strip(loading_image_left, 4);
@@ -177,7 +176,7 @@ void TLobby__sub_80338534(void) {
     draw_projected_quads(overlay->title, 4);
     end_projected_color_draw();
     if ((u32)info_icon_texture != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
         if (lobby_request_flags & 4) {
             set_texture_num(1);
         } else {
@@ -188,7 +187,7 @@ void TLobby__sub_80338534(void) {
         draw_projected_textured_strip(overlay->info_icon, 4);
         end_screen_textured_draw();
         set_default_alpha_blend();
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_texture_num(5);
         begin_screen_textured_draw(1);
         draw_projected_textured_strip(overlay->hud_icon, 4);

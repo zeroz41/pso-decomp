@@ -27,7 +27,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
@@ -221,7 +221,7 @@ void TObjEneDimedian::render() {
         fading = camera_fades[camera].updateFromCamera(&body_center);
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

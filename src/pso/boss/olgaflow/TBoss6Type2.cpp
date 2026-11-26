@@ -2,7 +2,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -29,7 +28,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/boss/olgaflow/Boss6Type2Data.h"
 #include "pso/player/TObjPlayer.h"
@@ -839,7 +838,7 @@ void TBoss6Type2::draw_body_models() {
                 if (a < 1.0f) {
                     TBoss6PlotFalz::set_fade_material_color(a);
                 }
-                TObjFish::set_global_param(texlist);
+                set_texture_list(texlist);
                 if (0.0f == motion_tracks[0].blend) {
                     if (done != 0) {
                         draw_model_motion(model, motion_tracks[0].motion, motion_tracks[0].frame);
@@ -864,7 +863,7 @@ void TBoss6Type2::draw_body_models() {
                     }
                 }
                 if (a < 1.0f) {
-                    TObjFish::reset_fish_globals();
+                    TBoss6PlotFalz::restore_fade_material_color();
                 }
             }
         }

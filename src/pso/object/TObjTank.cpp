@@ -13,7 +13,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"
@@ -37,7 +37,7 @@ NJS_TEXLIST *tank_texture_list;
 void TObjTank::render() {
     NJS_TEXLIST *textures;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = tank_texture_list)) {
-        TObjFish::set_global_param(textures);
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);

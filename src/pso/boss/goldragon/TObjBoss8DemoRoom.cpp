@@ -5,7 +5,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom_8036B654.h"
@@ -28,7 +28,7 @@ void * TObjBoss8DemoRoom::shared_resource_object;
 
 extern "C" {
 void TObjBoss8DemoRoom::render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 0xC)));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 0xC)));
     push_matrix();
     draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)));
     set_default_alpha_blend();

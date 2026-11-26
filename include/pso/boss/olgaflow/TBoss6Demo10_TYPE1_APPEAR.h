@@ -10,7 +10,6 @@
 class ModelNodePositionCapture;
 struct TBoss6PlotFalz;
 class TParticleCtrl;
-struct TObjFish;
 
 class TBoss6Demo10_TYPE1_APPEAR : public TObject {
 public:

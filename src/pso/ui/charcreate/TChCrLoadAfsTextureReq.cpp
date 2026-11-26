@@ -6,7 +6,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include <math.h>
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
@@ -162,7 +161,7 @@ void TChCrLoadGmNjReq::update_model_load() {
         if (request != NULL) {
             load_timer = 0x12C;
         }
-    } else if (fn_8001ED90(loaded_bml) != 0) {
+    } else if (is_bml_loaded(loaded_bml) != 0) {
         bml_model = get_bml_model(loaded_bml, 0);
         *model_out = bml_model;
         if (bml_model != NULL) {

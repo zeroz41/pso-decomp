@@ -8,7 +8,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -34,6 +33,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
+#include "pso/unk/text_803DA798.h"
 
 
 BmlResource *fish_area_bml_resource;
@@ -163,15 +163,15 @@ void TObjFish::render() {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
+                    set_texture_list(get_bml_texlist(fish_area_bml_resource, 1));
                     draw_ginja_object(get_bml_model(fish_area_bml_resource, 1));
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
+                    set_texture_list(get_bml_texlist(fish_area_bml_resource, 2));
                     draw_ginja_object(get_bml_model(fish_area_bml_resource, 2));
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
+                    set_texture_list(get_bml_texlist(fish_area_bml_resource, 0));
                     draw_ginja_object(get_bml_model(fish_area_bml_resource, 0));
                     break;
                 }
@@ -179,15 +179,15 @@ void TObjFish::render() {
                 set_motion_packed_rotation();
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
+                    set_texture_list(get_bml_texlist(fish_area_bml_resource, 1));
                     draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 1), get_bml_motion(fish_area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
+                    set_texture_list(get_bml_texlist(fish_area_bml_resource, 2));
                     draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 2), get_bml_motion(fish_area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
+                    set_texture_list(get_bml_texlist(fish_area_bml_resource, 0));
                     draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 0), get_bml_motion(fish_area_bml_resource, 0), f->frame);
                     break;
                 }

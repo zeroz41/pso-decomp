@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_8001EF5C.h"

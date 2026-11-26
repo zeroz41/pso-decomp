@@ -4,7 +4,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 
@@ -49,7 +49,7 @@ void draw_window_scrollbar(const WindowScrollBar *scroll, WindowDrawContext *con
     x = context->x + context->w - 7.0f;
     y = 17.0f + context->y;
     begin_screen_draw(0);
-    TObjFish::set_global_param(hud_texlist);
+    set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, 0xFF646464);
     depth = -1.0f / (0.1196f + context->depth);
     q.x0 = x;

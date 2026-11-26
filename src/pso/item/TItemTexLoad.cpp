@@ -2,7 +2,7 @@
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/Adxf.h"
 #include "pso/item/TItemTexLoad.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"

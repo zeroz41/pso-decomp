@@ -101,7 +101,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -1099,7 +1099,7 @@ void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {
         }
         scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->ctrl);
         begin_screen_draw(1);
-        TObjFish::set_global_param(hud_texlist);
+        set_texture_list(hud_texlist);
         set_draw_texture_and_color(0, color);
         q.x = 482.0f;
         q.y = 344.0f;

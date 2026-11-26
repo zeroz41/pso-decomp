@@ -13,7 +13,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowLockOn.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -822,7 +822,7 @@ void TObjEneBalClawBody::render() {
         detail = classify_actor_view_detail(150.0f, 400.0f, 30.0f);
         if (detail != 0) {
             shadow = 1;
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

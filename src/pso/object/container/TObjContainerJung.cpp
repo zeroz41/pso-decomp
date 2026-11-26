@@ -6,8 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -173,7 +172,7 @@ void TObjContainerJung::draw_model() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(jungle_container_textures);
+            set_texture_list(jungle_container_textures);
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -306,7 +305,7 @@ void TObjContainerJungEx::draw_model() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(TObjContainerJungEx::get_textures(0));
+        set_texture_list(TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -445,7 +444,7 @@ void TObjContainerJungEnemy::draw_model() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

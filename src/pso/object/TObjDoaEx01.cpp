@@ -7,7 +7,7 @@
 #include "pso/object/TObjDoaEx01.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -172,7 +172,7 @@ void TObjDoaEx01::try_open() {
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(doa_ex01_alpha_model_node->model, 1);
         set_ginja_model_texture_slot(doa_ex01_alpha_model_sibling->model, 1);
-        TObjFish::set_global_param(get_bml_texlist(doa_ex01_resource_bundle, 0));
+        set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -187,7 +187,7 @@ void TObjDoaEx01::draw_model() {
         set_ginja_model_texture_slot(doa_ex01_alpha_model_node->model, 0);
         set_ginja_model_texture_slot(doa_ex01_alpha_model_sibling->model, 0);
         model = get_bml_model(doa_ex01_resource_bundle, 0);
-        TObjFish::set_global_param(get_bml_texlist(doa_ex01_resource_bundle, 0));
+        set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, (this->rotation_y));

@@ -5,7 +5,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TOSensorGeneral01.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -64,27 +64,27 @@ void TOSensorGeneral01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[0]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[0]));
         draw_ginja_model(object->model);
         TParticleCtrl::begin_effect_render();
         object = object->child;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 1]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 1]));
         draw_ginja_model(object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 2]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 2]));
         draw_ginja_model(object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 3]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 3]));
         draw_ginja_model(object->model);
         TParticleCtrl::end_effect_render();
         object = object->sibling;
         push_matrix();
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         rotate_matrix_y(NULL, head_angle);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[1]));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[1]));
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();

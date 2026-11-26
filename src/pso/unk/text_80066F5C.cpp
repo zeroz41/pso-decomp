@@ -5,7 +5,7 @@
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_80066F5C.h"
@@ -29,7 +29,7 @@ void draw_shadowed_node_tree(NJS_OBJECT *object) {
 
 void draw_shadowed_object(NJS_TEXLIST *texlist, NJS_OBJECT *object) {
     bind_shadow_map_texture();
-    TObjFish::set_global_param(texlist);
+    set_texture_list(texlist);
     push_matrix();
     draw_shadowed_node_tree(object);
     pop_matrix();

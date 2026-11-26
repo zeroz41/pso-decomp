@@ -31,7 +31,7 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/object/base/ActorCollision.h"
@@ -380,7 +380,7 @@ void TObjEneMoja::render() {
         return;
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     id = model_render_flags;
     fade = &camera_fades[cam];
     saved_model_render_flags = id;

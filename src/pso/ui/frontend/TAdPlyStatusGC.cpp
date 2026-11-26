@@ -11,7 +11,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -84,7 +84,7 @@ void TAdPlyStatusGC::draw_status_window(void *window, void *context) {
         quad.values[2] = ply_status_portrait_quad.values[2] + ply_status_window_offset_table[window_offset_index].x;
         quad.values[1] = ply_status_portrait_quad.values[1] + ply_status_window_offset_table[window_offset_index].y;
         quad.values[3] = ply_status_portrait_quad.values[3] + ply_status_window_offset_table[window_offset_index].y;
-        TObjFish::set_global_param(ply_status_preview->get_status_sub());
+        set_texture_list(ply_status_preview->get_status_sub());
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth(&quad.values[0], 0.8f);

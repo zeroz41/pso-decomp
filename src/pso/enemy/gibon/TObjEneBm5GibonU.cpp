@@ -51,7 +51,7 @@ struct NJS_OBJECT;
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803DA798.h"
 
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/math/AngleLookup.h"
@@ -268,7 +268,7 @@ void TObjEneBm5GibonU::render_debug() {
     }
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -368,7 +368,7 @@ void TObjEneBm5GibonU::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             if (this->mode == 1 || this->mode == 2) {
                 appear_fade.set_flags_and_apply_damage_color();

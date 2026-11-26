@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/text_8028A714.h"
 #include "pso/unk/text_8028A820.h"
 
