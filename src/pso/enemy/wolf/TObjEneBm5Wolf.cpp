@@ -227,8 +227,8 @@ void TObjEneBm5Wolf::load_resources() {
 }
 
 // A random float below range. Dead-stripped from the game: only its literal remains.
-static f32 actor_rand_float(TObjChara *actor, s32 range) {
-    return (f32)range * actor->random_ratio();
+static f32 actor_rand_float(saddr actor, s32 range) {
+    return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
 
 void *TObjEneBm5Wolf::create(void *set_data) {
