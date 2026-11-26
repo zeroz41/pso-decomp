@@ -31,7 +31,7 @@ struct TWindowSubShortCut : public TObject {
     void* chat_submission;
     s32 open_confirm_message();
     s32 open_confirm_prompt();
-    s32 open_menu();
+    TWindowMenu *open_menu();
     virtual void render();
     virtual void run_task();
     u8 unk_44[0x1C];

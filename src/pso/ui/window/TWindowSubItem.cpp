@@ -242,7 +242,7 @@ void TWindowSubItem::run_task() {
                 this->help_window = 0;
             }
             if (this->purpose_menu == 0) {
-                this->purpose_menu = (TWindowMenu *)open_purpose_window(item_list->get_cursor_value());
+                this->purpose_menu = open_purpose_window(item_list->get_cursor_value());
             }
             this->purpose_menu->clear_flag_and_release();
             this->purpose_menu->clear_transition_flag();
@@ -271,7 +271,7 @@ void TWindowSubItem::run_task() {
             break;
         case 6:
             this->purpose_menu->open();
-            this->confirm_menu = (TWindowMenu *)create_menu_window();
+            this->confirm_menu = create_menu_window();
             this->state = 7;
         case 7:
             if (this->confirm_menu->is_cancelled() != 0) {
@@ -444,7 +444,7 @@ void TWindowSubItem::run_task() {
 #undef BACK_PRESSED
 void TWindowSubItem::render() {  }
 
-s32 TWindowSubItem::open_purpose_window(s32 item_id) {
+TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (item_id == -0xFF) {
@@ -458,10 +458,10 @@ s32 TWindowSubItem::open_purpose_window(s32 item_id) {
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
-    return (saddr)titled_window_menu;
+    return titled_window_menu;
 }
 
-s32 TWindowSubItem::create_menu_window() {
+TWindowMenu *TWindowSubItem::create_menu_window() {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
@@ -470,7 +470,7 @@ s32 TWindowSubItem::create_menu_window() {
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
-    return (saddr)titled_window_menu;
+    return titled_window_menu;
 }
 
 s32 TWindowSubItem::create_count_input(s32 maximum) {

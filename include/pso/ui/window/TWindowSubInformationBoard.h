@@ -32,7 +32,7 @@ struct TWindowSubInformationBoard : public TObject {
     void set_message_index(s32 index);
     static TKeyBoardControl *open_keyboard(saddr parent);
     u32 show_card_a7();
-    u32 create_info_board_menu();
+    TWindowMenu *create_info_board_menu();
     u32 sub_8034CDE0();
     u8 unk_44[0x8D0];
 };

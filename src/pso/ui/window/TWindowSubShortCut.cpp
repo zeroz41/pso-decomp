@@ -107,7 +107,7 @@ void TWindowSubShortCut::run_task() {
             this->confirm_window = 0U;
         }
         if ((u32) this->menu == 0U) {
-            this->menu = (TWindowMenu *)open_menu();
+            this->menu = open_menu();
         }
         this->menu->clear_flag_and_release();
         this->menu->clear_transition_flag();
@@ -208,7 +208,7 @@ TWindowSubShortCutList *TWindowSubShortCut::open_com_card_list() {
     return TWindowSubShortCutList::create(get_window_layout_position(0x72), static_cast<s32>(m_24));
 }
 
-s32 TWindowSubShortCut::open_menu() {
+TWindowMenu *TWindowSubShortCut::open_menu() {
     TWindowMenu *list;
     u32 *chat_shortcut;
 
@@ -224,7 +224,7 @@ s32 TWindowSubShortCut::open_menu() {
     list->set_flag70_bit10();
     list->update_layout_height(205.0f);
     align_menu_entry_positions(list);
-    return (saddr)list;
+    return list;
 }
 
 s32 TWindowSubShortCut::open_confirm_prompt() {

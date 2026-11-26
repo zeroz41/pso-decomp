@@ -81,7 +81,7 @@ void TWindowSubInformationBoard::run_task() {
     case 0:
     case 1:
         if ((u32) this->menu_window == 0U) {
-            this->menu_window = (TWindowMenu *)create_info_board_menu();
+            this->menu_window = create_info_board_menu();
         }
         if ((u32) this->message_window == 0U) {
             this->message_window = (TWindowMessage *)open_card_info_window();
@@ -177,7 +177,7 @@ void TWindowSubInformationBoard::run_task() {
 
 void TWindowSubInformationBoard::render() {  }
 
-u32 TWindowSubInformationBoard::create_info_board_menu() {
+TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
   TWindowMenu *list;
   list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
@@ -192,7 +192,7 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   list->set_flag70_bit10();
   list->update_layout_height(179.0f);
   align_menu_entry_positions(list);
-  return (uaddr)list;
+  return list;
 }
 
 u32 TWindowSubInformationBoard::sub_8034CDE0() {
