@@ -72,7 +72,7 @@ void TBoss6MagMine::update_linked_state() {
     motion = get_bml_motion(archive, 0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
     apply_boss6_hit_flash_color(hit_flash, 0.0f);
-    draw_model_motion((void *)model, (void *)motion, motion_frame);
+    draw_model_motion((void *)model, motion, motion_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();
 }

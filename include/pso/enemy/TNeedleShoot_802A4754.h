@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void *__dt__12TNeedleShootFv(void *arg0, s16 arg1);
+void *__dt__12TNeedleShootFv(void *object, s16 delete_flag);
 }
 
 #endif

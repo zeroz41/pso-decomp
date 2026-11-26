@@ -237,16 +237,13 @@ static Vec boss1_dragon_held_camera_eye_offsets[4] = {
     {300.0f, 120.0f, 50.0f},
 };
 }
-void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
-void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
-void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
-extern s32 enable_v2_features;
 static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/network/TProtocol.h"
 extern "C" {
 AttackParams *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];

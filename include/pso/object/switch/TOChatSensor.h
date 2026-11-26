@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOChatSensor : public TObjBase {
-    TOChatSensor(TObject *parent, void *arg2);
+    TOChatSensor(TObject *parent, void *set_data);
     virtual ~TOChatSensor();
     u32 kind;         // rotation_x: 0 runs a quest script when the phrase is said, 1 sets a floor switch
     u16 id;
@@ -17,11 +17,11 @@ struct TOChatSensor : public TObjBase {
     uaddr script_thread;  // the quest script thread it started
     u32 state;            // 0 listening, 1 its script is running
     u32 text_index;       // set_params[1]: which ChatSensor.prs text (1-based), 0 none
-    static void dispatch_chat_message_to_children(saddr arg0);
+    static void dispatch_chat_message_to_children(saddr message);
     static void destroy_global();
     void check_player_proximity();
     void set_trigger_text(void *trigger_text);
-    void handle_chat_message(void *arg1);
+    void handle_chat_message(void *message);
     void init_params();
     virtual void render();
     virtual void run_task();

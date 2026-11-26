@@ -85,7 +85,7 @@ void TODoorMachine02::render() {
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             if (unlocked != 1) {
                 u32 flags = model_render_flags;
                 saved_model_render_flags = flags;
@@ -95,12 +95,12 @@ void TODoorMachine02::render() {
             push_matrix();
             node = node->child;
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             pop_matrix();
             push_matrix();
             node = node->sibling;
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             pop_matrix();
             if (unlocked != 1) {
                 set_constant_material(&chunk_material_color_half_alpha_f32);
@@ -108,7 +108,7 @@ void TODoorMachine02::render() {
             }
             node = ((NJS_OBJECT *)model)->child->sibling;
             post_translate_matrix(node->pos);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
         } else {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }

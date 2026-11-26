@@ -38,6 +38,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/render/render_util.h"
 
 #pragma defer_codegen on
 
@@ -177,8 +178,6 @@ TObjEneBm3Fly::~TObjEneBm3Fly() {
     free_collision_body_parts(this);
 }
 }
-void restore_alpha_ref(void);
-void set_alpha_ref_override(u8 scene);
 void TObjEneBm3Fly::run_task() {
     f32 dz;
     f32 dx;

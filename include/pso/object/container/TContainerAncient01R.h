@@ -27,18 +27,18 @@ struct TContainerAncient01R : public TObjChara {
     static void init_table_entries();
     static void free_table_entries();
     u8 unk_334[0x4];
-    s16 m_338;
+    s16 hit_count;  // hits taken: it opens when hp runs out
     u8 unk_33A[0x2];
-    f32 m_33c;
-    f32 m_340;
+    f32 wait_limit;
+    f32 active_limit;
     f32 range;
     Vec lower_effect_position;
     Vec upper_effect_position;
     void init_positions();
     void trigger_spawn(const Vec *position, s32 effect_id);
-    s32 m_360;
+    s32 opened;
     Vec open_scale;
-    u32 m_370;
+    u32 spawns_per_second;  // set param 2 + 4: the open blast spawns every 30 / this frames
     static void *create(void *set_data);
 };
 

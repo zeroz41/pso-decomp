@@ -38,7 +38,7 @@ struct TContainerAncient01 : public TObjChara {
     static void release_static_resource();
     static void load_resources();
     static s32 is_global_state_in_table();
-    u32 m_36c;
+    u32 spawns_per_second;  // set param 2 + 4: the open blast spawns every 30 / this frames
     static int get_table_entry(int a0);
 };
 

@@ -1869,7 +1869,7 @@ void TObjEneMe1Canadin::render_demo() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
-        draw_chunk_object((void *)model);
+        draw_chunk_object(model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

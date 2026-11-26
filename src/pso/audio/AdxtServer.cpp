@@ -18,13 +18,13 @@
 #include "pso/audio/GcrnaBridgeStatus.h"
 #include "pso/audio/GcrnaBridge.h"
 #include "pso/unk/text_803D31A4.h"
+#include "pso/audio/AdxManager.h"
 
 struct Pair_803C8678 { u32 a, b; };
 
 void adxt_trap_entry_update(void *context);
 
 extern "C" {
-extern s32 adxt_vblank_count;
 void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803CA8B4(AdxtPlayer *);
 }

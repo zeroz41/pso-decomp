@@ -102,7 +102,7 @@ void TODoorFourLightBase::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_frame);
+        draw_ginja_model_with_motion(model, motion, (f32)animation_frame);
         pop_matrix();
         break;
     case 2:
@@ -110,7 +110,7 @@ void TODoorFourLightBase::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_end_frame);
+        draw_ginja_model_with_motion(model, motion, (f32)animation_end_frame);
         pop_matrix();
         break;
     case 0:
@@ -122,7 +122,7 @@ void TODoorFourLightBase::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_object((void *)model);
+        draw_ginja_object(model);
         pop_matrix();
         break;
     }

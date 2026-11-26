@@ -24,7 +24,7 @@ void enable_player_particle_effect(void);
 
 extern "C" {
 void TObjPlayer__sub_800D93F0(const Vec *point, s32 selector, s32 delay, f32 maxScale);
-void *__dt__17MaterialColorFadeFv(void *arg0, s16 arg1);
+void *__dt__17MaterialColorFadeFv(void *object, s16 delete_flag);
 }
 extern "C" {
 }

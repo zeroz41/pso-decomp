@@ -18,7 +18,7 @@ struct TObjLuker : public TObjBase {
     u8 _padB2[0x2];
     s32 effect_pending;    // 1 when the effect is to be made again
     s32 slots_locked;      // 1 while TWindowCtrl's slots are locked for the confirmation
-    void show_part(u16 arg1);
+    void show_part(u16 part_index);
     void hide_part(u16 part);
     void update_floor_name_windows();
     void open_destination_windows();

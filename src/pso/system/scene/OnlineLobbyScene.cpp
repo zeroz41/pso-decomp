@@ -90,6 +90,11 @@
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/unk/TLobby_801F487C.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/text_800F9B84.h"
+#include "pso/unk/text_800FA260.h"
+#include "pso/unk/TLobby_801F3A24.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -153,7 +158,6 @@ s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
 void TLobby__sub_8029B2A4(void);
 }
-void clear_received_symbol_chat(void);
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
 // each load front to back (run_load_callback_table), cleanup_online_lobby_scene each release
@@ -222,23 +226,14 @@ Pair_801A3CFC lobby_udp_test_game_entries[2] = {
 };
 
 void deactivate_keyboard(void);
-extern s32 actor_frame_tick;
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 extern s32 lbl_805D55C0;
 s16 lobby_floor_reload_pending;
 int new_game_setup_flags;
 s32 online_lobby_scene_handle;
 s32 online_lobby_frame_counter;
-void clear_resource_load_tasks(void);
-extern s32 local_client_id;
-void process_pending_resources(void);
-void clear_quest_floor_designations(void);
 void start_quest_mission(void);
 void change_floor_reload_area(void);
-void load_battle_param_entry(void);
 void reload_lobby_floor_scene(void);
-void init_area_lights(void);
 void load_floor_scene(void);
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 

@@ -299,10 +299,10 @@ s32 adxb_decode_header(AdxbDecoder *adxb, u8 *hdr, s32 size) {
 s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s32 sp18;
     s32 sp14;
-    s16 sp10;
+    s16 header_size;
     u8 *buffer;
     adxb->m_02 = 1;
-    if (adx_parse_header_info(hdr, size, &sp10, (u8 *)&adxb->encoding_type, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
+    if (adx_parse_header_info(hdr, size, &header_size, (u8 *)&adxb->encoding_type, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
         return 0;
     }
     if (adxb->encoding_type > 4) {
@@ -339,7 +339,7 @@ block_11:
     adxb->m_80 = buffer;
     adxb->write_pos = 0;
     memset(buffer, 0, 4);
-    return sp10;
+    return header_size;
 }
 
 void AdxbDecoder::clear_record() {

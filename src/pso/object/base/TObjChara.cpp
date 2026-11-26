@@ -117,6 +117,7 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TObjFreezeShell.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 
 class TObjPlayer;
@@ -149,8 +150,6 @@ void dispatch_weapon_special_effect(void *, void *, void *, s32);
 
 s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target, f32 base_chance);
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target);
-void empty_post_damage_hook(void *defender, void *attacker);
-void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage);
 void draw_hp_label(void *player, u32 pos, s32 delay, s16 value);
 void obj_copyVec2_0(u8* d, u8* s);
 void display_exp_gain(saddr player, u32 pos, s32 delay, s32 value);
@@ -196,7 +195,6 @@ extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern const char lbl_804340B0[];
-extern s32 actor_frame_tick;
 extern s32 current_floor_index;
 extern TObject *tl_07;
 void obj_setField96_1(TObjCollidable *p);

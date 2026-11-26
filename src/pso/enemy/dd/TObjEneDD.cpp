@@ -102,10 +102,10 @@ int submit_cursor_candidate(void*, int);
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/object/TObjControl.h"
 
 extern "C" {
 int fn_800FD8A0(void*);
-extern s32 area_random_seed;
 }
 
 s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {

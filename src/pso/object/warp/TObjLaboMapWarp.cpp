@@ -157,7 +157,6 @@ const char *TObjCityAreaWarp::class_name = "TObjCityAreaWarp";
 const char *TObjCityMapWarp::class_name = "TObjCityMapWarp";
 const char *TObjLaboMapWarp::class_name = "TObjLaboMapWarp";
 
-void update_main_warp_visible_mask(s32 select_type);
 #pragma push
 #pragma fp_contract on
 TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range) {
@@ -533,9 +532,9 @@ void TObjCityMainWarp::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)city_common_model_archive->models[12].model);
+        draw_ginja_object(city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
+        draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -599,7 +598,7 @@ void TObjCityAreaWarp::do_warp() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
+        draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -672,13 +671,13 @@ void TObjCityMapWarp::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            draw_ginja_object((void *)city_common_model_archive->models[13].model);
+            draw_ginja_object(city_common_model_archive->models[13].model);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, this->animation_frame);
+            draw_ginja_model_with_motion(city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, this->animation_frame);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->animation_frame);
+            draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->animation_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
@@ -769,13 +768,13 @@ void TObjLaboMapWarp::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            draw_ginja_object((void *)get_bml_model(labo_map_warp_resource_bundle, 1));
+            draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
+            draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
+            draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();

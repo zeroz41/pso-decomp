@@ -25,7 +25,7 @@ LAYOUT_ASSERT(TOSparkMachine01SparkTimersOffset, offsetof(TOSparkMachine01, spar
 LAYOUT_ASSERT(TOSparkMachine01_size, sizeof(TOSparkMachine01) == 0xB0);
 
 extern "C" {
-void *__dt__16TOSparkMachine01Fv(void *arg0, s16 arg1);
+void *__dt__16TOSparkMachine01Fv(void *object, s16 delete_flag);
 }
 
 #endif

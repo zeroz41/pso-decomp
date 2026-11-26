@@ -55,8 +55,8 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/network/TProtocol.h"
 struct IllGillEffectRotation { s32 x, y, z; };
-extern int enable_v2_features;
 extern "C" {
 BmlResource * illGillResource;
 player_stats *ill_gill_boss_registration_id;
@@ -890,15 +890,15 @@ void TObjEneIllGill::update_weapon_attack() {
 
 void TObjEneIllGill::free_resources() {
     if (this->primaryEffect != 0U) {
-        TParticleCtrl::release((void *)this->primaryEffect);
+        TParticleCtrl::release(this->primaryEffect);
         this->primaryEffect = NULL;
     }
     if (this->secondaryEffect != 0U) {
-        TParticleCtrl::release((void *)this->secondaryEffect);
+        TParticleCtrl::release(this->secondaryEffect);
         this->secondaryEffect = NULL;
     }
     if (this->tertiaryEffect != 0U) {
-        TParticleCtrl::release((void *)this->tertiaryEffect);
+        TParticleCtrl::release(this->tertiaryEffect);
         this->tertiaryEffect = NULL;
     }
 }

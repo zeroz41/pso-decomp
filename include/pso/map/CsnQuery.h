@@ -55,7 +55,7 @@ void TObjPlayer__sub_8007911C(void);
 void csn_debug_hook_origin_vector(const Vec *origin);
 void csn_debug_hook_segment(const Vec *from, const Vec *to);
 extern "C" {
-s32 get_csn_group_flags(u8 arg0);
+s32 get_csn_group_flags(u8 ch);
 }
 s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv);
 s32 select_deepest_wall_ray(WallRayQuery *query, WallRayResult *result);

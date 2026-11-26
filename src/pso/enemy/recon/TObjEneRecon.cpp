@@ -52,6 +52,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 #pragma readonly_strings on
 
@@ -219,7 +220,6 @@ void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
 
 void TObjEneRecon::run_demo_task() {  }
 
-extern s32 actor_frame_tick;
 void TObjEneRecon::update_ground_probe() {
     Vec probe;
     CsnHit *hit;

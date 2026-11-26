@@ -18,6 +18,7 @@ struct TObjComputer : public TObjMesBase {
     void draw_model();
     virtual void render();
     static void free_resources();
+    static const s16 screen_model_indices[2];  // the archive model each set param 1 picks
 };
 
 LAYOUT_ASSERT(TObjComputer_size, sizeof(TObjComputer) == 0xC8);

@@ -225,7 +225,7 @@ void TObjEneBm3FlyNest_CarryFly::render() {
     post_translate_matrix(&offset.x);
     rotate_matrix_y(0, angle);
     set_motion_packed_rotation();
-    draw_model_motion((void *)bm3_fly_nest_bml->models[0].model, motion, frame);
+    draw_model_motion(bm3_fly_nest_bml->models[0].model, motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
 }

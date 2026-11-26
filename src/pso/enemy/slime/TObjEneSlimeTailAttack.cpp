@@ -334,15 +334,15 @@ void TObjEneSlime::render() {
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
+            draw_chunk_object(get_bml_model(slime_bml_resource, model_index));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
+            draw_chunk_object(get_bml_model(slime_bml_resource, model_index));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
+            draw_chunk_object(get_bml_model(slime_bml_resource, model_index));
             set_cull_none();
             clear_chunk_render_flags();
         }

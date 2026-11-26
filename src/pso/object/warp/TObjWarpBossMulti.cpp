@@ -112,7 +112,6 @@ extern s32 lbl_805D55C0;
 
 
 }
-void handle_6x6A_set_boss_warp_flags(void *packet);
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
 NJS_OBJECT *get_boss_warp_base_model(void) { return boss_warp_base_model; }
@@ -654,7 +653,7 @@ void TObjWarpBoss::warp_player(s32 local_client_id) {
     }
 }
 
-void TObjWarpBossMulti::notify_player(void *arg0, s32 local_client_id) {
+void TObjWarpBossMulti::notify_player(void *warp, s32 local_client_id) {
     TObjPlayer *player;
 
     player = get_player_by_client_id(local_client_id);

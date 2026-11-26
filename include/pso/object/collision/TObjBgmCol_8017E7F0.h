@@ -5,12 +5,12 @@
 
 struct TObjBgmCol;
 extern "C" {
-void *__dt__10TObjBgmColFv(void *arg0, s16 arg1);
+void *__dt__10TObjBgmColFv(void *object, s16 delete_flag);
 }
 
 // --- C functions defined in TObjBgmCol_8017E7F0.cpp ---
 extern "C" {
-void *__dt__10TObjBgmColFv(void *arg0, s16 arg1);
+void *__dt__10TObjBgmColFv(void *object, s16 delete_flag);
 }
 // --- end of C functions
 

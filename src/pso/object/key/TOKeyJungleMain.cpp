@@ -79,7 +79,7 @@ void TOKeyJungleMain::debug_draw_key_id() {
         switch_id = 2;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", TOKeyJungleMain__data_804653C8[switch_id]);
+    debug_printf_at(0x130020, "<- GLOBAL FLAG : %d", TOKeyJungleMain::story_flags[switch_id]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
@@ -91,7 +91,7 @@ void TOKeyJungleMain::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            draw_ginja_object((void *)get_bml_model(key_jungle_main_static_model_resource, 1));
+            draw_ginja_object(get_bml_model(key_jungle_main_static_model_resource, 1));
             pop_matrix();
             return;
         case 1:
@@ -99,10 +99,10 @@ void TOKeyJungleMain::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            draw_ginja_model_with_motion((void *)get_bml_model(key_jungle_main_static_model_resource, 1),
+            draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 1),
                                          get_bml_motion(key_jungle_main_static_model_resource, 1), switch_frame);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(key_jungle_main_static_model_resource, 0),
+            draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 0),
                                          get_bml_motion(key_jungle_main_static_model_resource, 0), sw_naka_frame);
             TParticleCtrl::end_effect_render();
             pop_matrix();
@@ -112,14 +112,14 @@ void TOKeyJungleMain::render() {
 }
 
 void TOKeyJungleMain::send_switch_on() {
-    dispatch_by_phase__15TOKeyJungleMainFlUs(game_difficulty_selection, TOKeyJungleMain__data_804653C8[switch_id]);
+    dispatch_by_phase__15TOKeyJungleMainFlUs(game_difficulty_selection, TOKeyJungleMain::story_flags[switch_id]);
 }
 
 void TOKeyJungleMain::update_lock_state() {
     if (mode != KEY_MODE_NONE) {
         s32 was_on = is_on;
 
-        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, TOKeyJungleMain__data_804653C8[switch_id]) != 0) {
+        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, TOKeyJungleMain::story_flags[switch_id]) != 0) {
             is_on = 1;
         } else {
             is_on = 0;

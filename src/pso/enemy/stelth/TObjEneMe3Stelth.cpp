@@ -575,7 +575,7 @@ void TObjEneMe3Stelth::init_variant() {
 }
 void TObjEneMe3Stelth::create_resta_effect() {
     saddr f = TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[this->variant_index]->support_tech_level);
-    TTecResta::create((void *)this, (u8 *)&this->position, f);
+    TTecResta::create(this, (u8 *)&this->position, f);
 }
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -1295,7 +1295,7 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
         case 2:
             state_timer++;
             if (state_timer == 5) {
-                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
+                TTecSifta::create(this, (u8 *)&position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
             } else if (state_timer == 0xA) {
                 TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level)));
                 state_step = 1;

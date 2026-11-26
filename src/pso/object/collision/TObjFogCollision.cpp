@@ -41,7 +41,6 @@ const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-void record_fog_collision_hit(s32 index, s32 level, s32 link);
 extern "C" {
 u8 is_current_floor_switch_set(u16);
 
@@ -162,7 +161,7 @@ void TObjFogCollision::draw_volume() {
         s = 0.5f * this->scale.x;
         post_translate_matrix(&this->position.x);
         scale_matrix(0, s, 3.0f, s);
-        draw_chunk_object((void *)debug_cylinder_object);
+        draw_chunk_object(debug_cylinder_object);
         pop_matrix();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

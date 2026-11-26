@@ -23,7 +23,6 @@ extern "C" {
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
 }
-void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 #include "pso/player/PlayerAttackController.h"

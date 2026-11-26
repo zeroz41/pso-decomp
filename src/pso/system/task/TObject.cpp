@@ -82,11 +82,11 @@ void TObject::allow_rendering_shadows() { m_flags &= ~DISALLOW_RENDER_SHADOWS; }
 
 void __sinit_TObject_cpp() {
     __register_global_object(__ct__9TMainTaskFv(&main_task),
-        (void *)__dt__9TMainTaskFv, &main_task_dtor_chain);
+        __dt__9TMainTaskFv, &main_task_dtor_chain);
     __register_global_object(__ct__7TObjectFP7TObject(&end_of_render_root, NULL),
-        (void *)__dt__7TObjectFv, &end_of_render_root_dtor_chain);
+        __dt__7TObjectFv, &end_of_render_root_dtor_chain);
     __register_global_object(__ct__7TObjectFP7TObject(&keyboard_task_object, NULL),
-        (void *)__dt__7TObjectFv, &keyboard_task_object_dtor_chain);
+        __dt__7TObjectFv, &keyboard_task_object_dtor_chain);
 }
 
 TObject::TObject(TObject *parent) {

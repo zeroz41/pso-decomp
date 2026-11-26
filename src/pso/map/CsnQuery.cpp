@@ -835,7 +835,7 @@ void __construct_array(void *, void *, s32, s32, s32);
 extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
-    __construct_array(lbl_804FF9C0, (void *)init_csn_contact, 0, sizeof(CsnContact), 0x20);
+    __construct_array(lbl_804FF9C0, init_csn_contact, 0, sizeof(CsnContact), 0x20);
     lbl_80500140.init_and_return();
     csn_query_map_object.init();
 }

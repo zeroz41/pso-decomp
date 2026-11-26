@@ -181,9 +181,9 @@ void TObjContainerJung::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 0));
+            draw_ginja_object(get_bml_model(jungle_container_archive, 0));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 3));
+            draw_ginja_object(get_bml_model(jungle_container_archive, 3));
             TParticleCtrl::end_effect_render();
             pop_matrix();
             break;
@@ -314,9 +314,9 @@ void TObjContainerJungEx::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
-        draw_ginja_object((void *)TObjContainerJungEx::get_model(0));
+        draw_ginja_object(TObjContainerJungEx::get_model(0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((void *)TObjContainerJungEx::get_model(3));
+        draw_ginja_object(TObjContainerJungEx::get_model(3));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     case 1:

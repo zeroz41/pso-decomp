@@ -101,7 +101,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -109,7 +109,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -301,7 +301,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -309,7 +309,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:

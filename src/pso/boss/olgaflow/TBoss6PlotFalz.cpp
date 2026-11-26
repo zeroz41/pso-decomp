@@ -75,6 +75,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/render/ChunkModelDraw.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 
@@ -680,7 +681,6 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 
 
 
-extern s32 game_difficulty_selection;
 
 void TBoss6PlotFalz::update_camera_target() {
     if (TBoss6PlotFalz::fade_amount > 0.0f) {

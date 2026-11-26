@@ -85,7 +85,7 @@ void TODoorCave02::draw_light(NJS_OBJECT *node) {
     NJS_OBJECT *part;
     push_matrix();
     post_translate_matrix(node->pos);
-    draw_ginja_model((void *)node->model);
+    draw_ginja_model(node->model);
     TParticleCtrl::begin_effect_render();
     flags = model_render_flags;
     saved_model_render_flags = flags;
@@ -94,12 +94,12 @@ void TODoorCave02::draw_light(NJS_OBJECT *node) {
     push_matrix();
     part = node->child;
     post_translate_matrix(part->pos);
-    draw_ginja_model((void *)part->model);
+    draw_ginja_model(part->model);
     pop_matrix();
     push_matrix();
     part = part->sibling;
     post_translate_matrix(part->pos);
-    draw_ginja_model((void *)part->model);
+    draw_ginja_model(part->model);
     pop_matrix();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;

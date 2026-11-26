@@ -247,11 +247,11 @@ void TODoorAncient08::draw_switch_lights() {
         push_matrix();
         pair = pairs[i];
         post_translate_matrix(pair[0]->pos);
-        draw_ginja_model((void *)pair[0]->model);
+        draw_ginja_model(pair[0]->model);
         pop_matrix();
         push_matrix();
         post_translate_matrix(pair[1]->pos);
-        draw_ginja_model((void *)pair[1]->model);
+        draw_ginja_model(pair[1]->model);
         pop_matrix();
     }
     TParticleCtrl::end_effect_render();

@@ -255,7 +255,6 @@ extern "C" {
 extern f32 boss8_dragon_fall_accel;
 // Slot 87: per-action event dispatch through a table of handler members.
 }
-void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd);
 
 extern "C" {
 extern const f32 enemy_gravity_accel;

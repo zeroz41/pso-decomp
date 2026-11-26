@@ -2032,7 +2032,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 }
                 if (angle < this->attack_params->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        TTecRaBarta::create((void *)this, (void *)(&out), (void *)(&this->position), TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[this->kind_index]->attack_tech_level));
+                        TTecRaBarta::create(this, (&out), (&this->position), TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[this->kind_index]->attack_tech_level));
                     } else {
                         TTecGiBarta::create_ex(this, &out, this->rotation_y, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[this->kind_index]->attack_tech_level));
                     }

@@ -69,12 +69,12 @@ void TOCapsuleLabo::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         post_translate_matrix(body->pos);
-        draw_ginja_model((void *)body->model);
+        draw_ginja_model(body->model);
         lid = body->child;
         push_matrix();
         post_translate_matrix(lid->pos);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((void *)lid->model);
+        draw_ginja_model(lid->model);
         light = lid->child;
         TParticleCtrl::begin_effect_render();
         post_translate_matrix(light->pos);

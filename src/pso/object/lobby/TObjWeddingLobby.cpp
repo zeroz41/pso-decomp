@@ -38,8 +38,8 @@ void TObjWeddingLobby::render() {
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        draw_ginja_object((void *)get_bml_model((BmlResource *)resource_bundle, 0));
-        draw_ginja_model_with_motion((void *)(get_bml_model((BmlResource *)resource_bundle, 1)), (void *)(get_bml_motion(resource_bundle, 0)), (f32)animation_frame);
+        draw_ginja_object(get_bml_model((BmlResource *)resource_bundle, 0));
+        draw_ginja_model_with_motion((get_bml_model((BmlResource *)resource_bundle, 1)), (get_bml_motion(resource_bundle, 0)), (f32)animation_frame);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

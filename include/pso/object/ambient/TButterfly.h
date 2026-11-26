@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TButterfly : public TObjBase {
-    TButterfly(TObject *parent, void *arg2);
+    TButterfly(TObject *parent, void *set_data);
     virtual ~TButterfly();
     Vec home_position;  // where it spawned; y is the height it hovers around
     Vec velocity;
@@ -30,11 +30,11 @@ struct TButterfly : public TObjBase {
 LAYOUT_ASSERT(TButterfly_size, sizeof(TButterfly) == 0xBC);
 
 extern "C" {
-void *__dt__10TButterflyFv(void *arg0, s16 arg1);
+void *__dt__10TButterflyFv(void *object, s16 delete_flag);
 }
 
 extern "C" {
-void *__ct__10TButterflyFP7TObjectPv(void *butterfly, void *arg1, void *arg2);
+void *__ct__10TButterflyFP7TObjectPv(void *butterfly, void *parent, void *set_data);
 }
 
 #endif

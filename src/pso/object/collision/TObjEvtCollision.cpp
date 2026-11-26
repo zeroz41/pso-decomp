@@ -19,7 +19,7 @@
 extern "C" {
 const char *evt_collision_class_name = "TObjEvtCollision";
 
-s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
+s32 TObjEvtCollision::is_any_player_in_range(f32 range_sq) {
     s32 i;
     TObjPlayer *player;
     TObjPlayer *local_player;
@@ -27,14 +27,14 @@ s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i += 1) {
             player = static_cast<TObjPlayer *>(get_player_by_client_id(i));
-            if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
+            if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < range_sq)) {
                 return 1;
             }
         }
         goto block_10;
     }
     local_player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
-    if ((local_player != NULL) && (xyz_distance_squared(&local_player->position, &position) < farg0)) {
+    if ((local_player != NULL) && (xyz_distance_squared(&local_player->position, &position) < range_sq)) {
         return 1;
     }
 block_10:

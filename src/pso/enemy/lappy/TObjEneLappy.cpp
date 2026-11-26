@@ -182,8 +182,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 // Kept here: the owner headers (TObjCharaHelpers.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
-void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
 s32 lappy_variant_id;

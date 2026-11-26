@@ -214,9 +214,9 @@ void TObjLazerFenceNorm::draw_animated_beam() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    draw_ginja_object((void *)base_model);
+    draw_ginja_object(base_model);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)beam_model, (void *)beam_motion, frame);
+    draw_ginja_model_with_motion(beam_model, beam_motion, frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
@@ -353,9 +353,9 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, this->rotation_y);
-    draw_ginja_object((void *)this->base_model);
+    draw_ginja_object(this->base_model);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)beam_model, (void *)this->beam_motion, this->frame);
+    draw_ginja_model_with_motion(beam_model, this->beam_motion, this->frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

@@ -233,7 +233,6 @@ void *material_info_buffer;
 s32 scene_file_buffer_size;
 
 void load_scene_map_file(saddr name);
-void load_scene_collision_file(saddr name);
 void load_floor_scene(void);
 
 s32 player_auxiliary_surfaces_enabled() {
@@ -1420,7 +1419,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 } else {
                     play_reflection_particles(-1);
                 }
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)scene_material_root->texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scene_material_root->texlist));
                 set_material_alpha_compare_reference(scene_material_root->flags);
                 draw_ginja_object(node);
                 reset_reflection_tev_stages();
@@ -1446,7 +1445,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 if (m != NULL) {
                     if (m->tex != NULL) {
                         enable_indirect_tev(tex = m->tex, m->sampler, m->scale, 0);
-                        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)scene_material_root->texlist));
+                        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scene_material_root->texlist));
                         set_material_alpha_compare_reference(scene_material_root->flags);
                         draw_ginja_object(node);
                         disable_indirect_tev(tex, 0);

@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBgmCol : public TObjBase {
-    TObjBgmCol(TObject *parent, void *arg2);
+    TObjBgmCol(TObject *parent, void *set_data);
     virtual ~TObjBgmCol();
     u32 m_90;
     u8 unk_94[0x4];
@@ -13,7 +13,7 @@ struct TObjBgmCol : public TObjBase {
     u32 m_9c;
     s32 check();
     virtual void run_task();
-    s32 is_within_distance(f32 farg0);
+    s32 is_within_distance(f32 distance_sq);
     static void *create(void *set_data);
 };
 

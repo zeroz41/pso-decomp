@@ -38,14 +38,14 @@ void TOCapsuleAncient01::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         body = (NJS_OBJECT *)model;
         translate_matrix(0, body->pos[0], body->pos[1], body->pos[2]);
-        draw_ginja_model((void *)body->model);
+        draw_ginja_model(body->model);
         if (active == 1) {
             TParticleCtrl::begin_effect_render();
             lid = body->child;
             push_matrix();
             translate_matrix(0, lid->pos[0], lid->pos[1], lid->pos[2]);
             rotate_matrix_y(NULL, spin_angle);
-            draw_ginja_model((void *)lid->model);
+            draw_ginja_model(lid->model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
         }

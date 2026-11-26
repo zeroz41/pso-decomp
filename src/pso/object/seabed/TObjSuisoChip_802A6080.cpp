@@ -32,7 +32,7 @@ void TObjSuisoChip::vfunc_12() {
             push_matrix();
             post_translate_matrix(&piece->pos.x);
             rotate_matrix_yxz(NULL, piece->rotation[0], piece->rotation[1], piece->rotation[2]);
-            draw_ginja_object((void *)params.model);
+            draw_ginja_object(params.model);
             pop_matrix();
         }
         pop_matrix();

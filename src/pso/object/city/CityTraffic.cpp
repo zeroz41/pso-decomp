@@ -398,7 +398,7 @@ void TObjCityAirCar_Car::render() {
             }
             TObjFish::set_global_param(city_air_car_model_handle);
             air_car_buffer_pair_table[model_type]->scroll_uvs(uv_scroll, 0);
-            draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
+            draw_chunk_object(city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
             city_air_car_model_handle->textures[2].global_index = texture_index;
         }
         pop_matrix();

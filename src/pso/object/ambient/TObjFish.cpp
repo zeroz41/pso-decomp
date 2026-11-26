@@ -165,15 +165,15 @@ void TObjFish::render() {
                 switch (f->anim) {
                 case 1:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
-                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 1));
+                    draw_ginja_object(get_bml_model(fish_area_bml_resource, 1));
                     break;
                 case 2:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
-                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 2));
+                    draw_ginja_object(get_bml_model(fish_area_bml_resource, 2));
                     break;
                 default:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
-                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 0));
+                    draw_ginja_object(get_bml_model(fish_area_bml_resource, 0));
                     break;
                 }
             } else {
@@ -181,15 +181,15 @@ void TObjFish::render() {
                 switch (f->anim) {
                 case 1:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
-                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 1), get_bml_motion(fish_area_bml_resource, 1), f->frame);
+                    draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 1), get_bml_motion(fish_area_bml_resource, 1), f->frame);
                     break;
                 case 2:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
-                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 2), get_bml_motion(fish_area_bml_resource, 2), f->frame);
+                    draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 2), get_bml_motion(fish_area_bml_resource, 2), f->frame);
                     break;
                 default:
                     TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
-                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 0), get_bml_motion(fish_area_bml_resource, 0), f->frame);
+                    draw_ginja_model_with_motion(get_bml_model(fish_area_bml_resource, 0), get_bml_motion(fish_area_bml_resource, 0), f->frame);
                     break;
                 }
                 clear_motion_packed_rotation();

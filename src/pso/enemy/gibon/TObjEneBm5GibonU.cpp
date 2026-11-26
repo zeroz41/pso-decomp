@@ -1884,8 +1884,8 @@ s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 #pragma opt_propagation off
 void TObjEneBm5GibonU::register_global_objects() {
     TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)bm5_gibon_u_stat_params;
-    __register_global_object(data->node_list.reset(), (void *)__dt__20TObjEneBm5GibonUListFv, data->node_list_chain);
-    __register_global_object(data->enemy_list.reset(), (void *)__dt__20TObjEneBm5GibonUListFv, data->enemy_list_chain);
+    __register_global_object(data->node_list.reset(), __dt__20TObjEneBm5GibonUListFv, data->node_list_chain);
+    __register_global_object(data->enemy_list.reset(), __dt__20TObjEneBm5GibonUListFv, data->enemy_list_chain);
 }
 #pragma pop
 

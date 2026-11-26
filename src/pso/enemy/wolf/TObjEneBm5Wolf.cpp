@@ -145,8 +145,8 @@ s32 actor_rand_int(saddr actor, s32 range) {
 
 void TObjEneBm5Wolf::register_global_objects() {
     Globals_800B8A40 *g = (Globals_800B8A40 *)bm5_wolf_stat_params;
-    __register_global_object(g->list0.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain0);
-    __register_global_object(g->list1.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain1);
+    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, g->chain0);
+    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, g->chain1);
 }
 
 TObjEneBm5WolfNode::TObjEneBm5WolfNode() {

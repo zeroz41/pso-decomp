@@ -36,7 +36,7 @@ LAYOUT_ASSERT(TObjCGrassGroundCandidatesOffset, offsetof(TObjCGrass, ground_cand
 LAYOUT_ASSERT(TObjCGrass_size, sizeof(TObjCGrass) == 0x14C);
 
 extern "C" {
-void *__dt__10TObjCGrassFv(void *arg0, s16 arg1);
+void *__dt__10TObjCGrassFv(void *object, s16 delete_flag);
 }
 
 #endif

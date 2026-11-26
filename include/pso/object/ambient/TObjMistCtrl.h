@@ -16,7 +16,7 @@ struct TObjMistCtrl : public TObjBase {
 LAYOUT_ASSERT(TObjMistCtrl_size, sizeof(TObjMistCtrl) == 0x94);
 
 extern "C" {
-void *__dt__12TObjMistCtrlFv(void *arg0, s16 arg1);
+void *__dt__12TObjMistCtrlFv(void *object, s16 delete_flag);
 }
 
 #endif

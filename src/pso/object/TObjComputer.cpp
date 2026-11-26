@@ -38,7 +38,6 @@
 #include "pso/unk/TLobby_800FD78C.h"
 
 
-void load_computer_resources(void);
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
 BmlResourceDescriptor fe_obj_tanmatu02_resource_descriptor = {
@@ -58,12 +57,12 @@ BmlResourceDescriptor fs_obj_tanmatu02_resource_descriptor = {
 };
 const char *computer_class_name = "TObjComputer";
 const char *gb_advance_class_name = "TObjGbAdvance";
-const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
+const s16 TObjComputer::screen_model_indices[2] = {1, 0};
 
 BmlResource *computer_model_archive;
 NJS_TEXLIST *computer_texture_gvm_handle;
 u16 computer_uv_scroll_phase;
-BmlResource *TObjGbAdvance__data_805D5B74;
+BmlResource *TObjGbAdvance::resource;
 
 CollisionBody obj_computer_collision_body_parts = {{0.0f, 7.0f, 0.0f}, 7.0f, 7.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -78,7 +77,7 @@ TObjComputer::TObjComputer(TObject *parent, ObjectSetData *placement) : TObjMesB
         set_params[1] = 1;
     }
     if (computer_model_archive != NULL) {
-        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer__data_805DBCD8[set_params[1]]));
+        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[set_params[1]]));
     } else {
         queue_destruction();
         return;
@@ -158,7 +157,7 @@ void TObjComputer::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    if (TObjComputer__data_805DBCD8[set_params[1]] == 1) {
+    if (TObjComputer::screen_model_indices[set_params[1]] == 1) {
         u32 tick = actor_frame_tick;
         if (tick != m_c4 && uv_scroll_time >= 1.0f) {
             m_c4 = tick;
@@ -184,7 +183,7 @@ void TObjComputer::draw_model() {
 void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
     this->set_params[1] = this->set_params[1] % 2;
-    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer__data_805DBCD8[this->set_params[1]]));
+    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[this->set_params[1]]));
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
@@ -213,26 +212,26 @@ void TObjGbAdvance::vfunc_14() {
 
 void TObjGbAdvance::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(get_bml_texlist(TObjGbAdvance__data_805D5B74, 0));
+        TObjFish::set_global_param(get_bml_texlist(TObjGbAdvance::resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 0));
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 1));
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 2));
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 3));
+        draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 0));
+        draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 1));
+        draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 2));
+        draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 3));
         pop_matrix();
     }
 }
 
 void TObjGbAdvance::load_resource_instance() {
     BmlResource *archive = new BmlResource(5, &bm_obj_gba_resource_descriptor, 0, 0, NULL);
-    TObjGbAdvance__data_805D5B74 = archive;
+    TObjGbAdvance::resource = archive;
 }
 
 void TObjGbAdvance::free_shared_data() {
-    if (TObjGbAdvance__data_805D5B74 != NULL) {
-        delete TObjGbAdvance__data_805D5B74;
-        TObjGbAdvance__data_805D5B74 = NULL;
+    if (TObjGbAdvance::resource != NULL) {
+        delete TObjGbAdvance::resource;
+        TObjGbAdvance::resource = NULL;
     }
 }

@@ -371,7 +371,7 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
 }
 
 void adxb_finish(void) {
-    memset((void *) (&audio_stream_input_pool.value), 0, 0x9C0);
+    memset((&audio_stream_input_pool.value), 0, 0x9C0);
 }
 void adxb_init(void) {
     AdxbDecoder::clear_pool();
@@ -590,7 +590,7 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
     s32 data_size;
     s16 payload_offset;
     for (offset = 0; offset < size; ++offset) {
-        if (memcmp((void *)(buffer + offset), wav_fmt_chunk_id, 4) == 0) {
+        if (memcmp((buffer + offset), wav_fmt_chunk_id, 4) == 0) {
             break;
         }
     }
@@ -605,7 +605,7 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
         return -1;
     }
     for (offset = 0; offset < size; ++offset) {
-        if (memcmp((void *)(buffer + offset), wav_data_chunk_id, 4) == 0) {
+        if (memcmp((buffer + offset), wav_data_chunk_id, 4) == 0) {
             break;
         }
     }

@@ -35,7 +35,6 @@ s32 bgm_zone_claimed;
 TObject *bgm_col_ctrl_instance;
 u32 bgm_col_ctrl_current_theme_id;
 
-void create_bgm_col_zones(void);
 extern s32 tl_05;
 
 
@@ -144,9 +143,9 @@ s32 TObjBgmCol::check() {
     return 3;
 }
 
-s32 TObjBgmCol::is_within_distance(f32 farg0) {
+s32 TObjBgmCol::is_within_distance(f32 distance_sq) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
-    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
+    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < distance_sq)) {
         return 1;
     }
     return 0;

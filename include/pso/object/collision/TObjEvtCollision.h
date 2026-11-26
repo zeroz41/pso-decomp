@@ -10,7 +10,7 @@ struct TObjEvtCollision : public TObjCollidable {
     f32 trigger_radius;
     u32 m_b0;
     s32 countdown;
-    s32 is_any_player_in_range(f32 farg0);
+    s32 is_any_player_in_range(f32 range_sq);
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);

@@ -38,22 +38,22 @@ NJS_TEXLIST *light_machine_ginja_param;
 const char *light_machine01_name = "TOLightMachine01";
 
 void TOLightMachine01::run_task() {
-    this->m_a8 = (s32) (this->m_a8 + this->m_a4);
-    this->m_9c = (f32) (bob_amplitude * sin_table_lookup((s32)m_a8));
-    this->m_ac = (s32) (this->m_ac + this->set_params[2]);
+    this->bob_angle = (s32) (this->bob_angle + this->bob_angle_step);
+    this->bob_offset = (f32) (bob_amplitude * sin_table_lookup((s32)bob_angle));
+    this->spin_angle = (s32) (this->spin_angle + this->set_params[2]);
 }
 
 
 void TOLightMachine01::render() {
-    if (this->update_object_view_visibility(view_range, this->m_94) != 0) {
+    if (this->update_object_view_visibility(view_range, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_model(((NJS_OBJECT *)model)->model);
         push_matrix();
-        translate_matrix(0, 0.0f, this->m_9c, 0.0f);
-        rotate_matrix_y(0, this->m_ac);
+        translate_matrix(0, 0.0f, this->bob_offset, 0.0f);
+        rotate_matrix_y(0, this->spin_angle);
         draw_ginja_model(((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(light_machine_ginja_param);
@@ -96,14 +96,14 @@ TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
     light_machine01->model = (void *)get_bml_model((BmlResource *)light_machine01_shared_bml_archive, 1);
     light_machine01->texlist = get_bml_texlist((BmlResource *)light_machine01_shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
-    light_machine01->m_94 = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
+    light_machine01->model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
     light_machine01->bob_speed = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
-    light_machine01->m_a4 = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));
-    light_machine01->m_a8 = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
+    light_machine01->bob_angle_step = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));
+    light_machine01->bob_angle = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
     light_machine01->bob_amplitude = (f32) ((0.1f * (f32) light_machine01->set_params[1]) + 0.5f);
-    light_machine01->m_9c = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->m_a8));
-    light_machine01->m_ac = 0;
+    light_machine01->bob_offset = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->bob_angle));
+    light_machine01->spin_angle = 0;
 }
 #undef light_machine01
 #pragma pop

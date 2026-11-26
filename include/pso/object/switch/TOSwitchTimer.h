@@ -20,7 +20,7 @@ struct TOSwitchTimer : public TObjBase {
     u8 trigger_state;    // the trigger switch's state last frame
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_assets();
     static void load_assets();
     u8 unk_B1[0x3];

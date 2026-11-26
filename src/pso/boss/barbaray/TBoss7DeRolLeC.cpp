@@ -146,6 +146,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/map/area/AreaScene.h"
 #include "pso/boss/barbaray/TBoss7BodyBreakUp.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/TLevelSelect.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -373,7 +374,6 @@ extern const Vec boss7_derolle_c_death_effect_point = {0.0f, 0.0f, -520.0f};
 
 extern const Boss7Angles boss7_derolle_c_zero_angles = {0, 0, 0};
 
-extern s32 game_difficulty_selection;
 
 Vec boss7_derolle_c_model_scale = {2.5f, 2.5f, 2.5f};
 

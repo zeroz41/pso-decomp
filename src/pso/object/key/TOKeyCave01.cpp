@@ -174,7 +174,7 @@ void TOKeyCave01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         if (is_on != 1) {
             flags = model_render_flags;
             saved_model_render_flags = flags;
@@ -193,11 +193,11 @@ void TOKeyCave01::render() {
             break;
         }
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((void *)object->model);
+        draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();

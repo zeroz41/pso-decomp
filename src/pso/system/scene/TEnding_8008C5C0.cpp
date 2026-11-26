@@ -30,6 +30,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 extern const char TEnding__class_name_string[] = "TEnding";
 void create_player_ending_motion(void);
@@ -59,8 +61,6 @@ void fn_8008C4F4(void) {
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 void run_game_frame(void) {
     begin_gx_frame();
     controller_stuff();

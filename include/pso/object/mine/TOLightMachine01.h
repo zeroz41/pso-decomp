@@ -9,13 +9,13 @@ struct TOLightMachine01 : public TObjBase {
     TOLightMachine01(void *set_data);
     virtual ~TOLightMachine01();
     f32 view_range;
-    f32 m_94;
+    f32 model_radius;
     f32 bob_amplitude;
-    f32 m_9c;
+    f32 bob_offset;
     f32 bob_speed;
-    u32 m_a4;
-    u32 m_a8;
-    u32 m_ac;
+    u32 bob_angle_step;
+    u32 bob_angle;
+    u32 spin_angle;
     virtual void run_task();
     virtual void render();
     static void *create(void *set_data);
@@ -27,7 +27,7 @@ LAYOUT_ASSERT(TOLightMachine01ViewRangeOffset, offsetof(TOLightMachine01, view_r
 LAYOUT_ASSERT(TOLightMachine01_size, sizeof(TOLightMachine01) == 0xB0);
 
 extern "C" {
-void *__dt__16TOLightMachine01Fv(void *arg0, s16 arg1);
+void *__dt__16TOLightMachine01Fv(void *object, s16 delete_flag);
 }
 
 #endif

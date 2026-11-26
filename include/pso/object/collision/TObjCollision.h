@@ -6,7 +6,7 @@
 
 struct TObjCollision : public TObjCollidable {
     static const char *class_name;
-    TObjCollision(TObject *parent, void *arg2);
+    TObjCollision(TObject *parent, void *set_data);
     virtual ~TObjCollision();
     CollisionBody body;  // the one body; its size comes from the scale and it is a box when scale.z is negative
     virtual void render();

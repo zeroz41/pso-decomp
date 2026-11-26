@@ -100,7 +100,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
 
 
 
-void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
 void handle_6x67_trigger_set_event(game_command_header *command) {
     G_FloorEvent_6x67 *pkt = reinterpret_cast<G_FloorEvent_6x67 *>(command);

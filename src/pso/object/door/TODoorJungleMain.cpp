@@ -85,7 +85,7 @@ CollisionBody TODoorJungleMain_collision_body_parts[1] = {
 
 
 // Story-flag ids of the three jungle switches (shared with TOKeyJungleMain).
-const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
+const s32 TOKeyJungleMain::story_flags[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
@@ -192,7 +192,7 @@ void TODoorJungleMain::update_door_switch_state() {
         prev = switch_count;
         switch_count = 0;
         for (i = 0; i < 3; i++) {
-            if (TLevelSelect::get_difficulty_flag_bit(lvl, TOKeyJungleMain__data_804653C8[i]) != 0) {
+            if (TLevelSelect::get_difficulty_flag_bit(lvl, TOKeyJungleMain::story_flags[i]) != 0) {
                 switch_count++;
             }
         }
@@ -259,7 +259,7 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
     s32 j;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 3; j++) {
-            clear_story_flag_in_bank(i, TOKeyJungleMain__data_804653C8[j]);
+            clear_story_flag_in_bank(i, TOKeyJungleMain::story_flags[j]);
         }
     }
 }
