@@ -200,7 +200,7 @@ pso/audio/AdxEncoder.cpp
 pso/audio/GcrnaError.cpp
 pso/audio/GcrnaStream.cpp
 pso/boss/galgryphon/Boss5GryphonActionScripts.cpp
-pso/boss/galgryphon/Boss5GryphonBehavior.cpp
+pso/boss/galgryphon/TBoss5Gryphon.cpp
 pso/boss/galgryphon/Boss5GryphonBehaviorSdata2.cpp
 pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.cpp
 pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.cpp
@@ -311,7 +311,7 @@ pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp
-pso/boss/barbaray/TObjBoss7Tunnel.cpp
+pso/boss/barbaray/TObjBoss7TunnelCol.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
 pso/boss/derolle/ProjectedColorDraw.cpp
 pso/boss/galgryphon/TObjBoss5Ctrl.cpp
@@ -349,10 +349,10 @@ pso/network/PSOV3EncryptionTCP.cpp
 pso/enemy/AreaSoundRemap.cpp
 pso/enemy/bringer/BringerEffects.cpp
 pso/enemy/canadin/CanadinEffects.cpp
-pso/enemy/darkgunner/DarkGunner.cpp
+pso/enemy/darkgunner/TObjEneDarkGunner.cpp
 pso/enemy/deldepth/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
-pso/enemy/saver/SaverLifecycle.cpp
+pso/enemy/saver/TObjEneSaver.cpp
 pso/enemy/sinowzoa/SinowZoaData.cpp
 pso/enemy/stelth/StelthData.cpp
 pso/enemy/TEnemyTaskList.cpp
@@ -1256,7 +1256,7 @@ pso/object/city/CityDoors.cpp
 pso/object/city/CitySeason.cpp
 pso/object/city/CityVerticalModel.cpp
 pso/object/lobby/LobbyGoGoBall.cpp
-pso/object/lobby/LobbyPigeonPath.cpp
+pso/object/lobby/TObjPathObj.cpp
 pso/object/base/ObjectFactoryTables.cpp
 pso/object/fence/TLazerFenceSw.cpp
 pso/object/key/TOKeyJungleMain.cpp

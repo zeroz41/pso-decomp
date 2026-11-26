@@ -610,7 +610,7 @@ pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp:
 pso/boss/goldragon/TBoss8Dragon_8005D700.cpp:
 	.text       start:0x8005D700 end:0x8005D708
 
-pso/boss/galgryphon/Boss5GryphonBehavior.cpp:
+pso/boss/galgryphon/TBoss5Gryphon.cpp:
 	.text       start:0x8005D708 end:0x80066128
 	.ctors      start:0x80433F44 end:0x80433F48
 	.rodata     start:0x804378C8 end:0x80437EF0
@@ -1286,7 +1286,7 @@ pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp:
 	.sdata      start:0x805D29C8 end:0x805D29D0
 	.sdata2     start:0x805D9970 end:0x805D9978
 
-pso/enemy/darkgunner/DarkGunner.cpp:
+pso/enemy/darkgunner/TObjEneDarkGunner.cpp:
 	.text       start:0x800A0FAC end:0x800A3290
 	.rodata     start:0x8043A498 end:0x8043A6E8
 	.data       start:0x80490608 end:0x80490998
@@ -1317,7 +1317,7 @@ pso/effect/enemy/TeneFakeTecThunderEff.cpp:
 	.sbss       start:0x805D5038 end:0x805D503C
 	.sdata2     start:0x805D99F0 end:0x805D9A10
 
-pso/enemy/saver/SaverLifecycle.cpp:
+pso/enemy/saver/TObjEneSaver.cpp:
 	.text       start:0x800A4288 end:0x800A7764
 	.rodata     start:0x8043A738 end:0x8043A8D8
 	.data       start:0x80490A30 end:0x80490D0C
@@ -7101,7 +7101,7 @@ pso/boss/olgaflow/TBoss6Type2Actions.cpp:
 	.sbss       start:0x805D6750 end:0x805D6798
 	.sdata2     start:0x805DE4D8 end:0x805DE4F4
 
-pso/object/lobby/LobbyPigeonPath.cpp:
+pso/object/lobby/TObjPathObj.cpp:
 	.text       start:0x802C095C end:0x802C3284
 	.rodata     start:0x80471540 end:0x804719D0
 	.data       start:0x804E07A0 end:0x804E0A00
@@ -7494,7 +7494,7 @@ pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp:
 	.text       start:0x802F190C end:0x802F1A58
 	.sbss       start:0x805D6960 end:0x805D6968
 
-pso/boss/barbaray/TObjBoss7Tunnel.cpp:
+pso/boss/barbaray/TObjBoss7TunnelCol.cpp:
 	.text       start:0x802F1A58 end:0x802F2CDC
 	.ctors      start:0x80433FDC end:0x80433FE0
 	.rodata     start:0x804743B0 end:0x80474460
