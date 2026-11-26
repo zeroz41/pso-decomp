@@ -26,9 +26,24 @@
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/system/BmlResource.h"
+#include "pso/render/render_util.h"
+#include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/nuReLoadTexture.h"
+
+struct DistortTextureWaveImageWave {
+    s32 height;
+    s32 width;
+    u32 texture_id;
+    u8 records[0x30];
+    void *texture_list;
+    u8 *image;
+    u8 *output;
+    u8 *displacement;
+    s32 phase;
+};
 
 extern "C" {
-s32 distort_texture_wave_image(void *);
+void distort_texture_wave_image(DistortTextureWaveImageWave *wave);
 }
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
@@ -203,6 +218,52 @@ void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
         advance_wrapped_cursor();
-        distort_texture_wave_image(this);
+        distort_texture_wave_image((DistortTextureWaveImageWave *)this);
     }
+}
+
+
+extern "C" {
+void distort_texture_wave_image(DistortTextureWaveImageWave *wave) {
+    s32 y;
+    u8 *dx;
+    u8 *dy;
+    u16 *image;
+    u16 *out;
+    s32 x;
+    y = 0;
+    out = (u16 *)(wave->output + 0x20);
+    dx = wave->displacement;
+    image = (u16 *)(wave->image + 0x20);
+    dy = dx + wave->height * wave->width;
+    for (; y < wave->height; y++) {
+        for (x = 0; x < wave->width; x++) {
+            s32 at = wave->phase + x;
+            u16 sx;
+            u16 sy;
+            u16 color;
+            u8 ox;
+            s32 idx;
+            u8 oy;
+            if (at >= wave->width) {
+                at -= wave->width;
+            }
+            idx = at + y * wave->width;
+            ox = dx[idx];
+            oy = dy[idx];
+            sx = ox + x;
+            if (sx >= wave->width) {
+                sx -= wave->width;
+            }
+            sy = oy + y;
+            if (sy >= wave->height) {
+                sy -= wave->height;
+            }
+            color = image[sx + sy * wave->width] | 0x8000;
+            out[calc_gx_tile_index(x, y, wave->width)] = color;
+        }
+    }
+    reload_texture_num(0, (saddr)(wave->output + 0x20), NJD_TEXATTR_TYPE_MEMORY, 0);
+}
+
 }

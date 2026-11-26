@@ -1672,7 +1672,6 @@ pso/unk/text_801A5778.cpp
 pso/unk/text_801D34E0.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
-pso/unk/text_801E4BCC.cpp
 pso/effect/sprite/TQuadSprite.cpp
 pso/unk/text_801F3774.cpp
 pso/unk/text_801F43A8.cpp

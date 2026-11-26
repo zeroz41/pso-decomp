@@ -4844,13 +4844,10 @@ pso/network/TGameProtocol.cpp:
 	.sbss       start:0x805D5E48 end:0x805D5E58
 
 pso/render/psoLoadTexture.cpp:
-	.text       start:0x801E468C end:0x801E4BCC
+	.text       start:0x801E468C end:0x801E4CF0
 	.rodata     start:0x80449798 end:0x80449850
 	.sbss       start:0x805D5E58 end:0x805D5E5C
 	.sdata2     start:0x805DC448 end:0x805DC44C
-
-pso/unk/text_801E4BCC.cpp:
-	.text       start:0x801E4BCC end:0x801E4CF0
 
 pso/ui/frontend/TTextureWave.cpp:
 	.text       start:0x801E4CF0 end:0x801E4E7C
