@@ -174,7 +174,7 @@ force_active:
   - object_offset_table__16TAdLoadNetworkGC
   - __ct__19TAdMcSelectCursorGCFP7TObject
   - texture_entry__19TAdMcSelectCursorGC
-  - TAdMultiChgGameModeGC__sub_8036DE10
+  - get_system_file_check_text
   - open_message_window__20TAdSystemFileCheckGCFl
   - TAdMultiPlyChrSelectGC__ct
   - TAdMultiPlyChrSelectGC__sub_803367E8
@@ -704,7 +704,7 @@ force_active:
   - gba_clear_identifiers__Fv
   - reset_joyboot_state__FPv
   - TLobby__sub_803361FC
-  - TLobby__sub_803362A4
+  - dispatch_title_choice
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
   - reset_init_ref_count
@@ -943,9 +943,9 @@ force_active:
   - horizontal_scroll_offset__10TObjCMIcon
   - copy_icon_state__10TObjCMIconFP17CreationIconStateP17CreationIconState
   - get_sprite_id__10TObjCMIconFl
-  - TObjCMMainMenu__sub_8028EC18
-  - TObjCMMainMenu__sub_8028EC24
-  - TObjCMMainMenu__sub_8028EC34
+  - enable_dressing_room_mode
+  - clear_creation_name_buffer
+  - disable_dressing_room_mode
   - obj_challenge_retry_class_name
   - __ct__18TObjChallengeRetryFP7TObject
   - __ct__16TObjCityAreaWarpFP7TObjectPv
@@ -1443,7 +1443,7 @@ force_active:
   - shared_model_resource__12TObjNpcHosa2
   - name__11TObjNpcHosa
   - static_model_resource__11TObjNpcHosa
-  - TObjNpcHosa__sub_802A39B0
+  - get_select_text_texture_handle
   - name__14TObjNpcKenkyu2
   - resource_descriptor__14TObjNpcKenkyu2
   - shared_model_resource__14TObjNpcKenkyu2
@@ -1721,7 +1721,7 @@ force_active:
   - TSetEvtDestroy_name
   - post_step__11TSetManagerFv
   - TShopDeleteItemWindow__sub_80337E2C
-  - TShopEquipmentListWindow__sub_8021C85C
+  - get_shop_weapon_stock_count
   - TShopEquipmentSequence__sub_8021D65C
   - TShopGenerator__ct
   - slot_active_table__14TShopGenerator
@@ -1803,7 +1803,7 @@ force_active:
   - would_overflow_with__18KeyboardTextBufferFUs
   - insert_party_member_name__19TWindowKeyBoardBaseFl
   - skip_ime_candidates__19TWindowKeyBoardBaseFi
-  - sub_8025D1C8__19TWindowKeyBoardBaseFPv
+  - remove_candidate__19TWindowKeyBoardBaseFPv
   - can_fit_candidate__19TWindowKeyBoardBaseFPv
   - candidate_fits__19TWindowKeyBoardBaseFPcPc
   - text_resource__9TLanguage
@@ -6384,7 +6384,7 @@ force_active:
   - update_area_count_text__FP11TWindowArea
   - apply_facial_part_sprites
   - apply_face_appearance_sprite
-  - sub_8025CE00__19TWindowKeyBoardBaseFPUc
+  - has_unconvertible_char__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
   - fn_80271848
   - fn_8028DBC4

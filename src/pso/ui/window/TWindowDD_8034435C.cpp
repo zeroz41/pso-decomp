@@ -1,3 +1,5 @@
+#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/network/client_id.h"
 // TWindowDD calls TObject::queue_destruction out of line (bl to the TAdADXlogo copy).
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WordSelectMessage.h"
@@ -1458,7 +1460,6 @@ void append_word_inside_phrase(WordSelectMessage *src, s16 id, char *verb, char 
 }
 }
 
-void *load_encrypted_archive_data(const char *);
 s32 window_dd_element_count;
 
 TWindowDDValueList *TWindowDD::get_element_ptr(s32 index) {
@@ -1693,15 +1694,15 @@ void TWindowDD::build_player_word_lists() {
     s16 *l1;
     s16 *l2;
     s16 *l3;
-    uaddr p;
+    TObjPlayer *p;
     s16 v;
     n = 0;
     list = word_select_lists[2].values;
     list[n++] = 0x2c7;
     for (i = 0; i < 12; i++) {
-        p = (uaddr)get_player_by_client_id(i);
-        if (p != 0) {
-            strncpy(word_select_player_names[i], (char *)(p + 0x85c), 0x18);
+        p = get_player_by_client_id(i);
+        if (p != NULL) {
+            strncpy(word_select_player_names[i], p->name, 0x18);
             if (i != local_client_id) {
                 list[n++] = i + 0x68c;
                 if (n >= 16) {
@@ -1797,20 +1798,18 @@ s32 TWindowDD::classify_id(s16 id) {
 
 s32 TWindowDD::get_player_battle_flag_state(u16 client) {
     s32 class_flags;
-    void *player;
+    TObjPlayer *player;
 
-    player = get_player_by_client_id((u16) client);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
-        class_flags = ((TObjPlayer *)player)->class_flags;
+        class_flags = player->class_flags;
         if (class_flags & CLASS_FLAG_MALE) {
             return 0;
         }
         if (class_flags & CLASS_FLAG_FEMALE) {
             return 2;
         }
-        goto block_5;
     }
-block_5:
     return 0;
 }
 
@@ -2492,7 +2491,6 @@ void append_word_select_token(s16 id, char *buf, s32 *pos) {
 
 
 WindowTexturePoint word_select_quad_points[7][8];
-typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
     s32 len;
@@ -2508,15 +2506,15 @@ void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
 
 
 void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
-    Buf sp8;
+    WindowVertex vertices[8];
     s32 draw_count;
 
     draw_count = TWindowDD::get_draw_count(hud_texlist);
-    reset_window_vertices((WindowVertex *)&sp8, word_select_inverse_depth(draw_depth, offset), -1);
-    copy_window_point_table((WindowVertex *)&sp8, idx);
-    set_frame_column_vertices_x(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
-    set_frame_row_vertices_y(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
-    draw_window_vertices((WindowVertex *)&sp8, 8, draw_count, 1);
+    reset_window_vertices(vertices, word_select_inverse_depth(draw_depth, offset), -1);
+    copy_window_point_table(vertices, idx);
+    set_frame_column_vertices_x(reinterpret_cast<WindowDrawContext *>(ctx), vertices);
+    set_frame_row_vertices_y(reinterpret_cast<WindowDrawContext *>(ctx), vertices, 0);
+    draw_window_vertices(vertices, 8, draw_count, 1);
 }
 
 #pragma push
@@ -2549,11 +2547,11 @@ void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *verti
   f32 inner_right;
   f32 half_scaled;
   f32 inner_left;
-  s8 *right_vertex;
+  WindowVertex *right_vertex;
   f32 half_width;
   f32 x;
   f32 right;
-  s8 *base_vertex;
+  WindowVertex *base_vertex;
   f32 edge;
   half_width = 0.5f * context->w;
   half_scaled = half_width * context->scale[0];
@@ -2568,18 +2566,18 @@ void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *verti
   {
     edge = window_dd_cap_width;
   }
-  right_vertex = ((s8 *) ((0, vertices))) + 0x90;
-  *((f32 *) (((s8 *) vertices) + 0x18)) = x;
+  right_vertex = &vertices[6];
+  vertices[1].x = x;
   inner_left = x + edge;
   inner_right = right - edge;
   vertices->x = x;
-  *((f32 *) (((s8 *) vertices) + 0x48)) = inner_left;
-  *((f32 *) (((s8 *) vertices) + 0x30)) = inner_left;
-  base_vertex = (s8 *) vertices;
-  *((f32 *) (((s8 *) vertices) + 0x78)) = inner_right;
-  *((f32 *) (((s8 *) vertices) + 0x60)) = inner_right;
-  *((f32 *)(base_vertex + 0xA8)) = right;
-  *((f32 *) right_vertex) = right;
+  vertices[3].x = inner_left;
+  vertices[2].x = inner_left;
+  base_vertex = vertices;
+  vertices[5].x = inner_right;
+  vertices[4].x = inner_right;
+  base_vertex[7].x = right;
+  right_vertex->x = right;
 }
 
 void copy_window_point_table(WindowVertex *vertices, s32 idx) {
@@ -2653,8 +2651,6 @@ TWindowDDValueList *TWindowDD::get_entry(s32 index) {
     }
     return &TWindowDD::ws_data_table[index];
 }
-
-extern s32 local_client_id;
 
 void handle_6x74_word_select(u8 *window_dd) {
     G_WordSelect_6x74 *cmd = (G_WordSelect_6x74 *)window_dd;

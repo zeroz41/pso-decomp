@@ -92,10 +92,10 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void commit_composition_text();
     s32 measure_text_overflow();
     int is_key_state_2();
-    s32 sub_8025CE00(u8 *text);
+    s32 has_unconvertible_char(u8 *text);
     void skip_ime_candidates(int count);
     void sub_8025CFA8(char *text);
-    void sub_8025D1C8(void *record);
+    void remove_candidate(void *record);
     s32 can_fit_candidate(void *window_sub_status_disp);
     s32 candidate_fits(char *name, char *text);
     void select_next_segment();

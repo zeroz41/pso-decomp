@@ -24,10 +24,10 @@ extern "C" {
 u8 get_small_font_glyph_width(s32);
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 void calc_plain_glyph_quad(s32, void *);
+void bind_menu_font_glyph(s32, void *, s32);
 void build_small_font_glyph_quad(s32, void *);
 s32 get_font_char_advance(s32);
 s32 map_char_to_font_code(s32);
-void calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
 void TWindowKeyBoardBase::set_input_mode(s32 mode) { m_input_mode = mode; }
 }
 s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width) {
@@ -163,7 +163,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
             q.x1 = q.x0 + width;
         }
         if (text_clip_enabled_flag == 0 || text_draw_clip_context->is_point_in_bounds(&q) != 0) {
-            calc_gauge_scale__20TWindowSubStatusDispFUsPvl(glyph, &q, col);
+            bind_menu_font_glyph(glyph, &q, col);
             reinterpret_cast<SetGlyphExtent>(set_glyph_quad_extents)(adv, &q);
             if ((f32)(u8)adv > width) {
                 q.x1 = q.x0 + width;

@@ -6,7 +6,7 @@
 class TAdSystemFileCheckGC;
 
 extern "C" {
-s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
+s32 get_system_file_check_text(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
 }
 
 

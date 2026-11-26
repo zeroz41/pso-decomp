@@ -121,7 +121,7 @@ void TChCrLoadReq::run_task() {
 
 void TChCrLoadReq::update_load_progress() {
     if (timer > 0x1512) {
-        if (TAdSinglePlyChrSelectGC__sub_8028CF6C() == 0) {
+        if (is_load_slot_free() == 0) {
             timer = 0x1512;
             goto claim;
         }

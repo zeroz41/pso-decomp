@@ -38,7 +38,7 @@ extern const char TextFrench[];
 extern const char TextSpanish[];
 extern const char TextEnglish[];
 s32 *TLanguage::text_resource;
-s32 text_language_group_table;
+char ***text_language_group_table;
 NJS_TEXLIST *localized_alphabet_list;
 language current_language;
 s32 TWindowKeyBoardSoft__language_text_resources;
@@ -136,7 +136,7 @@ void TLanguage::load_text_resources(s32 language) {
         break;
     }
     TWindowKeyBoardSoft__language_text_resources = text_resource[0];
-    text_language_group_table = text_resource[1];
+    text_language_group_table = (char ***)text_resource[1];
 }
 
 __declspec(section ".rodata") const char TLanguage::class_name[] = "TLanguage";

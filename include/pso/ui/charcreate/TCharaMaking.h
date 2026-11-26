@@ -51,9 +51,9 @@ s32 get_current_char_flag();
 extern "C" {
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void);
 int TAdSinglePlyChrSelectGC__sub_8028DC1C(void *p);
-CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void);
-void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record);
-void TObjCMMainMenu__sub_8028D9F8(void);
+CharacterAppearanceFields *get_creation_visual_record(void);
+void load_creation_visual_record(CharacterAppearanceFields *record);
+void invalidate_creation_visual_record(void);
 void fn_8028DBC4(s32 _w0);
 }
 #endif

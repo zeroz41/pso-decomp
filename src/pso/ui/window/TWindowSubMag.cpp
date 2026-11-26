@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
@@ -49,7 +50,6 @@
 
 #pragma readonly_strings on
 
-extern u8 *text_language_group_table;
 extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
@@ -87,7 +87,7 @@ s32 TWindowSubMagPhoton::get_selected_blast() {
 }
 
 s32 get_photon_blast_name(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x20)) + (arg0 * 4));
+    return (saddr)text_language_group_table[8][arg0];
 }
 
 TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(parent) {

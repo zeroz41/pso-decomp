@@ -131,7 +131,7 @@ void TShopItemListWindow::build_item_list() {
     u8 *entry;
     s32 n;
     TWindowCost *c;
-    item_count = TShopItemTecSequence__sub_8021FE6C(get_split_screen_slot());
+    item_count = get_shop_tool_stock_count(get_split_screen_slot());
     for (i = 0; i < item_count; i++) {
         get_shop_tool_stock_item(&tmp, i, get_split_screen_slot());
         shop_items[i].copy_from(&tmp);

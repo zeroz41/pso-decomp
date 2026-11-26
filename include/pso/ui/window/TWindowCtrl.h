@@ -76,7 +76,6 @@ struct TWindowCtrl : public TObject {
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
-    void handle_chat_message(char *message);
     static void suppress_all_slots();
     static void unsuppress_all_slots();
     static void suppress_slot(s32 client);
@@ -150,5 +149,10 @@ LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 extern u16 short_mail_flags;
 
 void close_window_if_active(s32 client);
+
+class TPlyGuildCardTag;
+
+// The chat packet (06) handler.
+extern "C" void handle_recv_chat(TPlyGuildCardTag &tag, char *message);
 
 #endif

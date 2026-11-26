@@ -1,10 +1,10 @@
+#include "pso/system/TLanguage.h"
 #include "types.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TLevelSelect.h"
 
-extern u8 *text_language_group_table;
 
 // Section ID names, indexed by a character's section id (TObjCMName, TAdPlyStatusGC).
 const char *luker_stat_entry_ptr_table[] = {
@@ -37,7 +37,7 @@ saddr enemy_name_for_rt_index(s32 rt_index) {
         index = 0;
     }
     if ((s32) game_difficulty_selection >= 3) {
-        return *(saddr *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0xC)) + (index * 4));
+        return (saddr)text_language_group_table[3][index];
     }
-    return *(saddr *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 8)) + (index * 4));
+    return (saddr)text_language_group_table[2][index];
 }

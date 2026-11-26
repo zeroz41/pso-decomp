@@ -67,9 +67,6 @@ u16 short_mail_flags;
 
 
 
-struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
-
-struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 
 
@@ -396,7 +393,7 @@ void TWindowCtrl::update() { update_party_status_rows(); update_window_visibilit
 void TWindowCtrl::update_party_status_rows() {
     f32 y;
     u32 i;
-    void *pl;
+    TObjPlayer *pl;
     TWindowSimpleStatus *w;
     y = get_window_layout_y(0xAB);
     for (i = 0; i < 3; i++) {
@@ -405,9 +402,9 @@ void TWindowCtrl::update_party_status_rows() {
             pl = get_player_by_client_id(w->get_width());
             if (pl == NULL || TWindowCtrl::has_player_active_menu(local_client_id) != 0 ||
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
-                ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
-                (((TObjChara *)pl)->obj_isState3_324() != 0 &&
-                 (((TObjPlayer *)pl)->get_field_828() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
+                pl->is_script_controlled() != 0 ||
+                (pl->obj_isState3_324() != 0 &&
+                 (pl->get_field_828() != 0 || pl->get_npc_controller() == 0xFFFF))) {
                 w->request_close();
             } else {
                 window_request_show(w);
@@ -946,18 +943,18 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
 
 
 
-void TWindowCtrl::handle_chat_message(char *message) {
-    Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
+// The chat packet (06) handler: shows the message in the sender's balloon.
+extern "C" void handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
     s32 i;
     u32 key;
     char *v;
-    Ply_8024AA08 *p;
-    if (instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(instance, message);
-        key = arg0->f4;
+    TObjPlayer *p;
+    if (TWindowCtrl::instance != NULL) {
+        v = TWindowCtrl::skip_name_prefix(TWindowCtrl::instance, message);
+        key = tag.m_guildcard_number;
         for (i = 0; i < 12; i++) {
-            p = (Ply_8024AA08 *)get_player_by_client_id(i);
-            if (p != NULL && p->f == key) {
+            p = get_player_by_client_id(i);
+            if (p != NULL && p->guild_card_tag.guildcard_number == key) {
                 break;
             }
         }

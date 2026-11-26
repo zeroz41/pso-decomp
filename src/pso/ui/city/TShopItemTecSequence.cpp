@@ -214,5 +214,5 @@ void TShopItemTecSequence::select_and_advance(TShopWindowBase *window) {
     }
 }
 
-int TShopItemTecSequence__sub_8021FE6C(int a0) {  return shop_tool_stock_counts[a0]; }
+int get_shop_tool_stock_count(int a0) {  return shop_tool_stock_counts[a0]; }
 

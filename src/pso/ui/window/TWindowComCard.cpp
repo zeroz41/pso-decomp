@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -45,9 +46,8 @@ WindowDescriptor com_card_window_descriptor = {
 };
 
 const char *TWindowComCard::class_name = "TWindowComCard";
-void *com_card_status_text_table[6] = {
-    (void *)"Jpn.", (void *)"Eng.", (void *)"Ger.", (void *)"Fr.",
-    (void *)"Span.", (void *)"??????",
+const char *com_card_status_text_table[6] = {
+    "Jpn.", "Eng.", "Ger.", "Fr.", "Span.", "??????",
 };
 struct ComCardHelpRect { f32 x, y; };
 const ComCardHelpRect com_card_help_panel_rect_table[14] = {
@@ -58,7 +58,6 @@ const ComCardHelpRect com_card_help_panel_rect_table[14] = {
 
 extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data);
 
-extern u8 *text_language_group_table;
 
 
 void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
@@ -81,7 +80,7 @@ void TWindowComCard::set_help_mode(s32 help_mode) {
 }
 
 s32 get_class_name_text(s32 class_index) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
+    return (saddr)text_language_group_table[7][class_index];
 }
 
 extern "C" s8 get_guild_card_language(void* p) { return ((GuildCardEntry *)p)->language; }

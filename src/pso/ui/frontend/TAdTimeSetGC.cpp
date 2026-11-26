@@ -770,7 +770,7 @@ s32 TAdTimeSetGC::count_selected_flags() {
         count += TAdSinglePlyChrSelectGC::get_flag_count();
     }
     if (load_status & 0x1000) {
-        count += TAdSinglePlyChrSelectGC__sub_8001C5F0();
+        count += get_guild_card_file_block_count();
     }
     return count;
 }

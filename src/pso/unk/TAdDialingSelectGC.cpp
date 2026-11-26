@@ -96,7 +96,7 @@ void TAdDialingSelectGC::run_task() {
     case 8:
         this->timer++;
         if ((f32)this->timer > 7.5f) {
-            this->sub_801A4CA4();
+            this->update_dial_image();
             this->state = 9;
             TAdMultiChgGameModeGC::open_time_set_scene();
         }

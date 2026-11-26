@@ -387,12 +387,11 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     return free_slot;
 }
 
-u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
+extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     void *cached_glyph;
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
     MenuFontGlyph *entry = (MenuFontGlyph *)cached_glyph;
-    TexturedQuad *pos = static_cast<TexturedQuad *>(quad);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
     pos->u0 = (f32) ((f32) entry->x / 256.0f);
@@ -468,7 +467,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
       }
       code = (hi << 8) & 0xFF00;
       code = code | lo;
-      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &quad, color);
+      w = bind_menu_font_glyph(((u16 (*)(u32)) map_char_to_font_code)(code), &quad, color);
       set_glyph_quad_extents(w, &quad);
       draw_textured_quad_at_depth(&quad.x0, scale);
       quad.x0 += (f32) w;

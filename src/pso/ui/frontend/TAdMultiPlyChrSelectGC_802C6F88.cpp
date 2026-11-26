@@ -22,7 +22,7 @@ saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_ins
 
 int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cursor_texture_list; }
 
-NJS_TEXLIST *TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return player_tex_texture_list_ptr; }
+NJS_TEXLIST *get_player_tex_texture_list(void) {  return player_tex_texture_list_ptr; }
 
 
 TAdMultiPlyChrSelectTransitionGC *multi_chr_select_transition_instance;

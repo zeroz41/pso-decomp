@@ -1049,7 +1049,7 @@ void TPlayerBattleCtrl4P::record_results() {
         i++;
         off += sizeof(BattleRanking);
     } while (i < 4);
-    TAdSinglePlyChrSelectGC__sub_801FCE6C();
+    save_active_character_to_card();
 }
 
 void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; unknown_290 = 0; }

@@ -160,6 +160,6 @@ void *TObjCMMainMenu::create_fade(void *duration, void *mode) {
     return new TChCrEffFade(-1, (saddr)duration, (saddr)mode);
 }
 
-void *create_fade_effect(void *duration, void *mode) {
-    return new TChCrEffFade(1, (saddr)duration, (saddr)mode);
+void *create_fade_effect(s32 duration, s32 mode) {
+    return new TChCrEffFade(1, duration, mode);
 }

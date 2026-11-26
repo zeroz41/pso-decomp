@@ -35,7 +35,7 @@ BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 
 void init_creation_menu_scene(void) {
-    void *p;
+    BmlResource *p;
     init_menu_scene_lights(&default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
@@ -48,31 +48,31 @@ void init_creation_menu_scene(void) {
     TLobby::set_ending_callback();
     load_keyboard_resources();
     TWindowCtrlMain::reset_all((void*)1);
-    p = (void *)new TWindowCtrlMain();
+    new TWindowCtrlMain();
     p = new BmlResource(1, (BmlResourceDescriptor *)&creation_menu_resource_descriptor, 0, 0, NULL);
-    creation_menu_main_obj = (BmlResource *)p;
+    creation_menu_main_obj = p;
     if (p != NULL) {
         fn_80291178();
         fn_8028D940();
         load_floor_sound_bank(0);
         play_area_music("CHARA.adx");
         if (get_current_char_flag() != 0) {
-            TObjCMMainMenu__sub_8028EC34();
-            TObjCMMainMenu__sub_8028EC24();
-            TObjCMMainMenu__sub_8028D9F8();
+            disable_dressing_room_mode();
+            clear_creation_name_buffer();
+            invalidate_creation_visual_record();
             TChCrCharSelect::init_and_create(tl_03);
-            create_fade_effect((void *)0xF, (void *)1);
+            create_fade_effect(0xF, 1);
         } else {
-            TObjCMMainMenu__sub_8028EC18();
+            enable_dressing_room_mode();
             select_char_menu();
-            TObjCMMainMenu__sub_8028D9F8();
+            invalidate_creation_visual_record();
             TCharaMaking::create(tl_03, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            create_fade_effect((void *)0xF, (void *)1);
+            create_fade_effect(0xF, 1);
         }
     }
 }
 
-s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
+s32 get_selected_menu_entry_kind(TObjCMMainMenu *menu) {
     return TObjCMMainMenu::menu_entries[menu->entries[menu->selected_entry]].kind;
 }
 
@@ -84,10 +84,10 @@ s32 TObjCMMainMenu::is_state_3() {
     return TObjCMMainMenu::state == 3;
 }
 
-void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }
+void enable_dressing_room_mode(void) { creation_dressing_room_mode_flag = 1; }
 
-void TObjCMMainMenu__sub_8028EC24(void) {
+void clear_creation_name_buffer(void) {
     character_creation_name_buffer[0] = 0;
 }
 
-void TObjCMMainMenu__sub_8028EC34(void) { creation_dressing_room_mode_flag = 0; }
+void disable_dressing_room_mode(void) { creation_dressing_room_mode_flag = 0; }

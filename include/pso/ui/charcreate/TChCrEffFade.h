@@ -24,7 +24,7 @@ public:
 
 LAYOUT_ASSERT(TChCrEffFade_size, sizeof(TChCrEffFade) == 0x30);
 
-void *create_fade_effect(void *duration, void *mode);
+void *create_fade_effect(s32 duration, s32 mode);
 
 extern "C" {
 void fn_80293D84(void *context, void *center, u32 color, f32 scale, f32 alpha);

@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/unk/GuildCardRecord.h"
@@ -185,7 +186,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
-void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 }
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
@@ -2326,7 +2326,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
             }
         }
     }
-    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = (recv_packet_handler_handle_06_recv_chat)handle_chat_message__11TWindowCtrlFPc;
+    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = handle_recv_chat;
     if (lobby_player_construction_window != NULL) {
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
@@ -2946,7 +2946,6 @@ void set_quest_list_online_state(s32 state) {
 void TWindowMenu::set_ready_flag() { menu_flags |= 0x1; }
 
 extern "C" {
-extern u8 *text_language_group_table;
 
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
 int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
@@ -2967,14 +2966,13 @@ s32 *get_raw_serial_input_buffer(void) {
 }
 
 saddr get_connection_message_text(s32 id) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x30)) + (id * 4));
+    return (saddr)text_language_group_table[12][id];
 }
 
 }
 
-extern u8 *text_language_group_table;
 s32 get_online_message_text(s32 id) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x38)) + (id * 4));
+    return (saddr)text_language_group_table[14][id];
 }
 
 u8 *get_password_input_buffer(void) {

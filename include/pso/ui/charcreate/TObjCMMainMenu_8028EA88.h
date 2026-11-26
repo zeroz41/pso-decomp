@@ -8,10 +8,10 @@ struct BmlResource;
 
 extern "C" {
 extern BmlResource *creation_menu_main_obj;
-s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu);
-void TObjCMMainMenu__sub_8028EC18(void);
-void TObjCMMainMenu__sub_8028EC24(void);
-void TObjCMMainMenu__sub_8028EC34(void);
+s32 get_selected_menu_entry_kind(TObjCMMainMenu *menu);
+void enable_dressing_room_mode(void);
+void clear_creation_name_buffer(void);
+void disable_dressing_room_mode(void);
 }
 void init_creation_menu_scene(void);
 // The name typed on the creation name screen.

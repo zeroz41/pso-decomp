@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
@@ -62,10 +63,9 @@ const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 
 
 
-extern u8 *text_language_group_table;
 
 saddr get_message_text(s32 text) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x2C)) + (text * 4));
+    return (saddr)text_language_group_table[11][text];
 }
 
 void *TObjBagWarnWin::create(void *bag_warn_win) {
@@ -237,7 +237,7 @@ s32 TWindowCtrl::is_map_visible() {
     if (get_game_play_mode() != 1) {
         return 1;
     }
-    return TLobby__sub_8030A770() != 0 ? 1 : 0;
+    return is_challenge_quest_active() != 0 ? 1 : 0;
 }
 
 __declspec(section ".data") f32 TObjBagWarnWin::message_window_size[2] = {350.0f, 120.0f};

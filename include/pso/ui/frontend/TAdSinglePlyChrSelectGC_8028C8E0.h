@@ -7,7 +7,7 @@ class TChCrLoadReq;
 
 extern "C" {
 s32 are_preview_load_flags_clear(TChCrLoadReq *request);
-s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void);
+s32 is_load_slot_free(void);
 }
 
 #endif

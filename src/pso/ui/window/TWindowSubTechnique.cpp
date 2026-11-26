@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -143,7 +144,6 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
 }
 }
 
-extern u8 *text_language_group_table;
 extern "C" {
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 u8 *calc_technique_parameters(s16, u8, s32);
@@ -314,7 +314,7 @@ TWindowSubTechnique::TWindowSubTechnique(TWindowMainMenu *parent, s32 client) : 
 }
 
 saddr get_technique_description_text(s32 technique) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x14)) + (technique * 4));
+    return (saddr)text_language_group_table[5][technique];
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }

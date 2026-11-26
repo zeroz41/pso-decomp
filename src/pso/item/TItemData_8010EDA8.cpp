@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "types.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/item/TItemData.h"
@@ -5,7 +6,6 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 
-extern u8 *text_language_group_table;
 extern "C" {
 s32 get_class_index__10TObjPlayerFv(void *);
 }
@@ -65,8 +65,8 @@ s32 TObjPlayer::can_use_more_materials_for_class() {
     return this->materials.can_use_more_materials(get_class_index__10TObjPlayerFv(this));
 }
 saddr get_item_description_text(s32 name) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 4)) + (name * 4));
+    return (saddr)text_language_group_table[1][name];
 }
 saddr get_text_collection(s32 index) {
-    return *(s32 *)((s8 *)(*(saddr *)text_language_group_table) + (index * 4));
+    return (saddr)text_language_group_table[0][index];
 }

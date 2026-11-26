@@ -10,7 +10,7 @@ TAdDialingGC *TAdDialingGC::get_instance(void) {
     return TAdDialingGC::instance;
 }
 
-void TAdDialingSelectGC::sub_801A4CA4() {
+void TAdDialingSelectGC::update_dial_image() {
     switch (this->selection) {
     case 0:
         TAdDialingGC::select_dial_image((void *)1, 0);

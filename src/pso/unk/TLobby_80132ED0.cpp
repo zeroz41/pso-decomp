@@ -5,7 +5,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
 
-extern saddr text_language_group_table;
 extern "C" {
 void TLobby::update_menu_cursor() {
     void *global_state;
@@ -21,7 +20,7 @@ void TLobby::update_menu_cursor() {
     current_language = (language) (s8) *(u8 *)((s8 *)global_state + 7);
 }
 saddr get_localized_text_entry(s32 group, s32 id) {
-    return *(saddr *)((s8 *)(*(saddr *)((s8 *)(text_language_group_table + (group * 4)) + 0) + (id * 4)) + 0);
+    return (saddr)text_language_group_table[group][id];
 }
 void TLobby::free_keyboard_soft_resources() {
     TLanguage::free_alphabet_textures();

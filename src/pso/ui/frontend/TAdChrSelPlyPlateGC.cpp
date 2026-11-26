@@ -86,7 +86,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     u32 i;
     u32 j;
     m_name = TAdChrSelPlyPlateGC::name;
-    chr_sel_plate_texlist = TAdMultiPlyChrSelectGC__sub_802C6FA8();
+    chr_sel_plate_texlist = get_player_tex_texture_list();
     lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);

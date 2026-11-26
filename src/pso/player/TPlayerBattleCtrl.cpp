@@ -1026,7 +1026,7 @@ void record_local_battle_placement(void *arg0) {
     }
     s = TAdSinglePlyChrSelectGC::get_active_disconnect_count() - 1;
     TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16)(s > 0 ? s : 0));
-    TAdSinglePlyChrSelectGC__sub_801FCE6C();
+    save_active_character_to_card();
 }
 
 void play_duel_result_stream(const char *file, saddr duration) {
@@ -1078,7 +1078,7 @@ void TPlayerBattleCtrl::init_battle_round() {
     clamped_slot = char_select_slot;
   }
   TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16) clamped_slot);
-  TAdSinglePlyChrSelectGC__sub_801FCE6C();
+  save_active_character_to_card();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
   player = get_local_player();

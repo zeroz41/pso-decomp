@@ -110,7 +110,7 @@ TAdGuideButtonGC::TAdGuideButtonGC(TObject *parent) : TObject(parent) {
     m_name = guide_button_type_name;
     frame = -1;
     settled_frames = 0;
-    guide_button_texture_handle = TAdMultiPlyChrSelectGC__sub_802C6FA8();
+    guide_button_texture_handle = get_player_tex_texture_list();
     active = 0;
 }
 void create_guide_button(TObject *parent, GuideButtonSpec *spec) {

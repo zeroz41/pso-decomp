@@ -218,7 +218,7 @@ s32 TChCrLoadReq::try_claim_load_slot() {
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void) {
+s32 is_load_slot_free(void) {
     return chr_select_load_slot_count < 1;
 }
 

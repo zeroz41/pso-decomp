@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage.h"
 #include "pso/player/PlayerStats.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "types.h"
@@ -55,7 +56,6 @@
 extern "C" {
 void clear_help_item(TWindowHelpItem *item);
 }
-extern u8 *text_language_group_table;
 saddr format_item_description(u8 *item);
 
 const char *window_help_item_class_name = "TWindowHelpItem";
@@ -157,7 +157,7 @@ void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 s32 HelpItemStatCompareRow::get_value() { return value; }
 
 saddr get_help_text_string(s32 id) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (id * 4));
+    return (saddr)text_language_group_table[6][id];
 }
 
 TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {

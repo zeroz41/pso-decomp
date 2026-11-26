@@ -512,17 +512,17 @@ void ItemListRow::init_item_row(TItem *item, s32 index) {
 
 
 
-void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
+void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
     saddr item_data;
 
     this->x = 0.0f;
     this->status_icon = 51;
-    item_data = get_item_data((uaddr)a1);
-    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), TItemData::is_wrapped(a1));
-    forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
+    item_data = get_item_data((uaddr)item);
+    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
+    forward_message(get_shared_text_buffer(), (uaddr)(void *)item);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);
-    update_item_colors((saddr)a1);
+    update_item_colors((saddr)item);
     this->suffix_style = this->style;
     this->item = index;
     this->flags = (this->flags | 0x45);
@@ -536,21 +536,21 @@ extern "C" {
 u32 calc_text_width(char *s);
 }
 
-void ItemListRow::set_ground_item(void *it, s32 index) {
+void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     s32 item_data;
 
     this->x = 0.0f;
     this->status_icon = 0x33;
-    item_data = get_item_data((uaddr)it);
-    select_item_icon(item_data, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), TItemData::is_wrapped(it));
-    forward_message(get_shared_text_buffer(), (uaddr)(void *)it);
+    item_data = get_item_data((uaddr)item);
+    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
+    forward_message(get_shared_text_buffer(), (uaddr)(void *)item);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
-        text_builder_append_int(*(s32 *)((s8 *)it + 0x10));
+        text_builder_append_int(item->data2.data_u32);
         this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
     }
-    update_item_colors((saddr)it);
+    update_item_colors((saddr)item);
     this->item = index;
     this->flags |= 0x45;
 }

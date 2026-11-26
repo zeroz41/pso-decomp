@@ -12,7 +12,7 @@ struct TWindowOptionCtrl;
 class TAdDialingSelectGC : public TObject {
 public:
     TAdDialingSelectGC();
-    void sub_801A4CA4();
+    void update_dial_image();
     // render is the first virtual declared: the vtable comes out with it, ahead of run_task's
     // jump table.
     virtual void render();

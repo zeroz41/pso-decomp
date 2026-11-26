@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 extern "C" {
+u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
 u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);
@@ -95,7 +96,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
       if (1)
       {
         case 0:
-          r = TWindowSubStatusDisp::calc_gauge_scale(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
+          r = bind_menu_font_glyph(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
           pos.y0 = y;
           x -= r;
           pos.x0 = x;

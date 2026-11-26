@@ -47,6 +47,8 @@ struct KeyUV {
 #include "pso/network/client_id.h"
 #include "pso/render/ColorLineList.h"
 
+extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
+
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
 
@@ -581,7 +583,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
                 color = key == cursor ? 0xFF000000 : 0xFF999999;
                 q.x0 = 1.0f + (1.0f + (19.0f * (f32)col + ctx->x));
                 q.y0 = 1.0f + (26.0f + (ctx->y + 19.0f * (f32)row));
-                width = TWindowSubStatusDisp::calc_gauge_scale(code, &q, color);
+                width = bind_menu_font_glyph(code, &q, color);
                 q.x0 = 0.5f * (f32)(18 - width) + q.x0;
                 set_glyph_quad_extents(width, &q);
                 if (hit_test_relative(ctx, &q) != 0) {

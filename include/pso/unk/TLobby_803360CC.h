@@ -8,7 +8,7 @@ class TTitleScene;
 extern "C" {
 void TAdMultiPlyChrSelectGC__sub_803367E8(void);
 void TLobby__sub_803361FC(void);
-void TLobby__sub_803362A4(TTitleScene *scene);
+void dispatch_title_choice(TTitleScene *scene);
 }
 void initialize_lobby_title_scene(void);
 

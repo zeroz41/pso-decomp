@@ -135,7 +135,7 @@ void TAdMultiSaveGC::run_task() {
         }
         break;
     case 6:
-        TAdSinglePlyChrSelectGC__sub_801FDAAC();
+        begin_character_card_save();
         m_state = 7U;
         return;
     case 7:

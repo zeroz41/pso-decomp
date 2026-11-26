@@ -255,7 +255,7 @@ void TAdChrSelASlotGC::update_load_state() {
 }
 void TAdChrSelASlotGC::set_state() {
     TAdSinglePlyChrSelectGC::write_encrypted_save();
-    TAdSinglePlyChrSelectGC__sub_801FDAAC();
+    begin_character_card_save();
     this->state = 0x12;
 }
 void TAdChrSelASlotGC::check_load_state() {
@@ -265,7 +265,7 @@ void TAdChrSelASlotGC::check_load_state() {
 }
 void TAdChrSelASlotGC::init_selection() {
     TAdSinglePlyChrSelectGC::write_encrypted_save();
-    TAdSinglePlyChrSelectGC__sub_801FDAAC();
+    begin_character_card_save();
     this->state = 0x10;
 }
 void TAdChrSelASlotGC::run_state_14() {}

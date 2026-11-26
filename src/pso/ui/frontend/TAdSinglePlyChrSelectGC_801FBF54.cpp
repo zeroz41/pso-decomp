@@ -102,7 +102,11 @@ CharacterBufferTable chr_select_buffer_ptr_table;
 CharacterSelectionRequest chr_select_request_buffer;
 SubtractiveRng chr_select_rng_state;
 
-u32 char_select_date_stamp[3];
+// The date the selected character was loaded at; the union keeps the 12 bytes and 4-byte alignment of the original object.
+union CharSelectDate {
+    DateStamp stamp;
+    u32 words[3];
+} char_select_date_stamp;
 s32 chr_select_serial_seeds[2];
 s32 lbl_80513918[2];
 
@@ -245,7 +249,7 @@ s32 TAdSinglePlyChrSelectGC::is_ready() {
     if (get_game_play_mode() == 0) {
         return 1;
     }
-    if (TLobby__sub_8030A770() != 0) {
+    if (is_challenge_quest_active() != 0) {
         return 0;
     }
     return (u32) __cntlzw(TLobby::is_ready()) >> 5;
@@ -517,7 +521,7 @@ void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy
 
 extern "C" {
 extern s32 lbl_805D55C0;
-s32 fn_80203284();
+s32 is_challenge_task_running();
 s32 TAdSinglePlyChrSelectGC__sub_8028DC14();
 }
 
@@ -606,7 +610,7 @@ s32 TAdSinglePlyChrSelectGC::forward_to_global_instance(TItemData *item) {
 }
 
 
-s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
+s32 save_active_character_to_card(void) {
     CharacterFile *file;
     s32 cw;
     s32 ret;
@@ -728,7 +732,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
     uaddr obj;
     u8 *buf;
     if (get_main_phase() == 0xE || lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 ||
-        fn_80203284() == 1 || TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
+        is_challenge_task_running() == 1 || TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         return 0xFFFF0000;
     }
     stop_pad_rumble();
@@ -970,7 +974,7 @@ s32 start_character_file_write(void) {
     }
     return result;
 }
-s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void) {
+s32 begin_character_card_save(void) {
     s32 result;
     s8 chr_select_state;
     chr_select_state = TAdSinglePlyChrSelectGC::get_chr_select_state();
@@ -1464,7 +1468,7 @@ s32 poll_secondary_card_load(void) {
             result = load_character_file_slot_b(1);
             if (result == 0) {
                 card_load_sequence_state = 0x14;
-                getDateStamp((DateStamp *)char_select_date_stamp);
+                getDateStamp(&char_select_date_stamp.stamp);
             }
         }
     }
@@ -1489,7 +1493,7 @@ s32 TAdSinglePlyChrSelectGC::load_selected_char() {
             result = TAdSinglePlyChrSelectGC::load_chr_select_slot();
             if (result == 0) {
                 card_load_sequence_state = 8;
-                getDateStamp((DateStamp *)char_select_date_stamp);
+                getDateStamp(&char_select_date_stamp.stamp);
             }
         }
     }
@@ -1508,7 +1512,7 @@ s32 TAdSinglePlyChrSelectGC::load_selected_character() {
             result = TAdSinglePlyChrSelectGC::load_chr_select_slot();
             if (result == 0) {
                 card_load_sequence_state = 8;
-                getDateStamp((DateStamp *)char_select_date_stamp);
+                getDateStamp(&char_select_date_stamp.stamp);
             }
         }
     }
@@ -1741,7 +1745,7 @@ s32 TAdSinglePlyChrSelectGC::load_player_and_wait() {
 s32 TAdSinglePlyChrSelectGC::init(void) {
     stop_pad_rumble();
     if ((selected_character_data != NULL) && (active_character_save_record != NULL) && (card_character_save_buffer != 0)) {
-        if ((get_player_by_client_id(local_client_id) != NULL) && (TTecCtrl::is_technique_ready() == 0) && (fn_80203284() != 1)) {
+        if ((get_player_by_client_id(local_client_id) != NULL) && (TTecCtrl::is_technique_ready() == 0) && (is_challenge_task_running() != 1)) {
             TObjPlayer::init_battle_selection();
             TAdSinglePlyChrSelectGC__sub_8028DC14();
         }
@@ -1763,7 +1767,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
   i = 0;
   do
   {
-    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (TLobby__sub_8030A770() == 0))
+    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (is_challenge_quest_active() == 0))
     {
       char_data = TAdSinglePlyChrSelectGC::get_char_index(i);
       if (char_data != NULL)
@@ -1800,7 +1804,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
     saddr p;
     u32 size;
     if (get_main_phase() == 0xE || (get_current_floor_area() == AREA_LOBBY && card_file != 1) ||
-        lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 || fn_80203284() == 1) {
+        lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 || is_challenge_task_running() == 1) {
         return 0xFFFF0000;
     }
     stop_pad_rumble();
@@ -2512,7 +2516,7 @@ s32 TAdSinglePlyChrSelectGC::update_elapsed_time(CharacterSaveRecord *record) {
     s32 end_seconds;
 
     if (record != NULL) {
-        DateToSeconds((DateStamp *)(char_select_date_stamp), (int *)(&start_seconds));
+        DateToSeconds(&char_select_date_stamp.stamp, (int *)(&start_seconds));
         getDateStamp((DateStamp *)date);
         DateToSeconds((DateStamp *)(date), (int *)(&end_seconds));
         record->play_time += end_seconds - start_seconds;
@@ -2526,9 +2530,9 @@ s32 TAdSinglePlyChrSelectGC::update_play_time() {
     s32 start_seconds;
     s32 end_seconds;
     if ((void *) (*(u8 * *)&active_character_save_record) != NULL) {
-        DateToSeconds((DateStamp *)char_select_date_stamp, (int *)(&start_seconds));
-        getDateStamp((DateStamp *)char_select_date_stamp);
-        DateToSeconds((DateStamp *)char_select_date_stamp, (int *)(&end_seconds));
+        DateToSeconds(&char_select_date_stamp.stamp, (int *)(&start_seconds));
+        getDateStamp(&char_select_date_stamp.stamp);
+        DateToSeconds(&char_select_date_stamp.stamp, (int *)(&end_seconds));
         *(s32 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0xC) = (s32) (*(s32 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0xC) + (end_seconds - start_seconds));
         return *(s32 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0xC);
     }
@@ -2608,8 +2612,8 @@ void init_fresh_character_card(void) {
     TAdSinglePlyChrSelectGC__sub_8028DC1C();
     TObjPlayer::begin_action_from_char_select();
     memset(card, 0, 0x2370);
-    getDateStamp((DateStamp *)char_select_date_stamp);
-    DateToSeconds((DateStamp *)char_select_date_stamp, (int *)(&card->creation_seconds));
+    getDateStamp(&char_select_date_stamp.stamp);
+    DateToSeconds(&char_select_date_stamp.stamp, (int *)(&card->creation_seconds));
     card->magic = 0xA205B064;
     card->play_time = 0;
     card->flags = 0;
@@ -2891,8 +2895,8 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         DVDDiskID *id = DVDGetCurrentDiskID();
         strncpy(chr_select_game_name_buffer, id->gameName, 4);
     }
-    getDateStamp((DateStamp *)char_select_date_stamp);
-    DateToSeconds((DateStamp *)char_select_date_stamp, (int *)&seconds);
+    getDateStamp(&char_select_date_stamp.stamp);
+    DateToSeconds(&char_select_date_stamp.stamp, (int *)&seconds);
     switch (seconds % 24) {
     default:
         card = new CharacterFile;

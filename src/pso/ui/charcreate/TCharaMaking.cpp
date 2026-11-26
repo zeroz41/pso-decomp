@@ -41,19 +41,19 @@ extern CharacterAppearanceFields character_creation_visual_record;
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
-CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
+CharacterAppearanceFields *get_creation_visual_record(void) {
     return &character_creation_visual_record;
 }
 
-void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record) {
+void load_creation_visual_record(CharacterAppearanceFields *record) {
     if (record->flags & 0xA) {
-        TObjCMMainMenu__sub_8028D9F8();
+        invalidate_creation_visual_record();
         return;
     }
     copy_player_visual_record(&character_creation_visual_record, record);
 }
 
-void TObjCMMainMenu__sub_8028D9F8(void) {
+void invalidate_creation_visual_record(void) {
     character_creation_visual_record.classId = -1;
 }
 
@@ -216,7 +216,7 @@ s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {
         return -1;
     }
-    return TObjCMMainMenu__sub_8028EBCC(creation_main_menu_obj);
+    return get_selected_menu_entry_kind(creation_main_menu_obj);
 }
 
 s32 calc_section_id_from_name(s8 *name) {
@@ -493,21 +493,21 @@ s32 TCharaMaking::is_end() {
 }
 
 s32 character_display_index(uaddr appearance_record) {
-    const char *appearance = reinterpret_cast<const char *>(appearance_record);
+    const CharacterAppearanceFields *appearance = reinterpret_cast<const CharacterAppearanceFields *>(appearance_record);
     u8 model;
 
-    if (!(appearance[offsetof(CharacterAppearanceFields, flags)] & 0xA)) {
-        return appearance[offsetof(CharacterAppearanceFields, classId)];
+    if (!(appearance->flags & 0xA)) {
+        return appearance->classId;
     }
-    if ((appearance[offsetof(CharacterAppearanceFields, version)] <= 0) ||
-        ((s8)(model = appearance[offsetof(CharacterAppearanceFields, extraModel)]) < 0) ||
+    if (((s8)appearance->version <= 0) ||
+        ((s8)(model = appearance->extraModel) < 0) ||
         ((s8)model >= 7)) {
-        return appearance[offsetof(CharacterAppearanceFields, classId)];
+        return appearance->classId;
     }
     if (TCharaMaking::is_end() != 0) {
-        return 0x12 - appearance[offsetof(CharacterAppearanceFields, extraModel)];
+        return 0x12 - (s8)appearance->extraModel;
     }
-    return appearance[offsetof(CharacterAppearanceFields, classId)];
+    return appearance->classId;
 }
 void CharacterTextureLoadSet::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {

@@ -147,8 +147,8 @@ void TObjCMMainMenu::clear_task_state() { state = 0; }
 TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     m_name = class_name;
     character = creation_player_character;
-    if (!(character->flags & 0xA) && character->classId == TObjCMMainMenu__sub_8028D9A8()->classId) {
-        copy_player_visual_record(character, TObjCMMainMenu__sub_8028D9A8());
+    if (!(character->flags & 0xA) && character->classId == get_creation_visual_record()->classId) {
+        copy_player_visual_record(character, get_creation_visual_record());
     }
     strncpy(character->name, (const char *)get_name_buffer(), 0xC);
     character->name[0xC] = 0;
@@ -280,7 +280,7 @@ void TObjCMMainMenu::handle_creation_input() {
     if (TAdSinglePlyChrSelectGC::is_active() != 0) {
         if (character->section == -1 && creation_buttons_pressed(2) != 0) {
             play_sound_effect(0x53704, 0, 0, 0);
-            TObjCMMainMenu__sub_8028D9B4(character);
+            load_creation_visual_record(character);
             delay = 7;
             state = 6;
             return;
