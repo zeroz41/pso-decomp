@@ -12,6 +12,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80226C3C.h"
+#include "pso/unk/TLobby_80226070.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
@@ -39,7 +40,6 @@ u32 lbl_804CB838[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 // [0] and [1] play the music, [2] the cue stream ("can't create ADXT-BGM #%d", "can't create ADXT-SE #%d").
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
-extern int lbl_805D62B8;
 void *lbl_805D62D8;
 void *lbl_805D62DC;
 s32 music_active;

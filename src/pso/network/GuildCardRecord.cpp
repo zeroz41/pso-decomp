@@ -97,23 +97,23 @@ void TLobby::send_find_user_self_tag(s32 gc_num) {
 
 typedef struct Src_8024220C Src_8024220C;
 extern "C" {
-void load_selected_guild_card_record(Src_8024220C *arg0) {
+void load_selected_guild_card_record(Src_8024220C *result) {
   char *new_var;
   void *p;
-  selected_guild_card_record.id = arg0->id;
+  selected_guild_card_record.id = result->id;
   selected_guild_card_record.serial = 0;
   memset(selected_guild_card_record.name, 0, 0x11);
-  strncpy(selected_guild_card_record.name, arg0->name, 0x10);
+  strncpy(selected_guild_card_record.name, result->name, 0x10);
   selected_guild_card_record.name[0x10] = 0;
-  new_var = arg0->list;
+  new_var = result->list;
   new_var = build_text_from_comma_list(new_var);
   p = new_var;
   p = ((void *)parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s19)));
   p = ((void *)parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
   p = ((void *)parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
   parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
-  TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &arg0->ext);
+  TLobby__sub_802422EC(selected_guild_card_record.f4C, result->f64);
+  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &result->ext);
 }
 }
 
