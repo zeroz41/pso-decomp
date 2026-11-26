@@ -4665,7 +4665,7 @@ force_active:
   - bsearch_record__6TLobbyFPvii
   - bswap32_in_place
   - bswap__24G_DragonBossActions_6x12Fv
-  - bswap_6x6E_sync_game_state__6TLobbyFPv
+  - bswap__20GameStateSyncScratchFv
   - bswap__15G_GoGoBall_6x79Fv
   - bswap_6xAD_subordinate_action__20TItemEffOrgaFlowShotFv
   - bswap__17TPlyJoinLobbyDataFv
@@ -4689,7 +4689,7 @@ force_active:
   - bswap__14GuildCardEntryFv
   - bswap__23G_UpdateEntityStat_6x9AFv
   - bswap_header_fields__6TLobbyFi
-  - bswap_inventory__6TLobbyFPv
+  - bswap__17InventoryItemListFv
   - bswap_object_row_fields__FPv
   - bswap_packet_field__6TLobbyFv
   - bswap__14TPlyDispConfigFv

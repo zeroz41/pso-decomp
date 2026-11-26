@@ -11,6 +11,7 @@ struct QuestObjectEntry {
     u16 drop_id_base;
 
     void copy_from(QuestObjectEntry *src);
+    void bswap();
 };
 extern QuestObjectEntry *quest_object_entries;
 

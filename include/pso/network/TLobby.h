@@ -413,10 +413,8 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static void *bsearch_record(void *, int, int);
-    static void bswap_6x6E_sync_game_state(void*);
     static void bswap_and_handle_packet(void *packet, int size);
     static void bswap_header_fields(void *header);
-    static void bswap_inventory(void*);
     static void bswap_player_data(PlayerSyncRecord *record);
     static s32 change_file_extension(char *dest, char *filename, char *ext);
     static void close_all_windows(void *);

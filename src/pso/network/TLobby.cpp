@@ -133,6 +133,8 @@ struct GameStateSyncScratch {
     u16 sync_records_size;
     u16 switch_table_size;
     u8 payload[sizeof(FloorSetFlagsPayload)];
+
+    void bswap();
 };
 LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
 LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
@@ -189,9 +191,7 @@ void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
 }
-void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
-void bswap_telepipe_record(void *);
 
 
 LAYOUT_ASSERT(ProtocolGameEntriesOffset, offsetof(TProtocol, m_game_entries) == 0x1DA8);
@@ -594,7 +594,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
       {
         lz->decode(pkt->data, pkt->total_size, buf);
         delete lz;
-        TLobby::bswap_6x6E_sync_game_state(buf);
+        buf->bswap();
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
         n = buf->floor_flags_size;
         import_floor_event_flags(reinterpret_cast<s16 *>(&buf->payload[n]), buf->sync_records_size);
@@ -648,7 +648,7 @@ void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt) {
             p = quest_object_entries;
             object_condition_count = n;
             for (i = 0; i < n; i++) {
-                bswap_object_source_record(&p[i]);
+                p[i].bswap();
             }
         }
     }
@@ -702,7 +702,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
             hdr->switch_table_size = copy_switch_table(&hdr->payload[n]);
             n += hdr->switch_table_size;
             hdr->total_size = n;
-            TLobby::bswap_6x6E_sync_game_state(hdr);
+            hdr->bswap();
             lz = new Lzss;
             if (lz != NULL) {
                 len = lz->encode(hdr, n, buf->data);
@@ -756,7 +756,7 @@ void TLobby::send_compressed_packet_6c() {
     CompressedSyncPacket *buf;
     Lzss *lz;
     u32 n;
-    u32 *p;
+    QuestObjectEntry *p;
     u32 i;
     saddr client = (saddr)this;
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
@@ -767,10 +767,10 @@ void TLobby::send_compressed_packet_6c() {
             src = quest_object_entries;
             size = object_condition_count * 4;
             n = size / 4;
-            p = (u32 *)mem_alloc(size);
+            p = (QuestObjectEntry *)mem_alloc(size);
             memcpy(p, src, size);
             for (i = 0; i < n; i++) {
-                bswap_object_source_record(&p[i]);
+                p[i].bswap();
             }
             len = lz->encode(p, size, buf->data);
             mem_free(p);
@@ -2705,7 +2705,12 @@ void TLobby::destroy_join_entries() {
 
 TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
 void render_idle_timeout(void) {  }
-void TLobby::bswap_6x6E_sync_game_state(void*p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
+void GameStateSyncScratch::bswap() {
+    bswap_16(&total_size);
+    bswap_16(&floor_flags_size);
+    bswap_16(&sync_records_size);
+    bswap_16(&switch_table_size);
+}
 s32 TLobby::open_hard_keyboard(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 0x40000); }
 void TLobby::bswap_player_data(PlayerSyncRecord *record) {
     s32 i;
@@ -2727,17 +2732,23 @@ void TLobby::bswap_player_data(PlayerSyncRecord *record) {
     }
     bswap_32(&record->language);
     record->guild_card_tag.bswap();
-    bswap_u32_pair(&record->pk_state);
-    bswap_telepipe_record(&record->telepipe);
+    record->pk_state.bswap();
+    record->telepipe.bswap();
     bswap_32((u32 *)&record->death_flags);
     bswap_32(&record->area);
     bswap_32(&record->floor);
     bswap_32(&record->player_flags);
     record->visual.bswap();
     record->stats.bswap();
-    TLobby::bswap_inventory(&record->inventory.count);
+    record->inventory.bswap();
 }
-void TLobby::bswap_inventory(void*p) { bswap_32((u32 *)p); { int i; for (i = 0; i < 30; i++) { ((TPlyInventoryItem *)((char*)p + 0x4 + i * 28))->bswap(); } } }
+void InventoryItemList::bswap() {
+    int i;
+    bswap_32((u32 *)&count);
+    for (i = 0; i < 30; i++) {
+        items[i].bswap();
+    }
+}
 void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
 
 
@@ -2851,11 +2862,26 @@ void disp_data_part2::bswap() {
 }
 }
 
-void bswap_telepipe_record(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_32((u32 *)((char*)p + 0x14)); bswap_32((u32 *)((char*)p + 0x18)); }
+void PlayerTelepipe::bswap() {
+    bswap_16(&state.owner_client_id);
+    bswap_16((u16 *)&state.floor);
+    bswap_32(&state.room_id);
+    bswap_32((u32 *)&state.pos.x);
+    bswap_32((u32 *)&state.pos.y);
+    bswap_32((u32 *)&state.pos.z);
+    bswap_32(&state.angle_y);
+    bswap_32((u32 *)&flags.bits);
+}
 
-void bswap_u32_pair(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); }
+void PlayerPkState::bswap() {
+    bswap_32((u32 *)&enabled);
+    bswap_32((u32 *)&team);
+}
 
-void bswap_object_source_record(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); }
+void QuestObjectEntry::bswap() {
+    bswap_16((u16 *)&flags);
+    bswap_16(&drop_id_base);
+}
 
 void EnemyStateRecord::bswap() {
     bswap_32(reinterpret_cast<u32 *>(&flags));
