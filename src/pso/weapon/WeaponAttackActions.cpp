@@ -121,10 +121,9 @@ void TItemWeapon::spawn_light_task() {
 }
 
 void TItemWeapon::restore_action_type() {
-    TItemWeapon *arg0 = this;
-    if (arg0->test_weapon_flags(0x04000000) != 0U) {
+    if (test_weapon_flags(0x04000000) != 0U) {
         owner->attack_state.set_attack_kind(2);
-        arg0->clear_weapon_flags(0x04000000);
+        clear_weapon_flags(0x04000000);
     }
 }
 
@@ -194,19 +193,19 @@ void *TItemWeapon::get_center() {
     return &held_position;
 }
 
-void TItemWeapon::call_impact_callback(saddr arg1, saddr arg2) {
+void TItemWeapon::call_impact_callback(saddr start, saddr end) {
     if (impact_callback != NULL) {
-        ((s32 (*)(s32, void *, s32, s32))impact_callback)((saddr)tl_05, this, arg1, arg2);
+        ((s32 (*)(s32, void *, s32, s32))impact_callback)((saddr)tl_05, this, start, end);
     }
 }
 
 void TItemWeapon::apply_model_params() {
-    s16 spA;
-    s16 sp8;
+    s16 model_id;
+    s16 model_param;
 
-    get_weapon_special_type_amount((this->special_selector) & 0x3F, &spA, &sp8);
-    ((TObjPlayer *)(this->owner))->set_model_id(spA);
-    ((TObjPlayer *)(this->owner))->set_model_param(sp8);
+    get_weapon_special_type_amount(special_selector & 0x3F, &model_id, &model_param);
+    owner->set_model_id(model_id);
+    owner->set_model_param(model_param);
     owner->recalc_stats();
 }
 
@@ -703,18 +702,17 @@ void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
 // ---- pso/unk/text_8011FC24
 
 void TItemWeapon::update_trails() {
-    TItemWeapon *arg0 = this;
-    if (arg0->test_weapon_flags(0x400U) != 0U) {
-        draw_weapon_at_joint((saddr)arg0, 0x30);
-        arg0->update_trail_slot(0);
-        draw_weapon_at_joint((saddr)arg0, 0x23);
-        arg0->update_trail_slot(1);
+    if (test_weapon_flags(0x400U) != 0U) {
+        draw_weapon_at_joint((saddr)this, 0x30);
+        update_trail_slot(0);
+        draw_weapon_at_joint((saddr)this, 0x23);
+        update_trail_slot(1);
         return;
     }
-    if (arg0->test_weapon_flags(1U) == 0U) {
-        arg0->draw_weapon_model();
-        arg0->update_trail_slot(0);
-        arg0->update_trail_slot(1);
+    if (test_weapon_flags(1U) == 0U) {
+        draw_weapon_model();
+        update_trail_slot(0);
+        update_trail_slot(1);
     }
 }
 
