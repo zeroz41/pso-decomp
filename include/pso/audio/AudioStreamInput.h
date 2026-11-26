@@ -63,8 +63,8 @@ void process_audio_stream_input(AudioStreamInputState *st);
 s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 }
 
-// lbl_80570AC0: layout known from its uses only.
-struct RecoveredGlobal_lbl_80570AC0 { s32 value; u8 remaining[0x9BC]; };
-extern RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
+// audio_stream_input_pool: layout known from its uses only.
+struct AudioStreamInputPool { s32 value; u8 remaining[0x9BC]; };
+extern AudioStreamInputPool audio_stream_input_pool;
 
 #endif

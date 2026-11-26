@@ -17,7 +17,7 @@ struct TObjTombstoneSpot {
 };
 
 // What a tombstone is set up from (setup copies it whole; the copy is the
-// compiler's assignment operator, 0x80076390).
+// compiler's assignment operator).
 struct TObjTombstoneRecord {
     s8 phase;
     s8 layout;

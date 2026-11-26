@@ -174,12 +174,6 @@ void TObjLazerFence4::run_task() {
 }
 
 
-extern "C" {
-
-}
-
-
-
 void *TObjLazerFence4::create(void *set_data) {
     return new TObjLazerFence4((TObject *)tl_05, set_data);
 }

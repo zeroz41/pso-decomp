@@ -101,7 +101,7 @@ const f32 mine_trap_area_scale_table[36] = {
     0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,  1.15f, 1.15f, 1.3f,
     1.3f,  1.3f,  1.3f,  1.3f,  1.45f, 1.45f, 0.0f,  0.0f,  0.0f,  0.0f,  1.45f, 1.45f,
 };
-const char *TOMineTrap__name = "TOMineTrap";
+const char *TOMineTrap::class_name = "TOMineTrap";
 const char *mine_disp_name = "TOMineDisp";
 const char *mine_trap_disp_name = "TOMineTrapDisp";
 BmlResource *mine_model_archive; // bm_o_mine.bml, loaded by TOMine::load_static_resource
@@ -597,7 +597,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     s32 floor;
     f32 area_scale;
 
-    m_name = TOMineTrap__name;
+    m_name = TOMineTrap::class_name;
     m_380 = 0;
     if (owner != NULL) {
         sub_80171348(owner->get_entity_id());
@@ -723,7 +723,7 @@ void TOMineTrap::destroy_matching_traps() {
     s32 i;
     for (i = registered_player_count + registered_enemy_count; i < entity_table_count; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
-        if (p != 0 && reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap__name) != 0) {
+        if (p != 0 && reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap::class_name) != 0) {
             ((TObject *)p)->queue_destruction();
         }
     }
@@ -806,7 +806,7 @@ void TOMineTrap::run_task() {
                     }
                     ((TObjChara *)target)->record_attack_source(get_trap_type());
                 }
-            } else if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap__name) != 0) {
+            } else if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap::class_name) != 0) {
                 if (horizontal_distance_squared(&position, &p->position) < trigger_radius * trigger_radius) {
                     target = p;
                     ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
@@ -903,7 +903,7 @@ f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
     case 0:
     case 1:
     case 2:
-        if ((attacker != NULL) && (reinterpret_cast<TObject *>(attacker)->check_value_equals(TOMineTrap__name) != 0)) {
+        if ((attacker != NULL) && (reinterpret_cast<TObject *>(attacker)->check_value_equals(TOMineTrap::class_name) != 0)) {
             set_triggered();
             if (set_params[1] > 0xF) {
                 set_params[1] = 0xF;
@@ -942,7 +942,7 @@ void handle_6x80_trigger_trap(game_command_header *command) {
         if (p == NULL) {
             continue;
         }
-        if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap__name) == 0) {
+        if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap::class_name) == 0) {
             continue;
         }
         if (packet->trap_number != p->get_trap_number()) {

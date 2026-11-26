@@ -58,12 +58,12 @@ TBoss5GryphonLightning::~TBoss5GryphonLightning() {
 #pragma opt_dead_assignments off
 
 extern "C" {
-const char *TBoss5GryphonLightning__name = "TBoss5GryphonLightning";
+const char *TBoss5GryphonLightning::class_name = "TBoss5GryphonLightning";
 }
 
 TBoss5GryphonLightning::TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 scale) : TObject(parent) {
     s32 i;
-    m_name = TBoss5GryphonLightning__name;
+    m_name = TBoss5GryphonLightning::class_name;
     VecCopy(&this->start, pos);
     VecCopy(&this->end, &this->start);
     this->scale = scale;

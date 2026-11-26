@@ -93,12 +93,12 @@ const char *container_ancient_item_rare_name = "TOContainerAncientItemRare";
 const char *container_ancient_item_none_name = "TOContainerAncientItemNone";
 const char *container_ancient_enemy_name = "TOContainerAncientEnemy";
 const char *container_ancient_enemy_common_name = "TOContainerAncientEnemyCommon";
-const char *TOContainerAncientEnemyRare__name = "TOContainerAncientEnemyRare";
+const char *TOContainerAncientEnemyRare::class_name = "TOContainerAncientEnemyRare";
 
 // The three fragment texture lists of the current floor, loaded with the
 // archive (ancient_container_resource_bundle) by
 // TLanguage::load_container_fragment_textures. Both share one 8-aligned
-// .sbss block (0x805D58E8) that stays unclaimed until the bundle can be
+// .sbss block that stays unclaimed until the bundle can be
 // defined here (see spawn_break_effects).
 extern NJS_TEXLIST **ancient_container_fragment_texture_lists;
 
@@ -488,7 +488,7 @@ void TOContainerAncientEnemy::spawn_break_effects() const {
         b.floor_y = this->position.y;
         b.model = get_bml_model(ancient_container_resource_bundle, 2);
         b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-        if (check_value_equals(TOContainerAncientEnemyRare__name) != 0) {
+        if (check_value_equals(TOContainerAncientEnemyRare::class_name) != 0) {
             a.textures = ancient_container_fragment_texture_lists[1];
             b.textures = ancient_container_fragment_texture_lists[2];
         }
@@ -526,7 +526,7 @@ void *TOContainerAncientEnemyCommon::create(void *set_data) {
 }
 
 TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
-    m_name = TOContainerAncientEnemyRare__name;
+    m_name = TOContainerAncientEnemyRare::class_name;
     texlist = *ancient_container_fragment_texture_lists;
 }
 

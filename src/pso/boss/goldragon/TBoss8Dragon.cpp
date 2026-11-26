@@ -94,14 +94,9 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-extern "C" {
-}
 extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
-extern "C" {
-
-}
 AttackParams *boss8_dragon_part_hp_stats[5];
 Boss8DragonParams *boss8_dragon_behavior_params[3];
 Vec boss8_dragon_node_origin;
@@ -111,11 +106,6 @@ Vec boss8_dragon_breath_local_points[3];
 NJS_CNK_MODEL boss8_dragon_capture_chunk_model;
 Vec boss8_dragon_reference_pos_vec;
 Vec dragon_forward_reference_vec;
-extern "C" {
-
-
-
-}
 void free_collision_body_parts(TObjCollidable *actor);
 
 extern BmlResource *boss8_dragon_resource;

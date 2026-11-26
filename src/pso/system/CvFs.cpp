@@ -17,7 +17,7 @@ extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];
 s32 lbl_805D7600;
 u32 lbl_80581A30[75];
-// CVFS version banner: the first string of this file's pool (0x8047CF30).
+// CVFS version banner: the first string of this file's pool.
 char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
 s8 fs_default_device_name[12];
 TLobbyEntry cvfs_entry_table[32];
@@ -168,7 +168,7 @@ void cvFsInit(void) {
 }
 
 // The functions below were dead-stripped by the linker; only their error strings survive, in this
-// order, at the head of the file's string pool (0x8047CF60-0x8047D67C). Minimal bodies that report
+// order, at the head of the file's string pool. Minimal bodies that report
 // those strings keep the pool offsets of the functions that remain.
 inline void cvfs_error(const char *msg) {
     if (cvfs_completion_callback != NULL) {

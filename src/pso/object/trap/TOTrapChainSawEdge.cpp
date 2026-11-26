@@ -57,10 +57,6 @@
 #include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
-extern "C" {
-}
-
-
 typedef struct P_802C86D4 {
     u8 pad0[2];
     u16 sA;

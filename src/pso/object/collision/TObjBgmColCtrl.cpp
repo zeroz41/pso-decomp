@@ -26,11 +26,11 @@ const char *area_music_filename_table[6] = {
     "SHOP.adx", "GUILD.adx", "MEDICAL.adx", "soutoku.adx", "city.adx", "labo.adx",
 };
 
-struct Names_8017E1E4 { const char *name[2]; };
+struct LobbyThemeNames { const char *name[2]; };
 
 
 s32 bgm_zone_category;
-s32 lbl_805D5B04;
+s32 bgm_zone_claimed;
 // The root the BGM collision zones hang under (created next to the controller).
 TObject *bgm_col_ctrl_instance;
 u32 bgm_col_ctrl_current_theme_id;
@@ -39,9 +39,9 @@ void create_bgm_col_zones(void);
 extern s32 tl_05;
 
 
-struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
+struct BgmZoneRow { Vec pos; f32 radius; s32 category; };
 
-const Row_8017E550 lbl_80443690[12] = {
+const BgmZoneRow pioneer2_ep1_bgm_zones[12] = {
     {{-2.11f, 0.0f, -0.24f}, 72.0f, 4},
     {{-165.09f, 0.0f, 100.0f}, 41.0f, 4},
     {{184.49f, 0.0f, 144.57f}, 38.0f, 4},
@@ -55,7 +55,7 @@ const Row_8017E550 lbl_80443690[12] = {
     {{0.66f, 0.0f, -1728.83f}, 52.0f, 3},
     {{0.0f, 0.0f, -2000.0f}, 81.0f, 3},
 };
-const Row_8017E550 lbl_80443780[12] = {
+const BgmZoneRow pioneer2_ep2_bgm_zones[12] = {
     {{160.7f, 0.0f, 40.87f}, 41.0f, 4},
     {{32.6f, 0.0f, 62.73f}, 28.0f, 4},
     {{-21.28f, 0.0f, -60.15f}, 27.0f, 4},
@@ -70,7 +70,7 @@ const Row_8017E550 lbl_80443780[12] = {
     {{12.82f, 0.0f, -204.0f}, 26.0f, 2},
 };
 
-struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
+struct BgmZoneView { u8 pad[0x9C]; s32 category; };
 
 
 const char *bgm_col_name = "TObjBgmCol";
@@ -103,7 +103,7 @@ TObjBgmCol::~TObjBgmCol() {
 }
 
 void TObjBgmCol::run_task() {
-    Zone_8017E748 *zone = (Zone_8017E748 *)this;
+    BgmZoneView *zone = (BgmZoneView *)this;
     if (get_quest_bgm_issued_flag() == 0) {
         switch (check()) {
         case 1:
@@ -115,10 +115,10 @@ void TObjBgmCol::run_task() {
                 }
                 bgm_zone_category = zone->category;
             }
-            lbl_805D5B04 = 1;
+            bgm_zone_claimed = 1;
             return;
         case 0:
-            lbl_805D5B04 = 1;
+            bgm_zone_claimed = 1;
             break;
         case 2:
             break;
@@ -160,17 +160,17 @@ void create_bgm_col_zones(void) {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {
-            VecCopy(&set.position, &lbl_80443690[i].pos);
-            set.scale.x = lbl_80443690[i].radius;
-            set.set_params[0] = lbl_80443690[i].category;
+            VecCopy(&set.position, &pioneer2_ep1_bgm_zones[i].pos);
+            set.scale.x = pioneer2_ep1_bgm_zones[i].radius;
+            set.set_params[0] = pioneer2_ep1_bgm_zones[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
         for (i = 0; i < 12; i++) {
-            VecCopy(&set.position, &lbl_80443780[i].pos);
-            set.scale.x = lbl_80443780[i].radius;
-            set.set_params[0] = lbl_80443780[i].category;
+            VecCopy(&set.position, &pioneer2_ep2_bgm_zones[i].pos);
+            set.scale.x = pioneer2_ep2_bgm_zones[i].radius;
+            set.set_params[0] = pioneer2_ep2_bgm_zones[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);
         }
         break;
@@ -214,12 +214,12 @@ void TObjBgmColCtrl::run_task() {
                 TObjBgmColCtrl::play_lobby_theme_music();
             }
         } else {
-            lbl_805D5B04 = 0;
+            bgm_zone_claimed = 0;
             TObject *root = bgm_col_ctrl_instance;
             if (root != NULL) {
                 root->run_tasks();
             }
-            if ((s32) lbl_805D5B04 == 0) {
+            if ((s32) bgm_zone_claimed == 0) {
                 if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
@@ -235,7 +235,7 @@ void TObjBgmColCtrl::render() {  }
 
 
 void TObjBgmColCtrl::play_lobby_theme_music() {
-    Names_8017E1E4 names = {{"city.adx", "LOBBY.ADX"}};
+    LobbyThemeNames names = {{"city.adx", "LOBBY.ADX"}};
     const char *name;
     if (get_current_floor_area() == AREA_LOBBY) {
         name = names.name[1];

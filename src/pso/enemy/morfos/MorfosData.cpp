@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"
 
-// Data-only unit split off the morfos enemy at 0x804774A0; the referencing unit keeps these extern.
+// Data-only unit split off the morfos enemy; the referencing unit keeps these extern.
 
 __declspec(section ".rodata") const s32 morfos_attack_param_ids[2] = {
     0x00000040, 0x00000050,

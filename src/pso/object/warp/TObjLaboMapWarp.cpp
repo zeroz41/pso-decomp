@@ -158,11 +158,6 @@ const char *TObjCityMapWarp::class_name = "TObjCityMapWarp";
 const char *TObjLaboMapWarp::class_name = "TObjLaboMapWarp";
 
 void update_main_warp_visible_mask(s32 select_type);
-extern "C" {
-
-}
-
-
 #pragma push
 #pragma fp_contract on
 TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range) {

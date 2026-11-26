@@ -5,9 +5,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/memory.h"
 
-extern "C" {
-}
-
 void mem_free(void *allocation) {
     if (allocation != NULL) {
         xfree(allocation);

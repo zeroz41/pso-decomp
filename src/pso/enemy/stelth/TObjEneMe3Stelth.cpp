@@ -2088,7 +2088,7 @@ void TObjEneMe3Stelth::spawn_footstep_effects() {
     }
 }
 
-// dead-stripped; reconstructed from its pooled literals: 23.0f (.sdata2 0x805DA810) is pooled
+// dead-stripped; reconstructed from its pooled literals: 23.0f is pooled
 // between try_spawn_ground_effect's 1.0f and spawn_footstep_effects's 12.0f, before its first live user.
 // Body after its sibling spawn_footstep_effects (a ground effect on a motion frame); name inferred.
 void TObjEneMe3Stelth::spawn_ground_effect_on_frame_23() {

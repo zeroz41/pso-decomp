@@ -36,13 +36,13 @@ extern const f32 boss6_type2_b_wait_speed;      // B_WAIT
 }
 extern const ModelNodePositionEntry boss6_type2_effect_desc_table[20];
 extern const s32 boss6_type2_variant_id_table[4];
-extern const s32 lbl_8047128C[2];
+extern const s32 boss6_type2_body_model_indices[2];
 extern const Boss6StripDesc boss6_type2_plot_falz_entry_table[2];
 extern const s32 boss6_type2_zero_vec[4];
 extern const Blk_802BCFD4 boss6_type2_zero_motion_block;
 extern const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform;
-extern const Tbl_802BBE20 lbl_8047130C[3];
-extern const s32 lbl_8047133C[2];
-extern const Vec lbl_80471344;
+extern const Tbl_802BBE20 boss6_type2_collision_body_nodes[3];
+extern const s32 boss6_type2_mag_spawn_offsets[2];
+extern const Vec boss6_type2_player_aim_offset;
 
 #endif

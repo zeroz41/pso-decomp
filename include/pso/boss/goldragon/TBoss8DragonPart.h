@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
-// The TBoss8Dragon that TBoss8Dragon::spawn_attack_object creates. Its table (0x804F1A78) differs from
+// The TBoss8Dragon that TBoss8Dragon::spawn_attack_object creates. Its table differs from
 // TBoss8Dragon's only in the destructor and run_task slots.
 class TBoss8DragonPart : public TBoss8Dragon {
 public:

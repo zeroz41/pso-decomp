@@ -38,7 +38,7 @@ struct Ent_8017873C
 };
 
 extern "C" {
-CollisionBody lbl_804B4550[1] = {
+CollisionBody symbolchatcolli_collision_body_parts[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 const char *symbolchatcolli_prs = "symbolchatcolli.prs";
@@ -166,7 +166,7 @@ TOSymbolchatColli::TOSymbolchatColli(TObject *parent, saddr set_data) : TObjChar
     s32 i;
     m_name = symbolchat_colli_name;
     apply_object_set_data((void *)set_data);
-    init_collision_body_parts(this, lbl_804B4550, 1);
+    init_collision_body_parts(this, symbolchatcolli_collision_body_parts, 1);
     this->register_object_by_id();
     this->init_collision_params();
     for (i = 0; i < 4; i++) {

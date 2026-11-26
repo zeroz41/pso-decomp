@@ -3,7 +3,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/DragonAttackParams.h"
 
-// Data-only unit split off the flower enemy: the .rodata block at 0x8043BA68.
+// Data-only unit split off the flower enemy: the .rodata block.
 // The referencing units (TObjEneRe2Flower, TObjEneDD) keep these extern so
 // their per-object lis/addi codegen is unchanged; this unit only provides bytes.
 

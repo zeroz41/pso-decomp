@@ -2,8 +2,8 @@
 #include "pso/map/AreaEventSet.h"
 #include "pso/map/MapSetArchive.h"
 // Area event sets: the per-floor event records (".evt" files from gsl_set_event.gsl), their
-// byte swapping, sync records and the destroy-event spawn. One TU: its .rodata opens 8-aligned at
-// 0x8044BAC8 after TLobby_80207DA8's padded strings, its .sbss after that unit's 4-byte pad.
+// byte swapping, sync records and the destroy-event spawn. One TU: its .rodata opens 8-aligned
+// after TLobby_80207DA8's padded strings, its .sbss after that unit's 4-byte pad.
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"

@@ -112,10 +112,10 @@ void handle_6x67_trigger_set_event(game_command_header *command) {
     }
 }
 
-TObjEnvSound::TObjEnvSound(TObject *parent, void *arg2) : TObjBase(parent) {
+TObjEnvSound::TObjEnvSound(TObject *parent, void *set_data) : TObjBase(parent) {
     const Row_80190AA0 *table;
     m_name = env_sound_class_name;
-    apply_object_set_data(arg2);
+    apply_object_set_data(set_data);
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
         copy_pair__18TObjEnvSoundGlobalFPvPv(&cue, (void *)&table[set_params[0]]);
@@ -142,9 +142,9 @@ TObjEnvSound::~TObjEnvSound() {
 }
 
 void TObjEnvSound::run_task() {
-    f32 temp_f0;
-    temp_f0 = radius;
-    if ((fn_801908F8((saddr)this, (f32) (temp_f0 * temp_f0)) != 0) && (is_sound_enabled(this->cue) != 0)) {
+    f32 range;
+    range = radius;
+    if ((is_within_camera_distance_sq((saddr)this, (f32) (range * range)) != 0) && (is_sound_enabled(this->cue) != 0)) {
         switch (this->mode) {
         case 0:
             break;
@@ -167,8 +167,8 @@ void *TObjEnvSound::create(void *rader_map_core) {
     return new TObjEnvSound(tl_05, rader_map_core);
 }
 
-s32 fn_801908F8(saddr arg0, f32 farg0) {
-    return xyz_distance_squared(&camera_ctrl_instance->pos, &reinterpret_cast<const TObjBase *>(arg0)->position) < farg0;
+s32 is_within_camera_distance_sq(saddr object, f32 distance_sq) {
+    return xyz_distance_squared(&camera_ctrl_instance->pos, &reinterpret_cast<const TObjBase *>(object)->position) < distance_sq;
 }
 
 s32 TObjEnvSound::is_sound_enabled(s32 cue) {
@@ -266,9 +266,9 @@ void *TObjEnvSoundEx::create(void *rader_map_core) {
     return new TObjEnvSoundEx(tl_05, (saddr)rader_map_core);
 }
 
-TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, saddr arg2) : TObjBase(parent) {
+TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, saddr set_data) : TObjBase(parent) {
     m_name = env_sound_global_class_name;
-    apply_object_set_data((void *)arg2);
+    apply_object_set_data((void *)set_data);
     setup_sound();
 }
 

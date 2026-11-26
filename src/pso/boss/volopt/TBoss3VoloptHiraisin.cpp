@@ -28,8 +28,6 @@
 #include "pso/object/base/ActorCollision.h"
 
 
-extern "C" {
-}
 void free_collision_body_parts(TObjCollidable *actor);
 
 extern TObject *tl_04;

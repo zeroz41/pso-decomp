@@ -74,7 +74,7 @@ DoorModelSet TObjDoor::model_resource_ptrs;
 
 NJS_TEXLIST *TObjDoor::resource_param;
 BmlResource *door_resource_handle;
-s32 TObjDoor__data_805D5BC8;
+s32 door_force_locked_flag;
 
 #pragma push
 #pragma fp_contract on
@@ -143,7 +143,7 @@ void TObjDoor::run_task() {
         &TObjDoor::update_closing, &TObjDoor::update_opening_glow, &TObjDoor::update_open,
     };
     s32 saved = this->state;
-    if (TObjDoor__data_805D5BC8 != 0) {
+    if (door_force_locked_flag != 0) {
         this->state = 0;
         set_indexed_flags(0, 1);
     } else {
@@ -155,7 +155,7 @@ void TObjDoor::run_task() {
     } else {
         minimap_render_gate(&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
     }
-    if (TObjDoor__data_805D5BC8 != 0) {
+    if (door_force_locked_flag != 0) {
         this->state = saved;
     }
 }
@@ -165,7 +165,7 @@ void TObjDoor::update_state() {
     switch(this->state) {
     case 0:
         if(is_current_floor_switch_set((u16)this->switchId)==1) {
-            if(TObjDoor__data_805D5BC8==0)this->accentFrame=(0.0f);
+            if(door_force_locked_flag==0)this->accentFrame=(0.0f);
             if(this->cameraMode==0)this->state=2;
             else this->state=1;
         }
@@ -216,7 +216,7 @@ void TObjDoor::render() {
         &TObjDoor::draw_closing, &TObjDoor::draw_opening, &TObjDoor::draw_model,
     };
     s32 saved = this->state;
-    if (TObjDoor__data_805D5BC8 != 0) {
+    if (door_force_locked_flag != 0) {
         this->state = 0;
     }
     if (this->state == 0 || this->state == 2) {
@@ -226,7 +226,7 @@ void TObjDoor::render() {
     } else if (update_object_view_visibility(700.0f, 250.0f) != 0) {
         (this->*draw_fns[this->state])();
     }
-    if (TObjDoor__data_805D5BC8 != 0) {
+    if (door_force_locked_flag != 0) {
         this->state = saved;
     }
 }

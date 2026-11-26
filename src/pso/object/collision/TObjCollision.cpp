@@ -12,9 +12,7 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-}
-const char *TObjCollision__name = "TObjCollision";
+const char *TObjCollision::class_name = "TObjCollision";
 
 void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
@@ -31,7 +29,7 @@ TObjCollision::~TObjCollision() {
 TObjCollision::TObjCollision(TObject *parent, void *set_data) : TObjCollidable(parent) {
     s32 flag;
     saddr data = (saddr)set_data;
-    this->m_name = TObjCollision__name;
+    this->m_name = TObjCollision::class_name;
     VecCopy(&this->position, (const Vec *)(data + 0xC));
     copy_xyz(&this->rotation_x, (void *)(data + 0x18));
     VecCopy(&this->scale, (const Vec *)(data + 0x24));

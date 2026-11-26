@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjMistCtrl : public TObjBase {
+    static const char *class_name;
     TObjMistCtrl(saddr parent, uaddr);
     virtual ~TObjMistCtrl();
     void sub_802AF64C();

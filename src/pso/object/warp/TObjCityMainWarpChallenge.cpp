@@ -41,7 +41,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/player/PlayerSlots.h"
-const char *TObjCityMainWarpChallenge__name = "TObjCityMainWarpChallenge";
+const char *TObjCityMainWarpChallenge::class_name = "TObjCityMainWarpChallenge";
 static const char debug_next_stage_format[] = "<- NEXT STAGE No.%d";
 static const char debug_key_id_format_challenge[] = "<- KEY ID : %d";
 
@@ -51,7 +51,7 @@ s32 is_local_client_floor_leader(s32);
 void request_active_window_close(void);
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = TObjCityMainWarpChallenge__name;
+    m_name = TObjCityMainWarpChallenge::class_name;
     frame = 0.0f;
     warp_range = 19.0f;
     dest_floor = set_params[0];

@@ -6357,7 +6357,7 @@ force_active:
   - init_6x91_subcommand__FP31G_UpdateAttackableColState_6x91
   - fn_801811FC
   - fn_80181204
-  - fn_801908F8
+  - is_within_camera_distance_sq
   - get_warp_string_screen_position
   - fn_8019F9AC
   - alloc_player_ids__Fl
@@ -7545,15 +7545,15 @@ force_active:
   - lobby_window_title_block_jump
   - lobby_window_title_ship_jump
   - lobby_window_title_taisen_team
-  - lbl_804416F8
-  - lbl_80441710
-  - lbl_80441730
-  - lbl_80441748
-  - lbl_80441760
-  - lbl_80441780
-  - lbl_80441798
-  - lbl_804417B4
-  - lbl_804417D0
+  - fe_obj_turiten_kuro_gj
+  - fe_obj_turiten_moto_taiki_gj
+  - fs_obj_turiten_singo_gj
+  - fe_obj_turiten_moto_njm
+  - fe_obj_turiten_moto_taiki_njm
+  - fe_obj_turiten_moto_bml
+  - fe_obj_gc_turiten_moto_gj
+  - fe_obj_gc_turiten_moto_njm
+  - bm_obj_ruins_turiten_bml
   - hangceiling_cave01_normal_class_name_string
   - hangceiling_cave01_key_class_name_string
   - lbl_80441858
@@ -7600,7 +7600,7 @@ force_active:
   - lbl_80444250
   - lbl_80444E5C
   - lbl_80444EA8
-  - lbl_80445CD8
+  - debug_select_color_label
   - lbl_80446F94
   - lbl_80446F9C
   - lbl_80446FA4
@@ -7795,9 +7795,9 @@ force_active:
   - __vt__16TObjEneMerillLia
   - slime_model_index_by_type
   - slime_tail_attack_param_ids
-  - lbl_80496C68
-  - lbl_80496C90
-  - lbl_80496CB8
+  - slime_one_paired_motions_target0
+  - slime_one_paired_motions_target1
+  - slime_one_paired_motion_table
   - stelth_model_names
   - stelth_motion_names
   - stelth_low_model_names
@@ -7965,8 +7965,8 @@ force_active:
   - npc_very_hard_set_13
   - npc_very_hard_set_11
   - npc_very_hard_set_15
-  - lbl_804B2174
-  - lbl_804B4550
+  - hangceiling_cave01_collision_body_parts
+  - symbolchatcolli_collision_body_parts
   - gogo_ball_configs
   - gogo_ball_shadow_texanim
   - three_point_goal_team0
@@ -8125,18 +8125,18 @@ force_active:
   - epsilon_body_movement_params
   - epsilon_body_collision_bodies
   - epsilon_body_debug_line_colors
-  - lbl_804F2B78
-  - lbl_804F2B80
-  - lbl_804F2B90
-  - lbl_804F2B98
-  - lbl_804F2BA8
-  - lbl_804F2BB0
-  - lbl_804F2BC0
-  - lbl_804F2BC8
-  - lbl_804F2BD8
-  - lbl_804F2BE0
-  - lbl_804F2BF0
-  - lbl_804F2BF8
+  - bm_obj_comp_army_model_filenames
+  - bm_obj_comp_army_resource_descriptor
+  - bm_obj_comp_norm_model_filenames
+  - bm_obj_comp_norm_resource_descriptor
+  - bm_obj_desk_model_filenames
+  - bm_obj_desk_resource_descriptor
+  - bm_obj_partition_army_model_filenames
+  - bm_obj_partition_army_resource_descriptor
+  - bm_obj_partition_norm_model_filenames
+  - bm_obj_partition_norm_resource_descriptor
+  - bm_obj_table_labo_model_filenames
+  - bm_obj_table_labo_resource_descriptor
   - lbl_804F3A18
   - toneup_tab
   - tonedown_tab
@@ -8381,8 +8381,8 @@ force_active:
   - lbl_805D64AC
   - lbl_805D6800
   - lbl_805D6804
-  - lbl_805D6808
-  - lbl_805D681C
+  - jungle_nokogiri_resource
+  - effect_uv_scroll_last_tick
   - mericarol_bml
   - mericarol_render_texture_buffer
   - lbl_805D6910
@@ -16874,7 +16874,7 @@ force_active:
   - update_fall_to_ground__15TObjEneDelDepthFv
   - update_farthest_target__18TObjEneRe4SorcererFP9TObjCharaPf
   - update_field_40__16PhotonBlastGaugeFv
-  - update_flag_0x3C0__17TObjEneDf2BringerFv
+  - update_held_target__17TObjEneDf2BringerFv
   - update_flags
   - update_flight__21TObjEneRe7BeruraPunchFv
   - update_flight_state__12TBoss1DragonFUl

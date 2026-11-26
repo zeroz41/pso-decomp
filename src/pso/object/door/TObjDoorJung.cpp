@@ -50,10 +50,6 @@ s32 door_jung_beam_blue_texture;
 
 struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
-extern "C" {
-}
-
-
 void TObjDoorJung::free_buffers() {
     if (door_jung_door_scene_buffer != NULL) {
         ((TScene *)door_jung_door_scene_buffer)->destroy_buffers(1);

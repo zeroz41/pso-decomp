@@ -332,7 +332,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
 void TOCtrlDubchik::run_demo_task() {  }
 
 // Dead-stripped from the DOL: no code of it survives. The TU's .sdata2 pool opens
-// with 0.0 (0x805DB3A8) ahead of receive_weapon_special_attack's 1.0 although that
+// with 0.0 ahead of receive_weapon_special_attack's 1.0 although that
 // function loads 1.0 first, so a function before it used 0.0 first. Minimal body:
 // it clears the two part offsets the constructor zeroes and render reads.
 // Name inferred from that role.

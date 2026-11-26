@@ -14,9 +14,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
 
-extern "C" {
-}
-
 const char *TObjEneDellBiter_Eff_Rush__name = "TObjEneDellBiter_Eff_Rush";
 const char *TObjEneDellBiter_Eff_TpAbsorb1::class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
 extern const AreaAttackContact dell_biter_tp_absorb_hit_params = {3.0f, 3};

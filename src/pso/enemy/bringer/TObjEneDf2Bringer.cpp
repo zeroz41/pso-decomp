@@ -509,7 +509,7 @@ void TObjEneDf2Bringer::update_if_in_band() {
 
 // Without a held target (flag 8) it follows the linked position; a held target that is no
 // longer valid clears the flag.
-s32 TObjEneDf2Bringer::update_flag_0x3C0() {
+s32 TObjEneDf2Bringer::update_held_target() {
     s32 valid;
     if (!(status_flags & 8)) {
         return update_linked_position(300.0f);
@@ -817,7 +817,7 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (update_flag_0x3C0() != 0) {
+        if (update_held_target() != 0) {
             enemy_copy_target_destination();
             update_velocity();
         }

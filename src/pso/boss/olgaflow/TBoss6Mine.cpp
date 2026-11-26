@@ -52,7 +52,7 @@ CollisionBody TBoss6Mine::collision_body_template[1] = {
 };
 
 extern "C" {
-const char *lbl_805D4178 = "TBoss6Mine";
+const char *TBoss6Mine::class_name = "TBoss6Mine";
 
 void TBoss6Mine::render_shadows() {
     if (position.y >= 0.0f) {
@@ -340,7 +340,7 @@ TBoss6Mine::~TBoss6Mine() {
 TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy(parent) {
     TBoss6MineStateRecord record;
     f32 f;
-    m_name = lbl_805D4178;
+    m_name = TBoss6Mine::class_name;
     owner = set_data->owner;
     VecCopy(&position, &set_data->origin);
     VecCopy(&target_pos, &set_data->offset);

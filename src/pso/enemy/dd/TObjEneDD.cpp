@@ -33,8 +33,6 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/network/TLobby.h"
-extern "C" {
-}
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
@@ -82,14 +80,7 @@ TAttackCollider *obj_ene_dd_instance;
 #include "pso/unk/text_803D853C.h"
 
 
-extern "C" {
-}
 #include <dolphin/mtx.h>
-
-
-extern "C" {
-}
-
 
 
 TargetCandidate enemy_target_candidate_table[4];

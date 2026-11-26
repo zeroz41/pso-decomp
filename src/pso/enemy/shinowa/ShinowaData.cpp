@@ -5,7 +5,7 @@
 #include "pso/enemy/shinowa/ShinowaData.h"
 
 // String objects are named after their contents.
-// .rodata 0x8043CE00-0x8043CF40 of the Shinowa code (the StelthData.cpp shape): the code
+// .rodata block of the Shinowa code (the StelthData.cpp shape): the code
 // addresses each object on its own, so it did not compile them itself.
 
 extern const BreakUpParamRow shinowa_mirage_breakup_params = { 0x14, 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f };

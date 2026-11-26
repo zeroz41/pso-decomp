@@ -15,7 +15,7 @@
 
 
 extern "C" {
-const char *TObjBoss5Ctrl__name = "TObjBoss5Ctrl";
+const char *TObjBoss5Ctrl::class_name = "TObjBoss5Ctrl";
 }
 
 void TObjBoss5Ctrl::play_pillar_sound() {
@@ -53,7 +53,7 @@ TObjBoss5Ctrl::~TObjBoss5Ctrl() {
 }
 
 TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
-    m_name = TObjBoss5Ctrl__name;
+    m_name = TObjBoss5Ctrl::class_name;
     floor_grass = NULL;
     floor_stone = NULL;
     pillar_controller = NULL;

@@ -32,8 +32,6 @@
 #include "pso/player/PlayerActionProvider.h"
 
 extern const char TEnding__class_name_string[] = "TEnding";
-extern "C" {
-}
 void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table

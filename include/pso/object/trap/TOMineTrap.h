@@ -9,6 +9,7 @@ struct TObjPlayer;
 extern "C" s32 fn_80171314(TObjPlayer *player);
 
 struct TOMineTrap : public TOMine {
+    static const char *class_name;
     // owner: the actor that placed it; kind 0-3 picks the attack; slot is its index among the owner's traps.
     TOMineTrap(TObjBase *owner, s16 kind, s16 slot);
     virtual ~TOMineTrap();

@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOTrap : public TObjChara {
+    static const char *class_name;
     TOTrap(TObject *parent);
     virtual ~TOTrap();
     virtual void find_target_player();

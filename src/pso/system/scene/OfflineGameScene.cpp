@@ -682,7 +682,7 @@ void TLobby::reset_quest_counter() { lobby_quest_progress_flag = 0; }
 void TLobby::set_cleanup_flag() { quest_warp_enabled = 1; }
 
 void TObjDoor::reset_instance() {
-    TObjDoor__data_805D5BC8 = 0;
+    door_force_locked_flag = 0;
 }
 
 void TLobby::reset_door_state() { switch_doors_force_closed = 0; }

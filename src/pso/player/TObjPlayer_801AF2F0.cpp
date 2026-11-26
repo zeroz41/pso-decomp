@@ -213,7 +213,6 @@ s32 is_palettex_activated(u16);
 void *__construct_array(void *, void *, void *, u32, u32);
 }
 
-extern const char *TOMineTrap__name;
 extern const char *TObjPlayer__player_set_class_name;
 extern const f32 player_front_distance;
 extern Vec scratch_vec5;
@@ -5251,7 +5250,7 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damag
   if (TTecCtrl::is_technique_ready() != 0)
   {
     obj = att;
-    if ((reinterpret_cast<TObject *>(obj)->check_value_equals(TOMineTrap__name) != 0) && (((TOMineTrap *)obj)->get_trap_type() != 0xFFFF))
+    if ((reinterpret_cast<TObject *>(obj)->check_value_equals(TOMineTrap::class_name) != 0) && (((TOMineTrap *)obj)->get_trap_type() != 0xFFFF))
     {
       obj = ((u32 (*)(void))find_entity_by_id)();
     }

@@ -2833,7 +2833,7 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
         state_floats[3] = -1.0f;
         state_floats[2] = 0.0f;
         state_ints[4] = 0x500;
-        TObjBoss7Tunnel::clear_flags_0x3000();
+        TObjBoss7Tunnel::stop_sway();
         state_flags &= 0xFFFFFDFF;
         break;
     case 2:
@@ -3237,7 +3237,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         if (crawfish_parent != NULL) {
             crawfish_parent->queue_destruction_for_each_node();
         }
-        TObjBoss7Tunnel::clear_flags_0x3000();
+        TObjBoss7Tunnel::stop_sway();
         TWindowCtrl::suppress_all_slots();
         {
             cam.index = 0;
@@ -3312,7 +3312,7 @@ void TBoss7DeRolLeC::handle_despawn_state(u32 event) {
         set_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
-        TObjBoss7Tunnel::set_flag_0x200();
+        TObjBoss7Tunnel::request_phase_1();
         return;
     case 0:
         queue_destruction();

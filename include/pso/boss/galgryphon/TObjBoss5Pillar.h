@@ -12,6 +12,7 @@ struct TObjBoss5PillarSmoke;
 // A pillar of the Gal Gryphon arena. play_sound_once starts it: models[0] then
 // plays its motion once with smoke on the model's nodes; models[1] is always drawn.
 struct TObjBoss5Pillar : public TObject {
+    static const char *class_name;
     TObjBoss5Pillar(TObject *parent, Vec *pos);
     virtual ~TObjBoss5Pillar();
     virtual void run_task();

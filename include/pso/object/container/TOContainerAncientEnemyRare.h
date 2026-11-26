@@ -5,6 +5,7 @@
 #include "pso/object/container/TOContainerAncientEnemy.h"
 
 struct TOContainerAncientEnemyRare : public TOContainerAncientEnemy {
+    static const char *class_name;
     TOContainerAncientEnemyRare(void *set_data);
     virtual ~TOContainerAncientEnemyRare();
     static void *create(void *set_data);

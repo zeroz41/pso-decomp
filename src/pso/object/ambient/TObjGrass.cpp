@@ -271,9 +271,8 @@ void *TObjGrass::create(void *set_data) {
 
 void TObjGrass::run_task() {
     s16 mode;
-    s32 temp_r30;
     u16 client;
-    TObjPlayer *temp_r3_2;
+    TObjPlayer *player;
     TObjChara *target;
     if (TObjPlayer::check_demo_mode() == 1) {
         sub_800BCA2C();
@@ -281,10 +280,10 @@ void TObjGrass::run_task() {
     }
     client = this->targetId;
     if (client < 0x1000U) {
-        temp_r3_2 = get_player_by_client_id(client);
-        if (temp_r3_2 != NULL) {
-            if (temp_r3_2->get_floor() == get_current_floor()) {
-                this->target = temp_r3_2;
+        player = get_player_by_client_id(client);
+        if (player != NULL) {
+            if (player->get_floor() == get_current_floor()) {
+                this->target = player;
                 goto done;
             }
         }
@@ -834,7 +833,7 @@ void TObjGrass::run_attack_action() {
 void TObjGrass::sub_800BDD70() {
     Vec sp20;
     Vec dst;
-    Vec sp8;
+    Vec to_target;
     s32 ang;
     Vec *ent;
     s32 idx;
@@ -848,9 +847,9 @@ void TObjGrass::sub_800BDD70() {
             this->actorFlags &= ~0x200000;
             this->timer = 0;
         } else {
-            VecCopy(&sp8, &this->target->body_center);
-            subtract_vector(&sp8, &this->body_center);
-            ang = turn_toward_direction(((GrassMoveParams *)this->movementParameters)->turn, &sp8);
+            VecCopy(&to_target, &this->target->body_center);
+            subtract_vector(&to_target, &this->body_center);
+            ang = turn_toward_direction(((GrassMoveParams *)this->movementParameters)->turn, &to_target);
             apply_actor_gravity(this, (s32 *)(0), (0.0f));
             if (ang < this->attack_params->get_attack_angle()) {
                 this->phase = 1;

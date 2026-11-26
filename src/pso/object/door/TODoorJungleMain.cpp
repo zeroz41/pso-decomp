@@ -89,12 +89,6 @@ const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
-extern "C" {
-
-
-
-
-}
 s32 is_any_player_near(saddr object);
 
 

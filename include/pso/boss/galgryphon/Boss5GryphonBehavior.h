@@ -53,7 +53,7 @@ extern NJS_TEXLIST *boss5_gryphon_texture_list;
 // floor probes clamp to it (and use it when there is no floor); a tornado is not spawned above it.
 extern const f32 gryphon_max_floor_height;
 
-// Gal Gryphon tuning constants (.sdata2 0x805D8D80..0x805D8ECC), defined in Boss5GryphonBehaviorSdata2.cpp.
+// Gal Gryphon tuning constants, defined in Boss5GryphonBehaviorSdata2.cpp.
 extern const f32 gryphon_twelve;
 extern const f32 gryphon_ground_height;
 extern const f32 gryphon_one;

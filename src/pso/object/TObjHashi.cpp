@@ -28,17 +28,17 @@
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
 // a model's texture list (TObjFish_8001ED90), still named after their units.
 
-// The unit's .sdata2 float pool (0x805DBE20-0x805DBE40) is still referenced
+// The unit's .sdata2 float pool is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no
 // source arrangement found yet gives the original order 120, 400, 40, 0, 640,
 // 0.15, 30 (written source gives 120, 0, 640, 400, 40, 0.15, 30).
-extern const f32 lbl_805DBE20; // 120.0f, TObjHashiVersus2's model radius
-extern const f32 lbl_805DBE24; // 400.0f, the view depth
-extern const f32 lbl_805DBE28; // 40.0f, the model radius
+extern const f32 hashi_versus2_model_radius; // TObjHashiVersus2's model radius
+extern const f32 hashi_view_depth; // the view depth
+extern const f32 hashi_model_radius; // the model radius
 extern const f32 lbl_805DBE2C; // 0.0f
-extern const f32 lbl_805DBE30; // 640.0f, the screen width
-extern const f32 lbl_805DBE34; // 0.15f, the rise speed
-extern const f32 lbl_805DBE38; // 30.0f, how far below its raised height it starts
+extern const f32 hashi_screen_width; // the screen width
+extern const f32 hashi_rise_speed; // the rise speed
+extern const f32 hashi_start_drop; // how far below its raised height it starts
 
 __declspec(section ".data") const char *fe_obj_hashi_model_names[2] = { "fe_obj_hashi.gj", NULL };
 __declspec(section ".sdata") const char *fe_obj_hashi_motion_names[1] = { NULL };
@@ -114,17 +114,17 @@ TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TObjMapObject(pa
     m_name = class_name;
     apply_object_set_data(set_data);
     switchId = set_params[0];
-    view_range = lbl_805DBE24;
-    model_radius = lbl_805DBE28;
+    view_range = hashi_view_depth;
+    model_radius = hashi_model_radius;
     if (is_current_floor_switch_set((u16)switchId) == 1) {
         object_state = 2;
         raisedHeight = position.y;
-        riseSpeed = lbl_805DBE34;
+        riseSpeed = hashi_rise_speed;
     } else {
         object_state = 0;
         raisedHeight = position.y;
-        position.y = position.y - lbl_805DBE38;
-        riseSpeed = lbl_805DBE34;
+        position.y = position.y - hashi_start_drop;
+        riseSpeed = hashi_rise_speed;
     }
 }
 
@@ -216,7 +216,7 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
         view.y = -((camera_right.y * radius) - position.y);
         view.z = -((camera_right.z * radius) - position.z);
         project_world_to_screen(NULL, &view, screen);
-        if (screen[0] > lbl_805DBE30) {
+        if (screen[0] > hashi_screen_width) {
             visibility = 0;
             return 0;
         }
@@ -296,7 +296,7 @@ TObjHashiVersus2::TObjHashiVersus2(TObject *parent, void *set_data) : TObjHashiB
         position.y = position.y - scale.x;
     }
     riseSpeed = scale.y;
-    model_radius = lbl_805DBE20;
+    model_radius = hashi_versus2_model_radius;
     model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
     texlist = get_bml_texlist((BmlResource *)bml_resource, 0);
     init_collision_body_parts(this, hashi_versus2_collision_bodies, 2);
@@ -325,10 +325,10 @@ void *TObjHashiVersus2::create(void *set_data) {
     return new TObjHashiVersus2(tl_05, set_data);
 }
 
-extern const f32 lbl_805DBE20 = 120.0f;
-extern const f32 lbl_805DBE24 = 400.0f;
-extern const f32 lbl_805DBE28 = 40.0f;
+extern const f32 hashi_versus2_model_radius = 120.0f;
+extern const f32 hashi_view_depth = 400.0f;
+extern const f32 hashi_model_radius = 40.0f;
 extern const f32 lbl_805DBE2C = 0.0f;
-extern const f32 lbl_805DBE30 = 640.0f;
-extern const f32 lbl_805DBE34 = 0.15f;
-extern const f32 lbl_805DBE38 = 30.0f;
+extern const f32 hashi_screen_width = 640.0f;
+extern const f32 hashi_rise_speed = 0.15f;
+extern const f32 hashi_start_drop = 30.0f;

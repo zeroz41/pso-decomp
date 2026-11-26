@@ -9,6 +9,7 @@ class TWindowCheckBox;
 struct TWindowMessageYesNo;
 
 struct TObjCityMainWarpChallenge : public TObjAreaWarp {
+    static const char *class_name;
     TObjCityMainWarpChallenge(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarpChallenge();
     void sub_801875F8();

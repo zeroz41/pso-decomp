@@ -100,8 +100,6 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_801AF2F0.h"
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
-extern "C" {
-}
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};

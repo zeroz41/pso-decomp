@@ -7,7 +7,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 
-// .rodata 0x80475DF0-0x80476098, defined by SinowZoaData.cpp (the DelDepthData.cpp
+// .rodata block, defined by SinowZoaData.cpp (the DelDepthData.cpp
 // shape): TObjEneMe3SinowZoa.cpp addresses each object on its own.
 extern "C" {
 // TObjEneMe3SinowZoa.cpp .data; both animation bindings point at it.
