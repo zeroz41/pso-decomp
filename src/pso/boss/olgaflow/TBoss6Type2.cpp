@@ -121,7 +121,7 @@ extern const s32 boss6_type2_hit_effect_node_table[] = { 4, 9, 11, 0 };
 
 
 
-struct Blk_802BCFD4;
+struct MotionIndexBlock;
 
 // The body runs one motion track (trk[], TBoss6Type2Motion::motion[]); track 0 follows
 // the motion table rows. The code loads both from .sdata2, and CW puts them inside the
@@ -711,7 +711,7 @@ void TBoss6Type2::set_action_state(s32 action) {
     }
 }
 
-Blk_802BCFD4 *TBoss6Type2::copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s) {
+MotionIndexBlock *TBoss6Type2::copy_block(MotionIndexBlock *d, const MotionIndexBlock *s) {
     *d = *s;
     return d;
 }
@@ -720,7 +720,7 @@ void TBoss6Type2MotionTrack::copy_from(TBoss6Type2MotionTrack *src) { *this = *s
 
 void TBoss6Type2::init_motion_entries() {
     s32 i;
-    TBoss6Type2::copy_block((Blk_802BCFD4 *)&motion_index, &boss6_type2_zero_motion_block);
+    TBoss6Type2::copy_block((MotionIndexBlock *)&motion_index, &boss6_type2_zero_motion_block);
     for (i = 0; i < get_motion_track_count(); i++) {
         TBoss6Type2MotionTrack *e = &motion_tracks[i];
         AnimationMotion *motion;
@@ -1211,7 +1211,7 @@ void TBoss6Type2::update_collision_bodies() {
     CollisionBody *e;
     if (this->bodies != NULL) {
         for (i = 0; i < 3; i++) {
-            const Tbl_802BBE20 *t;
+            const CollisionBodyNode *t;
             e = &this->bodies[i];
             t = &boss6_type2_collision_body_nodes[i];
             base = NULL;
@@ -2158,9 +2158,9 @@ void TBoss6Type2::update_part_positions() {
     s32 i = 0;
     do {
         Vec v = position;
-        const Tbl_802B9C00 *e = &TBoss6Type2::particle_attachment_table[i];
+        const ParticleAttachment *e = &TBoss6Type2::particle_attachment_table[i];
         if (particle_emitters[i] != 0) {
-            s32 idx = e->b;
+            s32 idx = e->node;
             if (idx >= 0) {
                 VecCopy(&v, &node_positions[idx]);
             }
@@ -2173,7 +2173,7 @@ void TBoss6Type2::update_part_positions() {
 void TBoss6Type2::spawn_particle_slot(s32 slot) {
     if (particle_emitters[slot] == 0) {
         Vec v = position;
-        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2::particle_attachment_table[slot].a);
+        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2::particle_attachment_table[slot].effect_id);
         if (particle_emitters[slot] != 0) {
             particle_emitters[slot]->set_flags(0x40);
         }

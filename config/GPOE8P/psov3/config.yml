@@ -382,10 +382,10 @@ force_active:
   - effect_table__18TBoss5GryphonSnarl
   - __ct__15TBoss6CrushPtclFP7TObjectP3Vec
   - name__15TBoss6CrushRock
-  - TBoss6Demo10_TYPE1_APPEAR__class_name
-  - TBoss6Demo10_TYPE1_APPEAR__name
+  - boss6_type1_appear_class_name
+  - boss6_type1_appear_name_tag
   - __ct__25TBoss6Demo20_TYPE2_APPEARFP14TBoss6PlotFalz
-  - TBoss6Demo20_TYPE2_APPEAR__name
+  - boss6_type2_appear_name_tag
   - __ct__23TBoss6Demo21_TYPE2_DEADFP14TBoss6PlotFalzPC3Vec
   - name__23TBoss6Demo21_TYPE2_DEAD
   - __ct__14TBoss6EffHyouiFP7TObjectUsll
@@ -3954,7 +3954,7 @@ force_active:
   - apply_remote_action__13TBoss5GryphonFP28G_GalGryphonBossActions_6xA0
   - apply_resta_heal__11TBoss4Type2Fv
   - apply_rock_hits_to_players__11TBoss6Type2Fv
-  - apply_room_transform__FlPUcPUc
+  - apply_room_transform__FP3VecPlP20SceneMaterialSection
   - apply_room_transform_to_enemy_rows__FP40ApplyRoomTransformToEnemyRowsSpawnRecordl
   - apply_room_transform_to_object_rows__FP17FloorObjectSetRowl
   - apply_rule_configuration__19TPlayerBattleCtrl4PFl
@@ -7469,7 +7469,7 @@ force_active:
   - bm_ene_bm1_shark_bml_filename
   - bm_ene_bm1_shark_a_bml_filename
   - flower_bomb_attack
-  - TObjEneRe2Flower_EffCurse3__class_name_string
+  - re2_flower_eff_curse3_class_name_string
   - nano_drago_beam_forward
   - slime_tail_model_name_bm4_ps_ma_body_nj
   - slime_tail_model_name_bm4_ps_ma_tail_nj

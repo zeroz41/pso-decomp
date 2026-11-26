@@ -670,12 +670,13 @@ void TObjWarpBoss::send_cmd_6A(u16 value) {
 }
 
 void handle_6x6A_set_boss_warp_flags(void *packet) {
+    G_SetBossWarpFlags_6x6A *packet_gsetbosswarpflags6x6a = (G_SetBossWarpFlags_6x6A *)packet;
     TObjCollidable *entity;
 
     ((TWindowSubTradeMain *)packet)->bswap_6x6A_packet();
-    entity = find_entity_by_id(((G_SetBossWarpFlags_6x6A *)packet)->header.entity_id);
+    entity = find_entity_by_id(packet_gsetbosswarpflags6x6a->header.entity_id);
     if (entity != NULL) {
-        ((TObjWarpBoss *)entity)->next_state = ((G_SetBossWarpFlags_6x6A *)packet)->flags;
+        ((TObjWarpBoss *)entity)->next_state = packet_gsetbosswarpflags6x6a->flags;
     }
 }
 

@@ -37,6 +37,6 @@ LAYOUT_ASSERT(TBoss6Demo20_TYPE2_APPEAR_size, sizeof(TBoss6Demo20_TYPE2_APPEAR) 
 
 LAYOUT_ASSERT(TBoss6Demo20_capture_offset, offsetof(TBoss6Demo20_TYPE2_APPEAR, capture) == 0x7C);
 LAYOUT_ASSERT(TBoss6Demo20_parts_offset, offsetof(TBoss6Demo20_TYPE2_APPEAR, opening_parts) == 0xA4);
-typedef struct Ent_8033D6DC { s32 start; s32 end; s32 id; s32 src; } Ent_8033D6DC;
+typedef struct ParticleScheduleEntry { s32 start; s32 end; s32 id; s32 src; } ParticleScheduleEntry;
 
 #endif

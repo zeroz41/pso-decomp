@@ -283,7 +283,7 @@ void TDeadSpot::spawn_kind2_scale25(const Vec *point, s32 delay) {
 
 
 void TObjPlayer__sub_800D93F0(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
-    new TUnk_80494A10(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
+    new TDeadSpotFade(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
 void TDeadSpot::spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale) {

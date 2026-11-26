@@ -154,8 +154,8 @@ void TOTrapAncient01::render() {
     }
     fade = &fades[i];
     fade->update();
-    m_340 = update_object_view_visibility(400.0f, 20.0f);
-    if (m_340 == 1) {
+    visible = update_object_view_visibility(400.0f, 20.0f);
+    if (visible == 1) {
         if (fade->updateFromCamera(&position) == 1) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;

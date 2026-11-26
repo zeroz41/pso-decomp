@@ -26,8 +26,8 @@
 
 void * player_render_texture_buffer;
 
-extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
-const char *TObjEneRe2Flower_EffCurse3::class_name = TObjEneRe2Flower_EffCurse3__class_name_string;
+extern const char re2_flower_eff_curse3_class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
+const char *TObjEneRe2Flower_EffCurse3::class_name = re2_flower_eff_curse3_class_name_string;
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
@@ -68,15 +68,14 @@ TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase
     }
 }
 
-struct Node_800C4D88 { void *p; s32 v; };
 GinjaTextureInput player_render_target;
 NJS_TEXNAME player_render_texture_name;
-__declspec(section ".data") Node_800C4D88 lbl_80500C30;
+__declspec(section ".data") NJS_TEXLIST lbl_80500C30;
 
 void free_curse_resources(void) {
-    void *p = &lbl_80500C30;
+    NJS_TEXLIST *p = &lbl_80500C30;
     if (p != 0) {
-        release_texture_list((NJS_TEXLIST *)p);
+        release_texture_list(p);
     }
     if (player_render_texture_buffer != 0) {
         mem_free(player_render_texture_buffer);
@@ -87,7 +86,7 @@ void free_curse_resources(void) {
 void TObjPlayer::create_render_texture() {
     player_render_target.set_render_rect(player_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
-    lbl_80500C30.p = &player_render_texture_name;
-    lbl_80500C30.v = 1;
-    psoLoadTexture((NJS_TEXLIST *)&lbl_80500C30);
+    lbl_80500C30.textures = &player_render_texture_name;
+    lbl_80500C30.nbTexture = 1;
+    psoLoadTexture(&lbl_80500C30);
 }

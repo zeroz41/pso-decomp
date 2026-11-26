@@ -15,8 +15,6 @@
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/player/TObjPlayer.h"
 
-struct O_800EC39C { u8 pad[0x384]; s32 state; };
-
 extern "C" {
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
@@ -40,8 +38,7 @@ s32 TObjEneSlimeOne::get_attack_target() { return variant; }
 extern BmlResource *slime_bml_resource;
 
 s32 TObjEneSlimeOne::is_in_water_bomb_states() {
-    O_800EC39C *self = (O_800EC39C *)this;
-    return self->state == 11 || self->state == 12 || self->state == 13;
+    return (s32)state == 11 || (s32)state == 12 || (s32)state == 13;
 }
 
 BmlResource *TObjEneSlimeOne::get_instance() { return slime_bml_resource; }

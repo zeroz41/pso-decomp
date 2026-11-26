@@ -665,7 +665,7 @@ void move_snapshot_frame(void) {
 }
 
 void draw_snapshot_capture_overlay(void) {
-    Quad_8007D828 q;
+    ScreenQuad q;
     ProjectedVertex v[4];
     s32 i;
     set_default_alpha_blend();

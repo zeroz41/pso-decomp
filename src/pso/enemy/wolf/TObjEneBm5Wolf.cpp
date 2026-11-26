@@ -242,7 +242,7 @@ void *TObjEneBm5Wolf::create(void *set_data) {
     return new TObjEneBm5Wolf(tl_04, set_data);
 }
 
-void TObjEneBm5Wolf::release_global_805D5120() {
+void TObjEneBm5Wolf::free_resources() {
     if (bm5_wolf_bml_resource != 0) {
         delete bm5_wolf_bml_resource;
         bm5_wolf_bml_resource = 0;

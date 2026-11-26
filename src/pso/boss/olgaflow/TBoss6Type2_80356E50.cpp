@@ -9,7 +9,7 @@ void TBoss6Type2__sub_80356E50(s32 ids, s32 cnt, s32 force) {
     TBoss6Type2::send_subordinate_actions(0, ids, cnt, force, ids);
 }
 
-struct Pkt_80356F28 { u8 b[0x40]; };
+struct SubordinateActionPacket { u8 b[0x40]; };
 
 // The two packet flag bits are loaded from .sdata2 ahead of the function's float literals: file constants
 // read through inlined references, emitted at their first user (the TBoss6Type2.cpp form).
@@ -42,7 +42,7 @@ void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
 }
 
 void TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused) {
-    Pkt_80356F28 pkt;
+    SubordinateActionPacket pkt;
     s32 i;
 
     clear_6xAD_action_buffer((s8 *)&pkt);

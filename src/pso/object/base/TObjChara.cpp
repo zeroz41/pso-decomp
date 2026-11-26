@@ -118,6 +118,9 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/render/DebugFont.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
 
@@ -151,19 +154,14 @@ struct CharaResetView {
 
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
-s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
-void * find_entity_by_id(s32 id);
 s32 record_damage_stats(void *, void *, void *);
-void matrix_mult_vec(s32, void *, void *);
 extern const f64 angle_units_per_radian;
-extern TObjCollidable *entity_table[];
 extern const f64 newton_sqrt_half;
 extern const f64 newton_sqrt_three;
 extern const char meseta_label_text[];
 extern const char miss_label_text[];
 extern s32 current_floor_index;
-extern TObject *tl_07;
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
@@ -1043,7 +1041,7 @@ s32 TObjChara::is_target_in_attack_range() {
     f32 prod;
     if (target != NULL && attack_params != NULL &&
         target->all_parents_unqueued_for_destruction() != 0 &&
-        ((u8 * (*)(u16))find_entity_by_id)(target->get_entity_id()) != NULL) {
+        find_entity_by_id(target->get_entity_id()) != NULL) {
         t = target;
         if (!(t->actorFlags & 0x800)) {
             if (t->bodies != NULL) {
@@ -1357,7 +1355,7 @@ s32 TObjChara::select_melee_contact_body(TObjChara *attacker, f32 factor) {
         for (i = 0; i < body_count; i++) {
             if (!(bodies[i].flags & 0x02000000)) {
                 VecCopy(&point, &bodies[i].offset);
-                matrix_mult_vec(0, &point, &point);
+                matrix_mult_vec(NULL, &point, &point);
             }
             dist = point.x * point.x + point.z * point.z;
             r = (bodies[i].radius + attacker->get_attack_range()) * (bodies[i].radius + attacker->get_attack_range());
@@ -3279,7 +3277,7 @@ s32 is_entity_locally_controlled(s32 id) {
     if ((u16)id == 0xFFFF || (u16)id >= 0x1000) {
         return 0;
     }
-    p = find_entity_by_id(id);
+    p = ((TObjCollidable * (*)(s32))find_entity_by_id)(id);
     if (p == 0) {
         return 0;
     }

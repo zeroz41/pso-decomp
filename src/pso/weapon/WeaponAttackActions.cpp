@@ -317,7 +317,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle)
     }
 }
 
-void TItemWeapon::fill_status_info(S_802E451C *params) {
+void TItemWeapon::fill_status_info(AttackColParams *params) {
     remap_extra_attack_type();
     params->client_id = static_cast<s16>(owner->get_entity_id());
     params->room = owner->get_room();

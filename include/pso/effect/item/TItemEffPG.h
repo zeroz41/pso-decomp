@@ -14,7 +14,7 @@ class TItemEffPGModel;
 class TParticleCtrl;
 
 // TItemEffPG's parameters (init_params fills in the defaults).
-struct ItemEffPGParams : S_802E451C {
+struct ItemEffPGParams : AttackColParams {
     f32 max_radius;      // at most 50
     f32 required_charge;
     f32 radius_step;     // added to the radius each frame

@@ -550,7 +550,7 @@ TObjSuisoChip::TObjSuisoChip(TObjBase *owner, TObjChipParams *params) : TObjChip
         origin.x = 0.0f;
         rotation_y = 0;
     }
-    pad_244 = 0;
+    hide_chips = 0;
     pad_248 = 20;
 }
 
@@ -565,7 +565,7 @@ TObjSuisoChip::TObjSuisoChip(TObjBase *owner, TObjChipSpawnParams *params) : TOb
         origin.x = 0.0f;
         rotation_y = 0;
     }
-    pad_244 = 0;
+    hide_chips = 0;
     pad_248 = 20;
 }
 
@@ -575,7 +575,7 @@ void TObjSuisoChip::draw_ginja_chips() {
     TObjChipPiece *piece;
     s32 i;
 
-    if (pad_244 != 1) {
+    if (hide_chips != 1) {
         piece = pieces;
         push_matrix();
         post_translate_matrix(&origin.x);

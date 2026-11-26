@@ -11,7 +11,7 @@ extern const s32 re4_bit_base_param_ids[2];
 extern const s32 re4_bit_attack_param_ids[2];
 extern const s32 re4_bit_resistance_param_ids[2];
 extern const s32 re4_bit_behavior_param_ids[2];
-extern const char TObjEneRe4Bit__class_name_string[];
+extern const char re4_bit_class_name_string[];
 
 struct Re4BitShadowScale {
     Vec scale;

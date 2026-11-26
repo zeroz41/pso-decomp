@@ -28,9 +28,9 @@ struct TObjChipParams {
 // TObjChipParams followed by the data spawn_chips reads (at +0x4C).
 struct TObjChipSpawnParams {
     TObjChipParams chip;
-    s32 pad_4C;
+    s32 angle_x; // x, y and z are the rotation array spawn_chips takes
     s32 angle_y; // name inferred: TOTrapSeabed01 gives each fragment chip a y angle here
-    s32 pad_54;
+    s32 angle_z;
     u8 pad_58[0xC];
 };
 

@@ -12,7 +12,7 @@
 const char *TObjBoss8PillerCtrl::class_name = "TObjBoss8PillerCtrl";
 
 // grid steps around the centre, ring by ring; {0xFFFF, 0xFFFF} closes a ring
-const Ent_8035C03C boss8_piller_ctrl_params[41] = {
+const PillerGridStep boss8_piller_ctrl_params[41] = {
     {0, 0}, {0xFFFF, 0xFFFF},
     {1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {0xFFFF, 0xFFFF},
     {2, 0}, {-2, 0}, {-1, 1}, {-1, -1}, {2, 1}, {2, -1}, {-1, 2}, {-1, -2}, {0, 2}, {0, -2}, {1, 2}, {1, -2}, {0xFFFF, 0xFFFF},

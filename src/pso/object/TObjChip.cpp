@@ -53,9 +53,9 @@ TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjCh
     dst.model = src->model;
     dst.textures = src->textures;
     dst.flags = src->flags;
-    spawn->pad_54 = 0;
+    spawn->angle_z = 0;
     spawn->angle_y = 0;
-    spawn->pad_4C = 0;
+    spawn->angle_x = 0;
     return spawn;
 }
 
@@ -63,8 +63,8 @@ TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjCh
 TObjChip::TObjChip(TObject *parent, const TObjChipParams *params) : TObject(parent) {
     m_name = obj_chip_class_name_ptr;
     copy_debris_params(&this->params, params);
-    pad_1c = 200.0f;
-    pad_20 = 40.0f;
+    view_depth = 200.0f;
+    view_radius = 40.0f;
     alive = 1;
     if (init_chips() == 0) {
         alive = 0;
@@ -92,10 +92,10 @@ void TObjChip::copy_debris_params(TObjChipParams *dst, const TObjChipParams *src
 TObjChip::TObjChip(TObject *parent, TObjChipSpawnParams *params) : TObject(parent) {
     m_name = obj_chip_class_name_ptr;
     copy_debris_params(&this->params, &params->chip);
-    pad_1c = 200.0f;
-    pad_20 = 40.0f;
+    view_depth = 200.0f;
+    view_radius = 40.0f;
     alive = 1;
-    if (spawn_chips(&params->pad_4C) == 0) {
+    if (spawn_chips(&params->angle_x) == 0) {
         alive = 0;
     }
 }

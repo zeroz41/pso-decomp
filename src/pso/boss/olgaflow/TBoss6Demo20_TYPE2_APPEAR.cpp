@@ -33,7 +33,7 @@ extern "C" {
 const ModelNodePositionEntry boss6_type2_appear_model_node_descriptors[9] = {
     {0x24}, {0x30}, {0x36}, {0x3A}, {0x48}, {0x4B}, {0x4E}, {0x52}, {-1},
 };
-const Ent_8033D6DC boss6_type2_appear_particle_schedule[9] = {
+const ParticleScheduleEntry boss6_type2_appear_particle_schedule[9] = {
     {42, 142, 554, -1},
     {135, 385, 552, -1},
     {148, 200, 557, 1},
@@ -199,7 +199,7 @@ void TBoss6Demo20_TYPE2_APPEAR::run_task() {
         break;
     }
     for (i = 0; i < 9; i++) {
-        const Ent_8033D6DC *e = &boss6_type2_appear_particle_schedule[i];
+        const ParticleScheduleEntry *e = &boss6_type2_appear_particle_schedule[i];
         if (timer >= e->start && timer < e->end) {
             const Vec *p = &boss6_type2_appear_origin;
             if (e->src == -2) {
@@ -257,7 +257,7 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
 extern "C" {
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
-__declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name;
+__declspec(section ".sdata") extern AppearanceClassTag boss6_type2_appear_name_tag;
 }
 
 #pragma push
@@ -270,7 +270,7 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
     s32 v;
     BmlResource *archive;
     saddr i;
-    m_name = TBoss6Demo20_TYPE2_APPEAR__name.value;
+    m_name = boss6_type2_appear_name_tag.value;
     this->plot = plot;
     archive = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
@@ -320,5 +320,5 @@ __declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = 
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
 extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
-__declspec(section ".sdata") AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name = {TBoss6Demo20_TYPE2_APPEAR::class_name, 0};
+__declspec(section ".sdata") AppearanceClassTag boss6_type2_appear_name_tag = {TBoss6Demo20_TYPE2_APPEAR::class_name, 0};
 }

@@ -20,7 +20,7 @@ public:
 
     Vec origin;      // the owner's position
     s32 rotation_y;  // the owner's y turn
-    s32 pad_244;     // 1 hides the chips in draw_ginja_chips
+    s32 hide_chips;     // 1 hides the chips in draw_ginja_chips
     s32 pad_248;
 };
 

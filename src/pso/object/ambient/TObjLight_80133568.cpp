@@ -115,6 +115,7 @@ void register_actor_light(s32 id, TObjLight *light) {
 }
 
 void publish_light_direction_color(u32 id, void *dir, void *color) {
+    NJS_ARGB *color_njsargb = (NJS_ARGB *)color;
     s32 add;
     s32 i;
     ActorLight *e;
@@ -125,7 +126,7 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
             if (id == e->id) {
                 light_table[i].id = id;
                 VecCopy(&e->direction, (const Vec *)dir);
-                copy_argb(&e->color, (NJS_ARGB *)color);
+                copy_argb(&e->color, color_njsargb);
                 add = 0;
                 light_table[i].flags |= 2;
                 break;
@@ -137,7 +138,7 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
         if (add) {
             light_table[light_count].id = id;
             VecCopy(&light_table[light_count].direction, (const Vec *)dir);
-            copy_argb(&light_table[light_count].color, (NJS_ARGB *)color);
+            copy_argb(&light_table[light_count].color, color_njsargb);
             light_table[light_count].flags |= 2;
             light_count++;
         }
