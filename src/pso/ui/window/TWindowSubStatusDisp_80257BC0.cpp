@@ -38,8 +38,6 @@ struct Desc_80257D44 {
     u32 recs[1];
 };
 
-__declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
-
 void draw_visible_window_entries(const void *, const WindowLayoutEntries *entries, WindowDrawContext *context) {
     void *const *part;
     u32 remaining;
@@ -54,7 +52,7 @@ void draw_visible_window_entries(const void *, const WindowLayoutEntries *entrie
 void TWindowBase::update_window_entry_list(const WindowLayoutEntries *entries) {
     void *const *part;
     u32 remaining;
-    if (!(window_flags & 0x2000) && (f32)open_tick < lbl_805DCEF0) {
+    if (!(window_flags & 0x2000) && (f32)open_tick < 7.5f) {
         return;
     }
     remaining = entries->count;

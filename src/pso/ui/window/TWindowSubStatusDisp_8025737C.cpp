@@ -22,12 +22,7 @@ extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
 }
 void set_constant_material_color(u32 x);
-extern "C" {
-extern const float lbl_805DCE58;
-
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
-
-}
 
 // The four bytes of a colour as copy4 stores them into TWindowStatusGauge::color.
 struct ColorBytes { u8 r, g, b, a; };
