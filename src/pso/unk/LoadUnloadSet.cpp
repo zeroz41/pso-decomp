@@ -33,7 +33,7 @@ void LoadUnloadSet::init_order() {
 void LoadUnloadSet::unload() {
     s32 i;
     void (*f)();
-    if (test_flags_any(&flags.bits, 1) != 0) {
+    if (flags.test_flags_any(1) != 0) {
         for (i = count - 1; i >= 0; i--) {
             if (order != 0) {
                 f = entries[order[i]].unload;
@@ -51,7 +51,7 @@ void LoadUnloadSet::unload() {
 void LoadUnloadSet::load() {
     s32 i;
     void (*f)();
-    if (test_flags_any(&flags.bits, 1) == 0) {
+    if (flags.test_flags_any(1) == 0) {
         shuffle_order();
         for (i = 0; i != count; i++) {
             if (order != 0) {

@@ -150,7 +150,7 @@ void PhotonBlastRequest::reset() {
     clear_slots();
 }
 
-int PhotonBlastGauge::is_blast_requested() { return test_flags_any(&flags.bits, 4); }
+int PhotonBlastGauge::is_blast_requested() { return flags.test_flags_any(4); }
 
 int get_photon_blast_request_count() { return 4; }
 
@@ -160,7 +160,7 @@ void PhotonBlastRegistry::reset_request(s32 index) { slots[index].reset(); }
 
 void PhotonBlastRequest::mark_in_use() { flags.set(1); }
 
-int PhotonBlastRequest::is_free() { return test_flags_any(&flags.bits, 1) == 0; }
+int PhotonBlastRequest::is_free() { return flags.test_flags_any(1) == 0; }
 
 void PhotonBlastRequestSlot::set_client_id(u16 id) { client_id = id; }
 

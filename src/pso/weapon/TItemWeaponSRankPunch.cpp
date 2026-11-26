@@ -110,8 +110,8 @@ void TItemWeaponSRankPunch::transform_model_node() {
     void *p;
     switch (get_model_node_counter()) {
     case 1:
-        if (test_flags_any((s32 *)&flags, 2) == 0) {
-            if (test_flags_any((s32 *)&flags, 1)) {
+        if (flags.test_flags_any(2) == 0) {
+            if (flags.test_flags_any(1)) {
                 p = second_model;
             } else {
                 p = model_data[1];
@@ -173,7 +173,7 @@ void TItemWeaponSRankPunch::clear_rico_ring_flag(TObject *object) {
 
 NJS_OBJECT *get_punch_shot_model(u8 *weapon) {
     TItemWeaponSRankPunch *punch = (TItemWeaponSRankPunch *)weapon;
-    if (test_flags_any((s32 *)&punch->flags, 4) != 0) {
+    if (punch->flags.test_flags_any(4) != 0) {
         return punch->second_model;
     }
     return (NJS_OBJECT *)punch->model_data[1];

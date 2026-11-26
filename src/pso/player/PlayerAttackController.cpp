@@ -100,10 +100,10 @@ s32 is_valid_attack_kind(s16 kind) {
 
 void PlayerAttackController::queue_physical_attack_input(TObjPlayer *player, s32 channel, s16 maximum_stage) {
     s16 kind;
-    if (test_flags_any(&get_flags()->bits, 2) == 0 || is_flag32_clear() == 0) {
+    if (get_flags()->test_flags_any(2) == 0 || is_flag32_clear() == 0) {
         get_flags()->set(4);
     }
-    if (test_flags_any(&get_flags()->bits, 2) != 0 && test_flags_any(&get_flags()->bits, 4) == 0) {
+    if (get_flags()->test_flags_any(2) != 0 && get_flags()->test_flags_any(4) == 0) {
         get_flags()->set(1);
         advance_and_clamp_state();
         if (get_validated_attack_stage() > maximum_stage) {
@@ -117,7 +117,7 @@ void PlayerAttackController::queue_physical_attack_input(TObjPlayer *player, s32
 }
 
 s32 PlayerAttackController::tick_burst_recovery() {
-    if (test_flags_any(&flags.bits, 8) != 0) {
+    if (flags.test_flags_any(8) != 0) {
         return tick_recovery_timer();
     }
     return 0;
@@ -217,7 +217,7 @@ s16 LockOnTargetRecord::get_part() { return flag; }
 
 void PlayerAttackController::set_saved_attack_stage(s16 stage) { pending_stage = stage; }
 
-int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags.bits, 32) == 0; }
+int PlayerAttackController::is_flag32_clear() { return flags.test_flags_any(32) == 0; }
 
 CapturedTarget *PlayerAttackController::get_first_target() { return lockon_targets.get_captured_target_entry(0); }
 

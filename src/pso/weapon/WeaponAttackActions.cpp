@@ -829,7 +829,7 @@ void apply_weapon_node_material(NJS_OBJECT *) {
     }
     if(node == weapon_node_ids[0] || node == weapon_node_ids[1] || node == weapon_node_ids[2]) {
         TItem::begin_effect_render();
-        if(test_flags_any((s32 *)&item_render_state, 4)) {
+        if(item_render_state.test_flags_any(4)) {
             NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
             TItem::begin_constant_material_color(&color);
         }
@@ -954,7 +954,7 @@ void TItemWeapon::apply_owner_bonuses() {
     }
 }
 void TItemWeapon::on_equip() {
-    if (test_flags_any((s32 *)&effect_flags, 1) != 0) {
+    if (effect_flags.test_flags_any(1) != 0) {
         if (!(get_item_flags() & 0x20) && is_current_area_item_enabled() != 0) {
             owner->set_action_provider_variant(get_motion_type());
         }

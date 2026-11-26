@@ -171,7 +171,7 @@ void TItemEquipBase::remove_equip_effects() {
 }
 
 s32 TItemEquipBase::start_effect(u32 wanted, u32 started) {
-    if (test_flags_any(&effect_flags.bits, wanted) && !test_flags_any(&effect_flags.bits, started)) {
+    if (effect_flags.test_flags_any(wanted) && !effect_flags.test_flags_any(started)) {
         effect_flags.set(started);
         return 1;
     }
@@ -179,7 +179,7 @@ s32 TItemEquipBase::start_effect(u32 wanted, u32 started) {
 }
 
 s32 TItemEquipBase::stop_effect(u32 started) {
-    if (test_flags_any(&effect_flags.bits, started)) {
+    if (effect_flags.test_flags_any(started)) {
         effect_flags.clear(started);
         return 1;
     }
@@ -342,7 +342,7 @@ void TItemEquipBase::equip() {
         add_item_flags(ITEM_FLAG_EQUIPPED);
         add_equip_stats(1);
         if ((get_current_floor_area() != AREA_LOBBY) &&
-            !test_flags_any(&effect_flags.bits, EQUIP_EFFECT_MODEL_REQUESTED)) {
+            !effect_flags.test_flags_any(EQUIP_EFFECT_MODEL_REQUESTED)) {
             effect_flags.set(EQUIP_EFFECT_MODEL_REQUESTED);
             request_equipped_model();
         }

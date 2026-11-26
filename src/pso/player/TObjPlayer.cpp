@@ -527,7 +527,7 @@ TPlayerReadyCallback::TPlayerReadyCallback(TObject* parent, u16 id, void (*fn)(T
 
 void TPlayerLobbyMarker::set_material_index(u8 v) { this->material_index = v; }
 
-int ContactSurfaceState::has_water_ground_flag() { return test_flags_any(&word.bits, 4); }
+int ContactSurfaceState::has_water_ground_flag() { return word.test_flags_any(4); }
 
 void PlayerFollowParticles::set_grass_contact_point(const Vec *point) { VecCopy(&contact_points[1], point); }
 
@@ -1591,7 +1591,7 @@ void PhotonBlastDonation::decrement_state() {
     state -= 1;
 }
 
-int PhotonBlastGauge::has_ready_flag() { return test_flags_any(&flags.bits, 2); }
+int PhotonBlastGauge::has_ready_flag() { return flags.test_flags_any(2); }
 
 void PhotonBlastGauge::set_client_id(u16 id) { client_id = id; }
 
@@ -1689,7 +1689,7 @@ u8 TPlyCharData::get_power_materials_used() { return m_inventory.m_items[8].m_pr
 void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
 PhotonChairSeat::PhotonChairSeat() { reset(); }
 
-int PlayerCharDataEntry::has_character() { return test_flags_any((s32 *)&flags, 1); }
+int PlayerCharDataEntry::has_character() { return flags.test_flags_any(1); }
 PlayerGuildCardTag *PlayerCharDataEntry::get_lobby_header() { return &lobby_header; }
 TPlyCharData *PlayerCharDataEntry::get_char_data() { return &char_data; }
 s32 PlayerCharDataEntry::get_role() { return role; }

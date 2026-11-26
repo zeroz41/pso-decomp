@@ -67,7 +67,7 @@ void LobbyPlayerActionProvider::set_female_motions_loaded() {
 }
 
 s32 LobbyPlayerActionProvider::female_motions_loaded() {
-    return test_flags_any(&lobby_loaded_motion_sets.bits, 2);
+    return lobby_loaded_motion_sets.test_flags_any(2);
 }
 
 void LobbyPlayerActionProvider::set_male_motions_loaded() {
@@ -75,7 +75,7 @@ void LobbyPlayerActionProvider::set_male_motions_loaded() {
 }
 
 s32 LobbyPlayerActionProvider::male_motions_loaded() {
-    return test_flags_any(&lobby_loaded_motion_sets.bits, 1);
+    return lobby_loaded_motion_sets.test_flags_any(1);
 }
 
 void LobbyPlayerActionProvider::clear_loaded_motions() {

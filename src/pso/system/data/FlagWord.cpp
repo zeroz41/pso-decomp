@@ -5,8 +5,8 @@ void FlagWord::set(u32 mask) { bits |= mask; }
 
 void FlagWord::clear(u32 mask) { bits &= ~mask; }
 
-s32 test_flags_any(s32 *flags, s32 mask) {
-    return (*flags & mask) != 0;
+s32 FlagWord::test_flags_any(u32 mask) {
+    return (bits & mask) != 0;
 }
 
 FlagWord::FlagWord() { reset(); }

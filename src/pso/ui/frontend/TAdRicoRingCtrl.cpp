@@ -104,14 +104,14 @@ TAdRicoRing::TAdRicoRing(TObject *parent) : TObject(parent) {
 TAdRicoRing::~TAdRicoRing() {}
 
 void TAdRicoRing::run_task() {
-    if (test_flags_any(&flags.bits, 1) != 0) {
+    if (flags.test_flags_any(1) != 0) {
         update_position();
         if (scale[0] <= -1.0f) {
             queue_destruction();
             return;
         }
     }
-    if (test_flags_any(&flags.bits, 2) != 0) {
+    if (flags.test_flags_any(2) != 0) {
         update_position();
         f32 limit = target_scale;
         if (limit <= scale[0]) {
@@ -123,7 +123,7 @@ void TAdRicoRing::run_task() {
         }
     }
     angles[1] += angular_velocity;
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         angular_velocity += angular_acceleration;
         if (angular_velocity >= 0xCCC) {
             flags.clear(4);
@@ -166,7 +166,7 @@ void TAdRicoRing::render() {
 void TAdRicoRing::start_anim(f32 duration) {
     f32 step;
 
-    if (test_flags_any(&flags.bits, 2) != 0) {
+    if (flags.test_flags_any(2) != 0) {
         flags.clear(2);
     }
     flags.set(1);
@@ -182,7 +182,7 @@ void TAdRicoRing::start_anim(f32 duration) {
 void TAdRicoRing::start_fade(f32 duration) {
     f32 step;
 
-    if (test_flags_any(&flags.bits, 1) != 0) {
+    if (flags.test_flags_any(1) != 0) {
         flags.clear(1);
     }
     flags.set(2);

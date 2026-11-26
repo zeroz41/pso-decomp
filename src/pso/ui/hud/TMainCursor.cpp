@@ -1574,13 +1574,13 @@ u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&cursor_flags, 2); }
+int TMainCursor::test_flag_2_at_20() { return cursor_flags.test_flags_any(2); }
 
-int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&cursor_flags, 8); }
+int TMainCursor::init_render_flags() { return cursor_flags.test_flags_any(8); }
 
-int TMainCursor::update() { return test_flags_any((s32 *)&cursor_flags, 4); }
+int TMainCursor::update() { return cursor_flags.test_flags_any(4); }
 
-int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&cursor_flags, 1); }
+int TMainCursor::check_flag_1() { return cursor_flags.test_flags_any(1); }
 
 u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 
@@ -1670,7 +1670,7 @@ void ActionPriorityEntry::set_priority(s16 v) { priority = v; }
 
 u16 TLockOnCursor::get_target_id() { return target_id; }
 
-int TLockOnCursor::is_cursor_clear() { return (test_flags_any((s32 *)&flags, 1)) == 0; }
+int TLockOnCursor::is_cursor_clear() { return (flags.test_flags_any(1)) == 0; }
 
 void set_target_part(LockOnTargetPart *target, u16 part, s32 index, s32 flag) {
     target->actor_id = part;
@@ -1694,7 +1694,7 @@ void set_cursor_mode(void* p, u8 v) { set_action_palette_tag_mode(static_cast<Ac
 
 void LockOnTargetRecordList::set_count(s32 count) { this->count = count; }
 
-int LockOnTargetRecord::is_excluded() { return test_flags_any(&flags.bits, 2); }
+int LockOnTargetRecord::is_excluded() { return flags.test_flags_any(2); }
 
 int LockOnSelection::is_cursor_on_target() { return target.is_same_target(&cursor_target); }
 
@@ -1704,7 +1704,7 @@ void LockOnTargetRecord::clear_primary() { flags.clear(1); }
 
 void LockOnTargetRecord::set_excluded() { flags.set(2); }
 
-int TLockOnCursor::is_inactive() { return (test_flags_any(&this->flags.bits, 2)) == 0; }
+int TLockOnCursor::is_inactive() { return (this->flags.test_flags_any(2)) == 0; }
 
 void LockOnTargetRecord::clear_excluded() { flags.clear(2); }
 
@@ -1714,7 +1714,7 @@ s32 LockOnActionSlot::get_max_targets() { return max_targets; }
 int get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
 
 
-int LockOnTargetRecord::is_primary() { return test_flags_any(&flags.bits, 1); }
+int LockOnTargetRecord::is_primary() { return flags.test_flags_any(1); }
 
 s32 LockOnTargetRecordList::get_count() { return count; }
 

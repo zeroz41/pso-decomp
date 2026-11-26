@@ -79,7 +79,7 @@ ItemModelResource::ItemModelResource() {
     motion = NULL;
 }
 
-s32 AfsFileLoader::is_loaded() { return test_flags_any(&flags.bits, 2); }
+s32 AfsFileLoader::is_loaded() { return flags.test_flags_any(2); }
 
 NJS_OBJECT *ItemModelChunkLoader::get_model(s32 i) { return models[i]; }
 
@@ -331,13 +331,13 @@ AfsFileLoader::AfsFileLoader(const char *path, s32 id, s32 nfiles) : AfsPartitio
 }
 
 AfsFileLoader::~AfsFileLoader() {
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         item_load_work_buffer_busy = 0;
     }
 }
 
 void AfsFileLoader::advance_load_state() {
-    if (test_flags_any(&flags.bits, 4) == 0) {
+    if (flags.test_flags_any(4) == 0) {
         if (item_load_work_buffer_busy == 1) {
             return;
         }
@@ -353,7 +353,7 @@ void AfsFileLoader::advance_load_state() {
 
 void AfsFileLoader::update_load_state() {
     close();
-    if (test_flags_any(&flags.bits, 1) != 0) {
+    if (flags.test_flags_any(1) != 0) {
         state = 1;
         return;
     }
@@ -375,7 +375,7 @@ void AfsFileLoader::update_ring() {
 void AfsFileLoader::reset_state() {
     close();
     flags.set(2);
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         item_load_work_buffer_busy = 0;
         flags.clear(4);
     }
@@ -408,7 +408,7 @@ void AfsFileLoader::update_state() {
 }
 
 void AfsFileLoader::reset_ring_state() {
-    if (test_flags_any(&flags.bits, 4) != 0) {
+    if (flags.test_flags_any(4) != 0) {
         item_load_work_buffer_busy = 0;
         flags.clear(4);
     }

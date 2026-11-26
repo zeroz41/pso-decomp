@@ -13,7 +13,7 @@ void PalettexState::disable() { flags.clear(2); }
 
 void PalettexState::enable() { flags.set(3); }
 
-s32 PalettexState::is_activated() { return test_flags_any(&flags.bits, 1); }
+s32 PalettexState::is_activated() { return flags.test_flags_any(1); }
 
 void PalettexState::restore() { flags.clear(3); }
 

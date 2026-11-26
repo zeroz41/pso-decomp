@@ -1308,7 +1308,7 @@ G_PlayerRevived_6x4F &G_PlayerRevived_6x4F::operator=(const G_PlayerRevived_6x4F
 void TObjPlayer::send_6x4F_revived() {
     G_PlayerRevived_6x4F msg;
 
-    if (test_flags_any(&death_flags.bits, 4) != 0) {
+    if (death_flags.test_flags_any(4) != 0) {
         send_use_medical_center();
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
@@ -1448,7 +1448,7 @@ void TObjPlayer::update_active_state() {
             return;
         }
         run_action_state_phase(0xF, 0);
-        if (test_flags_any(&death_flags.bits, 1) != 0) {
+        if (death_flags.test_flags_any(1) != 0) {
             this->requested_action = this->get_action_animation();
         } else {
             this->restart_death_pose();
@@ -1493,7 +1493,7 @@ void TObjPlayer::send_6x4E_player_revivable() {
 }
 
 void TObjPlayer::update_action_render() {
-    if (test_flags_any(&death_flags.bits, 1) != 0) {
+    if (death_flags.test_flags_any(1) != 0) {
         this->requested_action = this->get_action_animation();
     } else {
         this->requested_action = this->get_model_field_m25();
@@ -1556,7 +1556,7 @@ void TObjPlayer::enter_death_state() {
     reset_on_death();
     clear_velocity();
     this->phase = 0;
-    if (test_flags_any(&death_flags.bits, 1) != 0) {
+    if (death_flags.test_flags_any(1) != 0) {
         this->set_action_state(0xF, (s16)get_no_action());
         this->restart_death_pose();
     } else {
@@ -1629,7 +1629,7 @@ void TObjPlayer::prepare_death() {
             death_flags.set(2);
         }
     }
-    if (test_flags_any(&death_flags.bits, 1) == 0) {
+    if (death_flags.test_flags_any(1) == 0) {
         this->drop_items_on_death();
     }
     if (is_action_input_disabled() != 0) {
@@ -3171,7 +3171,7 @@ void TObjPlayer::finish_attack_stage3() {
             run_action_state_phase(1, 5);
         }
     } else if (this->motion_flags & 0x10) {
-        if (test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
+        if (this->attack_state.get_flags()->test_flags_any(1) != 0) {
             this->phase = 4;
             this->requested_action = this->get_idle_animation();
             this->resume_motion();
@@ -3294,7 +3294,7 @@ void TObjPlayer::finish_attack_stage2() {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
-               test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
+               this->attack_state.get_flags()->test_flags_any(1) != 0) {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
         case 1:
@@ -3623,7 +3623,7 @@ void TObjPlayer::update_anim_action() {
             this->attack_state.register_strike(this);
         }
     } else {
-        if (test_flags_any(&this->attack_state.get_flags()->bits, 8) == 0) {
+        if (this->attack_state.get_flags()->test_flags_any(8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
@@ -3741,7 +3741,7 @@ void TObjPlayer::finish_attack_stage1() {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
-               test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
+               this->attack_state.get_flags()->test_flags_any(1) != 0) {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
             this->phase = 4;
@@ -3898,14 +3898,14 @@ void TObjPlayer::send_6x42_run_to_position() {
 }
 
 void TObjPlayer::handle_ring_release() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         run_action_state_phase(1, 0);
     }
 }
 
 void TObjPlayer::try_trigger_effect() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         run_action_state_phase(1, 5);
     }
@@ -3919,7 +3919,7 @@ void TObjPlayer::select_run_request() {
     magnitude = pad_binding.get_stick_magnitude();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         if (magnitude < 0.1f) {
-            if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+            if (move_speed.flags.test_flags_any(4) != 0) {
                 run_action_state_phase(1, 5);
                 return;
             }
@@ -3928,13 +3928,13 @@ void TObjPlayer::select_run_request() {
             heading = calc_scaled_value(stick_angle);
             if ((this->test_actor_flags(0x100000) != 0) || (magnitude < 0.5f)) {
                 move_speed.set_run_counter(0);
-                if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+                if (move_speed.flags.test_flags_any(4) != 0) {
                     this->target_heading = heading;
                     run_action_state_phase(2, 5);
                 }
             } else {
                 move_speed.increment_run_counter();
-                if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+                if (move_speed.flags.test_flags_any(4) != 0) {
                     this->target_heading = heading;
                     run_action_state_phase(4, 5);
                 }
@@ -4036,7 +4036,7 @@ void TObjPlayer::run_action3_phase(s16 phase) {
 #pragma opt_lifetimes off
 // The slow walk while move_speed flag 8 is set.
 s16 TObjPlayer::get_walk_action() {
-    if (test_flags_any(&move_speed.flags.bits, 8) != 0) {
+    if (move_speed.flags.test_flags_any(8) != 0) {
         return action_provider->get_slow_walk_action();
     }
     return action_provider->get_walk_action();
@@ -4157,7 +4157,7 @@ void TObjPlayer::send_6x40_walk_to_position() {
 }
 
 void TObjPlayer::handle_ring_hit() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         this->clear_player_status_flag(0, 0x01C00000);
         run_action_state_phase(1, 0);
@@ -4165,7 +4165,7 @@ void TObjPlayer::handle_ring_hit() {
 }
 
 void TObjPlayer::check_ring_action() {
-    if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+    if (move_speed.flags.test_flags_any(4) != 0) {
         move_speed.flags.clear(4);
         move_speed.set_run_counter(0);
         run_action_state_phase(1, 5);
@@ -4181,7 +4181,7 @@ void TObjPlayer::select_walk_request() {
     magnitude = pad_binding.get_stick_magnitude();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         if (magnitude < 0.1f) {
-            if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+            if (move_speed.flags.test_flags_any(4) != 0) {
                 run_action_state_phase(1, 5);
                 return;
             }
@@ -4192,11 +4192,11 @@ void TObjPlayer::select_walk_request() {
                 move_speed.increment_run_counter();
             }
             if (this->test_actor_flags(0x100000) != 0) {
-                if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+                if (move_speed.flags.test_flags_any(4) != 0) {
                     this->target_heading = heading;
                     run_action_state_phase(2, 5);
                 }
-            } else if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
+            } else if (move_speed.flags.test_flags_any(4) != 0) {
                 this->target_heading = heading;
                 if ((f32) move_speed.get_run_counter() < 24.0f) {
                     run_action_state_phase(2, 5);
@@ -5513,14 +5513,14 @@ void PhotonBlastGauge::check_photon_blast_flag() { ((FlagWord *)&flags)->set(8);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int PhotonBlastGauge::check_flag_clear() { return test_flags_any(&flags.bits, 1) == 0; }
+int PhotonBlastGauge::check_flag_clear() { return flags.test_flags_any(1) == 0; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int PhotonBlastGauge::is_blast_launched() { return test_flags_any(&flags.bits, 8); }
+int PhotonBlastGauge::is_blast_launched() { return flags.test_flags_any(8); }
 #pragma pop
 
 #pragma push
@@ -5653,7 +5653,7 @@ void PlayerTechniqueState::set_technique_state(s32 v) { state = v; }
 void PlayerTechniqueState::set_level(u8 v) { level = v; }
 #pragma pop
 
-s32 PlayerTechniqueState::test_flag_2() { return test_flags_any(&flags.bits, 2); }
+s32 PlayerTechniqueState::test_flag_2() { return flags.test_flags_any(2); }
 
 void PlayerTechniqueState::decrement_state() { state--; }
 

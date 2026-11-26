@@ -335,7 +335,7 @@ u32 MagOwnerWatch::test_flags(u32 mask) { return flags & mask; }
 void MagOwnerWatch::set_flags(u32 mask) { flags |= mask; }
 void MagOwnerWatch::clear_flags(u32 mask) { flags &= ~mask; }
 
-int PlayerScaleState::is_scaled() { return test_flags_any(&flags.bits, 1); }
+int PlayerScaleState::is_scaled() { return flags.test_flags_any(1); }
 f32 PlayerScaleState::get_scalar() { return scalar; }
 
 s32 ProtectionTimer::get_frames() { return frames; }
@@ -516,7 +516,7 @@ void TItemMag::on_equip() {
     }
     owner_watch.hp = ((TObjChara *)owner)->get_actor_hp();
     owner_watch.tp = owner->get_actor_tp();
-    if (test_flags_any(&effect_flags.bits, 1) != 0) {
+    if (effect_flags.test_flags_any(1) != 0) {
         state &= ~MAG_INACTIVE;
     } else {
         state |= MAG_INACTIVE;

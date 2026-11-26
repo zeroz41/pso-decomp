@@ -412,7 +412,7 @@ void TObjPlayer::update_action_animation() {
         this->clear_state_flags(4);
         if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);
-            if (test_flags_any(&death_flags.bits, 1) != 0) {
+            if (death_flags.test_flags_any(1) != 0) {
                 this->requested_action = this->get_action_animation();
             } else {
                 this->restart_death_pose();

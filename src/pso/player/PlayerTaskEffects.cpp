@@ -38,15 +38,6 @@
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-
-extern "C" {
-
-s32 test_flags_any(s32 *flags, s32 mask);
-
-
-}
-
-
 extern "C" {
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
@@ -150,10 +141,10 @@ void TPlayerSoul::set_player_id(u16 value) { player_id = value; }
 void TPlayerSoul::set_particle(TParticleCtrl*value) { particle = value; }
 
 
-int BattleMusicState::is_quest_held() { return test_flags_any(&flags.bits, 2); }
+int BattleMusicState::is_quest_held() { return flags.test_flags_any(2); }
 
 
-int BattleMusicState::set_lock_flag() { return test_flags_any(&flags.bits, 1); }
+int BattleMusicState::set_lock_flag() { return flags.test_flags_any(1); }
 
 
 void BattleMusicState::clear_target_lock_flag() { flags.clear(1); }
@@ -319,7 +310,7 @@ f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player) {
 f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player, f32 speed) {
     if (player->is_flag30_8_set() != 0) {
         speed *= 0.5f;
-    } else if (test_flags_any(&flags.bits, 8) != 0) {
+    } else if (flags.test_flags_any(8) != 0) {
         speed *= 0.75f;
     }
     set_unscaled_speed(speed);
@@ -734,13 +725,13 @@ void TForceOperate::run_task() {
 
 #pragma defer_codegen off
 
-int ContactSurfaceState::set_action_flag16() { return test_flags_any(&word.bits, 16); }
+int ContactSurfaceState::set_action_flag16() { return word.test_flags_any(16); }
 
 
-int ContactSurfaceState::test_flag_8() { return test_flags_any(&word.bits, 8); }
+int ContactSurfaceState::test_flag_8() { return word.test_flags_any(8); }
 
 
-int ContactSurfaceState::has_grass_ground_flag() { return test_flags_any(&word.bits, 2); }
+int ContactSurfaceState::has_grass_ground_flag() { return word.test_flags_any(2); }
 
 
 #pragma defer_codegen on

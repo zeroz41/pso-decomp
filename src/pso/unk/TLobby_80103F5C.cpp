@@ -73,7 +73,7 @@ extern "C" {
 extern void *tl_05;
 }
 extern "C" {
-extern s32 lbl_805D5440;
+extern FlagWord lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);
 }
 
@@ -160,7 +160,7 @@ void TLobby::apply_sync_item_state() {
             ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
         }
     }
-    if (test_flags_any(&lbl_805D5440, 1) != 0) {
+    if (lbl_805D5440.test_flags_any(1) != 0) {
         TLobby::respawn_missing_floor_items(0);
     }
     TLobby__sub_801041D8();

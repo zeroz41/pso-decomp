@@ -119,8 +119,8 @@ void TItemWeaponRocketPunch::transform_model_node() {
     void *model;
     switch (get_model_node_counter()) {
     case 1:
-        if (test_flags_any(&punch_flags.bits, 2) == 0) {
-            if (test_flags_any(&punch_flags.bits, 1)) {
+        if (punch_flags.test_flags_any(2) == 0) {
+            if (punch_flags.test_flags_any(1)) {
                 model = second_model;
             } else {
                 model = model_data[1];
@@ -177,7 +177,7 @@ void rocket_punch_return_timer(uaddr weapon) {
 }
 
 NJS_OBJECT *TItemWeaponRocketPunch::get_shot_model() {
-    if (test_flags_any(&punch_flags.bits, 4) != 0) {
+    if (punch_flags.test_flags_any(4) != 0) {
         return second_model;
     }
     return (NJS_OBJECT *)model_data[1];

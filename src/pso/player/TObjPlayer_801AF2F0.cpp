@@ -3980,7 +3980,7 @@ void TObjPlayer::prepare_hospital_return() {
 
 void handle_6x34(void) {  }
 
-int TObjPlayer::check_player_state_flag_2() { return test_flags_any(&death_flags.bits, 2); }
+int TObjPlayer::check_player_state_flag_2() { return death_flags.test_flags_any(2); }
 
 void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
 

@@ -1347,11 +1347,9 @@ void PlayerRequirementStats::clear_fields() {
 
 extern "C" {
 
-s32 test_flags_any(s32 *, s32);
-
 s32 TItemMenuCtrl::query_flag(s32 arg0) {
     if (TItemMenuCtrl::instance != NULL) {
-        return test_flags_any(&TItemMenuCtrl::instance->menu_flags.bits, 1 << arg0);
+        return TItemMenuCtrl::instance->menu_flags.test_flags_any(1 << arg0);
     }
     return 0;
 }
