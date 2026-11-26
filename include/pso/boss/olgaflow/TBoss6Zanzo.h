@@ -15,7 +15,7 @@ struct TBoss6Zanzo : public TObject {
     static TBoss6Zanzo *create(TObject *parent, s32 points, s32 frames);
     void copy_trail_buffer(Boss6TrailFrame *, Boss6TrailFrame *);
     void set_effect_points(const Vec *, const u32 *);
-    void sub_803205C4();
+    void draw_trail();
     virtual void run_task();
     Boss6TrailFrame *frames;
     Boss6TrailFrame *current;

@@ -21,7 +21,7 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     void select_targets();
     virtual void run_task();
     virtual void render();
-    void sub_800D37F4();
+    void update_target_selection();
     // Advances break_stage and throws the parts that break off as chips.
     void break_off_parts();
     void init_params_from_table();

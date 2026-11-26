@@ -68,7 +68,7 @@ void TObjEneRe2Flower::state_die(s32 reason) {
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
                     TDeadSpot::spawn_kind0_scale7_5(&effect_pos, 0x32);
-                    fn_800D911C(&effect_pos);
+                    spawn_enemy_death_particles(&effect_pos);
                     appear_fade.init_death_params();
                 } else {
                     TDeadSpot::spawn_kind1_scale2_5(&effect_pos, 0x32);
@@ -98,7 +98,7 @@ void TObjEneRe2Flower::state_die(s32 reason) {
 
 
 // The curse's hit on a target that is not a player.
-const DirectAttackPayload lbl_8043BA60[1] = {{16, 0}};
+const DirectAttackPayload flower_curse_attack[1] = {{16, 0}};
 
 void TObjEneRe2Flower::state_damaged(s32 reason) {
     switch (reason) {
@@ -172,7 +172,7 @@ void TObjEneRe2Flower::state_curse(s32 reason) {
                     send_6x2F_change_player_hp(entity_id, current_target->get_entity_id(), 1);
                 }
             } else {
-                DirectAttackPayload p = lbl_8043BA60[0];
+                DirectAttackPayload p = flower_curse_attack[0];
                 current_target->receive_direct_attack(this, p, current_target->bodies, -1, -1);
             }
         }

@@ -1008,7 +1008,7 @@ void TObjEneIllGill::update_death_fall() {
     {
       play_sound_effect(0x4003A358, &position, 0, 0);
       TDeadSpot::spawn_kind0_scale15(&position, 0xA);
-      fn_800D911C(&position);
+      spawn_enemy_death_particles(&position);
       this->phase = 4;
       this->deathTimer = 0xA;
       return;

@@ -91,7 +91,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     // fade_appear/drop_appear apper, t_wait t_wait, f_attack f_attack, sword_attack sword, backstep backstep,
     // wait wait, damage damage; scatter spreads each body by its mirage_index from start_position.
     void state_damage(s32 reason);
-    void sub_800E50D8(s32 reason);
+    void state_vanish(s32 reason);
     void state_wait(s32 reason);
     void state_scatter(s32 reason);
     void state_sword_attack(s32 reason);
@@ -100,7 +100,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void state_t_wait(s32 reason);
     void cast_resta();
     void state_backstep(s32 reason);
-    void sub_800E7268();
+    void halve_evasion();
 };
 
 LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, fade) == 0x3E8);

@@ -1117,7 +1117,7 @@ void TObjEneMorfos::state_death(s32 ev) {
             this->advance_animation();
             wall_done = wall_fade.decay_value_toward_floor();
             if ((this->get_flag_b4() != 0) && (wall_done != 0)) {
-                fn_800D911C(&position);
+                spawn_enemy_death_particles(&position);
                 play_sound_effect(0x4003A830, &position, 0, 0);
                 body_fade.start_fade_out();
                 morfos_flags = (s32) (morfos_flags | 2);

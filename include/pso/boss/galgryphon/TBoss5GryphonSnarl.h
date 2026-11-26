@@ -25,6 +25,6 @@ LAYOUT_ASSERT(TBoss5GryphonSnarlChildrenA0, offsetof(TBoss5GryphonSnarl, childre
 LAYOUT_ASSERT(TBoss5GryphonSnarlPosition, offsetof(TBoss5GryphonSnarl, position) == 0x120);
 LAYOUT_ASSERT(TBoss5GryphonSnarlSize, sizeof(TBoss5GryphonSnarl) == 0x130);
 
-void TLobby__sub_80066EC0(void);
+void release_boss5_common_resources(void);
 
 #endif

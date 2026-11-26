@@ -129,8 +129,8 @@ TObjMotionAction mericarol_motion_actions[9] = {
 };
 
 static const NpcAnimationBinding mericarol_animation_binding = { NULL, mericarol_motion_actions, 3, 1, 9 };
-static const Vec lbl_80472490 = { 2.0f, 1.0f, 2.0f };
-static const Vec lbl_8047249C = { 2.0f, 1.0f, 2.0f };
+static const Vec mericarol_shadow_scale = { 2.0f, 1.0f, 2.0f };
+static const Vec mericarol_variant_shadow_scale = { 2.0f, 1.0f, 2.0f };
 static const Vec player_sub_802ce68c_zero_vec = { 0.0f, 0.0f, 0.0f };
 
 player_stats *bm9_mericarol_phase_hp_table[3];
@@ -1191,7 +1191,7 @@ void TObjEneBm9Mericarol::render() {
         return;
     }
     if (this->mode != 0xB) {
-        Vec v = lbl_80472490;
+        Vec v = mericarol_shadow_scale;
         draw_ground_shadow(&v, 0);
     }
     update_secondary_light();
@@ -1273,7 +1273,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
     GinjaTextureState *s1;
     GinjaTextureState *s2;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        Vec v = lbl_8047249C;
+        Vec v = mericarol_variant_shadow_scale;
         draw_ground_shadow(&v, 0);
         switch (variant) {
         case 1:

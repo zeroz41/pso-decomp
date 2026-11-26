@@ -487,7 +487,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
 
 void TObjEneMe3Shinowa::select_next_attack_state() {  }
 
-void TObjEneMe3Shinowa::sub_800E7268() {
+void TObjEneMe3Shinowa::halve_evasion() {
     this->behavior_flags |= 0x10;
     this->evp = (s16) ((s16) this->normal_evp / 2);
 }
@@ -615,7 +615,7 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_wait(reason);
         return;
     case 9:
-        sub_800E50D8(reason);
+        state_vanish(reason);
         return;
     case 10:
         state_cast_support(reason);
@@ -690,7 +690,7 @@ void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
         VecCopy(&pos, &position);
         y = body_y;
         pos.y = y - 20.0f;
-        TBoss3Volopt__sub_800D8D88((saddr)&pos);
+        play_area_appear_sound_effect(&pos);
         return;
     case 3:
         if (fade.advance_toward_max() != 0) {
@@ -1186,7 +1186,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     }
     case 3: {
         if (this->state_step >= 40) {
-            sub_800E7268();
+            halve_evasion();
             s32 r = TObjEneDD::collect_target_candidates(this, 40000.0f);
             if (r > 0) {
                 enemy_set_target_id(enemy_target_candidate_table[r - 1].id);
@@ -1363,7 +1363,7 @@ void TObjEneMe3Shinowa::state_wait(s32 reason) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E50D8(s32 reason) {
+void TObjEneMe3Shinowa::state_vanish(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:

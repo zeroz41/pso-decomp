@@ -9,7 +9,7 @@
 
 
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target) {
-    if (fn_800BC758(history) != 0 && attack_target_history_contains(history, target) == 0) {
+    if (pointer_buffer_has_room(history) != 0 && attack_target_history_contains(history, target) == 0) {
         push_attack_target_entry(history, target);
         return 1;
     }
@@ -56,6 +56,6 @@ int attack_target_history_contains(void* object, void* target) {
     return 0;
 }
 
-s32 fn_800BC758(PointerBuffer *buffer) {
+s32 pointer_buffer_has_room(PointerBuffer *buffer) {
     return buffer->count < buffer->capacity;
 }

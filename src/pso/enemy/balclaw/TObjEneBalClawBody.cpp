@@ -255,7 +255,7 @@ void TObjEneBalClawBody::update_attack_distance_state() {
                 update_if_active(1);
                 range_band = 2;
             } else {
-                sub_800C73F4();
+                return_home_or_idle();
             }
             break;
         case 1:
@@ -324,7 +324,7 @@ void TObjEneBalClawBody::update_attack_distance_state() {
             if (target != NULL) {
                 update_if_active(0xC);
             } else {
-                sub_800C73F4();
+                return_home_or_idle();
             }
             break;
         case 1:
@@ -467,7 +467,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         break;
     case 3:
         this->fade.start_fade_out();
-        fn_800D911C(&this->body_center);
+        spawn_enemy_death_particles(&this->body_center);
         this->behavior_flags |= 4;
         this->state = 4;
     case 4:

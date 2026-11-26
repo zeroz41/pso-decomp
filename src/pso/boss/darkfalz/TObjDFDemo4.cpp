@@ -38,17 +38,17 @@ TObjDFDemo4 *TObjDFDemo4::create(TObject *parent, const Vec *position, s32 angle
 
 // The nodes ModelNodeTables::init builds the strips on.
 inline const ModelNodeSpec *strip_nodes() {
-    static const ModelNodeSpec lbl_804373C4[2] = {{0xC, 0x4A, 1}, {0xE, 0x4A, 1}};
-    return lbl_804373C4;
+    static const ModelNodeSpec df_demo4_strip_nodes[2] = {{0xC, 0x4A, 1}, {0xE, 0x4A, 1}};
+    return df_demo4_strip_nodes;
 }
 // The intro camera: its playback and angles (the yaw is the object's).
 inline const CameraPlayback *intro_camera_playback() {
-    static const CameraPlayback lbl_804373DC = {0, 3, 0, 0.0f, 0.5f};
-    return &lbl_804373DC;
+    static const CameraPlayback df_demo4_intro_camera_playback = {0, 3, 0, 0.0f, 0.5f};
+    return &df_demo4_intro_camera_playback;
 }
 inline const CameraAngles *intro_camera_angles() {
-    static const CameraAngles lbl_804373E8 = {0, 0, 0};
-    return &lbl_804373E8;
+    static const CameraAngles df_demo4_intro_camera_angles = {0, 0, 0};
+    return &df_demo4_intro_camera_angles;
 }
 
 TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {

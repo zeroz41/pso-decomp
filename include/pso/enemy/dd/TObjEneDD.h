@@ -142,7 +142,7 @@ void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance)
 void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
-void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
+void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);

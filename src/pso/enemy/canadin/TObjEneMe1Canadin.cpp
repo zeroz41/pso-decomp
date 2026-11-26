@@ -806,7 +806,7 @@ void TObjEneMe1Canadin::state_appear(s32 msg) {
         this->move_action = 4;
         this->fade_mode = 1;
         this->fade.start_fade_in();
-        TBoss3Volopt__sub_800D8D88((saddr)&this->position);
+        play_area_appear_sound_effect(&this->position);
         return;
     case 3:
         if (this->fade.advance_toward_max() != 0) {

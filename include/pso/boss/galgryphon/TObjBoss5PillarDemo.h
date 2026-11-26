@@ -14,7 +14,7 @@ struct TObjBoss5PillarDemo : public TObjBoss5Pillar {
 
 LAYOUT_ASSERT(TObjBoss5PillarDemo_size, sizeof(TObjBoss5PillarDemo) == 0x4C);
 
-void TObjBoss5PillarDemo__sub_8028AB38(void);
+void detach_pillar_demo_models(void);
 void TObjBoss5PillarDemo__sub_8028ACE0(void);
 void TObjBoss5PillarDemo__sub_8028ACE4(void);
 

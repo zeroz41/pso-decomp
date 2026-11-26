@@ -327,7 +327,7 @@ u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range) {
     return enemy_nearest_visible_player_sq(self, range * range);
 }
 
-void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src) {
+void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src) {
     dst->id = src->id;
     dst->dist = src->dist;
 }
@@ -379,9 +379,9 @@ s32 TObjEneDD::collect_enemy_target_candidates(TargetCandidate *out, f32 range) 
                 }
             }
             if (mi != k) {
-                TBoss8Dragon__sub_800BB650(&tmp, &out[mi]);
-                TBoss8Dragon__sub_800BB650(&out[mi], &out[k]);
-                TBoss8Dragon__sub_800BB650(&out[k], &tmp);
+                copy_target_candidate(&tmp, &out[mi]);
+                copy_target_candidate(&out[mi], &out[k]);
+                copy_target_candidate(&out[k], &tmp);
             }
         }
     }

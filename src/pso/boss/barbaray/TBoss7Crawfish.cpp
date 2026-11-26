@@ -145,7 +145,7 @@ void TBoss7Crawfish::apply_hit_to_target(ActorBodyHit *hit) {
 
     if (hit != NULL) {
         target = (TObjChara *)hit->target;
-        if (sub_80308AA8() != 0) {
+        if (is_small_variant() != 0) {
             if (target->select_melee_contact_body(this, 1.0f) != 0) {
                 target->receive_physical_attack(this, 1.0f);
             }
@@ -165,7 +165,7 @@ void TBoss7Crawfish::apply_hit_to_target(ActorBodyHit *hit) {
     }
 }
 
-s32 TBoss7Crawfish::sub_80308AA8() {
+s32 TBoss7Crawfish::is_small_variant() {
     return 0.0f == parameters[0];
 }
 
@@ -254,7 +254,7 @@ void TBoss7Crawfish::update_attack_state() {
         if (body->flags & 0x02000000) {
             body->flags &= ~0x02000000;
         }
-        if (sub_80308AA8() != 0) {
+        if (is_small_variant() != 0) {
             spawn_effect(0x3A80A);
         } else {
             spawn_effect(0x3A80B);
@@ -371,7 +371,7 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     set_requested_action(requested_action);
     add_flags_2e4(2);
     apply_set_data(set);
-    if (sub_80308AA8() != 0) {
+    if (is_small_variant() != 0) {
         set_param(0x4A);
         bind_enemy_combat_stats(TLobby::register_boss(8), TLobby::dispatch_shared_handler_b(8), TLobby::register_object(8));
         params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(8);
@@ -390,7 +390,7 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     still.y = 0.0f;
     still.x = 0.0f;
     try_move_by_delta(&still);
-    if (sub_80308AA8() != 0) {
+    if (is_small_variant() != 0) {
         scale.z = 0.8f;
         scale.y = 0.8f;
         scale.x = 0.8f;

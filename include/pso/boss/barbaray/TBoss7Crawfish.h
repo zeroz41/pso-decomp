@@ -19,7 +19,7 @@ struct Boss7CrawfishParams {
 struct TBoss7Crawfish : public TObjEnemy {
     TBoss7Crawfish(TObject *parent, void *set);
     virtual ~TBoss7Crawfish();
-    s32 sub_80308AA8();
+    s32 is_small_variant();
     s32 is_visible();
     s32 is_within_x_limit();
     virtual void clear_harmful_statuses();

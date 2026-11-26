@@ -259,7 +259,7 @@ void TObjEneGyaranzo::run_task() {
         run_demo_task();
         return;
     }
-    sub_800D37F4();
+    update_target_selection();
     cooldown = fragment_cooldown;
     if (cooldown >= 0) {
         fragment_cooldown = cooldown - 1;
@@ -308,7 +308,7 @@ void TObjEneGyaranzo::dispatch_state_update() {
     }
 }
 
-void TObjEneGyaranzo::sub_800D37F4() {
+void TObjEneGyaranzo::update_target_selection() {
     s32 next;
     u16 found;
     switch (mode) {
@@ -881,7 +881,7 @@ void TObjEneGyaranzo::update_fade_in() {
         behavior_flags |= 4;
         actorFlags |= 0x04000000;
         requested_action = 0;
-        TBoss3Volopt__sub_800D8D88((saddr)&body_center);
+        play_area_appear_sound_effect(&body_center);
         appear_fade.start_fade_in();
         state = 1;
     case 1:

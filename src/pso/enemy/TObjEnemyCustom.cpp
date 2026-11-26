@@ -365,7 +365,7 @@ s32 TObjEnemyCustom::turn_toward_point(Vec *point, s32 max_step, s32 angle_offse
     return angle_difference_abs(rotation_y, angle_offset);
 }
 
-void TObjEneBalClawBody::sub_800C73F4() {
+void TObjEneBalClawBody::return_home_or_idle() {
     if (xz_distance_squared(&position, &home_position) > 100.0f) {
         this->update_if_active(8);
         return;

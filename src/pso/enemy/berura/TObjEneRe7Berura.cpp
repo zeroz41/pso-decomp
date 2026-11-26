@@ -1289,7 +1289,7 @@ void TObjEneRe7Berura::update_death_state(s32 reason) {
         accum = texture_scroll_speed;
         counter = 0;
         step = 0;
-        fn_800D911C(&body_center);
+        spawn_enemy_death_particles(&body_center);
         body_fade.start_fade_out();
         status_flags |= 2;
         play_sound_effect(remap_sound_for_area(0x4003AD25), &position, 0, 0);

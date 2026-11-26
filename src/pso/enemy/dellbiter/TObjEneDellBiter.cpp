@@ -460,7 +460,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
 }
 
 void TObjEneDellBiter::update_attack_effect() {
-    if (fn_803059BC(&position) != 0) {
+    if (spawn_water_splash(&position) != 0) {
         play_ground_contact_sound(&position);
         return;
     }
@@ -474,12 +474,12 @@ void TObjEneDellBiter::spawn_front_particle() {
     front.z = 7.0f;
     rotate_xz_pair_by_angle(&front.x, &front.z, rotation_y);
     vec3_add_to(&front, &position);
-    if (fn_803059BC(&front) == 0) {
+    if (spawn_water_splash(&front) == 0) {
         spawn_particle_effect(&front, 0xF3);
     }
 }
 
-s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
+s32 TObjEneDellBiter::spawn_water_splash(const Vec *origin) {
     Vec pos;
     CsnHit *hit;
     TParticleCtrl *e;
@@ -523,7 +523,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
 
 void TObjEneDellBiter::play_step_effect() {
     if (is_passing_frame(0.0f) != 0 || is_passing_frame(8.0f) != 0) {
-        if (fn_803059BC(&position) != 0) {
+        if (spawn_water_splash(&position) != 0) {
             play_ground_step_sound(this, &position);
             return;
         }
@@ -532,7 +532,7 @@ void TObjEneDellBiter::play_step_effect() {
     }
 }
 
-void TObjEneDellBiter::fn_803058DC() {
+void TObjEneDellBiter::update_stride_particle() {
     if (is_passing_frame(21.0f) != 0) {
         spawn_front_particle();
     }
@@ -771,7 +771,7 @@ void TObjEneDellBiter::update_emerge_walk_state(s32 reason) {
             fn_80305684();
             break;
         case 1:
-            fn_803058DC();
+            update_stride_particle();
             if (this->get_flag_b4() != 0) {
                 step = 2;
             }
@@ -840,7 +840,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
             state_timer++;
             if (state_timer >= 10) {
                 this->requested_action = 3;
-                fn_803058DC();
+                update_stride_particle();
                 if (this->get_flag_b4() != 0) {
                     step = 2;
                 }
@@ -1048,7 +1048,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
             step++;
             if (step >= 10) {
                 this->requested_action = 3;
-                fn_803058DC();
+                update_stride_particle();
                 if (this->get_flag_b4() != 0) {
                     flags &= ~4;
                     state_timer = 3;
@@ -1374,7 +1374,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
         switch (state_timer) {
         case 0:
             if (this->get_flag_b4() != 0) {
-                fn_800D911C(&body_center);
+                spawn_enemy_death_particles(&body_center);
                 play_sound_effect(0x4003A830, &body_center, 0, 0);
                 state_timer = 1;
                 return;

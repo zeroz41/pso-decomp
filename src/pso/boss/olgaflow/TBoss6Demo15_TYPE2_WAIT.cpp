@@ -25,8 +25,8 @@
 #pragma readonly_strings on
 const char *TBoss6Demo15_TYPE2_WAIT::class_name = "TBoss6Demo15_TYPE2_WAIT";
 
-static const Vec lbl_80478430 = {-10000.0f, 0.0f, 0.0f};
-static const WaitDemoCsnEntry lbl_8047843C[10] = {
+static const Vec wait_demo_parts_origin = {-10000.0f, 0.0f, 0.0f};
+static const WaitDemoCsnEntry wait_demo_csn_entries[10] = {
     {{-10010.0f, 0.0f, -30.0f}, {145.0f, 100.0f, 80.0f}, 0},
     {{-10040.0f, 0.0f, 50.0f}, {110.0f, 75.0f, 100.0f}, 0},
     {{-10095.0f, 0.0f, -35.0f}, {80.0f, 15.0f, 15.0f}, 0xD800},
@@ -38,15 +38,15 @@ static const WaitDemoCsnEntry lbl_8047843C[10] = {
     {{-10005.0f, 0.0f, 137.0f}, {45.0f, 10.0f, 5.0f}, 0xDC00},
     {{-10112.0f, 0.0f, 125.0f}, {20.0f, 10.0f, 120.0f}, 0xF2C0},
 };
-static const Vec lbl_80478554 = {-10000.0f, 0.0f, 0.0f};
+static const Vec wait_demo_orbit_center = {-10000.0f, 0.0f, 0.0f};
 
-__declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
+__declspec(section ".data") s32 wait_demo_part_motion_ids[2] = {0x1F, 0x21};
 
 void TBoss6Demo15_TYPE2_WAIT::draw_parts() {
     s32 i;
     push_matrix();
     set_motion_packed_rotation();
-    post_translate_matrix(&lbl_80478430.x);
+    post_translate_matrix(&wait_demo_parts_origin.x);
     for (i = 0; i < 2; i++) {
         set_texture_list(parts[i].texlist);
         draw_model_motion(parts[i].model, parts[i].motion, 0.0f);
@@ -63,7 +63,7 @@ void TBoss6Demo15_TYPE2_WAIT::update_orbit_position() {
     f32 radius = (40.0f * sin_table_lookup(radius_phase)) + 230.0f;
     f32 s = sin_table_lookup(orbit_angle);
     f32 c = cos_table_lookup(orbit_angle);
-    VecCopy(&position, &lbl_80478554);
+    VecCopy(&position, &wait_demo_orbit_center);
     position.x = (s * radius) + position.x;
     position.z = (c * radius) + position.z;
     position.y += 20.0f;
@@ -121,7 +121,7 @@ void TBoss6Demo15_TYPE2_WAIT::create_csn_objects() {
     set.params[0] = 2;
     set.params[1] = 0;
     for (i = 0; i < 10; i++) {
-        const WaitDemoCsnEntry *e = &lbl_8047843C[i];
+        const WaitDemoCsnEntry *e = &wait_demo_csn_entries[i];
         VecCopy(&set.position, &e->position);
         set.rotation_x = 0;
         set.rotation_y = e->rotation_y;
@@ -174,7 +174,7 @@ TBoss6Demo15_TYPE2_WAIT::TBoss6Demo15_TYPE2_WAIT(TBoss6PlotFalz *plot) : TObject
             parts[i].model = get_bml_model(bml, t);
         }
         parts[i].texlist = get_bml_texlist(bml, id);
-        parts[i].motion = get_bml_motion(bml, lbl_804EFB70[i]);
+        parts[i].motion = get_bml_motion(bml, wait_demo_part_motion_ids[i]);
     }
     create_csn_objects();
     reset_orbit();

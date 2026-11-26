@@ -21,8 +21,8 @@ void TLobby::cleanup_pillar_demo() {
     TObjBoss5PillarDemo__sub_8028ACE0();
     update_pillar__19TObjBoss5PillarCtrlFv();
     fn_802898E8();
-    TObjBoss5PillarDemo__sub_8028AB38();
-    TLobby__sub_80066EC0();
+    detach_pillar_demo_models();
+    release_boss5_common_resources();
 }
 void TLobby::cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); fn_802898EC(); forward_pillar_2B710__19TObjBoss5PillarCtrlFv(); TObjBoss5PillarDemo__sub_8028ACE4(); boss5_ctrl_instance = NULL; }
 
