@@ -241,8 +241,8 @@ struct TLobby : public TObject {
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
-    void send_6x71_to_player();
-    void send_6x6D_item_state();
+    static void send_6x71_to_player(int client_id);
+    static void send_6x6D_item_state(int client);
     static void make_players();
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
@@ -374,8 +374,8 @@ struct TLobby : public TObject {
     static s32 parse_color_code(char *s);
     void destroy_matching_children();
     static void destroy_download_server(TObject *fade);
-    void send_compressed_packet_6c();
-    void send_cmd_6B();
+    static void send_compressed_packet_6c(int client);
+    static void send_cmd_6B(int client);
     u8 *create_new_floor_windows();
     static void append_float_value(s32 reg);
     static void append_int_param(s32 reg);

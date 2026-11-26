@@ -51,6 +51,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdio.h>
@@ -124,16 +125,12 @@ struct GameStateSyncScratch {
 };
 LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
 LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
-struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
-LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
 struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
 typedef char LobbyPlayerName[16];
 typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
 } LobbyServerAddress;
-struct H_8013A348 { u8 b[12]; };
-struct S_8013A348 { u8 pad[0x28]; struct H_8013A348 h[5]; };
 struct ByteBlock_8 { u8 bytes[0x8]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
 struct ByteBlock_24 { u8 bytes[0x24]; };
@@ -491,8 +488,7 @@ void handle_6x71_unblock_game_join(void) {
     }
 }
 
-void TLobby::send_6x71_to_player() {
-    saddr client_id = (saddr)this;
+void TLobby::send_6x71_to_player(int client_id) {
     G_ClientIDHeader packet;
     packet.subcommand = 0x71;
     packet.size = 1;
@@ -684,8 +680,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
     }
 }
 
-void TLobby::send_6x6D_item_state() {
-    saddr client = (saddr)this;
+void TLobby::send_6x6D_item_state(int client) {
     s32 n;
     s32 len;
     CompressedSyncPacket *buf;
@@ -714,7 +709,7 @@ void TLobby::send_6x6D_item_state() {
     }
 }
 
-void TLobby::send_compressed_packet_6c() {
+void TLobby::send_compressed_packet_6c(int client) {
     QuestObjectEntry *src;
     s32 len;
     u32 size;
@@ -723,7 +718,6 @@ void TLobby::send_compressed_packet_6c() {
     u32 n;
     QuestObjectEntry *p;
     u32 i;
-    saddr client = (saddr)this;
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
@@ -750,7 +744,7 @@ void TLobby::send_compressed_packet_6c() {
     }
 }
 
-void TLobby::send_cmd_6B() {
+void TLobby::send_cmd_6B(int client) {
     EnemyStateRecord *src;
     s32 len;
     u32 size;
@@ -759,7 +753,6 @@ void TLobby::send_cmd_6B() {
     u32 n;
     EnemyStateRecord *p;
     u32 i;
-    saddr client = (saddr)this;
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
@@ -1839,7 +1832,7 @@ void TLobby::handle_verify_result(unsigned int result) {
         lobby_debug_printf_stub(lobby_msg_regist_check_ok);
         TLobby::dispatch_by_index(1);
         option_state = TLobby::get_option_state();
-        protocol_instance->send_login_9e_extended((void *) (((saddr)(void *)TAdSinglePlyChrSelectGC::get_char_index((u32)(0xFFFF))) + 0x370), (int)option_state);
+        protocol_instance->send_login_9e_extended(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.name, (int)option_state);
         return;
     case 1:
         protocol_instance->send_register_9c();
@@ -1910,7 +1903,7 @@ void TLobby::handle_register_result(int registered) {
         lobby_debug_printf_stub(lobby_msg_registed);
         get_player_by_client_id(local_client_id);
         opt = TLobby::get_option_state();
-        protocol_instance->send_login_9e_extended((u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370, opt);
+        protocol_instance->send_login_9e_extended(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.name, opt);
         TLobby::dispatch_by_index(1);
         return;
     }
@@ -2342,12 +2335,12 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         lobby_debug_printf_stub(lobby_debug_delete_player_format, e.client_id);
     }
     if (local_client_id == designated_client_id) {
-        ((TLobby *)(e.client_id))->send_6x6D_item_state();
-        ((TLobby *)(e.client_id))->send_cmd_6B();
-        ((TLobby *)(e.client_id))->send_compressed_packet_6c();
+        TLobby::send_6x6D_item_state(e.client_id);
+        TLobby::send_cmd_6B(e.client_id);
+        TLobby::send_compressed_packet_6c(e.client_id);
         TLobby::send_6x6E_sync_game_state(e.client_id);
         send_6x6F_quest_flags(e.client_id);
-        ((TLobby *)(e.client_id))->send_6x71_to_player();
+        TLobby::send_6x71_to_player(e.client_id);
     }
     if (get_player_by_client_id(local_client_id) != NULL) {
         TLobby::send_6x70_player_data(e.client_id);
