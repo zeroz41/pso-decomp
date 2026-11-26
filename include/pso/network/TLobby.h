@@ -264,8 +264,6 @@ struct TLobby : public TObject {
     static int get_shop_value();
     static void free_singleton();
     static void create_named_lobby_object();
-    s32 compare_version(void *other);
-    s32 compare_greater(void *other);
     static void set_and_notify(int a0);
     static void reset_global();
     static void close_option_window();
@@ -489,7 +487,6 @@ struct TLobby : public TObject {
     void send_player_update();
     static void update_guild_or_quest_phase();
     static void free_window();
-    void swap_item_data(s32 *item_data);
     static void store_challenge_seeds(s32 seed);
     static void refresh_lobby_state();
     static s32 init_particle_model();

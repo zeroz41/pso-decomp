@@ -660,7 +660,7 @@ pso/ui/charcreate/TCharaMaking.cpp
 pso/system/save/TCheckMemoryCard.cpp
 pso/ui/city/TCheckRoomSequence.cpp
 pso/ui/city/TCheckRoomSequence_8021E464.cpp
-pso/ui/city/TCheckRoomSequence_80222FC0.cpp
+pso/item/shop/ShopItemSort.cpp
 pso/camera/TCineCtrl.cpp
 pso/object/container/TContainerAncient01.cpp
 pso/render/TDLGraph.cpp
@@ -777,7 +777,6 @@ pso/unk/TLobby_8020E400.cpp
 pso/unk/TLobby_8021B268.cpp
 pso/unk/TLobby_80221820.cpp
 pso/unk/text_80222C28.cpp
-pso/unk/TLobby_802230F8.cpp
 pso/unk/TLobby_80226070.cpp
 pso/unk/TLobby_80226C3C.cpp
 pso/unk/TLobby_80228C84.cpp
@@ -1622,7 +1621,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801E4CF0.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_802233A0.cpp
+pso/ui/city/BankItemRecord.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C650.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.cpp

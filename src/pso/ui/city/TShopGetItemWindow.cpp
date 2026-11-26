@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/TItemData.h"
+#include "pso/item/shop/ShopItemSort.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -347,7 +348,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
             idx = item_list->get_cursor_value();
             if (TCheckRoomSequence::copy_item_record(idx, &record, (int)(slot & 0xFFFFFFFFFFFFFFFFu)) != 0) {
                 record.id = -1;
-                if (TCheckRoomSequence::get_item_def((uaddr)&record) != 0) {
+                if (get_item_def(&record) != 0) {
                     record.set_stack_count(withdraw_count);
                 }
                 if (player->can_inventory_accept_item((u8 *)&record) == 0) {

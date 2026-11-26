@@ -5449,14 +5449,11 @@ pso/unk/text_80222DE8.cpp:
 	.text       start:0x80222DE8 end:0x80222FC0
 	.data       start:0x804CA2A0 end:0x804CA334
 
-pso/ui/city/TCheckRoomSequence_80222FC0.cpp:
-	.text       start:0x80222FC0 end:0x802230F8
+pso/item/shop/ShopItemSort.cpp:
+	.text       start:0x80222FC0 end:0x802231F0
 
-pso/unk/TLobby_802230F8.cpp:
-	.text       start:0x802230F8 end:0x802233A0
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_802233A0.cpp:
-	.text       start:0x802233A0 end:0x802233F8
+pso/ui/city/BankItemRecord.cpp:
+	.text       start:0x802231F0 end:0x802233F8
 
 pso/unk/text_802233F8.cpp:
 	.text       start:0x802233F8 end:0x8022350C

@@ -18,4 +18,9 @@ struct BankItemRecord {
     s16 used;       // 0 for an empty record
 };
 
+// The bank's sort keys, as sort_shop_items': 1 when `a` sorts after `b`.
+s32 item_code_greater(BankItemRecord *a, BankItemRecord *b);
+s32 item_type_greater(BankItemRecord *a, BankItemRecord *b);
+s32 item_class_greater(BankItemRecord *a, BankItemRecord *b);
+
 #endif

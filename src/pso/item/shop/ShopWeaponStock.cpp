@@ -3,6 +3,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
+#include "pso/item/shop/ShopItemSort.h"
 #include "pso/item/shop/ShopPool.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -18,9 +19,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
-void sort_shop_items(TItemData *items, s32 count, s32 mode);
-}
 
 WeaponRandomTables *lobby_weapon_random_tables_ptr;
 int shop_weapon_stock_level;

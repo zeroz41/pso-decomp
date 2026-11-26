@@ -28,7 +28,6 @@ struct TCheckRoomSequence : public TShopSequence {
     static void *create(void *player);
     static void reset_slot_state();
     static void reset_slots();
-    static s32 get_item_def(uaddr item);
     // States of the update_state table, in table order.
     void open_bank();
     void handle_root_choice();

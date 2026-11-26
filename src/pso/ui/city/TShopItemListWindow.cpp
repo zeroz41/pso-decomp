@@ -29,6 +29,7 @@
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/item/TItemData.h"
+#include "pso/item/shop/ShopItemSort.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_80222DE8.h"
@@ -329,7 +330,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                     sel = item_list->get_cursor_value();
                     TItemData item = shop_items[sel];
                     item.id = advance_item_id_counter(local_client_id);
-                    if (TCheckRoomSequence::get_item_def((uaddr)&item) != 0) {
+                    if (get_item_def(&item) != 0) {
                         item.set_stack_count(purchase_count);
                     }
                     try_buy_item(player, &item);

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "pso/item/shop/ShopToolStock.h"
+#include "pso/item/shop/ShopItemSort.h"
 #include "pso/item/shop/ShopPool.h"
 #include "pso/item/TItemData.h"
 #include "pso/network/TLobby.h"
@@ -9,9 +10,6 @@
 #include "pso/system/memory.h"
 #include "pso/unk/text_800F9B84.h"
 
-extern "C" {
-void sort_shop_items(TItemData *items, s32 count, s32 mode);
-}
 
 // Per shop list (four in split screen): the stock array (18 items, allocated by
 // load_tool_random_rel), its item count and whether it was generated.
