@@ -127,10 +127,10 @@ extern const TObjChipParams container_break_small_debris_parameters = {
 
 const char *container_abe_enemy_name = "TObjContainerAbeEnemy";
 
-extern const TObjChipParams lbl_80444E5C = {
+extern const TObjChipParams container_break_debris_desc = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x14,
 };
-extern const TObjChipParams lbl_80444EA8 = {
+extern const TObjChipParams container_break_debris_desc_b = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x14,
 };
 static __declspec(section ".rodata") const char container_event_number_format[] ATTRIBUTE_ALIGN(4) = "EVT NO : %d";
@@ -151,19 +151,19 @@ TObjChipParams *forest_box_debris_primary;
 TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
-extern const f32 lbl_805DBCF8;
+extern const f32 container_item_debug_radius;
 extern "C" {
 u32 init_collision_body_parts(void *, void *, s32);
 }
 NJS_OBJECT *get_container_breakup_model(s32 index);
-extern const f32 lbl_805DBCF4;
+extern const f32 container_item_zero;
 NJS_OBJECT *get_forest_box_model(s32 index);
-extern const f32 lbl_805DBCFC;
-extern const f32 lbl_805DBD0C;
-extern const f32 lbl_805DBCF0;
-extern const f32 lbl_805DBD00;
-extern const f32 lbl_805DBD04;
-extern const f32 lbl_805DBD08;
+extern const f32 container_item_model_scale;
+extern const f32 forest_box_ginja_radius;
+extern const f32 container_item_one;
+extern const f32 container_item_view_range;
+extern const f32 container_item_model_radius;
+extern const f32 container_item_fade_distance;
 
 // ---- TObjComputer
 
@@ -213,7 +213,7 @@ void load_forest_box_resources(void) {
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;
     }
-    TObjNpcEnemy::register_ginja(1, get_forest_box_model(1), forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
+    TObjNpcEnemy::register_ginja(1, get_forest_box_model(1), forest_box_textures, forest_box_ginja_radius, container_item_zero);
 }
 
 void free_forest_box_resources() {
@@ -271,16 +271,16 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObjChara(parent) {
     m_name = container_base_name;
     apply_object_set_data(set_data);
-    view_range = lbl_805DBD00;
-    model_radius = lbl_805DBD04;
-    melee_range_sq = lbl_805DBD00;
-    if (scale.x > lbl_805DBCF4) {
+    view_range = container_item_view_range;
+    model_radius = container_item_model_radius;
+    melee_range_sq = container_item_view_range;
+    if (scale.x > container_item_zero) {
         random_item = 1;
     } else {
         random_item = 0;
     }
     distance_fade.reset();
-    distance_fade.set_fade_distance(lbl_805DBD08);
+    distance_fade.set_fade_distance(container_item_fade_distance);
     in_view = 0;
 }
 
@@ -295,9 +295,9 @@ f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload p
 
     kind = payload.kind;
     if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
-        receive_physical_attack(NULL, lbl_805DBCF0);
+        receive_physical_attack(NULL, container_item_one);
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
@@ -307,7 +307,7 @@ f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
         this->access_object_saved_state(&sp8, 0);
         this->send_object_state_update(&sp8);
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 void TObjContainerCommon::run_task() {
@@ -336,7 +336,7 @@ void TObjContainerCommon::render() {
 #pragma pool_data off
 void TObjContainerCommon::debug_print_item_box_info() {
     Item_80189E3C item;
-    if (this->scale.x > lbl_805DBCF4) {
+    if (this->scale.x > container_item_zero) {
         this->random_item = 1;
     } else {
         this->random_item = 0;
@@ -457,7 +457,7 @@ void TObjContainerItem::draw_model() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
+            scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
             draw_ginja_box_tree((NJS_OBJECT *)model);
             pop_matrix();
             break;
@@ -548,7 +548,7 @@ void TObjContainerEnemy::draw_model() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
+        scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree((NJS_OBJECT *)model);
         pop_matrix();
         break;
@@ -561,7 +561,7 @@ void TObjContainerEnemy::debug_print_item_box_info() {
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
     set_debug_text_color(0xF0F0F0FF);
-    debug_draw_sphere(&position, &debug_color_blue_alpha30, lbl_805DBCF8);
+    debug_draw_sphere(&position, &debug_color_blue_alpha30, container_item_debug_radius);
 }
 
 f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
@@ -578,7 +578,7 @@ f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
         pkt.sender_client_id = local_client_id;
         pkt.send();
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 void TObjContainerEnemy::spawn_break_effects() const {
@@ -661,7 +661,7 @@ void TObjContainerNoItem::draw_model() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
+        scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
         pop_matrix();
             break;
@@ -676,7 +676,7 @@ f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
         this->access_object_saved_state(&sp8, 0);
         this->send_object_state_update(&sp8);
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 void TObjContainerNoItem::spawn_break_effects() const {
@@ -868,7 +868,7 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
     set_debug_text_color(0xF0F0F0FF);
-    debug_draw_sphere(&position, &debug_color_blue_alpha30, lbl_805DBCF8);
+    debug_draw_sphere(&position, &debug_color_blue_alpha30, container_item_debug_radius);
 }
 
 f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
@@ -885,14 +885,14 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
         pkt.sender_client_id = local_client_id;
         pkt.send();
     }
-    return lbl_805DBCF4;
+    return container_item_zero;
 }
 
 #pragma push
 #pragma opt_propagation off
 void TObjContainerAbeEnemy::spawn_break_effects() const {
     if (this->mode != 1) {
-        TObjChipParams a = lbl_80444E5C;
+        TObjChipParams a = container_break_debris_desc;
         f32 za;
         f32 ya;
         f32 xa;
@@ -905,7 +905,7 @@ void TObjContainerAbeEnemy::spawn_break_effects() const {
         a.floor_y = ya;
         a.model = get_container_breakup_model(0);
         a.textures = container_breakup_textures;
-        TObjChipParams b = lbl_80444EA8;
+        TObjChipParams b = container_break_debris_desc_b;
         f32 zb;
         f32 yb;
         f32 xb;
@@ -944,11 +944,11 @@ void TObjContainerAbeEnemy::apply_saved_state(s16 *state, s32 live) {
 }
 
 
-extern const f32 lbl_805DBCF0 = 1.0f;
-extern const f32 lbl_805DBCF4 = 0.0f;
-extern const f32 lbl_805DBCF8 = 40.0f;
-extern const f32 lbl_805DBCFC = 0.85f;
-extern const f32 lbl_805DBD00 = 400.0f;
-extern const f32 lbl_805DBD04 = 10.0f;
-extern const f32 lbl_805DBD08 = 300.0f;
-extern const f32 lbl_805DBD0C = 9.0f;
+extern const f32 container_item_one = 1.0f;
+extern const f32 container_item_zero = 0.0f;
+extern const f32 container_item_debug_radius = 40.0f;
+extern const f32 container_item_model_scale = 0.85f;
+extern const f32 container_item_view_range = 400.0f;
+extern const f32 container_item_model_radius = 10.0f;
+extern const f32 container_item_fade_distance = 300.0f;
+extern const f32 forest_box_ginja_radius = 9.0f;

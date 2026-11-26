@@ -7597,9 +7597,9 @@ force_active:
   - lbl_80444238
   - lbl_80444248
   - lbl_80444250
-  - lbl_80444E5C
-  - lbl_80444EA8
-  - lbl_80445CD8
+  - container_break_debris_desc
+  - container_break_debris_desc_b
+  - lazer_fence_sw_select_color_label
   - lbl_80446F94
   - lbl_80446F9C
   - lbl_80446FA4

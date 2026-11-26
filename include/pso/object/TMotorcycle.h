@@ -12,7 +12,7 @@ struct TMotorcycle : public TObjMesBase {
     virtual void update_idle();
     virtual void debug_draw_label();
     virtual s32 update_object_view_visibility(f32 depth, f32 radius);
-    s32 m_bc; // model index, picked by placement parity (scale.x)
+    s32 model_index; // model index, picked by placement parity (scale.x)
     virtual void render();
     static void free_statics();
     static void load_resources();

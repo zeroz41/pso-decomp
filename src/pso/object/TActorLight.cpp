@@ -30,8 +30,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
-static const f32 lbl_805DC888[1] = {1.0f};
-static const f32 lbl_805DC88C[1] = {0.0f};
+static const f32 actor_light_one[1] = {1.0f};
+static const f32 actor_light_zero[1] = {0.0f};
 
 
 #pragma push
@@ -106,8 +106,8 @@ TActorLight::TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, 
     this->step = step;
     this->source = source;
     phase = 0;
-    peak = lbl_805DC888[0];
-    intensity = lbl_805DC888[0];
+    peak = actor_light_one[0];
+    intensity = actor_light_one[0];
     actor = this->source->get_entity_id();
     TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
@@ -120,7 +120,7 @@ void offset_point_toward_camera(Vec *center, Vec *out, f32 distance) {
         dir.x = camera_ctrl_instance->pos.x - center->x;
         dir.y = camera_ctrl_instance->pos.y - center->y;
         dir.z = camera_ctrl_instance->pos.z - center->z;
-        if (lbl_805DC88C[0] != vec_squared_length(&dir)) {
+        if (actor_light_zero[0] != vec_squared_length(&dir)) {
             normalize_vector(&dir);
         }
         out->x = dir.x * distance + center->x;
@@ -144,7 +144,7 @@ s32 TTecLuker::is_parents_unqueued(uaddr object) {
 
 extern "C" {
 
-const f64 lbl_8044D8D0[1] = {0.5};
+const f64 actor_light_half[1] = {0.5};
 
 s32 TObjPlayer::is_valid_and_active(uaddr actor) {
     if (actor == 0U) {
@@ -418,7 +418,7 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
     {
         f32 len = vector_length(&d);
         collidable->bodies->half_width = halfWidth;
-        collidable->bodies->radius = lbl_8044D8D0[0] * len;
+        collidable->bodies->radius = actor_light_half[0] * len;
     }
     pos.x = 0.5f * (pos.x + prev->x);
     pos.y = 0.5f * (pos.y + prev->y);

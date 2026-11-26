@@ -59,7 +59,7 @@ BmlResourceDescriptor fs_obj_tanmatu02_resource_descriptor = {
 };
 const char *computer_class_name = "TObjComputer";
 const char *gb_advance_class_name = "TObjGbAdvance";
-const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
+const s16 computer_screen_model_ids[2] = {1, 0};
 
 BmlResource *computer_model_archive;
 NJS_TEXLIST *computer_texture_gvm_handle;
@@ -79,7 +79,7 @@ TObjComputer::TObjComputer(TObject *parent, ObjectSetData *placement) : TObjMesB
         set_params[1] = 1;
     }
     if (computer_model_archive != NULL) {
-        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer__data_805DBCD8[set_params[1]]));
+        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, computer_screen_model_ids[set_params[1]]));
     } else {
         queue_destruction();
         return;
@@ -159,7 +159,7 @@ void TObjComputer::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    if (TObjComputer__data_805DBCD8[set_params[1]] == 1) {
+    if (computer_screen_model_ids[set_params[1]] == 1) {
         u32 tick = actor_frame_tick;
         if (tick != uv_scroll_tick && uv_scroll_time >= 1.0f) {
             uv_scroll_tick = tick;
@@ -185,7 +185,7 @@ void TObjComputer::draw_model() {
 void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
     this->set_params[1] = this->set_params[1] % 2;
-    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer__data_805DBCD8[this->set_params[1]]));
+    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, computer_screen_model_ids[this->set_params[1]]));
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
     set_debug_text_color(0xF0F0F0FF);

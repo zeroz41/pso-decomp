@@ -33,7 +33,7 @@ extern const char *fe_obj_baiku_motion_names[1];
 
 BmlResource *motorcycle_bml_resource;
 NJS_TEXLIST *motorcycle_texture_list;
-extern const s32 lbl_80445DF4[];
+extern const s32 motorcycle_model_ids[];
 extern CollisionBody motorcycle_collision_parts[1];
 extern const char *motorcycle_class_name;
 
@@ -43,7 +43,7 @@ CollisionBody motorcycle_collision_parts[1] = {
     {{0.0f, 5.0f, 0.0f}, 24.0f, 7.0f, 1, 0x30003},
 };
 // model index picked by placement parity (TMotorcycle__ct; debug_draw_label prints it)
-const s32 lbl_80445DF4[2] = { 1, 0 };
+const s32 motorcycle_model_ids[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
 
@@ -59,9 +59,9 @@ s32 TMotorcycle::update_object_view_visibility(f32 depth, f32 radius) {
 
 void TMotorcycle::debug_draw_label() {
     TObjMesBase::debug_draw_label();
-    m_bc = (s32)fabs_float(scale.x);
-    m_bc = m_bc % 2;
-    m_bc = lbl_80445DF4[m_bc];
+    model_index = (s32)fabs_float(scale.x);
+    model_index = model_index % 2;
+    model_index = motorcycle_model_ids[model_index];
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x13001C, "<- MODEL SELECT");
     set_debug_text_color(0xF0F0F0FF);
@@ -75,7 +75,7 @@ void TMotorcycle::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
-            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(motorcycle_bml_resource, m_bc)));
+            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(motorcycle_bml_resource, model_index)));
             pop_matrix();
         }
         restore_draw_list_mask();
@@ -117,9 +117,9 @@ TMotorcycle::~TMotorcycle() {
 }
 TMotorcycle::TMotorcycle(TObject *parent, ObjectSetData *placement) : TObjMesBase(parent, placement) {
     m_name = motorcycle_class_name;
-    m_bc = (s32)fabs_float(scale.x);
-    m_bc = m_bc % 2;
-    m_bc = lbl_80445DF4[m_bc];
+    model_index = (s32)fabs_float(scale.x);
+    model_index = model_index % 2;
+    model_index = motorcycle_model_ids[model_index];
     init_collision_body_parts(this, motorcycle_collision_parts, 1);
     actorFlags |= 0x40000000;
     register_object_by_id();

@@ -77,9 +77,9 @@ LAYOUT_ASSERT(AncientContainerBmlSize, sizeof(AncientContainerBml) == 0x20);
 LAYOUT_ASSERT(AncientContainerBmlDescriptorOffset, offsetof(AncientContainerBml, descriptor) == 0x10);
 
 // The 6x67 packet receive_physical_attack sends (its fields are not named yet).
-extern const f32 lbl_805DB398;
-extern const f32 lbl_805DB39C;
-extern const f32 lbl_805DB3A0;
+extern const f32 ancient_container_one;
+extern const f32 ancient_container_zero;
+extern const f32 ancient_container_debug_radius;
 
 const char *bm_o_container_ancient_motion_names[1] = { NULL };
 const char *fe_obj_o_vs2container_motion_names[1] = { NULL };
@@ -94,7 +94,7 @@ const char *container_ancient_item_rare_name = "TOContainerAncientItemRare";
 const char *container_ancient_item_none_name = "TOContainerAncientItemNone";
 const char *container_ancient_enemy_name = "TOContainerAncientEnemy";
 const char *container_ancient_enemy_common_name = "TOContainerAncientEnemyCommon";
-const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
+const char *container_ancient_enemy_rare_name = "TOContainerAncientEnemyRare";
 
 // The three fragment texture lists of the current floor, loaded with the
 // archive (ancient_container_resource_bundle) by
@@ -160,8 +160,8 @@ s32 TObjContainerCommon::try_start_action(void *, s32, f32) { return 1; }
 void TObjContainerCommon::apply_knockback_from_attacker(u8 *, f32) {  }
 
 f32 TObjContainerCommon::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, lbl_805DB398);
-    return lbl_805DB39C;
+    receive_physical_attack(NULL, ancient_container_one);
+    return ancient_container_zero;
 }
 
 int TObjContainerCommon::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
@@ -453,7 +453,7 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, ancient_enemy_event_format, this->set_params[0]);
     set_debug_text_color(0xF0F0F0FF);
-    debug_draw_sphere(&this->position, &debug_color_blue_alpha30, lbl_805DB3A0);
+    debug_draw_sphere(&this->position, &debug_color_blue_alpha30, ancient_container_debug_radius);
 }
 
 f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
@@ -470,7 +470,7 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
         pk.sender_client_id = local_client_id;
         pk.send();
     }
-    return lbl_805DB39C;
+    return ancient_container_zero;
 }
 
 void TOContainerAncientEnemy::spawn_break_effects() const {
@@ -489,7 +489,7 @@ void TOContainerAncientEnemy::spawn_break_effects() const {
         b.floor_y = this->position.y;
         b.model = get_bml_model(ancient_container_resource_bundle, 2);
         b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-        if (check_value_equals(lbl_805D2F10) != 0) {
+        if (check_value_equals(container_ancient_enemy_rare_name) != 0) {
             a.textures = ancient_container_fragment_texture_lists[1];
             b.textures = ancient_container_fragment_texture_lists[2];
         }
@@ -527,7 +527,7 @@ void *TOContainerAncientEnemyCommon::create(void *set_data) {
 }
 
 TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
-    m_name = lbl_805D2F10;
+    m_name = container_ancient_enemy_rare_name;
     texlist = *ancient_container_fragment_texture_lists;
 }
 
@@ -537,6 +537,6 @@ TOContainerAncientEnemyRare::~TOContainerAncientEnemyRare() {
 
 BmlResource *ancient_container_resource_bundle;
 NJS_TEXLIST **ancient_container_fragment_texture_lists;
-extern const f32 lbl_805DB398 = 1.0f;
-extern const f32 lbl_805DB39C = 0.0f;
-extern const f32 lbl_805DB3A0 = 40.0f;
+extern const f32 ancient_container_one = 1.0f;
+extern const f32 ancient_container_zero = 0.0f;
+extern const f32 ancient_container_debug_radius = 40.0f;

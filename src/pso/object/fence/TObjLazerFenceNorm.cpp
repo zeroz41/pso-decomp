@@ -76,7 +76,7 @@ BmlResource *lazer_fence_norm_bml_resource;
 extern "C" {
 
 
-static const f32 lbl_805DBE58[1] = {0.0f};
+static const f32 lazer_fence_norm_zero[1] = {0.0f};
 
 
 
@@ -131,7 +131,7 @@ TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, void *set_data) : TObjCo
     m_name = obj_lazer_fence_norm_class_name;
     apply_object_set_data(set_data);
     state = 0;
-    frame = lbl_805DBE58[0];
+    frame = lazer_fence_norm_zero[0];
     scale_level = (s32)scale.x;
     if ((s32)scale_level < 0) {
         scale_level = 0;
@@ -174,7 +174,7 @@ void TObjLazerFenceNorm::reset_by_door() {
 void TObjLazerFenceNorm::update_closed() {
     this->frame += 0.9f;
     if ((f32)(beam_motion->frameCount - 1) < frame) {
-        this->frame = lbl_805DBE58[0];
+        this->frame = lazer_fence_norm_zero[0];
     }
     if (is_current_floor_switch_set((u16)switch_id) == 1) {
         clear_player_status_flag(0, 1);
@@ -259,7 +259,7 @@ TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, void *set_data) : TObj
     m_name = lazer_fence_extra_class_name;
     apply_object_set_data(set_data);
     state = 0;
-    frame = lbl_805DBE58[0];
+    frame = lazer_fence_norm_zero[0];
     scale_level = (s32)scale.x;
     if (scale_level < 0) {
         scale_level = 0;
@@ -314,7 +314,7 @@ void TObjLazerFenceExtra::reset_by_door() {
 void TObjLazerFenceExtra::update_wait_switch() {
     this->frame += 0.9f;
     if ((f32)(beam_motion->frameCount - 1) < frame) {
-        this->frame = lbl_805DBE58[0];
+        this->frame = lazer_fence_norm_zero[0];
     }
     if (is_current_floor_switch_set((u16)switch_id) == 1) {
         clear_player_status_flag(0, 1);

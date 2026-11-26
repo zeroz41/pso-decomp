@@ -35,7 +35,7 @@
 
 #pragma readonly_strings on
 
-const u16 lbl_80445BE0[] = {0, 1, 2, 3};
+const u16 lazer_fence4_color_slots[] = {0, 1, 2, 3};
 
 CollisionBody laser_fence4_collision_body_sets[2][5] = {
     {
@@ -203,7 +203,7 @@ TObjLazerFence4::TObjLazerFence4(TObject *parent, void *set_data) : TObjCollidab
     if (i > 3) {
         i = 3;
     }
-    color_slot = lbl_80445BE0[i];
+    color_slot = lazer_fence4_color_slots[i];
     init_models();
     init_collision_body_parts(this, laser_fence4_collision_body_sets[set_params[2] % 2], 5);
     actorFlags |= 0x40000000;

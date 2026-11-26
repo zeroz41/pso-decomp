@@ -29,9 +29,9 @@
 
 #include "pso/system/task/TObject.h"
 
-static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
+static const f32 ancient01_one[1] = {1.0f};
 
-static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
+static const f32 ancient01_zero[1] = {0.0f};
 
 #include "pso/player/TObjPlayer.h"
 
@@ -127,8 +127,8 @@ s32 TContainerAncient01::try_start_action(void *, s32, f32) { return 1; }
 void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
 
 f32 TContainerAncient01::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, TContainerAncient01__data_805DBD10[0]);
-    return TContainerAncient01__data_805DBD14[0];
+    receive_physical_attack(NULL, ancient01_one[0]);
+    return ancient01_zero[0];
 }
 
 BmlResource *TContainerAncient01::get_bml_resource() {
@@ -144,8 +144,8 @@ s32 TContainerAncient01R::try_start_action(void *, s32, f32) { return 1; }
 void TContainerAncient01R::apply_knockback_from_attacker(u8 *, f32) {  }
 
 f32 TContainerAncient01R::receive_weapon_special_attack(void *, void *) {
-    receive_physical_attack(NULL, TContainerAncient01__data_805DBD10[0]);
-    return TContainerAncient01__data_805DBD14[0];
+    receive_physical_attack(NULL, ancient01_one[0]);
+    return ancient01_zero[0];
 }
 
 #pragma push
@@ -195,7 +195,7 @@ void TContainerAncient01::load_resources() {
     prm.motions = container_ancient01_bml_resource->motions;
     TObjNpcEnemy::register_animated_ginja(0x3B, get_bml_model(container_ancient01_bml_resource, 0),
                                              get_bml_texlist(container_ancient01_bml_resource, 0), &prm,
-                                             10.0f, TContainerAncient01__data_805DBD14[0]);
+                                             10.0f, ancient01_zero[0]);
 }
 
 void TContainerAncient01::release_static_resource() {
@@ -232,7 +232,7 @@ void TContainerAncient01::run_task() {
                 break;
             }
             frame_timer = this->frame_timer;
-            this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
+            this->frame_timer = (f32) (frame_timer + ancient01_one[0]);
             submit_cursor_candidate(this, -1);
         } else {
             y = this->open_scale.y;
@@ -284,9 +284,9 @@ f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload p
 
     kind = payload.kind;
     if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
-        receive_physical_attack(NULL, TContainerAncient01__data_805DBD10[0]);
+        receive_physical_attack(NULL, ancient01_one[0]);
     }
-    return TContainerAncient01__data_805DBD14[0];
+    return ancient01_zero[0];
 }
 
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
@@ -300,7 +300,7 @@ f32 TContainerAncient01::receive_physical_attack(void *, f32) {
             send_object_state_update(&sp8);
         }
     }
-    return TContainerAncient01__data_805DBD14[0];
+    return ancient01_zero[0];
 }
 
 void TContainerAncient01::open_container() {
@@ -329,18 +329,18 @@ void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
 #pragma push
 #pragma fp_contract on
 void TContainerAncient01::init_state_vectors() {
-    this->wait_limit = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
-    this->active_limit = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient01_one[0]));
+    this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient01_one[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - ancient01_one[0]));
     this->effect_rate = this->set_params[2] + 4;
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + container_ancient01_collision_body_parts.offset.y);
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
     this->upper_effect_position.y = (f32) ((1.25f * container_ancient01_collision_body_parts.offset.y) + this->upper_effect_position.y);
     this->opened = 0;
-    this->open_scale.x = (f32) TContainerAncient01__data_805DBD10[0];
-    this->open_scale.y = (f32) TContainerAncient01__data_805DBD10[0];
-    this->open_scale.z = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.x = (f32) ancient01_one[0];
+    this->open_scale.y = (f32) ancient01_one[0];
+    this->open_scale.z = (f32) ancient01_one[0];
 }
 
 void TContainerAncient01::update_wait_for_player() {
@@ -512,7 +512,7 @@ void TContainerAncient01R::run_task() {
                 break;
             }
             frame_timer = this->frame_timer;
-            this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
+            this->frame_timer = (f32) (frame_timer + ancient01_one[0]);
             submit_cursor_candidate(this, -1);
         } else {
             y = this->open_scale.y;
@@ -564,9 +564,9 @@ f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload 
 
     kind = payload.kind;
     if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
-        receive_physical_attack(NULL, TContainerAncient01__data_805DBD10[0]);
+        receive_physical_attack(NULL, ancient01_one[0]);
     }
-    return TContainerAncient01__data_805DBD14[0];
+    return ancient01_zero[0];
 }
 
 f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
@@ -579,7 +579,7 @@ f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
             send_object_state_update(&sp8);
         }
     }
-    return TContainerAncient01__data_805DBD14[0];
+    return ancient01_zero[0];
 }
 
 void TContainerAncient01R::open_container() {
@@ -610,18 +610,18 @@ void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
 #pragma push
 #pragma fp_contract on
 void TContainerAncient01R::init_positions() {
-    this->wait_limit = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
-    this->active_limit = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->wait_limit = (f32) (3e+02f + (this->scale.x - ancient01_one[0]));
+    this->active_limit = (f32) (2.1e+02f + (this->scale.y - ancient01_one[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - ancient01_one[0]));
     this->effect_rate = (this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + container_ancient01_collision_body_parts.offset.y);
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
     this->upper_effect_position.y = (f32) ((1.25f * container_ancient01_collision_body_parts.offset.y) + this->upper_effect_position.y);
     this->opened = 0;
-    this->open_scale.x = (f32) TContainerAncient01__data_805DBD10[0];
-    this->open_scale.y = (f32) TContainerAncient01__data_805DBD10[0];
-    this->open_scale.z = (f32) TContainerAncient01__data_805DBD10[0];
+    this->open_scale.x = (f32) ancient01_one[0];
+    this->open_scale.y = (f32) ancient01_one[0];
+    this->open_scale.z = (f32) ancient01_one[0];
     this->hp = (s16) this->rotation_z;
     if ((s16) this->hp < 1) {
         this->hp = 1;
