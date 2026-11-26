@@ -711,7 +711,6 @@ struct TObjPlayer : public TObjChara {
     void set_level(s32 lvl);
     static s32 init_sub_object(saddr lobby);
     static void init_sub_object_vectors(saddr lobby);
-    int bswap_disp_config_field();
     static s32 init_inventory_items(saddr items);
     s32 get_getup_protection_ticks();
     s32 get_hurt_protection_ticks();
@@ -916,10 +915,10 @@ struct TObjPlayer : public TObjChara {
     s32 is_quest_interaction_blocked();
     s32 has_action_palette_entry();
     static s32 is_effect_channel_active(saddr player, s32 index);
-    static void refresh_party_cursors(saddr player);
+    void refresh_party_cursors();
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
     u16 select_action_palette_and_apply(s32 secondary, s32 row, s32 index);
-    saddr refresh_effect();
+    TPlyDispConfigSmth *refresh_effect();
     void update_ground_contact();
     s32 check_actor_blocking_move();
     saddr resolve_move_collision();
@@ -993,7 +992,7 @@ struct TObjPlayer : public TObjChara {
     void swap_inventory_items(s32 first_id, s32 second_id);
     void update_warp_relocation();
     s32 try_camera_action(s32 tech);
-    static void update_party_cursors(saddr cursors, saddr player);
+    static void update_party_cursors(TPlyDispConfigSmth *palette, TObjPlayer *player);
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);

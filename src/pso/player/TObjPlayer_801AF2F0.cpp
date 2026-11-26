@@ -3056,7 +3056,7 @@ void TObjPlayer::update_ground_contact() {
                 action_palettes.clear_secondary_bank();
             }
         }
-        TObjPlayer::refresh_party_cursors((saddr)this);
+        refresh_party_cursors();
     }
 }
 
@@ -3104,14 +3104,14 @@ void TObjPlayer::select_contextual_pickup_action() {
     }
 }
 
-saddr TObjPlayer::refresh_effect() {
+TPlyDispConfigSmth *TObjPlayer::refresh_effect() {
     if (this->photon_blast_gauge.has_ready_flag() != 0) {
         if (action_palettes.test_photon_blast_modifier() != 0) {
-            return (saddr)action_palettes.ref_primary_palette();
+            return action_palettes.ref_primary_palette();
         }
-        return (saddr)action_palettes.ref_secondary_palette();
+        return action_palettes.ref_secondary_palette();
     }
-    return (saddr)action_palettes.ref_primary_palette();
+    return action_palettes.ref_primary_palette();
 }
 
 TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
@@ -3124,13 +3124,13 @@ TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
 #pragma push
 #pragma fp_contract on
 void get_action_palette_mode(saddr player, s32 index) {
-    ((TPlyDispConfigSmth *)((TObjPlayer *)player)->refresh_effect())->get_current_tag_mode(index);
+    ((TObjPlayer *)player)->refresh_effect()->get_current_tag_mode(index);
 }
 #pragma pop
 #pragma push
 #pragma fp_contract on
 u16 TObjPlayer::get_action_palette_entry(s32 index) {
-    return ((TPlyDispConfigSmth *)this->refresh_effect())->get_current_tag_slot(index);
+    return this->refresh_effect()->get_current_tag_slot(index);
 }
 #pragma pop
 
@@ -3157,15 +3157,15 @@ void TObjPlayer::set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32
 
 #pragma push
 #pragma fp_contract on
-void TObjPlayer::refresh_party_cursors(saddr player) {
-    TObjPlayer::update_party_cursors(((TObjPlayer *)player)->refresh_effect(), player);
+void TObjPlayer::refresh_party_cursors() {
+    TObjPlayer::update_party_cursors(refresh_effect(), this);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
 s32 TObjPlayer::is_effect_channel_active(saddr player, s32 index) {
-    return ((TPlyDispConfigSmth *)((TObjPlayer *)player)->refresh_effect())->is_channel_active(index);
+    return ((TObjPlayer *)player)->refresh_effect()->is_channel_active(index);
 }
 #pragma pop
 
@@ -3182,7 +3182,7 @@ s32 TObjPlayer::is_action_channel_available(s32 channel) {
         goto block_5;
     }
 block_5:
-    return ((TPlyDispConfigSmth *)this->refresh_effect())->is_channel_active(channel);
+    return this->refresh_effect()->is_channel_active(channel);
 }
 #pragma pop
 

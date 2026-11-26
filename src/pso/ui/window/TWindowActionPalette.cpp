@@ -165,7 +165,7 @@ void TWindowActionPalette::run_task() {
     u8 cnt;
     u8 *help;
     player = get_player_by_client_id(client_index);
-    if (player == NULL || (palette = (TPlyDispConfigSmth *)player->refresh_effect()) == NULL) {
+    if (player == NULL || (palette = player->refresh_effect()) == NULL) {
         return;
     }
     if (!(this->window_flags & 2)) {

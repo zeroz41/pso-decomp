@@ -270,33 +270,31 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
     return is_palette_entry_displayable(kind, arg) ? 1 : 0;
 }
 
-struct Obj_801D8474 { s8 a; u8 b; };
-
 extern "C" {
 
 s32 TObjPlayer__sub_801D8664(s32, s16, s16);
-s32 TObjPlayer__sub_801D84A8(void* p);
 s32 TObjPlayer__sub_801D84F0(void* p);
-int bswap_16__FPUs(void*);
+
+// `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
+// unlike gc_tag::tag0.
+struct Obj_801D8474 { s8 a; u8 b; };
 
 s32 TObjPlayer::can_use_palette_action_for_entry(TObjPlayer *player) {
     return player->can_use_palette_action(((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
 }
 
-s32 TObjPlayer__sub_801D84A8(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 TPlyDispConfigSmth::get_bank() { return bank; }
 
-u8 *TObjPlayer__sub_801D84B0(s32 *cursor_sets);
-
-u8 *TObjPlayer__sub_801D84B0(s32 *cursor_sets) {
-    if ((s32) *(s32 *)((s8 *)cursor_sets + 0) == 0) {
-        return (u8 *)cursor_sets + 4;
+gc_tag *TPlyDispConfigSmth::get_current_row() {
+    if (bank == 0) {
+        return m_tags;
     }
-    return (u8 *)cursor_sets + 0x14;
+    return m_tags1;
 }
 
 u32 advance_item_id_counter(u16 client);
 
-int TObjPlayer::bswap_disp_config_field() { return bswap_16__FPUs((char*)this + 0x2); }
+void gc_tag::bswap_disp_config_field() { bswap_16(&tag2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
 void TObjPlayer::set_animation_from_data(saddr player, s32 picture) {
     void *anim_table_entry;

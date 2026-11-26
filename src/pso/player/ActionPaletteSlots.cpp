@@ -6,7 +6,7 @@
 #include "pso/ui/window/ActionPaletteTag.h"
 
 s32 TPlyDispConfigSmth::find_action_slot_for_target(TObjPlayer *player, s16 type, s32 enabled) {
-    return find_action_slot(player, type, enabled, TObjPlayer__sub_801D84A8(this));
+    return find_action_slot(player, type, enabled, get_bank());
 }
 
 s32 TPlyDispConfigSmth::find_action_slot(TObjPlayer *player, s16 type, s32 enabled, s32 row) {

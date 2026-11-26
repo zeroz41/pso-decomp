@@ -5717,7 +5717,7 @@ void TObjPlayer::request_heavy_attack_particles() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void emit_heavy_attack_particles(s32 owner, u16 target_id) {
+void emit_heavy_attack_particles(saddr owner, u16 target_id) {
     TObjPlayer::check_hit_by_id(owner, target_id, 0xBB);
     TObjPlayer::check_hit_by_id(owner, target_id, 0x1B7);
 }
