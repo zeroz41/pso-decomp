@@ -10,6 +10,7 @@
 class TAdGameStartLineGC : public TObject {
 public:
     static const char *name;
+    static saddr texture_list;
     TAdGameStartLineGC(TObject *parent);
     virtual ~TAdGameStartLineGC();
     virtual void run_task();
