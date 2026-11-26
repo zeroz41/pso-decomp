@@ -1788,52 +1788,10 @@ pso/unk/TLobby_800F8AA8.cpp:
 	.sbss       start:0x805D5338 end:0x805D5360
 	.sdata2     start:0x805DA910 end:0x805DA948
 
-pso/unk/TLobby_800F9F4C.cpp:
-	.text       start:0x800F9F4C end:0x800F9FD0
-
-pso/unk/text_800F9FD0.cpp:
-	.text       start:0x800F9FD0 end:0x800FA044
-
-pso/unk/TLobby_800FA044.cpp:
-	.text       start:0x800FA044 end:0x800FA0A4
-
-pso/unk/TLobby_800FA0A4.cpp:
-	.text       start:0x800FA0A4 end:0x800FA100
-
-pso/unk/TLobby_800FA100.cpp:
-	.text       start:0x800FA100 end:0x800FA12C
-
-pso/unk/TLobby_800FA12C.cpp:
-	.text       start:0x800FA12C end:0x800FA164
-
-pso/unk/TLobby_800FA164.cpp:
-	.text       start:0x800FA164 end:0x800FA260
-
-pso/unk/text_800FA260.cpp:
-	.text       start:0x800FA260 end:0x800FA2A0
-
-pso/unk/TLobby_800FA2A0.cpp:
-	.text       start:0x800FA2A0 end:0x800FA388
-
-pso/unk/TLobby_800FA388.cpp:
-	.text       start:0x800FA388 end:0x800FA464
-
 pso/unk/text_800FA464.cpp:
-	.text       start:0x800FA464 end:0x800FA73C
+	.text       start:0x800F9F4C end:0x800FA8A4
 	.rodata     start:0x8043DA10 end:0x8043DA20
 	.sbss       start:0x805D5360 end:0x805D5388
-
-pso/unk/TLobby_800FA73C.cpp:
-	.text       start:0x800FA73C end:0x800FA774
-
-pso/unk/TLobby_800FA774.cpp:
-	.text       start:0x800FA774 end:0x800FA7E0
-
-pso/unk/text_800FA7E0.cpp:
-	.text       start:0x800FA7E0 end:0x800FA848
-
-pso/unk/TLobby_800FA848.cpp:
-	.text       start:0x800FA848 end:0x800FA8A4
 
 pso/render/TFogCtrl.cpp:
 	.text       start:0x800FA8A4 end:0x800FBD74
