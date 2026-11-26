@@ -32,9 +32,6 @@ struct NJS_OBJECT;
 // pool before it already holds, so they are not part of the Lappy file.
 extern Vec re2_flower_demo_shadow_scale[];
 extern Vec re2_flower_shadow_scale[];
-extern s32 re2_flower_node_index;
-extern s32 re2_flower_node_yaw;
-extern f32 *re2_flower_node_points;
 extern const f32 lbl_805D9FAC;
 extern const f32 re2_flower_node_point0_y;
 extern const f32 re2_flower_node_point1_y;

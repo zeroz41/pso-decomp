@@ -45,42 +45,11 @@ extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC0;
 extern const f32 lbl_805D9FC4;
 extern const f32 lbl_805D9FD4;
+extern const f32 lbl_805D9FBC; // 5.0
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/SoundEffect.h"
-extern const f32 re2_flower_acquire_range;
 
-extern const f32 re2_flower_lose_target_distance;
-extern const f32 re2_flower_attack_distance;
-extern const f32 re2_flower_track_timeout;
-extern const f32 re2_flower_retarget_margin;
-
-
-
-// FlowerRe2Data.cpp
-extern const NpcAnimationBinding re2_flower_animation_binding;
-extern const char re2_flower_model_name_re2_b_flower_root_nj[];
-extern const char re2_flower_motion_name_attack_re2_b_root_njm[];
-extern const char re2_flower_motion_name_damege_re2_b_root_njm[];
-extern const char re2_flower_motion_name_die_re2_b_root_njm[];
-extern const char re2_flower_motion_name_laugh_re2_b_root_njm[];
-extern const char re2_flower_motion_name_waitc_re2_b_root_njm[];
-extern const char re2_flower_motion_name_waito_re2_b_root_njm[];
-extern const char re2_flower_motion_name_wake_re2_b_root_njm[];
-extern const char re2_flower_bml_name_bm_ene_re2_flower_bml[];
-
-extern const f32 lbl_805D9FBC; // 5.0
-extern const f32 re2_flower_player_range_sq;
-extern const f32 re2_flower_body_center_height;
-extern const f32 re2_flower_rare_chance; // 0.002
-// Stat block ids by variant (0 normal, 1 rare, 2 the tower's): reset_hp's base, attack and
-// resistance blocks, and the param block.
-extern const s32 re2_flower_base_stat_ids[3];
-
-extern const s32 re2_flower_attack_stat_ids[3];
-extern const s32 re2_flower_resist_stat_ids[3];
-extern const s32 re2_flower_param_ids[3];
-extern const char re2_flower_class_name_string[];
 const char *re2_flower_class_name = re2_flower_class_name_string;
 // The variant's movement block (TLobby::dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
 void *re2_flower_movement_params;
