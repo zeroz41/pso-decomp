@@ -1707,7 +1707,7 @@ pso/ui/window/TWindowAddition.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
 pso/ui/window/TWindowHelpItem.cpp
 pso/unk/text_8025CD10.cpp
-pso/ui/window/TWindowLockOn_80262C3C.cpp
+pso/ui/window/TWindowLockOn.cpp
 pso/unk/text_80263A20.cpp
 pso/unk/text_8026934C.cpp
 pso/unk/text_802693B4.cpp

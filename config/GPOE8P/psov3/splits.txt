@@ -6109,7 +6109,7 @@ pso/ui/window/TWindowLoadItemTexture.cpp:
 	.sdata      start:0x805D3940 end:0x805D3948
 	.sdata2     start:0x805DD0D8 end:0x805DD100
 
-pso/ui/window/TWindowLockOn_80262C3C.cpp:
+pso/ui/window/TWindowLockOn.cpp:
 	.text       start:0x80262C3C end:0x80263A20
 	.rodata     start:0x8044F288 end:0x8044F2D0
 	.data       start:0x804D0088 end:0x804D02E0
