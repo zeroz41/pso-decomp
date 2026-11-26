@@ -590,7 +590,7 @@ TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
     m_name = class_name;
     clamp_destination_index();
     warp_range = 23.0f;
-    *(f32 *)((s8 *)this + 0xFC) = 0.0f;
+    animation_frame = 0.0f;
 }
 
 TObjCityMapWarp::~TObjCityMapWarp() {}

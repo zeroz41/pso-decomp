@@ -112,5 +112,5 @@ void TOMineIcon04::play_trigger_sound() {
     }
 }
 
-void TOMineIcon04::spawn_blast_particle() { spawn_particle_effect((const Vec *)((char*)this + 0x2fc), 140); }
+void TOMineIcon04::spawn_blast_particle() { spawn_particle_effect(&body_center, 140); }
 void TOMineIcon04::vfunc_84() {  }

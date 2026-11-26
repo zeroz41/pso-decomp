@@ -25,6 +25,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -151,7 +152,7 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = light_class_name;
     (light)->apply_object_set_data(set_data);
-    light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
+    light->m_90 = (s32) ((ObjectSetData *)set_data)->room;
     light->actor_color.a = 0.5f;
     light->actor_color.r = (f32) light->scale.x;
     light->actor_color.g = (f32) light->scale.y;

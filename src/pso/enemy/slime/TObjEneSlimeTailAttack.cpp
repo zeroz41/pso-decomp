@@ -54,6 +54,7 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/EnemyPlacement.h"
 
 extern "C" {
 extern void *slime_model_index_by_type[2];
@@ -280,7 +281,7 @@ TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
     clear_lobby_object_state();
     register_by_id();
     copy_set_entry(&spawn_template, set_data);
-    child_limit = *(s16 *)(set_data + 2);
+    child_limit = ((EnemyPlacement *)set_data)->child_count;
     if (child_limit < 1) {
         if (TObjPlayer::check_demo_mode() != 0) {
             child_limit = 3;
