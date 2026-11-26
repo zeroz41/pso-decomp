@@ -132,11 +132,11 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
 // The front-end screens' hooks, run after the table above and released before it.
 FloorResourceCallbacks lobby_scene_release_callback_table[7] = {
     {initialize_lobby_title_scene, TLobby::destroy_global_object},
-    {TLobby__sub_802A0F70, TLobby::free_dialog_global},
-    {TLobby__sub_802A5154, TLobby::free_dialing_gc},
-    {TLobby__sub_802A194C, TLobby__sub_802A1918},
-    {TLobby::apply_menu_cursor_selection, TLobby__sub_802AF198},
-    {TLobby__sub_802C7920, TLobby__sub_802C78EC},
+    {load_title_midashi_texture, free_title_midashi_texture},
+    {load_player_tex_texture, free_player_tex_texture},
+    {load_select_gamen_texture, free_select_gamen_texture},
+    {load_select_cursor_texture, free_select_cursor_texture},
+    {load_chr_sel_slot_texture, free_chr_sel_slot_texture},
     {TLobby::update_menu_cursor_selection, TLobby::free_global_object},
 };
 

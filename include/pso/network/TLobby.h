@@ -334,8 +334,6 @@ struct TLobby : public TObject {
     static void spawn_player_tombstones2();
     static void copy_global_value_block();
     static void free_chr_select_slots();
-    static void free_dialog_global();
-    static void free_dialing_gc();
     static void *create_mist_ctrl(void *parent, void *set_data);
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
@@ -389,7 +387,6 @@ struct TLobby : public TObject {
     static void reset_trade_state();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
     static s32 find_free_chat_log_slot();
-    static void apply_menu_cursor_selection();
     static void send_challenge_retry_cmd(s32 choice);
     static void send_challenge_with_value(s32 challenge, s32 window_mode);
     static void send_challenge_records(u32 _w0);

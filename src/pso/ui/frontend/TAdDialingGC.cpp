@@ -28,13 +28,13 @@
 
 void TAdDialingGC::open() {
     TAdDialingGC::instance = NULL;
-    TLobby__sub_802A0F70();
-    TLobby__sub_802A5154();
+    load_title_midashi_texture();
+    load_player_tex_texture();
 }
 
 void TAdDialingGC::close() {
-    TLobby::free_dialing_gc();
-    TLobby::free_dialog_global();
+    free_player_tex_texture();
+    free_title_midashi_texture();
     TAdDialingGC::instance = NULL;
 }
 

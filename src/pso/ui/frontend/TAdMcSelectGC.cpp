@@ -108,8 +108,8 @@ TAdMcSelectGC *TAdMcSelectGC::create(TObject *parent) {
 }
 
 
-void TAdMcSelectGC::open() { TLobby__sub_802C78EC(); TAdMcSelectMcGC::release_selected_entry(); TAdMcSelectCursorGC::release_cursor_entry(); }
-void TAdMcSelectGC::close() { TAdMcSelectCursorGC::init_resource(); TAdMcSelectMcGC::init_memorycard(); TLobby__sub_802C7920(); }
+void TAdMcSelectGC::open() { free_chr_sel_slot_texture(); TAdMcSelectMcGC::release_selected_entry(); TAdMcSelectCursorGC::release_cursor_entry(); }
+void TAdMcSelectGC::close() { TAdMcSelectCursorGC::init_resource(); TAdMcSelectMcGC::init_memorycard(); load_chr_sel_slot_texture(); }
 void TAdMcSelectCursorGC::unlock_selection() { selection_locked = 0; }
 
 TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC::instance; }

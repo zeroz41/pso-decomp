@@ -39,7 +39,7 @@ extern "C" {
 extern const s32 current_language;
 }
 
-void TLobby__sub_802A5154(void) {
+void load_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {
         return;
     }
@@ -56,7 +56,7 @@ void TLobby__sub_802A5154(void) {
     load_streamed_prs_texture(files[current_language], list);
 }
 
-void TLobby::free_dialing_gc() {
+void free_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {
         release_texture_list(player_tex_texture_list_ptr);
         player_tex_texture_list_ptr = NULL;

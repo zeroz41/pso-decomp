@@ -18,7 +18,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-/* inferred: the two one-texture lists apply_menu_cursor_selection picks from by language
+/* The two one-texture lists load_select_cursor_texture picks from by language
    (f256_ad for Japanese, f256_ad_eng otherwise) and keeps in menu_selection_cursor_texture_list */
 NJS_TEXNAME select_cursor_eng_texture_entry = {"f256_ad_eng", 0, NULL};
 NJS_TEXLIST select_cursor_eng_texture_list = {&select_cursor_eng_texture_entry, 1};
@@ -122,14 +122,14 @@ TAdSelectCurGC::TAdSelectCurGC(TObject *parent, const NJS_POINT2 *position, cons
     }
 }
 
-void TLobby__sub_802AF198(void) {
+void free_select_cursor_texture() {
     if (menu_selection_cursor_texture_list != NULL) {
         release_texture_list(menu_selection_cursor_texture_list);
         menu_selection_cursor_texture_list = NULL;
     }
 }
 
-void TLobby::apply_menu_cursor_selection() {
+void load_select_cursor_texture() {
     TLobby::update_menu_cursor();
     const char *names[5] = {"f256_ad", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng"};
     NJS_TEXLIST *lists[5] = {

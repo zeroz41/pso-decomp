@@ -36,7 +36,7 @@ extern const s32 current_language;
 
 int game_files_modified() { return game_files_modified_flag; }
 
-void TLobby__sub_802A0F70(void) {
+void load_title_midashi_texture() {
     TLobby::update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
     NJS_TEXLIST *lists[5] = { &title_midashi_texlist, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng };
@@ -44,7 +44,7 @@ void TLobby__sub_802A0F70(void) {
     load_streamed_prs_texture(names[current_language], lists[current_language]);
 }
 
-void TLobby::free_dialog_global() {
+void free_title_midashi_texture() {
     if ((u32) title_midashi_texlist_current != 0U) {
         release_texture_list((NJS_TEXLIST *)title_midashi_texlist_current);
         title_midashi_texlist_current = 0U;

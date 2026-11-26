@@ -211,7 +211,7 @@ void TLobby::create_tasks() {
 
 void TLobby::clear_session_buffers() {
     if (get_current_floor_area() == AREA_LOBBY) {
-        TLobby::free_dialing_gc();
+        free_player_tex_texture();
         free_lobby_textures();
         free_obj_lobby_main();
     }
@@ -237,7 +237,7 @@ s32 TLobby::run_lobby_load_tables() {
     if (get_current_floor_area() == AREA_LOBBY) {
         load_obj_lobby_main();
         load_lobby_textures();
-        TLobby__sub_802A5154();
+        load_player_tex_texture();
     }
     return 1;
 }

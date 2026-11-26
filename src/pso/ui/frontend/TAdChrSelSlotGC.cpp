@@ -166,7 +166,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
 
 #pragma pop
 
-void TLobby__sub_802C78EC(void) {
+void free_chr_sel_slot_texture() {
     if (chr_sel_slot_texlist_current != NULL) {
         release_texture_list(chr_sel_slot_texlist_current);
         chr_sel_slot_texlist_current = NULL;
@@ -174,7 +174,7 @@ void TLobby__sub_802C78EC(void) {
 }
 struct ByteBlock_14 { saddr v[5]; };
 
-void TLobby__sub_802C7920(void) {
+void load_chr_sel_slot_texture() {
     TLobby::update_menu_cursor();
     ByteBlock_14 a = *(const ByteBlock_14 *)chr_sel_slot_resource_name_table;
     ByteBlock_14 b = *(const ByteBlock_14 *)chr_sel_slot_texlist_table;

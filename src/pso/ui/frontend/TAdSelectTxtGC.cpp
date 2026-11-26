@@ -12,7 +12,7 @@
 #include "pso/render/GinjaTexture.h"
 
 // The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
-// texture files they list; TLobby__sub_802A194C picks a set by current_language (0 = Japanese).
+// texture files they list; load_select_gamen_texture picks a set by current_language (0 = Japanese).
 static NJS_TEXNAME select_gamen_eng_texture_names[2] = {
     {"f256_selectgamen_a_eng", 0, 0},
     {"f256_selectgamen_b_eng", 0, 0},
@@ -117,13 +117,13 @@ TAdSelectTxtGC::TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 
     this->init_slot_entries(layout, value);
 }
 
-void TLobby__sub_802A1918(void) {
+void free_select_gamen_texture() {
     if ((u32) ad_select_text_texture_handle != 0U) {
         release_texture_list((NJS_TEXLIST *)ad_select_text_texture_handle);
         ad_select_text_texture_handle = 0U;
     }
 }
-void TLobby__sub_802A194C(void) {
+void load_select_gamen_texture() {
     TLobby::update_menu_cursor();
     const char *texture_files[5] = {"f256_selectgamen_a", "f256_selectgamen_a_eng", "f256_selectgamen_a_eng",
                                     "f256_selectgamen_a_eng", "f256_selectgamen_a_eng"};

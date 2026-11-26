@@ -43,8 +43,9 @@ extern uaddr ad_select_text_texture_handle;
 extern "C" {
 void TAdSelectTxtGC__sub_802A16A8(void *p);
 s32 TAdSelectTxtGC__sub_802A16C0(void *p);
-void TLobby__sub_802A1918(void);
-void TLobby__sub_802A194C(void);
 }
+
+void load_select_gamen_texture();
+void free_select_gamen_texture();
 
 #endif
