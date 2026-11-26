@@ -763,7 +763,7 @@ void remove_list_entry_by_id(s32 id) {
         n = selected->m_num_items;
         for (i = 0; i < n; p++, i++) {
             if (static_cast<s32>(p->m_data.id) == id) {
-                if ((reinterpret_cast<TAdSinglePlyChrSelectGC *>(&p->m_data))->is_both_confirmed() != 0) {
+                if (p->m_data.is_frame() != 0) {
                     selected->unequip_units();
                 }
                 rem = n - i;

@@ -47,6 +47,7 @@ struct TItemData {
     static s32 is_wrapped(void *data);
     static s32 is_rare_item(void *data);
     static s32 is_custom_name_srank(void *data);
+    s32 is_frame();
     // Packs a mag's MagStats into its item data, and unpacks them.
     static void serialize_mag(void *item, void *mag);
     static void deserialize_mag(void *item, void *mag);

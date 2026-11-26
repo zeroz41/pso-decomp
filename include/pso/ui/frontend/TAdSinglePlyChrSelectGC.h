@@ -73,7 +73,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u8 *get_global_state();
     static int get_state();
     static int get_game_mode();
-    s32 is_both_confirmed();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
     s32 init_char_slot_record();
