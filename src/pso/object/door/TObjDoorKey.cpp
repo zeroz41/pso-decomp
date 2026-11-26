@@ -281,6 +281,6 @@ void *TObjEnvSoundGlobal::create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSoundGlobal((TObject *)tl_05, (saddr)rader_map_core);
+    return new TObjEnvSoundGlobal((TObject *)tl_05, rader_map_core);
 }
 

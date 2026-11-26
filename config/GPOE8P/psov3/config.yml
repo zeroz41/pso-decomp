@@ -1363,7 +1363,7 @@ force_active:
   - slime_attack_target_param_table
   - __ct__12TObjEneSlimeFP7TObjectPUc
   - copy_child_slot__FP14SlimeChildSlotP14SlimeChildSlot
-  - __ct__14TObjEnvSoundExFP7TObjectl
+  - __ct__14TObjEnvSoundExFP7TObjectPv
   - __ct__12TObjEnvSoundFP7TObjectPv
   - TObjEvtCollision__ct
   - __dt__24ModelNodePositionCaptureFv
@@ -5368,7 +5368,7 @@ force_active:
   - copy_network_info_config_string__FPcPcUlUl
   - __as__18IndirectDrawRecordFR18IndirectDrawRecord
   - copy_pair__11TBoss4Type3FPv
-  - copy_pair__18TObjEnvSoundGlobalFPvPv
+  - copy_pair__18TObjEnvSoundGlobalFP11EnvSoundRowP11EnvSoundRow
   - copy_pair__6TLobbyFPvPv
   - copy_params__12TBoss1DragonFP29G_DragonBossActions_6x10_6x11
   - copy_pos__10TBoss6MineFv
@@ -6356,7 +6356,7 @@ force_active:
   - init_6x91_subcommand__FP31G_UpdateAttackableColState_6x91
   - fn_801811FC
   - fn_80181204
-  - fn_801908F8
+  - is_camera_in_range__12TObjEnvSoundFf
   - get_warp_string_screen_position
   - fn_8019F9AC
   - alloc_player_ids__Fl
