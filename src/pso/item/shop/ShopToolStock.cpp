@@ -321,13 +321,10 @@ void clear_shop_tool_flags(void) {
     memset(shop_tool_flags, 0, 0x10);
 }
 
-// A stocked item copied as plain bytes, word by word.
-struct ShopToolItemBytes {
-    u8 bytes[0x14];
-};
+struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void get_shop_tool_stock_item(TItemData *dst, s32 index, s32 shop) {
-    *(ShopToolItemBytes *)dst = ((ShopToolItemBytes *)shop_tool_stock_buffers[shop])[index];
+    *(ByteBlock_14 *)dst = ((ByteBlock_14 *)shop_tool_stock_buffers[shop])[index];
 }
 
 void mark_shop_tool_sold_out(s32 index, s32 shop) {
