@@ -575,11 +575,11 @@ s32 TObjEnemy::send_entity_set_flags() {
 }
 
 s32 TObjCollidable::set_flag8() {
-    void *set_entry;
+    FloorObjectSetRow *set_entry;
 
-    set_entry = this->set_entry;
+    set_entry = (FloorObjectSetRow *)this->set_entry;
     if (set_entry != NULL) {
-        ((EnemySetRecord *)set_entry)->flags = (s16) (((EnemySetRecord *)set_entry)->flags | 8);
+        set_entry->flags |= 8;
         return 1;
     }
     return 0;
