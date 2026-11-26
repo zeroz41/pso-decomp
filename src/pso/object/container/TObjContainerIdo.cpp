@@ -248,7 +248,7 @@ TObjContainerIdo::TObjContainerIdo(TObject *parent, void *set) : TUnk_804B97C0(p
     m_name = obj_container_ido_class_name;
     apply_object_set_data(set);
     VecCopy(&home_position, &position);
-    VecCopy(&m_b4, &position);
+    VecCopy(&spawn_position, &position);
     view_radius = 1e+02f;
     switch_count = set_params[1];
     if (switch_count < 1) {

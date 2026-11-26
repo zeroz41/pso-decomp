@@ -29,7 +29,7 @@ public:
     void advance_frame();
     void clear_hit_players();
     void set_damage(f32);
-    u8 unk_334[0x4];
+    u8 pad_334[0x4];
     f32 damage;  // the base hit power; calc_damage scales it by the difficulty
     u32 hit_players[4];  // 0x33C: players hit_touching_players already hit (inferred name)
     s32 hit_player_count; // 0x34C: entries used in hit_players (inferred name)

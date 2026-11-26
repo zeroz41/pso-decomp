@@ -59,7 +59,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s32 attack_cycle;
     s32 warp_count;
     s32 warp_angle;
-    s32 pad_3f4;
+    s32 initial_evp;  // evp when it was set up
     f32 effect_scale;
     MaterialShadeFade fade;
     TargetCursorList targets;

@@ -277,7 +277,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     attack_cycle = 0;
     warp_count = 0;
     warp_angle = 0;
-    pad_3f4 = evp;
+    initial_evp = evp;
     effect_scale = 1.0f;
     fade.reset_obstruction_fade();
     clear_target_cursor_list(&targets);

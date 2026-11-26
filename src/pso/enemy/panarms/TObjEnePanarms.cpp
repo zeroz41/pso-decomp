@@ -147,7 +147,7 @@ __declspec(section ".ctors") static void *const panarms_body_global_initializer 
 /* What TLobby::dispatch_shared_handler_a(49) returns for Pan Arms. */
 struct PanarmsParams {
     f32 unk_0;
-    u8 unk_4[0x14];
+    u8 pad_4[0x14];
     s32 search_range;
     s32 wait_frames;
 };

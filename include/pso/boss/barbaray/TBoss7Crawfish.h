@@ -12,7 +12,7 @@ struct BmlResource;
 // The tuning record TLobby::dispatch_shared_handler_a hands the crawfish.
 struct Boss7CrawfishParams {
     f32 speed;
-    u8 unk_4[0x14];
+    u8 pad_4[0x14];
     s32 wait_time;
 };
 

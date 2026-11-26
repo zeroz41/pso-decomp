@@ -22,7 +22,7 @@ struct TContainerAncient01 : public TObjChara {
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
-    u8 unk_334[0x4];
+    u8 pad_334[0x4];
     f32 wait_limit;      // frames it waits for a player before it opens anyway (300 + scale.x - 1)
     f32 active_limit;    // frames the open blast runs (210 + scale.y - 1)
     f32 range;

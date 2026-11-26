@@ -25,7 +25,7 @@ struct TContainerAncient01R : public TObjChara {
     virtual void render();
     virtual void run_task();
     static void init_table_entries();
-    u8 unk_334[0x4];
+    u8 pad_334[0x4];
     s16 hit_count; // hits taken: it opens when hp runs out
     u8 pad_33A[0x2];
     f32 wait_limit;

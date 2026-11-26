@@ -12,7 +12,7 @@ class TParticleCtrl;
 struct IllGillAttackBehavior {
     f32 recoveryFrames;
     f32 animationSpeed;
-    u32 unknown08[4];
+    u32 pad_08[4];
     s32 specialParameter;
     s32 thirdSpecialParameter;
 };
