@@ -15,7 +15,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/ui/window/SmallFontText.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -566,7 +566,7 @@ void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
         }
         text_color = color | 0xFF0000 | 0xFFFF;
         TWindowSubStatusDisp__sub_800FBD74(text_color, x, y, scale);
-        TWindowSubStatusDisp::draw_number_digits((void *)text_color, beat, 3, 163.0f + x, -1.0f + y, scale);
+        draw_number_digits((void *)text_color, beat, 3, 163.0f + x, -1.0f + y, scale);
         clock_bar_pulse += 0.01f;
         if (clock_bar_pulse >= 1.0f) {
             clock_bar_pulse -= 1.0f;

@@ -26,7 +26,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/ui/window/SmallFontText.h"
 #include "pso/map/area/AreaScene.h"
 const char *font_small_task_class_name = "TFontSmallTask";
 

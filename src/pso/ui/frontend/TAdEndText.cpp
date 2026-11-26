@@ -5,7 +5,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/ui/window/SmallFontText.h"
 #include "libc/ctype.h"
 
 #include "types.h"

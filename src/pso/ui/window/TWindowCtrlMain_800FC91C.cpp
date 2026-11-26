@@ -4,7 +4,7 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/ui/window/ChallengeRank.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/ui/font/TFontSmallLobby.h"

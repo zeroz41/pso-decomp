@@ -537,7 +537,7 @@ void TWindowKeyBoardHard::set_mode0() {
 }
 
 
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/WindowTextDraw.h"
 
 
 #include "pso/ui/window/TWindowDD.h"

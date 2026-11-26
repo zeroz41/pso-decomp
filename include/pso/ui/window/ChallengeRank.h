@@ -1,5 +1,5 @@
-#ifndef PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_80071774_H
-#define PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_80071774_H
+#ifndef PSO_UI_WINDOW_CHALLENGERANK_H
+#define PSO_UI_WINDOW_CHALLENGERANK_H
 
 #include "types.h"
 #include "pso/quest/challenge/ChallengeRecord.h"

@@ -29,7 +29,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include <stdlib.h>
 #include <string.h>
-#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/ui/window/ChallengeRank.h"
 #include "pso/ui/window/TObjResultWin.h"
 #include "pso/system/date.h"
 #include "pso/system/vector.h"

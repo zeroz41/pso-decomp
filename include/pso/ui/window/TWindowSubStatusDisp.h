@@ -60,7 +60,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_count_ratio_text(s32 count, s32 total);
 
     static void *get_message_10(s32 index);
-    static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
     static void end_render_forward();
     static void begin_render();

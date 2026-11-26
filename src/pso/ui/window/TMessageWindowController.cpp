@@ -8,7 +8,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/ui/window/ChallengeRank.h"
 #include "pso/quest/TQuestThread.h"
 #include <stdio.h>
 #include <string.h>

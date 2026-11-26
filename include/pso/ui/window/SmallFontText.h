@@ -1,5 +1,5 @@
-#ifndef PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_800FBD74_H
-#define PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_800FBD74_H
+#ifndef PSO_UI_WINDOW_SMALLFONTTEXT_H
+#define PSO_UI_WINDOW_SMALLFONTTEXT_H
 
 #include "types.h"
 
@@ -13,5 +13,7 @@ u32 get_name_text_width(void *p);
 extern "C" {
 s32 get_small_font_glyph_width(u8 c);
 }
+
+void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
 
 #endif

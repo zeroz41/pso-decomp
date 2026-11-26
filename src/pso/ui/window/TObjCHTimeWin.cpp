@@ -1,5 +1,36 @@
 #include "types.h"
 #include "pso/ui/window/TObjCHTimeWin.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 
-int TObjCHTimeWin::timer_value;
-void set_challenge_time_window_timer(int a0) { TObjCHTimeWin::timer_value = a0; }
+#pragma readonly_strings on
+
+
+
+const char *TObjCHTimeWin::class_name = "TObjCHTimeWin";
+
+
+void TObjCHTimeWin::run_task() {
+    if (timer_created != 0) {
+        TWindowCtrl::set_timer_window_time(TObjCHTimeWin::timer_value);
+        return;
+    }
+    if (has_window_task_root() == 1) {
+        init_timer();
+        timer_created = 1;
+    }
+}
+
+void TObjCHTimeWin::init_timer(void) { TWindowCtrl::create_alt_timer(); TWindowCtrl::set_timer_window_time(TObjCHTimeWin::timer_value); }
+
+TObjCHTimeWin::~TObjCHTimeWin() {}
+
+TObjCHTimeWin::TObjCHTimeWin(TObject *parent) : TObject(parent) {
+    m_name = TObjCHTimeWin::class_name;
+    timer_created = 0;
+}
+
+TObjCHTimeWin *create_ch_time_win(TObject *parent) {
+    return new TObjCHTimeWin(parent);
+}

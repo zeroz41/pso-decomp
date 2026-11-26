@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/font/TFontSmallHelp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/ui/window/SmallFontText.h"
 #include "types.h"
 #include <string.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"

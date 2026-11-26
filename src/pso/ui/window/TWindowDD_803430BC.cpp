@@ -226,7 +226,7 @@ void load_word_select_data(void) {
         y += dy;
         pt += 2;
     }
-    TWindowDD::init_ws_data_tables();
+    init_ws_data_tables();
 }
 extern "C" {
 

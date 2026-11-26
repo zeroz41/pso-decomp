@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"

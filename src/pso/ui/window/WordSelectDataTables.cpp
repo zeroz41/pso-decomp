@@ -36,7 +36,7 @@ static const s32 category2_ids[] = { 12 };
 static const s32 category3_ids[] = { 13 };
 static const s32 category4_ids[] = { 2, 15, 24, 47 };
 
-void TWindowDD::init_ws_data_tables() {
+void init_ws_data_tables() {
     TWindowDDValueList *a = TWindowDD::ws_data_base;
     TWindowDDValueList *b;
     s32 i;
@@ -64,9 +64,9 @@ void TWindowDD::init_ws_data_tables() {
 }
 
 s32 get_word_select_type_state(s32 state, s32 item) {
-    return word_select_type_state_table[TWindowDD::lookup_item_category(item)][state];
+    return word_select_type_state_table[lookup_item_category(item)][state];
 }
-s32 TWindowDD::lookup_item_category(s32 item) {
+s32 lookup_item_category(s32 item) {
     static ItemCategoryIds categories[4] = {
         { category0_ids, category0_id_count, 0 },
         { category2_ids, category2_id_count, 2 },

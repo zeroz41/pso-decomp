@@ -1054,7 +1054,7 @@ pso/ui/window/TWindowDD_WS_String.cpp
 pso/ui/window/TWindowDD_WS_Word.cpp
 pso/ui/window/TWindowDD_803430BC.cpp
 pso/ui/window/TWindowDD_8034435C.cpp
-pso/ui/window/TWindowDD_8034AF68.cpp
+pso/ui/window/WordSelectDataTables.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
 pso/ui/window/TWindowDuelResult_801C2528.cpp
@@ -1144,14 +1144,14 @@ pso/ui/window/TWindowSubShortCut_80246FB0.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/window/TWindowSubStatusDisp.cpp
-pso/ui/window/TWindowSubStatusDisp_80071774.cpp
+pso/ui/window/ChallengeRank.cpp
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp
-pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
+pso/ui/window/SmallFontText.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
 pso/ui/window/TextBuilder.cpp
 pso/ui/window/PageIndicator.cpp
-pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
+pso/ui/window/WindowTextDraw.cpp
 pso/ui/window/TWindowStatusGauge.cpp
 pso/ui/window/TWindowStatusGaugeFeedback.cpp
 pso/ui/window/WindowLayoutEntries.cpp
@@ -1267,8 +1267,8 @@ pso/object/collision/TObjBgmColCtrl.cpp
 pso/object/TObjBigTuitate.cpp
 pso/object/lobby/TObjButterflyLobby.cpp
 pso/object/ambient/TObjCGrass.cpp
+pso/ui/window/TObjCHTimeWinTimer.cpp
 pso/ui/window/TObjCHTimeWin.cpp
-pso/ui/window/TObjCHTimeWin_80074C94.cpp
 pso/ui/charcreate/TObjCMIcon.cpp
 pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp
 pso/camera/TObjCamera.cpp

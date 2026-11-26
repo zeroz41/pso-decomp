@@ -152,8 +152,6 @@ struct TWindowDD : public TObject
     static void append_string(const char *str, char *buf, s32 *pos);
     static s32 get_draw_count(const NJS_TEXLIST *textures);
     static TWindowDDValueList *get_entry(s32 index);
-    static void init_ws_data_tables();
-    static s32 lookup_item_category(s32 item);
     void handle_confirm_input();
     void update_selection_state();
     static void update_draw(void *p);
@@ -272,7 +270,7 @@ struct WsRecentState {
 
 extern WsRecentState ws_recent_state;
 
-// Entry counts of TWindowDD::lookup_item_category's id lists (.sdata2, after the lists).
+// Entry counts of lookup_item_category's id lists (.sdata2, after the lists).
 extern const s32 category0_id_count;
 extern const s32 category2_id_count;
 extern const s32 category3_id_count;
@@ -351,5 +349,9 @@ extern const f32 word_label_depth;
 extern const f32 scroll_bar_depth;
 extern const f32 word_cursor_depth;
 extern const f32 mode_window_depth;
+
+void init_ws_data_tables();
+
+s32 lookup_item_category(s32 item);
 
 #endif

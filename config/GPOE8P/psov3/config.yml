@@ -8909,7 +8909,7 @@ force_active:
   - log_printf_buffer
   - logo_load_callback_table
   - lookup_attack_marker__Flssl
-  - lookup_item_category__9TWindowDDFl
+  - lookup_item_category__Fl
   - lookup_key_char__19TWindowKeyBoardHardFUc
   - lookup_key_repeat_state__19TWindowKeyBoardHardFUcUc
   - lookup_appraisal_score__FSc

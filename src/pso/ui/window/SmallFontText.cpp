@@ -1,6 +1,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -54,7 +54,7 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 x, f32 y, f32 depth)
 }
 }
 
-void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {
+void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {
     TexturedQuad pos;
     s32 id;
     s32 i;

@@ -798,7 +798,7 @@ pso/quest/challenge/ChallengeModeQuest.cpp:
 pso/object/ending/TObjOnlineEnding.cpp:
 	.text       start:0x8007172C end:0x80071774
 
-pso/ui/window/TWindowSubStatusDisp_80071774.cpp:
+pso/ui/window/ChallengeRank.cpp:
 	.text       start:0x80071774 end:0x80071A9C
 	.sdata      start:0x805D2858 end:0x805D2860
 
@@ -808,7 +808,7 @@ pso/unk/text_80071A9C.cpp:
 pso/unk/text_80071B30.cpp:
 	.text       start:0x80071B30 end:0x80071DF4
 
-pso/ui/window/TObjCHTimeWin.cpp:
+pso/ui/window/TObjCHTimeWinTimer.cpp:
 	.text       start:0x80071DF4 end:0x80071DFC
 	.sbss       start:0x805D4E40 end:0x805D4E44
 
@@ -878,7 +878,7 @@ pso/network/LobbyName.cpp:
 	.text       start:0x80074BD0 end:0x80074C94
 	.data       start:0x8048D208 end:0x8048D220
 
-pso/ui/window/TObjCHTimeWin_80074C94.cpp:
+pso/ui/window/TObjCHTimeWin.cpp:
 	.text       start:0x80074C94 end:0x80074E04
 	.rodata     start:0x80438738 end:0x80438748
 	.data       start:0x8048D220 end:0x8048D238
@@ -1796,7 +1796,7 @@ pso/render/TFogCtrl.cpp:
 	.sbss       start:0x805D5388 end:0x805D5394
 	.sdata2     start:0x805DA948 end:0x805DA978
 
-pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp:
+pso/ui/window/SmallFontText.cpp:
 	.text       start:0x800FBD74 end:0x800FC3E0
 	.rodata     start:0x8043DA70 end:0x8043DA80
 	.data       start:0x8049C730 end:0x8049CA28
@@ -5787,7 +5787,7 @@ pso/ui/window/TWindowEffectParty.cpp:
 	.sdata      start:0x805D38F8 end:0x805D3900
 	.sdata2     start:0x805DCCB8 end:0x805DCCD8
 
-pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp:
+pso/ui/window/WindowTextDraw.cpp:
 	.text       start:0x8024FBA8 end:0x8025010C
 	.rodata     start:0x8044ECF8 end:0x8044ED08
 	.sbss       start:0x805D6430 end:0x805D6448
@@ -8520,7 +8520,7 @@ pso/ui/frontend/TAdFloorLoadPrtGC.cpp:
 	.data       start:0x804F0028 end:0x804F0040
 	.sdata      start:0x805D4330 end:0x805D4338
 
-pso/ui/window/TWindowDD_8034AF68.cpp:
+pso/ui/window/WordSelectDataTables.cpp:
 	.text       start:0x8034AED4 end:0x8034B110
 	.rodata     start:0x80478B78 end:0x80478BB8
 	.data       start:0x804F0040 end:0x804F00A4
