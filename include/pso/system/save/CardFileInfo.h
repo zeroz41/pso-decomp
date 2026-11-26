@@ -18,8 +18,6 @@ LAYOUT_ASSERT(CardFileInfoBlocksOffset, offsetof(CardFileInfo, blocks) == 4);
 LAYOUT_ASSERT(CardFileInfoDateOffset, offsetof(CardFileInfo, date) == 0xA);
 LAYOUT_ASSERT(CardFileInfoSize, sizeof(CardFileInfo) == 0x14);
 
-extern "C" {
 s32 poll_memcard_result(s32 channel);
-}
 
 #endif

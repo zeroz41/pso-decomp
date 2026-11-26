@@ -5,6 +5,6 @@
 
 class TObjCollidable;
 
-extern "C" s32 obj_is_hit_receivable(const TObjCollidable *target);
+s32 obj_is_hit_receivable(const TObjCollidable *target);
 
 #endif

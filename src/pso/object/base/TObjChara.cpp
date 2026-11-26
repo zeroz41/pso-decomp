@@ -302,7 +302,7 @@ void obj_setField96_1(TObjCollidable *p) {
 
 TObjPlayer *TObjPlayer::get_player_data(int index) { return static_cast<TObjPlayer *>(entity_table[index]); }
 
-extern "C" s32 obj_is_hit_receivable(const TObjCollidable *target) {
+s32 obj_is_hit_receivable(const TObjCollidable *target) {
     return target->hit_receive_state == 1;
 }
 

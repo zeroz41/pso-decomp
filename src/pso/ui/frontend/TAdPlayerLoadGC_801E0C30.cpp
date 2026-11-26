@@ -496,6 +496,8 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     return -0xF9;
 }
 
+}
+
 s32 poll_memcard_result(s32 chan) {
     s32 result;
     if (chan >= 2) {
@@ -582,6 +584,7 @@ s32 poll_memcard_result(s32 chan) {
     card_result_code = 0;
     return 0;
 }
+extern "C" {
 
 s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
     s32 memSize;

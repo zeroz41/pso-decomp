@@ -165,9 +165,9 @@ LAYOUT_ASSERT(NJS_OBJECT_child_offset, offsetof(NJS_OBJECT, child) == 0x2C);
 #ifdef __cplusplus
 extern "C" {
 #endif
-void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src);
 #ifdef __cplusplus
 }
+void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src);
 #endif
 
 // Ninja byte colour; on this big-endian target the bytes of the ARGB word are a, r, g, b.
