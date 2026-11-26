@@ -12,7 +12,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     static const char *class_name;
     TObjCityMainWarpChallenge(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarpChallenge();
-    void sub_801875F8();
+    void update_warp_dialogs();
     void close_windows();
     virtual void debug_print_area_num();
     void count_players_in_warp_radius();

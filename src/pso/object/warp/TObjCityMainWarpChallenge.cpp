@@ -170,7 +170,7 @@ void TObjCityMainWarpChallenge::update_state() {
     }
 }
 
-void TObjCityMainWarpChallenge::sub_801875F8() {
+void TObjCityMainWarpChallenge::update_warp_dialogs() {
     s32 i;
     s32 j;
     u32 color;
@@ -291,7 +291,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         break;
     case 1:
         if (find_local_city_warp_player(this, warp_range) != 0) {
-            sub_801875F8();
+            update_warp_dialogs();
             trigger_warp_effect(local_client_id);
             state_step = 2;
             break;
@@ -306,7 +306,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         }
         break;
     case 2:
-        sub_801875F8();
+        update_warp_dialogs();
         if (yes_no_window != 0) {
             if (yes_no_window->is_cancelled() != 0) {
                 state_step = 3;

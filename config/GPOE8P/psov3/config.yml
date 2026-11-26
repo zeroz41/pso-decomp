@@ -9123,7 +9123,7 @@ force_active:
   - notify__10TTcpSocketFss
   - notify_break__23TObjSeabedSuisoBrakableFP10NJS_OBJECT
   - notify_close__22THunterGuildSeqOfflineFv
-  - notify_player__17TObjWarpBossMultiFPvl
+  - release_player__12TObjWarpBossFl
   - notify_quest_list_vm__18TCheckRoomSequenceFP15TShopWindowBase
   - add_slow_immunity__Fi
   - remove_confusion_immunity__Fi
@@ -16222,7 +16222,7 @@ force_active:
   - sub_801933C8__15TObjLazerFence4Fv
   - start_throw__12TObjGoGoBallFl
   - delay_before_fade_in__14TObjWarpStringFv
-  - sub_8019E418__12TObjWarpBossFv
+  - is_warp_cancelled__12TObjWarpBossFv
   - sub_8019F9E4__14TObjWarpBoss03Fv
   - reset_color__13TPhotonEstllaFUc
   - reset_material_color__13TPhotonFarllaFUc

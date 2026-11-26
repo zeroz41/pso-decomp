@@ -188,7 +188,7 @@ void TObjCityMainWarpChallenge::update_warp_sequence() {
         break;
     case 1:
         if (find_local_city_warp_player(this, this->warp_range) != 0) {
-            this->sub_801875F8();
+            this->update_warp_dialogs();
             if (this->warp_triggered == 0) {
                 this->trigger_warp_effect(local_client_id);
                 this->warp_triggered = 1;

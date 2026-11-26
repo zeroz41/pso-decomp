@@ -24,9 +24,10 @@ struct TObjWarpBoss : public TObjAreaWarp {
     void warp_boss_handle_window();
     void update_floor_switch_state();
     void warp_player(s32);
+    void release_player(s32 client);  // undoes warp_player's hold on the player
     void send_cmd_6A(u16);
     s32 are_all_players_in_range();
-    s32 sub_8019E418();
+    s32 is_warp_cancelled();
     void update_warp_boss_visibility();
     void update_warp_confirmation();
     void render();

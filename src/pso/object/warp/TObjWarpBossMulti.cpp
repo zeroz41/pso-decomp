@@ -62,6 +62,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
 #pragma defer_codegen on
@@ -69,19 +70,19 @@ const char *boss_warp_model_names[4] = {
     "fs_obj_warp_dai.gj", "fs_obj_warp_dai_beam.gj", "fs_obj_warp_dai_beam02.gj", NULL,
 };
 const char *boss_warp_motion_names[3] = { "fs_obj_warp_dai_beam.njm", "fs_obj_warp_dai_beam02.njm", NULL };
-BmlResourceDescriptor lbl_804B94AC = { "bm_obj_warpboss.bml", boss_warp_model_names, boss_warp_motion_names, 3, 2 };
+BmlResourceDescriptor boss_warp_resource_descriptor = { "bm_obj_warpboss.bml", boss_warp_model_names, boss_warp_motion_names, 3, 2 };
 
 const char *ancient_boss_warp_model_names[4] = {
     "fe_obj_df_warp_gawa.gj", "de_obj_df_warp_beam.gj", "de_obj_df_warp_sbeam.gj", NULL,
 };
 const char *ancient_boss_warp_motion_names[3] = { "de_obj_df_warp_beam.njm", "de_obj_df_warp_sbeam.njm", NULL };
-BmlResourceDescriptor lbl_804B94D8 = {
+BmlResourceDescriptor ancient_boss_warp_resource_descriptor = {
     "bm_obj_warpboss_ancient.bml", ancient_boss_warp_model_names, ancient_boss_warp_motion_names, 3, 2,
 };
 
 const char *jungle_boss_warp_model_names[3] = { "fe_obj_warp4_dodai.gj", "fe_obj_warp4_jogo_light.gj", NULL };
 __declspec(section ".data") const char *jungle_boss_warp_motion_names[2] = { "fe_obj_warp4_jogo_light.njm", NULL };
-BmlResourceDescriptor lbl_804B94FC = {
+BmlResourceDescriptor jungle_boss_warp_resource_descriptor = {
     "bm_obj_warpboss_jungle.bml", jungle_boss_warp_model_names, jungle_boss_warp_motion_names, 2, 1,
 };
 
@@ -90,7 +91,6 @@ const char *warp_boss_multi_name = "TObjWarpBossMulti";
 
 
 extern "C" {
-void request_active_window_close(void);
 s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
 BmlResource *boss_warp_resource_bundle;
@@ -105,8 +105,8 @@ extern "C" {
 void release_boss_warp_resources(void);
 }
 
-const char lbl_8044663C[] = "<- NEXT STAGE No.";
-const char lbl_80446650[] = "<- KEY ID : %d";
+const char boss_warp_next_stage_label[] = "<- NEXT STAGE No.";
+const char boss_warp_key_id_format[] = "<- KEY ID : %d";
 extern s32 lbl_805D55C0;
 
 
@@ -134,7 +134,7 @@ void load_boss_warp_resources() {
     BmlResource *resource;
     area = get_current_floor_area();
     if (area >= 8 && area <= 0xA) {
-        resource = new BmlResource(5, &lbl_804B94D8, 0, 0, NULL);
+        resource = new BmlResource(5, &ancient_boss_warp_resource_descriptor, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
         boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
@@ -146,7 +146,7 @@ void load_boss_warp_resources() {
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
-        resource = new BmlResource(5, &lbl_804B94FC, 0, 0, NULL);
+        resource = new BmlResource(5, &jungle_boss_warp_resource_descriptor, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
         boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
@@ -157,7 +157,7 @@ void load_boss_warp_resources() {
         boss_warp_effect_textures = get_bml_texlist(boss_warp_resource_bundle, 0);
         return;
     }
-    resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
+    resource = new BmlResource(5, &boss_warp_resource_descriptor, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
     boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
     boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
@@ -254,23 +254,21 @@ void TObjWarpBoss::render() {
         if (xz_distance_squared(&camera_ctrl_instance->pos, &position) > 160000.0f) {
             return;
         }
-        goto block_4;
+    } else if (update_object_view_visibility(400.0f, 40.0f) == 0) {
+        return;
     }
-    if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-block_4:
-        push_matrix();
-        post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(boss_warp_base_textures);
-        draw_ginja_object(boss_warp_base_model);
-        if (model != NULL) {
-            TParticleCtrl::begin_effect_render();
-            TObjFish::set_global_param(boss_warp_effect_textures);
-            draw_ginja_model_with_motion(model, motion, frame);
-            TParticleCtrl::end_effect_render();
-        }
-        pop_matrix();
+    push_matrix();
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    TObjFish::set_global_param(boss_warp_base_textures);
+    draw_ginja_object(boss_warp_base_model);
+    if (model != NULL) {
+        TParticleCtrl::begin_effect_render();
+        TObjFish::set_global_param(boss_warp_effect_textures);
+        draw_ginja_model_with_motion(model, motion, frame);
+        TParticleCtrl::end_effect_render();
     }
+    pop_matrix();
 }
 
 void TObjWarpBoss::debug_print_area_num() {
@@ -282,9 +280,9 @@ void TObjWarpBoss::debug_print_area_num() {
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, lbl_8044663C);
+        debug_printf_at(0x130020, boss_warp_next_stage_label);
     }
-    debug_printf_at(0x130021, lbl_80446650, key_id);
+    debug_printf_at(0x130021, boss_warp_key_id_format, key_id);
 }
 
 void TObjWarpBoss::update() {
@@ -443,7 +441,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         motion = warp_boss_motion;
         break;
     case 1:
-        if (sub_8019E418() == 0 && find_local_boss_warp_player(this, warp_range) != NULL) {
+        if (is_warp_cancelled() == 0 && find_local_boss_warp_player(this, warp_range) != NULL) {
             update_warp_dialogs();
             warp_player(local_client_id);
             state_step = 2;
@@ -475,7 +473,7 @@ void TObjWarpBoss::update_warp_confirmation() {
                 }
             }
         }
-        if (sub_8019E418() != 0) {
+        if (is_warp_cancelled() != 0) {
             state_step = 3;
         }
         if (TWindowSubTradeMain::get_warp_state() != 0 && get_main_phase() == 0xF && is_local_client_floor_leader() != 0 && are_all_players_in_range() != 0) {
@@ -487,7 +485,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         }
         break;
     case 3:
-        TObjWarpBossMulti::notify_player(this, local_client_id);
+        release_player(local_client_id);
         state_step = 4;
         break;
     case 4:
@@ -509,7 +507,7 @@ void TObjWarpBoss::update_warp_confirmation() {
 }
 
 void TObjWarpBoss::update_warp_state() {
-    s32 var_r3;
+    s32 ready;
 
     switch (state_step) {
     case 2:
@@ -532,11 +530,11 @@ void TObjWarpBoss::update_warp_state() {
         if (TWindowSubTradeMain::get_warp_state() != 0) {
             warp_countdown--;
             if (warp_countdown <= 0) {
-                var_r3 = 1;
+                ready = 1;
             } else {
-                var_r3 = are_all_players_in_range();
+                ready = are_all_players_in_range();
             }
-            if (var_r3 != 0) {
+            if (ready != 0) {
                 send_cmd_6A(2);
                 state_step = 2;
             }
@@ -563,7 +561,7 @@ void TObjWarpBoss::update_state() {
         if (TObjWarpBossMulti::get_boss_warp_flag() == 0) {
             player = find_local_boss_warp_player(this, warp_range);
             if (player != 0) {
-                TObjWarpBossMulti::notify_player(this, local_client_id);
+                release_player(local_client_id);
                 confirm_area_transfer(player);
                 state_step = 2;
             }
@@ -654,10 +652,10 @@ void TObjWarpBoss::warp_player(s32 local_client_id) {
     }
 }
 
-void TObjWarpBossMulti::notify_player(void *arg0, s32 local_client_id) {
+void TObjWarpBoss::release_player(s32 client) {
     TObjPlayer *player;
 
-    player = get_player_by_client_id(local_client_id);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
         send_release_hold(player);
         obj_clear_flag30_20000(player);
@@ -739,7 +737,7 @@ s32 TObjWarpBossMulti::is_lobby_active() {
     return is_challenge_boss_warp_disabled() ? 1 : 0;
 }
 
-s32 TObjWarpBoss::sub_8019E418() {
+s32 TObjWarpBoss::is_warp_cancelled() {
     if (TObjWarpBossMulti::is_lobby_active() == 0) {
         return 0;
     }
@@ -751,17 +749,17 @@ s32 TObjWarpBoss::sub_8019E418() {
 
 void TObjWarpBoss::update_warp_boss_visibility() {
     TObjPlayer *player;
-    s32 var_r30;
+    s32 can_use;
 
     player = get_player_by_client_id(local_client_id);
-    var_r30 = 1;
+    can_use = 1;
     if ((player != NULL) && (player->is_actor_dead() != 0)) {
-        var_r30 = 0;
+        can_use = 0;
     }
     if ((player != NULL) && (player->is_controls_locked() != 0)) {
-        var_r30 = 0;
+        can_use = 0;
     }
-    if (var_r30 == 0) {
+    if (can_use == 0) {
         if (yes_no_window != NULL) {
             yes_no_window->suspend_update();
             yes_no_window->disallow_rendering();
@@ -869,51 +867,49 @@ void TObjWarpBossMulti::render() {
         if (xz_distance_squared(&camera_ctrl_instance->pos, &position) > 160000.0f) {
             return;
         }
-        goto block_4;
+    } else if (update_object_view_visibility(400.0f, 40.0f) == 0) {
+        return;
     }
-    if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-block_4:
-        push_matrix();
-        post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model_handle));
-        draw_ginja_object(base_model);
-        TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
-        switch (state) {
-        case 0:
-            draw_ginja_model_with_motion(confirmation_model, motion, frame);
-            break;
-        case 1:
-            draw_ginja_model_with_motion(warp_model, bml_motion, frame);
-            break;
-        }
-        TParticleCtrl::end_effect_render();
-        pop_matrix();
+    push_matrix();
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model_handle));
+    draw_ginja_object(base_model);
+    TParticleCtrl::begin_effect_render();
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
+    switch (state) {
+    case 0:
+        draw_ginja_model_with_motion(confirmation_model, motion, frame);
+        break;
+    case 1:
+        draw_ginja_model_with_motion(warp_model, bml_motion, frame);
+        break;
     }
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
 }
 
 void TObjWarpBossMulti::debug_print_area_num() {
     update();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, lbl_8044663C);
+        debug_printf_at(0x130020, boss_warp_next_stage_label);
     }
-    debug_printf_at(0x130021, lbl_80446650, key_id);
+    debug_printf_at(0x130021, boss_warp_key_id_format, key_id);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
 void TObjWarpBossMulti::update() {
-    s32 temp_r0;
+    s32 id;
 
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         key_id = -1;
     } else {
-        temp_r0 = set_params[1];
-        if ((temp_r0 < 0) || (temp_r0 > 0xFF)) {
+        id = set_params[1];
+        if ((id < 0) || (id > 0xFF)) {
             key_id = -1;
         } else {
-            key_id = temp_r0;
+            key_id = id;
         }
     }
     if (key_id >= 0) {
