@@ -1,8 +1,7 @@
 #include "types.h"
 #include "pso/unk/SharedMemory.h"
 #include "pso/unk/ResetConnectParam.h"
-#include "pso/unk/text_8042EE4C.h"
-#include "pso/unk/text_8042EAD4.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/network/eth.h"
 #include <stdio.h>
 #include <string.h>

@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS

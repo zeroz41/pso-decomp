@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D8030.h"
 #pragma defer_codegen on
 
 #include "pso/object/trap/TOTrapAncient02R.h"

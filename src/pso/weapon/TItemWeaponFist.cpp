@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponBaranzLauncher.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_80126740.h"
 #include "pso/weapon/TItemWeaponFist.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"

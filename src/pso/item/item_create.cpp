@@ -67,8 +67,6 @@
 #include "pso/weapon/TItemWeaponSRankCard.h"
 #include "pso/weapon/TItemWeaponPhotonLauncher.h"
 #include "pso/weapon/TItemWeaponSRankLauncher.h"
-#include "pso/unk/text_80125428.h"
-#include "pso/unk/text_80126740.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/unk/text_80128308.h"
 #include "pso/unk/text_80128440.h"

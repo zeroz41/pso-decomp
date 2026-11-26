@@ -1,5 +1,4 @@
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/NinjaTypes.h"

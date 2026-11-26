@@ -23,7 +23,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/text_8006EBC4.h"
 
 #include "pso/ui/window/TObjBagWarnWin.h"
 

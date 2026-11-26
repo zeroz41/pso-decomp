@@ -4,7 +4,6 @@
 #include "pso/weapon/TItemWeaponBaranzLauncher.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_80126740.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/unk/SharedMemory.h"
-#include "pso/unk/text_8042EE4C.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 
 
 // Clears the connect parameters and fills in their defaults.

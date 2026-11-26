@@ -1,5 +1,4 @@
 #include "pso/unk/TQuestManager.h"
-#include "pso/unk/text_803D8030.h"
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"

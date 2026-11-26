@@ -1,5 +1,4 @@
 #include "pso/system/memory.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/unk/TLobby_800FD78C.h"

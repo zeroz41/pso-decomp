@@ -16,7 +16,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include <stdio.h>
-#include "pso/unk/text_803D8030.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"

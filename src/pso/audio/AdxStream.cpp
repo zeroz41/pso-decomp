@@ -12,7 +12,7 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 #include "pso/system/CvFs.h"
 
 extern "C" {

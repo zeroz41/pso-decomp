@@ -53,4 +53,9 @@ extern "C" {
 void debug_printf_at(s32 pos, const char *format, ...);
 }
 
+// Sets the size of queued debug text glyphs in pixels.
+void set_debug_text_scale(u16 scale);
+// Sets the colour (0xAARRGGBB) of the debug text queued after it.
+void set_debug_text_color(s32 color);
+
 #endif

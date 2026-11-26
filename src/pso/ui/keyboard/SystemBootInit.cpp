@@ -69,7 +69,6 @@
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/unk/text_802A1020.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/unk/text_803DE7E0.h"

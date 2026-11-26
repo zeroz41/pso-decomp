@@ -20,7 +20,7 @@
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_8006EBC4.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
 

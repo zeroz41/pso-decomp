@@ -29,7 +29,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80266BD0.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"

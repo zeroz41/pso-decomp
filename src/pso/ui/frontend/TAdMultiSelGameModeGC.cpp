@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/text_803000C8.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"

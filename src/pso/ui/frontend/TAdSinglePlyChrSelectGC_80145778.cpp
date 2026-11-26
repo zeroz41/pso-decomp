@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80144AC8.h"
 #include "pso/unk/text_80145804.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/font/TNECFontEORFunction.h"

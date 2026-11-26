@@ -3,7 +3,7 @@
 #include "pso/audio/AdxError.h"
 #include "pso/audio/AdxbDecoder.h"
 #include <string.h>
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 #include "pso/audio/AixPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"

@@ -10,7 +10,7 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 
 extern "C" {
 s32 adx_expand_odd_result_flag;

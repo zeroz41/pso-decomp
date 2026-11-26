@@ -15,4 +15,6 @@ void TAdVIConfigGC__sub_80267704(s32 arg0);
 }
 void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count);
 
+void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player);
+
 #endif

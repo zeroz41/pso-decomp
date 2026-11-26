@@ -1,5 +1,4 @@
 #include "pso/system/memory.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"

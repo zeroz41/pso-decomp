@@ -120,4 +120,6 @@ extern AttackParams *epsilon_body_shared_handler_b;
 extern ActorParamBlock *epsilon_body_registered_object_handle;
 extern EpsilonBodySharedParams *epsilon_body_shared_params;
 
+void *create_TObjEneEpsilonBody(void *set_data);
+
 #endif

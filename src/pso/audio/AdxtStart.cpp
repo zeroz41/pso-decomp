@@ -10,7 +10,7 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 
 void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index) {
     SjRingBuffer *ring_handle;

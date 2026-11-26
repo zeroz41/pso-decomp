@@ -1,7 +1,6 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803DE7E0.h"
-#include "pso/unk/text_803DE8BC.h"
 #include "pso/system/AllocatorCallbacks.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"

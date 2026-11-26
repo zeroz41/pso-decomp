@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/text_803D8030.h"
 #include <string.h>
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/ChunkModelDraw.h"

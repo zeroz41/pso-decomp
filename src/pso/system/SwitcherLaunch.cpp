@@ -8,8 +8,6 @@
 #include "types.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/SharedMemory.h"
-#include "pso/unk/text_8042EAD4.h"
-#include "pso/unk/text_8042EE4C.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"

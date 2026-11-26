@@ -8,7 +8,7 @@
 #include "pso/system/save/McFsGc.h"
 #include "pso/system/save/McFsGcRequests.h"
 #include "pso/unk/text_80145A94.h"
-#include "pso/unk/text_8042EE4C.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"

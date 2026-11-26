@@ -3,7 +3,6 @@
 // Deferred code generation (configure.py): the functions come out in reverse
 // order, so this file is written from its last function back.
 #include "types.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/render/render_util.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/map/FloorArea.h"

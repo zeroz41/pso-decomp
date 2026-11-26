@@ -17,7 +17,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/text_80076BC4.h"
-#include "pso/unk/text_80266BD0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/ui/window/TWindowMessageQuest.h"

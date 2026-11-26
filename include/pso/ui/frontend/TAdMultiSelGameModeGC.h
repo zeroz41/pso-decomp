@@ -40,4 +40,6 @@ public:
 
 LAYOUT_ASSERT(TAdMultiSelGameModeGC_size, sizeof(TAdMultiSelGameModeGC) == 0x44);
 
+void apply_multi_sel_rule();
+
 #endif

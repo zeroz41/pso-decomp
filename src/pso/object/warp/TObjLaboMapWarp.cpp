@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/window/WindowMenuFactory.h"

@@ -1,5 +1,4 @@
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D8030.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/city/CitySeasonResources.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS

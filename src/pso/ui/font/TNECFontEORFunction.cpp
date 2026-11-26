@@ -2,7 +2,6 @@
 #include "pso/unk/text_803DAFA8.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80144AC8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
