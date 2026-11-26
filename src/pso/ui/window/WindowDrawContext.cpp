@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/math/Vec2Constants.h"
 
 WindowDrawContext *shared_window_draw_context;
 // Window offsets per player viewport for two, three and four split-screen views (camera ids 2-4).
@@ -21,9 +22,6 @@ extern const NJS_POINT2 window_viewport_offset_table_4p[4] = {
     {8.0f, 40.0f}, {0.0f, 40.0f}, {8.0f, 0.0f}, {0.0f, 0.0f},
 };
 
-extern "C" {
-NJS_POINT2 *get_zero_vec2();
-}
 
 #pragma fp_contract on
 

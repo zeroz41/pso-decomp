@@ -25,9 +25,9 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/render_util.h"
 
 
-void set_shadow_material_state(void);
 
 extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;

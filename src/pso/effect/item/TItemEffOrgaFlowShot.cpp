@@ -22,6 +22,7 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/model_render_state.h"
 
 #pragma readonly_strings on
 
@@ -115,7 +116,6 @@ void TItemEffOrgaFlowShot::bswap_6xAD_subordinate_action() { read_be16_field2_fo
 void read_be16_field2_forward(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 void build_6xAD_olga_flow_subordinate_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 173; *(u8*)((char*)p + 0x1) = 17; }
 
-extern s32 saved_model_render_flags;
 
 #pragma push
 #pragma fp_contract on

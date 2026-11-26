@@ -34,6 +34,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -206,9 +207,6 @@ s32 reset_uv_if_out_of_range(f32 *uv);
 }
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
-extern "C" {
-s32 release_texture_list(void *);
-}
 
 s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {

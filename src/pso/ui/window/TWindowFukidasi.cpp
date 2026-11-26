@@ -41,6 +41,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/math/Vec2Constants.h"
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -52,7 +54,6 @@ f32 xyz_distance(void *, void *);
 
 extern "C" {
 f32 vec3_dot(void *, void *);
-void rotate_matrix_y(s32, s32);
 __declspec(section ".rodata") extern const char window_fukidasi_class_name_string[] = "TWindowFukidasi";
 }
 
@@ -65,11 +66,6 @@ extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *TWindowFukidasi::class_name = window_fukidasi_class_name_string;
-
-extern "C" {
-
-saddr get_zero_vec2();
-}
 
 void TWindowFukidasi::clear_flag2c_bit100() { this->window_flags &= 0xfffffeff; }
 

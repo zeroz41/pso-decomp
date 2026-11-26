@@ -17,7 +17,6 @@
 #include "pso/system/SoundEffect.h"
 
 
-void set_constant_material_color(u32 x);
 #define CLAMP_CHANNEL(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
 
 

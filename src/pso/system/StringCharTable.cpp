@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/StringCharTable.h"
-extern u8 __upper_map[];
+#include "clib/ctype.h"
 void convert_string_chars_via_table(u8 *buf) {
     u8 *p = buf;
     u8 t;

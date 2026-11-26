@@ -43,7 +43,6 @@
 extern "C" {
 void init_collision_body_parts(void *obj, void *parts, s32 count);
 }
-void free_collision_body_parts(TObjCollidable *actor);
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 

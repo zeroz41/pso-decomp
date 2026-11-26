@@ -25,7 +25,6 @@
 
 
 const char *TWindowDuelResult::class_name = "TWindowDuelResult";
-void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 
 extern "C" const char duel_result_time_separator[] = ":";
 void *TWindowDuelResult::layout_entries[140] = {

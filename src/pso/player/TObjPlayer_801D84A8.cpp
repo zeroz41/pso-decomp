@@ -15,11 +15,11 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/item/TItemIdCounters.h"
+#include "pso/system/GameModeQueries.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
 }
-s32 get_game_play_mode();
 extern "C" {
 
 s32 is_trap_stock_empty(void *, s32);

@@ -127,8 +127,6 @@
 
 class TObjPlayer;
 
-extern s32 registered_player_count;
-extern s32 registered_enemy_count;
 extern "C" {
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 }
