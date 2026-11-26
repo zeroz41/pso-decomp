@@ -6,6 +6,7 @@
 
 class TSwitch : public TObject {
 public:
+    static u8 floor_switch_table[18][32];
     TSwitch(TObject *parent);
     virtual ~TSwitch();
     virtual void run_task();

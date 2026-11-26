@@ -37,6 +37,7 @@ struct DelbiterMovementParameters {
 };
 
 struct TObjEneDellBiter : public TObjEneDD_ST {
+    static DelbiterInitialParameters param_table;
     TObjEneDellBiter(TObject *parent, void *set_data);
     virtual ~TObjEneDellBiter();
     static void *create(void *set_data);

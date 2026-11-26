@@ -200,17 +200,17 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     sinkOffset = 0.0f;
-    unknown_398 = TAttackTraceStrip::create(0xFF303030, 0x0A303030);
+    attack_trace = TAttackTraceStrip::create(0xFF303030, 0x0A303030);
     for (s32 i = 0; i < 4; i++) {
-        unknown_39C[i].activate_and_dispatch();
+        camera_fades[i].activate_and_dispatch();
     }
     clear_lobby_object_state();
 }
 
 TObjEneMoja::~TObjEneMoja() {
-    if (unknown_398 != NULL) {
-        unknown_398->queue_destruction();
-        unknown_398 = NULL;
+    if (attack_trace != NULL) {
+        attack_trace->queue_destruction();
+        attack_trace = NULL;
     }
     free_collision_body_parts(this);
 }
@@ -384,7 +384,7 @@ void TObjEneMoja::render() {
     select_actor_lighting(this);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     id = model_render_flags;
-    fade = &unknown_39C[cam];
+    fade = &camera_fades[cam];
     saved_model_render_flags = id;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -975,7 +975,7 @@ void TObjEneMoja::update_punch_attack() {
                 rotate_matrix_y(0, rotation_y);
                 matrix_mult_vec_array(NULL, e, trail, 2);
                 pop_matrix();
-                trace = unknown_398;
+                trace = attack_trace;
                 if (trace != NULL) {
                     trace->add_segment(&trail[0], &trail[1]);
                 }

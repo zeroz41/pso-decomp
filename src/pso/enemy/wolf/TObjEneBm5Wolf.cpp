@@ -882,15 +882,15 @@ void TObjEneBm5Wolf::sleeping_state(s32 event) {
 }
 
 void TObjEneBm5Wolf::alerted_state(s32 event) {
-  s32 new_var;
+  s32 wait_frames;
   switch (event)
   {
     case 4:
       this->requested_action = 4;
       this->set_next_mode(4);
       (this->set_intangible());
-      new_var = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
-      this->substate = new_var;
+      wait_frames = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
+      this->substate = wait_frames;
       return;
     case 3:
       if ((this->substate) <= 0)

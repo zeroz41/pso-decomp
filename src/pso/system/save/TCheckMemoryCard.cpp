@@ -35,7 +35,7 @@ struct CheckMemoryCardState {
 LAYOUT_ASSERT(CheckMemoryCardState_size, sizeof(CheckMemoryCardState) == 0x18);
 LAYOUT_ASSERT(CheckMemoryCardState_run_offset, offsetof(CheckMemoryCardState, run) == 0xC);
 
-const char *TCheckMemoryCard__name = "TCheckMemoryCard";
+const char *TCheckMemoryCard::class_name = "TCheckMemoryCard";
 
 static const NJS_POINT2 check_memory_card_message_pos = {46.0f, 131.0f};
 static const f32 check_memory_card_message_size[2] = {548.0f, 220.0f};
@@ -396,7 +396,7 @@ TCheckMemoryCard::~TCheckMemoryCard() {
 }
 
 TCheckMemoryCard::TCheckMemoryCard(TObject *parent, void *arg2, s32 main_ctrl, s32 system_only) : TObject(parent) {
-    m_name = TCheckMemoryCard__name;
+    m_name = TCheckMemoryCard::class_name;
     unk_48 = arg2;
     system_file_only = system_only;
     use_main_ctrl = main_ctrl;

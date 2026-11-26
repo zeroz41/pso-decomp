@@ -602,7 +602,7 @@ EZBoneRotDesc hair_bone_rotation_descriptor[1] = {
 }
 
 const char *wait_entry_hair_move_sim_name = "TObjWaitEntryHairMoveSim";
-const char *T_OWEHMS_Exp__name = "T_OWEHMS_Exp";
+const char *T_OWEHMS_Exp::class_name = "T_OWEHMS_Exp";
 
 TObjWaitEntryHairMoveSim::~TObjWaitEntryHairMoveSim() {}
 
@@ -679,7 +679,7 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::create(TObjPlayer* p) {
 }
 
 T_OWEHMS_Exp::T_OWEHMS_Exp(TObjPlayer *p) : TObject(p) {
-    m_name = T_OWEHMS_Exp__name;
+    m_name = T_OWEHMS_Exp::class_name;
     player = p;
     descriptor_index = get_move_done_result__24TObjWaitEntryHairMoveSimFPv((H_800FE32C*)player);
 }

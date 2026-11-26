@@ -750,7 +750,7 @@ force_active:
   - is_body_flag_valid__14TObjCollidableFlUs
   - TMainTask_name
   - slot_flags__17TMedicalCenterMes
-  - TMemberCheck__previous_member_count
+  - previous_member_count__12TMemberCheck
   - motorcycle_collision_parts
   - __ct__11TMotorcycleFP7TObjectP13ObjectSetData
   - name__10TNpcPlayer
@@ -970,24 +970,24 @@ force_active:
   - __ct__16TObjCityMainWarpFP7TObjectPv
   - __ct__15TObjCityMapWarpFP7TObjectPv
   - TObjCity_Season_21_21__ct
-  - TObjCity_Season_21_21__name
+  - class_name__21TObjCity_Season_21_21
   - TObjCity_Season_Board__ct
-  - TObjCity_Season_Board__name
+  - class_name__21TObjCity_Season_Board
   - TObjCity_Season_EasterEgg__ct
-  - TObjCity_Season_EasterEgg__name
+  - class_name__25TObjCity_Season_EasterEgg
   - TObjCity_Season_FireWorkCtrl__ct
-  - TObjCity_Season_FireWorkCtrl__name
-  - TObjCity_Season_FireWork__name
+  - class_name__28TObjCity_Season_FireWorkCtrl
+  - class_name__24TObjCity_Season_FireWork
   - TObjCity_Season_HalloweenPumpkin__ct
-  - TObjCity_Season_HalloweenPumpkin__name
+  - class_name__32TObjCity_Season_HalloweenPumpkin
   - TObjCity_Season_SonicAdv2__ct
-  - TObjCity_Season_SonicAdv2__name
+  - class_name__25TObjCity_Season_SonicAdv2
   - TObjCity_Season_ValentineHeart__ct
-  - TObjCity_Season_ValentineHeart__name
+  - class_name__30TObjCity_Season_ValentineHeart
   - TObjCity_Season_XmasTree__ct
-  - TObjCity_Season_XmasTree__name
+  - class_name__24TObjCity_Season_XmasTree
   - TObjCity_Season_XmasWreath__ct
-  - TObjCity_Season_XmasWreath__name
+  - class_name__26TObjCity_Season_XmasWreath
   - __ct__13TObjCollisionFP7TObjectPv
   - __ct__12TObjComputerFP7TObjectP13ObjectSetData
   - container_abe_enemy_name
@@ -1142,7 +1142,7 @@ force_active:
   - __ct__19TObjEneBm9MericarolFP7TObjectPv
   - __vt__19TObjEneBm9Mericarol
   - run_demo_task__20TObjEneDarkGunCenterFv
-  - TObjEneDellBiter__param_table
+  - param_table__16TObjEneDellBiter
   - dell_biter_resource_descriptor
   - update_death_state__17TObjEneDf2BringerFl
   - update_damage_state__17TObjEneDf2BringerFl
@@ -1593,7 +1593,7 @@ force_active:
   - TObjPlayer__sub_802E76C8
   - TObjPlayer__sub_802ED984
   - TObjPlayer__sub_80307784
-  - TObjPlayer__sub_8030A9B0
+  - draw_boss4_zako_entries
   - TObjPlayer__sub_80312FB0
   - TObjPlayer__sub_80313010
   - __ct__21TItemWeaponDarkBridgeFP7TObjectPUc
@@ -1727,7 +1727,7 @@ force_active:
   - TShopEquipmentSequence__sub_8021D65C
   - TShopGenerator__ct
   - slot_active_table__14TShopGenerator
-  - TSwitch__floor_switch_table
+  - floor_switch_table__7TSwitch
   - switch_name
   - __ct__8TTecAntiFPvPvPvl
   - TTecAnti__self_effect_rows
@@ -8259,7 +8259,7 @@ force_active:
   - camera_ctrl_class_name
   - re7_berura_punch_name
   - class_name__21TObjEneRe2Flower_Bomb
-  - TObjEneRe2Flower_EffCurse3__name
+  - class_name__26TObjEneRe2Flower_EffCurse3
   - slime_name
   - slime_water_bomb_name
   - npc_player_char_file_name

@@ -69,8 +69,6 @@ const BgmZoneRow pioneer2_ep2_bgm_zones[12] = {
     {{12.82f, 0.0f, -204.0f}, 26.0f, 2},
 };
 
-struct BgmZoneView { u8 pad[0x9C]; s32 category; };
-
 
 const char *bgm_col_name = "TObjBgmCol";
 const char *bgm_col_ctrl_name = "TObjBgmColCtrl";
@@ -88,11 +86,11 @@ TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
 #define bgm_col this
     *(saddr *)((s8 *)bgm_col + 0) = (saddr) bgm_col_name;
     bgm_col->apply_object_set_data(set_data);
-    bgm_col->m_90 = 1;
-    bgm_col->m_98 = (f32) bgm_col->scale.x;
-    bgm_col->m_9c = (s32) (bgm_col->set_params[0] % 6);
-    if ((s32) bgm_col->m_9c < 0) {
-        bgm_col->m_9c = 0;
+    bgm_col->outside = 1;
+    bgm_col->radius = (f32) bgm_col->scale.x;
+    bgm_col->category = (s32) (bgm_col->set_params[0] % 6);
+    if ((s32) bgm_col->category < 0) {
+        bgm_col->category = 0;
     }
 #undef bgm_col
 }
@@ -102,17 +100,16 @@ TObjBgmCol::~TObjBgmCol() {
 }
 
 void TObjBgmCol::run_task() {
-    BgmZoneView *zone = (BgmZoneView *)this;
     if (get_quest_bgm_issued_flag() == 0) {
         switch (check()) {
         case 1:
-            if (bgm_zone_category != zone->category) {
-                if (zone->category == 4) {
+            if (bgm_zone_category != category) {
+                if (category == 4) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 } else {
-                    play_area_music((char *)area_music_filename_table[zone->category]);
+                    play_area_music((char *)area_music_filename_table[category]);
                 }
-                bgm_zone_category = zone->category;
+                bgm_zone_category = category;
             }
             bgm_zone_claimed = 1;
             return;
@@ -128,18 +125,18 @@ void TObjBgmCol::run_task() {
 s32 TObjBgmCol::check() {
     f32 radius;
 
-    radius = this->m_98;
+    radius = this->radius;
     if (is_within_distance(radius * radius) != 0) {
-        if ((s32) this->m_90 != 0) {
-            this->m_90 = 0;
+        if ((s32) this->outside != 0) {
+            this->outside = 0;
             return 1;
         }
         return 0;
     }
-    if ((s32) this->m_90 != 0) {
+    if ((s32) this->outside != 0) {
         return 2;
     }
-    this->m_90 = 1;
+    this->outside = 1;
     return 3;
 }
 

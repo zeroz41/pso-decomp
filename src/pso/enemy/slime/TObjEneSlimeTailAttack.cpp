@@ -877,17 +877,17 @@ void TObjEneSlimeOne::update_dive_timer() {
 }
 
 void TObjEneSlimeOne::enter_scan() {
-  unsigned int new_var;
+  unsigned int next_state;
   this->target_client_id = 0xFFFF;
   this->motion_phase = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
   this->state_timer = 0x7FFFFFFF;
   this->turn_speed = 0x400;
-  new_var = 1;
+  next_state = 1;
   if (this->random_ratio() > 0.5f)
   {
-    this->turn_speed = (s32) ((this->turn_speed) * (-new_var));
+    this->turn_speed = (s32) ((this->turn_speed) * (-next_state));
   }
-  animation->set_state(new_var);
+  animation->set_state(next_state);
   set_display_mode(2);
 }
 void TObjEneSlimeOne::update_scan() {

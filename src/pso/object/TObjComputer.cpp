@@ -87,7 +87,7 @@ TObjComputer::TObjComputer(TObject *parent, ObjectSetData *placement) : TObjMesB
     register_object_by_id();
     cursor_action.set_use();
     uv_scroll_time = 0.0f;
-    m_c4 = 0;
+    last_scroll_tick = 0;
 }
 
 TObjComputer::~TObjComputer() {
@@ -159,8 +159,8 @@ void TObjComputer::draw_model() {
     rotate_matrix_y(NULL, rotation_y);
     if (TObjComputer::screen_model_indices[set_params[1]] == 1) {
         u32 tick = actor_frame_tick;
-        if (tick != m_c4 && uv_scroll_time >= 1.0f) {
-            m_c4 = tick;
+        if (tick != last_scroll_tick && uv_scroll_time >= 1.0f) {
+            last_scroll_tick = tick;
             scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(screen_model->child->model), 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
             PPCSync();
             f32 time = uv_scroll_time;

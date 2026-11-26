@@ -99,7 +99,7 @@ extern const char *dell_biter_resource_descriptor[11];
 extern const char *dell_biter_low_model_names[2];
 extern const char *dell_biter_low_motion_names[11];
 
-DelbiterInitialParameters TObjEneDellBiter__param_table = {
+DelbiterInitialParameters TObjEneDellBiter::param_table = {
     225.0f, 0.0f, 0x600, {0, 0, 0, 0}
 };
 CollisionBody dell_biter_collision_bodies[4] = {
@@ -215,7 +215,7 @@ void TObjEneDellBiter::init_params() {
     set_requested_action(this->requested_action);
     reset_hp(dellbiter_boss_stat_handle, dell_biter_shared_handler_param, dellbiter_object_stat_handle);
     set_state_8();
-    movementParameters = &TObjEneDellBiter__param_table;
+    movementParameters = &TObjEneDellBiter::param_table;
     initialize_enemy_state(0x48);
     wall_reach = 20.0f;
     enemy_init_acquire_period(30);

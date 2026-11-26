@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjCity_Season_HalloweenPumpkin : public TObjBase {
+    static const char *class_name;
     TObjCity_Season_HalloweenPumpkin(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_HalloweenPumpkin();
     virtual void render();

@@ -7,7 +7,6 @@ struct NJS_TEXLIST;
 
 extern "C" {
 extern NJS_TEXLIST *ending_ab_wall_texture_list;
-extern s32 TEndingAB__fade_sequence_state;
 }
 
 NJS_TEXLIST *get_ending_ab_wall_texture_list(void);

@@ -31,7 +31,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 
 extern "C" {
-void TObjPlayer__sub_8030A9B0();
+void draw_boss4_zako_entries();
 }
 
 NJS_TEXLIST *falz_zako_texture_list;
@@ -69,7 +69,7 @@ TBoss4ZakoDraw::TBoss4ZakoDraw(TObject *parent) : TObject(parent) {
 extern "C" {
 #pragma push
 #pragma fp_contract on
-void TObjPlayer__sub_8030A9B0() {
+void draw_boss4_zako_entries() {
     Vec pos;
     Boss4ZakoDrawBuffer *tbl;
     Boss4ZakoDrawEntry *e;
@@ -143,7 +143,7 @@ void TObjPlayer::draw_area_chunk_objects() {
 }
 
 // File-scope constants of the zako draw: .sdata2 objects in this order, defined after their
-// users: defined before TObjPlayer__sub_8030A9B0, 1.0f is scheduled after push_matrix;
+// users: defined before draw_boss4_zako_entries, 1.0f is scheduled after push_matrix;
 // defined before draw_area_chunk_objects, its 1.0f becomes a new pooled literal.
 // Names inferred from the uses.
 __declspec(section ".sdata2") const u32 zako_model_render_flags = 0x82C;
@@ -162,7 +162,7 @@ void TBoss4ZakoDraw::draw_queued() {
         NJS_OBJECT *model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
         model->child->ang[1] = TBoss4ZakoDraw::rotation_phase << 12;
         TObjPlayer::draw_area_chunk_objects();
-        TObjPlayer__sub_8030A9B0();
+        draw_boss4_zako_entries();
     }
 }
 

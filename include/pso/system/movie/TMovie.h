@@ -7,6 +7,7 @@
 struct RelModuleBuffer;
 
 struct TMovie : public TObject {
+    static const char *class_name;
     TMovie(TObject *parent, s8 *filename, s32 movie_id, s32 movie_mode, s32 audio_mode);
     virtual ~TMovie();
     virtual void run_task();

@@ -29,7 +29,7 @@ extern "C" {
 void * player_render_texture_buffer;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
-const char *TObjEneRe2Flower_EffCurse3__name = TObjEneRe2Flower_EffCurse3__class_name_string;
+const char *TObjEneRe2Flower_EffCurse3::class_name = TObjEneRe2Flower_EffCurse3__class_name_string;
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
@@ -63,7 +63,7 @@ TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
 }
 
 TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase *target) : TObject(parent) {
-    m_name = TObjEneRe2Flower_EffCurse3__name;
+    m_name = TObjEneRe2Flower_EffCurse3::class_name;
     timer = 0;
     this->target = target;
     if (this->target->is_alive() != 0) {

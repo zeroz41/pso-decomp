@@ -5,6 +5,7 @@
 #include "pso/object/TObjCitySeasonBase.h"
 
 struct TObjCity_Season_SonicAdv2 : public TObjCitySeasonBase {
+    static const char *class_name;
     TObjCity_Season_SonicAdv2(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_SonicAdv2();
     virtual void debug_draw_model_index();

@@ -12,6 +12,7 @@ struct EndingWallQuad {
 
 class TEndingAB : public TObject {
 public:
+    static s32 fade_sequence_state;
     TEndingAB(TObject *parent);
     virtual ~TEndingAB();
     virtual void run_task();

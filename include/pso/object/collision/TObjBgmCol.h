@@ -7,10 +7,10 @@
 struct TObjBgmCol : public TObjBase {
     TObjBgmCol(TObject *parent, void *set_data);
     virtual ~TObjBgmCol();
-    u32 m_90;
+    u32 outside;  // 1 while the local player is outside the zone
     u8 unk_94[0x4];
-    f32 m_98;
-    u32 m_9c;
+    f32 radius;
+    s32 category;
     s32 check();
     virtual void run_task();
     s32 is_within_distance(f32 distance_sq);

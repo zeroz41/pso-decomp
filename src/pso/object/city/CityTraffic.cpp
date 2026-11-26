@@ -70,8 +70,8 @@ NJS_TEXLIST *city_common_texture_list;
 
 #pragma defer_codegen on
 
-const char *TObjCityAirCar_Ctrl__name = "TObjCityAirCar_Ctrl";
-const char *TObjCityAirCar_Car__name = "TObjCityAirCar_Car";
+const char *TObjCityAirCar_Ctrl::class_name = "TObjCityAirCar_Ctrl";
+const char *TObjCityAirCar_Car::class_name = "TObjCityAirCar_Car";
 
 f32 air_car_lane_spacing_table[5];
 f32 air_car_lane_speed_scale_table[5];
@@ -169,7 +169,7 @@ TObjCityAirCar_Ctrl::TObjCityAirCar_Ctrl(TObject *parent) : TObject(parent) {
     s32 i;
     s32 j;
     Lane *lane;
-    m_name = TObjCityAirCar_Ctrl__name;
+    m_name = TObjCityAirCar_Ctrl::class_name;
     pad_1C = 0;
     pad_20 = 0.0f;
     rare_car_counter = 0x14;
@@ -248,7 +248,7 @@ void TObjCityAirCar_Ctrl::render() {  }
 
 
 TObjCityAirCar_Car::TObjCityAirCar_Car(TObject *parent, s32 lane, s32 model_type, f32 path_speed) : TObjBase(parent) {
-    m_name = TObjCityAirCar_Car__name;
+    m_name = TObjCityAirCar_Car::class_name;
     path_frame = 0.0f;
     this->lane = lane;
     this->model_type = model_type;

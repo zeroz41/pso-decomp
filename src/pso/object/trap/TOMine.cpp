@@ -165,7 +165,7 @@ void set_mine_trap_damage(f32 power) {
     mine_trap_attack_power = power;
 }
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
-u16 TOMineTrap::get_trap_number() { return m_37e; }
+u16 TOMineTrap::get_trap_number() { return trap_number; }
 int TOMineTrap::get_instance() { return mine_trap_instance_id; }
 void TOMineTrap::sub_80171348(u16 v) { this->m_2d8 = v; }
 s16 TOMineTrap::get_mode() { return mode; }
@@ -598,7 +598,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     f32 area_scale;
 
     m_name = TOMineTrap::class_name;
-    m_380 = 0;
+    owner_message_state = 0;
     if (owner != NULL) {
         sub_80171348(owner->get_entity_id());
     } else {
@@ -641,7 +641,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
             attack.power = 0.0f;
             break;
         }
-        m_37e = slot + kind * 20 + get_trap_type() * 80u;
+        trap_number = slot + kind * 20 + get_trap_type() * 80u;
         VecCopy(&float_position, VecCopy(&home_position, VecCopy(&position, &owner->position)));
         init_position_vectors();
         calc_attach_pos();
@@ -788,8 +788,8 @@ void TOMineTrap::run_task() {
                         }
                         ((TObjChara *)target)->record_attack_source(get_trap_type());
                     }
-                    if (m_380 != 1) {
-                        m_380 = show_owner_message(chara);
+                    if (owner_message_state != 1) {
+                        owner_message_state = show_owner_message(chara);
                     }
                 }
             } else if (id < 0x4000) {
@@ -924,7 +924,7 @@ void TOMineTrap::send_state_packet(u16 idx) {
         G_TriggerTrap_6x80 packet;
         packet.init();
         packet.header.client_id = this->entity_id;
-        packet.trap_number = this->m_37e;
+        packet.trap_number = this->trap_number;
         packet.what = idx;
         packet.send();
     }
@@ -1036,12 +1036,12 @@ void TOMineTrap::spawn_disp_objects() {
 
 TOMineDisp::TOMineDisp(TObject *parent, u16 client) : TObjBase(parent) {
     m_name = mine_disp_name;
-    m_a8 = client;
+    client_id = client;
     color.a = 0.0f;
     color.r = 0.0f;
     color.g = 0.0f;
     color.b = 0.0f;
-    m_a4 = 0;
+    state = 0;
     m_90 = 0;
 }
 
@@ -1052,20 +1052,20 @@ TOMineDisp::~TOMineDisp() {
 void TOMineDisp::run_task() {
     void *mine = this->m_up;
     TObjPlayer *player;
-    switch (this->m_a4) {
+    switch (this->state) {
     case 0:
-        player = get_player_by_client_id(this->m_a8);
+        player = get_player_by_client_id(this->client_id);
         if (player != NULL && player->is_locally_controlled() != 0 && fn_80171314(player) != 0) {
             if (horizontal_distance_squared(&position, &player->position) <= 40000.0f ||
                 player->get_room() == this->get_room()) {
-                this->m_a4 = 2;
+                this->state = 2;
             }
         }
         break;
     case 3:
         break;
     case 2:
-        get_player_state__6TOMineFv(mine, this->m_a8);
+        get_player_state__6TOMineFv(mine, this->client_id);
         VecCopy(&this->position, (const Vec *)(((TOMineTrap *)mine)->get_mine_data_ptr()));
         break;
     }
@@ -1075,10 +1075,10 @@ void TOMineDisp::render() {
     saddr mine;
     s32 render_flags;
     u16 id = TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode());
-    if (id != this->m_a8) {
+    if (id != this->client_id) {
         return;
     }
-    if (*(s32 *)&this->m_a4 != 2) {
+    if (*(s32 *)&this->state != 2) {
         return;
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) == 0) {
@@ -1117,7 +1117,7 @@ void TOMineTrapDisp::run_task() {
     TObjPlayer *pl;
 
     d = m_up;
-    switch (m_a4) {
+    switch (state) {
     case 0:
         hit = 0;
         if (TOMineTrap::get_instance() == 1) {
@@ -1131,7 +1131,7 @@ void TOMineTrapDisp::run_task() {
                                 continue;
                             }
                         }
-                        if (m_a8 == (u16)pl->get_entity_id()) {
+                        if (client_id == (u16)pl->get_entity_id()) {
                             hit = 1;
                         }
                     }
@@ -1139,13 +1139,13 @@ void TOMineTrapDisp::run_task() {
             }
         }
         if (hit != 0) {
-            m_a4 = 2;
+            state = 2;
         }
         return;
     case 1:
         break;
     case 2:
-        get_player_state__6TOMineFv(d, m_a8);
+        get_player_state__6TOMineFv(d, client_id);
         VecCopy(&position, (const Vec *)(((TOMineTrap *)d)->get_mine_data_ptr()));
         break;
     case 3:

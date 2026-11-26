@@ -21,6 +21,7 @@ struct TObjHMSColliderSpec {
 
 class TObjHMS_EZRope_Player : public TObjEZRopeBase {
 public:
+    static const char *class_name;
     TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders);
     virtual ~TObjHMS_EZRope_Player();
     virtual void run_task();

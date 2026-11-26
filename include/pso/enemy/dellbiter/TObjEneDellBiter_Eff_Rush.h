@@ -8,6 +8,7 @@ class TObjChara;
 
 class TObjEneDellBiter_Eff_Rush : public TObject {
 public:
+    static const char *class_name;
     TObjEneDellBiter_Eff_Rush(TObject *, TObjBase *, TObjChara *, f32);
     virtual ~TObjEneDellBiter_Eff_Rush();
     virtual void render();
