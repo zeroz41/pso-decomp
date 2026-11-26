@@ -86,7 +86,6 @@ u32 *copy_attack_targets(u32 *dst, u32 *src) {
 }
 
 TItemWeaponHeavenPunisher::TItemWeaponHeavenPunisher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    TObjPlayer__sub_8012AF00(&captured_targets);
     set_weapon_flags(34);
 }
 TItem *create_heaven_punisher(u8 *item) {
@@ -99,18 +98,12 @@ TItem *create_heaven_punisher(u8 *item) {
 
 TItemWeaponHeavenPunisher::~TItemWeaponHeavenPunisher() {}
 
-extern "C" {
-void *__construct_array(void *, CapturedTarget *(*)(CapturedTarget *), void *, u32, u32);
-CapturedTargetList *TObjPlayer__sub_8012AF00(CapturedTargetList *self) {
-    __construct_array(self->entries, TObjPlayer__sub_8012AF50, 0, 4, 10);
-    self->clear_lockon_list();
-    return self;
+CapturedTargetList::CapturedTargetList() {
+    clear_lockon_list();
 }
 
-CapturedTarget *TObjPlayer__sub_8012AF50(CapturedTarget *self) {
-    self->clear();
-    return self;
-}
+CapturedTarget::CapturedTarget() {
+    clear();
 }
 
 void CapturedTarget::clear() {

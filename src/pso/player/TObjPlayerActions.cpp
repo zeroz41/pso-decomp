@@ -5198,7 +5198,6 @@ void G_AttackFinished_6x46::bswap_received() {
 }
 
 G_AttackFinished_6x46::G_AttackFinished_6x46() {
-    TObjPlayer__sub_8012AF00(&targets);
     header.subcommand = 0x46;
     header.size = sizeof(G_AttackFinished_6x46) / 4;
 }
@@ -5676,7 +5675,7 @@ f32 PlayerAttackController::get_attack_speed() { return attack_speed; }
 
 void PlayerAttackController::set_queued_kind(s16 kind) { queued_kind = kind; }
 
-FlagWord *PlayerAttackController::get_flags() { return (FlagWord *)&flags; }
+FlagWord *PlayerAttackController::get_flags() { return &flags; }
 
 #pragma push
 #pragma inline_depth(1)

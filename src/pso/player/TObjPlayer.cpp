@@ -1611,8 +1611,6 @@ void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 
 PlayerAttackController::PlayerAttackController() {
-    __ct__8FlagWordFv(&flags);
-    TObjPlayer__sub_8012AF00(&lockon_targets);
     evp_scale = player_one;
     reset();
 }

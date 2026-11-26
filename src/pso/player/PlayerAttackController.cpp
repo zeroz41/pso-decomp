@@ -117,7 +117,7 @@ void PlayerAttackController::queue_physical_attack_input(TObjPlayer *player, s32
 }
 
 s32 PlayerAttackController::tick_burst_recovery() {
-    if (test_flags_any(&flags, 8) != 0) {
+    if (test_flags_any(&flags.bits, 8) != 0) {
         return tick_recovery_timer();
     }
     return 0;
@@ -129,14 +129,14 @@ s32 PlayerAttackController::tick_recovery_timer() {
     remaining = recovery_timer - 1;
     recovery_timer = remaining;
     if (remaining < 0) {
-        ((FlagWord *)&flags)->set(1);
+        flags.set(1);
         return 1;
     }
     return 0;
 }
 
 void PlayerAttackController::register_strike(TObjPlayer *player) {
-    ((FlagWord *)&flags)->set(2);
+    flags.set(2);
     recovery_timer = (s32)player->get_attack_recovery_count();
     player->clear_flag_128();
 }
@@ -146,7 +146,7 @@ void PlayerAttackController::begin(TObjPlayer *player, s32 stage, s32 begun) {
     begun_stage = begun;
     hit_count = 0;
     burst_count = 0;
-    ((FlagWord *)&flags)->clear(0x1F);
+    flags.clear(0x1F);
     recovery_timer = 6;
     attack_speed = evp_scale;
     if (attack_kind) {
@@ -217,7 +217,7 @@ s16 LockOnTargetRecord::get_part() { return flag; }
 
 void PlayerAttackController::set_saved_attack_stage(s16 stage) { pending_stage = stage; }
 
-int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags, 32) == 0; }
+int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags.bits, 32) == 0; }
 
 CapturedTarget *PlayerAttackController::get_first_target() { return lockon_targets.get_captured_target_entry(0); }
 

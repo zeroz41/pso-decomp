@@ -8,6 +8,8 @@ struct CapturedTarget {
     u16 uid;
     s16 collider_index;
 
+    // Builds the entry cleared.
+    CapturedTarget();
     void clear();
     void set_uid(u16 id);
     void set_collider_index(s16 index);
@@ -21,6 +23,8 @@ struct CapturedTargetList {
     s32 count;
     CapturedTarget entries[10];
 
+    // Builds the entries, then clears the list.
+    CapturedTargetList();
     void clear_lockon_list();
     void set_count(s32 n);
     CapturedTarget *get_captured_target_entry(s32 i);
@@ -30,12 +34,5 @@ struct CapturedTargetList {
     // Send-side swap: the entries while the count is native, then the count.
     void bswap_for_send();
 };
-
-extern "C" {
-// The list's and the entry's constructors. They stay flat until the objects that build a list in place
-// (PlayerAttackController::init at +0x30, G_AttackFinished_6x46 at +0x4) have real constructors.
-CapturedTargetList *TObjPlayer__sub_8012AF00(CapturedTargetList *self);
-CapturedTarget *TObjPlayer__sub_8012AF50(CapturedTarget *self);
-}
 
 #endif

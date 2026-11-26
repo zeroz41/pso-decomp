@@ -16,10 +16,9 @@ struct PlayerAttackController {
     // Raised to an equipped unit's TItemProUnit::evp_scale, reset to 1.0
     // when it is removed.
     f32 evp_scale;
-    // FlagWord bits, set and cleared in place; init builds the word.
     // 1: the swing is over, 2: it struck, 4: the next input came too early,
     // 8: the burst is complete.
-    s32 flags;
+    FlagWord flags;
     s16 pending_stage;
     s16 hit_count;
     s32 begun_stage;
