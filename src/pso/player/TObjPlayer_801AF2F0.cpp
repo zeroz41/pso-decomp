@@ -4625,14 +4625,14 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
 }
 
 
-void send_6x2F_change_player_hp(s32 id, s32 client, s16 hp) {
+void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp) {
     Msg_801B1E54 m;
 
-    TObjChara *chara = (TObjChara *)get_player_by_client_id(id & 0xFFFF);
-    TObjPlayer *sender;
-    if (((chara == NULL) || (chara->obj_isState2_324() == 0)) && (((sender = get_player_by_client_id(client & 0xFFFF)) == NULL) || (sender->is_locally_controlled() != 0))) {
+    TObjChara *chara = (TObjChara *)get_player_by_client_id(sender);
+    TObjPlayer *target;
+    if (((chara == NULL) || (chara->obj_isState2_324() == 0)) && (((target = get_player_by_client_id(client)) == NULL) || (target->is_locally_controlled() != 0))) {
         ((G_ChangePlayerHP_6x2F *)&m)->init();
-        m.a = id;
+        m.a = sender;
         m.b = 0;
         m.c = hp;
         m.d = client;

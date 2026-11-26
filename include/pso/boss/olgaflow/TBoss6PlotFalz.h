@@ -68,7 +68,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6Demo15_TYPE2_WAIT *wait_demo;  // the DEMO_WAIT_T2 scene object
     static TBoss6PlotFalz *get_instance();
     static TBoss6Type2 *get_type2();
-    static s32 damage_player_hp(s32 client, u32 damage);
+    static s32 damage_player_hp(u16 client, u32 damage);
     static s32 sort_active_players();
     static u16 get_sorted_player(s32 i);  // i-th client id of sort_active_players' order
     static u16 pick_random_active_player();

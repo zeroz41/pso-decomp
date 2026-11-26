@@ -116,6 +116,7 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TObjFreezeShell.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 struct ObjFlags;
@@ -131,7 +132,6 @@ extern s32 registered_player_count;
 extern s32 registered_enemy_count;
 void show_meseta_label(saddr player, u32 pos, s32 delay, s32 value);
 extern "C" {
-void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 }
 

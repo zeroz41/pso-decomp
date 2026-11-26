@@ -14,12 +14,12 @@ extern "C" {
 void submit_cursor_candidate(void *object, s32 id);
 // Offers target to the lock-on cursor of player `id` (a client id below 0x1000).
 void submit_target_to_player_cursor(void *target, s32 id);
-// 6x2F: sets a player's HP (sender 0xFFFF for an object).
-void send_6x2F_change_player_hp(s32 sender, s32 client, s16 hp);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
 }
+// 6x2F: sets a player's HP (sender 0xFFFF for an object).
+void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 
 // True when obj exists and neither it nor a parent is queued for destruction.
 s32 can_destroy_with_parents(TObject *obj);

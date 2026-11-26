@@ -236,14 +236,12 @@ void TBoss6PlotFalz::update_random_shake() {
 }
 #pragma pop
 
-s32 TBoss6PlotFalz::damage_player_hp(s32 client, u32 damage) {
+s32 TBoss6PlotFalz::damage_player_hp(u16 client, u32 damage) {
     u32 v;
     TObjPlayer *p;
     s32 hp;
-    u16 id;
-    id = client;
     v = damage;
-    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || TBoss6PlotFalz::is_active(p) == 0) {
+    if (client == 0xFFFF || (p = get_player_by_client_id(client)) == NULL || TBoss6PlotFalz::is_active(p) == 0) {
         return 0;
     }
     hp = p->get_actor_hp();

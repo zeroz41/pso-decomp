@@ -76,6 +76,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/item/item_pmt.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 #pragma readonly_strings on
@@ -112,7 +113,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 extern "C" {
 
 s32 copy_attack_targets(void *dst, void *src);
-void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 draw_player_status(void *, void *, const char *);
 u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).

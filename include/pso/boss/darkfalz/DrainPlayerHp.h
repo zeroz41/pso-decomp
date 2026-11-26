@@ -4,6 +4,6 @@
 #include "types.h"
 
 // Takes up to `damage` HP from a player in Dark Falz's arena; returns what was taken.
-u32 drain_player_hp(s32 client, u32 damage);
+u32 drain_player_hp(u16 client, u32 damage);
 
 #endif

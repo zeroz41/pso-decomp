@@ -35,6 +35,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";
@@ -294,9 +295,6 @@ const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 
 TObjFogCollision_Manager *fog_collision_poison_instances[12];
 
-extern "C" {
-s32 send_6x2F_change_player_hp(s32, u16, s16);
-}
 
 void TObjFogCollisionPoison::play_poison_sound() {
     switch (get_current_floor_area()) {
