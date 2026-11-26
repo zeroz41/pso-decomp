@@ -763,7 +763,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
                 target = this->current_target;
                 if ((target != NULL) && (target->select_melee_contact_body(this, (1.0f)) != 0)) {
                     this->current_target->receive_physical_attack(this, (1.0f));
-                    this->current_target->apply_knockback_from_attacker((u8 *)this, (3.0f));
+                    this->current_target->apply_knockback_from_attacker(this, (3.0f));
                     if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() < (0.05f))) {
                         TObjEneDD::inflict_poison(this, this->current_target);
                     }

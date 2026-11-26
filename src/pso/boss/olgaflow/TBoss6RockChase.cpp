@@ -60,7 +60,7 @@ void TBoss6RockChase::damage_players_in_range() {
                 s32 power = TBoss6PlotFalz::rand_vary_count(damage, 0.1f);
                 h.kind = 0;
                 h.power = power;
-                player->receive_direct_attack(owner, h, 0, -1, -1);
+                player->receive_direct_attack((TObjBase *)owner, h, 0, -1, -1);
             }
         }
     }

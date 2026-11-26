@@ -486,7 +486,7 @@ void TObjEneLappy::update_attacking() {
             hit = target;
             if (hit != NULL && hit->select_melee_contact_body(this, 1.0f) != 0) {
                 target->receive_physical_attack(this, 1.0f);
-                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->apply_knockback_from_attacker(this, 3.0f);
             }
             play_sound_effect(remap_area_sound_id(0x3BC0D, 5), &position, 0, 0);
             phase = 2;

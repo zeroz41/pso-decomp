@@ -649,7 +649,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                             break;
                         }
                         if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
-                            p->apply_knockback_from_attacker((u8 *)this, 1.0f);
+                            p->apply_knockback_from_attacker(this, 1.0f);
                             p->receive_physical_attack(this, 1.0f);
                         }
                     }
@@ -1050,7 +1050,7 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
                 if (enemy_validate_retained_target() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 7.0f);
                         this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if ((s32) this->is_leader != 0) {
@@ -2378,7 +2378,7 @@ void TObjEneBm5GibonU::schedule_pack_reaction(s32 timer, u16 id) {
 }
 
 void TObjEneBm5GibonU::damage_linked_entity_type10() {
-    u8 *r = (u8 *)find_entity_by_id(leader_id);
+    TObjCollidable *r = find_entity_by_id(leader_id);
     if (r != 0) {
         DirectAttackPayload d;
         d.kind = 10;
@@ -2388,7 +2388,7 @@ void TObjEneBm5GibonU::damage_linked_entity_type10() {
 }
 
 void TObjEneBm5GibonU::damage_linked_entity() {
-    u8 *r = (u8 *)find_entity_by_id(leader_id);
+    TObjCollidable *r = find_entity_by_id(leader_id);
     if (r != 0) {
         DirectAttackPayload d;
         d.kind = 9;

@@ -119,7 +119,7 @@ void TObjVoloptPillar::run_task() {
                     if (obj_is_hit_receivable(target) != 0) {
                         DirectAttackPayload attack = volopt_pillar_attack;
                         attack.power = TBoss3VoloptP02::get_int_param(1);
-                        target->receive_direct_attack(owner, attack, NULL, -1, -1);
+                        target->receive_direct_attack((TObjBase *)owner, attack, NULL, -1, -1);
                         if (!(target->actorFlags & 0x04000000)) {
                             push_matrix_from(identity_matrix);
                             {

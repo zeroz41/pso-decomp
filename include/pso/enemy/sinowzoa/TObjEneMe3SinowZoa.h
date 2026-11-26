@@ -32,7 +32,7 @@ struct TObjEneMe3SinowZoaMoveParams {
 struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     TObjEneMe3SinowZoa(TObject *parent);
     virtual ~TObjEneMe3SinowZoa();
-    virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32);
+    virtual f32 receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32);
     virtual s32 acquire_target(f32);
     virtual void dispatch_action(u32 state, s32 reason);
     void update_stealth_fade(); // run_task: material fade toward visible while actorFlags 0x24 is set, else toward the stealth state

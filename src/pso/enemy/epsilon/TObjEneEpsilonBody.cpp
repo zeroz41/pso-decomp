@@ -1321,7 +1321,7 @@ void TObjEneEpsilonBody::clear_guard_state_flag(s32 slot) {
     }
 }
 
-f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *source, s32 tech, s32 attack_flags) {
+f32 TObjEneEpsilonBody::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *source, s32 tech, s32 attack_flags) {
     s32 flags = this->flags;
     if (!(flags & 2) && !(flags & 0x40)) {
         if (payload.kind != get_table_value_by_index()) {
@@ -1334,27 +1334,27 @@ f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayloa
     return 0.0f;
 }
 
-f32 TObjEneEpsilonBody::receive_physical_attack(void *attacker, f32 scale) {
+f32 TObjEneEpsilonBody::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (!(flags & 2) && !(flags & 0x40)) {
         return TObjChara::receive_physical_attack(attacker, scale);
     }
     try_apply_damage(&body_center, 0);
     return 0.0f;
 }
-f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
+f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionBody *hit) {
     if (!(flags & 2) && !(flags & 0x40)) {
         s16 kind = ((TObjPlayer *)src)->obj_getS16_116();
         s32 strong;
         obj_getS16_118((u8 *)src);
         strong = 0;
-        if (src == NULL || ((TObjBase *)src)->get_entity_id() == 0xFFFF) {
+        if (src == NULL || src->get_entity_id() == 0xFFFF) {
             show_miss_popup(&position.x);
             return 0.0f;
         }
         if (test_actor_flags(0x04000000) != 0) {
             strong = 1;
         }
-        if (hit != NULL && (((CollisionBody *)hit)->flags & 0x02000000)) {
+        if (hit != NULL && (hit->flags & 0x02000000)) {
             strong = 1;
         }
         if (strong != 0) {

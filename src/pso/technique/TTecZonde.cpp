@@ -43,7 +43,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
     hit.kind = 3;
     hit.power = this->params.power;
     if (static_cast<TObjEneBeastBase *>(target)->test_elt_flag(0, 0x80) == 0) {
-        target->receive_direct_attack((void *)source, hit, 0, 6, -1);
+        target->receive_direct_attack((TObjBase *)source, hit, 0, 6, -1);
     }
 }
 

@@ -164,7 +164,7 @@ struct TObjPlayer : public TObjChara {
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
     virtual void enemy_spawn_zalure_effect();
-    virtual f32 receive_physical_attack(void *attacker, f32 scale);
+    virtual f32 receive_physical_attack(TObjChara *attacker, f32 scale);
     virtual s32 update_poison_status();
     virtual s32 update_action_hold_status();
     virtual s32 update_flag30_timer();

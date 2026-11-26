@@ -422,7 +422,7 @@ void TObjEneBalClawClaw::update_attack() {
         if (is_passing_frame(8.0f) != 0) {
             play_sound_effect(0x4003B032, &position, 0, 0);
             if (target->select_melee_contact_body(this, 1.0f) != 0) {
-                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->apply_knockback_from_attacker(this, 3.0f);
                 target->receive_physical_attack(this, 1.0f);
                 behavior_flags |= 8;
             }

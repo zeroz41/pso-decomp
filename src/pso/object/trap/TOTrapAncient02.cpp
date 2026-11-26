@@ -103,27 +103,27 @@ void TOTrapAncient02R::init_trap_param_clamped() {
     }
 }
 
-f32 TOTrapAncient02R::receive_weapon_special_attack(void *, void *) {
+f32 TOTrapAncient02R::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     return receive_physical_attack(NULL, 1.0f);
 }
 
-f32 TOTrapAncient02R::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TOTrapAncient02R::receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32) {
     return receive_physical_attack(NULL, 1.0f);
 }
 
-int TOTrapAncient02R::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+int TOTrapAncient02R::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) {
     return 1;
 }
 
-s32 TOTrapAncient02R::select_melee_contact_body(void *, f32) {
+s32 TOTrapAncient02R::select_melee_contact_body(TObjChara *, f32) {
     return 1;
 }
 
-s32 TOTrapAncient02R::roll_physical_accuracy(void *, s32, f32) {
+s32 TOTrapAncient02R::roll_physical_accuracy(TObjChara *, s32, f32) {
     return 1;
 }
 
-s32 TOTrapAncient02R::try_start_action(void *, s32, f32) {
+s32 TOTrapAncient02R::try_start_action(TObjChara *, s32, f32) {
     return 1;
 }
 
@@ -528,7 +528,7 @@ void *TOTrapAncient02R::create(void *set_data) {
     return new TOTrapAncient02R(tl_05, set_data);
 }
 
-f32 TOTrapAncient02R::receive_physical_attack(void *, f32) {
+f32 TOTrapAncient02R::receive_physical_attack(TObjChara *, f32) {
     s16 state;
     if (entity_id >= 0x4000 && set_entry != NULL) {
         Vec v = position;

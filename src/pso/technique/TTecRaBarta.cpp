@@ -160,7 +160,7 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 2;
         hit.power = params.power;
-        target->receive_direct_attack((void *)source, hit, contact, 5, -1);
+        target->receive_direct_attack((TObjBase *)source, hit, contact, 5, -1);
     }
 }
 

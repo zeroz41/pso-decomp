@@ -26,13 +26,13 @@ void TTecKafun::apply_to_target(TObjChara *target) {
     case 17:
     case 18:
         hit.kind = 0;
-        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        target->receive_direct_attack((TObjBase *)this->source, hit, 0, -1, -1);
         hit.kind = this->hit_kind;
-        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        target->receive_direct_attack((TObjBase *)this->source, hit, 0, -1, -1);
         break;
     default:
         hit.kind = this->hit_kind;
-        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        target->receive_direct_attack((TObjBase *)this->source, hit, 0, -1, -1);
         break;
     }
 }

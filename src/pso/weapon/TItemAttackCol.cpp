@@ -187,7 +187,7 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
             break;
         case 1:
             dealt = target->receive_physical_attack(player, this->damage_scale);
-            target->apply_knockback_from_attacker((u8 *)player, 0.1f * dealt);
+            target->apply_knockback_from_attacker(player, 0.1f * dealt);
             break;
         case 2:
             target->receive_weapon_special_attack(player, target_body);

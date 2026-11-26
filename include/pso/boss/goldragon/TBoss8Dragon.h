@@ -28,7 +28,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
+    virtual f32 receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags);
     virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();

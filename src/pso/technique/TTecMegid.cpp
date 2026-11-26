@@ -174,7 +174,7 @@ void TTecMegid::apply_to_target(TObjChara *target) {
         if (target->get_entity_id() < 4 && target->obj_isState3_324() != 0) {
             return;
         }
-        target->receive_direct_attack((void *)source, hit, contact, 0x12, -1);
+        target->receive_direct_attack((TObjBase *)source, hit, contact, 0x12, -1);
         play_sound_effect(0x4002AD29, &target->position, 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {

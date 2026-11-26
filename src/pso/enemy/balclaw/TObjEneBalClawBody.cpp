@@ -569,7 +569,7 @@ void TObjEneBalClawBody::update_attack() {
             play_sound_effect(0x4003B034, &this->position, 0, 0);
             if (((TObjChara *)this->target)->select_melee_contact_body(this, 1.0f) != 0) {
                 ((TObjChara *)this->target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)this->target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                ((TObjChara *)this->target)->apply_knockback_from_attacker(this, 3.0f);
                 if (!(((TObjChara *)this->target)->actorFlags & 0x800) && ((TObjChara *)(this->target))->get_actor_hp() > 0) {
                     send_6x2F_change_player_hp(this->entity_id, this->targetId, 1);
                 }
@@ -660,7 +660,7 @@ void TObjEneBalClawBody::update_combined_attack() {
                         ((TObjChara *)this->target)->receive_direct_attack(this, q, 0, -1, -1);
                     }
                     ((TObjChara *)this->target)->receive_physical_attack(this, 1.0f);
-                    ((TObjChara *)this->target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    ((TObjChara *)this->target)->apply_knockback_from_attacker(this, 3.0f);
                 }
                 this->melee_hit_count++;
             }

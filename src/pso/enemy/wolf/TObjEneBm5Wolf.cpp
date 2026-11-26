@@ -1446,7 +1446,7 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
                 if (enemy_validate_retained_target() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 7.0f);
                         this->near_target = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if (this->is_leader != 0) {

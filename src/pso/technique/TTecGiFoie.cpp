@@ -175,7 +175,7 @@ void TTecGiFoie::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 1;
         hit.power = params.power;
-        target->receive_direct_attack((void *)source, hit, contact, 1, -1);
+        target->receive_direct_attack((TObjBase *)source, hit, contact, 1, -1);
     }
 }
 

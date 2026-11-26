@@ -12,7 +12,7 @@ struct TObjContainerAbeEnemy : public TObjContainerCommon {
     virtual void debug_print_item_box_info();
     virtual void update_state();
     virtual void apply_saved_state(s16 *, s32);
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     static void *create(void *set_data);
 };
 

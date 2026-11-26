@@ -402,7 +402,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
             }
             if (obj_is_hit_receivable(object) != 0) {
                 if (object->select_melee_contact_body(this, 1.0f) != 0) {
-                    object->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    object->apply_knockback_from_attacker(this, 3.0f);
                     object->receive_physical_attack(this, 1.0f);
                 }
                 if (object == target) {
@@ -620,7 +620,7 @@ s32 TBoss3VoloptCore::alloc_boss_target_slot() {
 void TBoss3VoloptCore::link_photon(u16 id, s32) {
     TBoss3VoloptCore *core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id);
     if (core != NULL && core->hit_cooldown <= 0) {
-        TObject *source = (TObject *)find_entity_by_id(id);
+        TObjChara *source = (TObjChara *)find_entity_by_id(id);
         if (source != NULL) {
             core->bodies->flags |= 0x04000000;
             core->receive_physical_attack(source, 1.0f);

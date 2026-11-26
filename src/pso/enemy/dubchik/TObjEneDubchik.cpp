@@ -831,7 +831,7 @@ void TObjEneDubchik::update_scratch() {
             play_sound_effect(remap_sound_for_area(0x4003AD03), &position, 0, 0);
             if (target != NULL && target->select_melee_contact_body(this, 1.0f) != 0) {
                 target->receive_physical_attack(this, 1.0f);
-                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->apply_knockback_from_attacker(this, 3.0f);
                 if (variant != 0 && random_ratio() <= 0.16666667f) {
                     DirectAttackPayload p = {0x11, 0};
                     target->receive_direct_attack(this, p, 0, -1, -1);

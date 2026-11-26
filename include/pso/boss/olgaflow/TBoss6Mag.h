@@ -70,8 +70,8 @@ struct TBoss6Mag : public TObjEnemy {
     virtual ~TBoss6Mag();
     virtual void run_task();
     virtual void render();
-    virtual f32 receive_physical_attack(void *attacker, f32 scale);
-    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags);
+    virtual f32 receive_physical_attack(TObjChara *attacker, f32 scale);
+    virtual f32 receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags);
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
 

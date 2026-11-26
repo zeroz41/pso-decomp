@@ -984,7 +984,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
                     a.power = gibbles_combat_stat_entries[0]->get_atp_min();
-                    p->apply_knockback_from_attacker((u8 *)this, p->receive_direct_attack(this, a, NULL, -1, -1));
+                    p->apply_knockback_from_attacker(this, p->receive_direct_attack(this, a, NULL, -1, -1));
                 }
             }
         }
@@ -1006,7 +1006,7 @@ s32 TObjEneGibbles::landing_damage_players() {
                 attack.kind = 0;
                 attack.power = gibbles_combat_stat_entries[1]->get_atp_min();
                 f32 res = pl->receive_direct_attack(this, attack, NULL, -1, -1);
-                pl->apply_knockback_from_attacker((u8 *)this, res);
+                pl->apply_knockback_from_attacker(this, res);
                 if (res > 0.0f) {
                     pl->set_actor_flags(0x600);
                 }
@@ -1049,7 +1049,7 @@ bool TObjEneGibbles::attack_from_joint_53(s32 trigger_hit_reaction, f32 power) {
                 attack.power = power;
                 power = target->receive_direct_attack(this, attack, NULL, -1, -1);
             }
-            target->apply_knockback_from_attacker((u8 *)this, power);
+            target->apply_knockback_from_attacker(this, power);
             if (trigger_hit_reaction == 1 && power > 0.0f) {
                 target->set_actor_flags(0x600);
                 armor = (s16)(armor + power);
@@ -1095,7 +1095,7 @@ bool TObjEneGibbles::attack_from_joint_31(s32 trigger_hit_reaction, f32 power) {
                 attack.power = power;
                 power = target->receive_direct_attack(this, attack, NULL, -1, -1);
             }
-            target->apply_knockback_from_attacker((u8 *)this, power);
+            target->apply_knockback_from_attacker(this, power);
             if (trigger_hit_reaction == 1 && power > 0.0f) {
                 target->set_actor_flags(0x600);
                 armor = (s16)(armor + power);

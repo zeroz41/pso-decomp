@@ -542,7 +542,7 @@ void TObjEneDelDepth::update_movement() {
             if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(pl->get_entity_id()) != 0) {
                 pl->select_melee_contact_body(this, 1.0f);
                 pl->receive_physical_attack(this, 1.0f);
-                pl->apply_knockback_from_attacker((u8 *)this, 5.0f);
+                pl->apply_knockback_from_attacker(this, 5.0f);
             }
         }
     }

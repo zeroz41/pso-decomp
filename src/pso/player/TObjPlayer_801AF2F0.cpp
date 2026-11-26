@@ -5406,7 +5406,7 @@ void TObjPlayer::set_action_provider_variant(s16 variant) {
 
 s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->sub_802a7290_fwd()); }
 
-f32 TObjPlayer::receive_physical_attack(void *attacker, f32 scale) {
+f32 TObjPlayer::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (obj_isState2_324() != 0) {
         return player_zero;
     }

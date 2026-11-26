@@ -9,7 +9,7 @@
 
 class TObjChara;
 struct CsnGroup;
-struct TechniqueContactBody;
+struct CollisionBody;
 
 class TTecShot : public TEffect {
 public:
@@ -42,7 +42,7 @@ public:
     u16 sourceId;
     u8 pad_CA[0x2];
     TechniqueParams params;  // calc_technique_parameters for the cast's level
-    TechniqueContactBody* contact;
+    CollisionBody *contact;
     CollisionBody collisionBody;
     TObjCollidable *collidable;
     f32 halfWidth;

@@ -1123,7 +1123,7 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
                             TObjEneDD::inflict_paralysis(this, current_target);
                         }
                     }
-                    current_target->apply_knockback_from_attacker((u8 *)this, 5.0f);
+                    current_target->apply_knockback_from_attacker(this, 5.0f);
                 }
             }
             entry = belra_trail_buffer->lookup(frame);

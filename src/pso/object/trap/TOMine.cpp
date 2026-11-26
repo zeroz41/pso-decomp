@@ -122,14 +122,14 @@ void G_TriggerTrap_6x80::bswap() {
     bswap_16(&what);
 }
 
-int TOMineTrap::calc_distance_accuracy_penalty(void *attacker, void *, void *, float) {
+int TOMineTrap::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody *, const Vec *, float) {
     if (attacker != target) {
         return 1;
     }
     return 0;
 }
 
-s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
+s32 TOMineTrap::select_melee_contact_body(TObjChara *attacker, f32) {
     if (attacker != target) {
         return 1;
     }
@@ -272,7 +272,7 @@ void TOMine::detonate() {
             DirectAttackPayload pair = attack;
             f32 r = obj->receive_direct_attack(this, pair, NULL, -1, -1);
             if (attack.kind < 5) {
-                obj->apply_knockback_from_attacker((u8 *)this, 0.1f * r);
+                obj->apply_knockback_from_attacker(this, 0.1f * r);
             }
         }
     }
@@ -364,7 +364,7 @@ void TOMine::update_trigger() {
         send_object_state_update(&mode);
     }
 }
-f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, void *, s32, s32) {
+f32 TOMine::receive_direct_attack(TObjBase *player, DirectAttackPayload payload, CollisionBody *, s32, s32) {
   s32 kind;
   s32 locally_controlled;
   if (player == 0)
@@ -376,7 +376,7 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
     return 0.0f;
   }
   locally_controlled = 0;
-  if ((((TObjBase *)player)->get_entity_id() < 4U) && (((TObjChara *)player)->is_locally_controlled() != 0))
+  if ((player->get_entity_id() < 4U) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
     locally_controlled = 1;
   }
@@ -396,16 +396,16 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
   }
   return 0.0f;
 }
-f32 TOMine::receive_weapon_special_attack(void *player, void *) {
+f32 TOMine::receive_weapon_special_attack(TObjChara *player, CollisionBody *) {
     if (is_target_in_list(player) == 1) {
         return 0.0f;
     }
-    if ((((TObjChara *)player)->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
+    if ((player->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
         this->receive_physical_attack(0, 1.0f);
     }
     return 0.0f;
 }
-f32 TOMine::receive_physical_attack(void *, f32) {
+f32 TOMine::receive_physical_attack(TObjChara *, f32) {
     s16 mode;
     if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
         this->mode = 5;
@@ -513,27 +513,27 @@ void TOMine::spawn_disp_objects() {
     }
 }
 
-s32 TOMine::select_melee_contact_body(void *attacker, f32) {
+s32 TOMine::select_melee_contact_body(TObjChara *attacker, f32) {
     if (is_target_in_list(attacker) == 1) {
         return 0;
     }
     if (((s32) this->behavior == 2) && (attacker == this->target)) {
         return 0;
     }
-    if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
+    if (attacker->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;
 }
 
-int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float) {
+int TOMine::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody *, const Vec *, float) {
     if (is_target_in_list(attacker) == 1) {
         return 0;
     }
     if (((s32) this->behavior == 2) && (attacker == this->target)) {
         return 0;
     }
-    if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
+    if (attacker->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;
@@ -541,9 +541,9 @@ int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float
 
 
 void TOMine::vfunc_79() {  }
-void TOMine::apply_knockback_from_attacker(u8 *, f32) {  }
-s32 TOMine::try_start_action(void *, s32, f32) { return 1; }
-s32 TOMine::roll_physical_accuracy(void *, s32, f32) { return 1; }
+void TOMine::apply_knockback_from_attacker(TObjBase *, f32) {  }
+s32 TOMine::try_start_action(TObjChara *, s32, f32) { return 1; }
+s32 TOMine::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 s32 TOMine::is_target_in_list(void *obj) {
     if (obj != 0) {
         u32 id = ((TObjBase *)(obj))->get_entity_id();
@@ -864,7 +864,7 @@ void TOMineTrap::spawn_blast_particle() {
     }
 }
 
-f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
+f32 TOMineTrap::receive_physical_attack(TObjChara *attacker, f32) {
     switch (mode) {
     case 0:
     case 1:

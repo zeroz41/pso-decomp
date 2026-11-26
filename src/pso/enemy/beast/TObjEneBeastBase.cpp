@@ -220,7 +220,7 @@ void TObjEneBeastBase::beast_update_attack() {
         if (is_passing_frame(BEAST_ATTACK_HIT_FRAME) != 0) {
             if (target != NULL && target->select_melee_contact_body(this, BEAST_ATTACK_SCALE) != 0) {
                 target->receive_physical_attack(this, BEAST_ATTACK_SCALE);
-                target->apply_knockback_from_attacker((u8 *)this, BEAST_ATTACK_KNOCKBACK);
+                target->apply_knockback_from_attacker(this, BEAST_ATTACK_KNOCKBACK);
             }
             play_attack_sound();
         }

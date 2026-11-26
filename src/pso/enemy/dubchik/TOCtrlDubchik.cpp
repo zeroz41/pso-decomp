@@ -44,30 +44,30 @@ static const char *ctrl_dubchik_name = "TOCtrlDubchik";
 // The switch's loaded BML resource (load_shared_resource loads it).
 BmlResource *ctrl_dubchik_shared_resource;
 
-void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
+void TOCtrlDubchik::apply_knockback_from_attacker(TObjBase *, f32) {  }
 
-s32 TOCtrlDubchik::roll_physical_accuracy(void *attacker, s32 collider, f32 accuracy) {
+s32 TOCtrlDubchik::roll_physical_accuracy(TObjChara *attacker, s32 collider, f32 accuracy) {
     if (mode != 0) {
         return TObjChara::roll_physical_accuracy(attacker, collider, accuracy);
     }
     return 0;
 }
 
-s32 TOCtrlDubchik::try_start_action(void *attacker, s32 collider, f32 accuracy) {
+s32 TOCtrlDubchik::try_start_action(TObjChara *attacker, s32 collider, f32 accuracy) {
     if (mode != 0) {
         return TObjChara::try_start_action(attacker, collider, accuracy);
     }
     return 0;
 }
 
-f32 TOCtrlDubchik::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *hit, s32, s32) {
+f32 TOCtrlDubchik::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *hit, s32, s32) {
     if (mode != 0) {
         return TObjChara::receive_direct_attack(attacker, payload, hit, -1, -1);
     }
     return 0.0f;
 }
 
-s32 TOCtrlDubchik::select_melee_contact_body(void *source, f32 factor) {
+s32 TOCtrlDubchik::select_melee_contact_body(TObjChara *source, f32 factor) {
     if (mode != 0) {
         return TObjChara::select_melee_contact_body(source, factor);
     }
@@ -313,14 +313,14 @@ void TOCtrlDubchik::kill_room_dubchiks() {
     }
 }
 
-f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
+f32 TOCtrlDubchik::receive_weapon_special_attack(TObjChara *attacker, CollisionBody *hit) {
     Vec pos;
     if (mode != 0) {
         if (TObjChara::select_melee_contact_body(attacker, 1.0f) != 0) {
             return TObjChara::receive_physical_attack(attacker, 1.0f);
         }
         if (hit != NULL) {
-            VecCopy(&pos, &((CollisionBody *)hit)->center);
+            VecCopy(&pos, &hit->center);
         } else {
             VecCopy(&pos, &body_center);
         }

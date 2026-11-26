@@ -9,19 +9,19 @@ struct BmlResource;
 
 struct TContainerAncient01 : public TObjChara {
     TContainerAncient01(TObject *parent, void *set_data);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual ~TContainerAncient01();
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     void open_container();
     void update_spawning();
     void update_blast();  // the open blast (sounds, effects, attack_nearby_players) until active_limit
     virtual void apply_saved_state(s16 *, s32);
-    virtual s32 try_start_action(void *, s32, f32);
-    virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual s32 try_start_action(TObjChara *, s32, f32);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     u8 unk_334[0x4];
     f32 wait_limit;      // frames it waits for a player before it opens anyway (300 + scale.x - 1)
     f32 active_limit;    // frames the open blast runs (210 + scale.y - 1)

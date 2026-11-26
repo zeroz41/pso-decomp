@@ -391,7 +391,7 @@ void TTecLuker::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xE;
     hit.power = 10.0f;
-    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    target->receive_direct_attack((TObjBase *)source, hit, 0, -1, -1);
 }
 
 #pragma push

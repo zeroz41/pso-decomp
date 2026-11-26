@@ -43,7 +43,7 @@ void TTecGiZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)this->source, hit, 0, 7, -1);
+    target->receive_direct_attack((TObjBase *)this->source, hit, 0, 7, -1);
 }
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)

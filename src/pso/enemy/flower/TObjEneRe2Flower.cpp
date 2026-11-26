@@ -670,7 +670,7 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
                 if (enemy_check_target_valid() != 0) {
                     if (current_target->select_melee_contact_body(this, lbl_805D9FC0) != 0) {
                         current_target->receive_physical_attack(this, lbl_805D9FC0);
-                        current_target->apply_knockback_from_attacker((u8 *)this, lbl_805D9FD4);
+                        current_target->apply_knockback_from_attacker(this, lbl_805D9FD4);
                     }
                 }
                 play_sound_effect(remap_sound_for_variant(0x4003A814), &position, 0, 0);

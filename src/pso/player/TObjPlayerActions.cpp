@@ -3398,12 +3398,6 @@ void TObjPlayer::setup_attack_stage() {
     }
 }
 
-struct TargetCollider {
-    u8 pad0[0x18];
-    u32 flags;
-    u8 pad1C[0x10];
-};
-
 
 
 int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
@@ -3424,7 +3418,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             ((TObjEneBeastBase *)target)->test_elt_flag(collider, 0x2000) == 0) {
             continue;
         }
-        if ((((TargetCollider *)bodies)->flags ^ ((TargetCollider *)target->bodies)[collider].flags) & 6) {
+        if ((bodies->flags ^ target->bodies[collider].flags) & 6) {
             continue;
         }
         f32 accuracy;
@@ -3452,10 +3446,10 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 damage = dealt;
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake(target, damage);
-                target->apply_knockback_from_attacker((u8 *)this, 0.1f * dealt);
+                target->apply_knockback_from_attacker(this, 0.1f * dealt);
                 break;
             case 2:
-                target->receive_weapon_special_attack(this, &((TargetCollider *)target->bodies)[collider]);
+                target->receive_weapon_special_attack(this, &target->bodies[collider]);
                 break;
             }
             hit = 1;

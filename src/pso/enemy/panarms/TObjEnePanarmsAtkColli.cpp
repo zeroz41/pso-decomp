@@ -64,9 +64,9 @@ void TObjEnePanarmsAtkColli::hit_enemy(TObjChara *enemy) {
     DirectAttackPayload attack = lbl_8043CDF8[0];
     attack.power = attack_power;
     if (last_hit_enemy != enemy) {
-        f32 damage = enemy->receive_direct_attack(m_up, attack, NULL, -1, -1);
+        f32 damage = enemy->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
         if (0.0f != damage) {
-            enemy->apply_knockback_from_attacker((u8 *)this, damage);
+            enemy->apply_knockback_from_attacker(this, damage);
         }
         last_hit_enemy = enemy;
     }
@@ -76,9 +76,9 @@ void TObjEnePanarmsAtkColli::hit_player(TObjChara *player) {
     DirectAttackPayload attack = lbl_8043CDF0[0];
     attack.power = attack_power;
     if (last_hit_player != player) {
-        f32 damage = player->receive_direct_attack(m_up, attack, NULL, -1, -1);
+        f32 damage = player->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
         if (0.0f != damage) {
-            player->apply_knockback_from_attacker((u8 *)this, damage);
+            player->apply_knockback_from_attacker(this, damage);
         }
         last_hit_player = player;
     }

@@ -267,14 +267,14 @@ void WallHitPacket::byteswap() {
 
 s32 TOVS2Wall01::remaining_hits() { return (s32)hits_left; }
 void TOVS2Wall01::set_remaining_hits(s32 count) { hits_left = count; }
-void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
-f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
-f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit((TObjBase *)attacker); }
-f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit((TObjBase *)attacker); }
-int TOVS2Wall01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
-s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
-s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
-s32 TOVS2Wall01::try_start_action(void *, s32, f32) { return 1; }
+void TOVS2Wall01::apply_knockback_from_attacker(TObjBase *, f32) {  }
+f32 TOVS2Wall01::receive_weapon_special_attack(TObjChara *attacker, CollisionBody *) { return take_hit(attacker); }
+f32 TOVS2Wall01::receive_direct_attack(TObjBase *attacker, DirectAttackPayload, CollisionBody *, s32, s32) { return take_hit(attacker); }
+f32 TOVS2Wall01::receive_physical_attack(TObjChara *attacker, f32) { return take_hit(attacker); }
+int TOVS2Wall01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
+s32 TOVS2Wall01::select_melee_contact_body(TObjChara *, f32) { return 1; }
+s32 TOVS2Wall01::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
+s32 TOVS2Wall01::try_start_action(TObjChara *, s32, f32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);

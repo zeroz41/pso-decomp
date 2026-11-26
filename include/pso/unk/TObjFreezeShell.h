@@ -18,12 +18,12 @@ public:
     void freeze_shell_grow();
     void freeze_shell_hold();
     void update_freeze_shell_timer();
-    virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual s32 select_melee_contact_body(void *, f32);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
     virtual void render();
     virtual void run_task();
     s32 state;            // 0 grow, 1 hold, 2 fade, 3 done

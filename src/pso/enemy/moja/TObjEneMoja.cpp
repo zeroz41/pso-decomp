@@ -656,7 +656,7 @@ void TObjEneMoja::update_appearance_jump() {
                     hit.kind = 0;
                     hit.power = 25.0f;
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
-                    p->apply_knockback_from_attacker((u8 *)this, damage);
+                    p->apply_knockback_from_attacker(this, damage);
                 }
                 if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
@@ -736,7 +736,7 @@ void TObjEneMoja::update_appearance_drop() {
                     hit.kind = 0;
                     hit.power = 25.0f;
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
-                    p->apply_knockback_from_attacker((u8 *)this, damage);
+                    p->apply_knockback_from_attacker(this, damage);
                 }
                 if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
@@ -957,7 +957,7 @@ void TObjEneMoja::update_punch_attack() {
                 }
                 if ((obj_is_hit_receivable(p) != 0) && !(p->actorFlags & 0x02000800) && (p->select_melee_contact_body(this, 1.0f) != 0)) {
                     f32 damage = p->receive_physical_attack(this, 1.0f);
-                    p->apply_knockback_from_attacker((u8 *)this, damage);
+                    p->apply_knockback_from_attacker(this, damage);
                     if (0.5f < random_ratio()) {
                         roar = 1;
                     }
@@ -1234,7 +1234,7 @@ void TObjEneMoja::update_attack_jump() {
                         hit.kind = 0;
                         hit.power = attack_params->get_atp_min();
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
-                        p->apply_knockback_from_attacker((u8 *)this, damage);
+                        p->apply_knockback_from_attacker(this, damage);
                     }
                     if (d <= 10000.0f && is_split_screen() == 0 && local_client_id == (u16)p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(0);

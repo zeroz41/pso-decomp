@@ -704,7 +704,7 @@ void TObjEneRecon::state_attack(s32 reason) {
                             attack.kind = 0;
                             attack.power = (f32)attack_params->get_atp_min();
                             p->receive_direct_attack(this, attack, NULL, -1, -1);
-                            p->apply_knockback_from_attacker((u8 *)this, 7.0f);
+                            p->apply_knockback_from_attacker(this, 7.0f);
                         }
                     }
                 }

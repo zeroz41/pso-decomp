@@ -367,7 +367,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
             chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
-                chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
+                chara->apply_knockback_from_attacker(this, 0.0f);
             }
         }
     }
@@ -401,7 +401,7 @@ void TOTrapSeabed01::play_sounds() {
     play_floor_sound(1);
 }
 
-f32 TOTrapSeabed01::receive_physical_attack(void *attacker, f32 damage) {
+f32 TOTrapSeabed01::receive_physical_attack(TObjChara *attacker, f32 damage) {
     release_trapped_player();
     return TOTrap::receive_physical_attack(attacker, damage);
 }

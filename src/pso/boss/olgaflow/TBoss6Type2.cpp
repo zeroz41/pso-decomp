@@ -557,7 +557,7 @@ void TBoss6Type2::run_hit_reaction() {
 
 void TBoss6Type2::run_death_reaction() { if ((s32)action_state != 35) { set_action_state(35); } }
 
-f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
+f32 TBoss6Type2::receive_physical_attack(TObjChara *att, f32 scale) {
     s32 hurt;
     s32 attributes;
     s32 i;
@@ -596,7 +596,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     return 0.0f;
 }
 
-f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, void *collision, s32 tech, s32 flags) {
+f32 TBoss6Type2::receive_direct_attack(TObjBase *attacker, DirectAttackPayload msg, CollisionBody *collision, s32 tech, s32 flags) {
     while ((s32)berserk != 0) {
         if (msg.kind == 0x14) {
             break;

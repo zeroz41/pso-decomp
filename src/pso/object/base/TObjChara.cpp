@@ -1344,7 +1344,7 @@ s32 TObjChara::update_defense_stat_status() {
     return 0;
 }
 
-s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
+s32 TObjChara::select_melee_contact_body(TObjChara *attacker, f32 factor) {
     s32 selected = -1;
     Vec point;
     s32 i;
@@ -1353,8 +1353,7 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
     f32 r2;
     f32 dist;
     f32 r;
-    TObjChara *attacker = (TObjChara *)source;
-    if (source != NULL) {
+    if (attacker != NULL) {
     if (bodies != NULL) {
         push_matrix();
         set_matrix_identity(0);
@@ -1389,14 +1388,14 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
             return 0;
         }
     }
-    if (try_start_action(source, selected, factor) != 0) {
+    if (try_start_action(attacker, selected, factor) != 0) {
         return 1;
     }
     }
     return 0;
 }
 
-s32 TObjChara::try_start_action(void *attacker, s32 collider, f32 accuracy) {
+s32 TObjChara::try_start_action(TObjChara *attacker, s32 collider, f32 accuracy) {
     if (roll_physical_accuracy(attacker, collider, accuracy) != 0) {
         return 1;
     }
@@ -1405,7 +1404,7 @@ s32 TObjChara::try_start_action(void *attacker, s32 collider, f32 accuracy) {
 }
 #pragma push
 #pragma fp_contract on
-s32 TObjChara::roll_physical_accuracy(void *attacker, s32 collider, f32 accuracy) {
+s32 TObjChara::roll_physical_accuracy(TObjChara *attacker, s32 collider, f32 accuracy) {
     f32 v;
 
     if (attacker == NULL) {
@@ -1474,17 +1473,16 @@ void display_exp_gain(saddr player, u32 pos, s32 delay, s32 value) {
 
 #pragma push
 #pragma fp_contract on
-int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, void *origin, float multiplier) {
-    CollisionBody *body = (CollisionBody *)body_arg;
+int TObjChara::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody *body, const Vec *origin, float multiplier) {
     Vec delta;
     if (attacker && body && !(this->actorFlags & 0x04000000)) {
         float chance = 0.01f * (multiplier * (float)((TObjPlayer *)attacker)->get_ata() - 0.2f * (float)this->evp);
         VecCopy(&delta, &body->center);
-        if (!((TObjChara *)attacker)->obj_testFlag_2E4(0x20)) {
+        if (!attacker->obj_testFlag_2E4(0x20)) {
             if (origin) {
-                subtract_vector(&delta, static_cast<const Vec *>(origin));
+                subtract_vector(&delta, origin);
             } else {
-                subtract_vector(&delta, &((TObjChara *)attacker)->position);
+                subtract_vector(&delta, &attacker->position);
             }
             const float squared = delta.x * delta.x + delta.z * delta.z;
             const float dist = newton_sqrtf(squared);
@@ -1494,7 +1492,7 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
         }
         if (0.0f < chance && this->random_ratio() <= chance) {
             body->flags |= 0x04000000;
-            attach_mine_trap((TObjBase *)attacker);
+            attach_mine_trap(attacker);
             this->hit_flags |= 2;
             return 1;
         }
@@ -1855,7 +1853,7 @@ int TObjChara::deliver_attack_hits(f32) { return 0; }
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
+f32 TObjChara::receive_physical_attack(TObjChara *attacker, f32 scale) {
     Vec hit;
     s32 immune;
     s32 i;
@@ -1868,21 +1866,19 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     f32 crit;
     f32 lck;
     f32 boss;
-    TObjChara *attacker;
 
-    if (att == NULL || ((TObjBase *)att)->get_entity_id() == 0xFFFF || this->test_actor_flags(0x800) != 0) {
+    if (attacker == NULL || attacker->get_entity_id() == 0xFFFF || this->test_actor_flags(0x800) != 0) {
         return 0.0f;
     }
     if (this->test_actor_flags(0x04000000) != 0 && this->test_actor_flags(0x02000000) == 0) {
         this->try_apply_damage(&body_center, 0);
         return 0.0f;
     }
-    attach_mine_trap((TObjBase *)att);
-    attacker = (TObjChara *)att;
+    attach_mine_trap(attacker);
     if (this->obj_isState2_324() != 0) {
         immune = 1;
     } else if (attacker->obj_isState2_324() != 0) {
-        if (this->is_locally_controlled() != 0 && ((TObjPlayer *)att)->pk_state.is_enabled() != 0) {
+        if (this->is_locally_controlled() != 0 && ((TObjPlayer *)attacker)->pk_state.is_enabled() != 0) {
             immune = 0;
         } else {
             immune = 1;
@@ -1977,18 +1973,18 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     if (this->is_locally_controlled() != 0) {
         gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, (s32)(20.0f * total)));
     }
-    record_local_damage_if_enabled(this, att, (s32)total);
-    empty_post_damage_hook(this, att);
+    record_local_damage_if_enabled(this, attacker, (s32)total);
+    empty_post_damage_hook(this, attacker);
     return total;
 }
 
 #pragma pop
 #undef play_sound_effect
-void TObjChara::apply_knockback_from_attacker(u8 *attacker, f32) {
+void TObjChara::apply_knockback_from_attacker(TObjBase *attacker, f32) {
     Vec diff;
     f32 scale;
     if (this->obj_isState2_324() != 1 && this->test_actor_flags(0x04000000) == 0) {
-    VecCopy(&diff, &((TObjBase *)attacker)->position);
+    VecCopy(&diff, &attacker->position);
     subtract_vector(&diff, &position);
     if ((diff.x * diff.x) + (diff.z * diff.z) < (1e-05f)) {
         velocity.x = (0.0f);
@@ -2007,15 +2003,8 @@ void TObjChara::apply_knockback_from_attacker(u8 *attacker, f32) {
 
 #pragma push
 #pragma fp_contract on
-#define TEST30(o, m) ((TObjCollidable *)o)->test_actor_flags(m)
-#define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
-#define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
-#define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
-#define HIT(o, p) (((TObjChara *)(o))->try_apply_damage(p, 0))
-#define DAMAGE(o, p, d) (((TObjChara *)(o))->try_apply_damage(p, d))
-#define SWITCH_ATTACK(o, p) ((TObjChara *)(o))->trigger_switch_attack(p)
 #define SUB_HP(o, d) ((s32 (*)(TObjChara *, s32))subtract_actor_hp)(o, d)
-f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, void *coll, s32 tech, s32 anti_level) {
+f32 TObjChara::receive_direct_attack(TObjBase *att, DirectAttackPayload payload, CollisionBody *coll, s32 tech, s32 anti_level) {
     StatStatusReceipt info;
     Vec pos;
     s32 immune;
@@ -2029,21 +2018,21 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         info.power = 0.0f;
     }
     if (coll != NULL) {
-        VecCopy(&pos, &((CollisionBody *)coll)->center);
+        VecCopy(&pos, &coll->center);
     } else {
         VecCopy(&pos, &body_center);
     }
-    if (att == NULL || ((TObjBase *)att)->get_entity_id() == 0xFFFF || (info.kind != 8 && test_actor_flags(0x800) != 0)) {
+    if (att == NULL || att->get_entity_id() == 0xFFFF || (info.kind != 8 && test_actor_flags(0x800) != 0)) {
         return (0.0f);
     }
     if (info.kind != 6 && info.kind != 7 && info.kind != 8 && info.kind != 9 && info.kind != 10 && info.kind != 20 &&
-        (test_actor_flags(0x04000000) != 0 || (coll != NULL && (((CollisionBody *)coll)->flags & 0x02000080)))) {
+        (test_actor_flags(0x04000000) != 0 || (coll != NULL && (coll->flags & 0x02000080)))) {
         if (obj_isState2_324() == 0) {
             try_apply_damage(&pos, 0);
         }
         return (0.0f);
     }
-    attach_mine_trap((TObjBase *)att);
+    attach_mine_trap(att);
     if (obj_isState2_324() != 0) {
         if ((u32)(info.kind - 6) <= 3 || info.kind == 10) {
             immune = 0;
@@ -2075,7 +2064,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
     } else {
         mst = (0.0f);
     }
-    aid = ((TObjBase *)att)->get_entity_id();
+    aid = att->get_entity_id();
     if (aid < 12) {
         dmg = info.power + mst;
         if (tech != -1) {
@@ -2140,7 +2129,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
                     f = 0.0f;
                 }
                 if (((s32 (*)(TObjChara *, TObjChara *, TObjChara *, f32))calc_freeze_chance)(this, ((TObjChara *)att), this, (0.025f) * ((0.025f) * f + (5.0f))) != 0) {
-                    this->apply_movement_ailment((CollisionBody *)coll);
+                    this->apply_movement_ailment(coll);
                 }
             }
             if (test_actor_flags(0x02000000) == 0) {
@@ -2357,7 +2346,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #define ADDHP_W24(p, v) ((s32 (*)(void *, s32))add_actor_hp)((p), (v))
 #define HPLABEL_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))draw_hp_label)((p), (v), (k), (n))
 #define TPFONT_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))show_tp_font)((p), (v), (k), (n))
-f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
+f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll) {
     DirectAttackPayload rec;
     Vec pos;
     s16 kind;
@@ -2369,8 +2358,6 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     f32 cap;
     f32 amt;
     f32 chance;
-    CollisionBody *coll = (CollisionBody *)collision;
-    TObjChara *att = (TObjChara *)attacker;
     if (coll != NULL) {
         VecCopy(&pos, &coll->center);
     } else {
@@ -2868,13 +2855,6 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 
 #pragma pop
 #pragma pop
-#undef TEST30
-#undef FIELD1C
-#undef STATE2
-#undef STATE3
-#undef HIT
-#undef DAMAGE
-#undef SWITCH_ATTACK
 #undef SUB_HP
 #undef SUBHP_W24
 #undef ADDHP_W24

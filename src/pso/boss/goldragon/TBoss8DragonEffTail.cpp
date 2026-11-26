@@ -79,7 +79,7 @@ void TBoss8DragonEffTail::area_attack_apply_recoil(TObjChara *target, f32) {
 }
 
 void TBoss8DragonEffTail::apply_hit_if_active(TObjChara *target, const f32 *) {
-    target->receive_physical_attack(this->owner, 1.0f);
+    target->receive_physical_attack((TObjChara *)this->owner, 1.0f);
 }
 
 void TBoss8DragonEffTail::enable() { this->sweep_side = 1; clear_attack_history(); }

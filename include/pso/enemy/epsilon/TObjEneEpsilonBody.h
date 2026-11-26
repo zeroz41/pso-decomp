@@ -30,7 +30,7 @@ class TObjEneEpsilonBody : public TObjEneEpsilon {
 public:
     TObjEneEpsilonBody(TObject *parent, void *set_data);
     virtual ~TObjEneEpsilonBody();
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     void init_params();
     void update_guard_flag();
     void handle_wait_state(s32);
@@ -42,7 +42,7 @@ public:
     s16 get_immune_special_kind();  // per colour; a weapon special of this kind does no damage
     virtual void run_task();
     virtual void render();
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual void refresh_target();
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
@@ -52,7 +52,7 @@ public:
     virtual void check_collisions();
     virtual void run_demo_task();
     virtual void render_demo();
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
     void update_position();
     void tick_stun_timer();
     void tick_timer_set_flag();

@@ -136,7 +136,7 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
     if (player->is_script_controlled() != 0) {
         return;
     }
-    player->receive_direct_attack((void *)source, hit, 0, 0x10, level);
+    player->receive_direct_attack((TObjBase *)source, hit, 0, 0x10, level);
     if (is_split_screen() == 0) {
         TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 7);
     }

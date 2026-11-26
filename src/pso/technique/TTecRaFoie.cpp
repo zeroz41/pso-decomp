@@ -294,7 +294,7 @@ void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
     attack.power = params.power;
-    target->receive_direct_attack((void *)source, attack, contact, 2, -1);
+    target->receive_direct_attack((TObjBase *)source, attack, contact, 2, -1);
 }
 
 void TTecRaFoie::render() {  }

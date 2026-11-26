@@ -73,7 +73,7 @@ void TDubchikShot::try_hit_target(TObjPlayer *player) {
     if (player != NULL && !(player->actorFlags & 0xA00) && !(xz_distance_squared(&pos, &player->body_center) > 49.0f)) {
         DirectAttackPayload hit = {0, 0.0f};
         hit.power = power;
-        player->receive_direct_attack((void *)source, hit, 0, -1, -1);
+        player->receive_direct_attack((TObjBase *)source, hit, 0, -1, -1);
         spawn_particle_effect(&player->body_center, 0xFB);
         queue_destruction();
     }

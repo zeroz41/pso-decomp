@@ -44,7 +44,7 @@ BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml",
 // The bm_eff_ice.bml models and motion every freeze shell draws with.
 BmlResource *freeze_shell_bml_resource;
 
-f32 TObjFreezeShell::receive_physical_attack(void *attacker, f32) {
+f32 TObjFreezeShell::receive_physical_attack(TObjChara *attacker, f32) {
     if (attacker != NULL) {
         this->hit_count = (this->hit_count + 1);
         if ((s32) this->hit_count >= 3) {
@@ -254,19 +254,19 @@ TObjFreezeShell::TObjFreezeShell(TObjChara *chara, CollisionBody *body, s32) : T
 
 #pragma pop
 
-s32 TObjFreezeShell::select_melee_contact_body(void *, f32) { return 1; }
-int TObjFreezeShell::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+s32 TObjFreezeShell::select_melee_contact_body(TObjChara *, f32) { return 1; }
+int TObjFreezeShell::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TObjFreezeShell::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TObjFreezeShell::receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32) {
     return 0.0f;
 }
 
-f32 TObjFreezeShell::receive_weapon_special_attack(void *, void *) {
+f32 TObjFreezeShell::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     return 0.0f;
 }
 
 
-void TObjFreezeShell::apply_knockback_from_attacker(u8 *, f32) {  }
+void TObjFreezeShell::apply_knockback_from_attacker(TObjBase *, f32) {  }
 void TParticleCtrl::set_scale(f32 a, f32 b) { scale_x = a; scale_y = b; }
 
 f32 TObjChara::get_frame() { return this->frame; }

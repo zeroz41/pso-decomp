@@ -73,14 +73,14 @@ void TOHangceilingCaveBase::set_damage(f32 v) {
     damage = v;
 }
 
-void TOHangceilingCaveBase::apply_knockback_from_attacker(u8 *, f32) {
+void TOHangceilingCaveBase::apply_knockback_from_attacker(TObjBase *, f32) {
 }
 
-f32 TOHangceilingCaveBase::receive_physical_attack(void *, f32) {
+f32 TOHangceilingCaveBase::receive_physical_attack(TObjChara *, f32) {
     return 0.0f;
 }
 
-s32 TOHangceilingCaveBase::select_melee_contact_body(void *, f32) {
+s32 TOHangceilingCaveBase::select_melee_contact_body(TObjChara *, f32) {
     return 1;
 }
 
@@ -252,15 +252,15 @@ void TOHangceilingCaveBase::begin_wait() {
 void TOHangceilingCaveBase::update_state() {
 }
 
-f32 TOHangceilingCaveBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TOHangceilingCaveBase::receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32) {
     return 0.0f;
 }
 
-f32 TOHangceilingCaveBase::receive_weapon_special_attack(void *, void *) {
+f32 TOHangceilingCaveBase::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     return 0.0f;
 }
 
-int TOHangceilingCaveBase::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+int TOHangceilingCaveBase::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) {
     return 1;
 }
 

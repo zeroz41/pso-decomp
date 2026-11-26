@@ -1452,7 +1452,7 @@ s32 TBoss3VoloptP02::count_dead_parts() {
     return count;
 }
 
-f32 TBoss3VoloptP02::receive_physical_attack(void *source, f32 damage) {
+f32 TBoss3VoloptP02::receive_physical_attack(TObjChara *source, f32 damage) {
     u32 mask = 0x800000;
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -1464,7 +1464,7 @@ f32 TBoss3VoloptP02::receive_physical_attack(void *source, f32 damage) {
     return TObjChara::receive_physical_attack(source, damage);
 }
 
-f32 TBoss3VoloptP02::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
+f32 TBoss3VoloptP02::receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32) {
     u32 mask = 0x800000;
     s32 i;
     for (i = 0; i < 4; i++) {

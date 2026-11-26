@@ -77,7 +77,7 @@ void TTecSifta::apply_to_player(TObjPlayer *player) {
         if (is_split_screen() == 0) {
             TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 9);
         }
-        player->receive_direct_attack((void *)source, hit, 0, 0xD, -1);
+        player->receive_direct_attack((TObjBase *)source, hit, 0, 0xD, -1);
     }
 }
 

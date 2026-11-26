@@ -12,7 +12,7 @@ struct NJS_OBJECT;
 struct TOMine : public TObjChara {
     TOMine(TObject *parent);
     virtual ~TOMine();
-    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     void detonate();
     void update_float_height();
     void sync_position();
@@ -32,16 +32,16 @@ struct TOMine : public TObjChara {
     virtual void vfunc_84();
     virtual void vfunc_85();
     virtual void set_armed();
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
     virtual void apply_saved_state(s16 *, s32);
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual s32 select_melee_contact_body(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
     virtual const char *get_name();
     virtual void apply_object_set_data(void *);
-    virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(void *, s32, f32);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
+    virtual s32 try_start_action(TObjChara *, s32, f32);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     Vec float_position; // copied from position on spawn; y bobs in update_float_height
     u32 float_flags;  // bit 2: it has reached its float height
     s32 behavior;  // 0 stays put, 1 triggered with its group, 2 follows its target (from scale.z)

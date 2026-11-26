@@ -10,7 +10,7 @@ struct TObjNpcCloakroomBase : public TObjNpcFemale {
     TObjNpcCloakroomBase(TObject *parent, void *set_data);
     virtual ~TObjNpcCloakroomBase();
     virtual void play_voice();
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
     static void *create(void *set_data);
     static void destroy_static_instance();
     static void load_shared_resource();

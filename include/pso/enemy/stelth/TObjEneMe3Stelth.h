@@ -33,7 +33,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     TObjEneMe3Stelth(TObject *parent);
     virtual ~TObjEneMe3Stelth();
     virtual s32 acquire_target(f32);
-    virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32 technique, s32 flags);
+    virtual f32 receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32 technique, s32 flags);
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
     virtual void set_intangible();

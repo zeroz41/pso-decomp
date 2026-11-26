@@ -4794,7 +4794,7 @@ void TBoss8Dragon::draw_motion_model() {
     }
 }
 
-f32 TBoss8Dragon::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags) {
+f32 TBoss8Dragon::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags) {
     switch (payload.kind) {
     case 0xB:
     case 0xC:

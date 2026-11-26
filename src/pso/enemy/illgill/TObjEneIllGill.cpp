@@ -825,32 +825,32 @@ void TObjEneIllGill::update_weapon_attack() {
         if (((TObjMotion *)actor)->is_passing_frame((f32)((f32) this->hitFrame)) != 0) {
             this->hitFrame = 0;
             hit_target = this->target;
-            if ((hit_target != NULL) && (hit_target->select_melee_contact_body(actor, 1.0f) != 0)) {
+            if ((hit_target != NULL) && (hit_target->select_melee_contact_body(this, 1.0f) != 0)) {
                 switch (this->weaponSpecial) {
                 case 1:
                     set_model_id(7);
                     set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
-                    ((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0);
+                    ((TObjChara *)(this->target))->receive_weapon_special_attack(this, 0);
                     play_sound_effect(0x40039E54, &position, 0, 0);
                     break;
                 case 2:
                     set_model_id(0xA);
                     set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
-                    ((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0);
+                    ((TObjChara *)(this->target))->receive_weapon_special_attack(this, 0);
                     play_sound_effect(0x40039E54, &position, 0, 0);
                     break;
                 case 3:
                     set_model_id(0xB);
                     set_model_param((int) ((s16) illGillAttackBehavior->thirdSpecialParameter));
-                    if (((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0) <= 0.0f) {
-                        ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
+                    if (((TObjChara *)(this->target))->receive_weapon_special_attack(this, 0) <= 0.0f) {
+                        ((TObjChara *)(this->target))->receive_physical_attack(this, 1.0f);
                     }
                     play_sound_effect(0x40039E55, &position, 0, 0);
                     break;
                 default:
-                    damage = ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
+                    damage = ((TObjChara *)(this->target))->receive_physical_attack(this, 1.0f);
                     play_sound_effect(0x40039E54, &position, 0, 0);
-                    ((TObjChara *)(this->target))->apply_knockback_from_attacker(actor, damage);
+                    ((TObjChara *)(this->target))->apply_knockback_from_attacker(this, damage);
                     break;
                 }
             }
@@ -1301,7 +1301,7 @@ void TObjEneIllGill::update_charge_attack() {
                     p->select_melee_contact_body(this, 1.0f) != 0) {
                     f32 dmg = p->receive_physical_attack(this, 1.0f);
                     p->set_actor_flags(0x400);
-                    p->apply_knockback_from_attacker((u8 *)this, 2.0f * dmg);
+                    p->apply_knockback_from_attacker(this, 2.0f * dmg);
                     *hit = p;
                     if (is_split_screen() == 0 && local_client_id == p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(1);

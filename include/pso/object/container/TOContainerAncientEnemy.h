@@ -12,7 +12,7 @@ struct TOContainerAncientEnemy : public TObjContainerCommon {
     virtual void update_state();
     virtual void spawn_break_effects() const;
     virtual void apply_saved_state(s16 *, s32);
-    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
 };
 
 LAYOUT_ASSERT(TOContainerAncientEnemy_size, sizeof(TOContainerAncientEnemy) == 0x368);

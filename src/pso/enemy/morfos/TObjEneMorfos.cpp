@@ -278,12 +278,12 @@ void TObjEneMorfos::refresh_target() {  }
 
 void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state((saddr)((void*)11)); } }
 
-f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
+f32 TObjEneMorfos::receive_physical_attack(TObjChara *attacker, f32 scale) {
     Vec v;
     f32 ret = 0.0f;
     s32 d;
     if (attacker != NULL) {
-        VecCopy(&v, &((TObjChara *)attacker)->body_center);
+        VecCopy(&v, &attacker->body_center);
         subtract_vector(&v, &body_center);
         d = angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
     } else {
@@ -997,7 +997,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
             if ((this->is_passing_frame(8.0f) != 0) && (this->enemy_check_target_valid() != 0)) {
                 if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
-                    this->current_target->apply_knockback_from_attacker((u8 *)this, 5.0f);
+                    this->current_target->apply_knockback_from_attacker(this, 5.0f);
                 }
             }
             if (this->get_flag_b4() != 0) {

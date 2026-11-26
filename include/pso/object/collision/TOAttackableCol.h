@@ -8,14 +8,14 @@ struct TOAttackableCol : public TObjChara {
     TOAttackableCol(saddr);
     virtual ~TOAttackableCol();
     virtual void apply_saved_state(s16 *, s32);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(void *, s32, f32);
-    virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
-    virtual s32 select_melee_contact_body(void *, f32);
+    virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
+    virtual s32 try_start_action(TObjChara *, s32, f32);
+    virtual void apply_knockback_from_attacker(TObjBase *, f32);
+    virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
+    virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
+    virtual s32 select_melee_contact_body(TObjChara *, f32);
     u8 unk_334[0x4];
     f32 m_338;
     u32 hits_left;  // hits it can still take; 0 once destroyed

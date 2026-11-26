@@ -573,7 +573,7 @@ void TObjEneSaver::state_nail() {
         if (is_passing_frame(7.0f) != 0) {
             if (target != NULL && target->select_melee_contact_body(this, 1.0f) != 0) {
                 f32 damage = target->receive_physical_attack(this, 1.0f);
-                target->apply_knockback_from_attacker((u8 *)this, damage);
+                target->apply_knockback_from_attacker(this, damage);
                 guard_hp = guard_hp + damage;
                 particle_type = 0x10E;
                 if (guard_hp_max < guard_hp) {
@@ -1402,7 +1402,7 @@ void TObjEneSaver::damage_targets_in_reach() {
             p->get_entity_id() < limit && !(p->actorFlags & 0x02000800) &&
             p->select_melee_contact_body(this, 1.0f) != 0) {
             f32 damage = p->receive_physical_attack(this, 1.0f);
-            p->apply_knockback_from_attacker((u8 *)this, damage);
+            p->apply_knockback_from_attacker(this, damage);
         }
     }
 }

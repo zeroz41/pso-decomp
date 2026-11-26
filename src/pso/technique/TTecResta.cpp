@@ -44,7 +44,7 @@ void TTecReverser::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 8;
     hit.power = params.power;
-    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    target->receive_direct_attack((TObjBase *)source, hit, 0, -1, -1);
     new TDelayedSoundEffect(&target->position, 0x2D, 0x4002AD13, tl_07);
 }
 
@@ -136,7 +136,7 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
     if (is_split_screen() == 0) {
         TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 6);
     }
-    player->receive_direct_attack((void *)source, hit, 0, 0xF, -1);
+    player->receive_direct_attack((TObjBase *)source, hit, 0, 0xF, -1);
     if (((TObjBase *)source)->get_entity_id() == player->get_entity_id()) {
         if (show_effects != 0) {
             new TTecRestaEff(&player->body_center, source, tl_07);

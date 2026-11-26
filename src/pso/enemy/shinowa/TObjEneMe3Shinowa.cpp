@@ -451,7 +451,7 @@ void TObjEneMe3Shinowa::apply_sword_hits() {
         if (enemy_check_target_valid() != 0) {
             if (current_target->select_melee_contact_body(this, 1.0f) != 0) {
                 current_target->receive_physical_attack(this, 1.0f);
-                current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                current_target->apply_knockback_from_attacker(this, 3.0f);
                 if ((late_hit != 0) && (random_ratio() <= 0.1666f)) {
                     TObjEneDD::inflict_confusion(this, current_target);
                 }
@@ -986,7 +986,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 if (this->enemy_check_target_valid() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 3.0f);
                     }
                 }
                 play_sound_effect(this->remap_sound_for_area(0x4003AD13), &this->position, 0, 0);

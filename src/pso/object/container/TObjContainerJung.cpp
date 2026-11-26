@@ -468,7 +468,7 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
+f32 TObjContainerJungEnemy::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {

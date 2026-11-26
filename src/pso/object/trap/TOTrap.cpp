@@ -123,7 +123,7 @@ void TOTrap::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-f32 TOTrap::receive_physical_attack(void *source, f32) {
+f32 TOTrap::receive_physical_attack(TObjChara *source, f32) {
     s16 msg;
     TObjPlayer *pl;
     u16 id;

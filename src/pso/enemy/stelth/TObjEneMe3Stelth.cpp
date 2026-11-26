@@ -487,7 +487,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
     }
     if (enemy_check_target_valid() != 0 && current_target->select_melee_contact_body(this, 1.0f) != 0) {
         f32 d = current_target->receive_physical_attack(this, 1.0f);
-        current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+        current_target->apply_knockback_from_attacker(this, 3.0f);
         if (d > 0.0f) {
             if (is_alternate_variant() != 0) {
                 TObjChara *t = current_target;
@@ -1074,7 +1074,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                 if (this->enemy_check_target_valid() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 3.0f);
                     }
                 }
                 play_sound_effect(0x3A838, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
@@ -2049,8 +2049,8 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     body->flags = saved;
     return result;
 }
-f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
-    if (stealthed == 1 && ((TObjBase *)source)->get_entity_id() < 0x1000 && random_ratio() <= stealth_off_chance) {
+f32 TObjEneMe3Stelth::receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32) {
+    if (stealthed == 1 && source->get_entity_id() < 0x1000 && random_ratio() <= stealth_off_chance) {
         transition_enemy_state(0x12);
     } else if (mode == 2) {
         transition_enemy_state(6);

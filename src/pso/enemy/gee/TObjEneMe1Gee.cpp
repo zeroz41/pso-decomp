@@ -1361,7 +1361,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->is_hover_low() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
-                        this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                        this->current_target->apply_knockback_from_attacker(this, 3.0f);
                         if (this->random_ratio() <= 0.25f) {
                             DirectAttackPayload p = {0x11, 0.0f};
                             this->current_target->receive_direct_attack(this, p, 0, -1, -1);

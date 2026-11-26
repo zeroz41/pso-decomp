@@ -45,7 +45,7 @@ s32 TBoss3VoloptCageShot::try_capture_target() {
             }
             if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
                 DirectAttackPayload hit = {0, 0.0f};
-                target->receive_direct_attack(m_up, hit, NULL, -1, -1);
+                target->receive_direct_attack((TObjBase *)m_up, hit, NULL, -1, -1);
                 owner = m_up;
                 if (owner != NULL) {
                     ((TBoss3Volopt *)owner)->create_cage(target->get_entity_id());

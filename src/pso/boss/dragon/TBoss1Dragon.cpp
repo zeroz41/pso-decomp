@@ -445,7 +445,7 @@ void TBoss1DragonAttackCollider::area_attack_receive_direct(TObjChara *chara, co
 }
 
 void TBoss1DragonAttackCollider::apply_hit_if_active(TObjChara *target, const f32 *) {
-    target->receive_physical_attack(this->owner, 1.0f);
+    target->receive_physical_attack((TObjChara *)this->owner, 1.0f);
     apply_dragon_hit_ailment(target);
 }
 

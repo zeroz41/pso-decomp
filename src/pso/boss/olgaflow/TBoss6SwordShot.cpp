@@ -236,7 +236,7 @@ void TBoss6SwordWave::check_player_hits() {
             s32 varied = TBoss6PlotFalz::rand_vary_count(damage, 0.1f);
             attack.kind = 0;
             attack.power = varied;
-            player->receive_direct_attack(owner, attack, 0, -1, -1);
+            player->receive_direct_attack((TObjBase *)owner, attack, 0, -1, -1);
         }
     }
 }
@@ -333,7 +333,7 @@ void TBoss6SwordShot::damage_players_in_radius() {
                 DirectAttackPayload attack;
                 attack.kind = 0;
                 attack.power = (f32)power;
-                player->receive_direct_attack(owner, attack, NULL, -1, -1);
+                player->receive_direct_attack((TObjBase *)owner, attack, NULL, -1, -1);
             }
         }
     }

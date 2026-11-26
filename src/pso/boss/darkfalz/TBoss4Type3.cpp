@@ -181,7 +181,7 @@ void TObjBs4CutAtk::run_task() {
     s32 hi;
     s32 i;
     TObjPlayer *player;
-    void *attacker;
+    TObjBase *attacker;
     u16 ang;
 
     lo = (u16)angle;
@@ -197,7 +197,7 @@ void TObjBs4CutAtk::run_task() {
         ang = (s32)(10430.38043493439 * atan2_float(-(player->position.x - 10000.0f), player->position.z));
         if (ang >= lo && ang < hi) {
             DirectAttackPayload hit;
-            attacker = m_up;
+            attacker = (TObjBase *)m_up;
             hit.kind = 0;
             hit.power = *(s16 *)TLobby::register_boss(0x38);
             player->receive_direct_attack(attacker, hit, NULL, -1, -1);

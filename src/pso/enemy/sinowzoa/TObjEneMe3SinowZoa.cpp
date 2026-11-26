@@ -495,7 +495,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
         if (enemy_check_target_valid() != 0) {
             if (current_target->select_melee_contact_body(this, 1.0f) != 0) {
                 d = current_target->receive_physical_attack(this, 1.0f);
-                current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                current_target->apply_knockback_from_attacker(this, 3.0f);
                 if (d > 0.0f) {
                     if (is_alternate_variant() != 0) {
                         pl = current_target;
@@ -1142,7 +1142,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
             if (this->is_passing_frame((f32)25.0f) != 0 && this->enemy_check_target_valid() != 0) {
                 if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
-                    this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                    this->current_target->apply_knockback_from_attacker(this, 3.0f);
                 }
             }
             this->state_values[0] *= 0.85f;
@@ -2098,7 +2098,7 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     return r;
 }
 
-f32 TObjEneMe3SinowZoa::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
+f32 TObjEneMe3SinowZoa::receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32, s32) {
     f32 damage = TObjChara::receive_direct_attack(source, payload, collider, -1, -1);
     if (this->stealthed == 1 && random_ratio() <= this->stealth_off_chance) {
         transition_enemy_state(0x12);

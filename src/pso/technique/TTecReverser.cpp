@@ -67,7 +67,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         if (TObjPlayer::is_valid_and_active((uaddr) list->actors[i]) != 0) {
             TObjChara *p = (TObjChara *) list->actors[i];
             if (p != NULL) {
-                contact = (TechniqueContactBody *) list->bodies[i];
+                contact = list->bodies[i];
                 this->apply_to_target(p);
             }
         }
@@ -97,7 +97,7 @@ void TTecShot::dispatch_technique_contact(s32) {
     if (TObjPlayer::is_valid_and_active((uaddr) list->actors[0]) != 0) {
         TObjChara *p = (TObjChara *) list->actors[0];
         if (p != NULL) {
-            contact = (TechniqueContactBody *) list->bodies[0];
+            contact = list->bodies[0];
             this->apply_to_target(p);
         }
     }

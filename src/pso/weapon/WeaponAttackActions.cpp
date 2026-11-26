@@ -618,7 +618,7 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                     break;
                 case 1:
                     damage_dealt = target->receive_physical_attack(owner, scale);
-                    target->apply_knockback_from_attacker((u8 *)owner, lbl_805DAC94 * damage_dealt);
+                    target->apply_knockback_from_attacker(owner, lbl_805DAC94 * damage_dealt);
                     break;
                 case 2:
                     target->receive_weapon_special_attack(owner, &target->bodies[body]);

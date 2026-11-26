@@ -1177,7 +1177,7 @@ force_active:
   - handle_pre_warp_state__18TObjEneEpsilonBodyFl
   - handle_fire_state__18TObjEneEpsilonBodyFl
   - handle_fade_in_state__18TObjEneEpsilonBodyFl
-  - receive_direct_attack__19TObjEneEpsilonGuardFPv19DirectAttackPayloadPvll
+  - receive_direct_attack__19TObjEneEpsilonGuardFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
   - dispatch_action__19TObjEneEpsilonGuardFUll
   - TObjEneIllGill_class_name
   - TObjEneIllGill_model_file_list
@@ -1306,7 +1306,7 @@ force_active:
   - state_fade_in__13TObjEneMorfosFl
   - check_confused__13TObjEneMorfosFv
   - load_params__13TObjEneMorfosFv
-  - receive_physical_attack__13TObjEneMorfosFPvf
+  - receive_physical_attack__13TObjEneMorfosFP9TObjCharaf
   - dispatch_action__13TObjEneMorfosFUll
   - __ct__22TObjEnePanarmsAtkColliFP7TObjectP3VecP3Vecl
   - panarms_atk_colli_type_index_table
@@ -3923,10 +3923,10 @@ force_active:
   - apply_hit_to_target__14TBoss7CrawfishFPvPv
   - apply_item_data__9TItemDropFPvPv
   - apply_item_flags__5TItemFP9TItemData
-  - apply_knockback_from_attacker__11TOVS2Wall01FPUcf
-  - apply_knockback_from_attacker__15TOAttackableColFPUcf
-  - apply_knockback_from_attacker__19TContainerAncient01FPUcf
-  - apply_knockback_from_attacker__20TContainerAncient01RFPUcf
+  - apply_knockback_from_attacker__11TOVS2Wall01FP8TObjBasef
+  - apply_knockback_from_attacker__15TOAttackableColFP8TObjBasef
+  - apply_knockback_from_attacker__19TContainerAncient01FP8TObjBasef
+  - apply_knockback_from_attacker__20TContainerAncient01RFP8TObjBasef
   - apply_landing_attack__12TBoss1DragonFv
   - apply_lightning_effect__26TBoss5GryphonLightningWingFv
   - apply_loaded_character__23TAdSinglePlyChrSelectGCFi
@@ -4748,11 +4748,11 @@ force_active:
   - calc_digit_count__18TWindowInputNumberFv
   - calc_scale_and_alpha__17TDuelEffectStringFPfPfl
   - calc_dir_angles__9TBoss6MagFPlPlP3Vec
-  - calc_distance_accuracy_penalty__11TOVS2Wall01FPvPvPvf
-  - calc_distance_accuracy_penalty__15TObjFreezeShellFPvPvPvf
-  - calc_distance_accuracy_penalty__15TOAttackableColFPvPvPvf
-  - calc_distance_accuracy_penalty__19TContainerAncient01FPvPvPvf
-  - calc_distance_accuracy_penalty__20TContainerAncient01RFPvPvPvf
+  - calc_distance_accuracy_penalty__11TOVS2Wall01FP9TObjCharaP13CollisionBodyPC3Vecf
+  - calc_distance_accuracy_penalty__15TObjFreezeShellFP9TObjCharaP13CollisionBodyPC3Vecf
+  - calc_distance_accuracy_penalty__15TOAttackableColFP9TObjCharaP13CollisionBodyPC3Vecf
+  - calc_distance_accuracy_penalty__19TContainerAncient01FP9TObjCharaP13CollisionBodyPC3Vecf
+  - calc_distance_accuracy_penalty__20TContainerAncient01RFP9TObjCharaP13CollisionBodyPC3Vecf
   - calc_dominant_axis__12TTecZondeEffFv
   - calc_drop_item__9TItemDropFiPvi
   - calc_drop_offset__9TItemDropFl
@@ -6424,7 +6424,7 @@ force_active:
   - has_player_nearby__16TObjEneReconBombFv
   - __dt__14TObjEneRecoboxFv
   - count_scrolled_texture_strips
-  - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
+  - receive_direct_attack__9TBoss6MagFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
   - __dt__9TBoss6MagFv
   - enter_check_state__9TSaveChCrFv
   - is_held__22ControllerInputContextFl
@@ -7357,7 +7357,7 @@ force_active:
   - is_visible__8TObjDoorFff
   - is_within_camera_distance__FPvPvf
   - is_within_distance__10TObjBgmColFf
-  - select_melee_contact_body__20TContainerAncient01RFPvf
+  - select_melee_contact_body__20TContainerAncient01RFP9TObjCharaf
   - item_bml_resource_descriptor
   - item_box_primary_colors
   - item_box_secondary_colors
@@ -13917,36 +13917,36 @@ force_active:
   - rebuild_com_card_list__17TWindowSubComCardFl
   - rebuild_item_list__18TShopGetItemWindowFv
   - rebuild_parts__15TBoss3VoloptP02Fv
-  - receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll
-  - receive_direct_attack__11TOVS2Wall01FPv19DirectAttackPayloadPvll
-  - receive_direct_attack__15TObjFreezeShellFPv19DirectAttackPayloadPvll
-  - receive_direct_attack__15TBoss3VoloptP02FPv19DirectAttackPayloadPvll
-  - receive_direct_attack__15TOAttackableColFPv19DirectAttackPayloadPvll
-  - receive_direct_attack__15TObjEneSlimeOneFPv19DirectAttackPayloadPvll
-  - receive_direct_attack__18TObjEneEpsilonBodyFPv19DirectAttackPayloadPvll
-  - receive_direct_attack__19TContainerAncient01FPv19DirectAttackPayloadPvll
-  - receive_direct_attack__20TContainerAncient01RFPv19DirectAttackPayloadPvll
-  - receive_direct_attack__20TObjNpcCloakroomBaseFPv19DirectAttackPayloadPvll
-  - receive_physical_attack__11TOVS2Wall01FPvf
-  - receive_physical_attack__15TBoss3VoloptP02FPvf
-  - receive_physical_attack__15TOAttackableColFPvf
-  - receive_physical_attack__15TObjEneMe1GiGueFPvf
-  - receive_physical_attack__16TOTrapAncient02RFPvf
-  - receive_physical_attack__18TObjEneEpsilonBodyFPvf
-  - receive_physical_attack__19TContainerAncient01FPvf
-  - receive_physical_attack__19TObjEneEpsilonGuardFPvf
-  - receive_physical_attack__20TContainerAncient01RFPvf
-  - receive_physical_attack__21TObjContainerAbeEnemyFPvf
-  - receive_physical_attack__9TBoss6MagFPvf
+  - receive_direct_attack__15TObjEneMe1GiGueFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__11TOVS2Wall01FP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__15TObjFreezeShellFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__15TBoss3VoloptP02FP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__15TOAttackableColFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__15TObjEneSlimeOneFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__18TObjEneEpsilonBodyFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__19TContainerAncient01FP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__20TContainerAncient01RFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_direct_attack__20TObjNpcCloakroomBaseFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
+  - receive_physical_attack__11TOVS2Wall01FP9TObjCharaf
+  - receive_physical_attack__15TBoss3VoloptP02FP9TObjCharaf
+  - receive_physical_attack__15TOAttackableColFP9TObjCharaf
+  - receive_physical_attack__15TObjEneMe1GiGueFP9TObjCharaf
+  - receive_physical_attack__16TOTrapAncient02RFP9TObjCharaf
+  - receive_physical_attack__18TObjEneEpsilonBodyFP9TObjCharaf
+  - receive_physical_attack__19TContainerAncient01FP9TObjCharaf
+  - receive_physical_attack__19TObjEneEpsilonGuardFP9TObjCharaf
+  - receive_physical_attack__20TContainerAncient01RFP9TObjCharaf
+  - receive_physical_attack__21TObjContainerAbeEnemyFP9TObjCharaf
+  - receive_physical_attack__9TBoss6MagFP9TObjCharaf
   - receive_state_request__12TBoss1DragonFP24G_DragonBossActions_6x12
-  - receive_weapon_special_attack__11TOVS2Wall01FPvPv
-  - receive_weapon_special_attack__15TObjFreezeShellFPvPv
-  - receive_weapon_special_attack__15TOAttackableColFPvPv
-  - receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv
-  - receive_weapon_special_attack__18TObjEneEpsilonBodyFPvPv
-  - receive_weapon_special_attack__19TContainerAncient01FPvPv
-  - receive_weapon_special_attack__19TObjEneEpsilonGuardFPvPv
-  - receive_weapon_special_attack__20TContainerAncient01RFPvPv
+  - receive_weapon_special_attack__11TOVS2Wall01FP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__15TObjFreezeShellFP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__15TOAttackableColFP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__15TObjEneMe1GiGueFP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__18TObjEneEpsilonBodyFP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__19TContainerAncient01FP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__19TObjEneEpsilonGuardFP9TObjCharaP13CollisionBody
+  - receive_weapon_special_attack__20TContainerAncient01RFP9TObjCharaP13CollisionBody
   - recobox_boss_register_id
   - recobox_motion_name_table
   - record_camera_angle_samples__18TObjEneEpsilonBodyFP10NJS_OBJECT
@@ -14654,10 +14654,10 @@ force_active:
   - roll_armor_bonuses__9TItemDropFv
   - roll_item_channel_below__FUll
   - roll_meseta_range__9TItemDropFPviiii
-  - roll_physical_accuracy__11TOVS2Wall01FPvlf
-  - roll_physical_accuracy__15TOAttackableColFPvlf
-  - roll_physical_accuracy__19TContainerAncient01FPvlf
-  - roll_physical_accuracy__20TContainerAncient01RFPvlf
+  - roll_physical_accuracy__11TOVS2Wall01FP9TObjCharalf
+  - roll_physical_accuracy__15TOAttackableColFP9TObjCharalf
+  - roll_physical_accuracy__19TContainerAncient01FP9TObjCharalf
+  - roll_physical_accuracy__20TContainerAncient01RFP9TObjCharalf
   - roll_rare_weapon_attributes__9TItemDropFiPvi
   - roll_shop_technique_level__FP9TItemDatal
   - roll_shop_weapon_first_bonus__FP9TItemData
@@ -15271,10 +15271,10 @@ force_active:
   - select_forward_target__12TBoss1DragonFv
   - select_item_icon__11ItemListRowFlUcUcl
   - select_lobby_pigeon_model__15TObjLobbyPigeonFv
-  - select_melee_contact_body__11TOVS2Wall01FPvf
-  - select_melee_contact_body__15TObjFreezeShellFPvf
-  - select_melee_contact_body__15TOAttackableColFPvf
-  - select_melee_contact_body__19TContainerAncient01FPvf
+  - select_melee_contact_body__11TOVS2Wall01FP9TObjCharaf
+  - select_melee_contact_body__15TObjFreezeShellFP9TObjCharaf
+  - select_melee_contact_body__15TOAttackableColFP9TObjCharaf
+  - select_melee_contact_body__19TContainerAncient01FP9TObjCharaf
   - select_models__18TObjLazerFenceNormFv
   - select_next__26TWindowSubQuestBoardSelectFv
   - select_next_item__11TWindowMenuFv
@@ -16561,10 +16561,10 @@ force_active:
   - try_relocate_on_timer__15TObjEneDelDepthFv
   - try_spawn_child__12TObjEneSlimeFPv
   - try_spawn_ground_effect__16TObjEneMe3StelthFPC3Vec
-  - try_start_action__11TOVS2Wall01FPvlf
-  - try_start_action__15TOAttackableColFPvlf
-  - try_start_action__19TContainerAncient01FPvlf
-  - try_start_action__20TContainerAncient01RFPvlf
+  - try_start_action__11TOVS2Wall01FP9TObjCharalf
+  - try_start_action__15TOAttackableColFP9TObjCharalf
+  - try_start_action__19TContainerAncient01FP9TObjCharalf
+  - try_start_action__20TContainerAncient01RFP9TObjCharalf
   - try_trigger_action__17TObjEneMe1CanadinFv
   - try_update_target_flag__10TNpcPlayerFPvi
   - turiten_singo_key_model_index

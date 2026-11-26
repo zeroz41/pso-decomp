@@ -166,7 +166,7 @@ void TObjEnemyCustom::update() {
         if (is_passing_frame(10.0f) != 0) {
             if (target->select_melee_contact_body(this, 1.0f) != 0) {
                 target->receive_physical_attack(this, 1.0f);
-                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->apply_knockback_from_attacker(this, 3.0f);
             }
         }
         update_collisions();

@@ -838,7 +838,7 @@ void TObjGrass::update_swing_attack() {
         if (is_passing_frame((f32)(14.0f)) != 0) {
             if (this->target != NULL && this->target->select_melee_contact_body(this, (1.0f)) != 0) {
                 f32 damage = this->target->receive_physical_attack(this, (1.0f));
-                this->target->apply_knockback_from_attacker((u8 *)this, damage);
+                this->target->apply_knockback_from_attacker(this, damage);
             }
             switch (get_current_floor_area()) {
             case AREA_CAVE1:
@@ -1014,7 +1014,7 @@ void TObjGrass::update_charge_attack() {
                     p->select_melee_contact_body(this, (1.0f)) != 0) {
                     f32 dmg = p->receive_physical_attack(this, (1.0f));
                     p->set_actor_flags(0x400);
-                    p->apply_knockback_from_attacker((u8 *)this, (2.0f) * dmg);
+                    p->apply_knockback_from_attacker(this, (2.0f) * dmg);
                     if (is_split_screen() == 0 && local_client_id == (u16)p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(1);
                     }

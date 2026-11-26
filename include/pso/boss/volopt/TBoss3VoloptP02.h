@@ -40,8 +40,8 @@ public:
     virtual ~TBoss3VoloptP02();
     virtual void run_task();
     virtual void render();
-    virtual f32 receive_physical_attack(void *, f32);
-    virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32 technique, s32 flags);
+    virtual f32 receive_physical_attack(TObjChara *, f32);
+    virtual f32 receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32 technique, s32 flags);
     virtual void apply_enemy_state(s32 *);
 
     void clear_flag_08000000();

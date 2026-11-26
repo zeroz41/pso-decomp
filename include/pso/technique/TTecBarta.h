@@ -6,17 +6,6 @@
 #include "pso/technique/TechniqueEmitterTable.h"
 #include "pso/technique/TTecShot.h"
 
-struct TechniqueDamagePayload { s32 kind; f32 power; };
-struct TechniqueHitRecipient;
-struct TechniqueHitRecipientVtable {
-    u8 beforeReceive[0x5c];
-    void (*receive)(TechniqueHitRecipient*, TechniqueHitRecipient*,
-        const TechniqueDamagePayload*, TechniqueContactBody*, s32, s32);
-};
-struct TechniqueHitRecipient {
-    u8 task[0x18];
-    TechniqueHitRecipientVtable* vtable;
-};
 struct TechniqueParticleEmitter;
 
 struct TTecBarta : public TTecShot {

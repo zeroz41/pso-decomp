@@ -696,7 +696,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                                 break;
                             }
                             if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
-                                p->apply_knockback_from_attacker((u8 *)this, 1.0f);
+                                p->apply_knockback_from_attacker(this, 1.0f);
                                 p->receive_physical_attack(this, 1.0f);
                             }
                         }

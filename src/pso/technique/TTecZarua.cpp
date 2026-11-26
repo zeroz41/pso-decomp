@@ -36,7 +36,7 @@ void TTecZarua::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xc;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)this->source, hit, this->contact, 0xc, -1);
+    target->receive_direct_attack((TObjBase *)this->source, hit, this->contact, 0xc, -1);
 }
 
 void TTecZarua::create_instance(saddr source, Vec *pos, Vec *target, saddr level) {

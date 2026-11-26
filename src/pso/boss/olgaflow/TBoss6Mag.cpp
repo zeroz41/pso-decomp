@@ -258,14 +258,14 @@ void TBoss6Mag::run_death_reaction() {
     }
 }
 
-f32 TBoss6Mag::receive_physical_attack(void *attacker, f32 scale) {
+f32 TBoss6Mag::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (attackable != 0) {
         return TObjChara::receive_physical_attack(attacker, scale);
     }
     return 0.0f;
 }
 
-f32 TBoss6Mag::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *collision, s32 tech, s32 flags) {
+f32 TBoss6Mag::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *collision, s32 tech, s32 flags) {
     while (attackable == 0) {
         if (payload.kind != 0x14 && TObjEneDD::query_teammate_state() == 0) {
             return 0.0f;
