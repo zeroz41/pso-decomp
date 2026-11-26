@@ -464,7 +464,7 @@ pso/item/TItemEquipBase.cpp
 pso/item/TItemHeapObject.cpp
 pso/item/TItemLoad.cpp
 pso/item/TItemLockCountCtrl.cpp
-pso/item/TItemLockCountCtrl_80119238.cpp
+pso/item/StatusImmunityLocks.cpp
 pso/item/mag/TItemMag.cpp
 pso/item/mag/TItemMagSub.cpp
 pso/item/RelocatedFileRoot.cpp
@@ -743,7 +743,7 @@ pso/player/PlayerStatusRefresh.cpp
 pso/audio/SoundControlState.cpp
 pso/audio/SoundRequestVoice.cpp
 pso/network/GuildCardRecord.cpp
-pso/unk/TLobby_8028EA28.cpp
+pso/ui/charcreate/CreationResourceFree.cpp
 pso/quest/challenge/TChallenge4P.cpp
 pso/map/area/Dragon2Scene.cpp
 pso/map/area/Delo2Scene.cpp

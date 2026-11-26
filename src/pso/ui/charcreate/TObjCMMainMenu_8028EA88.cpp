@@ -23,6 +23,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/SmallFontText.h"
 
 #pragma readonly_strings on
 
@@ -44,7 +45,7 @@ void init_creation_menu_scene(void) {
     register_texture_f256_ad_pic_2();
     register_texture_f256_backtext();
     TLobby::update_keyboard_menu();
-    TLobby::set_ending_callback();
+    set_ending_callback();
     load_keyboard_resources();
     TWindowCtrlMain::reset_all((void*)1);
     new TWindowCtrlMain();

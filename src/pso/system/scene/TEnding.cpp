@@ -37,6 +37,8 @@
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 const char TEnding::class_name_string[] = "TEnding";
 
@@ -45,8 +47,8 @@ const char TEnding::class_name_string[] = "TEnding";
 void (*ending_scene_callbacks[26])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
-    TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
-    TLobby::set_ending_callback, TLobby::free_ending_callback,
+    TLobby::update_keyboard_menu, free_keyboard_soft_resources,
+    set_ending_callback, free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
     register_texture_ed_512kabe_c, TEndingC::release_lobby,
     TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,

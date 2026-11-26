@@ -37,6 +37,8 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 
@@ -60,8 +62,8 @@ const char *TItemReverseTech::name = "TItemReverseTech";
 TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
-    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
+    {set_ending_callback, free_ending_callback},
     {TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00},
     {TAdEndText::load_ending_font, TAdEndText::free_resources},
     {TItemReverseTech::load_textures, TItemReverseTech::free},

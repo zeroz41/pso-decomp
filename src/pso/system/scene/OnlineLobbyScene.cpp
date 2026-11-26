@@ -94,6 +94,8 @@
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/quest/QuestActiveFlag.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 struct UdpTestGameEntry { s32 f0; s32 f4; };
@@ -129,8 +131,8 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_game_player_actions, release_game_player_actions},
     {init_player_shared, finalize_player_shared},
     {clear_story_flag_list_and_reload, clear_story_flag_list},
-    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
-    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
+    {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},

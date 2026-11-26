@@ -117,9 +117,7 @@ struct TLobby : public TObject {
     static s32 run_disk_error_check();
     void *alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
-    static void set_ending_callback();
     // Empty free half of set_ending_callback in the scene load/free tables
-    static void free_ending_callback();
     static void clear_object_count();
     static void reset_floor_items();
     static void free_boss_rocks();
@@ -136,7 +134,6 @@ struct TLobby : public TObject {
     static void debug_print(const char *fmt, ...);
     int compare_file_extension(const char *ext);
     static void update_menu_cursor();
-    static void free_keyboard_soft_resources();
     static void update_keyboard_menu();
     static void clear_counters();
     static void disconnect_protocol();
@@ -210,7 +207,6 @@ struct TLobby : public TObject {
     static void free_single_player_chr_select();
     static void alloc_download_server();
     static void free_chr_select_singleton();
-    static void free_all_resources();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
     static void destroy_global();

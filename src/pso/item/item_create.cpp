@@ -210,6 +210,7 @@
 #include "pso/weapon/TItemWeaponSRankHarisen.h"
 #include "pso/weapon/TItemWeaponTwinkleStar.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/item/StatusImmunityLocks.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -875,7 +876,7 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { TLobby::alloc_objects, TLobby::free_boss_rocks },
     { TItemDisconnectCtrl__sub_80105BE8, NULL },
     { TItemLockCountCtrl::create_instance, TItemTimerEvent::clear_active },
-    { TItemLockCountCtrl::init_effect_table, TItemLockCountCtrl::free_all },
+    { TItemLockCountCtrl::init_effect_table, free_all },
     { load_item_kt_afs, TItemTexLoad::free_textures },
     { TItemEffectWeapon::initialize_static_effects, TItemEffectWeapon::free_static_effects },
     { init_item_drop_globals, unload_item_drop_globals },

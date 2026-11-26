@@ -43,6 +43,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -438,8 +439,8 @@ extern ChrSelectSerialSeeds chr_select_serial_seeds;
 
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
-    (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
-    (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
+    (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
+    (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&free_keyboard_soft_resources,
 };
 
 void TCharSaveSequence::close_message_window() {

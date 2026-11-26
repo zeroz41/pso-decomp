@@ -77,6 +77,8 @@
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaView.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
@@ -101,9 +103,9 @@ static const Vec game_mode_scene_camera_target = {0.0f, 0.0f, -100.0f};
 FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
     {register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global},
-    {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0},
+    {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext},
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
     {load_multi_ply_chr_select_resources, free_multi_ply_chr_select_resources},
     {TAdTimeSetGC::load_scene_resources, TAdTimeSetGC::free_scene_resources},
@@ -118,7 +120,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {load_data_buffers, TObjBoss2Tunnel::free_buffers},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
-    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {load_draw_line_task_resource, free_draw_line_task_resource},

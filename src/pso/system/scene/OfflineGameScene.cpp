@@ -97,6 +97,8 @@
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/quest/QuestActiveFlag.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -193,11 +195,11 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_story_flag_list_and_reload, clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, destroy_tombstone},
-    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {reset_clock_bar_pulse, TLobby__sub_8001ED70},
-    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {alloc_battle_param_tables, free_battle_param_tables},
     {reset_id_counters, free_id_counters},

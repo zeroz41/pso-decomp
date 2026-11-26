@@ -65,7 +65,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdGuideTxtGC *guide;                  // 0x34
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
-    static void free_singleton_805D65C0();
+    static void free_texture_f256_backtext();
     static s32 check_slot_flags(s32 slot, u32 mask);
     void cleanup();
     virtual void run_task();

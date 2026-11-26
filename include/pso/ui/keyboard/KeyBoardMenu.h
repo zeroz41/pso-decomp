@@ -4,5 +4,6 @@
 #include "types.h"
 
 saddr get_localized_text_entry(s32 group, s32 id);
+void free_keyboard_soft_resources();
 
 #endif

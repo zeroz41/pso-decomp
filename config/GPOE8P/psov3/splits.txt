@@ -2153,7 +2153,7 @@ pso/item/armor/TItemProUnit.cpp:
 	.sdata      start:0x805D2C40 end:0x805D2C44
 	.sdata2     start:0x805DABF8 end:0x805DAC08
 
-pso/item/TItemLockCountCtrl_80119238.cpp:
+pso/item/StatusImmunityLocks.cpp:
 	.text       start:0x80119060 end:0x80119600
 	.bss        start:0x80506228 end:0x80506248
 
@@ -6519,7 +6519,7 @@ pso/ui/charcreate/TCharaMaking.cpp:
 	.sbss       start:0x805D6520 end:0x805D6528
 	.sdata2     start:0x805DD928 end:0x805DD93C
 
-pso/unk/TLobby_8028EA28.cpp:
+pso/ui/charcreate/CreationResourceFree.cpp:
 	.text       start:0x8028EA28 end:0x8028EA88
 
 pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp:

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/item/TItemLockCountCtrl_80119238.h"
+#include "pso/item/StatusImmunityLocks.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/item/TItemLockCountCtrl.h"
@@ -11,7 +11,7 @@
 TItemLockCountCtrl *item_effect_object_table[7];
 
 // Releases client's hold on item effect `effect`; the last release stops it.
-void TItemLockCountCtrl::unlock_effect(u16 client, u32 effect) {
+void unlock_effect(u16 client, u32 effect) {
     TItemLockCountCtrl *ctrl;
     if ((client < 12) && (effect < 7)) {
         ctrl = item_effect_object_table[effect];
@@ -22,7 +22,7 @@ void TItemLockCountCtrl::unlock_effect(u16 client, u32 effect) {
 }
 
 // Takes a hold on item effect `effect` for client; the first hold starts it.
-void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
+void lock_effect(u16 client, u32 effect) {
     TItemLockCountCtrl *ctrl;
     if ((client < 12) && (effect < 7)) {
         ctrl = item_effect_object_table[effect];
@@ -118,34 +118,32 @@ void add_paralysis_immunity(int client) {
     }
 }
 
-void TItemLockCountCtrl::add_poison_immunity(int client) {
+void add_poison_immunity(int client) {
     uaddr temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
         ((TObjChara *)temp)->add_immunity_flags(1);
     }
 }
 
-void TItemLockCountCtrl::add_status_cleanse(int client) {
+void add_status_cleanse(int client) {
     u32 temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
         ((TObjBase *)(saddr)temp)->set_actor_flags(0x40);
     }
 }
-void TItemLockCountCtrl::free_all() {
+void free_all() {
     s32 i;
     for (i = 0; i != 7; i++) {
         delete item_effect_object_table[i];
         item_effect_object_table[i] = 0;
     }
 }
-#define MK_80119444(idx, a, b)                                   \
-    item_effect_object_table[idx] = new TItemLockCountCtrl(0, 0xC, a, b);
 void TItemLockCountCtrl::init_effect_table() {
-    MK_80119444(0, TItemLockCountCtrl::add_status_cleanse, remove_status_cleanse)
-    MK_80119444(1, TItemLockCountCtrl::add_poison_immunity, remove_poison_immunity)
-    MK_80119444(2, add_paralysis_immunity, remove_paralysis_immunity)
-    MK_80119444(3, add_shock_immunity, remove_shock_immunity)
-    MK_80119444(4, add_slow_immunity, remove_slow_immunity)
-    MK_80119444(5, add_confusion_immunity, remove_confusion_immunity)
-    MK_80119444(6, add_freeze_immunity, remove_freeze_immunity)
+    item_effect_object_table[0] = new TItemLockCountCtrl(0, 0xC, add_status_cleanse, remove_status_cleanse);
+    item_effect_object_table[1] = new TItemLockCountCtrl(0, 0xC, add_poison_immunity, remove_poison_immunity);
+    item_effect_object_table[2] = new TItemLockCountCtrl(0, 0xC, add_paralysis_immunity, remove_paralysis_immunity);
+    item_effect_object_table[3] = new TItemLockCountCtrl(0, 0xC, add_shock_immunity, remove_shock_immunity);
+    item_effect_object_table[4] = new TItemLockCountCtrl(0, 0xC, add_slow_immunity, remove_slow_immunity);
+    item_effect_object_table[5] = new TItemLockCountCtrl(0, 0xC, add_confusion_immunity, remove_confusion_immunity);
+    item_effect_object_table[6] = new TItemLockCountCtrl(0, 0xC, add_freeze_immunity, remove_freeze_immunity);
 }

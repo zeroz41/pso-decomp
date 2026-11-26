@@ -31,6 +31,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 const char *logo_class_name = "TLogo";
@@ -39,9 +40,9 @@ const char *logo_class_name = "TLogo";
 void (*logo_load_callback_table[18])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
-    TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
+    TLobby::update_keyboard_menu, free_keyboard_soft_resources,
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
-    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
+    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
     register_texture_logo_e, TLogo::free_held_object,
     load_sonic_logo_texture, free_sonic_logo_texture,
     TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,

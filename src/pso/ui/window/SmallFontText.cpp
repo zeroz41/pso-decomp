@@ -257,8 +257,8 @@ GlyphMetrics status_alphabet_metrics_table[95] = {
 
 GlyphMetrics *small_font_metrics_table_ptr;
 
-void TLobby::free_ending_callback() {  }
+void free_ending_callback() {  }
 
-void TLobby::set_ending_callback() {
+void set_ending_callback() {
     small_font_metrics_table_ptr = status_alphabet_metrics_table;
 }

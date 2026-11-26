@@ -21,7 +21,7 @@ void TLobby::update_menu_cursor() {
 saddr get_localized_text_entry(s32 group, s32 id) {
     return (saddr)text_language_group_table[group][id];
 }
-void TLobby::free_keyboard_soft_resources() {
+void free_keyboard_soft_resources() {
     TLanguage::free_alphabet_textures();
     TLanguage::free_text_resources();
 }

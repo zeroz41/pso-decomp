@@ -11,6 +11,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/ui/charcreate/CreationResourceFree.h"
 
 void fn_80290BEC(void) {
     s32 *task;
@@ -18,7 +19,7 @@ void fn_80290BEC(void) {
     task = (s32 *)&main_task;
     task = (s32 *)&main_task;
     main_task.delete_layer_children();
-    TLobby::free_all_resources();
+    free_all_resources();
     render_tick();
 }
 extern "C" {

@@ -20,6 +20,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/movie/TMovie.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 s32 opening_movie_selector = 1;
@@ -136,7 +137,7 @@ void init_movie_phase(void) {
     case 1:
         TLobby::update_keyboard_menu();
         init_fresh_character_card();
-        TLobby::free_keyboard_soft_resources();
+        free_keyboard_soft_resources();
         set_queued_main_phase(5);
         break;
     }

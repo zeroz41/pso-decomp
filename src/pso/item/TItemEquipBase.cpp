@@ -17,6 +17,7 @@
 #include "pso/system/vector.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemLockCountCtrl.h"
+#include "pso/item/StatusImmunityLocks.h"
 
 
 const char *item_equip_base_class_name = "TItemEquipBase";
@@ -109,28 +110,28 @@ void TItemEquipBase::apply_equip_effects() {
         TItemTimerEvent::start_event_by_index(get_owner_client());
     }
     if (start_effect(0x8, 0x10)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 0);
+        lock_effect(get_owner_client(), 0);
     }
     if (start_effect(0x20, 0x40)) {
         owner->attack_state.set_item_effect();
     }
     if (start_effect(0x80, 0x100)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 1);
+        lock_effect(get_owner_client(), 1);
     }
     if (start_effect(0x200, 0x400)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 2);
+        lock_effect(get_owner_client(), 2);
     }
     if (start_effect(0x800, 0x1000)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 3);
+        lock_effect(get_owner_client(), 3);
     }
     if (start_effect(0x2000, 0x4000)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 4);
+        lock_effect(get_owner_client(), 4);
     }
     if (start_effect(0x8000, 0x10000)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 5);
+        lock_effect(get_owner_client(), 5);
     }
     if (start_effect(0x20000, 0x40000)) {
-        TItemLockCountCtrl::lock_effect(get_owner_client(), 6);
+        lock_effect(get_owner_client(), 6);
     }
 }
 
@@ -142,7 +143,7 @@ void TItemEquipBase::remove_equip_effects() {
         TItemTimerEvent::clear_timer_slot(get_owner_client());
     }
     if (stop_effect(0x10)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 0);
+        unlock_effect(get_owner_client(), 0);
     }
     if (stop_effect(0x40)) {
         TObjPlayer *player = owner;
@@ -151,22 +152,22 @@ void TItemEquipBase::remove_equip_effects() {
         }
     }
     if (stop_effect(0x100)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 1);
+        unlock_effect(get_owner_client(), 1);
     }
     if (stop_effect(0x400)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 2);
+        unlock_effect(get_owner_client(), 2);
     }
     if (stop_effect(0x1000)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 3);
+        unlock_effect(get_owner_client(), 3);
     }
     if (stop_effect(0x4000)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 4);
+        unlock_effect(get_owner_client(), 4);
     }
     if (stop_effect(0x10000)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 5);
+        unlock_effect(get_owner_client(), 5);
     }
     if (stop_effect(0x40000)) {
-        TItemLockCountCtrl::unlock_effect(get_owner_client(), 6);
+        unlock_effect(get_owner_client(), 6);
     }
 }
 

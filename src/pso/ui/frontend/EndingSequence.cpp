@@ -23,6 +23,8 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/render/GinjaView.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -38,7 +40,7 @@ void start_ending_sequence(void) {
     set_fallback_main_phase(2);
     TAdEndText::load_ending_font();
     TLobby::update_keyboard_menu();
-    TLobby::set_ending_callback();
+    set_ending_callback();
     new TEndingMovie;
     render_tick();
 }
@@ -61,7 +63,7 @@ void TKeyBoardControl::run_main_frame() {
     render_tick();
 }
 
-void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
+void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); free_ending_callback(); free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 
 TEndingMovie::TEndingMovie() : TObject(tl_04) {
     ending_movie_active_flag = 0;
