@@ -15,6 +15,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/PageIndicator.h"
+#include "pso/unk/text_8026C664.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
@@ -64,7 +65,6 @@ typedef struct Quest_802549B0 {
 typedef struct MagData_80253564 { u8 b[16]; } MagData_80253564;
 
 extern "C" {
-int fn_8026C7C0(void*);
 void fn_80255A38(TWindowHelpItem *item);
 }
 extern u8 *text_language_group_table;
@@ -262,7 +262,7 @@ void fn_80255A38(TWindowHelpItem *item) {
     item->m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s32 mode) { if (fn_8026C7C0(*(void**)((char*)this + 0x64)) != 0) { this->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s8 page) { if (fn_8026C7C0(page_indicator, page) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->secondary_id = a2; *(void* *)&this->secondary_item = a1; update_cursor_selection(); dispatch_item_help(); }
 

@@ -10,9 +10,7 @@ extern int lobby_count_value;
 extern s32 aram_request_busy_flag;
 
 void reset_warning_aram_cache(void);
-extern "C" {
 int get_aligned_aram_alloc_size(void);
 void reset_aram_state(void);
-}
 
 #endif

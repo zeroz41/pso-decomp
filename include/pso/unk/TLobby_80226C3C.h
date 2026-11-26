@@ -6,9 +6,7 @@
 // The MusyX allocation hook and the retrace and stream callbacks the sound
 // setup installs.
 void *musyx_malloc_hook(u32 size);
-extern "C" {
 void pre_retrace_callback(void);
-}
 int post_retrace_callback(void *p);
 extern "C" {
 void TLobby__sub_80227A90(s32, const char *);

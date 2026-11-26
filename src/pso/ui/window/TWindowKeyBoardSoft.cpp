@@ -833,9 +833,9 @@ void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
 
     set_constant_material_color(ctx->color);
     tab_x = get_tab_bar_x();
-    fn_8026C664((u8 *)ctx, (ctx->x + tab_x) - 34.0f, 3.0f + (-1.0f + ctx->y), depth, page_slide);
+    fn_8026C664(ctx, (ctx->x + tab_x) - 34.0f, 3.0f + (-1.0f + ctx->y), depth, page_slide);
     tab_x += 1.0f + (f32)(layout->tab_width * layout->page_count);
-    fn_8026C708((u8 *)ctx, 5.0f + (ctx->x + tab_x),
+    fn_8026C708(ctx, 5.0f + (ctx->x + tab_x),
                 3.0f + (-1.0f + ctx->y), depth, page_slide);
     end_screen_draw();
 }
