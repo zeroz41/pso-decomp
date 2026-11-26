@@ -384,7 +384,7 @@ void flush_pending_flags() {
 }
 
 s32 run_connect_sequence() {
-    s32 sp8;
+    s32 netmask;
     s32 id;
     s32 r;
     s16 ok;
@@ -412,17 +412,17 @@ s32 run_connect_sequence() {
         }
         if (TLobby__sub_80145EE4() != 0) {
             lobby_net_session_id = id;
-            r = apply_dhcp_network_config(&sp8);
+            r = apply_dhcp_network_config(&netmask);
         } else if (is_state_active() != 0) {
-            r = connect_pppoe(&sp8);
+            r = connect_pppoe(&netmask);
         } else {
             lobby_net_session_id = id;
-            r = apply_static_network_config(&sp8);
+            r = apply_static_network_config(&netmask);
         }
         if (r == 0) {
             lobby_if_config[0] = 4;
             lobby_if_config[1] = lobby_local_ip_addr;
-            lobby_if_config[2] = sp8;
+            lobby_if_config[2] = netmask;
             lobby_if_config[3] = 0;
             if (if_config((s16)lobby_net_session_id, lobby_if_config) == 0) {
                 set_default_gateway(lobby_gateway_addr);

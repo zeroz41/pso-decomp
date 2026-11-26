@@ -904,7 +904,7 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
   Ipv6NdPrefixEvent prefix_event;
   Ipv6NdMtuOption mtu_opt;
   Ipv6NdMtuEvent mtu_event;
-  long long new_var;
+  long long link_address_len;
   u8 *payload = (void *) 0;
   s16 len;
   while (n >= 8)
@@ -927,9 +927,9 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
         break;
 
       case 1:
-        new_var = len - 2;
+        link_address_len = len - 2;
         payload = p + 2;
-        NetIPv6UpdateNeighborLinkAddress(dst, payload, new_var, iface)->flags |= 0x80;
+        NetIPv6UpdateNeighborLinkAddress(dst, payload, link_address_len, iface)->flags |= 0x80;
         netbuf_ref_advance(&self->buffer, len);
         break;
 

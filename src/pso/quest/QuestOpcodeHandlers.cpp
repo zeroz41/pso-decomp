@@ -620,7 +620,6 @@ void qst_op_arg_pushr(u8 a0) {
 }
 
 void qst_op_va_call(s32 label) {
-  int new_var;
   qst_arg_count = 0;
   qst_registers[1] = qst_args[0];
   qst_registers[2] = qst_args[1];

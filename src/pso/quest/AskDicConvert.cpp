@@ -1110,16 +1110,16 @@ s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
   s32 hi;
   u16 c;
   s32 lo;
-  int new_var;
+  int code_lo;
   u16 a;
   c = ch;
   a = (attr & 0xF) << 12;
-  new_var = ch & 0xFF;
+  code_lo = ch & 0xFF;
   hi = (ch >> 8) & 0xFF;
-  lo = new_var;
-  if (is_sjis_char(new_var, hi))
+  lo = code_lo;
+  if (is_sjis_char(code_lo, hi))
   {
-    if (sjis_code_kind(c, new_var) == 1)
+    if (sjis_code_kind(c, code_lo) == 1)
     {
       a |= 0x300;
     }
@@ -1129,7 +1129,7 @@ s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr) {
     }
   }
   else
-    if (is_jis_char(new_var, hi))
+    if (is_jis_char(code_lo, hi))
   {
     a |= 0x500;
     if (ch == 0x2474)
@@ -2192,7 +2192,7 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
   s32 r;
   QuestDownloadTextNode *q2;
   u32 prev;
-  QuestDownloadRequest *new_var;
+  QuestDownloadRequest *request;
   s32 pad;
   s32 *pp = &pad;
   q2 = cmd;
@@ -2242,9 +2242,9 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
     obj->pad6 = 0;
     obj->x7 = 0x19;
     obj->x8 = 0;
-    new_var = obj;
+    request = obj;
     obj->text = lbl_8058DCE8;
-    store_learned_name(new_var, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - ((0, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values)));
+    store_learned_name(request, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - ((0, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values)));
   }
   else
   {

@@ -559,7 +559,7 @@ s16 ipv6_fragment_output(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link
 s16 ipv6_transmit(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address)
 {
   Ipv6ProtocolState *base = &ipv6_protocol_state;
-  s32 new_var;
+  s32 room;
   u32 used = packet->total_bytes;
   Ipv6Header *slot = &base->hdr;
   s32 n;
@@ -606,10 +606,10 @@ s16 ipv6_transmit(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u
   }
   n = ret - (s32)sizeof(Ipv6Header);
   base->ident += 1;
-  new_var = n;
+  room = n;
   if (used > ((u32) n))
   {
-    return ipv6_fragment_output(packet, slot, iface, link_address, new_var);
+    return ipv6_fragment_output(packet, slot, iface, link_address, room);
   }
   packet->total_bytes += sizeof(Ipv6Header);
   packet->fragments[packet->fragment_count].length = sizeof(Ipv6Header);

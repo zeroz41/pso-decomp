@@ -2103,7 +2103,7 @@ void TLobby::open_ship_block_select_menu(int count, void *entries, void *selecte
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)tbl);
     for (i = 0; i < count; i++) {
-        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, (s32)i);
+        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, i);
     }
     list_window->calc_content_extent();
     if (cmp == 0) {
@@ -2127,7 +2127,7 @@ void TLobby::open_information_list(int count, void *entries) {
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)w);
     for (i = 0; i < count; i++) {
-        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, (s32)i);
+        ((TLobby *)list_window)->add_status_disp_entry((saddr)list[i].name, i);
     }
     list_window->calc_content_extent();
     TLobby::set_menu_mode_2();
@@ -2502,16 +2502,16 @@ void TLobby::open_download_list_window(int count, void *entries) {
         e = &list[i];
         switch (e->kind) {
         case 0:
-            list_window->add_list_entry(0x2C, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x2C, (saddr)e->name, i);
             break;
         case 1:
-            list_window->add_list_entry(0x17, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x17, (saddr)e->name, i);
             break;
         case 2:
-            list_window->add_list_entry(0x31, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x31, (saddr)e->name, i);
             break;
         default:
-            list_window->add_list_entry(0x2C, (saddr)e->name, (s32)i);
+            list_window->add_list_entry(0x2C, (saddr)e->name, i);
             break;
         }
     }

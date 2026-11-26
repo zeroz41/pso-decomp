@@ -705,7 +705,7 @@ static inline s32 ppp_option_type(s32 bit) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 void append_masked_ipcp_options(PppFrame **self, IpcpOptions *opt, s32 mask) {
-    s16 new_var;
+    s16 option_mask;
     s16 i;
     s32 m;
     if (*self == NULL) {
@@ -714,7 +714,7 @@ void append_masked_ipcp_options(PppFrame **self, IpcpOptions *opt, s32 mask) {
             return;
         }
     }
-    m = (new_var = (s16)mask);
+    m = (option_mask = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
             append_ipcp_option(self, opt, ppp_option_type(i), ipcp_option_lengths[i], 0);

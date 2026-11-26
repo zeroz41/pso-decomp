@@ -213,14 +213,14 @@ void TLobby__sub_8024259C(saddr arg0) {
 
 
 void init_player_entry(GuildCardRecord *entry, u8 *response) {
-    s32 temp_r5;
+    s32 serial;
     char *p;
 
     entry->id = *(s32 *)((s8 *)response + 0xC);
-    temp_r5 = lbl_805D63D8;
-    lbl_805D63D8 = temp_r5 + 1;
-    entry->serial = temp_r5;
-    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, temp_r5);
+    serial = lbl_805D63D8;
+    lbl_805D63D8 = serial + 1;
+    entry->serial = serial;
+    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, serial);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {

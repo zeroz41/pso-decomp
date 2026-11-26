@@ -257,7 +257,7 @@ void TChallenge4PResult::clear_slot_entries() {
     }
 }
 void TChallenge4PResult::create(u16 client, s32 result_code) {
-    if (get_player_by_client_id((u16)client) != NULL) {
+    if (get_player_by_client_id(client) != NULL) {
         new TChallenge4PResult((TObject *)tl_01, client, result_code);
     }
 }

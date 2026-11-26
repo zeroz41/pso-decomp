@@ -212,7 +212,7 @@ s16 ppp_get_link_status(NetLinkStatus *status)
 {
   u8 *base;
   IpcpConfig *b;
-  u32 *new_var;
+  u32 *peer_addr;
   PppFsm *q;
   Ipv6cpConfig *a;
   u32 v0;
@@ -232,7 +232,7 @@ s16 ppp_get_link_status(NetLinkStatus *status)
     status->link_up = 0;
   }
   status->addr_local = b->local.want.our_addr;
-  *(new_var = &status->addr_peer) = b->local.want.his_addr;
+  *(peer_addr = &status->addr_peer) = b->local.want.his_addr;
   status->dns_local_primary = b->local.want.dns[0];
   status->dns_local_secondary = b->local.want.dns[1];
   status->dns_peer_primary = b->peer.want.dns[0];
