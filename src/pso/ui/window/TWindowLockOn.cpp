@@ -4,6 +4,8 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowComCard.h"
@@ -60,44 +62,6 @@ LockOnEnemyLayout lock_on_window_layout_entries = {
 
 WindowDescriptor lock_on_window_descriptor = {
     {0.0f, 0.0f}, 50000.0f, NULL, 0x23,
-};
-
-// The enemy's status ailment slots and maximum HP/TP, read through the actor.
-struct LockOnEnemyView {
-    u8 pad_0[0x32C];
-    s16 hp_max;
-    s16 tp_max;
-};
-
-struct LockOnGauge {
-    u8 pad_0[0x20];
-    f32 cur;
-    f32 max;
-};
-
-struct LockOnEntry {
-    u16 flags;
-    u8 pad_2[6];
-    f32 y;
-    u8 pad_c[4];
-    f32 w;
-    u8 pad_14[8];
-    u8 kind;
-};
-
-struct LockOnEntryText {
-    u8 pad_0[8];
-    f32 y;
-    u8 pad_c[0x14 - 0xC];
-    f32 w;
-    u8 pad_18[8];
-    f32 cur;
-    f32 max;
-};
-
-struct LockOnEntryColor {
-    u8 pad_0[0x24];
-    s32 color;
 };
 
 extern "C" {
@@ -213,16 +177,16 @@ void TWindowLockOn::update_for_target(TObjCollidable *actor) {
 #pragma push
 #pragma fp_contract on
 void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
-    LockOnEntry *w;
+    WindowTextEntry *name;
     u16 id;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_params, client_index);
     refresh = &TWindowLockOn::update_photon_blast_marker;
-    w = (LockOnEntry *)get_array_entry(1);
+    name = (WindowTextEntry *)get_array_entry(1);
     id = player->get_entity_id();
-    ((TWindowLockOn *)w)->update_for_player_index(id);
-    ((TWindowHelpItem *)w)->reset_float_field();
-    measure_message_text_width_default(w);
-    target_size[0] = 34.0f + w->w;
+    name->show_player_name(id);
+    name->reveal_all();
+    measure_message_text_width_default(name);
+    target_size[0] = 34.0f + name->width;
     target_size[1] = 49.0f;
     target_size[0] += 28.0f;
     target_position[1] = get_window_layout_y(0x1E) - target_size[1] * height_scale;
@@ -233,19 +197,19 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
 #pragma push
 #pragma fp_contract on
 void TWindowLockOn::update_for_item(TItem *item) {
-    LockOnEntry *e;
+    ItemListRow *e;
     HelpItemRarityStarRow *e2;
     f32 r;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     refresh = &TWindowLockOn::refresh_ground_item;
-    e = (LockOnEntry *)get_array_entry(0);
-    ((ItemListRow *)e)->init_item_row(item, 0);
-    ((ItemListRow *)e)->calc_row_width();
-    e->y = -8.0f;
-    if (e->kind != 0x33) {
-        e->y += 18.0f;
+    e = (ItemListRow *)get_array_entry(0);
+    e->init_item_row(item, 0);
+    e->calc_row_width();
+    e->x = -8.0f;
+    if (e->status_icon != 0x33) {
+        e->x += 18.0f;
     }
-    target_size[0] = e->w;
+    target_size[0] = e->width;
     target_size[1] = 38.0f;
     e2 = (HelpItemRarityStarRow *)get_array_entry(1);
     if (item->get_item_type() == 0 || item->get_item_type() == 1) {
@@ -272,20 +236,20 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     static const char *type_names[5] = {"Native", "A.Beast", "Machine", "Dark", "\tCG???"};
     static u32 type_colors[5] = {0xFFA5FFAA, 0xFFF5FF99, 0xFFFF958B, 0xFFE1A9FF, 0xFFFFFFFF};
     u32 width;
-    saddr e;
+    WindowTextEntry *e;
     s32 kind;
-    LockOnEntryText *p;
+    TWindowStatusGaugeFeedback *p;
     u32 w2;
 
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_layout_entries, client_index);
     refresh = &TWindowLockOn::refresh_enemy_statuses;
-    e = reinterpret_cast<saddr>(get_array_entry(1));
-    TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
-    ((TWindowHelpItem *)e)->reset_float_field();
+    e = (WindowTextEntry *)get_array_entry(1);
+    TWindowDuelResult::set_default_status(e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
+    e->reveal_all();
     width = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
-    e = reinterpret_cast<saddr>(get_array_entry(0));
-    TWindowDuelResult::set_default_status((void *)e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
-    ((TWindowHelpItem *)e)->reset_float_field();
+    e = (WindowTextEntry *)get_array_entry(0);
+    TWindowDuelResult::set_default_status(e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
+    e->reveal_all();
     target_size[0] = (f32)calc_text_width(((TWindowSubComCard *)e)->get_field_20());
     target_size[1] = 64.0f;
     if (is_split_screen() == 0) {
@@ -304,11 +268,11 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     } else {
         kind = 4;
     }
-    e = reinterpret_cast<saddr>(get_array_entry(2));
-    TWindowDuelResult::set_default_status((void *)e, (saddr)type_names[kind]);
-    ((TWindowHelpItem *)e)->reset_float_field();
-    ((LockOnEntryText *)e)->y = 10.0f + (f32)width;
-    ((LockOnEntryColor *)e)->color = type_colors[kind];
+    e = (WindowTextEntry *)get_array_entry(2);
+    TWindowDuelResult::set_default_status(e, (saddr)type_names[kind]);
+    e->reveal_all();
+    e->x = 10.0f + (f32)width;
+    e->color = type_colors[kind];
     w2 = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
     w2 += width;
     if ((f32)w2 > target_size[0]) {
@@ -317,14 +281,14 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     target_size[0] += 28.0f;
     target_position[1] = get_window_layout_y(0x1E) - target_size[1] * height_scale;
     tween_ticks = 0;
-    p = (LockOnEntryText *)get_array_entry(7);
-    p->w = target_size[0] - 28.0f;
-    p->cur = (f32)enemy->get_hpmax();
-    p->max = (f32)((LockOnEnemyView *)enemy)->hp_max;
-    p = (LockOnEntryText *)get_array_entry(8);
-    p->w = target_size[0] - 28.0f;
-    p->cur = (f32)enemy->get_tpmax();
-    p->max = (f32)((LockOnEnemyView *)enemy)->tp_max;
+    p = (TWindowStatusGaugeFeedback *)get_array_entry(7);
+    p->scale = target_size[0] - 28.0f;
+    p->maximum = (f32)enemy->get_hpmax();
+    p->target = (f32)enemy->hp;
+    p = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+    p->scale = target_size[0] - 28.0f;
+    p->maximum = (f32)enemy->get_tpmax();
+    p->target = (f32)enemy->tp;
 }
 #pragma pop
 
@@ -336,33 +300,33 @@ void TWindowLockOn::refresh_ground_item() {}
 
 void TWindowLockOn::refresh_enemy_statuses() {
     s32 i;
-    LockOnEnemyView *enemy;
+    TObjChara *enemy;
     s32 mode;
-    LockOnGauge *g;
+    TWindowStatusGaugeFeedback *g;
     if (target_id == 0xFFFF) {
         return;
     }
-    enemy = (LockOnEnemyView *)find_entity_by_id(target_id);
+    enemy = (TObjChara *)find_entity_by_id(target_id);
     if (enemy == NULL) {
         return;
     }
     i = 0;
     do {
-        mode = get_status_effect_icon_index(((TObjChara *)enemy)->get_status_effect_type(i));
+        mode = get_status_effect_icon_index(enemy->get_status_effect_type(i));
         ((TWindowComCard *)get_array_entry(i + 3))->set_help_mode(mode);
         i++;
     } while (i < 4);
     {
-        g = (LockOnGauge *)get_array_entry(7);
-        g->cur = ((TObjChara *)enemy)->get_hpmax();
-        g->max = enemy->hp_max;
-        ((TWindowHelpItem *)g)->set_flag0_bit2();
+        g = (TWindowStatusGaugeFeedback *)get_array_entry(7);
+        g->maximum = enemy->get_hpmax();
+        g->target = enemy->hp;
+        g->hide();
     }
     {
-        g = (LockOnGauge *)get_array_entry(8);
-        g->cur = ((TObjChara *)enemy)->get_tpmax();
-        g->max = enemy->tp_max;
-        ((TWindowHelpItem *)g)->set_flag0_bit2();
+        g = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+        g->maximum = enemy->get_tpmax();
+        g->target = enemy->tp;
+        g->hide();
     }
 }
 

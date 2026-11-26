@@ -1156,7 +1156,7 @@ void TWindowFukidasi::show_immediately() {
     t = content_kind;
     switch (t) {
     case 0:
-        ((TWindowHelpItem *)get_array_entry(0))->reset_float_field();
+        ((WindowTextEntry *)get_array_entry(0))->reveal_all();
         break;
     case 1:
     case 2:

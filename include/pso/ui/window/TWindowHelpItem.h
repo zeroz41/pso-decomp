@@ -140,7 +140,6 @@ struct TWindowHelpItem : public TWindowBase
     void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
 
     TWindowHelpItem(void *position, s32 index);
-    void set_flag0_bit2();
     static void set_help_text(saddr help, saddr client_id);
     static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
@@ -176,7 +175,6 @@ struct TWindowHelpItem : public TWindowBase
     void set_compare_color(s32 count);
     void set_flag4_and_field1c(s32 count);
     void set_help_text(uaddr str);
-    void reset_float_field();
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();

@@ -79,23 +79,23 @@ void TWindowTimer::update_chat_parts() {
 }
 
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
-    saddr array_entry;
+    WindowTextEntry *array_entry;
 
-    array_entry = reinterpret_cast<saddr>(get_array_entry(0));
+    array_entry = (WindowTextEntry *)get_array_entry(0);
     text_builder_reset();
     text_builder_append("\tC8");
     append_padded_number(arg1, 3);
     text_builder_append("\tC7:\tC3");
     append_padded_number(arg2, 3);
-    set_text_entry_string((WindowTextEntry *)array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
-    ((TWindowHelpItem *)array_entry)->reset_float_field();
+    set_text_entry_string(array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    array_entry->reveal_all();
 }
 
 void TWindowTimer::set_time(u32 secs) {
-    saddr entry;
+    WindowTextEntry *entry;
     u32 hours;
     u32 mins;
-    entry = reinterpret_cast<saddr>(get_array_entry(0));
+    entry = (WindowTextEntry *)get_array_entry(0);
     text_builder_reset();
     hours = secs / 3600;
     secs %= 3600;
@@ -110,8 +110,8 @@ void TWindowTimer::set_time(u32 secs) {
         text_builder_append("\"");
         append_padded_number((secs), 2);
     }
-    set_text_entry_string((WindowTextEntry *)entry, (uaddr)(get_shared_text_buffer()), 0x20);
-    ((TWindowHelpItem *)entry)->reset_float_field();
+    set_text_entry_string(entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    entry->reveal_all();
 }
 
 void TWindowTimer::draw_tab(WindowDrawContext *context) {

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessagePage.h"
-#include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 struct CompleteRevealLine { u32 flags; u32 f4; };
@@ -45,7 +45,7 @@ void TWindowMessage::complete_reveal() {
                 lines[i].flags &= ~8;
                 e->flags &= ~8;
             }
-            ((TWindowHelpItem *)e)->reset_float_field();
+            ((WindowTextEntry *)e)->reveal_all();
         }
     }
 }

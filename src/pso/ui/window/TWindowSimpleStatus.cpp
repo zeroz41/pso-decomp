@@ -37,6 +37,7 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 
 #pragma push
@@ -276,45 +277,45 @@ void TWindowSimpleStatus::update_hp_tp_level() {
     update_status_entry();
 }
 
-void TWindowLockOn::update_for_player_index(s32 id) {
+void WindowTextEntry::show_player_name(s32 client_id) {
     saddr str;
     TObjPlayer *player;
-    u8 *status_block;
+    CharacterAppearanceFields *appearance;
 
-    player = get_player_by_client_id(id);
+    player = get_player_by_client_id(client_id);
     if (player == NULL) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        hide();
         return;
     }
-    status_block = (u8 *)player->name;
-    if (status_block == NULL) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+    appearance = (CharacterAppearanceFields *)player->name;
+    if (appearance == NULL) {
+        hide();
         return;
     }
     str = (saddr)player->get_name();
     if (str == 0) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        hide();
         return;
     }
     if (player->is_inactive() == 0) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        hide();
         return;
     }
-    ((TWindowSubStatusDisp *)(this))->clear_visible_flag();
+    show();
     if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
-        set_text_entry_string(((WindowTextEntry *)this), str, 0x20);
+        set_text_entry_string(this, str, 0x20);
     }
     if (player->is_actor_dead() != 0) {
-        *(s32 *)&this->entry_list = 0xFFFF0000;
+        color = 0xFFFF0000;
         return;
     }
-    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)status_block + 0x18);
+    color = appearance->nameColor;
 }
 
 void update_lockon_window(TWindowSimpleStatus *window) {
-    TWindowLockOn *lock_on;
-    lock_on = (TWindowLockOn *)window->get_array_entry(1);
-    lock_on->update_for_player_index(window->get_width());
+    WindowTextEntry *name;
+    name = (WindowTextEntry *)window->get_array_entry(1);
+    name->show_player_name(window->get_width());
 }
 
 void update_photon_blast_player_marker(saddr help, s32 client_id) {

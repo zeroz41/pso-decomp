@@ -10,6 +10,9 @@ class TWindowLayoutEntry {
 public:
     int is_flag_4_set() const;
     int is_flag80_set() const;
+    // Flag 2 keeps draw_visible_window_entries from rendering the entry.
+    void show();
+    void hide();
     u16 flags;
     s16 client;
 

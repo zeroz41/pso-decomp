@@ -230,10 +230,10 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     e0->set_sprite_uv_from_pixels(185.0f, 22.0f);
     e0->kind = 0;
     e0->depth = 0.5f;
-    ((TWindowSubStatusDisp *)e0)->clear_visible_flag();
+    e0->show();
     slot = chat->parts;
     n = TWindowSubSymbolChat::calc_remaining_slots();
-    ((TWindowHelpItem *)e2)->set_flag0_bit2();
+    e2->hide();
     for (i = 0; i < n; i++, slot++) {
         e0->x = 40.0f * (f32)col + 10.0f;
         e0->y = 40.0f * (f32)row + 9.0f;

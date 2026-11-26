@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowFukidasi.h"
@@ -29,7 +30,6 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/text_803DAFA8.h"
-#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -935,80 +935,80 @@ int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1;
 
 int TWindowFukidasi::is_bit10_set() { return ((u32)window_flags >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
-    uaddr entry7;
-    uaddr entry6;
-    uaddr entry5;
-    uaddr entry4;
-    uaddr entry3;
-    uaddr entry2;
-    uaddr entry1;
-    uaddr entry0;
-    entry7 = reinterpret_cast<uaddr>(this->get_array_entry(7));
-    entry6 = reinterpret_cast<uaddr>(this->get_array_entry(6));
-    entry5 = reinterpret_cast<uaddr>(this->get_array_entry(5));
-    entry4 = reinterpret_cast<uaddr>(this->get_array_entry(4));
-    entry3 = reinterpret_cast<uaddr>(this->get_array_entry(3));
-    entry2 = reinterpret_cast<uaddr>(this->get_array_entry(2));
-    entry1 = reinterpret_cast<uaddr>(this->get_array_entry(1));
-    entry0 = reinterpret_cast<uaddr>(this->get_array_entry(0));
+    TWindowLayoutEntry *entry7;
+    TWindowLayoutEntry *entry6;
+    TWindowLayoutEntry *entry5;
+    TWindowLayoutEntry *entry4;
+    TWindowLayoutEntry *entry3;
+    TWindowLayoutEntry *entry2;
+    TWindowLayoutEntry *entry1;
+    TWindowLayoutEntry *entry0;
+    entry7 = (TWindowLayoutEntry *)this->get_array_entry(7);
+    entry6 = (TWindowLayoutEntry *)this->get_array_entry(6);
+    entry5 = (TWindowLayoutEntry *)this->get_array_entry(5);
+    entry4 = (TWindowLayoutEntry *)this->get_array_entry(4);
+    entry3 = (TWindowLayoutEntry *)this->get_array_entry(3);
+    entry2 = (TWindowLayoutEntry *)this->get_array_entry(2);
+    entry1 = (TWindowLayoutEntry *)this->get_array_entry(1);
+    entry0 = (TWindowLayoutEntry *)this->get_array_entry(0);
     if (is_guild_card_receive_active() != 0) {
-        if (entry7 != 0U) {
-            ((TWindowSubStatusDisp *)entry7)->clear_visible_flag();
+        if (entry7 != NULL) {
+            entry7->show();
         }
-        if (entry6 != 0U) {
-            ((TWindowSubStatusDisp *)entry6)->clear_visible_flag();
+        if (entry6 != NULL) {
+            entry6->show();
         }
     } else {
-        if (entry7 != 0U) {
-            ((TWindowHelpItem *)entry7)->set_flag0_bit2();
+        if (entry7 != NULL) {
+            entry7->hide();
         }
-        if (entry6 != 0U) {
-            ((TWindowHelpItem *)entry6)->set_flag0_bit2();
+        if (entry6 != NULL) {
+            entry6->hide();
         }
     }
     if (is_com_card_active() != 0) {
-        if (entry5 != 0U) {
-            ((TWindowSubStatusDisp *)entry5)->clear_visible_flag();
+        if (entry5 != NULL) {
+            entry5->show();
         }
-        if (entry4 != 0U) {
-            ((TWindowSubStatusDisp *)entry4)->clear_visible_flag();
+        if (entry4 != NULL) {
+            entry4->show();
         }
     } else {
-        if (entry5 != 0U) {
-            ((TWindowHelpItem *)entry5)->set_flag0_bit2();
+        if (entry5 != NULL) {
+            entry5->hide();
         }
-        if (entry4 != 0U) {
-            ((TWindowHelpItem *)entry4)->set_flag0_bit2();
+        if (entry4 != NULL) {
+            entry4->hide();
         }
     }
     if (TWindowSubShortMail::is_active() != 0) {
-        if (entry3 != 0U) {
-            ((TWindowSubStatusDisp *)entry3)->clear_visible_flag();
+        if (entry3 != NULL) {
+            entry3->show();
         }
-        if (entry2 != 0U) {
-            ((TWindowSubStatusDisp *)entry2)->clear_visible_flag();
+        if (entry2 != NULL) {
+            entry2->show();
         }
     } else {
-        if (entry3 != 0U) {
-            ((TWindowHelpItem *)entry3)->set_flag0_bit2();
+        if (entry3 != NULL) {
+            entry3->hide();
         }
-        if (entry2 != 0U) {
-            ((TWindowHelpItem *)entry2)->set_flag0_bit2();
+        if (entry2 != NULL) {
+            entry2->hide();
         }
     }
     if (is_trade_active() != 0) {
-        if (entry1 != 0U) {
-            ((TWindowSubStatusDisp *)entry1)->clear_visible_flag();
+        if (entry1 != NULL) {
+            entry1->show();
         }
-        if (entry0 != 0U) {
-            ((TWindowSubStatusDisp *)entry0)->clear_visible_flag();
+        if (entry0 != NULL) {
+            entry0->show();
         }
     } else {
-        if (entry1 != 0U) {
-            ((TWindowHelpItem *)entry1)->set_flag0_bit2();
+        if (entry1 != NULL) {
+            entry1->hide();
         }
-        if (entry0 != 0U) {
-            ((TWindowHelpItem *)entry0)->set_flag0_bit2();
+        if (entry0 != NULL) {
+            entry0->hide();
         }
     }
 }

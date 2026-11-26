@@ -45,10 +45,9 @@ const char *TWindowActionPalette__name = "TWindowActionPalette";
 #pragma pop
 
 
-
 // update_palette_item_count_label is the first caller of these two: their copies close the TU.
-void TWindowHelpItem::set_flag0_bit2() { *(u16*)(this + 0x0) |= 0x2; }
-void TWindowSubStatusDisp::clear_visible_flag() { *(u16 *)&this->m_name &= 0xfffffffd; }
+void TWindowLayoutEntry::hide() { flags |= 2; }
+void TWindowLayoutEntry::show() { flags &= ~2; }
 
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
@@ -302,7 +301,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
         } else {
             icon->color = 0xFF404040;
         }
-        ((TWindowHelpItem *)get_array_entry(5))->set_flag0_bit2();
+        static_cast<TWindowLayoutNumber *>(get_array_entry(5))->hide();
         ActionPaletteTag *cur = &resources[idx];
         if (mode != get_action_palette_tag_mode(cur) || get_action_palette_tag_slot(cur) != slot) {
             set_action_palette_tag_mode(cur, mode);
@@ -423,7 +422,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
     s32 v;
     TObjPlayer *p;
     if (group != 4) {
-        reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
+        label->hide();
         return;
     }
     if (index >= 0xD) {
@@ -437,10 +436,10 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
         v = TWindowHelpItem::get_help_value(index, client_id);
     }
     if (v <= 0) {
-        reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
+        label->hide();
         return;
     }
-    reinterpret_cast<TWindowSubStatusDisp *>(label)->clear_visible_flag();
+    label->show();
     label->color = icon->color;
     label->value = v;
     label->calc_size();

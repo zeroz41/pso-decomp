@@ -124,10 +124,10 @@ void TWindowSubSymbolChatPartsSet::set_part_sprite(WindowSpritePart *sprite, s16
     const NJS_POINT2 *e;
     const NJS_POINT2 *size;
     if (id == -1) {
-        ((TWindowHelpItem *)sprite)->set_flag0_bit2();
+        sprite->hide();
         return;
     }
-    ((TWindowSubStatusDisp *)sprite)->clear_visible_flag();
+    sprite->show();
     if (id < 0x30) {
         size = &symbol_chat_part_size_table[0];
     } else if (id < 0x3C) {
@@ -168,14 +168,14 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
     f32 v;
     const NJS_POINT2 *uv;
     if (code == 0xFF) {
-        ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
-        ((TWindowHelpItem *)help)->set_flag0_bit2();
-        ((TWindowHelpItem *)alternate)->set_flag0_bit2();
+        shortcut_icon->hide();
+        help->hide();
+        alternate->hide();
         return;
     }
-    ((TWindowSubStatusDisp *)shortcut_icon)->clear_visible_flag();
-    ((TWindowSubStatusDisp *)help)->clear_visible_flag();
-    ((TWindowSubStatusDisp *)alternate)->clear_visible_flag();
+    shortcut_icon->show();
+    help->show();
+    alternate->show();
     u = 32.0f * (f32)(code & 7);
     v = 32.0f * (f32)((code >> 3) & 7);
     help->kind = ((code >> 6) & 3) + 7;
@@ -187,12 +187,12 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
         shortcut_icon->y = help->y;
         shortcut_icon->set_sprite_dimensions(50.0f, 40.0f);
         shortcut_icon->set_sprite_uv_from_pixels(uv->x, uv->y);
-        ((TWindowHelpItem *)alternate)->set_flag0_bit2();
+        alternate->hide();
     } else {
         help->set_sprite_dimensions(30.0f, 30.0f);
         alternate->x = help->x;
         alternate->y = help->y;
-        ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
+        shortcut_icon->hide();
     }
     help->set_sprite_uv_from_pixels(u, v);
     if (flip_u != 0) {
