@@ -823,7 +823,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (sel == -1) {
         return;
     }
-    menu_window = (TWindowMenu *)(saddr)create_window_menu_default(&time_set_menu_pos, 2);
+    menu_window = create_window_menu_default(&time_set_menu_pos, 2);
     if (message_window == NULL) {
         return;
     }

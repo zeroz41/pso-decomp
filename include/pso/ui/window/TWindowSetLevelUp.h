@@ -9,7 +9,7 @@
 // ("HP +n", "TP +n", "<stat> +n") that is above zero.
 class TWindowSetLevelUp : public TObject {
 public:
-    TWindowSetLevelUp(TObject *parent, saddr stats, s32 client);
+    TWindowSetLevelUp(TObject *parent, const PlayerLevelStats *stats, s32 client);
     virtual ~TWindowSetLevelUp();
     void update_stat_messages();
     virtual void run_task();

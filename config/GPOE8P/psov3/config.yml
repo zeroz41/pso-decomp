@@ -633,7 +633,7 @@ force_active:
   - player_setup_pending__6TLobby
   - state_handler_pmf_table
   - clear__9AramBlockFv
-  - reset_auto_reply_flags__Fl
+  - reset_auto_reply_flags__FPv
   - set_battle_param_resistance__FlP15ActorParamBlock
   - get_battle_param_attack__Fll
   - get_battle_param_stats__Fll
@@ -1785,7 +1785,7 @@ force_active:
   - TWindowEffectLight__sub_802AD040
   - class_name__18TWindowEffectParty
   - mark_overlapped__15TWindowFukidasiFv
-  - clear_received_guild_cards__Fl
+  - clear_received_guild_cards__FPv
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
   - is_flag20_set__22HelpItemStatCompareRowFv
@@ -3763,7 +3763,7 @@ force_active:
   - add_item_purpose_actions__FP14TWindowSubItemP11TWindowMenul
   - add_lobby_members__6TLobbyFP18TPlyJoinLobbyEntryiii
   - add_mag_stat_bonuses__9TItemDataFv
-  - add_meseta_purpose_actions__14TWindowSubItemFlP11TWindowMenu
+  - add_meseta_purpose_actions__14TWindowSubItemFP11TWindowMenu
   - add_mind__8MagStatsFs
   - add_photon_blast__8MagStatsFUc
   - add_pow__8MagStatsFs
@@ -5892,7 +5892,7 @@ force_active:
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
   - draw_shadow_on_ground__12TObjGoGoBallFv
   - draw_shadowed_node_tree__FP10NJS_OBJECT
-  - draw_slot__14TWindowSubItemFlP11TWindowMenul
+  - draw_slot__14TWindowSubItemFP11TWindowMenul
   - draw_slot_icons__15TAdChrSelSlotGCFv
   - draw_snapshot_capture_overlay__Fv
   - draw_split_screen_dividers__Fv

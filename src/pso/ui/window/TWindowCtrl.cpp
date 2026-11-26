@@ -608,7 +608,7 @@ void TWindowCtrl::append_client_message(s32 client, const char *text, s32 mode) 
 }
 
 
-void TWindowCtrl::create_level_up_window(saddr stats, saddr client) {
+void TWindowCtrl::create_level_up_window(const PlayerLevelStats *stats, saddr client) {
     new TWindowSetLevelUp(tl_07, stats, client);
 }
 

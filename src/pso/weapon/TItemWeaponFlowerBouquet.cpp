@@ -8,9 +8,8 @@
 
 void TItemWeaponFlowerBouquet::emit_marker_effects() {
     Vec muzzle;
-    saddr weapon = (saddr)this;
 
-    ((TItemWeapon *)weapon)->get_joint_position(1, &muzzle);
+    get_joint_position(1, &muzzle);
     spawn_particle_effect(&muzzle, 0xC1);
 }
 

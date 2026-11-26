@@ -60,9 +60,9 @@ s32 is_active() {
     return *(s8 *)get_card_window_area() == 0 ? 0 : 1;
 }
 
-void reset_auto_reply_flags(s32 _w0) {
+void reset_auto_reply_flags(void *p) {
     auto_reply_flags = 0;
 }
 
-void clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
-void reset_auto_reply_flags_callback(void* p) { reset_auto_reply_flags((saddr)p); }
+void clear_auto_reply_flags(void* p) { reset_auto_reply_flags(p); }
+void reset_auto_reply_flags_callback(void* p) { reset_auto_reply_flags(p); }

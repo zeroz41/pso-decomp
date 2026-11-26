@@ -20,26 +20,26 @@ const char *TWindowMessagePage::class_name = "TWindowMessagePage";
 
 
 s32 TWindowMessagePage::is_ready() {
-    if ((u32) this->page_text != 0U) {
+    if (this->page_text != NULL) {
         return 0;
     }
     return is_message_window_ready() != 0 ? 1 : 0;
 }
 
 void TWindowMessagePage::update_message() {
-    if ((u32) this->page_text != 0U) {
+    if (this->page_text != NULL) {
         text_builder_reset();
-        this->page_text = (uaddr)copy_message_page_text((const s8 *)this->page_text);
+        this->page_text = copy_message_page_text(this->page_text);
         append_line((saddr)get_shared_text_buffer(), this->line_mode);
     }
 }
 
 void TWindowMessagePage::set_message(void *msg, s32 flags) {
-    while (page_text != 0) {
+    while (page_text != NULL) {
         update_message();
     }
     line_mode = flags | 2;
-    page_text = (uaddr)msg;
+    page_text = (const s8 *)msg;
     update_message();
 }
 
@@ -73,5 +73,5 @@ TWindowMessagePage::TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32
     this->m_name = TWindowMessagePage::class_name;
     this->line_mode = 0;
     this->client_index = (s16) client;
-    this->page_text = 0;
+    this->page_text = NULL;
 }

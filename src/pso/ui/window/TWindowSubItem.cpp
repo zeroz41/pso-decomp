@@ -441,9 +441,9 @@ TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (item_id == -0xFF) {
-        TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
+        this->add_meseta_purpose_actions(titled_window_menu);
     } else if ((s32) (item_id & 0xFFFFFFF0) == -0x10) {
-        TWindowSubItem::draw_slot((saddr)this, titled_window_menu, item_id);
+        this->draw_slot(titled_window_menu, item_id);
     } else {
         add_item_purpose_actions(this, titled_window_menu, item_id);
     }
@@ -477,7 +477,7 @@ TWindowInputNumber *TWindowSubItem::create_count_input(s32 maximum) {
     return window;
 }
 
-void TWindowSubItem::add_meseta_purpose_actions(saddr owner, TWindowMenu *titled_window_menu) {
+void TWindowSubItem::add_meseta_purpose_actions(TWindowMenu *titled_window_menu) {
     if (get_current_floor_area() == AREA_LOBBY) {
         add_gray_text_entry(titled_window_menu, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
@@ -485,7 +485,7 @@ void TWindowSubItem::add_meseta_purpose_actions(saddr owner, TWindowMenu *titled
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
-void TWindowSubItem::draw_slot(saddr owner, TWindowMenu *titled_window_menu, s32 item_id) {
+void TWindowSubItem::draw_slot(TWindowMenu *titled_window_menu, s32 item_id) {
     s32 id;
 
     id = ((u32)__cntlzw(4 - (item_id & 0xF)) >> 5) + 4;

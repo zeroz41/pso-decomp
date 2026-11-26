@@ -26,9 +26,9 @@ void PlayerLevelStats::copy_stat_block(const PlayerLevelStats *src) {
 }
 
 
-TWindowSetLevelUp::TWindowSetLevelUp(TObject *parent, saddr stats, s32 client) : TObject(parent) {
+TWindowSetLevelUp::TWindowSetLevelUp(TObject *parent, const PlayerLevelStats *stats, s32 client) : TObject(parent) {
     m_name = class_name;
-    stat_gains.copy_stat_block((const PlayerLevelStats *)stats);
+    stat_gains.copy_stat_block(stats);
     timer = 0;
     this->client = client;
     state = 0;

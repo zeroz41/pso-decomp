@@ -19,7 +19,7 @@ struct TWindowMessagePage : public TWindowMessage {
     void render();
     void run_task();
     s32 line_mode;
-    uaddr page_text;
+    const s8 *page_text;
 };
 
 LAYOUT_ASSERT(TWindowMessagePage_size, sizeof(TWindowMessagePage) == 0x98);

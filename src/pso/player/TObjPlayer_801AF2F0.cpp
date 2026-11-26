@@ -2386,7 +2386,7 @@ void TObjPlayer::check_level_up() {
                     i += 1;
                 } while (i < 0xD);
                 before.calc_delta(&after, &gain);
-                TWindowCtrl::create_level_up_window((saddr)&gain, ((TObjBase *)this)->get_entity_id());
+                TWindowCtrl::create_level_up_window(&gain, ((TObjBase *)this)->get_entity_id());
                 this->send_6x30_change_player_level();
             }
         }

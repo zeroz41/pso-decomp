@@ -7,6 +7,7 @@
 #include "pso/ui/window/WindowCtrlCallback.h"
 
 struct NJS_POINT2;
+struct PlayerLevelStats;
 struct TWindowTradeRequest;
 struct TWindowTimer;
 class TWindowArea;
@@ -109,7 +110,7 @@ struct TWindowCtrl : public TObject {
     static s32 open_balloon(u16 player, u8 *text, s32 flags, s32 client);
     static saddr open(u16 id, const char *text, s32 flags);
     static int open_default(u16 id, const char *text);
-    static void create_level_up_window(saddr stats, saddr client);
+    static void create_level_up_window(const PlayerLevelStats *stats, saddr client);
     static void append_client_message(s32 client, const char *text, s32 mode);
     static void append_client_message(s32 client, const char *text);
     static void append_message_all(const char *text, s32 mode);
