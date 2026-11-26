@@ -48,8 +48,7 @@ s32 push_attack_target_entry(PointerBuffer *buffer, void *entry) {
     return -1;
 }
 
-int attack_target_history_contains(void* object, void* target) {
-    AreaAttackHistory* history = static_cast<AreaAttackHistory*>(object);
+int attack_target_history_contains(AreaAttackHistory *history, void* target) {
     for (s32 i = 0; i < history->count; ++i) {
         if (history->entries[i] == target) return 1;
     }

@@ -96,7 +96,7 @@ void TObjGyaranzoMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
         if (csnVector(&prev_position, &position, -1) != NULL) {

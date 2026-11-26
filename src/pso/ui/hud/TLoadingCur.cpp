@@ -36,7 +36,7 @@ void TLoadingCur::update_camera_facing_offset() {
         facing.x = -ninja_camera.vx;
         facing.y = -ninja_camera.vy;
         facing.z = -ninja_camera.vz;
-        direction_to_rotation_xy((u8 *)&facing, &angles.x, &angles.y);
+        direction_to_rotation_xy(&facing, &angles.x, &angles.y);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(NULL, angles.y);
         rotate_matrix_x(NULL, angles.x);

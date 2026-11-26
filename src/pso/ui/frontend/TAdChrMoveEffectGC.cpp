@@ -200,9 +200,9 @@ TAdChrMoveEffectGC::TAdChrMoveEffectGC(TObject *parent) : TObject(parent) {
 
 #pragma pop
 
-TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_move_effect(saddr ad_chr_move_effect_gc) {
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_move_effect(TObject *ad_chr_move_effect_gc) {
     if (chr_move_effect_instance == NULL) {
-        chr_move_effect_instance = new TAdChrMoveEffectGC((TObject *)ad_chr_move_effect_gc);
+        chr_move_effect_instance = new TAdChrMoveEffectGC(ad_chr_move_effect_gc);
     }
     return chr_move_effect_instance;
 }

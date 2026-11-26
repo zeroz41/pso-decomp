@@ -7,7 +7,7 @@
 class TAdDrawLineCtrl : public TObject {
 public:
     static const char *class_name;
-    TAdDrawLineCtrl(TObject *parent, void *data, f32 depth);
+    TAdDrawLineCtrl(TObject *parent, DrawLineGroup *data, f32 depth);
     virtual ~TAdDrawLineCtrl();
     void start_lines_for_key(s32);
     void set_depth_all_nodes(f32);

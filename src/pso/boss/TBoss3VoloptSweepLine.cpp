@@ -70,7 +70,7 @@ TBoss3VoloptSweepLine::TBoss3VoloptSweepLine(Vec *from, Vec *to, s32 spread, s32
         Vec dir = *to;
         subtract_vector(&dir, from);
         length = 2.0f * vector_length(&dir);
-        direction_to_rotation_xy((u8 *)&dir, &rotation_x, &rotation_y);
+        direction_to_rotation_xy(&dir, &rotation_x, &rotation_y);
     }
     rotation_y -= spread * 0x71C + (s32)(1820.0f * (3.0517578e-05f * (f32)rand()));
     sweep_speed = spread * (s32)(1820.0f * ((2.0f * (3.0517578e-05f * (f32)rand()) + 1.0f) / (f32)lifetime));

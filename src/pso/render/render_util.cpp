@@ -359,10 +359,9 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b) {
     *rot_a = RAD_TO_ANGLE * atan2_float(v->z, newton_sqrtf(v->x * v->x + v->y * v->y));
 }
 
-void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b) {
-    Vec *v = (Vec *)dir;
-    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(v->y, v->z));
-    *rot_b = RAD_TO_ANGLE * atan2_float(v->x, newton_sqrtf(v->y * v->y + v->z * v->z));
+void direction_to_rotation_xy(Vec *dir, s32 *rot_a, s32 *rot_b) {
+    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(dir->y, dir->z));
+    *rot_b = RAD_TO_ANGLE * atan2_float(dir->x, newton_sqrtf(dir->y * dir->y + dir->z * dir->z));
 }
 
 s32 approach_angle_adaptive(s32 from, s32 to) {

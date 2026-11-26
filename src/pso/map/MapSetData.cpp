@@ -510,8 +510,7 @@ void QuestChunkHeader::bswap() {
     bswap_32((u32 *)&data_size);
 }
 
-void bswap_event_table_entry(void* p) {
-    EventShuffleTableIndexEntry *entry = (EventShuffleTableIndexEntry *)p;
+void bswap_event_table_entry(EventShuffleTableIndexEntry *entry) {
     bswap_16((u16 *)&entry->id);
     bswap_16((u16 *)&entry->count);
     bswap_32((u32 *)&entry->offset);

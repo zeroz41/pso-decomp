@@ -88,7 +88,7 @@ void TBoss3VoloptMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
     if (trail != NULL) {
         Vec back = velocity;
         back.x = -back.x;

@@ -84,7 +84,7 @@ struct Angle3 {
 };
 void direction_to_rotation_yx(Vec *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
-void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);
+void direction_to_rotation_xy(Vec *dir, s32 *rot_a, s32 *rot_b);
 s32 lerp_angle_half(s32 from, s32 to);
 // out = b - a.
 void vsub(const Vec *a, const Vec *b, Vec *out);

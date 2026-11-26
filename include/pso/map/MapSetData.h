@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+struct EventShuffleTableIndexEntry;
 struct EventShuffleTable;
 struct FloorObjectSetRow;
 
@@ -33,7 +34,7 @@ void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area);
 EventShuffleTable *construct_event_shuffle_table(EventShuffleTable *table, s32 capacity);
 void select_event_shuffle_table(s16 id);
 void init_item_drop_rng(void);
-void bswap_event_table_entry(void *p);
+void bswap_event_table_entry(EventShuffleTableIndexEntry *entry);
 void copy_event_table_entry(void *dst, void *src);
 void bswap_item_data_record(void *p);
 void bswap_table_header(void *p);

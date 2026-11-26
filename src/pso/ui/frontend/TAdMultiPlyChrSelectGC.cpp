@@ -260,7 +260,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     game_start = new TAdGameStartGC(tl_clipout);
     NJS_POINT2 v = {multi_chr_select_plate_layout.width, multi_chr_select_plate_layout.height};
     player_plate = TAdChrSelPlyPlateGC::create_singleton(tl_02, (vec2f *)&v);
-    TAdMultiPlyChrSelectGC::get_move_effect((saddr)tl_clipout);
+    TAdMultiPlyChrSelectGC::get_move_effect(tl_clipout);
 }
 #pragma pop
 

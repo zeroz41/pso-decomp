@@ -2038,7 +2038,7 @@ force_active:
   - __ct__14TObjEneDolmOlmFP7TObjectPv
   - __ct__14TObjEneIllGillFP7TObjectPv
   - __ct__14TObjWarpStringFP7TObjectPcUs
-  - __ct__15TAdDrawLineCtrlFP7TObjectPvf
+  - __ct__15TAdDrawLineCtrlFP7TObjectP13DrawLineGroupf
   - __ct__15TAdDrawLineTaskFP7TObjectPC14DrawLineRecordP15TAdDrawLineCtrl
   - __ct__15TBoss3VoloptP01FP7TObjectPv
   - __ct__15TBoss3VoloptP02FP7TObjectPv
@@ -4120,7 +4120,7 @@ force_active:
   - attach_model__9TParticleFPvP11NJS_TEXLISTP10NJS_MOTIONlf
   - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
-  - attack_target_history_contains__FPvPv
+  - attack_target_history_contains__FP17AreaAttackHistoryPv
   - attack_visible_players__17TObjEneDf2BringerFv
   - award_enemy_experience__9TObjEnemyFUs
   - b256_menutext01_e_gvp

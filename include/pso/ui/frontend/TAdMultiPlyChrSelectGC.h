@@ -127,7 +127,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static TAdChrMoveEffectGC *get_global_state();
     static int get_select_flag();
     static int get_chr_select_state();
-    static TAdChrMoveEffectGC *get_move_effect(saddr ad_chr_move_effect_gc);
+    static TAdChrMoveEffectGC *get_move_effect(TObject *ad_chr_move_effect_gc);
     static TAdChrSelASlotGC *get_or_create_slot_window(TObject *parent, s32 mode);
     TAdChrSelASlotGC *a_slot;        // 0x68  get_or_create_slot_window
     TAdChrSelBSlotGC *b_slot;        // 0x6C  TAdChrSelBSlotGC::create

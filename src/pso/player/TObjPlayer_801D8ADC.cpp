@@ -31,7 +31,7 @@
 extern "C" {
 s32 clamp_class_index(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
-s32 get_class_max_exp(saddr player);
+s32 get_class_max_exp(TObjPlayer *player);
 }
 // The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
 PlayerLevelTableRow ***ply_level_table;
@@ -273,8 +273,8 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     fonewearl_starting_inventory, hucaseal_starting_inventory, fomar_starting_inventory, ramarl_starting_inventory,
 };
 
-s32 get_class_max_exp(saddr player) {
-    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(reinterpret_cast<TObjPlayer *>(player)), TObjPlayer::get_max_level());
+s32 get_class_max_exp(TObjPlayer *player) {
+    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(player), TObjPlayer::get_max_level());
 }
 
 s32 TObjPlayer::get_current_state_field(s32 cls, s32 lvl) {

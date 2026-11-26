@@ -164,9 +164,9 @@ TAdDrawLineCtrl *create_draw_line_ctrl(TObject *parent, s32 group_index, f32 dep
     return NULL;
 }
 
-TAdDrawLineCtrl::TAdDrawLineCtrl(TObject *parent, void *data, f32 depth) : TObject(parent) {
+TAdDrawLineCtrl::TAdDrawLineCtrl(TObject *parent, DrawLineGroup *data, f32 depth) : TObject(parent) {
     m_name = TAdDrawLineCtrl::class_name;
-    line_data = static_cast<DrawLineGroup *>(data);
+    line_data = data;
     child_root = new TObject(NULL);
     render_mode = 1;
     set_depth_all_nodes(depth);

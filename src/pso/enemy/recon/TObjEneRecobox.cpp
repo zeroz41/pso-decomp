@@ -663,10 +663,10 @@ void TObjEneRecobox::remove_tracked_target(TObjEneRecon *child) {
     }
 }
 
-void TObjEneRecobox::remove_child_entity(u8 *child) {
+void TObjEneRecobox::remove_child_entity(TObjCollidable *child) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(live_recon_ids[i]) == reinterpret_cast<TObjCollidable *>(child)) {
+        if (find_entity_by_id(live_recon_ids[i]) == child) {
             live_recons--;
             live_recon_ids[i] = live_recon_ids[live_recons];
             live_recon_ids[live_recons] = 0xFFFF;

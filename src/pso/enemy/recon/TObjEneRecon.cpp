@@ -273,7 +273,7 @@ void TObjEneRecon::handle_message(s32 message) {
         recon_flags |= 1;
         recon_flags &= ~2;
         if ((box = (TObjEneRecobox *)find_entity_by_id(owner_id)) != NULL) {
-            box->remove_child_entity((u8 *)this);
+            box->remove_child_entity(this);
         }
         break;
     case 5:
