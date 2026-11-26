@@ -28,7 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PlayerActionProvider.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/map/FloorArea.h"

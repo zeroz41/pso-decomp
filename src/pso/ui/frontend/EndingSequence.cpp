@@ -20,7 +20,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/render/GinjaView.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 

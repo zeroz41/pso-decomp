@@ -1,13 +1,10 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/THeap.h"
-#include "pso/unk/text_800FA464.h"
-#include "pso/unk/text_800F9FD0.h"
+#include "pso/system/AsyncFileRead.h"
 #include <string.h>
-#include "pso/unk/TLobby_800FA848.h"
 #include "pso/system/Adxf.h"
 #include "pso/system/memory.h"
-#include "pso/unk/text_800FA260.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_803DE778.h"
@@ -15,11 +12,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 
-void TLobby::free_static_buffer(void* a0) { game_heap->heap_free(a0); }
+void free_static_buffer(void *ptr) { game_heap->heap_free(ptr); }
 
-void *TLobby::alloc_from_heap(size_t size) { return game_heap->heap_alloc(size); }
+void *alloc_from_heap(size_t size) { return game_heap->heap_alloc(size); }
 
-void TLobby::pump_frames() {
+void pump_frames() {
 loop_1:
     if (is_async_file_read_busy() != 0) {
         process_async_file_reads();
@@ -28,20 +25,20 @@ loop_1:
     }
 }
 
-extern "C" {
-s32 is_async_file_read_busy(void) {
-    if ((s32) async_file_read_state != 0) {
+s32 is_async_file_read_busy() {
+    if (async_file_read_state != 0) {
         return 1;
     }
     return async_file_read_current_request != NULL ? TRUE : FALSE;
 }
-s32 TLobby__sub_800F9FF4(TLobbyKey *key) {
+
+s32 cancel_async_file_read(AsyncFileReadRequest *request) {
     AsyncFileReadRequest *n;
-    if (key == NULL) {
+    if (request == NULL) {
         return 0;
     }
     for (n = async_file_read_current_request; n != NULL; n = n->next) {
-        if (n->id == key->id) {
+        if (n->id == request->id) {
             n->flags |= 0x200;
             return 1;
         }
@@ -49,12 +46,10 @@ s32 TLobby__sub_800F9FF4(TLobbyKey *key) {
     return 0;
 }
 
-}
-
-void TLobby::add_named_entry(BmlResource *resource, const char *filename) {
+void add_named_entry(BmlResource *resource, const char *filename) {
     AsyncFileReadRequest *entry;
 
-    entry = static_cast<AsyncFileReadRequest *>(TLobby::alloc_from_heap(sizeof(AsyncFileReadRequest)));
+    entry = static_cast<AsyncFileReadRequest *>(alloc_from_heap(sizeof(AsyncFileReadRequest)));
     if (entry != NULL) {
         entry = link_into_list(entry);
     }
@@ -63,7 +58,7 @@ void TLobby::add_named_entry(BmlResource *resource, const char *filename) {
     entry->mode = resource;
 }
 
-void TLobby::notify_and_close() {
+void notify_and_close() {
     s32 *completion = async_file_read_current_request->completion;
     if (completion != NULL) {
         *completion = 1;
@@ -72,19 +67,19 @@ void TLobby::notify_and_close() {
     if (callback != NULL) {
         callback(async_file_read_current_request->params);
     }
-    TLobby::pop_and_close();
+    pop_and_close();
     async_file_read_state = 0;
 }
 
-void TLobby::destroy_instance() { ADXF_Close(lobby_download_state_ptr); lobby_download_state_ptr = 0; }
+void destroy_instance() { ADXF_Close(lobby_download_state_ptr); lobby_download_state_ptr = 0; }
 
-void TLobby::pop_and_close() {
+void pop_and_close() {
     AsyncFileReadRequest *next = async_file_read_current_request->next;
     pop_stack_entry(async_file_read_current_request, 1);
     async_file_read_current_request = next;
 }
 
-s32 TLobby::create_file_load_entry(const char *name, NJS_TEXLIST *texture, AsyncFileReadCallback callback, const void *params, void **request) {
+s32 create_file_load_entry(const char *name, NJS_TEXLIST *texture, AsyncFileReadCallback callback, const void *params, void **request) {
     AsyncFileReadRequest *entry;
     AdxfHandle *file;
 
@@ -99,7 +94,7 @@ s32 TLobby::create_file_load_entry(const char *name, NJS_TEXLIST *texture, Async
         ADXF_Close(file);
         return -3;
     }
-    entry = static_cast<AsyncFileReadRequest *>(TLobby::alloc_from_heap(sizeof(AsyncFileReadRequest)));
+    entry = static_cast<AsyncFileReadRequest *>(alloc_from_heap(sizeof(AsyncFileReadRequest)));
     if (entry != NULL) {
         entry = link_into_list(entry);
     }
@@ -121,13 +116,13 @@ s32 TLobby::create_file_load_entry(const char *name, NJS_TEXLIST *texture, Async
 
 void process_pending_resources(void) {
     AsyncFileReadRequest *p;
-    TLobby::pump_frames();
+    pump_frames();
     for (p = async_file_read_current_request; p != 0; p = p->next) {
         p->flags |= 0x200;
     }
 }
 
-s32 TLobby::create_named_entry(const char *name, void *buffer, AsyncFileReadCallback callback, const void *params, void **request) {
+s32 create_named_entry(const char *name, void *buffer, AsyncFileReadCallback callback, const void *params, void **request) {
     AsyncFileReadRequest *entry;
     AdxfHandle *file;
 
@@ -138,7 +133,7 @@ s32 TLobby::create_named_entry(const char *name, void *buffer, AsyncFileReadCall
     if (file == 0) {
         return -2;
     }
-    entry = static_cast<AsyncFileReadRequest *>(TLobby::alloc_from_heap(sizeof(AsyncFileReadRequest)));
+    entry = static_cast<AsyncFileReadRequest *>(alloc_from_heap(sizeof(AsyncFileReadRequest)));
     if (entry != NULL) {
         entry = link_into_list(entry);
     }
@@ -159,7 +154,7 @@ s32 TLobby::create_named_entry(const char *name, void *buffer, AsyncFileReadCall
     return entry->size;
 }
 
-s32 TLobby::request_file_read(const char *filename, void *destination, s32 *completion, void **request) {
+s32 request_file_read(const char *filename, void *destination, s32 *completion, void **request) {
     AsyncFileReadRequest *entry;
     AdxfHandle *file;
 
@@ -170,7 +165,7 @@ s32 TLobby::request_file_read(const char *filename, void *destination, s32 *comp
     if (file == 0) {
         return -2;
     }
-    entry = reinterpret_cast<AsyncFileReadRequest *>(TLobby::alloc_from_heap(sizeof(AsyncFileReadRequest)));
+    entry = reinterpret_cast<AsyncFileReadRequest *>(alloc_from_heap(sizeof(AsyncFileReadRequest)));
     if (entry != NULL) {
         entry = link_into_list(entry);
     }
@@ -205,7 +200,7 @@ void process_async_file_reads(void) {
     case 0:
         if (async_file_read_current_request != NULL) {
             if (async_file_read_current_request->flags & 0x200) {
-                TLobby::pop_and_close();
+                pop_and_close();
             } else {
                 async_file_read_current_request->flags |= 0x100;
                 if (async_file_read_current_request->flags & 2) {
@@ -234,8 +229,8 @@ void process_async_file_reads(void) {
         break;
     case 1:
         if (async_file_read_current_request->flags & 0x200) {
-            TLobby::destroy_instance();
-            TLobby::pop_and_close();
+            destroy_instance();
+            pop_and_close();
             async_file_read_state = 0;
         } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
             ADXF_ReadNw(lobby_download_state_ptr, 1, async_file_read_sector_buffer);
@@ -244,8 +239,8 @@ void process_async_file_reads(void) {
         break;
     case 2:
         if (async_file_read_current_request->flags & 0x200) {
-            TLobby::destroy_instance();
-            TLobby::pop_and_close();
+            destroy_instance();
+            pop_and_close();
             async_file_read_state = 0;
         } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
             u8 *dst = async_file_read_current_request->dst + ((async_file_read_current_request->count - 1) << 11);
@@ -264,24 +259,24 @@ void process_async_file_reads(void) {
                 move_data(dst, async_file_read_sector_buffer, n);
                 break;
             }
-            TLobby::destroy_instance();
-            TLobby::notify_and_close();
+            destroy_instance();
+            notify_and_close();
         }
         break;
     case 3:
         if (async_file_read_current_request->flags & 0x200) {
-            TLobby::destroy_instance();
-            TLobby::pop_and_close();
+            destroy_instance();
+            pop_and_close();
             async_file_read_state = 0;
         } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
             load_gvm_texture_archive(async_file_read_texture_buffer, async_file_read_current_request->tex);
             tmp_buf_release("FSVR_READPVM");
-            TLobby::notify_and_close();
+            notify_and_close();
         }
         break;
     case 4:
         if (LoadBmlExec(async_file_read_current_request->mode, async_file_read_current_request->name) != 0) {
-            TLobby::pop_and_close();
+            pop_and_close();
             async_file_read_state = 0;
         }
         break;
@@ -289,10 +284,10 @@ void process_async_file_reads(void) {
     TGStream__sub_800FDD64();
 }
 
-void TLobby::destroy_game_heap() { process_pending_resources(); safe_free(async_file_read_sector_buffer); TLobby::free_chr_select_data(); delete game_heap; }
+void destroy_game_heap() { process_pending_resources(); safe_free(async_file_read_sector_buffer); free_chr_select_data(); delete game_heap; }
 
-void TLobby::init_download_state() {
-    TLobby::init_download_buffers();
+void init_download_state() {
+    init_download_buffers();
     async_file_read_sector_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x800));
     lobby_stack_entry_list_tail = NULL;
     async_file_read_current_request = NULL;
@@ -303,7 +298,7 @@ void TLobby::init_download_state() {
     game_heap = new THeap(0x4000, 0x20);
 }
 
-AsyncFileReadRequest *TLobby::pop_stack_entry(AsyncFileReadRequest *entry, s16 release) {
+AsyncFileReadRequest *pop_stack_entry(AsyncFileReadRequest *entry, s16 release) {
     if (entry != NULL) {
         if (lobby_stack_entry_list_tail == entry) {
             lobby_stack_entry_list_tail = NULL;
@@ -311,7 +306,7 @@ AsyncFileReadRequest *TLobby::pop_stack_entry(AsyncFileReadRequest *entry, s16 r
         async_file_read_current_request = entry->next;
         lobby_list_entry_count -= 1;
         if (release > 0) {
-            TLobby::free_static_buffer(entry);
+            free_static_buffer(entry);
         }
     }
     return entry;

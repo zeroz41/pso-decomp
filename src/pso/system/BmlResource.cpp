@@ -13,7 +13,7 @@
 #include "pso/system/TGStream.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_800FA2A0.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
@@ -86,10 +86,6 @@ s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
 }
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
-extern "C" {
-s32 TLobby__sub_800F9FF4(saddr);
-
-}
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
 // Whether the archive has finished loading (set_flag_and_notify sets 0x400 in its flags).
 s32 is_bml_loaded(BmlResource *resource) {
@@ -406,7 +402,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
     return 0;
 }
 
-void TLobby::free_chr_select_data() {
+void free_chr_select_data() {
     if (bml_load_buffer != NULL) {
         xfree(bml_load_buffer);
         bml_load_buffer = NULL;
@@ -415,7 +411,7 @@ void TLobby::free_chr_select_data() {
     safe_free(lobby_download_buffer);
     lobby_download_buffer = 0;
 }
-void TLobby::init_download_buffers() {
+void init_download_buffers() {
     bml_load_buffer = static_cast<u8 *>(xmalloc(0x4000));
     lobby_download_buffer = (u8 *)TQuestVmDownLoadServer::alloc(0x40000);
     reset_gstream_globals();
@@ -477,7 +473,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             params.resource = self->resource;
             params.entry = self->entry;
             TLobby::change_file_extension(name, (char *)self->name, (char *)"gvm");
-            r = TLobby::create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
+            r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
                 add_resource_handle(self->resource, handle);
                 self->resource->expected_textures++;
@@ -586,7 +582,7 @@ BmlResource::~BmlResource() {
             flags |= 0x200;
         } else {
             for (i = 0; i < handle_count; i++) {
-                TLobby__sub_800F9FF4((saddr)handles[i]);
+                cancel_async_file_read(static_cast<AsyncFileReadRequest *>(handles[i]));
             }
             tmp_buf_release_if_owner("TBinModel_REQ");
         }
@@ -657,7 +653,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
     }
     flags = this->flags;
     if (flags & 1) {
-        TLobby::pump_frames();
+        pump_frames();
         lbl_805D4AD0 = 1;
         {
             TGStream st((void *)descriptor->archive_filename, 0);
@@ -778,7 +774,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         loaded_models = 0;
         load_state = 0;
         unknown_14 = 0;
-        TLobby::add_named_entry(this, descriptor->archive_filename);
+        add_named_entry(this, descriptor->archive_filename);
     }
 }
 
@@ -808,7 +804,7 @@ static inline void request_motions(BmlResource *resource, const char **list) {
     for (i = 0; *list != 0; list++, i++) {
         req.motion = &resource->motions[i].motion;
         req.resource = resource;
-        TLobby::create_named_entry(*list, lobby_download_buffer,
+        create_named_entry(*list, lobby_download_buffer,
                 reinterpret_cast<BmlLoadCallback>(LoadBinMotionCallBack), &req, &handle);
         add_resource_handle(resource, handle);
     }
@@ -868,7 +864,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
             req.resource = resource;
             req.entry = &resource->models[i];
             req.size = TGStream::get_resource_file_size(*p);
-            TLobby::create_named_entry(*p, lobby_download_buffer,
+            create_named_entry(*p, lobby_download_buffer,
                 reinterpret_cast<BmlLoadCallback>(LoadBinModelCallBack), &req, &handle);
             add_resource_handle(resource, handle);
         }

@@ -72,6 +72,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
+#include "pso/system/AsyncFileRead.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -132,7 +133,7 @@ void shutdown_and_reset_system(void) {
     free_item_drop_memory_pool();
     TWindowSnapShot__sub_802A7DA0();
     reset_aram_state();
-    TLobby::destroy_game_heap();
+    destroy_game_heap();
     reset_sound_control_state();
     TLobby::shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
@@ -303,7 +304,7 @@ void init_game_systems(void) {
     main_task.init_main_task();
     TLobby__sub_8007EB70();
     init_adx_audio_system();
-    TLobby::init_download_state();
+    init_download_state();
     load_menu_font();
     TLobby::load_now_loading_texture();
     TCharaMaking__sub_8028E790();

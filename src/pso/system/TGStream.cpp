@@ -14,6 +14,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/AsyncFileRead.h"
 
 #pragma readonly_strings on
 static const char gstream_class_name[] = "TGStream";
@@ -373,7 +374,7 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
     this->direct_read_mode = direct_read_mode;
     if (this->direct_read_mode == 0) {
         while (tmp_buf_is_free() == 0) {
-            TLobby::pump_frames();
+            pump_frames();
         }
         gstream_tmp_buffer = (saddr)tmp_buf_use_req(gstream_class_name);
     }

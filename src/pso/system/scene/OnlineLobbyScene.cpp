@@ -91,10 +91,9 @@
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 

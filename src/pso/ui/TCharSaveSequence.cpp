@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"

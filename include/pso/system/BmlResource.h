@@ -94,4 +94,7 @@ s32 tmp_buf_release(const char *name);
 void tmp_buf_release_if_owner(const char *name);
 u8 *tmp_buf_use_req(const char *name);
 
+void free_chr_select_data();
+void init_download_buffers();
+
 #endif

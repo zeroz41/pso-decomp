@@ -31,7 +31,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_800FA464.h"
+#include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 
 

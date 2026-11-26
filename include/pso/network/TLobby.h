@@ -93,8 +93,6 @@ struct TLobby : public TObject {
     static f32 calc_phase_offset();
     static s32 get_internet_beat();
     static s32 get_clock_frames();
-    static void free_chr_select_data();
-    static void init_download_buffers();
     static s32 get_game_mode();
     static void free_char_select();
     static void update_boss1_objects();
@@ -115,15 +113,6 @@ struct TLobby : public TObject {
     static s32 run_disk_error_check();
     void *alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
-    static void free_static_buffer(void* a0);
-    static void *alloc_from_heap(size_t size);
-    static void pump_frames();
-    static void add_named_entry(BmlResource *resource, const char *filename);
-    static void notify_and_close();
-    static void destroy_instance();
-    static void pop_and_close();
-    static void destroy_game_heap();
-    static void init_download_state();
     static void set_ending_callback();
     // Empty free half of set_ending_callback in the scene load/free tables
     static void free_ending_callback();
@@ -323,7 +312,6 @@ struct TLobby : public TObject {
     static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
-    static AsyncFileReadRequest *pop_stack_entry(AsyncFileReadRequest *entry, s16 release);
     static s32 is_stat_over_limit(s32 floor);
     s32 write_sync_item_state();
     static s32 is_entry_valid(s32 floor);
@@ -381,8 +369,6 @@ struct TLobby : public TObject {
     static void reset_state_byte();
     // Empties the com card list on floor load and unload.
     static void reset_state();
-    static s32 create_file_load_entry(const char *name, NJS_TEXLIST *texture, void (*callback)(void *), const void *params, void **request);
-    static s32 request_file_read(const char *name, void *destination, s32 *completion, void **request);
     static void reset_lobby_state();
     // Receive handlers for DA (lobby event), D8 (info boards), C4 (choice search results), C0 (choice search options).
     static void set_lobby_event_theme(int theme);
@@ -509,7 +495,6 @@ struct TLobby : public TObject {
     static void *copy_com_card_entry(void *, void *);
     static void *copy_member_record(void *, void *);
     static void *copy_symbol_chat_entry(void *, void *);
-    static s32 create_named_entry(const char *name, void *destination, void (*callback)(void *), const void *params, void **request);
     static void *create_quest_col_apc_inw(void *, void *);
     static void create_warp_menu();
     static void destroy_all_objects();

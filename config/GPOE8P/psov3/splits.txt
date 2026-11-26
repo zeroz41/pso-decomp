@@ -1788,7 +1788,7 @@ pso/unk/TLobby_800F8AA8.cpp:
 	.sbss       start:0x805D5338 end:0x805D5360
 	.sdata2     start:0x805DA910 end:0x805DA948
 
-pso/unk/text_800FA464.cpp:
+pso/system/AsyncFileRead.cpp:
 	.text       start:0x800F9F4C end:0x800FA8A4
 	.rodata     start:0x8043DA10 end:0x8043DA20
 	.sbss       start:0x805D5360 end:0x805D5388

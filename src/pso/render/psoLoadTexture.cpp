@@ -29,6 +29,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/nuReLoadTexture.h"
+#include "pso/system/AsyncFileRead.h"
 
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
@@ -37,7 +38,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     s32 allocated;
     s32 size;
     s32 ret;
-    TLobby::pump_frames();
+    pump_frames();
     strncpy(path, name, 0x40);
     if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
         TLobby::change_file_extension(0, path, (char *)"gvm");
@@ -74,7 +75,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
 s32 psoLoadTexture(NJS_TEXLIST *texlist) {
     s32 r;
     s32 ret;
-    TLobby::pump_frames();
+    pump_frames();
     while (1) {
         r = load_texture_list(texlist);
         if (r == 1) {
@@ -113,7 +114,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     s32 size;
     GvmFileHeader hdr;
     big = NULL;
-    TLobby::pump_frames();
+    pump_frames();
     size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
         TLobby::debug_print("LoadPvmFileTls:%s load error.", name);

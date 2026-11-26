@@ -1627,7 +1627,7 @@ pso/enemy/flower/TObjEneRe2FlowerStates.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjNanoDragoSingleBeam.cpp
 pso/system/TScreenFadeController.cpp
-pso/unk/text_800FA464.cpp
+pso/system/AsyncFileRead.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
 pso/unk/text_8010EF14.cpp
