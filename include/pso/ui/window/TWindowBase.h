@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 
+struct WindowDescriptor;
+
 struct WindowDrawContext;
 struct TexturedQuad;
 class TWindowLayoutRect;
@@ -32,7 +34,7 @@ public:
     void update_window_entry_list(const WindowLayoutEntries *entries);
     void update_fade();
     void draw_quest_message_frame(WindowDrawContext *c);
-    void init_window(u8 *, u8 *, s16);
+    void init_window(WindowDescriptor *descriptor, u8 *parent, s16 client);
     WindowDrawContext *setup_window_draw_context(f32 *scale);
     WindowDrawContext *draw_default_entry();
     s32 is_window_reveal_complete();

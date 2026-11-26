@@ -264,18 +264,18 @@ TWindowFukidasi *TWindowFukidasi::find_balloon_overlap_for(TWindowFukidasi *firs
     return find_overlapping_balloon(target_position, target_size, first);
 }
 
-void TWindowBase::init_window(u8 *descriptor, u8 *parent, s16 client) {
+void TWindowBase::init_window(WindowDescriptor *descriptor, u8 *parent, s16 client) {
     m_name = class_name;
     copy_vec2(target_position, parent);
     copy_vec2(target_size, descriptor);
     save_position();
-    sort_depth = ((WindowDescriptor *)descriptor)->sort_depth;
+    sort_depth = descriptor->sort_depth;
     draw_depth = -10000.0f;
-    window_flags = ((WindowDescriptor *)descriptor)->flags;
+    window_flags = descriptor->flags;
     resort_window_order();
     tween_ticks = 0;
     client_index = client;
-    init_window_layout_entries(&entry_list, ((WindowDescriptor *)descriptor)->layout, (client_index));
+    init_window_layout_entries(&entry_list, descriptor->layout, (client_index));
     open_tick = 0;
     closing_tick = 0;
     if (!(window_flags & 1) && !(window_flags & 2)) {
@@ -843,7 +843,7 @@ TWindowBase::~TWindowBase() {
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
     : TObject(get_client_window_root(client)) {
-    init_window(descriptor, parent, client);
+    init_window(reinterpret_cast<WindowDescriptor *>(descriptor), parent, client);
 }
 
 
