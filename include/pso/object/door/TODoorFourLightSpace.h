@@ -20,7 +20,4 @@ struct TODoorFourLightSpace : public TODoorBase {
 };
 
 LAYOUT_ASSERT(TODoorFourLightSpace_size, sizeof(TODoorFourLightSpace) == 0xF8);
-extern "C" void fn_802898EC(void);
-extern "C" void fn_802898E8(void);
-
 #endif

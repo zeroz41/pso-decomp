@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerTechniqueState.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
 
 // Technique power boost per class (19 techniques).
 static const f32 no_technique_boosts[19] = {
@@ -24,6 +23,10 @@ static const f32 fomar_technique_boosts[19] = {
     0.0f, 0.3f, 0.0f, 0.0f, 0.3f, 0.0f, 0.0f, 0.3f, 0.0f, 0.3f,
     1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
+
+extern "C" {
+s8 clamp_class_index(s8 cls);
+}
 
 // Technique boost row per character class (12 classes).
 const f32 *class_technique_boost_table[12] = {

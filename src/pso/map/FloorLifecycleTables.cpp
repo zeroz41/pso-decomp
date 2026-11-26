@@ -141,6 +141,9 @@
 #include "pso/object/switch/TOSwitchAttack.h"
 #include "pso/object/city/CityDoors.h"
 
+extern "C" {
+void release_boss_warp_resources();
+}
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_00[12] = {
     { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },

@@ -21,7 +21,6 @@ void submit_target_to_player_cursor(TObjCollidable *target, s32 id);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
-s8 clamp_class_index(s8 cls);
 }
 // 6x2F: sets a player's HP (sender 0xFFFF for an object).
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
