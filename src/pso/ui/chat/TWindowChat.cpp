@@ -1,4 +1,5 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
@@ -34,7 +35,6 @@
 const char *TWindowChat::class_name = "TWindowChat";
 #pragma pop
 extern "C" {
-s32 get_control_button_mask(s32 client_id);
 s32 TWindowChat::is_chat_in_use() {
     if (composer->has_text() != 0) {
         return 1;

@@ -1,4 +1,5 @@
 #include "pso/ui/window/WindowDrawContext.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -64,7 +65,6 @@ TWindowCtrlClipOut *window_clip_out_instance;
 f32 window_depth_order_cursor;
 void draw_viewport_fill(s32 viewport_index);
 WindowControlState TWindowCtrlMain::viewport_states[6];
-extern "C" s32 get_control_button_mask(s32 client_id);
 
 // -inline off,deferred: these sit at the end of the TU's text, so they come first in the source.
 s32 TWindowCtrlPlayer::is_main_menu_locked() { return (flags >> 6) & 0x1; }
