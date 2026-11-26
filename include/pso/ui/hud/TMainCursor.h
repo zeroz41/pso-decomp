@@ -9,6 +9,7 @@
 
 struct NJS_OBJECT;
 class LockOnActionSlot;
+class TObjCollidable;
 struct TObjPlayer;
 class TPlyDispConfigSmth;
 class LockOnNearestTarget;
@@ -96,7 +97,7 @@ struct TMainCursor : public TObject {
     void set_target_id(u8 target_id);
     void set_entity_id(u16 id);
     s32 check_can_pickup();
-    static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, LockOnNearestTarget *best);
+    static s32 try_add_target_candidate(LockOnActionSlot *entry, TObjCollidable *candidate, TObjPlayer *owner, LockOnNearestTarget *best);
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);

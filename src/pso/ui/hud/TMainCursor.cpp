@@ -823,7 +823,7 @@ void LockOnActionSlot::reset_target_list() {
     } while (i < 0xA);
 }
 
-s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, LockOnNearestTarget *best) {
+s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, TObjCollidable *candidate, TObjPlayer *owner, LockOnNearestTarget *best) {
     f32 dist;
     s32 slot;
     s32 found;
@@ -837,32 +837,32 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
     if (owner == NULL) {
         return 0;
     }
-    if ((u16)owner->get_entity_id() == (u16)((TObjBase *)candidate)->get_entity_id()) {
+    if ((u16)owner->get_entity_id() == (u16)candidate->get_entity_id()) {
         return 0;
     }
     if (TTecCtrl::is_technique_ready() == 0) {
-        if (owner->get_room() != (stat = ((TObjBase *)candidate)->get_room()) && (((TObjBase *)candidate)->actorFlags & 0x60000000) == 0x20000000 && stat != -1) {
+        if (owner->get_room() != (stat = candidate->get_room()) && (candidate->actorFlags & 0x60000000) == 0x20000000 && stat != -1) {
             return 0;
         }
     }
     if (owner->test_actor_flags(0xA00) != 0) {
         return 0;
     }
-    if (candidate == NULL || ((TObject *)candidate)->all_parents_unqueued_for_destruction() == 0) {
+    if (candidate == NULL || candidate->all_parents_unqueued_for_destruction() == 0) {
         return 0;
     }
-    if (((TObjCollidable *)candidate)->test_actor_flags(entry->get_actor_include_mask()) == 0 ||
-        ((TObjCollidable *)candidate)->test_actor_flags(entry->get_actor_exclude_mask()) != 0) {
+    if (candidate->test_actor_flags(entry->get_actor_include_mask()) == 0 ||
+        candidate->test_actor_flags(entry->get_actor_exclude_mask()) != 0) {
         return 0;
     }
     yaw = owner->rotation_y;
-    for (i = 0; i < ((TObjCollidable *)candidate)->body_count; i++) {
-        c = &((TObjCollidable *)candidate)->bodies[i];
+    for (i = 0; i < candidate->body_count; i++) {
+        c = &candidate->bodies[i];
         if (c == NULL) {
             continue;
         }
         c->flags &= ~0x10000000;
-        ((TObjCollidable *)candidate)->clear_body_flag(i, owner->get_entity_id());
+        candidate->clear_body_flag(i, owner->get_entity_id());
         if (!(c->flags & 1)) {
             continue;
         }
@@ -875,7 +875,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
         dist = horizontal_distance_squared(&entry->origin, &c->center);
         if (!(c->flags & 0x22000) && best->candidate_target_dist > dist) {
             best->candidate_target_dist = dist;
-            best->candidate_target_id = ((TObjBase *)candidate)->get_entity_id();
+            best->candidate_target_id = candidate->get_entity_id();
             best->candidate_part_index = i;
         }
         {
@@ -913,7 +913,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
         }
         entry->target_list.get_record(slot)->set_value(dist);
         entry->target_list.get_record(slot)->set_flag(i);
-        entry->target_list.get_record(slot)->set_id(((TObjBase *)candidate)->get_entity_id());
+        entry->target_list.get_record(slot)->set_id(candidate->get_entity_id());
         found = 1;
     }
     return found;

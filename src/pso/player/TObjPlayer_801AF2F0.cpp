@@ -3293,7 +3293,7 @@ void TObjPlayer::update_facing_vector() {
     this->contact_surface.check_surface_exit();
 }
 
-void submit_target_to_player_cursor(void *target, s32 id) {
+void submit_target_to_player_cursor(TObjCollidable *target, s32 id) {
     s32 i;
     TObjPlayer *player;
     LockOnActionSlot *entry;
@@ -3311,7 +3311,7 @@ void submit_target_to_player_cursor(void *target, s32 id) {
     }
 }
 
-void submit_cursor_candidate(void *self, s32) {
+void submit_cursor_candidate(TObjCollidable *self, s32) {
     s32 j;
     s32 i;
     TObjPlayer *o;

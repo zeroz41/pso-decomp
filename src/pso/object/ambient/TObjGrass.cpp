@@ -311,7 +311,7 @@ void TObjGrass::run_task() {
     }
     this->update_prev_position();
     this->copy_position();
-    submit_cursor_candidate((u8 *)this, -1);
+    submit_cursor_candidate(this, -1);
     this->frame_timer += (1.0f);
 }
 

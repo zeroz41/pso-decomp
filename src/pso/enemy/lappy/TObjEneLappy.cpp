@@ -863,7 +863,7 @@ void TObjEneLappy::run_task() {
     update_prev_position();
     VecCopy(&center, &body_center);
     if ((test_actor_flags(0x06000000) == 0) && !(lappy_flags & 4)) {
-        submit_cursor_candidate((u8 *)this, -1);
+        submit_cursor_candidate(this, -1);
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     if (lappy_flags & 0x40) {
