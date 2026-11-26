@@ -55,6 +55,7 @@
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/object/container/TContainerAncient01R.h"
 
 struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
 
@@ -131,9 +132,6 @@ static __declspec(section ".rodata") const char container_item_parameter_message
 // Texture archive names for load_forest_box_resources. They stay outside this unit's
 // .rodata claim: the original reaches them by address while pooling .data, and a stock
 // compiler would pool them too if this unit defined them.
-extern const char seabed_container_texture_filename[];
-extern const char forest_box_texture_filename_a[];
-extern const char forest_box_texture_filename_n[];
 BmlResource *forest_box_model_archive;
 NJS_TEXLIST *forest_box_textures;
 TObjChipParams *forest_box_debris_primary;

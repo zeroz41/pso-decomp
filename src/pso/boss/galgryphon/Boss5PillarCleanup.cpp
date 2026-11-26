@@ -6,11 +6,10 @@
 #include "pso/network/TLobby.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/door/TODoorFourLightSpace.h"
 
 extern "C" {
-void fn_802898EC(void);
 int forward_pillar_2B710__19TObjBoss5PillarCtrlFv(void);
-void fn_802898E8(void);
 s32 update_pillar__19TObjBoss5PillarCtrlFv();
 
 void TLobby::cleanup_pillar_demo() {

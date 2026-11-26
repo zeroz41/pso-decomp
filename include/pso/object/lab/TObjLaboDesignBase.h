@@ -40,4 +40,6 @@ BmlResource *get_labo_design_object(int design);
 LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);
 
 void load_labo_design_object_table(void);
+void free_object_table();
+
 #endif
