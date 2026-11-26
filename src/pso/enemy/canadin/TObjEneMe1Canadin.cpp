@@ -84,7 +84,7 @@ s32 *canadin_leader_node2_diffuse;
 s32 *canadin_node3_diffuse;
 s32 *canadin_node2_diffuse;
 
-TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600 };
+EnemyMoveParams canadin_setup_param_block = { 225.0f, 0.0f, 0x600 };
 CollisionBody canadin_collision_body = { { 0.0f, 0.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003 };
 // The Canadin's two models and six motions, and the archive that holds them.
 const char *bm_ene_me1_mb_model_names[3] = {

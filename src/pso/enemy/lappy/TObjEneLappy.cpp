@@ -147,7 +147,7 @@ TObjMotionAction lappy_motion_actions[10] = {
 const char *lappy_variant_names[3] = {
     "RAG-LAPPY", "AL-LAPPY", rappy_variant_na_name,
 };
-LappyMovementParameters lappy_movement_params[2] = {
+EnemyMoveParams lappy_movement_params[2] = {
     {150.0f, 0.537037f, 0x400, {0x1E0000, 0, 1, 0}},
     {150.0f, 0.537037f, 0x400, {0x1E0000, 0, 1, 0}},
 };
@@ -467,10 +467,10 @@ void TObjEneLappy::update_attacking() {
     advance_animation();
     switch (phase) {
     case 0:
-        enemy_turn_toward_dest(((LappyMovementParameters *)movementParameters)->turn_speed);
+        enemy_turn_toward_dest(movementParameters->turn_speed);
         apply_actor_gravity(this, NULL, 0.0f);
         if (is_passing_frame(11.0f) != 0) {
-            enemy_set_heading_velocity(((LappyMovementParameters *)movementParameters)->move_speed, this, rotation_y);
+            enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
             velocity.y = 0.0f;
             phase = 1;
         }
@@ -541,13 +541,13 @@ void TObjEneLappy::update_moving() {
     s32 turn;
     u32 flags;
     TObjChara *chased;
-    LappyMovementParameters *params;
+    EnemyMoveParams *params;
     advance_animation();
     if ((actorFlags & 0x1000) && !(lappy_flags & 2)) {
         chased = target;
         if (chased != NULL) {
-            enemy_backstep_from_point(this, (chased)->body_center, ((LappyMovementParameters *)movementParameters)->move_speed);
-            turn_toward_direction(((LappyMovementParameters *)movementParameters)->turn_speed, &velocity);
+            enemy_backstep_from_point(this, (chased)->body_center, movementParameters->move_speed);
+            turn_toward_direction(movementParameters->turn_speed, &velocity);
             apply_actor_gravity(this, NULL, 0.0f);
             update_collisions();
             return;
@@ -559,34 +559,34 @@ void TObjEneLappy::update_moving() {
         case 0:
             chased = target;
             if (chased != NULL) {
-                dist = update_enemy_wander_move(this, (chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
+                dist = update_enemy_wander_move(this, (chased)->body_center, 1, movementParameters->move_speed);
                 if ((test_actor_flags(2) == 0) && (dist < 10000.0f)) {
                     move_phase = 1;
                     pad_398 = 0;
                     random_ratio();
                     pad_39c = 0.0f;
                 }
-                params = (LappyMovementParameters *)movementParameters;
-                if (params->target_range * params->target_range < dist || dist < params->move_speed * params->move_speed) {
+                params = movementParameters;
+                if (params->search_range * params->search_range < dist || dist < params->move_speed * params->move_speed) {
                     target = NULL;
                 }
             } else {
-                params = (LappyMovementParameters *)movementParameters;
+                params = movementParameters;
                 enemy_wander_home(params->move_speed, 100.0f, 50.0f, params->turn_speed);
             }
-            turn_toward_direction(((LappyMovementParameters *)movementParameters)->turn_speed, &velocity);
+            turn_toward_direction(movementParameters->turn_speed, &velocity);
             play_walk_sound();
             goto block_48;
         case 1:
             chased = target;
             if (chased != NULL) {
-                dist = update_enemy_wander_move(this, (chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
+                dist = update_enemy_wander_move(this, (chased)->body_center, 1, movementParameters->move_speed);
                 if (dist > 22500.0f) {
                     move_phase = 0;
                 }
-                turn_toward_direction(((LappyMovementParameters *)movementParameters)->turn_speed, &velocity);
-                params = (LappyMovementParameters *)movementParameters;
-                if (params->target_range * params->target_range < dist || dist < params->move_speed * params->move_speed) {
+                turn_toward_direction(movementParameters->turn_speed, &velocity);
+                params = movementParameters;
+                if (params->search_range * params->search_range < dist || dist < params->move_speed * params->move_speed) {
                     target = NULL;
                 }
             } else {
@@ -609,7 +609,7 @@ void TObjEneLappy::update_moving() {
             goto block_48;
         case 4:
             if (flags == 1U) {
-                enemy_set_heading_velocity(3.5f * ((LappyMovementParameters *)movementParameters)->move_speed, this, rotation_y);
+                enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation_y);
                 flee_turn_timer++;
                 if (((f32)flee_turn_timer > 15.0f) && (find_nearest_visible_player(this, &probe, 300.0f) != 0xFFFFU) && (angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(probe.x, probe.z))) < 0xAAA)) {
                     if (random_ratio() >= 0.5f) {
@@ -703,8 +703,8 @@ void TObjEneLappy::update_idle_state() {
             wander_distance = 30.0f;
             phase = requested_action = 3;
         case 3:
-            enemy_wander_home(((LappyMovementParameters *)movementParameters)->move_speed, 100.0f, 100.0f, ((LappyMovementParameters *)movementParameters)->turn_speed);
-            wander_distance -= ((LappyMovementParameters *)movementParameters)->move_speed;
+            enemy_wander_home(movementParameters->move_speed, 100.0f, 100.0f, movementParameters->turn_speed);
+            wander_distance -= movementParameters->move_speed;
             if (wander_distance < 0.0f) {
                 phase = 0;
             }
@@ -723,8 +723,8 @@ void TObjEneLappy::update_idle_state() {
         break;
     case 2: {
         advance_animation();
-        update_enemy_wander_move(this, home_position, 7, ((LappyMovementParameters *)movementParameters)->move_speed);
-        turn_toward_direction(((LappyMovementParameters *)movementParameters)->turn_speed, &velocity);
+        update_enemy_wander_move(this, home_position, 7, movementParameters->move_speed);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         break;
     }
     }
@@ -781,13 +781,13 @@ void TObjEneLappy::refresh_target() {
                 targetId = 0xFFFFU;
                 frame_timer = 0.0f;
             } else {
-                targetId = find_nearest_visible_player(this, NULL, ((LappyMovementParameters *)movementParameters)->target_range);
+                targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
             }
         } else if (test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec v = lappy_target_zero_vec;
-            best = ((LappyMovementParameters *)movementParameters)->target_range * ((LappyMovementParameters *)movementParameters)->target_range;
+            best = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
@@ -810,7 +810,7 @@ void TObjEneLappy::refresh_target() {
             }
             targetId = best_id;
         } else {
-            targetId = find_nearest_visible_player(this, NULL, ((LappyMovementParameters *)movementParameters)->target_range);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
     }
     if (attack_streak > 3 && last_attack_target == targetId) {

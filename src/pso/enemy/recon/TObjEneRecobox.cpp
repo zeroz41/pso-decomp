@@ -95,7 +95,7 @@ player_stats *recobox_boss_register_id;
 AttackParams *recobox_attack_params;
 ActorParamBlock *recobox_shared_object_handle;
 
-BossMovementParameters TObjEneRecobox::movement = {{225.0f, 0.0f, 0x600}};
+EnemyMoveParams TObjEneRecobox::movement = {225.0f, 0.0f, 0x600};
 
 CollisionBody recobox_collision_body = {
     {0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,

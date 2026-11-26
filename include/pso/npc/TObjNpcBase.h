@@ -6,14 +6,6 @@
 
 class TQuestThread;
 
-// What TObjEnemy::movementParameters points at for the town NPCs.
-struct NpcMovementParameters {
-    f32 search_range;  // find_nearest_visible_player range
-    f32 speed;       // walking speed (enemy_set_heading_velocity)
-    s32 turn_speed;  // largest turn per frame (approach_angle_limited)
-    u32 pad_0C[4];
-};
-
 struct TObjNpcBase : public TObjEnemy {
     TObjNpcBase(TObject *parent);
     virtual ~TObjNpcBase();
@@ -58,7 +50,7 @@ struct TObjNpcBase : public TObjEnemy {
 };
 
 extern player_stats npc_default_battle_stats;
-extern NpcMovementParameters npc_movement_parameters;
+extern EnemyMoveParams npc_movement_parameters;
 extern CollisionBody npc_base_collision_body_desc;
 // PlyMotionNpcTown.cpt, the walk/talk motions the town NPCs share.
 extern uaddr npc_town_motion_data;

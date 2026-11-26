@@ -47,8 +47,8 @@ enum MonitorScreen {
 
 static const char *TBoss3VoloptMonitor_name = "TBoss3VoloptMonitor";
 
-static BossMovementParameters volopt_monitor_movement = {
-    { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 },
+static EnemyMoveParams volopt_monitor_movement = {
+    150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 
 static CollisionBody volopt_monitor_collision[4] = {

@@ -84,7 +84,6 @@ struct NJS_OBJECT;
 // The BML resource descriptor, followed by the action table that
 // TBoss7DeRolLeC's constructor hands to set_action_table.
 extern Boss7LoadCallback boss7_derolle_c_load_callbacks[6];
-extern BossMovementParameters boss7_derolle_c_movement;
 extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
 extern TObjMotionAction de_rol_le_c_action_table[17];
 
@@ -379,7 +378,7 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
-BossMovementParameters boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+EnemyMoveParams boss7_derolle_c_movement = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 const char *bm_boss7_de_rol_le_c_model_names[7] = {
     boss7_de_rol_le_c_model_name_boss2_b_derorure_body_nj,

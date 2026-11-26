@@ -9,14 +9,6 @@ struct TObjPlayer;
 struct TEneParticleCtrl;
 class TAttackTraceStrip;
 
-// What TObjEnemy::movementParameters points at for a Saver (saver_move_params): the GibblesMoveParams layout.
-struct SaverMoveParams {
-    f32 radius;      // refresh_target only picks targets within it
-    f32 speed;       // dash speed of the attack, and the reach added to the body radius on the walk in
-    s32 turn_speed;  // largest heading change per frame
-    s32 pad_0C[4];
-};
-
 struct TObjEneSaver : public TObjEnemy {
     virtual ~TObjEneSaver();
     static void free_resources();

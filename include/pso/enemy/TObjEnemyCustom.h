@@ -7,19 +7,6 @@
 struct Vec;
 struct NJS_OBJECT;
 
-// What TObjEnemy::movementParameters points at for the custom enemies.
-struct EnemyMoveParams {
-    f32 max_distance;
-    f32 min_distance;
-    s32 turn_speed;
-};
-
-// The movement parameter block the bosses point TObjEnemy::movementParameters at: EnemyMoveParams and four more words.
-struct BossMovementParameters {
-    EnemyMoveParams move;
-    s32 extra[4];
-};
-
 struct TObjEnemyCustom : public TObjEnemy {
     TObjEnemyCustom(TObject *parent);
     virtual ~TObjEnemyCustom();

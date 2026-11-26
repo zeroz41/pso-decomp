@@ -51,10 +51,7 @@ extern u32 bm5_wolf_instance_list[];
 extern u32 bm5_wolf_pack_member_list[];
 BmlResource *bm5_wolf_bml_resource;
 
-void *bm5_wolf_decision_row[7] = {
-    (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+EnemyMoveParams bm5_wolf_decision_row = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 CollisionBody bm5_wolf_collider_params[3] = {
     { { 0.0f, 0.0f, 0.0f }, 6.0f, 0.0f, 0, 0x8003 },
@@ -295,7 +292,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     n = is_leader;
     reset_hp(bm5_wolf_stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
     set_state_flag_1();
-    movementParameters = bm5_wolf_decision_row;
+    movementParameters = &bm5_wolf_decision_row;
     if (is_leader != 0) {
         initialize_enemy_state(8);
     } else {

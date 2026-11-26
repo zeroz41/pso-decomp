@@ -44,16 +44,6 @@ struct BalClawBehaviorParams {
     s32 int_params[4];  // body: 0 hp percent at which it turns on its target
 };
 
-// A movement row TObjEnemy::movementParameters points at.
-struct BalClawMovement {
-    EnemyMoveParams move;
-    s16 m_c;
-    s16 pad_E;
-    s32 m_10;
-    s32 pad_14;
-    s32 m_18;
-};
-
 // The Bal Claw BML archive, loaded by TObjEneBalClaw::load_resources.
 extern BmlResource *balclaw_bml_resource;
 // Per claw slot, the visible model nodes of that claw (NULL-terminated).

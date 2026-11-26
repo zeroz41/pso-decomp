@@ -9,14 +9,6 @@ struct BmlResource;
 
 extern BmlResource *moja_bml_resource;
 
-// One per variant (TObjEnemy::variant); TObjEnemy::movementParameters points
-// at the Moja's.
-struct MojaMovementParameters {
-    f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
-    f32 move_speed;    // wander and chase speed
-    s32 turn_speed;    // turn_toward_direction's max step
-    u32 extra[4];      // BossMovementParameters::extra
-};
 struct MojaParticleAngles {
     s32 x, y, z;
 };

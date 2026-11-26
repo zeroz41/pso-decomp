@@ -68,7 +68,7 @@ TObjMotionAction epsilon_body_action_table[2] = {
     {1, 0, 0, 0.3f, 0},
     {1, 1, 1, 0.6f, 0},
 };
-TObjEneEpsilonMovement epsilon_body_movement_params = {
+EnemyMoveParams epsilon_body_movement_params = {
     150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 CollisionBody epsilon_body_collision_bodies[2] = {

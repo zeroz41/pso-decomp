@@ -119,7 +119,7 @@ extern "C" {
 
 
 
-StelthMovementParams me3_stelth_shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+EnemyMoveParams me3_stelth_shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody me3_stelth_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
@@ -1950,13 +1950,13 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 if (select_enemy_destination(this, this->destination, 1) != 0) {
                     copy_position_if_valid(this, this->body_center);
                     this->body_center.y += 5.0f;
-                    r = ((TObjEnemy *)this)->enemy_turn_toward_dest(((StelthMovementParams *)this->movementParameters)->turn);
-                    enemy_set_heading_velocity(((StelthMovementParams *)this->movementParameters)->speed, this, this->rotation_y);
+                    r = ((TObjEnemy *)this)->enemy_turn_toward_dest(this->movementParameters->turn_speed);
+                    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
                     move_with_wall_slide(this);
                 } else {
                     VecCopy(&d, &this->destination);
                     subtract_vector(&d, &this->body_center);
-                    r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
+                    r = this->turn_toward_direction(this->movementParameters->turn_speed, &d);
                 }
             }
             if (r < 0x100) {
@@ -1988,7 +1988,7 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 if (this->current_target != NULL) {
                     VecCopy(&d, &this->destination);
                     subtract_vector(&d, &this->body_center);
-                    r = this->turn_toward_direction(((StelthMovementParams *)this->movementParameters)->turn, &d);
+                    r = this->turn_toward_direction(this->movementParameters->turn_speed, &d);
                 } else {
                     r = this->attack_params->attack_angle;
                 }

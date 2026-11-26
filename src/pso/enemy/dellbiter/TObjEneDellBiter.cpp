@@ -98,7 +98,7 @@ extern const char *dell_biter_resource_descriptor[11];
 extern const char *dell_biter_low_model_names[2];
 extern const char *dell_biter_low_motion_names[11];
 
-DelbiterInitialParameters TObjEneDellBiter::param_table = {
+EnemyMoveParams TObjEneDellBiter::param_table = {
     225.0f, 0.0f, 0x600, {0, 0, 0, 0}
 };
 CollisionBody dell_biter_collision_bodies[4] = {

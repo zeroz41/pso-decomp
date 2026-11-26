@@ -151,7 +151,7 @@ CollisionBody dubchik_collision_body[1] = {
 
 BreakUpParamRow dubchik_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 
-BossMovementParameters dubchik_movement = { { 150.0f, 0.37037036f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
+EnemyMoveParams dubchik_movement = {150.0f, 0.37037036f, 0x400, { 0x1E0000, 0, 1, 0 }};
 
 __declspec(section ".data") s16 dubchik_part0_node_ids[3] = { 0x14, 0x15, -1 };
 s16 dubchik_part1_node_ids[6] = { 0x2B, 0x31, 0x32, 0x33, 0x34, -1 };
@@ -584,7 +584,7 @@ void TObjEneDubchik::update_chase() {
             }
             update_enemy_wander_move(this, target->body_center, 1, speed);
             chase_distance += speed;
-            turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+            turn_toward_direction(movementParameters->turn_speed, &velocity);
         } else {
             update_if_active(0);
         }
@@ -810,7 +810,7 @@ void TObjEneDubchik::update_scratch() {
     case 1:
         if (target != NULL) {
             VecCopy(&move_destination, &target->body_center);
-            enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+            enemy_turn_toward_dest(movementParameters->turn_speed);
         }
         advance_animation();
         act = -1;
@@ -893,7 +893,7 @@ void TObjEneDubchik::update_shoot() {
     case 2:
         if (target != NULL) {
             VecCopy(&move_destination, &target->body_center);
-            enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+            enemy_turn_toward_dest(movementParameters->turn_speed);
         }
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
@@ -918,7 +918,7 @@ void TObjEneDubchik::update_shoot() {
     case 3:
         if (target != NULL) {
             VecCopy(&move_destination, &target->body_center);
-            enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+            enemy_turn_toward_dest(movementParameters->turn_speed);
         }
         apply_actor_gravity(this, NULL, 0.0f);
         check_object_collisions();
@@ -1072,7 +1072,7 @@ void TObjEneDubchik::update_return_home() {
         }
         VecCopy(&move_origin, &body_center);
         calc_velocity_toward_destination(this, move_origin, move_destination, speed);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         move_with_wall_slide(this);
         if (xz_distance_squared(&position, &home_position) < 100.0f) {
             requested_action = 5;

@@ -79,7 +79,7 @@ struct NJS_OBJECT;
 extern "C" {
 BmlResource * bm5_gibon_u_model_archive;
 #pragma push
-TObjEneBm5GibonUMovementParameters bm5_gibon_u_movement_parameters = {
+EnemyMoveParams bm5_gibon_u_movement_parameters = {
     225.0f, 0.0f, 0x600, { 0, 0, 0, 0 },
 };
 CollisionBody gibon_collision_body_templates[4] = {
@@ -458,13 +458,13 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
             } else {
                 if (select_enemy_destination(this, destination, 1) != 0) {
                     copy_position_if_valid(this, body_center);
-                    r = enemy_turn_toward_dest(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
-                    enemy_set_heading_velocity(((TObjEneBm5GibonUMovementParameters *)movementParameters)->speed, this, rotation_y);
+                    r = enemy_turn_toward_dest(movementParameters->turn_speed);
+                    enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
                     move_with_wall_slide(this);
                 } else {
                     VecCopy(&v, &destination);
                     subtract_vector(&v, &body_center);
-                    r = turn_toward_direction(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn, &v);
+                    r = turn_toward_direction(movementParameters->turn_speed, &v);
                 }
                 if (r < 0x100) {
                     substate = 1;
@@ -490,7 +490,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                 if (current_target != 0) {
                     VecCopy(&v, &destination);
                     subtract_vector(&v, &body_center);
-                    r = turn_toward_direction(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn, &v);
+                    r = turn_toward_direction(movementParameters->turn_speed, &v);
                 } else {
                     r = attack_params->get_attack_angle();
                 }

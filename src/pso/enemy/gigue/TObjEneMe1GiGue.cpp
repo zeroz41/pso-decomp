@@ -114,8 +114,8 @@ TObjMotionAction gigue_enemy_param_table[9] = {
     {2, 0, 3, 0.7f, 1},
 };
 
-GiGueMoveParams gigue_move_params = {
-    {150.0f, 0.46296296f, 0x300}, 0x1E0000, 0, 1, 0,
+EnemyMoveParams gigue_move_params = {
+    150.0f, 0.46296296f, 0x300, {0x1E0000, 0, 1, 0},
 };
 
 CollisionBody gigue_collision_bodies[2] = {
@@ -176,7 +176,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     initialize_enemy_photon_effect(this);
     m_38c = 0;
     scale.x = 1.0f;
-    moveSpeed = ((EnemyMoveParams *)movementParameters)->min_distance * scale.x;
+    moveSpeed = movementParameters->move_speed * scale.x;
     VecCopy(&home_position, &position);
     VecCopy(&moveDestination, &position);
     barrierChance = 0.5f + parameters[3];
@@ -514,10 +514,10 @@ void TObjEneMe1GiGue::update_circling_state() {
                 break;
             }
         }
-        rotation_y += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
+        rotation_y += movementParameters->turn_speed / 2;
         enemy_set_heading_velocity(moveSpeed, this, rotation_y);
         move_with_wall_slide(this);
-        circlingAngle += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
+        circlingAngle += movementParameters->turn_speed / 2;
         if (circlingAngle > 0x10000) {
             wanderDistance = 0.0f;
             state = 2;
@@ -526,12 +526,12 @@ void TObjEneMe1GiGue::update_circling_state() {
     case -1:
         break;
     case 2:
-        enemy_wander_home(moveSpeed, 100.0f, 50.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_wander_home(moveSpeed, 100.0f, 50.0f, movementParameters->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         wanderDistance += moveSpeed;
         if (wanderDistance > 100.0f) {
-            if (find_target_in_range(((EnemyMoveParams *)movementParameters)->max_distance) != 0) {
+            if (find_target_in_range(movementParameters->search_range) != 0) {
                 circlingAngle = 0;
                 state = 1;
             } else {
@@ -687,7 +687,7 @@ void TObjEneMe1GiGue::update_multi_shot_state() {
         }
         break;
     case 4:
-        enemy_wander_home(moveSpeed, 100.0f, 100.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_wander_home(moveSpeed, 100.0f, 100.0f, movementParameters->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
@@ -772,7 +772,7 @@ void TObjEneMe1GiGue::action() {
         update_collisions();
         return;
     case 2:
-        enemy_wander_home(moveSpeed, 100.0f, 100.0f, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_wander_home(moveSpeed, 100.0f, 100.0f, movementParameters->turn_speed);
         advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         update_collisions();
@@ -797,7 +797,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         break;
     case 1:
         this->actorFlags &= ~0x1000000;
-        this->enemy_wander_home(this->moveSpeed, 100.0f, 50.0f, ((EnemyMoveParams *)this->movementParameters)->turn_speed);
+        this->enemy_wander_home(this->moveSpeed, 100.0f, 50.0f, this->movementParameters->turn_speed);
         this->advance_animation();
         apply_actor_gravity(this, 0, 0.0f);
         this->rushDelay--;
@@ -806,7 +806,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             play_sound_effect(remap_sound_id(0x3A818), &this->position, 0, 0);
             this->actorFlags |= 0x1000000;
             this->actorFlags &= ~0x800000;
-            this->find_target_in_range(((EnemyMoveParams *)this->movementParameters)->max_distance);
+            this->find_target_in_range(this->movementParameters->search_range);
             if (this->target != NULL) {
                 Vec d;
                 VecCopy(&d, &this->position);
@@ -865,7 +865,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         }
         this->refresh_collision_body_centers();
         if (this->flightHeight > 15.0f) {
-            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed * 2, &this->velocity);
+            this->turn_toward_direction(this->movementParameters->turn_speed * 2, &this->velocity);
         }
         play_persistent_sound((s32)(remap_sound_id(0x3A819)), this, &this->position, (s32)(0), (s32)(0));
         project_actor_to_ground(this, &this->position, 0);
@@ -1000,7 +1000,7 @@ void TObjEneMe1GiGue::move_around_center(const Vec *center, f32 radius) {
         this->moveDestination.z = d * sin_table_lookup(angle) + center->z;
     }
     VecCopy(&this->move_destination, &this->moveDestination);
-    enemy_turn_toward_dest(((EnemyMoveParams *)this->movementParameters)->turn_speed);
+    enemy_turn_toward_dest(this->movementParameters->turn_speed);
     enemy_set_heading_velocity(this->moveSpeed, this, this->rotation_y);
     move_with_wall_slide(this);
 }
@@ -1021,8 +1021,8 @@ void TObjEneMe1GiGue::update_proximity_state() {
     switch (mode) {
     case 0:
         if (is_actor_cadence_frame(30) != 0) {
-            if (find_nearest_visible_player(this, NULL, ((EnemyMoveParams *)movementParameters)->max_distance) != 0xFFFF) {
-                find_target_in_range(((EnemyMoveParams *)movementParameters)->max_distance);
+            if (find_nearest_visible_player(this, NULL, movementParameters->search_range) != 0xFFFF) {
+                find_target_in_range(movementParameters->search_range);
                 if (behavior_flags & 0x40000) {
                     init_move();
                 } else {
@@ -1039,7 +1039,7 @@ void TObjEneMe1GiGue::update_proximity_state() {
                 update_if_active(13);
                 resume_action = 1;
             }
-        } else if (find_nearest_visible_player(this, NULL, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance) == 0xFFFF) {
+        } else if (find_nearest_visible_player(this, NULL, 50.0f + movementParameters->search_range) == 0xFFFF) {
             update_if_active(0);
         }
         break;

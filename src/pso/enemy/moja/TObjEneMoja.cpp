@@ -132,7 +132,7 @@ TObjMotionAction moja_motion_actions[9] = {
     { 3, 7, 4, 0.7f, 0x10 },
     { 3, 7, 3, 0.7f, 0x10 }
 };
-MojaMovementParameters moja_movement_params[2] = {
+EnemyMoveParams moja_movement_params[2] = {
     { 250.0f, 0.75f, 0x400, { 0x1E0000, 0, 0, 0 } },
     { 250.0f, 0.75f, 0x400, { 0, 0x1E0000, 0, 0 } }
 };
@@ -455,7 +455,7 @@ void TObjEneMoja::refresh_target() {
             i = 0;
             best_id = 0xFFFF;
             Vec v = { 0.0f, 0.0f, 0.0f };
-            best = ((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range;
+            best = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
@@ -478,7 +478,7 @@ void TObjEneMoja::refresh_target() {
             }
             targetId = best_id;
         } else {
-            targetId = find_nearest_visible_player(this, NULL, ((MojaMovementParameters *)movementParameters)->target_range);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
         tid = targetId;
         if (tid < 0x1000U) {
@@ -586,8 +586,8 @@ void TObjEneMoja::update_idle_state() {
     }
     case 1:
         advance_animation();
-        enemy_wander_home(((MojaMovementParameters *)movementParameters)->move_speed, 100.0f, 100.0f,
-            ((MojaMovementParameters *)movementParameters)->turn_speed);
+        enemy_wander_home(movementParameters->move_speed, 100.0f, 100.0f,
+            movementParameters->turn_speed);
         break;
     }
     refresh_collision_body_centers();
@@ -696,8 +696,8 @@ void TObjEneMoja::update_appearance_drop() {
         subtract_vector(&scratch_vec, &position);
         rotation_y = approach_angle_limited(rotation_y,
             (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)),
-            ((MojaMovementParameters *)movementParameters)->turn_speed);
-        if (rotation_y >= ((MojaMovementParameters *)movementParameters)->turn_speed) {
+            movementParameters->turn_speed);
+        if (rotation_y >= movementParameters->turn_speed) {
             return;
         }
         requested_action = 5;
@@ -812,10 +812,10 @@ void TObjEneMoja::update_approach_state() {
         if (t != NULL) {
             Vec v3 = t->body_center;
             params = moja_behavior_params[variant];
-            if (((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->turn_speed, &v3, params, params->values.floats[2], 30.0f)) {
+            if (movementParameters->search_range * movementParameters->search_range < enemy_pursue_point(this, movementParameters->turn_speed, &v3, params, params->values.floats[2], 30.0f)) {
                 target = NULL;
             }
-            if (horizontal_distance_squared(&move_destination, &position) < (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius) * (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius)
+            if (horizontal_distance_squared(&move_destination, &position) < (movementParameters->move_speed + bodies->radius) * (movementParameters->move_speed + bodies->radius)
                 || --timer < 0) {
                 attackSequence = 0;
             }
@@ -1059,13 +1059,13 @@ void TObjEneMoja::update_technique_state() {
             if (select_enemy_destination(this, &dest, 1) != 0) {
                 Vec cur = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&cur);
-                a = enemy_turn_toward_dest(((MojaMovementParameters *)movementParameters)->turn_speed);
-                enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
+                a = enemy_turn_toward_dest(movementParameters->turn_speed);
+                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
                 move_with_wall_slide(this);
             } else {
                 VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
+                a = turn_toward_direction(movementParameters->turn_speed, &dir);
             }
             if (a < 0x100) {
                 phase = 1;
@@ -1088,7 +1088,7 @@ void TObjEneMoja::update_technique_state() {
             if (target != NULL) {
                 VecCopy(&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
-                ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, &dir);
+                ang2 = turn_toward_direction(movementParameters->turn_speed, &dir);
             } else {
                 ang2 = attack_params->get_attack_angle();
             }

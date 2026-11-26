@@ -18,14 +18,6 @@ enum {
     LAPPY_GIANT = 0x400,        // drawn at 2 x 1.5 x 2 scale (v2 mode, 1 in 30)
 };
 
-// What TObjEnemy::movementParameters points at, one per variant (lappy_movement_params).
-struct LappyMovementParameters {
-    f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
-    f32 move_speed;    // walk speed; a target nearer than this is dropped too
-    s32 turn_speed;    // turn_toward_direction's max step
-    u32 extra[4];
-};
-
 // The enemy set entry create hands the constructor (TBoss4DarkFalzSetEntry's layout; field
 // names from TObjEnemy::apply_set_data, which reads the same entry). A Rappy of a later wave
 // drops in; a non-zero variant makes it the rare one.

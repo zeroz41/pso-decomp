@@ -139,12 +139,12 @@ void TObjEnemyCustom::update_wander_state() {
         advance_animation();
         if (target != NULL) {
             f32 distance = update_enemy_wander_move(this, target->body_center, 1,
-                                                    ((EnemyMoveParams *)movementParameters)->min_distance);
-            EnemyMoveParams *params = (EnemyMoveParams *)movementParameters;
-            if (params->max_distance < distance || distance < params->min_distance) {
+                                                    movementParameters->move_speed);
+            EnemyMoveParams *params = movementParameters;
+            if (params->search_range < distance || distance < params->move_speed) {
                 target = NULL;
             }
-            turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+            turn_toward_direction(movementParameters->turn_speed, &velocity);
         }
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
@@ -161,7 +161,7 @@ void TObjEnemyCustom::update() {
         actorFlags |= 0x200000;
         state = 1;
     case 1:
-        enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_turn_toward_dest(movementParameters->turn_speed);
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
             if (target->select_melee_contact_body(this, 1.0f) != 0) {

@@ -9,14 +9,6 @@
 struct BmlResource;
 class TBreakUpMdlData;
 
-// What TObjEnemy::movementParameters points at for the epsilon body and guard (BossMovementParameters layout).
-struct TObjEneEpsilonMovement {
-    f32 max_distance;
-    f32 min_distance;
-    s32 turn_speed;
-    s32 extra[4];
-};
-
 struct TObjEneEpsilon : public TObjEneDD_ST {
     TObjEneEpsilon(TObject *parent);
     virtual ~TObjEneEpsilon();

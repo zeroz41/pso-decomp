@@ -183,11 +183,9 @@ const HamonOffsets hamon_effect_offset_table = {{{-7.0f, -7.0f}, {-7.0f, 7.0f}, 
 
 const Vec dark_gunner_shadow_origin = {0.0f, 0.0f, 0.0f};
 
-void *dark_gunner_movement_params[14] = {
-    (void *)0x42a00000, (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000,
-    (void *)0x0, (void *)0x1, (void *)0x0, (void *)0x42a00000,
-    (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000, (void *)0x0,
-    (void *)0x1, (void *)0x0,
+EnemyMoveParams dark_gunner_movement_params[2] = {
+    {80.0f, 0.27777776f, 0x400, {0x1E0000, 0, 1, 0}},
+    {80.0f, 0.27777776f, 0x400, {0x1E0000, 0, 1, 0}},
 };
 
 CollisionBody dark_gunner_collision_bodies[1] = {

@@ -60,7 +60,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     static NJS_TEXLIST alternate_texture_list;
     static Vec body_node_position;
     static s32 *material_color_pointers[4];
-    static TObjEneMe3ShinowaMoveParams init_params;
+    static EnemyMoveParams init_params;
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaMirage_size, sizeof(TObjEneMe3ShinowaMirage) == 0x440);

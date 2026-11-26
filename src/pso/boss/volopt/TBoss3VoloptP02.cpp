@@ -82,7 +82,7 @@ static TObjMotionAction action_entries[9] = {
     {2, 0, 1, 0.7f, 4},
     {2, 0, 13, 0.6f, 1},
 };
-static BossMovementParameters movement_params = {{150.0f, 0.5555555f, 0x400}, {0x1E0000, 0, 1, 0}};
+static EnemyMoveParams movement_params = {150.0f, 0.5555555f, 0x400, {0x1E0000, 0, 1, 0}};
 static CollisionBody collision_bodies[5] = {
     {{0.0f, 23.0f, 29.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{36.0f, 26.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},

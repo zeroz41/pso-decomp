@@ -192,7 +192,7 @@ s32 derolle_action_sequence_table[50] = {
 
 s32 TBoss2DeRolLe::shared_handler_id_table[3] = {0xF, 0x10, 0x11};
 
-BossMovementParameters boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+EnemyMoveParams boss2_derolle_movement = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 CollisionBody boss2_derolle_collision_bodies[3] = {
     {{0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},

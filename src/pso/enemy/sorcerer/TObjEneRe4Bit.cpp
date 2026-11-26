@@ -32,7 +32,7 @@ NJS_OBJECT *re4_bit_model;
 NJS_TEXLIST *re4_bit_texture_list;
 const char *re4_bit_name = TObjEneRe4Bit__class_name_string;
 
-TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
+EnemyMoveParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
 CollisionBody re4_bit_model_node_desc = {{0.0f, 0.0f, 0.0f}, 2.0f, 0.0f, 0, 0x8003};
 
 __declspec(section ".data") player_stats *TObjEneRe4Bit_boss_handles[2];

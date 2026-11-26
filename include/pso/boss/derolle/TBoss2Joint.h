@@ -59,7 +59,7 @@ struct TBoss2Joint : public TObjEneDD {
     static s32 param_table[2];
     static s32 attack_stats[2];
     static s32 resistance_stats[2];
-    static BossMovementParameters movement;
+    static EnemyMoveParams movement;
     static CollisionBody body;
 };
 

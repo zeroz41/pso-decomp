@@ -103,8 +103,8 @@ TObjMotionAction gyaranzo_action_table[8] = {
     {2, 0, 1, 1.0f, 8},
 };
 
-GyaranzoMoveParams gyaranzo_move_params = {
-    {150.0f, 0.5555555f, 0x400}, 0x1E0000, 0, 1, 0,
+EnemyMoveParams gyaranzo_move_params = {
+    150.0f, 0.5555555f, 0x400, {0x1E0000, 0, 1, 0},
 };
 
 CollisionBody gyaranzo_collision_bodies[1] = {
@@ -351,7 +351,7 @@ void TObjEneGyaranzo::update_target_selection() {
         break;
     case 1:
         if (is_actor_cadence_frame(0x1E) != 0) {
-            found = find_nearest_visible_player(this, NULL, 50.0f + ((EnemyMoveParams *)movementParameters)->max_distance);
+            found = find_nearest_visible_player(this, NULL, 50.0f + movementParameters->search_range);
             if (targetId == 0xFFFF) {
                 targetId = found;
             }
@@ -458,13 +458,13 @@ void TObjEneGyaranzo::update_chase_target() {
             run_idle_action();
             return;
         }
-        enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
-        move_along_ground_avoiding_walls(chase_destination, ((EnemyMoveParams *)movementParameters)->min_distance, bodies->radius);
-        chase_distance += ((EnemyMoveParams *)movementParameters)->min_distance;
+        enemy_turn_toward_dest(movementParameters->turn_speed);
+        move_along_ground_avoiding_walls(chase_destination, movementParameters->move_speed, bodies->radius);
+        chase_distance += movementParameters->move_speed;
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (mode == 9) {
-            mine_drop_distance += ((EnemyMoveParams *)movementParameters)->min_distance;
+            mine_drop_distance += movementParameters->move_speed;
             if (mine_drop_distance >= 20.0f) {
                 mine_drop_distance -= 20.0f;
                 spawn_missile();
@@ -617,7 +617,7 @@ void TObjEneGyaranzo::update_aim_and_fire() {
         if (target != NULL) {
             Vec to_target = target->position;
             subtract_vector(&to_target, &position);
-            turn = turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &to_target);
+            turn = turn_toward_direction(movementParameters->turn_speed, &to_target);
             if (__abs(turn) < 0xE38) {
                 aimed = 1;
             }
@@ -896,7 +896,7 @@ void TObjEneGyaranzo::update_fade_in() {
 }
 
 void TObjEneGyaranzo::init_params_from_table() {
-    ((EnemyMoveParams *)movementParameters)->min_distance = get_gyaranzo_missile_float_parameter(1);
+    movementParameters->move_speed = get_gyaranzo_missile_float_parameter(1);
     gyaranzo_missile_float_param2 = get_gyaranzo_missile_float_parameter(2);
     gyaranzo_missile_speed_scale = get_gyaranzo_missile_float_parameter(3);
     gyaranzo_missile_max_range = get_gyaranzo_missile_float_parameter(4);
@@ -917,8 +917,8 @@ void TObjEneGyaranzo::update_walk_to_target() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         VecCopy(&move_origin, &body_center);
-        calc_velocity_toward_destination(this, move_origin, move_destination, ((EnemyMoveParams *)movementParameters)->min_distance);
-        turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
+        calc_velocity_toward_destination(this, move_origin, move_destination, movementParameters->move_speed);
+        turn_toward_direction(movementParameters->turn_speed, &velocity);
         move_with_wall_slide(this);
         update_collisions();
         if (xz_distance_squared(&position, &home_position) <= 100.0f) {

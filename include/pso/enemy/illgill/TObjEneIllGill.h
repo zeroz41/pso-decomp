@@ -17,13 +17,6 @@ struct IllGillAttackBehavior {
     s32 thirdSpecialParameter;
 };
 
-struct IllGillMovementParameters {
-    f32 range;
-    f32 speed;
-    s32 turn;
-    u32 unknown[4];
-};
-
 struct TObjEneIllGill : public TObjEnemy {
     TObjEneIllGill(TObject *parent, void *setData);
     virtual ~TObjEneIllGill();
@@ -80,7 +73,6 @@ struct TObjEneIllGill : public TObjEnemy {
 LAYOUT_ASSERT(IllGillFadeOffset, offsetof(TObjEneIllGill, fade) == 0x374);
 LAYOUT_ASSERT(IllGillHitListOffset, offsetof(TObjEneIllGill, chargeHits) == 0x3E0);
 LAYOUT_ASSERT(IllGillEffectsOffset, offsetof(TObjEneIllGill, primaryEffect) == 0x414);
-LAYOUT_ASSERT(IllGillMovementSize, sizeof(IllGillMovementParameters) == 0x1C);
 LAYOUT_ASSERT(IllGillBehaviorSize, sizeof(IllGillAttackBehavior) == 0x20);
 LAYOUT_ASSERT(TObjEneIllGill_size, sizeof(TObjEneIllGill) == 0x420);
 

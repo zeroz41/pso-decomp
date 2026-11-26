@@ -54,7 +54,7 @@ TBreakUpMdlData * bm3_fly_breakup_model;
 const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *bm3_fly_name = "TObjEneBm3Fly";
 
-Bm3FlyMovementParameters bm3_fly_decision_row = {
+EnemyMoveParams bm3_fly_decision_row = {
     225.0f, 0.92592591f, 0x600, { 0, 0, 0, 0 },
 };
 
@@ -321,7 +321,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (enemy_turn_and_move_xz_slide(((Bm3FlyMovementParameters *)this->movementParameters)->turn_speed, bm3_fly_lobby_params->distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(this->movementParameters->turn_speed, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -662,10 +662,10 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
             off->y = (0.0f);
             off->z = -this->destination_direction.x * s;
         }
-        if (this->moveSpeed > ((Bm3FlyMovementParameters *)this->movementParameters)->length) {
+        if (this->moveSpeed > this->movementParameters->move_speed) {
             this->moveSpeed *= (0.96f);
         } else {
-            this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            this->moveSpeed = this->movementParameters->move_speed;
         }
         vel->x = this->moveDir.x * this->moveSpeed;
         vel->y = (0.0f);
@@ -690,7 +690,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         this->play_pitched_cue();
         break;
     case 5:
-        this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+        this->moveSpeed = this->movementParameters->move_speed;
         break;
     }
 }
@@ -830,7 +830,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             circle_destination(this->circle_angle);
             this->update_velocity();
             vertical = (0.0f);
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            speed = this->movementParameters->move_speed;
             if (this->destination_distance < (14.0f)) {
                 if (this->random_ratio() > (0.5f)) {
                     this->circle_speed = (s32)(((-65536.0f) * speed) / (439.82288f));
@@ -845,7 +845,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed / 2;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            speed = this->movementParameters->move_speed;
             vertical = (0.0f);
             if (this->destination_distance < speed) {
                 this->step = 2;
@@ -856,7 +856,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
+            speed = this->movementParameters->move_speed;
             vertical = (1e+01f) * sin_table_lookup(this->bob_angle);
             this->bob_angle += 0x380;
             break;
@@ -879,7 +879,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
 #pragma push
 #pragma fp_contract on
 void TObjEneBm3Fly::update_return_state(s32 msg) {
-    Bm3FlyMovementParameters *params;
+    EnemyMoveParams *params;
     switch (msg) {
     case 4:
         this->requested_action = 1;
@@ -891,8 +891,8 @@ void TObjEneBm3Fly::update_return_state(s32 msg) {
         this->destination.x = (f32) (((3e+01f) * sin_table_lookup(this->hover_angle)) + this->nest_position.x);
         this->destination.y = (f32) this->hover_height;
         this->destination.z = (f32) (((3e+01f) * cos_table_lookup(this->hover_angle)) + this->nest_position.z);
-        params = (Bm3FlyMovementParameters *)this->movementParameters;
-        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->turn_speed, params->length);
+        params = this->movementParameters;
+        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->turn_speed, params->move_speed);
         this->update_velocity();
         break;
     case 3:

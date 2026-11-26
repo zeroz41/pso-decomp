@@ -103,7 +103,7 @@ extern const s32 re7_berura_attack_stat_rows[];
 extern const s32 re7_berura_resist_stat_rows[];
 
 
-BossMovementParameters berura_init_params = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+EnemyMoveParams berura_init_params = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
 
 // the collision body init_enemy hands init_model (name inferred)
 CollisionBody berura_collision_body = {

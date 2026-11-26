@@ -13,13 +13,6 @@ struct NJS_OBJECT;
 struct TObjPlayer;
 struct TObjEneBm5GibonU;
 
-struct TObjEneBm5GibonUMovementParameters {
-    f32 range;
-    f32 speed;
-    s32 turn;
-    u32 unknown[4];
-};
-
 // A link in one of the Gibbon lists, tagged with its owner's entity id.
 struct TObjEneBm5GibonUNode {
     TObjEneBm5GibonUNode();

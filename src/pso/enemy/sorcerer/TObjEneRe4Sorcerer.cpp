@@ -114,7 +114,7 @@ Vec lbl_80501070;
 
 
 
-TObjEneRe4InitParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
+EnemyMoveParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody re4_sorcerer_collision_body_part_table[1] = {
     {{0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},

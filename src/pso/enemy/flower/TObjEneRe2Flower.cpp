@@ -91,9 +91,8 @@ s32 re2_flower_node_index;
 s32 re2_flower_node_yaw;
 f32 *re2_flower_node_points;
 
-LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 
-FlowerSetupData re2_flower_setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
+EnemyMoveParams re2_flower_setup_data = { 225.0f, 0.0f, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common
 // kinds, then the one is_tower_variant() selects.
 CollisionBody re2_flower_collision_bodies[2] = {
@@ -572,7 +571,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         update_velocity();
         state_timer++;
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();

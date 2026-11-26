@@ -103,7 +103,7 @@ TBreakUpMdlData * me3_sinow_zoa_breakup_model;
 
 
 
-TObjEneMe3SinowZoaMoveParams TObjEneMe3SinowZoa_init_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+EnemyMoveParams TObjEneMe3SinowZoa_init_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody sinow_zoa_collision_parts = { { 0.0f, 0.0f, 0.0f }, 12.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 const char *bm_ene_me3_shinowa_zoa_model_names[] = {
     sinow_zoa_model, NULL,
@@ -1937,18 +1937,18 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
 inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid(self, self->body_center);
     self->body_center.y += 5.0f;
-    return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
+    return ((TObjEnemy *)self)->enemy_turn_toward_dest(self->movementParameters->turn_speed);
 }
 inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     s32 angle;
     if (select_enemy_destination(self, self->destination, 1) != 0) {
         angle = approach_80316C3C(self);
-        enemy_set_heading_velocity(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->speed, self, self->rotation_y);
+        enemy_set_heading_velocity(self->movementParameters->move_speed, self, self->rotation_y);
         move_with_wall_slide(self);
     } else {
         VecCopy(diff, &self->destination);
         subtract_vector(diff, &self->body_center);
-        angle = self->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn, diff);
+        angle = self->turn_toward_direction(self->movementParameters->turn_speed, diff);
     }
     return angle;
 }
@@ -2026,7 +2026,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 if (this->current_target != NULL) {
                     VecCopy(&diff, &this->destination);
                     subtract_vector(&diff, &this->body_center);
-                    angle = this->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)this->movementParameters)->turn, &diff);
+                    angle = this->turn_toward_direction(this->movementParameters->turn_speed, &diff);
                 } else {
                     angle = this->attack_params->attack_angle;
                 }

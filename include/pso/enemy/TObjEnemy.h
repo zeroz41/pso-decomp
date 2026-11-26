@@ -6,6 +6,15 @@
 
 struct player_stats;
 
+// The movement row an enemy keeps in TObjEnemy::movementParameters: the radius it looks for a
+// target in (find_nearest_visible_player), its walking speed and its largest turn per frame.
+struct EnemyMoveParams {
+    f32 search_range;
+    f32 move_speed;
+    s32 turn_speed;
+    s32 pad_0C[4];
+};
+
 struct TObjEnemy : public TObjChara {
     TObjEnemy(TObject *parent);
     void refresh_and_send_entity_flags();
@@ -52,7 +61,7 @@ struct TObjEnemy : public TObjChara {
     TObjEnemy* previous;
     TObjEnemy* next;
     TObjEnemy* children;
-    void* movementParameters;
+    EnemyMoveParams *movementParameters;
     f32 parameters[5];
     s32 variant;
     u32 state36C;
@@ -61,6 +70,7 @@ struct TObjEnemy : public TObjChara {
     int apply_player_54a00();
     s32 mask_sub_flags(s32 mask);
 };
+LAYOUT_ASSERT(EnemyMoveParamsSize, sizeof(EnemyMoveParams) == 0x1C);
 LAYOUT_ASSERT(EnemyBaseSize, sizeof(TObjEnemy)==0x374);
 
 void initialize_enemy_photon_effect(TObjEnemy *enemy);

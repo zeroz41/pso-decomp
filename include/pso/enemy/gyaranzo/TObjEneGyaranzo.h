@@ -84,13 +84,4 @@ extern GyaranzoParameters *gyaranzo_missile_param_table;
 f32 get_gyaranzo_missile_float_parameter(s32 i);
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 
-// What movementParameters points at: EnemyMoveParams and four more words (as on the GiGue).
-struct GyaranzoMoveParams {
-    EnemyMoveParams move;
-    s32 pad_c;
-    s32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
-};
-
 #endif

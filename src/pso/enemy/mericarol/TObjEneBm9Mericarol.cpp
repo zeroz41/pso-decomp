@@ -79,8 +79,8 @@ static const char mericarol_low_detail_body_model_name[] = "lo_bm9_s_meri_body.n
 static const char mericarol_low_detail_archive_name[] = "bm_ene_bm9_s_mericarol_low.bml";
 static const char bm9_mericarol_class_name_string[] = "TObjEneBm9Mericarol";
 
-TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
-    { 225.0f, 0.0f, 0x200 }, { 0, 0, 0, 0 },
+EnemyMoveParams mericarol_movement_params = {
+    225.0f, 0.0f, 0x200, { 0, 0, 0, 0 },
 };
 
 CollisionBody mericarol_collision_bodies[2] = {
@@ -592,7 +592,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
         update_velocity();
         state_timer++;
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -631,7 +631,7 @@ void TObjEneBm9Mericarol::state_shoot(s32 reason) {
         enemy_copy_target_destination();
         update_velocity();
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -731,7 +731,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
         enemy_copy_target_destination();
         update_velocity();
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
         update_body_colliders();
@@ -793,7 +793,7 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
                 update_velocity();
             }
             target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-            rotation_y = approach_angle_limited(rotation_y, target_angle, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
+            rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
             check_collisions();
             return;
         case 1:

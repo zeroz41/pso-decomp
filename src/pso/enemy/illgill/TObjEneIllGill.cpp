@@ -95,7 +95,7 @@ TObjMotionAction illGillActions[10] = {
     {3, 9, 2, 1.0f, 0x20},
     {2, 0, 3, 1.0f, 0x20},
 };
-IllGillMovementParameters illGillMovement = {
+EnemyMoveParams illGillMovement = {
     400.0f, 0.9f, 0x400, {0x1e0000, 0, 1, 0}
 };
 CollisionBody illGillCollisionBody = {
@@ -322,7 +322,7 @@ void TObjEneIllGill::refresh_target() {
             i = 0;
             best = 0xFFFF;
             Vec v = lbl_8047A328;
-            bestDist = ((IllGillMovementParameters *)movementParameters)->range * ((IllGillMovementParameters *)movementParameters)->range;
+            bestDist = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
@@ -341,7 +341,7 @@ void TObjEneIllGill::refresh_target() {
             }
             targetId = best;
         } else {
-            targetId = find_nearest_visible_player(this, NULL, ((IllGillMovementParameters *)movementParameters)->range);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
         }
         t = targetId;
         if (t < 0x1000) {
@@ -428,7 +428,7 @@ void TObjEneIllGill::run_idle_action() {
 s32 TObjEneIllGill::project_step_to_ground(s32 angle) {
     scratch_vec2.y = 0.0f;
     scratch_vec2.x = 0.0f;
-    scratch_vec2.z = ((IllGillMovementParameters *)movementParameters)->speed;
+    scratch_vec2.z = movementParameters->move_speed;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, angle);
     rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
@@ -454,7 +454,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     if (this->project_step_to_ground(ang) == 1) {
         this->requested_action = 1;
         VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-        this->rotation_y = approach_angle_limited(this->rotation_y, ang, ((IllGillMovementParameters *)this->movementParameters)->turn);
+        this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
     } else {
         if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
             ang = (s32)(10430.38043493439 * atan2_float(scratch_vec.x, 0.0f));
@@ -464,7 +464,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
         if (this->project_step_to_ground(ang) == 1) {
             this->requested_action = 1;
             VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-            this->rotation_y = approach_angle_limited(this->rotation_y, ang, ((IllGillMovementParameters *)this->movementParameters)->turn);
+            this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
         } else {
             if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
                 ang = (s32)(10430.38043493439 * atan2_float(0.0f, scratch_vec.z));
@@ -474,20 +474,20 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
             if (this->project_step_to_ground(ang) == 1) {
                 this->requested_action = 1;
                 VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-                this->rotation_y = approach_angle_limited(this->rotation_y, ang, ((IllGillMovementParameters *)this->movementParameters)->turn);
+                this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
             } else {
                 this->requested_action = 0;
             }
         }
     }
-    this->enemy_turn_toward_dest(((IllGillMovementParameters *)this->movementParameters)->turn);
-    enemy_set_heading_velocity(((IllGillMovementParameters *)this->movementParameters)->speed, this, this->rotation_y);
+    this->enemy_turn_toward_dest(this->movementParameters->turn_speed);
+    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
     (*(&this->body_center)).y += 5.0f;
     move_with_wall_slide(this);
 }
 
 void TObjEneIllGill::update_idle() {
-    IllGillMovementParameters *movement;
+    EnemyMoveParams *movement;
 
     this->advance_animation();
     switch (this->phase) {
@@ -512,8 +512,8 @@ void TObjEneIllGill::update_idle() {
             move_toward_dest_with_detour();
         } else {
             this->body_center.y += 5.0f;
-            movement = (IllGillMovementParameters *)movementParameters;
-            this->enemy_wander_home((f32) (0.25f * movement->speed), 100.0f, 50.0f, movement->turn);
+            movement = movementParameters;
+            this->enemy_wander_home((f32) (0.25f * movement->move_speed), 100.0f, 50.0f, movement->turn_speed);
         }
         this->refresh_collision_body_centers();
         break;
@@ -533,7 +533,7 @@ void TObjEneIllGill::update_forward_movement() {
     f32 d;
     f32 a;
     f32 b;
-    IllGillMovementParameters *movement;
+    EnemyMoveParams *movement;
     this->requested_action = 0;
     this->advance_animation();
     this->set_actor_flags(0x04040000);
@@ -546,10 +546,10 @@ void TObjEneIllGill::update_forward_movement() {
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
     this->body_center.y += 5.0f;
-    d = step_toward_destination(this, v, 2.0f * ((IllGillMovementParameters *)movementParameters)->speed);
-    movement = (IllGillMovementParameters *)movementParameters;
-    a = movement->range * movement->range;
-    b = movement->speed * movement->speed;
+    d = step_toward_destination(this, v, 2.0f * movementParameters->move_speed);
+    movement = movementParameters;
+    a = movement->search_range * movement->search_range;
+    b = movement->move_speed * movement->move_speed;
     if (a < d || d < b) {
         this->target = 0;
     }
@@ -574,8 +574,8 @@ void TObjEneIllGill::update_chase_target() {
     s32 a;
     f32 t;
     this->clear_actor_flags(0x04040000);
-    r = ((IllGillMovementParameters *)movementParameters)->speed;
-    id = ((IllGillMovementParameters *)movementParameters)->turn;
+    r = movementParameters->move_speed;
+    id = movementParameters->turn_speed;
     this->advance_animation();
     if (this->target != NULL) {
         switch (this->phase) {
@@ -610,7 +610,7 @@ void TObjEneIllGill::update_chase_target() {
             break;
         }
         }
-        t = ((IllGillMovementParameters *)movementParameters)->range;
+        t = movementParameters->search_range;
         if (t * t < d) {
             this->target = NULL;
         }
@@ -754,7 +754,7 @@ void TObjEneIllGill::update_weapon_attack() {
         } else {
             Vec v = chase_target->body_center;
             subtract_vector(&v, &body_center);
-            angle_left = this->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
+            angle_left = this->turn_toward_direction((movementParameters->turn_speed), &v);
             apply_actor_gravity(this, (s32 *)(0), 0.0f);
             if (angle_left < this->attack_params->get_attack_angle()) {
                 this->phase = 2;
@@ -1082,7 +1082,7 @@ void TObjEneIllGill::update_shadow_attack() {
             Vec v;
             VecCopy(&v, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&v, &body_center);
-            a = this->turn_toward_direction(((IllGillMovementParameters *)movementParameters)->turn, &v);
+            a = this->turn_toward_direction(movementParameters->turn_speed, &v);
             apply_actor_gravity(this, (s32 *)(0), 0.0f);
             if (a < ((AttackParams *)(ill_gill_combat_parameter_variants[2]))->get_attack_angle()) {
                 this->phase = 1;
@@ -1188,7 +1188,7 @@ void TObjEneIllGill::update_charge_attack() {
             Vec v = this->target->body_center;
             s32 d;
             subtract_vector(&v, &this->body_center);
-            d = this->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)this->movementParameters)->turn), &v);
+            d = this->turn_toward_direction((s32)(2.0f * (f32)this->movementParameters->turn_speed), &v);
             if (d < this->attack_params->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
                 this->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client(this, this->targetId, NULL)) + this->get_collision_body_radius(0));
@@ -1231,7 +1231,7 @@ void TObjEneIllGill::update_charge_attack() {
             Vec v = this->target->body_center;
             s32 d;
             subtract_vector(&v, &this->body_center);
-            d = this->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)this->movementParameters)->turn), &v);
+            d = this->turn_toward_direction((s32)(2.0f * (f32)this->movementParameters->turn_speed), &v);
             if (d < this->attack_params->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
                 this->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client(this, this->targetId, NULL)) + this->get_collision_body_radius(0));
@@ -1309,20 +1309,20 @@ void TObjEneIllGill::update_charge_attack() {
             }
         }
         if (this->target != NULL) {
-            IllGillMovementParameters *prm = ((IllGillMovementParameters *)this->movementParameters);
-            f32 spd = 4.5f * prm->speed;
+            EnemyMoveParams *prm = this->movementParameters;
+            f32 spd = 4.5f * prm->move_speed;
             f32 d2;
             f32 t;
             s32 c;
             if (enable_v2_features == 1 && game_difficulty_selection == 3) {
                 spd *= 2.0f;
             }
-            this->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn));
+            this->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn_speed));
             enemy_set_heading_velocity(spd, this, this->rotation_y);
             move_with_wall_slide(this);
             d2 = horizontal_distance_squared(&this->move_destination, &this->body_center);
             t = spd + this->bodies->radius;
-            if (d2 < t * t || ((IllGillMovementParameters *)this->movementParameters)->range * ((IllGillMovementParameters *)this->movementParameters)->range < d2 || 120.0f < (f32)(c = this->chargeFrames)) {
+            if (d2 < t * t || this->movementParameters->search_range * this->movementParameters->search_range < d2 || 120.0f < (f32)(c = this->chargeFrames)) {
                 if (this->targetId == 0xFFFF) {
                     this->target = NULL;
                 } else {

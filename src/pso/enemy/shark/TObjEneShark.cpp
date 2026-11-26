@@ -400,7 +400,7 @@ TObjMotionAction shark_action_table[11] = {
     { 2, 0, 6, 0.6f, 0x20 },
 };
 // Per-subtype movement parameters the ctor points movementParameters at.
-BeastMovementParams shark_movement_params[3] = {
+EnemyMoveParams shark_movement_params[3] = {
     {225.0f, 0.75f, 0x400, {0, 0x1E0000, 1, 0}},
     {250.0f, 0.9f, 0x400, {0, 0x1E0000, 1, 0}},
     {300.0f, 1.0f, 0x400, {0, 0x1E0000, 1, 0}},

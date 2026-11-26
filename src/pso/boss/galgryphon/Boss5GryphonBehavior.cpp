@@ -116,7 +116,7 @@ s32 boss5_gryphon_behavior_param_ids[3] = { 0x1E, 0x1F, 0x20 };
 s32 boss5_gryphon_base_stat_indices[3] = { 0, 0, 0 };
 s32 boss5_gryphon_attack_stat_indices[3] = { 0, 1, 2 };
 s32 boss5_gryphon_resistance_stat_indices[3] = { 0, 0, 0 };
-BossMovementParameters boss5_gryphon_movement_params = { { 225.0f, 0.0f, 0x600 } };
+EnemyMoveParams boss5_gryphon_movement_params = {225.0f, 0.0f, 0x600};
 CollisionBody boss5_gryphon_collision_body_parts[10] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},

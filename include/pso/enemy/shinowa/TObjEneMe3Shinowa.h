@@ -21,14 +21,6 @@ struct TObjEneMe3ShinowaParams {
     s32 sword_hold_frames;  // frames state_sword_attack holds frame 25
 };
 
-// What TObjEnemy::movementParameters points at (init_params); laid out like TObjEneMe3SinowZoaMoveParams.
-struct TObjEneMe3ShinowaMoveParams {
-    f32 radius;
-    f32 speed;
-    s32 turn_speed;
-    s32 pad_0C[4];
-};
-
 struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     TObjEneMe3Shinowa(TObject *parent);
     virtual ~TObjEneMe3Shinowa();

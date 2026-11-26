@@ -57,7 +57,7 @@
 extern "C" {
 
 
-Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+EnemyMoveParams bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
 CollisionBody bm3_flynest_collider_params[1] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003},
 };

@@ -43,7 +43,7 @@ static TObjMotionAction volopt_hiraisin_motions[5] = {
     {2, 0, 8, 0.7f, 8},
     {3, 4, 7, 0.5f, 0x10},
 };
-static BossMovementParameters volopt_hiraisin_movement = { { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
+static EnemyMoveParams volopt_hiraisin_movement = {150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 }};
 static CollisionBody volopt_hiraisin_body_parts[1] = {
     {{0.0f, -5.0f, 0.0f}, 6.0f, 0.0f, 0, 0x8005, {0.0f, 0.0f, 0.0f}, 0.0f},
 };

@@ -583,7 +583,7 @@ void TObjEneEpsilonGuard::update_center_position() {
 }
 void TObjEneEpsilonGuard::update_body_colliders() { set_part_local_pos(&body_center, 0); }
 
-TObjEneEpsilonMovement epsilon_guard_params = {
+EnemyMoveParams epsilon_guard_params = {
     150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 TObjMotionAction epsilon_guard_action_table[1] = {

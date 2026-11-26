@@ -90,7 +90,7 @@ __declspec(section ".data") NJS_TEXLIST TObjEneMe3ShinowaMirage::alternate_textu
 Vec TObjEneMe3ShinowaMirage::body_node_position;
 s32 * TObjEneMe3ShinowaMirage::material_color_pointers[4];
 
-TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage::init_params = {
+EnemyMoveParams TObjEneMe3ShinowaMirage::init_params = {
     225.0f, 0.0f, 0x600,
 };
 

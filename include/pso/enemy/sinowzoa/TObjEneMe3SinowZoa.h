@@ -21,14 +21,6 @@ struct TObjEneMe3SinowZoaParams {
     s32 attack_tech_level; // level of its Gibarta
 };
 
-// What TObjEnemy::movementParameters points at (TObjEneMe3SinowZoa_init_params).
-struct TObjEneMe3SinowZoaMoveParams {
-    f32 radius; // target search radius the shared enemy targeting reads
-    f32 speed;  // enemy_set_heading_velocity's speed
-    s32 turn;   // turn_toward_direction's step
-    s32 pad_0C[4];
-};
-
 struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     TObjEneMe3SinowZoa(TObject *parent);
     virtual ~TObjEneMe3SinowZoa();

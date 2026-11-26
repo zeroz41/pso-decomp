@@ -506,7 +506,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
                 set_orbit_destination(orbit_angle);
                 update_velocity();
                 k = 0.2f * rotate_rad;
-                r = ((ReconMoveParams *)movementParameters)->move_speed;
+                r = movementParameters->move_speed;
                 h = 0.0f;
                 if (destination_distance < k * k) {
                     if (random_ratio() > 0.5f) {
@@ -523,7 +523,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
                 orbit_since_bomb += orbit_step / 2;
                 set_orbit_destination(orbit_angle);
                 update_velocity();
-                r = ((ReconMoveParams *)movementParameters)->move_speed;
+                r = movementParameters->move_speed;
                 h = 0.0f;
                 if (destination_distance < r) {
                     state_step = 2;
@@ -535,7 +535,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
                 orbit_since_bomb += orbit_step;
                 set_orbit_destination(orbit_angle);
                 update_velocity();
-                r = ((ReconMoveParams *)movementParameters)->move_speed;
+                r = movementParameters->move_speed;
                 h = 10.0f * sin_table_lookup(bob_phase);
                 bob_phase += 0x380;
                 break;
@@ -1020,7 +1020,7 @@ extern "C" {
 
 
 void TObjEneRecon::update_collide_flag() {
-    if (enemy_turn_and_move_xz_slide(((ReconMoveParams *)movementParameters)->turn_speed, recon_behavior_params->collide_distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(movementParameters->turn_speed, recon_behavior_params->collide_distance) != 0) {
         recon_flags |= 2;
         return;
     }
@@ -1072,10 +1072,7 @@ void TObjEneRecon::run_death_reaction() {
 
 void TObjEneRecon::refresh_target() {  }
 
-void *recon_ai_parameters[7] = {
-    (void *)0x43610000, (void *)0x3f6d097b, (void *)0x600, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+EnemyMoveParams recon_ai_parameters = {225.0f, 0.9259259f, 0x600, {0, 0, 0, 0}};
 CollisionBody recon_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f
 };
@@ -1156,7 +1153,7 @@ void TObjEneRecon::init_state() {
     set_requested_action((int) (this->requested_action));
     reset_hp(recon_base_params, recon_attack_params, recon_resistance_params);
     set_state_flag_4();
-    movementParameters = (void *) recon_ai_parameters;
+    movementParameters = &recon_ai_parameters;
     initialize_enemy_state(0x44);
     wall_reach = 5.0f;
     enemy_init_acquire_period(0xA);

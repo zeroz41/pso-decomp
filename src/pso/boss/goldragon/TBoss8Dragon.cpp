@@ -142,7 +142,7 @@ s32 boss8_dragon_behavior_param_ids[3] = {
     0x11, 0x12, 0x13,
 };
 s32 boss8_dragon_attack_stat_indices[5] = {0, 1, 2, 3, 4};
-BossMovementParameters boss8_dragon_movement_params = { { 225.0f, 0.0f, 0x600 }, { 0x500050, 0, 0, 0 } };
+EnemyMoveParams boss8_dragon_movement_params = {225.0f, 0.0f, 0x600, { 0x500050, 0, 0, 0 }};
 CollisionBody boss8_dragon_collision_bodies[7] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},

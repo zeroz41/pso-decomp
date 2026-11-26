@@ -8107,7 +8107,7 @@ force_active:
   - lbl_804ED990
   - lbl_804ED9C0
   - __vt__9TBoss6Mag
-  - lbl_804EE0C0
+  - morfos_movement_params
   - loading_texture_names
   - loading_texture_list
   - loading_compass_texanim

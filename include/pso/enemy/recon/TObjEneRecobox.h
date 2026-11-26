@@ -6,7 +6,6 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TObjEnemyColorFade.h"
 
-struct BossMovementParameters;
 
 struct BmlResource;
 struct TObjEneRecon;
@@ -52,7 +51,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     static void load_resources();
     static void *create(void *set_data);
     static BmlResource *get_bml_resource();
-    static BossMovementParameters movement;
+    static EnemyMoveParams movement;
     f32 get_recon_rotate_rad();
     f32 get_recon_offset_max();
 

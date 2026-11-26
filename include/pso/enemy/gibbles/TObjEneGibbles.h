@@ -9,14 +9,6 @@ struct TObjPlayer;
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TObjEnemyColorFade.h"
 
-// movementParameters (gibbles_move_params): 250.0f, 1.25f, 0x400
-struct GibblesMoveParams {
-    f32 radius;
-    f32 speed;
-    s32 turn_speed;
-    s32 pad_0C[4];
-};
-
 // gibbles_ai_parameters, TLobby::dispatch_shared_handler_a(0x3D) (names inferred)
 struct GibblesAiParams {
     f32 pad_00;

@@ -75,11 +75,4 @@ void load_re2_flower_resources(void);
 
 LAYOUT_ASSERT(TObjEneRe2Flower_size, sizeof(TObjEneRe2Flower) == 0x42C);
 
-struct FlowerSetupData {
-    f32 value00;
-    u32 unknown04;
-    u32 flags;
-    u32 unknown0c[4];
-};
-
 #endif

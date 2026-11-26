@@ -51,8 +51,8 @@ static TObjMotionAction core_motions[5] = {
     { 2, 0, 0x2, 0.8f, 0x8 },
     { 1, 0, 0x2, 0.8f, 0x10 },
 };
-static BossMovementParameters core_movement = {
-    { 150.0f, 0.55555552f, 0x400 }, { 0x1E0000, 0, 1, 0 },
+static EnemyMoveParams core_movement = {
+    150.0f, 0.55555552f, 0x400, { 0x1E0000, 0, 1, 0 },
 };
 static CollisionBody core_body_parts[1] = {
     { { 0.0f, 0.0f, 0.0f }, 0.001f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },

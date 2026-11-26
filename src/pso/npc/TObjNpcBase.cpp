@@ -87,7 +87,7 @@ void TObjNpcBase::draw_debug_info() {
 #pragma pool_data reset
 
 player_stats npc_default_battle_stats = { {0}, 0, 20.0f, 0.0f, 0, 0, 0 };
-NpcMovementParameters npc_movement_parameters = { 100.0f, 0.5f, 0x400 };
+EnemyMoveParams npc_movement_parameters = { 100.0f, 0.5f, 0x400 };
 CollisionBody npc_base_collision_body_desc = { {0.0f, 10.0f, 0.0f}, 5.0f, 0.0f, 0, 0x30203 };
 
 void TObjNpcBase::setup_common() {
@@ -190,7 +190,7 @@ void TObjNpcBase::update_conversation() {
             pkt1.send();
             break;
         default:
-            if (angle_difference_abs(rotation_y, ang) < ((NpcMovementParameters *)movementParameters)->turn_speed) {
+            if (angle_difference_abs(rotation_y, ang) < movementParameters->turn_speed) {
                 phase = 1;
                 rotation_y = ang;
                 request_action(0);
@@ -200,7 +200,7 @@ void TObjNpcBase::update_conversation() {
                 pkt2.angle = rotation_y + 0x8000;
                 pkt2.send();
             } else {
-                rotation_y = approach_angle_limited(rotation_y, ang, ((NpcMovementParameters *)movementParameters)->turn_speed);
+                rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
             }
             break;
         }
@@ -312,15 +312,15 @@ void TObjNpcBase::update_wandering() {
     }
     case 1: {
         f32 r;
-        enemy_turn_toward_dest(((NpcMovementParameters *)movementParameters)->turn_speed);
-        enemy_set_heading_velocity(((NpcMovementParameters *)movementParameters)->speed, this, rotation_y);
+        enemy_turn_toward_dest(movementParameters->turn_speed);
+        enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
         move_with_wall_slide(this);
         if (is_passing_frame(1.0f) != 0 || is_passing_frame(15.0f) != 0) {
             play_voice();
         }
         {
             f32 dist = horizontal_distance_squared(&move_destination, &body_center);
-            r = ((NpcMovementParameters *)movementParameters)->speed + bodies->radius;
+            r = movementParameters->move_speed + bodies->radius;
             if (dist < r * r || (bodies->flags & 0x380000)) {
                 phase = 3;
                 request_action(0);
@@ -356,7 +356,7 @@ void TObjNpcBase::update_standing() {
         break;
     case 2:
         if (rotation_y != home_rotation_y) {
-            rotation_y = approach_angle_limited(rotation_y, home_rotation_y, ((NpcMovementParameters *)movementParameters)->turn_speed);
+            rotation_y = approach_angle_limited(rotation_y, home_rotation_y, movementParameters->turn_speed);
         } else {
             phase = 1;
             request_action(0);
@@ -393,7 +393,7 @@ void TObjNpcBase::run_idle_action() {
 void TObjNpcBase::refresh_target() {
     if (mode != 3) {
         if (is_actor_cadence_frame(30) != 0) {
-            targetId = find_nearest_visible_player(this, NULL, ((NpcMovementParameters *)movementParameters)->search_range);
+            targetId = find_nearest_visible_player(this, NULL, movementParameters->search_range);
             {
                 u32 id = targetId;
                 if (id != 0xFFFF) {
