@@ -77,13 +77,13 @@ void TChCrLoadAfsTextureReq::update_loading() {
     retry = 0;
     switch (ADXF_GetStat(load_handle)) {
     case 1:
-        if (++m_20 >= 3) {
+        if (++stop_count >= 3) {
             return;
         }
         retry = 1;
         break;
     case 2:
-        if (++m_24 >= 150) {
+        if (++read_frames >= 150) {
             retry = 1;
             break;
         }
@@ -108,11 +108,11 @@ void TChCrLoadAfsTextureReq::update_loading() {
         return;
     }
     for (i = 0; i < count; i++) {
-        reinterpret_cast<GinjaTextureInput *>(m_74[i])->set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
-        set_texture_name(&textures->textures[i], reinterpret_cast<GinjaTextureInput *>(m_74[i]), 0, 0x40000000);
+        texture_inputs[i].set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
+        set_texture_name(&textures->textures[i], &texture_inputs[i], 0, 0x40000000);
     }
     if (load_texture_list(textures) != -1) {
-        m_1c = 1;
+        textures_loaded = 1;
         queue_destruction();
     }
 }
@@ -124,8 +124,8 @@ void TChCrLoadAfsTextureReq::start_read() {
     handle = ADXF_OpenAfs(player_class_texture_archive_table[display_index].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
-        m_20 = 0;
-        m_24 = 0;
+        stop_count = 0;
+        read_frames = 0;
         n = ADXF_GetFsizeSct(load_handle);
         buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
         buffers[index] = buf;
@@ -145,7 +145,7 @@ void TChCrLoadAfsTextureReq::try_begin_load() {
 s32 TChCrLoadAfsTextureReq::active_load_count;
 
 void TChCrLoadAfsTextureReq::run_task() {
-    if (m_28 == 1) {
+    if (suspended == 1) {
         return;
     }
     if (--timeout_frames <= 0) {
@@ -191,7 +191,7 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
 }
 TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     s32 i;
-    if (this->m_1c == 0 && this->buffers[0] != 0) {
+    if (this->textures_loaded == 0 && this->buffers[0] != 0) {
         if (ADXF_GetStat(this->load_handle) == 2) {
             ADXF_Stop(this->load_handle);
         }
@@ -205,7 +205,7 @@ TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
             this->buffers[i] = 0;
         }
     }
-    if (this->m_1c == 1) {
+    if (this->textures_loaded == 1) {
         if (this->completion_mask != 0) {
             *this->completion_flags &= ~this->completion_mask;
         } else if (this->completion_flags != NULL) {
@@ -219,10 +219,10 @@ void TChCrLoadAfsTextureReq::init_texture_table() {
     count = textures->nbTexture;
     if (count <= 0 || count > 8) return;
     for (i = 0; i < 8; i++) buffers[i] = 0;
-    m_1c = 0;
+    textures_loaded = 0;
     state = 0;
     index = 0;
-    m_28 = 0;
+    suspended = 0;
     timeout_frames = 0x14FA;
     holds_load_slot = 0;
 }

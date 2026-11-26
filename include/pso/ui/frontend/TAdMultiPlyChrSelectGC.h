@@ -74,7 +74,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static void deselect_slot(s32 slot);
     static s32 is_controller_connected(s32 port);
     static saddr get_last_selected_player();
-    s32 get_field_20();
+    s32 get_current_state();
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
     static saddr get_selected_slot();
@@ -159,5 +159,11 @@ LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_player_preview_offset, offsetof(TAdMultiPlyChrSelectGC, player_preview) == 0x60);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_68_offset, offsetof(TAdMultiPlyChrSelectGC, a_slot) == 0x68);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_m_6c_offset, offsetof(TAdMultiPlyChrSelectGC, b_slot) == 0x6C);
+
+// Set when a player picks a slot in the multi-player character select; the story select goes back
+// to that scene while it is set (names inferred from those uses).
+extern s32 multi_chr_select_slot_chosen;
+int is_multi_chr_select_slot_chosen();
+void clear_multi_chr_select_slot_chosen();
 
 #endif

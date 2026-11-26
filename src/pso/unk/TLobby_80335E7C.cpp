@@ -52,8 +52,8 @@ TUnk_804EE470::TUnk_804EE470(TObject *parent) : TObject(parent) {
     *(void * *)&this->unk_1C = parent;
 }
 
-void TLobby__sub_80335FE0(void) {  }
-void TLobby__sub_80335FE4(void) {  }
+void free_title_texture_resources() {}
+void load_title_texture_resources() {}
 
 NJS_TEXLIST *get_title_texture_list(void) {
     return &title_texture_list;

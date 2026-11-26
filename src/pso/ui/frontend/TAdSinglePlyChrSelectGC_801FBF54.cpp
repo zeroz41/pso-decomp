@@ -265,7 +265,7 @@ s32 TAdSinglePlyChrSelectGC::is_ready() {
     return (u32) __cntlzw(TLobby::is_ready()) >> 5;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_window_field(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_screen_fourth_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -275,7 +275,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_window_field(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_window_status(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_screen_third_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -286,7 +286,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_window_status(int client) {
 }
 extern "C" {
 
-u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_screen_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -296,7 +296,7 @@ u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_state(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_screen_first_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -306,7 +306,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_state(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_flag(int client) {
+u16 TAdSinglePlyChrSelectGC::get_online_disconnect_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -316,7 +316,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_flag(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_field(int client) {
+u16 TAdSinglePlyChrSelectGC::get_online_fourth_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -326,7 +326,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_field(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_status(int client) {
+u16 TAdSinglePlyChrSelectGC::get_online_third_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -336,7 +336,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_status(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_value(int client) {
+u16 TAdSinglePlyChrSelectGC::get_online_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -346,7 +346,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_value(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_card_field_21a8(int client) {
+u16 TAdSinglePlyChrSelectGC::get_online_first_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);

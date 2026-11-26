@@ -92,7 +92,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);
-    unk_1c = -1;
+    input_frames = -1;
     captured_card_index = 0;
     TAdMultiPlyChrSelectGC::selected_slot = 0;
     multi_ply_chr_select_active_player = 0;
@@ -101,8 +101,8 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     unk_4f4 = 0;
     selection = 0;
     ready = 0;
-    unk_20 = multi_ply_chr_select_active_player;
-    unk_534 = 1;
+    prev_ready_count = multi_ply_chr_select_active_player;
+    input_enabled = 1;
     update_cell_uvs();
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 3; j++) {
@@ -129,7 +129,7 @@ void TAdChrSelPlyPlateGC::run_task() {
     u32 i;
     u32 j;
     u32 k;
-    if (TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0 && unk_20 < TAdMultiPlyChrSelectGC::count_ready()) {
+    if (TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) == 0 && prev_ready_count < TAdMultiPlyChrSelectGC::count_ready()) {
         multi_ply_chr_select_active_player = find_active_slot();
         switch (TAdMultiPlyChrSelectGC::select_mode) {
         case 1:
@@ -144,11 +144,11 @@ void TAdChrSelPlyPlateGC::run_task() {
         }
     }
     if (TAdMultiPlyChrSelectGC::is_controller_connected(0) == 0 || TAdMultiPlyChrSelectGC::count_ready() < 2) {
-        unk_534 = 0;
+        input_enabled = 0;
     } else {
-        unk_534 = 1;
+        input_enabled = 1;
     }
-    if (unk_534 != 0) {
+    if (input_enabled != 0) {
         switch (TAdMultiPlyChrSelectGC::select_mode) {
         case 0:
             handle_dpad_input();
@@ -164,11 +164,11 @@ void TAdChrSelPlyPlateGC::run_task() {
             break;
         }
     }
-    unk_530 = 0;
-    if (unk_534 != 0) {
+    start_requested = 0;
+    if (input_enabled != 0) {
         for (i = 0; i < 4; i++) {
             if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[i], 8) != 0 && TAdMultiPlyChrSelectGC::count_selected_slots() > 0) {
-                unk_530 = 1;
+                start_requested = 1;
             }
         }
     }
@@ -190,7 +190,7 @@ void TAdChrSelPlyPlateGC::run_task() {
         selection = 0;
         ready = 0;
     }
-    unk_20 = TAdMultiPlyChrSelectGC::count_ready();
+    prev_ready_count = TAdMultiPlyChrSelectGC::count_ready();
 }
 
 s32 TAdChrSelPlyPlateGC::find_active_slot() {
@@ -376,7 +376,7 @@ s32 is_multiplayer_character_slot_selected(s32 slot) {
 }
 
 s32 TAdMultiPlyChrSelectGC::is_selection_confirmed() {
-    if (TAdMultiPlyChrSelectGC__sub_80299454() != 0) {
+    if (is_multi_chr_select_slot_chosen() != 0) {
         if (TAdMultiPlyChrSelectGC::count_selected_slots() > 0) {
             return ((s32)TAdMultiPlyChrSelectGC::get_last_selected_player());
         }
@@ -405,7 +405,7 @@ void TAdMultiPlyChrSelectGC::init() { multi_ply_chr_select_active_player = TAdMu
 void TAdChrSelPlyPlateGC::handle_dpad_input() {
     s32 n;
     s32 m;
-    unk_1c++;
+    input_frames++;
     update_cell_uvs();
     n = TAdMultiPlyChrSelectGC::count_ready();
     m = TAdMultiPlyChrSelectGC::count_selected_slots();
@@ -429,7 +429,7 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
 }
 
 void TAdChrSelPlyPlateGC::update_option_cursor() {
-    unk_1c++;
+    input_frames++;
     update_cell_uvs();
     if (slot_count[cursor_col] != 0 && selection == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x10, 6, 1) != 0) {
@@ -714,7 +714,7 @@ void TAdChrSelPlyPlateGC::reset_cursor_state() {
         }
     }
     multi_ply_chr_select_active_player = 0;
-    unk_530 = 0;
+    start_requested = 0;
 }
 
 u32 get_multiplayer_controller_active_index(int index) {
@@ -759,7 +759,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
     }
     if (TAdMultiPlyChrSelectGC::select_mode == 1) {
         TAdMultiPlyChrSelectGC::get_state();
-        if (TAdMultiPlyChrSelectGC::get_state()->get_field_20() < 0xD) {
+        if (TAdMultiPlyChrSelectGC::get_state()->get_current_state() < 0xD) {
             return;
         }
     }

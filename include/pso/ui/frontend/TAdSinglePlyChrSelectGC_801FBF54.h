@@ -32,7 +32,6 @@ void rebuild_guild_card_save_file(void);
 void decrypt_secondary_card_buffer(void);
 
 extern "C" {
-u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
 }
 int start_system_file_write(s32 chan);

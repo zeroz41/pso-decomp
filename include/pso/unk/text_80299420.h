@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-int TAdMultiPlyChrSelectGC__sub_80299454(void);
 void fn_80299420(void *p, void *q);
 }
 

@@ -5,7 +5,8 @@
 
 void delete_character_save_file(void);
 void delete_guild_card_save_file(void);
-void decrypt_character_save(void *save_data);
+struct Pso3CharacterFile;
+void decrypt_character_save(Pso3CharacterFile *save_data);
 struct NJS_OBJECT;
 
 void draw_ginja_box_tree(NJS_OBJECT *node);

@@ -37,7 +37,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void set_cursor_column(s32 column);
     void restore_selection();
     void capture_card_index();
-    s32 get_field_0x530();
+    s32 is_start_requested();
     s32 get_active_card_slot();
     void set_active_card_slot(s32 slot);
     void set_cursor_fields(s32 field_4f4, s32 field_4f0);
@@ -54,8 +54,8 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void start_selected_slot_anim();
     void update_cell_uvs();
 
-    s32 unk_1c;
-    s32 unk_20;
+    s32 input_frames;
+    s32 prev_ready_count;
     CharacterSelectionQuad quad[8][3]; // Four selection rows, then four confirmation rows.
     f32 cursor[3][8];
     vec2f home[4][3];
@@ -72,8 +72,8 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 selection;
     s32 ready;
     s32 slot_active[4][3];
-    s32 unk_530;
-    s32 unk_534;
+    s32 start_requested;
+    s32 input_enabled;
 };
 
 LAYOUT_ASSERT(CharacterSelectionQuadSize, sizeof(CharacterSelectionQuad) == 0x20);

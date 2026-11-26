@@ -64,7 +64,7 @@ static const NJS_POINT2 multi_chr_select_item_rect_table[4] = {
     {434.0f, 182.0f}, {434.0f, 225.0f}, {434.0f, 268.0f}, {434.0f, 311.0f},
 };
 static const NJS_POINT2 multi_chr_select_cursor_size = {180.0f, 38.0f};
-s32 lbl_805D68C8;
+s32 multi_chr_select_slot_chosen;
 u32 multi_chr_select_serial_access_state;
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::instance;
 
@@ -179,7 +179,7 @@ void TAdMultiPlyChrSelectGC::initialize_selection_state(s32 mode) {
     v = 0;
     this->mode = mode;
     this->fade_task = reinterpret_cast<TAdFadeGC *>(v);
-    lbl_805D68C8 = v;
+    multi_chr_select_slot_chosen = v;
     this->move_requested = v;
     this->move_finished = 1;
     this->a_slot = reinterpret_cast<TAdChrSelASlotGC *>(v);
@@ -403,7 +403,7 @@ void TAdMultiPlyChrSelectGC::update_state_serial() {
     }
     player_plate->set_state_ready();
     player_plate->reset_cursor_state();
-    player_preview->set_field_100(1);
+    player_preview->set_pending_state(1);
     this->last_card_slot = -1;
     this->state_frames = (this->state_frames + 1);
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0)) {
@@ -555,11 +555,11 @@ void TAdMultiPlyChrSelectGC::run_state_3() {
         }
         card_index = cursor_to_card_index(player_plate->get_cursor());
         if ((this->last_card_slot != player_plate->get_active_card_slot()) || (this->last_cursor != player_plate->get_cursor())) {
-            player_preview->set_field_100(1);
+            player_preview->set_pending_state(1);
             this->show_flag_notice = 0;
             if (get_card_slot_summary(card_index) != 0U) {
                 load_tables(card_index);
-                player_preview->set_field_100(2);
+                player_preview->set_pending_state(2);
                 if ((TAdSinglePlyChrSelectGC::check_flag(1) != 0U) && (this->controllers_ready != 0)) {
                     this->show_flag_notice = 1;
                 }
@@ -603,7 +603,7 @@ void TAdMultiPlyChrSelectGC::run_state_3() {
             this->state = 4;
             return;
         }
-        if ((player_plate->get_field_0x530() != 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+        if ((player_plate->is_start_requested() != 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
             this->next_state = 0x1C;
             this->state = 0x1A;
             this->exit_action = 1;
@@ -644,7 +644,7 @@ void TAdMultiPlyChrSelectGC::update_card_confirm() {
             play_sound_effect(0x52D01, 0, 0, 0);
             player_plate->start_selected_slot_anim();
             player_plate->select_slot_at_cursor();
-            lbl_805D68C8 = 1;
+            multi_chr_select_slot_chosen = 1;
             if (this->create_character_prompt != NULL) {
                 this->create_character_prompt->close();
                 this->create_character_prompt = NULL;
@@ -830,7 +830,7 @@ void TAdMultiPlyChrSelectGC::init_windows() {
     player_plate->set_cursor_fields(2, 2);
     player_plate->set_cursor_column((saddr)((void*)(2)));
     player_plate->set_selection(1);
-    player_preview->set_field_100(1);
+    player_preview->set_pending_state(1);
     this->move_requested = 1;
     this->move_finished = 0;
     open_windows();
@@ -902,7 +902,7 @@ void TAdMultiPlyChrSelectGC::run_state_12() {
         this->yes_no_prompt->close();
         this->yes_no_prompt = NULL;
     }
-    player_preview->set_field_100(1);
+    player_preview->set_pending_state(1);
     if (this->fade_task != NULL) {
         this->fade_task->queue_destruction();
         this->fade_task = NULL;
@@ -1022,12 +1022,12 @@ void TAdMultiPlyChrSelectGC::update_select() {
     }
     card_index = cursor_to_card_index(player_plate->get_cursor());
     if (this->last_card_slot != player_plate->get_active_card_slot()) {
-        player_preview->set_field_100(1);
+        player_preview->set_pending_state(1);
         this->show_flag_notice = 0;
         if (get_secondary_slot_summary(card_index) != 0U) {
             load_tables(card_index);
             player_preview->set_status_value(card_index);
-            player_preview->set_field_100(2);
+            player_preview->set_pending_state(2);
             if ((TAdSinglePlyChrSelectGC::check_slot_flags(card_index, 1) != 0U) && (this->controllers_ready != 0)) {
                 this->show_flag_notice = 1;
             }
@@ -1035,7 +1035,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
         this->last_card_slot = player_plate->get_active_card_slot();
     }
     if (this->move_requested != 0) {
-        player_preview->set_field_100(1);
+        player_preview->set_pending_state(1);
         this->state = 0x15;
         return;
     }
@@ -1296,7 +1296,7 @@ loop_7:
         card_index = cursor_to_card_index(player_plate->get_cursor());
         load_tables(card_index);
         player_preview->set_status_value(card_index);
-        player_preview->set_field_100(2);
+        player_preview->set_pending_state(2);
         this->moving_notice = create_moving_notice(&moving_notice_position);
         this->a_slot->set_state(0x11);
         this->state = 0x16;
@@ -1463,7 +1463,7 @@ void TAdMultiPlyChrSelectGC::close_and_reset() {
     if (this->select_cursor != NULL) {
         this->select_cursor->disallow_rendering();
     }
-    player_preview->set_field_100(1);
+    player_preview->set_pending_state(1);
     guide->set_line(0, "");
     guide->set_line(1, "");
     this->last_card_slot = -1;
@@ -1533,7 +1533,7 @@ void TAdMultiPlyChrSelectGC::run_state_31() {
         this->swap_slot = k;
         load_tables(k);
         if (TAdSinglePlyChrSelectGC::is_slot_active(k) != 0) {
-            player_preview->set_field_100(2);
+            player_preview->set_pending_state(2);
             if (this->select_cursor != NULL) {
                 this->select_cursor->allow_rendering();
             }
@@ -1625,14 +1625,14 @@ loop_9:
         load_tables(this->swap_slot);
         player_preview->set_status_value(slot_index);
         this->moving_notice = create_moving_notice(&moving_notice_position);
-        player_preview->set_field_100(1);
+        player_preview->set_pending_state(1);
         this->a_slot->set_state(0x11);
         this->state = 0x23;
         return;
     }
     slot_index += 1;
     if (slot_index >= 4U) {
-        player_preview->set_field_100(1);
+        player_preview->set_pending_state(1);
         if (this->full_notice == NULL) {
             this->full_notice = create_full_notice(&full_notice_position);
         }

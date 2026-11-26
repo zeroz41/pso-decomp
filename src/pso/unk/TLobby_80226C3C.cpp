@@ -153,7 +153,7 @@ void init_music_sequencer(s32 program) {
     music_slot_progress[0] = 0;
     music_slot_progress[1] = 0;
     music_sequencer_timer = 0;
-    if (TKeyBoardControl__sub_8000F828() == 1) {
+    if (get_video_standard() == 1) {
         music_cue_threshold = music_program->pal;
     } else {
         music_cue_threshold = music_program->ntsc;

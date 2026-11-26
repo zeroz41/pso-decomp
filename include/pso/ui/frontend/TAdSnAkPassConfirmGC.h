@@ -4,12 +4,15 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
+class TWindowBase;
+
 struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     TAdSnAkPassConfirmGC(TObject *parent);
     virtual ~TAdSnAkPassConfirmGC();
     virtual void on_yes_chosen();
     virtual void on_no_chosen();
-    uaddr m_48;
+    // The serial number and access key window shown above the question.
+    TWindowBase *info_window;
     virtual void render();
     virtual void run_task();
     virtual void on_accept();

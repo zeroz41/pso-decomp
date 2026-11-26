@@ -765,7 +765,7 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
 
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
-    lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
+    lbl_805D5D9C = get_video_standard() == 1 ? 0x19 : 0x1E;
     lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     TBattleProximitySound::clear_instance();
     clear_battle_player_ready_flags();

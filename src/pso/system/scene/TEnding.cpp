@@ -167,7 +167,7 @@ TEnding::TEnding() : TObject(tl_window) {
     TEnding__sub_8008C9F8();
     TMainTask::cleanup_game_objects();
     set_current_floor_area(1);
-    switch (TKeyBoardControl__sub_8000F828()) {
+    switch (get_video_standard()) {
     case 0: timing_rate = 30; break;
     case 1: timing_rate = 25; break;
     }

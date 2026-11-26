@@ -6,14 +6,16 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
 
+// Where configure_viewport puts the radar on screen; begin_map_view fills one from
+// radar_map_view_rect_table and clears the rest.
 struct RadarViewportParameters
 {
-    u8 unknown00[0x8];
+    u8 pad_00[0x8];
     f32 center_x;
     f32 center_y;
-    u8 unknown10[0x8];
-    f32 value18;
-    u8 unknown1C[0xC];
+    u8 pad_10[0x8];
+    f32 depth;
+    u8 pad_1C[0xC];
     f32 screen_width;
     f32 screen_height;
 };
@@ -53,14 +55,8 @@ struct TRaderMapCore : public TObjBase {
     s32 countdown;
     RadarPlayerMarker player_marker_records[4];
     s32 follow_marker;
-    u8 unknown138[0x8];
-    f32 m_140;
-    f32 m_144;
-    u8 unknown148[0x8];
-    f32 m_150;
-    u8 unknown154[0xC];
-    f32 viewport_width;
-    f32 viewport_height;
+    // The radar's own viewport; the constructor and set_default_view_size give its defaults.
+    RadarViewportParameters viewport;
     s32 view_flags;
     s32 zoom_state;
     f32 zoom_step;
@@ -140,14 +136,14 @@ LAYOUT_ASSERT(RadarPlayerMarkerSize, sizeof(RadarPlayerMarker) == 0x28);
 LAYOUT_ASSERT(RadarViewportSize, sizeof(RadarViewportParameters) == 0x30);
 LAYOUT_ASSERT(RadarViewportCenterX, offsetof(RadarViewportParameters, center_x) == 0x8);
 LAYOUT_ASSERT(RadarViewportCenterY, offsetof(RadarViewportParameters, center_y) == 0xC);
-LAYOUT_ASSERT(RadarViewportValue18, offsetof(RadarViewportParameters, value18) == 0x18);
+LAYOUT_ASSERT(RadarViewportDepth, offsetof(RadarViewportParameters, depth) == 0x18);
 LAYOUT_ASSERT(RadarViewportWidth, offsetof(RadarViewportParameters, screen_width) == 0x28);
 LAYOUT_ASSERT(RadarViewportHeight, offsetof(RadarViewportParameters, screen_height) == 0x2C);
+LAYOUT_ASSERT(TRaderMapCore_viewport, offsetof(TRaderMapCore, viewport) == 0x138);
 LAYOUT_ASSERT(RaderMapCoreSize, sizeof(TRaderMapCore) == 0x1A4);
 LAYOUT_ASSERT(RaderMapCoreDelay, offsetof(TRaderMapCore, countdown) == 0x90);
 LAYOUT_ASSERT(RaderMapCoreMarkers, offsetof(TRaderMapCore, player_marker_records) == 0x94);
 LAYOUT_ASSERT(RaderMapCoreSelectedPlayer, offsetof(TRaderMapCore, follow_marker) == 0x134);
-LAYOUT_ASSERT(RaderMapCoreViewportWidth, offsetof(TRaderMapCore, viewport_width) == 0x160);
 LAYOUT_ASSERT(RaderMapCoreTarget, offsetof(TRaderMapCore, target_player) == 0x184);
 LAYOUT_ASSERT(RaderMapCoreTail, offsetof(TRaderMapCore, alpha_limit) == 0x1A0);
 

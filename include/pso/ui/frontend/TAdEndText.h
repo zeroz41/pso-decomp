@@ -63,7 +63,7 @@ public:
     static const f32 line_height;
     // The credits end once the last line scrolls above this.
     static const f32 end_y;
-    // Scroll rate when TKeyBoardControl__sub_8000F828 is set.
+    // Scroll rate under PAL (get_video_standard() != 0).
     static const f32 fast_rate;
 
     s32 pad_1C;

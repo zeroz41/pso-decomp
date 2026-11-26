@@ -5,8 +5,10 @@
 
 extern "C" {
 void run_end_of_render_tasks(void);
-int TKeyBoardControl__sub_8000F828(void);
 }
+// The console's video standard: 0 NTSC (30 frames a second), 1 PAL (25); this build always says NTSC.
+// Callers pick frame-rate dependent timings and the music program's ntsc or pal cue by it.
+int get_video_standard();
 s32 get_previous_main_phase(void);
 void set_fallback_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);

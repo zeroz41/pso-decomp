@@ -97,7 +97,7 @@ TEndingC::TEndingC(TObject *parent) : TObject(parent) {
     render_geometry[2][5] = 0.0f;
     render_geometry[2][6] = 1.0f;
     render_geometry[2][7] = 1.0f;
-    switch (TKeyBoardControl__sub_8000F828()) {
+    switch (get_video_standard()) {
     case 0:
         timing_rate = 30;
         break;

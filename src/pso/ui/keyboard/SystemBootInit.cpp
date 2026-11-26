@@ -115,7 +115,7 @@ void run_end_of_render_tasks(void) {
 void TKeyBoardControl::update() {
 }
 
-int TKeyBoardControl__sub_8000F828(void) {
+int get_video_standard() {
     return 0;
 }
 

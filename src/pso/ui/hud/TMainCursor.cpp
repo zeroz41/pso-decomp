@@ -1159,7 +1159,7 @@ void TMainCursor::render() {
 
 void TMainCursor::validate_target() {
     TObjPlayer *t;
-    unk_20.clear(0xB);
+    cursor_flags.clear(0xB);
     t = get_owner_player();
     if (t == NULL) {
         this->update_target_sub();
@@ -1547,7 +1547,7 @@ TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
 u16 CursorTarget::get_entity_id() { return entity_id; }
 
 
-void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->unk_20.set(2); }
+void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->cursor_flags.set(2); }
 
 u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
 
@@ -1572,19 +1572,19 @@ int CursorTarget::matches_id(u16 id) {
 
 CursorTarget *LockOnSelection::get_target() { return &target; }
 
-void TMainCursor::update_target_sub() { unk_20.set(1); }
+void TMainCursor::update_target_sub() { cursor_flags.set(1); }
 
 u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&unk_20, 2); }
+int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&cursor_flags, 2); }
 
-int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&unk_20, 8); }
+int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&cursor_flags, 8); }
 
-int TMainCursor::update() { return test_flags_any((s32 *)&unk_20, 4); }
+int TMainCursor::update() { return test_flags_any((s32 *)&cursor_flags, 4); }
 
-int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&unk_20, 1); }
+int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&cursor_flags, 1); }
 
 u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 
@@ -1592,7 +1592,7 @@ u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 s16 CursorTarget::get_target_id() { return target_id; }
 
 
-void TMainCursor::check_flag_4() { unk_20.set(4); }
+void TMainCursor::check_flag_4() { cursor_flags.set(4); }
 
 u8 TMainCursor::get_palette_slot() { return get_target_palette_slot(&target.palette_tag); }
 

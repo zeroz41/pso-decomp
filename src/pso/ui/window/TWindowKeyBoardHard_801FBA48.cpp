@@ -91,7 +91,7 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
     }
 }
 
-void decrypt_character_save(void *save_data) {
+void decrypt_character_save(Pso3CharacterFile *save_data) {
     Pso3CharacterFile *plain;
     Pso3CharacterFile *unshuffled;
     plain = new Pso3CharacterFile;
@@ -105,7 +105,7 @@ void decrypt_character_save(void *save_data) {
     delete plain;
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)save_data, 0x194B0);
-    subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)save_data));
+    subtractive_rng_seed(&chr_select_rng_state, save_data->get_cipher_seed());
     subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)save_data, 0x194AC);
 }
 
@@ -138,7 +138,7 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
     data = (u8 *)TQuestVmDownLoadServer::alloc(0x194B0);
     memcpy(data, buf + 0x2048, 0x194B0);
-    decrypt_character_save(data);
+    decrypt_character_save((Pso3CharacterFile *)data);
     saved = *(s32 *)data;
     *(s32 *)data = 0;
     res = calc_crc32_bitwise(data, 0x194B0);

@@ -11,6 +11,8 @@ public:
     virtual void render();
     virtual void run_task();
     s32 get_cursor();
+    // Whether the player confirmed a menu entry (state 2).
+    s32 is_selection_confirmed();
     void draw_record_with_camera(s32 record, s32 camera);
     void update_title_prompt();
     void handle_cursor_input();
@@ -25,8 +27,8 @@ public:
 };
 LAYOUT_ASSERT(TTitleMenu_size, sizeof(TTitleMenu) == 0x3C);
 
+// The title menu's release and load hooks in lobby_load_callback_table; both do nothing.
+void free_title_menu_resources();
+void load_title_menu_resources();
 
-extern "C" {
-s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller);
-}
 #endif

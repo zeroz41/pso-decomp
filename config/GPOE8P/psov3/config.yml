@@ -177,7 +177,7 @@ force_active:
   - TAdMultiChgGameModeGC__sub_8036DE10
   - open_message_window__20TAdSystemFileCheckGCFl
   - TAdMultiPlyChrSelectGC__ct
-  - TAdMultiPlyChrSelectGC__sub_803367E8
+  - clear_multi_chr_select_slot_chosen__Fv
   - TAdMultiSaveGC__sub_802FF170
   - TAdMultiSaveGC__sub_802FF1F4
   - TAdMultiSaveGC__sub_802FF254
@@ -226,7 +226,7 @@ force_active:
   - set_draw_depth__14TAdSelectCurGCFf
   - __as__16ChatShortcutKindFRC16ChatShortcutKind
   - copy_light_range__FPfPf
-  - decrypt_character_save__FPv
+  - decrypt_character_save__FP17Pso3CharacterFile
   - __dt__17CharacterFileSlotFv
   - set_character_file_seed__FP13CharacterFilel
   - get_character_file_seed__FP13CharacterFile
@@ -704,7 +704,7 @@ force_active:
   - gba_clear_identifiers__Fv
   - reset_joyboot_state__FPv
   - TLobby__sub_803361FC
-  - TLobby__sub_803362A4
+  - handle_menu_selection__11TTitleSceneFv
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
   - reset_init_ref_count

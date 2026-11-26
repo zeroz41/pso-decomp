@@ -2545,7 +2545,7 @@ void TLobby::send_logout() {
 #pragma dont_inline off
 
 #define CONNECT_TO_LOBBY_SERVER(res, s)                                                                   \
-    if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
+    if (get_video_standard() == 0) {                                                    \
         res = TLobby::protocol_instance->set_server_info("", "", \
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[0].host, s[0].port);                                     \

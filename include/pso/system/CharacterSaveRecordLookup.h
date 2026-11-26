@@ -60,7 +60,9 @@ struct CharacterSaveRecord {
     u32 save_count;         // raised before every save; the copy with the higher count is newer
     u8 account[0x1C];       // the account's entry, copied in when the character is created
     u8 user_name[0x10];
-    u8 pad_44[0x244 - 0x44];
+    // The story flags of each difficulty; save_quest_story_flags and load_quest_story_flags copy
+    // quest_story_flags_by_difficulty to and from here.
+    u8 quest_story_flags[4][0x80];
     s32 death_count;        // raised when a local player dies (enter_death_state)
     s32 bank_item_count;    // rows of bank_items in use
     s32 bank_meseta;        // meseta kept in the bank

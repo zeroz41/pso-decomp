@@ -649,14 +649,14 @@ void TWindowSubStatusDisp::vt3() {
     label = (WindowTextEntry *)get_array_entry(0xD);
     set_text_entry_string(label, get_localized_text_entry(0x10, 0xE), 0);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_field_21a8((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_value((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_second_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_status((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_field((u16) this->client_index);
-    card_flag = TAdSinglePlyChrSelectGC::get_card_flag((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_online_fourth_place_count((u16) this->client_index);
+    card_flag = TAdSinglePlyChrSelectGC::get_online_disconnect_count((u16) this->client_index);
     if (is_battle_mode_running() != 0) {
         card_flag -= 1;
     }
@@ -688,13 +688,13 @@ void TWindowSubStatusDisp::vt7() {
     ((TWindowHelpItem *)((void *)get_array_entry(0xD)))->set_flag0_bit2();
     ((TWindowHelpItem *)((void *)get_array_entry(0xE)))->set_flag0_bit2();
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_state((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
-    number->value = (s32)TAdSinglePlyChrSelectGC__sub_801FC36C((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_second_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_window_status((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_card_window_field((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_fourth_place_count((u16) this->client_index);
     ((TWindowHelpItem *)((void *)get_array_entry(0xF)))->set_flag0_bit2();
 }
 

@@ -76,7 +76,7 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
     if (TAdSelectGameModeGC::get_mode_data() == 1) {
         TAdStorySelectGC::set_state(0);
         queue_destruction();
-        if (TAdMultiPlyChrSelectGC__sub_80299454() != 0) {
+        if (is_multi_chr_select_slot_chosen() != 0) {
             TAdMultiChgGameModeGC::open_multi_ply_chr_select_scene();
         } else {
             TAdMultiChgGameModeGC::open_level_select_scene();

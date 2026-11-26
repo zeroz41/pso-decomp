@@ -156,7 +156,7 @@ TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
     next_picture = 0;
     ending_pic_wall_texture_list = get_ending_ab_wall_texture_list();
     init_positions();
-    switch (TKeyBoardControl__sub_8000F828()) {
+    switch (get_video_standard()) {
     case 0: timing_rate = 30; break;
     case 1: timing_rate = 25; break;
     }

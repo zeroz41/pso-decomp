@@ -293,11 +293,11 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
         g->vz = 0.0f;
         g->roll = 0x8000;
     }
-    m_150 = 500.0f;
-    viewport_width = 640.0f;
-    viewport_height = 480.0f;
-    m_140 = 544.0f;
-    m_144 = 140.0f;
+    viewport.depth = 500.0f;
+    viewport.screen_width = 640.0f;
+    viewport.screen_height = 480.0f;
+    viewport.center_x = 544.0f;
+    viewport.center_y = 140.0f;
     for (j = 0; j < 4; j++) {
         player_marker_records[j].z = 0.0f;
         player_marker_records[j].y = 0.0f;
@@ -471,11 +471,11 @@ void TRaderMapCore::update_pan_zoom_input() {
 
 // Dead-stripped from the DOL: no code of it survives, only its literal 500.0f (pooled
 // between render_region_records' 0.08f and update_pan_zoom_input's 6.0f). It stores the defaults
-// the constructor gives m_150 and the viewport size, field by field. Name inferred.
+// the constructor gives the viewport depth and size, field by field. Name inferred.
 void TRaderMapCore::set_default_view_size() {
-    m_150 = 500.0f;
-    viewport_width = 640.0f;
-    viewport_height = 480.0f;
+    viewport.depth = 500.0f;
+    viewport.screen_width = 640.0f;
+    viewport.screen_height = 480.0f;
 }
 
 s32 TRaderMapCore::is_render_admitted(s32 mode) {
@@ -609,7 +609,7 @@ void TRaderMapCore::begin_map_view(int mode) {
     viewport.center_y = rect->center_y;
     viewport.screen_width = rect->screen_width;
     viewport.screen_height = rect->screen_height;
-    viewport.value18 = rect->depth;
+    viewport.depth = rect->depth;
     configure_viewport(&viewport);
     set_view_scissor(2, &radar_map_view_scissor_table[mode]);
     setup_overhead_projection(&radar_map_view_state[mode]);

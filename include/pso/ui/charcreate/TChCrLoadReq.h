@@ -41,10 +41,10 @@ public:
     void start_preview_loads();
     s32 completion_flags_clear();
 public:
-    u8 unk_1C[0x1C];
+    u8 pad_1C[0x38 - 0x1C];
     CharacterPreviewLoadArgs inputs;
-    s32 *m_58;
-    CharacterClassAppearance *m_5c;
+    s32 *head_model;
+    CharacterClassAppearance *class_appearance;
     s32 state;
     s32 timer;
     saddr calc_preview_last_index(s32 display_index, s32 region_index);
@@ -56,9 +56,9 @@ public:
 public:
     void reset_request();
     static void *create(void *parent);
-    s32 m_68[3];
-    TChCrLoadAfs *m_74[6];
-    s32 m_8c;
+    s32 sample_indices[3];
+    TChCrLoadAfs *sample_loads[6];
+    s32 holds_load_slot;
 };
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args);
 s32 is_node_tree_valid(NJS_OBJECT *object);

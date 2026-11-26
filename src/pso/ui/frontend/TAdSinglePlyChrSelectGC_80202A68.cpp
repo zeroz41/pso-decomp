@@ -40,24 +40,24 @@ struct B21FC_80202DD4 { u32 w[0x87F]; };
 
 
 struct S_80202DD4 {
-    s32 f0, f4, f8, fC, f10, f14;
-    B1C_80202DD4 b18;
-    B10_80202DD4 b34;
-    B400_80202DD4 b44;
-    s32 f444, f448, f44C;
-    BankItemRecord items[4];
-    B90_80202DD4 b4B0;
-    B420_80202DD4 b540;
-    ChatShortcut elems[20];
-    BAC_80202DD4 bFF0;
-    BAC_80202DD4 b109C;
-    B1C_80202DD4 b1148;
-    B100_80202DD4 b1164;
-    B28_80202DD4 b1264;
-    B28_80202DD4 b128C;
-    BC0_80202DD4 b12B4;
-    B1C_80202DD4 b1374;
-    B21FC_80202DD4 b1390;
+    s32 flags, creation_seconds, magic, play_time, card_window_flags, save_count;
+    B1C_80202DD4 account;
+    B10_80202DD4 user_name;
+    B400_80202DD4 pad_44;
+    s32 death_count, bank_item_count, bank_meseta;
+    BankItemRecord bank_items[4];
+    B90_80202DD4 guild_card;
+    B420_80202DD4 symbol_chat_presets;
+    ChatShortcut chat_shortcuts[20];
+    BAC_80202DD4 short_mail_text;
+    BAC_80202DD4 info_board_text;
+    B1C_80202DD4 online_battle;
+    B100_80202DD4 challenge;
+    B28_80202DD4 short_list_order;
+    B28_80202DD4 choice_search;
+    BC0_80202DD4 pad_12B4;
+    B1C_80202DD4 split_screen_battle;
+    B21FC_80202DD4 pad_1390;
 };
 
 #pragma inline_depth(1)
@@ -66,11 +66,11 @@ struct S_80202DD4 {
 struct S_801FE010;
 struct B8_801FDFB8 { u32 w[2]; };
 
-struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
+struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 copy_stamp; s32 f2794; };
 
 
-s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file) {
-    return *(s32 *)((s8 *)file + 0x194AC);
+s32 Pso3CharacterFile::get_cipher_seed() {
+    return cipher_seed;
 }
 
 
@@ -164,7 +164,7 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
     dst->char_data = src->char_data;
     ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
-    dst->f278C = src->f278C;
+    dst->copy_stamp = src->copy_stamp;
     dst->f2794 = src->f2794;
     return a0;
 }
@@ -176,40 +176,40 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     S_80202DD4 *s = (S_80202DD4 *)source;
     ChatShortcut *p;
     ChatShortcut *q;
-    d->f0 = s->f0;
-    d->f4 = s->f4;
-    d->f8 = s->f8;
-    d->fC = s->fC;
-    d->f10 = s->f10;
-    d->f14 = s->f14;
-    d->b18 = s->b18;
-    d->b34 = s->b34;
-    d->b44 = s->b44;
-    d->f444 = s->f444;
-    d->f448 = s->f448;
-    d->f44C = s->f44C;
-    d->items[0] = s->items[0];
-    d->items[1] = s->items[1];
-    d->items[2] = s->items[2];
-    d->items[3] = s->items[3];
-    d->b4B0 = s->b4B0;
-    d->b540 = s->b540;
-    p = d->elems;
-    q = s->elems;
+    d->flags = s->flags;
+    d->creation_seconds = s->creation_seconds;
+    d->magic = s->magic;
+    d->play_time = s->play_time;
+    d->card_window_flags = s->card_window_flags;
+    d->save_count = s->save_count;
+    d->account = s->account;
+    d->user_name = s->user_name;
+    d->pad_44 = s->pad_44;
+    d->death_count = s->death_count;
+    d->bank_item_count = s->bank_item_count;
+    d->bank_meseta = s->bank_meseta;
+    d->bank_items[0] = s->bank_items[0];
+    d->bank_items[1] = s->bank_items[1];
+    d->bank_items[2] = s->bank_items[2];
+    d->bank_items[3] = s->bank_items[3];
+    d->guild_card = s->guild_card;
+    d->symbol_chat_presets = s->symbol_chat_presets;
+    p = d->chat_shortcuts;
+    q = s->chat_shortcuts;
     do {
         *p = *q;
         p++;
         q++;
-    } while (p < d->elems + 20);
-    d->bFF0 = s->bFF0;
-    d->b109C = s->b109C;
-    d->b1148 = s->b1148;
-    d->b1164 = s->b1164;
-    d->b1264 = s->b1264;
-    d->b128C = s->b128C;
-    d->b12B4 = s->b12B4;
-    d->b1374 = s->b1374;
-    d->b1390 = s->b1390;
+    } while (p < d->chat_shortcuts + 20);
+    d->short_mail_text = s->short_mail_text;
+    d->info_board_text = s->info_board_text;
+    d->online_battle = s->online_battle;
+    d->challenge = s->challenge;
+    d->short_list_order = s->short_list_order;
+    d->choice_search = s->choice_search;
+    d->pad_12B4 = s->pad_12B4;
+    d->split_screen_battle = s->split_screen_battle;
+    d->pad_1390 = s->pad_1390;
     return ((u8 *)this);
 }
 

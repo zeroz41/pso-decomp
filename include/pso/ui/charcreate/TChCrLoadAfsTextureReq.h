@@ -6,6 +6,7 @@ struct AdxfHandle;
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaTextureInput.h"
 
 struct TChCrLoadAfsTextureReqArgs {
     NJS_TEXLIST *textures;
@@ -30,10 +31,10 @@ struct TChCrLoadAfsTextureReq : public TObject {
     void init_texture_table();
     static TChCrLoadAfsTextureReq *create(TObject *parent, TChCrLoadAfsTextureReqArgs *args);
 
-    s32 m_1c;
-    s32 m_20;
-    s32 m_24;
-    s32 m_28;
+    s32 textures_loaded;
+    s32 stop_count;
+    s32 read_frames;
+    s32 suspended;
     s32 state;
     NJS_TEXLIST *textures;
     s32 *completion_flags;
@@ -45,7 +46,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     s32 holds_load_slot;
     s32 completion_mask;
     s32 display_index;
-    u8 m_74[8][0x24];
+    GinjaTextureInput texture_inputs[8];
 };
 
 LAYOUT_ASSERT(TChCrLoadAfsTextureReq_size, sizeof(TChCrLoadAfsTextureReq) == 0x194);

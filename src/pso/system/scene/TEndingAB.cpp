@@ -329,7 +329,7 @@ TEndingAB::TEndingAB(TObject *parent) : TObject(parent) {
     wall_index = 0;
     picture_index = 0;
     init_float_table();
-    switch (TKeyBoardControl__sub_8000F828()) {
+    switch (get_video_standard()) {
     case 0: timing_rate = 30; break;
     case 1: timing_rate = 25; break;
     }

@@ -18,7 +18,7 @@ void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
 void TAdChrSelPlyPlateGC::restore_selection() { TAdMultiPlyChrSelectGC::selected_slot = multi_ply_chr_select_active_player; }
 
 void TAdChrSelPlyPlateGC::capture_card_index() { captured_card_index = get_active_card_slot(); }
-s32 TAdChrSelPlyPlateGC::get_field_0x530() { return unk_530; }
+s32 TAdChrSelPlyPlateGC::is_start_requested() { return start_requested; }
 void TAdChrSelBSlotGC::set_state(s32 value) { state = value; }
 s32 TAdChrSelBSlotGC::get_state() { return state; }
 

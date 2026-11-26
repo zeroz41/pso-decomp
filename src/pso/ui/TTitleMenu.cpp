@@ -37,8 +37,8 @@ void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
 }
 
 
-s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller) {
-    return controller->state == 2;
+s32 TTitleMenu::is_selection_confirmed() {
+    return state == 2;
 }
 
 s32 TTitleMenu::get_cursor() { return cursor; }
@@ -151,5 +151,5 @@ TTitleMenu::TTitleMenu(TObject *parent) : TObject(parent) {
     frame = 0;
 }
 
-void TLobby__sub_80335E74(void) {  }
-void TLobby__sub_80335E78(void) {  }
+void free_title_menu_resources() {}
+void load_title_menu_resources() {}

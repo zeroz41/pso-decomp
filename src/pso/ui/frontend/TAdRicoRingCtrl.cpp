@@ -95,7 +95,7 @@ TAdRicoRing::TAdRicoRing(TObject *parent) : TObject(parent) {
     target_scale = 0.0f;
     angular_velocity = 0x5B0;
     flags.set(4);
-    switch (TKeyBoardControl__sub_8000F828()) {
+    switch (get_video_standard()) {
     case 0: angular_acceleration = 0x12; break;
     case 1: angular_acceleration = 0x15; break;
     }

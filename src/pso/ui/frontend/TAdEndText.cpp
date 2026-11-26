@@ -270,7 +270,7 @@ TAdEndText::TAdEndText(TObject *parent) : TObject(parent) {
         }
         m_line_count++;
     }
-    m_rate = (TKeyBoardControl__sub_8000F828() == 0) ? (one) : (fast_rate);
+    m_rate = (get_video_standard() == 0) ? (one) : (fast_rate);
     m_speed = scroll_step * m_rate;
     m_size_index = (is_ending_sequence_active() != 0) ? (1) : (0);
 }
