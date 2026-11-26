@@ -54,7 +54,7 @@ extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
 extern "C" {
 
 void debug_printf_at(int, void *, ...);
-extern u8 lbl_80445CD8[];
+extern u8 debug_select_color_label[];
 
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
@@ -145,7 +145,7 @@ void TLazerFenceSw::render() {
 }
 #pragma pop
 
-__declspec(section ".rodata") u8 lbl_80445CD8[16] = "<- SELECT COLOR";
+__declspec(section ".rodata") u8 debug_select_color_label[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
     TOKey::debug_draw_key_id();
     if (set_params[2] < 0) {
@@ -153,7 +153,7 @@ void TLazerFenceSw::debug_draw_key_id() {
     }
     color_slot = lbl_80445CB8[set_params[2] % 4];
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130022, lbl_80445CD8);
+    debug_printf_at(0x130022, debug_select_color_label);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 

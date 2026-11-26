@@ -41,9 +41,9 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/player/PlayerSlots.h"
-const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
-static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
-static const char lbl_80444A58[] = "<- KEY ID : %d";
+const char *TObjCityMainWarpChallenge__name = "TObjCityMainWarpChallenge";
+static const char debug_next_stage_format[] = "<- NEXT STAGE No.%d";
+static const char debug_key_id_format_challenge[] = "<- KEY ID : %d";
 
 
 extern "C" {
@@ -51,7 +51,7 @@ s32 is_local_client_floor_leader(s32);
 void request_active_window_close(void);
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = lbl_805D32B8;
+    m_name = TObjCityMainWarpChallenge__name;
     frame = 0.0f;
     warp_range = 19.0f;
     dest_floor = set_params[0];
@@ -143,9 +143,9 @@ void TObjCityMainWarpChallenge::debug_print_area_num() {
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, lbl_80444A44, set_params[0]);
+        debug_printf_at(0x130020, debug_next_stage_format, set_params[0]);
     }
-    debug_printf_at(0x130021, lbl_80444A58, key_id);
+    debug_printf_at(0x130021, debug_key_id_format_challenge, key_id);
 }
 
 void TObjCityMainWarpChallenge::update_state() {

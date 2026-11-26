@@ -52,7 +52,7 @@ struct EnemySetData {
 extern "C" {
 
 
-extern uaddr TObjPlayer__data_8050D460[];
+extern uaddr registered_object_table[];
 
 
 
@@ -587,13 +587,13 @@ TObjChara *get_enemy_entity(u16 entity_id) {
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
-            if (((TObjBase *)TObjPlayer__data_8050D460[mid])->get_entity_id() < entity_id) {
+            if (((TObjBase *)registered_object_table[mid])->get_entity_id() < entity_id) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
-        TObjChara *e = reinterpret_cast<TObjChara *>(TObjPlayer__data_8050D460[low]);
+        TObjChara *e = reinterpret_cast<TObjChara *>(registered_object_table[low]);
         if (e != 0 && entity_id == e->get_entity_id()) {
             return e;
         }

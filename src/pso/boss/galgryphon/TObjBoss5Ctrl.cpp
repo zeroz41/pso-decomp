@@ -15,7 +15,7 @@
 
 extern "C" {
 s32 is_room_enemy_set_cleared(s32, s32);
-const char *lbl_805D2828 = "TObjBoss5Ctrl";
+const char *TObjBoss5Ctrl__name = "TObjBoss5Ctrl";
 }
 
 void TObjBoss5Ctrl::play_pillar_sound() {
@@ -53,7 +53,7 @@ TObjBoss5Ctrl::~TObjBoss5Ctrl() {
 }
 
 TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D2828;
+    m_name = TObjBoss5Ctrl__name;
     floor_grass = NULL;
     floor_stone = NULL;
     pillar_controller = NULL;

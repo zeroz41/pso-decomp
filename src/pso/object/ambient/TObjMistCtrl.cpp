@@ -40,7 +40,7 @@ void TObjMistCtrl::sub_802AF64C() {
     }
 }
 
-const char *lbl_805D3E80 = "TObjMistCtrl";
+const char *TObjMistCtrl__name = "TObjMistCtrl";
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
 
@@ -51,7 +51,7 @@ TObjMistCtrl::~TObjMistCtrl() {
 
 
 TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr set_data) : TObjBase((TObject *)((void *)parent)) {
-    this->m_name = lbl_805D3E80;
+    this->m_name = TObjMistCtrl__name;
     if (set_data != 0U) {
         ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     }

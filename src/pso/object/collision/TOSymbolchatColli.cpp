@@ -41,7 +41,7 @@ extern "C" {
 CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-const char *lbl_805D3190 = "symbolchatcolli.prs";
+const char *symbolchatcolli_prs = "symbolchatcolli.prs";
 const char *symbolchat_colli_name = "TOSymbolchatColli";
 u32 symbolchat_colli_param_table[4];
 void *symbol_chat_colli_entries;
@@ -144,7 +144,7 @@ void TOSymbolchatColli::load_symbol_chat_data() {
     void *h;
     s32 i;
     symbol_chat_colli_entries = mem_alloc(0x840);
-    h = load_disc_file(lbl_805D3190);
+    h = load_disc_file(symbolchatcolli_prs);
     if (h != NULL) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }

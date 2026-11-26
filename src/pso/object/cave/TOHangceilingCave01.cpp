@@ -46,28 +46,28 @@ NJS_OBJECT *hangceiling_cave01_model_root;
 s32 turiten_singo_key_model_index;
 s32 hanging_ceiling_motion_index;
 
-extern const char lbl_804416F8[] = "fe_obj_turiten_kuro.gj";
-extern const char lbl_80441710[] = "fe_obj_turiten_moto_taiki.gj";
-extern const char lbl_80441730[] = "fs_obj_turiten_singo.gj";
-extern const char lbl_80441748[] = "fe_obj_turiten_moto.njm";
-extern const char lbl_80441760[] = "fe_obj_turiten_moto_taiki.njm";
-extern const char lbl_80441780[] = "fe_obj_turiten_moto.bml";
-extern const char lbl_80441798[] = "fe_obj_gc_turiten_moto.gj";
-extern const char lbl_804417B4[] = "fe_obj_gc_turiten_moto.njm";
-extern const char lbl_804417D0[] = "bm_obj_ruins_turiten.bml";
+extern const char fe_obj_turiten_kuro_gj[] = "fe_obj_turiten_kuro.gj";
+extern const char fe_obj_turiten_moto_taiki_gj[] = "fe_obj_turiten_moto_taiki.gj";
+extern const char fs_obj_turiten_singo_gj[] = "fs_obj_turiten_singo.gj";
+extern const char fe_obj_turiten_moto_njm[] = "fe_obj_turiten_moto.njm";
+extern const char fe_obj_turiten_moto_taiki_njm[] = "fe_obj_turiten_moto_taiki.njm";
+extern const char fe_obj_turiten_moto_bml[] = "fe_obj_turiten_moto.bml";
+extern const char fe_obj_gc_turiten_moto_gj[] = "fe_obj_gc_turiten_moto.gj";
+extern const char fe_obj_gc_turiten_moto_njm[] = "fe_obj_gc_turiten_moto.njm";
+extern const char bm_obj_ruins_turiten_bml[] = "bm_obj_ruins_turiten.bml";
 __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
 extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
 extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
 extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
 
-const char *fe_obj_turiten_moto_model_names[] = {lbl_804416F8, lbl_80441710, lbl_80441730, NULL};
-const char *fe_obj_turiten_moto_motion_names[] = {lbl_80441748, lbl_80441760, NULL};
+const char *fe_obj_turiten_moto_model_names[] = {fe_obj_turiten_kuro_gj, fe_obj_turiten_moto_taiki_gj, fs_obj_turiten_singo_gj, NULL};
+const char *fe_obj_turiten_moto_motion_names[] = {fe_obj_turiten_moto_njm, fe_obj_turiten_moto_taiki_njm, NULL};
 BmlResourceDescriptor fe_obj_turiten_moto_resource_descriptor = {
-    lbl_80441780, fe_obj_turiten_moto_model_names, fe_obj_turiten_moto_motion_names, 3, 2};
-__declspec(section ".data") const char *bm_obj_ruins_turiten_model_names[] = {lbl_80441798, NULL};
-__declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {lbl_804417B4, NULL};
+    fe_obj_turiten_moto_bml, fe_obj_turiten_moto_model_names, fe_obj_turiten_moto_motion_names, 3, 2};
+__declspec(section ".data") const char *bm_obj_ruins_turiten_model_names[] = {fe_obj_gc_turiten_moto_gj, NULL};
+__declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {fe_obj_gc_turiten_moto_njm, NULL};
 BmlResourceDescriptor turiten_singo_resource_descriptor = {
-    lbl_804417D0, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
+    bm_obj_ruins_turiten_bml, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 CollisionBody lbl_804B2174 = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 const char *hangceiling_cave01_normal_class_name = hangceiling_cave01_normal_class_name_string;

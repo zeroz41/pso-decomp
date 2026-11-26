@@ -87,9 +87,9 @@ extern LightEntry *light_entry_data;
 extern s32 light_entry_file_size;
 extern const char light_entry_file_name[];
 
-extern TSceneDirectionalLight *lbl_805D5558;
+extern TSceneDirectionalLight *directional_light_instance;
 extern void *lbl_805D555C;
 extern TObjLight *current_scene_light;
-extern TSceneAmbientLight *lbl_805D5564;
+extern TSceneAmbientLight *ambient_light_instance;
 
 #endif

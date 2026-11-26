@@ -184,7 +184,7 @@ CollisionBody chain_saw_collision_body_part_table[2][2] = {
 
 static const f32 lbl_805DE620 = -1.0f;
 
-BmlResource *lbl_805D6808;
+BmlResource *jungle_nokogiri_resource;
 
 }
 
@@ -222,7 +222,7 @@ void TOTrapChainSaw::load_shared_resource() {
     s32 i;
     NJS_OBJECT *root;
     p = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, NULL);
-    lbl_805D6808 = p;
+    jungle_nokogiri_resource = p;
     for (i = 0; i < 5; i++) {
         seabed_suiso_linked_switch_counts[i] = NULL;
     }
@@ -237,7 +237,7 @@ void TOTrapChainSaw::load_shared_resource() {
             seabed_suiso_linked_switch_counts[3] = find_object_node(root, 5);
             seabed_suiso_linked_switch_counts[4] = find_object_node(root, 6);
         }
-        root = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, 4);
+        root = (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_nokogiri_resource, 4);
         if (root != NULL) {
             seabed_suiso_switch_counts[1] = find_object_node(root, 3);
             seabed_suiso_switch_counts[2] = find_object_node(root, 4);
@@ -249,9 +249,9 @@ void TOTrapChainSaw::load_shared_resource() {
 
 void TOTrapChainSaw::unload_static_data() {
     s32 i;
-    if (lbl_805D6808 != NULL) {
-        delete (BmlResource *)lbl_805D6808;
-        lbl_805D6808 = NULL;
+    if (jungle_nokogiri_resource != NULL) {
+        delete (BmlResource *)jungle_nokogiri_resource;
+        jungle_nokogiri_resource = NULL;
     }
     for (i = 0; i < 5; i++) {
         seabed_suiso_linked_switch_counts[i] = NULL;
@@ -262,22 +262,22 @@ void TOTrapChainSaw::unload_static_data() {
 }
 
 NJS_OBJECT *TOTrapChainSawKey::get_model(s32 index) {
-    if (lbl_805D6808 != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_nokogiri_resource, index);
     }
     return NULL;
 }
 
 AnimationMotion *TOTrapChainSawKey::get_motion(s32 index) {
-    if (lbl_805D6808 != NULL) {
-        return get_bml_motion(lbl_805D6808, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_motion(jungle_nokogiri_resource, index);
     }
     return NULL;
 }
 
 NJS_TEXLIST *fn_802C9924(s32 index) {
-    if (lbl_805D6808 != NULL) {
-        return get_bml_texlist((BmlResource *)lbl_805D6808, index);
+    if (jungle_nokogiri_resource != NULL) {
+        return get_bml_texlist((BmlResource *)jungle_nokogiri_resource, index);
     }
     return NULL;
 }

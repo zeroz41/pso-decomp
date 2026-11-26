@@ -87,7 +87,7 @@ const char *TOTrapSeabed01_class_name = "TOTrapSeabed01";
 BmlResource *trap_seabed01_bml_resource;
 NJS_TEXLIST *trap_seabed01_texture_file;
 NJS_OBJECT *trap_seabed01_ginja_model;
-s32 lbl_805D681C;
+s32 effect_uv_scroll_last_tick;
 s32 seabed01_ginja_mesh_index;
 
 TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
@@ -131,7 +131,7 @@ void TOTrapSeabed01::load_resources() {
     trap_seabed01_bml_resource = resource;
     trap_seabed01_texture_file = LoadPvmFileTls("obj_seabed_turigane.gvm");
     trap_seabed01_ginja_model = find_object_node((NJS_OBJECT *)get_bml_model(trap_seabed01_bml_resource, 0), 5);
-    lbl_805D681C = 0;
+    effect_uv_scroll_last_tick = 0;
     seabed01_ginja_mesh_index = -1;
     if (trap_seabed01_texture_file != NULL) {
         seabed01_ginja_mesh_index = find_texture_entry_by_name(trap_seabed01_texture_file, "apk_o064_seaturigane03");
@@ -272,12 +272,12 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
 
 void TOTrapSeabed01::render_effect_layers() {
     TObjFish::set_global_param(trap_seabed01_texture_file);
-    if (actor_frame_tick != lbl_805D681C) {
+    if (actor_frame_tick != effect_uv_scroll_last_tick) {
         if (trap_seabed01_ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
             scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(trap_seabed01_ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
             PPCSync();
         }
-        lbl_805D681C = actor_frame_tick;
+        effect_uv_scroll_last_tick = actor_frame_tick;
     }
     set_model_node_callback(TOTrapSeabed01::trigger_by_id);
     push_matrix();

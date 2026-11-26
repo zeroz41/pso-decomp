@@ -19,7 +19,7 @@ struct AdxmThreadConfig {
 
 // --- C functions and globals defined in AdxManager.cpp / AdxtInit.cpp ---
 extern "C" {
-extern s32 lbl_805D7540;
+extern s32 adxt_vblank_count;
 void VIWaitForRetrace(void);
 void setup_adx_file_systems(s32 *read_mode);
 void fs_error_notify(s32 context, const char *message, void *detail);

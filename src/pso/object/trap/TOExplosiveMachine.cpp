@@ -24,29 +24,29 @@
 extern "C" {
 
 
-__declspec(section ".rodata") const char lbl_80441268[] = "fs_obj_bapipe.gj";
-__declspec(section ".rodata") const char lbl_8044127C[] = "fs_obj_bapipe_a.gj";
-__declspec(section ".rodata") const char lbl_80441290[] = "fs_obj_bapipe_b.gj";
-__declspec(section ".rodata") const char lbl_804412A4[] = "fs_obj_baswitch.gj";
-__declspec(section ".rodata") const char lbl_804412B8[] = "fs_obj_baswitch_a.gj";
-__declspec(section ".rodata") const char lbl_804412D0[] = "fs_obj_baswitch_b.gj";
-__declspec(section ".rodata") const char lbl_804412E8[] = "fs_obj_batank.gj";
-__declspec(section ".rodata") const char lbl_804412FC[] = "fs_obj_batank_a.gj";
-__declspec(section ".rodata") const char lbl_80441310[] = "fs_obj_batank_b.gj";
-__declspec(section ".rodata") const char lbl_80441324[] = "bm_o_explosive_machine.bml";
+__declspec(section ".rodata") const char fs_obj_bapipe_gj[] = "fs_obj_bapipe.gj";
+__declspec(section ".rodata") const char fs_obj_bapipe_a_gj[] = "fs_obj_bapipe_a.gj";
+__declspec(section ".rodata") const char fs_obj_bapipe_b_gj[] = "fs_obj_bapipe_b.gj";
+__declspec(section ".rodata") const char fs_obj_baswitch_gj[] = "fs_obj_baswitch.gj";
+__declspec(section ".rodata") const char fs_obj_baswitch_a_gj[] = "fs_obj_baswitch_a.gj";
+__declspec(section ".rodata") const char fs_obj_baswitch_b_gj[] = "fs_obj_baswitch_b.gj";
+__declspec(section ".rodata") const char fs_obj_batank_gj[] = "fs_obj_batank.gj";
+__declspec(section ".rodata") const char fs_obj_batank_a_gj[] = "fs_obj_batank_a.gj";
+__declspec(section ".rodata") const char fs_obj_batank_b_gj[] = "fs_obj_batank_b.gj";
+__declspec(section ".rodata") const char bm_o_explosive_machine_bml[] = "bm_o_explosive_machine.bml";
 __declspec(section ".rodata") const char explosive_machine_class_name_string[] = "TOExplosiveMachine";
 __declspec(section ".rodata") const char explosive_machine01_class_name_string[] = "TOExplosiveMachine01";
 __declspec(section ".rodata") const char explosive_machine02_class_name_string[] = "TOExplosiveMachine02";
 __declspec(section ".rodata") const char explosive_machine03_class_name_string[] = "TOExplosiveMachine03";
 
 const char *bm_o_explosive_machine_model_names[] = {
-    lbl_80441268, lbl_8044127C, lbl_80441290,
-    lbl_804412A4, lbl_804412B8, lbl_804412D0,
-    lbl_804412E8, lbl_804412FC, lbl_80441310, NULL
+    fs_obj_bapipe_gj, fs_obj_bapipe_a_gj, fs_obj_bapipe_b_gj,
+    fs_obj_baswitch_gj, fs_obj_baswitch_a_gj, fs_obj_baswitch_b_gj,
+    fs_obj_batank_gj, fs_obj_batank_a_gj, fs_obj_batank_b_gj, NULL
 };
 __declspec(section ".sdata") const char *bm_o_explosive_machine_motion_names[] = {NULL};
 BmlResourceDescriptor explosive_machine_resource_desc = {
-    lbl_80441324, bm_o_explosive_machine_model_names,
+    bm_o_explosive_machine_bml, bm_o_explosive_machine_model_names,
     bm_o_explosive_machine_motion_names, 9, 0
 };
 const char *explosive_machine_class_name = explosive_machine_class_name_string;

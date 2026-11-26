@@ -97,18 +97,18 @@ s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 
-extern s32 lbl_805D7540;
+extern s32 adxt_vblank_count;
 
 extern "C" {
 void TLobby__sub_803CA8B4(AdxtPlayer *);
 extern AdxtPlayer adx_stream_player_pool[16];
 
-s32 lbl_805D7560;
-s32 lbl_805D7564;
-s32 lbl_805D7568;
-f32 lbl_805D756C;
-s32 lbl_805D7570;
-RecoveredCallback_2be3cacebb2e lbl_805D7574;
+s32 adxt_rate_mode;
+s32 adxt_server_stage;
+s32 adxt_resync_count;
+f32 adxt_sync_drift_ms;
+s32 adxt_time_rate;
+RecoveredCallback_2be3cacebb2e adxt_destroy_callback;
 
 void set_sync_mode_flag(AdxtPlayer *player, s8 flag) {
     player->sync_mode_flag = flag;
@@ -120,19 +120,19 @@ void TLobby__sub_803C9350(AdxtPlayer *player, s32 offset) {
 
 inline void inl_803C9608(void) {
     s32 i;
-    if (lbl_805D7564 == 0) {
+    if (adxt_server_stage == 0) {
         adx_lock();
-        lbl_805D7564 = 1;
+        adxt_server_stage = 1;
         sub_803C0018();
-        lbl_805D7564 = 2;
+        adxt_server_stage = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].used == 1) {
                 TLobby__sub_803CA8B4(&adx_stream_player_pool[i]);
             }
         }
-        lbl_805D7564 = 3;
+        adxt_server_stage = 3;
         gcrna_bridge_update_streams();
-        lbl_805D7564 = 0;
+        adxt_server_stage = 0;
         adx_unlock();
     }
 }
@@ -146,12 +146,12 @@ s32 TLobby__sub_803C9358(AdxtPlayer *player) {
     }
     ret = TLobby__sub_803CBF10(player->rna_handle);
     inl_803C9608();
-    save = lbl_805D7560;
-    lbl_805D7560 = 0;
+    save = adxt_rate_mode;
+    adxt_rate_mode = 0;
     TLobby__sub_803C97F4(player, &pos, &rate);
-    lbl_805D7560 = save;
-    player->base_time = (s32)((f32)lbl_805D7570 * ((f32)pos / (f32)rate));
-    player->base_vblank = lbl_805D7540;
+    adxt_rate_mode = save;
+    player->base_time = (s32)((f32)adxt_time_rate * ((f32)pos / (f32)rate));
+    player->base_vblank = adxt_vblank_count;
     return ret;
 }
 
@@ -177,13 +177,13 @@ void TLobby__sub_803C94DC(AdxtPlayer *player, s32 paused) {
                 TLobby__sub_803CC030(player->rna_handle, 0);
             } else {
                 TLobby__sub_803CC030(player->rna_handle, 1);
-                player->base_vblank = lbl_805D7540;
+                player->base_vblank = adxt_vblank_count;
             }
-            save = lbl_805D7560;
-            lbl_805D7560 = 0;
+            save = adxt_rate_mode;
+            adxt_rate_mode = 0;
             TLobby__sub_803C97F4(player, &pos, &rate);
-            lbl_805D7560 = save;
-            player->base_time = (s32)((f32)lbl_805D7570 * ((f32)pos / (f32)rate));
+            adxt_rate_mode = save;
+            player->base_time = (s32)((f32)adxt_time_rate * ((f32)pos / (f32)rate));
         }
         adx_unlock();
     }
@@ -195,19 +195,19 @@ s32 get_error_code(AdxtPlayer *player) {
 
 void TLobby__sub_803C9608(void) {
     s32 i;
-    if (lbl_805D7564 == 0) {
+    if (adxt_server_stage == 0) {
         adx_lock();
-        lbl_805D7564 = 1;
+        adxt_server_stage = 1;
         sub_803C0018();
-        lbl_805D7564 = 2;
+        adxt_server_stage = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].used == 1) {
                 TLobby__sub_803CA8B4(&adx_stream_player_pool[i]);
             }
         }
-        lbl_805D7564 = 3;
+        adxt_server_stage = 3;
         gcrna_bridge_update_streams();
-        lbl_805D7564 = 0;
+        adxt_server_stage = 0;
         adx_unlock();
     }
 }
@@ -269,7 +269,7 @@ s32 TLobby__sub_803C97B8(AdxtPlayer *player) {
 
 
 extern "C" {
-u32 lbl_805D4678 = 1;
+u32 adxt_resync_enabled = 1;
 }
 
 inline void get_play_position_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
@@ -296,51 +296,51 @@ void TLobby__sub_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 cur_rate;
     s32 st;
 
-    if (lbl_805D7560 == 0) {
+    if (adxt_rate_mode == 0) {
         get_play_position_803C97F4(p, pos, rate);
         return;
     }
-    lbl_805D756C = 0.0f;
+    adxt_sync_drift_ms = 0.0f;
     st = p->stat;
     if (st == 3 || st == 4) {
         if (p->pause_flag == 0) {
-            *pos = p->base_time + (lbl_805D7540 - p->base_vblank) * 100;
+            *pos = p->base_time + (adxt_vblank_count - p->base_vblank) * 100;
         } else {
             *pos = p->base_time;
         }
         get_play_position_803C97F4(p, &cur_pos, &cur_rate);
-        lbl_805D756C = 1000.0f * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)lbl_805D7570);
-        if (lbl_805D756C > 60.0f || lbl_805D756C < -60.0f) {
-            if (lbl_805D4678 == 1) {
-                s32 save = lbl_805D7560;
-                lbl_805D7560 = 0;
+        adxt_sync_drift_ms = 1000.0f * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)adxt_time_rate);
+        if (adxt_sync_drift_ms > 60.0f || adxt_sync_drift_ms < -60.0f) {
+            if (adxt_resync_enabled == 1) {
+                s32 save = adxt_rate_mode;
+                adxt_rate_mode = 0;
                 TLobby__sub_803C97F4(p, &cur_pos, &cur_rate);
-                lbl_805D7560 = save;
-                lbl_805D7568++;
+                adxt_rate_mode = save;
+                adxt_resync_count++;
             }
-            p->base_time = (u32)((f32)lbl_805D7570 * ((f32)cur_pos / (f32)cur_rate));
-            p->base_vblank = lbl_805D7540;
+            p->base_time = (u32)((f32)adxt_time_rate * ((f32)cur_pos / (f32)cur_rate));
+            p->base_vblank = adxt_vblank_count;
         }
     } else if (st == 5) {
         cur_pos = p->input_state->send_packet_by_id();
         cur_rate = p->input_state->notify_field_4();
         cur_pos *= 16 / p->input_state->send_packet_by_id_2();
-        *pos = (s32)((f32)lbl_805D7570 * ((f32)cur_pos / (f32)cur_rate));
+        *pos = (s32)((f32)adxt_time_rate * ((f32)cur_pos / (f32)cur_rate));
         *pos += p->base_time + 1;
     } else {
         *pos = 0;
     }
     *pos += p->time_offset;
-    *rate = lbl_805D7570;
+    *rate = adxt_time_rate;
 }
 
 void adx_talk_set_rate_mode(s32 rate_mode) {
     if (rate_mode == 1) {
-        lbl_805D7570 = 0x176A;
+        adxt_time_rate = 0x176A;
     } else if (rate_mode == 2) {
-        lbl_805D7570 = 0x1388;
+        adxt_time_rate = 0x1388;
     }
-    lbl_805D7560 = rate_mode;
+    adxt_rate_mode = rate_mode;
 }
 
 s32 TLobby__sub_803C9CB0(AdxtPlayer *player) {
@@ -440,7 +440,7 @@ void TLobby__sub_803C9E38(AdxtPlayer *player, SjRingBuffer *sj) {
     player->reserved_4C = 0;
     player->sync_mode_flag = 1;
     player->base_time = 0;
-    player->base_vblank = lbl_805D7540;
+    player->base_vblank = adxt_vblank_count;
     adx_unlock();
 }
 
@@ -467,7 +467,7 @@ void configure_audio_stream_output(AdxtPlayer *player) {
     player->loop_end_sample = -1;
     player->base_time = 0;
     player->played_samples = 0;
-    player->base_vblank = lbl_805D7540;
+    player->base_vblank = adxt_vblank_count;
     player->source_type = 0;
 }
 
@@ -486,7 +486,7 @@ void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj) {
     player->loop_end_sample = -1;
     player->base_time = 0;
     player->played_samples = 0;
-    player->base_vblank = lbl_805D7540;
+    player->base_vblank = adxt_vblank_count;
 }
 
 void adx_destroy_stream_player(AdxtPlayer *player) {
@@ -494,8 +494,8 @@ void adx_destroy_stream_player(AdxtPlayer *player) {
     if (player == NULL) {
         return;
     }
-    if (lbl_805D7574 != NULL) {
-        lbl_805D7574();
+    if (adxt_destroy_callback != NULL) {
+        adxt_destroy_callback();
     }
     if ((s32)player->used == 1) {
         if (player->stream_file != NULL) {
