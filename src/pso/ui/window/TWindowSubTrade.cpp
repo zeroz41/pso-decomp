@@ -200,3 +200,8 @@ TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     prompt->set_choice_menu_flag70_bit10();
     return prompt;
 }
+
+void TWindowSubTrade::finish() {
+    parent_menu->on_submenu_closed();
+    state = 7;
+}

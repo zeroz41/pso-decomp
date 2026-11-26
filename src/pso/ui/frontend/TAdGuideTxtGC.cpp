@@ -6,8 +6,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowSubTrade.h"
-#include "pso/ui/window/TWindowMainMenu.h"
 
 void TAdGuideTxtGC::render() {
     if (TMainTask::get_render_pass() != 1) {
@@ -65,8 +63,3 @@ TAdGuideTxtGC::TAdGuideTxtGC(TObject *parent) : TObject(parent) {
     create_draw_line_ctrl(this, 9, 0.0f);
 }
 #pragma pop
-
-void TWindowSubTrade::finish() {
-    parent_menu->on_submenu_closed();
-    state = 7;
-}
