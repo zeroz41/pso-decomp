@@ -29,42 +29,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-typedef struct Actor_80193FE8 {
-    u8 pad0[0x28];
-    s16 room;
-    u8 pad2A[0x38 - 0x2A];
-    Vec pos;
-} Actor_80193FE8;
-
-typedef struct Light_80193FE8 {
-    u8 pad0[0x28];
-    s16 room;
-    u8 pad2A[0x38 - 0x2A];
-    Vec pos;
-    u8 pad44[0x68 - 0x44];
-    f32 param[3];
-    u8 pad74[0x84 - 0x74];
-    s32 packed0;
-    s32 packed1;
-    s32 angle;
-    u8 pad90[0x94 - 0x90];
-    s32 osc;
-    f32 radius;
-    s32 phase;
-    u32 flags;
-    u32 increment;
-    f32 strength;
-    u8 padAC[4];
-    Vec color;
-    f32 base_a;
-    Vec base_color;
-    Vec dir;
-    Vec base_dir;
-    Vec out_dir;
-    u8 padF0[4];
-    Vec out_color;
-} Light_80193FE8;
-
 extern "C" {
 
 const char *light_class_name = "TObjLight";
@@ -77,99 +41,98 @@ void TObjLight::render() {  }
 #pragma fp_contract on
 #pragma pool_data off
 void TObjLight::run_task() {
-    Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
-    if (xyz_distance_squared(&self->pos, &camera_ctrl_instance->pos) > 160000.0f) {
-        ((TObject *)self)->queue_destruction();
+    if (xyz_distance_squared(&position, &camera_ctrl_instance->pos) > 160000.0f) {
+        queue_destruction();
         return;
     }
     {
     Vec fwd = {0.0f, 0.0f, -1.0f};
-    VecCopy(&self->base_dir, &scene_light_state.view_direction);
-    self->flags = 0;
-    if (self->param[0] >= 10000.0f) {
-        self->color.x = self->param[0] - 10000.0f;
-        self->flags |= 1;
+    VecCopy(&scene_direction, &scene_light_state.view_direction);
+    flags = 0;
+    if (scale.x >= 10000.0f) {
+        color.x = scale.x - 10000.0f;
+        flags |= 1;
     } else {
-        self->color.x = self->param[0];
+        color.x = scale.x;
     }
-    if (self->param[1] >= 10000.0f) {
-        self->color.y = self->param[1] - 10000.0f;
-        self->flags |= 2;
+    if (scale.y >= 10000.0f) {
+        color.y = scale.y - 10000.0f;
+        flags |= 2;
     } else {
-        self->color.y = self->param[1];
+        color.y = scale.y;
     }
-    self->color.z = self->param[2];
-    hi = self->packed0 >> 16;
-    self->radius = 5.0f * (f32)hi;
-    self->increment = (u16)self->packed0;
-    self->strength = 0.1 * (f64)(self->packed1 >> 16) + 1.0;
-    if (self->flags & 1) {
-        self->angle += self->increment;
-        self->osc = 0;
-    } else if (self->flags & 2) {
-        self->phase += self->increment;
-        self->osc = 70.0f * sin_table_lookup(self->phase);
+    color.z = scale.z;
+    hi = set_params[0] >> 16;
+    radius = 5.0f * (f32)hi;
+    increment = (u16)set_params[0];
+    strength = 0.1 * (f64)(set_params[1] >> 16) + 1.0;
+    if (flags & 1) {
+        set_params[2] += increment;
+        oscillation = 0;
+    } else if (flags & 2) {
+        phase += increment;
+        oscillation = 70.0f * sin_table_lookup(phase);
     }
     push_matrix_from(identity_matrix);
-    rotate_matrix_z(NULL, self->angle + (s32)(182.04445f * (f32)self->osc));
-    rotate_matrix_y(NULL, self->packed1);
-    matrix_mult_vec(NULL, &fwd, &self->dir);
+    rotate_matrix_z(NULL, set_params[2] + (s32)(182.04445f * (f32)oscillation));
+    rotate_matrix_y(NULL, set_params[1]);
+    matrix_mult_vec(NULL, &fwd, &direction);
     pop_matrices(1);
     }
-    if (0.0f != vector_length(&self->dir)) {
-        normalize_vector(&self->dir);
+    if (0.0f != vector_length(&direction)) {
+        normalize_vector(&direction);
         if ((u8)(TLobby::get_instance() == 0) == 1) {
-            self->dir.z = -1.0f * self->dir.z;
+            direction.z = -1.0f * direction.z;
         } else if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_LOBBY ||
                    get_current_floor_area() == AREA_PIONEER2_EP2) {
-            self->dir.z = -1.0f * self->dir.z;
+            direction.z = -1.0f * direction.z;
         }
     }
-    if (0.0f != self->radius) {
+    if (0.0f != radius) {
         s32 i;
         for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-            Actor_80193FE8 *a = (Actor_80193FE8 *)TObjPlayer::get_player_data(i);
-            if (a != NULL && self->room == a->room) {
-                f32 d = horizontal_distance_squared(&a->pos, &self->pos);
-                f32 r2 = self->radius * self->radius;
+            TObjPlayer *a = TObjPlayer::get_player_data(i);
+            if (a != NULL && room == a->room) {
+                f32 d = horizontal_distance_squared(&a->position, &position);
+                f32 r2 = radius * radius;
                 if (r2 >= d) {
                     f32 t;
                     d = (1.0f) - d / r2;
-                    t = d * self->strength;
+                    t = d * strength;
                     if (t > (1.0f)) {
                         t = (1.0f);
                     }
-                    self->out_color.x = t * (self->color.x - self->base_color.x) + self->base_color.x;
-                    self->out_color.y = t * (self->color.y - self->base_color.y) + self->base_color.y;
-                    self->out_color.z = t * (self->color.z - self->base_color.z) + self->base_color.z;
-                    self->out_dir.x = t * (self->dir.x - self->base_dir.x) + self->base_dir.x;
-                    self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
-                    self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
-                    register_actor_light(((TObjBase *)(a))->get_entity_id(), this);
+                    actor_color.r = t * (color.x - scene_color.r) + scene_color.r;
+                    actor_color.g = t * (color.y - scene_color.g) + scene_color.g;
+                    actor_color.b = t * (color.z - scene_color.b) + scene_color.b;
+                    actor_direction.x = t * (direction.x - scene_direction.x) + scene_direction.x;
+                    actor_direction.y = t * (direction.y - scene_direction.y) + scene_direction.y;
+                    actor_direction.z = t * (direction.z - scene_direction.z) + scene_direction.z;
+                    register_actor_light(a->get_entity_id(), this);
                 }
             }
         }
         for (i = 0; i < 4; i++) {
-            Actor_80193FE8 *a = (Actor_80193FE8 *)get_player_by_client_id(i);
+            TObjPlayer *a = get_player_by_client_id(i);
             if (a != NULL) {
-                f32 d = horizontal_distance_squared(&a->pos, &self->pos);
-                f32 r2 = self->radius * self->radius;
+                f32 d = horizontal_distance_squared(&a->position, &position);
+                f32 r2 = radius * radius;
                 if (r2 >= d) {
                     f32 t;
                     d = (1.0f) - d / r2;
-                    t = d * self->strength;
+                    t = d * strength;
                     if (t > (1.0f)) {
                         t = (1.0f);
                     }
-                    self->out_color.x = t * (self->color.x - self->base_color.x) + self->base_color.x;
-                    self->out_color.y = t * (self->color.y - self->base_color.y) + self->base_color.y;
-                    self->out_color.z = t * (self->color.z - self->base_color.z) + self->base_color.z;
-                    self->out_dir.x = t * (self->dir.x - self->base_dir.x) + self->base_dir.x;
-                    self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
-                    self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
+                    actor_color.r = t * (color.x - scene_color.r) + scene_color.r;
+                    actor_color.g = t * (color.y - scene_color.g) + scene_color.g;
+                    actor_color.b = t * (color.z - scene_color.b) + scene_color.b;
+                    actor_direction.x = t * (direction.x - scene_direction.x) + scene_direction.x;
+                    actor_direction.y = t * (direction.y - scene_direction.y) + scene_direction.y;
+                    actor_direction.z = t * (direction.z - scene_direction.z) + scene_direction.z;
                     if (get_current_floor_area() != AREA_LOBBY) {
-                        register_actor_light(((TObjBase *)(a))->get_entity_id(), this);
+                        register_actor_light(a->get_entity_id(), this);
                     }
                 }
             }
@@ -196,7 +159,7 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->actor_direction.x = 0.0f;
     light->actor_direction.y = 0.0f;
     light->actor_direction.z = 0.0f;
-    light->m_9c = 0;
+    light->phase = 0;
     copy_argb(&light->scene_color, &scene_light_state.color);
     VecCopy(&light->scene_direction, &scene_light_state.view_direction);
     light->actor_color.a = 0.5f;

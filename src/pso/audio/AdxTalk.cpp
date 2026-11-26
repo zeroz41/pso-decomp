@@ -114,7 +114,7 @@ void set_sync_mode_flag(AdxtPlayer *player, s8 flag) {
     player->sync_mode_flag = flag;
 }
 
-void TLobby__sub_803C9350(AdxtPlayer *player, s32 offset) {
+void adxt_set_time_offset(AdxtPlayer *player, s32 offset) {
     player->time_offset = offset;
 }
 
@@ -144,7 +144,7 @@ s32 TLobby__sub_803C9358(AdxtPlayer *player) {
     if (player->pause_flag == 0) {
         return 0;
     }
-    ret = TLobby__sub_803CBF10(player->rna_handle);
+    ret = gcrna_bridge_stream_ready(player->rna_handle);
     inl_803C9608();
     save = adxt_rate_mode;
     adxt_rate_mode = 0;
@@ -155,7 +155,7 @@ s32 TLobby__sub_803C9358(AdxtPlayer *player) {
     return ret;
 }
 
-void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context) {
+void adxt_set_error_callback(AdxMessageCallback callback, s32 context) {
     adxerr_set_callback(callback, context);
 }
 
@@ -163,7 +163,7 @@ void TLobby__sub_803C94D8(void) {
 
 }
 
-void TLobby__sub_803C94DC(AdxtPlayer *player, s32 paused) {
+void adxt_pause(AdxtPlayer *player, s32 paused) {
     s32 pos;
     s32 rate;
     s32 st;
@@ -193,7 +193,7 @@ s32 get_error_code(AdxtPlayer *player) {
     return player->error_code;
 }
 
-void TLobby__sub_803C9608(void) {
+void adxt_exec_server(void) {
     s32 i;
     if (adxt_server_stage == 0) {
         adx_lock();
@@ -216,11 +216,11 @@ void set_auto_repeat(AdxtPlayer *player, s8 flag) {
     player->auto_repeat = flag;
 }
 
-void TLobby__sub_803C96A8(AdxtPlayer *player, s32 freq) {
+void adxt_set_server_freq(AdxtPlayer *player, s32 freq) {
     player->server_freq = freq;
 }
 
-s16 TLobby__sub_803C96B0(AdxtPlayer *player) {
+s16 adxt_get_out_vol(AdxtPlayer *player) {
     return player->output_vol;
 }
 
@@ -233,20 +233,20 @@ void set_field_40_and_notify(AdxtPlayer *player, s32 volume) {
 
 extern "C" {
 
-s16 TLobby__sub_803C96E0(AdxtPlayer *player, s32 ch) {
+s16 adxt_get_out_pan(AdxtPlayer *player, s32 ch) {
     return player->out_pan[ch];
 }
 
 void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan) {
     player->out_pan[ch] = pan;
     if (ch < player->max_channels) {
-        TLobby__sub_803CBF50(player->rna_handle, ch, pan);
+        gcrna_bridge_set_channel_pan(player->rna_handle, ch, pan);
         return;
     }
     adxerr_report("E8101208 ADXT_SetOutPan: parameter error");
 }
 
-s32 TLobby__sub_803C9740(AdxtPlayer *player) {
+s32 adxt_get_num_channels(AdxtPlayer *player) {
     if (player->stat >= 2) {
         return player->input_state->send_with_offset4();
     }
@@ -343,7 +343,7 @@ void adx_talk_set_rate_mode(s32 rate_mode) {
     adxt_rate_mode = rate_mode;
 }
 
-s32 TLobby__sub_803C9CB0(AdxtPlayer *player) {
+s32 adxt_get_stat(AdxtPlayer *player) {
     return player->stat;
 }
 }

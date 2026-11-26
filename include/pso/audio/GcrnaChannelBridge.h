@@ -5,7 +5,7 @@
 #include "pso/audio/GcrnaStream.h"
 
 extern "C" {
-void TLobby__sub_803D4704(GcrnaStream *stream, s32 stream_count);
+void gcrna_set_stream_count(GcrnaStream *stream, s32 stream_count);
 }
 
 #endif

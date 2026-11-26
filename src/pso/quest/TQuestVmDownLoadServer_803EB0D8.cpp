@@ -2138,7 +2138,7 @@ void process_entry_text_range(s32 pos, s32 end) {
             pos += n;
             continue;
         }
-        if (slot->x16 != 0 && slot->x16 != slot->x15) {
+        if (slot->latched_length != 0 && slot->latched_length != slot->length) {
             name = lbl_8058DC98;
             text = lbl_8058DC48;
             len = n;

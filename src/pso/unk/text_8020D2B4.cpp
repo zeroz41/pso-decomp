@@ -16,6 +16,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/system/scene/TSceneMaterial.h"
 
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
@@ -59,17 +60,19 @@ void apply_room_transform(saddr matrix, u8 *rotation, u8 *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq);
 void spawn_decorations_in_range(TSetManager *manager);
-void apply_room_transform(saddr matrix, u8 *rotation, u8 *room) {
+void apply_room_transform(saddr matrix, u8 *rotation, u8 *room_arg) {
+    SceneMaterialSection *room = (SceneMaterialSection *)room_arg;
+    s32 *angles = (s32 *)rotation;
     push_matrix_from(&identity_matrix.value);
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)room + 4)), (f32) (*(f32 *)((s8 *)room + 8)), (f32) (*(f32 *)((s8 *)room + 0xC)));
-    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)room + 0x18)));
-    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)room + 0x10)));
-    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)room + 0x14)));
+    translate_matrix(0, room->position.x, room->position.y, room->position.z);
+    rotate_matrix_z(0, room->angles[2]);
+    rotate_matrix_x(0, room->angles[0]);
+    rotate_matrix_y(0, room->angles[1]);
     matrix_mult_vec(0, (void *)matrix, (void *)matrix);
     pop_matrix();
-    *(s32 *)((s8 *)rotation + 0) = (s32) (*(s32 *)((s8 *)rotation + 0) + *(s32 *)((s8 *)room + 0x10));
-    *(s32 *)((s8 *)rotation + 4) = (s32) (*(s32 *)((s8 *)rotation + 4) + *(s32 *)((s8 *)room + 0x14));
-    *(s32 *)((s8 *)rotation + 8) = (s32) (*(s32 *)((s8 *)rotation + 8) + *(s32 *)((s8 *)room + 0x18));
+    angles[0] = angles[0] + room->angles[0];
+    angles[1] = angles[1] + room->angles[1];
+    angles[2] = angles[2] + room->angles[2];
 }
 
 void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {

@@ -224,7 +224,7 @@ WindowDrawContext *TWindowBase::draw_default_entry() {
 }
 
 void TWindowBase::set_depth(f32 depth) {
-    TWindowBase::sub_8026CC28();
+    TWindowBase::bring_to_front();
     this->sort_depth = depth;
     resort_window_order();
 }
@@ -851,7 +851,7 @@ void TWindowBase::run_task() {  }
 
 TWindowBase::~TWindowBase() {
     entry_list.destroy_all_items();
-    sub_8026CC28();
+    bring_to_front();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
     : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {

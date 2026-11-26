@@ -23,9 +23,9 @@ typedef struct NetConnectCfg {
     s16 h1E;
     s16 h20;
     u8 pad_22[2];
-    s16 h24;
-    s16 h26;
-    s16 h28;
+    s16 req_type; /* the ModemRequest copied into the session */
+    s16 req_has_arg;
+    s16 req_timeout;
     s16 h2A;
     s16 h2C;
     u8 pad_2E[2];

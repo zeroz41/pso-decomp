@@ -38,7 +38,7 @@ struct TWindowShortListCtrl : public TObject {
     static s32 get_card_status_bits(s32 client_id);
     void set_displayed_item(s32 item_id);
     s32 is_technique_usable();
-    void swap_card_entries(s32 arg1, s32 arg2);
+    void swap_card_entries(s32 index_a, s32 index_b);
     static void assign_item_to_palette(u32 item_id, u32 client_id);
     void destroy_children();
     void *create_window(const NJS_POINT2 *position, saddr arg2_arg);

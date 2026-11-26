@@ -8,7 +8,7 @@ public:
     static const char *class_name;
     TWindowAddition(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowAddition();
-    s32 sub_80266B18(s32);
+    s32 is_entry_selectable(s32);
     void init_addition(u8 *descriptor);
     WindowDrawContext *get_draw_context();
     void step_window_tween();

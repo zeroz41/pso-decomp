@@ -169,16 +169,16 @@ s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, 
 }
 
 void TAdSystemFileCheckGC::close_windows_on_selection() {
-    void *window;
+    TObject *window;
     if (handle_mode_selection() == 0) {
         window = message_window;
         if ((uaddr) window != 0U) {
-            ((TObject *)window)->queue_destruction();
+            window->queue_destruction();
             message_window = NULL;
         }
         window = menu_window;
         if ((uaddr) window != 0U) {
-            ((TObject *)window)->queue_destruction();
+            window->queue_destruction();
             menu_window = NULL;
         }
         set_state(3);

@@ -68,7 +68,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
     SjRingBuffer *sj;
     SjChunk ck;
     avail = query_available_size(rna);
-    size = TLobby__sub_803CBFF0(rna);
+    size = gcrna_bridge_get_packet_size(rna);
     if (avail >= self->reserved_48 * 2 || size <= sjd->notify_field_4_alt() ||
         audio_stream_get_state(self->input_state) == 3) {
         if (self->auto_start_flag == 0) {
@@ -82,7 +82,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
         self->started_playback = 1;
     }
     if (audio_stream_get_state(self->input_state) == 3) {
-        nch = TLobby__sub_803C9740(self);
+        nch = adxt_get_num_channels(self);
         nbyte = self->reserved_48 * nch * 2;
         for (i = 0; i < nch; i++) {
             sj = self->output_rings[i];
@@ -125,7 +125,7 @@ void adxt_exec_handle(AdxtPlayer *self) {
 }
 #pragma pop
 
-#define SBF50 TLobby__sub_803CBF50
+#define SBF50 gcrna_bridge_set_channel_pan
 
 
 void adxt_stat_decinfo(AdxtPlayer *self) {
@@ -186,10 +186,10 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
         n1 = input_state->send_with_offset4();
         s32 pid = input_state->send_packet_by_id();
         s32 p2 = input_state->send_packet_by_id_2();
-        TLobby__sub_803CBF30(self->rna_handle, p2);
-        TLobby__sub_803CBF90(self->rna_handle, k);
-        TLobby__sub_803CBFB0(self->rna_handle, n1);
-        TLobby__sub_803CBF0C(self->rna_handle, pid);
+        gcrna_bridge_set_sample_bits(self->rna_handle, p2);
+        gcrna_bridge_set_frequency(self->rna_handle, k);
+        gcrna_bridge_set_stream_count(self->rna_handle, n1);
+        gcrna_bridge_set_pan_id(self->rna_handle, pid);
         trigger_sub_task(self->rna_handle, self->output_vol);
         if (self->input_state->send_with_offset4() == 1) {
             if (self->out_pan[0] == -0x80) {

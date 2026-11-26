@@ -197,7 +197,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     reveal = 0.0f;
     submenu_fade = 0.0f;
     slide_offset = 0.0f;
-    unknown44 = 0.0f;
+    name_fade = 0.0f;
     progress = 0.0f;
     idle_ticks = 0;
     preview = 0.0f;
@@ -650,14 +650,14 @@ void TObjCMMainMenu::draw_character_name() {
     if ((state == 0 ||
          (state == 1 && entries[selected_entry] != 7)) &&
         validate_character_name((s8 *)name)) {
-        if ((unknown44 += 0.16666667f) > 1.0f) {
-            unknown44 = 1.0f;
+        if ((name_fade += 0.16666667f) > 1.0f) {
+            name_fade = 1.0f;
         }
-    } else if ((unknown44 += -0.083333336f) < 0.0f) {
-        unknown44 = 0.0f;
+    } else if ((name_fade += -0.083333336f) < 0.0f) {
+        name_fade = 0.0f;
         return;
     }
-    if (unknown44 <= 0.0f) {
+    if (name_fade <= 0.0f) {
         return;
     }
     f32 x = 604.0f - (f32)calc_text_width(name);
@@ -668,7 +668,7 @@ void TObjCMMainMenu::draw_character_name() {
     // the name keeps its RGB; the alpha comes from the fade
     static const u32 rgb_mask = 0x00FFFFFF;
     name_color &= rgb_mask;
-    u32 color = ((u32)(255.0f * unknown44) << 24) | name_color;
+    u32 color = ((u32)(255.0f * name_fade) << 24) | name_color;
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(x, 396.0f * get_scale(), name, color);
     TCameraCtrl::restore_saved_view();

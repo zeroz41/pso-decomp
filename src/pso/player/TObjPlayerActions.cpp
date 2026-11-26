@@ -237,7 +237,7 @@ void TObjPlayer::send_state_sync() {
         if (lobby_animation == action_provider->get_alt_chair_sit_action()) {
             pkt.set_alt_chair();
         }
-        if (TKeyBoardControl__sub_801A58D8() != 0) {
+        if (is_keyboard_shift_held() != 0) {
             pkt.set_keyboard();
         }
         pkt.send();
@@ -535,7 +535,7 @@ void TObjPlayer::send_6x58_lobby_animation() {
         pkt.init();
         pkt.header.client_id = get_entity_id();
         pkt.animation_number = lobby_animation;
-        if (TKeyBoardControl__sub_801A58D8() != 0) {
+        if (is_keyboard_shift_held() != 0) {
             pkt.set_keyboard();
         }
         pkt.send();

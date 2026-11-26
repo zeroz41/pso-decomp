@@ -30,7 +30,7 @@ s32 lbl_805D75E8;
 u8 * afs_toc_buffer;
 u8 *lbl_805D75F0;
 extern s32 adxf_log_write_index;
-extern s32 lbl_805D75E4;
+extern s32 adxf_invalidate_cache_flag;
 
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
@@ -191,7 +191,7 @@ inline s32 adxf_stop_logged(AdxfHandle *adxf) {
     get_adx_stream_position(adxf->stream, &position);
     adxf->sectors_read = position;
     if (adxf->buffer != NULL && adxf->f2 == 0) {
-        if (lbl_805D75E4 == 1) {
+        if (adxf_invalidate_cache_flag == 1) {
             adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
         }
         adxf->buffer->interface->destroy(adxf->buffer);
@@ -246,7 +246,7 @@ void adxf_update_file_states(void) {
             if (p->state == 3 || p->state == 4) {
                 p->sector_position += p->sectors_read;
                 if (p->buffer != NULL && p->f2 == 0) {
-                    if (lbl_805D75E4 == 1) {
+                    if (adxf_invalidate_cache_flag == 1) {
                         adx_invalidate_cache(p->read_destination, p->read_buffer_size);
                     }
                     p->buffer->interface->destroy(p->buffer);
@@ -301,7 +301,7 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     adxf->read_destination = buf;
     adxf->read_buffer_size = nsct << 11;
     adx_lock();
-    if (lbl_805D75E4 == 1) {
+    if (adxf_invalidate_cache_flag == 1) {
         adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
     }
     if (get_adx_stream_status(adxf->stream) != 1) {

@@ -361,7 +361,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 depth = word_select_inverse_depth(self->draw_depth, 0.0f);
     reset_window_vertices(verts, depth, -1);
     copy_window_point_table(verts, self->strip_point_index);
-    TWindowDD__sub_80348A2C(rect, verts);
+    set_frame_column_vertices_x(rect, verts);
     s = rect->scale[1];
     count = self->visible_row_count;
     top = -(0.5f * self->frame_size[1]);
@@ -434,7 +434,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         depth = word_select_inverse_depth(self->draw_depth, 0.1f);
         reset_window_vertices(verts, depth, -1);
         copy_window_point_table(verts, 1);
-        TWindowDD__sub_80348A2C(rect, verts);
+        set_frame_column_vertices_x(rect, verts);
         f32 row = (f32)self->selected_row;
         f32 first_y = -(0.5f * self->frame_size[1]);
         y0 = row * window_dd_row_height + first_y;

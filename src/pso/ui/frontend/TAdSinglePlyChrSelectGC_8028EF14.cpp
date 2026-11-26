@@ -32,9 +32,6 @@ TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *li
 extern "C" {
 f32 vector_length(f32 *v);
 }
-// Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
-struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
-struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -783,10 +780,10 @@ s32 blend_shape_chunk_vertices(void) {
     CreationModelNodeState *dst = creation_shape_blend.destination;
     for (k = 0; k < 3; k++) {
     }
-    d = ((CreationShapeNode *)dst->node)->model->vertex_list;
-    a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->vertex_list;
-    b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->vertex_list;
-    c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->vertex_list;
+    d = dst->node->model->vertex_list;
+    a = creation_shape_blend.sources[0]->node->model->vertex_list;
+    b = creation_shape_blend.sources[1]->node->model->vertex_list;
+    c = creation_shape_blend.sources[2]->node->model->vertex_list;
     for (n = 1000; n > 0; n--) {
         extra = TAdSinglePlyChrSelectGC::map_button_code(*d & 0xFF);
         if (extra < 0) {
@@ -855,7 +852,7 @@ void blend_creation_proportion_shapes(f32 *point) {
     creation_shape_blend.sources[2] = creation_head_shape_samples[samples[2]].nodes;
     for (n = 5; n > 0; n--) {
         if (creation_shape_blend.destination->node != NULL) {
-            CreationShapeModel *dst = ((CreationShapeNode *)creation_shape_blend.destination->node)->model;
+            CreationShapeModel *dst = creation_shape_blend.destination->node->model;
             if (dst != NULL) {
                 f32 *a;
                 f32 *b;
@@ -863,19 +860,19 @@ void blend_creation_proportion_shapes(f32 *point) {
                 s32 k;
                 for (k = 0; k < 3; k++) {
                 }
-                a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->center;
-                b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->center;
-                c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->center;
+                a = creation_shape_blend.sources[0]->node->model->center;
+                b = creation_shape_blend.sources[1]->node->model->center;
+                c = creation_shape_blend.sources[2]->node->model->center;
                 dst->center[0] = creation_shape_blend.weights[2] * c[0] + (creation_shape_blend.weights[0] * a[0] + creation_shape_blend.weights[1] * b[0]);
                 dst->center[1] = creation_shape_blend.weights[2] * c[1] + (creation_shape_blend.weights[0] * a[1] + creation_shape_blend.weights[1] * b[1]);
                 dst->center[2] = creation_shape_blend.weights[2] * c[2] + (creation_shape_blend.weights[0] * a[2] + creation_shape_blend.weights[1] * b[2]);
             }
             if ((creation_shape_blend.sources[0]->flags | creation_shape_blend.sources[1]->flags | creation_shape_blend.sources[2]->flags) & 1) {
-                ((CreationShapeNode *)creation_shape_blend.destination->node)->eval_flags &= ~1;
-                clear_creation_shape_eval_masks(((CreationShapeNode *)creation_shape_blend.destination->node)->pos,
-                    ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->pos,
-                    ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->pos,
-                    ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->pos);
+                creation_shape_blend.destination->node->eval_flags &= ~1;
+                clear_creation_shape_eval_masks(creation_shape_blend.destination->node->pos,
+                    creation_shape_blend.sources[0]->node->pos,
+                    creation_shape_blend.sources[1]->node->pos,
+                    creation_shape_blend.sources[2]->node->pos);
             }
             if (creation_shape_blend.sources[0]->flags & 0x10) {
                 blend_shape_chunk_vertices();
@@ -891,29 +888,29 @@ void blend_creation_proportion_shapes(f32 *point) {
     creation_shape_blend.sources[1] = creation_body_shape_samples[samples[1]].nodes;
     creation_shape_blend.sources[2] = creation_body_shape_samples[samples[2]].nodes;
     for (m = 64; m > 0; m--) {
-        CreationShapeModel *dst = ((CreationShapeNode *)creation_shape_blend.destination->node)->model;
+        CreationShapeModel *dst = creation_shape_blend.destination->node->model;
         if (dst != NULL) {
-            f32 *a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->center;
-            f32 *b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->center;
-            f32 *c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->center;
+            f32 *a = creation_shape_blend.sources[0]->node->model->center;
+            f32 *b = creation_shape_blend.sources[1]->node->model->center;
+            f32 *c = creation_shape_blend.sources[2]->node->model->center;
             dst->center[0] = creation_shape_blend.weights[2] * c[0] + (creation_shape_blend.weights[0] * a[0] + creation_shape_blend.weights[1] * b[0]);
             dst->center[1] = creation_shape_blend.weights[2] * c[1] + (creation_shape_blend.weights[0] * a[1] + creation_shape_blend.weights[1] * b[1]);
             dst->center[2] = creation_shape_blend.weights[2] * c[2] + (creation_shape_blend.weights[0] * a[2] + creation_shape_blend.weights[1] * b[2]);
         }
         flags = creation_shape_blend.sources[0]->flags | creation_shape_blend.sources[1]->flags | creation_shape_blend.sources[2]->flags;
         if (flags & 1) {
-            ((CreationShapeNode *)creation_shape_blend.destination->node)->eval_flags &= ~1;
-            clear_creation_shape_eval_masks(((CreationShapeNode *)creation_shape_blend.destination->node)->pos,
-                ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->pos,
-                ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->pos,
-                ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->pos);
+            creation_shape_blend.destination->node->eval_flags &= ~1;
+            clear_creation_shape_eval_masks(creation_shape_blend.destination->node->pos,
+                creation_shape_blend.sources[0]->node->pos,
+                creation_shape_blend.sources[1]->node->pos,
+                creation_shape_blend.sources[2]->node->pos);
         }
         if (flags & 4) {
-            ((CreationShapeNode *)creation_shape_blend.destination->node)->eval_flags &= ~4;
-            clear_creation_shape_eval_masks(((CreationShapeNode *)creation_shape_blend.destination->node)->scl,
-                ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->scl,
-                ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->scl,
-                ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->scl);
+            creation_shape_blend.destination->node->eval_flags &= ~4;
+            clear_creation_shape_eval_masks(creation_shape_blend.destination->node->scl,
+                creation_shape_blend.sources[0]->node->scl,
+                creation_shape_blend.sources[1]->node->scl,
+                creation_shape_blend.sources[2]->node->scl);
         }
         if (flags & 0x10) {
             blend_shape_chunk_vertices();

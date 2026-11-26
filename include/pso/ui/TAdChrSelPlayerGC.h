@@ -19,7 +19,7 @@ public:
     void reset_cursor();
     void set_cursor_index_1();
     void set_cursor_index_2();
-    void set_field_100(s32 value);
+    void request_state(s32 value);
     void set_index_and_close_status(s32 index);
     void set_status_value(s32 value);
     virtual void run_task();

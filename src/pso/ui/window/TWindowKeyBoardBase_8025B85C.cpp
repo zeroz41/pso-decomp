@@ -440,7 +440,7 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
     flags = state_flags;
     if (flags & 2) {
         if (flags & 4) {
-            sub_8025DBDC(1);
+            convert_trailing_romaji(1);
         }
         commit_composition_text();
     }
@@ -475,7 +475,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         return;
     }
     if (!(state_flags & 0x80) && m_input_mode >= 1U) {
-        sub_8025DBDC(1);
+        convert_trailing_romaji(1);
         if (m_input_mode == 2) {
             state_flags |= 0x80;
         }
@@ -510,7 +510,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     }
     active_text->insert_char(code);
     if (m_input_mode == 0 && !(state_flags & 0x80)) {
-        sub_8025DBDC(0);
+        convert_trailing_romaji(0);
     }
 }
 
@@ -533,7 +533,7 @@ void TWindowKeyBoardBase::commit_composition_text() {
     u16 *s;
     u16 *d;
     if (state_flags & 4) {
-        sub_8025DBDC(1);
+        convert_trailing_romaji(1);
         src = reinterpret_cast<s8 *>(candidate_buffer);
         i = 0;
         dst = m_text2.buffer;

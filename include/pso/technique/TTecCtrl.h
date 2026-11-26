@@ -32,7 +32,7 @@ struct NJS_TEXLIST;
 extern NJS_TEXLIST *technique_texture_list;
 
 extern "C" {
-void TLobby__sub_8022F068(void);
+void free_technique_resources(void);
 }
 // Row `kind` of technique_param_table.
 TechniqueParams *get_technique_base_params(int kind);

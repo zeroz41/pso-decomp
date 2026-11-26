@@ -65,4 +65,4 @@ void reset_auto_reply_flags(s32 _w0) {
 }
 
 void clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
-void TLobby__sub_8001DC04(void* p) { reset_auto_reply_flags((saddr)p); }
+void reset_auto_reply_flags_callback(void* p) { reset_auto_reply_flags((saddr)p); }

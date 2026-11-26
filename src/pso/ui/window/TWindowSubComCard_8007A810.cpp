@@ -111,9 +111,9 @@ s32 update_matching_card(GuildCardSlotBase *card, GuildCardSlot *cards, s32 coun
             return 0;
         }
         if (id == cards->get_card_id()) {
-            if (card->sub_8007B6F4() != 0) {
+            if (card->is_own_card() != 0) {
                 cards->GuildCardSlotBase::operator=(*card);
-            } else if (cards->sub_8007B6F4() == 0) {
+            } else if (cards->is_own_card() == 0) {
                 if (card->get_char_class() < 12) {
                     cards->GuildCardSlotBase::operator=(*card);
                 } else {
@@ -250,9 +250,9 @@ s32 update_matching_card_slot(GuildCardSlotBase *card, GuildCardSlotBase *cards,
             return 0;
         }
         if (id == cards->get_card_id()) {
-            if (card->sub_8007B6F4() != 0) {
+            if (card->is_own_card() != 0) {
                 *cards = *card;
-            } else if (cards->sub_8007B6F4() == 0) {
+            } else if (cards->is_own_card() == 0) {
                 if (card->char_class < 12) {
                     *cards = *card;
                 } else {

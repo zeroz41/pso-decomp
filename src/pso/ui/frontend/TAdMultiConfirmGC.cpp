@@ -34,7 +34,7 @@ void TAdMultiConfirmGC::run_task() {
     case 1:
         for (i = 0; i < 4; i++) {
             if (players[i] != NULL) {
-                players[i]->set_field_100(2);
+                players[i]->request_state(2);
             }
         }
         this->state = 2;

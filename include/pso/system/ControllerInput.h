@@ -21,7 +21,7 @@ void reset_controller_input_state(void);
 void update_pad_recalibration(void);
 extern "C" {
 s32 TKeyBoardControl__sub_801A58B0(void);
-s32 TKeyBoardControl__sub_801A58D8(void);
+s32 is_keyboard_shift_held(void);
 s32 update_state_from_input__16TKeyBoardControlFPv(u8 key);
 }
 void set_stick_button_bits(ControllerInputContext *pad, u32 mask, u32 previous);

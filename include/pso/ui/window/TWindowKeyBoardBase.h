@@ -101,7 +101,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void select_next_segment();
     void shrink_segment();
     void extend_segment();
-    void sub_8025DBDC(s32 finalize);
+    void convert_trailing_romaji(s32 finalize);
     void draw_composition_background(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count);
     void layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled);
     void insert_party_member_name(s32 slot);

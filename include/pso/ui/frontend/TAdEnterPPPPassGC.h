@@ -18,7 +18,7 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
     static void set_password(const char *password);
     s32 input_valid;
     s32 prev_input_valid;
-    s32 m_40;
+    s32 text_length;
 };
 
 LAYOUT_ASSERT(TAdEnterPPPPassGC_size, sizeof(TAdEnterPPPPassGC) == 0x44);

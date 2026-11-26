@@ -74,7 +74,7 @@ s32 TKeyBoardControl__sub_801A58B0(void) {
     return hardware_keyboard_state.sub_801321B4();
 }
 
-s32 TKeyBoardControl__sub_801A58D8(void) {
+s32 is_keyboard_shift_held(void) {
     return hardware_keyboard_state.is_shift_held();
 }
 

@@ -184,7 +184,7 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data
         n = 0xA;
     }
     TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
-    if (reinterpret_cast<GuildCardEntry *>(data)->sub_8007B6F4() != 0) {
+    if (reinterpret_cast<GuildCardEntry *>(data)->is_own_card() != 0) {
         id = reinterpret_cast<const GuildCardEntry *>(data)->get_card_id();
         if (id == 0) {
             t4->flags |= 2;

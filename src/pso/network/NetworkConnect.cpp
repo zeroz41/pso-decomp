@@ -134,12 +134,12 @@ s32 connect_pppoe(s32 *out_value) {
     cfg.h1C = 0;
     cfg.h1E = 3;
     cfg.h20 = 1;
-    cfg.h28 = 90;
+    cfg.req_timeout = 90;
     cfg.h2A = 0;
     cfg.h2C = 20;
     cfg.phone_number = 0;
-    cfg.h24 = 0;
-    cfg.h26 = 0;
+    cfg.req_type = 0;
+    cfg.req_has_arg = 0;
     cfg.prefix = 0;
     cfg.auth_mode = 4;
     cfg.mtu = 1500;
@@ -721,18 +721,18 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.h1E = 3;
     cfg.h20 = 1;
     if (TLobby::is_status_zero() != 0) {
-        cfg.h24 = 0;
+        cfg.req_type = 0;
     } else {
-        cfg.h24 = 1;
+        cfg.req_type = 1;
     }
-    cfg.h28 = 90;
+    cfg.req_timeout = 90;
     cfg.h2A = 0;
     cfg.h2C = 20;
     if (fn_80145A44(dial_prefix) != 0) {
-        cfg.h26 = 1;
+        cfg.req_has_arg = 1;
         cfg.prefix = dial_prefix;
     } else {
-        cfg.h26 = 0;
+        cfg.req_has_arg = 0;
         cfg.prefix = 0;
     }
     cfg.auth_mode = 4;

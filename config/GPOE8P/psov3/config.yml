@@ -555,7 +555,7 @@ force_active:
   - __ct__9TItemDropFP7TObjectSc
   - TItemDrop__data_805D53CC
   - TItemDrop__data_805D53D0
-  - TItemDrop__gsl_adxf_handle
+  - gsl_adxf_handle
   - TItemDrop__gsl_entry_count
   - __ct__13TItemEffArmorFP10TObjPlayerff
   - __ct__13TItemEffEquipFP7TObjectUslll
@@ -6341,7 +6341,7 @@ force_active:
   - order_activation_now__17TObjEneMe1CanadinFv
   - get_attacking_target__17TObjEneMe1CanadinFv
   - wake_leader__17TObjEneMe1CanadinFv
-  - fn_800BC758__FP13PointerBuffer
+  - pointer_buffer_has_space__FP13PointerBuffer
   - hit_enemy_near__22TObjEnePanarmsAtkColliFP3Vec
   - hit_player__22TObjEnePanarmsAtkColliFP9TObjChara
   - sweep_segment_collisions__22TObjEnePanarmsAtkColliFv
@@ -8476,7 +8476,7 @@ force_active:
   - lbl_805D7504
   - lbl_805D7508
   - lbl_805D750C
-  - lbl_805D75D0
+  - adxf_init_count
   - lbl_805D75F0
   - gcci_init_guard
   - lbl_805D76A8
@@ -17785,12 +17785,12 @@ force_active:
   - draw_selected_cursor__25TWindowSubSymbolChatPartsFPUc
   - "get_adx_threshold_and_chunk"
   - "TLobby__sub_803C9104"
-  - "TLobby__sub_803C9350"
+  - "adxt_set_time_offset"
   - "TLobby__sub_803C9358"
   - "TLobby__sub_803C94D8"
-  - "TLobby__sub_803C96A8"
-  - "TLobby__sub_803C96B0"
-  - "TLobby__sub_803C96E0"
+  - "adxt_set_server_freq"
+  - "adxt_get_out_vol"
+  - "adxt_get_out_pan"
   - "adx_get_data_start_offset"
   - "ADXT_SetOutPan"
   - "apply_if_v2"

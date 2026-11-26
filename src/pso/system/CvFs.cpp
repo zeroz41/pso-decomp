@@ -15,7 +15,7 @@ struct CvFsHandle {
 
 extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];
-s32 lbl_805D7600;
+s32 cvfs_init_count;
 u32 lbl_80581A30[75];
 // CVFS version banner: the first string of this file's pool.
 char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
@@ -155,7 +155,7 @@ void cvFsInit(void) {
     CvFsHandle *h;
     s32 i;
 
-    if (lbl_805D7600++ == 0) {
+    if (cvfs_init_count++ == 0) {
         for (h = si_type_info_table, i = 0; i < 40; i++, h++) {
             h->vtbl = NULL;
             h->fd = NULL;
@@ -731,7 +731,7 @@ void cvFsFinish(void) {
     CvFsHandle *h;
     s32 i;
 
-    if (--lbl_805D7600 == 0) {
+    if (--cvfs_init_count == 0) {
         for (h = si_type_info_table, i = 0; i < 40; i++, h++) {
             if (h->vtbl != NULL) {
                 h->vtbl->close(h->fd);

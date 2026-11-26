@@ -112,7 +112,7 @@ typedef struct NetSession {
     s16 h82;
     s16 h84;
     u8 pad86[2];
-    ModemRequest req;           /* 0x88: NetConnectCfg.h24 .. prefix */
+    ModemRequest req;           /* 0x88: NetConnectCfg.req_type .. prefix */
     s16 auth_mode;                  /* 0x98: NetConnectCfg.auth_mode .. vj_disabled; the low 7 bits select the authentication */
     s16 mtu;                    /* 0x9A: 0 = the default (lobby_net_buffer_desc_b) */
     s32 start_tick;             /* 0x9C */

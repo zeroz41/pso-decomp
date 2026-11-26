@@ -274,7 +274,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x5:
         if (this->sub_menu == 0U) {
-            this->sub_menu = TWindowSubComCard::sub_8027337C();
+            this->sub_menu = TWindowSubComCard::create_player_list_menu();
         }
         this->com_card_menu->open();
         this->state = 6U;
@@ -518,7 +518,7 @@ void TWindowSubComCard::run_task() {
         if (this->card_list->is_decided() != 0) {
             TWindowSubComCard::swap_cards((int) (this->card_list->get_selected_index()), (int) (this->card_list->get_selected_value()));
             this->card_list->reset_selection();
-            this->card_list->sub_80275360();
+            this->card_list->refresh_page();
             this->state = 0x19U;
             return;
         }
@@ -742,7 +742,7 @@ void TWindowSubComCard::run_task() {
             this->entry_list_window = NULL;
         }
         if (this->sub_menu == 0U) {
-            this->sub_menu = this->sub_80272A98();
+            this->sub_menu = this->create_choice_search_result_menu();
         }
         if (this->message_window == 0U) {
             this->message_window = this->open_mode4_window();
@@ -1043,7 +1043,7 @@ void TWindowSubComCard::run_task() {
             this->sub_menu = 0U;
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->sub_80272640();
+            this->com_card_menu = this->create_short_mail_list_menu();
         }
         this->com_card_menu->clear_flag_and_release();
         this->state = 0x4CU;
@@ -1136,7 +1136,7 @@ TWindowMenu *TWindowSubComCard::sub_8027346C() {
   return list;
 }
 
-TWindowMenu *TWindowSubComCard::sub_8027337C() {
+TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     s32 i;
     void *p;
     TWindowMenu *w;
@@ -1361,7 +1361,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
 }
 #pragma pop
 
-TWindowMenu *TWindowSubComCard::sub_80272A98() {
+TWindowMenu *TWindowSubComCard::create_choice_search_result_menu() {
     s32 i;
     s32 count;
     TWindowMenu *w;
@@ -1453,7 +1453,7 @@ TWindowMenu *TWindowSubComCard::create_player_select_window() {
 }
 #pragma pop
 
-TWindowMenu *TWindowSubComCard::sub_80272640() {
+TWindowMenu *TWindowSubComCard::create_short_mail_list_menu() {
     s32 n;
     s32 i;
     ShortMailEntry *e;

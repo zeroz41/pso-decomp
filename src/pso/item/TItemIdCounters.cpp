@@ -112,8 +112,9 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
 }
 
 void handle_6x5C_destroy_floor_item(void *lobby) {
+    G_DestroyFloorItem_6x5C_6x63 *destroy = (G_DestroyFloorItem_6x5C_6x63 *)lobby;
     ((TLobby *)lobby)->bswap_packet();
-    remove_item_condition(*(s32 *)((s8 *)lobby + 8), *(s32 *)((s8 *)lobby + 4));
+    remove_item_condition(destroy->floor, destroy->item_id);
 }
 
 void handle_6x5A_pick_up_item_request(G_PickUpItemRequest_6x5A *command) {

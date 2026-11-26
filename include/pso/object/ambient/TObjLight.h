@@ -14,15 +14,16 @@ struct TObjLight : public TObjBase {
     static void *create(void *set_data);
     void *init_from_source(void *, int, int);
     u32 m_90;
-    u32 m_94;
-    u8 _pad98[0x4];
-    u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
-    u8 _padA8[0x14];
+    s32 oscillation;   // 0x94: the swing of a pulsing light, in degrees
+    f32 radius;        // 0x98: how far from the light a player picks up its colour
+    s32 phase;         // 0x9C: the pulse angle
+    u32 flags;         // 0xA0: bit 0 colour channel 0 offset by 10000, bit 1 channel 1
+    u32 increment;     // 0xA4: how far the angle or phase moves per frame
+    f32 strength;      // 0xA8: how fast the blend towards this light rises with closeness
+    u8 _padAC[0x4];
+    Vec color;         // 0xB0: this light's colour
     NJS_ARGB scene_color; // 0xBC: the scene light's colour when the light was set up
-    void* m_cc;
-    u8 _padD0[0x8];
+    Vec direction;     // 0xCC: this light's direction
     Vec scene_direction; // 0xD8: the scene light's view direction
     virtual void render();
     virtual void run_task();

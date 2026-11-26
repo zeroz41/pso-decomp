@@ -12,8 +12,8 @@ public:
     TSnapshotFileSetup(TObject *parent);
     virtual ~TSnapshotFileSetup();
     s32 get_result();
-    void open_confirm_dialog(s32 arg1, s32 arg2);
-    void set_option_and_confirm(s32 arg1, s32 arg2);
+    void open_confirm_dialog(s32 message, s32 yes_no);
+    void set_option_and_confirm(s32 option, s32 yes_no);
     virtual void render();
     virtual void run_task();
     s32 state;

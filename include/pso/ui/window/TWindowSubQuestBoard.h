@@ -30,15 +30,10 @@ struct TWindowSubQuestBoard : public TObject {
 
 LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
 
-extern "C" {
-void *__dt__20TWindowSubQuestBoardFv(void *arg0, s16 arg1);
-}
-
 // --- C functions defined in TWindowSubQuestBoard.cpp ---
 extern "C" {
 void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value);
 }
 // --- end of C functions
-
 
 #endif

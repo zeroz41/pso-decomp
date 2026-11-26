@@ -531,7 +531,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     u8 *dst;
 
     if (!(state_flags & 0x80)) {
-        sub_8025DBDC(1);
+        convert_trailing_romaji(1);
     }
     src = this->m_text2.buffer;
     dst = candidate_buffer;
@@ -566,7 +566,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025DBDC(s32 finalize) {
+void TWindowKeyBoardBase::convert_trailing_romaji(s32 finalize) {
     u16 *p;
     s32 lim; u32 n; s32 j; s32 rb; s32 ret; char c; char *q;
     u32 cnt;

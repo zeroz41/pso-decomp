@@ -411,11 +411,11 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
     }
 }
 
-void TWindowShortListCtrl::swap_card_entries(s32 arg1, s32 arg2) {
+void TWindowShortListCtrl::swap_card_entries(s32 index_a, s32 index_b) {
     s16 *p = (s16 *)(get_character_save_record(client_id) + 0x22C4);
-    s16 t = p[arg1];
-    p[arg1] = p[arg2];
-    p[arg2] = t;
+    s16 t = p[index_a];
+    p[index_a] = p[index_b];
+    p[index_b] = t;
 }
 
 void init_default_short_list_order(s16 *dst) {

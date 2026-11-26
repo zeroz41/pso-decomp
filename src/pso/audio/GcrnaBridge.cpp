@@ -8,13 +8,13 @@
 #include "pso/audio/GcrnaChannelBridge.h"
 #include "pso/audio/GcrnaBridgeTeardown.h"
 
-void TLobby__sub_803CBF30(GcrnaStream *stream, s32 sample_bits) {
+void gcrna_bridge_set_sample_bits(GcrnaStream *stream, s32 sample_bits) {
     gcrna_set_sample_bits(stream, sample_bits);
 }
 
 extern "C" {
 
-void TLobby__sub_803CBF50(GcrnaStream *stream, s32 ch, s32 pan) {
+void gcrna_bridge_set_channel_pan(GcrnaStream *stream, s32 ch, s32 pan) {
     set_stream_channel_pan(stream, ch, pan);
 }
 
@@ -22,19 +22,19 @@ void trigger_sub_task(GcrnaStream *stream, s32 volume) {
     set_sound_stream_volume(stream, volume);
 }
 
-void TLobby__sub_803CBF90(GcrnaStream *stream, s32 rate) {
+void gcrna_bridge_set_frequency(GcrnaStream *stream, s32 rate) {
     set_stream_frequency(stream, rate);
 }
 
-void TLobby__sub_803CBFB0(GcrnaStream *stream, s32 stream_count) {
-    TLobby__sub_803D4704(stream, stream_count);
+void gcrna_bridge_set_stream_count(GcrnaStream *stream, s32 stream_count) {
+    gcrna_set_stream_count(stream, stream_count);
 }
 
 void gcrna_bridge_update_streams(void) {
     update_active_streams();
 }
 
-s32 TLobby__sub_803CBFF0(GcrnaStream *stream) {
+s32 gcrna_bridge_get_packet_size(GcrnaStream *stream) {
     return get_packet_size(stream);
 }
 
@@ -70,6 +70,6 @@ void gcrna_bridge_shutdown(void) {
     gcrna_shutdown();
 }
 
-void TLobby__sub_803CC114(void) {
+void gcrna_bridge_initialize(void) {
     gcrna_initialize();
 }

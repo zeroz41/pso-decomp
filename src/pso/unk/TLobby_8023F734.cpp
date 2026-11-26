@@ -500,7 +500,6 @@ u16 sound_bank_group_ids[38] = {
 #include <dolphin/os/OSTime.h>
 #undef PSO_SDK_COMPACT_MATH
 #pragma readonly_strings on
-struct Voice_80241FD8;
 #pragma push
 
 #include "types.h"
@@ -513,8 +512,8 @@ void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
-s32 TLobby__sub_803C9CB0(s32);
-s32 TLobby__sub_803CBE64(s32, s32);
+s32 adxt_get_stat(s32);
+s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
 
 void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
@@ -545,8 +544,8 @@ void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 
     if (output_mode != 2) {
         span = 0;
     }
-    if (TLobby__sub_803C9CB0(tracks) == 3) {
-        sndStreamMixParameter(TLobby__sub_803CBE64(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+    if (adxt_get_stat(tracks) == 3) {
+        sndStreamMixParameter(adx_ui_bridge_get_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
     }
 }
 
@@ -621,7 +620,7 @@ s32 TLobby__sub_8023F880(s32 voice) {
 }
 void fade_out_sound_slot(s32 slot, s32 step) {
     if (slot < 0 || slot >= 32) return;
-    ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[slot], step);
+    start_voice_fade(&sound_request_voices[slot], step);
 }
 
 void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
@@ -836,7 +835,7 @@ void reset_sound_group_fade() {
 void fade_voice_channels(s32 step) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        ((void (*)(void*, s32))start_voice_fade)(&sound_request_voices[i], step);
+        start_voice_fade(&sound_request_voices[i], step);
     }
 }
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {

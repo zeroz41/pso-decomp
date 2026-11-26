@@ -588,10 +588,10 @@ extern saddr tl_03;
 
 void TCharaMaking::update_light_direction() {
     f32 cos_pitch;
-    scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
-    cos_pitch = cos_table_lookup(m_1c);
-    scene_light_state.direction.x = cos_pitch * sin_table_lookup(m_20);
-    scene_light_state.direction.z = cos_pitch * cos_table_lookup(m_20);
+    scene_light_state.direction.y = -1.0f * sin_table_lookup(light_pitch);
+    cos_pitch = cos_table_lookup(light_pitch);
+    scene_light_state.direction.x = cos_pitch * sin_table_lookup(light_yaw);
+    scene_light_state.direction.z = cos_pitch * cos_table_lookup(light_yaw);
 }
 
 s32 TCharaMaking::update_main_menu(saddr task) {
@@ -635,7 +635,7 @@ TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
     m_name = TCharaMaking::name;
     new TCMCharacter(this);
     creation_main_menu_obj = TObjCMMainMenu::create(this);
-    m_1c = 0x1555;
-    m_20 = 0x9000;
+    light_pitch = 0x1555;
+    light_yaw = 0x9000;
     update_light_direction();
 }

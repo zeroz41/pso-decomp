@@ -26,7 +26,6 @@ struct TWindowSubLog : public TObject {
 LAYOUT_ASSERT(TWindowSubLog_size, sizeof(TWindowSubLog) == 0x80);
 
 extern "C" {
-void *__dt__13TWindowSubLogFv(void *arg0, s16 arg1);
 void fn_8027B2A8(void *p);
 }
 

@@ -26,8 +26,8 @@ struct TCharaMaking : public TObject {
     static const char *name;
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
-    u32 m_1c;
-    u32 m_20;
+    u32 light_pitch;
+    u32 light_yaw;
     static s32 query_state();
     static void setup_from_data(s32 model, CharacterAppearanceFields *appearance);
     void free_loaded_buffers();

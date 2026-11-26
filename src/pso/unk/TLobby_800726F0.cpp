@@ -61,8 +61,9 @@ void send_challenge_dead_flag_packet(TLobby *lobby) {
 }
 
 void build_6x9D_packet(u8 *packet) {
-    *(u8 *)((s8 *)packet + 0) = 0x9D;
-    *(s8 *)((s8 *)packet + 1) = 2;
+    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
+    header->subcommand = 0x9D;
+    header->size = 2;
 }
 
 void TLobby::send_and_handle_60_wrapper() {
@@ -81,8 +82,9 @@ void TLobby__sub_800727A0(void *player) {
 }
 
 void build_6x97_packet(u8 *packet) {
-    *(u8 *)((s8 *)packet + 0) = 0x97;
-    *(s8 *)((s8 *)packet + 1) = 5;
+    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
+    header->subcommand = 0x97;
+    header->size = 5;
 }
 
 void TLobby::byteswap_challenge_time_packet() {
@@ -98,8 +100,9 @@ void TLobby::send_state() {
     send_subcommand(this);
 }
 void build_6x95_packet(u8 *packet) {
-    *(u8 *)((s8 *)packet + 0) = 0x95;
-    *(s8 *)((s8 *)packet + 1) = 5;
+    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
+    header->subcommand = 0x95;
+    header->size = 5;
 }
 void TLobby::byteswap_challenge_packet() {
     ((G_ClientIDHeader *)this)->bswap();
@@ -110,8 +113,9 @@ void TLobby::send_challenge_packet() {
     send_subcommand(this);
 }
 void build_6x8A_packet(u8 *packet) {
-    *(u8 *)((s8 *)packet + 0) = 0x8A;
-    *(s8 *)((s8 *)packet + 1) = 2;
+    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
+    header->subcommand = 0x8A;
+    header->size = 2;
 }
 void G_SetChallengeRecords_V3_6x7C::bswap() {
     __base_G_SetChallengeRecordsBase_6x7C.header.bswap();

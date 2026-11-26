@@ -22,7 +22,7 @@ const NJS_POINT2 *get_window_layout_position(s32 idx) {
 }
 }
 
-void TWindowBase::sub_8026CC28() {
+void TWindowBase::bring_to_front() {
     TObject *n;
     f32 lim;
     f32 t;

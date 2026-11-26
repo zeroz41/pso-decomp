@@ -72,7 +72,7 @@ void load_area_dialogue_script();
 extern char entered_item_name[0x10];
 
 extern "C" {
-void TQuestThread__sub_801F5D88(void);
+void clear_quest_floor_handlers(void);
 }
 
 #endif

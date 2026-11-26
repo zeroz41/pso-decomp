@@ -25,7 +25,7 @@ public:
     void set_depth(f32 depth);
     void set_position(f32 *pos);
     void calc_inner_rect(WindowDrawContext *context);
-    void sub_8026CC28();
+    void bring_to_front();
     void update_window_entry_list(const WindowLayoutEntries *entries);
     void update_fade();
     void draw_quest_message_frame(void *context);

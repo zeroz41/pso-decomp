@@ -318,7 +318,8 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
     return v;
 }
 
-s32 format_french_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, u16 player) {
+}
+s32 format_french_message(WordSelectMessage *src, char *buf, u16 player) {
     s32 k;
     s32 n;
     s32 m;
@@ -355,7 +356,7 @@ s32 format_french_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, 
         if (n > 1) {
             WordSelectMessage copy;
             convert_type3_message(src, &copy);
-            pos = format_french_message__9TWindowDDFPvPvUs(&copy, buf, player);
+            pos = format_french_message(&copy, buf, player);
         } else {
             append_word_select_token(src->ids[0], buf, &pos);
         }
@@ -505,7 +506,7 @@ s32 format_french_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, 
     return pos;
 }
 
-s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, u16 player) {
+s32 format_german_message(WordSelectMessage *src, char *buf, u16 player) {
     s32 pos;
     s32 id;
     s32 kind;
@@ -543,7 +544,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, 
         if (n > 1) {
             WordSelectMessage copy;
             convert_type3_message(src, &copy);
-            pos = format_german_message__9TWindowDDFPvPvUs(&copy, buf, player);
+            pos = format_german_message(&copy, buf, player);
         } else {
             append_word_select_token(src->ids[0], buf, &pos);
         }
@@ -736,6 +737,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, 
     buf[pos++] = 0;
     return pos;
 }
+extern "C" {
 
 /* Spanish word-select formatter (window mode 4, see TWindowDD::format_message). */
 #pragma push
@@ -963,7 +965,8 @@ s32 format_spanish_message(WordSelectMessage *src, char *buf, u16 player) {
     return pos;
 }
 
-s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf, u16 player) {
+}
+s32 format_english_message(WordSelectMessage *src, char *buf, u16 player) {
     s32 b;
     s32 n;
     s32 i;
@@ -1000,7 +1003,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf,
         if (n > 1) {
             WordSelectMessage copy;
             convert_type3_message(src, &copy);
-            pos = format_english_message__9TWindowDDFPvPvUs(&copy, buf, player);
+            pos = format_english_message(&copy, buf, player);
         } else {
             append_word_select_token(src->ids[0], buf, &pos);
         }
@@ -1128,9 +1131,11 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *buf,
     buf[pos++] = 0;
     return pos;
 }
+extern "C" {
 #pragma pop
 
-s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *buf) {
+}
+s32 format_entry_text(WordSelectMessage *entry, char *buf) {
     s32 pos;
     s32 n;
     pos = 0;
@@ -1209,6 +1214,7 @@ s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *buf) {
     buf[pos++] = 0;
     return pos;
 }
+extern "C" {
 
 s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
@@ -2390,19 +2396,19 @@ s32 TWindowDD::can_append_chars(s32 len, s32 *pos) {
 void TWindowDD::format_message(WordSelectMessage *message, char *text, u16 player) {
     switch ((s32) TWindowDD::window_mode) {
     case LANGUAGE_JAPANESE:
-        format_entry_text__9TWindowDDFPvPv(message, text);
+        format_entry_text(message, text);
         return;
     default:
-        format_english_message__9TWindowDDFPvPvUs(message, text, player);
+        format_english_message(message, text, player);
         return;
     case LANGUAGE_SPANISH:
         format_spanish_message(message, text, player);
         return;
     case LANGUAGE_GERMAN:
-        format_german_message__9TWindowDDFPvPvUs(message, text, player);
+        format_german_message(message, text, player);
         return;
     case LANGUAGE_FRENCH:
-        format_french_message__9TWindowDDFPvPvUs(message, text, player);
+        format_french_message(message, text, player);
         return;
     }
 }
@@ -2503,14 +2509,14 @@ void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
     draw_count = TWindowDD::get_draw_count(hud_texlist);
     reset_window_vertices((WindowVertex *)&sp8, word_select_inverse_depth(draw_depth, offset), -1);
     copy_window_point_table((WindowVertex *)&sp8, idx);
-    TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
-    TWindowDD__sub_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
+    set_frame_column_vertices_x(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
+    set_frame_row_vertices_y(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8), 0);
     draw_window_vertices((WindowVertex *)&sp8, 8, draw_count, 1);
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
+void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
     s32 i;
     f32 hs;
     f32 half;
@@ -2533,7 +2539,7 @@ void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices,
 }
 #pragma pop
 
-void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices) {
+void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices) {
   f32 center_x;
   f32 inner_right;
   f32 half_scaled;

@@ -315,10 +315,10 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     }
     flag_notice_shown = 0;
     if (this->last_cursor_index != this->cursor->selection_index()) {
-        player->set_field_100(1);
+        player->request_state(1);
         if (get_card_slot_summary(this->cursor->selection_index()) != NULL) {
             load_tables(cursor->selection_index());
-            player->set_field_100(2);
+            player->request_state(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
                 flag_notice_shown = 1;
                 this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
@@ -455,7 +455,7 @@ typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 
 void TAdSinglePlyChrSelectGC::cleanup() {
     this->cursor->reset_entries();
-    player->set_field_100(1);
+    player->request_state(1);
     this->guide->set_line(0, "");
     this->guide->set_line(1, "");
     this->last_cursor_index = -1;
@@ -588,7 +588,7 @@ extern "C" {
 s32 TAdChrSelASlotGC::get_state() { return state; }
 void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
 
-void TAdChrSelPlayerGC::set_field_100(s32 value) {
+void TAdChrSelPlayerGC::request_state(s32 value) {
     pending_state = value;
 }
 

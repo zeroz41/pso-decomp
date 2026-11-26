@@ -239,6 +239,6 @@ void adx_interrupt_lock_leave() {
     middleware_interrupt_lock_leave();
 }
 
-void TLobby__sub_803CE220(void) {
+void aix_interrupt_lock_enter(void) {
     middleware_interrupt_lock_enter();
 }

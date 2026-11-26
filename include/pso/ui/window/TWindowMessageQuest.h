@@ -17,10 +17,6 @@ struct TWindowMessageQuest : public TWindowMessage {
 
 LAYOUT_ASSERT(TWindowMessageQuest_size, sizeof(TWindowMessageQuest) == 0x94);
 
-extern "C" {
-void *__dt__19TWindowMessageQuestFv(void *arg0, s16 arg1);
-}
-
 TWindowMessageQuest *create_quest_message_window();
 
 #endif

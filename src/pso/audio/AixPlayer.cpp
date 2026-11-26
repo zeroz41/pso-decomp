@@ -51,7 +51,7 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
     } else if (player->state == 2) {
         if (get_demuxer_state(demuxer) == 3) {
             for (i = 0; i < player->track_count; i++) {
-                s32 r = TLobby__sub_803C9CB0(player->tracks[i]);
+                s32 r = adxt_get_stat(player->tracks[i]);
                 if (r != 5 && r != 0) {
                     break;
                 }
@@ -81,7 +81,7 @@ extern "C" void update_file_stream_range(void *context) {
         *(s32 *)((s8 *)player_bytes + 0x1B0) = (s32) *(s32 *)((s8 *)player_bytes + 0x1B8);
     }
     if (((s32) *(u8 *)((s8 *)player_bytes + 0x1A9) == 1) && ((s32) *(s32 *)((s8 *)player_bytes + 0x1B0) < get_demuxer_segment_count(*reinterpret_cast<AixDemuxer **>(player_bytes + 4)))) {
-        TLobby__sub_803CE220();
+        aix_interrupt_lock_enter();
         get_entry_pair(*reinterpret_cast<AixDemuxer **>(player_bytes + 4), (s32)((int) (*(s32 *)((s8 *)player_bytes + 0x1B0))), &offset, &size);
         seek_adx_stream_sector(((AixPlayer *)player_bytes)->stream, offset / 2048);
         set_adx_stream_end_sector(((AixPlayer *)player_bytes)->stream, (offset + size) / 2048);

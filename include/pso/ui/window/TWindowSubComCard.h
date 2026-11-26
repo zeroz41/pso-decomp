@@ -108,11 +108,11 @@ struct TWindowSubComCard : public TObject {
     void set_selected_card(s32 card_index);
     void set_help_message(s32 help_index);
     static TWindowMenu *create_card_action_window();
-    TWindowMenu *sub_80272640();
+    TWindowMenu *create_short_mail_list_menu();
     TWindowMenu *sub_802728CC();
-    TWindowMenu *sub_80272A98();
+    TWindowMenu *create_choice_search_result_menu();
     TWindowMenu *sub_80273004();
-    static TWindowMenu *sub_8027337C();
+    static TWindowMenu *create_player_list_menu();
     TWindowMenu *sub_8027346C();
     TWindowMenu *sub_8027353C();
     TWindowChoiceSetting *create_entry_list_window();

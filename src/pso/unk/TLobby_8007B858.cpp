@@ -75,7 +75,7 @@ s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }
 int GuildCardEntry::is_active() const { return flags & 1; }
 s8 GuildCardEntry::get_char_class() { return char_class; }
 
-s32 GuildCardEntry::sub_8007B6F4() const {
+s32 GuildCardEntry::is_own_card() const {
     if (flags & 2) {
         return 0;
     }
@@ -169,7 +169,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
 FloorResourceCallbacks lbl_8048D5A8[4] = {
-    {load_technique_resources, TLobby__sub_8022F068},
+    {load_technique_resources, free_technique_resources},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
     {update_battle_params, NULL},

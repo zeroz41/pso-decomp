@@ -3,13 +3,14 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
+#include "pso/ui/window/TWindowBase.h"
 
 struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     TAdSnAkPassConfirmGC(TObject *parent);
     virtual ~TAdSnAkPassConfirmGC();
     virtual void on_yes_chosen();
     virtual void on_no_chosen();
-    uaddr m_48;
+    TWindowBase *info_window;  // the serial info window, closed when the choice is made
     virtual void render();
     virtual void run_task();
     virtual void on_accept();

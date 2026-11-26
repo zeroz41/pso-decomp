@@ -114,7 +114,7 @@ void set_stream_frequency(GcrnaStream *stream, s32 frequency) {
 
 }
 
-void TLobby__sub_803D4704(GcrnaStream *stream, s32 stream_count) {
+void gcrna_set_stream_count(GcrnaStream *stream, s32 stream_count) {
     if (stream != NULL) {
         stream->stream_count = stream_count;
     }

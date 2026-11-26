@@ -65,7 +65,7 @@ typedef struct Quest_802549B0 {
 typedef struct MagData_80253564 { u8 b[16]; } MagData_80253564;
 
 extern "C" {
-void fn_80255A38(TWindowHelpItem *item);
+void clear_help_item(TWindowHelpItem *item);
 }
 extern u8 *text_language_group_table;
 saddr format_item_description(u8 *item);
@@ -250,7 +250,7 @@ void TWindowHelpItem::update_cursor_selection() {
     this->active_id = -1;
 }
 
-void fn_80255A38(TWindowHelpItem *item) {
+void clear_help_item(TWindowHelpItem *item) {
     item->entry_list.destroy_all_items();
     item->help_flags &= ~1;
     item->active_item = NULL;

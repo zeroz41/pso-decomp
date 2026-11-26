@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/unk/text_803DA798.h"
 #include <dolphin/mtx.h>
 
 
@@ -22,7 +23,6 @@ extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
 s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
-s32 notify_texture_state_ready(int, int);
 
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
     Matrix34 rotation;
@@ -204,58 +204,59 @@ s32 is_gvm_load_ok() {
     return -1;
 }
 
-s32 resolve_texlist_entry(s32 *texlist, u32 idx, s32 *out_surface, u32 *out_tlut) {
-    saddr slot;
+s32 resolve_texlist_entry(s32 *texlist_arg, u32 idx, s32 *out_surface, u32 *out_tlut) {
+    GinjaTextureState *slot;
     u32 j;
-    s32 *surface;
-    s32 *surface_hit;
-    s32 state;
+    GinjaSurfaceState *surface;
+    GinjaSurfaceState *surface_hit;
+    GinjaTextureState *state;
     s32 flags;
     s32 record_index;
-    saddr table;
-    u8 *prev_entry;
-    u8 *entry;
-    table = *(s32 *)((s8 *)texlist + 0);
-    entry = (u8 *)(table + (idx * 0xC));
-    flags = *(s32 *)((s8 *)entry + 4);
+    NJS_TEXNAME *table;
+    GinjaTextureState *prev_entry;
+    NJS_TEXNAME *entry;
+    NJS_TEXLIST *texlist = (NJS_TEXLIST *)texlist_arg;
+    table = texlist->textures;
+    entry = &table[idx];
+    flags = entry->attr;
     if (((u32) (flags & 0x10000) != 0) && (idx != 0)) {
-        *(u32 *)((s8 *)out_tlut + 0) = (u32) (*(s32 *)((s8 *)entry + 8) & 0xFC000000) >> 0x1AU;
+        *out_tlut = (u32) (entry->texaddr & 0xFC000000) >> 0x1AU;
         j = idx - 1;
-        prev_entry = ((ResolveTexlistEntryTable *)table)->arr[j].p;
-        *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)prev_entry + 0xC)) + 0);
-        record_index = find_texture_by_surface_and_tlut((int) (*(s32 *)((s8 *)out_surface + 0)), (int) (*(u32 *)((s8 *)out_tlut + 0)));
+        prev_entry = (GinjaTextureState *)((ResolveTexlistEntryTable *)table)->arr[j].p;
+        *out_surface = prev_entry->surface->id;
+        record_index = find_texture_by_surface_and_tlut((int) (*out_surface), (int) (*out_tlut));
         if (record_index < 0) {
-            if (find_free_texture_slot((GinjaTextureState **)&slot, NULL) < 0) {
+            if (find_free_texture_slot(&slot, NULL) < 0) {
                 return -1;
             }
-            *(s32 *)((s8 *)entry + 8) = slot;
-            *(u32 *)((s8 *)slot + 8) = (u32) *(u32 *)((s8 *)out_tlut + 0);
-            *(s32 **)((s8 *)slot + 0xC) = (s32 *) *(s32 **)((s8 *)prev_entry + 0xC);
-            *(s32 *)((s8 *)slot + 0x10) = 1;
-            surface = (s32 *)(*(s32 **)((s8 *)slot + 0xC));
-            *(s32 *)((s8 *)surface + 0x24) = (s32) (*(s32 *)((s8 *)surface + 0x24) + 1);
-            *(s32 *)((s8 *)slot + 0x14) = (s32) *(s32 *)((s8 *)prev_entry + 0x14);
-            notify_texture_state_ready((int)slot, (saddr)surface);
-            goto block_7;
+            entry->texture = slot;
+            slot->tlut_name = *out_tlut;
+            slot->surface = prev_entry->surface;
+            slot->ref_count = 1;
+            surface = slot->surface;
+            surface->ref_count = surface->ref_count + 1;
+            slot->reserved14 = prev_entry->reserved14;
+            notify_texture_state_ready(slot);
+            goto done;
         }
-        state = (saddr)&texture_states[record_index];
+        state = &texture_states[record_index];
         slot = state;
-        *(s32 *)((s8 *)entry + 8) = state;
-        surface_hit = (s32 *)(*(s32 **)((s8 *)slot + 0xC));
-        *(s32 *)((s8 *)surface_hit + 0x24) = (s32) (*(s32 *)((s8 *)surface_hit + 0x24) + 1);
-        *(s32 *)((s8 *)slot + 0x10) = (s32) (*(s32 *)((s8 *)slot + 0x10) + 1);
-block_7:
+        entry->texture = state;
+        surface_hit = slot->surface;
+        surface_hit->ref_count = surface_hit->ref_count + 1;
+        slot->ref_count = slot->ref_count + 1;
+    done:
         return 1;
     }
     if ((u32) (flags & 0x800000) != 0) {
-        *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)entry + 8);
-        *(u32 *)((s8 *)out_tlut + 0) = -1U;
+        *out_surface = entry->texaddr;
+        *out_tlut = -1U;
     } else if ((u32) (flags & 0x01000000) != 0) {
-        *(s32 *)((s8 *)out_surface + 0) = *(s32 *)((s8 *)entry + 8) & 0x03FFFFFF;
-        *(u32 *)((s8 *)out_tlut + 0) = (u32) (*(s32 *)((s8 *)entry + 8) & 0xFC000000) >> 0x1AU;
+        *out_surface = entry->texaddr & 0x03FFFFFF;
+        *out_tlut = (u32) (entry->texaddr & 0xFC000000) >> 0x1AU;
     } else {
-        *(s32 *)((s8 *)out_surface + 0) = -1;
-        *(u32 *)((s8 *)out_tlut + 0) = (u32) (*(s32 *)((s8 *)entry + 8) & 0xFC000000) >> 0x1AU;
+        *out_surface = -1;
+        *out_tlut = (u32) (entry->texaddr & 0xFC000000) >> 0x1AU;
     }
     return 0;
 }

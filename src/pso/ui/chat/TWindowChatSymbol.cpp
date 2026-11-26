@@ -264,7 +264,7 @@ void TWindowSubSymbolChat::init_layout_entries(saddr player) {
 }
 
 void TWindowChatSymbol::update_visibility() {
-    if (((s32) this->m_64 == 0) && (selected_preset == NULL || is_symbol_chat_preset_in_use(selected_preset) == 0)) {
+    if (((s32) this->always_visible == 0) && (selected_preset == NULL || is_symbol_chat_preset_in_use(selected_preset) == 0)) {
         this->disallow_rendering();
         return;
     }
@@ -321,5 +321,5 @@ TWindowChatSymbol::TWindowChatSymbol(const NJS_POINT2 *position, saddr size) : T
     this->m_name = window_chat_symbol_name;
     set_size((f32 *)size);
     this->selected_preset = 0;
-    this->m_64 = 0;
+    this->always_visible = 0;
 }

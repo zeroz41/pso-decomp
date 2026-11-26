@@ -54,7 +54,7 @@ void (*ending_scene_callbacks[26])(void) = {
 };
 
 
-void fn_8008C4F4(void) {
+void release_ending_scene(void) {
     TLobby::stop_audio_streams();
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));

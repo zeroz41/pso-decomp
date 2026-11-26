@@ -207,7 +207,7 @@ void TWindowMenu::select_next_item() {
         if (candidate == selected_row) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             selected_row = candidate;
             return;
         }
@@ -230,7 +230,7 @@ void TWindowMenu::move_cursor_prev() {
         if (candidate == selected_row) {
             return;
         }
-        if (sub_80266B18(candidate) != 0) {
+        if (is_entry_selectable(candidate) != 0) {
             selected_row = candidate;
             return;
         }
@@ -717,7 +717,7 @@ void WindowScrollBar::set_extent(const NJS_POINT2 *size) {
 }
 #pragma pop
 
-s32 TWindowAddition::sub_80266B18(s32 index) {
+s32 TWindowAddition::is_entry_selectable(s32 index) {
     return *(u16 *)((s8 *)(*(u16 **)((s8 *)(*(saddr *)((s8 *)(this) + 0x28) + (index * 4)) + 0)) + 0) & 1;
 }
 

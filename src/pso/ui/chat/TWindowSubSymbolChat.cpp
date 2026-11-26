@@ -689,7 +689,7 @@ void TWindowSubSymbolChat::run_task() {
         if ((void *) this->second_symbol_window == NULL) {
             this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 1);
         }
-        this->second_symbol_window->m_64 = 1;
+        this->second_symbol_window->always_visible = 1;
         this->symbol_list = create_symbol_list_card();
         apply_symbol();
         this->selected_value = 0x1FU;
@@ -1069,7 +1069,7 @@ void TWindowSubSymbolChat::update_sub_window() {
         if (this->second_symbol_window == NULL) {
             this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
             this->second_symbol_window->set_selection(get_symbol_chat_receive_buffer());
-            this->second_symbol_window->m_64 = 1;
+            this->second_symbol_window->always_visible = 1;
             copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7C))));
             this->symbol_window->tween_ticks = 6;
         }

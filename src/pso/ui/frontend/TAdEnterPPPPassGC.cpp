@@ -67,8 +67,8 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
     char *buf;
     s32 cur;
     buf = password_entry_keyboard_control->realloc_buffer();
-    if ((m_40 == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
-        (m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((text_length == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
+        (text_length == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         mem_free(buf);
         TAdEnterPPPPassGC::set_password("");
         pending_dispatch_state = 2;
@@ -118,7 +118,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         pending_dispatch_state = 3;
         password_entry_dispatch_state = 4;
     }
-    m_40 = strlen(buf);
+    text_length = strlen(buf);
     mem_free(buf);
 }
 
@@ -172,7 +172,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     m_name = TAdEnterPPPPassGC::name;
     sub_8032B460(3);
     password_entry_dispatch_state = 0;
-    m_40 = 0;
+    text_length = 0;
     if (load_network_info() != 0) {
         init_account_entries();
     } else {

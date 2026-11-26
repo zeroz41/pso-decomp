@@ -15,7 +15,7 @@ struct WorkerCallbackFlagTable { s32 values[7]; };
 extern WorkerCallbackFlagTable worker_callback_flag_table;
 
 extern "C" {
-void TLobby__sub_803D3194(void);
+void svm_release_callback_tables(void);
 void svm_set_unlock_callback(AdxTransitionCallback callback, s32 context);
 void svm_set_lock_callback(AdxTransitionCallback callback, s32 context);
 void svm_invoke_single_callback(s32 group);

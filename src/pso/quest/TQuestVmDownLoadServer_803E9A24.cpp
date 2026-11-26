@@ -738,8 +738,8 @@ const QuestDownloadMatchToken *find_longest_match_entry(u8 *text, s32 remaining,
 
 void latch_slot_value(s32 index) {
     QuestDownloadSlot *slot = &quest_download_slot_chain_table[index];
-    if (slot->x16 == 0 && slot->x14 != 0) {
-        slot->x16 = slot->x15;
+    if (slot->latched_length == 0 && slot->fixed != 0) {
+        slot->latched_length = slot->length;
     }
 }
 
@@ -749,10 +749,10 @@ s32 get_slot_entry_length(s32 slot_index) {
         return 0;
     }
     r = &quest_download_slot_chain_table[slot_index];
-    if (lbl_805D7848 == 2 && r->x14 == 0) {
+    if (lbl_805D7848 == 2 && r->fixed == 0) {
         return 0;
     }
-    return r->x15;
+    return r->length;
 }
 
 QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry) {
@@ -1161,7 +1161,7 @@ s32 count_leading_entries(s32 i, s32 end) {
     s32 n;
     s32 total = 0;
     while (i < end) {
-        n = e->x15;
+        n = e->length;
         if (n == 0) {
             return -1;
         }
@@ -1243,7 +1243,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
             if (tokens == (const QuestDownloadMatchToken *)0xFFFFFFFF) {
                 break;
             }
-            slot->x18 = tokenLength;
+            slot->token_length = tokenLength;
             slot->tokens = tokens;
         }
         text++;
@@ -1257,8 +1257,8 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
     selectedEnd = start + selectedLength;
     while (pos < limit) {
         slot = QUEST_WORKSPACE_SLOT(workspaceAddress, pos);
-        if (slot->x15 > 0) {
-            pos += slot->x15;
+        if (slot->length > 0) {
+            pos += slot->length;
             continue;
         }
         if (slot->items == NULL && build_slot_items(pos, limit) == 0) {
@@ -1293,11 +1293,11 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
         if (pos == start) {
             if (lbl_805D7888 == 1) {
                 select_best_slot_entry(pos, limit, selectedLength);
-                first->x14 = 1;
+                first->fixed = 1;
                 length = selectedLength;
                 goto chosen_length;
             } else if (lbl_805D7888 == 2) {
-                first->x14 = 1;
+                first->fixed = 1;
                 length = selectedLength;
                 goto chosen_length;
             }
@@ -1321,15 +1321,15 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
             prunedEntry = *link;
         }
         TQuestVmDownLoadServer__sub_803EC460(pos, length);
-        slot->x15 = length;
+        slot->length = length;
         pos += length;
     }
     for (groupPos = start; groupPos < limit;) {
         slot = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos);
         walk = slot;
-        covered = walk->x15;
+        covered = walk->length;
 
-        if (walk->x14 != 0) {
+        if (walk->fixed != 0) {
             groupLength = covered;
         } else {
             groupLength = count_leading_entries(groupPos, limit);
@@ -1340,26 +1340,26 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
                 groupLength = covered;
             }
             if (groupLength == covered) {
-                walk->x14 = 1;
+                walk->fixed = 1;
             } else {
                 while (covered < groupLength) {
                     if ((uaddr)walk->head != 0xFFFFFFFF) {
                         free_quest_entry_chain(walk->head);
                     }
                     walk->head = NULL;
-                    walk->x15 = 0;
+                    walk->length = 0;
                     free_quest_text_chain(walk->chain);
                     walk->chain = NULL;
-                    covered += (walk = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos + covered))->x15;
+                    covered += (walk = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos + covered))->length;
                 }
                 if ((uaddr)walk->head != 0xFFFFFFFF) {
                     free_quest_entry_chain(walk->head);
                 }
                 walk->head = NULL;
-                walk->x15 = 0;
+                walk->length = 0;
                 free_quest_text_chain(walk->chain);
                 walk->chain = NULL;
-                slot->x15 = groupLength;
+                slot->length = groupLength;
                 allocated = alloc_quest_entry_node();
                 if (allocated != NULL) {
                     allocated->prefix.off = groupLength;
@@ -1370,7 +1370,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
                     allocated->base = 0;
                     allocated->next = NULL;
                     slot->head = allocated;
-                    slot->x14 = 1;
+                    slot->fixed = 1;
                     TQuestVmDownLoadServer__sub_803EC460(groupPos, groupLength);
                 }
             }
@@ -1383,14 +1383,14 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
 void reset_slot(QuestDownloadSlot *slot, s32 mode) {
     if (mode == 0) {
         slot->tokens = reinterpret_cast<const QuestDownloadMatchToken *>(0xFFFFFFFFU);
-        slot->x18 = -1;
+        slot->token_length = -1;
         if ((uaddr)slot->items != 0xFFFFFFFF) {
             release_node_chain(slot->items);
         }
         slot->items = NULL;
         slot->width = -1;
         slot->x19 = -1;
-        slot->x16 = 0;
+        slot->latched_length = 0;
     }
     if (slot->head != NULL && (uaddr)slot->head != 0xFFFFFFFF) {
         free_quest_entry_chain(slot->head);
@@ -1401,8 +1401,8 @@ void reset_slot(QuestDownloadSlot *slot, s32 mode) {
     }
     slot->chain = NULL;
     slot->timer = 0;
-    slot->x14 = 0;
-    slot->x15 = 0;
+    slot->fixed = 0;
+    slot->length = 0;
 }
 
 void reset_slot_range(s32 begin, s32 end, s32 mode) {
@@ -1423,11 +1423,11 @@ void init_entries() {
         slot->head = NULL;
         slot->chain = NULL;
         slot->timer = 0;
-        slot->x14 = 0;
-        slot->x15 = 0;
-        slot->x16 = 0;
+        slot->fixed = 0;
+        slot->length = 0;
+        slot->latched_length = 0;
         slot->width = -1;
-        slot->x18 = -1;
+        slot->token_length = -1;
         slot->x19 = -1;
     }
 }

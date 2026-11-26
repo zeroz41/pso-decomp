@@ -23,7 +23,11 @@ LAYOUT_ASSERT(CharacterAppearanceFields_size, sizeof(CharacterAppearanceFields) 
 LAYOUT_ASSERT(CharacterAppearanceFields_head, offsetof(CharacterAppearanceFields, head) == 0x3e);
 LAYOUT_ASSERT(CharacterAppearanceFields_rgb, offsetof(CharacterAppearanceFields, red) == 0x42);
 
-struct CreationModelNodeState { void *node; u32 flags; };
+// Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
+struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
+// A Ninja model node (NJS_OBJECT) of the character's shape, without its child links.
+struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
+struct CreationModelNodeState { CreationShapeNode *node; u32 flags; };
 struct CreationHeadModelStates { CreationModelNodeState nodes[5]; };
 struct CreationBodyModelStates { CreationModelNodeState nodes[65]; };
 LAYOUT_ASSERT(CreationHeadModelStates_size, sizeof(CreationHeadModelStates) == 0x28);
