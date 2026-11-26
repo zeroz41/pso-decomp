@@ -112,11 +112,9 @@ void TAdTitleTexGC::update_title_tex_positions() {
 }
 
 void TAdTitleTexGC::render() {
-    s32 temp_r31;
-
     if (TMainTask::get_render_pass() != 1) {
         render_status_pair((alpha << 0x18) | 0xFF0000 | 0xFFFF);
-        sub_802A4D74((alpha << 0x18) | 0xFF0000 | 0xFFFF, (u8 *)(get_localized_text_entry(0x28, 0)), (u8 *)(get_localized_text_entry(0x28, 1)));
+        draw_status_texts((alpha << 0x18) | 0xFF0000 | 0xFFFF, (u8 *)(get_localized_text_entry(0x28, 0)), (u8 *)(get_localized_text_entry(0x28, 1)));
     }
 }
 
@@ -136,7 +134,7 @@ void TAdTitleTexGC::render_status_pair(s32 color) {
 
 #pragma push
 #pragma opt_common_subs off
-void TAdTitleTexGC::sub_802A4D74(s32 color, u8 *text, u8 *label) {
+void TAdTitleTexGC::draw_status_texts(s32 color, u8 *text, u8 *label) {
     draw_menu_text(22.0f + rects[0].x0, 1.0f + rects[0].y0, (const char *)text, color);
     draw_menu_text(22.0f + rects[1].x0, 1.0f + rects[1].y0, (const char *)label, color);
 }

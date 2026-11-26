@@ -23,10 +23,10 @@ struct TWindowOptionCtrl : public TObject {
     s16 saved_sound_mode; // the sound output mode when the window opened
     s16 sound_mode;
     u8 pad_22[0x2];
-    s32 m_24;
+    s32 dial_selection; // read by TAdDialingSelectGC: 1 network setup, 3 license purchase (web mode), 4 none
     TWindowMenu *main_menu;
     TWindowMenu *sub_menu;
-    void *m_30;
+    TWindowMenu *m_30;
     TWindowCheckBox *option_menu;
     TWindowSoundBalance *sound_balance_window;
     TWindowSnapShot *snap_shot_window;
@@ -36,17 +36,19 @@ struct TWindowOptionCtrl : public TObject {
     TAdPlayerLoadGC *player_load; // memory-card watcher made by the ctor
 
     static const char *class_name;
-    static void set_params(void *arg0, s16 arg1, s16 arg2);
+    void set_sound_balance(s16 music_gain, s16 sound_effect_gain);
     void apply_selection_change();
     void init_selection_indices();
     void apply_and_close(s32 bgm_index);
     s32 handle_input(s32 language);
-    static void set_field_value(s32 arg0, s16 arg1);
-    static s32 get_option_field_C();
+    s32 get_dial_selection();
+    int is_finished();
+    static void set_udp_option(s32 unused, s16 option);
+    static s32 get_udp_option(); // 0 auto, 1 UDP on, 2 UDP off
     static const char *text_or_default(const char *text);
     static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
     static saddr open_yes_no_window(saddr parent, s32 message_id, s32 index);
-    TWindowCheckBox *create_option_menu();
+    TWindowCheckBox *create_udp_option_menu();
     saddr create_sub_menu_window();
     TWindowSnapShot *create_snap_shot_window();
     TWindowSoundBalance *create_sound_balance_window();

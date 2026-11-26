@@ -37,11 +37,11 @@ void TAdDialingSelectGC::run_task() {
     case 0:
         this->state = 1;
     case 1:
-        if (this->list != NULL) {
-            if (TWindowShortListCtrl__sub_801A5144(this->list) != 0) {
+        if (this->option_window != NULL) {
+            if (this->option_window->is_finished() != 0) {
                 this->state = 2;
             } else {
-                this->selection = TWindowShortListCtrl__sub_801A513C(this->list);
+                this->selection = this->option_window->get_dial_selection();
                 if (this->selection != 4) {
                     this->state = 2;
                 }
@@ -49,9 +49,9 @@ void TAdDialingSelectGC::run_task() {
         }
         break;
     case 2:
-        if (this->list != NULL) {
-            this->list->queue_destruction();
-            this->list = NULL;
+        if (this->option_window != NULL) {
+            this->option_window->queue_destruction();
+            this->option_window = NULL;
         }
         this->state = 3;
     case 3:
@@ -116,9 +116,9 @@ TAdDialingSelectGC::~TAdDialingSelectGC() {
         this->window->queue_destruction();
         this->window = NULL;
     }
-    if (this->list != NULL) {
-        this->list->queue_destruction();
-        this->list = NULL;
+    if (this->option_window != NULL) {
+        this->option_window->queue_destruction();
+        this->option_window = NULL;
     }
 }
 
@@ -132,13 +132,13 @@ TAdDialingSelectGC::TAdDialingSelectGC() : TObject((TObject *)tl_00) {
     this->selection = 4;
     this->state = 0;
     this->timer = 0;
-    this->list = new TWindowOptionCtrl(this);
+    this->option_window = new TWindowOptionCtrl(this);
     this->window = NULL;
     this->card = NULL;
 }
 
-s32 TWindowShortListCtrl__sub_801A513C(void *p) { return *(s32 *)((char *)p + 0x24); }
-int TWindowShortListCtrl__sub_801A5144(void *p) { return *(u8 *)((char *)p + 0x1d) & 0x1; }
+s32 TWindowOptionCtrl::get_dial_selection() { return dial_selection; }
+int TWindowOptionCtrl::is_finished() { return flags & 0x1; }
 
 // Bits 16-17 of the client's character save record word at +0x10.
 s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {

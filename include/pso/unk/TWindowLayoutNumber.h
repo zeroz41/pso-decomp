@@ -8,7 +8,7 @@
 class TWindowLayoutNumber : public TWindowLayoutRect {
 public:
     f32 depth;
-    s32 style;
+    s32 color;
     s32 value;
 
     TWindowLayoutNumber(u8 *rec, s32 m_2);

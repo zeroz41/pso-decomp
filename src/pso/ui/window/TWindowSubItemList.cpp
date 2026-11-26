@@ -19,7 +19,7 @@ void TWindowSubItemList::draw_blinking_selection(WindowDrawContext *context) {
     if ((temp_r5 >= 0) && !(actor_frame_tick & 0x10)) {
         entry = (u16 *)(get_array_entry((s32) temp_r5));
         if (*entry & 1) {
-            draw_selection_bar(context, (u8 *)entry, 1);
+            draw_selection_bar(context, (TWindowLayoutRect *)entry, 1);
         }
     }
 }

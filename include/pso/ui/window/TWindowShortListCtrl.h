@@ -12,7 +12,7 @@ struct TWindowShortListCtrl : public TObject {
     TWindowShortListCtrl(TObject *parent, s32 client_id);
     virtual ~TWindowShortListCtrl();
     static const char *class_name;
-    void refresh_technique_rows(saddr, void *);
+    void refresh_technique_rows(saddr tech_window, const NJS_POINT2 *position);
     void cycle_list_page();
     void enter_page_first_state();
     virtual void run_task();
@@ -42,7 +42,7 @@ struct TWindowShortListCtrl : public TObject {
     void swap_card_entries(s32 index_a, s32 index_b);
     static void assign_item_to_palette(u32 item_id, u32 client_id);
     void destroy_children();
-    void *create_window(const NJS_POINT2 *position, saddr arg2_arg);
+    TWindowMenu *create_window(const NJS_POINT2 *position, const NJS_POINT2 *list_position);
     virtual void render();
     static void set_card_window_flags(saddr client_id, s32 page);
     static void assign_shortcut(s32 slot, saddr item, s32 client_id);

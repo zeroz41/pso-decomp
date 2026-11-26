@@ -153,7 +153,7 @@ void TShopDeleteItemWindow::open_item_list() {
     }
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
-            help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
+            help_window = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }

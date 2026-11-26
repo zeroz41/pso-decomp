@@ -9,10 +9,5 @@ extern "C" {
 s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
 }
 
-// --- C functions defined in TAdMultiChgGameModeGC_8036DE10.cpp ---
-extern "C" {
-s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
-}
-// --- end of C functions
 
 #endif

@@ -48,7 +48,7 @@
 u8 player_number_text_buffer[0x80];
 
 extern "C" {
-s32 TAdPlyPltAnimCtrlGC__sub_80355148();
+s32 is_plate_animation_running();
 }
 
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
@@ -1396,7 +1396,7 @@ void TAdMultiPlyChrSelectGC::update_idle_timer() {
     s32 frames;
     frames = this->state_frames + 1;
     this->state_frames = frames;
-    if (((f32) frames > 4.5f) && (TAdMultiPlyChrSelectGC::get_selected_slot() != 0U) && (TAdPlyPltAnimCtrlGC__sub_80355148() == 0)) {
+    if (((f32) frames > 4.5f) && (TAdMultiPlyChrSelectGC::get_selected_slot() != 0U) && (is_plate_animation_running() == 0)) {
         this->state = this->next_state;
     }
 }

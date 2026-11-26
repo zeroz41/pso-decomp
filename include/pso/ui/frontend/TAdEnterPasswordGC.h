@@ -16,7 +16,7 @@ struct TAdEnterPasswordGC : public TAdEnterBaseGC {
     void open_keyboard_window(void *);
     void update_password_input(void *);
     void request_transition(void *);
-    void set_multi_chg_game_mode_0x14(void *);
+    void open_sn_ak_pass_confirm(void *);
     void close_window_and_destroy(void *);
     static void set_password(const char *password);
     s32 input_valid;

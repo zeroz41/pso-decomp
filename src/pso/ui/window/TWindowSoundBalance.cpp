@@ -81,7 +81,7 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
 }
 
 void TWindowSoundBalance::apply_balance(WindowDrawContext *context) {
-    u8 *entry = static_cast<u8 *>(get_array_entry(selection));
+    TWindowLayoutRect *entry = static_cast<TWindowLayoutRect *>(get_array_entry(selection));
     draw_selection_bar(context, entry, is_active());
 }
 

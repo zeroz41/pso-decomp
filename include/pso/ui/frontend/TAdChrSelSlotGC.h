@@ -26,7 +26,7 @@ public:
     void init_slot_entry(s32 slot, void *position);
     void init_slot(s32 slot, void *position);
     void hide_slot_entry(s32 i); // hides slot entry i (visible[i + 2])
-    void sub_802C754C(s32 i); // hides slot i (visible[i])
+    void hide_slot(s32 i); // hides slot i (visible[i])
     void set_select_index(s32 v); // stores enabled
 };
 LAYOUT_ASSERT(SlotQuadsOffset, offsetof(TAdChrSelSlotGC, quads) == 0x20);

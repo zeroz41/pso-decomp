@@ -40,7 +40,7 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
       array_entry = (u16 *) this->get_array_entry((s32) page_row);
       if ((*array_entry) & 1)
       {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)array_entry, 1);
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (TWindowLayoutRect *)array_entry, 1);
       }
     }
   }

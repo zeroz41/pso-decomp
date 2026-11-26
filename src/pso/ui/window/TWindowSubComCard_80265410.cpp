@@ -584,7 +584,7 @@ void TWindowMenu::draw_selected_bar(WindowDrawContext *context) {
         if (selected_row >= 0) {
             entry = (u16 *)(((saddr)get_array_entry((s32) selected_row)));
             if (*entry & 1) {
-                draw_selection_bar(context, (u8 *)entry, 1);
+                draw_selection_bar(context, (TWindowLayoutRect *)entry, 1);
             }
         }
     }
@@ -595,7 +595,7 @@ void TWindowMenu::render_selected_entry(WindowDrawContext *context) {
 
     entry = (u16 *)this->get_array_entry(selected_row);
     if (*entry & 1) {
-        draw_selection_bar(context, (u8 *)entry, is_decided());
+        draw_selection_bar(context, (TWindowLayoutRect *)entry, is_decided());
     }
 }
 

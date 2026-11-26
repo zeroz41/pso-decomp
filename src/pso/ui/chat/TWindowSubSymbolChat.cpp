@@ -177,8 +177,6 @@ extern s32 close_child__20TWindowSubSymbolChatFv[];
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-}
 #pragma pop
 
 #pragma push

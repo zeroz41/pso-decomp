@@ -1338,9 +1338,9 @@ void LockOnActionSlot::reset_state() {
     target_records.clear();
 }
 
-void copy_action_entry(void *dst, void *src) {
-    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+void copy_action_entry(ActionPriorityEntry *dst, ActionPriorityEntry *src) {
+    dst->priority = src->priority;
+    dst->index = src->index;
 }
 
 s32 ActionPriorityList::sort_actions_by_priority() {

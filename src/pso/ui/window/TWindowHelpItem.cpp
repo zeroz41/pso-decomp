@@ -174,9 +174,9 @@ saddr get_help_text_string(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (id * 4));
 }
 
-TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
+TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
-    copy_vec2(target_position, pos);
+    copy_vec2(target_position, (void *)pos);
     this->save_position();
     this->help_flags = 0;
     page_indicator = new PageIndicator(0, 3, client_index);

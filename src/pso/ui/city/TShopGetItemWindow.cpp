@@ -67,7 +67,6 @@ void clear_all_shop_stock(void) { clear_shop_weapon_flags(); clear_shop_armor_fl
 #pragma push
 #pragma opt_dead_code off
 void init_shop_world_context(void) {
-    s32 temp_r3_2;
     s32 section_id;
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
@@ -249,7 +248,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     }
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
-            help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), player->get_entity_id());
+            help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }

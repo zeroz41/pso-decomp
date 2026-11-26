@@ -49,8 +49,6 @@
 
 #pragma readonly_strings on
 
-struct Item_8027B424 { u8 b[0x10]; };
-
 extern u8 *text_language_group_table;
 extern "C" {
 s32 calc_text_width();
@@ -156,7 +154,7 @@ void TWindowSubMag::run_task() {
             card = NULL;
         }
         if (help == NULL) {
-            help = new TWindowHelpItem((void *)get_window_layout_position(9), client_id);
+            help = new TWindowHelpItem(get_window_layout_position(9), client_id);
             help->set_depth(get_main_menu_layer_depth((u8 *)parent, 5));
         }
         if (slotwin == NULL) {
@@ -361,38 +359,38 @@ static int is_mag_fed_full(TItemMag *mag) {
 }
 
 void *TWindowSubMag::create_action_menu(s32 id) {
-    s32 stats[4];
-    void *window;
+    MagStats stats;
+    TWindowMenu *window;
     u8 *item;
-    ((MagStats *)stats)->init();
+    stats.init();
     item = (u8 *)find_item_by_id(id);
-    window = (void *)create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
-    ((TWindowBase *)window)->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
+    window = create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
+    window->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
-        add_gray_text_entry((TWindowMenu *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
+        add_gray_text_entry(window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
-        ((TWindowMenu *)window)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
+        window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     }
-    TItemData::deserialize_mag(mag, (void *)stats);
-    if (((MagStats *)stats)->get_photon_blast(0) != -1) {
-        ((TWindowMenu *)window)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
+    TItemData::deserialize_mag(mag, &stats);
+    if (stats.get_photon_blast(0) != -1) {
+        window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     } else {
-        add_gray_text_entry((TWindowMenu *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
+        add_gray_text_entry(window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }
-    ((TWindowMenu *)window)->set_flag70_bit10();
-    ((TWindowMenu *)window)->update_layout_height((172.0f));
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window));
+    window->set_flag70_bit10();
+    window->update_layout_height((172.0f));
+    align_menu_entry_positions(window);
     return window;
 }
 
 void *TWindowSubMag::create() {
-    void *object;
+    TWindowMessage *object;
     const NJS_POINT2 *window_layout_position;
 
     window_layout_position = get_window_layout_position(0xB);
     object = TWindowMessage::create(window_layout_position, mag_message_window_size, 1, this->client_id);
-    ((TWindowBase *)object)->set_depth(get_main_menu_layer_depth((u8 *)parent, 4));
-    *(s32 *)((s8 *)object + 0x5C) = 0x186A0;
+    object->set_depth(get_main_menu_layer_depth((u8 *)parent, 4));
+    object->open_tick = 100000;
     call_if_split_screen((uaddr)object, this->client_id);
     return object;
 }
@@ -400,15 +398,15 @@ void *TWindowSubMag::create() {
 #pragma push
 #pragma fp_contract on
 void *TWindowSubMag::create_learned_blast_toast() {
-    Item_8027B424 item;
+    MagStats stats;
     NJS_POINT2 pos;
     NJS_POINT2 size;
     f32 scale;
     s32 n;
     void *win;
-    ((MagStats *)((s32 *)&item))->init();
-    TItemData::deserialize_mag(mag, (void *)((s32 *)&item));
-    n = ((MagStats *)((s32 *)&item))->get_photon_blast(this->slots);
+    stats.init();
+    TItemData::deserialize_mag(mag, &stats);
+    n = stats.get_photon_blast(this->slots);
     if (n == -1) {
         return 0;
     }

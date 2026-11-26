@@ -74,10 +74,10 @@ ColorLineVertex chcr_eff_fade_strip_rect[4] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
 };
 
-void TChCrEffFade::draw_fade_strip(f32 farg0) {
+void TChCrEffFade::draw_fade_strip(f32 alpha) {
     FadeStrip strip;
     u32 color;
-    color = __cvt_fp2unsigned(255.0f * farg0) << 24;
+    color = __cvt_fp2unsigned(255.0f * alpha) << 24;
     strip.color3 = color;
     strip.color2 = color;
     strip.color1 = color;

@@ -36,6 +36,7 @@ public:
     s8 alloc_nearest_free_slot();
     int is_balloon_visible();
     int is_active();
+    void set_active();
     void clear_flag_20();
     int is_flag_set();
     void set_balloon_visible();

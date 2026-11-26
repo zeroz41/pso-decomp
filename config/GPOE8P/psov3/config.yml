@@ -134,7 +134,7 @@ force_active:
   - show_card_incompatible_message__16TAdChrSelBSlotGCFv
   - show_unsupported_device_message__16TAdChrSelBSlotGCFv
   - name__15TAdChrSelSlotGC
-  - sub_802C754C__15TAdChrSelSlotGCFl
+  - hide_slot__15TAdChrSelSlotGCFl
   - TAdDialingGC__sub_803284F8
   - name__23TAdDialingMessageWindow
   - class_name__15TAdDrawLineCtrl
@@ -191,7 +191,7 @@ force_active:
   - mount_memcard__Fl
   - open_or_create_memcard_file__FlPCcPvUl
   - __ct__19TAdPlyPltAnimCtrlGCFP7TObject
-  - TAdPlyPltAnimCtrlGC__sub_80355168
+  - reset_plate_animations
   - tcp_fasttimo
   - tcp_drop
   - tcp_slowtimo
@@ -245,7 +245,7 @@ force_active:
   - __ct__23Pso3CharacterSaveRecordFv
   - item_type_greater__FP14BankItemRecordP14BankItemRecord
   - item_class_greater__FP14BankItemRecordP14BankItemRecord
-  - TAdSinglePlyChrSelectGC__sub_8028C998
+  - are_preview_load_flags_clear
   - select_unused_appearance_part__FPvl
   - __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectP3VecP3VecP3VecPll
   - build_item_list__22TQuestVmDownLoadServerFiPv
@@ -732,7 +732,7 @@ force_active:
   - TLogo__sub_8013F800
   - is_logo_clear_flag_set
   - TMainCursor__ct
-  - copy_action_entry__FPvPv
+  - copy_action_entry__FP19ActionPriorityEntryP19ActionPriorityEntry
   - set_published_target_dist__19LockOnNearestTargetFf
   - get_candidate_target_dist__19LockOnNearestTargetFv
   - set_published_target_id__19LockOnNearestTargetFUs
@@ -1822,7 +1822,7 @@ force_active:
   - __ct__13TWindowStatusFPvlPUc
   - class_name__21TWindowSubComCardList
   - update_matching_card
-  - draw_window_scanline__FPUclP17WindowDrawContextf
+  - draw_window_scanline__FP11TWindowBaselP17WindowDrawContextf
   - set_popup_size__20TWindowChoiceSettingFPC10NJS_POINT2l	symbol
   - TWindowSubComCard__sub_80272640
   - TWindowSubComCard__sub_802728CC
@@ -5916,7 +5916,7 @@ force_active:
   - draw_tunnel_segment__FPUc
   - draw_value__13TWindowMesetaFP17WindowDrawContext
   - draw_window_frame_strips__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
-  - draw_window_scanlines__FPUcPUc
+  - draw_window_scanlines__FP11TWindowBaseP17WindowDrawContext
   - draw_window_uv_sprite_part__FP16WindowSpritePartP17WindowDrawContext
   - draw_with_fade__18TObjEneEpsilonBodyFl
   - draw_wrapped_text__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
@@ -15500,7 +15500,7 @@ force_active:
   - set_motion_row_stride__Fl
   - approach_upper_hover_height__13TObjEneMe1GeeFv
   - set_movie_finished_flag__Fl
-  - set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv
+  - open_sn_ak_pass_confirm__18TAdEnterPasswordGCFPv
   - set_music_gain__19TWindowSoundBalanceFs
   - set_node_id__11TItemMagSubFll
   - set_node_offsets__10TBoss2MineFv
@@ -16344,7 +16344,7 @@ force_active:
   - start_character_read__17TCharSaveSequenceFv
   - wait_card_check__17TCharSaveSequenceFv
   - draw_parts__25TBoss6Demo10_TYPE1_APPEARFv
-  - sub_80348E34__18TAdChrMoveEffectGCFv
+  - draw_entries__18TAdChrMoveEffectGCFv
   - finish_result__18TChallenge4PResultFv
   - handle_first_reward__18TChallenge4PResultFv
   - handle_second_reward__18TChallenge4PResultFv

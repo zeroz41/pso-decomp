@@ -288,7 +288,7 @@ TCMCharacter::~TCMCharacter() {
             p->release_texture_lists();
         }
     }
-    free_field_FC();
+    free_shape_rel();
     delete (BmlResource *)chara_select_preview_resource;
     chara_select_preview_resource = 0;
     reset_model_parts();
@@ -477,7 +477,7 @@ void load_creation_shape_rel(TCMCharacter *character) {
         }
     }
 }
-void TCMCharacter::free_field_FC() {
+void TCMCharacter::free_shape_rel() {
     safe_free(shape_rel);
     shape_rel = NULL;
 }

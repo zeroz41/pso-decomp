@@ -335,11 +335,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x3,
 };
 
-typedef struct Entry_80280B1C {
-    u8 pad0[0x1C];
-    s32 color;
-    s32 value;
-} Entry_80280B1C;
 extern "C" {
 s32 is_battle_mode_running();
 }
@@ -543,34 +538,34 @@ void TWindowSubStatusDisp::vt1() {
 void TWindowSubStatusDisp::vt12() {
     PlayerRequirementStats cur;
     PlayerRequirementStats req;
-    Entry_80280B1C *e2;
+    TWindowLayoutNumber *e2;
     TObjPlayer *pl;
-    Entry_80280B1C *e;
+    TWindowLayoutNumber *e;
     player_stats *q;
     cur.clear_fields();
     req.clear_fields();
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
-        e2 = (Entry_80280B1C *)(void *)get_array_entry(2);
+        e2 = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
         e2->value = pl->get_atp_range() + (pl->get_atp() + pl->get_actor_attack_params_atp_min());
-        e = (Entry_80280B1C *)(void *)get_array_entry(8);
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(8));
         e->value = pl->get_dfp();
-        e = (Entry_80280B1C *)(void *)get_array_entry(0x14);
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x14));
         e->value = pl->get_ata();
-        e = (Entry_80280B1C *)(void *)get_array_entry(0x1A);
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x1A));
         e->value = pl->get_evp();
         q = pl->get_stats();
         if (q != NULL) {
-            e = (Entry_80280B1C *)(void *)get_array_entry(0xE);
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0xE));
             e->value = q->stats.mst;
-            e = (Entry_80280B1C *)(void *)get_array_entry(0x20);
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x20));
             e->value = q->stats.lck;
         }
     }
     if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
         build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
-        e = (Entry_80280B1C *)(void *)get_array_entry(idx); \
+        e = static_cast<TWindowLayoutNumber *>(get_array_entry(idx)); \
         e->value = cur.k; \
         if (req.k <= cur.k) { e->color = -0x100; } else { e->color = -1; }
         ROW(4, atp)
@@ -604,25 +599,25 @@ void TWindowSubStatusDisp::vt2() {
 }
 
 void TWindowSubStatusDisp::vt13() {
-    saddr player;
+    TObjPlayer *player;
     TWindowLayoutNumber *entry_2;
     TWindowLayoutNumber *entry_8;
     TWindowLayoutNumber *entry_e;
     TWindowLayoutNumber *entry_14;
     TWindowLayoutNumber *entry_1a;
 
-    player = (saddr)get_player_by_client_id(this->client_index);
-    if (player != 0) {
+    player = get_player_by_client_id(this->client_index);
+    if (player != NULL) {
         entry_2 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(2));
-        entry_2->value = (s32) ((TObjPlayer *)player)->get_efr();
+        entry_2->value = (s32) player->get_efr();
         entry_8 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(8));
-        entry_8->value = (s32) ((TObjPlayer *)player)->get_eic();
+        entry_8->value = (s32) player->get_eic();
         entry_e = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0xE));
-        entry_e->value = (s32) ((TObjPlayer *)player)->get_eth();
+        entry_e->value = (s32) player->get_eth();
         entry_14 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x14));
-        entry_14->value = (s32) ((TObjPlayer *)player)->get_edk();
+        entry_14->value = (s32) player->get_edk();
         entry_1a = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x1A));
-        entry_1a->value = (s32) ((TObjPlayer *)player)->get_elt();
+        entry_1a->value = (s32) player->get_elt();
     }
 }
 

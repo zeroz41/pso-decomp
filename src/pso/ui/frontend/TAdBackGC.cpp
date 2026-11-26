@@ -25,7 +25,7 @@ __declspec(section ".data") NJS_TEXLIST chr_select_ad_pic_2_texture_descriptor =
 const char *TAdBackGC::class_name = "TAdBackGC";
 
 
-void TAdBackGC::sub_8029A6EC() {
+void TAdBackGC::draw_backdrop() {
     ColorLineVertex pos[4];
     ColorLineList fan;
     u32 col[4];
@@ -58,7 +58,7 @@ void TAdBackGC::render() {
         }
     } else if (TMainTask::get_render_pass() != 1) {
 draw:
-        sub_8029A6EC();
+        draw_backdrop();
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 0xA);
         draw_title_background_layer(&chr_select_ad_pic_2_texture_descriptor, 0, -1, m_depth);

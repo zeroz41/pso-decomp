@@ -53,8 +53,8 @@ s32 TChCrLoadReq::all_preview_loads_complete() {
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_8028C998(void *arg0) {
-    return (u32) __cntlzw((u32) (**(s32 **)((s8 *)arg0 + 0x3C) & 0x7F)) >> 5;
+s32 are_preview_load_flags_clear(TChCrLoadReq *request) {
+    return (u32) __cntlzw((u32) (*request->inputs.completion_flags & 0x7F)) >> 5;
 }
 
 extern s32 chr_select_load_slot_count;
@@ -243,7 +243,7 @@ void TChCrLoadReq::close_and_destroy() {
 }
 
 void TChCrLoadReq::try_advance_state() {
-    if (TAdSinglePlyChrSelectGC__sub_8028C998(this) != 0) {
+    if (are_preview_load_flags_clear(this) != 0) {
         start_preview_loads();
         state = 2;
     }

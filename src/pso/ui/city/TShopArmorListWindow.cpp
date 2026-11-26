@@ -171,7 +171,7 @@ void TShopArmorListWindow::refresh_item_list() {
         item_list->clamp_selection_to_valid_entry();
     }
     if (help_window == NULL) {
-        help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), player->get_entity_id());
+        help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
         if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }

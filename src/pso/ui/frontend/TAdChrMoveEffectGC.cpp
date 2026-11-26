@@ -33,7 +33,7 @@ extern "C" {
 void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source);
 #pragma push
 #pragma fp_contract on
-void TAdChrMoveEffectGC::sub_80348E34() {
+void TAdChrMoveEffectGC::draw_entries() {
     NJS_POINT2 pos[4];
     NJS_POINT2COL desc;
     NJS_COLOR col[4];
@@ -81,7 +81,7 @@ TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params);
 
-void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
+void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); draw_entries(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
 void TAdChrMoveEffectGC::reset_effect_entries() {
     ChrMoveEffectSlot *e;

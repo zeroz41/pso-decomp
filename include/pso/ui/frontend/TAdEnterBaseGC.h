@@ -14,7 +14,7 @@ struct TAdEnterBaseGC : public TObject {
     static s32 entry_mode;
     TAdEnterBaseGC(TObject *parent);
     virtual ~TAdEnterBaseGC();
-    void sub_8032B460(int);
+    void reset(int);
     void create_parts();
     struct Position { f32 x, y; };
     void get_title_position(Position *position);
@@ -36,12 +36,6 @@ extern "C" {
 void fn_8032AC94(void);
 // TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
 }
-
-// --- C functions defined in TAdEnterBaseGC.cpp ---
-extern "C" {
-void fn_8032AC94(void);
-}
-// --- end of C functions
 
 extern u32 serial_access_entered_value_table[4];
 extern s32 password_entry_dispatch_state;

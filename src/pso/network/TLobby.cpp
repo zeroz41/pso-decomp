@@ -341,7 +341,7 @@ void apply_arrow_colors(TArrowColorList *list) {
 
 s32 TLobby::get_option_state() {
 
-    switch (TWindowOptionCtrl::get_option_field_C()) {
+    switch (TWindowOptionCtrl::get_udp_option()) {
     case 0:
         return net_session_mode;
     case 1:

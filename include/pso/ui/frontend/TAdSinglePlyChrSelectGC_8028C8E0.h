@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+class TChCrLoadReq;
+
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_8028C998(void *arg0);
+s32 are_preview_load_flags_clear(TChCrLoadReq *request);
 s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void);
 }
 

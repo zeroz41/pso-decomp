@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWHELPITEM_H
 
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/WeaponAttribute.h"
@@ -137,7 +138,7 @@ struct TWindowHelpItem : public TWindowBase
     f32 scale_y;
     void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
 
-    TWindowHelpItem(void *position, s32 index);
+    TWindowHelpItem(const NJS_POINT2 *position, s32 index);
     static void set_help_text(saddr help, saddr client_id);
     static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();

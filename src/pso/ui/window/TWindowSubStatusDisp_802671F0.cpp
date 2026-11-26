@@ -584,7 +584,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
     if (!(this->state_flags & 0x80)) {
         entry = (u16 *)this->get_array_entry(this->cursor);
         if (*entry & 1) {
-            draw_selection_bar(context, (u8 *)entry, this->is_decided());
+            draw_selection_bar(context, (TWindowLayoutRect *)entry, this->is_decided());
         }
     }
 }

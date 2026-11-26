@@ -38,7 +38,7 @@ struct SystemSaveData {
     s8 cue_stream_gain;
     s8 language;
     s32 clock_offset_frames;
-    s16 field_c;
+    s16 udp_option; // option menu "UDP Option": 0 auto, 1 on, 2 off
     s16 field_e;
     u8 data_10[0x110 - 0x10];
     u8 serial_number[8];

@@ -461,7 +461,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
         return;
     }
     reinterpret_cast<TWindowLayoutEntry *>(label)->show();
-    label->style = icon->color;
+    label->color = icon->color;
     label->value = v;
     draw_right_aligned_number(label);
     label->x = (icon->x - -25.0f) + 0.5f * label->width;

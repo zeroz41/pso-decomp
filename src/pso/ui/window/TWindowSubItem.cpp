@@ -210,7 +210,7 @@ void TWindowSubItem::run_task() {
                 this->purpose_menu = 0;
             }
             if (this->help_window == 0) {
-                this->help_window = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
+                this->help_window = new TWindowHelpItem(get_window_layout_position(2), this->client_id);
                 this->help_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
                 this->displayed_item = -1;
             }
@@ -609,7 +609,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
             this->state = 0x16;
             break;
         case 1: {
-            TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), item->get_attach_slot());
+            TItem *held = (TItem *)TObjPlayer::get_slot_value(((TObjPlayer *)player)->equipped_items.items, item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
                 TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, t);
@@ -674,7 +674,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     if (item->get_item_group() != 3) {
         return 1;
     }
-    armor = TObjPlayer::get_slot_value((void *)(pl + 0xD04), 2);
+    armor = TObjPlayer::get_slot_value(((TObjPlayer *)pl)->equipped_items.items, 2);
     if (armor == 0) {
         return 0;
     }

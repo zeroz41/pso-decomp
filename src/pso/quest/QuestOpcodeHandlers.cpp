@@ -951,7 +951,7 @@ void qst_op_prevent_item_select(s32 reg) {
 void qst_op_open_pack_select() {
     qst_pack_select_window = (void *)create_equip_kind_window((saddr)get_window_layout_position(3), pack_select_window_pos, local_client_id);
     ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
-    qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
+    qst_pack_select_help_window = new TWindowHelpItem(get_window_layout_position(2), local_client_id);
 }
 
 void qst_op_prepare_gba_rom_from_disk(void) {

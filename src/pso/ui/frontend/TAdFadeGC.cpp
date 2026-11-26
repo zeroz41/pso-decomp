@@ -89,9 +89,7 @@ void TAdFadeGC::draw_fade() {
 void TAdFadeGC::render() { if (all_parents_unqueued_for_destruction() != 0) { draw_fade(); } }
 
 void TAdFadeGC::run_task() {
-    f32 temp_f0;
     f32 new_opacity;
-    f32 var_f2;
     if (((s32)all_parents_unqueued_for_destruction()) != 0) {
         elapsed_frames = (elapsed_frames + 1);
         switch (fade_mode) {

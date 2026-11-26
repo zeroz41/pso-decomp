@@ -315,7 +315,7 @@ void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
     resend_status_effects();
 }
 
-int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((saddr)this); }
+int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable(this); }
 
 void TObjPlayer::release_char_data() {}
 

@@ -848,7 +848,7 @@ struct TObjPlayer : public TObjChara {
     s32 record_death(TObject *killer, s32 count);
     s16 get_handle_value();
     s32 get_class_flags();
-    static s32 check_technique_castable(saddr player);
+    static s32 check_technique_castable(TObjPlayer *player);
     void sync_current_floor();
     void sync_current_area();
     static int get_key_machine_global_state(void* p);

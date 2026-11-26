@@ -30,7 +30,7 @@ struct TAdChrMoveEffectGC : public TObject {
     static const char *class_name;
     TAdChrMoveEffectGC(TObject *parent);
     virtual ~TAdChrMoveEffectGC();
-    void sub_80348E34();
+    void draw_entries();
     s32 step;
     s32 active;
     virtual void render();

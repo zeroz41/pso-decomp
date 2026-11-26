@@ -645,7 +645,7 @@ TWindowInputNumber *TWindowSubTradeMain::create_input_number(s32 maximum) {
 }
 
 TWindowHelpItem *TWindowSubTradeMain::create_help_item() {
-    TWindowHelpItem *window = new TWindowHelpItem((void *)get_window_layout_position(2), client_id);
+    TWindowHelpItem *window = new TWindowHelpItem(get_window_layout_position(2), client_id);
     displayed_item = -1;
     return window;
 }

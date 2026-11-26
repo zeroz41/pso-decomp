@@ -18,7 +18,7 @@ public:
     static const char *name;
     TAdTitleTexGC(TObject *parent);
     virtual ~TAdTitleTexGC();
-    void sub_802A4D74(s32, u8 *, u8 *);
+    void draw_status_texts(s32, u8 *, u8 *);
     void render_status_pair(s32 color);
     virtual void run_task();
     virtual void render();

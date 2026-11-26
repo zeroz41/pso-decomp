@@ -29,8 +29,6 @@ const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
 
 typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
-extern "C" {
-}
 
 void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -168,7 +166,7 @@ TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}
 TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     s32 ok;
     m_name = TAdEnterPPPPassGC::name;
-    sub_8032B460(3);
+    reset(3);
     password_entry_dispatch_state = 0;
     text_length = 0;
     if (load_network_info() != 0) {

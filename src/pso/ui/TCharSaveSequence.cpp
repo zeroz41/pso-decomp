@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_800FA464.h"
@@ -58,11 +59,11 @@ static const f32 char_save_message_window_size[2] = { 479.0f, 267.0f };
 // Window position init_warp and init_warps pass to create_window_menu_default
 static const NJS_POINT2 char_save_menu_position = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
-static const Vec lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
-static const Vec lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
+static const Vec char_select_camera_position = { 0.0f, 0.0f, 0.0f };
+static const Vec char_select_camera_target = { 0.0f, 0.0f, -100.0f };
 // Camera position and target of run_frame
-static const Vec lbl_80477D78 = { 0.0f, 0.0f, 0.0f };
-static const Vec lbl_80477D84 = { 0.0f, 0.0f, -100.0f };
+static const Vec char_save_frame_camera_position = { 0.0f, 0.0f, 0.0f };
+static const Vec char_save_frame_camera_target = { 0.0f, 0.0f, -100.0f };
 
 s32 chr_select_logo_state;
 s32 lbl_805D6D84;
@@ -73,7 +74,6 @@ extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
 s32 start_memcard_read(s32, void *, u32, s32);
-s32 __ct__15TWindowCtrlMainFv(u32);
 }
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -358,8 +358,8 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    Vec a = lbl_80477D78;
-    Vec b = lbl_80477D84;
+    Vec a = char_save_frame_camera_position;
+    Vec b = char_save_frame_camera_target;
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     main_task.begin_frame();
@@ -384,20 +384,16 @@ void TAdSinglePlyChrSelectGC::run_frame() {
 struct CharacterSelectCallbackTable;
 #pragma pool_data off
 void init_single_player_char_select_scene(void) {
-    u32 p;
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     run_load_callback_table(&(*(CharacterSelectCallbackTable *)&character_select_scene_resource_callbacks), 0x30);
     init_menu_scene_lights(&default_scene_light_config, 4);
     new TCameraCtrl(tl_camera);
-    Vec a = lbl_80477D60;
-    Vec b = lbl_80477D6C;
+    Vec a = char_select_camera_position;
+    Vec b = char_select_camera_target;
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
-    p = (uaddr)TObject::operator new(0x1C);
-    if (p != 0) {
-        __ct__15TWindowCtrlMainFv(p);
-    }
+    new TWindowCtrlMain();
     new TCharSaveSequence();
     set_fallback_main_phase(2);
     char_save_message_flags = 0;
@@ -437,7 +433,6 @@ LAYOUT_ASSERT(CharacterSelectCallbackTable_size, sizeof(CharacterSelectCallbackT
 
 #pragma push
 
-#include "pso/ui/window/TWindowCtrlMain.h"
 
 typedef void (TCharSaveSequence::*Handler)();
 

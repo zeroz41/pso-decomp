@@ -123,7 +123,7 @@ s32 TAdPsoPassSaveGC__sub_8032B584(void) {
 
 TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
     m_name = TAdEnterBaseGC::class_name;
-    sub_8032B460(0);
+    reset(0);
 }
 
 TAdEnterBaseGC::~TAdEnterBaseGC() {
@@ -132,7 +132,7 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
 }
 
-void TAdEnterBaseGC::sub_8032B460(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::reset(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);

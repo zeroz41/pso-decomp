@@ -160,7 +160,7 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
         this->item_list->clamp_selection_to_valid_entry();
     }
     if (this->help_window == NULL) {
-        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
+        this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
         if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             this->help_window->set_scale(0.75f, 0.75f);
         }

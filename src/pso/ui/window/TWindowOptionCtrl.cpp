@@ -47,10 +47,10 @@ const vec2f sound_mode_menu_window_size = {470.0f, 80.0f};
 const vec2f option_menu_window_size = {470.0f, 80.0f};
 const vec2f serial_info_window_size = {470.0f, 80.0f};
 
-
 extern "C" {
-void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
+void set_udp_option__17TWindowOptionCtrlFls(s32 unused, s16 option);
 }
+
 
 int TWindowSoundBalance::is_cancelled() { return m_60 & 0x2; }
 
@@ -85,7 +85,7 @@ TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {
     card_format_dialog = NULL;
     player_load = new TAdPlayerLoadGC(this, 2);
     init_selection_indices();
-    m_24 = 4;
+    dial_selection = 4;
     flags = 0;
     state = 0;
 }
@@ -113,7 +113,7 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         option_menu = NULL;
     }
     if (m_30 != NULL) {
-        ((TWindowBase *)m_30)->close();
+        m_30->close();
         m_30 = NULL;
     }
     if (sub_menu != NULL) {
@@ -228,11 +228,11 @@ void TWindowOptionCtrl::run_task() {
     case 10:
         if (sound_balance_window->is_cancelled() != 0) {
             s16 b = sound_balance_window->get_sound_effect_gain();
-            TWindowOptionCtrl::set_params(this, sound_balance_window->get_music_gain(), b);
+            set_sound_balance(sound_balance_window->get_music_gain(), b);
             state = 1;
         } else if (sound_balance_window->is_active() != 0) {
             s16 b = sound_balance_window->get_sound_effect_gain();
-            TWindowOptionCtrl::set_params(this, sound_balance_window->get_music_gain(), b);
+            set_sound_balance(sound_balance_window->get_music_gain(), b);
             state = 1;
         }
         break;
@@ -289,7 +289,7 @@ void TWindowOptionCtrl::run_task() {
             option_menu = NULL;
         }
         if (m_30 != NULL) {
-            ((TWindowBase *)m_30)->close();
+            m_30->close();
             m_30 = NULL;
         }
         if (sub_menu == NULL) {
@@ -309,11 +309,12 @@ void TWindowOptionCtrl::run_task() {
     case 18:
         sub_menu->open();
         if (option_menu == NULL) {
-            option_menu = create_option_menu();
+            option_menu = create_udp_option_menu();
         }
         state = 0x13;
     case 19:
-        ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(this, option_menu->update_selected_item());
+        // Called with the selection as an int: the definition takes it as s16.
+        ((void (*)(void *, s32)) set_udp_option__17TWindowOptionCtrlFls)(this, option_menu->update_selected_item());
         if (option_menu->is_cancelled() != 0) {
             state = 0x10;
         }
@@ -323,10 +324,10 @@ void TWindowOptionCtrl::run_task() {
         state = 0x17;
         break;
     case 22:
-        if (((TWindowMenu *)(m_30))->is_cancelled() != 0) {
+        if (m_30->is_cancelled() != 0) {
             state = 0x10;
         }
-        if (((TWindowMenu *)(m_30))->is_decided() != 0) {
+        if (m_30->is_decided() != 0) {
             state = 0x17;
         }
         break;
@@ -349,9 +350,9 @@ void TWindowOptionCtrl::run_task() {
         } else if (yes_no_window->is_child_visible() != 0) {
             if (yes_no_window->get_selected_value() == 0) {
                 if (sub_menu->get_selected_value() == 0x14) {
-                    m_24 = 1;
+                    dial_selection = 1;
                 } else {
-                    m_24 = 3;
+                    dial_selection = 3;
                 }
                 state = 0x1B;
             } else {
@@ -474,14 +475,14 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
     return (saddr)menu;
 }
 
-TWindowCheckBox *TWindowOptionCtrl::create_option_menu() {
+TWindowCheckBox *TWindowOptionCtrl::create_udp_option_menu() {
     TWindowCheckBox *check_box_window;
 
     check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &option_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x10), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x11), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x12), 2);
-    check_box_window->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
+    check_box_window->set_selected_index((s16) TWindowOptionCtrl::get_udp_option());
     return check_box_window;
 }
 
@@ -562,20 +563,20 @@ void TWindowOptionCtrl::apply_selection_change() {
     }
 }
 
-void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s16 arg2) {
-    void *global_state;
+void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain) {
+    SystemSaveData *save;
 
-    global_state = TAdSinglePlyChrSelectGC::get_global_state();
-    if (global_state != NULL) {
-        *(s16 *)((s8 *)global_state + 4) = arg1;
-        *(s8 *)((s8 *)global_state + 6) = arg2;
+    save = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
+    if (save != NULL) {
+        save->music_stream_gain = music_gain;
+        save->cue_stream_gain = sound_effect_gain;
     }
 }
 
-s32 TWindowOptionCtrl::get_option_field_C() {
-    return (s16)(*(s16 *)((s8 *)(TAdSinglePlyChrSelectGC::get_global_state()) + 0xC));
+s32 TWindowOptionCtrl::get_udp_option() {
+    return ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option;
 }
 
-void TWindowOptionCtrl::set_field_value(s32 arg0, s16 arg1) {
-    *(s16 *)((s8 *)(TAdSinglePlyChrSelectGC::get_global_state()) + 0xC) = arg1;
+void TWindowOptionCtrl::set_udp_option(s32 unused, s16 option) {
+    ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option = option;
 }
