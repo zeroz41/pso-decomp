@@ -152,7 +152,7 @@ void TWindowSubTradeMain::run_task() {
     if (this->chat->is_visible() != 0) {
         consume_input_active_flag(this->chat);
     }
-    if (this->chat->is_busy() != 0) {
+    if (this->chat->is_chat_in_use() != 0) {
         this->set_labels(0xA);
         this->set_child_windows_enabled(0);
         this->flags |= 1;
@@ -175,7 +175,7 @@ void TWindowSubTradeMain::run_task() {
         }
         window_request_show(this->menu);
         this->menu->clear_flag_and_release();
-        this->menu->clear_flag70_bit4();
+        this->menu->clear_cancelled();
         this->state = 2;
     case 2:
         if (this->menu->is_cancelled() != 0) {

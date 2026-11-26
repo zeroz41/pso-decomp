@@ -81,10 +81,10 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 is_ready();
     // Battle results of the client's character record (CharacterSaveRecord::split_screen_battle
     // and online_battle), shown in the status window.
-    static u16 get_split_screen_fourth_place_count(int client);
-    static u16 get_split_screen_second_place_count(int client);
-    static u16 get_split_screen_third_place_count(int client);
-    static u16 get_split_screen_first_place_count(int client);
+    static u16 get_split_fourth_place_count(int client);
+    static u16 get_split_second_place_count(int client);
+    static u16 get_split_third_place_count(int client);
+    static u16 get_split_first_place_count(int client);
     static u16 get_online_disconnect_count(int client);
     static u16 get_online_fourth_place_count(int client);
     static u16 get_online_third_place_count(int client);
@@ -277,6 +277,6 @@ class TAdTitleTexGC;
 struct NJS_POINT2;
 extern "C" void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 
-s32 get_guild_card_save_file_block_count(void);
+s32 get_guild_card_file_block_count(void);
 
 #endif

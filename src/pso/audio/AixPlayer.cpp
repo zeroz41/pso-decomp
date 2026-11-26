@@ -81,7 +81,7 @@ extern "C" void update_file_stream_range(void *context) {
         player->segment = player->loop_start;
     }
     if (player->continue_segments == 1 && player->segment < get_demuxer_segment_count(player->demuxer)) {
-        adx_interrupt_lock_enter();
+        aix_interrupt_lock_enter();
         get_entry_pair(player->demuxer, player->segment, &offset, &size);
         seek_adx_stream_sector(player->stream, offset / 2048);
         set_adx_stream_end_sector(player->stream, (offset + size) / 2048);

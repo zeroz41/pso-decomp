@@ -371,7 +371,7 @@ void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, 
     this->flags |= 0x245;
 }
 
-void ItemListRow::init_count_entry(s32 count, s32 item) {
+void ItemListRow::init_meseta(s32 count, s32 item) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     this->category_icon = 9;

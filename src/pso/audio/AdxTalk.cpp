@@ -121,7 +121,7 @@ inline void adxt_run_server(void) {
     if (adxt_server_stage == 0) {
         adx_lock();
         adxt_server_stage = 1;
-        audio_stream_exec_server();
+        process_audio_stream_inputs();
         adxt_server_stage = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].used == 1) {
@@ -142,7 +142,7 @@ s32 TLobby__sub_803C9358(AdxtPlayer *player) {
     if (player->pause_flag == 0) {
         return 0;
     }
-    ret = gcrna_bridge_stream_is_ready(player->rna_handle);
+    ret = gcrna_bridge_stream_ready(player->rna_handle);
     adxt_run_server();
     save = adxt_rate_mode;
     adxt_rate_mode = 0;
@@ -161,7 +161,7 @@ void TLobby__sub_803C94D8(void) {
 
 }
 
-void adxt_set_pause(AdxtPlayer *player, s32 paused) {
+void adxt_pause(AdxtPlayer *player, s32 paused) {
     s32 pos;
     s32 rate;
     s32 st;
@@ -196,7 +196,7 @@ void adxt_exec_server(void) {
     if (adxt_server_stage == 0) {
         adx_lock();
         adxt_server_stage = 1;
-        audio_stream_exec_server();
+        process_audio_stream_inputs();
         adxt_server_stage = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].used == 1) {
@@ -218,7 +218,7 @@ void adxt_set_server_freq(AdxtPlayer *player, s32 freq) {
     player->server_freq = freq;
 }
 
-s16 adxt_get_output_vol(AdxtPlayer *player) {
+s16 adxt_get_out_vol(AdxtPlayer *player) {
     return player->output_vol;
 }
 
@@ -231,14 +231,14 @@ void adxt_set_output_vol(AdxtPlayer *player, s32 volume) {
 
 extern "C" {
 
-s16 adxt_get_output_pan(AdxtPlayer *player, s32 ch) {
+s16 adxt_get_out_pan(AdxtPlayer *player, s32 ch) {
     return player->out_pan[ch];
 }
 
 void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan) {
     player->out_pan[ch] = pan;
     if (ch < player->max_channels) {
-        gcrna_bridge_set_out_pan(player->rna_handle, ch, pan);
+        gcrna_bridge_set_channel_pan(player->rna_handle, ch, pan);
         return;
     }
     adxerr_report("E8101208 ADXT_SetOutPan: parameter error");

@@ -123,7 +123,7 @@ struct TWindowHelpItem : public TWindowBase
     s32 advance_mag_levels();
     void update_help_item(s8 page);
     // Drops the shown item and forgets every item id.
-    void clear_items();
+    void clear_help_item();
     // 1: an item is shown, 2: it has pages, 4: page flipping locked,
     // 8: the help button toggle is off.
     u8 help_flags;

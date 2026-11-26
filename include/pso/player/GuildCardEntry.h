@@ -18,7 +18,7 @@ struct GuildCardEntry {
     s32 sub_8007B6F4() const;
     // Fills the card with the name, class and section id of the character in save slot index, the
     // current language and this console's guild card tag.
-    void fill_guild_card_from_char(s32 index);
+    void fill_from_char(s32 index);
     // Copies src into the card description, cut to fit.
     void set_text(const char *src);
     void bswap();

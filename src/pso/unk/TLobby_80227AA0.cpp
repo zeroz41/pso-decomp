@@ -240,7 +240,7 @@ void TLobby::wait_for_sound_init() {
     init_sound_aux_effects(&sound_control_state);
     sound_control_state.validate_and_set_selection(0);
     do {
-        TLobby__sub_803382E4();
+        draw_loading_compass();
         TLobby::run_disk_error_check();
         exec_adx_server();
         render_tick();

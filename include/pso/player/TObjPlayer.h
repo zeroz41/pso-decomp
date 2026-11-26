@@ -1003,7 +1003,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);
     void process_trade_target(TItemData *item_data);
-    void create_and_equip_item(s16 group, s16 kind);
+    void trade_item_by_group_kind(s16 group, s16 kind);
     f32 select_normal_attack_marker();
     static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
     static void spawn_fire_explosion_for_item(s32 id, s32 item);

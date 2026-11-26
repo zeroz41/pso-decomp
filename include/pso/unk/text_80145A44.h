@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-BOOL fn_80145A44(char *dst);
+BOOL read_dial_prefix(char *dst);
 
 #endif

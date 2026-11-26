@@ -71,6 +71,6 @@ void load_area_dialogue_script();
 // The name typed into the item-name entry window, read back by the quest VM.
 extern char entered_item_name[0x10];
 
-void clear_all_floor_handlers_on_free(void);
+void clear_quest_floor_handlers(void);
 
 #endif

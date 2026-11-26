@@ -208,7 +208,7 @@ void TWindowSubMag::run_task() {
             card->close();
             card = NULL;
         }
-        list->init_scroll_pos();
+        list->shrink_to_selected_entry();
         help->update_help_item(1);
         help->lock_page_flip();
         if (list2 == NULL) {

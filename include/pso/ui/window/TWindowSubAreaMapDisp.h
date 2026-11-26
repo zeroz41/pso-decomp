@@ -28,7 +28,7 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     // The four pan arrows around the map.
     void draw_pan_arrows(WindowDrawContext *context);
     // "L Button / Zoom in" and "R Button / Zoom out".
-    void draw_zoom_help(WindowDrawContext *context);
+    void draw_zoom_button_hints(WindowDrawContext *context);
 };
 
 LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78);

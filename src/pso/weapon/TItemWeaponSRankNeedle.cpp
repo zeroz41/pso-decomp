@@ -12,7 +12,7 @@ const s32 needle_spread_angles[6] = {0, 2184, -2184, 4551, -4551, 0};
 
 void TItemWeaponSRankNeedle::emit_marker_effects() {
     Vec pos;
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     get_joint_position(1, &pos);
     launch_shot(&pos, 0, needle_spread_angles[0], 1);
     get_joint_position(1, &pos);

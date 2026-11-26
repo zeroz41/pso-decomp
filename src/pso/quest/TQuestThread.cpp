@@ -309,7 +309,7 @@ void TQuestThread::clear_all_floor_handlers() {
     }
 }
 
-void clear_all_floor_handlers_on_free(void) { TQuestThread::clear_all_floor_handlers(); }
+void clear_quest_floor_handlers(void) { TQuestThread::clear_all_floor_handlers(); }
 
 void TQuestThread::set_floor_handler(s32 floor, s32 label) {
     if (floor < 0 || floor > 0x11) {

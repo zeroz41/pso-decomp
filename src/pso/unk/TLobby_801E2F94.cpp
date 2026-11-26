@@ -529,7 +529,7 @@ s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
 loop_1:
         if (ADXF_GetPtStat(id) != 3) {
             TLobby::run_disk_error_check();
-            TLobby__sub_803382E4();
+            draw_loading_compass();
             TLobby::run_frame();
             goto loop_1;
         }

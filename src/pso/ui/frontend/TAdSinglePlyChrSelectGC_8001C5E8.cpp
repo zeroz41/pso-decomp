@@ -7,6 +7,6 @@ s32 TAdSinglePlyChrSelectGC::get_chr_select_state() {
     return chr_select_state;
 }
 
-s32 get_guild_card_save_file_block_count(void) {
+s32 get_guild_card_file_block_count(void) {
     return guild_card_save_file_block_count;
 }

@@ -60,13 +60,13 @@ s32 TWindowSoundBalance::get_sound_effect_gain() { return sound_effect_gain; }
 
 int TWindowSoundBalance::is_active() { return this->state_flags & 0x1; }
 
-int TWindowSnapShot::is_closed_by_player() { return state_flags & 0x1; }
+int TWindowSnapShot::is_done() { return state_flags & 0x1; }
 
-void TWindowMenu::clear_flag70_bit4() { menu_flags &= ~4; }
+void TWindowMenu::clear_cancelled() { menu_flags &= ~4; }
 
 void TWindowMenu::set_flag70_bit100() { this->menu_flags |= 0x100; }
 
-void TWindowMenu::set_flag70_bit400() { menu_flags |= 0x400; }
+void TWindowMenu::set_silent_cancel() { menu_flags |= 0x400; }
 
 saddr TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
     return (saddr)TAdSinglePlyChrSelectGC::get_instance()->password;
@@ -193,7 +193,7 @@ void TWindowOptionCtrl::run_task() {
             if (flags & 2) {
                 start_music_crossfade(0x1E);
                 flags &= ~2;
-                sub_menu->clear_flag70_bit4();
+                sub_menu->clear_cancelled();
             } else {
                 TLobby::stop_audio_streams();
                 TLobby::close_option_window();
@@ -254,7 +254,7 @@ void TWindowOptionCtrl::run_task() {
         }
         break;
     case 13:
-        if (snap_shot_window->is_closed_by_player() != 0) {
+        if (snap_shot_window->is_done() != 0) {
             state = 1;
         }
         break;
@@ -427,7 +427,7 @@ saddr TWindowOptionCtrl::create_list_window() {
         }
         idx += 1;
     } while (idx < 0x31);
-    list->set_flag70_bit400();
+    list->set_silent_cancel();
     list->set_scroll_target(470.0f, 124.0f);
     align_menu_entry_positions(list);
     return (saddr)list;

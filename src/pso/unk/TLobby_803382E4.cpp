@@ -90,7 +90,7 @@ NJS_SPRITE loading_compass_sprite = {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma fp_contract on
-void TLobby__sub_803382E4(void) {
+void draw_loading_compass(void) {
     f32 alpha;
 
     if (lobby_request_flags & 2) {

@@ -140,7 +140,7 @@ void TBoss5GryphonSnarl::select_effect_table() {
     }
 }
 
-void release_boss5_common_resources(void) {
+void free_boss5_common_assets(void) {
     if (boss5_common_texture_list != NULL) {
         release_texture_list(boss5_common_texture_list);
         safe_free(boss5_common_texture_list);

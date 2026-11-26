@@ -92,14 +92,14 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     void update_contact_attacks();
     s32 select_farthest_visible_player();
     s32 validate_or_update_target();
-    void update_stride_particle();
+    void update_front_particle();
     void play_step_effect();
     void fn_80305684();
     void confuse_nearby_players();
     static void step_demo_script(NJS_OBJECT *);
     void update_state(s32 reason);
     s32 check_low_hp_transition();
-    s32 spawn_water_splash(const Vec *origin);
+    s32 spawn_ground_splash(const Vec *origin);
     void spawn_front_particle();
     void update_attack_effect();
     void init_target_offsets();

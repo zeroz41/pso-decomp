@@ -670,12 +670,12 @@ s32 cstick_direction_mask(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFFFFFF0F) | ((mask << 0x16) & 0x3C000000);
 }
 
-s32 dpad_and_cstick_mask(ControllerInputContext *pad, s32 mask) {
+s32 pack_button_mask(ControllerInputContext *pad, s32 mask) {
     return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
 }
 
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
-    return (pad->not_held & dpad_and_cstick_mask(pad, mask)) != 0;
+    return (pad->not_held & pack_button_mask(pad, mask)) != 0;
 }
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
     return (pad->pressed_with_sticks & all_direction_mask(pad, mask)) != 0;
@@ -683,7 +683,7 @@ s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
 
 s32 test_pressed_buttons_packed(void *pad, s32 mask) {
     ControllerInputContext *context = (ControllerInputContext *)pad;
-    return (context->pressed_with_sticks & dpad_and_cstick_mask(context, mask)) != 0;
+    return (context->pressed_with_sticks & pack_button_mask(context, mask)) != 0;
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
@@ -695,7 +695,7 @@ s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
 }
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
     ControllerInputContext *context = (ControllerInputContext *)pad;
-    return (context->held_with_sticks & dpad_and_cstick_mask(context, mask)) != 0;
+    return (context->held_with_sticks & pack_button_mask(context, mask)) != 0;
 }
 
 s32 test_buttons_press_or_repeat_color(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
@@ -704,12 +704,12 @@ s32 test_buttons_press_or_repeat_color(ControllerInputContext *input, s32 button
 }
 
 s32 test_buttons_repeat_packed(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
-    u32 mask = dpad_and_cstick_mask(input, buttons);
+    u32 mask = pack_button_mask(input, buttons);
     return check_packed_flag_match(input, mask, delay, period);
 }
 
 s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period) {
-    u32 mask = dpad_and_cstick_mask(pad, buttons);
+    u32 mask = pack_button_mask(pad, buttons);
     return input_press_or_repeat(pad, mask, delay, period);
 }
 

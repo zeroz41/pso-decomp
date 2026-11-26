@@ -259,13 +259,13 @@ s32 TAdSinglePlyChrSelectGC::is_ready() {
     if (get_game_play_mode() == 0) {
         return 1;
     }
-    if (TLobby__sub_8030A770() != 0) {
+    if (is_challenge_quest_active() != 0) {
         return 0;
     }
     return (u32) __cntlzw(TLobby::is_ready()) >> 5;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_split_screen_fourth_place_count(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_fourth_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -275,7 +275,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_screen_fourth_place_count(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_split_screen_third_place_count(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_third_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -286,7 +286,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_screen_third_place_count(int client) {
 }
 extern "C" {
 
-u16 TAdSinglePlyChrSelectGC::get_split_screen_second_place_count(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -296,7 +296,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_screen_second_place_count(int client) {
     return 0U;
 }
 
-u16 TAdSinglePlyChrSelectGC::get_split_screen_first_place_count(int client) {
+u16 TAdSinglePlyChrSelectGC::get_split_first_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
@@ -1756,7 +1756,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
   i = 0;
   do
   {
-    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (TLobby__sub_8030A770() == 0))
+    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (is_challenge_quest_active() == 0))
     {
       char_data = TAdSinglePlyChrSelectGC::get_char_index(i);
       if (char_data != NULL)

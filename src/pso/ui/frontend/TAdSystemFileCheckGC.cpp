@@ -156,7 +156,7 @@ __declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
 f32 lbl_805D7020 = multi_chg_game_mode_window_size[0] - 40.0f;
 
 // Message text by id: text_set -1 takes the shared message table, 0 the Japanese table, else English.
-s32 TAdSystemFileCheckGC::get_message(s32 index, s32 text_set) {
+s32 TAdSystemFileCheckGC::get_system_file_check_text(s32 index, s32 text_set) {
     if (text_set == -1) {
         return get_message_text((index));
     }
@@ -228,7 +228,7 @@ void TAdSystemFileCheckGC::close_windows_and_cleanup() {
     setup_mode_menu(0);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(get_message(3, this->language), 3);
+        message_window->append_line(get_system_file_check_text(3, this->language), 3);
     }
 }
 
@@ -269,7 +269,7 @@ void TAdSystemFileCheckGC::close_windows_and_reopen() {
     setup_mode_menu(0);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(get_message(1, this->language), 3);
+        message_window->append_line(get_system_file_check_text(1, this->language), 3);
     }
 }
 
@@ -280,7 +280,7 @@ void TAdSystemFileCheckGC::open_message_window(s32 index) {
     }
     this->message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
     if (this->message_window != NULL) {
-        this->message_window->append_line(get_message(index, this->language), 3);
+        this->message_window->append_line(get_system_file_check_text(index, this->language), 3);
     }
 }
 
@@ -300,10 +300,10 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
     s32 c;
     s32 d;
     this->menu_window = create_window_menu_default(&lbl_804F3A18, 2);
-    a = get_message(6, this->language);
-    b = get_message(7, this->language);
-    c = get_message(2, this->language);
-    d = get_message(5, this->language);
+    a = get_system_file_check_text(6, this->language);
+    b = get_system_file_check_text(7, this->language);
+    c = get_system_file_check_text(2, this->language);
+    d = get_system_file_check_text(5, this->language);
     if (this->menu_window != 0) {
         if (mode == 0) {
             this->menu_window->add_text_entry(a, 5, 0);
@@ -368,7 +368,7 @@ void TAdSystemFileCheckGC::enter_state_3() {
     setup_mode_menu(1);
     open_message_window(4);
     if (message_window != NULL) {
-        message_window->append_line(get_message(0, this->language), 3);
+        message_window->append_line(get_system_file_check_text(0, this->language), 3);
     }
     create_back_objects();
 }

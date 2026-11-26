@@ -529,13 +529,13 @@ void TWindowSubStatusDisp::vt7() {
     ((WindowTextEntry *)get_array_entry(0xD))->hide();
     ((WindowTextEntry *)get_array_entry(0xE))->hide();
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_first_place_count((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_second_place_count((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_second_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_third_place_count((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
-    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_screen_fourth_place_count((u16) this->client_index);
+    number->value = (s32)TAdSinglePlyChrSelectGC::get_split_fourth_place_count((u16) this->client_index);
     ((TWindowLayoutNumber *)get_array_entry(0xF))->hide();
 }
 

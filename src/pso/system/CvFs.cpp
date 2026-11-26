@@ -16,7 +16,7 @@ struct CvFsHandle {
 extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];
 s32 cvfs_init_count;
-u32 cvfs_filename_copy[75];
+u32 cvfs_path_buffer[75];
 // CVFS version banner: the first string of this file's pool.
 char *const volatile cvfs_version_pointer = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
 s8 fs_default_device_name[12];
@@ -103,8 +103,8 @@ inline void cvfs_add_device_prefix(char *dev, char *file) {
         need = 0;
     }
     if (need == 1) {
-        strcpy((char *)cvfs_filename_copy, file);
-        sprintf(file, cvfs_device_path_format, dev, (char *)cvfs_filename_copy);
+        strcpy((char *)cvfs_path_buffer, file);
+        sprintf(file, cvfs_device_path_format, dev, (char *)cvfs_path_buffer);
     }
 }
 

@@ -18,16 +18,16 @@
 
 TBattleProximitySound *TBattleProximitySound::instance;
 
-void set_battle_disconnect_count(u16 count) { active_character_save_record->online_battle.disconnect_count = count; }
-u16 get_battle_disconnect_count() { return active_character_save_record->online_battle.disconnect_count; }
-void set_battle_fourth_place_count(u16 count) { active_character_save_record->online_battle.place_counts[3] = count; }
-u16 get_battle_fourth_place_count() { return active_character_save_record->online_battle.place_counts[3]; }
-void set_battle_third_place_count(u16 count) { active_character_save_record->online_battle.place_counts[2] = count; }
-u16 get_battle_third_place_count() { return active_character_save_record->online_battle.place_counts[2]; }
-void set_battle_second_place_count(u16 count) { active_character_save_record->online_battle.place_counts[1] = count; }
-u16 get_battle_second_place_count() { return active_character_save_record->online_battle.place_counts[1]; }
-void set_battle_first_place_count(u16 count) { active_character_save_record->online_battle.place_counts[0] = count; }
-u16 get_battle_first_place_count() { return active_character_save_record->online_battle.place_counts[0]; }
+void set_active_disconnect_count(u16 count) { active_character_save_record->online_battle.disconnect_count = count; }
+u16 get_active_disconnect_count() { return active_character_save_record->online_battle.disconnect_count; }
+void set_active_fourth_place_count(u16 count) { active_character_save_record->online_battle.place_counts[3] = count; }
+u16 get_active_fourth_place_count() { return active_character_save_record->online_battle.place_counts[3]; }
+void set_active_third_place_count(u16 count) { active_character_save_record->online_battle.place_counts[2] = count; }
+u16 get_active_third_place_count() { return active_character_save_record->online_battle.place_counts[2]; }
+void set_active_second_place_count(u16 count) { active_character_save_record->online_battle.place_counts[1] = count; }
+u16 get_active_second_place_count() { return active_character_save_record->online_battle.place_counts[1]; }
+void set_active_first_place_count(u16 count) { active_character_save_record->online_battle.place_counts[0] = count; }
+u16 get_active_first_place_count() { return active_character_save_record->online_battle.place_counts[0]; }
 
 void clear_duel_result_window() { duel_result_window = NULL; }
 
@@ -37,7 +37,7 @@ void TBattleProximitySound::destroy() {
     }
 }
 
-void TBattleProximitySound::clear_instance() { instance = NULL; }
+void TBattleProximitySound::clear_battle_proximity_sound() { instance = NULL; }
 
 s32 TBattleProximitySound::create() {
     s32 area;

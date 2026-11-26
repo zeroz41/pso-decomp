@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void adx_interrupt_lock_enter(void);
+void aix_interrupt_lock_enter(void);
 }
 
 extern "C" {

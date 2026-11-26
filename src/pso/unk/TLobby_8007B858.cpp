@@ -138,7 +138,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
-    {TSceneSora::load_sky_resources, TSceneSora::release_sky_resources},
+    {TSceneSora::load_sky_resources, TSceneSora::release_sky_scene},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
     {setup_floor_decorations, clear_floor_flags_and_depart},
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
@@ -165,7 +165,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
 FloorResourceCallbacks lbl_8048D5A8[4] = {
-    {load_technique_resources, release_technique_resources},
+    {load_technique_resources, free_technique_resources},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
     {update_battle_params, NULL},

@@ -12,7 +12,7 @@ public:
     virtual void run_task();
     s32 get_cursor();
     // Whether the player confirmed a menu entry (state 2).
-    s32 is_selection_confirmed();
+    s32 is_title_choice_confirmed();
     void draw_record_with_camera(s32 record, s32 camera);
     void update_title_prompt();
     void handle_cursor_input();

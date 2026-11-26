@@ -638,7 +638,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
         lobby_rule_settings.set_meseta_mode(CFG->rules[0xB]);
         lobby_rule_settings.set_death_level_up(CFG->value_c);
         for (s32 i = 0; i < 4; i++) {
-            lobby_rule_settings.set_trap_count(CFG->slot_rules[i], i);
+            lobby_rule_settings.set_rule_slot_clamped(CFG->slot_rules[i], i);
         }
         lobby_rule_settings.set_enable_sonar(CFG->rule_d);
         lobby_rule_settings.set_sonar_count(CFG->level);
@@ -741,8 +741,8 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
             idx = 5;
         } else {
             idx = 4;
-            s = get_battle_disconnect_count() - 1;
-            set_battle_disconnect_count((u16)(s > 0 ? s : 0));
+            s = get_active_disconnect_count() - 1;
+            set_active_disconnect_count((u16)(s > 0 ? s : 0));
         }
         BattleIntroWindowSize p = {238.0f, 188.0f};
         window_4c = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
@@ -766,7 +766,7 @@ void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     lbl_805D5D9C = get_video_standard() == 1 ? 0x19 : 0x1E;
     lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
-    TBattleProximitySound::clear_instance();
+    TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
     clear_duel_result_window();
@@ -976,40 +976,40 @@ void record_local_battle_placement(void *arg0) {
         switch (slot) {
         case 0:
             {
-                u16 c = get_battle_first_place_count();
+                u16 c = get_active_first_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                set_battle_first_place_count(m);
+                set_active_first_place_count(m);
             }
             break;
         case 1:
             {
-                u16 c = get_battle_second_place_count();
+                u16 c = get_active_second_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                set_battle_second_place_count(m);
+                set_active_second_place_count(m);
             }
             break;
         case 2:
             {
-                u16 c = get_battle_third_place_count();
+                u16 c = get_active_third_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                set_battle_third_place_count(m);
+                set_active_third_place_count(m);
             }
             break;
         case 3:
             {
-                u16 c = get_battle_fourth_place_count();
+                u16 c = get_active_fourth_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                set_battle_fourth_place_count(m);
+                set_active_fourth_place_count(m);
             }
             break;
         }
     }
-    s = get_battle_disconnect_count() - 1;
-    set_battle_disconnect_count((u16)(s > 0 ? s : 0));
+    s = get_active_disconnect_count() - 1;
+    set_active_disconnect_count((u16)(s > 0 ? s : 0));
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
@@ -1054,14 +1054,14 @@ void TPlayerBattleCtrl::init_battle_round() {
   TWindowCtrl::create_alt_timer();
   TWindowCtrl::set_timer_window_time(time_limit);
   TOMineTrap::destroy_matching_traps();
-  char_select_slot = get_battle_disconnect_count();
+  char_select_slot = get_active_disconnect_count();
   char_select_slot = char_select_slot + 1;
   var_r3 = 0xFFFF;
   if (char_select_slot < var_r3)
   {
     var_r3 = char_select_slot;
   }
-  set_battle_disconnect_count((u16) var_r3);
+  set_active_disconnect_count((u16) var_r3);
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);

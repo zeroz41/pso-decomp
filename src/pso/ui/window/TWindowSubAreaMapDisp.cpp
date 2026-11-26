@@ -112,7 +112,7 @@ void TWindowSubAreaMapDisp::draw_pan_arrows(WindowDrawContext *context) {
     end_screen_draw();
 }
 
-void TWindowSubAreaMapDisp::draw_zoom_help(WindowDrawContext *context) {
+void TWindowSubAreaMapDisp::draw_zoom_button_hints(WindowDrawContext *context) {
     NJS_POINT2 pos;
     s32 color;
     f32 scale;
@@ -136,7 +136,7 @@ void TWindowSubAreaMapDisp::render() {
     draw_window_frame(context);
     heading->render(context);
     if ((s32) this->map_open != 0) {
-        draw_zoom_help(context);
+        draw_zoom_button_hints(context);
         draw_pan_arrows(context);
     }
 }

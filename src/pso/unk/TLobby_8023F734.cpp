@@ -514,7 +514,7 @@ u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
 s32 adxt_get_stat(s32);
-s32 adx_bridge_get_channel_stream_id(s32, s32);
+s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
 
 void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
@@ -546,7 +546,7 @@ void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 
         span = 0;
     }
     if (adxt_get_stat(tracks) == 3) {
-        sndStreamMixParameter(adx_bridge_get_channel_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+        sndStreamMixParameter(adx_ui_bridge_get_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
     }
 }
 
@@ -641,7 +641,7 @@ s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32
             sound_request_voices[i].kind == 0 && (s32)(id >> 16) == sound_request_voices[i].bank &&
             (s32)(id & 0xFFFF) == sound_request_voices[i].index && reinterpret_cast<saddr>(actor) == reinterpret_cast<saddr>(sound_request_voices[i].actor) &&
             (sound_request_voices[i].flags & 1)) {
-            refresh_sound_voice(&sound_request_voices[i]);
+            sound_request_voice_set_refresh(&sound_request_voices[i]);
             sound_request_voices[i].position = position;
             sound_request_voices[i].base = base;
             return i;
@@ -992,7 +992,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
             ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
             TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
             do {
-                TLobby__sub_803382E4();
+                draw_loading_compass();
                 TLobby::run_disk_error_check();
                 render_tick();
             } while (ADXF_GetStat(handle) != 3);

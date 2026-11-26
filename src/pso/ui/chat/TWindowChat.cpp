@@ -35,7 +35,7 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
 s32 fn_8002AE08(s32 client_id);
-s32 TWindowChat::is_busy() {
+s32 TWindowChat::is_chat_in_use() {
     if (composer->has_text() != 0) {
         return 1;
     }

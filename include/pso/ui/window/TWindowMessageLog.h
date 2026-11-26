@@ -25,7 +25,7 @@ struct TWindowMessageLog : public TWindowMessage {
     void load_chat_history();
     void reset_scroll();
     void advance_scroll(f32 v);
-    void scroll_back(f32 v);
+    void add_pending_scroll(f32 v);
     void set_target_height(f32 height);
 };
 

@@ -9,7 +9,7 @@ void TLobby__sub_80207E48(void);
 void TLobby__sub_80207F10(void);
 void free_forest_rel_work_buffer(void);
 void TLobby__sub_80208648(void);
-void TLobby__sub_80208884(void *a0);
+void set_wave_event_stream(void *a0);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void activate_triggered_floor_events(void);
 void bswap_enemy_set_row(void *row_ptr);

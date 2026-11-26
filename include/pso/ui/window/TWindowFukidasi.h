@@ -50,8 +50,8 @@ public:
     TWindowFukidasi *find_overlapping_balloon(const f32 *position, const f32 *size, TWindowFukidasi *first);
     TWindowFukidasi *draw_resolved_window(const f32 *position, const f32 *size, s32 viewport);
     // Window flag 0x400 marks the balloon that loses an overlap (resolve_chat_balloon_overlaps).
-    void set_flag2c_bit400();
-    void clear_flag2c_bit400();
+    void mark_overlapped();
+    void clear_overlapped();
     int get_visible_flag();
     int is_bit8_set();
     int is_bit10_set();

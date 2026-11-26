@@ -94,7 +94,7 @@ void TAdScrollWinGC::run_task() {
     if (d < 0) {
         d += 0x19;
         if (m_window != NULL) {
-            m_window->scroll_back(0.3f * d);
+            m_window->add_pending_scroll(0.3f * d);
         }
     }
     if (d > 0 && m_window != NULL) {

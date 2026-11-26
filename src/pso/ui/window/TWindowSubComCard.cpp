@@ -258,7 +258,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = TWindowSubComCard::create_com_card_window(get_window_layout_position(0x81));
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->create_action_window();
+            this->com_card_menu = this->create_send_action_menu();
         }
         this->com_card_menu->clear_flag_and_release();
         this->com_card_menu->clear_transition_flag();
@@ -275,7 +275,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x5:
         if (this->sub_menu == 0U) {
-            this->sub_menu = TWindowSubComCard::create_recipient_window();
+            this->sub_menu = TWindowSubComCard::create_player_list_menu();
         }
         this->com_card_menu->open();
         this->state = 6U;
@@ -519,7 +519,7 @@ void TWindowSubComCard::run_task() {
         if (this->card_list->is_decided() != 0) {
             TWindowSubComCard::swap_cards((int) (this->card_list->get_selected_index()), (int) (this->card_list->get_selected_value()));
             this->card_list->reset_selection();
-            this->card_list->show_card_page();
+            this->card_list->refresh_page();
             this->state = 0x19U;
             return;
         }
@@ -533,7 +533,7 @@ void TWindowSubComCard::run_task() {
             this->user_sort_window->close();
             this->user_sort_window = NULL;
         }
-        this->sub_menu = this->create_result_list_window();
+        this->sub_menu = this->create_result_list_menu();
         this->sub_menu->add_text_entry((saddr)(""), 0x15, -1);
         rebuild_com_card_list(this->sub_menu);
         this->state = 0x1EU;
@@ -561,7 +561,7 @@ void TWindowSubComCard::run_task() {
             this->user_sort_window = new TWindowUserSort((saddr)get_window_layout_position(0x8A), record);
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->create_select_window();
+            this->com_card_menu = this->create_contact_menu();
         }
         this->state = 0x20U;
     case 0x20:
@@ -705,7 +705,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x2B:
-        this->entry_list_window->collapse_to_selection();
+        this->entry_list_window->shrink_to_selected_entry();
         this->com_card_menu = this->create_option_list_window(choice_selections, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x2CU;
     case 0x2C:
@@ -743,7 +743,7 @@ void TWindowSubComCard::run_task() {
             this->entry_list_window = NULL;
         }
         if (this->sub_menu == 0U) {
-            this->sub_menu = this->create_search_result_window();
+            this->sub_menu = this->create_choice_search_result_menu();
         }
         if (this->message_window == 0U) {
             this->message_window = this->open_mode4_window();
@@ -806,7 +806,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x37:
-        this->entry_list_window->collapse_to_selection();
+        this->entry_list_window->shrink_to_selected_entry();
         option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
         this->com_card_menu = this->create_option_list_window(option_record->choice_search, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x38U;
@@ -836,7 +836,7 @@ void TWindowSubComCard::run_task() {
             this->card_list = 0U;
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->create_block_sender_window();
+            this->com_card_menu = this->create_block_sender_menu();
         }
         this->com_card_menu->clear_flag_and_release();
         this->state = 0x3AU;
@@ -889,7 +889,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = NULL;
         }
         if (this->confirm_window == NULL) {
-            this->confirm_window = this->open_delete_entry_prompt();
+            this->confirm_window = this->create_delete_entry_prompt();
         }
         this->state = 0x3EU;
     case 0x3E:
@@ -1044,7 +1044,7 @@ void TWindowSubComCard::run_task() {
             this->sub_menu = 0U;
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->create_message_list_window();
+            this->com_card_menu = this->create_short_mail_list_menu();
         }
         this->com_card_menu->clear_flag_and_release();
         this->state = 0x4CU;
@@ -1107,7 +1107,7 @@ TWindowMenu *TWindowSubComCard::create_menu() {
     return list;
 }
 
-TWindowMenu *TWindowSubComCard::create_action_window() {
+TWindowMenu *TWindowSubComCard::create_send_action_menu() {
     TWindowMenu *menu;
     saddr temp_r31_2;
     menu = create_titled_window_menu_default(get_window_layout_position(0x82), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1E));
@@ -1119,7 +1119,7 @@ TWindowMenu *TWindowSubComCard::create_action_window() {
     return menu;
 }
 
-TWindowMenu *TWindowSubComCard::create_select_window() {
+TWindowMenu *TWindowSubComCard::create_contact_menu() {
   TWindowMenu *list;
   list = create_titled_window_menu_default(get_window_layout_position(0x8B), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 0x21);
@@ -1137,7 +1137,7 @@ TWindowMenu *TWindowSubComCard::create_select_window() {
   return list;
 }
 
-TWindowMenu *TWindowSubComCard::create_recipient_window() {
+TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     s32 i;
     TObjPlayer *player;
     TWindowMenu *w;
@@ -1198,7 +1198,7 @@ TWindowMessageYesNo *TWindowSubComCard::confirm_and_free() {
     return dialog;
 }
 
-TWindowMessageYesNo *TWindowSubComCard::open_delete_entry_prompt() {
+TWindowMessageYesNo *TWindowSubComCard::create_delete_entry_prompt() {
     TWindowMessageYesNo *window;
     window = TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
     window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0xFC)), get_window_layout_position(0x96), 213.0f);
@@ -1217,7 +1217,7 @@ TWindowMessageYesNo *TWindowSubComCard::open_yesno_dialog() {
     return dialog;
 }
 
-TWindowMenu *TWindowSubComCard::create_result_list_window() {
+TWindowMenu *TWindowSubComCard::create_result_list_menu() {
     TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x89), 8, (saddr)TWindowSubStatusDisp::get_message_10(0x21));
     r->set_flag70_bit10();
     return r;
@@ -1362,7 +1362,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
 }
 #pragma pop
 
-TWindowMenu *TWindowSubComCard::create_search_result_window() {
+TWindowMenu *TWindowSubComCard::create_choice_search_result_menu() {
     s32 i;
     s32 count;
     TWindowMenu *w;
@@ -1404,7 +1404,7 @@ TWindowMenu *TWindowSubComCard::create_menu_window() {
   return list;
 }
 
-TWindowMenu *TWindowSubComCard::create_block_sender_window() {
+TWindowMenu *TWindowSubComCard::create_block_sender_menu() {
     TWindowMenu *w;
     w = create_titled_window_menu_default(get_window_layout_position(0x90), 2, (saddr)TWindowSubStatusDisp::get_message_10(0xF8));
     w->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFA)), 6, 0x3B);
@@ -1454,7 +1454,7 @@ TWindowMenu *TWindowSubComCard::create_player_select_window() {
 }
 #pragma pop
 
-TWindowMenu *TWindowSubComCard::create_message_list_window() {
+TWindowMenu *TWindowSubComCard::create_short_mail_list_menu() {
     s32 n;
     s32 i;
     ShortMailEntry *e;
@@ -1591,7 +1591,7 @@ void TWindowSubComCard::cleanup(void *p) {
     const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(menu->get_selected_value());
     TLobby::send_find_user_self_tag(slot->get_card_id());
 }
-TWindowSubComCardList *TWindowSubComCard::send_cmd_133() { return create_all_card_list(get_window_layout_position(133)); }
+TWindowSubComCardList *TWindowSubComCard::send_cmd_133() { return create_all_cards_list(get_window_layout_position(133)); }
 TWindowSubComCardList *TWindowSubComCard::init_layout() {
     s32 card_slot;
 

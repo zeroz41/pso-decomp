@@ -70,7 +70,7 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 3: {
         s16 resolved = read_resolved_value(entry_id, value_index);
-        if (fn_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -158,7 +158,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 3: {
         s16 resolved = read_resolved_value(entry_id, value_index);
-        if (fn_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -246,7 +246,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 3: {
         s16 resolved = read_resolved_value(entry_id, value_index);
-        if (fn_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -336,7 +336,7 @@ s32 TWindowDD::format_french_message(WordSelectMessage *src, char *window_dd, u1
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            fn_80347758(src, &copy);
+            convert_type3_message(src, &copy);
             pos = format_french_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -524,7 +524,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            fn_80347758(src, &copy);
+            convert_type3_message(src, &copy);
             pos = format_german_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -571,7 +571,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
             }
             if (n > 3 && src->ids[3] == 0x685) {
                 if (s1 != 0 && s2 != 0) {
-                    fn_8034694C(src, id1, s1, s2, window_dd, &pos);
+                    append_word_inside_phrase(src, id1, s1, s2, window_dd, &pos);
                 }
             } else {
                 TWindowDD::append_string(s1, window_dd, &pos);
@@ -673,7 +673,7 @@ s32 TWindowDD::format_german_message(WordSelectMessage *src, char *window_dd, u1
                 }
                 if (n > 2 && src->ids[2] == 0x685) {
                     if (s1 != 0 && s3 != 0) {
-                        fn_8034694C(src, src->ids[0], s1, s3, window_dd, &pos);
+                        append_word_inside_phrase(src, src->ids[0], s1, s3, window_dd, &pos);
                     }
                 } else {
                     append_word_select_word_with_number(src, src->ids[0], s1, window_dd, &pos);
@@ -774,7 +774,7 @@ s32 TWindowDD::format_spanish_message(WordSelectMessage *src, char *window_dd, u
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            fn_80347758(src, &copy);
+            convert_type3_message(src, &copy);
             pos = format_spanish_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -981,7 +981,7 @@ s32 TWindowDD::format_english_message(WordSelectMessage *src, char *window_dd, u
     case 3:
         if (n > 1) {
             WordSelectMessage copy;
-            fn_80347758(src, &copy);
+            convert_type3_message(src, &copy);
             pos = format_english_message(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
@@ -1227,7 +1227,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 3: {
         s16 resolved = read_resolved_value(entry_id, value_index);
-        if (fn_80347858(resolved) != 0) {
+        if (is_topic_word(resolved) != 0) {
             if (resolved == 0x43) {
                 v = -0x46;
             } else if (resolved == 0x44) {
@@ -1317,7 +1317,7 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
         break;
     case 3:
         resolved_id = read_resolved_value(entry_id, value_index);
-        if (fn_80347858(resolved_id) != 0) {
+        if (is_topic_word(resolved_id) != 0) {
             value = read_indexed_value(0xF, resolved_id - 0x37);
         } else {
             value = -0x3C;
@@ -1404,7 +1404,7 @@ void TWindowDD::build_item_list() {
     word_select_lists[0].count = n;
 }
 
-void TWindowDD::fn_8034694C(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
+void TWindowDD::append_word_inside_phrase(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
     s32 n;
     s32 len;
     s32 i;
@@ -1645,11 +1645,11 @@ void TWindowDD::reset_selection(WordSelectMessage *message) {
 }
 
 void WordSelectMessage::remember_selected_id() {
-    if ((type == 1) && (TWindowDD::fn_80346FC0(ids[0]) != 0)) {
+    if ((type == 1) && (TWindowDD::is_rememberable_word(ids[0]) != 0)) {
         remembered_word_select_id = ids[0];
     }
 }
-s32 TWindowDD::fn_80346FC0(s16 id) {
+s32 TWindowDD::is_rememberable_word(s16 id) {
     u8 var_r3;
     var_r3 = 0;
     if ((id >= 0x7F) && (id <= 0x138)) {
@@ -1728,7 +1728,7 @@ s32 TWindowDD::is_id_in_special_range(s16 id) {
     return r;
 }
 
-s32 TWindowDD::fn_80347238(s16 id) {
+s32 TWindowDD::is_weapon_word(s16 id) {
     u8 var_r3;
     var_r3 = 0;
     if ((id >= 0x300) && (id <= 0x395)) {
@@ -1747,7 +1747,7 @@ s32 TWindowDD::classify_id(s16 id) {
     if (id == 0x2E4) {
         return 0;
     }
-    if (fn_80347238(id) != 0) {
+    if (is_weapon_word(id) != 0) {
         return 1;
     }
     if (is_id_in_special_range(id) != 0) {
@@ -1900,7 +1900,7 @@ void TWindowDD::append_word_select_word_with_number(WordSelectMessage *entry, s1
     TWindowDD::append_string(word, buf, pos);
 }
 
-void TWindowDD::fn_80347758(WordSelectMessage *src, WordSelectMessage *dst) {
+void TWindowDD::convert_type3_message(WordSelectMessage *src, WordSelectMessage *dst) {
     s16 id;
     s16 n;
     n = src->count;
@@ -1935,7 +1935,7 @@ void TWindowDD::fn_80347758(WordSelectMessage *src, WordSelectMessage *dst) {
     dst->numeric_parameter = src->numeric_parameter;
 }
 
-s32 TWindowDD::fn_80347858(s16 id) {
+s32 TWindowDD::is_topic_word(s16 id) {
     u8 r = 0;
     if (id >= 0x37 && id <= 0x45) {
         r = 1;
@@ -1947,7 +1947,7 @@ s32 TWindowDD::is_state_zero_unless_0x2C8(s32 id) {
     if ((s16)id == 0x2C8) {
         return 0;
     }
-    return (u32) __cntlzw((u32) ((s32 (*)(void))fn_80347858)()) >> 5;
+    return (u32) __cntlzw((u32) ((s32 (*)(void))is_topic_word)()) >> 5;
 }
 
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value) {
@@ -2301,9 +2301,9 @@ s32 TWindowDD::get_word_select_context() {
 
 // C functions: handle_confirm_input calls these and push_recent_id through prototypes that
 // disagree with the definitions (s16 against s32 ids), which only C linkage allows.
-extern "C" s32 fn_80348424(TWindowDD *window, s32 id) { return get_word_select_type_state(1, id); }
+extern "C" s32 get_word_next_state(TWindowDD *window, s32 id) { return get_word_select_type_state(1, id); }
 
-extern "C" s32 fn_80348448(TWindowDD *window, s16 id) {
+extern "C" s32 get_word_message_type(TWindowDD *window, s16 id) {
     return get_word_select_type_state(0, id);
 }
 
@@ -2473,14 +2473,14 @@ void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
     draw_count = TWindowDD::get_draw_count(hud_texlist);
     reset_window_vertices(verts, word_select_inverse_depth(draw_depth, offset), -1);
     copy_window_point_table(verts, idx);
-    fn_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), verts);
-    fn_803489B8(reinterpret_cast<WindowDrawContext *>(ctx), verts, 0);
+    set_frame_column_vertices_x(reinterpret_cast<WindowDrawContext *>(ctx), verts);
+    set_frame_row_vertices_y(reinterpret_cast<WindowDrawContext *>(ctx), verts, 0);
     draw_window_vertices(verts, 8, draw_count, 1);
 }
 
 #pragma push
 #pragma fp_contract on
-void fn_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
+void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
     s32 i;
     f32 hs;
     f32 half;
@@ -2503,7 +2503,7 @@ void fn_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row) {
 }
 #pragma pop
 
-void fn_80348A2C(WindowDrawContext *context, WindowVertex *vertices) {
+void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices) {
     f32 center_x;
     f32 inner_right;
     f32 half_scaled;

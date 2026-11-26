@@ -53,7 +53,7 @@ void TWindowChoiceSetting::begin_scroll(f32 height) {
     }
 }
 
-void TWindowChoiceSetting::collapse_to_selection() {
+void TWindowChoiceSetting::shrink_to_selected_entry() {
     u16 flags;
     WindowTextEntry *entry;
     flags = choice_flags;

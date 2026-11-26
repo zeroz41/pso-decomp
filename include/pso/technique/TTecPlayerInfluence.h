@@ -17,7 +17,7 @@ struct TTecPlayerInfluence : public TEffect {
     // Gives one player the technique's effect.
     virtual void apply_to_player(TObjPlayer *player);
     // The contact sphere follows the effect's scale.
-    void update_collision_radius();
+    void sync_collision_radius();
     // Applies the technique to every player in range (apply_to_player).
     void deliver_technique_to_party_targets();
     void spawn_support_tec_range_effect();

@@ -48,7 +48,7 @@ void AdxDecoderChannel::reset_client_state() {
     memset(delay_samples, 0, sizeof(delay_samples));
 }
 
-void adx_decoder_channel_start(AdxDecoderChannel *channel) {
+void start_adx_decoder_channel(AdxDecoderChannel *channel) {
     if (channel->state == 0) {
         channel->decoded_count = 0;
         channel->state = 1;

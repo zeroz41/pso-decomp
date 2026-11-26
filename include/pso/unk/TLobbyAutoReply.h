@@ -12,6 +12,6 @@ s32 is_active();
 void clear_auto_reply_flags(void *p);
 
 void reset_auto_reply_flags(s32 _w0);
-void TLobby__sub_8001DC04(void *p);
+void reset_auto_reply_flags_callback(void *p);
 
 #endif

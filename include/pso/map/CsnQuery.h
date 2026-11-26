@@ -48,7 +48,7 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to);
 // The scene buffer prepare_wall_query_polygons copies wall polygons into.
 void free_wall_query_buffer(void);
 void alloc_wall_query_buffer(void);
-void csn_debug_hook_ground_query(void);
+void csn_debug_hook_under_query(void);
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color);
 void csn_debug_hook_hit_record(CsnHit *hit);
 void csn_debug_hook_group_list(CsnGroup *const *groups);

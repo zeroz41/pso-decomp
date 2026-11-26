@@ -1024,7 +1024,7 @@ void TObjEneDubchik::update_appear() {
         actorFlags |= 0x04000000;
         requested_action = 5;
         advance_animation();
-        play_area_appear_sound_effect(&body_center);
+        play_appear_effects(&body_center);
         fade.start_fade_in();
         state = 1;
     case 1:

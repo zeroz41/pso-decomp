@@ -33,7 +33,7 @@ public:
     virtual void run_task();
     virtual void render();
     void set_anim_state(s32 new_state);
-    void reset_anim_state();
+    void reset_to_idle();
     void start_anim_rect(PlyPltAnimVec2 *pos);
     static TAdPlyPltAnimGC *get_or_create(TObject *parent, s32 index);
 };

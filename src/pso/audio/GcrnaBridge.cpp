@@ -14,7 +14,7 @@ void gcrna_bridge_set_sample_bits(GcrnaStream *stream, s32 sample_bits) {
 
 extern "C" {
 
-void gcrna_bridge_set_out_pan(GcrnaStream *stream, s32 ch, s32 pan) {
+void gcrna_bridge_set_channel_pan(GcrnaStream *stream, s32 ch, s32 pan) {
     set_stream_channel_pan(stream, ch, pan);
 }
 
@@ -70,6 +70,6 @@ void gcrna_bridge_shutdown(void) {
     gcrna_shutdown();
 }
 
-void gcrna_bridge_init(void) {
+void gcrna_bridge_initialize(void) {
     gcrna_initialize();
 }

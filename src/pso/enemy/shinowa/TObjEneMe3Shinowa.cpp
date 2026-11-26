@@ -487,7 +487,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
 
 void TObjEneMe3Shinowa::select_next_attack_state() {  }
 
-void TObjEneMe3Shinowa::halve_evasion() {
+void TObjEneMe3Shinowa::halve_evp() {
     this->behavior_flags |= 0x10;
     this->evp = (s16) ((s16) this->normal_evp / 2);
 }
@@ -690,7 +690,7 @@ void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
         VecCopy(&pos, &position);
         y = body_y;
         pos.y = y - 20.0f;
-        play_area_appear_sound_effect(&pos);
+        play_appear_effects(&pos);
         return;
     case 3:
         if (fade.advance_toward_max() != 0) {
@@ -1186,7 +1186,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     }
     case 3: {
         if (this->state_step >= 40) {
-            halve_evasion();
+            halve_evp();
             s32 r = TObjEneDD::collect_target_candidates(this, 40000.0f);
             if (r > 0) {
                 enemy_set_target_id(enemy_target_candidate_table[r - 1].id);

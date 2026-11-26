@@ -202,7 +202,7 @@ void TCharSaveSequence::wait_character_file_write() {
             case 0:
                 state = 6;
                 chr_select_state = (s8)TAdSinglePlyChrSelectGC::get_chr_select_state();
-                flag_count = get_guild_card_save_file_block_count();
+                flag_count = get_guild_card_file_block_count();
                 TAdSinglePlyChrSelectGC::check_ready();
                 break;
             default:

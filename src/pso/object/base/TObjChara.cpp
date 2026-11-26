@@ -167,7 +167,7 @@ extern TObject *tl_07;
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
-const f32 stat_status_light_direction[3] = {0.0f, 1.0f, 0.0f};
+const f32 status_light_desired[3] = {0.0f, 1.0f, 0.0f};
 
 // inferred: update_poison_status adds entry [game_difficulty_selection] to each poison tick's damage
 const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
@@ -1287,7 +1287,7 @@ s32 TObjChara::update_attack_stat_status() {
                     }
                     break;
                 }
-                new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
+                new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)status_light_desired, 0x2D, this, tl_07);
             }
             return 1;
         }
@@ -1325,7 +1325,7 @@ s32 TObjChara::update_defense_stat_status() {
                     }
                     break;
                 }
-                new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
+                new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)status_light_desired, 0x2D, this, tl_07);
             }
             return 1;
         }
@@ -1737,7 +1737,7 @@ void TObjChara::apply_attack_stat_status(StatStatusReceipt *receipt) {
         this->adjust_atp_range((s32) (new_amount * (f32) this->get_base_atp_range()));
         this->set_status_effect_timer(2, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->test_actor_flags(0x02000000) == 0) {
-            new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
+            new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)status_light_desired, 0x2D, this, tl_07);
         }
     }
 }
@@ -1766,7 +1766,7 @@ void TObjChara::apply_defense_stat_status(StatStatusReceipt *receipt) {
         this->adjust_dfp((s32) (new_amount * (f32) this->get_base_dfp()));
         this->set_status_effect_timer(3, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->test_actor_flags(0x02000000) == 0) {
-            new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)stat_status_light_direction, 0x2D, this, tl_07);
+            new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)status_light_desired, 0x2D, this, tl_07);
         }
     }
 }

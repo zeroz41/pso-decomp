@@ -119,7 +119,7 @@ void start_bgm_stream(s32 index) {
                                (bgm_stream_active = 1, buf = bgm_stream_buffers[0]));
         ADXT_StartMemIdx(adxt_players[1], (u8 *)buf, 0);
         adxt_set_output_vol(adxt_players[1], get_music_base_gain());
-        adxt_set_pause(adxt_players[1], 0);
+        adxt_pause(adxt_players[1], 0);
     }
 }
 
@@ -259,8 +259,8 @@ void play_cue_stream_file(const char *name) {
 }
 void turn_on_bgm_p2(void) {
     s32 status;
-    adxt_set_pause(adxt_players[music_fade_slot_index], 0);
-    adxt_set_pause(adxt_players[2], 0);
+    adxt_pause(adxt_players[music_fade_slot_index], 0);
+    adxt_pause(adxt_players[2], 0);
     status = adxt_get_stat(adxt_players[music_fade_slot_index]);
     if ((status == 0) || (status == 5)) {
         music_state = 0;
@@ -269,8 +269,8 @@ void turn_on_bgm_p2(void) {
     music_state = 1;
 }
 void turn_off_bgm_p2(void) {
-    adxt_set_pause(adxt_players[music_fade_slot_index], 1);
-    adxt_set_pause(adxt_players[2], 1);
+    adxt_pause(adxt_players[music_fade_slot_index], 1);
+    adxt_pause(adxt_players[2], 1);
     music_state = 2;
 }
 
@@ -284,7 +284,7 @@ struct SndHooks {
     void (*free)(void *ptr);
 };
 extern "C" {
-void adx_bridge_set_buffer_storage(void *work, s32 size, s32 count);
+void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
 }
 extern "C" {
 s32 VISetPostRetraceCallback(int (*callback)(void *));
@@ -510,7 +510,7 @@ void play_area_music(char *name) {
     }
     lbl_805D371C = music_fade_slot_index + 1;
     ADXT_StartFname(adxt_players[music_fade_slot_index], name);
-    adxt_set_pause(adxt_players[music_fade_slot_index], 0);
+    adxt_pause(adxt_players[music_fade_slot_index], 0);
     TLobby::close_option_window();
     music_active = 0;
     music_state = 1;
@@ -578,7 +578,7 @@ void init_adx_audio_system(void) {
     bgm_stream_buffers[1] = xmalloc(0x2D1E4);
     lbl_805D62D8 = xmalloc(0xA924);
     lbl_805D62DC = xmalloc(0xA000);
-    adx_bridge_set_buffer_storage(lbl_805D62DC, 0xA000, 5);
+    gcrna_bridge_init_buffers(lbl_805D62DC, 0xA000, 5);
     adxt_init();
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);

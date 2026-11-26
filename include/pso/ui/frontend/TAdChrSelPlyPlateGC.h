@@ -37,7 +37,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void set_cursor_column(s32 column);
     void restore_selection();
     void capture_card_index();
-    s32 is_start_requested();
+    s32 is_confirm_pressed();
     s32 get_active_card_slot();
     void set_active_card_slot(s32 slot);
     void set_cursor_fields(s32 field_4f4, s32 field_4f0);

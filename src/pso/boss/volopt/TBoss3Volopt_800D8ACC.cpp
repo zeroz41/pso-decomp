@@ -119,7 +119,7 @@ void play_area_se_with_particle(Vec *position) {
     spawn_particle_effect(&v, 0xE6);
 }
 
-void play_area_appear_sound_effect(Vec *position) {
+void play_appear_effects(Vec *position) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -199,7 +199,7 @@ void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
 }
 
 
-void spawn_enemy_death_particles(Vec *position) {
+void create_particle_emitter_pair(Vec *position) {
     create_timed_particle_emitter(position, 232, 10, 1);
     create_timed_particle_emitter(position, 236, 10, 1);
 }

@@ -38,19 +38,19 @@ extern CharacterAppearanceFields character_creation_visual_record;
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
-CharacterAppearanceFields *get_character_creation_visual_record(void) {
+CharacterAppearanceFields *get_creation_visual_record(void) {
     return &character_creation_visual_record;
 }
 
-void set_character_creation_visual_record(CharacterAppearanceFields *record) {
+void load_creation_visual_record(CharacterAppearanceFields *record) {
     if (record->flags & 0xA) {
-        clear_character_creation_class();
+        invalidate_creation_visual_record();
         return;
     }
     copy_player_visual_record(&character_creation_visual_record, record);
 }
 
-void clear_character_creation_class(void) {
+void invalidate_creation_visual_record(void) {
     character_creation_visual_record.classId = -1;
 }
 
@@ -218,7 +218,7 @@ s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {
         return -1;
     }
-    return creation_main_menu_obj->get_selected_entry_kind();
+    return creation_main_menu_obj->get_selected_menu_entry_kind();
 }
 
 s32 calc_section_id_from_name(s8 *name) {

@@ -12,7 +12,7 @@ s8 LobbyRuleSettings::get_trap_count(s32 index) {
     return trap_counts[index];
 }
 
-void LobbyRuleSettings::set_trap_count(s8 count, s32 index) {
+void LobbyRuleSettings::set_rule_slot_clamped(s8 count, s32 index) {
     if ((count < 0) || (count > 20)) {
         count = 20;
     }

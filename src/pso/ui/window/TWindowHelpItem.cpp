@@ -231,7 +231,7 @@ void TWindowHelpItem::update_cursor_selection() {
     this->active_id = -1;
 }
 
-void TWindowHelpItem::clear_items() {
+void TWindowHelpItem::clear_help_item() {
     entry_list.destroy_all_items();
     help_flags &= ~1;
     active_item = NULL;

@@ -21,7 +21,7 @@ void resolve_chat_balloon_overlaps(void) {
         p = (TWindowFukidasi *)get_viewport_window_root(i)->m_down;
         if (p != NULL) {
             while (p != NULL) {
-                p->clear_flag2c_bit400();
+                p->clear_overlapped();
                 p = static_cast<TWindowFukidasi *>(p->m_next);
             }
         }
@@ -33,13 +33,13 @@ void resolve_chat_balloon_overlaps(void) {
                 q = p->find_balloon_overlap_for(static_cast<TWindowFukidasi *>(p->m_next));
                 while (q != NULL) {
                     if (p->get_visible_flag() != 0) {
-                        q->set_flag2c_bit400();
+                        q->mark_overlapped();
                     } else if (q->get_visible_flag() != 0) {
-                        p->set_flag2c_bit400();
+                        p->mark_overlapped();
                     } else if (p->m_58 > q->m_58) {
-                        p->set_flag2c_bit400();
+                        p->mark_overlapped();
                     } else {
-                        q->set_flag2c_bit400();
+                        q->mark_overlapped();
                     }
                     q = p->find_balloon_overlap_for(static_cast<TWindowFukidasi *>(q->m_next));
                 }
@@ -49,5 +49,5 @@ void resolve_chat_balloon_overlaps(void) {
     }
 }
 
-void TWindowFukidasi::set_flag2c_bit400() { window_flags |= 0x400; }
-void TWindowFukidasi::clear_flag2c_bit400() { window_flags &= ~0x400; }
+void TWindowFukidasi::mark_overlapped() { window_flags |= 0x400; }
+void TWindowFukidasi::clear_overlapped() { window_flags &= ~0x400; }

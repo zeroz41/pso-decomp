@@ -66,7 +66,7 @@ void adxt_init() {
         adxstm_clear_requests();
         adxb_init();
         adxf_init();
-        gcrna_bridge_init();
+        gcrna_bridge_initialize();
         gcrna_bridge_set_error_callback(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();

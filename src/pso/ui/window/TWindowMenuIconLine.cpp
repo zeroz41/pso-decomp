@@ -203,7 +203,7 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s3
 
 void TWindowMenuIconLine::push_status_disp_entry(s32 count, s32 id) {
     if (entry_count < entry_capacity) {
-        static_cast<ItemListRow *>(get_array_entry(entry_count))->init_count_entry(count, id);
+        static_cast<ItemListRow *>(get_array_entry(entry_count))->init_meseta(count, id);
         entry_count++;
     }
 }
@@ -509,7 +509,7 @@ void TWindowMenuIconLine::start_scroll(f32 height) {
     }
 }
 
-void TWindowMenuIconLine::init_scroll_pos() {
+void TWindowMenuIconLine::shrink_to_selected_entry() {
     u16 flags;
     TWindowLayoutRect *entry;
 

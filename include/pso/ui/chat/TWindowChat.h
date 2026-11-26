@@ -16,7 +16,7 @@ public:
     // Flags 0x40 or 0x200: the chat closes once a message is sent.
     s32 closes_after_send();
     // Text is being typed, the chat is open, or the keyboard shows its status text.
-    s32 is_busy();
+    s32 is_chat_in_use();
     s32 update_word_select_window();
     s32 update_symbol_chat_window();
     virtual void run_task();

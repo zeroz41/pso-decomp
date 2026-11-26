@@ -11,7 +11,7 @@ class TAttackTraceStrip;
 // Laid out like TObjEneMe3SinowZoaParams (the Sinow Zoa block).
 struct TObjEneMe3ShinowaParams {
     f32 walk_speed;          // state_chase_target's move speed
-    f32 weakened_walk_speed; // the same while behavior_flags 0x10 is set (halve_evasion)
+    f32 weakened_walk_speed; // the same while behavior_flags 0x10 is set (halve_evp)
     f32 dist;
     f32 sword_motion_speed; // motion slot 6 (shinowa_sword_motion) speed, at least 0.1
     f32 damage_motion_speed; // motion slot 3 (shinowa_damage_motion) speed
@@ -96,7 +96,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void state_t_wait(s32 reason);
     void cast_resta();
     void state_backstep(s32 reason);
-    void halve_evasion();
+    void halve_evp();
 };
 
 LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, fade) == 0x3E8);

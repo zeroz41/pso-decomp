@@ -70,7 +70,7 @@ void TWindowSubEquip::run_task() {
             this->equip_kind_list->close();
             this->equip_kind_list = 0U;
         }
-        this->window_help_item->clear_items();
+        this->window_help_item->clear_help_item();
         this->shown_item_id = -1;
         this->shown_cursor_value = -1;
         equip_list->refresh_equipment_list();
@@ -89,7 +89,7 @@ void TWindowSubEquip::run_task() {
         }
         break;
     case 3:
-        this->equip_list->init_scroll_pos();
+        this->equip_list->shrink_to_selected_entry();
         if (this->equip_kind_list == NULL) {
             this->equip_kind_list = open_equip_kind_list(this->equip_list->get_cursor_value());
         }

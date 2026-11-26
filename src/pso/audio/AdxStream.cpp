@@ -16,7 +16,7 @@
 #include "pso/system/CvFs.h"
 
 extern "C" {
-s32 adx_stream_request_ex_base_index;
+s32 adx_stream_request_base;
 s32 tlobby_stream_read_retry_limit;
 s32 adx_stream_null_sj_count;
 }
@@ -258,7 +258,7 @@ inline AdxStreamFile *adxstm_alloc_ex_file(saddr arg, CvFsHandle *h, s32 base_of
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
-        p = &adx_stream_read_requests[adx_stream_request_ex_base_index + i];
+        p = &adx_stream_read_requests[adx_stream_request_base + i];
         if (p->used == 0) {
             break;
         }

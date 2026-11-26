@@ -39,7 +39,7 @@ public:
 
     LobbyRuleSettings();
     // Stores count in trap_counts[index], 20 when it is outside 0..20.
-    void set_trap_count(s8 count, s32 index);
+    void set_rule_slot_clamped(s8 count, s32 index);
     // sonar_count, or 0 when it is outside 0..99.
     s32 get_sonar_count();
     // Stores count as sonar_count, 0 when it is outside 0..99.

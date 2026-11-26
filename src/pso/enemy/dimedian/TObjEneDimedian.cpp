@@ -96,7 +96,7 @@ void TObjEneDimedian::play_alert_sound() {
 void TObjEneDimedian::spawn_death_effect() {
     s32 area;
     TDeadSpot::spawn_kind0_scale7_5(&position, 0);
-    spawn_enemy_death_particles(&body_center);
+    create_particle_emitter_pair(&body_center);
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {
         play_sound_effect(0x3AD3F, &position, 0, 0);

@@ -12,7 +12,7 @@
 #include "pso/audio/AdxAiff.h"
 #include "pso/audio/AiffHeader.h"
 
-// The RIFF chunk ids adx_parse_wav_header scans a WAVE header for.
+// The RIFF chunk ids parse_wav_header_info scans a WAVE header for.
 const char *wav_fmt_chunk_id = "fmt ";
 const char *wav_data_chunk_id = "data";
 
@@ -113,7 +113,7 @@ s32 audio_stream_get_output_samples(AudioStreamInputState *st) {
 
 struct AudioStreamGetOutputSamplesObject;
 
-void audio_stream_exec_server(void) {
+void process_audio_stream_inputs(void) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
         if ((s32)((Rec_803C0018 *)&audio_stream_input_pool)[i].state == 1) {
@@ -514,7 +514,7 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
 s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 n;
     adxb->m_02 = 1;
-    if (adx_parse_wav_header(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
+    if (parse_wav_header_info(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
                              &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
@@ -580,7 +580,7 @@ LAYOUT_ASSERT(WavDataChunkSize, sizeof(WavDataChunk) == 8);
                             (((value) << 8) & 0xFF0000) | (((value) << 24) & 0xFF000000))
 #pragma push
 #pragma opt_propagation off
-s32 adx_parse_wav_header(u8 *buffer, s32 size, s16 *data_offset,
+s32 parse_wav_header_info(u8 *buffer, s32 size, s16 *data_offset,
                         s8 *flags, s8 *bits_per_sample, s8 *block_align,
                         s8 *channels, s32 *sample_rate, s32 *sample_count,
                         s32 *codec, s16 *encoding) {

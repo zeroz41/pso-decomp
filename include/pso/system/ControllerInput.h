@@ -43,7 +43,7 @@ void update_button_hold_counters(ControllerInputContext *pad);
 // Direction bits (0x10..0x80) mirrored onto the stick bits: the main stick (<< 16) and the C stick (<< 22).
 s32 all_direction_mask(ControllerInputContext *pad, s32 mask);
 s32 cstick_direction_mask(ControllerInputContext *pad, s32 mask);
-s32 dpad_and_cstick_mask(ControllerInputContext *pad, s32 mask);
+s32 pack_button_mask(ControllerInputContext *pad, s32 mask);
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask);
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask);
 s32 test_pressed_buttons_packed(void *pad, s32 mask);

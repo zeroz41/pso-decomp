@@ -27,7 +27,7 @@ public:
 
     TWindowStatusGauge(StatusGaugeLayout *source, s32 client);
     void draw_status_gauge_bar(WindowDrawContext *context, NJS_POINT2 *position, f32 depth, f32 length);
-    void draw_status_gauge_frame(WindowDrawContext *context, NJS_POINT2 *position, f32 depth);
+    void draw_gauge_frame(WindowDrawContext *context, NJS_POINT2 *position, f32 depth);
 };
 
 LAYOUT_ASSERT(TWindowStatusGauge_size, sizeof(TWindowStatusGauge) == 0x28);

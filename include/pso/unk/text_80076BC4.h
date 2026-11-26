@@ -8,7 +8,7 @@ struct ChatShortcut;
 s32 chat_accept_submission(saddr submission);
 void chat_dispatch_accepted_result(s32 *submission);
 void clear_chat_shortcut(s32 i);
-char *fn_80076BC4(s32 *text);
+char *get_chat_shortcut_text(s32 *text);
 ChatShortcut *get_chat_shortcut(s32 index);
 extern "C" {
 bool is_chat_shortcut_set(s32 index);

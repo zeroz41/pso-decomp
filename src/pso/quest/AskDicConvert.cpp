@@ -281,7 +281,7 @@ void render_quest_text_page(void) {
     s32 pos;
     s32 d;
 
-    p = &remaining_count_prefix.text[5];
+    p = &quest_download_display_prefix.text[5];
     n = count_entry_groups(quest_page_node_head);
     n -= quest_page_node_index;
     n--;
@@ -303,7 +303,7 @@ void render_quest_text_page(void) {
     }
     n %= 10;
     *p = n + '0';
-    convert_quest_text_u8_to_u16(quest_text_page_buffer, remaining_count_prefix.text, 0);
+    convert_quest_text_u8_to_u16(quest_text_page_buffer, quest_download_display_prefix.text, 0);
     node = quest_page_node_head;
     pos = 9;
     for (i = 0; i < quest_page_node_count; i++) {
@@ -440,12 +440,12 @@ void append_unique_node(s32 start, QuestDownloadTextNode **headp, QuestDownloadT
     s32 len;
 
     len = render_group_text(start, quest_text_entry_len, n, quest_text_page_buffer);
-    len = quest_text_u16_to_u8(quest_text_page_buffer, (u8 *)converted_text_buffer, len);
-    if (is_seen_text((u8 *)converted_text_buffer, len)) {
+    len = quest_text_u16_to_u8(quest_text_page_buffer, (u8 *)quest_text_u8_buffer, len);
+    if (is_seen_text((u8 *)quest_text_u8_buffer, len)) {
         free_quest_text_chain(n);
         return;
     }
-    add_seen_text((u8 *)converted_text_buffer, len);
+    add_seen_text((u8 *)quest_text_u8_buffer, len);
     if (*headp == NULL) {
         *tailp = n;
         *headp = n;
@@ -643,7 +643,7 @@ QuestDownloadTextNode *build_entry_candidates(const QuestDownloadEntryPrefix *en
     QuestDownloadTextNode *tail;
     u8 *p;
 
-    base = remaining_count_prefix.text;
+    base = quest_download_display_prefix.text;
     t = entry->source;
     if (t == NULL || t->off == 0) {
 def:
@@ -804,7 +804,7 @@ void build_best_candidate(s32 pos, s32 x) {
     const QuestDownloadItemNode *t;
 
     e = &quest_download_slot_chain_table[pos];
-    base = remaining_count_prefix.text;
+    base = quest_download_display_prefix.text;
     best = NULL;
     bestv = 0;
     if (e->chain != NULL) {
@@ -2276,13 +2276,13 @@ u16 *get_entry_text(s32 start, s32 len) {
         out += r;
         start += n;
     }
-    quest_text_u16_to_u8(quest_text_page_buffer, (u8 *)converted_text_buffer, (s32)(out - quest_text_page_buffer));
-    return converted_text_buffer;
+    quest_text_u16_to_u8(quest_text_page_buffer, (u8 *)quest_text_u8_buffer, (s32)(out - quest_text_page_buffer));
+    return quest_text_u8_buffer;
 }
 
 u8 *convert_all_entry_text(void) {
-    quest_text_u16_to_u8(quest_text_page_buffer, (u8 *)converted_text_buffer, build_all_entry_text());
-    return (u8 *)converted_text_buffer;
+    quest_text_u16_to_u8(quest_text_page_buffer, (u8 *)quest_text_u8_buffer, build_all_entry_text());
+    return (u8 *)quest_text_u8_buffer;
 }
 
 // Drops the node chain of a slot; in mode 1 the nodes before the current
@@ -3327,7 +3327,7 @@ s32 open_ask_dictionary(s8 *quest_vm_down_load_server) {
     return 3;
 }
 
-u16 converted_text_buffer[0x4C];
+u16 quest_text_u8_buffer[0x4C];
 u16 quest_text_page_buffer[0x98];
 u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 QuestDownloadInputEntry quest_download_entry_table[39];

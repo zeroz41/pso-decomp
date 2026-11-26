@@ -39,7 +39,7 @@ struct QuestDownloadScratchIds { s32 values[0x101]; };
 
 extern "C" {
 extern QuestDownloadWorkspace conversion_workspace;
-extern QuestDownloadDisplayPrefix remaining_count_prefix;
+extern QuestDownloadDisplayPrefix quest_download_display_prefix;
 extern u8 quest_download_text_buffer[0x404] ATTRIBUTE_ALIGN(4);
 }
 

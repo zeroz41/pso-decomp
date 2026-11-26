@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-s32 TLobby__sub_8030A770(void);
+s32 is_challenge_quest_active(void);
 s32 get_game_play_mode(void);
 
 #endif

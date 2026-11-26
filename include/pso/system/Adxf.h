@@ -28,7 +28,7 @@ s32 ADXF_LoadPartitionNw(s32 id, const char *name, s32 mode, void *ptinfo);
 void adxf_init(void);
 void adxf_finish(void);
 void adxf_exec_server(void);
-void adxf_close_partition_file(void);
+void adxf_end_partition_load(void);
 }
 
 #endif

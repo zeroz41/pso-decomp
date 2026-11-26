@@ -39,7 +39,7 @@ public:
     s32 all_preview_loads_complete();
     void load_preview_models();
     void start_preview_loads();
-    s32 completion_flags_clear();
+    s32 are_preview_load_flags_clear();
 public:
     u8 pad_1C[0x38 - 0x1C];
     CharacterPreviewLoadArgs inputs;
@@ -62,7 +62,7 @@ public:
 };
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args);
 s32 is_node_tree_valid(NJS_OBJECT *object);
-s32 load_slot_available();
+s32 is_load_slot_free();
 
 extern s32 chr_select_load_slot_count;
 extern s32 chr_select_preview_stride_table[19];

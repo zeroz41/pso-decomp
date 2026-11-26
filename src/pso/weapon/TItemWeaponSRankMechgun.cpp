@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponSRankMechgun::emit_marker_effects() {
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     if (launch_shot(&shot_origins[0], 0, 0, 1) != 0) {
         launch_shot(&shot_origins[1], 0, 0, 0);
         return;

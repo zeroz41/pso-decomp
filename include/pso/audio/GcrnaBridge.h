@@ -8,7 +8,7 @@ struct GcrnaStream;
 struct SjRingBuffer;
 
 extern "C" {
-void gcrna_bridge_set_out_pan(GcrnaStream *stream, s32 ch, s32 pan);
+void gcrna_bridge_set_channel_pan(GcrnaStream *stream, s32 ch, s32 pan);
 void gcrna_bridge_set_volume(GcrnaStream *stream, s32 volume);
 void gcrna_bridge_set_frequency(GcrnaStream *stream, s32 rate);
 void gcrna_bridge_set_stream_count(GcrnaStream *stream, s32 stream_count);
@@ -20,7 +20,7 @@ void gcrna_bridge_set_trans_sw(GcrnaStream *stream, s32 enabled);
 GcrnaStream *gcrna_bridge_create(SjRingBuffer **inputs, s32 channels);
 void gcrna_bridge_set_error_callback(GcrnaErrorCallback callback, void *context);
 void gcrna_bridge_shutdown(void);
-void gcrna_bridge_init(void);
+void gcrna_bridge_initialize(void);
 }
 
 #endif

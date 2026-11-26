@@ -97,7 +97,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     case 0:
         break;
     case 1: {
-        char *text = fn_80076BC4(shortcut + 1);
+        char *text = get_chat_shortcut_text(shortcut + 1);
         set_text_entry_string(preview, (uaddr)text, 0);
         preview->measure_text(200.0f);
         preview->flags |= 2;

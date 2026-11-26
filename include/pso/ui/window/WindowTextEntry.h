@@ -27,7 +27,7 @@ public:
     // Shows the whole text at once (reveal_pos = 900000).
     void reveal_all();
     // Flag 0x10: render drew the text to its end.
-    int is_text_drawn();
+    int is_fully_shown();
     // Shows the name of the player with client_id in its name colour (red while dead); hides the entry
     // when there is no such active player.
     void show_player_name(s32 client_id);

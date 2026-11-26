@@ -59,7 +59,7 @@ extern "C" void update_com_card_display(WindowLayoutEntries *entries, GuildCardE
 extern u8 *text_language_group_table;
 
 
-s32 get_photon_chain_icon_index(s32 chain_slot) { return chain_slot + 10; }
+s32 get_chain_help_mode(s32 chain_slot) { return chain_slot + 10; }
 
 void TWindowComCard::set_help_mode(s32 help_mode) {
     const ComCardHelpRect *temp_r4;

@@ -63,7 +63,7 @@ public:
     static s32 validate_character_name(s8 *arg0);
     s32 is_state_4();
     // Kind of the menu_entries row the cursor is on.
-    s32 get_selected_entry_kind();
+    s32 get_selected_menu_entry_kind();
     s32 is_state_3();
     static void *create_fade(void *duration, void *mode);
     static s32 try_pay_fee();
@@ -119,9 +119,9 @@ class TObjCMMainMenu;
 struct BmlResource;
 
 extern BmlResource *creation_menu_main_obj;
-void set_creation_dressing_room_mode(void);
-void clear_character_creation_name(void);
-void clear_creation_dressing_room_mode(void);
+void enable_dressing_room_mode(void);
+void clear_creation_name_buffer(void);
+void disable_dressing_room_mode(void);
 void init_creation_menu_scene(void);
 // The name typed on the creation name screen.
 extern char character_creation_name_buffer[0x18];

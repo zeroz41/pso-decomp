@@ -13,7 +13,7 @@ struct TWindowSnapShot : public TWindowBase {
     virtual void render();
     u8 state_flags; // bit 0 closed by the player, bit 1 no valid snapshot
     void play_open_sound();
-    int is_closed_by_player();
+    int is_done();
     virtual void run_task();
     u8 pad_61[0x3];
 };

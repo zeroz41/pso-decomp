@@ -1248,7 +1248,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
         this->status_flags |= 2;
         this->disable_body_collision();
         this->refresh_and_send_entity_flags();
-        spawn_enemy_death_particles(&this->body_center);
+        create_particle_emitter_pair(&this->body_center);
         body_fade.start_fade_out();
         play_sound_effect(this->remap_sound_for_area(0x4003A511), &this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);

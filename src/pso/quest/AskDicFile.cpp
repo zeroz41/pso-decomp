@@ -949,11 +949,11 @@ s32 read_name_index_table(void) {
 #pragma inline_depth(2)
 s32 write_ask_header(void) {
     u8 *p = ask_header_buffer + 0x30;
-    if (name_cache_page == quest_download_ask_header_size && number_format_mode == quest_download_header_name_index_hi_count && ask_header_dirty == 0) {
+    if (name_cache_page_index == quest_download_ask_header_size && number_format_mode == quest_download_header_name_index_hi_count && ask_header_dirty == 0) {
         return 0;
     }
-    p[0] = name_cache_page % 256;
-    p[1] = name_cache_page / 256;
+    p[0] = name_cache_page_index % 256;
+    p[1] = name_cache_page_index / 256;
     p[2] = lbl_805D7900 % 256;
     p[3] = lbl_805D7900 / 256;
     p[4] = number_format_mode % 256;
@@ -1004,7 +1004,7 @@ s32 read_ask_header() {
     }
     quest_download_name_search_lo = 0;
     quest_download_name_search_hi = h[0x2E] + (h[0x2F] << 8);
-    quest_download_ask_header_size = name_cache_page = h[0x30] + (h[0x31] << 8);
+    quest_download_ask_header_size = name_cache_page_index = h[0x30] + (h[0x31] << 8);
     quest_download_header_name_index_hi_count = number_format_mode = h[0x34] + (h[0x35] << 8);
     ask_header_dirty = 0;
     return 0;

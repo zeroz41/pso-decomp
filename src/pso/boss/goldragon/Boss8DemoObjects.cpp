@@ -38,9 +38,9 @@ void (*static_resource_callback_table[10])(void) = {
     TObjBoss8DemoRoom::load_resource, TObjBoss8DemoRoom::free_static_instance,
 };
 
-void free_boss8_demo_resources(void) {
+void free_static_resource_callbacks(void) {
     TLobby::call_funcs_reverse(static_resource_callback_table, (unsigned int)(sizeof(static_resource_callback_table)));
 }
-void load_boss8_demo_resources(void) {
+void load_static_resource_callbacks(void) {
     run_load_callback_table(static_resource_callback_table, sizeof(static_resource_callback_table));
 }

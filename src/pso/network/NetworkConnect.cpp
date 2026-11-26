@@ -728,7 +728,7 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.modem.timeout = 90;
     cfg.modem.pad_6 = 0;
     cfg.modem.pad_8 = 20;
-    if (fn_80145A44(dial_prefix) != 0) {
+    if (read_dial_prefix(dial_prefix) != 0) {
         cfg.modem.has_arg = 1;
         cfg.modem.arg = dial_prefix;
     } else {

@@ -181,7 +181,7 @@ void load_technique_resources(void) {
     TTecZondeEff::init_resources();
 }
 
-void release_technique_resources(void) {
+void free_technique_resources(void) {
     clear_zonde_beam_vertex_pointer();
     if (technique_ringwave_texture_list.textures->texture != NULL) {
         release_texture_list(&technique_ringwave_texture_list);

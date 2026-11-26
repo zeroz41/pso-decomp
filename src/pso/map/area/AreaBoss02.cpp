@@ -13,12 +13,12 @@
 #pragma readonly_strings on
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
-void (*derolle_area_scene_callbacks[2])(void) = {init_boss2_tunnel, free_boss2_tunnel};
+void (*boss2_tunnel_callbacks[2])(void) = {init_boss2_tunnel, free_boss2_tunnel};
 
 void cleanup_boss2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
-    TLobby::call_funcs_reverse(derolle_area_scene_callbacks, sizeof(derolle_area_scene_callbacks));
+    TLobby::call_funcs_reverse(boss2_tunnel_callbacks, sizeof(boss2_tunnel_callbacks));
     unload_current_floor_resources();
     TLobby::update_current_floor();
     TLobby::clear_session_buffers();
@@ -29,7 +29,7 @@ s32 init_boss2_area(void) {
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
-    run_load_callback_table(derolle_area_scene_callbacks, sizeof(derolle_area_scene_callbacks));
+    run_load_callback_table(boss2_tunnel_callbacks, sizeof(boss2_tunnel_callbacks));
     init_area_lights();
     TLobby::create_tasks();
     create_boss2_tunnel();

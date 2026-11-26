@@ -126,7 +126,7 @@ void TChCrLoadReq::run_task() {
 
 void TChCrLoadReq::update_load_progress() {
     if (timer > 0x1512) {
-        if (load_slot_available() == 0) {
+        if (is_load_slot_free() == 0) {
             timer = 0x1512;
             goto claim;
         }
@@ -141,7 +141,7 @@ claim:
 }
 
 void TChCrLoadReq::try_advance_state() {
-    if (completion_flags_clear() != 0) {
+    if (are_preview_load_flags_clear() != 0) {
         start_preview_loads();
         state = 2;
     }
@@ -165,7 +165,7 @@ saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index)
     return stride + region_index * stride - 1 + chr_select_preview_base_offset_table[display_index];
 }
 
-s32 load_slot_available() {
+s32 is_load_slot_free() {
     return chr_select_load_slot_count < 1;
 }
 
@@ -327,7 +327,7 @@ void TChCrLoadReq::load_preview_models() {
     for (j = 0; j < 6; j++) safe_free(reinterpret_cast<void *>(bufs[j]));
 }
 
-s32 TChCrLoadReq::completion_flags_clear() {
+s32 TChCrLoadReq::are_preview_load_flags_clear() {
     return (*inputs.completion_flags & 0x7F) == 0 ? 1 : 0;
 }
 

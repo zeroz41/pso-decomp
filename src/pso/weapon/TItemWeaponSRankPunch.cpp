@@ -25,7 +25,7 @@ extern "C" {
 TObjCollidable *find_entity_by_id(s32);
 }
 
-void TObjPlayer__sub_80128A70(void) {  }
+void debug_weapon_attack_hook(void) {  }
 
 void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
     TObjCollidable *o;
@@ -83,7 +83,7 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
     PlayerAttackController *attack_state;
     s32 i;
     TObjPlayer *player;
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     player = owner;
     if (player == NULL) return;
     attack_state = &player->attack_state;

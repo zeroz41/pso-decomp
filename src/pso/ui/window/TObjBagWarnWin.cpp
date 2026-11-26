@@ -249,7 +249,7 @@ s32 TWindowCtrl::is_map_visible() {
     if (get_game_play_mode() != 1) {
         return 1;
     }
-    return TLobby__sub_8030A770() != 0 ? 1 : 0;
+    return is_challenge_quest_active() != 0 ? 1 : 0;
 }
 
 __declspec(section ".data") f32 TObjBagWarnWin::message_window_size[2] = {350.0f, 120.0f};

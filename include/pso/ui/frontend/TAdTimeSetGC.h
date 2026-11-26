@@ -31,7 +31,7 @@ public:
     void apply_settings();
     void close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
     void close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text);
-    void open_localized_message_choice(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
+    void open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
     void open_message_choice(u32 text, s32 sel, u32 first_text, u32 second_text);
     void close_windows();
     void create_backgrounds();
@@ -40,7 +40,7 @@ public:
     s32 count_flags();
     void change_state(s32 new_state);
     void init();
-    void reset_file_checks();
+    void reset_check_state();
 
     // State handlers, last state first.
     void update_state();

@@ -53,8 +53,8 @@ extern "C" {
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void);
 int TAdSinglePlyChrSelectGC__sub_8028DC1C(void *p);
 }
-CharacterAppearanceFields *get_character_creation_visual_record(void);
-void set_character_creation_visual_record(CharacterAppearanceFields *record);
-void clear_character_creation_class(void);
+CharacterAppearanceFields *get_creation_visual_record(void);
+void load_creation_visual_record(CharacterAppearanceFields *record);
+void invalidate_creation_visual_record(void);
 void reset_current_char_appearance(s32 _w0);
 #endif

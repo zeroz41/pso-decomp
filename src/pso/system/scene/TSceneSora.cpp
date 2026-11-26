@@ -103,7 +103,7 @@ void TSceneSora::create_instance() {
     TSceneSora::instance = 0;
 }
 
-void TSceneSora::release_sky_resources() {
+void TSceneSora::release_sky_scene() {
     sky_active_flag = 1;
     if (sky_bml_resource != NULL) {
         delete sky_bml_resource;

@@ -710,7 +710,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
     lobby_rule_settings.set_death_level_up(rule_data->value_c);
     for (i = 0; i < 4; i++)
     {
-      lobby_rule_settings.set_trap_count(rule_data->slot_rules[i], i);
+      lobby_rule_settings.set_rule_slot_clamped(rule_data->slot_rules[i], i);
     }
     lobby_rule_settings.set_enable_sonar(rule_data->rule_d);
     lobby_rule_settings.set_sonar_count(rule_data->level);

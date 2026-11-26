@@ -62,7 +62,7 @@ struct TWindowCtrl : public TObject {
     static s32 is_submit_cooldown_clear();
     static void update_focused();
     static s32 get_active_sub();
-    static s32 is_chat_busy();
+    static s32 is_chat_window_in_use();
     // Flag 0x10 is held while a quest board is open.
     static void set_quest_board_open();
     static void clear_quest_board_open();
@@ -85,7 +85,7 @@ struct TWindowCtrl : public TObject {
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
     // The handle_06_recv_chat handler construct_lobby_players installs: opens the speaker's balloon.
-    static void handle_chat_message(TPlyGuildCardTag &tag, char *message);
+    static void handle_recv_chat(TPlyGuildCardTag &tag, char *message);
     static void suppress_all_slots();
     static void unsuppress_all_slots();
     static void suppress_slot(s32 client);

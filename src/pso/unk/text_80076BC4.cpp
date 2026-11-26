@@ -19,7 +19,7 @@ extern "C" {
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
 }
 
-char *fn_80076BC4(s32 *text) { return (char *)text; }
+char *get_chat_shortcut_text(s32 *text) { return (char *)text; }
 void submit_chat_text(u8 *lobby) {
     void *player;
     player = get_player_by_client_id(local_client_id);

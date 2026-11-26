@@ -57,8 +57,8 @@ TWindowDDStateEntry word_select_state_table[21] = {
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
-s32 fn_80348424(TWindowDD *window, s16 id);
-s16 fn_80348448(TWindowDD *window, s32 id);
+s32 get_word_next_state(TWindowDD *window, s16 id);
+s16 get_word_message_type(TWindowDD *window, s32 id);
 void push_recent_id(s32 id);
 }
 
@@ -836,8 +836,8 @@ void TWindowDD::handle_confirm_input() {
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         id = word_windows[depth]->get_selected_id();
-        message.type = fn_80348448(this, id);
-        next_state = fn_80348424(this, id);
+        message.type = get_word_message_type(this, id);
+        next_state = get_word_next_state(this, id);
         push_recent_id(id);
         pad_104 = 0;
         begin_word_select_state();

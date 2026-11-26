@@ -45,7 +45,7 @@ void TAdPlyPltAnimGC::set_anim_state(s32 new_state) {
     state = new_state;
 }
 
-void TAdPlyPltAnimGC::reset_anim_state() {
+void TAdPlyPltAnimGC::reset_to_idle() {
     set_anim_state(0);
 }
 

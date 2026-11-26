@@ -52,7 +52,7 @@ void TSetEvtDestroy::run_task() {
     case 2:
         if (!(m_event_record->flags & 8)) {
             m_event_record->flags |= 8;
-            TLobby__sub_80208884(&m_event_context);
+            set_wave_event_stream(&m_event_context);
             if (run_wave_event_actions() == 0) {
                 notify_partner_room_cleared(m_event_record->spawn_arg0);
             }

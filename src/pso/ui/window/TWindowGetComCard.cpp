@@ -41,7 +41,7 @@ void TWindowFukidasi::clear_flag_20() { this->balloon_flags &= 0xffffffdf; }
 int TWindowFukidasi::is_active() { return (this->balloon_flags >> 2) & 0x1; }
 void TWindowFukidasi::clear_flag() { this->balloon_flags &= 0xfffffffb; }
 int TWindowFukidasi::is_balloon_visible() { return (this->balloon_flags >> 5) & 0x1; }
-int WindowTextEntry::is_text_drawn() { return flags & 0x10; }
+int WindowTextEntry::is_fully_shown() { return flags & 0x10; }
 
 void TWindowGetComCard::render() {  }
 
@@ -122,7 +122,7 @@ TWindowGetComCard::~TWindowGetComCard() {
     }
     TWindowCtrl::show_client_lock_on_window(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
-    if ((TWindowCtrl::is_chat_busy() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
+    if ((TWindowCtrl::is_chat_window_in_use() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
     }
 }

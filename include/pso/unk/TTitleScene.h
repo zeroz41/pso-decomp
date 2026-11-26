@@ -18,7 +18,7 @@ public:
     void set_flag_and_clear_download();
     s32 start_offline_seq();
     // Once the title menu has a confirmed entry: fades out and runs the state handler for its cursor.
-    void handle_menu_selection();
+    void dispatch_title_choice();
     void enter_chg_game_mode();
     void enter_game_mode_change();
     void request_change_game_mode();

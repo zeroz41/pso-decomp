@@ -466,7 +466,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         break;
     case 3:
         this->fade.start_fade_out();
-        spawn_enemy_death_particles(&this->body_center);
+        create_particle_emitter_pair(&this->body_center);
         this->behavior_flags |= 4;
         this->state = 4;
     case 4:

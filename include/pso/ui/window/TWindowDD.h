@@ -90,9 +90,9 @@ struct TWindowDD : public TObject
     static void free_buffers();
     static void open(void *message, u16 speaker);
     static s32 is_id_in_special_range(s16 id);
-    static s32 fn_80346FC0(s16 id);
-    static s32 fn_80347238(s16 id);
-    static s32 fn_80347858(s16 id);
+    static s32 is_rememberable_word(s16 id);
+    static s32 is_weapon_word(s16 id);
+    static s32 is_topic_word(s16 id);
     s32 get_initial_word_select_list();
     s32 has_menu_selection();
     static s16 read_indexed_value(s32 entry_index, s32 value_index);
@@ -101,8 +101,8 @@ struct TWindowDD : public TObject
     static void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
     static void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos);
     static void append_word_select_token(s16 id, char *buf, s32 *pos);
-    static void fn_80347758(WordSelectMessage *src, WordSelectMessage *dst);
-    static void fn_8034694C(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *buf, s32 *pos);
+    static void convert_type3_message(WordSelectMessage *src, WordSelectMessage *dst);
+    static void append_word_inside_phrase(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *buf, s32 *pos);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
     static s32 is_state_zero_unless_0x2C8(s32 id);
@@ -226,8 +226,8 @@ struct WindowVertex;
 
 // Texture coordinates of the word-select quad sets, filled from window_dd_quad_positions.
 extern NJS_POINT2 word_select_quad_points[7][8];
-void fn_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row);
-void fn_80348A2C(WindowDrawContext *context, WindowVertex *vertices);
+void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices, s32 row);
+void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices);
 f32 word_select_inverse_depth(f32 depth, f32 offset);
 saddr get_word_select_token_text(s16 id);
 void handle_6x74_word_select(u8 *window_dd);

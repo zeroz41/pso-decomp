@@ -29,18 +29,18 @@ void TGameListRow::fill(s32 locked, const char *name, s8 player_count, s8 max_pl
     this->flags |= 5;
 }
 
-const char *TGameListRow::get_difficulty_text(s8 difficulty) {
+const char *TGameListRow::get_difficulty_name(s8 difficulty) {
     return (const char *)TWindowSubStatusDisp::get_message_10(difficulty + 0x113);
 }
 
-const char *TGameListRow::get_mark_text(s8 mark) {
+const char *TGameListRow::get_game_mode_name(s8 mark) {
     if (mark == 0) {
         return NULL;
     }
     return (const char *)TWindowSubStatusDisp::get_message_10(mark + 0x110);
 }
 
-const char *TGameListRow::get_level_text(s8 level) {
+const char *TGameListRow::get_episode_name(s8 level) {
     if (level == 0) {
         return NULL;
     }
@@ -78,11 +78,11 @@ void TGameListRow::render(WindowDrawContext *context) {
   set_text_draw_params(win, 1, 1, scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
-  draw_window_text((f32 *)&pos, get_level_text(this->level), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_episode_name(this->level), -1, 0, 100000.0f);
   pos.x += 108.0f;
-  draw_window_text((f32 *)&pos, get_mark_text(this->mark), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_game_mode_name(this->mark), -1, 0, 100000.0f);
   pos.x += 96.0f;
-  draw_window_text((f32 *)&pos, get_difficulty_text(this->difficulty), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, get_difficulty_name(this->difficulty), -1, 0, 100000.0f);
   pos.x += 126.0f;
   text_builder_reset();
   text_builder_append_int(this->player_count);

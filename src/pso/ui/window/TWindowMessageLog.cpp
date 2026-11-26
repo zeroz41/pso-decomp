@@ -129,7 +129,7 @@ void TWindowMessageLog::reset_scroll() {
 void TWindowMessageLog::advance_scroll(f32 v) { pending_scroll += v; }
 
 // Same body as advance_scroll; called with the opposite direction.
-void TWindowMessageLog::scroll_back(f32 v) { pending_scroll += v; }
+void TWindowMessageLog::add_pending_scroll(f32 v) { pending_scroll += v; }
 
 void TWindowMessageLog::append_line(s32 shared_text_buffer) {
     ((TWindowMessage *)(this))->append_line(shared_text_buffer, 0x502);

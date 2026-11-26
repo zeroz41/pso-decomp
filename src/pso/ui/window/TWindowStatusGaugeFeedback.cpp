@@ -167,7 +167,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(0xB, -1);
         if (this->flags & 8) {
-            draw_status_gauge_frame(context, &pos, scale);
+            draw_gauge_frame(context, &pos, scale);
         }
         if (hi > 0.0f) {
             set_constant_material_color(col);

@@ -878,7 +878,7 @@ void TObjEneGyaranzo::update_fade_in() {
         behavior_flags |= 4;
         actorFlags |= 0x04000000;
         requested_action = 0;
-        play_area_appear_sound_effect(&body_center);
+        play_appear_effects(&body_center);
         appear_fade.start_fade_in();
         state = 1;
     case 1:

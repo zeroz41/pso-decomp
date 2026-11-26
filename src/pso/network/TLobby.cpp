@@ -2324,7 +2324,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
             }
         }
     }
-    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = TWindowCtrl::handle_chat_message;
+    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = TWindowCtrl::handle_recv_chat;
     if (lobby_player_construction_window != NULL) {
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;

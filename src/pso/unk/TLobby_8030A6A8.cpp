@@ -34,7 +34,7 @@ s32 TLobby::is_ready() {
     return 0;
 }
 
-s32 TLobby__sub_8030A770(void) {
+s32 is_challenge_quest_active(void) {
     if ((get_game_play_mode() == 1) && (is_quest_active() == 1)) {
         return 1;
     }

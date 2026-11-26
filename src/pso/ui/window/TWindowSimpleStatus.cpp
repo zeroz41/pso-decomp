@@ -174,7 +174,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
                 break;
             }
         }
-        name = get_photon_chain_icon_index(i);
+        name = get_chain_help_mode(i);
         window = (TWindowComCardFollower *)(this->w[j]);
         if (window == NULL) {
             window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index));

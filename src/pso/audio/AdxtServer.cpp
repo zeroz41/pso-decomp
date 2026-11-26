@@ -23,7 +23,7 @@
 void adxt_trap_entry_update(void *context);
 
 extern "C" {
-void adxt_rewind_loop_stream(void *context);
+void adxt_loop_callback(void *context);
 void adxt_exec_handle(AdxtPlayer *);
 }
 extern "C" {
@@ -31,9 +31,9 @@ extern "C" {
 void adxt_trap_end_update(void *context);
 
 void adxt_stat_decinfo(AdxtPlayer *self);
-s32 adxt_rna_queue_size;
-s32 adxt_sj_available;
-s32 adxt_num_output_channels;
+s32 adxt_end_available;
+s32 adxt_prep_available;
+s32 adxt_prep_channel_count;
 
 // Waits until every output SJ holds data, then starts the RNA.
 inline void adxt_stat_prep(AdxtPlayer *self) {
@@ -41,10 +41,10 @@ inline void adxt_stat_prep(AdxtPlayer *self) {
     s32 i;
     if (audio_stream_get_state(self->input_state) == 3) {
         n = self->input_state->get_channels();
-        adxt_num_output_channels = n;
+        adxt_prep_channel_count = n;
         for (i = 0; i < n; i++) {
-            adxt_sj_available = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
-            if (adxt_sj_available >= 0x40) {
+            adxt_prep_available = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
+            if (adxt_prep_available >= 0x40) {
                 break;
             }
         }
@@ -92,7 +92,7 @@ inline void adxt_stat_playing(AdxtPlayer *self) {
 }
 // Stops the RNA once its queue is empty.
 inline void adxt_stat_playend(AdxtPlayer *self) {
-    adxt_rna_queue_size = query_available_size(self->rna_handle);
+    adxt_end_available = query_available_size(self->rna_handle);
     if (query_available_size(self->rna_handle) <= 0) {
         gcrna_bridge_set_play_sw(self->rna_handle, 0);
         self->stat = 5;
@@ -162,7 +162,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
                 self->reserved_50 = self->reserved_50 % 0x800;
                 self->total_pages = pages;
                 set_adx_stream_end_sector(self->stream_file, pages);
-                set_adx_stream_completion(self->stream_file, adxt_rewind_loop_stream, self);
+                set_adx_stream_completion(self->stream_file, adxt_loop_callback, self);
             }
             s32 e = input_state->get_loop_end_sample();
             self->loop_end_sample = e;
@@ -186,24 +186,24 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
         gcrna_bridge_set_sample_bits(self->rna_handle, p2);
         gcrna_bridge_set_frequency(self->rna_handle, k);
         gcrna_bridge_set_stream_count(self->rna_handle, n1);
-        gcrna_bridge_set_total_samples(self->rna_handle, pid);
+        gcrna_bridge_set_pan_id(self->rna_handle, pid);
         gcrna_bridge_set_volume(self->rna_handle, self->output_vol);
         if (self->input_state->get_channels() == 1) {
             if (self->out_pan[0] == -0x80) {
-                gcrna_bridge_set_out_pan(self->rna_handle, 0, 0);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, 0);
             } else {
-                gcrna_bridge_set_out_pan(self->rna_handle, 0, self->out_pan[0]);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, self->out_pan[0]);
             }
         } else {
             if (self->out_pan[0] == -0x80) {
-                gcrna_bridge_set_out_pan(self->rna_handle, 0, -0xF);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, -0xF);
             } else {
-                gcrna_bridge_set_out_pan(self->rna_handle, 0, self->out_pan[0]);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 0, self->out_pan[0]);
             }
             if (self->out_pan[1] == -0x80) {
-                gcrna_bridge_set_out_pan(self->rna_handle, 1, 0xF);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 1, 0xF);
             } else {
-                gcrna_bridge_set_out_pan(self->rna_handle, 1, self->out_pan[1]);
+                gcrna_bridge_set_channel_pan(self->rna_handle, 1, self->out_pan[1]);
             }
         }
         if (self->amp != NULL) {
@@ -294,7 +294,7 @@ void adxt_trap_end_update(void *context) {
   }
 }
 
-void adxt_rewind_loop_stream(void *context) {
+void adxt_loop_callback(void *context) {
     AdxtPlayer *player = static_cast<AdxtPlayer *>(context);
     AdxStreamFile *file = player->stream_file;
     s32 loop_start_byte = player->input_state->get_loop_start_byte();

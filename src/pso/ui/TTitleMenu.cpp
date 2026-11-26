@@ -37,7 +37,7 @@ void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
 }
 
 
-s32 TTitleMenu::is_selection_confirmed() {
+s32 TTitleMenu::is_title_choice_confirmed() {
     return state == 2;
 }
 

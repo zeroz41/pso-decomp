@@ -37,7 +37,7 @@ s32 copy_player_visual_record(void *, void *);
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
 void TObjEndingPlayer::set_animation_from_data(s32 picture) {
     s16 *entry = (s16 *)get_anim_table_entry(picture);
-    create_and_equip_item(entry[0], entry[1]);
+    trade_item_by_group_kind(entry[0], entry[1]);
     set_animation_default(picture);
 }
 
@@ -71,7 +71,7 @@ void TObjPlayer::process_trade_target(TItemData *item_data) {
 }
 
 // Creates and equips a new item of the given group and kind.
-void TObjPlayer::create_and_equip_item(s16 group, s16 kind) {
+void TObjPlayer::trade_item_by_group_kind(s16 group, s16 kind) {
     TItemData item_data;
     item_data.init();
     item_data.data1.data_u8[1] = group;

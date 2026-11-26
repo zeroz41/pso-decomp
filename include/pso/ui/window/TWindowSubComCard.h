@@ -35,7 +35,7 @@ struct TWindowSubComCard : public TObject {
     void set_choice_search_option(ChoiceSearchSelection *selections, s32 key, saddr val);
     s32 reinit(int);
     s32 init_guild_card_tag(int);
-    TWindowMessageYesNo *open_delete_entry_prompt();
+    TWindowMessageYesNo *create_delete_entry_prompt();
     TWindowMenu *create_option_list_window(ChoiceSearchSelection *selections, s32 key);
     void send_short_mail();
     // Text of the option `selections[index]` picks, or NULL.
@@ -91,7 +91,7 @@ struct TWindowSubComCard : public TObject {
     static void mask_profanity_words(char *src, char *dst);
     static TWindowSubComCardList *create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
-    static TWindowSubComCardList *create_all_card_list(const NJS_POINT2 *position);
+    static TWindowSubComCardList *create_all_cards_list(const NJS_POINT2 *position);
     void set_card_text(saddr src);
     static GuildCardSlot *find_card_by_id(u32 id);
     static void swap_cards(s32 first_index, s32 second_index);
@@ -108,13 +108,13 @@ struct TWindowSubComCard : public TObject {
     void set_selected_card(s32 card_index);
     void set_help_message(s32 help_index);
     static TWindowMenu *create_card_action_window();
-    TWindowMenu *create_message_list_window();
-    TWindowMenu *create_block_sender_window();
-    TWindowMenu *create_search_result_window();
-    TWindowMenu *create_result_list_window();
-    static TWindowMenu *create_recipient_window();
-    TWindowMenu *create_select_window();
-    TWindowMenu *create_action_window();
+    TWindowMenu *create_short_mail_list_menu();
+    TWindowMenu *create_block_sender_menu();
+    TWindowMenu *create_choice_search_result_menu();
+    TWindowMenu *create_result_list_menu();
+    static TWindowMenu *create_player_list_menu();
+    TWindowMenu *create_contact_menu();
+    TWindowMenu *create_send_action_menu();
     TWindowChoiceSetting *create_entry_list_window();
     TWindowMessageYesNo *open_yesno_dialog();
     TWindowMessageYesNo *confirm_and_free();

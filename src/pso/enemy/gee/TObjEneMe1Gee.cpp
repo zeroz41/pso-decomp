@@ -845,7 +845,7 @@ void TObjEneMe1Gee::state_high_appear(s32 mode) {
         VecCopy(&pos, &this->position);
         pos.y += 150.0f;
         this->hover_y = pos.y;
-        play_area_appear_sound_effect(&pos);
+        play_appear_effects(&pos);
         this->set_invulnerable();
         this->stage = 0;
         return;

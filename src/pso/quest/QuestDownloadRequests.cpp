@@ -257,7 +257,7 @@ s32 quest_download_request_open(saddr *args) {
     lbl_805D7848 = 0;
     quest_download_match_length_limit = 0x24;
     strcpy((char *)candidate_number_label, (const char *)"  1.");
-    strcpy((char *)remaining_count_prefix.text, (const char *)"  \x8E\x63      "); // "  残      " (remaining)
+    strcpy((char *)quest_download_display_prefix.text, (const char *)"  \x8E\x63      "); // "  残      " (remaining)
     quest_download_server_state = 0;
     lbl_805D7844 = 0;
     lbl_805D7840 = 0;

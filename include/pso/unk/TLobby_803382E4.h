@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void TLobby__sub_803382E4(void);
+void draw_loading_compass(void);
 void render_info_icon_overlay(void);
 void TLobby__sub_80338534(void);
 void free_info_icon_texture(void);

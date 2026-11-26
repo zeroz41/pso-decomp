@@ -35,7 +35,7 @@ s32 lbl_805D75E8;
 u8 * afs_toc_buffer;
 u8 *adxf_load_partition_buffer;
 extern s32 adxf_log_write_index;
-extern s32 adxf_cache_invalidate_sw;
+extern s32 adxf_invalidate_cache_flag;
 
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
@@ -196,7 +196,7 @@ inline s32 adxf_stop_logged(AdxfHandle *adxf) {
     get_adx_stream_position(adxf->stream, &position);
     adxf->sectors_read = position;
     if (adxf->buffer != NULL && adxf->f2 == 0) {
-        if (adxf_cache_invalidate_sw == 1) {
+        if (adxf_invalidate_cache_flag == 1) {
             adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
         }
         adxf->buffer->interface->destroy(adxf->buffer);
@@ -251,7 +251,7 @@ void adxf_exec_server(void) {
             if (p->state == 3 || p->state == 4) {
                 p->sector_position += p->sectors_read;
                 if (p->buffer != NULL && p->f2 == 0) {
-                    if (adxf_cache_invalidate_sw == 1) {
+                    if (adxf_invalidate_cache_flag == 1) {
                         adx_invalidate_cache(p->read_destination, p->read_buffer_size);
                     }
                     p->buffer->interface->destroy(p->buffer);
@@ -305,7 +305,7 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     adxf->read_destination = buf;
     adxf->read_buffer_size = nsct << 11;
     adx_lock();
-    if (adxf_cache_invalidate_sw == 1) {
+    if (adxf_invalidate_cache_flag == 1) {
         adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
     }
     if (get_adx_stream_status(adxf->stream) != 1) {
@@ -625,13 +625,13 @@ s32 ADXF_GetPtStat(s32 id) {
         s32 n;
         if (memcmp(afs_toc_buffer, "AFS", 3) != 0) {
             adxerr_report("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
-            adxf_close_partition_file();
+            adxf_end_partition_load();
             return 4;
         }
         n = read_le32(afs_toc_buffer + 4);
         if (n > 0x10000) {
             adxerr_report("E0040702:Illigal number of file.(ADXF_GetPtStat)");
-            adxf_close_partition_file();
+            adxf_end_partition_load();
             return 4;
         }
         e->entry_count = n;
@@ -647,14 +647,14 @@ s32 ADXF_GetPtStat(s32 id) {
         arr[lobby_afs_toc_entry_index++] = (read_le32(q) + 0x7FF) / 2048;
         if (lobby_afs_toc_entry_index >= e->file_count) {
             st = 3;
-            adxf_close_partition_file();
+            adxf_end_partition_load();
             break;
         }
     }
     if (i >= 0x200) {
         if (ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, afs_toc_buffer) < 0) {
             st = 4;
-            adxf_close_partition_file();
+            adxf_end_partition_load();
         } else {
             st = lobby_adxf_open_file_handle->state;
         }
@@ -662,7 +662,7 @@ s32 ADXF_GetPtStat(s32 id) {
     return st;
 }
 
-void adxf_close_partition_file(void) {
+void adxf_end_partition_load(void) {
     ADXF_Close(lobby_adxf_open_file_handle);
     lobby_adxf_open_file_handle = 0;
     lobby_adxf_current_file_id = -1;

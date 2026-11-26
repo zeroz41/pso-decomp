@@ -569,7 +569,7 @@ void TAdTimeSetGC::run_states_17_18() {
     }
     menu_window->get_selected_value();
     TAdPlayerLoadGC::poll_card_load(0);
-    reset_file_checks();
+    reset_check_state();
     change_state(0);
 }
 
@@ -608,12 +608,12 @@ void TAdTimeSetGC::run_states_19_21() {
             delete_guild_card_save_file();
         }
         TAdPlayerLoadGC::poll_card_load(0);
-        reset_file_checks();
+        reset_check_state();
         change_state(0);
         break;
     case 1:
         TAdPlayerLoadGC::poll_card_load(0);
-        reset_file_checks();
+        reset_check_state();
         change_state(0);
         break;
     }
@@ -679,7 +679,7 @@ void TAdTimeSetGC::run_state_23() {
         change_state(0x18);
         break;
     case 1:
-        reset_file_checks();
+        reset_check_state();
         change_state(0);
         break;
     }
@@ -703,7 +703,7 @@ void TAdTimeSetGC::update_state() {
     }
 }
 
-void TAdTimeSetGC::reset_file_checks() {
+void TAdTimeSetGC::reset_check_state() {
     system_file_check = -1;
     character_file_check = -1;
     guild_card_file_check = -1;
@@ -714,7 +714,7 @@ void TAdTimeSetGC::reset_file_checks() {
 }
 
 void TAdTimeSetGC::init() {
-    reset_file_checks();
+    reset_check_state();
     back = NULL;
     back_text = NULL;
     message_window = NULL;
@@ -769,7 +769,7 @@ s32 TAdTimeSetGC::count_selected_flags() {
         count += TAdSinglePlyChrSelectGC::get_flag_count();
     }
     if (load_status & 0x1000) {
-        count += get_guild_card_save_file_block_count();
+        count += get_guild_card_file_block_count();
     }
     return count;
 }
@@ -858,10 +858,10 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     } else {
         menu_window->set_selected_index(sel);
     }
-    menu_window->clear_flag70_bit4();
+    menu_window->clear_cancelled();
 }
 
-void TAdTimeSetGC::open_localized_message_choice(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
+void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
     s32 text;
     s32 first_text;
 
@@ -883,7 +883,7 @@ void TAdTimeSetGC::close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 sec
 
 void TAdTimeSetGC::close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
     close_windows();
-    open_localized_message_choice(entry, sel, first_entry, second_entry);
+    open_message_choice_by_entries(entry, sel, first_entry, second_entry);
 }
 
 void TAdTimeSetGC::apply_settings() {
@@ -927,7 +927,7 @@ s32 TAdTimeSetGC::poll_load_status() {
     }
     busy_count = 0;
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
-        reset_file_checks();
+        reset_check_state();
         return 1;
     }
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {

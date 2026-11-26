@@ -274,8 +274,8 @@ void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phas
 void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::open_dialing_select_scene(); }
 void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::open_select_game_mode_scene(); }
 void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::open_ex_net_confirm_scene(); }
-void TTitleScene::handle_menu_selection() {
-    if (transition_controller->is_selection_confirmed() != 0) {
+void TTitleScene::dispatch_title_choice() {
+    if (transition_controller->is_title_choice_confirmed() != 0) {
         set_fallback_main_phase(2);
         if (start_offline_seq() != 0) {
             TLobby__sub_803361FC(this);
@@ -302,7 +302,7 @@ void TTitleScene::run_task() {
         if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (any_pad_input_active() != 0)) {
             attract_tick = 0;
         }
-        handle_menu_selection();
+        dispatch_title_choice();
     }
     if (attract_timeout == attract_tick) {
         transition_controller->suspend_update();

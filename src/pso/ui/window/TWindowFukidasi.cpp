@@ -831,7 +831,7 @@ void TWindowFukidasi::refresh_rect_placement() {
                 res = c;
             }
         } else {
-            clear_flag2c_bit400();
+            clear_overlapped();
             if (shift_rect_with_head(target_position, a) != 0) {
                 res = a;
             }
@@ -1128,7 +1128,7 @@ s32 TWindowFukidasi::is_speech_balloon_ready() {
     s32 t = content_kind;
     switch (t) {
     case 0:
-        return static_cast<WindowTextEntry *>(get_array_entry(0))->is_text_drawn();
+        return static_cast<WindowTextEntry *>(get_array_entry(0))->is_fully_shown();
     case 1:
     case 2:
         break;

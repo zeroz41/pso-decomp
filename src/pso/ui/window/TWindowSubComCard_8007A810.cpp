@@ -294,7 +294,7 @@ extern "C" {
 
 int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
-void TWindowSubComCard::clear_and_init(void* local_client_id) { clear(this); ((GuildCardEntry *)this)->fill_guild_card_from_char((saddr)local_client_id); }
+void TWindowSubComCard::clear_and_init(void* local_client_id) { clear(this); ((GuildCardEntry *)this)->fill_from_char((saddr)local_client_id); }
 }
 s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id) {
     ShortMailEntry *mail;
@@ -347,7 +347,7 @@ void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
     *(u16 *)((s8 *)dst + 2) = (u16) *(u16 *)((s8 *)src + 2);
     *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
 }
-void GuildCardEntry::fill_guild_card_from_char(s32 index) {
+void GuildCardEntry::fill_from_char(s32 index) {
     uaddr char_index;
     u8 *temp_r31;
     char_index = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(index);
@@ -381,7 +381,7 @@ void TObjPlayer::set_com_card_window(s32 client) {
     if (character_save_record != 0U) {
         temp_r31 = character_save_record + 0x1510;
         if (temp_r31 != 0) {
-            ((GuildCardEntry *)temp_r31)->fill_guild_card_from_char(client);
+            ((GuildCardEntry *)temp_r31)->fill_from_char(client);
             com_card_keyboard_mode = temp_r31;
         }
     }

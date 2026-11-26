@@ -279,7 +279,7 @@ force_active:
   - is_system_card_file_absent__12TAdTimeSetGCFv
   - sub_802E1868__12TAdTimeSetGCFv
   - sub_802E18C8__12TAdTimeSetGCFv
-  - open_localized_message_choice__12TAdTimeSetGCFllll
+  - open_message_choice_by_entries__12TAdTimeSetGCFllll
   - report_missing_file__17TCharSaveSequenceFv
   - on_chr_select_fade_out_done
   - close_message_window__17TCharSaveSequenceFv
@@ -704,7 +704,7 @@ force_active:
   - gba_clear_identifiers__Fv
   - reset_joyboot_state__FPv
   - TLobby__sub_803361FC__FP11TTitleScene
-  - handle_menu_selection__11TTitleSceneFv
+  - dispatch_title_choice__11TTitleSceneFv
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
   - reset_init_ref_count
@@ -943,9 +943,9 @@ force_active:
   - horizontal_scroll_offset__10TObjCMIcon
   - copy_icon_state__10TObjCMIconFP17CreationIconStateP17CreationIconState
   - get_sprite_id__10TObjCMIconFl
-  - set_creation_dressing_room_mode__Fv
-  - clear_character_creation_name__Fv
-  - clear_creation_dressing_room_mode__Fv
+  - enable_dressing_room_mode__Fv
+  - clear_creation_name_buffer__Fv
+  - disable_dressing_room_mode__Fv
   - obj_challenge_retry_class_name
   - __ct__18TObjChallengeRetryFP7TObject
   - __ct__16TObjCityAreaWarpFP7TObjectPv
@@ -1443,7 +1443,7 @@ force_active:
   - shared_model_resource__12TObjNpcHosa2
   - name__11TObjNpcHosa
   - static_model_resource__11TObjNpcHosa
-  - get_ad_select_text_texture_handle__Fv
+  - get_select_text_texture_handle__Fv
   - name__14TObjNpcKenkyu2
   - resource_descriptor__14TObjNpcKenkyu2
   - shared_model_resource__14TObjNpcKenkyu2
@@ -1784,7 +1784,7 @@ force_active:
   - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
   - class_name__18TWindowEffectParty
-  - set_flag2c_bit400__15TWindowFukidasiFv
+  - mark_overlapped__15TWindowFukidasiFv
   - clear_received_guild_cards__Fl
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
@@ -1851,10 +1851,10 @@ force_active:
   - update__13LabelValueRowFv
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
-  - draw_zoom_help__21TWindowSubAreaMapDispFP17WindowDrawContext
+  - draw_zoom_button_hints__21TWindowSubAreaMapDispFP17WindowDrawContext
   - draw_heading_text__FP12HeadingEntryP17WindowDrawContext
   - is_enabled__12HeadingEntryFv
-  - get_difficulty_text__12TGameListRowFSc
+  - get_difficulty_name__12TGameListRowFSc
   - get_flag_4_bit__12TGameListRowFv
   - TWindowSubStatusDisp__sub_8036D994
   - window_layout__20TWindowSubStatusDisp
@@ -6623,7 +6623,7 @@ force_active:
   - get_flags__14ShortMailEntryFv
   - stick_enabled__16PlayerPadBindingFv
   - get_flag_bit0__14TObjEneBm5WolfFPv
-  - get_level_text__12TGameListRowFSc
+  - get_episode_name__12TGameListRowFSc
   - get_floor_surface_type__10TObjPlayerFv
   - get_floor_switch_flag__FUls
   - get_function_key_menu__16TKeyBoardControlFPv
@@ -13841,7 +13841,7 @@ force_active:
   - qst_label_address__Fi
   - query_battle_state__17TWindowReturnCityFv
   - query_default__13TBoss5GryphonFv
-  - get_mark_text__12TGameListRowFSc
+  - get_game_mode_name__12TGameListRowFSc
   - quest_bgm_area_filename_table
   - quest_bgm_carnaval_filename
   - quest_bgm_chu_f_filename
@@ -16238,7 +16238,7 @@ force_active:
   - noop_state_15__18TCheckRoomSequenceFv
   - noop_state_14__18TCheckRoomSequenceFv
   - move_toward_target__10TTecCircleFv
-  - update_collision_radius__19TTecPlayerInfluenceFv
+  - sync_collision_radius__19TTecPlayerInfluenceFv
   - update_symbol_chat_window__11TWindowChatFv
   - update_word_select_window__11TWindowChatFv
   - closes_after_send__11TWindowChatFv
@@ -16253,7 +16253,7 @@ force_active:
   - handle_gain_input__19TWindowSoundBalanceFv
   - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
   - send_short_mail__17TWindowSubComCardFv
-  - open_delete_entry_prompt__17TWindowSubComCardFv
+  - create_delete_entry_prompt__17TWindowSubComCardFv
   - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2
   - update_slot_title__26TWindowSubQuestBoardSelectFv
   - set_face_part_from_cursor__20TWindowSubSymbolChatFv
@@ -16301,7 +16301,7 @@ force_active:
   - update_orbit_points__26TItemWeaponDancingHitogataFv
   - is_not_jungle_grass__12TObjNpcEnemyFv
   - init_model_animation__17TAdChrSelPlayerGCFv
-  - reset_file_checks__12TAdTimeSetGCFv
+  - reset_check_state__12TAdTimeSetGCFv
   - enter_sway__14TBoss7TentacleFv
   - request_strike__14TBoss7TentacleFv
   - update_stopped__15TObjBoss7TunnelFv
@@ -17747,7 +17747,7 @@ force_active:
   - TLobby__sub_803C5B50
   - TLobby__sub_803C5E58
   - TLobby__sub_803C5E68
-  - csn_debug_hook_ground_query__Fv
+  - csn_debug_hook_under_query__Fv
   - csn_debug_hook_contact_color__FP10CsnContactP8NJS_ARGB
   - csn_debug_hook_hit_record__FP6CsnHit
   - csn_debug_hook_group_list__FPCP8CsnGroup
@@ -17789,8 +17789,8 @@ force_active:
   - "TLobby__sub_803C9358"
   - "TLobby__sub_803C94D8"
   - "adxt_set_server_freq"
-  - "adxt_get_output_vol"
-  - "adxt_get_output_pan"
+  - "adxt_get_out_vol"
+  - "adxt_get_out_pan"
   - "adx_get_data_start_offset"
   - "ADXT_SetOutPan"
   - "adxt_get_sample_rate"

@@ -1440,7 +1440,7 @@ void TLobby::run_frame() {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         flag_pending_area_transfer();
     }
-    TLobby__sub_803382E4();
+    draw_loading_compass();
     render_tick();
 }
 

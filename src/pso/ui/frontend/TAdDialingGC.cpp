@@ -144,7 +144,7 @@ void TAdDialingGC::draw_dialing_status() {
     char a[0x20];
     char c[0x100];
     char b[0x100];
-    if (fn_80145A44(a) == 0) {
+    if (read_dial_prefix(a) == 0) {
         a[0] = 0;
     }
     sprintf(b, dialing_message_format, a, get_dialing_phone_number());

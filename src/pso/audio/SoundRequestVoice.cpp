@@ -43,11 +43,11 @@ void SoundRequestVoice::clamp_reverb(f32 scale) {
     reverb = reverb_value;
 }
 
-void refresh_sound_voice(SoundRequestVoice *voice) { voice->refresh = 5; }
+void sound_request_voice_set_refresh(SoundRequestVoice *voice) { voice->refresh = 5; }
 
 extern "C" s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
 
-void send_voice_pitch_update(SoundRequestVoice *v) {
+void sound_request_voice_update_pitch(SoundRequestVoice *v) {
     switch (v->kind) {
     case 0:
         if (v->previousPitch != v->pitch) {
@@ -116,7 +116,7 @@ extern "C" {
 s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
-extern s8 gba_joyboot_state[];
+extern s8 gba_joyboot_states[];
 void TLobby__sub_80241798(Sound_80241798 *sound);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
@@ -166,12 +166,12 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         params.paraArray = ctl;
         ctl[0].ctrl = 0x80;
         ctl[0].paraData.value14 = v->pitch;
-        if (!(lobby_state_flags & 2) && gba_joyboot_state[7] == 0) {
+        if (!(lobby_state_flags & 2) && gba_joyboot_states[7] == 0) {
             level = OSDisableInterrupts();
         }
         v->token = sndFXStartParaInfo(v->effect, 0x7F, v->pan, v->studio, &params);
         send_voice_controller_updates(v);
-        if (!(lobby_state_flags & 2) && gba_joyboot_state[7] == 0) {
+        if (!(lobby_state_flags & 2) && gba_joyboot_states[7] == 0) {
             OSRestoreInterrupts(level);
         }
         send_sound_request_reverb((v));
@@ -221,7 +221,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             v->state = 0;
         } else {
             send_voice_controller_updates(v);
-            send_voice_pitch_update(v);
+            sound_request_voice_update_pitch(v);
             if ((v->flags & 1) && v->refresh < 0) {
                 sndFXKeyOff(v->token);
                 v->state = 0;

@@ -738,7 +738,7 @@ void TObjEneMe3SinowZoa::state_fade_in(s32 mode) {
         t = this->body_y;
         v.y = t - 20.0f;
         if (this->stealthed == 0) {
-            play_area_appear_sound_effect(&v);
+            play_appear_effects(&v);
         } else {
             create_timed_particle_emitter(&this->position, 0x79, 0, 0xF);
         }
@@ -831,7 +831,7 @@ void TObjEneMe3SinowZoa::state_ambush(s32 mode) {
         this->fade.start_fade_in();
         VecCopy(&v, &this->position);
         v.y = this->body_y - 10.0f;
-        play_area_appear_sound_effect(&v);
+        play_appear_effects(&v);
         break;
     case 3:
         if (this->fade.advance_toward_max() != 0) {

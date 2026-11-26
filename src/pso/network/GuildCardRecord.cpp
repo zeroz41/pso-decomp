@@ -275,7 +275,7 @@ s32 remove_com_card_by_id(u32 id) {
 void TLobby::reset_com_card_list() { com_card_entry_count = 0; TLobby::clear_flag_bit2(); }
 
 void TLobby::reset_state() { TLobby::reset_com_card_list(); }
-void init_com_card_list(void) { TLobby::reset_com_card_list(); }
+void reset_com_card_list_callback(void) { TLobby::reset_com_card_list(); }
 
 
 extern "C" {
