@@ -1,5 +1,5 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/quest/QuestDownloadAramFile.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/render/ScreenSpriteDraw.h"
