@@ -24,7 +24,7 @@ struct NJS_POINT2;
 struct MainMenuSlotState {
     s16 first;
     s16 second;
-    s32 value;
+    TWindowMainMenuEntry *entries; // active_entries saved for this depth
 };
 
 struct TWindowMainMenu : public TObject {
@@ -45,7 +45,7 @@ struct TWindowMainMenu : public TObject {
     void update_selection_value();
     void add_menu_entry(s16);
     void load_submenu_entries();
-    void open(s32 entries);
+    void open(TWindowMainMenuEntry *entries);
     void close_and_clear_flags();
     s32 close_active_submenu();
     void reset_depth_base();

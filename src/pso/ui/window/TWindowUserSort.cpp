@@ -91,9 +91,9 @@ void TWindowMainMenu1P::open_main_menu() {
         player = (u8 *)(get_player_by_client_id(client_index));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                this->open((saddr)main_menu_1p_android_entries);
+                this->open(main_menu_1p_android_entries);
             } else {
-                this->open((saddr)main_menu_1p_entries);
+                this->open(main_menu_1p_entries);
             }
             this->create_char_select_slot();
             this->on_menu_opened();

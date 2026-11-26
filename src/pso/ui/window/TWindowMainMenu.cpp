@@ -83,7 +83,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
     for (i = 0; i < 4; i++) {
         slots[i].first = 0;
         slots[i].second = 0;
-        slots[i].value = 0;
+        slots[i].entries = NULL;
     }
     menu_window = NULL;
     submenu = 0;
@@ -408,7 +408,7 @@ void TWindowMainMenu::update_keyboard_card_state() {
 
 void TWindowMainMenu::update_selection_value() {
     MainMenuSlotState *e = &slots[submenu_depth];
-    if ((u32)e->value != (u32)active_entries) {
+    if (e->entries != active_entries) {
         selected_slot = 0;
     } else {
         selected_slot = e->first;
@@ -419,20 +419,21 @@ void TWindowMainMenu::add_menu_entry(s16 id) {
     MainMenuSlotState *e = &slots[submenu_depth];
     e->first = selected_slot;
     e->second = id;
-    e->value = (s32)active_entries;
+    e->entries = active_entries;
 }
 
 void TWindowMainMenu::load_submenu_entries() {
-    this->active_entries = (TWindowMainMenuEntry *)*(s32 *)((u8 *)this + this->submenu_depth * 8 + 0x2c);
+    MainMenuSlotState *e = &slots[submenu_depth];
+    active_entries = e->entries;
 }
 
-void TWindowMainMenu::open(s32 entries) {
+void TWindowMainMenu::open(TWindowMainMenuEntry *entries) {
     TObjPlayer *player;
 
     player = get_player_by_client_id((s32)this->client_index);
     if (player != 0) {
         menu_flags = menu_flags | 1;
-        active_entries = (TWindowMainMenuEntry *)entries;
+        active_entries = entries;
         submenu_depth = 0;
         update_keyboard_card_state();
         populate_menu(active_entries);
@@ -455,7 +456,7 @@ void TWindowMainMenu::close_and_clear_flags() {
 s32 TWindowMainMenu::close_active_submenu() {
     menu_flags = (s32) (menu_flags & 0xFFFFFFFB);
     destroy_submenu();
-    if ((u32)active_entries == 0U) {
+    if (active_entries == NULL) {
         this->close_main_menu();
         return 0;
     }
