@@ -1784,7 +1784,7 @@ pso/render/RenderSbssGlobals.cpp
 pso/render/RenderUtilSdata.cpp
 pso/unk/text_803DD5E0.cpp
 pso/render/gjLight.c
-pso/unk/text_803DE7E0.cpp
+pso/system/memory.cpp
 pso/unk/text_803DEE48.cpp
 pso/render/SceneFog.cpp
 pso/render/nuReLoadTexture.c

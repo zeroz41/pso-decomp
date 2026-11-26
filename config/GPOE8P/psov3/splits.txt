@@ -10585,7 +10585,7 @@ pso/unk/text_803DD5E0.cpp:
 pso/unk/TLobby_803DE778.cpp:
 	.text       start:0x803DE778 end:0x803DE7E0
 
-pso/unk/text_803DE7E0.cpp:
+pso/system/memory.cpp:
 	.text       start:0x803DE7E0 end:0x803DE9C4
 	.rodata     start:0x8047E428 end:0x8047E438
 	.sbss       start:0x805D77A8 end:0x805D77B0

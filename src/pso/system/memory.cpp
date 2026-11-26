@@ -1,18 +1,12 @@
 #include "types.h"
 #include <string.h>
-#include "pso/unk/text_803DE7E0.h"
+#include <dolphin/os/OSAlloc.h>
 #include "pso/system/AllocatorCallbacks.h"
 #include "pso/system/memory.h"
-#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-extern "C" {
-void *OSCreateHeap(void *start, void *end);
-void OSFreeToHeap(void *heap, void *ptr);
-void *OSAllocFromHeap(void *heap, u32 size);
-}
 const AllocatorCallbacks *global_allocator;
-void *sys_heap_handle;
+OSHeapHandle sys_heap_handle;
 
 // The system heap's allocator, installed as global_allocator.
 extern const AllocatorCallbacks sys_allocator_func_table = { sys_alloc, free_to_sys_heap, sys_calloc, sys_heap_realloc };
@@ -73,7 +67,7 @@ void *sys_calloc(s32 count, s32 size) {
     return p;
 }
 
-// Allocates size bytes, copies size bytes of ptr into them and frees ptr (a realloc; name inferred).
+// Allocates size bytes, copies size bytes of ptr into them and frees ptr.
 void *sys_heap_realloc(void *ptr, u32 size) {
     void *p = OSAllocFromHeap(sys_heap_handle, size);
     move_data((p), (ptr), size);

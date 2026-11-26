@@ -18,4 +18,13 @@ void xfree(void *p);
 void * xmalloc(u32 bytes);
 void *xcalloc(s32 count, s32 size);
 
+void fill_memory(void *p, u8 c, u32 n);
+void init_system_heap_and_global_allocator(u8 *start, s32 size);
+
+// The system heap's entry points (sys_allocator_func_table).
+void *sys_alloc(u32 size);
+void free_to_sys_heap(void *ptr);
+void *sys_calloc(s32 count, s32 size);
+void *sys_heap_realloc(void *ptr, u32 size);
+
 #endif

@@ -12,8 +12,6 @@ struct AllocatorCallbacks {
     void *(*reallocate)(void *ptr, u32 size);
 };
 
-extern "C" {
 extern const AllocatorCallbacks *global_allocator;
-}
 
 #endif
