@@ -10,7 +10,7 @@ s32 TObjAreaWarp::find_active_player() {
     s32 client;
     TObjPlayer *player;
 
-    if ((s32)m_down != 0) {
+    if ((saddr)m_down != 0) {
         mask = *(u32 *)&entity_id & m_20;
         for (client = 0; client < 4; client++) {
             if (!((mask >> client) & 1) && (player = get_player_by_client_id(client)) != NULL) {
