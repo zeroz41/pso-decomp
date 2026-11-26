@@ -39,18 +39,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-struct Actor_801D3E20 {
-    u8 pad[0x30];
-    u32 flags;
-    u8 pad34[4];
-    Vec pos;
-    u8 pad44[0x1c];
-    s32 facing;
-    u8 pad64[0x40];
-    CollisionBody *colliders;
-    s32 count;
-};
-struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
@@ -820,15 +808,15 @@ void *TPlacementSearch::find_obstruction(CollisionBodySet *probe) {
     s32 end = TLobby::get_lobby_flag();
     s32 i;
     for (i = TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i < end; i++) {
-        Actor_801D3E20 *a = (Actor_801D3E20 *)TObjPlayer::get_player_data(i);
-        if (a != 0 && a->colliders != 0 && !(a->flags & 0x800)) {
-            if (10000.0f > horizontal_distance_squared(&probe->position, &a->pos)) {
+        TObjPlayer *a = TObjPlayer::get_player_data(i);
+        if (a != 0 && a->bodies != 0 && !(a->actorFlags & 0x800)) {
+            if (10000.0f > horizontal_distance_squared(&probe->position, &a->position)) {
                 CollisionBodySet b;
                 void *r;
-                b.colliders = a->colliders;
-                b.count = a->count;
-                VecCopy(&b.position, &a->pos);
-                b.facing = a->facing;
+                b.colliders = a->bodies;
+                b.count = a->body_count;
+                VecCopy(&b.position, &a->position);
+                b.facing = a->rotation_y;
                 r = refresh_actor_body_spheres(*probe, b);
                 if (r != 0) {
                     return r;
@@ -842,7 +830,7 @@ void *TPlacementSearch::find_obstruction(CollisionBodySet *probe) {
 #pragma push
 #pragma fp_contract on
 s32 TPlacementSearch::step_placement_search() {
-    Ground_801D3C38 *g;
+    CsnHit *g;
     if (check_player_action_allowed() != 0 && this->online != 0 &&
         TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 1) {
         TLobby::disconnect_protocol();
@@ -861,13 +849,13 @@ s32 TPlacementSearch::step_placement_search() {
     this->candidate.x = this->radius * sin_table_lookup(this->angle) + this->origin.x;
     this->candidate.y = this->origin.y;
     this->candidate.z = this->radius * cos_table_lookup(this->angle) + this->origin.z;
-    g = (Ground_801D3C38 *)csnVecterUnder(&this->candidate, 0x41);
+    g = csnVecterUnder(&this->candidate, 0x41);
     if (g == NULL) {
         this->angle += this->step;
         this->sample++;
         return 0;
     }
-    this->candidate.y = 6.0f + g->pos->y;
+    this->candidate.y = 6.0f + g->contact->point.y;
     placement_search_collision_body.radius = 3.0f;
     placement_search_collision_body.shape = 0;
     placement_search_collision_body.flags = 0x31F03;

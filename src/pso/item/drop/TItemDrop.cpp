@@ -26,6 +26,7 @@
 #include "pso/system/GslArchive.h"
 #include "pso/item/item_create.h"
 #include "pso/item/TItemDisconnectCtrl.h"
+#include "pso/item/armor/TItemProArmor.h"
 
 
 void *TItemDrop::relocatable_load_buffer;
@@ -550,14 +551,8 @@ void TItemDrop::apply_item_data(TItemData *item) {
     }
 }
 
-struct Def_80106D0C {
-    u8 pad[0x16];
-    u8 a;
-    u8 b;
-};
-
 void TItemDrop::roll_armor_bonuses(TItemData *item) {
-    Def_80106D0C *def;
+    ArmorPmtEntry *def;
 
     if (item->data1.data_u8[0] != 1) {
         return;
@@ -566,13 +561,13 @@ void TItemDrop::roll_armor_bonuses(TItemData *item) {
     case 1:
         set_drop_index(item);
     case 2:
-        def = (Def_80106D0C *)lookup_item_pmt_record(item->data1.data_u8);
+        def = (ArmorPmtEntry *)lookup_item_pmt_record(item->data1.data_u8);
         if (def != NULL) {
             f32 r;
             r = roll_table_ratio(12);
-            item->set_dfp_bonus((s16)(def->a * r));
+            item->set_dfp_bonus((s16)(def->dfp_range * r));
             r = roll_table_ratio(13);
-            item->set_evp_bonus((s16)(def->b * r));
+            item->set_evp_bonus((s16)(def->evp_range * r));
         }
         break;
     }

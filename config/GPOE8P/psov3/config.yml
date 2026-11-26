@@ -3955,7 +3955,7 @@ force_active:
   - apply_resta_heal__11TBoss4Type2Fv
   - apply_rock_hits_to_players__11TBoss6Type2Fv
   - apply_room_transform__FlPUcPUc
-  - apply_room_transform_to_enemy_rows__FP40ApplyRoomTransformToEnemyRowsSpawnRecordl
+  - apply_room_transform_to_enemy_rows__FP14EnemySetRecordl
   - apply_room_transform_to_object_rows__FP17FloorObjectSetRowl
   - apply_rule_configuration__19TPlayerBattleCtrl4PFl
   - apply_selection__17TWindowSubComCardFl

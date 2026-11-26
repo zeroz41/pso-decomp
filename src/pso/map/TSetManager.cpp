@@ -2,6 +2,7 @@
 #include "pso/map/MapSetArchive.h"
 #include <stddef.h>
 #include "pso/map/FloorPopulation.h"
+#include "pso/render/gjSystem.h"
 #include "pso/map/ChallengeEnemySet.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -1014,27 +1015,6 @@ s32 object_condition_count;
 s32 enemy_condition_count;
 
 
-struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-LAYOUT_ASSERT(RecoveredGlobal_8020D2B4_lbl_8058D490_size, sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30);
-
-typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
-
-typedef struct ApplyRoomTransformToEnemyRowsSpawnRecord {
-    s16 type;
-    u16 flags;
-    u16 index;
-    s16 children;
-    u16 reserved;
-    u16 actor_id;
-    s16 room;
-    s16 wave;
-    u32 secondary_wave;
-    Vec position;
-    SpawnAngles_8020D36C angles;
-    f32 parameters[5];
-    s16 integers[4];
-} ApplyRoomTransformToEnemyRowsSpawnRecord;
-
 typedef ObjectFactoryEntry Ent_8020D5AC;
 
 extern "C" {
@@ -1042,12 +1022,11 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 }
-void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count);
+void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
 extern "C" {
 s32 is_battle_mode_running();
 }
-extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(void *matrix, u8 *rotation, u8 *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq);
@@ -1055,7 +1034,7 @@ void spawn_decorations_in_range(TSetManager *manager);
 void apply_room_transform(void *matrix, u8 *rotation, u8 *room_arg) {
     SceneMaterialSection *room = (SceneMaterialSection *)room_arg;
     s32 *angles = (s32 *)rotation;
-    push_matrix_from(&identity_matrix.value);
+    push_matrix_from(identity_matrix);
     translate_matrix(0, room->position.x, room->position.y, room->position.z);
     rotate_matrix_z(0, room->angles[2]);
     rotate_matrix_x(0, room->angles[0]);
@@ -1067,19 +1046,19 @@ void apply_room_transform(void *matrix, u8 *rotation, u8 *room_arg) {
     angles[2] = angles[2] + room->angles[2];
 }
 
-void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
-    ApplyRoomTransformToEnemyRowsSpawnRecord *row;
+void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count) {
+    EnemySetRecord *row;
     void *cached_room;
     s16 cached_id = -1;
     s32 i;
     for (i = 0; i < count; i++) {
         row = &rows[i];
-        if (cached_id != row->room) {
-            cached_room = find_scene_room_by_id(row->room);
-            cached_id = row->room;
+        if (cached_id != row->placement.room) {
+            cached_room = find_scene_room_by_id(row->placement.room);
+            cached_id = row->placement.room;
         }
         if (cached_room) {
-            apply_room_transform(&row->position, (u8 *)&row->angles, (u8 *)cached_room);
+            apply_room_transform(&row->placement.position, (u8 *)row->placement.rotation, (u8 *)cached_room);
         }
     }
 }
@@ -1187,7 +1166,7 @@ void TSetManager::apply_floor_set_rows() {
         floor->object_placement |= 2U;
     }
     if (!(floor->enemy_placement & 4)) {
-        apply_room_transform_to_enemy_rows((ApplyRoomTransformToEnemyRowsSpawnRecord *)(current_floor_enemy_set_rows), floor->enemy_count);
+        apply_room_transform_to_enemy_rows(current_floor_enemy_set_rows, floor->enemy_count);
         floor->enemy_placement |= 4U;
     }
     if (floor->object_placement & 2) {

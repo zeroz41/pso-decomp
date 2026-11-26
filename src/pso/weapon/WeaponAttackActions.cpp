@@ -57,10 +57,6 @@ struct NJS_OBJECT;
 #include "pso/render/render_util.h"
 
 
-struct Node_8011EB84 { u8 b[0x2C]; };
-
-struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
-
 extern "C" {
 extern const f32 weapon_float_tenth;
 extern Vec weapon_light_direction[];
