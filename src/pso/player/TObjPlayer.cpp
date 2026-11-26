@@ -210,7 +210,10 @@ s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask) {
     return (u8)((obj->bodies[body].flags & mask) != 0);
 }
 
-void* TObjPlayer::get_position_history_entry(int index, void* x, void* z) { *(float*)x = *(float*)((char*)this + index * 8 + 0x6b0); *(float*)z = *(float*)((char*)this + index * 8 + 0x6b4); return (char*)this + index * 8; }
+void TObjPlayer::get_position_history_entry(int index, f32 *x, f32 *z) {
+    *x = movement_history.entries[index].x;
+    *z = movement_history.entries[index].z;
+}
 s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
@@ -239,9 +242,8 @@ int TObjPlayer::check_flag_02000000() {
 }
 
 void TObjPlayer::set_position_history_entry(s32 index, f32 x, f32 z) {
-    u8 *entry = (u8 *)this + index * 8;
-    *(f32 *)(entry + 0x6B0) = x;
-    *(f32 *)(entry + 0x6B4) = z;
+    movement_history.entries[index].x = x;
+    movement_history.entries[index].z = z;
 }
 
 

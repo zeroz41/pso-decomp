@@ -513,7 +513,7 @@ TObjPlayer::~TObjPlayer() {
     release_pending_action();
     unregister();
     TObjPlayer::free_owned_buffer_b((saddr)&this->attack_state, (s16)(-1));
-    destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
+    destroy__10TObjPlayerFis((saddr)&this->battle_score, -1);
 }
 
 extern "C" {

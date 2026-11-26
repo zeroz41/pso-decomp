@@ -1121,7 +1121,7 @@ struct TObjPlayer : public TObjChara {
     void release_motion();
     void reset_body_parts();
     void set_regen_timer(s32 v);
-    void* get_position_history_entry(int index, void* x, void* z);
+    void get_position_history_entry(int index, f32 *x, f32 *z);
     s32 get_state_flags();
     int check_player_state_flag_2();
     static int default_action_provider_variant();

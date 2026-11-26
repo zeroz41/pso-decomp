@@ -350,7 +350,7 @@ struct TLobby : public TObject {
     static void clear_quest_vm_flag();
     static void free_luker_object();
     void set_floor(s16 v);
-    static int get_field_6CE8();
+    static int is_warning_aram_load_done();
     static int get_lobby_count();
     static void set_lobby_id(int a0);
     static void set_area_total(int a0);

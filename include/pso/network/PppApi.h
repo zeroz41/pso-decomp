@@ -17,19 +17,9 @@ typedef struct NetConnectCfg {
     char *password;
     char *phone_number;
     NetStatusCallback callback;
-    s16 h18;
-    s16 h1A;
-    s16 h1C;
-    s16 h1E;
-    s16 h20;
+    s16 transport_settings[5]; /* ppp_begin_connect hands them to configure_and_open_network_transport */
     u8 pad_22[2];
-    s16 h24;
-    s16 h26;
-    s16 h28;
-    s16 h2A;
-    s16 h2C;
-    u8 pad_2E[2];
-    char *prefix;
+    ModemRequest modem;        /* the dial request: tone or pulse, the dial prefix and the connect timeout */
     s16 auth_mode;
     s16 mtu;
     s32 start_tick;

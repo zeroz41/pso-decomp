@@ -827,7 +827,7 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, -0x4000);
     if (scale != NULL) {
-        scale_matrix(0, scale->x, scale->z, (*(const f32 *)&player_one));
+        scale_matrix(0, scale->x, scale->z, player_one);
     }
     draw_blob_shadow(force_draw);
     pop_matrix();
@@ -2755,12 +2755,12 @@ void TObjPlayer::damp_planar_velocity() {
     if (this->velocity.x < player_velocity_epsilon && this->velocity.x > player_velocity_neg_epsilon) {
         this->velocity.x = player_zero;
     } else {
-        this->velocity.x *= (*(const f32 *)&player_half);
+        this->velocity.x *= player_half;
     }
     if (this->velocity.z < player_velocity_epsilon && this->velocity.z > player_velocity_neg_epsilon) {
         this->velocity.z = player_zero;
     } else {
-        this->velocity.z *= (*(const f32 *)&player_half);
+        this->velocity.z *= player_half;
     }
 }
 
@@ -3096,7 +3096,7 @@ void TObjPlayer::init_trait_flags() {
 }
 
 void send_impose_hold(TObjPlayer *player, int frames) {
-    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, (*(f32 *)&player_zero));
+    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, player_zero);
 }
 
 
@@ -5645,7 +5645,7 @@ void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
 
 f32 TObjPlayer::get_battle_value(u16 client, s16 technique) {
     if (get_player_by_client_id(client) == NULL) {
-        return (*(f32 *)&player_zero);
+        return player_zero;
     }
     return get_class_technique_boost(get_class_index(), technique);
 }

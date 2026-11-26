@@ -1799,7 +1799,7 @@ void qst_op_get_dl_status(s32 reg) {
         qst_registers[(u8)reg] = 0;
         return;
     }
-    if (TLobby::get_field_6CE8() != 0) {
+    if (TLobby::is_warning_aram_load_done() != 0) {
         qst_registers[(u8)reg] = 2;
         return;
     }
@@ -5569,7 +5569,7 @@ void G_SyncQuestRegister_6x77::init() {
     header.size = 3;
 }
 
-int TLobby::get_field_6CE8() {  return warning_aram_load_done_flag; }
+int TLobby::is_warning_aram_load_done() {  return warning_aram_load_done_flag; }
 
 int TLobby::get_lobby_count() {  return lobby_count_value; }
 
