@@ -98,8 +98,6 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
-struct UdpTestGameEntry { s32 f0; s32 f4; };
-
 extern "C" {
 int clear_keyboard_input_flag(void);
 // The run_*_frame callers test this as an int, while SystemBootInit defines it bool.

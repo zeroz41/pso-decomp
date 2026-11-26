@@ -30,4 +30,11 @@ private:
 LAYOUT_ASSERT(ModelNodePositionEntry_size, sizeof(ModelNodePositionEntry) == 16);
 LAYOUT_ASSERT(ModelNodePositionCapture_size, sizeof(ModelNodePositionCapture) == 8);
 
+struct ModelNodePositionCaptureState {
+    s32 node_index;
+    const ModelNodePositionEntry *entries;
+    Vec *positions;
+    s32 unknown_0c;
+};
+
 #endif

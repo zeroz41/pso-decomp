@@ -17,10 +17,6 @@ extern "C" {
 void TEndingAB__sub_8008CCC0(TEndingAB *);
 }
 
-struct EndingWallTextureSet {
-    NJS_TEXNAME names[14];
-    NJS_TEXLIST list;
-};
 LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
 const char ending_texture_name_ed_512kabe_a[] = "ed_512kabe_A";

@@ -17,4 +17,6 @@ void system_reset(void);
 // Draw a Ginja model posed by a blend of two motions.
 void draw_ginja_motion_link(NJS_OBJECT *model, NJS_MOTION_LINK *link, f32 frame);
 
+struct MonthStartDays { s32 v[12]; };
+
 #endif

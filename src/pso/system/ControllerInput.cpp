@@ -427,9 +427,6 @@ void controller_stuff(void) {
 
 #pragma push
 
-struct ControllerHoldFrameBlock {
-    u32 words[7];
-};
 
 void bind_controller_devices(void) {
     PadSlot *slot;

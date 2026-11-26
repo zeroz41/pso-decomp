@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
+#include "pso/render/GinjaMaterialState.h"
 
 // Same eight-float rectangle consumed by draw_textured_quad_at_depth.
 struct EndingWallQuad {
@@ -36,5 +37,10 @@ LAYOUT_ASSERT(EndingWallQuadSize, sizeof(EndingWallQuad) == 0x20);
 LAYOUT_ASSERT(EndingABSize, sizeof(TEndingAB) == 0xF0);
 LAYOUT_ASSERT(EndingABQuadsOffset, offsetof(TEndingAB, quads) == 0x2C);
 LAYOUT_ASSERT(EndingABRateOffset, offsetof(TEndingAB, timing_rate) == 0xEC);
+
+struct EndingWallTextureSet {
+    NJS_TEXNAME names[14];
+    NJS_TEXLIST list;
+};
 
 #endif

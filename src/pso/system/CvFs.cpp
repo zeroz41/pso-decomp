@@ -6,13 +6,6 @@
 #include "pso/network/TLobby.h"
 
 
-struct TLobbyEntry { CvFsDeviceInterface *device; char name[12]; };
-
-struct CvFsHandle {
-    CvFsDeviceInterface *vtbl;
-    void *fd;
-};
-
 extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];
 s32 cvfs_init_count;

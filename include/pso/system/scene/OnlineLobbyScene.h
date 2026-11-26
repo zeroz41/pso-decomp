@@ -20,4 +20,6 @@ void start_quest_mission(void);
 void change_floor_reload_area(void);
 void reload_lobby_floor_scene(void);
 
+struct UdpTestGameEntry { s32 f0; s32 f4; };
+
 #endif

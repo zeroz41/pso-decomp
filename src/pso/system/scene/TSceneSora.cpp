@@ -28,9 +28,6 @@
 #include "pso/math/MatrixReflect.h"
 
 
-struct SceneTableEntry { s32 f0; char *name; };
-
-
 #pragma readonly_strings on
 
 s32 TSceneSora::sky_active_flag = 1;
