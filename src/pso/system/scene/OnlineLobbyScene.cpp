@@ -166,7 +166,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {reset_globals, NULL},
     {init_char_slots, free_char_slots},
     {init_jungle_key_slots, unload_jungle_key_slots},
-    {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
+    {reset_trade_state_on_scene_load, reset_trade_state_on_scene_unload},
     {load_draw_line_task_resource, free_draw_line_task_resource},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
     {clear_boss6_player_snapshots, NULL},

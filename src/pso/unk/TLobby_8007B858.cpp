@@ -151,7 +151,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {reset_and_init_capture_texture, reset_and_release_capture_texture},
     {init_shadow_map_texture, release_shadow_map_texture},
     {load_indirect_dat, TEffIndirectCtrl::free_all},
-    {(FloorResourceCallback)TLobby__sub_802D39BC, (FloorResourceCallback)close_trade_request__6TLobbyFPv},
+    {close_trade_request_on_floor_load, close_trade_request_on_floor_unload},
     {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TLobby__sub_80279708, TLobby__sub_802796FC},
