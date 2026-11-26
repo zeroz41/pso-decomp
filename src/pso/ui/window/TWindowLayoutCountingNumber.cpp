@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "types.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -5,9 +6,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/SoundEffect.h"
 
-extern "C" {
-f32 fabs_float(f32, f32);
-}
 
 #pragma fp_contract on
 
@@ -27,7 +25,7 @@ void TWindowLayoutCountingNumber::set_animated_target(s32 value, f32 frames) {
         target = this->target;
         delta = target - this->current;
         delta = delta / frames;
-        if (fabs_float(delta, target) < 1.0f) {
+        if (fabs_float(delta) < 1.0f) {
             if (delta > 0.0f) {
                 delta = 1.0f;
             } else {
@@ -47,7 +45,7 @@ void TWindowLayoutCountingNumber::set_status_entry_target(s32 value) {
     target = this->target;
     delta = target - this->current;
     delta *= 0.0211f;
-    if (fabs_float(delta, target) < 1.0f)
+    if (fabs_float(delta) < 1.0f)
     {
       if (delta > 0.0f)
       {
@@ -74,7 +72,7 @@ void TWindowLayoutCountingNumber::update() {
         }
         target = this->target;
         distance = target - this->current;
-        if (((f32 (*)(f32)) fabs_float)(distance) < (fabs_float(this->step, target))) {
+        if (fabs_float(distance) < fabs_float(this->step)) {
             this->current = this->target;
         } else {
             this->current = this->current + this->step;

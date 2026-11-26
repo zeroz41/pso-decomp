@@ -275,9 +275,6 @@ s32 boss8_dragon_player_control;
 u16 boss8_dragon_control_client_id;
 // (from _802F3EE4)
 // (from _802F4324)
-extern "C" {
-BOOL is_split_screen(void); // TObjCharaHelpers.h, whose other prototypes clash here
-}
 // (from _802F4380)
 // (from _802F4480)
 void G_GolDragonBossActions_6xA8::init() {

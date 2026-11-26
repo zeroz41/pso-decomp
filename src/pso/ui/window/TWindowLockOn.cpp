@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "types.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -66,9 +67,6 @@ WindowDescriptor lock_on_window_descriptor = {
     {0.0f, 0.0f}, 50000.0f, NULL, 0x23,
 };
 
-extern "C" {
-s32 is_split_screen(void);
-}
 s32 get_status_effect_icon_index(u32);
 
 TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lock_on_window_descriptor, player, (u8 *)get_window_layout_position(0x1E)) {

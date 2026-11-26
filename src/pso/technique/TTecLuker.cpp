@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerState.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/SoundEffect.h"
@@ -93,9 +94,7 @@ static const Vec telepipe_town_position_table_b[4] = {
 static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
 extern "C" {
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
-s32 get_current_floor(void);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
-s32 is_split_screen();
 }
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 void free_collision_body_parts(TObjCollidable *actor);

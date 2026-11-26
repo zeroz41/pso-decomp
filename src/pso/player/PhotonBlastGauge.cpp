@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
@@ -33,8 +34,6 @@ s16 PhotonBlastGauge::get_valid_index() {
     }
     return index;
 }
-
-extern "C" s32 get_current_floor();
 
 void PhotonBlastGauge::set_section_index(s16 count) {
     s16 clamped;

@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/unk/text_803D96A8.h"
@@ -26,8 +27,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
-
-extern "C" s32 is_split_screen();
 
 // Per band: the particle bursts of the explosion. Flag 0x10 bursts at the explosion's position
 // instead of 8 above it, flag 0x1000 spawns it with particle flag 0x2000.

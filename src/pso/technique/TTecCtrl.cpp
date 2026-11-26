@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/system/memory.h"
 #include "pso/render/psoLoadTexture.h"
@@ -65,7 +66,6 @@ TechniqueBoostTable lbl_8051607C[4];
 
 extern "C" {
 void set_target__20PlayerTechniqueStateFlls(void *, int, u16, s16);
-s32 is_split_screen();
 u8 get_cast_technique_level(void *, int);
 }
 extern u8 identity_matrix[];
