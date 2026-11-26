@@ -48,7 +48,6 @@ void TChCrCharSelect::clamp_slot_index_to_range() {
     }
 }
 
-CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }

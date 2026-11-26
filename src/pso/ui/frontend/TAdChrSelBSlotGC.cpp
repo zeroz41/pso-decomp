@@ -40,7 +40,6 @@ const char *TAdChrSelBSlotGC::name = "TAdChrSelBSlotGC";
 
 PlayerSlotLabel chr_select_b_slot_entry;
 
-extern TAdChrSelASlotGC *chr_sel_a_slot_instance;
 
 void TAdChrSelBSlotGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;

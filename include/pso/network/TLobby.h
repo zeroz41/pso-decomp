@@ -579,4 +579,5 @@ TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
 
 u8 *get_password_input_buffer(void);
 
+extern TPlyChallenge lobby_player_status_records[];
 #endif

@@ -15,12 +15,12 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/network/TLobby.h"
 
 const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 
 // One letter per language (J/E/G/F/S), appended after the player name.
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
-extern TPlyChallenge lobby_player_status_records[];
 
 saddr TWindowCtrlMain::get_instance() {  return (saddr)instance; }
 

@@ -55,6 +55,7 @@ CharacterAppearanceFields *get_creation_visual_record(void);
 void load_creation_visual_record(CharacterAppearanceFields *record);
 void invalidate_creation_visual_record(void);
 void reset_current_char_appearance(s32 _w0);
+CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 // The height of a class at the top and the bottom of the height slider.
 struct CharacterHeightRange { f32 max_height; f32 min_height; };

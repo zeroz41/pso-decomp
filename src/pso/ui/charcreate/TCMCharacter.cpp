@@ -28,10 +28,10 @@
 #include "pso/system/DataBlockRelocation.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 
 
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index);
 extern "C" {
 f32 vector_length(f32 *v);
 }

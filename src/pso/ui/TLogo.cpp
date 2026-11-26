@@ -48,7 +48,6 @@ void (*logo_load_callback_table[18])(void) = {
     TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
-extern int sega_logo_done_flag;
 
 // This unit was built with deferred inlining (-inline off,deferred): the compiler emits
 // function bodies in reverse source order, so the functions below are listed from the

@@ -82,4 +82,6 @@ struct TAdChrSelASlotGC : public TObject {
 LAYOUT_ASSERT(TAdChrSelASlotGC_size, sizeof(TAdChrSelASlotGC) == 0x80);
 LAYOUT_ASSERT(TAdChrSelASlotGC_state_offset, offsetof(TAdChrSelASlotGC, state) == 0x24);
 LAYOUT_ASSERT(TAdChrSelASlotGC_wait_message_offset, offsetof(TAdChrSelASlotGC, wait_message) == 0x54);
+extern TAdChrSelASlotGC *chr_sel_a_slot_instance;
+
 #endif
