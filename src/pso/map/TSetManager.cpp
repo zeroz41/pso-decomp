@@ -63,7 +63,6 @@
 #pragma readonly_strings on
 
 
-
 // The header is followed by the s16 flags of every object set, then of every enemy set.
 int pack_floor_set_flags(FloorSetFlagsPayload *buf) {
     s32 enemies;
@@ -349,8 +348,6 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     }
 }
 
-struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
-
 
 void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
     Send6x76SetEntitySetFlagsPacket pkt;
@@ -486,8 +483,6 @@ s32 TWindowDD::check_all_ready(s32 floor) {
     return 1;
 }
 
-struct IsRoomFreeOfActiveEnemiesRow { s16 type, flags; u8 u4[8]; s16 room; u8 ue[0x3a]; };
-
 
 s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
     IsRoomFreeOfActiveEnemiesRow *rows = reinterpret_cast<IsRoomFreeOfActiveEnemiesRow *>(get_active_floor_enemy_rows(floor));
@@ -589,8 +584,6 @@ s32 TObjCollidable::set_flag8() {
     }
     return 0;
 }
-
-
 
 
 s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {

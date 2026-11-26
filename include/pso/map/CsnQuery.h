@@ -75,4 +75,15 @@ struct CsnHit;
 CsnContact *init_csn_contact(CsnContact *contact);
 void init_csn_hit(CsnHit *hit);
 
+// A wall polygon prepare_wall_query_polygons copies into the scene buffer,
+// with the vertex array of its model (name inferred).
+struct WallPolygon {
+    CsnFace face;
+    Vec *vertices;
+
+    void copy_wall_polygon(const CsnFace *source);
+};
+
+struct VecWords { u32 words[3]; };
+
 #endif

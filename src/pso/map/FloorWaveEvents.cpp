@@ -86,7 +86,6 @@ FloorSceneEntry floor_scene_table[36] = { { floor_map_set_acity00, 1 }, { floor_
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 
 
-
 void TLobby::reset_story_select() { TAdStorySelectGC::set_state(0); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
@@ -288,9 +287,6 @@ void free_forest_rel_work_buffer(void) {
 }
 
 
-
-
-
 void TLobby::load_item_data() {
     MapSetModule *module;
     MapSetArea *areas;
@@ -366,13 +362,6 @@ void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
 void TLobby__sub_80208648(void) {  }
 
-// Wave event script opcodes, indexed by the opcode byte: decode reads the opcode's operands from the script
-// stream and calls action with them, so each action has the signature its decoder calls it with.
-typedef void (*WaveEventActionFunc)();
-struct WaveEventAction {
-    void (*decode)(u8 opcode);
-    WaveEventActionFunc action;
-};
 
 WaveEventAction wave_event_action_table[16] = {
     { TLobby::invoke_command, TLobby__sub_80208648 },
@@ -429,7 +418,6 @@ u16 read_stream_u16(void) {
     bswap_16(&value);
     return value;
 }
-
 
 
 unsigned char read_stream_u8(void) { return wave_event_stream_base[wave_event_stream_cursor++]; }

@@ -15,14 +15,6 @@
 
 #pragma inline_depth(1)
 #pragma dont_inline off
-// A wall polygon prepare_wall_query_polygons copies into the scene buffer,
-// with the vertex array of its model (name inferred).
-struct WallPolygon {
-    CsnFace face;
-    Vec *vertices;
-
-    void copy_wall_polygon(const CsnFace *source);
-};
 
 LAYOUT_ASSERT(WallPolygonSize, sizeof(WallPolygon) == 0x28);
 
@@ -664,7 +656,6 @@ s32 prepare_wall_query_polygons(const Vec *origin, f32 r, u32 mask) {
 }
 #pragma pop
 
-struct VecWords { u32 words[3]; };
 
 #pragma push
 #pragma scheduling off

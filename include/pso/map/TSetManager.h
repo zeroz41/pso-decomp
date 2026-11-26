@@ -39,4 +39,8 @@ void free_floor_decorations();
 extern s32 object_condition_count;
 extern s32 enemy_condition_count;
 
+struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
+
+struct IsRoomFreeOfActiveEnemiesRow { s16 type, flags; u8 u4[8]; s16 room; u8 ue[0x3a]; };
+
 #endif

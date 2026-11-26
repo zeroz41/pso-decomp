@@ -57,4 +57,12 @@ struct Send6x05WaveClearSwitchPacket {
     u8 e;
 };
 
+// Wave event script opcodes, indexed by the opcode byte: decode reads the opcode's operands from the script
+// stream and calls action with them, so each action has the signature its decoder calls it with.
+typedef void (*WaveEventActionFunc)();
+struct WaveEventAction {
+    void (*decode)(u8 opcode);
+    WaveEventActionFunc action;
+};
+
 #endif
