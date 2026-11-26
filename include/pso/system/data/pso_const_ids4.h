@@ -5,7 +5,6 @@
 
 class TPlyDispConfig;
 
-extern "C" {
 u8 default_setting_18(void *rules);
 u8 default_setting_16(void *rules);
 u8 default_setting_0E(void *rules);
@@ -16,15 +15,12 @@ u8 default_setting_0A(void *rules);
 u8 default_setting_09(void *rules);
 u8 default_setting_08(void *rules);
 u8 default_setting_07(void *rules);
-}
 u8 default_setting_06(void *rules);
-extern "C" {
 u8 default_setting_05(void *rules);
 u8 default_setting_04(void *rules);
 u8 default_setting_03(void *rules);
 u8 default_setting_02(void *rules);
 u8 default_setting_01(void *rules);
-}
 
 // Resets a player's action palettes to the default photon blast slots.
 void assign_default_photon_blast_palette_slots(TPlyDispConfig *palettes);

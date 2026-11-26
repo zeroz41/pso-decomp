@@ -907,7 +907,7 @@ TItemDrop *TItemDrop::create_drop(TObject *parent) {
 
 s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)((LobbyRuleSettings *)this)->get_max_tech_level(); }
 
-extern "C" u8 TItemDrop__sub_80107B04(void *) { return 0; }
+u8 TItemDrop__sub_80107B04(void *) { return 0; }
 
 s32 item_drop_rng_below(SubtractiveRng *rng, u32 count) {
     return __cvt_fp2unsigned((f32) (((f32) count * (f32) rng->next()) / item_drop_u32_scale));

@@ -38,11 +38,7 @@ public:
     static void *create(TObject *parent);
 };
 
-// --- C functions defined in TLobby_80299C4C.cpp ---
-extern "C" {
 s32 init_jungle_area(void);
-}
-// --- end of C functions
 
 s32 initialize_boss_scene(void);
 

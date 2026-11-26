@@ -130,10 +130,8 @@ int getDateStamp(DateStamp* out) {
 
 #include "pso/render/GinjaMotionDraw.h"
 
-extern "C" {
 
 void fn_801E2C50(void) {  }
-}
 void reset_system(void) { VISetBlack(1); VIFlush(); VIWaitForRetrace(); OSResetSystem(1, 0, 0); }
 void system_reset(void) { VISetBlack(1); VIFlush(); VIWaitForRetrace(); OSResetSystem(1, 0, 1); }
 void draw_ginja_motion_link(NJS_OBJECT *model, NJS_MOTION_LINK *link, f32 frame) {

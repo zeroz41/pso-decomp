@@ -84,7 +84,7 @@ void TMotorcycle::render() {
 void TMotorcycle::update_idle() {  }
 
 
-extern "C" void *create_stage_motorcycle(void *placement) {
+void *create_stage_motorcycle(void *placement) {
     return new TMotorcycle(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 

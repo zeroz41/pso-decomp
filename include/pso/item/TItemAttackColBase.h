@@ -19,7 +19,7 @@ struct S_802E451C {
 };
 
 // Fills in an S_802E451C's defaults: no position, radius 5, one hit, no owner, room or weapon.
-extern "C" void reset_attack_params(S_802E451C *params);
+void reset_attack_params(S_802E451C *params);
 
 class TItemAttackColBase : public TObject {
 public:

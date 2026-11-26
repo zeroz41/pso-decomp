@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void *create_city_vertical_model(void *set_data);
-}
 
 #endif

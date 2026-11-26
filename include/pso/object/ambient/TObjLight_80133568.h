@@ -14,9 +14,9 @@ struct LightEntry;
 
 extern "C" {
 TQuestThread *TLobby__sub_80134A20(void *p);
-void TObjLight__sub_801337FC(void *light);
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1);
 }
+void TObjLight__sub_801337FC(void *light);
 void init_area_lights(void);
 void init_map_lights(LightEntry *entry);
 // Sets the diffuse colour of the scene light.
@@ -29,10 +29,8 @@ void load_light_entry_file(void);
 void publish_actor_light_scalars(u32 id, f32 intensity, f32 ambient);
 void publish_light_direction_color(u32 id, void *dir, void *color);
 void register_actor_light(s32 id, TObjLight *light);
-extern "C" {
 void restore_scene_lighting(void);
 void select_actor_lighting(TObjBase *obj);
-}
 
 // One area's light setup: lightentry.bin holds one per area (big-endian on disc);
 // init_map_lights makes it the scene light.

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/item/TItemIdCounters.h"
 #include "pso/math/CurvePathPoint.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
@@ -695,9 +696,6 @@ struct VaCallPair { s32 a; s32 b; };
 s32 copy_player_visual_record(void *, int);
 }
 extern "C" {
-s32 advance_item_id_counter(u16);
-}
-extern "C" {
 s32 delete_bank_item(u8 *item, s32 slot);
 }
 extern "C" {
@@ -755,7 +753,7 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.data1.data_u8[3] = qst_registers[i++];
     item.data1.data_u8[4] = qst_registers[i++];
     item.data1.data_u8[5] = qst_registers[i];
-    item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
+    item.id = advance_item_id_counter(local_client_id);
     switch (mode) {
     case 0:
         TChallenge4PResult::update_entries(&item, 2);

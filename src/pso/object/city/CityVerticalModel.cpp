@@ -65,7 +65,7 @@ void TObjCityVerticalModel::run_task() {
     }
 }
 
-extern "C" void *create_city_vertical_model(void *set_data) {
+void *create_city_vertical_model(void *set_data) {
     return new TObjCityVerticalModel(tl_05, set_data);
 }
 

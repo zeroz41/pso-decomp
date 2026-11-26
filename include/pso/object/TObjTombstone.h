@@ -16,7 +16,7 @@ struct TObjTombstoneDropRates {
     f32 kind[6];
 };
 
-extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates);
+void set_tombstone_drop_rates(TObjTombstoneDropRates *rates);
 
 
 void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source);

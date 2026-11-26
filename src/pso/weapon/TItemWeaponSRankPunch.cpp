@@ -23,9 +23,9 @@
 
 extern "C" {
 TObjCollidable *find_entity_by_id(s32);
+}
 
 void TObjPlayer__sub_80128A70(void) {  }
-}
 
 void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
     TObjCollidable *o;
