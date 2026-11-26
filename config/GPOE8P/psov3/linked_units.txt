@@ -677,7 +677,7 @@ pso/ui/city/TJudgmentSequence.cpp
 pso/ui/window/TWindowKeyBoardSoft.cpp
 pso/system/ControllerInput.cpp
 pso/ui/keyboard/SystemBootInit.cpp
-pso/ui/keyboard/KeyboardControlTask.cpp
+pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/KeyboardKeyState.cpp
 pso/player/PlayerDataLoad.cpp
 pso/ui/keyboard/WindowKeyBoardMode.cpp
@@ -1541,7 +1541,6 @@ pso/ui/frontend/TAdRayGC.cpp
 pso/ui/frontend/TAdRicoRingCtrl.cpp
 pso/ui/frontend/TAdSEGAlogo.cpp
 pso/ui/frontend/TAdSelectCurGC.cpp
-pso/ui/frontend/TAdSelectGameModeGC.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
@@ -1561,7 +1560,6 @@ pso/ui/TCharSaveSequence.cpp
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp
 pso/ui/frontend/TAdSoniclogo.cpp
 pso/ui/frontend/TAdStorySelectGC.cpp
-pso/ui/frontend/TAdStorySelectGC_802C3284.cpp
 pso/ui/frontend/TAdSubPlyItemGC.cpp
 pso/ui/frontend/TAdTitleGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
@@ -1589,7 +1587,7 @@ pso/weapon/TItemWeaponRifle.cpp
 pso/weapon/TItemWeaponShot.cpp
 pso/weapon/TItemWeaponYasminkov2000H.cpp
 pso/unk/text_8000F740.cpp
-pso/ui/frontend/DrawLine.cpp
+pso/ui/frontend/TAdDrawLineTask.cpp
 pso/ui/frontend/TitleBackground.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/boss/darkfalz/DrainPlayerHp.cpp
@@ -1764,7 +1762,7 @@ pso/ui/city/TShopItemListWindow.cpp
 pso/map/CsnQuery.cpp
 pso/audio/AdxtEntryAfs.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
-pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
+pso/ui/frontend/TAdSelectGameModeGC.cpp
 pso/network/NetLoopback.c
 pso/network/NetBufferPool.c
 pso/network/NetIPv6NeighborDiscovery.c

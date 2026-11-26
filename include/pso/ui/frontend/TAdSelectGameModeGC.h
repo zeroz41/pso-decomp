@@ -26,5 +26,9 @@ public:
 
 LAYOUT_ASSERT(TAdSelectGameModeGC_size, sizeof(TAdSelectGameModeGC) == 0x24);
 
+extern "C" {
+int fn_802C4748(void *p);
+}
+
 
 #endif

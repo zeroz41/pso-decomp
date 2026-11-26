@@ -1,7 +1,6 @@
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_802C422C.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/system/date.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"

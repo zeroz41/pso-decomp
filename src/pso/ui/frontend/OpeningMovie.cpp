@@ -167,3 +167,5 @@ TOpeningMovie::TOpeningMovie() : TObject(tl_01) {
         new TMovie(tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
     }
 }
+
+int TAdSelectGameModeGC::get_mode_data() { return TAdSelectGameModeGC::cached_mode_value; }

@@ -37,7 +37,6 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/unk/TLobby_80300098.h"
 #include "pso/quest/challenge/TChallenge4P.h"

@@ -44,7 +44,7 @@ pso/ui/frontend/TAdADXlogo.cpp:
 pso/system/task/TObject_80019A50.cpp:
 	.text       start:0x80019A68 end:0x80019A8C
 
-pso/ui/frontend/DrawLine.cpp:
+pso/ui/frontend/TAdDrawLineTask.cpp:
 	.text       start:0x80019A8C end:0x8001A468
 	.rodata     start:0x804340D8 end:0x80434118
 	.data       start:0x80480908 end:0x80480938
@@ -2736,7 +2736,7 @@ pso/ui/keyboard/TKeyBoardControlLayout.cpp:
 	.text       start:0x80131998 end:0x80131C58
 	.sdata2     start:0x805DB078 end:0x805DB080
 
-pso/ui/keyboard/KeyboardControlTask.cpp:
+pso/ui/keyboard/TKeyBoardControl.cpp:
 	.text       start:0x80131C58 end:0x80131F5C
 	.rodata     start:0x8043E9D8 end:0x8043E9F0
 	.data       start:0x804A6EB8 end:0x804A6ED0
@@ -4950,15 +4950,12 @@ pso/system/scene/TSceneSora.cpp:
 	.sdata2     start:0x805DC608 end:0x805DC610
 
 pso/map/FloorMapSelection.cpp:
-	.text       start:0x80207644 end:0x80207D44
+	.text       start:0x80207644 end:0x80207DA8
 	.rodata     start:0x8044A9D0 end:0x8044BA50
 	.bss        start:0x80513920 end:0x805139F8
 	.sdata      start:0x805D3628 end:0x805D3630
 	.sbss       start:0x805D6060 end:0x805D6064
 	.sdata2     start:0x805DC610 end:0x805DC618
-
-pso/ui/frontend/TAdStorySelectGC.cpp:
-	.text       start:0x80207D44 end:0x80207DA8
 
 pso/map/FloorWaveEvents.cpp:
 	.text       start:0x80207DA8 end:0x80208898
@@ -6778,14 +6775,11 @@ pso/ui/frontend/TAdTitleGC.cpp:
 	.sdata2     start:0x805DDDC8 end:0x805DDDF4
 
 pso/ui/frontend/OpeningMovie.cpp:
-	.text       start:0x802A1020 end:0x802A1438
+	.text       start:0x802A1020 end:0x802A1440
 	.rodata     start:0x80466240 end:0x804662D8
 	.data       start:0x804DCAB8 end:0x804DCB7C
 	.sdata      start:0x805D3D80 end:0x805D3D88
 	.sbss       start:0x805D6638 end:0x805D6640
-
-pso/ui/frontend/TAdSelectGameModeGC.cpp:
-	.text       start:0x802A1438 end:0x802A1440
 
 pso/player/TObjPlayer_802A1440.cpp:
 	.text       start:0x802A1440 end:0x802A15BC
@@ -7115,7 +7109,7 @@ pso/object/lobby/LobbyPigeonPath.cpp:
 	.sbss       start:0x805D6798 end:0x805D67C0
 	.sdata2     start:0x805DE4F8 end:0x805DE528
 
-pso/ui/frontend/TAdStorySelectGC_802C3284.cpp:
+pso/ui/frontend/TAdStorySelectGC.cpp:
 	.text       start:0x802C3284 end:0x802C367C
 	.rodata     start:0x804719D0 end:0x80471A18
 	.data       start:0x804E0A00 end:0x804E0A18
@@ -7142,7 +7136,7 @@ pso/npc/TNpcPlayer_802C3CD0.cpp:
 pso/player/TObjPlayer_802C422C.cpp:
 	.text       start:0x802C422C end:0x802C4748
 
-pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp:
+pso/ui/frontend/TAdSelectGameModeGC.cpp:
 	.text       start:0x802C4748 end:0x802C4B64
 	.rodata     start:0x80471A18 end:0x80471A5C
 	.data       start:0x804E0A18 end:0x804E0A30
