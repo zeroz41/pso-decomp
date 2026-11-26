@@ -24,6 +24,12 @@ LAYOUT_ASSERT(ColorLineVertexOffset, offsetof(ColorLineList, verts) == 0);
 LAYOUT_ASSERT(ColorLineColorOffset, offsetof(ColorLineList, colors) == 4);
 LAYOUT_ASSERT(ColorLineCountOffset, offsetof(ColorLineList, count) == 0xC);
 
+// A fullscreen fade's draw list (TBoss4Fade, TChCrEffFade): the strip's four vertices, then the
+// four colours it points at.
+struct FadeStrip : public ColorLineList {
+    u32 col[4];
+};
+
 extern "C" void draw_color_lines(ColorLineList *lines, s32 count, s32 flags, f32 scale);
 
 #endif

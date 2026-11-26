@@ -12,6 +12,11 @@ struct TWindowMessageLine {
     s32 timer;
 };
 
+// A window's width and height, as create's size argument reads them.
+struct WindowSize {
+    f32 dimensions[2];
+};
+
 struct TWindowMessage : public TWindowAddition {
     TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client);
     virtual ~TWindowMessage();

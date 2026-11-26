@@ -64,10 +64,6 @@ void draw_fade_hexagon_grid(void *context, f32 scale) {
     }
 }
 
-struct FadeStrip : ColorLineList {
-    u32 color0, color1, color2, color3;
-};
-
 // The 640x480 screen corners the fade strip is drawn over.
 ColorLineVertex chcr_eff_fade_strip_rect[4] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
@@ -77,11 +73,11 @@ void TChCrEffFade::draw_fade_strip(f32 alpha) {
     FadeStrip strip;
     u32 color;
     color = __cvt_fp2unsigned(255.0f * alpha) << 24;
-    strip.color3 = color;
-    strip.color2 = color;
-    strip.color1 = color;
-    strip.color0 = color;
-    strip.colors = &strip.color0;
+    strip.col[3] = color;
+    strip.col[2] = color;
+    strip.col[1] = color;
+    strip.col[0] = color;
+    strip.colors = strip.col;
     strip.tex = NULL;
     strip.count = 4;
     strip.verts = chcr_eff_fade_strip_rect;

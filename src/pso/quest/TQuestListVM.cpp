@@ -30,11 +30,6 @@
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestActiveFlag.h"
 
-// A window's width and height.
-struct WindowSize {
-    f32 dimensions[2];
-};
-
 extern const char quest_file_prefix[] = "PSO______0";
 extern const char quest_file_99_name[] = "PSO______099";
 extern const s32 quest_file_first_index = 4;
@@ -413,7 +408,7 @@ void TQuestListVM::build_download_list() {
         }
         if (description_window == NULL) {
             WindowSize size = description_window_size;
-            description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = TWindowMessage::create(get_window_layout_position(0x2D), size.dimensions, 1);
             description_window->append_line((saddr)entries[0].description, 0x80);
             described_entry = 0;
         }
