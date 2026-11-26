@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/trap/TOTrap.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct TOTrapAncient02 : public TOTrap {
     TOTrapAncient02(TObject *parent, void *set_data);
@@ -28,5 +29,10 @@ struct TOTrapAncient02 : public TOTrap {
 };
 
 LAYOUT_ASSERT(TOTrapAncient02_size_check, sizeof(TOTrapAncient02) == 0x35C);
+
+struct TrapAncient02ResourceRecord {
+    const char *model_filenames[2];
+    BmlResourceDescriptor descriptor;
+};
 
 #endif

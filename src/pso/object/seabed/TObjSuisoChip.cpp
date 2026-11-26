@@ -36,28 +36,6 @@
 #include "pso/player/LocalClientId.h"
 
 
-// One kind of TObjSeabedSuiso_CH.
-struct SeabedSuisoKind {
-    s32 model;         // model index in the tank archive
-    s32 motion;        // motion index, -1 for none
-    f32 motion_speed;  // frames per update
-    s32 particle;      // particle effect id, -1 for none
-    f32 view_range;
-    f32 model_radius;
-};
-
-// One piece of a broken tank: its model and where it sits on the tank.
-struct SeabedSuisoPiece {
-    s32 model;  // model index in the tank archive, -1 ends the set
-    Vec pos;
-};
-
-// The whole tank of one TObjSeabedSuisoBrakable kind and the chips it
-// breaks into.
-struct SeabedSuisoBreakSet {
-    SeabedSuisoPiece whole;
-    SeabedSuisoPiece chips[17];
-};
 #pragma push
 #pragma readonly_strings on
 // The tank archives of the lower (bm_obj_seabed_suiso) and the upper

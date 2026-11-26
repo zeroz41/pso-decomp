@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/container/TObjContainerBase.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct TOContainerAncientEnemy : public TObjContainerBase {
     TOContainerAncientEnemy(void *set_data);
@@ -17,5 +18,10 @@ struct TOContainerAncientEnemy : public TObjContainerBase {
 
 LAYOUT_ASSERT(TOContainerAncientEnemy_size, sizeof(TOContainerAncientEnemy) == 0x368);
 void free_ancient_container_resources(void);
+
+struct AncientContainerBml {
+    const char *model_filenames[4];
+    BmlResourceDescriptor descriptor;
+};
 
 #endif

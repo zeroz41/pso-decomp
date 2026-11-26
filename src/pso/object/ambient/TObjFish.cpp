@@ -335,7 +335,6 @@ void TObjFish::run_task() {
 #pragma pop
 
 
-
 #pragma push
 #pragma fp_contract on
 s32 TObjFish::init_fish_school(Vec *extent, s32 anim0_count, s32 anim1_count) {
@@ -397,15 +396,6 @@ TObjFish::~TObjFish() {
     }
 }
 
-// The placement record passed by object factory 0x220. Only these fields
-// are read by the fish constructor; the leading set metadata stays opaque.
-struct TObjFishSetData {
-    u8 metadata[0xC];
-    Vec position;
-    s32 rotation[3];
-    Vec scale;
-    s32 counts[3];
-};
 
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
@@ -449,11 +439,6 @@ void TObjFish::free_resource() {
         fish_area_bml_resource = NULL;
     }
 }
-struct TObjFishAreaResource {
-    const char *models[4];
-    const char *motions[4];
-    BmlResourceDescriptor descriptor;
-};
 
 TObjFishAreaResource fish_resource_name_table[5] = {
     { { fish_model_name_lobby_suisou_sakana01_yellow_gj, fish_model_name_lobby_suisou_sakana02_red_gj, fish_model_name_lobby_suisou_sakana03_bule_gj, NULL },

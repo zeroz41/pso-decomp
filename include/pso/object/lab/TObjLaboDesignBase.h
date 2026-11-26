@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct BmlResource;
 struct TObjMapCsn;
@@ -41,5 +42,11 @@ LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);
 
 void load_labo_design_object_table(void);
 void free_object_table();
+
+// Archive descriptors of the six laboratory design objects, by object id.
+struct LaboDesignObjectEntry {
+    s32 id;
+    BmlResourceDescriptor *descriptor;
+};
 
 #endif

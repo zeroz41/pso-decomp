@@ -30,10 +30,6 @@
 #include "pso/boss/derolle/RandomAngle.h"
 #include "pso/render/model_render_state.h"
 
-struct CornerRow {
-    u8 pad[0x88];
-    Vec corners[4];
-};
 
 extern "C" {
 extern const f32 lbl_805DA380;
@@ -43,7 +39,6 @@ extern const f32 lbl_805DA380;
 #pragma readonly_strings on
 const char *dead_spot_class_name = "TDeadSpot";
 #pragma pop
-
 
 
 #pragma push

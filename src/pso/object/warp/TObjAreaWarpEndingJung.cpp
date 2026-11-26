@@ -106,14 +106,6 @@ struct Colors_8019C250 { u16 c[2]; };
 struct Colors_8019C604 { u16 c[2]; };
 
 
-
-union WarpStringPos {
-    s64 packed;
-    struct {
-        f32 x;
-        f32 y;
-    } xy;
-};
 // The table is 4-aligned in the original, so its entries are float pairs, not s64.
 
 

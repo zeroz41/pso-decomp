@@ -39,4 +39,8 @@ struct TOVS2Wall01 : public TObjChara {
 
 LAYOUT_ASSERT(TOVS2Wall01FadeOffset, offsetof(TOVS2Wall01, fade) == 0x340);
 LAYOUT_ASSERT(TOVS2Wall01_size, sizeof(TOVS2Wall01) == 0x360);
+
+// The raw set entry: its quest_object_entries row sits 4 bytes in.
+struct WallSetEntry { u8 pad_0[4]; s16 set_index; };
+
 #endif

@@ -64,10 +64,6 @@ static __declspec(section ".rodata") const char ep2_box_model[] ATTRIBUTE_ALIGN(
 static __declspec(section ".rodata") const char ep2_box_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen01.gj";
 static __declspec(section ".rodata") const char ep2_box_fragment2_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen02.gj";
 
-struct AncientContainerBml {
-    const char *model_filenames[4];
-    BmlResourceDescriptor descriptor;
-};
 LAYOUT_ASSERT(AncientContainerBmlSize, sizeof(AncientContainerBml) == 0x20);
 LAYOUT_ASSERT(AncientContainerBmlDescriptorOffset, offsetof(AncientContainerBml, descriptor) == 0x10);
 

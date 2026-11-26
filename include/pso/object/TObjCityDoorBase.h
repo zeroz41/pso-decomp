@@ -2,6 +2,7 @@
 #define PSO_OBJECT_TOBJCITYDOORBASE_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 // The tuning table each city door class hands its base.
 struct CityDoorParams {
@@ -36,6 +37,11 @@ public:
     f32 end_frame;  // the open motion's last frame
     f32 frame;
     const CityDoorParams *params;
+};
+
+struct BmObjCityCommonResourceDescriptor {
+    BmlResourceDescriptor archive;
+    u32 padding;
 };
 
 #endif

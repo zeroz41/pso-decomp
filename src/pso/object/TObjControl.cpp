@@ -53,13 +53,6 @@
 #include "pso/object/TObjLuker_801329B0.h"
 
 
-// The enemy's row of the floor's set data (what set_entry points at).
-struct EnemySetData {
-    s16 set_index; u8 pad2[4]; u16 entity_id; s16 room; s16 group; u8 padC[4];
-    Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
-};
-
-
 extern "C" {
 
 
@@ -70,11 +63,7 @@ s32 draw_player_status(void *, void *, const char *);
 }
 
 
-
-
 s32 area_random_seed;
-
-
 
 
 #define FIND_LIST_TAIL(q) \
@@ -84,7 +73,6 @@ s32 area_random_seed;
         } \
         tail = q; \
     }
-
 
 
 #pragma push

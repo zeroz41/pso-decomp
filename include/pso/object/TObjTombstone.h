@@ -71,4 +71,6 @@ void handle_6x96(void);
 
 void reset_tombstone_values();
 
+struct LabelOffset { s16 x, y; };
+
 #endif

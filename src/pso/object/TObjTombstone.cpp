@@ -42,7 +42,6 @@
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 
-struct LabelOffset { s16 x, y; };
 
 extern "C" {
 

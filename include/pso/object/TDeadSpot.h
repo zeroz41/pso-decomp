@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct NJS_TEXLIST;
 
@@ -50,5 +51,10 @@ LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
 LAYOUT_ASSERT(TUnk_80494A10_size, sizeof(TUnk_80494A10) == 0xCC);
 
 extern const char *dead_spot_class_name;
+
+struct CornerRow {
+    u8 pad[0x88];
+    Vec corners[4];
+};
 
 #endif

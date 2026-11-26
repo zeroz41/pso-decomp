@@ -82,11 +82,6 @@ __declspec(section ".data") const char *bm_obj_table_labo_model_filenames[2] = {
 BmlResourceDescriptor bm_obj_table_labo_resource_descriptor = {
     "bm_obj_table_labo.bml", bm_obj_table_labo_model_filenames, bm_obj_table_labo_motion_filenames, 1, 0,
 };
-// Archive descriptors of the six laboratory design objects, by object id.
-struct LaboDesignObjectEntry {
-    s32 id;
-    BmlResourceDescriptor *descriptor;
-};
 
 LaboDesignObjectEntry labo_design_object_descriptors[7] = {
     {0, &bm_obj_comp_army_resource_descriptor},

@@ -15,4 +15,13 @@ struct TObjAreaWarpEndingJung : public TObjAreaWarpEnding {
 };
 
 LAYOUT_ASSERT(TObjAreaWarpEndingJung_size, sizeof(TObjAreaWarpEndingJung) == 0xDC);
+
+union WarpStringPos {
+    s64 packed;
+    struct {
+        f32 x;
+        f32 y;
+    } xy;
+};
+
 #endif

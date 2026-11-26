@@ -85,4 +85,10 @@ extern u16 next_object_id;
 extern u16 first_free_object_id;
 extern u16 first_free_enemy_id;
 
+// A camera-space probe point and where it lands on screen.
+struct ViewProbe {
+    f32 screen[2];
+    Vec point;
+};
+
 #endif

@@ -93,10 +93,6 @@ __declspec(section ".rodata") CityDoorParams city_door_med_params = {1.0f, 3600.
 __declspec(section ".rodata") Vec city_door_lobby_collision_vertices[] = {{-14.0f, 0.0f, -38.0f}, {-14.0f, 40.0f, -38.0f}, {-10.0f, 0.0f, -12.0f}, {-10.0f, 40.0f, -12.0f}, {-2.0f, 0.0f, 2.0f}, {-2.0f, 40.0f, 2.0f}, {12.0f, 0.0f, 12.0f}, {12.0f, 40.0f, 12.0f}, {38.0f, 0.0f, 16.0f}, {38.0f, 40.0f, 16.0f}};
 __declspec(section ".rodata") extern const u16 city_door_lobby_quad_triangle_indices[] = {1, 0, 3, 3, 0, 2};
 
-struct BmObjCityCommonResourceDescriptor {
-    BmlResourceDescriptor archive;
-    u32 padding;
-};
 extern BmObjCityCommonResourceDescriptor bm_obj_city_common_resource_descriptor;
 void load_city_common_resources(void);
 

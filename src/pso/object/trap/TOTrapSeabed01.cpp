@@ -46,13 +46,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// One fragment chip play_sounds throws when the trap breaks: model index,
-// position in the trap's frame and the chip's y angle.
-struct SeabedTrapFragmentSpawn {
-    s32 model;
-    Vec pos;
-    s32 angle_y;
-};
 
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",

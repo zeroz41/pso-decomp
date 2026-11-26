@@ -82,8 +82,6 @@ CollisionBody ovs2wall01_collision_parts[7] = {
 
 BmlResource *vs2_wall01_bml_resource;
 
-// The raw set entry: its quest_object_entries row sits 4 bytes in.
-struct WallSetEntry { u8 pad_0[4]; s16 set_index; };
 
 extern "C" {
 
@@ -204,7 +202,6 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 }
 
 #pragma pop
-
 
 
 void TOVS2Wall01::break_wall() {

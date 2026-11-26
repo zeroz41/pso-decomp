@@ -53,11 +53,6 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/chat/ChatKeyword.h"
 
-// ChatSensor.prs: how many trigger texts there are and the texts (a sensor's text_index picks one, from 1).
-struct ChatSensorTable {
-    s32 count;
-    char **texts;
-};
 
 TOChatSensorFolder *chat_sensor_folder_instance;
 

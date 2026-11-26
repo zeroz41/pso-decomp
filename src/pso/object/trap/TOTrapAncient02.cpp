@@ -53,10 +53,6 @@
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
 const char *bm_obj_ruins_pillar_motion_names[] = {NULL};
 const char *bm_obj_seabed_pillar_motion_names[] = {NULL};
-struct TrapAncient02ResourceRecord {
-    const char *model_filenames[2];
-    BmlResourceDescriptor descriptor;
-};
 
 TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
     { {"fs_obj_o_torabasami.gj", NULL},
