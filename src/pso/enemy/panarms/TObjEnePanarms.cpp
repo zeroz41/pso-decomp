@@ -134,8 +134,6 @@ extern const s32 panarms_beam_down_charge_effects[2] = { 0x10a, 0x107 };
 extern const s32 panarms_beam_down_charge_points[3] = { 3, 4, 0 };
 
 /* State table of TObjEnePanarms: {enter, update} per state, indexed by state; filled by the TU's __sinit. */
-typedef void (TObjEnePanarms::*PanarmsStateFn)();
-struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
 extern PanarmsState panarms_state_table[14];
 // The unit's static initializer comes before the weak copies of the inline accessors it emits.
 extern "C" {
@@ -144,13 +142,6 @@ static void __sinit_TObjEnePanarms_cpp();
 __declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
 
 
-/* What TLobby::dispatch_shared_handler_a(49) returns for Pan Arms. */
-struct PanarmsParams {
-    f32 unk_0;
-    u8 pad_4[0x14];
-    s32 search_range;
-    s32 wait_frames;
-};
 
 // Out-of-line copies of inline accessors; defined first because the unit is emitted backwards.
 int TObjEnePanarms::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }

@@ -121,4 +121,18 @@ public:
     f32 zalure_chance; // half 1: up to jelin_chance + it casts Zalure
 };
 
+// The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
+struct PanBARATechniqueLevels {
+    u8 pad_0[0x18];
+    s32 resta_level;  // TTecResta::create (update_heal)
+    s32 jelin_level;  // TTecJelin::create (attack_target_player)
+    s32 zalure_level; // TTecZarua::create_instance (attack_target_player)
+};
+
+typedef void (TObjEnePanBARA::*PanBARAStateFn)();
+struct PanBARAState {
+    PanBARAStateFn enter;
+    PanBARAStateFn update;
+};
+
 #endif

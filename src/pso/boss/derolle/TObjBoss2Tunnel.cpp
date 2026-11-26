@@ -37,13 +37,6 @@ NJS_OBJECT *boss2_tunnel_slide_node_a;
 static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *TObjBoss2Tunnel::name = "TObjBoss2Tunnel";
 
-// An RGB fog colour; `a` is not read.
-struct Boss2TunnelColor {
-    f32 a;
-    f32 r;
-    f32 g;
-    f32 b;
-};
 
 s32 boss2_tunnel_model_index_table[6] = {
     0x14, 0xe, 0xf, 0x10,

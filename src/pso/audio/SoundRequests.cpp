@@ -32,17 +32,6 @@ void TObjPlayer::play_effect_if_v2(s32 pitch) {
 }
 
 
-struct SetSoundPitchRequestSndEnt {
-    s32 flags;
-    s32 id;
-    const Vec *src;
-    Vec pos;
-    s16 timer; // frames left: 0x96 when played, 5 to fade out; the same id is not replayed while >= 0x94
-    s16 volume;
-    const void *actor;
-    u8 pad[8];
-};
-
 s8 lbl_805D6278;
 s8 lbl_805D6279;
 s32 music_gain_offset;

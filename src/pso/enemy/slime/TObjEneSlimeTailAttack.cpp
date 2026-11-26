@@ -61,8 +61,6 @@ extern void *slime_model_index_by_type[2];
 extern TObjMotionAction slime_motion_action_table[7];
 
 
-
-
 // This TU's .rodata objects in address order (names stay placeholders).
 extern const char slime_tail_model_name_bm4_ps_ma_body_nj[] = "bm4_ps_ma_body.nj";
 extern const char slime_tail_model_name_bm4_ps_ma_tail_nj[] = "bm4_ps_ma_tail.nj";
@@ -150,8 +148,6 @@ TObjMotionAction slime_motion_action_table[7] = {
     { MOTION_MODE_ONCE, 0, 9, 0.8f, 0 },
 };
 /* State table of TObjEneSlimeOne: {enter, update} per state, indexed by state; built by the TU's __sinit. */
-typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
-struct SlimeOneState { SlimeOneStateFn enter; SlimeOneStateFn update; };
 static SlimeOneState slime_one_state_table[15] = {
     { &TObjEneSlimeOne::init_state, &TObjEneSlimeOne::update_wait_search },
     { &TObjEneSlimeOne::reset_display, &TObjEneSlimeOne::update_grow },
@@ -210,8 +206,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 #include "pso/render/ProjectedStripDraw.h"
 
 
-
-
 #include "pso/render/model_render_state.h"
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBBC8.cpp ----
@@ -228,10 +222,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/player/PlayerSlots.h"
-
-
-
-
 
 
 void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {

@@ -39,4 +39,7 @@ extern ModelNodeCallback model_node_callback;
 void set_color_blending_mode(s32 target, s32 mode);
 #endif
 
+// The blend factor index of each colour blending mode, copied whole by set_color_blending_mode.
+struct BlendModeFactorTable { u32 factor[12]; };
+
 #endif

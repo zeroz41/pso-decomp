@@ -109,4 +109,8 @@ LAYOUT_ASSERT(SlimeOneEffectTimerOffset, offsetof(TObjEneSlimeOne, effect_timer)
 LAYOUT_ASSERT(SlimeOneAttackPositionOffset, offsetof(TObjEneSlimeOne, attack_position) == 0x3D0);
 LAYOUT_ASSERT(SlimeOneVariantOffset, offsetof(TObjEneSlimeOne, variant) == 0x3F4);
 LAYOUT_ASSERT(TObjEneSlimeOne_size, sizeof(TObjEneSlimeOne) == 0x3F8);
+
+// State table entry of TObjEneSlimeOne: {enter, update} per state.
+typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
+struct SlimeOneState { SlimeOneStateFn enter; SlimeOneStateFn update; };
 #endif

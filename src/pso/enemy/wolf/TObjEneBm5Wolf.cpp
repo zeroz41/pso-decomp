@@ -116,13 +116,6 @@ s32 bm5_wolf_render_joint_y_rotation;
 #pragma push
 #pragma fp_contract on
 
-struct WolfGlobalObjects {
-    u8 pad[0x2c];
-    u8 chain0[0xc];
-    TObjEneBm5WolfList list0;
-    u8 chain1[0xc];
-    TObjEneBm5WolfList list1;
-};
 extern "C" {
 Vec bm5_wolf_zero_vector;  // zeroed by the resource loader, never read
 u32 lbl_80500B6C[3];

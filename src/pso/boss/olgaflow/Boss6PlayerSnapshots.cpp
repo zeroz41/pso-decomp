@@ -7,11 +7,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
-// One client's look as the Olga Flow fight starts; free_chara_making puts it back.
-struct Boss6PlayerSnapshot {
-    s32 active;
-    Boss6PlayerLook look;
-};
 
 Boss6PlayerSnapshot boss6_type2_player_snapshot_table[4] = { 0 };
 

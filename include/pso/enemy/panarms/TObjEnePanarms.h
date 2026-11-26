@@ -107,4 +107,16 @@ struct TObjEnePanarms : public TObjEnemy {
 // The Pan Arms bml (models and motions of the body and both halves).
 extern BmlResource *panarms_entry_params_resource;
 
+typedef void (TObjEnePanarms::*PanarmsStateFn)();
+// State table entry of TObjEnePanarms: {enter, update} per state.
+struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
+
+// What TLobby::dispatch_shared_handler_a(49) returns for Pan Arms.
+struct PanarmsParams {
+    f32 unk_0;
+    u8 pad_4[0x14];
+    s32 search_range;
+    s32 wait_frames;
+};
+
 #endif

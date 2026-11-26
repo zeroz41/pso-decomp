@@ -31,4 +31,20 @@ void adxf_exec_server(void);
 void adxf_end_partition_load(void);
 }
 
+struct GetAfsFileInfoChunk { u16 id; u16 len; s32 off; };
+
+// A loaded AFS partition: the archive's name and the sector count of each of its files.
+struct AdxfPartitionInfo {
+    AdxfPartitionInfo *next;
+    s32 info_size; // bytes of this record with its sector counts
+    s32 file_count;
+    u16 entry_count;
+    s8 fe;
+    u8 pad_f;
+    char name[0x100];
+    s32 dir;
+    u16 first_sector; // the first file's sector in the archive
+    u16 sector_counts[1];
+};
+
 #endif

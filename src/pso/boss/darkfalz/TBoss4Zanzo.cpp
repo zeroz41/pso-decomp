@@ -80,13 +80,6 @@
 
 const char *boss4_type2_class_name = "TBoss4Type2";
 
-struct TBoss4Type2Action {
-    const char *name;
-    s32 attack_index;
-    void (TBoss4Type2::*enter)();
-    void (TBoss4Type2::*update_idle)();
-    void (TBoss4Type2::*update)();
-};
 static TBoss4Type2Action boss4_type2_action_table[14] = {
     {"APPEAR", 0, &TBoss4Type2::appear_enter, &TBoss4Type2::appear_idle, &TBoss4Type2::appear_update},
     {"WAITNEXT", 0, 0, &TBoss4Type2::wait_next_idle, 0},
@@ -124,8 +117,6 @@ static f32 boss4_type2_next_action_weights_a[4] = {0.3f, 0.25f, 0.25f, 0.2f};
 static s32 boss4_type2_next_actions_a[4] = {5, 6, 7, 13};
 static f32 boss4_type2_next_action_weights_b[3] = {0.4f, 0.3f, 0.3f};
 static s32 boss4_type2_next_actions_b[3] = {5, 6, 7};
-// Where spawn_bishi_around_players puts its three TBoss4Bishi round each player.
-struct BishiSpawnOffset { f32 x, z; };
 BishiSpawnOffset bishi_spawn_offset_table[3] = {{0.0f, -12.5f}, {-10.75f, 6.25f}, {10.75f, 6.25f}};
 __declspec(section ".data") s32 boss4_type2_attack_pattern_table[2] = {6, 7};
 

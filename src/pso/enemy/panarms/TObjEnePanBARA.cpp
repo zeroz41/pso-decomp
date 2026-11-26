@@ -54,13 +54,6 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/TDeadSpot.h"
 
-// The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
-struct PanBARATechniqueLevels {
-    u8 pad_0[0x18];
-    s32 resta_level;  // TTecResta::create (update_heal)
-    s32 jelin_level;  // TTecJelin::create (attack_target_player)
-    s32 zalure_level; // TTecZarua::create_instance (attack_target_player)
-};
 
 /* A half's one collision sphere (init_collision_body_parts in the constructor). */
 CollisionBody panbara_collision_body[1] = {
@@ -124,12 +117,7 @@ const s32 panbara_retreat_angle_offset[2] = {0x800, -0x800};
 // spawn_npc_pair's NPC descriptors (local initialisers; their templates end the TU's .rodata). spawn_npc_pair fills
 // in the bml's motion table before TLobby::spawn_npc_enemy.
 
-typedef void (TObjEnePanBARA::*PanBARAStateFn)();
 
-struct PanBARAState {
-    PanBARAStateFn enter;
-    PanBARAStateFn update;
-};
 
 extern "C" void __sinit_TObjEnePanBARA_cpp();
 __declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanBARA_cpp;
