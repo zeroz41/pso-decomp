@@ -15951,7 +15951,7 @@ force_active:
   - start_download__12TChCrLoadAfsFv
   - start_duel_battle__17TPlayerBattleCtrlFv
   - start_effect__14TItemEquipBaseFUlUl
-  - capture_symbol_chat__18TSymbolChatCaptureFUsl
+  - capture_symbol_chat__18TSymbolChatCaptureFUsP17SymbolChatPayload
   - start_fade__9TAdFadeGCFl
   - gba_start_joyboot__Fv
   - start_get_type_async
@@ -16317,7 +16317,7 @@ force_active:
   - run_state_8__20TAdSystemFileCheckGCFv
   - enter_state_8__20TAdSystemFileCheckGCFv
   - enter_state_0__20TAdSystemFileCheckGCFv
-  - submit_chat_text__FPUc
+  - submit_chat_text__FPc
   - submit_cursor_and_notify__16TOTrapAncient02RFv
   - submit_keyboard_input__11TWindowChatFv
   - submit_particle_quad__FPvPfPfl
