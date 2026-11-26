@@ -157,7 +157,6 @@ extern "C" {
 void copy_player_visual_record(void *, void *);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
-saddr TObjPlayer__sub_80116620(void *, int);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
@@ -181,15 +180,12 @@ void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
-InventoryItemList *__ct__17InventoryItemListFv(void *list);
-void *__ct__12StatusEffectFv(void *);
 
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s32 get_class_max_exp(void *, void *);
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
-void *__construct_array(void *, void *, void *, u32, u32);
 }
 
 extern const f32 player_front_distance;

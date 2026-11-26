@@ -1596,7 +1596,6 @@ s32 TObjPlayer::free_owned_buffer_b(saddr buffer, s16 flags) {
 
 
 extern "C" {
-s32 __ct__12TPlyCharDataFv(s32 self);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 

@@ -127,7 +127,6 @@ s32 dispatch_weapon_special_effect(void *, int, int, int);
 
 const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
-extern const char *TWindowReturnCity__class_name;
 
 }
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
