@@ -35,5 +35,10 @@ LAYOUT_ASSERT(TEndingC_fade_out_ticks_offset, offsetof(TEndingC, fade_out_ticks)
 
 // Seconds into the ending at which TEndingC starts fading its wall in.
 int get_ending_c_start_seconds(void);
+// Start the A/B wall fade and the picture sequence (TEndingC, once its wall is fully shown).
+void start_ending_ab_fade(void);
+void start_ending_pic_sequence(void);
+u32 get_ending_frame_counter(void);
+void register_texture_ed_512kabe_c(void);
 
 #endif

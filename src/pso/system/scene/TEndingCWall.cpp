@@ -9,7 +9,6 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/system/NinjaTypes.h"
 
-#include "pso/system/scene/TEndingC_8008D00C.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingAB.h"

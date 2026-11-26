@@ -9,7 +9,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/render/GinjaView.h"
-#include "pso/system/scene/TEnding_8008C5C0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80226C3C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -18,7 +17,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby_800FC3CC.h"
-#include "pso/system/scene/TEndingC_8008D00C.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
@@ -60,7 +58,7 @@ void (*ending_scene_callbacks[26])(void) = {
     TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
 };
 
-void fn_8008C4F4(void) {
+void release_ending_scene(void) {
     TLobby::stop_audio_streams();
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));

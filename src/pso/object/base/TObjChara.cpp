@@ -89,7 +89,6 @@
 
 #include "pso/system/scene/TEnding.h"
 
-#include "pso/system/scene/TEnding_8008C5C0.h"
 
 #include "pso/system/scene/OfflineGameScene.h"
 

@@ -64,7 +64,6 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/system/scene/TEnding_8008C5C0.h"
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_80290BEC.h"
@@ -348,11 +347,11 @@ MainPhaseEntry main_phase_table[] = {
     { TAdMultiChgGameModeGC::init_time_set_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TAdMultiChgGameModeGC::init_trial_agreement_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TAdMultiChgGameModeGC::init_enter_password_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
+    { TEnding::set_flag_and_advance, run_game_frame, release_ending_scene },
     { TAdMultiChgGameModeGC::init_level_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
     { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
-    { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
+    { TEnding::start_ending_scene, run_game_frame, release_ending_scene },
     { NULL, NULL, NULL },
     { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, release_single_ply_chr_select_scene },
     { TAdTrialModemChkGC::init_modem_check_phase, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC::exit_modem_check_phase },
