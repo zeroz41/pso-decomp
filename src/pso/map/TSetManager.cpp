@@ -26,7 +26,6 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include <stdlib.h>
 #include "pso/unk/TLobby_800F8AA8.h"
@@ -34,7 +33,6 @@
 #include <string.h>
 #include "pso/system/THeap.h"
 #include "pso/network/protocol/protocol.h"
-#include "pso/unk/pso_carve_8020bf88.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
@@ -44,19 +42,13 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/unk/TLobby_8020E400.h"
-#include "pso/unk/TLobby_8020BFC4.h"
 #include "pso/enemy/EnemyFactoryTables.h"
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/text_8020C354.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/text_8020CCF4.h"
-#include "pso/unk/text_8020BC50.h"
 #include "pso/unk/text_8020C9C8.h"
-#include "pso/unk/TLobby_8020CCD0.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby_8020CFC8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -279,7 +271,7 @@ void TLobby::destroy_child_recursive(TObject *task, TObject *object) {
     }
 }
 
-void TLobby::init_scene_objects() { TLobby::init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); TLobby::attach_objects_by_id((s32)get_current_floor()); TLobby::create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
+void init_scene_objects() { TLobby::init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); attach_objects_by_id((s32)get_current_floor()); create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
 
 void destroy_current_floor_objects(void) {
     s32 n;
@@ -790,7 +782,7 @@ s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
 
 }
 
-s32 TLobby::spawn_objects_at_pos(s16 room, s16 wave) {
+s32 spawn_objects_at_pos(s16 room, s16 wave) {
     s16 set_index;
     s16 flags;
     s32 obj_table_entry;
@@ -856,7 +848,7 @@ TObjEnemy *construct_enemy_from_set_row(EnemySetRecord *row) {
     return NULL;
 }
 
-void TLobby::create_objects(s32 floor) {
+void create_objects(s32 floor) {
     s16 flags;
     s16 set_index;
     s32 row_count;
@@ -889,7 +881,7 @@ void TLobby::create_objects(s32 floor) {
     }
 }
 
-void TLobby::assign_display_objects(EnemySetRecord *rows, s32 enemy_count) {
+void assign_display_objects(EnemySetRecord *rows, s32 enemy_count) {
     s16 flags;
     s16 set_index;
     EnemySetRecord *row;
@@ -920,14 +912,13 @@ void TLobby::assign_display_objects(EnemySetRecord *rows, s32 enemy_count) {
     }
 }
 
-extern "C" {
 s32 find_set_factory_index(FloorObjectSetRow *row, ObjectFactoryEntry *out) {
     s32 index = 0;
     ObjectFactoryEntry *table = floor_object_factory_tables[get_current_floor_area()];
     ObjectFactoryEntry *entry = table;
     while (table != NULL && entry->type != -1) {
         if (entry->type == row->type) {
-            TLobby__sub_8020CFC8(out, entry);
+            copy_object_factory_entry(out, entry);
             return index;
         }
         entry++;
@@ -935,9 +926,8 @@ s32 find_set_factory_index(FloorObjectSetRow *row, ObjectFactoryEntry *out) {
     }
     return -1;
 }
-}
 
-void TLobby__sub_8020CFC8(ObjectFactoryEntry *out, ObjectFactoryEntry *entry) {
+void copy_object_factory_entry(ObjectFactoryEntry *out, ObjectFactoryEntry *entry) {
     out->type = entry->type;
     out->create = entry->create;
     out->creation_distance_squared = entry->creation_distance_squared;
@@ -952,7 +942,6 @@ TObjBase *call_area_set_factory(TSetManager *, FloorObjectSetRow *row) {
     return NULL;
 }
 
-extern "C" {
 TObjBase *create_set_object_from_row(FloorObjectSetRow *row) {
     ObjectFactoryEntry entry;
     if (row->type != -1 && find_set_factory_index(row, &entry) >= 0) {
@@ -960,9 +949,8 @@ TObjBase *create_set_object_from_row(FloorObjectSetRow *row) {
     }
     return NULL;
 }
-}
 
-void TLobby::attach_objects_by_id(s32 floor) {
+void attach_objects_by_id(s32 floor) {
     s16 flags;
     s16 set_index;
     s32 count;
@@ -994,7 +982,7 @@ void TLobby::attach_objects_by_id(s32 floor) {
     }
 }
 
-void TLobby::assign_objects_to_slots(u8 *rows, s32 object_count) {
+void assign_objects_to_slots(u8 *rows, s32 object_count) {
     s16 flags;
     s16 set_index;
     FloorObjectSetRow *row;
@@ -1224,10 +1212,10 @@ void TSetManager::apply_floor_set_rows() {
         floor->enemy_placement |= 4U;
     }
     if (floor->object_placement & 2) {
-        TLobby::assign_objects_to_slots((u8 *)current_floor_object_set_rows, floor->object_count);
+        assign_objects_to_slots((u8 *)current_floor_object_set_rows, floor->object_count);
     }
     if (floor->enemy_placement & 4) {
-        TLobby::assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);
+        assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);
     }
     if (floor_decoration_row_count > 0) {
         apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);

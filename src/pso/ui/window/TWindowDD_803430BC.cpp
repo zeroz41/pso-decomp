@@ -16,7 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_8020C354.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/network/client_id.h"
 
 

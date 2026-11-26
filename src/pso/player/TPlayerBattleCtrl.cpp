@@ -61,12 +61,11 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_8020BC50.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_801C4F80.h"
-#include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_80103F5C.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
@@ -1163,7 +1162,7 @@ void send_6x7D_set_battle_mode_data(void *) {
 }
 
 void finish_chr_select_scene_init(void) {
-    TLobby::init_scene_objects();
+    init_scene_objects();
     TObjPlayer *player = get_local_player();
     if (player != NULL) {
         player->send_selected_spawn_position(battle_mode_data_table[(u16)player->get_entity_id()]);

@@ -53,8 +53,7 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_8020B5CC.h"
-#include "pso/unk/text_8020BC50.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
@@ -633,7 +632,7 @@ void TPlayerBattleCtrl4P::shuffle_order() {
 void TPlayerBattleCtrl4P::reset_players() {
     s32 i;
     TObjPlayer *p;
-    TLobby::init_scene_objects();
+    init_scene_objects();
     for (i = 0; i < 4; i++) {
         p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(i));
         if (p != 0) {

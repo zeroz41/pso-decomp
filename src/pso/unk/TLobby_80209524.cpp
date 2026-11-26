@@ -36,7 +36,6 @@
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_8020B334.h"
-#include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include <stdlib.h>
 #include "pso/unk/TLobby_800F8AA8.h"

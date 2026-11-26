@@ -184,14 +184,8 @@ struct TLobby : public TObject {
     static s32 set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags);
     static s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);
     static s32 sum_floor_enemy_counts();
-    static void init_scene_objects();
     static s32 spawn_matching_objects(s16 room, s16 wave, saddr wave_members);
     static s32 link_matching_objects(s16 room, s16 wave);
-    static s32 spawn_objects_at_pos(s16 room, s16 wave);
-    static void create_objects(s32 floor);
-    static void assign_display_objects(EnemySetRecord *rows, s32 enemy_count);
-    static void attach_objects_by_id(s32 floor);
-    static void assign_objects_to_slots(u8 *rows, s32 object_count);
     static int get_selected_quest_id();
     static s32 handle_main_phase(saddr player);
     static void *create_tl05_object(void *player);

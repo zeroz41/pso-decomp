@@ -368,7 +368,7 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 int link_matching_objects__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::link_matching_objects)(p); }
-int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))TLobby::spawn_objects_at_pos)(p); }
+int spawn_objects_at_pos__6TLobbyFPv(void *p) { return ((int (*)(void *))spawn_objects_at_pos)(p); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
