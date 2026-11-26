@@ -86,26 +86,7 @@ struct G_UnusedHeader {
  u16 unused;
 };
 
-// A hold the player is caught in. Part of the 6x70 player state; layout from newserv, not used by
-// our code yet.
-struct PlayerHoldState {
- u16 expiration_frames;
- u16 unknown_a2;
- u32 unknown_a3;
- f32 trigger_radius2;
- f32 x;
- f32 z;
-};
-
 // A player's records: our code carries them as TPlyChallenge (packet_classes.h).
-
-// A status effect: its type, strength and the frames left. Part of the 6x70 player state; layout
-// from newserv, not used by our code yet.
-struct StatusEffectState {
- u32 effect_type;
- f32 multiplier;
- u32 remaining_frames;
-};
 
 // A player's telepipe: its owner, floor, room, position and angle. Used by our code (TTecLuker).
 struct TelepipeState {
@@ -118,14 +99,6 @@ struct TelepipeState {
  void reset();
  void init_fields(u16 owner);
  s32 get_floor();
-};
-
-// An x/y/z angle in integer units. Part of the 6x70 player state; layout from newserv, not used by
-// our code yet.
-struct VectorXYZI {
- u32 x;
- u32 y;
- u32 z;
 };
 
 #endif

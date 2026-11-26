@@ -30,49 +30,6 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
 
-// 6x70: The first part of a joining player's 6x70 state: ids, position, angle and HP. Received by
-// handle_6x70_sync_player_disp_and_inventory. Layout from newserv, not used by our code yet.
-struct G_6x70_Base_DCNTE {
- u16 client_id;
- u16 room_id;
- u32 game_flags;
- Vec pos;
- struct VectorXYZI angle;
- u16 phase;
- u16 current_hp;
-};
-
-// 6x70: The telepipe part of the 6x70 player state. Received by
-// handle_6x70_sync_player_disp_and_inventory. Layout from newserv, not used by our code yet.
-struct G_6x70_Sub_Telepipe {
- struct TelepipeState state;
- u32 unknown_a4;
-};
-
-// 6x70: The 6x70 player state before the display data and inventory. Received by
-// handle_6x70_sync_player_disp_and_inventory. Layout from newserv, not used by our code yet.
-struct G_6x70_Base_V1 {
- struct G_6x70_Base_DCNTE base;
- u16 bonus_hp_from_materials;
- u16 bonus_tp_from_materials;
- struct StatusEffectState permanent_status_effect;
- struct StatusEffectState temporary_status_effect;
- struct StatusEffectState attack_status_effect;
- struct StatusEffectState defense_status_effect;
- struct StatusEffectState unknown_a1_status_effect;
- u32 language32;
- u32 player_tag;
- u32 guild_card_number;
- u32 unknown_a6;
- u32 battle_team_number;
- struct G_6x70_Sub_Telepipe telepipe;
- u32 death_flags;
- struct PlayerHoldState hold_state;
- u32 area;
- u32 player_flags;
- u8 technique_levels_v1[0x14];
-};
-
 // 6x61: Activates the effect of a player's mag. Sent by TItem::send_activate_effect; received by
 // handle_6x61_activate_item_effect. Size checked: its constructor sets the header size to 3 words.
 struct G_ActivateMagEffect_6x61 {
@@ -1363,12 +1320,14 @@ struct G_SetPosition_6x3F {
 };
 LAYOUT_ASSERT(G_SetPosition_6x3FSize, sizeof(G_SetPosition_6x3F) == 0x18);
 
-// 6x6F: All quest flags, sent to a joining player. Sent by init_6x6F_quest_flags_packet; received
-// by handle_6x6F_set_quest_flags_v2. Used by our code; size not checked against a sender yet.
+// 6x6F: All quest flags, sent to a joining player. Built by init_6x6F_quest_flags_packet and sent by
+// send_6x6F_quest_flags; received by handle_6x6F_set_quest_flags_v2. Size
+// checked: init_6x6F_quest_flags_packet sets the header size to sizeof / 4.
 struct G_SetQuestFlags_V2_V3_6x6F {
  struct G_UnusedHeader header;
  u8 quest_flags[0x200];
 };
+LAYOUT_ASSERT(G_SetQuestFlags_V2_V3_6x6FSize, sizeof(G_SetQuestFlags_V2_V3_6x6F) == 0x204);
 
 // 6x93: A switch flag set by a timer or a chat sensor. Sent by TOChatSensor::handle_chat_message
 // and TOSwitchTimer::send_switch_states; received by handle_6x93_set_switch_flag_from_timer. Size
@@ -1514,14 +1473,18 @@ struct G_SymbolChat_6x07 {
  u8 data[0x3C];
 };
 
-// 6x6B/6x6C/6x6D/6x6E: The header of the compressed game state sent to a joining player. Received
-// by handle_6x6B_sync_game_state, handle_6x6C_sync_game_state, handle_6x6D_sync_game_state and
-// handle_6x6E_sync_game_state. Layout from newserv, not used by our code yet.
-struct G_SyncGameStateHeader_6x6B_6x6C_6x6D_6x6E {
- u8 header[0x8];
- u32 decompressed_size;
- u32 compressed_size;
+// 6x6B/6x6C/6x6D/6x6E: The game state sent to a joining player, LZ-compressed: enemies (6B), objects (6C),
+// floor items (6D) and floor and switch flags (6E). The subcommand header's size is 0 and total_size holds
+// the whole packet's size in bytes; the compressed data follows it. Sent by TLobby::send_cmd_6B,
+// TLobby::send_compressed_packet_6c, TLobby::send_6x6D_item_state and TLobby::send_6x6E_sync_game_state;
+// received by handle_6x6B_sync_game_state through handle_6x6E_sync_game_state. Used by our code; the data
+// starts at offset 8 (the handlers decode total_size - 8 bytes from there).
+struct CompressedSyncPacket {
+ G_UnusedHeader header;
+ s32 total_size;
+ u8 data[1];
 };
+LAYOUT_ASSERT(CompressedSyncPacketDataOffset, offsetof(CompressedSyncPacket, data) == 8);
 
 // 6x6D: The item state sent to a joining player, after decompression. Received by
 // handle_6x6D_sync_game_state. Used by our code; size not checked against a sender yet.
@@ -1531,17 +1494,7 @@ struct G_SyncItemState_6x6D_Decompressed {
  u32 floor_item_count_per_floor[15];
 };
 
-// 6x70: A player's state, display data and inventory, sent to a joining player. Received by
-// handle_6x70_sync_player_disp_and_inventory. Layout from newserv, not used by our code yet.
-struct G_SyncPlayerDispAndInventory_GC_6x70 {
- u8 header[0x8];
- struct G_6x70_Base_V1 base;
- u8 visual[0x50];
- u8 stats[0x24];
- u32 num_items;
- u32 items[0x1E];
- u32 floor;
-};
+// 6x70: carried as PlayerSyncPacket (pso/player/PlayerSyncRecord.h).
 
 // 6x77: A quest register value. Sent by qst_op_sync_register; received by
 // handle_6x77_sync_quest_register. Size checked: G_SyncQuestRegister_6x77::init sets the header

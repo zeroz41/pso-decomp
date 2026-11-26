@@ -120,13 +120,6 @@ struct ServerMenuEntry {
     u16 flags;
     char name[0x12];
 };
-/* The 6x6B-6x6E game-state sync subcommands: an extended subcommand header (size 0, the whole packet's size in the
- * word after it) and the LZ-compressed state. */
-struct CompressedSyncPacket {
-    G_UnusedHeader header;
-    s32 total_size;
-    u8 data[1];
-};
 struct GameStateSyncScratch {
     u16 total_size;
     u16 floor_flags_size;
@@ -141,12 +134,6 @@ LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload
 struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
 struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
-/* 6x70: an extended subcommand header and the sending player's sync record. */
-struct PlayerSyncPacket {
-    G_ClientIDHeader header;
-    s32 total_size;
-    PlayerSyncRecord record;
-};
 typedef char LobbyPlayerName[16];
 /* An entry of the game list (command 08). */
 struct GameMenuEntry {
@@ -569,9 +556,9 @@ void TLobby::send_6x70_player_data(int size) {
 
 #pragma push
 #pragma peephole off
-void handle_6x6F_set_quest_flags_v2(saddr pkt) {
+void handle_6x6F_set_quest_flags_v2(G_SetQuestFlags_V2_V3_6x6F *pkt) {
     if (((s16) lobby_floor_reload_pending == 0) && (((s32) TLobby::lobby_state == 0xE) || ((s32) TLobby::lobby_state == 0xF))) {
-        memcpy(quest_story_flags_by_difficulty, (void *)(pkt + 4), 0x200);
+        memcpy(quest_story_flags_by_difficulty, pkt->quest_flags, 0x200);
     }
 }
 #pragma pop
