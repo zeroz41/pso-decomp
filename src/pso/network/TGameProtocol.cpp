@@ -62,6 +62,7 @@
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -75,7 +76,6 @@ const char *TGameProtocol::class_name = "TGameProtocol";
 s32 dispatching_own_subcommand;
 
 
-extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x18_vol_opt2_boss_actions();
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 struct game_command_header;

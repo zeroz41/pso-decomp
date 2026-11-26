@@ -509,7 +509,7 @@ void TProtocol::handle_cmd_B1(packet &pkt) {
     lobby_state_flags = (lobby_state_flags & ~0xFF00) | ((mid << 8) & 0xFF00);
     lobby_state_flags = (lobby_state_flags & ~0xFF0000) | ((high << 16) & 0xFF0000);
     recv.bswap();
-    handler = (server_time_handler)m_recv_handlers.handle_B1_current_time_packet;
+    handler = m_recv_handlers.handle_B1_current_time_packet;
     if (handler != NULL) {
         handler(recv.time);
     }

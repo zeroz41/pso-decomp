@@ -380,13 +380,11 @@ void player_stats::bswap() {
     bswap_32(reinterpret_cast<u32 *>(&meseta));
 }
 
-extern "C" {
-
 s32 TLobby::get_instance() {
     return selected_episode;
 }
 
-void set_clock_offset_from_server_time(TLobby *packet) {
+void set_clock_offset_from_server_time(char *time) {
     u8 *save;
     DateStamp date;
     s32 minutes;
@@ -400,7 +398,7 @@ void set_clock_offset_from_server_time(TLobby *packet) {
         local_time = (date.minute + minutes) * 60;
         local_time = date.second + local_time;
         local_time = (s32)(30.0f * (f32)local_time);
-        offset = packet->calc_time_from_hms() - local_time;
+        offset = calc_time_from_hms(time) - local_time;
         offset += 108000.0f;
         while (offset < 0) {
             offset += 2592000.0f;
@@ -408,10 +406,9 @@ void set_clock_offset_from_server_time(TLobby *packet) {
         *(s32 *)(save + 8) = offset;
     }
 }
-}
 
-s32 TLobby::calc_time_from_hms() {
-    saddr text = (saddr)this;
+s32 calc_time_from_hms(char *time) {
+    saddr text = (saddr)time;
   saddr *text_ref;
   int seconds;
   s32 hours;

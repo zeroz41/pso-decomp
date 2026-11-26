@@ -275,7 +275,7 @@ struct TSendClientConfig {
     o(handle_41_recv_user_ans, TUserAns &user_ans) \
     o(send_96_unused, void) \
     o(handle_97_checksum_reply_packet, u8 flags) \
-    o(handle_B1_current_time_packet, void) \
+    o(handle_B1_current_time_packet, char *time) \
     o(handle_C0_choice_search_option_packet, TRecvChoiceSearchOptions *options) \
     o(handle_C4_choice_search_reply_packet, ChoiceSearchResultList *results) \
     o(handle_D8_infoboard_packet, TRecvInfoBoard *info_board) \

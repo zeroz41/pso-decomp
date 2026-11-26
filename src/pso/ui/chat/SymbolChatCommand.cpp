@@ -14,9 +14,9 @@
 SymbolChatPreset symbol_chat_receive_buffer;
 
 extern "C" {
-void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command);
 const char *get_technique_name(s32 id) {
     return text_language_group_table[4][id];
+}
 }
 void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
     u32 *p;
@@ -41,6 +41,4 @@ void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
 void *TLobby::copy_symbol_chat_entry(void *dst, void *src) {
     *(CopySymbolChatEntrySym *)dst = *(CopySymbolChatEntrySym *)src;
     return dst;
-}
-
 }

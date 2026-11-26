@@ -1164,9 +1164,6 @@ void TMCFormatSequence::run_task() {
 // .sdata/.rodata, so it is the tail of this file (deferred: the source runs backwards from the text).
 struct FormatWindowPos { f32 a; f32 b; };
 
-extern "C" {
-s32 start_memcard_format(s32, s32, s32, s32, s32);
-}
 
 void TMCFormatSequence::open_windows() {
     if (this->message_window == NULL) {

@@ -93,7 +93,6 @@ struct TLobby : public TObject {
     static AttackParams *dispatch_shared_handler_b(s32 index);
     static player_stats *register_boss(s32 index);
     static s32 get_instance();
-    s32 calc_time_from_hms();
     static s32 calc_alpha_shifted(f32 alpha);
     static void close_result_windows();
     static f32 calc_result_offset();
@@ -315,7 +314,7 @@ struct TLobby : public TObject {
     static void reset_state_byte();
     // Empties the com card list on floor load and unload.
     static void reset_state();
-    static void reset_lobby_state();
+    static void reset_lobby_state(char *time);
     // Receive handlers for DA (lobby event), D8 (info boards), C4 (choice search results), C0 (choice search options).
     static void set_lobby_event_theme(int theme);
     static void handle_info_board(TRecvInfoBoard *info_board);

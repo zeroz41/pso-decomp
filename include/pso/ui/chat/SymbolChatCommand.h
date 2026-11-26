@@ -9,6 +9,8 @@ const char *get_technique_name(s32 id);
 
 struct Handle6x07SymbolChatPacket { u8 pad[4]; s32 f4; u32 f8; };
 
+void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command);
+
 struct Handle6x07SymbolChatSymBody { u32 w[12]; };
 
 struct Handle6x07SymbolChatSymPair { u32 b; u32 c; };

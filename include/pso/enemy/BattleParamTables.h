@@ -28,6 +28,8 @@ void set_battle_param_difficulty(s32 difficulty);
 void update_battle_params();
 void free_battle_param_tables();
 s32 parse_two_digit_number(void *text);
+void set_clock_offset_from_server_time(char *time);
+s32 calc_time_from_hms(char *time);
 // Draws the "ship:block-lobby" location text built by TLobby::close_result_windows.
 void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha);
 void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha);

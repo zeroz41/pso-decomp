@@ -15,9 +15,9 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 extern "C" {
-s32 start_memcard_format(int, int, int, int, int);
 
 TSnapshotFileSetup::TSnapshotFileSetup(TObject *parent) : TObject(parent) {
     this->state = 0;
