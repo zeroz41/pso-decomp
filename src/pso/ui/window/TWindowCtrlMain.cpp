@@ -92,7 +92,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(p
     } else {
         main_menu = new TWindowMainMenu1P(this, this->client_id);
     }
-    message_information = (TWindowMessageInfomation *)create_message_information_window(get_window_layout_position(0x20), (saddr)message_information_window_extent, this->client_id);
+    message_information = create_message_information_window(get_window_layout_position(0x20), message_information_window_extent, this->client_id);
     simple_status = create_status_window(this->client_id);
     simple_status->suspend_update();
     action_palette = new TWindowActionPalette(this->client_id);

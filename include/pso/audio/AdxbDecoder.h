@@ -66,7 +66,7 @@ struct AdxbDecoder {
     s32 max_samples;      // the stream input's max_samples
     s32 max_sample_units; // max_samples / 96
 
-    static AdxbDecoder *alloc_record(s32 channels, saddr buffer, s32 size, s32 wrap_offset);
+    static AdxbDecoder *alloc_record(s32 channels, u8 *buffer, s32 size, s32 wrap_offset);
     void clear_record();
     void invoke_notify_callback();
     void set_max_samples(s32 limit);

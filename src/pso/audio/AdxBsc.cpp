@@ -357,7 +357,7 @@ inline void free_decoder(AdxbDecoder *r) {
         r->used = 0;
     }
 }
-AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, saddr buffer, s32 size, s32 wrap_offset) {
+AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, u8 *buffer, s32 size, s32 wrap_offset) {
     s32 i;
     AdxbDecoder *r;
     for (i = 0; i < 16; i++) {

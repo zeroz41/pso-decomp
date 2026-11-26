@@ -313,7 +313,7 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
     st = &audio_stream_input_pool[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->decoder = AdxbDecoder::alloc_record(channels, (saddr)buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    st->decoder = AdxbDecoder::alloc_record(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
     if (st->decoder == NULL) {
         return NULL;
     }
