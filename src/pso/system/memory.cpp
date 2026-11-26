@@ -42,8 +42,8 @@ void *xcalloc(s32 count, s32 size) {
 
 #pragma push
 #pragma scheduling off
-void xfree(void *emitter) {
-    global_allocator->release(emitter);
+void xfree(void *p) {
+    global_allocator->release(p);
 }
 #pragma pop
 
