@@ -11,8 +11,7 @@ struct TObjEnvSoundGlobal : public TObjBase {
     f32 attenuation;   // set_params[1] clamped to -127..127
     EnvSoundRow sound; // the area's table row, cue -1 for none; mode 1 plays at its position, 2 everywhere with the attenuation
     s32 setup_sound();
-    // src is not const: a const source lets the compiler hoist the second load, which the original
-    // does not, so the callers cast the const table rows.
+    // Copies an area table row (cue and mode) into an object's sound.
     static void copy_pair(EnvSoundRow *dst, EnvSoundRow *src);
     virtual void render();
     virtual void run_task();

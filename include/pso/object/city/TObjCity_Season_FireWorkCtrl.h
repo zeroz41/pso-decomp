@@ -8,7 +8,7 @@ struct TObjCity_Season_FireWorkCtrl : public TObjBase {
     static const char *class_name;
     TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_FireWorkCtrl();
-    // Slot 13: labels the set parameters next to the area box (name inferred).
+    // Slot 13: labels the set parameters next to the area box.
     virtual void draw_debug_labels(s32);
     // Draws the area the fireworks start in as a debug box (name inferred).
     void draw_area_box();

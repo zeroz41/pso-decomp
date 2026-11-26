@@ -19,7 +19,7 @@ struct TObjEnvSound : public TObjBase {
     EnvSoundRow sound; // the area's table row; mode 1 plays once in range, 2 keeps playing with the attenuation
     virtual void render();
     virtual void run_task();
-    // Whether the camera is within the given squared distance of the object (name inferred).
+    // Whether the camera is within the given squared distance of the object.
     s32 is_camera_in_range(f32 radius_squared);
     s32 is_sound_enabled(s32 cue);
     static void *create(void *set_data);

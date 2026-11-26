@@ -55,7 +55,7 @@ struct TOMine : public TObjChara {
     u32 facing;
     NJS_OBJECT *light_model;
     NJS_TEXLIST *light_textures;
-    // Offers this mine to player `client`'s lock-on cursor (name inferred).
+    // Offers this mine to player `client`'s lock-on cursor.
     void submit_cursor_target(s32 client);
     int find_target_player();
     virtual void run_task();

@@ -3,8 +3,7 @@
 
 #include "types.h"
 
-// The challenge task's state, or -1 when no challenge is running (name
-// inferred).
+// The challenge task's state, or -1 when no challenge is running.
 s32 get_challenge_state();
 
 #endif

@@ -7,7 +7,7 @@
 struct TObjPlayer;
 
 // The player flag (0x10000) that shows a mine to a player beyond 200 units or
-// another room. Name inferred.
+// another room.
 s32 can_see_traps(TObjPlayer *player);
 // m_name of every TOMineTrap; TObjPlayer counts and finds traps by it.
 extern const char *mine_trap_name;

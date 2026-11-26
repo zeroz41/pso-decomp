@@ -17,7 +17,7 @@ struct TContainerAncient01 : public TObjChara {
     virtual f32 receive_physical_attack(void *, f32);
     void open_container();
     void update_spawning();
-    void update_blast();  // name inferred: the open blast (sounds, effects, attack_nearby_players) until active_limit
+    void update_blast();  // the open blast (sounds, effects, attack_nearby_players) until active_limit
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
@@ -43,7 +43,7 @@ struct TContainerAncient01 : public TObjChara {
     u32 effect_rate;     // set param 2 + 4; the blast spawns an effect every 30 / effect_rate frames
     static int get_table_entry(int a0);
     // Hits every player on this floor within range (squared, xz) with a kind 0xF
-    // direct attack of power 100. Name inferred.
+    // direct attack of power 100.
     void attack_nearby_players(f32 range);
     // The archive load_resources loaded; TContainerAncient01R shares it.
     static BmlResource *get_bml_resource();
