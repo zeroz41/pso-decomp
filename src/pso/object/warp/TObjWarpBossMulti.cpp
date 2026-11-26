@@ -509,7 +509,7 @@ void TObjWarpBoss::update_warp_confirmation() {
 }
 
 void TObjWarpBoss::update_warp_state() {
-    s32 var_r3;
+    s32 warp_now;
 
     switch (state_step) {
     case 2:
@@ -532,11 +532,11 @@ void TObjWarpBoss::update_warp_state() {
         if (TWindowSubTradeMain::get_warp_state() != 0) {
             warp_countdown--;
             if (warp_countdown <= 0) {
-                var_r3 = 1;
+                warp_now = 1;
             } else {
-                var_r3 = are_all_players_in_range();
+                warp_now = are_all_players_in_range();
             }
-            if (var_r3 != 0) {
+            if (warp_now != 0) {
                 send_cmd_6A(2);
                 state_step = 2;
             }
@@ -904,16 +904,16 @@ void TObjWarpBossMulti::debug_print_area_num() {
 }
 
 void TObjWarpBossMulti::update() {
-    s32 temp_r0;
+    s32 raw_key_id;
 
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         key_id = -1;
     } else {
-        temp_r0 = set_params[1];
-        if ((temp_r0 < 0) || (temp_r0 > 0xFF)) {
+        raw_key_id = set_params[1];
+        if ((raw_key_id < 0) || (raw_key_id > 0xFF)) {
             key_id = -1;
         } else {
-            key_id = temp_r0;
+            key_id = raw_key_id;
         }
     }
     if (key_id >= 0) {

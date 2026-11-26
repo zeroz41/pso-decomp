@@ -29,7 +29,7 @@ TObjCollision::~TObjCollision() {
 }
 
 TObjCollision::TObjCollision(TObject *parent, void *arg2_) : TObjCollidable(parent) {
-    s32 var_r0;
+    s32 flag;
     saddr arg2 = (saddr)arg2_;
     this->m_name = lbl_805D2830;
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0xC));
@@ -42,11 +42,11 @@ TObjCollision::TObjCollision(TObject *parent, void *arg2_) : TObjCollidable(pare
     *(f32 *)((s8 *)((u8 *)this) + 0xB8) = (f32) this->scale.x;
     this->m_bc = (f32) this->scale.y;
     if (*(f32 *)((s8 *)((u8 *)this) + 0x70) < 0.0f) {
-        var_r0 = 1;
+        flag = 1;
     } else {
-        var_r0 = 0;
+        flag = 0;
     }
-    this->m_c0 = var_r0;
+    this->m_c0 = flag;
     this->m_c4 = 0x10001;
     if (fabs_float(*(f32 *)((s8 *)((u8 *)this) + 0x70)) < 1000.0f) {
         this->m_c4 = (s32) (this->m_c4 & 0xFFFFFEFF);

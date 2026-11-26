@@ -300,7 +300,7 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s32 sp18;
     s32 sp14;
     s16 sp10;
-    u8 *temp_r3;
+    u8 *buffer;
     adxb->m_02 = 1;
     if (adx_parse_header_info(hdr, size, &sp10, (u8 *)&adxb->encoding_type, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
         return 0;
@@ -327,7 +327,7 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     adx_parse_header_loop(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
     adxb->format = 0;
 block_11:
-    temp_r3 = adxb->m_4C;
+    buffer = adxb->m_4C;
     adxb->stream_channels = adxb->channels;
     adxb->stream_block_bytes = adxb->block_bytes;
     adxb->stream_block_samples = adxb->block_samples;
@@ -336,9 +336,9 @@ block_11:
     adxb->rOff = adxb->wrap_offset;
     adxb->m_7C = adxb->m_48;
     adxb->m_7E = adxb->m_4A;
-    adxb->m_80 = temp_r3;
+    adxb->m_80 = buffer;
     adxb->write_pos = 0;
-    memset(temp_r3, 0, 4);
+    memset(buffer, 0, 4);
     return sp10;
 }
 

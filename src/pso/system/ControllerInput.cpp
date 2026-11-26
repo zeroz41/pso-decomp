@@ -78,9 +78,9 @@ s32 TKeyBoardControl__sub_801A58D8(void) {
     return hardware_keyboard_state.sub_80132310();
 }
 
-s32 TKeyBoardControl::check_and_read(s32 arg0) {
+s32 TKeyBoardControl::check_and_read(s32 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return TKeyBoardControl::is_key_down(arg0);
+        return TKeyBoardControl::is_key_down(key);
     }
     return 0;
 }
@@ -92,12 +92,12 @@ s32 TKeyBoardControl::read_input(u8 key) {
     return 0;
 }
 
-s32 TKeyBoardControl::is_key_down(s32 arg0) {
+s32 TKeyBoardControl::is_key_down(s32 key) {
     s32 i;
     s32 n;
     n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
-        if ((u8)arg0 == hardware_keyboard_state.sub_8013239C(i)) {
+        if ((u8)key == hardware_keyboard_state.sub_8013239C(i)) {
             return 1;
         }
     }
@@ -265,8 +265,8 @@ s32 func_801A5E54(void) {
     return (memcard_access_active != 0) ? 0 : controller_reset_requested;
 }
 
-s32 TKeyBoardControl::read_key_checked(u8 arg0) {
-    return TKeyBoardControl::check_and_read((s32)(arg0));
+s32 TKeyBoardControl::read_key_checked(u8 key) {
+    return TKeyBoardControl::check_and_read((s32)(key));
 }
 void TKeyBoardControl::update_input_frame() {
     hardware_keyboard_state.sub_80132650();
@@ -436,7 +436,7 @@ struct ControllerHoldFrameBlock {
 };
 
 extern "C" {
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1);
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, ControllerInputContext *source);
 
 void bind_controller_devices(void) {
     PadSlot *slot;
@@ -525,31 +525,31 @@ void reset_controller_input_state(void) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *controller_input_context, ControllerInputContext *arg1) {
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *destination, ControllerInputContext *source) {
   ControllerInputContext *new_var;
   ControllerInputContext *new_var2;
   ControllerHoldFrameBlock *s;
   ControllerHoldFrameBlock *d;
-  controller_input_context->buttons = arg1->buttons;
-  controller_input_context->not_held = arg1->not_held;
-  controller_input_context->pressed_buttons = arg1->pressed_buttons;
-  controller_input_context->released = arg1->released;
-  controller_input_context->trigger_r = arg1->trigger_r;
-  controller_input_context->trigger_l = arg1->trigger_l;
-  controller_input_context->stick_x = arg1->stick_x;
-  new_var = (new_var2 = controller_input_context);
-  new_var2->stick_y = arg1->stick_y;
-  controller_input_context->cstick_x = arg1->cstick_x;
-  new_var2->cstick_y = arg1->cstick_y;
-  new_var->stick_angle = arg1->stick_angle;
-  new_var2->cstick_angle = arg1->cstick_angle;
-  controller_input_context->stick_magnitude = arg1->stick_magnitude;
-  controller_input_context->cstick_magnitude = arg1->cstick_magnitude;
-  s = reinterpret_cast<ControllerHoldFrameBlock *>(arg1->hold_frames);
+  destination->buttons = source->buttons;
+  destination->not_held = source->not_held;
+  destination->pressed_buttons = source->pressed_buttons;
+  destination->released = source->released;
+  destination->trigger_r = source->trigger_r;
+  destination->trigger_l = source->trigger_l;
+  destination->stick_x = source->stick_x;
+  new_var = (new_var2 = destination);
+  new_var2->stick_y = source->stick_y;
+  destination->cstick_x = source->cstick_x;
+  new_var2->cstick_y = source->cstick_y;
+  new_var->stick_angle = source->stick_angle;
+  new_var2->cstick_angle = source->cstick_angle;
+  destination->stick_magnitude = source->stick_magnitude;
+  destination->cstick_magnitude = source->cstick_magnitude;
+  s = reinterpret_cast<ControllerHoldFrameBlock *>(source->hold_frames);
   d = reinterpret_cast<ControllerHoldFrameBlock *>((new_var = new_var2)->hold_frames);
   *d = *s;
-  controller_input_context->held_with_sticks = arg1->held_with_sticks;
-  new_var->pressed_with_sticks = arg1->pressed_with_sticks;
+  destination->held_with_sticks = source->held_with_sticks;
+  new_var->pressed_with_sticks = source->pressed_with_sticks;
 }
 
 void TKeyBoardControl::init_pad_state() {

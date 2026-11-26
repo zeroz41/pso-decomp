@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
-#include "pso/object/switch/TOSwitchAttack_801778A4.h"
+#include "pso/object/switch/TOSwitchAttack.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/object/door/TODoorLabo.h"
 #include "pso/object/cave/TODragonflyCave01.h"
@@ -15,6 +15,10 @@
 #include "pso/object/container/TObjContainerJung.h"
 #include "pso/object/container/TObjContainerJungEx.h"
 #include "pso/effect/TBGLightningCtrl.h"
+#include "pso/object/fence/TObjLazerFenceNorm.h"
+#include "pso/object/warp/TObjWarpJung.h"
+#include "pso/unk/text_8028A820.h"
+#include "pso/unk/text_80365348.h"
 #include "pso/object/ambient/TButterfly.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
@@ -139,21 +143,12 @@
 extern "C" {
 void TMainCursor__sub_80154090();
 void TMainCursor__sub_80154094();
-void TContainerAncient01R__sub_8018AF74();
 }
 extern "C" {
 void release_boss_warp_resources();
 }
-void load_labo_design_object_table();
 void load_chat_sensor();
-void load_turiten_singo_resources();
 void load_city_common_resources();
-void load_lazer_fence_norm_resources();
-void free_warp_jung_beam_resources();
-void load_warp_beam_resources();
-void load_green_door_resources();
-void load_labo_door_resources();
-void load_bg_lightning();
 void free_object_table();
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_00[12] = {
     { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
@@ -164,7 +159,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_00[12] = {
     { load_city_common_resources, TLobby::free_map_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { TObjGbAdvance::load_resource_instance, TObjGbAdvance::free_shared_data },
     { 0, 0 },
@@ -195,10 +190,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_01[30] = {
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { TOKeyMachine01::load_assets, TOKeyMachine01::free_statics },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -230,10 +225,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_02[32] = {
     { load_boss_warp_resources, release_boss_warp_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { TOKeyMachine01::load_assets, TOKeyMachine01::free_statics },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -260,10 +255,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_03[27] = {
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
     { TObjContainerIdo::load_resources, TObjContainerIdo::free_resources },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -299,12 +294,12 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_04[38] = {
     { TOMonumentAncient02::load_resources, TOMonumentAncient02::free_shared_data },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOBind::load_static_resource, TOBind::free_static_model },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -338,12 +333,12 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_05[36] = {
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOBind::load_static_resource, TOBind::free_static_model },
     { load_boss_warp_resources, release_boss_warp_resources },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -376,10 +371,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_06[34] = {
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
@@ -415,10 +410,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_07[36] = {
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
@@ -442,7 +437,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_08[34] = {
     { TOFenceAncient03::load_resources, TOFenceAncient03::unload_resources },
     { TOFenceAncient04::load_resources, TOFenceAncient04::unload_resources },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TOTrapAncient01::load_resources, TOTrapAncient01::release_static_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TOMonumentAncient01::load_resources, TOMonumentAncient01::unload_resources },
@@ -452,11 +447,11 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_08[34] = {
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -479,7 +474,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_09[34] = {
     { TOFenceAncient03::load_resources, TOFenceAncient03::unload_resources },
     { TOFenceAncient04::load_resources, TOFenceAncient04::unload_resources },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TOTrapAncient01::load_resources, TOTrapAncient01::release_static_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TOMonumentAncient01::load_resources, TOMonumentAncient01::unload_resources },
@@ -489,11 +484,11 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_09[34] = {
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -516,7 +511,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_10[35] = {
     { TOFenceAncient03::load_resources, TOFenceAncient03::unload_resources },
     { TOFenceAncient04::load_resources, TOFenceAncient04::unload_resources },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TOTrapAncient01::load_resources, TOTrapAncient01::release_static_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TOMonumentAncient01::load_resources, TOMonumentAncient01::unload_resources },
@@ -528,10 +523,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_10[35] = {
     { load_boss_warp_resources, release_boss_warp_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -598,10 +593,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_16[24] = {
     { TODragonflyCave01::load_resources, TODragonflyCave01::release_static_instance },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { TODoorVS2Door01::load_resources, TODoorVS2Door01::destroy },
     { TOVS2Wall01::load_resources, TOVS2Wall01::release_model },
@@ -623,10 +618,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_17[20] = {
     { TObjHashiVersus2::load_shared_resource, TObjHashiVersus2::unload_static_data },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { 0, 0 },
 };
@@ -640,7 +635,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_18[16] = {
     { load_city_common_resources, TLobby::free_map_resources },
     { TOSwitchItem::load_assets, TOSwitchItem::free_assets },
     { TOSymbolchatColli::load_symbol_chat_data, TOSymbolchatColli::free_rock },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { load_labo_door_resources, TAdSinglePlyChrSelectGC::free_all_resources },
     { load_labo_design_object_table, free_object_table },
@@ -662,10 +657,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_21_22[29] = {
     { TOKeyGenericSw::load_resources, TOKeyGenericSw::free_shared_resources },
     { TOKeyCave01::load_resources, TOKeyCave01::free_objects },
     { TOKeyMachine01::load_assets, TOKeyMachine01::free_statics },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { TObjDoaEx01::load_resources, TObjDoaEx01::free_resource },
     { TLanguage::load_container_fragment_textures, free_ancient_container_resources },
@@ -694,10 +689,10 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_19_20[27] = {
     { TOKeyGenericSw::load_resources, TOKeyGenericSw::free_shared_resources },
     { TOKeyCave01::load_resources, TOKeyCave01::free_objects },
     { TOKeyMachine01::load_assets, TOKeyMachine01::free_statics },
-    { TOSwitchAttack__sub_80177C24, TOSwitchAttack__sub_80177C20 },
+    { TOSwitchAttack::load_assets, TOSwitchAttack::free_assets },
     { load_computer_resources, TObjComputer::free_resources },
-    { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
-    { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
+    { TODummyKeyCave01::load_assets, TODummyKeyCave01::free_assets },
+    { TOSwitchTimer::load_assets, TOSwitchTimer::free_assets },
     { load_chat_sensor, TOChatSensor::destroy_global },
     { TODoorVS2Door01::load_resources, TODoorVS2Door01::destroy },
     { TLanguage::load_container_fragment_textures, free_ancient_container_resources },
@@ -732,7 +727,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_23[29] = {
     { TOGrassJungle::load_resources, TOGrassJungle::release_static_instance },
     { load_bg_lightning, TBGLightningCtrl::destroy_instance },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
@@ -762,7 +757,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_24[31] = {
     { TORockJungleS01::load_resources, TORockJungleS01::free_globals },
     { TOGrassJungle::load_resources, TOGrassJungle::release_static_instance },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TObjFish::load_area_resource, TObjFish::free_resource },
     { TObjJungleEbi::load_static_resource, TObjJungleEbi::destroy_instance },
     { TObjJungleBird::load_static_resource, TObjJungleBird::destroy_instance },
@@ -796,7 +791,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_25[30] = {
     { TORockJungleS01::load_resources, TORockJungleS01::free_globals },
     { TOGrassJungle::load_resources, TOGrassJungle::release_static_instance },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TObjJungleEbi::load_static_resource, TObjJungleEbi::destroy_instance },
     { TObjJungleBird::load_static_resource, TObjJungleBird::destroy_instance },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
@@ -829,7 +824,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_26[27] = {
     { TORockJungleS01::load_resources, TORockJungleS01::free_globals },
     { TOGrassJungle::load_resources, TOGrassJungle::release_static_instance },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
@@ -859,7 +854,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_27[30] = {
     { TORockJungleS01::load_resources, TORockJungleS01::free_globals },
     { TOGrassJungle::load_resources, TOGrassJungle::release_static_instance },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TObjJungleEbi::load_static_resource, TObjJungleEbi::destroy_instance },
     { TObjJungleBird::load_static_resource, TObjJungleBird::destroy_instance },
     { TObjFish::load_area_resource, TObjFish::free_resource },
@@ -891,7 +886,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_34[27] = {
     { TORockJungleS01::load_resources, TORockJungleS01::free_globals },
     { TOGrassJungle::load_resources, TOGrassJungle::release_static_instance },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TObjJungleEbi::load_static_resource, TObjJungleEbi::destroy_instance },
     { TObjFish::load_area_resource, TObjFish::free_resource },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
@@ -919,7 +914,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_35[33] = {
     { TObjContainerJungEx::load_resource_instance, TObjContainerJungEx::free_data },
     { TOKeyJungleMain::load_static_resource, TOKeyJungleMain::release_static_resource },
     { TContainerAncient01::load_resources, TContainerAncient01::release_static_resource },
-    { TContainerAncient01R::init_table_entries, TContainerAncient01R__sub_8018AF74 },
+    { TContainerAncient01R::init_table_entries, TContainerAncient01R::free_table_entries },
     { TObjJungleEbi::load_static_resource, TObjJungleEbi::destroy_instance },
     { TObjJungleBird::load_static_resource, TObjJungleBird::destroy_instance },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },

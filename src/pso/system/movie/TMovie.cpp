@@ -59,12 +59,12 @@ TMovie *TMovie::close(TMovie *movie, short dealloc) {
     return movie;
 }
 
-u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 arg2, s32 arg3, s32 arg4) {
-    *(s32 *)((s8 *)movie + 0xCC) = arg2;
+u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 movie_mode, s32 is_ending, s32 normal_ending) {
+    *(s32 *)((s8 *)movie + 0xCC) = movie_mode;
     *(s32 *)((s8 *)movie + 0) = 0;
     TMovie__sub_80144324((MovieState *)movie, name);
-    ((TMovie *)movie)->init_sfd_player(arg3, arg4);
-    if (arg3 != 0) {
+    ((TMovie *)movie)->init_sfd_player(is_ending, normal_ending);
+    if (is_ending != 0) {
         play_area_music("CUBE_ENDING.adx");
     } else if ((get_opening_movie_purpose() == 0) && (get_opening_movie_selector() == 1)) {
         play_area_music("CUBE_OPENING.adx");
@@ -89,11 +89,11 @@ s32 TMovie::check_finished() {
 }
 
 s32 TMovie::is_playback_finished() {
-    void **temp_r3;
-    u8 *temp_r4;
-    temp_r3 = (void **)(*(void ** *)&this->m_flags);
-    temp_r4 = (u8 *)(*temp_r3);
-    if ((*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x20))(temp_r3, temp_r4) == 3) {
+    void **sfd;
+    u8 *sfd_vtable;
+    sfd = (void **)(*(void ** *)&this->m_flags);
+    sfd_vtable = (u8 *)(*sfd);
+    if ((*(s32 (**)(void **, void *))((s8 *)sfd_vtable + 0x20))(sfd, sfd_vtable) == 3) {
         return 1;
     }
     return 0;
@@ -108,12 +108,12 @@ void TMovie::update_stop() {
 }
 
 void TMovie::release() {
-    void **temp_r3;
-    void *temp_r4;
+    void **sfd;
+    void *sfd_vtable;
 
-    temp_r3 = *(void ** *)&this->m_flags;
-    temp_r4 = *temp_r3;
-    (*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
+    sfd = *(void ** *)&this->m_flags;
+    sfd_vtable = *sfd;
+    (*(s32 (**)(void **, void *))((s8 *)sfd_vtable + 0x14))(sfd, sfd_vtable);
     *(void ** *)&this->m_flags = NULL;
 }
 
@@ -155,14 +155,14 @@ struct Movie_80143FB0 {
     u8 fA4[4];
 };
 
-void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
+void TMovie::init_sfd_player(s32 is_ending, s32 normal_ending) {
     Movie_80143FB0 *o = (Movie_80143FB0 *)this;
     MwsfdCrePrm *info = &o->info;
     MwsfdPly *f;
 
     o->fA0 = o->f9C;
     o->f48 = 0x11;
-    if (arg1 != 0) {
+    if (is_ending != 0) {
         info->mode = 1;
     } else {
         info->mode = 2;
@@ -179,8 +179,8 @@ void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
     info->f14 = 1;
     f = mwPlyCreateSofdec_hook(info);
     o->iface = f;
-    if (arg1 != 0) {
-        if (arg2 != 0) {
+    if (is_ending != 0) {
+        if (normal_ending != 0) {
             mwPlyEntryFname_hook(f, "ending_normal.sfd");
         } else {
             mwPlyEntryFname_hook(f, "ult01.sfd");
@@ -199,36 +199,36 @@ void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
 }
 
 s32 TMovie::decode_frame() {
-    u8 *arg0 = (u8 *)this;
+    u8 *movie_bytes = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(MovieFrameInfo, field_00) == 0x0);
     LAYOUT_ASSERT(sp10_offset, offsetof(MovieFrameInfo, field_08) == 0x8);
     LAYOUT_ASSERT(sp14_offset, offsetof(MovieFrameInfo, field_0c) == 0xC);
     MovieFrameInfo frame;
 
-    s32 temp_r3_2;
-    void **temp_r3;
-    u8 *temp_r4;
+    s32 sfd_state;
+    void **sfd;
+    u8 *sfd_vtable;
 
-    if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
+    if ((s32) *(s32 *)((s8 *)movie_bytes + 0xCC) != 0) {
         TMovie::flush_and_reset();
     }
     mwPlyGetCurFrm_hook(*(void ** *)&this->m_flags, &frame.field_00);
     if (frame.field_00 != 0U) {
-        if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
+        if ((s32) *(s32 *)((s8 *)movie_bytes + 0xCC) != 0) {
             TMovie__sub_80143C94((frame.field_00), (frame.field_08), (frame.field_0c));
         } else {
-            flush_framebuffer((saddr)arg0, (saddr)(*(void ** *)&this->m_flags), (saddr)&frame.field_00);
+            flush_framebuffer((saddr)movie_bytes, (saddr)(*(void ** *)&this->m_flags), (saddr)&frame.field_00);
         }
-        ((TMovie *)(arg0 + 0x5C))->copy(&frame.field_00);
+        ((TMovie *)(movie_bytes + 0x5C))->copy(&frame.field_00);
         mwPlyRelCurFrm_hook(*(void ** *)&this->m_flags);
     }
-    temp_r3 = (void **)(*(void ** *)&this->m_flags);
-    temp_r4 = (u8 *)(*temp_r3);
-    temp_r3_2 = (*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x20))(temp_r3, temp_r4);
-    if (temp_r3_2 == 3) {
+    sfd = (void **)(*(void ** *)&this->m_flags);
+    sfd_vtable = (u8 *)(*sfd);
+    sfd_state = (*(s32 (**)(void **, void *))((s8 *)sfd_vtable + 0x20))(sfd, sfd_vtable);
+    if (sfd_state == 3) {
         return 0;
     }
-    *(s32 *)((s8 *)arg0 + 0x58) = temp_r3_2;
+    *(s32 *)((s8 *)movie_bytes + 0x58) = sfd_state;
     return 1;
 }
 
@@ -279,7 +279,7 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
 }
 
 TMovie::~TMovie() {
-    s32 (*temp_r12)(void *);
+    s32 (*callback)(void *);
     TMovie *t;
 
     this->render_until_finished();
@@ -297,9 +297,9 @@ TMovie::~TMovie() {
         module = NULL;
     }
     render_tick();
-    temp_r12 = *(s32 (**)(void *))((s8 *)this + 0x44);
-    if (temp_r12 != NULL) {
-        temp_r12(this);
+    callback = *(s32 (**)(void *))((s8 *)this + 0x44);
+    if (callback != NULL) {
+        callback(this);
     }
     TLobby::set_pre_retrace_callback();
 }
@@ -314,7 +314,7 @@ loop_1:
 
 s32 TMovie::check_skip_input() {
     ControllerInputContext *context;
-    s32 var_r30;
+    s32 reset_pressed;
 
     if (is_ending_sequence_active() != 0) {
         if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(func_801A5E54()) != 0)) {
@@ -349,9 +349,9 @@ block_fn_8000F91C:
         set_queued_main_phase(9);
         return 1;
     case 1:
-        var_r30 = 0;
+        reset_pressed = 0;
         if (TKeyBoardControl::check_reset_button() != 0) {
-            var_r30 = 1;
+            reset_pressed = 1;
         }
         context = &controller_physical_port_bank.controllers[0];
         if (test_pressed_buttons_packed(context, 2) != 0) goto block_call_func;
@@ -360,10 +360,10 @@ block_fn_8000F91C:
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_call_func;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
-        if (var_r30 != 0) goto block_call_func;
+        if (reset_pressed != 0) goto block_call_func;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:
-        if ((static_cast<s8>(func_801A5E54()) != 0) || (var_r30 != 0)) {
+        if ((static_cast<s8>(func_801A5E54()) != 0) || (reset_pressed != 0)) {
             activate_main_menu_scene();
         }
         return 1;

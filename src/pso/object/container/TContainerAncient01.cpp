@@ -77,7 +77,6 @@ BmlResource *TContainerAncient01__sub_8018BE90(void);
 
 void TContainerAncient01__sub_8018B180(TContainerAncient01 *self, f32 range);
 
-void TContainerAncient01R__sub_8018AF74(void);
 }
 
 
@@ -517,7 +516,7 @@ void TContainerAncient01R::init_table_entries() {
     container_ancient01_open_effect_table[1] = TContainerAncient01::get_table_entry(1);
 }
 
-void TContainerAncient01R__sub_8018AF74(void) { container_ancient01_r_bml_resource = NULL; }
+void TContainerAncient01R::free_table_entries() { container_ancient01_r_bml_resource = NULL; }
 
 void *TContainerAncient01R::create(void *parent) {
     return new TContainerAncient01R(tl_05, parent);

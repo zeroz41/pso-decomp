@@ -91,11 +91,11 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
 extern "C" {
 
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
-    Obj_8018FA6C *temp_r3;
+    Obj_8018FA6C *key;
 
-    temp_r3 = fn_8018FA6C(id);
-    if (temp_r3 != NULL) {
-        ((TObjDoorKey *)temp_r3)->activated = 1;
+    key = fn_8018FA6C(id);
+    if (key != NULL) {
+        ((TObjDoorKey *)key)->activated = 1;
     }
 }
 }

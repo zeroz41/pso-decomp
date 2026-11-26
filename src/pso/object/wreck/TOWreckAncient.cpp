@@ -149,12 +149,12 @@ TOWreckAncient::~TOWreckAncient() {
 }
 
 void TOWreckAncient::load_resources() {
-    saddr var_r0;
-    saddr var_r0_2;
-    var_r0 = (saddr)new BmlResource(1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, NULL);
-    wreck_ancient_bml_resource = (BmlResource *)var_r0;
-    var_r0_2 = (saddr)new BmlResource(1, &wreck_ancient_resource_descriptor, 0, 0, NULL);
-    wreck_ancient_brakable_bml_resource = (BmlResource *)var_r0_2;
+    saddr resource;
+    saddr brakable_resource;
+    resource = (saddr)new BmlResource(1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, NULL);
+    wreck_ancient_bml_resource = (BmlResource *)resource;
+    brakable_resource = (saddr)new BmlResource(1, &wreck_ancient_resource_descriptor, 0, 0, NULL);
+    wreck_ancient_brakable_bml_resource = (BmlResource *)brakable_resource;
 }
 
 void TOWreckAncient::free_statics() {

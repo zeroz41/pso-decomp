@@ -263,29 +263,29 @@ void decode_audio_stream_step(AudioStreamInputState *st) {
     }
 }
 
-s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
-    AudioStreamGetWriteWindowState *arg0 = (AudioStreamGetWriteWindowState *)arg0_;
+s16 *audio_stream_get_write_window(void *state_ptr, s32 *out_offset, s32 *out_available, s32 *out_remaining) {
+    AudioStreamGetWriteWindowState *state = (AudioStreamGetWriteWindowState *)state_ptr;
     saddr h;
     s32 i;
     s32 t;
     s32 v;
-    h = (saddr)arg0->objs[0];
-    for (i = 0; i < arg0->decoder->get_channels(); i++) {
-        arg0->objs[i]->vt->fn18(arg0->objs[i], 0, 0x4000, &arg0->recs[i]);
+    h = (saddr)state->objs[0];
+    for (i = 0; i < state->decoder->get_channels(); i++) {
+        state->objs[i]->vt->fn18(state->objs[i], 0, 0x4000, &state->recs[i]);
     }
-    *arg1 = (arg0->recs[0].a - (saddr)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
-    v = arg0->f38;
-    t = arg0->recs[0].b / 2;
+    *out_offset = (state->recs[0].a - (saddr)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
+    v = state->f38;
+    t = state->recs[0].b / 2;
     if (t < v) {
         v = t;
     }
-    *arg2 = v;
-    if (arg0->f3C >= 0) {
-        *arg3 = arg0->f3C - arg0->f40;
+    *out_available = v;
+    if (state->f3C >= 0) {
+        *out_remaining = state->f3C - state->f40;
     } else {
-        *arg3 = 0x1FFFFFFF;
+        *out_remaining = 0x1FFFFFFF;
     }
-    return arg0->decoder->get_output_buffer();
+    return state->decoder->get_output_buffer();
 }
 
 void AudioStreamInputState::reset_flag() {

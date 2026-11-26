@@ -21,15 +21,12 @@ struct TOSwitchTimer : public TObjBase {
     virtual void render();
     virtual void run_task();
     static void *create(void *arg0);
+    static void free_assets();
+    static void load_assets();
     u8 unk_B1[0x3];
     s32 floor;
 };
 
 LAYOUT_ASSERT(TOSwitchTimer_size, sizeof(TOSwitchTimer) == 0xB8);
-
-extern "C" {
-void TOSwitchTimer__sub_80178584(void);
-void TOSwitchTimer__sub_80178588(void);
-}
 
 #endif

@@ -25,6 +25,7 @@ struct TContainerAncient01R : public TObjChara {
     virtual void render();
     virtual void run_task();
     static void init_table_entries();
+    static void free_table_entries();
     u8 unk_334[0x4];
     s16 m_338;
     u8 unk_33A[0x2];

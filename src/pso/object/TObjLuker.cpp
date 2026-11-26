@@ -61,16 +61,16 @@ void TObjLuker::hide_part(u16 part) {
 #pragma opt_common_subs off
 void TObjLuker::show_part(u16 arg1) {
     saddr arg0 = (saddr)this;
-    u8 *temp_r31;
-    u8 *temp_r3;
-    temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0x90));
-    if (temp_r3 != NULL) {
-        if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
+    u8 *slot_base;
+    u8 *slot;
+    slot_base = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
+    slot = (u8 *)(*(u8 **)((s8 *)slot_base + 0x90));
+    if (slot != NULL) {
+        if (*(u16 *)((s8 *)slot + 4) & 4) {
             play_sound_effect(0x53703, NULL, 0, 0);
         }
-        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_update_suspension();
-        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
+        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->clear_update_suspension();
+        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->allow_rendering();
     }
 }
 #pragma pop

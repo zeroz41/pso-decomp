@@ -17,25 +17,25 @@ const char *ez_bone_rot_base_name = "TObjEZBoneRotBase";
 const char *ez_bone_rot_player_name = "TObjEZBoneRotPlayer";
 
 void TObjEZBoneRotPlayer::run_task() {
-    f32 temp_f1;
-    s32 temp_r4;
+    f32 scale_now;
+    s32 status_flags;
     TObjPlayer *p;
 
     p = player;
-    temp_r4 = *(s32 *)((s8 *)p + 0x320) & 0xDF7FF;
-    if (temp_r4 & 0x99003) {
+    status_flags = *(s32 *)((s8 *)p + 0x320) & 0xDF7FF;
+    if (status_flags & 0x99003) {
         scale += -0.016666668f;
-    } else if ((temp_r4 & 0x1E0) || (last_rotation_y != p->rotation_y)) {
+    } else if ((status_flags & 0x1E0) || (last_rotation_y != p->rotation_y)) {
         scale += 0.13333334f;
-    } else if (temp_r4 & 0x4661C) {
+    } else if (status_flags & 0x4661C) {
         scale += 0.016666668f;
     } else {
         scale += -0.016666668f;
     }
-    temp_f1 = scale;
-    if (temp_f1 < 0.0f) {
+    scale_now = scale;
+    if (scale_now < 0.0f) {
         scale = 0.0f;
-    } else if (temp_f1 > 1.0f) {
+    } else if (scale_now > 1.0f) {
         scale = 1.0f;
     }
     advance_bone_rotation();

@@ -277,8 +277,8 @@ void start_udp_test_game() {
 TPlyJoinGame::TPlyJoinGame() {}
 
 void TLobby::bswap_udp_test_header() {
-    u8 *arg0 = (u8 *)this;
-    *(u32 *)(arg0 + 4) = arg0[0] + (arg0[1] << 8) + (arg0[2] << 16) + (arg0[3] << 24);
+    u8 *bytes = (u8 *)this;
+    *(u32 *)(bytes + 4) = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24);
     bswap_32((u32 *)(&this->m_flags));
 }
 
@@ -557,20 +557,14 @@ void change_floor_reload_area(void) {
 }
 
 void cleanup_online_lobby_scene(void) {
-    s32 *var_r3;
     s32 i;
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     TLobby::send_logout();
     TLobby::free_objects();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.delete_layer_children();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.resume_layers();
-    var_r3 = (s32 *)tl_su;
-    ((TObject *)var_r3)->delete_children();
+    ((TObject *)tl_su)->delete_children();
     PPCSync();
     i = 0;
     do {
@@ -579,8 +573,6 @@ void cleanup_online_lobby_scene(void) {
     } while (i < 0x1E);
     cleanup();
     if (online_lobby_scene_handle == 0) {
-        var_r3 = (s32 *)&floor_transition_state;
-        var_r3 = (s32 *)&floor_transition_state;
         run_area_scene_cleanup(&floor_transition_state);
     }
     TLobby::free_single_player_chr_select();
@@ -595,7 +587,7 @@ void cleanup_online_lobby_scene(void) {
 }
 
 void run_lobby_frame() {
-    s32 temp_r0;
+    s32 frame_count;
     begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
@@ -613,9 +605,9 @@ void run_lobby_frame() {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             online_lobby_frame_counter = 0;
         } else {
-            temp_r0 = online_lobby_frame_counter + 1;
-            online_lobby_frame_counter = temp_r0;
-            if (temp_r0 > 0xC) {
+            frame_count = online_lobby_frame_counter + 1;
+            online_lobby_frame_counter = frame_count;
+            if (frame_count > 0xC) {
                 TLobby::disconnect_protocol();
             }
         }
@@ -644,7 +636,7 @@ void run_lobby_frame() {
 }
 
 void run_main_frame() {
-    s32 temp_r0;
+    s32 frame_count;
     begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
@@ -663,9 +655,9 @@ void run_main_frame() {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             online_lobby_frame_counter = 0;
         } else {
-            temp_r0 = online_lobby_frame_counter + 1;
-            online_lobby_frame_counter = temp_r0;
-            if (temp_r0 > 0xC) {
+            frame_count = online_lobby_frame_counter + 1;
+            online_lobby_frame_counter = frame_count;
+            if (frame_count > 0xC) {
                 TLobby::disconnect_protocol();
             }
         }

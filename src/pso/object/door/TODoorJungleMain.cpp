@@ -275,26 +275,26 @@ void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
 
 
 s32 is_any_player_near(saddr arg0) {
-  f32 temp_f31;
-  s32 temp_r31;
-  s32 var_r29;
+  f32 max_dist_sq;
+  s32 player_floor;
+  s32 client;
   s32 new_var;
   u8 *player;
-  temp_f31 = 2500.0f;
-  var_r29 = 0;
+  max_dist_sq = 2500.0f;
+  client = 0;
   loop_1:
-  player = (u8 *) get_player_by_client_id(var_r29);
+  player = (u8 *) get_player_by_client_id(client);
   if (player != 0)
   {
-    temp_r31 = ((TObjPlayer *)player)->get_floor();
+    player_floor = ((TObjPlayer *)player)->get_floor();
     new_var = get_current_floor();
-    if ((new_var == temp_r31) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(arg0 + 0x38)) < temp_f31))
+    if ((new_var == player_floor) && (((f32 (*)(void *, void *))xz_distance_squared)((void *)(player + 0x38), (void *)(arg0 + 0x38)) < max_dist_sq))
     {
       return 1;
     }
   }
-  var_r29 += 1;
-  if (var_r29 >= 4)
+  client += 1;
+  if (client >= 4)
   {
     return 0;
   }

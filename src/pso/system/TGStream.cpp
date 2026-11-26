@@ -319,20 +319,20 @@ s32 get_gstream_buffered_bytes(void) {
 }
 
 s32 refill_gstream_buffer(saddr handle) {
-    s32 temp_r0;
-    s32 var_r5;
+    s32 remaining;
+    s32 chunk_size;
     if (handle == 0) {
         return 0;
     }
     if (get_gstream_buffered_bytes() == 0) {
-        temp_r0 = gstream_file_size - gstream_read_offset;
-        if (temp_r0 < (var_r5 = 0x40000)) {
-            var_r5 = temp_r0;
+        remaining = gstream_file_size - gstream_read_offset;
+        if (remaining < (chunk_size = 0x40000)) {
+            chunk_size = remaining;
         }
-        if (var_r5 > 0) {
-            gstream_buffer_valid_size = var_r5;
+        if (chunk_size > 0) {
+            gstream_buffer_valid_size = chunk_size;
             gstream_buffer_read_offset = 0;
-            TLobby::read_data_sync(handle, (var_r5 + 0x7FF) / 2048, gstream_tmp_buffer);
+            TLobby::read_data_sync(handle, (chunk_size + 0x7FF) / 2048, gstream_tmp_buffer);
         }
     }
     return get_gstream_buffered_bytes();

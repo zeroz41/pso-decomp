@@ -22,6 +22,8 @@ struct TOSwitchAttack : public TObjBase {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
+    static void free_assets();
+    static void load_assets();
 };
 
 LAYOUT_ASSERT(TOSwitchAttack_size, sizeof(TOSwitchAttack) == 0xAC);

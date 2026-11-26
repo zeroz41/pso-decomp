@@ -41,13 +41,13 @@ void gba_download_destroy_graph() {
 }
 
 void gba_download_create_graph() {
-    uaddr temp_r3;
+    uaddr graph;
 
     if ((u32) gba_download_graph == 0U) {
-        temp_r3 = (uaddr)TDLGraph::create();
-        gba_download_graph = temp_r3;
-        if (temp_r3 != 0U) {
-            ((TDLGraph *)temp_r3)->set_graph_param(2);
+        graph = (uaddr)TDLGraph::create();
+        gba_download_graph = graph;
+        if (graph != 0U) {
+            ((TDLGraph *)graph)->set_graph_param(2);
         }
     }
 }
@@ -106,11 +106,11 @@ void gba_download_load_file(const char *filename) {
 }
 
 void TLobby::update_alloc_size() {
-    u32 temp_r3;
+    u32 data_size;
 
-    temp_r3 = TAdWarningBaseGC__sub_8032D020();
-    gba_download_data_size = temp_r3;
-    if (temp_r3 > 0x40000U) {
+    data_size = TAdWarningBaseGC__sub_8032D020();
+    gba_download_data_size = data_size;
+    if (data_size > 0x40000U) {
         gba_download_data_size = 0U;
         return;
     }

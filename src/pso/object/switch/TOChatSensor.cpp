@@ -97,9 +97,6 @@ void TOChatSensor::destroy_global() {
 }
 
 void *TOChatSensor::create(void *set) {
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 var_r0;
     if ((uaddr) chat_sensor_folder_instance == 0U) {
         new TOChatSensorFolder(tl_05);
     }
@@ -110,12 +107,12 @@ void *TOChatSensor::create(void *set) {
 }
 
 void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
-    void *var_r31;
+    void *sensor;
     if (chat_sensor_folder_instance != 0U) {
-        var_r31 = *(void **)((s8 *)chat_sensor_folder_instance + 0x14);
-        while (var_r31 != NULL) {
-            ((TOChatSensor *)var_r31)->handle_chat_message((void *)arg0);
-            var_r31 = *(void **)((s8 *)var_r31 + 0xC);
+        sensor = *(void **)((s8 *)chat_sensor_folder_instance + 0x14);
+        while (sensor != NULL) {
+            ((TOChatSensor *)sensor)->handle_chat_message((void *)arg0);
+            sensor = *(void **)((s8 *)sensor + 0xC);
         }
     }
 }
@@ -175,7 +172,7 @@ void TOChatSensor::render() {
 
 void TOChatSensor::init_params() {
     f32 x;
-    s32 temp_r5;
+    s32 index;
 
     this->kind = (u32) *(u32 *)&this->rotation_x;
     if ((u32) this->kind >= 2U) {
@@ -196,8 +193,8 @@ void TOChatSensor::init_params() {
         }
     }
     *(s32 *)&this->text_index = (s32) *(s32 *)&this->set_params[1];
-    temp_r5 = *(s32 *)&this->text_index;
-    if ((temp_r5 != 0) && ((temp_r5 < 0) || (chat_sensor_table->count <= temp_r5))) {
+    index = *(s32 *)&this->text_index;
+    if ((index != 0) && ((index < 0) || (chat_sensor_table->count <= index))) {
         *(s32 *)&this->text_index = 0;
     }
     *(s32 *)&this->state = 0;

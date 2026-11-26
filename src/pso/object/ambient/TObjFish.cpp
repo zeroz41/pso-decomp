@@ -411,22 +411,22 @@ struct TObjFishSetData {
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
     f32 y;
-    f32 var_f1;
+    f32 radius_max;
     m_name = fish_class_name;
     fish = NULL;
     VecCopy(&position, &data->position);
     copy_xyz(&rotation_x, data->rotation);
     VecCopy(&scale, &data->scale);
-    var_f1 = scale.x;
+    radius_max = scale.x;
     y = scale.y;
-    if (var_f1 < y) {
-        var_f1 = y;
+    if (radius_max < y) {
+        radius_max = y;
     }
     // The original compares scale.y twice here, rather than reading scale.z.
-    if (var_f1 < y) {
-        var_f1 = y;
+    if (radius_max < y) {
+        radius_max = y;
     }
-    school_radius = var_f1;
+    school_radius = radius_max;
     fish_count = data->counts[0] + data->counts[1] + data->counts[2];
     frame_counter = 0;
     if ((s32)fish_count < 1) {

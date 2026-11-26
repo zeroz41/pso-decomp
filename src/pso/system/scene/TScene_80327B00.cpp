@@ -16,16 +16,16 @@ struct Scene_80327B40 { u8 pad0[4]; s32 count; Entry_80327B40 *entries; };
 extern "C" {
 s32 visit_model_tree_recursive();
 
-void TScene::offset_position(s32 arg1, s32 arg2) {
-    *(s16 *)&this->m_up = (s16) (*(s16 *)&this->m_up + arg1);
-    *(s16 *)((s8 *)this + 0x12) = (s16) (*(s16 *)((s8 *)this + 0x12) + arg2);
+void TScene::offset_position(s32 dx, s32 dy) {
+    *(s16 *)&this->m_up = (s16) (*(s16 *)&this->m_up + dx);
+    *(s16 *)((s8 *)this + 0x12) = (s16) (*(s16 *)((s8 *)this + 0x12) + dy);
     apply_uv_offset((s16)(*(s16 *)&this->m_up), (s16)(*(s16 *)((s8 *)this + 0x12)));
 }
 
-void TScene::apply_uv_offset(s16 arg1, s16 arg2) {
+void TScene::apply_uv_offset(s16 u_offset, s16 v_offset) {
     Scene_80327B40 *scene = (Scene_80327B40 *)this;
-    s16 dx = arg1 % 256;
-    s16 dy = arg2 % 256;
+    s16 dx = u_offset % 256;
+    s16 dy = v_offset % 256;
     s32 i;
     for (i = 0; i < scene->count; i++) {
         Mesh_80327B40 *m = scene->entries[i].mesh;
@@ -42,7 +42,7 @@ void TScene::apply_uv_offset(s16 arg1, s16 arg2) {
     }
 }
 
-void *TScene::destroy_buffers(s16 arg1) {
+void *TScene::destroy_buffers(s16 delete_flag) {
     if (this != NULL) {
         if ((uaddr) this->m_next != 0U) {
             mem_free(this->m_next);
@@ -52,7 +52,7 @@ void *TScene::destroy_buffers(s16 arg1) {
             mem_free(this->m_prev);
             this->m_prev = 0U;
         }
-        if (arg1 > 0) {
+        if (delete_flag > 0) {
             ::operator delete(this);
         }
     }
@@ -63,16 +63,16 @@ extern s32 scroll_uv_entry_write_cursor;
 extern s32 scroll_uv_coordinate_write_cursor;
 
 void *TScene::init_buffers(saddr arg1, s32 arg2) {
-    s32 temp_r0;
+    s32 entry_count;
 
     *(s32 *)&this->m_flags = 0;
     *(s32 *)&this->m_name = 0;
     visit_model_tree_recursive();
     *(s32 *)&this->m_prev = 0;
     *(s32 *)&this->m_next = 0;
-    temp_r0 = *(s32 *)&this->m_flags;
-    if (temp_r0 > 0) {
-        *(s32 *)&this->m_prev = (saddr)mem_alloc(temp_r0 * 8);
+    entry_count = *(s32 *)&this->m_flags;
+    if (entry_count > 0) {
+        *(s32 *)&this->m_prev = (saddr)mem_alloc(entry_count * 8);
         *(s32 *)&this->m_next = (saddr)mem_alloc(*(s32 *)&this->m_name * 4);
         scroll_uv_entry_write_cursor = *(s32 *)&this->m_prev;
         scroll_uv_coordinate_write_cursor = *(s32 *)&this->m_next;

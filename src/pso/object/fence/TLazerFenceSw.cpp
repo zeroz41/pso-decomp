@@ -171,16 +171,16 @@ void TLazerFenceSw::trigger_deactivate_sound() {
 
 void TLazerFenceSw::update_switch_on() {
     u32 animation_frame;
-    u32 temp_r4_2;
+    u32 last_frame;
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
     animation_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[0] + 4) - 1;
     if (this->animation_frame > (f32) animation_frame) {
         this->animation_frame = (f32) animation_frame;
     }
     switch_frame = (f32) (switch_frame + this->animation_step);
-    temp_r4_2 = *(s32 *)((s8 *)lazer_fence_beam_motions[1] + 4) - 1;
-    if (switch_frame > (f32) temp_r4_2) {
-        switch_frame = (f32) temp_r4_2;
+    last_frame = *(s32 *)((s8 *)lazer_fence_beam_motions[1] + 4) - 1;
+    if (switch_frame > (f32) last_frame) {
+        switch_frame = (f32) last_frame;
     }
 }
 

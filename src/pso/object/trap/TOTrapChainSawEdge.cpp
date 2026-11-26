@@ -112,7 +112,7 @@ f32 fabs_float(f32);
 
 
 
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
+void TParticleCtrl__sub_802C8464(NJS_OBJECT *object);
 
 
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
@@ -298,22 +298,22 @@ TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(
 TOTrapChainSaw::~TOTrapChainSaw() {}
 
 void TOTrapChainSaw::decode_params() {
-    s32 var_r0;
-    s32 temp_r3;
-    u32 var_r0_2;
-    u32 temp_r3_2;
+    s32 clamped_switch_id;
+    s32 raw_switch_id;
+    u32 clamped_behavior;
+    u32 raw_behavior;
 
     switch_id = (s32) (u16) this->set_params[0];
-    temp_r3 = switch_id;
-    if (temp_r3 < 0) {
-        var_r0 = 0;
+    raw_switch_id = switch_id;
+    if (raw_switch_id < 0) {
+        clamped_switch_id = 0;
     } else {
-        var_r0 = 0xFF;
-        if (temp_r3 <= 0xFF) {
-            var_r0 = temp_r3;
+        clamped_switch_id = 0xFF;
+        if (raw_switch_id <= 0xFF) {
+            clamped_switch_id = raw_switch_id;
         }
     }
-    switch_id = var_r0;
+    switch_id = clamped_switch_id;
     if (is_current_floor_switch_set((u16) switch_id) == 1) {
         switch_on = 1;
     } else {
@@ -322,16 +322,16 @@ void TOTrapChainSaw::decode_params() {
     max_offset = (u32) ((u32) set_params[1] >> 0x10U);
     step = (s32) (u16) set_params[1];
     behavior = (u32) ((u32) set_params[2] >> 0x10U);
-    temp_r3_2 = behavior;
-    if ((s32) temp_r3_2 < 0) {
-        var_r0_2 = 0;
+    raw_behavior = behavior;
+    if ((s32) raw_behavior < 0) {
+        clamped_behavior = 0;
     } else {
-        var_r0_2 = 1;
-        if ((s32) temp_r3_2 <= 1) {
-            var_r0_2 = temp_r3_2;
+        clamped_behavior = 1;
+        if ((s32) raw_behavior <= 1) {
+            clamped_behavior = raw_behavior;
         }
     }
-    behavior = var_r0_2;
+    behavior = clamped_behavior;
 }
 
 void TOTrapChainSaw::run_task() {
@@ -471,13 +471,13 @@ void TOTrapChainSaw::render() {
 void TOTrapChainSaw::vfunc_14() {  }
 
 void TOTrapChainSaw::update_demo() {
-    s32 temp_r31;
+    s32 base_yaw;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        temp_r31 = rotation_y;
-        rotation_y = (saddr) (temp_r31 + yaw_offset);
+        base_yaw = rotation_y;
+        rotation_y = (saddr) (base_yaw + yaw_offset);
         sub_80154D78();
-        rotation_y = temp_r31;
+        rotation_y = base_yaw;
     }
 }
 
@@ -702,16 +702,16 @@ void TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0)
 
 void TOTrapChainSawKey::vfunc_27() {  }
 
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0) {
+void TParticleCtrl__sub_802C8464(NJS_OBJECT *object) {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if (arg0 == seabed_suiso_linked_switch_counts[i]) {
+        if (object == seabed_suiso_linked_switch_counts[i]) {
             TParticleCtrl::begin_effect_render();
             return;
         }
     }
     for (i = 0; i < 5; i++) {
-        if (arg0 == seabed_suiso_switch_counts[i]) {
+        if (object == seabed_suiso_switch_counts[i]) {
             TParticleCtrl::begin_effect_render();
             return;
         }
@@ -732,14 +732,14 @@ TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrap
 TOTrapChainSawEdge::~TOTrapChainSawEdge() {}
 
 void TOTrapChainSawEdge::update_extension() {
-    s32 temp_r4;
-    s32 temp_r4_2;
+    s32 pending;
+    s32 limit;
 
     switch (phase) {
     case 0:
-        temp_r4 = pending_starts;
-        if (temp_r4 > 0) {
-            pending_starts = (temp_r4 - 1);
+        pending = pending_starts;
+        if (pending > 0) {
+            pending_starts = (pending - 1);
             extent = (saddr) max_offset;
             phase = 1;
         }
@@ -751,8 +751,8 @@ void TOTrapChainSawEdge::update_extension() {
             step = (saddr) ((f32) step * *(const volatile f32 *)&lbl_805DE620);
             phase = 0;
         }
-        if (yaw_offset > (temp_r4_2 = max_offset)) {
-            yaw_offset = temp_r4_2;
+        if (yaw_offset > (limit = max_offset)) {
+            yaw_offset = limit;
             step = (saddr) ((f32) step * *(const volatile f32 *)&lbl_805DE620);
         }
         break;
@@ -760,13 +760,13 @@ void TOTrapChainSawEdge::update_extension() {
 }
 
 void TOTrapChainSawEdge::update_sweep() {
-    s32 temp_r4;
+    s32 pending;
 
     switch (phase) {
     case 0:
-        temp_r4 = pending_starts;
-        if (temp_r4 > 0) {
-            pending_starts = (temp_r4 - 1);
+        pending = pending_starts;
+        if (pending > 0) {
+            pending_starts = (pending - 1);
             extent = (s32) max_offset;
             phase = 1;
         }

@@ -738,7 +738,7 @@ TObjJungleKamome::~TObjJungleKamome() {}
 
 void TObjJungleKamome::update() {
     Mtx_802C17FC m;
-    s32 temp_r0;
+    s32 cry_delay_left;
 
     this->path_frame += jungle_seagull_path_profiles[this->profile].b;
     if (update_path_steering() == 0) {
@@ -748,9 +748,9 @@ void TObjJungleKamome::update() {
     if (this->motion_frame > (f32) (this->motion->frameCount - 1)) {
         this->motion_frame = (0.0f);
     }
-    temp_r0 = this->cry_delay - 1;
-    this->cry_delay = temp_r0;
-    if (temp_r0 < 0) {
+    cry_delay_left = this->cry_delay - 1;
+    this->cry_delay = cry_delay_left;
+    if (cry_delay_left < 0) {
         Vec v = lbl_80471908;
         set_matrix_identity((u8 *)&m);
         translate_matrix_vec3((u8 *)&m, (u8 *)&this->position);
@@ -981,18 +981,18 @@ void TObjLobbyPigeon::draw() {
 #pragma pop
 
 void TObjLobbyPigeon::select_lobby_pigeon_model() {
-    s32 temp_r3;
+    s32 param;
 
     if ((s32) this->set_params[2] < 1) {
         this->model_index = 0;
     } else {
         this->model_index = 1;
     }
-    temp_r3 = this->set_params[1];
-    if (temp_r3 < 1) {
+    param = this->set_params[1];
+    if (param < 1) {
         this->theme = 0;
     } else if (this->model_index == 0) {
-        if (temp_r3 > 1) {
+        if (param > 1) {
             this->theme = 3;
         } else {
             this->theme = 0xA;
@@ -1099,7 +1099,6 @@ s32 filter_lobby_pigeon_theme(void *) {
 }
 
 void TObjLobbyPigeon::load_static_resource() {
-    saddr temp_r3;
     lobby_pigeon_bml_archive = new BmlResource(5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, NULL);
     lobby_pigeon_lobby_type = get_lobby_main_texlist();
 }

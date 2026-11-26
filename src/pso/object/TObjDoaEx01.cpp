@@ -182,22 +182,21 @@ void TObjDoaEx01::try_open() {
 }
 void TObjDoaEx01::draw_model() {
     f32 animation_frame;
-    saddr temp_r31;
-    s32 temp_r31_2;
+    saddr draw_data;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(doa_ex01_alpha_model_node)->model, 0);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(doa_ex01_alpha_model_sibling)->model, 0);
-        temp_r31 = (saddr)get_bml_model(doa_ex01_resource_bundle, 0);
+        draw_data = (saddr)get_bml_model(doa_ex01_resource_bundle, 0);
         TObjFish::set_global_param(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, (this->rotation_y));
         animation_frame = this->animation_frame;
         if (animation_frame > 0.0f) {
-            temp_r31 = reinterpret_cast<saddr>(get_bml_motion(doa_ex01_resource_bundle, 0));
-            draw_ginja_model_with_motion(get_bml_model(doa_ex01_resource_bundle, 0), reinterpret_cast<void *>(temp_r31), animation_frame);
+            draw_data = reinterpret_cast<saddr>(get_bml_motion(doa_ex01_resource_bundle, 0));
+            draw_ginja_model_with_motion(get_bml_model(doa_ex01_resource_bundle, 0), reinterpret_cast<void *>(draw_data), animation_frame);
         } else {
-            this->draw_object_tree((temp_r31));
+            this->draw_object_tree((draw_data));
         }
         pop_matrix();
     }

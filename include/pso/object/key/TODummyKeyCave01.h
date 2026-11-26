@@ -27,13 +27,13 @@ struct TODummyKeyCave01 : public TObjBase {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
+    static void free_assets();
+    static void load_assets();
 };
 
 LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);
 
 extern "C" {
-void TODummyKeyCave01__sub_80165E88(void);
-void TODummyKeyCave01__sub_80165E8C(void);
 void *__dt__16TODummyKeyCave01Fv(void *arg0, s16 arg1);
 }
 

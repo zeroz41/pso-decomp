@@ -404,13 +404,13 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 
 void TObjContainerJungEnemy::load_models() {
     saddr created;
-    s32 temp_r3 = this->set_params[1];
-    if (temp_r3 < 0) {
+    s32 param = this->set_params[1];
+    if (param < 0) {
         created = 0;
     } else {
         created = 1;
-        if (temp_r3 <= 1) {
-            created = temp_r3;
+        if (param <= 1) {
+            created = param;
         }
     }
     switch (created) {
