@@ -4584,7 +4584,7 @@ void TBoss8Dragon::capture_node_points(NJS_OBJECT *) {
 }
 
 void TBoss8Dragon::render_body_model() {
-    void *saved = this->model;
+    NJS_OBJECT *saved = this->model;
     this->model = boss8_dragon_capture_model;
     boss8_dragon_capture_node = 0;
     boss8_dragon_breath_points_out = this->breath_node_points;
@@ -4599,7 +4599,7 @@ void TBoss8Dragon::render_body_model() {
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     scale_current_matrix(&this->scale.x);
-    draw_motion((NJS_OBJECT *)this->model, this->current_motion, this->get_motion_frame());
+    draw_motion(this->model, this->current_motion, this->get_motion_frame());
     clear_motion_packed_rotation();
     pop_matrix();
     set_chunk_model_node_callback(NULL);
@@ -4643,7 +4643,7 @@ int TBoss8Dragon::run_demo_task() { return get_target_info(); }
 void TBoss8Dragon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { draw(); } }
 
 void TBoss8Dragon::draw() {
-    void *saved_model;
+    NJS_OBJECT *saved_model;
 
     push_matrix();
     post_translate_matrix(&this->position.x);

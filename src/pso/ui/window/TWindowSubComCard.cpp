@@ -1640,7 +1640,7 @@ void TWindowSubComCard::set_choice_search_option(ChoiceSearchSelection *selectio
     } else if (val != find_choice_search_value(selections, key)) {
         this->dirty_flags |= 1;
         set_value_by_key(selections, key, val);
-        this->entry_list_window->set_entry_string_by_id((void *)((WindowTextEntry *)(this->com_card_menu->get_selected_entry()))->get_text(), key);
+        this->entry_list_window->set_entry_string_by_id(((WindowTextEntry *)(this->com_card_menu->get_selected_entry()))->get_text(), key);
     }
 }
 

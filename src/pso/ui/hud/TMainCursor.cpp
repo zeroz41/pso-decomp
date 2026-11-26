@@ -684,7 +684,7 @@ s32 TMainCursor::get_action_cursor_priority(void *unused, TObjPlayer *player, s3
 }
 
 void TLockOnCursor::set_cursor_pos(u16 part, s32 index) {
-    u32 eq = (u32) __cntlzw((u32) ((u16) selection.target.get_entity_id() - (u16) part)) >> 5;
+    u32 eq = (u32) __cntlzw((u32) ((u16) selection.target.get_entity_id() - part)) >> 5;
     set_target_part(&target_part, part, index, eq + 1);
 }
 

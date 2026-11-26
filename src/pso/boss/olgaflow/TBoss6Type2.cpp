@@ -2028,7 +2028,7 @@ void TBoss6Type2::restore_target_player_state() {
         }
         copy_texlist(&player->body_textures, &saved_look.body_textures);
         copy_texlist((NJS_TEXLIST *)player->attachment_textures, &saved_look.attachment_textures);
-        player->model = saved_look.model;
+        player->model = (NJS_OBJECT *)saved_look.model;
         player->head_model = saved_look.head_model;
         player->hair_model = saved_look.hair_model;
         player->attachment_model = saved_look.attachment_model;

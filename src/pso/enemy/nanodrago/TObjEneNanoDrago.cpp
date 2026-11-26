@@ -244,16 +244,16 @@ void TObjEneNanoDrago::load_resources() {
     TObjNpcEnemy::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
-    if ((uaddr) nano_drago_entry_params_resource != 0U) {
+    if (nano_drago_entry_params_resource != 0U) {
         delete nano_drago_entry_params_resource;
         nano_drago_entry_params_resource = NULL;
     }
 }
 void *TObjEneNanoDrago::create(void *setData) {
-    void *o;
+    TObject *o;
     void *o2;
     o = new TObjControl(tl_04);
-    o2 = new TObjEneNanoDrago((TObject *)o, setData);
+    o2 = new TObjEneNanoDrago(o, setData);
     return o2;
 }
 void TObjEneNanoDrago::run_task() {
@@ -835,7 +835,7 @@ void TObjEneNanoDrago::update_growth_state() {
 void TObjEneNanoDrago::update_knockback_state() {
     s16 previousHp;
     s16 animation;
-    uaddr entity;
+    TObjBase *entity;
     s32 retaliate;
     switch (state) {
     case 0:
@@ -875,10 +875,10 @@ void TObjEneNanoDrago::update_knockback_state() {
         resume_action = 1;
         previousHp = referenceHp;
         if (((s32) (previousHp - hp) > (s32) (previousHp / 4)) && !(actorFlags & 2)) {
-            entity = (uaddr)find_entity_by_id(attacker_id);
+            entity = find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
-                if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), &((TObjBase *)entity)->position) > 400.0f)) {
+                if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), &entity->position) > 400.0f)) {
                     retaliate = 0;
                 }
             }

@@ -36,7 +36,7 @@ void TOCapsuleAncient01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        body = (NJS_OBJECT *)model;
+        body = model;
         translate_matrix(0, body->pos[0], body->pos[1], body->pos[2]);
         draw_ginja_model(body->model);
         if (active == 1) {
@@ -78,7 +78,7 @@ TOCapsuleAncient01::~TOCapsuleAncient01() {
 TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = model_resource->models->texlist;
     init_collision_body_parts(this, &capsule_ancient01_collision_body, 1);
     set_indexed_flags(0, 0x1288);

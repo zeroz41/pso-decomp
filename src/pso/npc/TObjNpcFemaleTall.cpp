@@ -35,7 +35,7 @@ TObjNpcFemaleTall::TObjNpcFemaleTall(TObject *parent, void *set_data) : TObjNpcF
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)instance->models->model;
+    this->model = instance->models->model;
     this->texlist = instance->models->texlist;
     this->setup_common();
 }

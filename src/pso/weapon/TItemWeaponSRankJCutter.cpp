@@ -47,9 +47,9 @@ TItem *create_s_rank_j_cutter_weapon(u8 *owner) {
     return NULL;
 }
 
-void enlarge_s_rank_j_cutter_blade(void *object) {
+void enlarge_s_rank_j_cutter_blade(TObjBase *object) {
     if (object != NULL) {
-        TObjBase *slicer = (TObjBase *)object;
+        TObjBase *slicer = object;
         slicer->scale.x = 1.6f;
         slicer->scale.y = 1.6f;
         slicer->scale.z = 1.6f;

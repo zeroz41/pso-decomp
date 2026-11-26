@@ -268,7 +268,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     }
     half_index = index;
     texlist = get_bml_texlist(panarms_entry_params_resource, panbara_model_index_by_half[half_index]);
-    model = (void *)get_bml_model(panarms_entry_params_resource, panbara_model_index_by_half[half_index]);
+    model = get_bml_model(panarms_entry_params_resource, panbara_model_index_by_half[half_index]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panbara_collision_body, 1);
     set_action_table(panbara_motion_params_by_half[half_index]);

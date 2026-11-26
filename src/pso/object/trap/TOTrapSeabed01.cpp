@@ -227,7 +227,7 @@ void TOTrapSeabed01::draw() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_object_tree((NJS_OBJECT *)model);
+        draw_object_tree(model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         restore_draw_list_mask();

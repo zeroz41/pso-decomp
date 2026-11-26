@@ -26,13 +26,13 @@ void TTecKafun::apply_to_target(TObjChara *target) {
     case 17:
     case 18:
         hit.kind = 0;
-        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        target->receive_direct_attack(this->source, hit, 0, -1, -1);
         hit.kind = this->hit_kind;
-        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        target->receive_direct_attack(this->source, hit, 0, -1, -1);
         break;
     default:
         hit.kind = this->hit_kind;
-        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        target->receive_direct_attack(this->source, hit, 0, -1, -1);
         break;
     }
 }
@@ -56,7 +56,7 @@ void TTecKafun::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
+    this->source = find_entity_by_id(this->sourceId);
     if (this->source == 0U) {
         queue_destruction();
         return;
@@ -82,7 +82,7 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_ef
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
+        this->sourceId = this->source->get_entity_id();
     }
 }
 
@@ -98,6 +98,6 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f3
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
+        this->sourceId = this->source->get_entity_id();
     }
 }

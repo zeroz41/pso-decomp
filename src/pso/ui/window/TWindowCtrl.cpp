@@ -517,8 +517,7 @@ void TWindowCtrl::update_trade_window() {
 
 
 
-void update_timer_window(void *ctrl_arg) {
-    TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
+void update_timer_window(TWindowCtrl *ctrl) {
     if (ctrl->timer_window != NULL) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
             ctrl->timer_window->request_close();
@@ -676,7 +675,7 @@ void complete_actor_speech_balloons(u16 id) {
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
-            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == w->get_speaker_id()) {
                 w->show_immediately();
             }
         }

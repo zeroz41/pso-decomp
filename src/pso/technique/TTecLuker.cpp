@@ -184,7 +184,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     floor = get_current_floor();
     placement = NULL;
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     traveller = local_client_id;
     if (is_split_screen() == 0 && sourceId != local_client_id) {
@@ -199,7 +199,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
                 Vec v = lbl_8044D72C;
                 TObjBase *owner;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, ((TObjBase *)this->source)->rotation_y);
+                rotate_matrix_y(0, this->source->rotation_y);
                 matrix_mult_vec(0, &v, &v);
                 pop_matrices(1);
                 owner = (TObjBase *)this->source;
@@ -238,7 +238,7 @@ void TTecLuker::run_task() {
     TObjPlayer *player;
     u8 *owner;
     PositionPlacementQueue *queue;
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     owner = (u8 *)source;
     if (owner == NULL) {
         queue_destruction();
@@ -258,7 +258,7 @@ void TTecLuker::run_task() {
                 return;
             }
             if (TTecLuker__sub_80235054(queue) != 0) {
-                VecCopy(&pipe_pos, &((TObjBase *)source)->position);
+                VecCopy(&pipe_pos, &source->position);
                 if ((telepipe_record_differs(&((TObjPlayer *)source)->telepipe.state, floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker::visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
@@ -364,7 +364,7 @@ block_43:
 }
 
 void TTecLuker::setup_telepipe_field() {
-    s32 id = ((TObjBase *)source)->get_entity_id();
+    s32 id = source->get_entity_id();
     visual = new TTelepipeEffect(&pipe_pos, id, tl_07);
     phase = 1;
     if (field != NULL) {
@@ -372,11 +372,11 @@ void TTecLuker::setup_telepipe_field() {
     } else {
         field = new TTelepipeSelectField(&pipe_pos, tl_05, 0);
     }
-    if (traveller == ((TObjBase *)source)->get_entity_id()) {
+    if (traveller == source->get_entity_id()) {
         s16 room;
         floor = get_current_floor();
-        room = (s32)((TObjBase *)source)->get_room();
-        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, ((TObjBase *)source)->get_entity_id(), floor, (u8 *)&pipe_pos, room);
+        room = (s32)source->get_room();
+        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, source->get_entity_id(), floor, (u8 *)&pipe_pos, room);
         ((TObjPlayer *)source)->telepipe.state.send_telepipe_packet();
     }
 }
@@ -389,7 +389,7 @@ void TTecLuker::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xE;
     hit.power = 10.0f;
-    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    target->receive_direct_attack(source, hit, 0, -1, -1);
 }
 
 #pragma push

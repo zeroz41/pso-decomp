@@ -25,6 +25,6 @@ LAYOUT_ASSERT(TDPBShowerPositionOffset, offsetof(TDPBShower, position) == 0x1C);
 LAYOUT_ASSERT(TDPBShowerCountdownOffset, offsetof(TDPBShower, m_countdown) == 0x28);
 LAYOUT_ASSERT(TDPBShowerEffectOffset, offsetof(TDPBShower, particle_emitter) == 0x2C);
 
-void *create_TDPBShower(void *parent, void *position);
+void *create_TDPBShower(TObject *parent, void* position);
 
 #endif

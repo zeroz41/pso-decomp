@@ -39,7 +39,7 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, vo
     this->target_slot = target;
     set_slot_position(this->target_slot, &this->target_x);
     this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)effect_id, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags(&p, (saddr)effect_id, (s32)(0xC0));
     this->state = 0;
 }
 

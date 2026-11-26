@@ -14,8 +14,8 @@ struct CharacterSelectionQuad {
 };
 
 // Multiplayer character-select player plates. The class name is the string its constructor
-// stores in m_name; the vtable it installs (0x804E0B10) holds the dtor, run_task (0x802C6AC8)
-// and render (0x802C54C4).
+// stores in m_name; the vtable it installs holds the dtor, run_task
+// and render.
 struct TAdChrSelPlyPlateGC : public TObject {
     static const char *name;
     TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos);

@@ -232,7 +232,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8: {
-            s16 *strip = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->model)->polygon_list;
+            s16 *strip = ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list;
             saved = strip[3];
             strip[3] = (u8)strip[3];
             break;
@@ -281,7 +281,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8:
-            ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->model)->polygon_list[3] = saved;
+            ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = saved;
             break;
         }
     }
@@ -409,13 +409,13 @@ void TObjEneDimedian::free_boss_objects() {
 
 void TLobby::load_dimedian_resources() {
     BmlModelEntry *models;
-    void *p;
+    BmlResource *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
         dimedian_resource_ptr = load_enemy_bml_resource_named(&dimedian_resource_descriptor, dimedian_a_bml_filename);
     } else {
         p = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
-        dimedian_resource_ptr = (BmlResource *)p;
+        dimedian_resource_ptr = p;
     }
     models = dimedian_resource_ptr->models;
     dimedian_resource_handles[0] = (saddr)((NJS_CNK_MODEL *)models[0].model->child->sibling->sibling->model)->polygon_list;

@@ -58,6 +58,6 @@ public:
 LAYOUT_ASSERT(TOKeySize, sizeof(TOKey) == 0xE8);
 
 // The 6x05 switch command handler (TGameProtocol's table).
-void handle_6x05_write_switch_flag(void *cmd);
+void handle_6x05_write_switch_flag(G_SwitchStateChanged_6x05 *cmd);
 
 #endif

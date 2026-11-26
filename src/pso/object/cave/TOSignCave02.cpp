@@ -53,7 +53,7 @@ TOSignCave02::~TOSignCave02() {}
 TOSignCave02::TOSignCave02(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = sign_cave02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)sign_cave02_bml_resource->models[0].model;
+    model = sign_cave02_bml_resource->models[0].model;
     texlist = sign_cave02_bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 300.0f;

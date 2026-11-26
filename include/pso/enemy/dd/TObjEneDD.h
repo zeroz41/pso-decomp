@@ -132,7 +132,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
 s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
-u16 enemy_nearest_visible_enemy(void *self, f32 range);
+u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range);
 u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
 s32 is_player_entity_id(u16 id);
 // 1 for an enemy's entity id (0x1000-0x3FFF).

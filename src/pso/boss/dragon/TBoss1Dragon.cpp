@@ -5021,7 +5021,7 @@ void dragon_capture_node_points(NJS_OBJECT *) {
 }
 
 void TBoss1Dragon::draw() {
-    void *saved_model;
+    NJS_OBJECT *saved_model;
 
     saved_model = this->model;
     this->model = boss1_dragon_capture_model;
@@ -5064,7 +5064,7 @@ void TBoss1Dragon::render() {
     boss1_dragon_breath_points_out = this->breath_node_points;
     boss1_dragon_capture_cursor = 0;
     boss1_dragon_capture_points_out = this->node_positions;
-    boss1_dragon_capture_flags = *(s32 *)&this->flags;
+    boss1_dragon_capture_flags = this->flags;
     this->update_object_view_visibility((1000.0f), (1000.0f));
     ch = &this->viewFade[view];
     if (ch->has_visible_opacity() != 0) {
@@ -5195,7 +5195,7 @@ void TBoss1Dragon::render() {
 
 #pragma pop
 void TBoss1Dragon::render_shadows() {
-    void *body_model;
+    NJS_OBJECT *body_model;
     s32 view;
 
     view = 0;

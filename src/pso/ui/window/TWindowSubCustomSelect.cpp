@@ -213,7 +213,7 @@ void TWindowSubCustomSelect::run_task() {
     }
     update_window();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
-    *(s32 *)&this->cursor_frame = (s32) (*(s32 *)&this->cursor_frame + 1);
+    this->cursor_frame = (s32) (this->cursor_frame + 1);
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {

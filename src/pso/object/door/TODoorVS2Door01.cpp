@@ -76,7 +76,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
-        node = (NJS_OBJECT *)model;
+        node = model;
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
@@ -107,7 +107,7 @@ void TODoorVS2Door01::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling;
+        node = (model)->child->sibling;
         push_matrix();
         post_translate_matrix(node->pos);
         push_matrix();
@@ -162,7 +162,7 @@ TODoorVS2Door01::~TODoorVS2Door01() {
 TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_vs2door01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = texture_lists[1];
     animation_end_frame = 30.0f;
     animation_step = SLIDE_DISTANCE / animation_end_frame;

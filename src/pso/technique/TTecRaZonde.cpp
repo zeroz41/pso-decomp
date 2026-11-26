@@ -71,7 +71,7 @@ void TTecRaZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)this->source, hit, 0, 8, -1);
+    target->receive_direct_attack(this->source, hit, 0, 8, -1);
 }
 
 void TTecRaZonde::create(void *source, void *origin, s32 level) {
@@ -97,7 +97,7 @@ void TTecRaZonde::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
+    this->source = find_entity_by_id(this->sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;
@@ -198,7 +198,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     }
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 #pragma pop

@@ -37,7 +37,7 @@ TObjNpcSoldierBase::TObjNpcSoldierBase(TObject *parent, void *set_data) : TObjNp
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)shared_model_resource->models->model;
+    this->model = shared_model_resource->models->model;
     this->texlist = shared_model_resource->models->texlist;
     this->setup_common();
 }

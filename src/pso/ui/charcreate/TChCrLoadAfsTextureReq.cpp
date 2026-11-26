@@ -130,8 +130,8 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsText
     init_texture_table();
 }
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *parent, void *textures, void *slot, void *index) {
-    return new TChCrLoadAfsTextureReq((TObject *)parent, (NJS_TEXLIST *)textures, (s32 *)slot, (saddr)index);
+TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index) {
+    return new TChCrLoadAfsTextureReq(parent, textures, (s32 *)slot, (saddr)index);
 }
 
 TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoadAfsTextureReqArgs *args) {

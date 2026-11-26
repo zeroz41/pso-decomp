@@ -372,7 +372,7 @@ struct TObjPlayer : public TObjChara {
     void apply_velocity();
     void damp_planar_velocity();
     s16 clamp_tp();
-    static void clear_s16_arrays(void* p);
+    static void clear_s16_arrays(TObjChara *p);
     s32 add_capped_counter_999(s32 amount);
     int get_tp_materials_clamped();
     int get_hp_material_points();

@@ -75,7 +75,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = (void *)get_bml_model(trap_ancient01_bml_resource, 3);
+    model = get_bml_model(trap_ancient01_bml_resource, 3);
     texlist = get_bml_texlist(trap_ancient01_bml_resource, 3);
     mode = 0;
     range = 0.5f * scale.x + 30.0f;
@@ -172,11 +172,11 @@ void TOTrapAncient01::render() {
             post_translate_matrix(&v.x);
         }
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        n = (NJS_OBJECT *)model;
+        n = model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);
         post_translate_matrix(n->pos);
-        draw_ginja_model(((NJS_OBJECT *)model)->model);
+        draw_ginja_model((model)->model);
         n = n->child;
         push_matrix();
         post_translate_matrix(n->pos);

@@ -1480,7 +1480,7 @@ TWindowDDValueList *TWindowDD::get_element_ptr(s32 index) {
             return &TWindowDD::ws_data_base[0x125];
         }
     } else {
-        if ((index >= 0) && (index < (s32) window_dd_element_count)) {
+        if ((index >= 0) && (index < window_dd_element_count)) {
             return &TWindowDD::ws_data_base[index];
         }
         switch (index) {
@@ -2174,7 +2174,7 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
         }
         b.x = word_label_hidden_x;
         b.y = a.y;
-        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, (u32)r, 1);
+        o = TWindowDD_WS_String::create(cursor_label_width, (f32 *)&a, (f32 *)&b, r, 1);
         if (o != NULL) {
             o->set_depth(word_cursor_depth);
             o->fit_width_to_text();
@@ -2646,7 +2646,7 @@ saddr get_word_select_token_text(s16 id) {
 }
 
 TWindowDDValueList *TWindowDD::get_entry(s32 index) {
-    if ((index < 0) || (index >= (s32) twindowdd_entry_count)) {
+    if ((index < 0) || (index >= twindowdd_entry_count)) {
         return NULL;
     }
     return &TWindowDD::ws_data_table[index];

@@ -164,12 +164,12 @@ void TAdSystemFileCheckGC::close_windows_on_selection() {
     TObject *window;
     if (handle_mode_selection() == 0) {
         window = message_window;
-        if ((uaddr) window != 0U) {
+        if (window != 0U) {
             window->queue_destruction();
             message_window = NULL;
         }
         window = menu_window;
-        if ((uaddr) window != 0U) {
+        if (window != 0U) {
             window->queue_destruction();
             menu_window = NULL;
         }
@@ -280,7 +280,7 @@ void TAdSystemFileCheckGC::open_message_window(s32 index) {
 
 void TAdSystemFileCheckGC::close_window_30() {
     TWindowBase *window_base = (TWindowBase *)message_window;
-    if ((uaddr) window_base != 0U) {
+    if (window_base != 0U) {
         window_base->close();
         message_window = NULL;
     }

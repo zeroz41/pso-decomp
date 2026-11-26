@@ -416,8 +416,8 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
     return best;
 }
 
-u16 enemy_nearest_visible_enemy(void *self, f32 range) {
-    return enemy_nearest_visible_enemy_sq((TObjChara *)self, range * range);
+u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range) {
+    return enemy_nearest_visible_enemy_sq(self, range * range);
 }
 
 CsnHit *TObjEneDD::snap_to_ground_at(u8 *dest) {
@@ -1198,7 +1198,7 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)(dz), (f32)(dist));
+    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1206,7 +1206,7 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)(dist));
+    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
 }
 
 CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale) {

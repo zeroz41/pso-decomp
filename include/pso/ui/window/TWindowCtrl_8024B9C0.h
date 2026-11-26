@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void update_timer_window(void *ctrl);
+void update_timer_window(TWindowCtrl *ctrl);
 
 
 #endif

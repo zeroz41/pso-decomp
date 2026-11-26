@@ -99,7 +99,7 @@ TObjDFUsoTower *TObjDFUsoTower::create(TObject *parent) {
 
 TObjDFUsoTower::TObjDFUsoTower(TObject *parent) : TObjBase(parent) {
     m_name = TObjDFUsoTower::name;
-    model = (void *)(get_bml_model(TOBoss4::model_resource, 5));
+    model = (get_bml_model(TOBoss4::model_resource, 5));
     this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
     VecCopy(&position, &uso_tower_start_position);
     fade_alpha = 0.0f;
@@ -169,7 +169,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     NJS_TEXLIST *head_textures;
     uaddr attachment;
     NJS_TEXLIST *attachment_textures;
-    void *body;
+    NJS_OBJECT *body;
     NJS_TEXLIST *body_textures;
 
     if (0.0f == alpha) {
@@ -189,7 +189,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     hair = player->hair_model;
     attachment = player->attachment_model;
     body_textures = &player->body_textures;
-    TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
+    TObjDFTenchuFuru::draw_node_tree(body);
     if (alpha < 1.0f) {
         begin_alpha_blend(alpha);
     }

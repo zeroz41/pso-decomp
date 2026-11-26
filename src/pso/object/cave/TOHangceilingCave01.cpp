@@ -86,7 +86,7 @@ s32 TOHangceilingCaveBase::select_melee_contact_body(void *, f32) {
 
 TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(hangceiling_cave01_model_archive, turiten_singo_key_model_index);
+    model = get_bml_model(hangceiling_cave01_model_archive, turiten_singo_key_model_index);
     current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     init_collision_body_parts(this, &hangceiling_cave01_collision_body_parts, 1);
     refresh_collision_body_centers();

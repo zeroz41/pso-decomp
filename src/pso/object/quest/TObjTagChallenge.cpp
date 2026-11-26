@@ -27,6 +27,6 @@ TObjTagChallenge::TObjTagChallenge(TObject *parent) : TObject(parent) {
     m_name = tag_challenge_class_name;
 }
 
-void *create_obj_tag_challenge(void *tag_challenge) {
-    return new TObjTagChallenge((TObject *)tag_challenge);
+void *create_obj_tag_challenge(TObject *tag_challenge) {
+    return new TObjTagChallenge(tag_challenge);
 }

@@ -346,6 +346,6 @@ void TObjChara::copy_position() {
 }
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {
-    model = (void *)volopt_hiraisin_resources->models[index].model;
+    model = volopt_hiraisin_resources->models[index].model;
     texlist = volopt_hiraisin_resources->models[index].texlist;
 }

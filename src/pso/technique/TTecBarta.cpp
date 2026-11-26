@@ -162,7 +162,7 @@ void TTecBarta::apply_to_target(TObjChara *target) {
         DirectAttackPayload hit;
         hit.kind = 19;
         hit.power = params.power;
-        target->receive_direct_attack((void *)source, hit, contact, 3, -1);
+        target->receive_direct_attack(source, hit, contact, 3, -1);
     }
 }
 
@@ -178,7 +178,7 @@ TTecBarta::~TTecBarta() {
 
 void TTecBarta::run_task() {
     s32 i;
-    this->source = (uaddr)find_entity_by_id(this->sourceId);
+    this->source = find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
         queue_destruction();
         return;
@@ -221,7 +221,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 
@@ -240,7 +240,7 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
 }
 
@@ -254,14 +254,14 @@ void TTecCircle::apply_technique_to_area_targets() {
         queue_destruction();
         return;
     }
-    if (((TObjBase *)source)->get_entity_id() < 4) {
+    if (source->get_entity_id() < 4) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
-            list = collect_body_contacts_for_target(source);
+            list = collect_body_contacts_for_target((saddr)source);
         } else {
-            list = find_area_contact(source);
+            list = find_area_contact((saddr)source);
         }
     } else {
-        list = collect_body_contacts_for_target(source);
+        list = collect_body_contacts_for_target((saddr)source);
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active((uaddr)list->actors[i]) != 0) {

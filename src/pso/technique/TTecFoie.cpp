@@ -134,7 +134,7 @@ void TTecFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 1;
     hit.power = this->params.power;
-    target->receive_direct_attack((void *)source, hit, contact, 0, -1);
+    target->receive_direct_attack(source, hit, contact, 0, -1);
     play_sound_effect(0x4002A828, &target->position, 0, 0);
     queue_destruction();
 }
@@ -157,7 +157,7 @@ void TTecFoie::render() {  }
 
 void TTecFoie::run_task() {
     u32 i;
-    this->source = (uaddr)find_entity_by_id(sourceId);
+    this->source = find_entity_by_id(sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;
@@ -176,7 +176,7 @@ void TTecFoie::run_task() {
 TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {
     if (this->source != NULL) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     init_projectile_params();
     create_particle_emitters();
@@ -188,7 +188,7 @@ TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     m_name = TTecFoie::name;
     if (this->source != NULL) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     init_projectile_params();
     create_particle_emitters();

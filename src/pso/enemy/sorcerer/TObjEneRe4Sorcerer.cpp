@@ -218,7 +218,7 @@ void TObjEneRe4Sorcerer::free_bits() {
         re4_sorcerer_uv_scroll_buffer = NULL;
     }
     TObjEneRe4Bit::free_resources();
-    if ((uaddr) sorcerer_bml_resource != 0U) {
+    if (sorcerer_bml_resource != 0U) {
         delete sorcerer_bml_resource;
         sorcerer_bml_resource = 0U;
     }
@@ -242,7 +242,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     BmlModelEntry *models;
 
     init_position_vectors();
-    model = (void *)sorcerer_bml_resource->models->model;
+    model = sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
     texlist = models->texlist;
     this->init_model(re4_sorcerer_collision_body_part_table, 1);
@@ -292,10 +292,10 @@ void TObjEneRe4Sorcerer::init_enemy() {
 extern "C" {
 TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
     s32 i;
-    void *p;
+    TObject *p;
     for (i = 0; i < 2; i++) {
         if ((p = find_entity_by_id(bit_ids[i])) != NULL) {
-            ((TObject *)p)->queue_destruction();
+            p->queue_destruction();
         }
         bit_ids[i] = 0xFFFF;
     }

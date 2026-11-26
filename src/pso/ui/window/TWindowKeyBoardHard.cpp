@@ -563,7 +563,7 @@ void TWindowKeyBoardHard::draw_status_text(WindowDrawContext *ctx) {
         NJS_POINT2 pt;
         pt.x = ctx->inner_x;
         pt.y = ctx->inner_y;
-        set_text_draw_params(ctx, 0, 0, (f32)inv, 100000.0f);
+        set_text_draw_params(ctx, 0, 0, inv, 100000.0f);
         flags = m_control->composition_flags;
         if (!(flags & 1)) {
             draw_window_text((f32 *)&pt, "\x94\xBC\x89\x70\x90\x94", -1, 0, 1000000.0f); // 半英数

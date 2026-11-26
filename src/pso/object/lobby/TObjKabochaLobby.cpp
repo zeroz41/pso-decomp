@@ -79,8 +79,8 @@ void TObjKabochaLobby::free_resources() {
 }
 
 void TObjKabochaLobby::load_resources() {
-    void *resource = new BmlResource(5, &lobby_pumpkin_resource_descriptor, 0, 0, NULL);
-    model_resource = (BmlResource *)resource;
+    BmlResource *resource = new BmlResource(5, &lobby_pumpkin_resource_descriptor, 0, 0, NULL);
+    model_resource = resource;
     lobby_texlist = get_lobby_main_texlist();
 }
 
@@ -95,6 +95,6 @@ TObjKabochaLobby::TObjKabochaLobby(TObject *parent, void *set_data) : TObjMapObj
         state = 0;
     }
     scale = 1.0f;
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = lobby_texlist;
 }

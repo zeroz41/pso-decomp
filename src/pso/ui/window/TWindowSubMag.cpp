@@ -235,7 +235,7 @@ void TWindowSubMag::run_task() {
             state = 5;
         } else if (TWindowSubItem::is_usable(player) != 0) {
             slots = count_slots();
-            TWindowSubMag::feed_mag((void*)player, (void*)(list->get_cursor_value()), (void*)(list2->get_cursor_value()));
+            TWindowSubMag::feed_mag(player, (void*)(list->get_cursor_value()), (void*)(list2->get_cursor_value()));
             state = 8;
         }
         break;
@@ -349,7 +349,7 @@ saddr TWindowSubMag::create_list() {
 }
 extern "C" {
 
-// dead-stripped: only its literals survive. 2.0f (.sdata2 0x805DD668) is pooled after create_action_menu's
+// dead-stripped: only its literals survive. 2.0f is pooled after create_action_menu's
 // 172.0f and ahead of run_task's literals, but its one live user is_mag_full is generated last (deferred
 // codegen runs this file bottom-up), so a function generated between create_action_menu and create_list
 // used it first. Minimal body after is_mag_full's check; name inferred.

@@ -146,7 +146,7 @@ void TObjEneMe1Canadin::load_resources() {
     s32 i;
     NJS_OBJECT *model;
     NJS_OBJECT *model2;
-    void *p;
+    TBreakUpMdlData *p;
 
     canadin_node_origin.x = 0.0f;
     canadin_node_origin.y = 0.0f;
@@ -164,9 +164,9 @@ void TObjEneMe1Canadin::load_resources() {
     }
     me1_canadin_render_node_index = 0;
     p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
-    canadin_leader_breakup_model = (TBreakUpMdlData *)p;
+    canadin_leader_breakup_model = p;
     p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
-    canadin_breakup_model = (TBreakUpMdlData *)p;
+    canadin_breakup_model = p;
     model = bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
     canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 2)->model)->polygon_list + 2);
@@ -369,7 +369,7 @@ void TObjEneMe1Canadin::apply_parameters() {
 }
 
 void TObjEneMe1Canadin::select_model() {
-    model = (void *)bm_ene_me1_mb_resource->models[0].model;
+    model = bm_ene_me1_mb_resource->models[0].model;
     texlist = bm_ene_me1_mb_resource->models[1].texlist;
 }
 
@@ -1914,7 +1914,7 @@ void TObjEneMe1CanadinLeader::run_task() {
 }
 
 void TObjEneMe1CanadinLeader::select_model() {
-    model = (void *)bm_ene_me1_mb_resource->models[1].model;
+    model = bm_ene_me1_mb_resource->models[1].model;
     texlist = bm_ene_me1_mb_resource->models[1].texlist;
 }
 

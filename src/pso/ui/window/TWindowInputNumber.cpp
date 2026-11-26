@@ -103,13 +103,13 @@ void TWindowInputNumber::move_cursor_next() {
     u8 digits;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    *(u8 *)&this->selectedDigit = (u8) (*(u8 *)&this->selectedDigit + 1);
-    if ((s8) *(u8 *)&this->selectedDigit >= (s8) (digits = *(u8 *)&this->digitCount)) {
+    this->selectedDigit = (u8) (this->selectedDigit + 1);
+    if ((s8) this->selectedDigit >= (s8) (digits = *(u8 *)&this->digitCount)) {
         if (this->inputFlags & 1) {
-            *(u8 *)&this->selectedDigit = (digits - 1);
+            this->selectedDigit = (digits - 1);
             return;
         }
-        *(u8 *)&this->selectedDigit = 0U;
+        this->selectedDigit = 0U;
     }
 }
 
@@ -349,5 +349,5 @@ s32 TWindowInputNumber::is_locked(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }

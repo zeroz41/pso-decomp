@@ -7,6 +7,7 @@
 
 struct CameraAngles;
 struct NJS_TEXLIST;
+struct NJS_OBJECT;
 
 class TObjBase : public TObject {
 public:
@@ -49,7 +50,7 @@ public:
     s16 set_index;  // index of its set entry, -1 for none
     s16 alt_room;   // the room set_room keeps for the key and quest states
     u32 actorFlags;
-    void* model;
+    NJS_OBJECT *model;
     Vec position;
     Vec prev_position;  // where it stood before this frame's move
     Vec home_position;  // the set position it returns to

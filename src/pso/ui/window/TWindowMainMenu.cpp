@@ -190,19 +190,19 @@ void TWindowMainMenu::close() {
     }
 }
 
-void TWindowMainMenu::refresh_submenu(void *window_main_menu_entry) {
+void TWindowMainMenu::refresh_submenu(TWindowMainMenuEntry *window_main_menu_entry) {
     if (menu_window != NULL) {
         menu_window->park_selection();
         menu_window->clear_menu_flags();
-        populate_menu(static_cast<TWindowMainMenuEntry *>(window_main_menu_entry));
+        populate_menu(window_main_menu_entry);
     }
 }
 
-void TWindowMainMenu::close_submenu(void *window_main_menu_entry) {
+void TWindowMainMenu::close_submenu(TWindowMainMenuEntry *window_main_menu_entry) {
     if (menu_window != NULL) {
         menu_window->pop_level();
         menu_window->clear_menu_flags();
-        populate_menu(static_cast<TWindowMainMenuEntry *>(window_main_menu_entry));
+        populate_menu(window_main_menu_entry);
     }
 }
 
@@ -311,7 +311,7 @@ void TWindowMainMenu1P::create_char_select_slot() {
     *(void * *)&this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
 }
 
-void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); *(int *)&this->submenu = 0; } }
+void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); this->submenu = 0; } }
 
 void TWindowMainMenu::update_description_text(s32 id) {
     if ((s32)description_item_id != id) {
@@ -462,7 +462,7 @@ s32 TWindowMainMenu::close_active_submenu() {
     description_item_id = 0x1F;
     load_submenu_entries();
     update_selection_value();
-    close_submenu((void*)active_entries);
+    close_submenu(active_entries);
     return 1;
 }
 

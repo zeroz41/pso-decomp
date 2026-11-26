@@ -37,7 +37,7 @@ TObjNpcSecretaryBase::TObjNpcSecretaryBase(TObject *parent, void *set_data) : TO
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = (void *)static_model_resource->models->model;
+    this->model = static_model_resource->models->model;
     this->texlist = static_model_resource->models->texlist;
     this->setup_common();
 }

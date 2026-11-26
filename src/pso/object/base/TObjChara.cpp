@@ -1847,7 +1847,7 @@ void TObjChara::run_hit_reaction() {  }
 
 void TObjChara::run_death_reaction() {  }
 
-void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; this->tp = this->tpmax; }
+void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); this->hp = this->hpmax; this->tp = this->tpmax; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
@@ -3235,8 +3235,8 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 
 #pragma push
 #pragma opt_pointer_analysis on
-void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
-  if ((((lobby_rule_settings.get_rule_field_0() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
+void record_local_damage_if_enabled(TObjChara *mine_trap, void *att, saddr damage) {
+  if ((((lobby_rule_settings.get_rule_field_0() == 1) && (mine_trap->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
   {
     record_damage_stats(mine_trap, att, (void *) damage);
   }
@@ -3336,13 +3336,13 @@ void TObjChara::apply_switch_attack() {
 
 void TObjChara::enemy_spawn_jellen_effect() {
     Angle3 rotation;
-    saddr oneshot_particle_emitter;
+    TParticleCtrl *oneshot_particle_emitter;
     rotation.y = 0;
     rotation.x = 0;
     rotation.z = -0x8000;
-    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FD, 0x50);
+    oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -3357,13 +3357,13 @@ void TObjChara::trigger_switch_attack() {
 
 void TObjChara::enemy_spawn_zalure_effect() {
     Angle3 rotation;
-    saddr oneshot_particle_emitter;
+    TParticleCtrl *oneshot_particle_emitter;
     rotation.y = 0;
     rotation.x = 0;
     rotation.z = -0x8000;
-    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FE, 0x50);
+    oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -3371,9 +3371,9 @@ void TObjChara::recalc_stats() {}
 
 s32 TObjChara::sync_enemy_state(s32) { return 0; }
 
-void TObjPlayer::clear_s16_arrays(void *p) {
+void TObjPlayer::clear_s16_arrays(TObjChara *p) {
     for (s32 i = 0; i < 4; i++) {
-        static_cast<TObjChara *>(p)->clear_attack_credit_slot(i);
+        p->clear_attack_credit_slot(i);
     }
 }
 

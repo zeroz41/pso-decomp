@@ -168,7 +168,7 @@ void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
         if ((s32)(u16)ch == 0x5C) {
             return;
         }
-        if ((u16)ch >= 0xA0 && (u16)ch <= 0xFF) {
+        if (ch >= 0xA0 && ch <= 0xFF) {
             return;
         }
     }
@@ -200,7 +200,7 @@ void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
             ch <<= 8;
             ch |= *p++ & 0xFF;
             for (t = soft_keyboard_conversion_exclusions; *t != 0; t++) {
-                if ((u16)ch == *t) {
+                if (ch == *t) {
                     return;
                 }
             }
@@ -246,7 +246,7 @@ void TWindowKeyBoardBase::remove_candidate(void *record) {
 void TWindowKeyBoardBase::insert_string(char *src) {
     s32 n;
     u8 *p = current_candidate;
-    s8 len = measure_string_len(reinterpret_cast<const char *>(src));
+    s8 len = measure_string_len(src);
     CandidateRecord *rec;
     u8 *dst;
     s8 total;

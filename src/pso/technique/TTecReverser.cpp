@@ -49,14 +49,14 @@ void TTecShot::dispatch_all_technique_contacts() {
         queue_destruction();
         return;
     }
-    if ((u16) ((TObjBase *)source)->get_entity_id() < 4U) {
+    if ((u16) source->get_entity_id() < 4U) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
-            list = (TechniqueContactList *) query_technique_player_contacts(source);
+            list = (TechniqueContactList *) query_technique_player_contacts((saddr)source);
         } else {
-            list = (TechniqueContactList *) query_technique_enemy_contacts(source);
+            list = (TechniqueContactList *) query_technique_enemy_contacts((saddr)source);
         }
     } else {
-        list = (TechniqueContactList *) query_technique_player_contacts(source);
+        list = (TechniqueContactList *) query_technique_player_contacts((saddr)source);
     }
     if (list == NULL) {
         this->vfunc_6();
@@ -80,14 +80,14 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if ((u16) ((TObjBase *)source)->get_entity_id() < 4U) {
+    if ((u16) source->get_entity_id() < 4U) {
         if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
-            list = (TechniqueContactList *) query_technique_player_contacts(source);
+            list = (TechniqueContactList *) query_technique_player_contacts((saddr)source);
         } else {
-            list = (TechniqueContactList *) query_technique_enemy_contacts(source);
+            list = (TechniqueContactList *) query_technique_enemy_contacts((saddr)source);
         }
     } else {
-        list = (TechniqueContactList *) query_technique_player_contacts(source);
+        list = (TechniqueContactList *) query_technique_player_contacts((saddr)source);
     }
     if (list == NULL) {
         this->vfunc_6();
@@ -124,7 +124,7 @@ void TTecReverser::create(void *source, void *origin, void *targets, s32 level) 
 
 void TTecReverser::run_task() {
     uaddr entity;
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;

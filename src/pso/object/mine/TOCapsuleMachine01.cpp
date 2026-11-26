@@ -80,7 +80,7 @@ TOCapsuleMachine01::~TOCapsuleMachine01() {
 TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOCapsuleMachine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)capsule_machine01_model_resource->models[0].model;
+    model = capsule_machine01_model_resource->models[0].model;
     texlist = capsule_machine01_model_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 50.0f;

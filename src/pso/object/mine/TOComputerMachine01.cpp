@@ -52,7 +52,7 @@ void TOComputerMachine01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        body = (NJS_OBJECT *)model;
+        body = model;
         draw_ginja_model(body->model);
         TParticleCtrl::begin_effect_render();
         screen = body->child;
@@ -103,7 +103,7 @@ TOComputerMachine01::~TOComputerMachine01() {
 TOComputerMachine01::TOComputerMachine01(void *set_data) : TOQuestTalkBase(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = model_resource->models->texlist;
     view_range = 500.0f;
     model_radius = 50.0f;

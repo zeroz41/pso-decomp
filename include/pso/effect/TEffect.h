@@ -5,6 +5,8 @@
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 
+class TObjBase;
+
 // Base of the one-shot effects that live on the particle task list.
 class TEffect : public TObject {
 public:
@@ -12,7 +14,7 @@ public:
     virtual ~TEffect();
     static const char *class_name;
 
-    uaddr source;
+    TObjBase *source;
     Vec position;
     NJS_ARGB color;
     Vec scale;

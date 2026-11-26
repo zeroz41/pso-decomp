@@ -935,7 +935,7 @@ s32 TAdSinglePlyChrSelectGC::compare_save_headers(CharacterSaveRecord *record_a,
     return file_a->save_count != file_b->save_count ? 6 : 7;
 }
 
-s32 TAdSinglePlyChrSelectGC::setup(int quest_download_server) { card_load_channel = quest_download_server; TAdSinglePlyChrSelectGC::set_quest_download_server((int)quest_download_server); memcard_access_active = 1; return TAdSinglePlyChrSelectGC::draw_window_bg(card_load_channel, (saddr)pso_guildcard_card_filename.filename, (saddr)guild_card_save_file_buffer, guild_card_save_file_block_count); }
+s32 TAdSinglePlyChrSelectGC::setup(int quest_download_server) { card_load_channel = quest_download_server; TAdSinglePlyChrSelectGC::set_quest_download_server(quest_download_server); memcard_access_active = 1; return TAdSinglePlyChrSelectGC::draw_window_bg(card_load_channel, (saddr)pso_guildcard_card_filename.filename, (saddr)guild_card_save_file_buffer, guild_card_save_file_block_count); }
 
 
 int start_system_file_write(s32 chan) {
@@ -1014,7 +1014,7 @@ s32 TAdSinglePlyChrSelectGC::load_pso_system(int chan) {
         r = TAdPlayerLoadGC::find_card_file(chan, (const char *)&pso_system_card_filename);
         if (r == 0) {
             memcard_access_active = 1;
-            r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)&pso_system_card_filename, (void *)(*(saddr *)&system_save_file_buffer)));
+            r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)&pso_system_card_filename, (system_save_file_buffer)));
         }
     }
     return r;

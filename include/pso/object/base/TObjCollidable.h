@@ -39,7 +39,7 @@ public:
     void clear_hit_receive_state();
     // Empty in this build; the ancient trap and chainsaw call it from their demo and debug-draw updates.
     void sub_80154D78();
-    void*set_collision_body(void*);
+    void*set_collision_body(CollisionBody *body);
     void clear_collision_bodies();
     // Clear / set the collision flag (bit 1) of every body.
     void disable_all_bodies();

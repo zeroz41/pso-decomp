@@ -5174,7 +5174,7 @@ force_active:
   - clear_player_grav_flags__14TBoss6GravBallFv
   - clear_ref_if_destroyed__12TObjComputerFv
   - clear_render_deferred__7TObjectFv
-  - clear_s16_arrays__10TObjPlayerFPv
+  - clear_s16_arrays__10TObjPlayerFP9TObjChara
   - clear_segment_flags__19TBoss1DragonColli_CFv
   - clear_segment_flags__19TBoss8DragonColli_CFv
   - clear_shrink_flag__10TObjPlayerFPv
@@ -6028,7 +6028,7 @@ force_active:
   - enemy_nearest_visible_player_sq__FP9TObjCharaf
   - enemy_tick_target_acquisition__12TObjEneDD_STFPllf
   - enlarge_flight_cutter_slicer__FP8TObjBase
-  - enlarge_s_rank_j_cutter_blade__FPv
+  - enlarge_s_rank_j_cutter_blade__FP8TObjBase
   - ensure_tube__14TBoss6PlotFalzFv
   - enter_active_state__14TBoss6PlotFalzFv
   - enter_appear__11TBoss4Type3Fv
@@ -13953,7 +13953,7 @@ force_active:
   - record_camera_path_point__13TObjEneMorfosFP10NJS_OBJECT
   - record_hit__22TObjFogCollisionPoisonFll
   - record_local_battle_placement__FPv
-  - record_local_damage_if_enabled__FPvPvl
+  - record_local_damage_if_enabled__FP9TObjCharaPvl
   - recv_banner__9TProtocolFR6packet
   - recv_banner_head__9TProtocolFR6packet
   - recv_battle_data__9TProtocolFR6packet
@@ -14008,7 +14008,7 @@ force_active:
   - refresh_palette_slots__21TWindowSubCustomEquipFv
   - refresh_quest_list__6TLobbyFPCc
   - refresh_alive_flags__19TPlayerBattleCtrl4PFv
-  - refresh_submenu__15TWindowMainMenuFPv
+  - refresh_submenu__15TWindowMainMenuFP20TWindowMainMenuEntry
   - refresh_target_marker__11TMainCursorFv
   - refresh_target_periodically__13TBoss5GryphonFv
   - register_global_instance_dtor__22TQuestVmDownLoadServerFv
@@ -16684,7 +16684,7 @@ force_active:
   - update_button_hold_counter__FPvPvii
   - update_buy_sell_choice__20TShopItemTecSequenceFv
   - update_buy_sell_choice__22TShopEquipmentSequenceFv
-  - update_buy_sell_choice__26TShopEquipmentGearSequenceFPv
+  - update_buy_sell_choice__26TShopEquipmentGearSequenceFP26TShopEquipmentGearSequence
   - apply_parameters__17TObjEneMe1CanadinFv
   - state_move_forward__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv

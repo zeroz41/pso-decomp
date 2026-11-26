@@ -129,7 +129,7 @@ void TOKeyAncient03::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        object = (NJS_OBJECT *)model;
+        object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
         if (is_on != 1) {
@@ -194,9 +194,9 @@ TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) 
     apply_object_set_data(set_data);
     init_switch_id();
     texlist = key_ancient03_texture_variants[0];
-    model = (void *)key_ancient03_model_archive->models[0].model;
+    model = key_ancient03_model_archive->models[0].model;
     view_range = 400.0f;
-    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    model_radius = ((GinjaModelBounds *)(model)->model)->radius;
     activate_range = 10.0f;
     if (get_main_phase() == 0xF || is_split_screen() == 1) {
         if (mode != KEY_MODE_NONE && set_params[1] < 0) {

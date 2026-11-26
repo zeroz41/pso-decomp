@@ -305,7 +305,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     ShinowaBattleTables *tables = reinterpret_cast<ShinowaBattleTables *>(&TObjEneMe3ShinowaMirage::node_origin);
     init_position_vectors();
     select_gold_or_normal_variant();
-    model = (void *)TObjEneMe3ShinowaMirage::bml_resource->models->model;
+    model = TObjEneMe3ShinowaMirage::bml_resource->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
     set_action_table(shinowa_mirage_motion_param_table);
@@ -406,7 +406,7 @@ f32 TObjEneMe3Shinowa::get_node_world_y() {
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     bind_motion_context((NJS_MOTION *)this->current_motion, this->frame);
-    node = (NJS_OBJECT *)this->model;
+    node = this->model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);

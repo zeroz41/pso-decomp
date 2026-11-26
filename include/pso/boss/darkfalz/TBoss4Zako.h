@@ -41,7 +41,7 @@ struct TBoss4Zako : public TObjEnemy {
     void update_move_to_target_state();
     void update_surround_player_state();
     void update_sink_state();
-    static s32 queue_entry(void *v, s32 a, s32 b);
+    static s32 queue_entry(Vec *v, s32 a, s32 b);
 
     s32 state;
     TBoss4DarkFalz *owner;

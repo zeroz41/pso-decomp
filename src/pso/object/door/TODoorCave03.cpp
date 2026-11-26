@@ -102,7 +102,7 @@ void TODoorCave03::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        node = (NJS_OBJECT *)model;
+        node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
@@ -110,9 +110,9 @@ void TODoorCave03::render() {
         model_render_flags |= 0x10;
         set_constant_material(&light_color);
         if (door_flags & 1) {
-            node = ((NJS_OBJECT *)model)->child->sibling;
+            node = (model)->child->sibling;
         } else {
-            node = ((NJS_OBJECT *)model)->child;
+            node = (model)->child;
         }
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
@@ -156,7 +156,7 @@ TODoorCave03::~TODoorCave03() {
 TODoorCave03::TODoorCave03(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_cave03_class_name;
     apply_object_set_data(set_data);
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     init_collision_body_parts(this, door_cave03_collision_body, 1);
     refresh_collision_body_centers();

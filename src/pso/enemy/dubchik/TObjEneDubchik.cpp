@@ -379,10 +379,10 @@ void TObjEneDubchik::free_resources() {
 }
 
 void *TObjEneDubchik::create(void *set_data) {
-    void *o;
+    TObject *o;
     void *o2;
     o = new TObjControl(tl_04);
-    o2 = new TObjEneDubchik((TObject *)o, set_data);
+    o2 = new TObjEneDubchik(o, set_data);
     return o2;
 }
 

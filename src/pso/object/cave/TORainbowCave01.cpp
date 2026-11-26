@@ -109,7 +109,7 @@ TORainbowCave01::~TORainbowCave01() {}
 TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = rainbow_cave01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)rainbow_cave01_bml_resource->models[0].model;
+    model = rainbow_cave01_bml_resource->models[0].model;
     texlist = rainbow_cave01_bml_resource->models[0].texlist;
     view_range = 400.0f;
     model_radius = 40000.0f;

@@ -30,7 +30,7 @@
 
 
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
+TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index);
 extern "C" {
 f32 vector_length(f32 *v);
 }
@@ -320,7 +320,7 @@ void TCMCharacter::load_model_parts() {
     CharacterAppearanceFields *appearance = creation_player_character;
     CharacterClassAppearance *entry = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(creation_player_character))];
     creation_models_ready = 1;
-    model = (void *)get_bml_model((BmlResource *)chara_select_preview_resource, 0);
+    model = get_bml_model((BmlResource *)chara_select_preview_resource, 0);
     s32 next = bind_model_parts(&chara_select_hair_node_b, entry->capModels, creation_cap_model_parts, 4, 1);
     next = bind_model_parts(&chara_select_hair_node_a, entry->hairModels, creation_hair_model_parts, 4, next);
     bind_model_parts(&chara_select_head_node, entry->headModels, creation_head_model_parts, 3, next);

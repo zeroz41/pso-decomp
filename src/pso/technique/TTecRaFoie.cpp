@@ -294,7 +294,7 @@ void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
     attack.power = params.power;
-    target->receive_direct_attack((void *)source, attack, contact, 2, -1);
+    target->receive_direct_attack(source, attack, contact, 2, -1);
 }
 
 void TTecRaFoie::render() {  }
@@ -305,7 +305,7 @@ void TTecRaFoie::run_task() {
         queue_destruction();
         return;
     }
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -391,7 +391,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
         collidable->bodies->radius = params.range;
     }
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     spawn_effects(0);
     play_cast_sound();
@@ -404,7 +404,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
     m_148 = 0;
     copy_technique_target_list(&m_targets, list);
     if (this->source != 0) {
-        sourceId = ((TObjBase *)this->source)->get_entity_id();
+        sourceId = this->source->get_entity_id();
     }
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;

@@ -27,7 +27,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->scale.z = 1.0f;
     this->m_74 = 0;
     this->contact = 0;
-    this->source = source;
+    this->source = (TObjBase *)source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -48,7 +48,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->collisionBody.radius = 10.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 0;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
+    if (this->source->get_entity_id() < 4U) {
         if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
@@ -74,7 +74,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->m_74 = 0;
-    this->source = source;
+    this->source = (TObjBase *)source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -95,7 +95,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     this->collisionBody.radius = 10.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 0;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
+    if (this->source->get_entity_id() < 4U) {
         if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {

@@ -514,8 +514,7 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_quest_message_frame(void *context) {
-  WindowDrawContext *c = (WindowDrawContext *)context;
+void TWindowBase::draw_quest_message_frame(WindowDrawContext *c) {
   TexturedQuad q;
   f32 step;
   f32 rem;

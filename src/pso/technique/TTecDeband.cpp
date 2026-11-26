@@ -38,9 +38,9 @@ void TTecDeband::apply_to_player(TObjPlayer *player) {
     hit.kind = 0xA;
     hit.power = params.power;
     if (player->is_script_controlled() == 0) {
-        player->receive_direct_attack((void *)source, hit, 0, 0xA, -1);
+        player->receive_direct_attack(source, hit, 0, 0xA, -1);
         if (is_split_screen() == 0) {
-            TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 0xA);
+            TWindowCtrl::show_party_effect(source->get_entity_id(), player->get_entity_id(), 0xA);
         }
     }
 }
@@ -64,7 +64,7 @@ void TTecDeband::run_task() {
         queue_destruction();
         return;
     }
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;

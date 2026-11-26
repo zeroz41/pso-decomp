@@ -49,7 +49,7 @@ TODoorAncient08::TODoorAncient08(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_ancient08_class_name;
     apply_object_set_data(set_data);
     texlist = texture_lists[0];
-    model = (void *)bml_resource->models[0].model;
+    model = bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;
@@ -204,7 +204,7 @@ void TODoorAncient08::draw_switch_lights() {
     NJS_OBJECT **pair;
     s32 i;
     lit = 0;
-    root = (NJS_OBJECT *)model;
+    root = model;
     pairs[0][0] = root->child->child;
     pairs[0][1] = root->child->child->sibling;
     pairs[1][0] = root->child->child->sibling->sibling;

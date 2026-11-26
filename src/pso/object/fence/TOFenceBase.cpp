@@ -89,7 +89,7 @@ void TOFenceBase::render() {
         if (is_open == 0) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
-            node = (NJS_OBJECT *)model;
+            node = model;
             push_matrix();
             post_translate_matrix(node->pos);
             rotate_matrix_z(NULL, node->ang[2]);

@@ -137,7 +137,7 @@ CollisionBody gigue_collision_bodies[2] = {
 const char *me1_gi_gue_name = "TObjEneMe1GiGue";
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
-    model = (void *)gigue_resource->models[i].model;
+    model = gigue_resource->models[i].model;
     texlist = gigue_resource->models[i].texlist;
 }
 
@@ -932,7 +932,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
 void TObjEneMe1GiGue::update_hit_reaction() {
     s16 action;
     s16 ref_hp;
-    saddr entity;
+    TObjBase *entity;
     s32 retaliate;
     switch (state) {
     case 0:
@@ -971,10 +971,10 @@ void TObjEneMe1GiGue::update_hit_reaction() {
         resume_action = 1;
         ref_hp = referenceHp;
         if (ref_hp - hp > ref_hp / 4 && !(actorFlags & 2)) {
-            entity = (saddr)find_entity_by_id(attacker_id);
+            entity = find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
-                if ((actorFlags & 0x01000000) && xz_distance_squared(&position, &((TObjBase *)entity)->position) > 400.0f) {
+                if ((actorFlags & 0x01000000) && xz_distance_squared(&position, &entity->position) > 400.0f) {
                     retaliate = 0;
                 }
             }

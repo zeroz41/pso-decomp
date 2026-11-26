@@ -161,14 +161,14 @@ void TBoss4ZakoDraw::draw_queued() {
     }
 }
 
-s32 TBoss4Zako::queue_entry(void *v, s32 a, s32 b) {
+s32 TBoss4Zako::queue_entry(Vec *v, s32 a, s32 b) {
     Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw::draw_buffer_index ^ 1];
     s32 n = t->count;
     Boss4ZakoDrawEntry *e = &t->entries[n];
     if (n >= 0x60) {
         return 0;
     }
-    VecCopy(&e->position, (const Vec *)v);
+    VecCopy(&e->position, v);
     e->rotation_x = a;
     e->rotation_y = b;
     t->count += 1;

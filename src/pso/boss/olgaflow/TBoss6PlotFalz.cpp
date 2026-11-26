@@ -456,10 +456,10 @@ f32 TBoss6PlotFalz::arena_center_distance(const Vec *pos) {
     return vector_length(&d);
 }
 __declspec(section ".sdata2") const f32 plot_falz_length_epsilon[1] = { 1e-05f };
-s32 boss6_sphere_blocks_player_view(void *pos, f32 r) {
+s32 boss6_sphere_blocks_player_view(Vec *pos, f32 r) {
     Vec c;
     Vec pl;
-    Vec p = *(Vec *)pos;
+    Vec p = *pos;
     Vec d1;
     Vec d2;
     Vec d3;
@@ -817,12 +817,12 @@ void TBoss6PlotFalz::warp_nearby_players() {
 
 void TBoss6PlotFalz::refresh_players_equipment() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
-            if (((TObjPlayer *)p)->get_area() == 0x1f) {
-                ((TObjPlayer *)p)->refresh_equipment_slot();
+            if (p->get_area() == 0x1f) {
+                p->refresh_equipment_slot();
             }
         }
     }
@@ -865,12 +865,12 @@ void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFa
 
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     TWindowCtrl::unsuppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
-            ((TObjPlayer *)p)->end_camera_pan();
+            p->end_camera_pan();
         }
     }
     release_all_players_control_lock();

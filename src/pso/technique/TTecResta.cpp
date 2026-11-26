@@ -44,7 +44,7 @@ void TTecReverser::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 8;
     hit.power = params.power;
-    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    target->receive_direct_attack(source, hit, 0, -1, -1);
     new TDelayedSoundEffect(&target->position, 0x2D, 0x4002AD13, tl_07);
 }
 
@@ -95,8 +95,8 @@ TTecResta::~TTecResta() {
 void TTecResta::run_task() {
     uaddr member;
     s32 i;
-    source = (uaddr)find_entity_by_id(sourceId);
-    if (TTecLuker::is_parents_unqueued(source) == 0) {
+    source = find_entity_by_id(sourceId);
+    if (TTecLuker::is_parents_unqueued((uaddr)source) == 0) {
         queue_destruction();
         return;
     }
@@ -134,12 +134,12 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
     hit.kind = 6;
     hit.power = params.power;
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 6);
+        TWindowCtrl::show_party_effect(source->get_entity_id(), player->get_entity_id(), 6);
     }
-    player->receive_direct_attack((void *)source, hit, 0, 0xF, -1);
-    if (((TObjBase *)source)->get_entity_id() == player->get_entity_id()) {
+    player->receive_direct_attack(source, hit, 0, 0xF, -1);
+    if (source->get_entity_id() == player->get_entity_id()) {
         if (show_effects != 0) {
-            new TTecRestaEff(&player->body_center, source, tl_07);
+            new TTecRestaEff(&player->body_center, (saddr)source, tl_07);
         }
     } else if (show_effects != 0) {
         TParticleCtrl *e = spawn_particle_effect_with_flags(&player->body_center, 0x1F6, 0x10);

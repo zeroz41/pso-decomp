@@ -266,7 +266,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
 
     init_position_vectors();
     init_variant();
-    model = (void *)me3_sinow_zoa_bml_resource->models->model;
+    model = me3_sinow_zoa_bml_resource->models->model;
     init_model(&sinow_zoa_collision_parts, 1);
     motion_flags = 0;
     this->set_action_table(me3_sinow_zoa_animation_descriptors);
@@ -432,7 +432,7 @@ f32 TObjEneMe3SinowZoa::get_node_height() {
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     bind_motion_context(current_motion, frame);
-    node = (NJS_OBJECT *)model;
+    node = model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);

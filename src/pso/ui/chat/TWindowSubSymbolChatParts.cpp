@@ -125,7 +125,7 @@ void TWindowSubSymbolChatParts::add_part() {
     s32 symbol_index;
 
     symbol_index = this->calc_symbol_index();
-    if (((s8) this->view_mode != 0) || (symbol_index >= (s16) *(s16 *)&this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
+    if (((s8) this->view_mode != 0) || (symbol_index >= (s16) this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -136,7 +136,7 @@ void TWindowSubSymbolChatParts::add_part() {
 }
 
 void TWindowSubSymbolChatParts::handle_add() {
-    if (this->calc_symbol_index() >= (s16) *(s16 *)&this->item_count) {
+    if (this->calc_symbol_index() >= (s16) this->item_count) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -190,7 +190,7 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
         }
         row = cursor_row;
         if ((s8) row < 0) {
-            cursor_row = (u8) (row + *(u8 *)&row_count);
+            cursor_row = (u8) (row + row_count);
         }
         row_now = cursor_row;
         rows = *(u8 *)&row_count;

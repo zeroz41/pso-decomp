@@ -472,9 +472,9 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
     return keyboard;
 }
 
-saddr TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
+saddr TWindowSubShortMail::open_confirm_prompt(TObject *parent, int client_id) {
     TWindowMessageYesNo *dialog;
-    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create((TObject *)parent, client_id, 0, 0);
+    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(parent, client_id, 0, 0);
     open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
     dialog->set_menu_selected_index(0);
     dialog->set_choice_menu_flag70_bit10();

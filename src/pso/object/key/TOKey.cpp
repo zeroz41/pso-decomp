@@ -386,8 +386,7 @@ void TOKey::interact(u16 client) {
     }
 }
 
-void handle_6x05_write_switch_flag(void *data) {
-    G_SwitchStateChanged_6x05 *cmd = (G_SwitchStateChanged_6x05 *)data;
+void handle_6x05_write_switch_flag(G_SwitchStateChanged_6x05 *cmd) {
     TObjCollidable *entity;
 
     cmd->bswap();

@@ -111,8 +111,8 @@ void TObjSuisouLobby::free_resources() {
 }
 
 void TObjSuisouLobby::load_resources() {
-    void *resource = new BmlResource(5, &bm_obj_lobby_suisou_resource_descriptor, 0, 0, NULL);
-    model_resource = (BmlResource *)resource;
+    BmlResource *resource = new BmlResource(5, &bm_obj_lobby_suisou_resource_descriptor, 0, 0, NULL);
+    model_resource = resource;
     lobby_texlist = get_lobby_main_texlist();
 }
 
@@ -163,6 +163,6 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
     }
     sub_80369D68();
     fade_scale = 1.0f;
-    model = (void *)model_resource->models->model;
+    model = model_resource->models->model;
     texlist = lobby_texlist;
 }

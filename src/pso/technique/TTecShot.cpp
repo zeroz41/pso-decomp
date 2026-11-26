@@ -140,7 +140,7 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->traveled = 0.0f;
-    this->source = source;
+    this->source = (TObjBase *)source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -165,13 +165,13 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     this->collisionBody.offset.x = 0.0f;
     this->collisionBody.offset.y = 0.0f;
     this->collisionBody.offset.z = 0.0f;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U && ((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
+    if (this->source->get_entity_id() < 4U && ((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
         this->collisionBody.offset.z = (-1e+01f);
     }
     this->collisionBody.radius = 5.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 1;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
+    if (this->source->get_entity_id() < 4U) {
         if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
@@ -197,7 +197,7 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->traveled = 0.0f;
-    this->source = source;
+    this->source = (TObjBase *)source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -226,13 +226,13 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     this->collisionBody.offset.x = 0.0f;
     this->collisionBody.offset.y = 0.0f;
     this->collisionBody.offset.z = 0.0f;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U && ((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
+    if (this->source->get_entity_id() < 4U && ((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
         this->collisionBody.offset.z = (-1e+01f);
     }
     this->collisionBody.radius = 5.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 1;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
+    if (this->source->get_entity_id() < 4U) {
         if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {

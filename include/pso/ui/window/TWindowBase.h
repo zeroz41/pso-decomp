@@ -31,7 +31,7 @@ public:
     void bring_to_front();
     void update_window_entry_list(const WindowLayoutEntries *entries);
     void update_fade();
-    void draw_quest_message_frame(void *context);
+    void draw_quest_message_frame(WindowDrawContext *c);
     void init_window(u8 *, u8 *, s16);
     WindowDrawContext *setup_window_draw_context(f32 *scale);
     WindowDrawContext *draw_default_entry();

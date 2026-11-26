@@ -480,7 +480,7 @@ void TWindowMenuMainMenu::play_cursor_sound(int delta) {
 void TWindowMenuMainMenu::handle_navigation_input() {
     ControllerInputContext *window_choice_setting;
     if ((TWindowBase::is_window_reveal_complete() != 0) && (this->get_menu_flag() == 0) && (this->is_flag_set() == 0) && !(this->state_flags & 4)) {
-        window_choice_setting = &controller_input_state.controllers[is_player_input_active((*(s16 *)&this->client_index))];
+        window_choice_setting = &controller_input_state.controllers[is_player_input_active((this->client_index))];
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             play_cursor_sound(-1);
         }

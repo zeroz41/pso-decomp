@@ -386,7 +386,7 @@ void TWindowSubStatusDisp::run_task() {
   }
   this->dispatch_page_update();
   update_window();
-  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) this) + 0x24)));
+  this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((((u8 *) this) + 0x24)));
 }
 
 void TWindowSubStatusDisp::render() {

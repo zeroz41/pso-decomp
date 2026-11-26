@@ -364,7 +364,7 @@ void TObjEneMe1Gee::apply_parameters() {
 }
 #pragma pop
 void TObjEneMe1Gee::select_model() {
-    this->model = (void *)me1_gee_resource_bundle->models->model;
+    this->model = me1_gee_resource_bundle->models->model;
     this->texlist = me1_gee_resource_bundle->models->texlist;
 }
 #pragma push
@@ -1875,7 +1875,7 @@ void TObjEneMe1GeeLeader::run_task() {
 }
 
 void TObjEneMe1GeeLeader::select_model() {
-    this->model = (void *)me1_gee_resource_bundle->models->model;
+    this->model = me1_gee_resource_bundle->models->model;
     this->texlist = me1_gee_resource_bundle->models->texlist;
 }
 

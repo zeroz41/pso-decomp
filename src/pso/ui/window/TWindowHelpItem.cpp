@@ -1209,7 +1209,7 @@ void TWindowHelpItem::update_tech_disk_stats() {
 
 void TWindowHelpItem::update_displayed_item() {
     this->format_description_with_price();
-    this->init_text((void *)(get_shared_text_buffer()));
+    this->init_text((get_shared_text_buffer()));
 }
 
 void TWindowHelpItem::init_text(void *str) {

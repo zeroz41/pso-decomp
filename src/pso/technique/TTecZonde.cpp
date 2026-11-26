@@ -40,7 +40,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
     hit.kind = 3;
     hit.power = this->params.power;
     if (static_cast<TObjEneBeastBase *>(target)->test_elt_flag(0, 0x80) == 0) {
-        target->receive_direct_attack((void *)source, hit, 0, 6, -1);
+        target->receive_direct_attack(source, hit, 0, 6, -1);
     }
 }
 
@@ -75,7 +75,7 @@ void TTecZonde::run_task() {
     TObjChara *t;
     f32 scale;
 
-    source = (uaddr)find_entity_by_id(sourceId);
+    source = find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
