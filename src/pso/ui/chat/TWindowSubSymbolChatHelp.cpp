@@ -220,10 +220,10 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
 
 void TWindowSubSymbolChatHelp::render() {
     saddr self_addr = (saddr)this;
-    saddr entry;
-    entry = reinterpret_cast<saddr>(draw_default_entry());
-    ((TWindowBase *)self_addr)->draw_window_frame((void *)entry);
-    draw_help_entries((WindowDrawContext *)entry);
+    WindowDrawContext *entry;
+    entry = draw_default_entry();
+    ((TWindowBase *)self_addr)->draw_window_frame(entry);
+    draw_help_entries(entry);
 }
 
 void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); update_window(); }

@@ -704,7 +704,7 @@ void TWindowBase::draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_window_frame(void *context) {
+void TWindowBase::draw_window_frame(WindowDrawContext *context) {
   TexturedQuad q;
   s32 n;
   f32 h;
@@ -712,7 +712,7 @@ void TWindowBase::draw_window_frame(void *context) {
   f32 rem;
   begin_screen_draw(1);
   TObjFish::set_global_param(hud_texlist);
-  set_draw_texture_and_color(1, ((WindowDrawContext *)context)->color);
+  set_draw_texture_and_color(1, context->color);
   n = (s32) frame_size[1];
   n += (4 - (n & 3)) & 3;
   if (((f32) n) < 64.0f)
@@ -723,40 +723,40 @@ void TWindowBase::draw_window_frame(void *context) {
   {
     h = 32.0f;
   }
-  q.y0 = ((WindowDrawContext *)context)->y;
-  q.y1 = ((WindowDrawContext *)context)->y + h;
+  q.y0 = context->y;
+  q.y1 = context->y + h;
   q.v0 = 0.0f;
   q.v1 = h / 256.0f;
-  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
-  q.y0 = (((WindowDrawContext *)context)->y + n) - h;
-  q.y1 = ((WindowDrawContext *)context)->y + n;
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_window_frame_strips(&q, context);
+  q.y0 = (context->y + n) - h;
+  q.y1 = context->y + n;
   q.v0 = (96.0f - h) / 256.0f;
   q.v1 = 0.375f;
-  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
-  q.y0 = 32.0f + ((WindowDrawContext *)context)->y;
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  q.y1 = (context->scale[1] * (q.y1 - context->pivot[1])) + context->pivot[1];
+  draw_window_frame_strips(&q, context);
+  q.y0 = 32.0f + context->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
   rem = n - 64.0f;
-  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
-  dy = 32.0f * ((WindowDrawContext *)context)->scale[1];
+  q.y0 = (context->scale[1] * (q.y0 - context->pivot[1])) + context->pivot[1];
+  dy = 32.0f * context->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      dy = rem * ((WindowDrawContext *)context)->scale[1];
+      dy = rem * context->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + dy;
-    draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+    draw_window_frame_strips(&q, context);
     rem -= 32.0f;
     q.y0 += dy;
   }
   end_screen_draw();
-  draw_window_scanlines((u8 *)this, (u8 *)((WindowDrawContext *)context));
+  draw_window_scanlines((u8 *)this, (u8 *)context);
 }
 
 void TWindowBase::update_fade() {

@@ -83,7 +83,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *context)
     NJS_POINT2 pts2[3];
     s32 i;
 
-    ((TWindowBase *)window_base)->draw_window_frame(context);
+    ((TWindowBase *)window_base)->draw_window_frame((WindowDrawContext *)context);
     if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC::is_shown != 0 &&
         ply_status_preview->get_status_sub()->textures->texaddr != 0) {
         box = TAdPlyStatusGC__status_window_box;

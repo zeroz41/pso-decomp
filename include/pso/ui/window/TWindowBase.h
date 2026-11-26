@@ -13,7 +13,7 @@ public:
     TWindowBase(u8 *descriptor, s16 client, u8 *parent);
     virtual ~TWindowBase();
     void reparent_to_main_ctrl();
-    void draw_window_frame(void *context);
+    void draw_window_frame(WindowDrawContext *context);
     void draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext *context);
     void draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *context);
     void resort_window_order();

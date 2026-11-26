@@ -2,6 +2,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"
@@ -14,13 +15,6 @@ struct Win_8026B148 {
     u8 entries[0x5C - 0x24];
     s32 opening;
     u8 pad1[0x90 - 0x60];
-};
-
-struct Ctx_8026B148 {
-    u8 pad0[0x28];
-    f32 scaleX;
-    f32 scaleY;
-    s32 reveal;
 };
 
 const char *TWindowMessageQuest::class_name = "TWindowMessageQuest";
@@ -38,13 +32,13 @@ TWindowMessageQuest *create_quest_message_window() {
     return create_quest_message_window_at(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(0xAD)), &lbl_8044F464.size);
 }
 void TWindowMessageQuest::render() {
-    Ctx_8026B148 *c;
-    c = reinterpret_cast<Ctx_8026B148 *>(get_draw_context());
+    WindowDrawContext *c;
+    c = get_draw_context();
     switch (frame_mode) {
     case 0:
-        if (c->reveal < 0) {
-            c->scaleX = (f32)((Win_8026B148 *)this)->opening / 7.5f;
-            c->scaleY = c->scaleX;
+        if (c->open_tick < 0) {
+            c->scale[0] = (f32)((Win_8026B148 *)this)->opening / 7.5f;
+            c->scale[1] = c->scale[0];
         }
         this->draw_quest_message_frame(c);
         break;

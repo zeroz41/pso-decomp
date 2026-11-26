@@ -483,7 +483,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
 }
 
 void TAdEnterSerialAccessGC::draw_screen(void *window, void *context) {
-    ((TWindowBase *)window)->draw_window_frame(context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
     TAdSubPlyItemGC::render_status_line(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
         (const char *)get_localized_text_entry(0x17, 4), -1);
     draw_serial_plates();

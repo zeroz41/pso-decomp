@@ -38,7 +38,7 @@ extern "C" {
 
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
-    ((TWindowBase *)window)->draw_window_frame(frame_context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)frame_context);
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
     TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
 }

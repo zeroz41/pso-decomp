@@ -179,15 +179,15 @@ void TWindowLockOn::run_task() {
 }
 
 void TWindowLockOn::render() {
-    saddr context;
+    WindowDrawContext *context;
 
-    context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
-    draw_window_frame((void *)context);
+    context = setup_window_draw_context((f32 *)&scale);
+    draw_window_frame(context);
     if (target_position[0] == frame_position[0] && target_position[1] == frame_position[1] && target_size[0] == frame_size[0] && target_size[1] == frame_size[1]) {
         draw_visible_window_entries(
             this,
             reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-            reinterpret_cast<WindowDrawContext *>(context));
+            context);
     }
 }
 

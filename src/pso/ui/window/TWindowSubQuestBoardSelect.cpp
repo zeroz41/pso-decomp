@@ -249,7 +249,7 @@ void TWindowSubQuestBoardSelect::handle_page_input() {
 void TWindowSubQuestBoardSelect::render() {
     WindowDrawContext *ctx;
     ctx = draw_default_entry();
-    draw_window_frame((void *)ctx);
+    draw_window_frame(ctx);
     status_disp->forward_render((void *)ctx);
     TWindowSubQuestBoardSelect__sub_8027D444(this, ctx);
     draw_visible_window_entries(

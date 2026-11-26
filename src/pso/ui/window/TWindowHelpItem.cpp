@@ -218,18 +218,18 @@ void TWindowHelpItem::run_task() {
 }
 
 void TWindowHelpItem::render() {
-    saddr context;
+    WindowDrawContext *context;
     u8 flags;
 
-    context = reinterpret_cast<saddr>(this->setup_window_draw_context(&scale_x));
-    this->draw_window_frame((void *)context);
+    context = this->setup_window_draw_context(&scale_x);
+    this->draw_window_frame(context);
     draw_visible_window_entries(
         this,
         &entry_list,
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     flags = this->help_flags;
     if ((flags & 1) && (flags & 2)) {
-        draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
+        draw_list_page_indicator(page_indicator, context);
     }
 }
 

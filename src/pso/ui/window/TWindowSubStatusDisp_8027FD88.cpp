@@ -394,16 +394,16 @@ void TWindowSubStatusDisp::run_task() {
 }
 
 void TWindowSubStatusDisp::render() {
-    saddr context;
+    WindowDrawContext *context;
 
     if (get_player_by_client_id(this->client_index) != 0U) {
-        context = reinterpret_cast<saddr>(this->setup_window_draw_context(&this->scale_x));
-        draw_window_frame((void *)context);
+        context = this->setup_window_draw_context(&this->scale_x);
+        draw_window_frame(context);
         draw_visible_window_entries(
             this,
             reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-            reinterpret_cast<WindowDrawContext *>(context));
-        draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
+            context);
+        draw_list_page_indicator(page_indicator, context);
     }
 }
 

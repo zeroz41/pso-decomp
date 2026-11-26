@@ -39,7 +39,7 @@ void TAdAgreementBaseGC::check_main_task_state() {
 void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) {
     NJS_POINT2 pos[2];
     u32 i;
-    ((TWindowBase *)window)->draw_window_frame(frame_context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)frame_context);
     for (i = 0; i < 2; i++) {
         pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
         pos[i].y = 20.0f * (f32) i + 394.0f;

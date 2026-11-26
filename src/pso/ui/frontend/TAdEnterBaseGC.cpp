@@ -309,7 +309,7 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
 }
 
 void fn_8032AC9C(void *window, void *context) {
-    ((TWindowBase *)window)->draw_window_frame(context);
+    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {
     case 0:

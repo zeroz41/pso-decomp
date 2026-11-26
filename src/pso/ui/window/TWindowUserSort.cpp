@@ -47,13 +47,13 @@ WindowDescriptor window_user_sort_settings = {
 
 
 void TWindowUserSort::render() {
-    saddr context;
-    context = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)context);
+    WindowDrawContext *context;
+    context = draw_default_entry();
+    draw_window_frame(context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
 }
 
 void TWindowUserSort::run_task() { update_window(); update_fade(); update_window_entry_list(&entry_list); }

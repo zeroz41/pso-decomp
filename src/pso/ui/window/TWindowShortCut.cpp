@@ -183,10 +183,10 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
 
 void TWindowShortCut::render() {
-    saddr ctx;
-    ctx = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)ctx);
-    draw_visible_window_entries(this, &this->entry_list, reinterpret_cast<WindowDrawContext *>(ctx));
+    WindowDrawContext *ctx;
+    ctx = draw_default_entry();
+    draw_window_frame(ctx);
+    draw_visible_window_entries(this, &this->entry_list, ctx);
     ((TWindowSubStatusDisp *)this->heading)->forward_render((void *)ctx);
 }
 

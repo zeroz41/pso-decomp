@@ -160,12 +160,12 @@ void TWindowSubSymbolChatFaceType::update_parts_entries() {
 }
 
 void TWindowSubSymbolChatFaceType::render() {
-    saddr context = reinterpret_cast<saddr>(draw_default_entry());
+    WindowDrawContext *context = draw_default_entry();
     update_parts_entries();
-    draw_window_frame((void *)context);
+    draw_window_frame(context);
     TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)this, (u8 *)context);
     status_disp->forward_render(reinterpret_cast<void *>(context));
-    draw_visible_window_entries(this, &entry_list, reinterpret_cast<WindowDrawContext *>(context));
+    draw_visible_window_entries(this, &entry_list, context);
 }
 void TWindowSubSymbolChatFaceType::run_task() {
     TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type = this;
