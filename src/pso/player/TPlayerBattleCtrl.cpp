@@ -87,12 +87,6 @@ f32 battle_meseta_score;
 
 
 
-void play_duel_result_stream(const char *file, saddr duration);
-extern "C" {
-u8 is_battle_mode_running(void);
-s32 TLobby__sub_801C2678(void);
-}
-
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
 f32 battle_player_give_damage_score = 0.05f;
 f32 battle_player_take_damage_score = 0.02f;
@@ -157,7 +151,6 @@ s32 set_rule_slot_clamped(void *, int, int);
 extern s32 battle_intro_value_table[];
 
 extern char battle_intro_message_buffer[];
-void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 extern "C" {
 
 

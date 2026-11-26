@@ -7,10 +7,7 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_8020E400.h"
-extern TObject *tl_02;
-extern TObject *tl_05;
-extern TObject *tl_06;
-extern TObject *tl_07;
+#include "pso/system/task/TMainTask.h"
 
 void destroy_current_floor_objects(void) {
     s32 n;

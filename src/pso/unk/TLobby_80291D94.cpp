@@ -84,7 +84,6 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 
 
-s32 get_challenge4p_retry_choice(void);
 char split_screen_player_name[0x20];
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
 void TLobby::draw_if_ready2() {
@@ -387,14 +386,6 @@ void TLobby::rebuild_players_for_stage(s32 stage) {
 
 
 void save_challenge_tombstone_spot(s32);
-s32 challenge_check_any_player_dead(void);
-s32 challenge_check_all_players_dead(void);
-s32 is_challenge_time_limit_invalid(s32 limit);
-extern "C" {
-s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
-s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
-}
-
 void TLobby::clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
     s32 index;
@@ -692,8 +683,6 @@ void load_tombstone_resources() { TObjTombstone::load_resources(); }
 
 
 
-void save_challenge_tombstone_spot(s32 client);
-void setup_split_screen(void);
 
 
 void setup_split_screen(void) {

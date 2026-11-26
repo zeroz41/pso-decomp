@@ -2471,10 +2471,7 @@ void TObjPlayer::update_photon_blast_action() {
     else
       if ((this->frame) <= (this->get_photon_blast_hold_frame() - 1.0f))
     {
-      if (1)
-      {
-        this->photon_blast_gauge.set_field_0c(0.2f);
-      }
+      this->photon_blast_gauge.set_field_0c(0.2f);
     }
       this->photon_blast_gauge.decrement_countdown();
       if (this->photon_blast_gauge.get_countdown() < 0)
@@ -2684,7 +2681,7 @@ void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
 
 void send_6x33_revive_player(u16 client_id, u16 target_id) {
     G_RevivePlayer_6x33 pkt;
-    TObjChara *chara = (TObjChara *)get_player_by_client_id(static_cast<u16>(client_id));
+    TObjChara *chara = (TObjChara *)get_player_by_client_id(client_id);
     if (chara == NULL || chara->obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = client_id;

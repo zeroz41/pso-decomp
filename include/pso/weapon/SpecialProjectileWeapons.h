@@ -6,10 +6,6 @@
 struct TItem;
 
 struct TObjPlayer;
-extern "C" {
-}
-extern "C" {
-}
 s32 drill_launcher_create_shot(s32 owner, s32 pos, s32 dir, f32 life);
 void *drill_launcher_ct(void *weapon, s32 client, void *item);
 void drill_launcher_return_timer(void *weapon);

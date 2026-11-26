@@ -24,9 +24,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
-
-
-extern void *tl_00;
+#include "pso/system/task/TMainTask.h"
 
 void TAdDialingSelectGC::run_task() {
     Vec pos = {0.0f, 0.0f, 0.0f};
@@ -122,7 +120,7 @@ TAdDialingSelectGC::~TAdDialingSelectGC() {
     }
 }
 
-TAdDialingSelectGC::TAdDialingSelectGC() : TObject((TObject *)tl_00) {
+TAdDialingSelectGC::TAdDialingSelectGC() : TObject(tl_00) {
     void *o;
     void *o2;
     o = new TAdBackGC(this);
@@ -161,7 +159,7 @@ s32 TWindowShortListCtrl::get_card_status_bits(s32 client_id) {
 // Card window scale for each of the four card window flag values.
 const f32 card_window_scale_table[4] = {34.0f, 51.0f, 68.0f, 0.0f};
 
-// Idle time allowed for each idle timeout setting (fn_801A51F0).
+// Idle time allowed for each idle timeout setting.
 const s32 short_list_ctrl_interval_table[6] = {900, 1800, 2700, 3600, 0, 0};
 
 s32 get_idle_timeout_limit(u32 client_id) {

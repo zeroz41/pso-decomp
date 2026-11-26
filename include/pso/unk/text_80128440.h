@@ -5,7 +5,4 @@
 
 struct TItem;
 
-extern "C" {
-}
-
 #endif

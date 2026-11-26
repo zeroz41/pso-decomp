@@ -33,6 +33,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/item/item_pmt.h"
+#include "pso/render/render_util.h"
 
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
 TItemAttackCol *attack_collider_render_owner;
@@ -47,7 +48,6 @@ const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-f32 vec_distance_squared(u8 *a, u8 *b);
 TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;

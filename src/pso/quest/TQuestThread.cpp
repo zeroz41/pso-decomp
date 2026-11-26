@@ -65,7 +65,6 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-void clear_quest_floor_handlers(void);
 
 extern int quest_bin_decompressed_size;
 extern u8 *online_quest_bin_data;

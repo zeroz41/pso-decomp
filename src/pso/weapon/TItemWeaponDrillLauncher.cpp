@@ -30,9 +30,9 @@ struct TItemEquipBase;
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/weapon/SpecialProjectileWeapons.h"
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
-void drill_launcher_return_timer(void *weapon);
 
 
 void TItemShootDrillLauncher::render() {

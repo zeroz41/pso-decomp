@@ -346,7 +346,7 @@ void reload_floor_scene() {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -425,7 +425,7 @@ void start_quest_mission(void) {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -481,7 +481,7 @@ void change_floor_reload_area(void) {
     for (j = 0; j < 12; j++) {
         p = get_player_by_client_id(j);
         if (p != NULL) {
-            p->set_parent((TObject *)tl_03);
+            p->set_parent(tl_03);
             p->reset_motion_fields();
         }
     }
@@ -512,7 +512,7 @@ void cleanup_online_lobby_scene(void) {
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
-    ((TObject *)tl_su)->delete_children();
+    (tl_su)->delete_children();
     PPCSync();
     i = 0;
     do {

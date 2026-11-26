@@ -792,7 +792,7 @@ void TChallenge::refresh_challenge_windows() {
         if (old != -1) {
             create_obj_tag_challenge(tl_07);
             if (challenge_mode_state.failed == 0) {
-                create_ch_time_win((TObject *)tl_07);
+                create_ch_time_win(tl_07);
             }
         }
         break;

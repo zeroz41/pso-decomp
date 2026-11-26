@@ -10,7 +10,7 @@
 #include "pso/unk/TUnk_8048DF58.h"
 #include "pso/player/TPlyDispData.h"
 
-// One TU .text 0x8007EAF8-0x8007ECF0: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.
+// One TU: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.
 int enable_v2_features = 1;
 
 player_stats *TObjChara::get_stats() { return stat_block; }

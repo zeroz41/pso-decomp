@@ -163,7 +163,6 @@ s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 clamp_class_index(s8 cls);
 }
-void handle_6x8E(void);
 extern "C" {
 void record_damage_stats(uaddr mine_trap, u32 att, s16 damage);
 void draw_player_status(saddr window, void *player, saddr str);
@@ -172,15 +171,11 @@ void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
 void recreate_all_players(void);
 
 }
-void handle_6x34(void);
-void handle_6x32_medical_center_revive_all_players(void);
 extern "C" {
 void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 i, s32 action, s32 param);
 void get_action_palette_mode(TObjPlayer *player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
-void handle_6x99(void);
-void handle_6x98(void);
 extern "C" {
 s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
@@ -223,11 +218,6 @@ const char *TObjPlayer_name = "TObjPlayer";
 
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
-void obj_copyVec2_0(u8 *d, u8 *s);
-void emit_sand_footstep_effect(PlayerFollowParticles *particles);
-void emit_water_footstep_effect(PlayerFollowParticles *particles);
-void emit_grass_footstep_effect(PlayerFollowParticles *particles);
-s32 player_auxiliary_surfaces_enabled();
 
 // The level-up light colour and direction (spawn_level_change_feedback).
 extern const f32 player_feedback_light_dir_y;
@@ -1167,7 +1157,7 @@ void TObjPlayer::send_6x26_unequip_item(TObjPlayer *target, u32 item_id) {
         packet.header.client_id = target->get_entity_id();
         packet.item_id = item_id;
         packet.send();
-        static_cast<TObjPlayer *>(target)->send_unequip_held_item();
+        target->send_unequip_held_item();
     }
 }
 

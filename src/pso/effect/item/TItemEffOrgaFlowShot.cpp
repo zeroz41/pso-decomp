@@ -21,6 +21,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
 #pragma readonly_strings on
 
@@ -115,7 +116,6 @@ void read_be16_field2_forward(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 void build_6xAD_olga_flow_subordinate_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 173; *(u8*)((char*)p + 0x1) = 17; }
 
 extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 
 #pragma push
 #pragma fp_contract on

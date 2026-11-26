@@ -80,7 +80,7 @@ extern const char decoration_file_suffix_online[7] = "ad.dat";
 extern const char decoration_file_suffix_offline[6] = "d.dat";
 
 void TSetManager::create() {
-    new TSetManager((TObject *)tl_02);
+    new TSetManager(tl_02);
 }
 
 void free_floor_decorations() {

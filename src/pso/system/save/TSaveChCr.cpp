@@ -23,12 +23,11 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
+#include "pso/system/task/TMainTask.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
 
 extern TSaveChCrStateActions save_chcr_state_actions[];
 
@@ -44,10 +43,6 @@ struct SaveChCrMessageText {
     s32 group;
     s32 entry;
 };
-
-extern "C" {
-extern void *tl_03;
-}
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::enter_close_state() { close_window(); }
@@ -244,7 +239,7 @@ TSaveChCr::TSaveChCr(TObject *parent, s32 mode) : TObject(parent) {
 }
 
 TSaveChCr *TSaveChCr::create(s32 mode) {
-    return new TSaveChCr((TObject *)tl_03, mode);
+    return new TSaveChCr(tl_03, mode);
 }
 
 // Per-state actions of TSaveChCr: the first runs when set_state enters the

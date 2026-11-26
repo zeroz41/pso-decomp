@@ -1824,7 +1824,7 @@ inline u8 ascii_to_upper(u8 c) {
 // Romaji to kana rows: the second letter of the key (0 for none), then the
 // kana of the five vowels a i u e o, each as two JIS row-4 (hiragana) cells,
 // the second 0 for a single kana. Row 0 is the bare vowels.
-// inferred: name from the lookup in TQuestVmDownLoadServer__sub_803EDDA4
+// inferred: name from the lookup in the name index search
 const u8 romaji_kana_rows[49][11] = {
     {0, 0x22, 0x00, 0x24, 0x00, 0x26, 0x00, 0x28, 0x00, 0x2A, 0x00}, // a i u e o
     {0, 0x50, 0x00, 0x53, 0x00, 0x56, 0x00, 0x59, 0x00, 0x5C, 0x00}, // ba bi bu be bo
@@ -2685,7 +2685,7 @@ s32 TQuestVmDownLoadServer__sub_803EF208(QuestDownloadRequest *msg) {
     }
     strncpy(buf, msg->name, msg->len);
     buf[msg->len] = 0;
-    p = get_cached_page(find_name_index(reinterpret_cast<const char *>(buf)));
+    p = get_cached_page(find_name_index(buf));
     for (end = p; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
     }
     for (; p < end; p += record_size(p)) {
@@ -2735,7 +2735,7 @@ s32 TQuestVmDownLoadServer__sub_803EF538(QuestDownloadRequest *msg) {
     }
     strncpy(buf, msg->name, msg->len);
     buf[msg->len] = 0;
-    page = get_cached_page(find_name_index(reinterpret_cast<const char *>(buf)));
+    page = get_cached_page(find_name_index(buf));
     for (end = page; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
     }
     for (p = page; p < end; p += (u16)(p[0] + (p[1] << 8))) {

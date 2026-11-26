@@ -324,11 +324,11 @@ void TTecRaFoie::run_task() {
     }
 }
 
-void TTecRaFoie::update_detonation(void *pos) {
+void TTecRaFoie::update_detonation(Vec *pos) {
     void *p;
     s32 h;
 
-    VecCopy(&position, VecCopy(&target, (const Vec *)pos));
+    VecCopy(&position, VecCopy(&target, pos));
     age++;
     if (age != 10) {
         return;

@@ -6027,7 +6027,7 @@ force_active:
   - enemy_nearest_visible_enemy_sq__FP9TObjCharaf
   - enemy_nearest_visible_player_sq__FP9TObjCharaf
   - enemy_tick_target_acquisition__12TObjEneDD_STFPllf
-  - enlarge_flight_cutter_slicer__FPv
+  - enlarge_flight_cutter_slicer__FP8TObjBase
   - enlarge_s_rank_j_cutter_blade__FPv
   - ensure_tube__14TBoss6PlotFalzFv
   - enter_active_state__14TBoss6PlotFalzFv
@@ -16798,7 +16798,7 @@ force_active:
   - update_demo__19TOMonumentAncient01Fv
   - update_destroy_countdown__18TObjChallengeRetryFv
   - run_task__12TChallenge4PFv
-  - update_detonation__10TTecRaFoieFPv
+  - update_detonation__10TTecRaFoieFP3Vec
   - update_dialing_display__12TAdDialingGCFi
   - update_direction__15TObjEneMe1GiGueFv
   - update_displayed_item__13TWindowSubMagFv

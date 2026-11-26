@@ -14,7 +14,7 @@
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #pragma pool_data off
 
-// The switcher.dol pages: the modem check (TAdTrialModemChkGC__sub_8007FA24) and the dial screen
+// The switcher.dol pages: the modem check and the dial screen
 // (TAdDialingGC::select_dial_image) pick one by index. Defined first: they open the unit's .rodata and
 // .data, ahead of the disc error texts.
 const char sonic_index_url[] = "file:/sonic/index.html";

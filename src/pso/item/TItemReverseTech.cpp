@@ -191,7 +191,7 @@ void TItemReverseTech::free() {
 }
 
 void TItemReverseTech::create() {
-    new TItemReverseTech((TObject *)tl_01);
+    new TItemReverseTech(tl_01);
 }
 
 TItemReverseTech::TItemReverseTech(TObject *parent) : TObject(parent) {

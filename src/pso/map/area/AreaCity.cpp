@@ -23,9 +23,9 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
 
 // THunterGuildSeqOnlineTask_802156A0.cpp; no header declares it yet.
-void load_judge_item(void);
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {

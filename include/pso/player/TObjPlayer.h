@@ -1308,4 +1308,10 @@ void on_inventory_item_added(TItem *item, s32 slot);
 
 // Whether any of mask is set in the flags of collision body `body` (name inferred).
 s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask);
+void emit_sand_footstep_effect(PlayerFollowParticles *particles);
+
+void emit_water_footstep_effect(PlayerFollowParticles *particles);
+
+void emit_grass_footstep_effect(PlayerFollowParticles *particles);
+
 #endif

@@ -2101,7 +2101,7 @@ void qst_op_reset_map(void) {
     if (quest_mission_manager != NULL) {
         TQuestThread::clear_buffer(quest_mission_manager);
     }
-    TQuestThread::destroy_all_in((TObject *)tl_00);
+    TQuestThread::destroy_all_in(tl_00);
     TLobby::init_sub_objects();
     reset_id_tables();
     clear_floor_event_flags();
@@ -4482,7 +4482,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     appearance = qst_registers[i++];
     slot = qst_registers[i++];
     TLobby::free_luker_object();
-    player = new TObjPlayer((TObject *)tl_03, slot, 6, load_npc_player_template(appearance));
+    player = new TObjPlayer(tl_03, slot, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
         send_6x24_teleport_player(slot, &pos, heading);
@@ -4511,7 +4511,7 @@ void qst_op_npc_crptalk(u8 first) {
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    player = new TObjPlayer((TObject *)tl_03, 3, 6, load_npc_player_template(appearance));
+    player = new TObjPlayer(tl_03, 3, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
         send_6x24_teleport_player(3, &pos, heading);

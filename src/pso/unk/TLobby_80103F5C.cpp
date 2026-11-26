@@ -42,15 +42,7 @@
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
 #include "pso/unk/TLobby_80103F5C.h"
-
-
-
-
-
-
-
-
-
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 FloorItem *floor_item_entry_pool;
@@ -71,9 +63,6 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-extern void *tl_05;
-}
 extern "C" {
 extern s32 lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);

@@ -335,7 +335,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         v.y += 100.0f;
         {
             Vec t = zonde_bolt_direction;
-            new TTecZondeEff((TObject *)tl_07, &v, &t, 0x14000000, 0x14, 100.0f, 1.8f);
+            new TTecZondeEff(tl_07, &v, &t, 0x14000000, 0x14, 100.0f, 1.8f);
         }
     }
 }

@@ -104,6 +104,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 
 #pragma readonly_strings on
 
@@ -197,7 +198,6 @@ void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
 }
 void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
-void buffer_reset(void);
 void bswap_telepipe_record(void *);
 
 
@@ -1034,7 +1034,7 @@ void TLobby::update_menu_window() {
                 TLobby::open_menu_window();
                 return;
             case 2:
-                // 0x801381D0 is called with no argument here; the (void *) in its symbol is a guess
+                // The callee is called with no argument here; the (void *) in its symbol is a guess
                 ((void (*)())(void (*)(void *))TLobby::close_all_windows)();
                 return;
             }

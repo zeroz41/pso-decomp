@@ -313,7 +313,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle)
         if (atk.attack_kind == 2 && this->is_identified() == 0) {
             atk.accuracy *= lbl_805DAC94;
         }
-        TItemAttackCol::create((TObject *)tl_05, &atk);
+        TItemAttackCol::create(tl_05, &atk);
         this->restore_action_type();
     }
 }

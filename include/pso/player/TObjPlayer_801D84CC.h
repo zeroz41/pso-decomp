@@ -12,4 +12,6 @@ void process_trade_target(saddr player, TItemData *item_data);
 }
 // --- end of C functions
 
+void create_player_ending_motion(void);
+
 #endif

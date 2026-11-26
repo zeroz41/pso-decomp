@@ -12,7 +12,6 @@
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-void enlarge_s_rank_j_cutter_blade(void *arg0);
 
 void TItemWeaponSRankJCutter::emit_marker_effects() {
     SlicerLaunchState tec;

@@ -2471,7 +2471,7 @@ s32 NpcPlayerView::probe_obstacles() {
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + get_registered_object_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)probe->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(actor), 10000.0f);
+            contact = (CollisionBody *)probe->find_actor_body_contact(actor, 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {

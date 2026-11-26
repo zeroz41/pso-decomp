@@ -128,7 +128,7 @@ void TShopGenerator::run_task() {
             get_slot_flag = service->get_slot_flag;
             if (get_slot_flag((u16)get_client_split_screen_slot(p->get_entity_id())) == 1) continue;
             if (test_pressed_buttons_packed(&controller_input_state.controllers[p->get_controller_port()], 4) == 0) continue;
-            service->create((void *)p);
+            service->create(p);
         }
     } else {
         TObjPlayer *q;
@@ -144,7 +144,7 @@ void TShopGenerator::run_task() {
         if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[q->get_controller_port()], 4) == 0) return;
-        service->create((void *)q);
+        service->create(q);
     }
 }
 

@@ -853,7 +853,7 @@ int PlayerActionProvider::load_motions(s32) { return 0; }
 int TObjPlayer::sub_802a7290_fwd() { return ((PlayerMotionKey *)this)->get_motion_type(); }
 int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_type(); }
 
-// Data-only unit split off the shared player model buffers at 0x805D5D78.
+// Data-only unit split off the shared player model buffers.
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
 // keeps these extern.
 

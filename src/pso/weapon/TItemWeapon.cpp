@@ -24,19 +24,17 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/unk/text_80120908.h"
 
 
 // ---- pso/unk/text_80120908
 
-extern "C" {
-void draw_weapon_at_joint(saddr weapon, s8 joint);
-}
 void set_shadow_material_state(void);
 
 extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
-extern s32 model_render_flags;
 
 void TItemWeapon::draw_weapon_model() {
     s32 visible;

@@ -73,7 +73,6 @@ struct InventorySortBuffer {
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
 }
-s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 const char *TItemList::class_name = "TItemList";
 const char *TPlyItem::class_name = "TPlyItem";
@@ -98,7 +97,7 @@ u8 item_reduce_group;
 #pragma defer_codegen on
 
 // Deferred codegen emits these functions last to first: they are
-// written here from the highest address (0x801D57A8) down to 0x801D3780.
+// written here from the highest address down.
 
 void TItemList::set_owner(TItem *item) { item_owner = item; }
 

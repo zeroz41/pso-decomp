@@ -458,7 +458,7 @@ void TItem::render_shadows() {
 // skips adding it to the floor item list.
 void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     TItemData data;
-    set_parent((TObject *)tl_05);
+    set_parent(tl_05);
     set_mode(ITEM_MODE_GROUND);
     VecCopy(&position, (const Vec *)pos);
     owner_client_id = 0xFFFF;

@@ -8,4 +8,6 @@ void append_text_space(void);
 
 char *format_int_decimal(s32 v, char *out);
 
+void text_builder_reset();
+
 #endif

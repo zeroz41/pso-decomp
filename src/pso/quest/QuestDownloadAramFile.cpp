@@ -18,7 +18,7 @@ LAYOUT_ASSERT(QuestDownloadAramFilePosition, offsetof(QuestDownloadAramFile, pos
 
 s32 lbl_805D7908;
 s32 lbl_805D790C;
-// The ARAM file opened by sub_803F0C04 and read through ARQPostRequest (names from those parameters).
+// The ARAM file opened by the file open helper and read through ARQPostRequest (names from those parameters).
 u32 quest_download_aram_size;
 QuestDownloadAramFile quest_download_aram_file;
 u32 quest_download_aram_timeout;

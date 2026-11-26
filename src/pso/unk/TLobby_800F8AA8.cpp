@@ -1130,7 +1130,6 @@ s32 TLobby::run_disk_error_check() {
 // The GSL archive close hook, the resource load tasks (TRelDataFile children of
 // resource_load_task_root, one per relocatable data file), the quest and text archive
 // decryption, the disc-file wrappers and TLobby::run_frame.
-extern s32 memcard_access_active;
 extern int player_load_load_state;
 extern "C" {
 

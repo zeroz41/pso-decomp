@@ -39,13 +39,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 
-extern "C" {
-
-s32 test_flags_any(s32 *flags, s32 mask);
-
-
-}
-
 
 extern "C" {
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);

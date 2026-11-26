@@ -14,7 +14,6 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/TObjBase.h"
 
-
 #pragma readonly_strings on
 
 const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
@@ -32,8 +31,6 @@ void TTecZonde::init_parameters() {
     }
 
 }
-
-
 
 void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
     new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
@@ -54,6 +51,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/task/TMainTask.h"
 
 // One bolt of Zonde: it starts at `start`, travels along the unit vector `dir` for `len`.
 struct ZondeBolt { Vec start; Vec dir; f32 len; };
@@ -65,8 +63,6 @@ void TTecZonde::render() {  }
 
 #pragma push
 #pragma fp_contract on
-
-extern u8 *tl_07;
 
 void TTecZonde::run_task() {
     ZondeBolt segs[14];
@@ -110,39 +106,39 @@ void TTecZonde::run_task() {
         scale = 0.5f;
         switch (band) {
         case 0:
-            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, 0.5f);
+            new TTecZondeEff(tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff(tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 2:
             scale *= 1.4f;
-            new TTecZondeEff((TObject *)tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff(tl_07, &segs[0].start, &segs[0].dir, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                new TTecZondeEff((TObject *)tl_07, &segs[j].start, &segs[j].dir, 0x14000000, 0x14, segs[j].len, 0.5f);
+                new TTecZondeEff(tl_07, &segs[j].start, &segs[j].dir, 0x14000000, 0x14, segs[j].len, 0.5f);
             }
             break;
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                new TTecZondeEff((TObject *)tl_07, &segs[k].start, &segs[k].dir, 0x14000000, 0x14, segs[k].len, scale);
+                new TTecZondeEff(tl_07, &segs[k].start, &segs[k].dir, 0x14000000, 0x14, segs[k].len, scale);
             }
             break;
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    new TTecZondeEff((TObject *)tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 5.0f);
+                    new TTecZondeEff(tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 5.0f);
                 } else {
-                    new TTecZondeEff((TObject *)tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 0.5f);
+                    new TTecZondeEff(tl_07, &segs[l].start, &segs[l].dir, 0x14000000, 0x14, segs[l].len, 0.5f);
                 }
             }
             break;
         }
         if (band != 5) {
-            new TTecZondeHitEffect(&segs[0].start, &t->position, (TObject *)tl_07, 0x19F);
+            new TTecZondeHitEffect(&segs[0].start, &t->position, tl_07, 0x19F);
         }
         {
             s32 h;

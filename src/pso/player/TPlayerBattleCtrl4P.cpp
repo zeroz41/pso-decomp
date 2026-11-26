@@ -652,7 +652,7 @@ void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         cur = child;
         child = cur->m_next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(dead_spot_class_name) != 0) {
+        if (cur->check_value_equals(dead_spot_class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_dead_spots(cur);

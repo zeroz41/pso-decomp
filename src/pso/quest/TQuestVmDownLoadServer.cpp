@@ -57,7 +57,6 @@ extern TObject *tl_00;
 struct StatusWindowPos { f32 a; f32 b; };
 extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
-extern s32 memcard_access_active;
 
 
 #include "pso/render/TDLGraph.h"
@@ -71,6 +70,7 @@ extern s32 memcard_access_active;
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/window/TWindowMessagePage.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 extern u8 quest_memcard_key[];
 QuestDownloadRecord quest_download_file_state;

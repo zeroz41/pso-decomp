@@ -432,7 +432,7 @@ void TLobby::teardown_scene() {
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
     main_task.resume_layers();
-    ((TObject *)tl_su)->delete_children();
+    (tl_su)->delete_children();
     run_area_scene_cleanup(&floor_transition_state);
     TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();

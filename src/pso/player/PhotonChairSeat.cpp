@@ -44,7 +44,7 @@ int PhotonChairSeat::create_chair() {
             return 0;
         }
     }
-    chair = new TPlyPhotonChair(owner_id, (TObject *)tl_05);
+    chair = new TPlyPhotonChair(owner_id, tl_05);
     if (chair == NULL) {
         return 0;
     }

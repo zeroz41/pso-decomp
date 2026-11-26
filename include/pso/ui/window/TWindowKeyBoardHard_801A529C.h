@@ -16,4 +16,6 @@ void set_default_card_window_flags(CharacterSaveRecord *record);
 
 void free_deferred_packet_buffer();
 
+void buffer_reset(void);
+
 #endif

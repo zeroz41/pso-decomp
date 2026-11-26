@@ -286,7 +286,6 @@ extern "C" {
 s32 VISetPreRetraceCallback(void (*callback)(void));
 void update_all_zones__14TObjBgmColCtrlFl(void);
 extern char music_slot_entries[][0x20];
-void play_area_music(char *name);
 }
 struct SndHooks {
     void *(*malloc)(u32 size);

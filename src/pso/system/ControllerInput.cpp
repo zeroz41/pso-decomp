@@ -13,6 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 const u32 input_button_mask_table[14] = {
     0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
@@ -26,7 +27,6 @@ s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
 BOOL DVDCheckDisk();
-extern s32 memcard_access_active;
 }
 
 // Stands in for a port with no controller: nothing held.

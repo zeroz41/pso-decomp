@@ -169,7 +169,6 @@ void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
     }
 }
 
-void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
 
 s32 PhotonBlastGauge::subtract_photon_blast_charge(f32 amount) {
     f32 charge = this->charge;

@@ -13,6 +13,8 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TObjPlayer_801D84A8.h"
+#include "pso/item/TItemIdCounters.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
@@ -273,7 +275,6 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
 extern "C" {
 
 s32 trade_item_by_group_kind(s32, s16, s16);
-s32 TObjPlayer__sub_801D84F0(void* p);
 
 // `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
 // unlike gc_tag::tag0.
@@ -292,7 +293,6 @@ gc_tag *TPlyDispConfigSmth::get_current_row() {
     return m_tags1;
 }
 
-u32 advance_item_id_counter(u16 client);
 
 void gc_tag::bswap_disp_config_field() { bswap_16(&tag2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }

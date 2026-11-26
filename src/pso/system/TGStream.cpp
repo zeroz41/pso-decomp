@@ -313,7 +313,6 @@ s32 get_gstream_buffered_bytes(void) {
   unsigned long unread;
   unread = gstream_buffer_read_offset;
   unread = gstream_buffer_valid_size - unread;
-  gstream_buffer_read_offset = gstream_buffer_read_offset;
   return (gstream_buffer_valid_size - gstream_buffer_read_offset) & (((s32) ((-unread) & (~unread))) >> 0x1F);
 }
 

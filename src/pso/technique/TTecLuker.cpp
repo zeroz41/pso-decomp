@@ -46,6 +46,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/gjSystem.h"
+#include "pso/object/TObjLuker.h"
 
 
 
@@ -108,15 +110,11 @@ void restore_floor_telepipes(void);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
 }
-void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 void free_collision_body_parts(TObjCollidable *actor);
 extern "C" {
 s32 submit_cursor_candidate(void *, s32);
 }
-extern u8 identity_matrix[];
-void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
-s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
 int fn_80235078(void *record) {
     return (u8) (*(s32 *)((s8 *)record + 0x0) == 2);
 }
