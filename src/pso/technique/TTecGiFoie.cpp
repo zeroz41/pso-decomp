@@ -12,7 +12,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/technique/TTecBarta.h"
-#include "pso/unk/text_803D853C.h"
+#include "pso/render/DebugFont.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"

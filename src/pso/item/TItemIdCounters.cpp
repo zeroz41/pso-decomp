@@ -4,7 +4,6 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80105A2C.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
