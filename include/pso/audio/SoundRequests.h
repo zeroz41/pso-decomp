@@ -11,8 +11,8 @@ void cleanup_city_area_stub(void);
 void stop_sound_request(s32 idx);
 void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration);
 void update_music_stream_gain(s32 user);
-// Nonzero while a lobby music request is pending (SoundRequests.cpp).
-extern int lbl_805D62B8;
+// While set, every music fade update drops the music gain to -999 (silent).
+extern int music_muted;
 
 struct SetSoundPitchRequestSndEnt {
     s32 flags;

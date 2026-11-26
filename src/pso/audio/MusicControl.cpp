@@ -515,7 +515,7 @@ void update_music_fade(void) {
     if (bgm_stream_active != 0) {
         return;
     }
-    if (lbl_805D62B8 != 0) {
+    if (music_muted != 0) {
         set_and_notify(-999);
     }
     if (music_fade_frames_remaining > 0) {

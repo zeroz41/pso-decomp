@@ -49,7 +49,7 @@ s32 cue_stream_scaled_gain;
 s32 cue_stream_gain;
 s32 sound_requests_enabled;
 int lbl_805D62B4;
-int lbl_805D62B8;
+int music_muted;
 s32 lbl_805D62BC;
 s32 lbl_805D62C0;
 s32 lbl_805D62C4;
@@ -386,7 +386,7 @@ void update_sound_request_slots(void) {
     }
 }
 
-int enable_sound_requests(s32) { update_lobby_subsystems(); init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
+int enable_sound_requests(s32) { update_lobby_subsystems(); init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; music_muted = 0; sound_requests_enabled = 1; return 0; }
 
 s32 reset_sound_request_state(void) {
     s32 i;
@@ -402,7 +402,7 @@ s32 reset_sound_request_state(void) {
     lbl_805D62D1 = 0;
     sound_requests_enabled = 1;
     lbl_805D6279 = 0;
-    lbl_805D62B8 = 0;
+    music_muted = 0;
     lbl_80514C30[0] = 0;
     music_user_gain = 0;
     cue_stream_scaled_gain = 0;
