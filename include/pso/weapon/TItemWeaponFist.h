@@ -15,4 +15,5 @@ public:
     static TItem *create(u8 *item);
 };
 
+extern s32 knuckle_marker_joint_table[];
 #endif

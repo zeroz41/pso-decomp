@@ -29,9 +29,6 @@
 
 
 
-extern s16 weapon_node_ids[];
-extern s16 weapon_node_material_index;
-extern u8 *weapon_render_callback_object;
 
 void TItemWeapon::draw_weapon_model() {
     s32 visible;
@@ -144,8 +141,6 @@ void TItemWeapon::request_equipped_model() {
 TItemWeapon::~TItemWeapon() {}
 
 
-extern const f32 weapon_float_zero;
-extern const u8 weapon_unidentified_flag;
 
 TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     s32 identified;
