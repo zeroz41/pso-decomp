@@ -953,7 +953,6 @@ QuestDownloadItemNode *build_item_list(s32 start, QuestDownloadQueryResult *quer
 }
 
 
-
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(2)
@@ -967,10 +966,6 @@ inline void append_candidate_items(QuestDownloadItemNode *item, QuestDownloadIte
 inline void set_candidate_span(QuestDownloadSlot *slot, s32 maximum) {
     slot->width = maximum;
 }
-struct QuestDownloadWorkspaceAddress {
-    size_t address;
-    QuestDownloadWorkspaceAddress(size_t base) : address(base) {}
-};
 #pragma pop
 
 #define QUEST_WORKSPACE_MATCH(address) reinterpret_cast<QuestDownloadQueryResult *>((address) + offsetof(QuestDownloadWorkspace, result))

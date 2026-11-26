@@ -57,10 +57,7 @@
 
 #pragma readonly_strings on
 
-struct ItemNameEntry { s32 text_id; s32 value; };
-struct WindowPos { f32 x; f32 y; };
 struct ByteBlock_20 { u8 bytes[0x20]; };
-struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern const char *quest_thread_class_name;
 extern const char *quest_thread_board_class_name;

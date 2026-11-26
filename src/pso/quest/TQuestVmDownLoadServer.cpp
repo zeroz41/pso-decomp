@@ -52,7 +52,6 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
 extern TObject *tl_00;
 
-struct StatusWindowPos { f32 a; f32 b; };
 extern uaddr lobby_player_construction_window;
 
 
@@ -79,7 +78,6 @@ __declspec(section ".data") u32 download_rng_seed_pair[2];
 s32 calc_download_crc32(void *data, s32 size);
 extern TObject *tl_03;
 
-struct DownloadWindowPos { f32 a, b; };
 extern "C" {
 char *strtok(char *, const char *);
 }
@@ -1159,10 +1157,6 @@ void TMCFormatSequence::run_task() {
         return;
     }
 }
-
-// TMCFormatSequence: its class name and window position sit in this TU's
-// .sdata/.rodata, so it is the tail of this file (deferred: the source runs backwards from the text).
-struct FormatWindowPos { f32 a; f32 b; };
 
 
 void TMCFormatSequence::open_windows() {

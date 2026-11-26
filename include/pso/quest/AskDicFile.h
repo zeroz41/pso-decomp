@@ -50,4 +50,6 @@ extern "C" {
 s32 aram_open(const char *name, s32 mode);
 }
 
+struct IsValidItemForSlotRow { s16 single; s16 pair; };
+
 #endif

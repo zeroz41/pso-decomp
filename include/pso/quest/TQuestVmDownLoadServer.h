@@ -127,4 +127,12 @@ extern s32 quest_download_in_progress;
 extern "C" const char memcard_default_banner[];
 extern "C" const char memcard_default_icon[];
 
+struct StatusWindowPos { f32 a; f32 b; };
+
+struct DownloadWindowPos { f32 a, b; };
+
+// TMCFormatSequence: its class name and window position sit in this TU's
+// .sdata/.rodata, so it is the tail of this file (deferred: the source runs backwards from the text).
+struct FormatWindowPos { f32 a; f32 b; };
+
 #endif

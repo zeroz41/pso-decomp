@@ -1,3 +1,4 @@
+#include <dolphin/ar.h>
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/quest/QuestDownloadAramFile.h"
@@ -882,7 +883,6 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
 
 }
 extern "C" {
-s32 ARAlloc(s32);
 
 void TWindowKeyBoardBase::render() {
     if ((sub_8025EB68() == 0) && ((has_text() != 0) || (this->request_flags & 2))) {

@@ -54,4 +54,8 @@ LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries
 const char *get_selected_quest_text(void);
 void reset_globals2(void);
 
+struct ChallengeWindowExtent { f32 dimensions[2]; };
+
+struct ChallengeWindowExtentResource { ChallengeWindowExtent extent; u32 reserved; };
+
 #endif

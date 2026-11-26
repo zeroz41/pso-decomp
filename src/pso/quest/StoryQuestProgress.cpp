@@ -4,9 +4,7 @@
 
 #include <stddef.h>
 #include "pso/network/TLobby.h"
-struct ShouldRecordEpisode1QuestCompletionInduction { u8 bytes[0x8]; };
 
-struct AreAllStoryQuestsCompletePair { s32 a; s32 b; };
 
 extern const s32 episode1_story_quest_flag_pairs[];
 extern const AreAllStoryQuestsCompletePair episode2_story_quest_flag_pairs[];

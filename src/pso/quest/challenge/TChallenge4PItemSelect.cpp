@@ -34,13 +34,6 @@
 #include "pso/ui/window/TWindowComCardFollower.h"
 
 
-// One selectable item: the first three item-code bytes, stored as words.
-struct Challenge4PItemCode {
-    s32 type;
-    s32 group;
-    s32 subtype;
-};
-
 s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
 Challenge4PItemCode challenge4p_item_select_item_table[8] = {
     { 0, 0x2B, 0 }, { 0, 0x48, 0 }, { 0, 0x64, 0 }, { 0, 0x28, 0 },

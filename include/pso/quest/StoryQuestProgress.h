@@ -9,4 +9,8 @@ void clear_episode1_quest_availability(void *unusedDifficulty);
 void refresh_story_quest_availability(void *p);
 s32 should_record_episode1_quest_completion(void);
 
+struct ShouldRecordEpisode1QuestCompletionInduction { u8 bytes[0x8]; };
+
+struct AreAllStoryQuestsCompletePair { s32 a; s32 b; };
+
 #endif

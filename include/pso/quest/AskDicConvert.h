@@ -2,6 +2,8 @@
 #define PSO_QUEST_ASKDICCONVERT_H
 
 #include "types.h"
+#include "pso/quest/QuestDownloadRecords.h"
+#include "pso/quest/QuestDownloadText.h"
 
 struct QuestDownloadItemNode;
 struct QuestDownloadQueueNode;
@@ -39,5 +41,34 @@ void rebuild_current_slot_text_chain(s32 mode);
 void render_quest_text_page(void);
 void reset_entry_text_accumulator(void);
 void seek_quest_text_page(s32 pos, s32 mode);
+
+struct QuestDownloadFreeLink { QuestDownloadFreeLink *next; };
+
+// Every block is either free or occupied by one live node.
+union QuestDownloadPoolCell {
+    QuestDownloadFreeLink free;
+    QuestDownloadTextNode text;
+    QuestDownloadEntryNode entry;
+    QuestDownloadQueueNode queue;
+    QuestDownloadSegment segment;
+    QuestDownloadItemNode item;
+};
+
+struct QuestDownloadRequestStorage {
+    QuestDownloadRequest request;
+    u8 reserved[0x18];
+};
+
+struct DownloadDecoderState {
+    u16 lead;
+    DownloadDecoderState() : lead(0) {}
+};
+
+struct FormatNumberTextAllModesTable {
+    u8 units[0x14];
+    u8 fullwidth_digits[0x18];
+    u8 kanji_digits[0x18];
+    const u8 *sets[3];
+};
 
 #endif

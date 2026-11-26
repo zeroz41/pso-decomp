@@ -43,4 +43,61 @@ extern int evt2_random_enemies_mode;
 
 char *expand_message_substitutions(u8 *source, char *result);
 
+struct QuestCommand {
+    const char *name;
+    void (*fn)(void);
+};
+
+struct QuestCommandTable {
+    QuestCommand e[12];
+};
+
+struct StartOrUpdateGbaJoybootTable { s32 w[5]; };
+
+struct InitialFloorTable { u32 w[18]; };
+
+struct BaInitialFloorTable { u32 w[18]; };
+
+union IntFloat { s32 i; f32 f; };
+
+struct ComputeBezierCurvePointGlobals {
+    s32 count;
+    f32 scale;
+    f32 step;
+    s32 closed;
+    s32 out;
+    u32 id;
+};
+
+struct GetVectorFromPathGlobals {
+    s32 count;
+    f32 scale;
+    f32 step;
+    s32 closed;
+    s32 out;
+    u32 id;
+};
+
+struct ByteBlock_30 { u8 bytes[0x30]; };
+
+// The quest event flags of the selected character's record (get/set_eventflag16/32).
+struct QuestEventFlagRecord { u8 pad_0[0x10]; u8 event_flags[0x100]; };
+
+struct SetQuestBoardHandlerEntry {
+    u8 name[0x20];
+    s32 v;
+};
+
+struct VaCallPair { s32 a; s32 b; };
+
+struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
+
+struct RunToCoordMove {
+    u16 f0;
+    u16 id;
+    f32 x;
+    f32 z;
+    u8 pad[4];
+};
+
 #endif

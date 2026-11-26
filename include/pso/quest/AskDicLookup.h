@@ -7,4 +7,9 @@ struct QuestDownloadEntryNode;
 
 QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry);
 
+struct QuestDownloadWorkspaceAddress {
+    size_t address;
+    QuestDownloadWorkspaceAddress(size_t base) : address(base) {}
+};
+
 #endif

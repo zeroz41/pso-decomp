@@ -160,14 +160,9 @@
 #include "pso/ui/city/THunterGuildWarning.h"
 
 
-
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
 u8 *qst_label_address(int label);
-
-
-
-
 
 
 u8 *qst_code;
@@ -198,14 +193,6 @@ u16 qst_statistic_arg1;
 u16 qst_statistic_arg2;
 u16 qst_statistic_id;
 
-struct QuestCommand {
-    const char *name;
-    void (*fn)(void);
-};
-
-struct QuestCommandTable {
-    QuestCommand e[12];
-};
 
 void append_string(const char *s);
 s32 is_message_source_exhausted(void);
@@ -223,11 +210,7 @@ void append_challenge_title(void);
 s32 parse_f_index(const char *a0);
 void append_hero_name(void);
 void append_hero_class_name(void);
-struct StartOrUpdateGbaJoybootTable { s32 w[5]; };
 
-struct InitialFloorTable { u32 w[18]; };
-
-struct BaInitialFloorTable { u32 w[18]; };
 
 const BaInitialFloorTable ba_initial_floor_table = { { 16, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 } };
 
@@ -497,7 +480,6 @@ void append_string(const char *s) {
 }
 
 
-
 void append_message_char(s8 c) {
     char *write_ptr;
 
@@ -622,62 +604,9 @@ void qst_op_va_call(s32 label) {
 extern "C" {
 
 
-union IntFloat { s32 i; f32 f; };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-struct ComputeBezierCurvePointGlobals {
-    s32 count;
-    f32 scale;
-    f32 step;
-    s32 closed;
-    s32 out;
-    u32 id;
-};
-
-struct GetVectorFromPathGlobals {
-    s32 count;
-    f32 scale;
-    f32 step;
-    s32 closed;
-    s32 out;
-    u32 id;
-};
-
-struct ByteBlock_30 { u8 bytes[0x30]; };
-
 struct ByteBlock_20 { u8 bytes[0x20]; };
 
 struct ByteBlock_24 { u8 bytes[0x24]; };
-
-// The quest event flags of the selected character's record (get/set_eventflag16/32).
-struct QuestEventFlagRecord { u8 pad_0[0x10]; u8 event_flags[0x100]; };
-
-
-
-
-
-
-struct SetQuestBoardHandlerEntry {
-    u8 name[0x20];
-    s32 v;
-};
-
-
-struct VaCallPair { s32 a; s32 b; };
 
 
 s32 copy_player_visual_record(void *, void *);
@@ -1586,13 +1515,6 @@ void qst_op_set_slot_invincible(s32 slot_reg, s32 value_reg) {
     update_player_field(qst_registers[(u8)slot_reg], qst_registers[(u8)value_reg]);
 }
 
-struct RunToCoordMove {
-    u16 f0;
-    u16 id;
-    f32 x;
-    f32 z;
-    u8 pad[4];
-};
 void qst_op_run_to_coord(u8 regs) {
     RunToCoordMove m;
     f32 x;
