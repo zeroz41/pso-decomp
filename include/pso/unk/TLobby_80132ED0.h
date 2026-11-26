@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 saddr get_localized_text_entry(s32 group, s32 id);
-}
 
 #endif

@@ -96,9 +96,7 @@ void TLobby__sub_80240F38(struct SoundRequestVoice *v);
 void TLobby__sub_80241A0C(struct SoundRequestVoice *v);
 void reset_com_card_list_callback(void);
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
-extern "C" {
 s32 start_voice_fade(SoundRequestVoice *v, s32 step);
-}
 void fade_out_sound_slot(s32 slot, s32 step);
 s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags);
 s32 alloc_one_shot_sound_slot(u32 id, const Vec *position, s32 base, s32 flags);

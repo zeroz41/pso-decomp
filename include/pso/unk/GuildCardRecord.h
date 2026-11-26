@@ -30,7 +30,7 @@ extern GuildCardRecord selected_guild_card_record;
 
 extern "C" char *TWindowSubComCard__sub_8027523C(GuildCardRecord *entry);
 // Copies the record's ship name to lobby_ship_name and asks the server to move to the card owner.
-extern "C" void jump_to_guild_card_owner(GuildCardRecord *entry);
+void jump_to_guild_card_owner(GuildCardRecord *entry);
 
 class TUserAns;
 

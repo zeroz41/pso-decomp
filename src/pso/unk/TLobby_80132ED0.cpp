@@ -5,7 +5,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
 
-extern "C" {
 void TLobby::update_menu_cursor() {
     void *global_state;
 
@@ -31,6 +30,4 @@ void TLobby::update_keyboard_menu() {
     TLobby::update_menu_cursor();
     TLanguage::load_text_resources(current_language);
     TLanguage::load_fonts(current_language);
-}
-
 }
