@@ -15,7 +15,7 @@
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
 void TLobby__sub_80227AA8(s32 tracks) {
-    sound_control_state.fn_8023F660((tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
+    sound_control_state.fn_8023F660(tracks, get_sound_voice_volume_adjustment() + 0x55, 0x40, 0x40, 0);
 }
 
 
@@ -40,8 +40,8 @@ s32 is_special_sound_id(u32 x) {
 }
 
 
-void apply_clamped_field_27c__6TLobbyFv(f32 value) {
-    sound_control_state.set_reverb_level(value);
+void set_sound_reverb_level(f32 level) {
+    sound_control_state.set_reverb_level(level);
 }
 
 void handle_6xB2_play_sound_from_player(game_command_header *header) {
@@ -82,8 +82,8 @@ void TLobby::set_mode(s32 mode) {
 }
 
 
-void get_menu_field_280__6TLobbyFv(void) {
-    sound_control_state.get_voice_volume_adjustment();
+s32 get_sound_voice_volume_adjustment(void) {
+    return sound_control_state.get_voice_volume_adjustment();
 }
 
 void TLobby::set_menu_index_main(s32 index) {
@@ -201,18 +201,16 @@ extern const f32 floor_sound_bank_volume_table[36] = {
     0.1f, 0.1f, 0.1f, 0.1f, 0.5f, 0.5f, 0.1f, 0.5f, 0.0f, 0.1f, 0.1f, 0.2f,
 };
 
-void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick(); }
+void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
 
 void load_floor_sound_bank(s32 floor) {
-    s32 byte_offset;
     s32 bank;
 
     if (floor >= 0) {
-        byte_offset = floor * 4;
-        bank = *(s32 *)((s8 *)((u8 *)floor_sound_bank_table + byte_offset) + 0);
+        bank = floor_sound_bank_table[floor];
         if (bank >= 0) {
             if (floor < 0x24) {
-                ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + byte_offset) + 0)));
+                set_sound_reverb_level(floor_sound_bank_volume_table[floor]);
             }
             sound_control_state.validate_and_set_selection(bank);
             do {

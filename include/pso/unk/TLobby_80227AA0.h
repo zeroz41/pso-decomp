@@ -16,10 +16,8 @@ void TLobby__sub_80227D38(void);
 void TLobby__sub_8022804C(void);
 }
 void reset_sound_control_state(void);
-extern "C" {
-void apply_clamped_field_27c__6TLobbyFv(f32 value);
-void get_menu_field_280__6TLobbyFv(void);
-}
+void set_sound_reverb_level(f32 level);
+s32 get_sound_voice_volume_adjustment(void);
 int get_music_base_gain(void);
 void is_sound_enabled(void);
 s32 is_special_sound_id(u32 x);
