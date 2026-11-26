@@ -29,7 +29,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TRaderMapCore.h"

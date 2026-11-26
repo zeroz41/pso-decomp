@@ -5,7 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 

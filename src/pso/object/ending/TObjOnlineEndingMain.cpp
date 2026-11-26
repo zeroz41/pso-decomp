@@ -18,7 +18,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

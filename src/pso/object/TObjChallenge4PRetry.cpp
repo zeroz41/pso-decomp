@@ -28,7 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"

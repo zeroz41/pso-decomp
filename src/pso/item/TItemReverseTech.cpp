@@ -19,7 +19,7 @@
 #include "pso/item/TItemReverseTech.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

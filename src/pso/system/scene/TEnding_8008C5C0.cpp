@@ -11,7 +11,7 @@
 #include "pso/render/GinjaView.h"
 #include "pso/system/scene/TEnding_8008C5C0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/text_800F9B84.h"

@@ -10,7 +10,7 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/object/base/TObjCharaHelpers.h"

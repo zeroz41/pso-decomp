@@ -32,7 +32,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 
 
     extern int lobby_game_mode_state;

@@ -59,7 +59,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/PlayerSlots.h"

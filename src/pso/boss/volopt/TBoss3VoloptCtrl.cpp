@@ -12,7 +12,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

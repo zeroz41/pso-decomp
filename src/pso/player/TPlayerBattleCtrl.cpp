@@ -62,7 +62,7 @@
 #include "pso/unk/text_8020BC50.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_801C4F80.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/TLobby_80103F5C.h"

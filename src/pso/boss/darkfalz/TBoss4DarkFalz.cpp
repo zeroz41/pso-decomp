@@ -31,7 +31,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
