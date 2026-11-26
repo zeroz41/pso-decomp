@@ -78,9 +78,9 @@ s32 TKeyBoardControl__sub_801A58D8(void) {
     return hardware_keyboard_state.sub_80132310();
 }
 
-s32 TKeyBoardControl::check_and_read(s32 arg0) {
+s32 TKeyBoardControl::check_and_read(s32 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return TKeyBoardControl::is_key_down(arg0);
+        return TKeyBoardControl::is_key_down(key);
     }
     return 0;
 }
@@ -92,12 +92,12 @@ s32 TKeyBoardControl::read_input(u8 key) {
     return 0;
 }
 
-s32 TKeyBoardControl::is_key_down(s32 arg0) {
+s32 TKeyBoardControl::is_key_down(s32 key) {
     s32 i;
     s32 n;
     n = hardware_keyboard_state.get_pending_count();
     for (i = 0; i < n; i++) {
-        if ((u8)arg0 == hardware_keyboard_state.sub_8013239C(i)) {
+        if ((u8)key == hardware_keyboard_state.sub_8013239C(i)) {
             return 1;
         }
     }
@@ -146,30 +146,30 @@ StickEscapeDetector::StickEscapeDetector() {
 
 s32 TKeyBoardControl::get_ascii_key() {
   short new_var;
-  s32 temp_r3;
-  s32 var_r3;
-  u8 temp_r31;
+  s32 shift;
+  s32 ascii;
+  u8 key;
   if (hardware_keyboard_state.get_pending_count() == 0)
   {
     return 0;
   }
-  var_r3 = hardware_keyboard_state.sub_8013239C(0);
-  temp_r31 = var_r3;
-  temp_r3 = hardware_keyboard_state.sub_80132310();
-  if ((((s32) temp_r31) >= 0x2A) && (((s32) temp_r31) <= 0x32))
+  ascii = hardware_keyboard_state.sub_8013239C(0);
+  key = ascii;
+  shift = hardware_keyboard_state.sub_80132310();
+  if ((((s32) key) >= 0x2A) && (((s32) key) <= 0x32))
   {
-    return temp_r31 + 7;
+    return key + 7;
   }
-  if ((((s32) temp_r31) >= 0x10) && (((s32) temp_r31) <= 0x29))
+  if ((((s32) key) >= 0x10) && (((s32) key) <= 0x29))
   {
-    var_r3 = temp_r31 + 0x51;
-    if (temp_r3 != 0)
+    ascii = key + 0x51;
+    if (shift != 0)
     {
-      return temp_r31 + 0x31;
+      return key + 0x31;
     }
-    return var_r3;
+    return ascii;
   }
-  switch (temp_r31)
+  switch (key)
   {
     case 0x33:
       return 0x30;
@@ -182,41 +182,41 @@ s32 TKeyBoardControl::get_ascii_key() {
     case 0x51:
       return (float) 9;
     case 0x3C:
-      var_r3 = 0x2C;
-      if (temp_r3 != 0)
+      ascii = 0x2C;
+      if (shift != 0)
     {
       return 0x3C;
     }
-      return var_r3;
+      return ascii;
     case 0x3D:
-      var_r3 = 0x2E;
-      if (temp_r3 != 0)
+      ascii = 0x2E;
+      if (shift != 0)
     {
       return 0x3E;
     }
-      return var_r3;
+      return ascii;
     case 0x39:
-      var_r3 = 0x3B;
-      if (temp_r3 != 0)
+      ascii = 0x3B;
+      if (shift != 0)
     {
       return 0x2B;
     }
-      return var_r3;
+      return ascii;
     case 0x3A:
-      var_r3 = 0x3A;
-      if (new_var = temp_r3 != 0)
+      ascii = 0x3A;
+      if (new_var = shift != 0)
     {
       return 0x2A;
     }
-      return var_r3;
+      return ascii;
     case 0x52:
-      if (temp_r3 != 0)
+      if (shift != 0)
     {
       return 0x5F;
     }
     default:
-      var_r3 = 0;
-      return var_r3;
+      ascii = 0;
+      return ascii;
   }
 }
 
@@ -266,8 +266,8 @@ s32 poll_reset_request(void) {
     return (memcard_access_active != 0) ? 0 : controller_reset_requested;
 }
 
-s32 TKeyBoardControl::read_key_checked(u8 arg0) {
-    return TKeyBoardControl::check_and_read((s32)(arg0));
+s32 TKeyBoardControl::read_key_checked(u8 key) {
+    return TKeyBoardControl::check_and_read((s32)(key));
 }
 void TKeyBoardControl::update_input_frame() {
     hardware_keyboard_state.sub_80132650();
@@ -437,7 +437,7 @@ struct ControllerHoldFrameBlock {
 };
 
 extern "C" {
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1);
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *dst, ControllerInputContext *src);
 
 void bind_controller_devices(void) {
     PadSlot *slot;
@@ -526,31 +526,31 @@ void reset_controller_input_state(void) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *controller_input_context, ControllerInputContext *arg1) {
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *dst, ControllerInputContext *src) {
   ControllerInputContext *new_var;
   ControllerInputContext *new_var2;
   ControllerHoldFrameBlock *s;
   ControllerHoldFrameBlock *d;
-  controller_input_context->buttons = arg1->buttons;
-  controller_input_context->not_held = arg1->not_held;
-  controller_input_context->pressed_buttons = arg1->pressed_buttons;
-  controller_input_context->released = arg1->released;
-  controller_input_context->trigger_r = arg1->trigger_r;
-  controller_input_context->trigger_l = arg1->trigger_l;
-  controller_input_context->stick_x = arg1->stick_x;
-  new_var = (new_var2 = controller_input_context);
-  new_var2->stick_y = arg1->stick_y;
-  controller_input_context->cstick_x = arg1->cstick_x;
-  new_var2->cstick_y = arg1->cstick_y;
-  new_var->stick_angle = arg1->stick_angle;
-  new_var2->cstick_angle = arg1->cstick_angle;
-  controller_input_context->stick_magnitude = arg1->stick_magnitude;
-  controller_input_context->cstick_magnitude = arg1->cstick_magnitude;
-  s = reinterpret_cast<ControllerHoldFrameBlock *>(arg1->hold_frames);
+  dst->buttons = src->buttons;
+  dst->not_held = src->not_held;
+  dst->pressed_buttons = src->pressed_buttons;
+  dst->released = src->released;
+  dst->trigger_r = src->trigger_r;
+  dst->trigger_l = src->trigger_l;
+  dst->stick_x = src->stick_x;
+  new_var = (new_var2 = dst);
+  new_var2->stick_y = src->stick_y;
+  dst->cstick_x = src->cstick_x;
+  new_var2->cstick_y = src->cstick_y;
+  new_var->stick_angle = src->stick_angle;
+  new_var2->cstick_angle = src->cstick_angle;
+  dst->stick_magnitude = src->stick_magnitude;
+  dst->cstick_magnitude = src->cstick_magnitude;
+  s = reinterpret_cast<ControllerHoldFrameBlock *>(src->hold_frames);
   d = reinterpret_cast<ControllerHoldFrameBlock *>((new_var = new_var2)->hold_frames);
   *d = *s;
-  controller_input_context->held_with_sticks = arg1->held_with_sticks;
-  new_var->pressed_with_sticks = arg1->pressed_with_sticks;
+  dst->held_with_sticks = src->held_with_sticks;
+  new_var->pressed_with_sticks = src->pressed_with_sticks;
 }
 
 void TKeyBoardControl::init_pad_state() {
