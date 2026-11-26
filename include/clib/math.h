@@ -21,6 +21,7 @@ double tan(double x);
 inline double fabs(double x) { return __fabs(x); }
 
 float cosf(float x);
+float logf(float x);
 float powf(float x, float y);
 float sinf(float x);
 float tanf(float x);

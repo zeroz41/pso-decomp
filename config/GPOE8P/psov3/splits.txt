@@ -6684,18 +6684,19 @@ pso/ui/charcreate/CharacterPreview.cpp:
 	.text       start:0x8028B714 end:0x8028B8C8
 
 pso/ui/charcreate/TChCrLoadAfs.cpp:
-	.text       start:0x8028B8C8 end:0x8028C054
-	.rodata     start:0x80450D18 end:0x80450D48
+	.text       start:0x8028B8C8 end:0x8028BCB0
+	.rodata     start:0x80450D18 end:0x80450D28
 	.data       start:0x804D3650 end:0x804D36C8
 	.sdata      start:0x805D3B48 end:0x805D3B50
 	.sbss       start:0x805D64D8 end:0x805D64E0
-	.sdata2     start:0x805DD920 end:0x805DD924
 
 pso/ui/charcreate/TChCrLoadAfsTextureReq.cpp:
-	.text       start:0x8028C054 end:0x8028C530
+	.text       start:0x8028BCB0 end:0x8028C530
+	.rodata     start:0x80450D28 end:0x80450D48
 	.data       start:0x804D36C8 end:0x804D3728
 	.sdata      start:0x805D3B50 end:0x805D3B58
 	.sbss       start:0x805D64E0 end:0x805D64E8
+	.sdata2     start:0x805DD920 end:0x805DD924
 
 pso/ui/charcreate/TChCrLoadGmNjReq.cpp:
 	.text       start:0x8028C530 end:0x8028C938

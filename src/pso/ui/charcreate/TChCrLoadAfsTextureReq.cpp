@@ -13,11 +13,128 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/unk/text_803DD5E0.h"
+#include "pso/ui/charcreate/TChCrLoadAfs.h"
+#include "pso/ui/charcreate/CharacterAppearanceTables.h"
+#include "pso/math/FloatRounding.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/render/GinjaTextureInput.h"
+#include <string.h>
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
-extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
-const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq__class_name_string;
+#pragma push
+#pragma readonly_strings on
+const char *TChCrLoadAfsTextureReq::name = "TChCrLoadAfsTextureReq";
+#pragma pop
+
+s32 find_player_texture_name_ordinal(u8 *object) {
+    const char *name;
+    s32 count;
+    s32 steps;
+    s32 mid;
+    s32 step;
+    const char **list;
+    s32 i;
+    f32 l2;
+    s32 r;
+    TChCrLoadAfsTextureReq *req = (TChCrLoadAfsTextureReq *)object;
+    name = req->textures->textures[req->index].filename;
+    count = player_class_texture_archive_table[req->display_index].count;
+    l2 = logf(2.0f);
+    steps = (s32)ceil_to_float(logf(count) / l2) + 1;
+    mid = (count + 1) >> 1;
+    step = (mid + 1) >> 1;
+    list = player_class_texture_archive_table[req->display_index].textureNames;
+    for (i = 0; i < steps; i++) {
+        r = strcmp(name + 3, list[mid] + 3);
+        if (r == 0) {
+            return mid;
+        }
+        if (r < 0) {
+            mid -= step;
+            if (mid < 0) {
+                mid = 0;
+            }
+        } else {
+            mid += step;
+            if (mid >= count) {
+                mid = count - 1;
+            }
+        }
+        step = (step + 1) >> 1;
+        if (step < 1) {
+            step = 1;
+        }
+    }
+    ((TObject *)object)->queue_destruction();
+    return 0;
+}
+
+void TChCrLoadAfsTextureReq::update_loading() {
+    s32 retry;
+    s32 i;
+    retry = 0;
+    switch (ADXF_GetStat(load_handle)) {
+    case 1:
+        if (++m_20 >= 3) {
+            return;
+        }
+        retry = 1;
+        break;
+    case 2:
+        if (++m_24 >= 150) {
+            retry = 1;
+            break;
+        }
+        return;
+    case 3:
+        break;
+    default:
+        return;
+    }
+    if (retry != 0) {
+        ADXF_Close(load_handle);
+        load_handle = 0;
+        safe_free(reinterpret_cast<void *>(buffers[index]));
+        buffers[index] = 0;
+        state = 1;
+        return;
+    }
+    ADXF_Close(load_handle);
+    load_handle = 0;
+    if (++index != count) {
+        state = 1;
+        return;
+    }
+    for (i = 0; i < count; i++) {
+        reinterpret_cast<GinjaTextureInput *>(m_74[i])->set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
+        set_texture_name(&textures->textures[i], reinterpret_cast<GinjaTextureInput *>(m_74[i]), 0, 0x40000000);
+    }
+    if (load_texture_list(textures) != -1) {
+        m_1c = 1;
+        queue_destruction();
+    }
+}
+
+void TChCrLoadAfsTextureReq::start_read() {
+    s32 n;
+    AdxfHandle *handle;
+    uaddr buf;
+    handle = ADXF_OpenAfs(player_class_texture_archive_table[display_index].archiveId, find_player_texture_name_ordinal((u8 *)this));
+    load_handle = handle;
+    if (handle != 0) {
+        m_20 = 0;
+        m_24 = 0;
+        n = ADXF_GetFsizeSct(load_handle);
+        buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
+        buffers[index] = buf;
+        if (buf != 0) {
+            ADXF_ReadNw(load_handle, n, (void *)buffers[index]);
+            state = 2;
+        }
+    }
+}
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {
@@ -138,6 +255,6 @@ TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoa
     return new TChCrLoadAfsTextureReq(parent, args);
 }
 
-extern "C" f32 TLobby__sub_8028C50C(f32 x) {
-    return (f32) log(x);
+float logf(float x) {
+    return (float)log(x);
 }
