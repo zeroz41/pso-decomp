@@ -252,8 +252,8 @@ force_active:
   - clear_position
   - close_if_open
   - copy_target_state__17TObjEneBm3FlyNestFl
-  - count_leading_entries__22TQuestVmDownLoadServerFll
-  - find_longest_match_entry__22TQuestVmDownLoadServerFPUclPl
+  - count_leading_entries__Fll
+  - find_longest_match_entry__FPUclPl
   - get_rcv_bufsize
   - get_rcv_count
   - get_rcv_space
@@ -267,7 +267,7 @@ force_active:
   - init__17TObjEneBm3FlyNestFv
   - insert_item_at
   - insert_quest_download_entry__FP22QuestDownloadEntryNodeP22QuestDownloadEntryNode
-  - is_download_cmd_allowed__22TQuestVmDownLoadServerFUc
+  - is_download_cmd_allowed__FUc
   - reset_slot_index
   - state_dying__17TObjEneBm3FlyNestFl
   - state_spawn__17TObjEneBm3FlyNestFl

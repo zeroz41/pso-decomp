@@ -90,7 +90,7 @@ s32 aram_seek(s32 handle, s32 offset, s32 whence) {
 
 const char aram_dma_timeout_message[] = "ASKDIC:ARAM DMA Timeout!!\n";
 
-s32 TQuestVmDownLoadServer::aram_dma_read(s32 handle, void *dst, s32 size) {
+s32 aram_dma_read(s32 handle, void *dst, s32 size) {
     u32 n;
     u32 len;
     u32 start;

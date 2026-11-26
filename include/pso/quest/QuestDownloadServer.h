@@ -12,6 +12,7 @@
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadCharTables.h"
+#include "pso/quest/AskDic.h"
 
 struct QuestSymbolLookupResult {
     s16 page_index;
@@ -122,8 +123,8 @@ void render_quest_text_page(void);
 void seek_quest_text_page(s32, s32);
 extern s32 quest_page_node_count;
 s32 measure_entry_group_len(QuestDownloadTextNode *quest_download_text_node);
+void release_node_chain(QuestDownloadItemNode *p);
 extern "C" {
-void release_node_chain__22TQuestVmDownLoadServerFPv(QuestDownloadItemNode *p);
 s32 TQuestVmDownLoadServer__sub_803F03B4(u8 *data, QuestDownloadQueryEntry *entries, s32 n, s32 *max);
 s32 TQuestVmDownLoadServer__sub_803F0268(const char *name, s16 len, QuestDownloadQueryResult *out);
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c);
