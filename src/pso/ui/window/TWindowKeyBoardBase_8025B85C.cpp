@@ -1,5 +1,5 @@
-#include "pso/ui/chat/ChatShortcuts.h"
 #include "types.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TextBuilder.h"
