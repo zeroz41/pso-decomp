@@ -299,7 +299,7 @@ void GuildCardEntry::clear_and_fill_from_char(s32 index) { clear(this); fill_fro
 }
 s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id) {
     ShortMailEntry *mail;
-    mail = TLobby::find_short_mail_by_id(id);
+    mail = find_short_mail_by_id(id);
     if (mail == NULL) {
         return 0;
     }
@@ -393,7 +393,7 @@ void TObjPlayer::set_com_card_window(s32 client) {
 GuildCardEntry TWindowGetComCard::received_guild_card_tags[4];
 
 void remove_first_received_card(void) {
-    TWindowGetComCard::remove_entry(0, TWindowGetComCard::received_guild_card_tags, 4);
+    remove_guild_card_entry(0, TWindowGetComCard::received_guild_card_tags, 4);
     if (TWindowGetComCard::received_guild_card_tags[0].is_active() == 0) {
         destroy_com_card_window();
     }
@@ -403,7 +403,7 @@ GuildCardEntry *get_received_guild_card_tags(void) {
 }
 extern "C" {
 
-void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 count) {
+void remove_guild_card_entry(s32 index, GuildCardEntry *entries, s32 count) {
     if (index < count - 1) {
         GuildCardEntry *entry = &entries[index];
         move_words(entry, entry + 1, (u32)((count - index - 1) * sizeof(GuildCardEntry)) >> 2);

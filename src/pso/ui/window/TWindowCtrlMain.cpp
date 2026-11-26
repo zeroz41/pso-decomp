@@ -204,7 +204,7 @@ void TWindowCtrlPlayer::update_main_menu_request() {
     }
     {
         s32 idx = is_player_input_active(client_id);
-        key = TKeyBoardControl::get_function_key_menu(this);
+        key = get_function_key_menu(this);
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x108) == 0 && key == 0x1F) {
             return;
         }
@@ -288,7 +288,7 @@ void TWindowCtrlPlayer::update_countdown() {
     }
 }
 
-s16 TKeyBoardControl::get_function_key_menu(void *menu) {
+s16 get_function_key_menu(void *menu) {
     if (is_split_screen() != 0) {
         return 0x1F;
     }

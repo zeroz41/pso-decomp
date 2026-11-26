@@ -145,7 +145,7 @@ void TWindowMessageLog::set_target_height(f32 height) {
     }
 }
 
-s32 TLobby::find_free_chat_log_slot() {
+s32 find_free_chat_log_slot() {
     s32 i;
     for (i = 0; i < 30; i++) {
         if (chat_log_lines[i] == 0) {
@@ -226,14 +226,14 @@ void chat_log_add_line(const char *text) {
     s32 slot;
     char *buffer;
     num = strlen(text);
-    slot = TLobby::find_free_chat_log_slot();
+    slot = find_free_chat_log_slot();
     buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
     if (buffer == NULL) {
         do {
             chat_log_remove_line(0);
             buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
         } while (buffer == NULL);
-        slot = TLobby::find_free_chat_log_slot();
+        slot = find_free_chat_log_slot();
     }
     chat_log_lines[slot] = buffer;
     strncpy(chat_log_lines[slot], text, num);

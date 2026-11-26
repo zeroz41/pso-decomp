@@ -232,7 +232,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_jungle_key_slots, unload_jungle_key_slots},
     {reset_trade_state_on_scene_load, reset_trade_state_on_scene_unload},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
-    {TLobby::load_bg_multi_textures, TLobby::release_bg_multi_textures},
+    {load_bg_multi_textures, release_bg_multi_textures},
     {clear_boss6_player_snapshots, NULL},
 };
 

@@ -129,4 +129,6 @@ LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBas
 // Blinking caret drawn after the input text at cursor.
 void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor);
 
+void load_ask_dictionary();
+
 #endif

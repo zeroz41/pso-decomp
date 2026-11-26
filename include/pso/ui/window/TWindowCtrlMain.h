@@ -53,4 +53,8 @@ s32 has_window_task_root(void);
 void draw_menu_backdrop_gradients(s32 viewport_index);
 s32 is_window_display_enabled(void);
 
+s16 get_function_key_menu(void *menu);
+
+char *build_status_text(s32 client_id);
+
 #endif

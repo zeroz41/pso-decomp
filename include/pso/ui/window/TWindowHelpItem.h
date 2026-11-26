@@ -143,8 +143,6 @@ struct TWindowHelpItem : public TWindowBase
     void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
 
     TWindowHelpItem(const NJS_POINT2 *position, s32 index);
-    static void set_help_text(saddr help, saddr client_id);
-    static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
     void update_resistance_rows();

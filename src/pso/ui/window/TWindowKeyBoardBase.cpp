@@ -939,7 +939,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
 
 const char ask_dictionary_file[10] = "Ask_n.dic";
 
-void TLobby::load_ask_dictionary() {
+void load_ask_dictionary() {
     u8 *data;
     s32 size;
     s32 aligned;

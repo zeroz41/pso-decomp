@@ -4718,7 +4718,7 @@ force_active:
   - build_save_file__23TAdSinglePlyChrSelectGCFv
   - build_sell_list__24TShopEquipmentSellWindowFv
   - build_state_packet__11TBoss6Type2FP22OlgaFlowType2ActionMsg
-  - build_status_text__20TWindowSubStatusDispFl
+  - build_status_text__Fl
   - build_trade_menu__19TWindowSubTradeMainFv
   - build_weapon_type_weights__9TItemDropFiPvi
   - bswap__28G_UpdateQuestFlag_V3_BB_6x75Fv
@@ -5130,7 +5130,7 @@ force_active:
   - clear__14PadRumbleLevelFv
   - clear__15PadRumbleEffectFv
   - clear_active_flag__8TFogCtrlFv
-  - clear_all_entries__6TLobbyFv
+  - clear_short_mails__Fv
   - clear_alt_model_flag__Fv
   - clear_battle_player_ready_flags__Fv
   - clear_bit__16Boss6WaveArcMaskFl
@@ -6179,11 +6179,11 @@ force_active:
   - find_enemy_by_id__16TObjEneBm5GibonUFi
   - find_option_text__17TWindowSubComCardFP21ChoiceSearchSelectionl
   - find_farthest_balloon_slot__11TWindowCtrlFUs
-  - find_free_chat_log_slot__6TLobbyFv
+  - find_free_chat_log_slot__Fv
   - find_free_file_names__22TQuestVmDownLoadServerFv
   - find_free_pad_rumble_effect_slot__Fv
   - find_unused_block__8AramPoolFv
-  - find_free_slot__6TLobbyFv
+  - find_free_short_mail_slot__Fv
   - find_gsl_entry__FPCcl
   - find_gsl_entry__FPv
   - find_heal_target__13TOHealGeneralFv
@@ -6438,7 +6438,7 @@ force_active:
   - spawn_particle_f3__11TObjDFJisinFPC3Vec
   - forest_box_collision_body_parts
   - forest_rel_filename_table
-  - format_challenge_stage_times__23TAdSinglePlyChrSelectGCFll
+  - format_challenge_stage_times__Fll
   - format_dashed_serial__22TAdEnterSerialAccessGCFPcPCcUlPCUl
   - format_date_text__13TObjTombstoneFv
   - format_drop_table_filename
@@ -6626,7 +6626,7 @@ force_active:
   - get_episode_name__12TGameListRowFSc
   - get_floor_surface_type__10TObjPlayerFv
   - get_floor_switch_flag__FUls
-  - get_function_key_menu__16TKeyBoardControlFPv
+  - get_function_key_menu__FPv
   - get_gigue_float_parameter__FP15TObjEneMe1GiGuel
   - get_gigue_int_parameter__FP15TObjEneMe1GiGuel
   - get_group_id__14TObjEneBm5WolfFPv
@@ -7009,7 +7009,7 @@ force_active:
   - __ct__17CharacterFileSlotFv
   - __ct__18TPlyJoinLobbyEntryFv
   - __ct__19CharacterSaveRecordFv
-  - init_char_select__16TKeyBoardControlFP7TObject
+  - init_char_select__FP7TObject
   - init_char_slot_record__23TAdSinglePlyChrSelectGCFv
   - init_charge__11TBoss6Type1Fv
   - init_charge_attack__11TBoss6Type1Fv
@@ -9222,7 +9222,7 @@ force_active:
   - open_bank__18TCheckRoomSequenceFv
   - open_buy_window__22TShopEquipmentSequenceFv
   - open_challenge_progress_window__10TChallengeFl
-  - open_challenge_window__6TLobbyFll
+  - open_challenge_window__Fll
   - open_city_warp_menu__6TLobbyFv
   - open_com_card_list__18TWindowSubShortCutFv
   - open_confirm_dialog__17TWindowOptionCtrlFll

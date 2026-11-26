@@ -30,4 +30,6 @@ void TLobby__sub_80279708(void);
 }
 // --- end of C functions
 
+void init_char_select(TObject *fade);
+
 #endif

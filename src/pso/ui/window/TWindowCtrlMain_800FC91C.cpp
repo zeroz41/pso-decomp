@@ -33,7 +33,7 @@ void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     }
     update_card_window_flags(local_client_id, card_status_bits);
 }
-char *TWindowSubStatusDisp::build_status_text(s32 client_id) {
+char *build_status_text(s32 client_id) {
     s32 mode;
     char *name;
     u8 *info;
@@ -102,7 +102,7 @@ void TFontPlayerStatusHelp::run_task() {
     status_bits = TWindowShortListCtrl::get_card_status_bits((s32)this->player_id);
     if (this->card_status_bits != status_bits) {
         this->card_status_bits = status_bits;
-        text_source = TWindowSubStatusDisp::build_status_text((s32)this->player_id);
+        text_source = build_status_text((s32)this->player_id);
         set_help_text(text_source);
         if (text_source != NULL) {
             if (this->card_status_bits == 3) {

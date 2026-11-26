@@ -28,4 +28,6 @@ class TObjBagWarnWin4P;
 
 TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent);
 
+s32 is_map_visible();
+
 #endif

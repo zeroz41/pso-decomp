@@ -28,7 +28,7 @@ char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
 int TWindowMenu::is_decided() { return (this->menu_flags >> 1) & 0x1; }
 
-void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challenge_id) {
+void format_challenge_stage_times(s32 lobby, s32 challenge_id) {
     char buf2[0x18];
     char buf1[0x10];
     s32 h1, m1, s1;
@@ -88,7 +88,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
     }
 }
 
-void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
+void open_challenge_window(s32 lobby, s32 challenge_id) {
     TWindowMessage *window;
     window = TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1);
     challenge_mode_state.record_window = window;
@@ -99,7 +99,7 @@ void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
     if (TCameraCtrl::get_camera_id() >= 2) {
         challenge_mode_state.record_window->set_position_xy(0.75f, 0.75f);
     }
-    TAdSinglePlyChrSelectGC::format_challenge_stage_times(lobby, challenge_id);
+    format_challenge_stage_times(lobby, challenge_id);
     challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
 }
 
@@ -162,7 +162,7 @@ void TChallenge::show_challenge_record_window(s32 mode) {
         open_challenge_progress_window(1);
         break;
     default:
-        TLobby::open_challenge_window((saddr)this, mode);
+        open_challenge_window((saddr)this, mode);
         break;
     }
 }

@@ -84,7 +84,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_split_screen_hud();
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
-    static char *build_status_text(s32 client_id);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
 };
@@ -254,5 +253,9 @@ struct NumberedTimesLayout {
     TextLayoutRecord rec_9;
 };
 
+
+void release_bg_multi_textures();
+
+void load_bg_multi_textures();
 
 #endif

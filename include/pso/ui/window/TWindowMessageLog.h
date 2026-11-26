@@ -37,4 +37,6 @@ extern char *chat_log_lines[30];
 TWindowMessageLog *create_message_log_window(const NJS_POINT2 *position, const f32 *size, s32 client);
 void post_chat_log_message(u16 id, const char *text);
 
+s32 find_free_chat_log_slot();
+
 #endif

@@ -19,7 +19,6 @@ struct TWindowGetComCard : public TObject {
     s32 state;
     s32 timer;
     virtual void render();
-    static void remove_entry(s32 index, GuildCardEntry *entries, s32 count);
 
     static const char *class_name;
     static NJS_POINT2 window_rect; // where run_task opens the yes/no confirmation
@@ -29,5 +28,7 @@ LAYOUT_ASSERT(TWindowGetComCard_size, sizeof(TWindowGetComCard) == 0x2C);
 
 // --- C functions defined in TWindowGetComCard.cpp ---
 // --- end of C functions
+
+void remove_guild_card_entry(s32 index, GuildCardEntry *entries, s32 count);
 
 #endif

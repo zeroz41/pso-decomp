@@ -149,7 +149,7 @@ s32 TObjBagWarnWin::should_show_warning() {
 }
 
 TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent) {
-    if (TWindowCtrl::is_map_visible() == 0) {
+    if (is_map_visible() == 0) {
         return new TObjBagWarnWin4P((TObject *)parent);
     }
     return NULL;
@@ -230,7 +230,7 @@ s32 TObjBagWarnWin4P::check_can_open() {
 
 // The map is hidden only in single-screen solo play while the lobby state
 // reports it closed.
-s32 TWindowCtrl::is_map_visible() {
+s32 is_map_visible() {
     if (TRaderMapCore::is_not_split_screen() != 1) {
         return 1;
     }

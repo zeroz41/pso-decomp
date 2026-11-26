@@ -138,4 +138,8 @@ LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
 struct TWindowMenu;
 extern "C" void add_gray_text_entry(TWindowMenu *list, const char *text, s32 kind, s32 id);
 
+void format_challenge_stage_times(s32 lobby, s32 challenge_id);
+
+void open_challenge_window(s32 lobby, s32 challenge_id);
+
 #endif

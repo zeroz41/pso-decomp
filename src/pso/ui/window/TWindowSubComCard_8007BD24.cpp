@@ -14,7 +14,7 @@ s32 TWindowSubComCard::init_card() {
 
 void TWindowSubComCard::remove_entry(s32 index) {
     s32 tmp = TWindowSubComCard::get_card_slot(0);
-    TWindowGetComCard::remove_entry(index, reinterpret_cast<GuildCardEntry *>(tmp), 0x1C);
+    remove_guild_card_entry(index, reinterpret_cast<GuildCardEntry *>(tmp), 0x1C);
 }
 
 s32 TWindowSubComCard::scroll_list(s32 ply_guild_card_tag) {

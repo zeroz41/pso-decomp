@@ -256,8 +256,6 @@ struct TLobby : public TObject {
     static void set_info_board_text(char *text);
     static void reset_info_board();
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
-    static void load_bg_multi_textures();
-    static void release_bg_multi_textures();
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
     void send_6x71_to_player();
@@ -265,9 +263,7 @@ struct TLobby : public TObject {
     static void make_players();
     static u8 lookup_table_value(s8 x);
     bool is_slot_match();
-    static void load_ask_dictionary();
     static void drain_deferred_packets();
-    static void open_challenge_window(s32 lobby, s32 challenge_id);
     void add_status_disp_entry(s32 name, s32 id);
     void handle_quest_download_chunk();
     static void update_battle_mode();
@@ -275,7 +271,6 @@ struct TLobby : public TObject {
     static void close_trade_request();
     static void reset_trade_state();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
-    static s32 find_free_chat_log_slot();
     static void send_challenge_retry_cmd(s32 choice);
     static void send_challenge_with_value(s32 challenge, s32 window_mode);
     static void send_challenge_records(u32 _w0);
@@ -413,10 +408,7 @@ struct TLobby : public TObject {
     static void append_float_value(s32 reg);
     static void append_int_param(s32 reg);
     static void send_simple_mail(s32 target_card_id, void *message);
-    static ShortMailEntry *find_short_mail_by_id(u32 id);
-    static s32 find_free_slot();
     static void remove_entry_at(s32 idx);
-    static void clear_all_entries();
     void*get_com_card_list();
     s32 get_lobby_id();
     static int get_short_mail_ctrl();

@@ -50,7 +50,6 @@ struct TWindowCtrl : public TObject {
     virtual void run_task();
     virtual void render();
     static s32 get_flag_bit3();
-    static s32 is_map_visible();
     static void clear_flag_2();
     static void set_close_flag();
     static s32 get_pulse_color();

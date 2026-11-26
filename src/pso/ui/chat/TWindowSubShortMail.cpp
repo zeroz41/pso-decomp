@@ -208,7 +208,7 @@ void TWindowSubShortMail::run_task() {
         } else if (action_menu->is_decided() != 0) {
             ShortMailEntry *mail;
             reply_mail_id = mail_list->get_cursor_value();
-            mail = TLobby::find_short_mail_by_id(reply_mail_id);
+            mail = find_short_mail_by_id(reply_mail_id);
             if (mail != NULL) {
                 target_card_id = mail->get_sender_card_id();
             }
@@ -552,7 +552,7 @@ void TWindowSubShortMail::update_mail_count() {
         cursor_id = mail_list->get_cursor_value();
         if ((s32) mail_id != cursor_id) {
             mail_id = cursor_id;
-            mail = TLobby::find_short_mail_by_id(mail_id);
+            mail = find_short_mail_by_id(mail_id);
             if (mail != NULL) {
                 message_window->append_line((saddr)mail->get_body(), 0x482);
             }

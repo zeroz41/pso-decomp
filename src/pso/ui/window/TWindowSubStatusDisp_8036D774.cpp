@@ -169,14 +169,14 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 #pragma pool_data off
 extern s32 split_screen_hud_animation_frame;
 
-void TLobby::release_bg_multi_textures() {
+void release_bg_multi_textures() {
     if (bg_multi_textures != NULL) {
         release_texture_list(bg_multi_textures);
         safe_free(bg_multi_textures);
         bg_multi_textures = NULL;
     }
 }
-void TLobby::load_bg_multi_textures() {
+void load_bg_multi_textures() {
     GvplPalette palette;
     if (TCameraCtrl::get_camera_id() == 3) {
         palette.data = tmp_buf_use_req("TBGMulti");

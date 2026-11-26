@@ -269,7 +269,7 @@ void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     }
     pos.x = 45.0f + p->x;
     pos.y = 53.0f + p->y;
-    TWindowHelpItem::set_help_text((saddr)b, (s32)this->client_index);
+    set_help_icon_uv((saddr)b, (s32)this->client_index);
     copy_vec2(&a->x, &pos);
     copy_vec2(&b->x, &pos);
     a->depth = p->depth;

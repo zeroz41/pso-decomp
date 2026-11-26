@@ -75,6 +75,7 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/text_800FFE04.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -317,7 +318,7 @@ void init_game_systems(void) {
     alloc_item_drop_memory_pool();
     alloc_player_motion_aram();
     TAdWarningBaseGC::init_heap();
-    TLobby::load_ask_dictionary();
+    load_ask_dictionary();
     request_chara_making_archives();
     load_effect_resources();
     init_particle_sprite_atlas();

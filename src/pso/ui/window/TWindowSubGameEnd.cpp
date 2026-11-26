@@ -26,7 +26,7 @@
 const char *TWindowSubGameEnd::class_name = "TWindowSubGameEnd";
 int window_sub_game_end_active_flag;
 
-void TKeyBoardControl::init_char_select(TObject *) {
+void init_char_select(TObject *) {
     if (is_split_screen() != 0) {
         TAdSinglePlyChrSelectGC::setup_player_battle_ctrls();
         request_main_phase(7);
@@ -51,7 +51,7 @@ void TWindowSubGameEnd::run_task() {
             slot = yes_no_window->get_selected_value();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
-                    new TScreenFadeOut(tl_00, TKeyBoardControl::init_char_select);
+                    new TScreenFadeOut(tl_00, init_char_select);
                     TWindowCtrl::lock_client_main_menu(client);
                     TLobby::send_logout();
                     window_sub_game_end_active_flag = 1;
