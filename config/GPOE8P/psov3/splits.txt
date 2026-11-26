@@ -4659,15 +4659,15 @@ pso/player/TObjPlayer_801AF2F0.cpp:
 	.sdata2     start:0x805DC278 end:0x805DC2E0
 
 pso/player/TObjPlayerCreate.cpp:
-	.text       start:0x801BC194 end:0x801BDE60
-	.rodata     start:0x80446F70 end:0x80446F78
-
-pso/player/TObjPlayer.cpp:
-	.text       start:0x801BDE60 end:0x801C23A8
+	.text       start:0x801BC194 end:0x801BE210
 	.ctors      start:0x80433F8C end:0x80433F90
-	.data       start:0x804C3E38 end:0x804C3E60
+	.rodata     start:0x80446F70 end:0x80446F78
 	.bss        start:0x8050E920 end:0x80511C80
 	.sbss       start:0x805D5D68 end:0x805D5D90
+
+pso/player/TObjPlayer.cpp:
+	.text       start:0x801BE210 end:0x801C23A8
+	.data       start:0x804C3E38 end:0x804C3E60
 
 pso/ui/window/TWindowDuelResult_801C2528.cpp:
 	.text       start:0x801C23A8 end:0x801C25B4

@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/LobbyRuleSettings.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
@@ -26,19 +27,19 @@ PlayerBattleScore::PlayerBattleScore() {
     TObjPlayer::reset_particle_ctrl(&timer);
 }
 
-s32 TObjPlayer__sub_801D6D28(void *record) {
-    s32 level = *(s8 *)((s8 *)record + 0x13);
-    if ((level < 0) || (level > 0x63)) {
+}
+
+s32 LobbyRuleSettings::get_sonar_count() {
+    s32 count = sonar_count;
+    if ((count < 0) || (count > 99)) {
         return 0;
     }
-    return level;
+    return count;
 }
 
-void TObjPlayer::set_level(s32 lvl) {
-    if ((lvl < 0) || (lvl > 0x63)) {
-        lvl = 0;
+void LobbyRuleSettings::set_sonar_count(s32 count) {
+    if ((count < 0) || (count > 99)) {
+        count = 0;
     }
-    *(s8 *)((s8 *)this + 0x13) = lvl;
-}
-
+    sonar_count = count;
 }

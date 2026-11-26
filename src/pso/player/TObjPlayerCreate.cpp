@@ -38,6 +38,14 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TObjEndingPlayer.h"
+#include "pso/player/PhotonBlastRequests.h"
+#include "pso/network/LobbyRuleSettings.h"
+#include "pso/system/memory.h"
+#include "pso/player/TPlayerFootStamp.h"
+#include "pso/ui/hud/TLockOnCursor.h"
+#include "pso/ui/hud/TMainCursor.h"
+#include "pso/ui/window/TWindowSnapShot.h"
+#include "pso/player/Palettex.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -654,3 +662,62 @@ TObjPlayer *TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     ((TLobby *)&created->guild_card_tag)->copy_header_struct(entry->get_lobby_header());
     return created;
 }
+
+u8 *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
+    u8 *p;
+    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
+    ((TLobby *)(p + 0xDAC))->copy_header_struct(player->get_lobby_header());
+    ((TObjPlayer *)p)->reset_motion_fields();
+    return p;
+}
+
+TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
+    decode_created_player_inventory(record);
+    return new TObjPlayer(tl_03, slot, role, record);
+}
+
+PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
+s32 lobby_player_count;
+int shared_count;
+int shared_flag;
+u32 town_npc_shared_resource;
+s32 lbl_805D5D7C;
+u8 *TObjPlayer::shared_model_buffer;
+PlayerJointMatrixSet *TObjPlayer::player_shared_buffer_base;
+u32 shared_state_flags[2];
+
+void TObjPlayer::free_shared_data() {
+    if (TObjPlayer__shared_photon_blast_state != NULL) {
+        delete TObjPlayer__shared_photon_blast_state;
+        TObjPlayer__shared_photon_blast_state = NULL;
+    }
+    if (player_shared_buffer_base != NULL) {
+        mem_free(player_shared_buffer_base);
+        player_shared_buffer_base = NULL;
+    }
+    if (shared_model_buffer != NULL) {
+        mem_free(shared_model_buffer);
+        shared_model_buffer = NULL;
+    }
+}
+
+void TObjPlayer::alloc_shared_buffers() {
+    if (shared_model_buffer == NULL) {
+        shared_model_buffer = static_cast<u8 *>(mem_alloc(0x9000));
+    }
+    if (player_shared_buffer_base == NULL) {
+        player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
+    }
+    if (TObjPlayer__shared_photon_blast_state == NULL) {
+        TObjPlayer__shared_photon_blast_state = new PhotonBlastRegistry();
+    }
+}
+
+void finalize_player_shared() { TLobby::set_player_count(0); TObjPlayer::set_shared_count(0); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; lobby_rule_settings.reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
+
+void init_player_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count(0); TObjPlayer::set_shared_count(1); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
+
+ArrivalOverride player_arrival_overrides[12];
+TObjPlayer *player_slot_table[12];
+LobbyRuleSettings lobby_rule_settings;
+PlayerCharDataEntry TObjPlayer__char_data_array[12];

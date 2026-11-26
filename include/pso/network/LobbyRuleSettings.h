@@ -37,6 +37,11 @@ public:
     s32 time_limit;
     s8 trap_counts[4];
 
+    LobbyRuleSettings();
+    // sonar_count, or 0 when it is outside 0..99.
+    s32 get_sonar_count();
+    // Stores count as sonar_count, 0 when it is outside 0..99.
+    void set_sonar_count(s32 count);
     s8 get_trap_count(s32 index);
     u8 get_lives();
     void set_lives(u8 count);

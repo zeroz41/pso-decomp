@@ -5171,7 +5171,7 @@ void apply_battle_rules_to_players() {
             p->set_meseta(0);
         }
         if (q->get_enable_sonar() == 1) {
-            p->sonar_stock.set_count(TObjPlayer__sub_801D6D28(q));
+            p->sonar_stock.set_count(q->get_sonar_count());
         }
         if (q->get_forbid_scape_dolls() == 1) {
             p->inventory_objects->reduce_items_of_kind(p, 3, 9);

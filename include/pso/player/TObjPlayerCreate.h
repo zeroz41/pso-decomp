@@ -11,4 +11,9 @@ extern PlayerCharDataEntry TObjPlayer__char_data_array[12];
 // Builds the TObjPlayer for a player who joins from the network record.
 TObjPlayer *create_remote_player_object(void *record);
 
+// The player load and release hooks of the game and lobby scene callback tables: the shared
+// buffers, motion data, cursor and footstamp resources, and the player counters.
+void init_player_shared();
+void finalize_player_shared();
+
 #endif

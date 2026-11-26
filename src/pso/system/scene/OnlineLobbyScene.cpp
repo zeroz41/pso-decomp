@@ -46,6 +46,7 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayerCreate.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -129,7 +130,7 @@ s32 reset_story_select__6TLobbyFPv();
 FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
-    {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
+    {init_player_shared, finalize_player_shared},
     {clear_story_flag_list_and_reload, clear_story_flag_list},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},

@@ -11,7 +11,7 @@
 // TObjPlayer::create builds the slot's player from it.
 struct PlayerCharDataEntry {
     PlayerCharDataEntry();
-    ~PlayerCharDataEntry();
+    ~PlayerCharDataEntry() {}
     int has_character();
     PlayerGuildCardTag *get_lobby_header();
     TPlyCharData *get_char_data();

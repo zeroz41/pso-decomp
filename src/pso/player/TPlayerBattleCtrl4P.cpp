@@ -714,7 +714,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
       fn_801D6D8C(&lobby_rule_settings, rule_data[i + 0xD], i);
     }
     lobby_rule_settings.set_enable_sonar(rule_data[0x11]);
-    ((TObjPlayer *)&lobby_rule_settings)->set_level(((s8 *) rule_data)[0x12]);
+    lobby_rule_settings.set_sonar_count(((s8 *) rule_data)[0x12]);
     lobby_rule_settings.set_forbid_scape_dolls(rule_data[0x13]);
     lobby_rule_settings.set_lives((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x18))))));
     lobby_rule_settings.set_max_tech_level((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));

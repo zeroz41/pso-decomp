@@ -1554,7 +1554,6 @@ force_active:
   - __ct__22PhotonBlastRequestSlotFv
   - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
   - init_body_parts__10TObjPlayerFPv
-  - __sinit_TObjPlayer_cpp
   - get_grass_contact_point__21PlayerFollowParticlesFv
   - set_timer__19ContactSurfaceStateFl
   - has_water_or_sand__19ContactSurfaceStateFl
@@ -1574,7 +1573,7 @@ force_active:
   - __ct__19InventorySortBufferFl
   - __ct__18InventorySortEntryFv
   - __as__18InventorySortEntryFR18InventorySortEntry
-  - TObjPlayer__sub_801D8A38
+  - __ct__17EndingMotionStartFv
   - set_technique_cap__20PlayerTechniqueStateFsUc
   - advance_chunk_plist__FPPs
   - init__14TPlyDispConfigFv
@@ -5639,7 +5638,6 @@ force_active:
   - __dt__21TObjEneRe2Flower_BombFv
   - destroy_and_mark_done__11TAdSEGAlogoFP7TObject
   - __dt__18TPlyDispConfigSmthFv
-  - destroy_char_data_array__10TObjPlayerFv
   - destroy_children__15TBoss3VoloptP02Fv
   - __dt__21TObjCityVerticalModelFv
   - destroy_download_server__6TLobbyFP7TObject
@@ -7072,7 +7070,7 @@ force_active:
   - init_instance__13TObjEneMorfosFv
   - __ct__9TTecZaruaFlP3VecP3Vecl
   - init_inventory__10TObjPlayerFv
-  - init_inventory_items__10TObjPlayerFl
+  - __ct__20EquippedWeaponAndMagFv
   - init_item_counts_max__10TObjPlayerFv
   - init_item_entry__18TCheckRoomSequenceFP14BankItemRecord
   - init_joint_offset__11TBoss2JointFl
@@ -8178,7 +8176,6 @@ force_active:
   - lbl_8050BED0
   - npc_player_visual_record
   - npc_player_char_data
-  - lbl_8050EA64
   - lbl_80511DD8
   - memcard_file_status
   - memcard_work_areas

@@ -671,7 +671,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
             fn_801D6D8C(&lobby_rule_settings, CFG->b[i + 0xD], i);
         }
         lobby_rule_settings.set_enable_sonar(CFG->d11);
-        ((TObjPlayer *)&lobby_rule_settings)->set_level(CFG->lvl);
+        lobby_rule_settings.set_sonar_count(CFG->lvl);
         lobby_rule_settings.set_forbid_scape_dolls(CFG->d13);
         lobby_rule_settings.set_lives((u8) CFG->vol);
         lobby_rule_settings.set_max_tech_level((u8) CFG->v1c);

@@ -112,8 +112,9 @@ void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerI
 
 class TPlyCharData;
 typedef GC_Mtx PlayerJointMatrixSet[32];
-extern PlayerJointMatrixSet *player_shared_buffer_base;
 extern u32 shared_state_flags[2];
+extern int shared_count;
+extern int shared_flag;
 
 // Constants the player code shares from its .sdata2 pool.
 extern const char *TObjPlayer_name;
@@ -341,7 +342,6 @@ struct TObjPlayer : public TObjChara {
     static void render_tree(void *model);
     s32 get_entrance_id();
     void set_entrance_id(s32 id);
-    void *reset_lobby_settings();
     void set_flags_bit2();
     void set_flags_bit1();
     void clear_flag_1_at_1c();
@@ -355,6 +355,8 @@ struct TObjPlayer : public TObjChara {
     static void set_shared_flag(int flag);
     // Twelve 0xC00-byte joint matrix blocks, one per player slot.
     static u8 *shared_model_buffer;
+    // Twelve PlayerJointMatrixSet blocks of item node matrices, one per player slot.
+    static PlayerJointMatrixSet *player_shared_buffer_base;
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);
@@ -482,8 +484,6 @@ struct TObjPlayer : public TObjChara {
     void free_chara_making();
     static TObjPlayer *create(u32 slot, PlayerCharDataEntry *entry);
     static void free_shared_data();
-    static void finalize_shared();
-    static void init_shared();
     static s32 check_camera_mode();
     int is_android();
     int is_newman();
@@ -720,8 +720,6 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_128();
     static s32 decrement_timer(s32 *timer);
     static void reset_particle_ctrl(s32 *ctrl);
-    void set_level(s32 lvl);
-    static s32 init_inventory_items(saddr items);
     s32 get_getup_protection_ticks();
     s32 get_hurt_protection_ticks();
     u8 *get_lobby_entry_ptr();
@@ -811,7 +809,6 @@ struct TObjPlayer : public TObjChara {
     static void refresh_player_lobby_headers();
     static u8 *create_player_instance(s32 slot, PlayerCharDataEntry *player);
     static void alloc_shared_buffers();
-    static void destroy_char_data_array();
     static s8 get_rule_field_0();
     static void draw_effect();
     void draw_trail_pair();

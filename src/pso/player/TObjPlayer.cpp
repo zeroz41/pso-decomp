@@ -68,92 +68,7 @@
 #include "pso/player/PlayerTelepipe.h"
 #include "pso/player/InventoryItemList.h"
 
-u8 *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
-    u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
-    ((TLobby *)(p + 0xDAC))->copy_header_struct(player->get_lobby_header());
-    ((TObjPlayer *)p)->reset_motion_fields();
-    return p;
-}
 
-TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
-    decode_created_player_inventory(record);
-    return new TObjPlayer(tl_03, slot, role, record);
-}
-
-
-
-extern s32 lbl_805D5D7C;
-
-PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
-s32 lobby_player_count;
-
-void TObjPlayer::free_shared_data() {
-    if (TObjPlayer__shared_photon_blast_state != NULL) {
-        delete TObjPlayer__shared_photon_blast_state;
-        TObjPlayer__shared_photon_blast_state = NULL;
-    }
-    if (player_shared_buffer_base != NULL) {
-        mem_free(player_shared_buffer_base);
-        player_shared_buffer_base = NULL;
-    }
-    if (shared_model_buffer != NULL) {
-        mem_free(shared_model_buffer);
-        shared_model_buffer = NULL;
-    }
-}
-
-void TObjPlayer::alloc_shared_buffers() {
-    if (shared_model_buffer == NULL) {
-        shared_model_buffer = static_cast<u8 *>(mem_alloc(0x9000));
-    }
-    if (player_shared_buffer_base == NULL) {
-        player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
-    }
-    if (TObjPlayer__shared_photon_blast_state == NULL) {
-        TObjPlayer__shared_photon_blast_state = new PhotonBlastRegistry();
-    }
-}
-
-void TObjPlayer::finalize_shared() { TLobby::set_player_count(0); TObjPlayer::set_shared_count(0); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; lobby_rule_settings.reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
-
-void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count(0); TObjPlayer::set_shared_count(1); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
-
-extern "C" {
-extern u8 TObjPlayer__char_data_array[];
-void __sinit_TObjPlayer_cpp();
-void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
-void __register_global_object(void *obj, void *dtor, void *chain);
-void *__construct_array(void *, void *, void *, u32, u32);
-void __ct__19PlayerCharDataEntryFv(void *);
-void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
-
-}
-
-ArrivalOverride player_arrival_overrides[12];
-TObjPlayer *player_slot_table[12];
-LobbyRuleSettings lobby_rule_settings;
-u8 lbl_8050EA64[0xC];
-u8 TObjPlayer__char_data_array[0x42C * 0xC];
-
-
-void __sinit_TObjPlayer_cpp() {
-    __construct_array(player_arrival_overrides, (void *)init_arrival_override, NULL, sizeof(ArrivalOverride), 12);
-    ((TObjPlayer *)&lobby_rule_settings)->reset_lobby_settings();
-    __construct_array(TObjPlayer__char_data_array, (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
-    __register_global_object(NULL, (void *)TObjPlayer::destroy_char_data_array, lbl_8050EA64);
-}
-
-void TObjPlayer::destroy_char_data_array() {
-    __destroy_arr(TObjPlayer__char_data_array, (void *)__dt__19PlayerCharDataEntryFv, 0x42c, 0xc);
-}
-
-
-__declspec(section ".ctors") static void *const __sinit_TObjPlayer_cpp_ref = (void *)__sinit_TObjPlayer_cpp;
-
-
-
-PlayerCharDataEntry::~PlayerCharDataEntry() {}
 
 void TObjPlayer::get_pos(saddr out) {
     this->get_anim_node_position(0x3A, (Vec *)out);
@@ -405,8 +320,6 @@ void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 void emit_water_footstep_effect(PlayerFollowParticles *particles);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
-int shared_count;
-int shared_flag;
 
 #pragma defer_codegen on
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
@@ -912,12 +825,12 @@ PlayerActionPaletteState::PlayerActionPaletteState() {
     disabled_slots = 0;
 }
 
-void init_arrival_override(ArrivalOverride *entry) {
-    entry->active = 0;
-    entry->heading = 0;
-    entry->pos.z = player_zero;
-    entry->pos.y = player_zero;
-    entry->pos.x = player_zero;
+ArrivalOverride::ArrivalOverride() {
+    active = 0;
+    heading = 0;
+    pos.z = player_zero;
+    pos.y = player_zero;
+    pos.x = player_zero;
 }
 
 s32 FlagWord::get_bits() { return bits; }
@@ -942,11 +855,6 @@ int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_t
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
 // keeps these extern.
 
-u32 town_npc_shared_resource;
-s32 lbl_805D5D7C;
-u8 *TObjPlayer::shared_model_buffer;
-PlayerJointMatrixSet *player_shared_buffer_base;
-u32 shared_state_flags[2];
 
 int PlayerActionProvider::load_motion_set(s32, s32, s32) { return 0; }
 int PlayerActionProvider::get_death_action() { return -1; }
@@ -1560,9 +1468,8 @@ PlayerPkState::PlayerPkState() { reset(); }
 
 void PlayerPkState::reset() { enabled = 0; team = 0; }
 
-void *TObjPlayer::reset_lobby_settings() {
-    ((LobbyRuleSettings *)this)->reset_settings_to_default();
-    return this;
+LobbyRuleSettings::LobbyRuleSettings() {
+    reset_settings_to_default();
 }
 
 s32 TItem::is_equipped() {

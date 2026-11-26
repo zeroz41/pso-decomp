@@ -32,6 +32,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayerCreate.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
@@ -190,7 +191,7 @@ s32 TCameraCtrl::get_camera_no() {
 FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
-    {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
+    {init_player_shared, finalize_player_shared},
     {apply_multi_sel_rule, reset_multi_sel_rule},
     {prepare_adventure_maps, release_adventure_maps},
     {clear_story_flag_list_and_reload, clear_story_flag_list},
