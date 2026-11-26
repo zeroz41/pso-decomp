@@ -1,4 +1,5 @@
 #include "pso/ui/window/WindowSpritePart.h"
+#include "pso/player/Palettex.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -51,8 +52,6 @@ void TWindowLayoutEntry::show() { flags &= ~2; }
 
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
-s32 is_palettex_activated(u16 client_index);
-s32 is_palettex_enabled(u16);
 }
 
 const PaletteItemKind action_palette_item_kinds[13] = {
