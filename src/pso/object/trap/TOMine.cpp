@@ -299,20 +299,20 @@ void TOMine::update_float_height() {
 }
 void TOMine::apply_float_position() { sync_position(); }
 void TOMine::trigger_group() {
-    u8 *p;
+    TOMine *mine;
     s32 i;
     switch (this->phase) {
     case 0:
         this->phase = 1;
         for (i = registered_enemy_count; i < entity_table_count; i++) {
-            p = (u8 *)TObjPlayer::get_player_data(i);
-            if (p != NULL && p != ((u8 *)this) &&
-                (reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon01_name) != 0 ||
-                 reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon02_name) != 0 ||
-                 reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon03_name) != 0 ||
-                 reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon04_name) != 0) &&
-                ((TOMine *)p)->behavior == 1 && ((TOMine *)p)->group_id == group_id) {
-                ((TOMine *)p)->update_trigger();
+            mine = static_cast<TOMine *>(static_cast<TObject *>(TObjPlayer::get_player_data(i)));
+            if (mine != NULL && mine != this &&
+                (mine->check_value_equals(mine_icon01_name) != 0 ||
+                 mine->check_value_equals(mine_icon02_name) != 0 ||
+                 mine->check_value_equals(mine_icon03_name) != 0 ||
+                 mine->check_value_equals(mine_icon04_name) != 0) &&
+                mine->behavior == 1 && mine->group_id == group_id) {
+                mine->update_trigger();
             }
         }
         break;
@@ -685,12 +685,12 @@ TOMineTrap *TOMineTrap::create_placed_trap(TObjBase *owner, s16 kind, s16 slot) 
     return new TOMineTrap(owner, kind, slot);
 }
 void TOMineTrap::destroy_matching_traps() {
-    void *p;
+    TObject *obj;
     s32 i;
     for (i = registered_player_count + registered_enemy_count; i < entity_table_count; i++) {
-        p = (void *)TObjPlayer::get_player_data(i);
-        if (p != 0 && reinterpret_cast<TObject *>(p)->check_value_equals(mine_trap_name) != 0) {
-            ((TObject *)p)->queue_destruction();
+        obj = TObjPlayer::get_player_data(i);
+        if (obj != 0 && obj->check_value_equals(mine_trap_name) != 0) {
+            obj->queue_destruction();
         }
     }
 }
