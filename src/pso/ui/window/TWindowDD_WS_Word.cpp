@@ -468,7 +468,7 @@ void TWindowDD_WS_Word::render() {
             set_text_entry_string(item, get_word_select_token_text(token_ids[idx]), 0xC0);
             item->y = (f32)(i * 20);
             measure_message_text_width_default(item);
-            ((TWindowHelpItem *)item)->reset_float_field();
+            ((WindowTextEntry *)item)->reveal_all();
             item->color = window_dd_color_white;
         }
         if (sub_80342254() != 0) {

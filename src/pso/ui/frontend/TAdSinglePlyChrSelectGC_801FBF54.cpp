@@ -107,7 +107,6 @@ s32 chr_select_serial_seeds[2];
 s32 lbl_80513918[2];
 
 extern "C" {
-extern s32 memcard_access_active;
 
 // Save-message window position and size (the same rect as TSaveChCr's message window).
 static const NJS_POINT2 chr_select_save_message_window_pos = { 46.0f, 131.0f };
@@ -384,11 +383,12 @@ s32 TAdSinglePlyChrSelectGC::verify_system_file() {
         memcard_access_active = 1;
         TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, pso_system_card_filename, system_save_file_buffer);
         stop_pad_rumble();
-loop_4:
-        if (poll_memcard_result(system_save_card_channel) != 0) {
+        for (;;) {
+            if (poll_memcard_result(system_save_card_channel) == 0) {
+                break;
+            }
             TAdSinglePlyChrSelectGC::render_frame();
             render_tick();
-            goto loop_4;
         }
         memcard_access_active = 0;
         memcpy(buffer, system_save_file_buffer + sizeof(CardSaveHeader), sizeof(SystemSaveData));
@@ -1991,14 +1991,13 @@ s32 load_and_verify_data(s32 verify_only) {
             return 0;
         }
         init_timestamped_data();
-        goto block_9;
+    } else {
+        if (verify_only != 0) {
+            ::operator delete(copy);
+            return 1;
+        }
+        TAdSinglePlyChrSelectGC::set_save_slot(1);
     }
-    if (verify_only != 0) {
-        ::operator delete(copy);
-        return 1;
-    }
-    TAdSinglePlyChrSelectGC::set_save_slot(1);
-block_9:
     ::operator delete(copy);
     return 1;
 }

@@ -47,7 +47,7 @@ const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
 void send_challenge_dead_flag_packet(TLobby *lobby);
 void build_6x9D_packet(u8 *packet);
 extern "C" {
-void TLobby__sub_800727A0(void *player);
+void bswap_client_id_packet(void *player);
 }
 void build_6x97_packet(u8 *packet);
 
@@ -67,12 +67,12 @@ void build_6x9D_packet(u8 *packet) {
 }
 
 void TLobby::send_and_handle_60_wrapper() {
-    TLobby__sub_800727A0(this);
+    bswap_client_id_packet(this);
     send_subcommand(this);
 }
 extern "C" {
 
-void TLobby__sub_800727A0(void *player) {
+void bswap_client_id_packet(void *player) {
     ((G_ClientIDHeader *)player)->bswap();
     bswap_32((u32 *)((char *)player + 4));
     bswap_32((u32 *)((char *)player + 8));

@@ -3778,7 +3778,7 @@ void TBoss2DeRolLe::render() {
     copy_argb(col, &saved);
     }
     set_chunk_model_node_callback(NULL);
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
     pop_matrix();
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -3868,7 +3868,7 @@ void TBoss2DeRolLe::render_body() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
     pop_matrix();
 }
 

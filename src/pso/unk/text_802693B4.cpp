@@ -46,7 +46,7 @@ void TWindowMessage::complete_reveal() {
                 lines[i].flags &= ~8;
                 e->flags &= ~8;
             }
-            ((TWindowHelpItem *)e)->reset_float_field();
+            ((WindowTextEntry *)e)->reveal_all();
         }
     }
 }

@@ -32,7 +32,7 @@ s32 copy_player_visual_record(void *, void *);
 
 s32 advance_item_id_counter();
 
-void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) {
+void process_trade_target(saddr player, TItemData *item_data) {
     TItem *item;
 
     ((TObjBase *)player)->get_entity_id();
@@ -54,13 +54,13 @@ void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) 
         }
     }
 }
-void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind) {
+void trade_item_by_group_kind(s32 player, s8 group, s8 kind) {
     TItemData item_data;
     item_data.init();
     item_data.data1.data_u8[1] = group;
     item_data.data1.data_u8[0] = 0;
     item_data.data1.data_u8[2] = kind;
-    process_trade_target__10TObjPlayerFiPv(player, &item_data);
+    process_trade_target(player, &item_data);
 }
 
 }

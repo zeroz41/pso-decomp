@@ -40,7 +40,7 @@ s32 is_special_sound_id(u32 x) {
 }
 
 
-void apply_clamped_field_27c__6TLobbyFv(f32 value) {
+void apply_clamped_field_27c(f32 value) {
     sound_control_state.set_reverb_level(value);
 }
 
@@ -201,7 +201,7 @@ extern const f32 floor_sound_bank_volume_table[36] = {
     0.1f, 0.1f, 0.1f, 0.1f, 0.5f, 0.5f, 0.1f, 0.5f, 0.0f, 0.1f, 0.1f, 0.2f,
 };
 
-void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick(); }
+void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); ((int (*)(float))apply_clamped_field_27c)(0.0f); render_tick(); }
 
 void load_floor_sound_bank(s32 floor) {
     s32 byte_offset;
@@ -212,7 +212,7 @@ void load_floor_sound_bank(s32 floor) {
         bank = *(s32 *)((s8 *)((u8 *)floor_sound_bank_table + byte_offset) + 0);
         if (bank >= 0) {
             if (floor < 0x24) {
-                ((s32 (*)(void *, f32))apply_clamped_field_27c__6TLobbyFv)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + byte_offset) + 0)));
+                ((s32 (*)(void *, f32))apply_clamped_field_27c)((void *)floor_sound_bank_volume_table, (f32) (*(f32 *)((s8 *)((u8 *)floor_sound_bank_volume_table + byte_offset) + 0)));
             }
             sound_control_state.validate_and_set_selection(bank);
             do {
@@ -241,7 +241,7 @@ void TLobby::wait_for_sound_init() {
     init_sound_aux_effects(&sound_control_state);
     sound_control_state.validate_and_set_selection(0);
     do {
-        TLobby__sub_803382E4();
+        draw_loading_compass();
         TLobby::run_disk_error_check();
         exec_adx_server();
         render_tick();

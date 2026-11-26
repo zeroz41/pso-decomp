@@ -350,7 +350,7 @@ void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
     TLobby::stop_audio_streams();
     TLobby::set_and_notify(0);
-    TLobby::call_funcs_reverse((void *)&character_select_scene_resource_callbacks, 0x30);
+    TLobby::call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
 

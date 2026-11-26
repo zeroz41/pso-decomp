@@ -40,16 +40,12 @@ void TAdMultiChgGameModeGC::render() {  }
 s32 TAdMultiChgGameModeGC::check_players_ready(void * _w0) {
     u32 slot;
 
-    slot = 0U;
-loop_1:
-    if ((is_multiplayer_character_slot_selected(slot) != 0) && (TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot) > 3)) {
-        return 1;
+    for (slot = 0U; slot < 4U; slot++) {
+        if ((is_multiplayer_character_slot_selected(slot) != 0) && (TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot) > 3)) {
+            return 1;
+        }
     }
-    slot += 1;
-    if (slot >= 4U) {
-        return 0;
-    }
-    goto loop_1;
+    return 0;
 }
 void TAdMultiChgGameModeGC::run_task() {
     set_default_camera();

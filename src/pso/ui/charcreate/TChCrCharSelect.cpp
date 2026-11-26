@@ -67,7 +67,7 @@ void TChCrCharSelect::tick_and_apply_selection() {
         copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(get_char_select_class_id(TChCrCharSelect::selected_slot_index)));
         character_appearance_fields->section = -1;
         character_appearance_fields->name[0] = 0;
-        TCharaMaking::create((void *)tl_03, character_appearance_fields);
+        TCharaMaking::create(tl_03, character_appearance_fields);
         queue_destruction();
     }
 }

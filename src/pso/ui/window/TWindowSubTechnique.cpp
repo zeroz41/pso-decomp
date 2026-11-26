@@ -252,7 +252,7 @@ void TWindowSubTechnique::run_task() {
         technique_menu->clear_flag_40();
         ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();
         technique_menu->clear_flag_and_release();
-        ((TWindowOptionCtrl *)technique_menu)->clear_flag70_bit4();
+        technique_menu->clear_cancelled();
         state = 4;
     case 4:
         player->update_cursor((s16)technique_menu->get_selected_value());

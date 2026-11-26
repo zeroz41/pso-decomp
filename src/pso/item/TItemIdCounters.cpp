@@ -242,7 +242,7 @@ void handle_6x60_standard_drop_item_request(void *command) {
 }
 
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
-    bswap_item_packet__6TLobbyFv(pkt);
+    bswap_item_packet(pkt);
     if ((u32)pkt->header.size * 4 == 0x28) {
         pkt->item.item.convert_from_version(0);
     } else {
@@ -307,12 +307,12 @@ TItemIdCounters::TItemIdCounters() {
     build_item_id_mode = 0;
 }
 void G_DropItem_PC_V3_BB_6x5F::send() {
-    bswap_item_packet__6TLobbyFv(this);
+    bswap_item_packet(this);
     send_subcommand(reinterpret_cast<u8 *>(this));
 }
-void bswap_item_packet__6TLobbyFv(void *packet) {
+void bswap_item_packet(void *packet) {
     static_cast<G_ClientIDHeader *>(packet)->bswap();
-    bswap_item__6TLobbyFv(static_cast<u8 *>(packet) + 4);
+    bswap_item(static_cast<u8 *>(packet) + 4);
 }
 G_DropItem_PC_V3_BB_6x5F::G_DropItem_PC_V3_BB_6x5F() {
     __base_G_DropItem_DC_6x5F.header.subcommand = 0x5F;

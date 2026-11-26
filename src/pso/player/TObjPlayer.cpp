@@ -1502,7 +1502,7 @@ u16 LockOnNearestTarget::get_published_target_id() { return published_target_id;
 
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
-TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
+TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
     InventoryEntryLayout *dst = (InventoryEntryLayout *)destination;
     const InventoryEntryLayout *src = (const InventoryEntryLayout *)source;
     dst->a = src->a;

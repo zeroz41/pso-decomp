@@ -146,7 +146,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     new TAdBackTxtGC(this);
     scroll_window = new TAdScrollWinGC(this, 3, (s32)get_localized_text_entry(0x2C, 9));
     cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)ep3_exist_cursor_pos, (const NJS_POINT2 *)ep3_exist_cursor_size);
-    cursor->append_entry((void *)ep3_exist_cursor_pos);
+    cursor->append_entry(ep3_exist_cursor_pos);
     cursor->set_wait_directions_released();
     cursor->set_selection_index(0);
 }

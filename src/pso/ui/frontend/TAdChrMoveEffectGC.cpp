@@ -109,8 +109,8 @@ void TAdChrMoveEffectGC::setup_move_effect_params(s32 from_index, s32 to_index) 
     ChrMoveEffectParams p;
     copy_vec2(&p.start, (void *)&chr_move_effect_pos_table[from_index]);
     copy_vec2(&p.end, (void *)&chr_move_effect_pos_table[to_index]);
-    copy4(p.start_color, (void *)(from_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
-    copy4(p.end_color, (void *)(to_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
+    copy4(p.start_color, (from_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
+    copy4(p.end_color, (to_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
     copy_vec2(&p.size, (void *)chr_move_effect_size);
     TAdChrMoveEffectGC__sub_80349194(this, &p);
 }

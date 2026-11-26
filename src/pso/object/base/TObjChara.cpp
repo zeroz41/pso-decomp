@@ -164,7 +164,7 @@ s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 void * find_entity_by_id(s32 id);
-s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
+s32 record_damage_stats(void *, void *, void *);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 angle_units_per_radian;
 extern TObjCollidable *entity_table[];
@@ -3238,7 +3238,7 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
   if ((((lobby_rule_settings.get_rule_field_0() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
   {
-    record_damage_stats__10TOMineTrapFUiUis(mine_trap, att, (void *) damage);
+    record_damage_stats(mine_trap, att, (void *) damage);
   }
 }
 

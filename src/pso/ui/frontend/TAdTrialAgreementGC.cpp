@@ -40,10 +40,11 @@ void TAdTrialAgreementGC::on_decline() { request_main_phase((saddr)((void*)0)); 
 void TAdTrialAgreementGC::on_agree() { TAdMultiChgGameModeGC::open_time_set_scene(); }
 void TAdTrialAgreementGC::on_closing() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 void TAdTrialAgreementGC::wait_for_load() {
-loop_1:
-    if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (poll_memcard_result(0) != 0)) {
+    for (;;) {
+        if ((TAdPlayerLoadGC::probe_card_slot(0) == 0) || (poll_memcard_result(0) == 0)) {
+            break;
+        }
         render_tick();
-        goto loop_1;
     }
 }
 

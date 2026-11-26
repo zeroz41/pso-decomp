@@ -117,27 +117,35 @@ void TWindowMessageLog::update_scroll_animation() {
 }
 
 extern "C" {
-u8 *heap_alloc__5THeapFUl(s32, s32);
-extern saddr scroll_win_chat_log_heap;
+u8 *heap_alloc__5THeapFUl(THeap *, s32);
+extern THeap *scroll_win_chat_log_heap;
 extern u8 *chat_last_line_buffer;
 
-void TAdScrollWinGC__sub_8026A5F8(void* window) { *(float*)((char*)window + 0x84) = 0.0f; *(float*)((char*)window + 0x6c) = 0.0f; *(float*)((char*)window + 0x94) = 0.0f; }
+}
+
+void TWindowMessageLog::reset_scroll() {
+    target_scroll_y = 0.0f;
+    scroll_offset[1] = 0.0f;
+    pending_scroll = 0.0f;
+}
 
 void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
 
-void fn_8026A61C(void* p, f32 v) { *(f32*)((char*)p + 0x94) += v; }
+void TWindowMessageLog::add_pending_scroll(f32 v) { pending_scroll += v; }
 
 void TWindowMessageLog::append_line(s32 shared_text_buffer) {
     ((TWindowMessage *)(this))->append_line(shared_text_buffer, 0x502);
     update_scroll_position();
 }
 
-void TWindowSubLog__sub_8026A664(u8 *arg0, f32 farg0) {
-    if (farg0 != *(f32 *)((s8 *)arg0 + 0x3C)) {
-        *(f32 *)((s8 *)arg0 + 0x3C) = farg0;
-        *(s32 *)((s8 *)arg0 + 0x50) = 3;
+void TWindowMessageLog::set_target_height(f32 height) {
+    if (height != target_size[1]) {
+        target_size[1] = height;
+        tween_ticks = 3;
     }
 }
+
+extern "C" {
 
 s32 TLobby::find_free_chat_log_slot() {
     s32 i;
@@ -157,7 +165,7 @@ void chat_log_remove_line(saddr index) {
     destination = (u32 *)&chat_log_lines[index];
     line = *destination;
     if (line != 0U) {
-        ((THeap *)scroll_win_chat_log_heap)->heap_free((void *)line);
+        scroll_win_chat_log_heap->heap_free((void *)line);
         *destination = 0U;
         if (index < 0x1D) {
             move_words(reinterpret_cast<void *>(destination), &chat_log_lines[index + 1], (saddr)((void *) ((0x1D - index) & 0x3FFFFFFF)));
@@ -183,7 +191,7 @@ void cache_last_chat_line(uaddr text) {
     s32 size;
     u8 *dest;
     if ((void *) chat_last_line_buffer != NULL) {
-        ((THeap *)scroll_win_chat_log_heap)->heap_free((void *) chat_last_line_buffer);
+        scroll_win_chat_log_heap->heap_free((void *) chat_last_line_buffer);
         chat_last_line_buffer = NULL;
     }
     if (text != 0U) {
@@ -192,21 +200,21 @@ void cache_last_chat_line(uaddr text) {
         if (lacks_language_tag != 0) {
             size += 2;
         }
-        dest = (u8 *)((THeap *)scroll_win_chat_log_heap)->heap_alloc(size);
+        dest = (u8 *)scroll_win_chat_log_heap->heap_alloc(size);
         if (dest == NULL) {
             do {
                 chat_log_remove_line(0);
-                dest = (u8 *)((THeap *)scroll_win_chat_log_heap)->heap_alloc(size);
+                dest = (u8 *)scroll_win_chat_log_heap->heap_alloc(size);
             } while (dest == NULL);
         }
         chat_last_line_buffer = dest;
         if (lacks_language_tag != 0) {
-            *(s8 *)((s8 *)dest + 0) = 9;
+            dest[0] = 9;
             if (current_language == LANGUAGE_JAPANESE) {
-                *(s8 *)((s8 *)dest + 1) = 0x4A;
+                dest[1] = 'J';
                 dest += 2;
             } else {
-                *(s8 *)((s8 *)dest + 1) = 0x45;
+                dest[1] = 'E';
                 dest += 2;
             }
             size -= 2;
@@ -222,11 +230,11 @@ void chat_log_add_line(const char *text) {
     s32 free_chat_log_slot;
     num = strlen(text);
     free_chat_log_slot = TLobby::find_free_chat_log_slot();
-    buffer = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
+    buffer = (saddr)heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
     if (buffer == 0) {
         do {
             chat_log_remove_line(0);
-            buffer = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
+            buffer = (saddr)heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
         } while (buffer == 0);
         free_chat_log_slot = TLobby::find_free_chat_log_slot();
     }

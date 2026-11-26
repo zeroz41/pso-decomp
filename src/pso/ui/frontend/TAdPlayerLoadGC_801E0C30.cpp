@@ -614,10 +614,9 @@ s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
             card_result_code = 0;
             return 1;
         }
-        goto block_17;
+    } else {
+        card_result_code = -0xDF;
     }
-    card_result_code = -0xDF;
-block_17:
     return 1;
 }
 s32 TAdPlayerLoadGC::check_memcard_status(s32 chan) {

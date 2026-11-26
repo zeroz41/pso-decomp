@@ -24,7 +24,7 @@ void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body);
 }
 
 extern "C" {
-void TObjPlayer__sub_80128A70(void);
+void debug_weapon_attack_hook(void);
 }
 
 #endif

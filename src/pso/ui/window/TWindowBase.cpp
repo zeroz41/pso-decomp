@@ -954,62 +954,62 @@ void TWindowSubStatusDisp::update_entry_visibility() {
     entry0 = reinterpret_cast<uaddr>(this->get_array_entry(0));
     if (is_guild_card_receive_active() != 0) {
         if (entry7 != 0U) {
-            ((TWindowSubStatusDisp *)entry7)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry7)->show();
         }
         if (entry6 != 0U) {
-            ((TWindowSubStatusDisp *)entry6)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry6)->show();
         }
     } else {
         if (entry7 != 0U) {
-            ((TWindowHelpItem *)entry7)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry7)->hide();
         }
         if (entry6 != 0U) {
-            ((TWindowHelpItem *)entry6)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry6)->hide();
         }
     }
     if (is_com_card_active() != 0) {
         if (entry5 != 0U) {
-            ((TWindowSubStatusDisp *)entry5)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry5)->show();
         }
         if (entry4 != 0U) {
-            ((TWindowSubStatusDisp *)entry4)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry4)->show();
         }
     } else {
         if (entry5 != 0U) {
-            ((TWindowHelpItem *)entry5)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry5)->hide();
         }
         if (entry4 != 0U) {
-            ((TWindowHelpItem *)entry4)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry4)->hide();
         }
     }
     if (TWindowSubShortMail::is_active() != 0) {
         if (entry3 != 0U) {
-            ((TWindowSubStatusDisp *)entry3)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry3)->show();
         }
         if (entry2 != 0U) {
-            ((TWindowSubStatusDisp *)entry2)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry2)->show();
         }
     } else {
         if (entry3 != 0U) {
-            ((TWindowHelpItem *)entry3)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry3)->hide();
         }
         if (entry2 != 0U) {
-            ((TWindowHelpItem *)entry2)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry2)->hide();
         }
     }
     if (is_trade_active() != 0) {
         if (entry1 != 0U) {
-            ((TWindowSubStatusDisp *)entry1)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry1)->show();
         }
         if (entry0 != 0U) {
-            ((TWindowSubStatusDisp *)entry0)->clear_visible_flag();
+            ((TWindowLayoutEntry *)entry0)->show();
         }
     } else {
         if (entry1 != 0U) {
-            ((TWindowHelpItem *)entry1)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry1)->hide();
         }
         if (entry0 != 0U) {
-            ((TWindowHelpItem *)entry0)->set_flag0_bit2();
+            ((TWindowLayoutEntry *)entry0)->hide();
         }
     }
 }

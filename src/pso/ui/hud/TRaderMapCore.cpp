@@ -1,3 +1,4 @@
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/memory.h"
@@ -163,7 +164,6 @@ s16 *TRaderMapCore::floor_discovery_table[18];
 
 
 struct RadarSceneEntry { s32 a; char *name; };
-extern s32 memcard_access_active;
 
 
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
@@ -223,11 +223,11 @@ void TRaderMapCore::load_map_resources() {
     area = get_current_floor_area();
     status = TScene::get_status();
     e = (RadarSceneEntry *)get_floor_scene_table(area);
-    TLobby::replace_file_extension((char *)buf, (char *)e[status].name, (char *)"r.rel");
+    TLobby::replace_file_extension(buf, (char *)e[status].name, (char *)"r.rel");
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore::floor_map_resource != NULL && RADAR_REGION_MAP->textures != 0) {
-        TLobby::replace_file_extension((char *)buf, (char *)e[status].name, "r");
-        bind_gvm_texture_list((const char *)buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
+        TLobby::replace_file_extension(buf, (char *)e[status].name, "r");
+        bind_gvm_texture_list(buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
     }
     copy_name("..");
     memcard_access_active = 0;

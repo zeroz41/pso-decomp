@@ -67,7 +67,7 @@ void TBoss2Fin::render() {
             pop_matrix();
         }
     }
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
 }
 
 void TBoss2Fin::run_task() {

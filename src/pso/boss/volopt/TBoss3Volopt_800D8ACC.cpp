@@ -143,7 +143,7 @@ void play_appear_effects(saddr position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), sound_position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi(position);
+    spawn_particles_at(position);
 }
 
 void play_area_sound_effect(Vec *position) {
@@ -169,11 +169,11 @@ void play_area_sound_effect(Vec *position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi((saddr)position);
+    spawn_particles_at((saddr)position);
 }
 extern "C" {
 
-void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
+void spawn_particles_at(saddr position) {
     Vec pos;
     VecCopy(&pos, (const Vec *)position);
     create_timed_particle_emitter((void *)position, 0xEA, 0xA, 0x1E);

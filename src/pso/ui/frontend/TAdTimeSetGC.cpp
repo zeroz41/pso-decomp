@@ -855,7 +855,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     } else {
         menu_window->set_selected_index(sel);
     }
-    ((TWindowOptionCtrl *)menu_window)->clear_flag70_bit4();
+    menu_window->clear_cancelled();
 }
 
 void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {

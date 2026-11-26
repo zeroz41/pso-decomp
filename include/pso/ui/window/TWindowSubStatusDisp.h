@@ -56,7 +56,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_update();
     void dispatch_page_init();
     void set_count_ratio_text(s32 count, s32 total);
-    void clear_visible_flag();
     static s32 destroy_allocation(s32 allocation, s16 flags);
 
     static void *get_message_10(s32 index);

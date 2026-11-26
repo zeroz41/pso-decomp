@@ -73,8 +73,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u8 *get_global_state();
     static int get_state();
     static void free_resources();
-    static void set_slot(int a0);
-    static u16 get_char_select_slot();
+    static void set_active_disconnect_count(int a0);
+    static u16 get_active_disconnect_count();
     static void destroy();
     static s32 create_if_key_pressed();
     static int get_game_mode();

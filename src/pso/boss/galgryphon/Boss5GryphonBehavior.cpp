@@ -3641,7 +3641,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
     pop_matrix();
     set_chunk_material_override_pair(0xFF00, 0);
     set_material_alpha_compare_reference(0xBF);
@@ -3808,7 +3808,7 @@ void TBoss5Gryphon::render_demo() {
             }
         }
         draw_model_motion(this->model, anim, frame);
-        current_scene_light->sub_801337F8();
+        current_scene_light->debug_scene_light_hook();
         pop_matrix();
     }
 }

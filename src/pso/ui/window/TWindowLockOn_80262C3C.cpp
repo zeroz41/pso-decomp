@@ -254,7 +254,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     w = (LockOnEntry *)get_array_entry(1);
     id = player->get_entity_id();
     ((TWindowLockOn *)w)->update_for_player_index(id);
-    ((TWindowHelpItem *)w)->reset_float_field();
+    ((WindowTextEntry *)w)->reveal_all();
     measure_message_text_width_default(w);
     target_size[0] = 34.0f + w->w;
     target_size[1] = 49.0f;
@@ -315,11 +315,11 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     refresh = &TWindowLockOn::refresh_enemy_statuses;
     e = reinterpret_cast<saddr>(get_array_entry(1));
     TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
-    ((TWindowHelpItem *)e)->reset_float_field();
+    ((WindowTextEntry *)e)->reveal_all();
     width = calc_text_width(((WindowTextEntry *)e)->get_text());
     e = reinterpret_cast<saddr>(get_array_entry(0));
     TWindowDuelResult::set_default_status((void *)e, enemy_name_for_rt_index(((TWindowLockOn *)enemy)->get_target_id()));
-    ((TWindowHelpItem *)e)->reset_float_field();
+    ((WindowTextEntry *)e)->reveal_all();
     target_size[0] = (f32)calc_text_width(((WindowTextEntry *)e)->get_text());
     target_size[1] = 64.0f;
     if (is_split_screen() == 0) {
@@ -340,7 +340,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     }
     e = reinterpret_cast<saddr>(get_array_entry(2));
     TWindowDuelResult::set_default_status((void *)e, (saddr)type_names[kind]);
-    ((TWindowHelpItem *)e)->reset_float_field();
+    ((WindowTextEntry *)e)->reveal_all();
     ((LockOnEntryText *)e)->y = 10.0f + (f32)width;
     ((LockOnEntryColor *)e)->color = type_colors[kind];
     w2 = calc_text_width(((WindowTextEntry *)e)->get_text());
@@ -390,13 +390,13 @@ void TWindowLockOn::refresh_enemy_statuses() {
         g = (LockOnGauge *)get_array_entry(7);
         g->cur = ((TObjChara *)enemy)->get_hpmax();
         g->max = enemy->hp_max;
-        ((TWindowHelpItem *)g)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)g)->hide();
     }
     {
         g = (LockOnGauge *)get_array_entry(8);
         g->cur = ((TObjChara *)enemy)->get_tpmax();
         g->max = enemy->tp_max;
-        ((TWindowHelpItem *)g)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)g)->hide();
     }
 }
 

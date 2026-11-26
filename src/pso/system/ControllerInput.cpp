@@ -87,7 +87,7 @@ s32 TKeyBoardControl::check_and_read(s32 key) {
 
 s32 TKeyBoardControl::read_input(u8 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return update_state_from_input__16TKeyBoardControlFPv(key);
+        return update_state_from_input(key);
     }
     return 0;
 }
@@ -104,7 +104,7 @@ s32 TKeyBoardControl::is_key_down(s32 key) {
     return 0;
 }
 
-s32 update_state_from_input__16TKeyBoardControlFPv(u8 key) {
+s32 update_state_from_input(u8 key) {
     return hardware_keyboard_state.is_key_pressed(key);
 }
 

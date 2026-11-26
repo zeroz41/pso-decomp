@@ -6,7 +6,7 @@
 void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination) {
     s32 i;
     for (i = 0; i < count; i++) {
-        fn_801C1BA8(destination++, source++);
+        copy_inventory_item(destination++, source++);
     }
 }
 

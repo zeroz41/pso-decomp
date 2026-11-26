@@ -37,17 +37,17 @@ void TAdMcSelectCursorGC::render() {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
-        goto block_5;
-    }
-    if ((s32)this->defer_render() == 0) {
-        set_depth_buffer_settings_2();
-block_5:
-        set_additive_blend();
-        render_cursor();
-        set_default_alpha_blend();
-        if ((s32) this->render_direct == 0) {
-            restore_saved_depth_alpha_state();
+    } else {
+        if ((s32)this->defer_render() != 0) {
+            return;
         }
+        set_depth_buffer_settings_2();
+    }
+    set_additive_blend();
+    render_cursor();
+    set_default_alpha_blend();
+    if ((s32) this->render_direct == 0) {
+        restore_saved_depth_alpha_state();
     }
 }
 

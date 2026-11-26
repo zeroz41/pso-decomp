@@ -505,7 +505,7 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
         add_gray_text_entry(list, (const char *)(get_card_window_area()), 0, 0);
     }
     list->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)list);
+    TQuestThread::set_status_flag_80(list);
     list->set_scroll_target(206.0f, 140.0f);
     return list;
 }
@@ -570,7 +570,7 @@ void TWindowSubShortMail::close() {
 
     src = (saddr)this->keyboard->realloc_buffer();
     TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
-    TLobby::send_simple_mail(this->target_card_id, (void *)(get_shared_text_buffer()));
+    TLobby::send_simple_mail(this->target_card_id, (get_shared_text_buffer()));
     mem_free((void *)src);
     short_mail_ctrl = TLobby::get_short_mail_ctrl();
     for (i = 0; i < short_mail_ctrl; i += 1) {

@@ -54,19 +54,19 @@ void TAdChrSelSlotGC::render() {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
-        goto block_5;
-    }
-    if ((s32)this->defer_render() == 0) {
-        set_depth_buffer_settings_2();
-block_5:
-        set_color_blending_mode(0, 8);
-        set_color_blending_mode(1, 0xA);
-        draw_slot_icons();
-        set_color_blending_mode(0, 8);
-        set_color_blending_mode(1, 6);
-        if ((s32) this->enabled == 0) {
-            restore_saved_depth_alpha_state();
+    } else {
+        if ((s32)this->defer_render() != 0) {
+            return;
         }
+        set_depth_buffer_settings_2();
+    }
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 0xA);
+    draw_slot_icons();
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 6);
+    if ((s32) this->enabled == 0) {
+        restore_saved_depth_alpha_state();
     }
 }
 

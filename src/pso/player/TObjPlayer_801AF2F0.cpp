@@ -165,11 +165,11 @@ s8 clamp_class_index(s8 cls);
 }
 void handle_6x8E(void);
 extern "C" {
-void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage);
+void record_damage_stats(uaddr mine_trap, u32 att, s16 damage);
 void draw_player_status(saddr window, void *player, saddr str);
 void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
-void TLobby__sub_801B09A4(void);
+void recreate_all_players(void);
 
 }
 void handle_6x34(void);
@@ -5037,7 +5037,7 @@ s32 TObjPlayer::check_switch_available(s32 item_id) {
     return 1;
 }
 
-void TLobby__sub_801B09A4(void) {
+void recreate_all_players(void) {
     TObjPlayer *players[12];
     s32 i;
     TObjPlayer *p;
@@ -5213,7 +5213,7 @@ s32 TObjPlayer::record_death(TObject *killer, s32 count) {
     return accumulate_damage_stats(&battle_score.deaths, killer, count);
 }
 
-void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage) {
+void record_damage_stats(uaddr mine_trap, u32 att, s16 damage) {
   G_AddBattleDamageScores_6x8F pkt;
   u32 player;
   uaddr obj;

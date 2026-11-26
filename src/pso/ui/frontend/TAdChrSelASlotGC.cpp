@@ -51,7 +51,7 @@ static const CharacterSlotPosition chr_sel_b_slot_message_pos = { 431.0f, 182.0f
 const char *TAdChrSelASlotGC::name = "TAdChrSelASlotGC";
 
 
-TAdChrSelASlotGC *TAdChrSel__global_slot_data;
+TAdChrSelASlotGC *chr_sel_a_slot_instance;
 extern PlayerSlotLabel chr_select_a_slot_entry;
 extern char char_select_format_message_buffer[];
 
@@ -796,8 +796,8 @@ TAdChrSelASlotGC::~TAdChrSelASlotGC() {
         this->wait_message[10]->queue_destruction();
         this->wait_message[10] = NULL;
     }
-    if (TAdChrSel__global_slot_data != NULL) {
-        TAdChrSel__global_slot_data = NULL;
+    if (chr_sel_a_slot_instance != NULL) {
+        chr_sel_a_slot_instance = NULL;
     }
 }
 TAdChrSelASlotGC::TAdChrSelASlotGC(TObject *parent, s32 mode) : TObject(parent) {
@@ -807,11 +807,11 @@ TAdChrSelASlotGC::TAdChrSelASlotGC(TObject *parent, s32 mode) : TObject(parent) 
 }
 
 TAdChrSelASlotGC *TAdMultiPlyChrSelectGC::get_or_create_slot_window(TObject *parent, s32 mode) {
-    if (TAdChrSel__global_slot_data != NULL) {
-        return TAdChrSel__global_slot_data;
+    if (chr_sel_a_slot_instance != NULL) {
+        return chr_sel_a_slot_instance;
     }
     TAdChrSelASlotGC *slot = new TAdChrSelASlotGC(parent, mode);
-    TAdChrSel__global_slot_data = slot;
+    chr_sel_a_slot_instance = slot;
     return slot;
 }
 

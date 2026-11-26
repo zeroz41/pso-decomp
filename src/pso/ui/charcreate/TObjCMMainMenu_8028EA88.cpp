@@ -66,7 +66,7 @@ void init_creation_menu_scene(void) {
             TObjCMMainMenu__sub_8028EC18();
             select_char_menu();
             TObjCMMainMenu__sub_8028D9F8();
-            TCharaMaking::create(tl_03, (void *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            TCharaMaking::create(tl_03, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             create_fade_effect((void *)0xF, (void *)1);
         }
     }

@@ -272,7 +272,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
 
 extern "C" {
 
-s32 TObjPlayer__sub_801D8664(s32, s16, s16);
+s32 trade_item_by_group_kind(s32, s16, s16);
 s32 TObjPlayer__sub_801D84F0(void* p);
 
 // `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
@@ -300,7 +300,7 @@ void TObjPlayer::set_animation_from_data(saddr player, s32 picture) {
     void *anim_table_entry;
 
     anim_table_entry = (void *)((TObjPlayer *)player)->get_anim_table_entry(picture);
-    TObjPlayer__sub_801D8664(player, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
+    trade_item_by_group_kind(player, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
     ((TObjEndingPlayer *)player)->set_animation_default(picture);
 }
 

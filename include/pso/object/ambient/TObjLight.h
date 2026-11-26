@@ -30,7 +30,7 @@ struct TObjLight : public TObjBase {
     static PointLight *alloc_light_slot();
     void sub_8013379C(TObjLightSceneLightState *state);
     void init_directional_light();
-    void sub_801337F8();
+    void debug_scene_light_hook();
     static void free_shared_data();
     static void apply_distant_light();
     static void find_light_params(f32 *dir, f32 *color, u32 id);

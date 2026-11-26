@@ -52,7 +52,7 @@ void TMessageWindowController::append_quest_title() {
         switch (mode) {
         case 1:
         case 2:
-            text = get_selected_quest_text__19TQuestListChallengeFv();
+            text = get_selected_quest_text();
             break;
         }
     } else {

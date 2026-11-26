@@ -272,7 +272,7 @@ extern "C" {
 u32 adxt_resync_enabled = 1;
 }
 
-inline void get_play_position_803C97F4(AdxtPlayer *p, s32 *pos, s32 *rate) {
+inline void compute_play_position(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 st = p->stat;
     if (st == 3 || st == 4) {
         s32 total;
@@ -297,7 +297,7 @@ void adxt_get_play_position(AdxtPlayer *p, s32 *pos, s32 *rate) {
     s32 st;
 
     if (adxt_rate_mode == 0) {
-        get_play_position_803C97F4(p, pos, rate);
+        compute_play_position(p, pos, rate);
         return;
     }
     adxt_sync_drift_ms = 0.0f;
@@ -308,7 +308,7 @@ void adxt_get_play_position(AdxtPlayer *p, s32 *pos, s32 *rate) {
         } else {
             *pos = p->base_time;
         }
-        get_play_position_803C97F4(p, &cur_pos, &cur_rate);
+        compute_play_position(p, &cur_pos, &cur_rate);
         adxt_sync_drift_ms = 1000.0f * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)adxt_time_rate);
         if (adxt_sync_drift_ms > 60.0f || adxt_sync_drift_ms < -60.0f) {
             if (adxt_resync_enabled == 1) {

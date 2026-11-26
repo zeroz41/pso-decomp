@@ -299,24 +299,24 @@ void TWindowLockOn::update_for_player_index(s32 id) {
 
     player = get_player_by_client_id(id);
     if (player == NULL) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
     status_block = (u8 *)player->name;
     if (status_block == NULL) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
     str = (saddr)player->get_name();
     if (str == 0) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
     if (player->is_inactive() == 0) {
-        ((TWindowHelpItem *)(this))->set_flag0_bit2();
+        ((TWindowLayoutEntry *)(this))->hide();
         return;
     }
-    ((TWindowSubStatusDisp *)(this))->clear_visible_flag();
+    ((TWindowLayoutEntry *)(this))->show();
     if ((((WindowTextEntry *)(this))->get_text() == 0U) || (strcmp((const char *)((WindowTextEntry *)(this))->get_text(), (const char *)str) != 0)) {
         set_text_entry_string(((WindowTextEntry *)this), str, 0x20);
     }

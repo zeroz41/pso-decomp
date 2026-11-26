@@ -23,8 +23,8 @@ s32 TWindowSubStatusDisp__sub_800FC248(u8);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
 
-void TWindowHelpItem::reset_float_field() {
-    *(f32 *)&this->sort_depth = (f32) (9e+05f);
+void WindowTextEntry::reveal_all() {
+    reveal_pos = 9e+05f;
 }
 
 extern const u32 lbl_805DCFAC = 0x00000000;

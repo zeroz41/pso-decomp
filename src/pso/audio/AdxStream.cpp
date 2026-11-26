@@ -16,7 +16,7 @@
 #include "pso/system/CvFs.h"
 
 extern "C" {
-s32 lbl_805D7550;
+s32 adx_stream_request_base;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
 }
@@ -199,7 +199,7 @@ void stop_adx_stream(AdxStreamFile *file) {
     adx_unlock();
 }
 
-static inline s32 get_pos_803C8A14(AdxStreamFile *s) {
+static inline s32 get_stream_position_b(AdxStreamFile *s) {
     if (s->handle != 0) {
         return cvFsTell(s->handle) - s->base_offset;
     }
@@ -213,7 +213,7 @@ s32 init_adx_stream_position(AdxStreamFile *file) {
     } else {
         file->stat = 2;
         file->field34 = 0;
-        file->start_position = get_pos_803C8A14(file);
+        file->start_position = get_stream_position_b(file);
         file->retry = 0;
     }
     return 1;
@@ -258,7 +258,7 @@ inline AdxStreamFile *alloc_803C8BAC(s32 arg, CvFsHandle *h, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
-        p = &adx_stream_read_requests[lbl_805D7550 + i];
+        p = &adx_stream_read_requests[adx_stream_request_base + i];
         if (p->used == 0) {
             break;
         }
@@ -346,7 +346,7 @@ inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 base_offset, 
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
-        p = &adx_stream_read_requests[lbl_805D7550 + i];
+        p = &adx_stream_read_requests[adx_stream_request_base + i];
         if (p->used == 0) {
             break;
         }

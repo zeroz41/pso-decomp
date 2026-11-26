@@ -664,12 +664,13 @@ void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points) {
 }
 
 void TObjEneDD::set_part_position(void *actor, void *v, int i) {
+    TObjCollidable *collidable = (TObjCollidable *)actor;
     Vec *p;
-    VecCopy(&((TObjCollidable *)actor)->bodies[i].offset, (const Vec *)v);
-    p = &((TObjCollidable *)actor)->bodies[i].center;
+    VecCopy(&collidable->bodies[i].offset, (const Vec *)v);
+    p = &collidable->bodies[i].center;
     VecCopy(p, (const Vec *)v);
-    rotate_xz_pair_by_angle(&p->x, &p->z, ((TObjCollidable *)actor)->rotation_y);
-    vec3_add_to(p, &((TObjCollidable *)actor)->position);
+    rotate_xz_pair_by_angle(&p->x, &p->z, collidable->rotation_y);
+    vec3_add_to(p, &collidable->position);
 }
 
 void TObjEneDD::transform_part_positions() {
@@ -1023,7 +1024,7 @@ s32 TObjEneDD::clamp_frame_index(s32 frame) {
 
 void TObjEneDD__sub_800B9B24(f32) {}
 
-void TObjEneDD::init_lights() { current_scene_light->sub_801337F8(); TObjLight__sub_801337FC(lbl_805D555C); }
+void TObjEneDD::init_lights() { current_scene_light->debug_scene_light_hook(); TObjLight__sub_801337FC(lbl_805D555C); }
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {

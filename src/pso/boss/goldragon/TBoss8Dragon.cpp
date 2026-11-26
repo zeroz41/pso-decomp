@@ -4692,7 +4692,7 @@ void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
         this->TObjMotion::draw();
         init_tev_swap();
         TParticleCtrl::end_effect_render();
-        current_scene_light->sub_801337F8();
+        current_scene_light->debug_scene_light_hook();
         pop_matrix();
         set_chunk_material_override_pair(0xFF00, 0);
         set_material_alpha_compare_reference(0xBF);
@@ -4792,7 +4792,7 @@ void TBoss8Dragon::draw_motion_model() {
         set_motion_packed_rotation();
         draw_model_motion(this->model, anim, f);
         clear_motion_packed_rotation();
-        current_scene_light->sub_801337F8();
+        current_scene_light->debug_scene_light_hook();
         pop_matrix();
     }
 }

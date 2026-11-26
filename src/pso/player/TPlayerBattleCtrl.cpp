@@ -134,13 +134,13 @@ struct UpdateBattleIntroName { char s[16]; };
 
 
 extern "C" {
-void TLobby__sub_801B09A4(void);
+void recreate_all_players(void);
 
 
 void request_active_window_close(void);
 void __destroy_new_array(void *, void *);
-void TAdSinglePlyChrSelectGC__sub_801C5120(void);
-void TAdSinglePlyChrSelectGC__sub_801C5158(void);
+void clear_duel_result_window(void);
+void clear_battle_proximity_sound(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void __ct__19PlayerCharDataEntryFv(void);
@@ -151,7 +151,7 @@ void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
 }
 
 extern "C" {
-s32 fn_801D6D8C(void *, int, int);
+s32 set_rule_slot_clamped(void *, int, int);
 }
 
 extern s32 battle_intro_value_table[];
@@ -161,14 +161,14 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 extern "C" {
 
 
-void TAdSinglePlyChrSelectGC__sub_801C50C0(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C50CC();
-void TAdSinglePlyChrSelectGC__sub_801C50D8(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C50E4();
-void TAdSinglePlyChrSelectGC__sub_801C50F0(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
-void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C5114();
+void set_active_fourth_place_count(u16);
+u16 get_active_fourth_place_count();
+void set_active_third_place_count(u16);
+u16 get_active_third_place_count();
+void set_active_second_place_count(u16);
+u16 get_active_second_place_count();
+void set_active_first_place_count(u16);
+u16 get_active_first_place_count();
 }
 
 
@@ -654,7 +654,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
         lobby_rule_settings.set_meseta_mode(CFG->rules[0xB]);
         lobby_rule_settings.set_death_level_up(CFG->value_c);
         for (s32 i = 0; i < 4; i++) {
-            fn_801D6D8C(&lobby_rule_settings, CFG->slot_rules[i], i);
+            set_rule_slot_clamped(&lobby_rule_settings, CFG->slot_rules[i], i);
         }
         lobby_rule_settings.set_enable_sonar(CFG->rule_d);
         lobby_rule_settings.set_sonar_count(CFG->level);
@@ -757,8 +757,8 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
             idx = 5;
         } else {
             idx = 4;
-            s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-            TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
+            s = TAdSinglePlyChrSelectGC::get_active_disconnect_count() - 1;
+            TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16)(s > 0 ? s : 0));
         }
         BattleIntroWindowSize p = {238.0f, 188.0f};
         window_4c = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
@@ -782,10 +782,10 @@ void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
     lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
-    TAdSinglePlyChrSelectGC__sub_801C5158();
+    clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
-    TAdSinglePlyChrSelectGC__sub_801C5120();
+    clear_duel_result_window();
 }
 
 void free_char_slots(void) {
@@ -841,7 +841,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
     }
 }
 
-void init_and_set_flag(void) { TLobby__sub_801B09A4(); advance_item_system_generation(); battle_fadeout_done = 1; }
+void init_and_set_flag(void) { recreate_all_players(); advance_item_system_generation(); battle_fadeout_done = 1; }
 
 void restart_battle_after_fade(void) {
     if ((void *) battle_mode_data_ptr != NULL) {
@@ -992,40 +992,40 @@ void record_local_battle_placement(void *arg0) {
         switch (slot) {
         case 0:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C5114();
+                u16 c = get_active_first_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C5108(m);
+                set_active_first_place_count(m);
             }
             break;
         case 1:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C50FC();
+                u16 c = get_active_second_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C50F0(m);
+                set_active_second_place_count(m);
             }
             break;
         case 2:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C50E4();
+                u16 c = get_active_third_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C50D8(m);
+                set_active_third_place_count(m);
             }
             break;
         case 3:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C50CC();
+                u16 c = get_active_fourth_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C50C0(m);
+                set_active_fourth_place_count(m);
             }
             break;
         }
     }
-    s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-    TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
+    s = TAdSinglePlyChrSelectGC::get_active_disconnect_count() - 1;
+    TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16)(s > 0 ? s : 0));
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
@@ -1070,14 +1070,14 @@ void TPlayerBattleCtrl::init_battle_round() {
   TWindowCtrl::create_alt_timer();
   TWindowCtrl::set_timer_window_time(time_limit);
   TOMineTrap::destroy_matching_traps();
-  char_select_slot = TAdSinglePlyChrSelectGC::get_char_select_slot();
+  char_select_slot = TAdSinglePlyChrSelectGC::get_active_disconnect_count();
   char_select_slot = char_select_slot + 1;
   clamped_slot = 0xFFFF;
   if (char_select_slot < clamped_slot)
   {
     clamped_slot = char_select_slot;
   }
-  TAdSinglePlyChrSelectGC::set_slot((u16) clamped_slot);
+  TAdSinglePlyChrSelectGC::set_active_disconnect_count((u16) clamped_slot);
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);

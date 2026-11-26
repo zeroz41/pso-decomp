@@ -686,8 +686,8 @@ void TWindowSubStatusDisp::vt7() {
     set_text_entry_string(label, get_localized_text_entry(0x10, 8), 0);
     label = (WindowTextEntry *)get_array_entry(0xA);
     set_text_entry_string(label, get_localized_text_entry(0x10, 9), 0);
-    ((TWindowHelpItem *)((void *)get_array_entry(0xD)))->set_flag0_bit2();
-    ((TWindowHelpItem *)((void *)get_array_entry(0xE)))->set_flag0_bit2();
+    ((TWindowLayoutEntry *)get_array_entry(0xD))->hide();
+    ((TWindowLayoutEntry *)get_array_entry(0xE))->hide();
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
     number->value = (s32)TAdSinglePlyChrSelectGC::get_split_first_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
@@ -696,7 +696,7 @@ void TWindowSubStatusDisp::vt7() {
     number->value = (s32)TAdSinglePlyChrSelectGC::get_split_third_place_count((u16) this->client_index);
     number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
     number->value = (s32)TAdSinglePlyChrSelectGC::get_split_fourth_place_count((u16) this->client_index);
-    ((TWindowHelpItem *)((void *)get_array_entry(0xF)))->set_flag0_bit2();
+    ((TWindowLayoutEntry *)get_array_entry(0xF))->hide();
 }
 
 void TWindowSubStatusDisp::vt18() {  }

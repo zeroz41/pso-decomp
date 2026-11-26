@@ -4,16 +4,16 @@
 #include "types.h"
 
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_801C50C0(int value);
-u16 TAdSinglePlyChrSelectGC__sub_801C50CC(void);
-void TAdSinglePlyChrSelectGC__sub_801C50D8(int value);
-u16 TAdSinglePlyChrSelectGC__sub_801C50E4(void);
-void TAdSinglePlyChrSelectGC__sub_801C50F0(int value);
-u16 TAdSinglePlyChrSelectGC__sub_801C50FC(void);
-void TAdSinglePlyChrSelectGC__sub_801C5108(int value);
-u16 TAdSinglePlyChrSelectGC__sub_801C5114(void);
-void TAdSinglePlyChrSelectGC__sub_801C5120(void);
-void TAdSinglePlyChrSelectGC__sub_801C5158(void);
+void set_active_fourth_place_count(int value);
+u16 get_active_fourth_place_count(void);
+void set_active_third_place_count(int value);
+u16 get_active_third_place_count(void);
+void set_active_second_place_count(int value);
+u16 get_active_second_place_count(void);
+void set_active_first_place_count(int value);
+u16 get_active_first_place_count(void);
+void clear_duel_result_window(void);
+void clear_battle_proximity_sound(void);
 }
 
 #endif

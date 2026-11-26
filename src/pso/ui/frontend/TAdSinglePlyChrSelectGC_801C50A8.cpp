@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TBattleProximitySound.h"
 #include "pso/system/task/TObject.h"
@@ -15,33 +16,33 @@
 
     extern int duel_result_window;
 TObject *ad_single_ply_chr_select_instance;
-void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }
-u16 TAdSinglePlyChrSelectGC::get_char_select_slot() {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21B0);
+void TAdSinglePlyChrSelectGC::set_active_disconnect_count(int a0) { active_character_save_record->online_battle.disconnect_count = a0; }
+u16 TAdSinglePlyChrSelectGC::get_active_disconnect_count() {
+    return active_character_save_record->online_battle.disconnect_count;
 }
-void TAdSinglePlyChrSelectGC__sub_801C50C0(int value) { *(short*)((char*)active_character_save_record + 0x21ae) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C50CC(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21AE);
+void set_active_fourth_place_count(int value) { active_character_save_record->online_battle.place_counts[3] = value; }
+u16 get_active_fourth_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[3];
 }
-void TAdSinglePlyChrSelectGC__sub_801C50D8(int value) { *(short*)((char*)active_character_save_record + 0x21ac) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C50E4(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21AC);
+void set_active_third_place_count(int value) { active_character_save_record->online_battle.place_counts[2] = value; }
+u16 get_active_third_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[2];
 }
-void TAdSinglePlyChrSelectGC__sub_801C50F0(int value) { *(short*)((char*)active_character_save_record + 0x21aa) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C50FC(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21AA);
+void set_active_second_place_count(int value) { active_character_save_record->online_battle.place_counts[1] = value; }
+u16 get_active_second_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[1];
 }
-void TAdSinglePlyChrSelectGC__sub_801C5108(int value) { *(short*)((char*)active_character_save_record + 0x21a8) = value; }
-u16 TAdSinglePlyChrSelectGC__sub_801C5114(void) {
-    return *(u16 *)((s8 *)(*(u8 * *)&active_character_save_record) + 0x21A8);
+void set_active_first_place_count(int value) { active_character_save_record->online_battle.place_counts[0] = value; }
+u16 get_active_first_place_count(void) {
+    return active_character_save_record->online_battle.place_counts[0];
 }
-void TAdSinglePlyChrSelectGC__sub_801C5120(void) { duel_result_window = 0; }
+void clear_duel_result_window(void) { duel_result_window = 0; }
 void TAdSinglePlyChrSelectGC::destroy() {
     if (ad_single_ply_chr_select_instance != NULL) {
         ad_single_ply_chr_select_instance->queue_destruction();
     }
 }
-void TAdSinglePlyChrSelectGC__sub_801C5158(void) { ad_single_ply_chr_select_instance = NULL; }
+void clear_battle_proximity_sound(void) { ad_single_ply_chr_select_instance = NULL; }
 s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
     s32 area;
     area = get_current_floor_area();

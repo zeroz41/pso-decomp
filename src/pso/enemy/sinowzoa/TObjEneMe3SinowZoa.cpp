@@ -1934,15 +1934,15 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
     }
 }
 
-inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
+inline s32 approach_destination(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid(self, self->body_center);
     self->body_center.y += 5.0f;
     return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }
-inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
+inline s32 seek_destination(TObjEneMe3SinowZoa *self, Vec *diff) {
     s32 angle;
     if (select_enemy_destination(self, self->destination, 1) != 0) {
-        angle = approach_80316C3C(self);
+        angle = approach_destination(self);
         enemy_set_heading_velocity(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->speed, self, self->rotation_y);
         move_with_wall_slide(self);
     } else {
@@ -1982,7 +1982,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 this->transition_enemy_state(6);
                 break;
             }
-            angle = seek_80316C3C(this, &diff);
+            angle = seek_destination(this, &diff);
             if (angle < 0x100) {
                 if (this->stealthed != 0) {
                     this->fade.set_rate(0.05f);

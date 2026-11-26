@@ -257,7 +257,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = TWindowSubComCard::create_com_card_window(get_window_layout_position(0x81));
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->sub_8027353C();
+            this->com_card_menu = this->create_send_action_menu();
         }
         this->com_card_menu->clear_flag_and_release();
         this->com_card_menu->clear_transition_flag();
@@ -532,7 +532,7 @@ void TWindowSubComCard::run_task() {
             this->user_sort_window->close();
             this->user_sort_window = NULL;
         }
-        this->sub_menu = this->sub_80273004();
+        this->sub_menu = this->create_result_list_menu();
         this->sub_menu->add_text_entry((saddr)(""), 0x15, -1);
         rebuild_com_card_list(this->sub_menu);
         this->state = 0x1EU;
@@ -560,7 +560,7 @@ void TWindowSubComCard::run_task() {
             this->user_sort_window = new TWindowUserSort((saddr)get_window_layout_position(0x8A), record);
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->sub_8027346C();
+            this->com_card_menu = this->create_contact_menu();
         }
         this->state = 0x20U;
     case 0x20:
@@ -834,7 +834,7 @@ void TWindowSubComCard::run_task() {
             this->card_list = 0U;
         }
         if (this->com_card_menu == 0U) {
-            this->com_card_menu = this->sub_802728CC();
+            this->com_card_menu = this->create_block_sender_menu();
         }
         this->com_card_menu->clear_flag_and_release();
         this->state = 0x3AU;
@@ -887,7 +887,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = NULL;
         }
         if (this->confirm_window == NULL) {
-            this->confirm_window = this->sub_802730E0();
+            this->confirm_window = this->create_delete_entry_prompt();
         }
         this->state = 0x3EU;
     case 0x3E:
@@ -1105,7 +1105,7 @@ TWindowMenu *TWindowSubComCard::create_menu() {
     return list;
 }
 
-TWindowMenu *TWindowSubComCard::sub_8027353C() {
+TWindowMenu *TWindowSubComCard::create_send_action_menu() {
     TWindowMenu *menu;
     saddr temp_r31_2;
     menu = create_titled_window_menu_default(get_window_layout_position(0x82), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1E));
@@ -1117,7 +1117,7 @@ TWindowMenu *TWindowSubComCard::sub_8027353C() {
     return menu;
 }
 
-TWindowMenu *TWindowSubComCard::sub_8027346C() {
+TWindowMenu *TWindowSubComCard::create_contact_menu() {
   TWindowMenu *list;
   list = create_titled_window_menu_default(get_window_layout_position(0x8B), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 0x21);
@@ -1196,7 +1196,7 @@ TWindowMessageYesNo *TWindowSubComCard::confirm_and_free() {
     return dialog;
 }
 
-TWindowMessageYesNo *TWindowSubComCard::sub_802730E0() {
+TWindowMessageYesNo *TWindowSubComCard::create_delete_entry_prompt() {
     TWindowMessageYesNo *window;
     window = TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
     window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0xFC)), get_window_layout_position(0x96), 213.0f);
@@ -1215,7 +1215,7 @@ TWindowMessageYesNo *TWindowSubComCard::open_yesno_dialog() {
     return dialog;
 }
 
-TWindowMenu *TWindowSubComCard::sub_80273004() {
+TWindowMenu *TWindowSubComCard::create_result_list_menu() {
     TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x89), 8, (saddr)TWindowSubStatusDisp::get_message_10(0x21));
     r->set_flag70_bit10();
     return r;
@@ -1402,7 +1402,7 @@ TWindowMenu *TWindowSubComCard::create_menu_window() {
   return list;
 }
 
-TWindowMenu *TWindowSubComCard::sub_802728CC() {
+TWindowMenu *TWindowSubComCard::create_block_sender_menu() {
     TWindowMenu *w;
     w = create_titled_window_menu_default(get_window_layout_position(0x90), 2, (saddr)TWindowSubStatusDisp::get_message_10(0xF8));
     w->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xFA)), 6, 0x3B);

@@ -25,7 +25,7 @@ void TItemWeaponSRankShot::transform_model_node() {
 
 void TItemWeaponSRankShot::emit_marker_effects() {
     WeaponVector pos;
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     get_joint_position(7, &pos);
     spawn_particle_effect((const Vec *)&pos, 9);
     launch_shot((u8 *)&pos, 0, s_rank_shot_marker_offsets[0], 1);

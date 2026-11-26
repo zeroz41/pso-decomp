@@ -791,10 +791,10 @@ s32 copy_equipped_weapon_and_mag(s32 count, const TPlyInventoryItem *source, TPl
     for (s32 i = 0; i < count; i++) {
         if (source->m_flags & 8) {
             if (source->m_data.data1.data_u8[0] == 0) {
-                fn_801C1BA8(slots, source);
+                copy_inventory_item(slots, source);
             }
             if (source->m_data.data1.data_u8[0] == 2) {
-                fn_801C1BA8(slots + 1, source);
+                copy_inventory_item(slots + 1, source);
             }
         }
         source++;

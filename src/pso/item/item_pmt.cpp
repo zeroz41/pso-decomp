@@ -205,7 +205,7 @@ ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     return item_pmt_tbl->stat_boosts;
 }
 
-s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
+s32 get_unit_attribute_index(u8 flags) {
     if ((flags & 0x3F) && !(flags & 0x80)) {
         return get_item_star_count(flags + 0x1CB);
     }
@@ -363,7 +363,7 @@ u8 roll_weapon_special_for_stars(u8 stars) {
         c = 0;
         i = 1;
         do {
-            if (key == ((u8 (*)(u8))get_unit_attribute_index__10TObjPlayerFUc)((u8)i)) {
+            if (key == ((u8 (*)(u8))get_unit_attribute_index)((u8)i)) {
                 if (c == n) {
                     result = (u8)i;
                     break;

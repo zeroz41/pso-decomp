@@ -182,13 +182,9 @@ s32 get_network_adapter_type(s32 *out_type) {
     s32 adapter_type;
     if (cached_adapter_type == 2U) {
         *out_type = 2;
-        goto block_18;
-    }
-    if (cached_adapter_type == 5U) {
+    } else if (cached_adapter_type == 5U) {
         *out_type = 5;
-        goto block_18;
-    }
-    if (EXIGetType(0, 2, &adapter_type) != 0) {
+    } else if (EXIGetType(0, 2, &adapter_type) != 0) {
         switch (adapter_type) {
         case -1:
             *out_type = 0;
@@ -212,7 +208,6 @@ s32 get_network_adapter_type(s32 *out_type) {
     } else {
         return -5;
     }
-block_18:
     return 0;
 }
 

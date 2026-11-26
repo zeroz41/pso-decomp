@@ -158,7 +158,7 @@ void TLobby::apply_sync_item_state() {
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++) {
             TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&((ApplySyncItemStateSave *)this)->items[k++]);
-            bswap_item__6TLobbyFv(p);
+            bswap_item(p);
             ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
         }
     }
@@ -197,7 +197,7 @@ s32 TLobby::write_sync_item_state() {
         for (n = 0; n != count; n++, p++, k++) {
             TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
             ((TItemData *)((u8 *)d + 0x10))->encode_for_network();
-            bswap_item__6TLobbyFv(d);
+            bswap_item(d);
             d++;
         }
     }
@@ -436,7 +436,7 @@ void build_6x63_packet(void *packet) {
 void TLobby__sub_801041D8(void) {
     lbl_805D5430.set(1);
 }
-void bswap_item__6TLobbyFv(void *record) {
+void bswap_item(void *record) {
     u8 *bytes = static_cast<u8 *>(record);
     bswap_16(reinterpret_cast<u16 *>(bytes + 2));
     bswap_32(reinterpret_cast<u32 *>(bytes + 4));

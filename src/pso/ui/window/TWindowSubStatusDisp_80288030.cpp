@@ -78,20 +78,20 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
         text_builder_append((u8 *)":");
         text_builder_append(((u8 *)record->get_card_data_ptr()));
         set_text_entry_string((WindowTextEntry *)entry_7, (uaddr)(get_shared_text_buffer()), 0x60);
-        ((TWindowSubStatusDisp *)entry_6)->clear_visible_flag();
-        ((TWindowSubStatusDisp *)entry_7)->clear_visible_flag();
+        ((TWindowLayoutEntry *)entry_6)->show();
+        ((TWindowLayoutEntry *)entry_7)->show();
     } else {
-        ((TWindowHelpItem *)entry_6)->set_flag0_bit2();
-        ((TWindowHelpItem *)entry_7)->set_flag0_bit2();
+        ((TWindowLayoutEntry *)entry_6)->hide();
+        ((TWindowLayoutEntry *)entry_7)->hide();
     }
     if (strcmp((const char *)(record->get_sub_obj()), (const char *)(record->get_sub_disp_ptr())) != 0) {
         text_builder_reset();
         text_builder_append((u8 *)(record->get_sub_obj()));
         text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x45)));
         set_text_entry_string((WindowTextEntry *)entry_8, (uaddr)(get_shared_text_buffer()), 0x60);
-        ((TWindowSubStatusDisp *)entry_8)->clear_visible_flag();
+        ((TWindowLayoutEntry *)entry_8)->show();
         return;
     }
-    ((TWindowHelpItem *)entry_8)->set_flag0_bit2();
+    ((TWindowLayoutEntry *)entry_8)->hide();
 }
 #pragma pop

@@ -68,8 +68,8 @@ extern "C" {
 extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-s32 fn_801D6D8C(void *, u8, int);
-void TLobby__sub_801B09A4(void);
+s32 set_rule_slot_clamped(void *, u8, int);
+void recreate_all_players(void);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
@@ -712,7 +712,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
     lobby_rule_settings.set_death_level_up(rule_data->value_c);
     for (i = 0; i < 4; i++)
     {
-      fn_801D6D8C(&lobby_rule_settings, rule_data->slot_rules[i], i);
+      set_rule_slot_clamped(&lobby_rule_settings, rule_data->slot_rules[i], i);
     }
     lobby_rule_settings.set_enable_sonar(rule_data->rule_d);
     lobby_rule_settings.set_sonar_count(rule_data->level);
@@ -1062,7 +1062,7 @@ void TPlayerBattleCtrl4P::notify_lobby(const char *file, saddr duration) {
 void TPlayerBattleCtrl4P::reset_phase() { set_split_screen_battle_phase(0); }
 
 void TPlayerBattleCtrl4P::init() {
-    TLobby__sub_801B09A4();
+    recreate_all_players();
     advance_item_system_generation();
     reload_ready = 1;
 }

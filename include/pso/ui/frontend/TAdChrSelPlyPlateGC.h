@@ -86,6 +86,8 @@ LAYOUT_ASSERT(CharacterSelectionPositionSize, sizeof(vec2f) == 8);
 LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
+// The player whose cursor the plate is moving.
+extern int multi_ply_chr_select_active_player;
 
 extern "C" {
 u32 get_multiplayer_controller_active_index(int index);

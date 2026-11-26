@@ -949,11 +949,11 @@ s32 read_name_index_table(void) {
 #pragma inline_depth(2)
 s32 write_ask_header(void) {
     u8 *p = lbl_80591AC4 + 0x30;
-    if (lbl_805D7874 == quest_download_ask_header_size && lbl_805D78FC == quest_download_header_name_index_hi_count && lbl_805D7820 == 0) {
+    if (name_cache_page_index == quest_download_ask_header_size && lbl_805D78FC == quest_download_header_name_index_hi_count && lbl_805D7820 == 0) {
         return 0;
     }
-    p[0] = lbl_805D7874 % 256;
-    p[1] = lbl_805D7874 / 256;
+    p[0] = name_cache_page_index % 256;
+    p[1] = name_cache_page_index / 256;
     p[2] = lbl_805D7900 % 256;
     p[3] = lbl_805D7900 / 256;
     p[4] = lbl_805D78FC % 256;
@@ -1004,7 +1004,7 @@ s32 read_ask_header() {
     }
     quest_download_name_search_lo = 0;
     quest_download_name_search_hi = h[0x2E] + (h[0x2F] << 8);
-    quest_download_ask_header_size = lbl_805D7874 = h[0x30] + (h[0x31] << 8);
+    quest_download_ask_header_size = name_cache_page_index = h[0x30] + (h[0x31] << 8);
     quest_download_header_name_index_hi_count = lbl_805D78FC = h[0x34] + (h[0x35] << 8);
     lbl_805D7820 = 0;
     return 0;

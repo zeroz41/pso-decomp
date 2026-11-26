@@ -195,16 +195,12 @@ void TAdChrSelPlyPlateGC::run_task() {
 
 s32 TAdChrSelPlyPlateGC::find_active_slot() {
     s32 slot;
-    slot = 0;
-loop_1:
-    if ((TAdMultiPlyChrSelectGC::is_controller_connected(slot) != 0) && (is_multiplayer_character_slot_selected(slot) == 0)) {
-        return slot;
+    for (slot = 0; slot < 4; slot++) {
+        if ((TAdMultiPlyChrSelectGC::is_controller_connected(slot) != 0) && (is_multiplayer_character_slot_selected(slot) == 0)) {
+            return slot;
+        }
     }
-    slot += 1;
-    if (slot >= 4) {
-        return 3;
-    }
-    goto loop_1;
+    return 3;
 }
 
 void TAdMultiPlyChrSelectGC::reset_slot_selections() {

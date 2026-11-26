@@ -30,8 +30,6 @@ const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
 typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
 extern "C" {
-extern s32 password_entry_dispatch_state;
-extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 }
 
 void TAdEnterPPPPassGC::render() {

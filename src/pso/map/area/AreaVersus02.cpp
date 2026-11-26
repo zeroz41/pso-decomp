@@ -37,7 +37,7 @@ s32 init_temple_area(void) {
             break;
         }
     }
-    TLobby__sub_801403B4(0);
+    debug_area_hook(0);
     if (is_split_screen() != 0) {
         play_area_music("r_b.adx");
     } else if (TLobby::get_instance() == 1) {

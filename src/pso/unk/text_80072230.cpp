@@ -22,7 +22,7 @@ void build_6x97_packet(u8 *packet);
 void build_6x9D_packet(u8 *packet);
 void send_challenge_dead_flag_packet(TLobby *lobby);
 extern "C" {
-void TLobby__sub_800727A0(void *player);
+void bswap_client_id_packet(void *player);
 }
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
@@ -68,7 +68,7 @@ void handle_6x97_select_challenge_mode_failure_option(void *player) {
     s32 choice;
 
     if (is_challenge_mode() != 0) {
-        TLobby__sub_800727A0(player);
+        bswap_client_id_packet(player);
         choice = *(s32 *)((s8 *)player + 8);
         if ((choice < 0) || (choice > 1)) {
             choice = 0;

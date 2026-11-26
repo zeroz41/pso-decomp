@@ -1,3 +1,5 @@
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/system/memory.h"
 #include "pso/ui/charcreate/CharacterPreviewModels.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
@@ -65,10 +67,8 @@ void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
-extern s32 memcard_access_active;
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
-s32 release_texture_list(void *);
 
 #pragma push
 #pragma readonly_strings on
@@ -371,7 +371,7 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
 extern "C" void copy_creation_model_node(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void reset_creation_shape_set(saddr node) {
-    copy_creation_model_node((void*)node, (void *)&creation_empty_model_node);
+    copy_creation_model_node((void*)node, &creation_empty_model_node);
 }
 #pragma push
 #pragma fp_contract on
@@ -545,7 +545,7 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            bind_head_shape_nodes(creation_player_character, (void *)((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
+            bind_head_shape_nodes(creation_player_character, ((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
         }
         break;
     case 4: {

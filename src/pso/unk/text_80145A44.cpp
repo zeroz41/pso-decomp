@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-BOOL fn_80145A44(char *dst) {
+BOOL read_dial_prefix(char *dst) {
     if (TLobby__sub_803F524C(dst, 0x20) == 0) {
         return strlen(dst) != 0 ? TRUE : FALSE;
     }

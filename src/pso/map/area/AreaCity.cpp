@@ -35,7 +35,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     load_tool_random_rel, free_tool_random_rel,
     load_judge_item, TLobby::free_window,
     TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,
-    reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,
+    reset_globals2, reset_globals__19TQuestListChallengeFv,
     load_city_season_resources, free_city_season_resources,
     TCheckRoomSequence::alloc_item_buffers, TCheckRoomSequence::free_bank_item_records,
     measure_traffic_path_lengths, free_buffer_pair_table,

@@ -5173,7 +5173,7 @@ void TBoss1Dragon::render() {
             TObjMotion::draw();
             TParticleCtrl::end_effect_render();
             set_chunk_model_node_callback(NULL);
-            current_scene_light->sub_801337F8();
+            current_scene_light->debug_scene_light_hook();
             pop_matrix();
         }
         set_chunk_material_override_pair(0xFF00, 0);
@@ -5254,7 +5254,7 @@ void TBoss1Dragon::render_low_detail() {
         }
     }
     draw_model_motion(this->model, m, frame);
-    current_scene_light->sub_801337F8();
+    current_scene_light->debug_scene_light_hook();
     pop_matrix();
 }
 

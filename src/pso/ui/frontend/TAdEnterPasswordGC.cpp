@@ -33,8 +33,6 @@ typedef void (TAdEnterPasswordGC::*StateHandler)();
 TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC::input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern "C" {
-extern TAdEnterBaseGC::Position password_screen_status_line_position[];
-extern s32 password_entry_dispatch_state;
 }
 
 void TAdEnterPasswordGC::render() {

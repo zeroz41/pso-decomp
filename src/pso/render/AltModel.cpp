@@ -15,7 +15,7 @@
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 
-void update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }
+void update_lights() { current_scene_light->init_directional_light(); current_scene_light->debug_scene_light_hook(); }
 
 void begin_alt_model_draw() {  }
 

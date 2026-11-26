@@ -8,8 +8,6 @@
 
 void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
-    extern int multi_ply_chr_select_active_player;
-
 void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
     unk_4f4 = field_4f4;
     unk_4f0 = field_4f0;

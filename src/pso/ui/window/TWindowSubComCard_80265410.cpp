@@ -514,7 +514,7 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
         }
     }
     if (menu_flags & 0x100) {
-        ((TWindowHelpItem *)entry)->reset_float_field();
+        ((WindowTextEntry *)entry)->reveal_all();
     }
     measure_message_text_width_default(entry);
     row->flags = flags;

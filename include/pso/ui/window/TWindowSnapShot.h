@@ -12,6 +12,8 @@ struct TWindowSnapShot : public TWindowBase {
     virtual void render();
     u8 m_60;
     void play_open_sound();
+    // Set by play_open_sound, when run_task sees button 2 pressed.
+    int is_done();
     virtual void run_task();
     u8 unk_61[0x3];
 };

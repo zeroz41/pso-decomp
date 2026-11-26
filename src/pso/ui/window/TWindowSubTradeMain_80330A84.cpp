@@ -176,7 +176,7 @@ void TWindowSubTradeMain::run_task() {
         }
         window_request_show(this->menu);
         this->menu->clear_flag_and_release();
-        ((TWindowOptionCtrl *)(this->menu))->clear_flag70_bit4();
+        ((TWindowMenu *)this->menu)->clear_cancelled();
         this->state = 2;
     case 2:
         if (this->menu->is_cancelled() != 0) {

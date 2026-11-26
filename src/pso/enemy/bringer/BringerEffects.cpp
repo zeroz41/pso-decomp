@@ -46,6 +46,7 @@ u32 bringer_effect_color_table[12];
 // Builds a rush effect in `rush` (allocated by the Bringer with TObject::operator new): parent,
 // source, recipient and speed as in TObjEneDellBiter_Eff_Rush's constructor.
 u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, u8 *source, saddr recipient, f32 speed) {
+    TObjBase *base = (TObjBase *)source;
     TObjEneDf2Bringer_Eff_Rush *self = (TObjEneDf2Bringer_Eff_Rush *)rush;
     Vec displacement;
     __ct__7TObjectFP7TObject(self, (void *)parent);
@@ -55,11 +56,11 @@ u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, u8 *source, saddr reci
     self->strength = speed;
     self->pad_30 = 0;
     VecCopy(&displacement, &((TObjChara *)recipient)->position);
-    subtract_vector(&displacement, &((TObjBase *)source)->position);
+    subtract_vector(&displacement, &base->position);
     displacement.y = 0.0f;
-    self->direction.x = sin_table_lookup(((TObjBase *)source)->rotation_y);
+    self->direction.x = sin_table_lookup(base->rotation_y);
     self->direction.y = 0.0f;
-    self->direction.z = cos_table_lookup(((TObjBase *)source)->rotation_y);
+    self->direction.z = cos_table_lookup(base->rotation_y);
     if (is_vec_xz_cross_negative(&self->direction, &displacement) != 0) {
         rotate_xz_pair_by_angle(&self->direction.x, &self->direction.z, -0x1800);
     } else {

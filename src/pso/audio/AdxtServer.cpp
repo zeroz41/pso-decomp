@@ -33,20 +33,20 @@ extern "C" {
 void TLobby__sub_803CAEB4(void *context);
 
 void adxt_stat_decinfo(AdxtPlayer *self);
-s32 lbl_805D7578;
-s32 lbl_805D757C;
-s32 lbl_805D7580;
+s32 adxt_end_available;
+s32 adxt_prep_available;
+s32 adxt_prep_channel_count;
 
 // Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
-inline void prep_803CA8B4(AdxtPlayer *self) {
+inline void adxt_stat_prep_step(AdxtPlayer *self) {
     s32 n;
     s32 i;
     if (audio_stream_get_state(self->input_state) == 3) {
         n = self->input_state->send_with_offset4();
-        lbl_805D7580 = n;
+        adxt_prep_channel_count = n;
         for (i = 0; i < n; i++) {
-            lbl_805D757C = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
-            if (lbl_805D757C >= 0x40) {
+            adxt_prep_available = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
+            if (adxt_prep_available >= 0x40) {
                 break;
             }
         }
@@ -57,7 +57,7 @@ inline void prep_803CA8B4(AdxtPlayer *self) {
     }
 }
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
-inline void dec_803CA8B4(AdxtPlayer *self) {
+inline void adxt_stat_playing_step(AdxtPlayer *self) {
     GcrnaStream *rna = self->rna_handle;
     AudioStreamInputState *sjd = self->input_state;
     s32 i;
@@ -93,8 +93,8 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
     }
 }
 // Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
-inline void end_803CA8B4(AdxtPlayer *self) {
-    lbl_805D7578 = query_available_size(self->rna_handle);
+inline void adxt_stat_playend_step(AdxtPlayer *self) {
+    adxt_end_available = query_available_size(self->rna_handle);
     if (query_available_size(self->rna_handle) <= 0) {
         gcrna_bridge_set_play_sw(self->rna_handle, 0);
         self->stat = 5;
@@ -106,13 +106,13 @@ inline void end_803CA8B4(AdxtPlayer *self) {
 void adxt_exec_handle(AdxtPlayer *self) {
     s8 stat = self->stat;
     if (stat == 3) {
-        prep_803CA8B4(self);
+        adxt_stat_prep_step(self);
     } else if (stat == 1) {
         adxt_stat_decinfo(self);
     } else if (stat == 2) {
-        dec_803CA8B4(self);
+        adxt_stat_playing_step(self);
     } else if (stat == 4) {
-        end_803CA8B4(self);
+        adxt_stat_playend_step(self);
     }
     if (self->stream_file != NULL && get_adx_stream_status(self->stream_file) == 4) {
         self->error_code = -1;

@@ -52,21 +52,21 @@ extern "C" {
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
 }
 
-int TWindowOptionCtrl__sub_8026C658(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
+int TWindowSoundBalance::is_cancelled() { return m_60 & 0x2; }
 
-s16 TWindowOptionCtrl::get_field_62() { return *(s16*)((char*)this + 0x62); }
+s32 TWindowSoundBalance::get_music_gain() { return music_gain; }
 
-s32 TWindowOptionCtrl::get_field_64() { return (s16)(*(s16*)((char*)this + 0x64)); }
+s32 TWindowSoundBalance::get_sound_effect_gain() { return sound_effect_gain; }
 
 int TWindowSoundBalance::is_active() { return this->m_60 & 0x1; }
 
-int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 0x1; }
+int TWindowSnapShot::is_done() { return m_60 & 0x1; }
 
-void TWindowOptionCtrl::clear_flag70_bit4() { *(u16*)((char*)this + 0x70) &= 0xfffffffb; }
+void TWindowMenu::clear_cancelled() { menu_flags &= 0xfffffffb; }
 
 void TWindowMenu::set_flag70_bit100() { this->menu_flags |= 0x100; }
 
-void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
+void TWindowMenu::set_silent_cancel() { menu_flags |= 0x400; }
 
 saddr TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
     return TAdSinglePlyChrSelectGC::get_instance() + 0x1154C;
@@ -193,7 +193,7 @@ void TWindowOptionCtrl::run_task() {
             if (flags & 2) {
                 start_music_crossfade(0x1E);
                 flags &= ~2;
-                ((TWindowOptionCtrl *)(sub_menu))->clear_flag70_bit4();
+                sub_menu->clear_cancelled();
             } else {
                 TLobby::stop_audio_streams();
                 TLobby::close_option_window();
@@ -222,17 +222,17 @@ void TWindowOptionCtrl::run_task() {
     case 9:
         main_menu->open();
         if (sound_balance_window == NULL) {
-            sound_balance_window = (TWindowBase *)create_sound_balance_window();
+            sound_balance_window = create_sound_balance_window();
         }
         state = 0xA;
     case 10:
-        if (TWindowOptionCtrl__sub_8026C658(sound_balance_window) != 0) {
-            s16 b = ((TWindowOptionCtrl *)sound_balance_window)->get_field_64();
-            TWindowOptionCtrl::set_params(this, (s16)((TWindowOptionCtrl *)(sound_balance_window))->get_field_62(), b);
+        if (sound_balance_window->is_cancelled() != 0) {
+            s16 b = sound_balance_window->get_sound_effect_gain();
+            TWindowOptionCtrl::set_params(this, sound_balance_window->get_music_gain(), b);
             state = 1;
-        } else if (((TWindowSoundBalance *)(sound_balance_window))->is_active() != 0) {
-            s16 b = ((TWindowOptionCtrl *)sound_balance_window)->get_field_64();
-            TWindowOptionCtrl::set_params(this, (s16)((TWindowOptionCtrl *)(sound_balance_window))->get_field_62(), b);
+        } else if (sound_balance_window->is_active() != 0) {
+            s16 b = sound_balance_window->get_sound_effect_gain();
+            TWindowOptionCtrl::set_params(this, sound_balance_window->get_music_gain(), b);
             state = 1;
         }
         break;
@@ -248,13 +248,13 @@ void TWindowOptionCtrl::run_task() {
         if (TObjBoss2Tunnel::load_snapshot() != 0) {
             main_menu->open();
             if (snap_shot_window == NULL) {
-                snap_shot_window = (TWindowBase *)create_snap_shot_window();
+                snap_shot_window = create_snap_shot_window();
             }
             state = 0xD;
         }
         break;
     case 13:
-        if (TWindowOptionCtrl__sub_8026C630(snap_shot_window) != 0) {
+        if (snap_shot_window->is_done() != 0) {
             state = 1;
         }
         break;
@@ -427,7 +427,7 @@ saddr TWindowOptionCtrl::create_list_window() {
         }
         idx += 1;
     } while (idx < 0x31);
-    ((TWindowOptionCtrl *)list)->set_flag70_bit400();
+    list->set_silent_cancel();
     list->set_scroll_target(470.0f, 124.0f);
     align_menu_entry_positions(list);
     return (saddr)list;
@@ -455,18 +455,12 @@ TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     return check_box_window;
 }
 
-saddr TWindowOptionCtrl::create_sound_balance_window() {
-    s32 sound_balance_window;
-
-    sound_balance_window = (saddr)new TWindowSoundBalance(reinterpret_cast<const NJS_POINT2 *>(get_option_entry(0xCF)));
-    return sound_balance_window;
+TWindowSoundBalance *TWindowOptionCtrl::create_sound_balance_window() {
+    return new TWindowSoundBalance(reinterpret_cast<const NJS_POINT2 *>(get_option_entry(0xCF)));
 }
 
-saddr TWindowOptionCtrl::create_snap_shot_window() {
-    s32 window_snap_shot;
-
-    window_snap_shot = (saddr)new TWindowSnapShot((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
-    return window_snap_shot;
+TWindowSnapShot *TWindowOptionCtrl::create_snap_shot_window() {
+    return new TWindowSnapShot((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
 }
 
 saddr TWindowOptionCtrl::create_sub_menu_window() {

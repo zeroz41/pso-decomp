@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
@@ -257,9 +258,6 @@ s32 TLobby::handle_main_phase(saddr player) {
 
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 get_online_client_instance(s32);
-s32 get_online_server_instance(s32);
-s32 get_offline_instance(s32);
 extern s32 lbl_805D55C0;
 s32 is_in_hunter_guild(s32 client_id) {
     s32 kind;

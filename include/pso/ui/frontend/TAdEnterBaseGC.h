@@ -44,6 +44,8 @@ void fn_8032AC94(void);
 // --- end of C functions
 
 extern u32 serial_access_entered_value_table[4];
+extern s32 password_entry_dispatch_state;
+extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern TKeyBoardControl *password_entry_keyboard_control;
 
 

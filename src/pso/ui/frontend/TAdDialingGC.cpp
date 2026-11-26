@@ -144,7 +144,7 @@ void TAdDialingGC::draw_dialing_status() {
     char a[0x20];
     char c[0x100];
     char b[0x100];
-    if (fn_80145A44(a) == 0) {
+    if (read_dial_prefix(a) == 0) {
         a[0] = 0;
     }
     sprintf(b, dialing_message_format, a, get_dialing_phone_number());
@@ -443,18 +443,13 @@ void TAdDialingGC::update_state() {
         return;
     case 2:
         status = this->status_code;
-        if (status < 0x10) {
-            if (status == 0) {
-                goto block_11;
-            }
-            goto block_12;
-        }
-        if (status < 0x12) {
-block_11:
+        switch (status) {
+        case 0:
+        case 16:
+        case 17:
             this->dial_step = 3;
             return;
         }
-block_12:
         if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
             this->dial_step = 3;
         }
@@ -474,18 +469,13 @@ void TAdDialingGC::update_dial_state() {
         return;
     case 2:
         status = this->status_code;
-        if (status < 0x10) {
-            if (status == 0) {
-                goto block_11;
-            }
-            goto block_12;
-        }
-        if (status < 0x12) {
-block_11:
+        switch (status) {
+        case 0:
+        case 16:
+        case 17:
             this->dial_step = 3;
             return;
         }
-block_12:
         if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
             this->dial_step = 3;
         }

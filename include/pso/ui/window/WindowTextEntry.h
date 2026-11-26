@@ -22,6 +22,8 @@ public:
     virtual void update();
     virtual void render(WindowDrawContext *context);
     char *get_text();
+    // Shows the whole text at once.
+    void reveal_all();
 };
 
 LAYOUT_ASSERT(WindowTextEntry_size, sizeof(WindowTextEntry) == 0x2C);

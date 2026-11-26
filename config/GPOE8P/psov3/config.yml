@@ -8369,7 +8369,7 @@ force_active:
   - shop_equipment_pending_state
   - short_mail_next_id
   - lbl_805D62D8
-  - lbl_805D62DC
+  - adx_rna_work_buffer
   - temporary_texture_entries
   - temporary_texture_names
   - text_draw_mode
@@ -13814,7 +13814,7 @@ force_active:
   - process_key_input__19TWindowKeyBoardHardFUc
   - process_keyboard_input__17TObjItemNameEntryFv
   - process_lobby_action_14__18TObjCityDoor_LobbyFv
-  - process_trade_target__10TObjPlayerFiPv
+  - process_trade_target
   - profanity_word_table
   - project_step_to_ground__14TObjEneIllGillFl
   - project_to_screen__13TObjTombstoneFPC13TObjTombstoneP10NJS_POINT2PC3Vec
@@ -15969,7 +15969,7 @@ force_active:
   - spawn_particle_at_entity_slot__10TObjPlayerFllll
   - spawn_particle_emitters__9TTecMegidFv
   - spawn_particle_if_in_band__17TObjEneDf2BringerFv
-  - spawn_particles_at__12TBoss3VoloptFi
+  - spawn_particles_at
   - spawn_parts__12TBoss3VoloptFv
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
   - spawn_player_tombstones2__6TLobbyFv
@@ -16253,7 +16253,7 @@ force_active:
   - handle_gain_input__19TWindowSoundBalanceFv
   - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
   - send_short_mail__17TWindowSubComCardFv
-  - sub_802730E0__17TWindowSubComCardFv
+  - create_delete_entry_prompt__17TWindowSubComCardFv
   - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2
   - update_slot_title__26TWindowSubQuestBoardSelectFv
   - set_face_part_from_cursor__20TWindowSubSymbolChatFv
@@ -17216,7 +17216,7 @@ force_active:
   - state_reveal__16TObjEneMe3StelthFl
   - update_state_flag__13TObjEneBm3FlyFv
   - update_state_flag__15TObjEneDelDepthFv
-  - update_state_from_input__16TKeyBoardControlFPv
+  - update_state_from_input
   - update_state_machine__18TObjEneRe4SorcererFPv
   - update_state_or_dispatch_tick__13TBoss5GryphonFv
   - state_cast_technique__16TObjEneMe3StelthFl

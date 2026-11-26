@@ -381,7 +381,7 @@ void TWindowSubSymbolChat::run_task() {
             this->symbol_window->set_selection(selected_preset);
         }
         window = (u8 *)this->symbol_window;
-        copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7B))));
+        copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7B))));
         this->symbol_window->tween_ticks = 6;
         if (this->main_menu == NULL) {
             this->main_menu = TWindowSubSymbolChat::open_main_menu(this);
@@ -945,7 +945,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu() {
 }
 
 TWindowMessageYesNo *TWindowSubSymbolChat::open_confirm_prompt() {
-    TWindowMessageYesNo *r = (TWindowMessageYesNo *)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    TWindowMessageYesNo *r = (TWindowMessageYesNo *)TWindowMessageYesNo::create((this), this->client_id, 0, 0);
     open_yes_no_prompt(r, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x44)), get_window_layout_position(0x7A), 178.0f);
     r->set_choice_menu_flag70_bit10();
     return r;
@@ -1062,7 +1062,7 @@ void TWindowSubSymbolChat::update_sub_window() {
         if (window_base != NULL) {
             window_base->close();
             this->second_symbol_window = NULL;
-            copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7B))));
+            copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7B))));
             this->symbol_window->tween_ticks = 6;
         }
     } else {
@@ -1070,7 +1070,7 @@ void TWindowSubSymbolChat::update_sub_window() {
             this->second_symbol_window = (TWindowChatSymbol *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)this, 0);
             this->second_symbol_window->set_selection(get_symbol_chat_receive_buffer());
             this->second_symbol_window->always_visible = 1;
-            copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7C))));
+            copy_vec2(this->symbol_window->target_position, ((void*)(get_window_layout_position(0x7C))));
             this->symbol_window->tween_ticks = 6;
         }
         this->second_symbol_window->update_visibility();

@@ -308,7 +308,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
     }
 }
 
-void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu) {
+void copy_quest_list_data(OnlineQuestMenu &menu) {
     if (quest_list_online_quest_list_buffer != NULL) {
         memcpy(quest_list_online_quest_list_buffer, &menu, sizeof(OnlineQuestMenu));
         set_quest_list_online_state(1);

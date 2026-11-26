@@ -35,7 +35,7 @@ struct TWindowSubComCard : public TObject {
     void set_choice_search_option(ChoiceSearchSelection *selections, s32 key, saddr val);
     s32 reinit(int);
     s32 init_guild_card_tag(int);
-    TWindowMessageYesNo *sub_802730E0();
+    TWindowMessageYesNo *create_delete_entry_prompt();
     TWindowMenu *create_option_list_window(ChoiceSearchSelection *selections, s32 key);
     void send_short_mail();
     // Text of the option `selections[index]` picks, or NULL.
@@ -107,12 +107,12 @@ struct TWindowSubComCard : public TObject {
     void set_help_message(s32 help_index);
     static TWindowMenu *create_card_action_window();
     TWindowMenu *create_short_mail_list_menu();
-    TWindowMenu *sub_802728CC();
+    TWindowMenu *create_block_sender_menu();
     TWindowMenu *create_choice_search_result_menu();
-    TWindowMenu *sub_80273004();
+    TWindowMenu *create_result_list_menu();
     static TWindowMenu *create_player_list_menu();
-    TWindowMenu *sub_8027346C();
-    TWindowMenu *sub_8027353C();
+    TWindowMenu *create_contact_menu();
+    TWindowMenu *create_send_action_menu();
     TWindowChoiceSetting *create_entry_list_window();
     TWindowMessageYesNo *open_yesno_dialog();
     TWindowMessageYesNo *confirm_and_free();

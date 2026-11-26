@@ -16,7 +16,7 @@ void enlarge_s_rank_j_cutter_blade(void *arg0);
 
 void TItemWeaponSRankJCutter::emit_marker_effects() {
     SlicerLaunchState tec;
-    TObjPlayer__sub_80128A70();
+    debug_weapon_attack_hook();
     init_slicer_launch_state(&tec);
     tec.player_id = owner->get_entity_id();
     tec.item_id = get_item_id();

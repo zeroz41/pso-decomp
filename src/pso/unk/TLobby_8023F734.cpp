@@ -737,7 +737,7 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 extern "C" {
 
-s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
+s32 free_sound_entry_data(SoundControlState *self, int id);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 s32 SoundControlState::is_ready() {
@@ -763,7 +763,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     if (pos == -1) {
         self->route_pos = 0;
-        TLobby__sub_8023FFB8(self, self->route[self->route_pos]);
+        free_sound_entry_data(self, self->route[self->route_pos]);
         return;
     }
     errors = 0;
@@ -815,7 +815,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     self->route_pos++;
     if (self->route[self->route_pos] >= 0) {
-        TLobby__sub_8023FFB8(self, self->route[self->route_pos]);
+        free_sound_entry_data(self, self->route[self->route_pos]);
         return;
     }
     self->group_state = self->next_group_state;
@@ -838,7 +838,7 @@ void fade_voice_channels(s32 step) {
         start_voice_fade(&sound_request_voices[i], step);
     }
 }
-s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
+s32 free_sound_entry_data(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].file_data[3] != 0) {
@@ -991,7 +991,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
             ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
             TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
             do {
-                TLobby__sub_803382E4();
+                draw_loading_compass();
                 TLobby::run_disk_error_check();
                 render_tick();
             } while (ADXF_GetStat(handle) != 3);
