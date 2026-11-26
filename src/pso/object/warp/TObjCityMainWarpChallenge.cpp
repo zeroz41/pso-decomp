@@ -6,7 +6,6 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
-#include "pso/object/warp/TObjCityMainWarp_80186E24.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -32,9 +31,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -50,9 +48,7 @@ static const char lbl_80444A58[] = "<- KEY ID : %d";
 
 extern "C" {
 s32 is_local_client_floor_leader(s32);
-void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
-extern s32 city_main_warp_destination_id;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = lbl_805D32B8;
@@ -183,11 +179,11 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
     switch (this->state) {
     case 0:
         if (this->yes_no_window == 0) {
-            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
             if (this->yes_no_window != 0) {
-                ((TWindowMessageYesNo *)this->yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
-                ((TWindowMessageYesNo *)this->yes_no_window)->set_menu_selected_index(1);
-                ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
+                this->yes_no_window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
+                this->yes_no_window->set_menu_selected_index(1);
+                this->yes_no_window->set_choice_menu_flag70_bit10();
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
@@ -196,7 +192,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         break;
     case 1:
         if (this->yes_no_window == 0) {
-            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
             if (this->yes_no_window != 0) {
                 initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
@@ -208,23 +204,23 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         pos[1] = 104.0f;
         this->player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
         if (this->player_list_window != 0) {
-            ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
-            ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
+            this->player_list_window->set_flag_40();
+            this->player_list_window->set_close_flag();
             for (i = 0; i < this->player_count; i++) {
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)this->player_list_window, (saddr)this->player_names[i], i);
+                this->player_list_window->dispatch_without_flags((saddr)this->player_names[i], i);
             }
         }
         request_active_window_close();
     }
     if (this->player_list_window != 0) {
         for (j = 0; j < this->player_count; j++) {
-            ((THunterGuildSeqOffline *)this->player_list_window)->advance_matching_entries(this->player_in_range[j] != 0, j);
+            this->player_list_window->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
             if (this->state == 1 && (player = get_player_by_client_id(j)) != NULL &&
                 ((TObjPlayer *)player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
-            fn_80248994((TWindowBase *)this->player_list_window, color, j);
+            this->player_list_window->sub_80248994(color, j);
         }
     }
 }
@@ -311,10 +307,10 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 2:
         sub_801875F8();
         if (yes_no_window != 0) {
-            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
+            if (yes_no_window->is_cancelled() != 0) {
                 state_step = 3;
-            } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+            } else if (yes_no_window->is_child_visible() != 0) {
+                r = yes_no_window->get_selected_value();
                 if (r == 0) {
                     trigger_warp_effect(local_client_id);
                     warp_triggered = 1;

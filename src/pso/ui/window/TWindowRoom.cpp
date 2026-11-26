@@ -11,13 +11,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowLayout.h"
-
-struct RoomTitleEntry {
-    u8 unknown00[8];
-    f32 positionX;
-    u8 unknown0C[4];
-    f32 width;
-};
+#include "pso/ui/window/WindowTextEntry.h"
 
 // inferred: room_window_layout_entries, the layout table room_window_base_parameters points at.
 struct RoomWindowLayout {
@@ -43,7 +37,7 @@ void *TWindowRoom::get_title_entry() {
 }
 
 void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
-    set_text_entry_string((u8 *)(get_array_entry(0)), str, 0x60);
+    set_text_entry_string((WindowTextEntry *)(get_array_entry(0)), str, 0x60);
 }
 
 void TWindowRoom::draw_tab(WindowDrawContext *context) {
@@ -61,12 +55,12 @@ TWindowRoom::~TWindowRoom() {}
 
 TWindowRoom::TWindowRoom(char *title)
     : TWindowBase((u8 *)&room_window_base_parameters, 4, (u8 *)get_window_layout_position(0xAF)) {
-    RoomTitleEntry *entry;
+    WindowTextEntry *entry;
     m_name = TWindowRoom::class_name;
-    entry = (RoomTitleEntry *)this->get_array_entry(0);
-    set_text_entry_string((u8 *)entry, (uaddr)title, 0x60);
+    entry = (WindowTextEntry *)this->get_array_entry(0);
+    set_text_entry_string(entry, (uaddr)title, 0x60);
     measure_message_text_width_default(entry);
-    target_size[0] = 10.0f + (entry->positionX + entry->width);
+    target_size[0] = 10.0f + (entry->x + entry->width);
     target_position[0] -= target_size[0];
     this->save_position();
     tabParameter = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);

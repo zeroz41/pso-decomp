@@ -71,7 +71,9 @@ extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid(saddr chara, saddr pos);
+}
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
+extern "C" {
 s32 minimap_render_dot(void *, int, int, int, f32);
 }
 
@@ -355,7 +357,7 @@ void TObjEneMoja::run_task() {
     copy_position();
     submit_cursor_candidate(this, -1);
     t = this->target;
-    if ((t != NULL) && (((TObjChara *)t)->actorFlags & 0x02000800)) {
+    if ((t != NULL) && (t->actorFlags & 0x02000800)) {
         this->attackSequence = -1;
         (this->timer) = 0;
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
@@ -1232,7 +1234,7 @@ void TObjEneMoja::update_attack_jump() {
                     if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                         DirectAttackPayload hit;
                         hit.kind = 0;
-                        hit.power = get_attack_params_atp_min(attack_params);
+                        hit.power = attack_params->get_atp_min();
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                         p->apply_knockback_from_attacker((u8 *)this, damage);
                     }

@@ -1,5 +1,4 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
-#include "pso/ui/chat/SymbolChatSprite.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
@@ -9,6 +8,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowBase.h"
 
 #include <stddef.h>
@@ -54,7 +54,6 @@ WindowDescriptor symbol_chat_parts_window_layout = {
 
 extern "C" {
 void draw_selection_corners(void *, void *, f32, f32);
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 }
 
 #pragma push
@@ -216,9 +215,9 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     s32 i;
     s32 col;
     s32 row;
-    SymbolChatSprite *e1;
-    SymbolChatSprite *e2;
-    SymbolChatSprite *e0;
+    WindowSpritePart *e1;
+    WindowSpritePart *e2;
+    WindowSpritePart *e0;
     SymbolChatPayload *chat;
     SymbolChatPart *slot;
     u16 v;
@@ -227,17 +226,17 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     col = 0;
     row = 0;
     chat = &reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance())->payload;
-    e1 = (SymbolChatSprite *)get_array_entry(1);
-    e2 = (SymbolChatSprite *)get_array_entry(2);
-    e0 = (SymbolChatSprite *)get_array_entry(0);
+    e1 = (WindowSpritePart *)get_array_entry(1);
+    e2 = (WindowSpritePart *)get_array_entry(2);
+    e0 = (WindowSpritePart *)get_array_entry(0);
     e1->kind = 10;
-    e1->entry = -1;
-    e0->entry = -1;
+    e1->color = -1;
+    e0->color = -1;
     e0->w = 32.0f;
     e0->h = 32.0f;
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e0), 185.0f, 22.0f);
+    set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
     e0->kind = 0;
-    e0->unk_18 = 0.5f;
+    e0->depth = 0.5f;
     ((TWindowSubStatusDisp *)e0)->clear_visible_flag();
     slot = chat->parts;
     n = TWindowSubSymbolChat::calc_remaining_slots();
@@ -262,7 +261,7 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
         if ((u8)v != 0xFF) {
             e1->x = 40.0f * (f32)col + 10.0f;
             e1->y = 40.0f * (f32)row + 9.0f;
-            setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(e1, e2, e0, (u8)v, (v >> 8) & 7, (v >> 11) & 1, (v >> 12) & 1, i);
+            TWindowSubSymbolChatPartsSet::setup_part_sprites(e1, e2, e0, (u8)v, (v >> 8) & 7, (v >> 11) & 1, (v >> 12) & 1, i);
             draw_visible_window_entries(this, &entry_list, ctx);
             if (++col >= 4) {
                 col = 0;
@@ -285,15 +284,15 @@ void TWindowSubSymbolChatParts::draw_part_choices(WindowDrawContext *ctx) {
     s32 i;
     s32 row;
     f32 lo;
-    f32 *a;
-    f32 *b;
-    f32 *c;
+    WindowSpritePart *a;
+    WindowSpritePart *b;
+    WindowSpritePart *c;
     int k;
 
     row = 0;
-    a = (f32 *)get_array_entry(1);
-    b = (f32 *)get_array_entry(2);
-    c = (f32 *)get_array_entry(0);
+    a = (WindowSpritePart *)get_array_entry(1);
+    b = (WindowSpritePart *)get_array_entry(2);
+    c = (WindowSpritePart *)get_array_entry(0);
     i = 0;
     lo = 8.0f;
     hi = 32.0f;
@@ -310,9 +309,9 @@ void TWindowSubSymbolChatParts::draw_part_choices(WindowDrawContext *ctx) {
                 if (i >= item_count) {
                     break;
                 }
-                a[2] = 40.0f * (f32)k + 10.0f;
-                a[3] = x;
-                setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a, b, c, (u16)i, *selection, *flip_u, *flip_v, 0);
+                a->x = 40.0f * (f32)k + 10.0f;
+                a->y = x;
+                TWindowSubSymbolChatPartsSet::setup_part_sprites(a, b, c, (u16)i, *selection, *flip_u, *flip_v, 0);
                 draw_visible_window_entries(this, &entry_list, ctx);
             }
         }
@@ -327,16 +326,16 @@ void TWindowSubSymbolChatParts::draw_part_choices(WindowDrawContext *ctx) {
 void TWindowSubSymbolChatParts::draw_part_icons(WindowDrawContext *ctx) {
     s32 i;
     s32 j;
-    f32 *e0;
+    WindowSpritePart *e0;
     s32 row;
-    f32 *e1;
+    WindowSpritePart *e1;
     f32 y;
     f32 off;
     f32 x;
     f32 h;
     row = 0;
-    e1 = (f32 *)get_array_entry(1);
-    e0 = (f32 *)get_array_entry(0);
+    e1 = (WindowSpritePart *)get_array_entry(1);
+    e0 = (WindowSpritePart *)get_array_entry(0);
     h = 32.0f;
     for (i = 0; i < item_count; row++) {
         off = 40.0f * (f32)row;
@@ -348,10 +347,10 @@ void TWindowSubSymbolChatParts::draw_part_icons(WindowDrawContext *ctx) {
             x = 9.0f + off;
             for (j = 0; j < 4; j++, i++) {
                 if (i >= item_count) break;
-                e0[2] = 40.0f * (f32)j + 10.0f;
-                e0[3] = x;
-                e1[2] = 16.0f + e0[2];
-                e1[3] = 16.0f + e0[3];
+                e0->x = 40.0f * (f32)j + 10.0f;
+                e0->y = x;
+                e1->x = 16.0f + e0->x;
+                e1->y = 16.0f + e0->y;
                 TWindowSubSymbolChatPartsSet::set_part_sprite(e1, (s16)i, *flip_u, *flip_v);
                 draw_visible_window_entries(this, &entry_list, ctx);
             }
@@ -375,15 +374,15 @@ void TWindowSubSymbolChatParts::open(s8 *selected_value) {
 
 
 void TWindowSubSymbolChatParts::init_help(s32 *help_value) {
-    SymbolChatSprite *e2;
-    SymbolChatSprite *e0;
+    WindowSpritePart *e2;
+    WindowSpritePart *e0;
     help = help_value;
     *help = 0;
-    e2 = (SymbolChatSprite *)get_array_entry(2);
-    e0 = (SymbolChatSprite *)get_array_entry(0);
+    e2 = (WindowSpritePart *)get_array_entry(2);
+    e0 = (WindowSpritePart *)get_array_entry(0);
     *(u16 *)e2 |= 2;
-    set_sprite_dimensions(reinterpret_cast<WindowSpritePart *>(e0), 32.0f, 32.0f);
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e0), 185.0f, 22.0f);
+    set_sprite_dimensions(e0, 32.0f, 32.0f);
+    set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
     e0->kind = 0;
     item_count = 0x44;
     update_row_count();

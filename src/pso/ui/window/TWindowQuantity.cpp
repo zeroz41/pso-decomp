@@ -14,6 +14,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 // inferred: quantity_window_layout_entries, the layout table quantity_window_layout points at.
 struct QuantityWindowLayout {
@@ -35,6 +36,7 @@ WindowDescriptor quantity_window_layout = {
 
 extern "C" {
 u32 calc_text_width(void);
+}
 const char *TWindowQuantity::class_name = "TWindowQuantity";
 void TWindowQuantity::set_position(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, 3, width);
@@ -55,14 +57,14 @@ TWindowQuantity::~TWindowQuantity() {}
 
 TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x2A))) {
     u8 *e1;
-    u8 *e0;
+    WindowTextEntry *e0;
     s32 id;
     f32 n;
     m_name = TWindowQuantity::class_name;
     id = get_message_text(1);
     n = (f32)calc_text_width();
     width = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
-    e0 = (u8 *)this->get_array_entry(0);
+    e0 = (WindowTextEntry *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);
     ((f32 *)e1)[2] = 24.0f + (12.0f + (8.0f + n));
@@ -79,6 +81,4 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
 
 TWindowQuantity *create_window_quantity(s32 client) {
     return new TWindowQuantity((saddr)client);
-}
-
 }

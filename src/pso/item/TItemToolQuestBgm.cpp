@@ -9,7 +9,7 @@
 #include "pso/item/TItemObject.h"
 #include "pso/item/TItemToolQuestBgm.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/object/collision/TObjBgmColCtrl_8017E8E4.h"
+#include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/object/TItemQuestBgmTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"

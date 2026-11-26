@@ -26,14 +26,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// TObjCharaHelpers.h declares get_entity_id returning u16, but this
-// unit's callers saw a 32-bit return (no zero extension before the
-// (u16) test), so the helpers are still declared here.
-extern "C" {
-s16 get_actor_tp(u8 *object);
-s16 obj_getS16_2BA(u8 *p);
-}
-
 const char *bm_fe_obj_kaifuku_moto_model_names[2] = { "fe_obj_kaifuku_moto.nj", NULL };
 const char *bm_fe_obj_kaifuku_moto_motion_names[1] = { NULL };
 BmlResourceDescriptor bm_fe_obj_kaifuku_moto_resource_descriptor = {
@@ -135,7 +127,7 @@ void TOHealGeneral::find_heal_target() {
         }
         heal_target = id;
         if (((TObjChara *)player)->get_actor_hp() < ((TObjChara *)player)->get_hpmax() ||
-            get_actor_tp((u8 *)player) < obj_getS16_2BA((u8 *)player) ||
+            player->get_actor_tp() < player->get_tpmax() ||
             (u32)player->get_recovery_need_flags() != 0 ||
             (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {
             TParticleCtrl *effect;

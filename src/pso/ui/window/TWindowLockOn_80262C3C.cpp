@@ -4,7 +4,7 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/window/TWindowHelpItem_8025A60C.h"
+#include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowLockOn_80262C3C.h"
@@ -119,12 +119,6 @@ struct LockOnEntry {
     u8 kind;
 };
 
-struct LockOnEntryGrade {
-    u16 flags;
-    u8 pad_2[0xE];
-    s32 grade;
-};
-
 struct LockOnEntryText {
     u8 pad_0[8];
     f32 y;
@@ -141,7 +135,6 @@ struct LockOnEntryColor {
 };
 
 extern "C" {
-s16 obj_getS16_2BA(LockOnEnemyView *);
 s32 is_split_screen(void);
 }
 extern "C" {
@@ -275,7 +268,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
 #pragma fp_contract on
 void TWindowLockOn::update_for_item(TItem *item) {
     LockOnEntry *e;
-    LockOnEntry *e2;
+    HelpItemRarityStarRow *e2;
     f32 r;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     refresh = &TWindowLockOn::refresh_ground_item;
@@ -288,12 +281,12 @@ void TWindowLockOn::update_for_item(TItem *item) {
     }
     target_size[0] = e->w;
     target_size[1] = 38.0f;
-    e2 = (LockOnEntry *)get_array_entry(1);
+    e2 = (HelpItemRarityStarRow *)get_array_entry(1);
     if (item->get_item_type() == 0 || item->get_item_type() == 1) {
-        ((LockOnEntryGrade *)e2)->grade = (u8)item->calc_display_grade();
+        e2->stars = (u8)item->calc_display_grade();
         target_size[1] += 20.0f;
         e2->flags &= ~2;
-        r = get_item_star_row_width((u8 *)e2);
+        r = e2->get_item_star_row_width();
         if (target_size[0] < r) {
             target_size[0] = r;
         }
@@ -364,7 +357,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     p->max = (f32)((LockOnEnemyView *)enemy)->hp_max;
     p = (LockOnEntryText *)get_array_entry(8);
     p->w = target_size[0] - 28.0f;
-    p->cur = (f32)obj_getS16_2BA((LockOnEnemyView *)enemy);
+    p->cur = (f32)enemy->get_tpmax();
     p->max = (f32)((LockOnEnemyView *)enemy)->tp_max;
 }
 #pragma pop
@@ -401,7 +394,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     }
     {
         g = (LockOnGauge *)get_array_entry(8);
-        g->cur = obj_getS16_2BA(enemy);
+        g->cur = ((TObjChara *)enemy)->get_tpmax();
         g->max = enemy->tp_max;
         ((TWindowHelpItem *)g)->set_flag0_bit2();
     }
@@ -445,7 +438,7 @@ void TWindowLockOn::validate_target() {
             }
         } else if (target->test_actor_flags(0x10000000) == 0) {
             if (target->test_actor_flags(0x20000000) != 0) {
-                if (((TObjChara *)target)->has_flag_0x800() != 0) {
+                if (((TObjChara *)target)->is_actor_dead() != 0) {
                     target_id = 0xFFFF;
                     if ((f32)frames_left > 15.0f) {
                         frames_left = 0xF;

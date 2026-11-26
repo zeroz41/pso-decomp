@@ -22,7 +22,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_8011085C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/TScene.h"
@@ -92,14 +91,14 @@ void TItemTimerEvent::check_battle_ctrl(int client) {
 }
 
 void TItemTimerEvent::start_event_by_index(u16 client_id) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (client_id < 0xCU)) {
-        fn_801108C8((*(u8 * *)&item_timer_event_instance), client_id);
+    if ((item_timer_event_instance != NULL) && (client_id < 0xCU)) {
+        item_timer_event_instance->lock(client_id);
     }
 }
 
 void TItemTimerEvent::clear_timer_slot(u16 client_id) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (client_id < 0xCU)) {
-        fn_8011085C((*(u8 * *)&item_timer_event_instance), client_id);
+    if ((item_timer_event_instance != NULL) && (client_id < 0xCU)) {
+        item_timer_event_instance->unlock(client_id);
     }
 }
 
@@ -160,7 +159,7 @@ void TItemTimerEventHpDrain::vfunc_7() {
 
 void TItemTimerEventHpDrain::vfunc_6() {
         if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
-        TObjectV8047c128_subtract_hp((u8 *)this->player, 1);
+        subtract_actor_hp((TObjChara *)this->player, 1);
     }
 }
 
@@ -197,7 +196,7 @@ void TItemTimerEventPbCharge::vfunc_6() {
 void TItemTimerEventFreezeCurse::vfunc_6() {
 
     if (((TObjChara *)(this->player))->obj_isState2_324() == 0) {
-        if (((TObjPlayer *)this->player)->has_flag_0x800() == 0) {
+        if (((TObjPlayer *)this->player)->is_actor_dead() == 0) {
                         if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->unk_2C)) {
                 ((TObjPlayer *)this->player)->apply_movement_ailment(0);
                 ((TObjPlayer *)this->player)->sync_enemy_state(0);

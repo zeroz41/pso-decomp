@@ -17,18 +17,13 @@ extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
-}
-extern "C" {
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
-}
-s32 is_multiplayer_character_slot_selected(s32 slot);
-extern "C" {
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
 }
-
+s32 is_multiplayer_character_slot_selected(s32 arg0);
 void TAdMultiConfirmGC::render() {  }
 
 void TAdMultiConfirmGC::run_task() {

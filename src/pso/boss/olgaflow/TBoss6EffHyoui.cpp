@@ -6,8 +6,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
 const char *TBoss6EffHyoui::name = "TBoss6EffHyoui";
+extern "C" {
 f32 boss6_eff_hyoui_scale;
 s8 boss6_eff_hyoui_scale_set;
 extern void *tl_02;

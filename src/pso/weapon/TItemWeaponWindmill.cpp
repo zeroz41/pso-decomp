@@ -11,7 +11,7 @@
 #include "pso/weapon/TItemWeaponWindmill.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/map/FloorArea.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/TItemWeapon.h"

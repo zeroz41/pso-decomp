@@ -48,7 +48,7 @@ void TObjEneRe4Bit::clear_harmful_statuses() {  }
 
 void TObjEneRe4Bit::apply_shock_status() {  }
 
-void TObjEneRe4Bit::apply_movement_ailment(s32) {  }
+void TObjEneRe4Bit::apply_movement_ailment(CollisionBody *) {  }
 
 void TObjEneRe4Bit::apply_confusion_status() {  }
 
@@ -532,7 +532,7 @@ void TObjEneRe4Bit::render() {
         TObjEnemy::draw_ground_shadow(&v, 0);
     }
     update_secondary_light();
-    textures = ((NJS_TEXLIST *)texlist)->textures;
+    textures = texlist->textures;
     saved = textures[3].texaddr;
     textures[3].texaddr = textures[texture_index].texaddr;
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -559,5 +559,5 @@ void TObjEneRe4Bit::render() {
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     update_primary_light();
-    ((NJS_TEXLIST *)texlist)->textures[3].texaddr = saved;
+    texlist->textures[3].texaddr = saved;
 }

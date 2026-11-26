@@ -13,7 +13,7 @@ struct TObjEnvSound : public TObjBase {
     s32 mode;          // the row's mode: 1 plays once in range, 2 keeps playing with the attenuation
     virtual void render();
     virtual void run_task();
-    static s32 is_sound_enabled(void *self, s32 cue);
+    s32 is_sound_enabled(s32 cue);
     static void *create(void *set_data);
 };
 

@@ -565,45 +565,44 @@ void TObjEneMe1Canadin::noop() {}
 s32 TObjEneMe1Canadin::acquire_target(f32 range) { return select_and_apply_target(range); }
 
 void TObjEneMe1Canadin::update_fade_sequence() {
-    TObjEneMe1Canadin *p = this;
-    switch (p->fade_mode) {
+    switch (this->fade_mode) {
     case 0:
         break;
     case 1:
-        if (p->core_color.a > 0.0f) {
-            p->core_color.a = p->core_color.a - 0.06f;
+        if (this->core_color.a > 0.0f) {
+            this->core_color.a = this->core_color.a - 0.06f;
         } else {
-            p->core_color.a = 0.0f;
-            p->fade_mode = 0;
+            this->core_color.a = 0.0f;
+            this->fade_mode = 0;
         }
-        p->pack_color_rgba();
+        this->pack_color_rgba();
         break;
     case 2:
-        if (p->core_color.a < 1.0f) {
-            p->core_color.a += 0.06f;
+        if (this->core_color.a < 1.0f) {
+            this->core_color.a += 0.06f;
         } else {
-            p->core_color.a = 1.0f;
-            p->fade_mode = 0;
+            this->core_color.a = 1.0f;
+            this->fade_mode = 0;
         }
-        p->pack_color_rgba();
+        this->pack_color_rgba();
         break;
     case 3:
-        p->fade_step_timer++;
-        if ((f32)p->fade_step_timer >= 2.0f) {
-            p->fade_step_timer = 0;
-            switch (((s8 **)canadin_leader_fade_sequence_table)[p->fade_sequence][p->fade_cursor++]) {
+        this->fade_step_timer++;
+        if ((f32)this->fade_step_timer >= 2.0f) {
+            this->fade_step_timer = 0;
+            switch (((s8 **)canadin_leader_fade_sequence_table)[this->fade_sequence][this->fade_cursor++]) {
             case 0x62:
-                p->core_color.a = 0.0f;
+                this->core_color.a = 0.0f;
                 break;
             case 0x63:
-                p->fade_mode = 0;
-                copy_argb(&p->core_color, (NJS_ARGB *)&canadin_formation_reset_vec4);
+                this->fade_mode = 0;
+                copy_argb(&this->core_color, (NJS_ARGB *)&canadin_formation_reset_vec4);
                 break;
             case 0x61:
-                p->core_color.a = 1.0f;
+                this->core_color.a = 1.0f;
                 break;
             }
-            p->pack_color_rgba();
+            this->pack_color_rgba();
         }
         break;
     }

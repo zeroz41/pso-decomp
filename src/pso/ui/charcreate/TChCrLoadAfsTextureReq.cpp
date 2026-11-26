@@ -5,6 +5,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
+#include <math.h>
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
@@ -16,11 +17,8 @@
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
-extern "C" {
-
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
-const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
-f64 log(f64);
+const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq__class_name_string;
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {
@@ -100,8 +98,6 @@ TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     }
 }
 
-}
-
 void TChCrLoadAfsTextureReq::init_texture_table() {
     s32 i;
     count = textures->nbTexture;
@@ -115,19 +111,19 @@ void TChCrLoadAfsTextureReq::init_texture_table() {
     holds_load_slot = 0;
 }
 
-TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *arg3, s32 arg4)
+TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 display_index)
     : TObject(parent) {
-    m_name = lbl_805D3B50;
+    m_name = name;
     this->textures = textures;
-    completion_flags = arg3;
-    *completion_flags = 0;
+    this->completion_flags = completion_flags;
+    *this->completion_flags = 0;
     completion_mask = 0;
-    display_index = arg4;
+    this->display_index = display_index;
     init_texture_table();
 }
 
 TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsTextureReqArgs *args) : TObject(parent) {
-    m_name = lbl_805D3B50;
+    m_name = name;
     textures = args->textures;
     completion_mask = args->completion_mask;
     completion_flags = args->completion_flags;
@@ -162,7 +158,7 @@ void TChCrLoadGmNjReq::update_model_load() {
         if (request != NULL) {
             request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
         }
-        loaded_bml = (BmlResource *)request;
+        loaded_bml = request;
         if (request != NULL) {
             load_timer = 0x12C;
         }

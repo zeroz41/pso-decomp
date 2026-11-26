@@ -2,7 +2,6 @@
 #include "pso/audio/LscStream.h"
 #include "pso/audio/LscLog.h"
 #include "pso/audio/AdxStream.h"
-#include "pso/audio/LscServer.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/network/TLobby.h"
 #include <string.h>
@@ -13,7 +12,7 @@ extern "C" {
 
 // The three per-status steps are separate functions inlined into lsc_poll (CRI lsc_svr shape).
 // Entry being read (status 1): follow the stream until it ends.
-inline void read_803D1D28(LscStream *lsc_stream) {
+inline void lsc_step_read(LscStream *lsc_stream) {
     LscQueueEntry *entry;
     s32 status;
     if (lsc_stream->file_handle == 0) {
@@ -32,7 +31,7 @@ inline void read_803D1D28(LscStream *lsc_stream) {
     }
 }
 // Entry finished (status 2): close it, step the queue, requeue it when repeating.
-inline void end_803D1D28(LscStream *lsc_stream) {
+inline void lsc_step_end(LscStream *lsc_stream) {
     LscQueueEntry *entry;
     s32 open_mode = 0;
     s32 range_offset = 0;
@@ -59,7 +58,7 @@ inline void end_803D1D28(LscStream *lsc_stream) {
     }
 }
 // Entry waiting (status 0): open its file and start reading.
-inline void wait_803D1D28(LscStream *lsc_stream) {
+inline void lsc_step_wait(LscStream *lsc_stream) {
     LscQueueEntry *entry = &lsc_stream->entries[lsc_stream->read_index];
     if (lsc_stream->queued_count > 0) {
         if (lsc_stream->file_handle == 0) {
@@ -94,13 +93,13 @@ void lsc_poll(LscStream *lsc_stream) {
         return;
     }
     if (lsc_stream->entries[lsc_stream->read_index].status == 1) {
-        read_803D1D28(lsc_stream);
+        lsc_step_read(lsc_stream);
     }
     if (lsc_stream->entries[lsc_stream->read_index].status == 2) {
-        end_803D1D28(lsc_stream);
+        lsc_step_end(lsc_stream);
     }
     if (lsc_stream->entries[lsc_stream->read_index].status == 0) {
-        wait_803D1D28(lsc_stream);
+        lsc_step_wait(lsc_stream);
     }
 }
 

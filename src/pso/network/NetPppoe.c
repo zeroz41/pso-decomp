@@ -85,7 +85,7 @@ s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 t
   return r;
 }
 
-inline s16 put_service_name(u8 **p, PppoeSlot *e) {
+static inline s16 put_service_name(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n;
@@ -103,7 +103,7 @@ inline s16 put_service_name(u8 **p, PppoeSlot *e) {
     return ret;
 }
 
-inline s16 put_host_uniq(u8 **p, PppoeSlot *e) {
+static inline s16 put_host_uniq(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 ret;
@@ -119,7 +119,7 @@ inline s16 put_host_uniq(u8 **p, PppoeSlot *e) {
     return ret;
 }
 
-inline s16 put_ac_cookie(u8 **p, PppoeSlot *e) {
+static inline s16 put_ac_cookie(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n = 0;
@@ -137,7 +137,7 @@ inline s16 put_ac_cookie(u8 **p, PppoeSlot *e) {
     return n;
 }
 
-inline s16 put_relay_session_id(u8 **p, PppoeSlot *e) {
+static inline s16 put_relay_session_id(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n = 0;
@@ -155,7 +155,7 @@ inline s16 put_relay_session_id(u8 **p, PppoeSlot *e) {
     return n;
 }
 
-inline s16 put_end_of_list(u8 **p) {
+static inline s16 put_end_of_list(u8 **p) {
     u16 type;
     u16 len;
     s16 ret;
@@ -169,7 +169,7 @@ inline s16 put_end_of_list(u8 **p) {
     return ret;
 }
 
-inline s16 put_end_of_list3(u8 **p) {
+static inline s16 put_end_of_list3(u8 **p) {
     s32 tag;
     u16 type;
     u16 len;
@@ -351,7 +351,7 @@ s16 write_pppoe_ac_name_tag(u8 **cursor, PppoeSlot *slot) {
 }
 #pragma pop
 
-inline s16 build_padt(PppoeSlot *e) {
+static inline s16 build_padt(PppoeSlot *e) {
     u8 *payload;
     u8 *p;
     s16 n;
@@ -364,7 +364,7 @@ inline s16 build_padt(PppoeSlot *e) {
     return n;
 }
 
-inline void restart_timer(PppoeSlot *e, s16 retries, s32 timeout) {
+static inline void restart_timer(PppoeSlot *e, s16 retries, s32 timeout) {
     get_time_ms(&e->last);
     e->timeout = timeout;
     e->retries = retries;
@@ -457,7 +457,7 @@ void pppoe_process_slot(PppoeSlot *self) {
     }
 }
 
-inline s16 send_frame(PppoeSlot *e, u16 len) {
+static inline s16 send_frame(PppoeSlot *e, u16 len) {
     return post_send_message(e->frame, len);
 }
 

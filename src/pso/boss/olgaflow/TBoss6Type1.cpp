@@ -33,7 +33,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_803E2D70.h"
@@ -100,7 +99,6 @@ CollisionBody TBoss6Type1::collision_body_parts[7] = {
 };
 __declspec(section ".data") s32 boss6_type1_part_model_ids[2] = {3, 6};
 
-extern "C" {
 Boss6Type1MotionSet TBoss6Type1::motion_set_table[21] = {
     {0, 0, 44, 45}, {0, 1, 42, 45}, {0, 2, 44, 56}, {2, 0, 40, 41}, {2, 2, 44, 53},
     {2, 0, 37, 38}, {2, 2, 37, 38}, {2, 8, 29, 30}, {0, 8, 13, 14}, {2, 1, 47, 48},
@@ -109,6 +107,7 @@ Boss6Type1MotionSet TBoss6Type1::motion_set_table[21] = {
     {2, 2, 44, 15},
 };
 
+extern "C" {
 const s8 boss6_type1_low_attack_heights[2] = { 0x12, 0x0A };
 const s8 boss6_type1_mid_attack_heights[2] = { 0x12, -2 };
 static const s32 boss6_type1_slot_count = 24;
@@ -126,10 +125,10 @@ inline const s32 &sway_delay_min() { return boss6_type1_sway_delay_min; }
 inline const s32 &sway_delay_range() { return boss6_type1_sway_delay_range; }
 inline const s32 &anim_count() { return boss6_type1_anim_count; }
 inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
-
-
-
 }
+
+
+
 
 
 
@@ -217,7 +216,7 @@ int TBoss6PlotFalz::is_idle() { return not_floor_leader == 0; }
 TBoss6PlotFalzSetEntry *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
 void TBoss6Type1::clear_harmful_statuses() {  }
 void TBoss6Type1::apply_shock_status() {  }
-void TBoss6Type1::apply_movement_ailment(s32) {  }
+void TBoss6Type1::apply_movement_ailment(CollisionBody *) {  }
 void TBoss6Type1::apply_confusion_status() {  }
 void TBoss6Type1::apply_slow_status() {  }
 void TBoss6Type1::apply_paralysis() {  }
@@ -227,13 +226,9 @@ void TBoss6Type1::apply_poison_status() {  }
 TBoss6Type1 *TBoss6Type1::create(Boss6BodySpawnParams *params) {
     return new TBoss6Type1(new TObjControl(tl_04), params);
 }
-extern "C" {
-
-
 u8 *copy_boss6_type1_vec(saddr dest, saddr source) {
     *(ByteBlock_C_boss6_1 *)(dest) = *(const ByteBlock_C_boss6_1 *)(source);
     return (u8 *)dest;
-}
 }
 
 #pragma push
@@ -1218,8 +1213,8 @@ void TBoss6Type1::check_laser_hits() {
             continue;
         }
         inside = 1;
-        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy((Vec *)(p3), (const Vec *)((void *)VecCopy((Vec *)(p4), (const Vec *)(pA))))));
-        VecCopy(p1, (const Vec *)((void *)VecCopy((Vec *)(p2), (const Vec *)(pB))));
+        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy(p3, (const Vec *)((void *)VecCopy(p4, pA)))));
+        VecCopy(p1, (const Vec *)((void *)VecCopy(p2, pB)));
         off.x = -500.0f * sin_table_lookup(rotation_y);
         off.y = 0.0f;
         off.z = -500.0f * cos_table_lookup(rotation_y);

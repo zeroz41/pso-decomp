@@ -26,7 +26,6 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/SoundEffect.h"
 
 extern "C" {
 void fn_8025DE10(void *context, NJS_POINT2 *cursor);
@@ -307,7 +306,7 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
 }
 
 TWindowBase *TAdEnterSerialAccessGC::open_message_window(s32 text_index) {
-    TWindowMessage *window = (TWindowMessage *)create_message_window_for_size(
+    TWindowMessage *window = create_message_window_for_size(
         const_cast<NJS_POINT2 *>(&serial_message_window_position), const_cast<NJS_POINT2 *>(&serial_message_window_size));
     window->append_line(get_localized_text_entry(0x17, text_index), 1);
     return window;

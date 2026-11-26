@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -83,7 +83,7 @@ void clear_chat_shortcut(s32 i) {
     *p = 0;
 }
 }
-s32 store_chat_shortcut(s32 arg0, s32 arg1);
+s32 store_chat_shortcut(s32 index, s32 arg1);
 s32 store_chat_shortcut(s32 index, s32 arg1) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(index)), arg1); }
 
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {

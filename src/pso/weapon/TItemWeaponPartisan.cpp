@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponPartisan.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyDispData.h"
@@ -17,8 +17,8 @@ TItemWeaponPartisan::~TItemWeaponPartisan() {}
 void TItemWeaponPartisan::emit_marker_effects() {
     switch (get_item_index()) {
     case 6:
-        if (is_mode_two_and_ready() && get_actor_meseta((u8 *)owner) >= 10000) {
-            try_spend_actor_meseta(owner, 10000);
+        if (is_mode_two_and_ready() && owner->get_actor_meseta() >= 10000) {
+            owner->try_spend_actor_meseta(10000);
             show_meseta_label((saddr)owner, (uaddr)&owner->body_center, 0, -10000);
             apply_scale_if_active(3.0f);
             spawn_particle_effect(&owner->body_center, 0x66);
@@ -80,7 +80,7 @@ void TItemWeaponPartisan::update_weapon() {
     s32 speed;
 
     if (get_item_index() == 6) {
-        speed = get_actor_meseta((u8 *)owner) / 100000;
+        speed = owner->get_actor_meseta() / 100000;
         speed = speed * 0x222;
         if (speed > 0x1555) {
             speed = 0x1555;

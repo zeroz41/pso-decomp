@@ -99,7 +99,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 9) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        TObjFish::set_global_param(texture_list);
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -117,13 +117,13 @@ void SlimeAnimationState::draw(s32 deferred) {
         clear_chunk_render_flags();
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+    TObjFish::set_global_param(texture_list);
     set_motion_packed_rotation();
     if (deferred != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(second_texture_list));
+        TObjFish::set_global_param(second_texture_list);
         draw_model_motion(second_model, second_motion, frame);
         clear_chunk_render_flags();
         model_render_flags &= ~0x400000;
@@ -133,7 +133,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         draw_model_motion(model, motion, frame);
         set_cull_front();
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(second_texture_list));
+        TObjFish::set_global_param(second_texture_list);
         set_cull_back();
         draw_model_motion(second_model, second_motion, frame);
         set_cull_front();

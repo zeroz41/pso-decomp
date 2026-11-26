@@ -18,7 +18,7 @@ const char *TAdPlyPltAnimCtrlGC__class_name = "TAdPlyPltAnimCtrlGC";
 extern "C" {
 u32 plyplt_anim_ctrl_instance;
 
-TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC::instances[a0]; }
+TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int index) { return TAdPlyPltAnimGC::instances[index]; }
 
 u32 TAdPlyPltAnimCtrlGC::get_instance(saddr parent) {
     uaddr ad_ply_plt_anim_ctrl_gc;

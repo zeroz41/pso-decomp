@@ -8,6 +8,7 @@ class TChCrEffTagStr;
 
 class TChCrEffTag : public TObject {
 public:
+    static const char *name;
     static s32 selected_heading;
     TChCrEffTag(TObject *parent);
     virtual void run_task();
@@ -16,11 +17,11 @@ public:
     TChCrEffTagStr *label;
     virtual ~TChCrEffTag();
     void draw_chcr_tag_frame();
+    void draw_chcr_tag_heading_frame();
     virtual void render();
 public:
     void refresh_label();
     static void set_eff_tag(int a0);
-    static void *create_str(void *parent, void *sprite, void *position);
 };
 
 LAYOUT_ASSERT(TChCrEffTag_size, sizeof(TChCrEffTag) == 0x2C);

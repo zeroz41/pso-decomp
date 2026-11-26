@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
@@ -262,7 +263,6 @@ inline f32 fmax_800A28A4(f32 a, f32 b) {
 #pragma pop
 f32 dark_gunner_shot_speed;
 
-extern "C" void load_darkgunner_effect_resources();
 
 BmlResource *TObjEneDarkGunner::bml_resource; // bm_ene_darkgunner.bml
 
@@ -362,7 +362,6 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
 }
 }
 
-extern "C" {
 TObjEneDarkGunner::~TObjEneDarkGunner() {
     s32 i;
     free_collision_body_parts(this);
@@ -415,7 +414,6 @@ void TObjEneDarkGunner::cleanup_effects() {
 void *TObjEneDarkGunner::create(void *set_data) {
     return new TObjEneDarkGunner(tl_04, set_data);
 }
-}
 
 #pragma push
 #pragma dont_inline off
@@ -433,7 +431,7 @@ void TObjEneDarkGunner::run_task() {
         return;
     }
     update_flag30_timer();
-    if (has_flag_0x800() != 0) {
+    if (is_actor_dead() != 0) {
         run_death_reaction();
     } else if (test_flag30_512() != 0) {
         run_hit_reaction();
@@ -982,8 +980,7 @@ extern "C" {
 int TObjEneDarkGunner::is_on_ground() { return (actorFlags >> 23) & 0x1; }
 
 void TObjEneDarkGunner::run_miss_reaction() {
-    u8 *self = (u8 *)this;
-    ((TObjBase *)self)->clear_actor_flags((s32)(0x100U));
+    this->clear_actor_flags((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);
     play_sound_effect(0x4003B22D, &position, 0, 0);
 }

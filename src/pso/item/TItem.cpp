@@ -25,7 +25,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_801F3A24.h"
@@ -54,7 +54,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/item/armor/TItemProArmor.h"
@@ -68,7 +67,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8007EB94.h"
 #include <dolphin/base/PPCArch.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1190,7 +1188,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
         TObjPlayer *owner = get_player_by_client_id(get_owner_client());
         if (owner != NULL) {
             s16 hp = ((TObjChara *)owner)->get_actor_hp();
-            s16 tp = get_actor_tp(owner);
+            s16 tp = owner->get_actor_tp();
             s32 slot;
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = owner->get_equipped_item(slot);
@@ -1346,7 +1344,7 @@ void TItemEquipBase::refresh_owner_stats() {
     TObjPlayer *player = owner;
     if (player != NULL) {
         s16 hp = ((TObjChara *)player)->get_actor_hp();
-        s16 tp = get_actor_tp(owner);
+        s16 tp = owner->get_actor_tp();
         remove_equip_stats(0);
         add_equip_stats(0);
         owner->recalc_stats();

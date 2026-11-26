@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/unk/text_8026A93C.h"
+#include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"

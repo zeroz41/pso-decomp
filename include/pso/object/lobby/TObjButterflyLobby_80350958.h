@@ -3,12 +3,6 @@
 
 #include "types.h"
 
-struct TObjButterflyLobby;
-class TObject;
-struct ObjectSetData;
-extern "C" {
-void *__dt__18TObjButterflyLobbyFv(void *arg0, s16 arg1);
-void render__18TObjButterflyLobbyFPv(TObjButterflyLobby *butterfly_lobby);
-}
+void load_lobby_butterfly_bml_resource(void);
 
 #endif

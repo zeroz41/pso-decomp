@@ -15,6 +15,5 @@ public:
     s32 rotation_z;  // rotate_matrix_z angle of the model hook, spun there
 };
 
-extern "C" TItem *TItemWeaponLavisCannon::create(u8 *item);
 
 #endif

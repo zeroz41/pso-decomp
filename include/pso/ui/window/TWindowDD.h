@@ -9,14 +9,25 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
 
 class TWindowDD_WS_Word;
+class TWindowDD_WS_String;
 class TWindowDD_WS_ScrollBar;
 class TWindowWordSelectMode;
+struct TWindowInputNumber;
 struct NJS_TEXLIST;
 
 struct TWindowDDValueList {
     s16 *values;
     s32 count;
 };
+
+// One row of the word select state table, indexed by TWindowDD::state.
+struct TWindowDDStateEntry {
+    u32 flags;     // 2: leaving the state drops the last word; 4: it adds a string to strings[4..]
+    s16 prompt_id; // word shown in strings[2] while the state is open, -1 for none
+    u8 pad_6[0x2];
+};
+
+extern TWindowDDStateEntry word_select_state_table[21];
 
 struct TWindowDD : public TObject
 {
@@ -28,41 +39,37 @@ struct TWindowDD : public TObject
     TWindowDD(TObject *parent, WordSelectMessage *output);
     virtual ~TWindowDD();
     virtual void run_task();
-    s16 menu_index;
-    u8 _pad1E[0x2];
-    s32 depth;  // levels opened so far; each has a word window
-    u32 word_windows[8];  // the TWindowDD_WS_Word of each level
-    u32 level_states[8];  // the state a level was in when the next level was opened
-    u32 labels[6];  // TWindowDD_WS_String windows: SELECT, NEXT, the entry text, the message text and two cursor labels
-    TWindowDD_WS_ScrollBar *scroll_bar;  // shows where the visible rows sit in the word list
-    TWindowWordSelectMode *mode_window;  // the three-row mode indicator
-    uaddr number_window;  // the TWindowInputNumber of a numeric entry
-    s32 m_88;
-    s32 m_8c;
-    s32 m_90;
-    u32 result_flags;
-    s32 token_pushed;  // 1 once a word of the message has been taken from the list
+    s16 menu_index;                     // Its address is the input context of the button tests.
+    u8 pad_1e[0x2];
+    s32 depth;                          // levels opened so far; each has a word window
+    TWindowDD_WS_Word *word_windows[8];
+    s32 level_states[8];                // the state a level was in when the next level was opened
+    TWindowDD_WS_String *labels[6];     // SELECT, NEXT, the entry text, the message text and two cursor labels
+    TWindowDD_WS_ScrollBar *scroll_bar; // shows where the visible rows sit in the word list
+    TWindowWordSelectMode *mode_window; // the three-row mode indicator
+    TWindowInputNumber *number_window;  // the TWindowInputNumber of a numeric entry
+    s32 list_ids[3];                    // element lists of pages depth .. depth + 2
+    s32 result_flags;
+    s32 token_pushed;                   // 1 once a word of the message has been taken from the list
     s32 last_selected_id;
-    u32 enemies_active;
-    u32 m_a4;
-    s32 dialog_state;  // 0 choosing, 1 the confirm rows (mode_window) are active, 2 idle
-    s32 pending_transition;  // 0 none, 1 open the next level, 2 close this one
-    s32 state;  // run_state's switch
+    s32 enemies_active;
+    s32 selection_confirmed;
+    s32 dialog_state;                   // 0 choosing, 1 the confirm rows (mode_window) are active, 2 idle
+    s32 pending_transition;             // 0 none, 1 open the next level, 2 close this one
+    s32 state;                          // run_state's switch
     s32 next_state;
     s32 dialog_locked;
     s32 extra_window_count;
-    WordSelectMessage *output;  // the caller's message, written when the player accepts
-    WordSelectMessage message;  // the message being composed
-    WordSelectMessage final_message;  // copied to output when the player accepts
+    WordSelectMessage *output;          // the caller's message, written when the player accepts
+    WordSelectMessage message;          // the message being composed
+    WordSelectMessage final_message;    // copied to output when the player accepts
     s16 selected_word;
-    u8 _padFE[0x2];
-    u32 m_100;
-    u32 m_104;
-    static s32 apply_both_choices(s32 unused, saddr buttons);
-    static void *create();
+    u8 pad_fe[0x2];
+    s32 pad_100;
+    s32 pad_104;
+    static s32 apply_both_choices(void *unused, saddr buttons);
     static s32 check_all_ready(s32 floor);
     void update_com_card();
-    void set_pos_and_data(f32 farg0);
     void enter_state_19();
     void enter_state_18();
     void enter_state_9();
@@ -82,10 +89,10 @@ struct TWindowDD : public TObject
     static s32 is_state_zero_unless_0x2C8(s32 id);
     void destroy_menu_entry(s32 offset);
     void set_item_pos(s32 i);
-    u8 *init_last_child();
+    TWindowDD_WS_Word *init_last_child();
     s32 setup_entry(s16 id);
     s32 get_current_child_index();
-    static void *get_entry(void *window, int index);
+    TWindowDDStateEntry *get_state_entry(s32 state);
     void init_entry_field_64(s32 index);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
@@ -122,14 +129,15 @@ struct TWindowDD : public TObject
     static s32 get_draw_count(const NJS_TEXLIST *textures);
     static saddr get_entry(s32 index);
     static void init_ws_data_tables();
-    static s32 lookup_item_category(s32 arg0);
+    static s32 lookup_item_category(s32 item);
     void handle_confirm_input();
     void update_selection_state();
     static void update_draw(void *p);
-    static void enter_state_16(void *window_dd);
-    static void apply_entry_layout(void *window_dd);
-    static void update_state(void *window_dd);
-    static s32 update_close_flag(void *window_dd);
+    void enter_state_16();
+    void apply_entry_layout();
+    void update_state();
+    s32 update_close_flag();
+    void handle_input();
 };
 
 #include <stddef.h>
@@ -145,5 +153,14 @@ void TWindowDD__sub_80344114(void);
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
 extern const s32 word_select_numeric_limits[6];
+extern const f32 window_dd_row_height;
+extern const s32 window_dd_tween_ticks;
+extern const f32 window_dd_visible_rows;
+extern const f32 window_dd_frame_margin;
+extern const f32 word_page_x;
+extern const f32 word_page_y;
+extern const f32 word_page_width;
+extern const f32 word_page_height;
+extern const f32 word_page_depth;
 
 #endif

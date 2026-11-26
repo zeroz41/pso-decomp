@@ -36,8 +36,8 @@ const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 NJS_TEXLIST *player_tex_texture_list_ptr;
 
 extern "C" {
-
 extern const s32 current_language;
+}
 
 void TLobby__sub_802A5154(void) {
     if (player_tex_texture_list_ptr != NULL) {
@@ -122,7 +122,6 @@ void TAdTitleTexGC::render() {
     }
 }
 
-}
 
 void TAdTitleTexGC::render_status_pair(s32 color) {
     begin_screen_draw(1);

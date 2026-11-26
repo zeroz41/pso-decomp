@@ -25,7 +25,7 @@ extern const char dead_list_name_separator[] = "\n";
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];
     s32 i;
-    m_window_handle = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
+    m_window_handle = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
     if (m_window_handle != NULL) {
         text[0] = 0;
         strcat(text, dead_list_text_prefix);

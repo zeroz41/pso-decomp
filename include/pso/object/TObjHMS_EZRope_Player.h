@@ -35,4 +35,8 @@ public:
 };
 LAYOUT_ASSERT(TObjHMS_EZRope_Player_size, sizeof(TObjHMS_EZRope_Player) == 0x48);
 
+void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src);
+void copy_ezrope_end(TObjEZRopeEnd *dst, TObjEZRopeEnd *src);
+void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src);
+
 #endif

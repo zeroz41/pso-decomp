@@ -17,9 +17,7 @@ public:
 };
 LAYOUT_ASSERT(TWindowShop_size, sizeof(TWindowShop) == 0x8C);
 
-extern "C" {
 // Opens the shop item list (title text, row capacity) placed for the current camera layout.
 TWindowShop *create_item_list_window(s32 title, s32 count, s32 client);
-}
 
 #endif

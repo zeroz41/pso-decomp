@@ -21,4 +21,14 @@ struct TWindowChatSymbol : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowChatSymbol_size, sizeof(TWindowChatSymbol) == 0x68);
+
+struct WindowLayoutEntries;
+class WindowSpritePart;
+extern "C" {
+void get_symbol_chat_frame_size(int a0, void *a1);
+void apply_face_appearance_sprite(WindowLayoutEntries *entries, u8 appearance);
+}
+int set_symbol_chat_face_sprite(WindowSpritePart *sprite, u8 b);
+void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data);
+
 #endif

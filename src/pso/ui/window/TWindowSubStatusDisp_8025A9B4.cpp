@@ -11,6 +11,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/WindowDrawContext.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #pragma readonly_strings on
@@ -20,15 +22,6 @@ u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
-void render_text_entry(WindowTextEntry *entry, WindowDrawContext *context);
-
-void *lbl_804CFA28[6] = {
-    0, 0,
-    (void *)TWindowSubStatusDisp__sub_8025AF0C,
-    (void *)advance_text_entry_reveal,
-    (void *)render_text_entry,
-    0,
-};
 
 void TWindowHelpItem::reset_float_field() {
     *(f32 *)&this->sort_depth = (f32) (9e+05f);
@@ -145,31 +138,30 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
 
 #pragma push
 #pragma opt_common_subs off
-void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags) {
-    WindowTextEntry *entry = (WindowTextEntry *)text_entry;
+void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
     saddr num;
     u16 old_flags;
-    if ((u32) entry->text != 0U) {
+    if (entry->text != NULL) {
         old_flags = entry->flags;
         if (old_flags & 0x20) {
-            entry->flags = (u16) (old_flags & 0xFFFFFFDF);
-            mem_free((void *)((saddr) (entry->text)));
+            entry->flags = old_flags & 0xFFFFFFDF;
+            mem_free(entry->text);
         }
     }
     if ((str != 0U) && (flags & 0x20)) {
-        num = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x400));
-        entry->text = (char *)((uaddr)mem_alloc(num + 1));
+        num = TWindowKeyBoardSoft::strnlen((s8 *)str, 0x400);
+        entry->text = (char *)mem_alloc(num + 1);
         strncpy(entry->text, (const char *)str, num);
-        *(s8 *)(num + (u32)entry->text) = 0;
-        entry->flags = (u16) (entry->flags | 0x20);
+        *(char *)(num + (uaddr)entry->text) = 0;
+        entry->flags = entry->flags | 0x20;
     } else {
         entry->text = (char *)str;
     }
     if (entry->reveal_step > K_CFAC) {
-        entry->reveal_pos = (f32) K_CFAC;
+        entry->reveal_pos = K_CFAC;
     }
-    entry->flags = (u16) (entry->flags & ~0x2D1);
-    entry->flags = (u16) (entry->flags | (flags & 0x2C1));
+    entry->flags = entry->flags & ~0x2D1;
+    entry->flags = entry->flags | (flags & 0x2C1);
 }
 #pragma pop
 
@@ -177,40 +169,40 @@ int TWindowDuelResult::set_default_status(void* p, int a1) { return ((int (*)(vo
 
 #pragma push
 #pragma fp_contract on
-void render_text_entry(WindowTextEntry *entry, WindowDrawContext *context) {
+void WindowTextEntry::render(WindowDrawContext *context) {
     f32 t;
     f32 a;
     f32 len;
     NJS_POINT2 pt;
     f32 scale;
-    f32 alpha;
-    s32 r;
-    if (entry->text != NULL && *entry->text != 0) {
-    pt.x = context->inner_x + entry->x;
-    pt.y = context->inner_y + entry->y;
-    scale = (-1.0f) / ((0.299f) * entry->depth + context->depth);
-    if (entry->flags & 0x40) {
-        alpha = K_CFB0;
+    f32 clip;
+    s32 clipped;
+    if (text != NULL && *text != 0) {
+    pt.x = context->inner_x + x;
+    pt.y = context->inner_y + y;
+    scale = (-1.0f) / ((0.299f) * depth + context->depth);
+    if (flags & 0x40) {
+        clip = K_CFB0;
     } else {
-        alpha = context->clip_x1;
+        clip = context->clip_x1;
     }
-    a = entry->y / (21.0f);
-    t = a + entry->x / context->inner_w;
+    a = y / (21.0f);
+    t = a + x / context->inner_w;
     t *= (7.5f);
     len = (17.0f) * ((f32)context->open_tick - t);
-    if (len > entry->reveal_pos) {
-        len = entry->reveal_pos;
+    if (len > reveal_pos) {
+        len = reveal_pos;
     }
-    set_text_draw_params(context, (s32)(!(entry->flags & 0x100)), (s32)(entry->flags & 0x80), scale, alpha);
-    if (entry->flags & 4) {
-        r = draw_small_font_string_clipped((f32 *)&pt, (const char *)entry->text, entry->color, len);
+    set_text_draw_params(context, (!(flags & 0x100)), (flags & 0x80), scale, clip);
+    if (flags & 4) {
+        clipped = draw_small_font_string_clipped((f32 *)&pt, text, color, len);
     } else {
-        r = draw_window_text((f32 *)&pt, (const char *)entry->text, entry->color, ((entry->flags >> 9) & 1), len);
+        clipped = draw_window_text((f32 *)&pt, text, color, ((flags >> 9) & 1), len);
     }
-    if (r != 0) {
-        entry->flags |= 0x10;
+    if (clipped != 0) {
+        flags |= 0x10;
     } else {
-        entry->flags &= ~0x10;
+        flags &= ~0x10;
     }
     }
 }
@@ -218,55 +210,40 @@ void render_text_entry(WindowTextEntry *entry, WindowDrawContext *context) {
 
 #pragma push
 #pragma opt_common_subs off
-void advance_text_entry_reveal(u8 *text_entry) {
-    WindowTextEntry *entry = (WindowTextEntry *)text_entry;
-    if (!(entry->flags & 8)) {
-        entry->reveal_pos = (f32) (entry->reveal_pos + entry->reveal_step);
-        if (entry->reveal_pos > (9e+05f)) {
-            entry->reveal_pos = (f32) (9e+05f);
+void WindowTextEntry::update() {
+    if (!(flags & 8)) {
+        reveal_pos = reveal_pos + reveal_step;
+        if (reveal_pos > (9e+05f)) {
+            reveal_pos = (9e+05f);
         }
     }
 }
 #pragma pop
 
-void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 delete_flag) {
-    u16 flags;
-    WindowTextEntry *entry = (WindowTextEntry *)window_sub_status_disp;
-
-    if (window_sub_status_disp != NULL) {
-        *(void ***)((s8 *)window_sub_status_disp + 4) = lbl_804CFA28;
-        if ((u32) entry->text != 0U) {
-            flags = entry->flags;
-            if (flags & 0x20) {
-                entry->flags = (u16) (flags & 0xFFFFFFDF);
-                mem_free((void *)(entry->text));
-            }
-        }
-        __dt__17TWindowLayoutRectFv(window_sub_status_disp, 0);
-        if (delete_flag > 0) {
-            ::operator delete(window_sub_status_disp);
+WindowTextEntry::~WindowTextEntry() {
+    u16 old_flags;
+    if (text != NULL) {
+        old_flags = flags;
+        if (old_flags & 0x20) {
+            flags = old_flags & 0xFFFFFFDF;
+            mem_free(text);
         }
     }
-    return window_sub_status_disp;
 }
 
-u8 *construct_text_entry(u8 *text_entry, u8 *rec, s32 client) {
-    WindowTextEntry *entry = (WindowTextEntry *)text_entry;
-    __ct__17TWindowLayoutRectFl(text_entry, client);
-    *(s32 **)((s8 *)text_entry + 4) = ((s32 *)&lbl_804CFA28);
-    entry->x = (f32) *(f32 *)((s8 *)rec + 4);
-    entry->y = (f32) *(f32 *)((s8 *)rec + 8);
-    entry->depth = (f32) *(f32 *)((s8 *)rec + 0xC);
-    entry->flags = (u16) *(s32 *)((s8 *)rec + 0x14);
-    entry->reveal_pos = (f32) K_CFAC;
-    entry->color = (s32) *(s32 *)((s8 *)rec + 0x10);
-    entry->reveal_step = TWindowSubStatusDisp::get_card_window_scale((int) ((s32) entry->client));
-    if (entry->flags & 4) {
-        entry->reveal_step = (f32) (entry->reveal_step * K_CFC4);
+WindowTextEntry::WindowTextEntry(TextLayoutRecord *rec, s32 client) : TWindowLayoutRect(client) {
+    x = rec->pos[0];
+    y = rec->pos[1];
+    depth = rec->depth;
+    flags = rec->flags;
+    reveal_pos = K_CFAC;
+    color = rec->color;
+    reveal_step = TWindowSubStatusDisp::get_card_window_scale(this->client);
+    if (flags & 4) {
+        reveal_step = reveal_step * K_CFC4;
     }
-    if (entry->reveal_step <= K_CFAC) {
-        entry->reveal_pos = (f32) (9e+05f);
+    if (reveal_step <= K_CFAC) {
+        reveal_pos = (9e+05f);
     }
-    entry->text = (char *)*(s32 *)((s8 *)rec + 0x18);
-    return text_entry;
+    text = (char *)rec->text;
 }

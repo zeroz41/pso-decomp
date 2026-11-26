@@ -5,6 +5,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
+#include "pso/system/SubtractiveRng.h"
 #include <stddef.h>
 
 struct NJS_OBJECT;
@@ -108,7 +109,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void render_demo();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
-    virtual void apply_movement_ailment(s32);
+    virtual void apply_movement_ailment(CollisionBody *);
     virtual void apply_confusion_status();
     virtual void apply_slow_status();
     virtual void apply_paralysis();
@@ -131,7 +132,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     TBoss5GryphonColli *collider;
     RenderFadeState renderFadeStates[4];
     const s32 *effect_ids;
-    u8 rng[0xE8];
+    SubtractiveRng rng;
     // The state handlers reset the words they use on ENTER and read them their own way.
     union {
         Boss5GryphonStepWork work;            // the step machine most handlers run

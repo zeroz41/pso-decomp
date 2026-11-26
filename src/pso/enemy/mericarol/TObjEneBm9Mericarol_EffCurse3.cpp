@@ -40,10 +40,10 @@ TObjEneBm9Mericarol_EffCurse3::~TObjEneBm9Mericarol_EffCurse3() {
     }
 }
 
-const char *TObjEneBm9Mericarol_EffCurse3__class_name = "TObjEneBm9Mericarol_EffCurse3";
+const char *TObjEneBm9Mericarol_EffCurse3::class_name = "TObjEneBm9Mericarol_EffCurse3";
 
 TObjEneBm9Mericarol_EffCurse3::TObjEneBm9Mericarol_EffCurse3(TObject *parent, TObjBase *victim) : TObject(parent) {
-    m_name = TObjEneBm9Mericarol_EffCurse3__class_name;
+    m_name = TObjEneBm9Mericarol_EffCurse3::class_name;
     age = 0;
     target = victim;
     if (target->is_alive() != 0) {

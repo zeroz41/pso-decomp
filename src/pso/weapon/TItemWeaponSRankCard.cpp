@@ -12,14 +12,14 @@
 #include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-extern "C" void get_weapon_color__11TItemWeaponFPv(void *, void *);
+extern "C" void get_weapon_color__11TItemWeaponFv(void *, void *);
 
 void TItemWeaponSRankCard::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     NJS_ARGB color;
     desc->scale = 5.0f;
     desc->spin[2] = 0xC000;
     desc->flags |= 0x282;
-    get_weapon_color__11TItemWeaponFPv(&color, this);
+    get_weapon_color__11TItemWeaponFv(&color, this);
     copy_argb(&desc->color, &color);
     desc->hit_effect = (void *)TObjPlayer::create_network_object;
     desc->wall_effect = (void *)start_wall_card;

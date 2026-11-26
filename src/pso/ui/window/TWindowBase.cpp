@@ -284,7 +284,7 @@ void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
     resort_window_order();
     tween_ticks = 0;
     client_index = client;
-    init_window_layout_entries(&entry_list, ((WindowDescriptor *)descriptor)->layout, (int) (client_index));
+    init_window_layout_entries(&entry_list, ((WindowDescriptor *)descriptor)->layout, (client_index));
     open_tick = 0;
     closing_tick = 0;
     if (!(window_flags & 1) && !(window_flags & 2)) {
@@ -361,7 +361,6 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     set_default_alpha_blend();
 }
 
-extern "C" {
 void end_window_sweep_draw(s32 texture) {
     switch (window_ui_theme_index) {
     case 0:
@@ -373,12 +372,10 @@ void end_window_sweep_draw(s32 texture) {
     init_tev_swap();
 }
 
-}
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
-void draw_window_sweep_strip(TexturedQuad *q, WindowDrawContext *r) {
+void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context) {
     ProjectedStripVertex v[6];
     f32 z;
     f32 t;
@@ -391,51 +388,51 @@ void draw_window_sweep_strip(TexturedQuad *q, WindowDrawContext *r) {
     case 1:
         return;
     }
-    z = -1.0f / r->depth;
-    t = ((5.0f * lbl_805D63F6 - 100.0f) - r->x) / r->w;
-    mx = t * (q->x1 - q->x0) + q->x0;
-    mu = t * (q->u1 - q->u0) + q->u0;
+    z = -1.0f / context->depth;
+    t = ((5.0f * lbl_805D63F6 - 100.0f) - context->x) / context->w;
+    mx = t * (quad->x1 - quad->x0) + quad->x0;
+    mu = t * (quad->u1 - quad->u0) + quad->u0;
     if (t > 0.5f) {
         alpha = 2.0f * (160.0f * (1.0f - t));
     } else {
         alpha = 160.0f * (2.0f * t);
     }
     color = ((u8)alpha << 24) | 0xFFFFFF;
-    v[0].x = q->x0;
-    v[0].y = q->y0;
+    v[0].x = quad->x0;
+    v[0].y = quad->y0;
     v[0].w = z;
-    v[0].u = q->u0;
-    v[0].v = q->v0;
+    v[0].u = quad->u0;
+    v[0].v = quad->v0;
     v[0].color = 0xFFFFFF;
-    v[1].x = q->x0;
-    v[1].y = q->y1;
+    v[1].x = quad->x0;
+    v[1].y = quad->y1;
     v[1].w = z;
-    v[1].u = q->u0;
-    v[1].v = q->v1;
+    v[1].u = quad->u0;
+    v[1].v = quad->v1;
     v[1].color = 0xFFFFFF;
     v[2].x = mx;
-    v[2].y = q->y0;
+    v[2].y = quad->y0;
     v[2].w = z;
     v[2].u = mu;
-    v[2].v = q->v0;
+    v[2].v = quad->v0;
     v[2].color = color;
     v[3].x = mx;
-    v[3].y = q->y1;
+    v[3].y = quad->y1;
     v[3].w = z;
     v[3].u = mu;
-    v[3].v = q->v1;
+    v[3].v = quad->v1;
     v[3].color = color;
-    v[4].x = q->x1;
-    v[4].y = q->y0;
+    v[4].x = quad->x1;
+    v[4].y = quad->y0;
     v[4].w = z;
-    v[4].u = q->u1;
-    v[4].v = q->v0;
+    v[4].u = quad->u1;
+    v[4].v = quad->v0;
     v[4].color = 0xFFFFFF;
-    v[5].x = q->x1;
-    v[5].y = q->y1;
+    v[5].x = quad->x1;
+    v[5].y = quad->y1;
     v[5].w = z;
-    v[5].u = q->u1;
-    v[5].v = q->v1;
+    v[5].u = quad->u1;
+    v[5].v = quad->v1;
     v[5].color = 0xFFFFFF;
     draw_projected_textured_strip(v, 6);
 }
@@ -472,7 +469,7 @@ BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowBase::draw_message_frame_row(TexturedQuad *q, WindowDrawContext *r) {
+void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *context) {
     f32 rem;
     f32 t;
     f32 z;
@@ -482,44 +479,44 @@ void TWindowBase::draw_message_frame_row(TexturedQuad *q, WindowDrawContext *r) 
     } else {
         w = 32.0f;
     }
-    z = -1.0f / r->depth;
-    q->x0 = r->x;
-    q->x1 = r->x + w;
-    q->u0 = 0.3828125f;
-    q->u1 = 0.5078125f;
-    q->x0 = r->scale[0] * (q->x0 - r->pivot[0]) + r->pivot[0];
-    q->x1 = r->scale[0] * (q->x1 - r->pivot[0]) + r->pivot[0];
-    draw_textured_quad_at_depth((f32 *)q, z);
-    q->x0 = (r->x + this->frame_size[0]) - w;
-    q->x1 = r->x + this->frame_size[0];
-    q->u0 = 0.6328125f;
-    q->u1 = 0.7578125f;
-    q->x0 = r->scale[0] * (q->x0 - r->pivot[0]) + r->pivot[0];
-    q->x1 = r->scale[0] * (q->x1 - r->pivot[0]) + r->pivot[0];
-    draw_textured_quad_at_depth((f32 *)q, z);
-    q->x0 = 32.0f + r->x;
-    q->u0 = 0.5078125f;
-    q->u1 = 0.6328125f;
-    rem = r->scale[0] * (this->frame_size[0] - 64.0f);
-    q->x0 = r->scale[0] * (q->x0 - r->pivot[0]) + r->pivot[0];
+    z = -1.0f / context->depth;
+    quad->x0 = context->x;
+    quad->x1 = context->x + w;
+    quad->u0 = 0.3828125f;
+    quad->u1 = 0.5078125f;
+    quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
+    quad->x1 = context->scale[0] * (quad->x1 - context->pivot[0]) + context->pivot[0];
+    draw_textured_quad_at_depth((f32 *)quad, z);
+    quad->x0 = (context->x + this->frame_size[0]) - w;
+    quad->x1 = context->x + this->frame_size[0];
+    quad->u0 = 0.6328125f;
+    quad->u1 = 0.7578125f;
+    quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
+    quad->x1 = context->scale[0] * (quad->x1 - context->pivot[0]) + context->pivot[0];
+    draw_textured_quad_at_depth((f32 *)quad, z);
+    quad->x0 = 32.0f + context->x;
+    quad->u0 = 0.5078125f;
+    quad->u1 = 0.6328125f;
+    rem = context->scale[0] * (this->frame_size[0] - 64.0f);
+    quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
     while (rem >= 0.0f) {
         if (rem < 32.0f) {
-            q->x1 = q->x0 + rem;
+            quad->x1 = quad->x0 + rem;
             t = 130.0f + rem;
-            q->u1 = t / 256.0f;
+            quad->u1 = t / 256.0f;
         } else {
-            q->x1 = 32.0f + q->x0;
+            quad->x1 = 32.0f + quad->x0;
         }
-        draw_textured_quad_at_depth((f32 *)q, z);
+        draw_textured_quad_at_depth((f32 *)quad, z);
         rem -= 32.0f;
-        q->x0 += 32.0f;
+        quad->x0 += 32.0f;
     }
 }
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_quest_message_frame(void *c_arg) {
-    WindowDrawContext *c = (WindowDrawContext *)c_arg;
+void TWindowBase::draw_quest_message_frame(void *context) {
+  WindowDrawContext *c = (WindowDrawContext *)context;
   TexturedQuad q;
   f32 step;
   f32 rem;
@@ -560,7 +557,7 @@ void TWindowBase::draw_quest_message_frame(void *c_arg) {
   {
     if (rem < 32.0f)
     {
-      step = rem * ((float) c->scale[1]);
+      step = rem * c->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + step;
@@ -569,7 +566,6 @@ void TWindowBase::draw_quest_message_frame(void *c_arg) {
     q.y0 += step;
   }
   TWindowSubStatusDisp::get_player();
-}
 }
 
 #pragma push
@@ -620,7 +616,7 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanlines(u8 *card, u8 *arg1) {
+void draw_window_scanlines(u8 *card, u8 *context) {
     s32 n1;
     s32 i;
     s32 n2;
@@ -640,11 +636,11 @@ void draw_window_scanlines(u8 *card, u8 *arg1) {
     if (y - (f32)n2 >= *(f32 *)((s8 *)card + 0x48) - 24.0f) {
         return;
     }
-    set_line_width(12.0f * *(f32 *)((s8 *)arg1 + 0x2C));
+    set_line_width(12.0f * *(f32 *)((s8 *)context + 0x2C));
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        TWindowSubComCard__sub_80245A10(card, i, (WindowDrawContext *)arg1, y);
+        TWindowSubComCard__sub_80245A10(card, i, (WindowDrawContext *)context, y);
         y -= step;
     }
     set_default_alpha_blend();
@@ -655,58 +651,57 @@ void draw_window_scanlines(u8 *card, u8 *arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TWindowBase::draw_window_frame_strips(TexturedQuad *q, WindowDrawContext *r) {
+void TWindowBase::draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext *context) {
   f32 rem;
   f32 t;
   f32 z;
   f32 w;
-  z = -1.0f / r->depth;
+  z = -1.0f / context->depth;
   w = 0.5f * frame_size[0];
   if (w > 32.0f)
   {
     w = 32.0f;
   }
-  q->x0 = r->x;
-  q->x1 = r->x + w;
-  q->u0 = 0.0f;
-  q->u1 = w / 256.0f;
-  q->x0 = (r->scale[0] * (q->x0 - r->pivot[0])) + r->pivot[0];
-  q->x1 = (r->scale[0] * (q->x1 - r->pivot[0])) + r->pivot[0];
-  draw_textured_quad_at_depth((f32 *)q, z);
-  q->x0 = (r->x + frame_size[0]) - w;
-  q->x1 = r->x + frame_size[0];
-  q->u0 = (96.0f - w) / 256.0f;
-  q->u1 = 0.375f;
-  q->x0 = (r->scale[0] * (q->x0 - r->pivot[0])) + r->pivot[0];
-  q->x1 = (r->scale[0] * (q->x1 - r->pivot[0])) + r->pivot[0];
-  draw_textured_quad_at_depth((f32 *)q, z);
-  q->x0 = 32.0f + r->x;
-  q->u0 = 0.125f;
-  q->u1 = 0.25f;
-  rem = r->scale[0] * (frame_size[0] - 64.0f);
-  q->x0 = (r->scale[0] * (q->x0 - r->pivot[0])) + r->pivot[0];
+  quad->x0 = context->x;
+  quad->x1 = context->x + w;
+  quad->u0 = 0.0f;
+  quad->u1 = w / 256.0f;
+  quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
+  quad->x1 = (context->scale[0] * (quad->x1 - context->pivot[0])) + context->pivot[0];
+  draw_textured_quad_at_depth((f32 *)quad, z);
+  quad->x0 = (context->x + frame_size[0]) - w;
+  quad->x1 = context->x + frame_size[0];
+  quad->u0 = (96.0f - w) / 256.0f;
+  quad->u1 = 0.375f;
+  quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
+  quad->x1 = (context->scale[0] * (quad->x1 - context->pivot[0])) + context->pivot[0];
+  draw_textured_quad_at_depth((f32 *)quad, z);
+  quad->x0 = 32.0f + context->x;
+  quad->u0 = 0.125f;
+  quad->u1 = 0.25f;
+  rem = context->scale[0] * (frame_size[0] - 64.0f);
+  quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      q->x1 = q->x0 + rem;
+      quad->x1 = quad->x0 + rem;
       t = 32.0f + rem;
-      q->u1 = t / 256.0f;
+      quad->u1 = t / 256.0f;
     }
     else
     {
-      q->x1 = 32.0f + q->x0;
+      quad->x1 = 32.0f + quad->x0;
     }
-    draw_textured_quad_at_depth((f32 *)q, z);
+    draw_textured_quad_at_depth((f32 *)quad, z);
     rem -= 32.0f;
-    q->x0 += 32.0f;
+    quad->x0 += 32.0f;
   }
 
 }
 #pragma pop
 
 #pragma fp_contract on
-#define ctx ((WindowDrawContext *)context)
 void TWindowBase::draw_window_frame(void *context) {
   TexturedQuad q;
   s32 n;
@@ -715,7 +710,7 @@ void TWindowBase::draw_window_frame(void *context) {
   f32 rem;
   begin_screen_draw(1);
   TObjFish::set_global_param(hud_texlist);
-  set_draw_texture_and_color(1, ctx->color);
+  set_draw_texture_and_color(1, ((WindowDrawContext *)context)->color);
   n = (s32) frame_size[1];
   n += (4 - (n & 3)) & 3;
   if (((f32) n) < 64.0f)
@@ -726,42 +721,41 @@ void TWindowBase::draw_window_frame(void *context) {
   {
     h = 32.0f;
   }
-  q.y0 = ctx->y;
-  q.y1 = ctx->y + h;
+  q.y0 = ((WindowDrawContext *)context)->y;
+  q.y1 = ((WindowDrawContext *)context)->y + h;
   q.v0 = 0.0f;
   q.v1 = h / 256.0f;
-  q.y0 = (ctx->scale[1] * (q.y0 - ctx->pivot[1])) + ctx->pivot[1];
-  q.y1 = (ctx->scale[1] * (q.y1 - ctx->pivot[1])) + ctx->pivot[1];
-  draw_window_frame_strips(&q, ctx);
-  q.y0 = (ctx->y + n) - h;
-  q.y1 = ctx->y + n;
+  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+  q.y0 = (((WindowDrawContext *)context)->y + n) - h;
+  q.y1 = ((WindowDrawContext *)context)->y + n;
   q.v0 = (96.0f - h) / 256.0f;
   q.v1 = 0.375f;
-  q.y0 = (ctx->scale[1] * (q.y0 - ctx->pivot[1])) + ctx->pivot[1];
-  q.y1 = (ctx->scale[1] * (q.y1 - ctx->pivot[1])) + ctx->pivot[1];
-  draw_window_frame_strips(&q, ctx);
-  q.y0 = 32.0f + ctx->y;
+  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+  q.y0 = 32.0f + ((WindowDrawContext *)context)->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
   rem = n - 64.0f;
-  q.y0 = (ctx->scale[1] * (q.y0 - ctx->pivot[1])) + ctx->pivot[1];
-  dy = 32.0f * ctx->scale[1];
+  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  dy = 32.0f * ((WindowDrawContext *)context)->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      dy = rem * ctx->scale[1];
+      dy = rem * ((WindowDrawContext *)context)->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + dy;
-    draw_window_frame_strips(&q, ctx);
+    draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
     rem -= 32.0f;
     q.y0 += dy;
   }
   TWindowSubStatusDisp::get_player();
-  draw_window_scanlines((u8 *)this, (u8 *)ctx);
+  draw_window_scanlines((u8 *)this, (u8 *)((WindowDrawContext *)context));
 }
-#undef ctx
 
 void TWindowBase::update_fade() {
     u32 ticks;
@@ -950,14 +944,14 @@ void TWindowSubStatusDisp::update_entry_visibility() {
     uaddr entry2;
     uaddr entry1;
     uaddr entry0;
-    entry7 = reinterpret_cast<uaddr>(get_array_entry(7));
-    entry6 = reinterpret_cast<uaddr>(get_array_entry(6));
-    entry5 = reinterpret_cast<uaddr>(get_array_entry(5));
-    entry4 = reinterpret_cast<uaddr>(get_array_entry(4));
-    entry3 = reinterpret_cast<uaddr>(get_array_entry(3));
-    entry2 = reinterpret_cast<uaddr>(get_array_entry(2));
-    entry1 = reinterpret_cast<uaddr>(get_array_entry(1));
-    entry0 = reinterpret_cast<uaddr>(get_array_entry(0));
+    entry7 = reinterpret_cast<uaddr>(this->get_array_entry(7));
+    entry6 = reinterpret_cast<uaddr>(this->get_array_entry(6));
+    entry5 = reinterpret_cast<uaddr>(this->get_array_entry(5));
+    entry4 = reinterpret_cast<uaddr>(this->get_array_entry(4));
+    entry3 = reinterpret_cast<uaddr>(this->get_array_entry(3));
+    entry2 = reinterpret_cast<uaddr>(this->get_array_entry(2));
+    entry1 = reinterpret_cast<uaddr>(this->get_array_entry(1));
+    entry0 = reinterpret_cast<uaddr>(this->get_array_entry(0));
     if (is_guild_card_receive_active() != 0) {
         if (entry7 != 0U) {
             ((TWindowSubStatusDisp *)entry7)->clear_visible_flag();

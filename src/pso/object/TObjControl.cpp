@@ -24,7 +24,7 @@
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 #include "pso/unk/TLobby_800F7744.h"
 
@@ -41,6 +41,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -56,11 +57,9 @@ extern uaddr TObjPlayer__data_8050D460[];
 
 
 
-s16 get_attack_params_atp_min(void *);
 
 
 
-s16 get_attack_params_atp_max(void *);
 
 
 s32 is_split_screen();
@@ -75,10 +74,12 @@ s32 get_current_floor();
 
 
 s32 get_attack_credit_slot_count(void *);
+}
 
 f32 get_challenge4p_exp_multiplier();
 
 f32 get_challenge_exp_multiplier();
+extern "C" {
 
 s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 
@@ -92,11 +93,9 @@ s32 submit_cursor_candidate(void *, int);
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
 
-extern u8 lobby_rule_settings[];
 
 s32 area_random_seed;
 
-extern s32 game_difficulty_selection;
 
 void init_6x0A_enemy_state_packet(void *);
 
@@ -226,8 +225,8 @@ block_14:
     atp = stat_block->stats.atp;
     this->atp = atp;
     this->base_atp = atp;
-    attack_params_atp_max = get_attack_params_atp_max(attack_params);
-    atp_range = attack_params_atp_max - get_attack_params_atp_min(attack_params);
+    attack_params_atp_max = attack_params->get_atp_max();
+    atp_range = attack_params_atp_max - attack_params->get_atp_min();
     this->atp_range = atp_range;
     this->base_atp_range = atp_range;
     evp = stat_block->stats.evp + param_block->values[0];
@@ -525,9 +524,8 @@ void TObjEnemy::link_chain_nodes(TObjEnemy *source, TObjEnemy *destination) {
 #pragma push
 #pragma fp_contract on
 void TObjEnemy::update_prev_position() {
-    u8 *arg0 = (u8 *)this;
     player_stats *stat_block;
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
+    VecCopy(&this->body_center, &this->position);
     stat_block = this->stat_block;
     if (stat_block != NULL) {
         this->body_center.y = (f32) ((0.5f * stat_block->proportions) + this->body_center.y);
@@ -574,7 +572,7 @@ void TObjEnemy::distribute_experience() {
     } else {
         count = get_attack_credit_slot_count(this);
         for (i = 0; i < count; i++) {
-            id = obj_getArrU16_FC(this, i);
+            id = get_attack_credit_slot(i);
             if (id == 0xFFFF) {
                 break;
             }
@@ -833,7 +831,7 @@ void TObjControl::run_task() {
         return;
     }
     if (TObjPlayer::check_demo_mode() == 0) {
-        if (enemy->has_flag_0x800() != 0) {
+        if (enemy->is_actor_dead() != 0) {
             enemy->resume_update();
             enemy->run_death_reaction();
             return;

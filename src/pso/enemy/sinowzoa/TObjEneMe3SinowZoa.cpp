@@ -1155,7 +1155,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         this->body_y = this->position.y;
         this->body_offset_y = 0.0f;
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1331,7 +1331,7 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
         break;
     case 5:
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1512,7 +1512,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1807,10 +1807,10 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         toggle_particle_effect();
         if (flag != 0) {
-            NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            NJS_TEXNAME *parts = texlist->textures;
             s32 i;
             for (i = 0; i < 3; i++) {
                 save[i] = parts[i].texaddr;
@@ -1858,7 +1858,7 @@ void TObjEneMe3SinowZoa::render_demo() {
         pop_matrix();
         if (flag != 0) {
             s32 i;
-            NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            NJS_TEXNAME *parts = texlist->textures;
             for (i = 0; i < 3; i++) {
                 parts[i].texaddr = save[i];
             }

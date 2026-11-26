@@ -12,9 +12,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TBoss1DragonDemo::name = "TBoss1DragonDemo";
 
+extern "C" {
 void TBoss1DragonDemo__sub_8002B68C(void) {  }
 void TBoss1DragonDemo__sub_8002B690(void) {  }
 
@@ -54,5 +54,5 @@ TBoss1DragonDemo::TBoss1DragonDemo(TObject *parent, s32 *flag, f32 frame_step) :
         break;
     }
 }
-
 }
+

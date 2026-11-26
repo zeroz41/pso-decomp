@@ -20,10 +20,10 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
 LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54);
-
 
 
 #include <stddef.h>
@@ -36,8 +36,6 @@ union MemberActionStorage_8036EA24 { s32 words[3]; void (TAdSystemFileCheckGC::*
 
 union MemberActionStorage_8036E858 { s32 words[3]; void (TAdSystemFileCheckGC::*action)(); };
 
-extern "C" {
-void set_fallback_main_phase(s32 phase);
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -151,6 +149,7 @@ TAdSystemFileCheckGCState multi_chg_game_mode_entry_table[11] = {
     {&TAdSystemFileCheckGC::sub_8036E830, &TAdSystemFileCheckGC::request_scene_change_vt},
     {&TAdSystemFileCheckGC::sub_8036DEDC, &TAdSystemFileCheckGC::close_windows_on_selection},
 };
+extern "C" {
 __declspec(section ".data") f32 multi_chg_game_mode_window_extent[2] = {0.5f * (640.0f - multi_chg_game_mode_window_size[0]), 70.0f};
 __declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
     20.0f + multi_chg_game_mode_window_extent[0],

@@ -1,12 +1,10 @@
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_80066F10.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8028A8F8.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-
-extern "C" {
 
 NJS_TEXLIST *get_green_door_textures() {
     return green_door_texture_handle;
@@ -19,6 +17,4 @@ void break_floor_grass_in_range(TObject *floor_grass, const Vec *pos, const Drag
             node->evalflags |= NJD_EVAL_BREAK;
         }
     }
-}
-
 }

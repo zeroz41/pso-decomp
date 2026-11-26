@@ -20,7 +20,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
-const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
+const char *TObjEneBm9Mericarol_Bomb::class_name = "TObjEneBm9Mericarol_Bomb";
 
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack, AreaAttackHistory *history, f32 range) {
     s32 hit;
@@ -128,7 +128,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
     default:
         if (effect == NULL) {
             r1.x = 0;
-            r1.y = this->m_ec + 0x4000;
+            r1.y = this->yaw + 0x4000;
             r1.z = 0;
             effect = (TParticleCtrl *)spawn_particle_effect_with_rotation(&pos, &r1, 0x207, 0x40);
             if (effect != NULL) {
@@ -139,7 +139,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         }
         if (phase_effect == NULL) {
             r2.x = 0;
-            r2.y = this->m_ec + 0x4000;
+            r2.y = this->yaw + 0x4000;
             r2.z = 0;
             phase_effect = (TParticleCtrl *)spawn_particle_effect_with_rotation(&pos, &r2, phase_effect_id, 0x40);
             if (phase_effect != NULL) {
@@ -168,7 +168,7 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     : TAttackCollider(owner, owner) {
     Vec d;
     f32 k;
-    m_name = TObjEneBm9Mericarol_Bomb__class_name;
+    m_name = TObjEneBm9Mericarol_Bomb::class_name;
     if (TObjEneDD::check_v2_mode() != 0) {
         attack.kind = 5;
     } else {

@@ -2,8 +2,8 @@
 #include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
-s32 TWindowDD__sub_803428C4(void *);
-s32 TWindowDD__sub_80342B5C(void *);
+void TWindowDD__sub_803428C4(TWindowDD *window_dd);
+void TWindowDD__sub_80342B5C(TWindowDD *window_dd);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
 s32 begin_word_select_state(void *);
 s32 refresh_word_select_child_list();
@@ -19,25 +19,24 @@ void TWindowDD::update_transition() {
     }
     if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_se();
-        TWindowDD::apply_entry_layout(this);
+        apply_entry_layout();
     }
 }
-void TWindowDD__sub_80342D14(u8 *window_dd) {
+void TWindowDD__sub_80342D14(TWindowDD *window_dd) {
     s32 done;
-    TWindowDD *w = (TWindowDD *)window_dd;
     done = 0;
-    w->message.type = 1;
-    switch (w->dialog_locked) {
+    window_dd->message.type = 1;
+    switch (window_dd->dialog_locked) {
     case 0:
         refresh_word_select_child_list();
-        w->update_selection_state();
-        if (w->test_input_flag_4() != 0) {
+        window_dd->update_selection_state();
+        if (window_dd->test_input_flag_4() != 0) {
             TWindowDD::play_sound();
-            done = !TWindowDD::update_close_flag(window_dd);
+            done = !window_dd->update_close_flag();
         } else if (is_word_select_cancel_input(window_dd) != 0) {
             TWindowDD::play_se();
-            w->m_a4 = 0;
-            TWindowDD::apply_entry_layout(window_dd);
+            window_dd->selection_confirmed = 0;
+            window_dd->apply_entry_layout();
         }
         break;
     case 1:
@@ -45,23 +44,23 @@ void TWindowDD__sub_80342D14(u8 *window_dd) {
         break;
     }
     if (done) {
-        w->m_a4 = 1;
-        if ((s32) w->m_8c == -0x3C) {
-            w->next_state = 0x14;
+        window_dd->selection_confirmed = 1;
+        if (window_dd->list_ids[1] == -0x3C) {
+            window_dd->next_state = 0x14;
         } else {
             switch (TWindowDD::window_mode) {
             case 0:
                 TWindowDD__sub_80342B5C(window_dd);
-                w->message.init();
-                w->message.type = 3;
+                window_dd->message.init();
+                window_dd->message.type = 3;
                 break;
             case 1:
             case 2:
             case 3:
             case 4:
             default:
-                w->message.init();
-                w->message.type = 4;
+                window_dd->message.init();
+                window_dd->message.type = 4;
                 TWindowDD__sub_803428C4(window_dd);
                 break;
             }

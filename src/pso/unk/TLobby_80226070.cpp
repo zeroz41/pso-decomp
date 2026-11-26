@@ -7,7 +7,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -102,6 +102,7 @@ void TLobby__sub_8022614C(s32 gain) {
     cue_stream_gain = lobby_layout_start_position + cue_stream_scaled_gain;
     set_cue_stream_gain(cue_stream_gain);
 }
+}
 
 void update_music_stream_gain(s32 user) {
   unsigned int new_var;
@@ -117,14 +118,15 @@ void update_music_stream_gain(s32 user) {
   music_stream_gain = (s32) (0.42333332f * ((f32) total));
   set_music_streams_volume(total);
 }
+extern "C" {
 
 void TTecRaFoie__sub_80226254(void) {  }
+}
 
 void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     if ((sound_requests_enabled != 0) && (slot >= 0) && (slot < 0x28)) {
         set_sound_slot_pitch(slot, pitch, duration);
     }
-}
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
 // Defined here: CodeWarrior emits it in definition order, and its .sdata2 slot
@@ -311,7 +313,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
         if (position != NULL) {
             pos = &sound_pitch_requests[idx].pos;
             VecCopy(pos, position);
-            ((void (*)(s32, Vec *))TLobby__sub_80227AF8)(idx, pos);
+            TLobby__sub_80227AF8(idx, pos);
         }
         sound_pitch_requests[idx].flags &= lbl_805DC748;
         if (flags & 1) {

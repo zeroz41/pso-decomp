@@ -277,7 +277,7 @@ void TObjGoGoBall::run_task() {
     i = 0;
     time = TLobby::get_clock_frames() % 2592;
     if (time >= gogo_ball_configuration.lifetime) {
-        VecCopy((Vec *)&p, &position);
+        VecCopy(&p, &position);
         p.y += gogo_ball_configuration.radius;
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
@@ -290,14 +290,14 @@ void TObjGoGoBall::run_task() {
     if (position.y <= (-5e+02f)) {
         queue_destruction();
     }
-    VecCopy((Vec *)&q, &position);
+    VecCopy(&q, &position);
     velocity.y += gravity;
     vec3_add_to(&position, &velocity);
     for (;;) {
         if (i++ >= 3 || reflect_velocity_off_collision(&q, &velocity) == 0) {
             break;
         }
-        VecCopy(&position, (const Vec *)&q);
+        VecCopy(&position, &q);
         q.x += velocity.x;
         q.y += velocity.y;
         q.z += velocity.z;
@@ -323,10 +323,10 @@ void TObjGoGoBall::render() {
     f32 rate;
     s32 step;
 
-    VecCopy((Vec *)&pos, &position);
+    VecCopy(&pos, &position);
     pos.y += gogo_ball_configuration.radius - (2.0f * gogo_ball_configuration.radius) / 10.0f;
     color.a = (resting != 0) ? 0.0f : -0.75f;
-    VecCopy((Vec *)&dir, &velocity);
+    VecCopy(&dir, &velocity);
     dir.y = 0.0f;
     len = vector_length(&dir);
     direction_to_rotation_yx((u8 *)&dir, &rotation_y, &rotation_z);
@@ -334,9 +334,9 @@ void TObjGoGoBall::render() {
     rotation_y = (u16)rotation_y;
     if (0.0f != len) {
         normalize_vector(&dir);
-        VecCopy(&prev_position, (const Vec *)&dir);
+        VecCopy(&prev_position, &dir);
     } else {
-        VecCopy((Vec *)&dir, &prev_position);
+        VecCopy(&dir, &prev_position);
     }
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, 0x4000);
@@ -436,11 +436,11 @@ s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     end.x = ((Vec *)p)->x + ((Vec *)v)->x;
     end.y = ((Vec *)p)->y + ((Vec *)v)->y;
     end.z = ((Vec *)p)->z + ((Vec *)v)->z;
-    VecCopy((Vec *)&dir, (const Vec *)((Vec *)v));
+    VecCopy(&dir, (const Vec *)((Vec *)v));
     len = vector_length(&dir);
     if ((0.0f) != len) {
         normalize_vector(&dir);
-        VecCopy((Vec *)&a, (const Vec *)((Vec *)p));
+        VecCopy(&a, (const Vec *)((Vec *)p));
         a.x -= (3.0f) * (dir.x * len);
         a.y -= (3.0f) * (dir.y * len);
         a.z -= (3.0f) * (dir.z * len);
@@ -770,7 +770,7 @@ void TGoGoBallRocket::run_task() {
         this->rot += 0x16C;
         if (timer <= 0x14) {
             Vec v;
-            VecCopy((Vec *)&v, (const Vec *)&pos);
+            VecCopy(&v, &pos);
             v.y += (18.0f);
             spawn_particle_effect(&v, 0x1DB);
         }
@@ -836,7 +836,7 @@ void TGoGoBallGoal::update_effects() {
     } else if (gogo_ball_configuration.ball_type == 6) {
         (this->goal_frames)++;
         if (this->goal_frames % 5 == 0 && this->goal_frames <= 0x1E) {
-            VecCopy((Vec *)&v6, &this->pos);
+            VecCopy(&v6, &this->pos);
             v6.y += 7.0f;
             spawn_particle_effect_with_flags(&v6, 0x20D, 0x40);
             play_sound_effect(0x4001A82E, reinterpret_cast<const Vec *>((u8 *)&this->pos), 0, 0);
@@ -846,7 +846,7 @@ void TGoGoBallGoal::update_effects() {
         if (this->team0 != 0) {
             if (this->goal_frames == 1) {
                 TCameraCtrl::set_shake_preset(2);
-                VecCopy((Vec *)&v2a, &this->pos);
+                VecCopy(&v2a, &this->pos);
                 v2a.y += 7.0f;
                 spawn_particle_effect_with_flags(&v2a, 0x45, 0x40);
                 spawn_particle_effect_with_flags(&v2a, 0x189, 0x40);
@@ -855,7 +855,7 @@ void TGoGoBallGoal::update_effects() {
         } else {
             if (this->goal_frames == 1) {
                 TCameraCtrl::set_shake_preset(2);
-                VecCopy((Vec *)&v2b, &this->pos);
+                VecCopy(&v2b, &this->pos);
                 v2b.y += 7.0f;
                 spawn_particle_effect_with_flags(&v2b, 0x45, 0x40);
                 spawn_particle_effect_with_flags(&v2b, 0x189, 0x40);
@@ -866,14 +866,14 @@ void TGoGoBallGoal::update_effects() {
         (this->goal_frames)++;
         if (this->team0 != 0) {
             if (this->goal_frames % 5 == 0 && this->goal_frames <= 0x32) {
-                VecCopy((Vec *)&vda, &this->pos);
+                VecCopy(&vda, &this->pos);
                 vda.y += 7.0f;
                 spawn_particle_effect_with_flags(&vda, 0x20E, 0x40);
                 new TTimedSoundEffect(&this->pos, 5, 0x4002A90C, 0, tl_05);
             }
         } else {
             if (this->goal_frames % 5 == 0 && this->goal_frames <= 0x32) {
-                VecCopy((Vec *)&vdb, &this->pos);
+                VecCopy(&vdb, &this->pos);
                 vdb.y += 7.0f;
                 spawn_particle_effect_with_flags(&vdb, 0x20F, 0x40);
                 new TTimedSoundEffect(&this->pos, 5, 0x4002A90C, 0, tl_05);

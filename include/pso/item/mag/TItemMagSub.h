@@ -93,7 +93,7 @@ public:
     void update_follow();
     void reset();
     void clear_growth_flag();
-    void clear_flags(u32 v);
+    void clear_flags(u32 mask);
     void set_growth_flag();
     void set_flags(u32 value);
     void set_node_id(s32 index, s32 id);

@@ -2,7 +2,7 @@
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include <stdlib.h>
-#include "pso/unk/text_80357058.h"
+#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 
 extern "C" {
 

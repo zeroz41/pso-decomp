@@ -63,7 +63,7 @@ struct TAdChrSelBSlotGC : public TObject {
     void show_unsupported_device_message();
     void close_windows();
     void reset_windows();
-    static TAdChrSelBSlotGC *create(void *arg0);
+    static TAdChrSelBSlotGC *create(void *parent);
     int get_global_state();
     static TAdChrSelASlotGC *get_global_slot_data();
     TAdChrSelSlotGC *slot_gc; // 0x28

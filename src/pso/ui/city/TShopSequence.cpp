@@ -14,7 +14,6 @@
 #pragma readonly_strings on
 
 
-extern "C" {
 const char *shop_sequence_class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
@@ -27,8 +26,10 @@ TCameraConversation *set_service_counter_camera(void *sequence, s32 counter) {
     }
     return create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
+extern "C" {
 
 s32 is_split_screen();
+}
 
 int TShopSequence::is_message_ready() {
     if (message_window != NULL) {
@@ -125,8 +126,6 @@ TShopSequence::~TShopSequence() {
         delete message_window;
         message_window = NULL;
     }
-}
-
 }
 
 TShopSequence::TShopSequence(TObject *parent) : TShopWindowBase(parent) {

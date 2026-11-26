@@ -59,7 +59,7 @@ void TFontSmallHelp::render() {
     uaddr rgba;
 
     player = get_player_by_client_id(player_id);
-    if (player != NULL && ((TObjPlayer *)player)->is_body_collision_inactive() != 0) {
+    if (player != NULL && player->is_body_collision_inactive() != 0) {
         return;
     }
     Vec forward = help_text_forward;

@@ -13,9 +13,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TBoss8DragonEffBreath::name = "TBoss8DragonEffBreath";
 
+extern "C" {
 void TBoss8DragonEffBreath::render() {  }
 
 
@@ -33,8 +33,8 @@ void TBoss8DragonEffBreath::run_task() {
         ((TBoss8Dragon *)ent)->setup_breath_instance(&position, attack_kind, attack_history);
     }
 }
-
 }
+
 TBoss8DragonEffBreath::~TBoss8DragonEffBreath() {
     delete attack_history;
     attack_history = 0;

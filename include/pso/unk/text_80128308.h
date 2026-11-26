@@ -5,12 +5,4 @@
 
 struct TItem;
 
-extern "C" {
-}
-
-// --- C functions defined in text_80128308.cpp ---
-extern "C" {
-}
-// --- end of C functions
-
 #endif

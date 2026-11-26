@@ -19,7 +19,6 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -186,7 +185,7 @@ s32 TShopItemListWindow::check_purchase_eligibility() {
         return 0;
     }
     sel = item_list->get_cursor_value();
-    meseta = get_actor_meseta((u8 *)player);
+    meseta = player->get_actor_meseta();
     if ((s32)shop_items[sel].data2.data_u32 > meseta) {
         return 0;
     }
@@ -263,7 +262,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
     if (item_list != NULL) {
         sel = item_list->get_cursor_value();
         room = player->can_inventory_accept_item(reinterpret_cast<u8 *>(&shop_items[sel]));
-        count = get_actor_meseta((u8 *)player) / (s32)shop_items[sel].data2.data_u32;
+        count = player->get_actor_meseta() / (s32)shop_items[sel].data2.data_u32;
         if (count > room) {
             count = room;
         }

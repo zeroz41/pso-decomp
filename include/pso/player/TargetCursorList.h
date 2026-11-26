@@ -29,12 +29,12 @@ struct TargetCursorList {
     void set_count(s32 count);
 };
 
-extern "C" {
 void clear_target_cursor_list(TargetCursorList *list);
+extern "C" {
 TargetCursorRecord *__ct__18TargetCursorRecordFv(void *record);
 TargetCursorList *__ct__16TargetCursorListFv(void *list);
+}
 // *dst = *src (TTecAnti's TU).
 TargetCursorList *copy_technique_target_list(TargetCursorList *dst, TargetCursorList *src);
-}
 
 #endif

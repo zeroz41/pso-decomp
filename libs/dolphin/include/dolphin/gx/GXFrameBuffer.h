@@ -10,6 +10,7 @@ extern "C" {
 
 extern GXRenderModeObj GXNtsc480IntDf;
 extern GXRenderModeObj GXNtsc480Int;
+extern GXRenderModeObj GXNtsc480Prog;
 extern GXRenderModeObj GXMpal480IntDf;
 extern GXRenderModeObj GXPal528IntDf;
 extern GXRenderModeObj GXEurgb60Hz480IntDf;

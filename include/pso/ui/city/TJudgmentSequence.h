@@ -8,6 +8,7 @@ struct TObjPlayer;
 class TWindowBase;
 
 struct TJudgmentSequence : public TShopSequence {
+    static const char *class_name;
     static s32 slot_flags[4];
     TJudgmentSequence(TObject *parent, TObjPlayer *player);
     virtual ~TJudgmentSequence();
@@ -20,15 +21,15 @@ struct TJudgmentSequence : public TShopSequence {
     TWindowBase *meseta_window;       // meseta window
     TObject *counter_camera; // 0x30: set_service_counter_camera
     void open_judgment_window();
+    static void on_judgment_closed(TShopWindowBase *window);
+    static void on_judgment_cancelled(TShopWindowBase *window);
 };
 
 LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 
 // --- C functions defined in TJudgmentSequence.cpp ---
 extern "C" {
-void on_judgment_close(TShopWindowBase *window);
 void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window);
-void on_judgment_cancel(TShopWindowBase *window);
 void TJudgmentSequence__sub_80216030(void);
 void TJudgmentSequence__sub_80216058(void);
 }

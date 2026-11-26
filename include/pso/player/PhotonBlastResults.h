@@ -116,9 +116,7 @@ void apply_photon_blast_action_hold(TPhotonBlastSequence *unused, s32 duration, 
 void load_photon_blast_resources(void);
 void release_photon_blast_resources(void);
 
-extern "C" {
 // Copies player's chain into output while it is pending or running; returns its state.
 s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player);
-}
 
 #endif

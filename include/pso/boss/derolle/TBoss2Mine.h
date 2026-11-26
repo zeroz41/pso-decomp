@@ -33,7 +33,7 @@ struct TBoss2Mine : public TObjEneDD {
     void apply_attack_stat_status(void *);
     void clear_harmful_statuses();
     void apply_shock_status();
-    void apply_movement_ailment(s32);
+    void apply_movement_ailment(CollisionBody *);
     void apply_confusion_status();
     void apply_slow_status();
     void apply_paralysis();
@@ -63,7 +63,7 @@ struct TBoss2Mine : public TObjEneDD {
     s32 step;
     s32 timer;
     s32 m_3d0;
-    u8 unk_3D4[0x4];
+    u8 pad_3D4[0x4];
     s32 tilt;
     union {
         f32 throw_distance;    // the floor mine (TBoss2FloorMine)

@@ -11,6 +11,5 @@ public:
     virtual void emit_marker_effects();
 };
 
-extern "C" TItem *TItemWeaponLavisBlade::create(u8 *item);
 
 #endif

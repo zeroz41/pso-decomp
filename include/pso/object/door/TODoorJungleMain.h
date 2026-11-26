@@ -11,7 +11,7 @@ struct TODoorJungleMain : public TODoorBase {
     TODoorJungleMain(TObject *parent, void *set_data);
     virtual ~TODoorJungleMain();
     virtual s32 update_object_view_visibility(f32, f32);
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual void update_door_switch_state();
     s32 switch_count;     // how many of the three jungle switches are set
     s32 smoke_timer;      // frames the opening door has smoked; a puff every 30

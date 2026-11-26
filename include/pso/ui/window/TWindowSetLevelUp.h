@@ -1,6 +1,7 @@
 #ifndef PSO_UI_WINDOW_TWINDOWSETLEVELUP_H
 #define PSO_UI_WINDOW_TWINDOWSETLEVELUP_H
 
+#include "pso/player/PlayerRequirementStats.h"
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
@@ -14,18 +15,13 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void copy_stat_block(saddr stats);
-
     static const char *class_name;
 
     s8 state;
     u8 pad_1d;
     s16 timer;
     s32 client;
-    s16 stat_gains[5];
-    u8 pad_2e[0xC];
-    s16 hp_gain;
-    s16 tp_gain;
+    PlayerLevelStats stat_gains;
     u8 pad_3e[0x2];
 };
 

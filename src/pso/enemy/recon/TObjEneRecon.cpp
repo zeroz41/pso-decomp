@@ -94,9 +94,8 @@ void TObjEneRecon::render_shadows() {
 
 
 void TObjEneRecon::render_demo() {
-    u8 *self = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
-        ((TObjEneDD *)(self))->draw_ground_shadow(0, 0);
+        this->draw_ground_shadow(0, 0);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
@@ -698,12 +697,12 @@ void TObjEneRecon::state_attack(s32 reason) {
             if (hit_window == 1) {
                 for (i = 0; i < entity_table_count; i++) {
                     p = TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->has_flag_0x800() == 0) {
+                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->is_actor_dead() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);
                         if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;
                             attack.kind = 0;
-                            attack.power = (f32)get_attack_params_atp_min(attack_params);
+                            attack.power = (f32)attack_params->get_atp_min();
                             p->receive_direct_attack(this, attack, NULL, -1, -1);
                             p->apply_knockback_from_attacker((u8 *)this, 7.0f);
                         }

@@ -16,10 +16,10 @@ LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrai
 extern "C" {
 void TLobby__sub_80207BB0(void);
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
+}
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);
 s32 get_floor_map_terrain(s32 floor);
 void randomize_adventure_maps(void);
-}
 s32 get_boss_warp_destination(void);
 void init_floor_map_registry(void);
 // The area id of the map on a floor, or -1 when it has none.

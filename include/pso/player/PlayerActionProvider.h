@@ -135,6 +135,7 @@ int get_player_action_provider_selector();
 void set_player_action_provider_selector(int selector);
 void select_game_player_actions();
 s32 get_player_action_motion_count();
+s32 is_action_id_none(s32 animation_number);
 void alloc_game_action_motion_buffer();
 void free_game_action_motion_buffer();
 void init_game_player_actions();

@@ -5,6 +5,7 @@
 
 class TChCrTagPlBack : public TChCrTag {
 public:
+    static const char *name;
     TChCrTagPlBack(TObject *parent, s32 index);
     virtual ~TChCrTagPlBack();
     virtual void render();
@@ -14,7 +15,5 @@ public:
     static TChCrTagPlBack *create(s32 index);
     static TChCrTagPlBack *create_default();
 };
-
-extern const char *TChCrTagPlBack__name;
 
 #endif

@@ -9,6 +9,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowQuantity.h"
 
 extern "C" {
 extern f32 window_depth_order_cursor;
@@ -90,4 +91,9 @@ void TWindowBase::resort_window_order() {
         this->draw_depth += -0.3f;
     }
     }
+}
+
+f32 TWindowBase::get_scale() { return sort_depth; }
+void TWindowQuantity::set_quantity(s32 quantity) {
+    *(s32 *)((s8 *)(get_array_entry(1)) + 0x20) = quantity;
 }

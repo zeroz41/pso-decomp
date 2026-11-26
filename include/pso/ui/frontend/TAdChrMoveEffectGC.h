@@ -44,8 +44,5 @@ LAYOUT_ASSERT(TAdChrMoveEffectGC_size, sizeof(TAdChrMoveEffectGC) == 0x3A4);
 
 extern TAdChrMoveEffectGC *chr_move_effect_instance;
 
-extern "C" {
-void *__dt__18TAdChrMoveEffectGCFv(void *arg0, s16 arg1);
-}
 
 #endif

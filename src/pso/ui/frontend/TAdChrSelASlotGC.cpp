@@ -21,7 +21,6 @@
 #include "pso/system/task/TObject.h"
 #include <stdio.h>
 #include <string.h>
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
@@ -212,7 +211,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_yes_no_window(NJS_POINT2 *pos, s32 c
     window = TWindowMessageYesNo::create(this, client_id, 0, 0);
     window->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), pos, 458.0f);
     window->set_menu_selected_index(1);
-    ((TWindowSubComCard *)window)->free_windows();
+    window->reparent_to_main_ctrl();
     return window;
 }
 
@@ -221,7 +220,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_create_character_prompt(NJS_POINT2 *
     w = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
     w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, 0x1A), pos, 196.0f);
     w->set_menu_selected_index(1);
-    ((TWindowSubComCard *)w)->free_windows();
+    w->reparent_to_main_ctrl();
     return w;
 }
 
@@ -283,7 +282,7 @@ void TAdChrSelASlotGC::populate_slot_entries() {
         case 0:
             slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_label_pos);
             for (i = 0; i < 4; i++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&chr_sel_a_slot_plate_positions[i]));
+                this->player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_a_slot_plate_positions[i]));
                 if (is_character_transferred(i)) {
                     this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_plate_positions[i]));
                 }
@@ -293,19 +292,19 @@ void TAdChrSelASlotGC::populate_slot_entries() {
             slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_left_label_pos);
             slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_right_label_pos);
             for (i = 0; i < 4; i++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&chr_sel_a_slot_left_plate_positions[i]));
+                this->player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_a_slot_left_plate_positions[i]));
                 if (is_character_transferred(i)) {
                     this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_left_plate_positions[i]));
                 }
             }
             for (j = 0; j < 3; j++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_right_plate_positions[j]));
+                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_right_plate_positions[j]));
             }
             break;
         case 2:
             slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_left_label_pos);
             for (j = 0; j < 3; j++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_left_plate_positions[j]));
+                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_left_plate_positions[j]));
             }
             break;
         }

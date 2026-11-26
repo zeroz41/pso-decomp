@@ -50,13 +50,15 @@ const char *TWindowActionPalette__name = "TWindowActionPalette";
 struct PaletteItemKind { u8 group; u8 index; };
 
 
+
+// update_palette_item_count_label is the first caller of these two: their copies close the TU.
+void TWindowHelpItem::set_flag0_bit2() { *(u16*)(this + 0x0) |= 0x2; }
+void TWindowSubStatusDisp::clear_visible_flag() { *(u16 *)&this->m_name &= 0xfffffffd; }
+
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 s32 is_palettex_activated(u16 client_index);
 s32 is_palettex_enabled(u16);
-s32 end_window_sweep_draw(int);
-s32 draw_window_sweep_strip(void *, void *);
-s32 begin_window_sweep_draw(int);
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -331,8 +333,8 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
 }
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
-    u8 *sprite = (u8 *)get_array_entry(1);
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(sprite), TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
+    WindowSpritePart *sprite = (WindowSpritePart *)get_array_entry(1);
+    set_sprite_uv_from_pixels(sprite, TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
 }
 
 #pragma push

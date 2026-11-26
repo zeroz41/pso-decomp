@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"

@@ -100,10 +100,8 @@ void TWindowKeyBoardBase::update_input_state() {
 }
 
 void TWindowKeyBoardBase::key_end() {
-    KeyboardTextBuffer *text;
     if (!(state_flags & 4)) {
-        text = active_text;
-        text->cursor = text->length;
+        active_text->cursor = active_text->length;
     }
 }
 
@@ -286,26 +284,20 @@ void TWindowKeyBoardBase::key_down() {
 }
 
 void TWindowKeyBoardBase::key_left() {
-    u32 cursor;
-    KeyboardTextBuffer *text;
     if (state_flags & 4) {
-        if ((request_flags & 1) && !((s32)composition_flags & 0x20)) {
+        if ((request_flags & 1) && !(composition_flags & 0x20)) {
             process_input();
             return;
         }
         sub_8025D7FC();
         return;
     }
-    text = active_text;
-    cursor = text->cursor;
-    if (cursor != 0U) {
-        text->cursor = cursor - 1;
+    if (active_text->cursor != 0) {
+        active_text->cursor--;
     }
 }
 
 void TWindowKeyBoardBase::key_right() {
-    u32 cursor;
-    KeyboardTextBuffer *text;
     if (state_flags & 4) {
         if ((request_flags & 1) && !((s32)composition_flags & 0x20)) {
             sub_8025D664();
@@ -314,10 +306,8 @@ void TWindowKeyBoardBase::key_right() {
         sub_8025D8C8();
         return;
     }
-    text = active_text;
-    cursor = text->cursor;
-    if (cursor < (u32)text->length) {
-        text->cursor = cursor + 1;
+    if (active_text->cursor < active_text->length) {
+        active_text->cursor++;
     }
 }
 
@@ -329,13 +319,12 @@ void TWindowKeyBoardBase::key_delete() {
         return;
     }
     active_text->delete_char();
-    if ((state_flags & 2) && ((u32)active_text->length == 0U)) {
+    if ((state_flags & 2) && active_text->length == 0U) {
         init();
     }
 }
 
 void TWindowKeyBoardBase::handle_backspace() {
-    u32 *cursor;
     u16 flags;
     flags = state_flags;
     if (flags & 4) {
@@ -346,22 +335,19 @@ void TWindowKeyBoardBase::handle_backspace() {
         state_flags = (u16) (flags & 0xFFFFFFFB);
         return;
     }
-    cursor = &active_text->cursor;
-    if (*cursor == 0U) {
+    if (active_text->cursor == 0) {
         state_flags = (u16) (flags | 0x20);
         return;
     }
-    *cursor = *cursor - 1;
+    active_text->cursor--;
     active_text->delete_char();
-    if ((state_flags & 2) && ((u32)active_text->length == 0U)) {
+    if ((state_flags & 2) && active_text->length == 0U) {
         init();
     }
 }
 
 void TWindowKeyBoardBase::key_backspace() {
     u16 flags;
-    u32 cursor;
-    KeyboardTextBuffer *text;
     flags = state_flags;
     if (flags & 4) {
         if (request_flags & 1) {
@@ -371,12 +357,10 @@ void TWindowKeyBoardBase::key_backspace() {
         state_flags = (u16) (flags & 0xFFFFFFFB);
         return;
     }
-    text = active_text;
-    cursor = text->cursor;
-    if (cursor != 0U) {
-        text->cursor = cursor - 1;
+    if (active_text->cursor != 0) {
+        active_text->cursor--;
         active_text->delete_char();
-        if ((state_flags & 2) && ((u32)active_text->length == 0U)) {
+        if ((state_flags & 2) && active_text->length == 0U) {
             init();
         }
     }
@@ -450,7 +434,7 @@ void TWindowKeyBoardBase::key_enter() {
 }
 
 void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
-    s32 *str;
+    u8 *name;
     u16 flags;
     u32 cursor;
     flags = state_flags;
@@ -460,22 +444,22 @@ void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
         }
         commit_composition_text();
     }
-    str = (s32 *)TWindowCtrl__sub_8024B7D4(slot);
-    if (str != NULL) {
+    name = (u8 *)TWindowCtrl__sub_8024B7D4(slot);
+    if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;
         if (cursor != 0U) {
-            if (cursor == (u32)m_text.length) {
+            if (cursor == m_text.length) {
                 text_builder_append((u8 *)" > ");
-                text_builder_append((u8 *)str);
+                text_builder_append(name);
             } else {
                 text_builder_append((u8 *)" ");
-                text_builder_append((u8 *)str);
+                text_builder_append(name);
                 text_builder_append((u8 *)" ");
             }
         } else {
-            text_builder_append((u8 *)str);
-            if ((u32)m_text.length != 0U) {
+            text_builder_append(name);
+            if (m_text.length != 0U) {
                 text_builder_append((u8 *)" ");
             }
         }
@@ -490,19 +474,19 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     if (current_language == LANGUAGE_JAPANESE && code >= 0x80U && code < 0x100U) {
         return;
     }
-    if (!(state_flags & 0x80) && this->m_input_mode >= 1U) {
+    if (!(state_flags & 0x80) && m_input_mode >= 1U) {
         sub_8025DBDC(1);
-        if (this->m_input_mode == 2) {
+        if (m_input_mode == 2) {
             state_flags |= 0x80;
         }
-        if (this->m_input_mode == 3 && (state_flags & 2)) {
+        if (m_input_mode == 3 && (state_flags & 2)) {
             commit_composition_text();
         }
     }
-    if ((state_flags & 4) || ((s32)composition_flags & 0x40)) {
+    if ((state_flags & 4) || (composition_flags & 0x40)) {
         commit_composition_text();
     }
-    f = (s32)composition_flags;
+    f = composition_flags;
     if ((f & 0x10) && code >= 0x80U) {
         return;
     }
@@ -512,7 +496,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     if ((f & 0x100) && TWindowKeyBoardBase::is_alnum(code) == 0) {
         return;
     }
-    f = (s32)composition_flags;
+    f = composition_flags;
     if ((f & 0x200) && !((s32)code >= 0x30 && (s32)code <= 0x39)) {
         return;
     }
@@ -525,15 +509,15 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
         state_flags |= 2;
     }
     active_text->insert_char(code);
-    if (this->m_input_mode == 0 && !(state_flags & 0x80)) {
+    if (m_input_mode == 0 && !(state_flags & 0x80)) {
         sub_8025DBDC(0);
     }
 }
 
 void TWindowKeyBoardBase::init() {
-    this->m_text2.reset_state();
+    m_text2.reset_state();
     active_text = &m_text;
-    state_flags = (u16) (state_flags & ~0x86);
+    state_flags &= ~0x86;
 }
 
 #pragma push

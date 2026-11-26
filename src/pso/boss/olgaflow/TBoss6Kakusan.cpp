@@ -25,13 +25,13 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TBoss6Kakusan::name = "TBoss6Kakusan";
 s32 TBoss6Kakusan::homing_start_frame;
+extern "C" {
 u8 boss6_kakusan_homing_start_initialized;
 s32 boss6_kakusan_homing_end_frame;
-u8 TBoss6Kakusan::homing_end_frame_initialized;
 }
+u8 TBoss6Kakusan::homing_end_frame_initialized;
 
 void TBoss6Kakusan::check_beam_player_hits() {
     s32 count = TLobby::get_game_mode();

@@ -818,12 +818,12 @@ void WindowControlState::init() {
     bottom = 480.0f;
 }
 
-void TWindowCtrlMain::release_ptr(void **arg0) {
-    VObj_8024C820 *obj = (VObj_8024C820 *)*arg0;
+void TWindowCtrlMain::release_ptr(void **ptr) {
+    VObj_8024C820 *obj = (VObj_8024C820 *)*ptr;
     if (obj) {
         if (obj) {
             obj->m0(1);
         }
-        *arg0 = NULL;
+        *ptr = NULL;
     }
 }

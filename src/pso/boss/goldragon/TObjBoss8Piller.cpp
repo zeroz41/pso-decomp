@@ -29,11 +29,11 @@ BmlResourceDescriptor bm_obj_boss8_piller_resource_descriptor = {
 };
 const char *TObjBoss8Piller::class_name = "TObjBoss8Piller";
 
-extern "C" {
 
 BmlResource *TObjBoss8Piller::shared_resource;
 
 
+extern "C" {
 void TObjBoss8Piller::render() {
     NJS_OBJECT *model;
 
@@ -66,8 +66,8 @@ void TObjBoss8Piller::run_task() {
         this->queue_destruction();
     }
 }
-
 }
+
 
 TObjBoss8Piller::~TObjBoss8Piller() {}
 

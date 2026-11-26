@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
@@ -85,7 +85,7 @@ void TAdDialingSelectGC::run_task() {
         } else {
             WindowPos a = {80.0f, 176.0f};
             WindowPos b = {479.0f, 207.0f};
-            this->window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
+            this->window = create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
             ((TWindowMessage *)(this->window))->append_line(get_message_text(0xC), 1);
             this->state = 7;
         }

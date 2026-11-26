@@ -34,7 +34,7 @@ void TObjMistCtrl::sub_802AF64C() {
     v.y *= 60.0f;
     v.z *= 60.0f;
     vec3_add_to(&v, &camera_ctrl_instance->pos);
-    VecCopy((Vec *)&arg0->pos, (const Vec *)&v);
+    VecCopy(&arg0->pos, &v);
     if (arg0->x90 != NULL) {
         ((TParticleCtrl *)arg0->x90)->set_position(&arg0->pos);
     }

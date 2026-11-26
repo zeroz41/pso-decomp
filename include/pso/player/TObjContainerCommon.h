@@ -18,9 +18,9 @@ public:
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
     void request_configured_item_drop(TObjContainerCommon *container);
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);

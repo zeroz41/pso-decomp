@@ -311,7 +311,7 @@ void TLobby::apply_trade_items() {
                     id = p->id;
                     if (count > 0) {
                         if (id == 0xFFFFFF01) {
-                            try_spend_actor_meseta(player, count);
+                            player->try_spend_actor_meseta(count);
                         } else {
                             if ((allowed != 0) && (selected_character_has_item(id) != 0)) {
                                 remove_list_entry_by_id(id);

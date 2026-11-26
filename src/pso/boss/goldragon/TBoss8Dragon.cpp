@@ -117,8 +117,8 @@ extern "C" {
 
 
 s32 get_current_floor();
-void free_collision_body_parts(void *);
 }
+void free_collision_body_parts(TObjCollidable *actor);
 
 extern BmlResource *boss8_dragon_resource;
 extern s32 boss8_dragon_model_node_count;
@@ -261,15 +261,11 @@ Vec boss8_dragon_follow_camera_phase_eye_offsets[11] = {
 };
 extern CurvePathPoint boss8_dragon_bezier_points[4];
 extern CurvePathPoint boss8_dragon_bezier_points_3[3];
-extern CurvePathPoint TBoss8Dragon::dive_height_curve[3];
 
 
 extern "C" {
 extern f32 boss8_dragon_fall_accel;
 // Slot 87: per-action event dispatch through a table of handler members.
-}
-extern "C" {
-s32 __ct__14SubtractiveRngFv(void *rng);
 }
 void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd);
 
@@ -320,7 +316,7 @@ void TBoss8Dragon::clear_harmful_statuses() {  }
 
 void TBoss8Dragon::apply_shock_status() {  }
 
-void TBoss8Dragon::apply_movement_ailment(s32) {  }
+void TBoss8Dragon::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss8Dragon::apply_confusion_status() {  }
 
@@ -474,7 +470,6 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     s32 j;
     Boss8DragonParams *cfg;
 
-    __ct__14SubtractiveRngFv(this->randomState);
     this->m_name = boss8_dragon_class_name;
     if (boss8_dragon_main_instance == NULL) {
         boss8_dragon_main_instance = this;
@@ -891,8 +886,7 @@ void TBoss8Dragon::select_sequence(s32 secondary) {
 }
 
 s32 TBoss8Dragon::is_primary_sequence() {
-    TBoss8Dragon * boss8_dragon = this;
-    return boss8_dragon->sequenceCursor < 0x32;
+    return this->sequenceCursor < 0x32;
 }
 
 s32 TBoss8Dragon::is_secondary_sequence() {
@@ -1323,8 +1317,7 @@ s32 TBoss8Dragon::check_phase_advance() { return 0; }
 #pragma push
 #pragma fp_contract on
 f32 TBoss8Dragon::calc_step_value() {
-    TBoss8Dragon *o = this;
-    return 4.0f * (f32)o->burrow_run_count + 4.0f;
+    return 4.0f * (f32)this->burrow_run_count + 4.0f;
 }
 
 #pragma pop
@@ -2450,7 +2443,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
             s32 low = (s32)(100.0f * this->savedZ);
             seed *= 0x10000UL;
             seed |= (u32)low & 0xFFFFUL;
-            subtractive_rng_seed(this->randomState, seed);
+            subtractive_rng_seed(&this->randomState, seed);
         }
         break;
     case 6:
@@ -2502,15 +2495,15 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
                     player = get_player_by_client_id((u16)((this->action_frames >> 1) % 4));
                     if (player->is_alive() != 0) {
                         VecCopy(&pos, &player->position);
-                        pos.x += 100.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
-                        pos.z += 100.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
+                        pos.x += 100.0f * (this->randomState.next_ratio() - 0.5f);
+                        pos.z += 100.0f * (this->randomState.next_ratio() - 0.5f);
                         found = 1;
                     }
                 }
                 if (found == 0) {
-                    pos.x = 700.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
+                    pos.x = 700.0f * (this->randomState.next_ratio() - 0.5f);
                     pos.y = 0.0f;
-                    pos.z = 700.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
+                    pos.z = 700.0f * (this->randomState.next_ratio() - 0.5f);
                 }
                 new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, this->get_entity_id());
             }

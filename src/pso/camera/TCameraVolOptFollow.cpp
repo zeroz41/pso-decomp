@@ -122,4 +122,4 @@ TCameraVolOptFollow::TCameraVolOptFollow() {
     pad_110 = 0;
 }
 
-void TCameraFollow::set_target_yaw(s32 v) { target_yaw = v; }
+void TCameraFollow::set_target_yaw(s32 yaw) { target_yaw = yaw; }

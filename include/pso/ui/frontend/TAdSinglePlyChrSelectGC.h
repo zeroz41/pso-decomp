@@ -120,8 +120,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_chr_select_state(int a0);
     void*init_guild_card_tag();
     void clear_inventory_slot();
-    static s32 draw_window_bg(s32 chan, s32 filename, s32 arg2, s32 arg3);
-    static s32 load_player(s32 chan, s32 filename, s32 arg2, s32 arg3);
+    static s32 draw_window_bg(s32 chan, s32 filename, s32 buf, s32 blocks);
+    static s32 load_player(s32 chan, s32 filename, s32 buf, s32 blocks);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
     static void init_entry_tables(void* _w0);
@@ -151,7 +151,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_flag_count();
     static int get_selected_count();
     static int get_data();
-    static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     TWindowMenu *chr_menu;                 // 0x38  play / meseta / delete / back menu of an occupied slot
     TWindowBase *card_check_message;       // 0x3C  shown while the card is polled for the guild card file
     TWindowBase *card_load_message;        // 0x40  shown while the guild card file is read
@@ -170,8 +169,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void init_logo_state(s32 state);
     static void noop();
     static void run_frame();
-    void apply_rng_cipher(u32 *data, s32 len);
-    void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);
     static TPlyCharData *get_char_index(unsigned int index);
     static TPlyCharData *get_char_table_entry(int index);
@@ -297,4 +294,8 @@ s32 check_slot_a_card_save(void);
 s32 check_slot_b_card_save(void);
 extern s32 chr_select_game_mode;
 extern s32 chr_select_save_slot;
+
+class TAdTitleTexGC;
+struct NJS_POINT2;
+extern "C" void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 #endif

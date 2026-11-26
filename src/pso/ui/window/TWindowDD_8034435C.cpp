@@ -31,7 +31,7 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -119,7 +119,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -207,7 +207,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -327,9 +327,9 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         break;
     case 3:
         if (n > 1) {
-            WordSelectMessage tmp;
-            TWindowDD__sub_80347758(src, &tmp);
-            pos = format_message_text__9TWindowDDFPvPvUs(&tmp, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = format_message_text__9TWindowDDFPvPvUs(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -515,9 +515,9 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
         break;
     case 3:
         if (n > 1) {
-            WordSelectMessage tmp;
-            TWindowDD__sub_80347758(src, &tmp);
-            pos = format_german_message__9TWindowDDFPvPvUs(&tmp, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = format_german_message__9TWindowDDFPvPvUs(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -766,9 +766,9 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         break;
     case 3:
         if (n > 1) {
-            WordSelectMessage tmp;
-            TWindowDD__sub_80347758(src, &tmp);
-            pos = TWindowDD__sub_80345608(&tmp, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = TWindowDD__sub_80345608(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -973,9 +973,9 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
         break;
     case 3:
         if (n > 1) {
-            WordSelectMessage tmp;
-            TWindowDD__sub_80347758(src, &tmp);
-            pos = format_english_message__9TWindowDDFPvPvUs(&tmp, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = format_english_message__9TWindowDDFPvPvUs(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -1189,7 +1189,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(get_initial_word_select_list((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1279,7 +1279,7 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
 
     switch (mode) {
     case 0:
-        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(get_initial_word_select_list((saddr) this), value_index);
+        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(get_initial_word_select_list(this), value_index);
         if (value == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:

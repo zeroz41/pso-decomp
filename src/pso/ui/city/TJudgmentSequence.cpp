@@ -17,8 +17,7 @@ s32 TJudgmentSequence::slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
 
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
-void on_judgment_close(TShopWindowBase *window) {
+void TJudgmentSequence::on_judgment_closed(TShopWindowBase *window) {
     if (window != NULL) {
         window->set_state(4);
     }
@@ -30,7 +29,7 @@ void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
     }
 }
 
-void on_judgment_cancel(TShopWindowBase *window) {
+void TJudgmentSequence::on_judgment_cancelled(TShopWindowBase *window) {
     if (window != NULL) {
         window->send_message(0xD, 1);
         window->set_state(4);
@@ -47,8 +46,8 @@ void TJudgmentSequence::handle_close_input() {
 void TJudgmentSequence::open_judgment_window() {
     TShopJudgmentItemWindow *o = new TShopJudgmentItemWindow(tl_05, this, player);
     o->m_16c = TJudgmentSequence__sub_80215BCC;
-    o->on_close = on_judgment_close;
-    o->on_cancel = on_judgment_cancel;
+    o->on_close = on_judgment_closed;
+    o->on_cancel = on_judgment_cancelled;
     set_state(5);
 }
 
@@ -108,10 +107,10 @@ TJudgmentSequence::~TJudgmentSequence() {
     TJudgmentSequence::slot_flags[get_split_screen_slot()] = 0;
 }
 
-const char *judgment_sequence_class_name = "TJudgmentSequence";
+const char *TJudgmentSequence::class_name = "TJudgmentSequence";
 
 TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = judgment_sequence_class_name;
+    m_name = class_name;
     this->player = player;
     meseta_window = 0;
     counter_camera = NULL;

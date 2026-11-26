@@ -33,6 +33,7 @@ struct TItemData {
 
     union {
         u8 data_u8[12];
+        s8 data_s8[12];
         u8 data_u8_pair[6][2];
         u16 data_u16[6];
         u32 data_u32[3];
@@ -76,7 +77,7 @@ struct TItemData {
     f32 get_shield_set_multiplier(u8 *player);
     f32 get_armor_set_multiplier(u8 *player);
     f32 get_weapon_set_multiplier(u8 *item_data);
-    void apply_equip_effects(s32 arg1, saddr player, saddr arg3, saddr arg4, s32 arg5);
+    void apply_equip_effects(s32 owner, saddr attack_bonus, saddr param_bonus, saddr stat_bonus, s32 hp_tp_bonus);
     void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);
     saddr calc_buy_price();
     void format_item_name(char *buf);

@@ -4,7 +4,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/main_loop.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
@@ -613,6 +612,7 @@ void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous) {
     }
     pad->pressed_with_sticks |= mask;
 }
+}
 
 void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous) {
     if (y > 0x30) {
@@ -644,8 +644,6 @@ void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 pr
     }
 }
 
-}
-
 void update_button_hold_counter(void *pad, void *counter, int mask, int held) {
     s16 frames = *(s16 *)counter;
     if (held & mask) {
@@ -655,8 +653,6 @@ void update_button_hold_counter(void *pad, void *counter, int mask, int held) {
     }
     *(s16 *)counter = frames;
 }
-
-extern "C" {
 
 void update_button_hold_counters(ControllerInputContext *pad) {
     update_button_hold_counter(pad, &pad->hold_frames[0], 0x10, pad->held_with_sticks);
@@ -675,8 +671,6 @@ void update_button_hold_counters(ControllerInputContext *pad) {
     update_button_hold_counter(pad, &pad->hold_frames[13], 0x10000, pad->held_with_sticks);
 }
 
-}
-
 s32 TRaderMapCore::pack_color_bits(ControllerInputContext *pad, s32 mask) {
     s32 bits = mask | ((mask << 0x10) & 0xF00000);
     return bits | ((bits << 0x16) & 0x3C000000);
@@ -691,10 +685,12 @@ s32 TRaderMapCore__sub_801A6D00(ControllerInputContext *pad, s32 mask) {
 s32 pack_flags__13TRaderMapCoreFii(s32 pad, s32 mask) {
     return (mask & 0xFF0FFFFF) | ((mask << 0x16) & 0x3C000000);
 }
+}
 
 s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
     return (pad->not_held & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
+extern "C" {
 
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
     return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
@@ -715,7 +711,6 @@ s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
     return (((ControllerInputContext *)pad)->held_with_sticks & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
-
 }
 
 s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
@@ -733,6 +728,7 @@ extern "C" {
 s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 delay, s32 period) {
     u32 mask = pack_flags__13TRaderMapCoreFii((saddr)pad, buttons);
     return input_press_or_repeat(pad, mask, delay, period);
+}
 }
 
 s32 check_packed_flag_match(ControllerInputContext *pad, u32 mask, s32 delay, s32 period) {
@@ -765,8 +761,6 @@ s32 input_press_or_repeat(ControllerInputContext *pad, u32 mask, s32 delay, s32 
         }
     }
     return result;
-}
-
 }
 
 void ControllerInputContext::reset() {

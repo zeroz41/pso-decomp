@@ -47,7 +47,7 @@ s16 init_ipv4_routing(void) {
     return 0;
 }
 
-inline s16 is_ipv4_broadcast(s16 id, u32 addr) {
+static inline s16 is_ipv4_broadcast(s16 id, u32 addr) {
     Ipv4Iface *p;
     p = (Ipv4Iface *)get_active_entry_by_index(id);
     if (p == NULL) {
@@ -90,7 +90,7 @@ s16 get_ipv4_interface_mtu(s16 iface) {
 }
 #pragma pop
 
-inline s16 first_iface_addr(s16 *pn, Ipv4Iface **pb, u32 *out) {
+static inline s16 first_iface_addr(s16 *pn, Ipv4Iface **pb, u32 *out) {
     if (*pn <= 0) {
         return 0;
     }
@@ -101,7 +101,7 @@ inline s16 first_iface_addr(s16 *pn, Ipv4Iface **pb, u32 *out) {
     return 1;
 }
 
-inline void remove_iface_route(Ipv4RoutingState *g, u32 dst, u32 gateway) {
+static inline void remove_iface_route(Ipv4RoutingState *g, u32 dst, u32 gateway) {
     s16 i;
     Ipv4Route *e;
     e = g->routes;
@@ -510,7 +510,7 @@ s32 ipv4_route_delete(u32 dst, u32 mask, u32 gateway, s32 flag) {
     return -2;
 }
 
-inline s16 find_iface_by_addr(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
+static inline s16 find_iface_by_addr(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
     s16 i;
     s16 j;
     Ipv4Iface *ifc;
@@ -533,7 +533,7 @@ inline s16 find_iface_by_addr(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
     }
     return -1;
 }
-inline s16 find_iface_by_network(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
+static inline s16 find_iface_by_network(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
     s16 i;
     s16 j;
     Ipv4Iface *ifc;
@@ -556,7 +556,7 @@ inline s16 find_iface_by_network(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
     }
     return -1;
 }
-inline Ipv4Iface *ipv4_ifaces(Ipv4RoutingState *g) {
+static inline Ipv4Iface *ipv4_ifaces(Ipv4RoutingState *g) {
     return g->ifaces;
 }
 #pragma push

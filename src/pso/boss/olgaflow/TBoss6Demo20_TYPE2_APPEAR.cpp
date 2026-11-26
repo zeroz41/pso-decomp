@@ -29,9 +29,7 @@
 extern const Vec boss6_type2_appear_origin;
 extern Vec boss6_type2_appear_offset_particle_origin;
 
-extern "C" {
 const char TBoss6Demo20_TYPE2_APPEAR::class_name[] = "TBoss6Demo20_TYPE2_APPEAR";
-}
 const Vec boss6_type2_appear_origin = {-10000.0f, 0.0f, 0.0f};
 extern "C" {
 const ModelNodePositionEntry boss6_type2_appear_model_node_descriptors[9] = {

@@ -3,7 +3,6 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 typedef void (*Fn_801Fn)(void);
 struct Ent_8010F0C0 { Fn_801Fn a; Fn_801Fn b; };
 struct LoadUnloadSetUnloadSet {
@@ -16,7 +15,6 @@ struct LoadUnloadSetShuffleOrderO { s32 count; s32 f4; u8 *buf; };
 
 struct LoadUnloadSetShuffleOrderO2 { s32 count; s32 f4; u8 *buf; };
 
-extern "C" {
 void load_unload_set_init_order(LoadUnloadSetShuffleOrderO *self);
 void load_unload_set_shuffle_order(LoadUnloadSetShuffleOrderO2 *self);
 
@@ -47,6 +45,7 @@ void load_unload_set_init_order(LoadUnloadSetShuffleOrderO *self) {
 
 #pragma push
 #pragma opt_common_subs off
+extern "C" {
 void load_unload_set_unload(LoadUnloadSetUnloadSet *s) {
     s32 i;
     Fn_801Fn f;
@@ -83,6 +82,5 @@ void load_unload_set_load(LoadUnloadSetUnloadSet *s) {
         ((FlagWord *)((u8 *)s + 0xC))->set(1);
     }
 }
-#pragma pop
-
 }
+#pragma pop

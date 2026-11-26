@@ -412,7 +412,7 @@ void TObjEneDellBiter::update_contact_attacks() {
         attack_bodies[1]->rotation_y = rotation_y;
         VecCopy(&attack_bodies[1]->position, &part_positions[1]);
         attack_bodies[1]->refresh_collision_body_centers();
-        AreaAttackContact attack = { get_attack_params_atp_min(dell_biter_shared_handler_param), 1 };
+        AreaAttackContact attack = { dell_biter_shared_handler_param->get_atp_min(), 1 };
         if (is_confused() != 0) {
             attack.contact_flags |= 2;
         }
@@ -860,7 +860,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
     case 5:
         flags &= ~4;
         bodies->flags &= ~0x700;
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -941,7 +941,7 @@ void TObjEneDellBiter::update_walk_state(s32 reason) {
             this->update_velocity();
         }
         rotation_y = approach_angle_limited(rotation_y, angle = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x300);
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, angle, 0x200, 0x2000);
         delbiter_movement_parameters = dell_biter_movement_params;
         if (destination_distance <= (f32) delbiter_movement_parameters->attack_distance) {
             facing = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
@@ -1065,7 +1065,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
     case 5:
         flags &= ~4;
         bodies->flags &= ~0x700;
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1102,7 +1102,7 @@ void TObjEneDellBiter::update_attack_state(s32 reason) {
     case 0:
         advance_animation();
         angle = rotation_y;
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)angle, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(angle, (s32)part_rotation_x, angle, 0x200, 0x2000);
         switch (step) {
         case 0:
             if (is_passing_frame(11.0f) != 0) {
@@ -1345,7 +1345,7 @@ void TObjEneDellBiter::update_damage_state(s32 reason) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

@@ -6,7 +6,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/client_id.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/byteswap.h"
@@ -27,7 +27,6 @@
 #include "pso/unk/text_803DD5E0.h"
 
 extern "C" {
-s32 dispatch_6x_subcommand(void *);
 s32 append_command_to_batch_buffer(void *, void *);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
@@ -41,7 +40,7 @@ void long_game_command_union::send_to_client(u32 client_id) {
     bswap_32(&size);
     if ((u32) local_client_id == client_id) {
         dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand(this);
+        dispatch_6x_subcommand((G_ParameterHeader *)this);
         dispatching_own_subcommand = 0;
         return;
     }
@@ -57,7 +56,7 @@ void send_subcommand_to_leader(void *cmd) {
     size = packet->header.size * 4;
     if (get_main_phase() == 0xE) {
         dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand(packet);
+        dispatch_6x_subcommand((G_ParameterHeader *)packet);
         dispatching_own_subcommand = 0;
         return;
     }
@@ -71,7 +70,7 @@ void game_command::send_to_client(u32 client_id) {
     size = header.size * 4;
     if ((u32) local_client_id == client_id) {
         dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand(this);
+        dispatch_6x_subcommand((G_ParameterHeader *)this);
         dispatching_own_subcommand = 0;
         return;
     }
@@ -94,7 +93,7 @@ void send_subcommand(void *cmd) {
         TLobby::protocol_instance->send_pso_data(*packet, size);
     }
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand(packet);
+    dispatch_6x_subcommand((G_ParameterHeader *)packet);
     dispatching_own_subcommand = 0;
 }
 
@@ -113,7 +112,7 @@ void broadcast_subcommand(void *cmd) {
         }
     }
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand(cmd);
+    dispatch_6x_subcommand((G_ParameterHeader *)cmd);
     dispatching_own_subcommand = 0;
 }
 

@@ -1,12 +1,11 @@
 #include <string.h>
 #include "pso/audio/AdxError.h"
 #include <dolphin/os/OSThread.h>
-#include "pso/unk/text_803D2F1C.h"
+#include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
-#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/SjRingBuffer.h"
@@ -17,7 +16,7 @@
 #include "pso/audio/GcrnaBridgePanId.h"
 #include "pso/audio/GcrnaBridgeSampleBits.h"
 #include "pso/audio/GcrnaBridgeStatus.h"
-#include "pso/unk/TLobby_803CBF50.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };
@@ -52,7 +51,7 @@ inline void prep_803CA8B4(AdxtPlayer *self) {
             }
         }
         if (i == n) {
-            TLobby::dispatch_packet(self->rna_handle, 0);
+            gcrna_bridge_set_trans_sw(self->rna_handle, 0);
             self->stat = 4;
         }
     }
@@ -217,7 +216,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
             u8 *header = input_state->get_offset_58();
             run_step_4430(self->rna_handle, header);
         }
-        TLobby::dispatch_packet(self->rna_handle, 1);
+        gcrna_bridge_set_trans_sw(self->rna_handle, 1);
         self->stat = 2;
     }
 }

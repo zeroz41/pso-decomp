@@ -26,15 +26,10 @@ void *banner_file_buf;
 s32 memcard_file_size;
 s32 card_result_code;
     int card_wait_state;
-extern "C" {
-s32 mount_memcard(saddr);
-}
 const CardBannerFileNames memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 extern u8 *memcard_work_areas[];
 extern CARDFileInfo memcard_file_info;
 extern CARDStat memcard_file_status;
-extern "C" {
-s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
 
 void TAdPlayerLoadGC::reset_load_state(s32 channel, u64 *serial_number) {
     *serial_number = 0;
@@ -315,7 +310,6 @@ void TAdPlayerLoadGC::load_banner_files() {
         }
     }
 }
-}
 
 void release_card_banner_and_icon(CardSaveDescriptor *) {}
 
@@ -350,7 +344,6 @@ s32 verify_card_save_header(CardSaveDescriptor *file, void *image) {
     return 0;
 }
 
-extern "C" {
 s32 start_memcard_write(s32 chan, const char *name, void *buf, s32 blocks, CardWriteDate *date, u32 flags) {
     u32 size;
     if (chan >= 2) {
@@ -440,6 +433,7 @@ s32 TAdPlayerLoadGC::build_save_file_image(void *image, CardSaveDescriptor *file
     ::operator delete(h);
     return size / 8192 + 3;
 }
+extern "C" {
 
 s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     u32 size;
@@ -867,6 +861,7 @@ s32 init_memcard(s32 unused, s32 chan, u8 *workArea) {
     card_result_code = 0;
     return 0;
 }
+}
 
 // Opens the card file, creating it with `size` bytes when CARDOpen reports CARD_RESULT_NOFILE.
 s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size) {
@@ -911,7 +906,6 @@ s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size)
             return result;
         }
     }
-}
 }
 
 void *banner_buffers[6];

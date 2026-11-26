@@ -19,7 +19,7 @@ u8 vj_new_seq[16];
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u8 *vj_encode(u8 *cp, u32 n) {
+static inline u8 *vj_encode(u8 *cp, u32 n) {
     if ((u16)n >= 256 || (u16)n == 0) {
         *cp++ = 0;
         cp = write_network_u16_be(cp, n);

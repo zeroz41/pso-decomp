@@ -1,4 +1,5 @@
 #include "pso/unk/text_803D853C.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/memory.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
@@ -35,7 +36,6 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/hud/TRaderMapCore_801FB2B8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
@@ -52,22 +52,17 @@
 #include <dolphin/gx/GXCull.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_800F8A18.h"
-#include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_80207DA8.h"
-#include "pso/render/NinjaUtil.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/model_render_state.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/hud/RadarMapData.h"
-
-extern "C" {
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
@@ -87,20 +82,14 @@ BmlResource *radar_frame_model_resource;
 NJS_TEXLIST *radar_frame_texlist;
 saddr TRaderMapCore::map_heap;
 
+extern "C" {
 extern NJS_TEXANIM radar_sprite_texanims[];
 extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
 void* __ct__5THeapFUli(void*, u32, s32);
-extern RadarMarker radar_marker_buffer[128];
-}
-void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos);
-extern "C" {
 void rotate_matrix_y(void *, s32);
-}
-extern "C" {
-
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 s32 get_current_floor(void);
@@ -116,7 +105,7 @@ NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 }
-
+void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos);
 #define RADAR_REGION_MAP ((struct RadarRegionMap *) TRaderMapCore::floor_map_resource)
 
 
@@ -177,9 +166,6 @@ s16 *TRaderMapCore::floor_discovery_table[18];
 
 
 struct RadarSceneEntry { s32 a; char *name; };
-extern "C" {
-void bind_gvm_texture_list(char *, u8 *);
-}
 extern s32 memcard_access_active;
 
 
@@ -244,7 +230,7 @@ void TRaderMapCore::load_map_resources() {
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore::floor_map_resource != NULL && RADAR_REGION_MAP->textures != 0) {
         TLobby::replace_file_extension((char *)buf, (char *)e[status].name, "r");
-        bind_gvm_texture_list(buf, (u8 *)RADAR_REGION_MAP->textures);
+        bind_gvm_texture_list((const char *)buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
     }
     copy_name("..");
     memcard_access_active = 0;
@@ -367,7 +353,7 @@ void TRaderMapCore::run_task() {
             countdown = (delay - 1);
             return;
         }
-        switch ((s32) TRaderMapCore::view_mode) {
+        switch (TRaderMapCore::view_mode) {
         case 0:
             update_target();
             break;
@@ -535,7 +521,7 @@ void TRaderMapCore::render() {
             radar_marker_count = 0;
             return;
         }
-        switch ((s32) TRaderMapCore::view_mode) {
+        switch (TRaderMapCore::view_mode) {
         case 0:
             draw_backdrop(this, TRaderMapCore::view_mode);
             begin_map_view(TRaderMapCore::view_mode);
@@ -1190,14 +1176,14 @@ void TRaderMapCore::open_free_map_view() {
 
 void TRaderMapCore::add_zoom_distance(f32 delta) {
     f32 py;
-    if (((s32) TRaderMapCore::view_mode == 1) || ((s32) TRaderMapCore::view_mode == 2)) {
+    if ((TRaderMapCore::view_mode == 1) || (TRaderMapCore::view_mode == 2)) {
         py = radar_map_view_state[1].camera.py + delta;
         radar_map_view_state[1].camera.py = py;
         if (py < radar_camera_height_min) {
-            radar_map_view_state[1].camera.py = (f32) radar_camera_height_min;
+            radar_map_view_state[1].camera.py = radar_camera_height_min;
         }
         if (radar_map_view_state[1].camera.py > radar_camera_height_max) {
-            radar_map_view_state[1].camera.py = (f32) radar_camera_height_max;
+            radar_map_view_state[1].camera.py = radar_camera_height_max;
         }
     }
 }

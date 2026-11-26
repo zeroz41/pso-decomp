@@ -25,21 +25,23 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 s32 TShopItemTecSequence::slot_table[4];
+extern "C" {
 extern const char *shop_item_tec_sequence_class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
+}
 s32 get_shop_text(s32 index);
+extern "C" {
 
 
 extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on
-struct ShopItemListWindowView { u8 pad[0x1c0]; void *cb0; };
 const char *shop_item_tec_sequence_class_name = "TShopItemTecSequence";
+
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) {
     TItem *found;
     if (TRaderMapCore::is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->at_tekker != 0) {
@@ -168,16 +170,16 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    ShopItemListWindowView *o = (ShopItemListWindowView *)new TShopItemListWindow(tl_05, this, player);
-    o->cb0 = (void *)TShopItemTecSequence::close;
+    TShopItemListWindow *o = new TShopItemListWindow(tl_05, this, player);
+    o->on_close = close;
     reset_controller_input_state();
     this->set_state(5);
 }
 
 void TShopItemTecSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x2d);
-    o->on_close = TShopItemTecSequence::close;
-    o->on_empty = TShopItemTecSequence::select_and_advance;
+    o->on_close = close;
+    o->on_empty = select_and_advance;
     reset_controller_input_state();
     set_state(5);
 }

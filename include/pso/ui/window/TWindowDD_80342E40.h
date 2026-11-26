@@ -3,13 +3,15 @@
 
 #include "types.h"
 
+struct TWindowDD;
+
 extern "C" {
-u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0);
+u8 update_numeric_parameter_input__9TWindowDDFPv(TWindowDD *window_dd);
 }
 
 // --- C functions defined in TWindowDD_80342E40.cpp ---
 extern "C" {
-u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0);
+u8 update_numeric_parameter_input__9TWindowDDFPv(TWindowDD *window_dd);
 }
 // --- end of C functions
 

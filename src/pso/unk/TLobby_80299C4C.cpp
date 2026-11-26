@@ -33,19 +33,18 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/FloorReflection.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
 }
-void init_music_sequencer(s32);
-void init_area_lights(void);
 
 void TLobby::update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
@@ -139,9 +138,9 @@ void TObjChallenge4PRetry::open_message_window() {
         this->message->close();
         this->message = NULL;
     }
-    this->message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(
+    this->message = TWindowMessage::create(
         get_window_layout_position(0x39),
-        message_window_position, 1));
+        message_window_position, 1);
     if (this->message != NULL) {
         this->message->append_line(get_message_text(0x5E), 1);
     }
@@ -181,6 +180,7 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
         TWindowCtrl::unsuppress_slot(client);
         TWindowCtrl::enable_client_main_menu(client);
     }
+}
 }
 
 void TLobby::close_giveup_window(void *a0) { TWindowCtrl::suppress_slot(local_client_id); TLobby::play_effect_all_players(a0); }
@@ -222,6 +222,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
         queue_destruction();
     }
 }
+extern "C" {
 
 void set_keyboard_input_flag(void);
 s32 TLobby__sub_80291F9C();

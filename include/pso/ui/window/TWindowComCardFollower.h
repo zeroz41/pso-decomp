@@ -31,4 +31,7 @@ LAYOUT_ASSERT(ComCardFollowerPositionOffset, offsetof(TWindowComCardFollower, of
 LAYOUT_ASSERT(ComCardFollowerModeOffset, offsetof(TWindowComCardFollower, help_mode) == 0x70);
 LAYOUT_ASSERT(TWindowComCardFollower_size, sizeof(TWindowComCardFollower) == 0x74);
 
+// The help-icon column a TObjChara status effect type is shown with.
+s32 get_status_effect_icon_index(u32 effect_type);
+
 #endif

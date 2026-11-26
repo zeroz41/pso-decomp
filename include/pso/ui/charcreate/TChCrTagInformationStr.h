@@ -6,6 +6,7 @@
 
 class TChCrTagInformationStr : public TObject {
 public:
+    static const char *class_name;
     TChCrTagInformationStr(TObject *parent, s32 tag_index);
     virtual ~TChCrTagInformationStr();
     virtual void render();

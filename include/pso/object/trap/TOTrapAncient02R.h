@@ -18,7 +18,7 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     virtual void vfunc_88();
     virtual void vfunc_86();
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
@@ -31,9 +31,6 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     void calc_trap_count();
     static void *create(void *set_data);
 };
-
-// Empty in this build. Called by the ancient trap and chainsaw demo update.
-extern "C" void TOTrapAncient02R__sub_80154D78(TObject *object);
 
 LAYOUT_ASSERT(TOTrapAncient02R_size, sizeof(TOTrapAncient02R) == 0x36C);
 #endif

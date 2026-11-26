@@ -117,15 +117,15 @@ void TLobby__sub_801A54E8(u8 *arg0) {
         ((VObj_801a54e8_801A529C *) arg0)->m8(arg0 + 0x8BC, *(s32 *)((s8 *)arg0 + 0x8B8));
     }
 }
-void append_command_to_batch_buffer(S_801A5544 *arg0, u8 *cmd) {
+void append_command_to_batch_buffer(S_801A5544 *batch, u8 *cmd) {
     s32 n;
     s32 i;
-    if (arg0->cnt + cmd[1] * 4 > 0x5B4) {
+    if (batch->cnt + cmd[1] * 4 > 0x5B4) {
         return;
     }
     n = cmd[1] * 4;
     for (i = 0; i < n; i++) {
-        arg0->buf[arg0->cnt++] = *cmd++;
+        batch->buf[batch->cnt++] = *cmd++;
     }
 }
 

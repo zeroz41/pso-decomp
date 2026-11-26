@@ -22,7 +22,7 @@
 
 void TOQuestTalkBase::update_demo() {}
 
-void TOQuestTalkBase::vfunc_6(s16 *state, s32) {
+void TOQuestTalkBase::apply_saved_state(s16 *state, s32) {
     object_state = *state;
 }
 

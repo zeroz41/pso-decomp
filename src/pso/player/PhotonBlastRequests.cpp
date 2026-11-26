@@ -5,7 +5,6 @@
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 void release_photon_blast_requests(PhotonBlastRegistry *registry) {
     s32 count;
@@ -73,12 +72,12 @@ u16 PhotonBlastRegistry::find_first_valid_target_id() {
     return 0xFFFF;
 }
 
-void TObjPlayer__sub_80312E98(PhotonBlastRegistry *registry, s32 client_id) {
+void PhotonBlastRegistry::sub_80312E98(s32 client_id) {
     s32 n = get_photon_blast_request_count();
     saddr i;
     for (i = 0; i < n; i++) {
-        if ((u16)client_id == registry->get_element(i)->get_client_id()) {
-            registry->reset_request(i);
+        if ((u16)client_id == get_element(i)->get_client_id()) {
+            reset_request(i);
         }
     }
 }

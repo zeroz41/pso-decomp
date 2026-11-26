@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/item_create.h"
 #include "pso/network/TradeItemEntry.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/client_id.h"
@@ -8,9 +9,6 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
-s32 item_identity_matches(u8 *arg0, u8 *arg1);
-}
 
 s32 check_trade_offer_inventory(TradeSide *side, s32 *failed_id) {
     TradeItemEntry *p;

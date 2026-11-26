@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/ui/window/TWindowSubComCard_80077788.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
@@ -60,6 +60,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowMessageLog.h"
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 short_mail_flags;
@@ -76,13 +77,6 @@ struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 
 
-
-
-extern "C" {
-
-s32 post_chat_log_message();
-
-}
 
 extern "C" {
 
@@ -420,7 +414,7 @@ void TWindowCtrl::update_party_status_rows() {
                 ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
                 (((TObjChara *)pl)->obj_isState3_324() != 0 &&
                  (((TObjPlayer *)pl)->get_field_828() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
-                ((TWindowLockOn *)w)->request_close();
+                w->request_close();
             } else {
                 window_request_show(w);
                 if (w->target_position[1] != y) {
@@ -646,7 +640,7 @@ saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
         return 0;
     }
     if (flags & 0x40) {
-        post_chat_log_message();
+        post_chat_log_message(id, text);
     }
     balloon = (saddr)instance->show_chat_balloon(id, flags, text, static_cast<s32>(local_client_id));
     if (balloon == 0) {
@@ -672,13 +666,13 @@ s32 TWindowCtrl::open_balloon(u16 player, u8 *text, s32 flags, s32 client) {
 
 s32 is_actor_speech_balloon_done(u16 id) {
     u32 i;
-    void *w;
+    TWindowFukidasi *w;
     if (TWindowCtrl::instance == NULL) {
         return 1;
     }
     for (i = 0; i < 4; i++) {
         w = TWindowCtrl::instance->balloons[i];
-        if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id() && is_speech_balloon_ready((u8 *)w) == 0) {
+        if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == w->get_speaker_id() && w->is_speech_balloon_ready() == 0) {
             return 0;
         }
     }
@@ -687,7 +681,7 @@ s32 is_actor_speech_balloon_done(u16 id) {
 
 void complete_actor_speech_balloons(u16 id) {
     u32 i;
-    void *w;
+    TWindowFukidasi *w;
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
@@ -700,12 +694,12 @@ void complete_actor_speech_balloons(u16 id) {
 
 void TWindowCtrl::close_windows_by_flags(u16 flags) {
     u32 i;
-    void *w;
+    TWindowFukidasi *w;
     if (instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = instance->balloons[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && flags == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                ((TWindowBase *)w)->close();
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && flags == w->get_speaker_id()) {
+                w->close();
             }
         }
     }
@@ -958,14 +952,14 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
 
 
 
-void TWindowCtrl::handle_chat_message(char *arg1) {
+void TWindowCtrl::handle_chat_message(char *message) {
     Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
     s32 i;
     u32 key;
     char *v;
     Ply_8024AA08 *p;
     if (instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(instance, arg1);
+        v = TWindowCtrl::skip_name_prefix(instance, message);
         key = arg0->f4;
         for (i = 0; i < 12; i++) {
             p = (Ply_8024AA08 *)get_player_by_client_id(i);

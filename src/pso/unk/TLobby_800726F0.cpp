@@ -35,27 +35,32 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 void build_6x95_packet(u8 *arg0);
 void build_6x8A_packet(u8 *arg0);
+extern "C" {
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
 void TLobby__sub_80072724(TLobby *lobby);
+}
 void build_6x9D_packet(u8 *arg0);
+extern "C" {
 void TLobby__sub_800727A0(void *player);
+}
 void build_6x97_packet(u8 *arg0);
 
 void TLobby::bswap_challenge_dead_flag() {
     ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)((char *)this + 4));
 }
+extern "C" {
 
 void TLobby__sub_80072724(TLobby *lobby) {
     lobby->bswap_challenge_dead_flag();
     send_subcommand((u8 *)lobby);
+}
 }
 
 void build_6x9D_packet(u8 *arg0) {
@@ -67,6 +72,7 @@ void TLobby::send_and_handle_60_wrapper() {
     TLobby__sub_800727A0(this);
     send_subcommand(this);
 }
+extern "C" {
 
 void TLobby__sub_800727A0(void *player) {
     ((G_ClientIDHeader *)player)->bswap();
@@ -74,6 +80,7 @@ void TLobby__sub_800727A0(void *player) {
     bswap_32((u32 *)((char *)player + 8));
     bswap_32((u32 *)((char *)player + 12));
     bswap_32((u32 *)((char *)player + 16));
+}
 }
 
 void build_6x97_packet(u8 *arg0) {
@@ -157,7 +164,6 @@ void TObjTombstoneRecord::bswap() {
     bswap_32((u32 *)&position.y);
     bswap_32((u32 *)&position.z);
 }
-}
 void bswap_packet_field(s32 *value) {
     bswap_32((u32 *)value);
 }
@@ -180,9 +186,9 @@ void TObjChallengeRetry::sub_80072BB0() {
         this->message->close();
         this->message = NULL;
     }
-    this->message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(
+    this->message = TWindowMessage::create(
         get_window_layout_position(0x39),
-        challenge_retry_window_pos, 1));
+        challenge_retry_window_pos, 1);
     if (this->message != NULL) {
         this->message->set_depth(70200.0f);
         this->message->append_line(get_message_text(0x5E), 1);

@@ -14,9 +14,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 
-extern "C" {
-void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *context);
-}
 
 void *window_uv_sprite_part_vtable[6] = {
     0, 0,

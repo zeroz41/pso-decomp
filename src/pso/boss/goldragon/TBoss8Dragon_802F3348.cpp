@@ -3,10 +3,9 @@
 #include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
+#include "pso/boss/goldragon/TBoss8DragonPart.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
@@ -36,15 +35,14 @@ u16 TBoss8Dragon::get_part_entity_id(s32 index) {
 
 void TBoss8Dragon::place_parts_in_ring(s32 n, s32 hp, s32 seed) {
     Vec v;
-    u8 buf[0xEC];
+    SubtractiveRng rng;
     s32 ang;
     s32 step;
     s32 i;
     TBoss8Dragon *leader;
-    __ct__14SubtractiveRngFv(buf);
     if (n <= 5 && boss8_dragon_leader_part != NULL) {
-        subtractive_rng_seed(buf, seed);
-        ang = (s32)(65535.0f * (reinterpret_cast<SubtractiveRng *>(buf))->next_ratio());
+        subtractive_rng_seed(&rng, seed);
+        ang = (s32)(65535.0f * rng.next_ratio());
         step = 0x10000 / (n + 1);
         leader = (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(0));
         leader->position.x = 320.0f * sin_table_lookup(ang);

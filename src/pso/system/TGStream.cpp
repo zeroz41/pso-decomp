@@ -14,8 +14,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-extern "C" {
-
 #pragma readonly_strings on
 const char TGStream__class_name_string[] = "TGStream";
 const char city_gsl_path[] = "gsl_city.gsl";
@@ -152,7 +150,7 @@ s32 TGStream::read_whole_file(const char *name, u8 *dst) {
     rem = size % 2048;
     if (rem > 0) {
         stream.read_sectors_sync(1, gstream_sector_buffer);
-        move_data((void *)((dst + n * 2048)), (const void *)((const void *)gstream_sector_buffer), (u32)rem);
+        move_data(((dst + n * 2048)), (const void *)((const void *)gstream_sector_buffer), rem);
     }
     return size;
 }
@@ -199,11 +197,12 @@ void reset_gstream_buffer(void) {
     gstream_buffer_valid_size = 0;
     gstream_buffer_read_offset = 0x40000;
 }
+extern "C" {
 
 void TGStream__sub_800FDD64(void) {  }
+}
 
 s32 TGStream::get_file_size() { return gstream_file_size; }
-}
 s32 get_gstream_buffered_bytes();
 GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
     GslArchiveEntry *e;
@@ -302,7 +301,7 @@ s32 TGStream::read_data(void *dst, s32 size) {
         } else {
             n = get_gstream_buffered_bytes();
         }
-        move_data(dst, (const void *)(gstream_tmp_buffer + gstream_buffer_read_offset), (u32)n);
+        move_data(dst, (const void *)(gstream_tmp_buffer + gstream_buffer_read_offset), n);
         dst = (u8 *)dst + n;
         size -= n;
         total += n;

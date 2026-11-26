@@ -43,12 +43,14 @@ struct LoadFrameEntry {
 
 extern "C" {
 void build_small_font_glyph_quad(u8 c, GlyphQuad *q);
+}
 void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value);
+extern "C" {
 s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, u16 view);
 s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value);
+}
 void update_card_window_flags(saddr client_id, s32 card_status_bits);
 s32 get_player_status_color(void *player);
-}
 
 // The room leader's level and section id. The section id picks the item drop tables, the shop stock and the Tekker's
 // model; the game join packet sets it online, find_leader_section_id reads it from the leader's player offline.

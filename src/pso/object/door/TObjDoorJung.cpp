@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
@@ -35,10 +36,10 @@ BmlResourceDescriptor bm_obj_beamdoa_resource_descriptor = {
 CollisionBody door_jung_collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *door_jung_class_name = "TObjDoorJung";
 
-s32 door_jung_child_table[4];
+void *door_jung_child_table[4];
 BmlResource *door_jung_resource_handle;
 NJS_TEXLIST *door_jung_texlist;
-s32 door_jung_child_list;
+void *door_jung_child_list;
 s32 door_jung_scroll_tick;
 void *door_jung_door_scene_buffer;
 s32 door_jung_signal_red_texture;
@@ -50,8 +51,8 @@ struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
+}
 
-s32 free_collision_body_parts(void *);
 
 void TObjDoorJung::free_buffers() {
     if (door_jung_door_scene_buffer != NULL) {
@@ -76,11 +77,11 @@ void load_door_jung_resources(void) {
     door_jung_texlist = get_bml_texlist((BmlResource *)door_jung_resource_handle, 0);
     model = (NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 1);
     node = model->child;
-    door_jung_child_table[0] = (s32)node->model;
-    door_jung_child_table[1] = (s32)node->child->model;
-    door_jung_child_table[2] = (s32)node->child->child->model;
-    door_jung_child_table[3] = (s32)node->child->child->child->model;
-    door_jung_child_list = (s32)model->child->sibling->model;
+    door_jung_child_table[0] = node->model;
+    door_jung_child_table[1] = node->child->model;
+    door_jung_child_table[2] = node->child->child->model;
+    door_jung_child_table[3] = node->child->child->child->model;
+    door_jung_child_list = model->child->sibling->model;
     door_jung_scroll_tick = 0;
     const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
     door_jung_signal_red_texture = find_texture_entry_by_name(door_jung_texlist, parts[0]);
@@ -115,10 +116,10 @@ void TObjDoorJung::render() {
     if (this->update_object_view_visibility(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
             if (door_jung_beam_blue_texture >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(door_jung_beam_blue_texture));
+                set_ginja_model_texture_slot(door_jung_child_list, static_cast<u16>(door_jung_beam_blue_texture));
             }
         } else if (door_jung_beam_red_texture >= 0) {
-            set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(door_jung_beam_red_texture));
+            set_ginja_model_texture_slot(door_jung_child_list, static_cast<u16>(door_jung_beam_red_texture));
         }
         if (actor_frame_tick != door_jung_scroll_tick) {
             if (door_jung_door_scene_buffer != NULL) {
@@ -130,15 +131,15 @@ void TObjDoorJung::render() {
         for (i = 0; i < this->active_light_count; i++) {
             if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 1) {
                 if (door_jung_signal_blue_texture >= 0) {
-                    set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(door_jung_signal_blue_texture));
+                    set_ginja_model_texture_slot(door_jung_child_table[i], static_cast<u16>(door_jung_signal_blue_texture));
                 }
             } else if (door_jung_signal_red_texture >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(door_jung_signal_red_texture));
+                set_ginja_model_texture_slot(door_jung_child_table[i], static_cast<u16>(door_jung_signal_red_texture));
             }
         }
         for (j = this->active_light_count; j < 4; j++) {
             if (door_jung_signal_blue_texture >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[j]), static_cast<u16>(door_jung_signal_blue_texture));
+                set_ginja_model_texture_slot(door_jung_child_table[j], static_cast<u16>(door_jung_signal_blue_texture));
             }
         }
         TObjFish::set_global_param(door_jung_texlist);
@@ -183,8 +184,6 @@ void TObjDoorJung::run_task() {
         return;
     }
     minimap_render_gate(&this->position, 0xFFFF0000, (u16) this->rotation_y, 0, 0);
-}
-
 }
 TObjDoorJung::~TObjDoorJung() {
     this->unregister_object_by_id();

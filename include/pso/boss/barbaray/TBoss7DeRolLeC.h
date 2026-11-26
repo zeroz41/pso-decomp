@@ -67,7 +67,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void run_miss_reaction();
     void clear_harmful_statuses();
     void apply_shock_status();
-    void apply_movement_ailment(s32);
+    void apply_movement_ailment(CollisionBody *);
     void apply_confusion_status();
     void apply_slow_status();
     void apply_paralysis();
@@ -222,8 +222,6 @@ struct TObjEneDD;
 s32 TBoss7Joint_get_shell_max_hp(void);
 void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *packet);
 void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *packet);
-extern "C" {
 AnimationMotion *get_boss7_motion(s32 kind);
-}
 
 #endif

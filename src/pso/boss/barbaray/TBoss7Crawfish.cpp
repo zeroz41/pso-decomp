@@ -418,7 +418,7 @@ void TBoss7Crawfish::apply_poison_status() {  }
 void TBoss7Crawfish::apply_paralysis() {  }
 void TBoss7Crawfish::apply_slow_status() {  }
 void TBoss7Crawfish::apply_confusion_status() {  }
-void TBoss7Crawfish::apply_movement_ailment(s32) {  }
+void TBoss7Crawfish::apply_movement_ailment(CollisionBody *) {  }
 void TBoss7Crawfish::apply_shock_status() {  }
 void TBoss7Crawfish::clear_harmful_statuses() {  }
 f32 TBoss7Crawfish::get_health() { return this->play_speed; }

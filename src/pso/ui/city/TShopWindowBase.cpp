@@ -62,14 +62,14 @@ void TShopWindowBase::run_task() {
     }
 }
 
-const char *shop_window_base_class_name = "TShopWindowBase";
+const char *TShopWindowBase::class_name = "TShopWindowBase";
 TShopWindowBase::~TShopWindowBase() {
 
 }
 
 
 TShopWindowBase::TShopWindowBase(TObject *parent) : TObject(parent) {
-    m_name = shop_window_base_class_name;
+    m_name = class_name;
     pad_1C = 0;
     state = 0;
     player = NULL;

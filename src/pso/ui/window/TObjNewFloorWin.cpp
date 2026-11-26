@@ -22,6 +22,7 @@
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 
+
 void TShopWindowBase::set_state(s32 v) { state = v; }
 
 void TObjNewFloorWin::run_task() {
@@ -61,11 +62,11 @@ void TObjNewFloorWin::open_window() {
     const NJS_POINT2 *pos;
     pos = get_window_layout_position(0x3D);
     if (client < 0) {
-        window = (TWindowMenu *)create_window_menu_default(pos, 1);
+        window = create_window_menu_default(pos, 1);
     } else {
-        window = (TWindowMenu *)create_window_menu(pos, 1, client);
+        window = create_window_menu(pos, 1, client);
     }
-    if ((u32)window != 0U) {
+    if (window != NULL) {
         sprintf(title, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
         window->add_text_entry((saddr)title, 0, 0);
         window->calc_window_size();
@@ -80,14 +81,12 @@ void TObjNewFloorWin::open_window() {
 TObjNewFloorWin::~TObjNewFloorWin() {}
 
 
-extern "C" {
 const char *TObjNewFloorWin::class_name = TObjNewFloorWin__class_name_string;
 
-}
-TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) {
-    this->m_name = TObjNewFloorWin::class_name;
-    client = (s32)arg2;
-    window = 0;
+TObjNewFloorWin::TObjNewFloorWin(TObject *object, s32 client_id) : TObject(object) {
+    this->m_name = class_name;
+    client = client_id;
+    window = NULL;
     open_timer = 450;
     close_timer = 150;
     state = 0;
@@ -95,18 +94,18 @@ TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) 
 
 u8 *TLobby::create_new_floor_windows() {
     TObjNewFloorWin *last;
-    uaddr i;
+    s32 i;
     if (is_split_screen() == 0) {
-        return (u8 *)new TObjNewFloorWin((TObject *)this, (void *)(-1));
+        return (u8 *)new TObjNewFloorWin(this, -1);
     }
-    last = 0;
+    last = NULL;
     i = 0;
     do {
         if (get_player_by_client_id(i) != NULL) {
-            last = new TObjNewFloorWin((TObject *)this, (void *)i);
+            last = new TObjNewFloorWin(this, i);
         }
-        i += 1;
-    } while (((s32) i) < 4);
+        i++;
+    } while (i < 4);
     return (u8 *)last;
 }
 

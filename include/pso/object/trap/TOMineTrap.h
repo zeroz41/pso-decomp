@@ -22,6 +22,10 @@ struct TOMineTrap : public TOMine {
     u16 m_37e;
     s32 m_380;
     u16 get_trap_type();
+    // Names inferred: the mode, the trap number 6x80 packets match, the instance flag set_instance writes.
+    s16 get_mode();
+    u16 get_trap_number();
+    static int get_instance();
     static int get_trap_count();
     static int set_instance(int instance);
     static int set_trap_count(int trap_count);
@@ -34,7 +38,6 @@ struct TOMineTrap : public TOMine {
     virtual s32 select_melee_contact_body(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
     virtual f32 receive_physical_attack(void *, f32);
-    void sync_position();
     void send_state_packet(u16 idx);
     s32 show_owner_message(TObjChara *player);
 };

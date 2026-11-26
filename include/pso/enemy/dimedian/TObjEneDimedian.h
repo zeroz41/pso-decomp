@@ -15,7 +15,7 @@ struct TObjEneDimedian : public TObjEneBeastBase {
     virtual ~TObjEneDimedian();
     virtual void render();
     void load_dimedian_param_entry(s32);
-    void sub_800A7B54();
+    void apply_subtype();
     virtual void beast_update_appear();
     virtual void run_demo_task();
     virtual void play_group_chase_sound();

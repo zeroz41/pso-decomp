@@ -1,7 +1,7 @@
 #include "pso/item/TItemFollowStarLight.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "types.h"

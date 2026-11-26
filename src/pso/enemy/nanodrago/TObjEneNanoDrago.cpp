@@ -960,19 +960,18 @@ void TObjEneNanoDrago::update_dying_state() {
 #pragma push
 #pragma fp_contract on
 void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
-    TObjEneNanoDrago *actor = this;
     s32 ang;
     f32 r;
-    if (xz_distance_squared((Vec *)&actor->position, (Vec *)&actor->moveDestination) < 400.0f) {
+    if (xz_distance_squared((Vec *)&this->position, (Vec *)&this->moveDestination) < 400.0f) {
         ang = (s32)(182.04445f * (360.0f * random_ratio()));
         r = 0.4f * (radius * (1.0f + random_ratio()));
-        actor->moveDestination.x = r * cos_table_lookup(ang) + center->x;
-        actor->moveDestination.z = r * sin_table_lookup(ang) + center->z;
+        this->moveDestination.x = r * cos_table_lookup(ang) + center->x;
+        this->moveDestination.z = r * sin_table_lookup(ang) + center->z;
     }
-    VecCopy(&actor->move_destination, (const Vec *)&actor->moveDestination);
-    ((TObjEnemy *)actor)->enemy_turn_toward_dest(((NanoDragoMovementParams *)actor->movementParameters)->turnSpeed);
-    enemy_set_heading_velocity(actor->speed, actor, actor->rotation_y);
-    move_with_wall_slide(actor);
+    VecCopy(&this->move_destination, (const Vec *)&this->moveDestination);
+    this->enemy_turn_toward_dest(((NanoDragoMovementParams *)this->movementParameters)->turnSpeed);
+    enemy_set_heading_velocity(this->speed, this, this->rotation_y);
+    move_with_wall_slide(this);
 }
 #pragma pop
 void TObjEneNanoDrago::spawn_beam_particle(s32 i) {
@@ -1193,3 +1192,24 @@ s32 TObjEneNanoDrago::update_action_hold_status() {
     }
     return 0;
 }
+
+
+
+#pragma push
+#pragma fp_contract on
+// The hook update_action_hold_status calls: a drago still hidden in flight (behavior_flags bit 18)
+// lands back home; otherwise a pending appear (next action 7) is dropped, as in
+// TObjEneDubchik::clear_state7_flag.
+void TObjEneNanoDrago::clear_state7_flag() {
+    if (behavior_flags & 0x40000) {
+        behavior_flags &= ~0x40000;
+        VecCopy(&position, &home_position);
+        project_actor_to_ground(this, &position, NULL);
+        return;
+    }
+    if (next_action == 7) {
+        behavior_flags &= ~1;
+        update_if_active(0);
+    }
+}
+#pragma pop

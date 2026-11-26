@@ -50,7 +50,7 @@ void TLoadingCur::update_camera_facing_offset() {
 
 #pragma push
 #pragma fp_contract on
-extern "C" Vec calc_loading_cursor_pos(TLoadingCur *cursor) {
+Vec calc_loading_cursor_pos(TLoadingCur *cursor) {
     if (camera_ctrl_instance != NULL) {
         cursor->anchor.x = 1e+02f * ninja_camera.vx + ninja_camera.px;
         cursor->anchor.y = 1e+02f * ninja_camera.vy + ninja_camera.py;

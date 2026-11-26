@@ -1,4 +1,14 @@
 #include "pso/ui/window/TWindowCost.h"
+#include "types.h"
+
+void TWindowCost::set_cost(s32 cost) {
+    set_value(cost);
+}
+
+void TWindowCost::run_task() {
+    update_window();
+    update_window_entry_list(&entry_list);
+}
 
 #pragma readonly_strings on
 

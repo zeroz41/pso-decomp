@@ -19,11 +19,11 @@ struct TOTrap : public TObjChara {
     virtual void vfunc_88();
     virtual void vfunc_89();
     virtual f32 receive_physical_attack(void *, f32);
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual void run_task();
     virtual void render();
     // Attacks from anyone but the held player count as a plain physical hit.
-    virtual s32 try_start_action(s32 arg1, s32) { return (u8)(arg1 != (saddr)target); }
+    virtual s32 try_start_action(void *attacker, s32, f32) { return (u8)(attacker != target); }
     virtual s32 roll_physical_accuracy(void *attacker, s32, f32) { return (u8)(attacker != target); }
     virtual s32 select_melee_contact_body(void *attacker, f32) { return (u8)(attacker != target); }
     virtual int calc_distance_accuracy_penalty(void *attacker, void *, void *, float) { return (u8)(attacker != target); }

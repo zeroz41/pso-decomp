@@ -16,7 +16,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TUnk_804CE7E8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"
@@ -44,6 +44,10 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowMenuInfomation.h"
+#include "pso/ui/window/LabelValueRow.h"
 
 const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 
@@ -65,23 +69,25 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
 
 
 
-void TWindowSubTradeMain::update_trade_state() {
-    if ((u32) this->m_80 != 0U) {
-        if (((TWindowMenuIconLine *)this)->is_decided() != 0) {
-            ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(2);
+// inferred: the trade lists' enable step, the reverse of deactivate.
+void TWindowMenuIconLine::activate() {
+    if (status_display != NULL) {
+        if (is_decided() != 0) {
+            status_display->set_entry_state(2);
         } else {
-            ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(1);
+            status_display->set_entry_state(1);
         }
     }
-    clear_flag70_bit80();
-    clear_flag();
+    clear_close_flag();
+    clear_flag_40();
 }
 
-void TWindowSubTradeMain::close() {
-    set_visible();
+// inferred: what the trade window creators call on a new list.
+void TWindowMenuIconLine::deactivate() {
+    set_flag_40();
     set_close_flag();
-    if ((u32) this->m_80 != 0U) {
-        ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(0);
+    if (status_display != NULL) {
+        status_display->set_entry_state(0);
     }
 }
 
@@ -127,7 +133,6 @@ WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
 
-s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 }
 
 
@@ -230,29 +235,28 @@ void TWindowMenuIconLine::add_battle_stat_entry(s32 stat, s32 item, s32 gray_out
     }
 }
 
-void TWindowCheckBox::advance_all_entries(s32 play_sound) {
+void TWindowMenuIconLine::advance_all_entries(s32 play_sound) {
     s32 i;
-    get_array_entry(this->cursor);
-    if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
+    if (static_cast<ItemListRow *>(get_array_entry(cursor))->is_flag80_set() == 0) {
         if (play_sound != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-        for (i = 0; i < this->entry_capacity; i++) {
-            ((ItemListRow *)get_array_entry(i))->advance_state();
+        for (i = 0; i < entry_capacity; i++) {
+            static_cast<ItemListRow *>(get_array_entry(i))->advance_state();
         }
-        ((ItemListRow *)get_array_entry(this->cursor))->finalize_state();
+        static_cast<ItemListRow *>(get_array_entry(cursor))->finalize_state();
     }
 }
 
-void TWindowSubStatusDisp::refresh_selected_entry(s32 play_sound) {
-    TWindowSubStatusDisp *entry;
+void TWindowMenuIconLine::refresh_selected_entry(s32 play_sound) {
+    ItemListRow *entry;
 
-    entry = static_cast<TWindowSubStatusDisp *>(get_array_entry(*(s16 *)((s8 *)this + 0x74)));
+    entry = static_cast<ItemListRow *>(get_array_entry(cursor));
     if (entry->is_flag80_set() == 0) {
         if (play_sound != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-        ((ItemListRow *)entry)->finalize_state();
+        entry->finalize_state();
     }
 }
 
@@ -279,14 +283,14 @@ void TWindowMenuIconLine::add_status_entry(s8 flags, s32 src, s32 item) {
     }
 }
 
-void TWindowSubStatusDisp::append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows) {
+void TWindowMenuIconLine::append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows) {
     ItemListRow *row;
     s32 i;
     f32 k;
     ItemListRow *other;
 
-    if (*(s16 *)(((u8 *)this) + 0x72) < *(s16 *)(((u8 *)this) + 0x76)) {
-        row = (ItemListRow *)get_array_entry(*(s16 *)(((u8 *)this) + 0x72));
+    if (entry_count < entry_capacity) {
+        row = static_cast<ItemListRow *>(get_array_entry(entry_count));
         row->init_status_entry_by_flag(flag, src, item);
         if (extra_flag != 0) {
             row->flags |= 0x400;
@@ -295,12 +299,12 @@ void TWindowSubStatusDisp::append_entry(s32 flag, s32 src, s32 item, s32 extra_f
             k = 40.0f;
             i = 0;
             row->flags |= 0x1000;
-            while (i < *(s16 *)(((u8 *)this) + 0x76)) {
-                other = (ItemListRow *)get_array_entry(i);
+            while (i < entry_capacity) {
+                other = static_cast<ItemListRow *>(get_array_entry(i));
                 other->y = k * (f32)i++;
             }
         }
-        (*(s16 *)(((u8 *)this) + 0x72))++;
+        entry_count++;
     }
 }
 
@@ -401,9 +405,9 @@ void TWindowMenuIconLine::set_flag4() {
 }
 
 void TWindowMenuIconLine::handle_open() {
-    saddr entry;
-    entry = reinterpret_cast<saddr>(get_array_entry(this->cursor));
-    if ((((TWindowLayoutEntry *)entry)->is_flag_4_set() == 0) || (((TWindowSubStatusDisp *)entry)->is_flag80_set() != 0)) {
+    TWindowLayoutEntry *entry;
+    entry = static_cast<TWindowLayoutEntry *>(get_array_entry(this->cursor));
+    if ((entry->is_flag_4_set() == 0) || (entry->is_flag80_set() != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -412,7 +416,7 @@ void TWindowMenuIconLine::handle_open() {
     }
     this->state_flags = (u16) (this->state_flags | 2);
     if (this->status_display != NULL) {
-        ((TWindowSubStatusDisp *)(this->status_display))->set_entry_state(2);
+        this->status_display->set_entry_state(2);
     }
 }
 
@@ -489,14 +493,14 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 }
 
 void TWindowMenuIconLine::ensure_status_display(s32 title) {
-    uaddr heading;
+    TWindowSubStatusDisp *heading;
 
-    if ((uaddr) this->status_display == 0U) {
-        heading = (saddr)::operator new(0x24);
-        if (heading != 0U) {
-            heading = (uaddr)((TWindowSubStatusDisp *)heading)->construct_type1_heading(title, this->client_index);
+    if (this->status_display == NULL) {
+        heading = (TWindowSubStatusDisp *)::operator new(0x24);
+        if (heading != NULL) {
+            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, this->client_index);
         }
-        *(u32 *)&this->status_display = heading;
+        this->status_display = heading;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);
     }
 }
@@ -582,7 +586,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
     u16 *entry;
 
     if (!(this->state_flags & 0x80)) {
-        entry = (u16 *)this->get_array_entry((s16)(this->cursor));
+        entry = (u16 *)this->get_array_entry(this->cursor);
         if (*entry & 1) {
             draw_selection_bar(context, (u8 *)entry, this->is_decided());
         }
@@ -629,8 +633,8 @@ void TWindowMenuIconLine::render() {
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
         draw_context);
     this->draw_selected_list_entry(draw_context);
-    if (this->status_display != 0) {
-        ((TWindowSubStatusDisp *)this->status_display)->forward_render(draw_context);
+    if (this->status_display != NULL) {
+        this->status_display->forward_render(draw_context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
@@ -672,7 +676,7 @@ void TWindowMenuIconLine::run_task() {
     }
     if ((f32) this->open_tick >= 7.5f) {
         if (status_display != NULL) {
-            ((TWindowSubStatusDisp *)status_display)->update_subwindow();
+            status_display->update_subwindow();
         }
         bar = scroll_bar;
         if (bar != NULL) {
@@ -702,4 +706,78 @@ TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *
 TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
     : TWindowAddition((u8 *)&lbl_804D0604, client, parent) {
     init(count, client);
+}
+
+void TWindowMenuIconLine::clear_flag_40() { state_flags &= ~0x40; }
+
+void TWindowMenuIconLine::clear_close_flag() { state_flags &= ~0x80; }
+
+int TWindowLayoutEntry::is_flag80_set() const { return flags & 0x80; }
+
+s32 TWindowMenuInfomation::update_selected_entry() {
+    return ((LabelValueRow *)get_array_entry(index))->get_entry_id();
+}
+
+char *TWindowMenuInfomation::find_entry_value_by_id(s32 key) {
+    s32 i;
+    LabelValueRow *e;
+    for (i = 0; i < entry_capacity; i++) {
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != NULL && e->is_flag_4_set() != 0 && key == e->get_entry_id()) {
+            return e->label;
+        }
+    }
+    return 0;
+}
+void TWindowMenuInfomation::mark_entry_by_id(s32 entry_id) {
+    s32 i;
+    LabelValueRow *e;
+    for (i = 0; i < entry_capacity; i++) {
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != 0 && e->is_flag_4_set() != 0 && entry_id == e->get_entry_id()) {
+            e->flags |= 1;
+            e->color = -1;
+        }
+    }
+}
+void TWindowMenuInfomation::disable_entry_by_id(s32 id) {
+    s32 i;
+    LabelValueRow *e;
+    for (i = 0; i < entry_capacity; i++) {
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != 0 && e->is_flag_4_set() != 0 && id == e->get_entry_id()) {
+            e->flags &= 0xFFFE;
+            e->color = 0xFF909090;
+        }
+    }
+}
+void TWindowMenuInfomation::set_entry_string_by_id(void *string, s32 entry_id) {
+    s32 i;
+    LabelValueRow *e;
+    for (i = 0; i < entry_capacity; i++) {
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != 0 && e->is_flag_4_set() != 0 && entry_id == e->get_entry_id()) {
+            e->set_string(string);
+        }
+    }
+}
+
+void TWindowMenuInfomation::update_next_entry(void *label, void *string, s32 id) {
+    s16 next_row;
+
+    next_row = next_entry;
+    if (next_row < entry_capacity) {
+        ((LabelValueRow *)(get_array_entry(next_row)))->set_text(label, string, id);
+        ++next_entry;
+    }
+}
+
+void TWindowSubStatusDisp::add_text_entry(s32 arg1, s32 arg2) {
+    s16 temp_r4;
+
+    temp_r4 = *(s16 *)((s8 *)this + 0x72);
+    if (temp_r4 < (s16) *(s16 *)((s8 *)this + 0x76)) {
+        ((LabelValueRow *)(get_array_entry(temp_r4)))->set_text(arg1, arg2);
+        *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
+    }
 }

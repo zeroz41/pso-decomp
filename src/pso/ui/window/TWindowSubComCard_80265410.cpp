@@ -15,7 +15,6 @@
 #include <stddef.h>
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -31,11 +30,10 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
-
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 
 #pragma readonly_strings on
 
-extern "C" {
 struct Rec_802656D8 { u32 flags; s32 b; };
 
 struct Ent_802656D8 { u8 p0[0x24]; s32 f24; };
@@ -46,15 +44,15 @@ struct Win_802656D8 { u8 p0[0x80]; Rec_802656D8 *f80; };
 
 
 
+extern "C" {
+
 void measure_message_text_width(WindowTextEntry *e, f32 x);
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
 s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
 void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 void fn_80266378(s32 rows);
-
-u8 * init_shop_judgment_window(void* p);
 }
-void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
+
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
 // the window descriptor the TWindowMenu constructor passes to TWindowAddition.
@@ -75,10 +73,10 @@ void TKeyBoardControl::set_composer_flag62_bit4() {
     }
 }
 
-int TWindowMenuInfomation::get_flag() { return (m_70 >> 2) & 1; }
+int TWindowMenuInfomation::get_flag() { return (state_flags >> 2) & 1; }
 
 void TWindowMenuInfomation::clear_flag_and_release2() {
-    m_70 &= ~2;
+    state_flags &= ~2;
     if (heading != NULL) {
         heading->set_entry_state(1);
     }
@@ -501,9 +499,9 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
     entry->y = (f32)(row_index * 0x14);
     entry->color = color;
     if (flags & 1) {
-        set_text_entry_string((u8 *)entry, text, 0x20);
+        set_text_entry_string(entry, text, 0x20);
     } else {
-        set_text_entry_string((u8 *)entry, text, 0);
+        set_text_entry_string(entry, text, 0);
     }
     if (flags & 4) {
         entry->flags |= 1;
@@ -747,3 +745,5 @@ s32 TWindowMenu::is_locked(s32 buttons) {
 }
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }
+
+void TWindowMenu::reset_selection() { *(s16 *)&this->unk_7A = -1; }

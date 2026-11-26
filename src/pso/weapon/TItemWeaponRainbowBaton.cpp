@@ -10,7 +10,7 @@
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-extern "C" void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
+extern "C" void get_weapon_color__11TItemWeaponFv(f32 *, void *);
 
 void TItemWeaponRainbowBaton::emit_marker_effects() {
     f32 color_tmp[4];
@@ -23,7 +23,7 @@ void TItemWeaponRainbowBaton::emit_marker_effects() {
     launch.attack_kind = owner->attack_state.get_validated_attack_kind();
     launch.combo_stage = owner->attack_state.get_validated_attack_stage();
     launch.damage_multiplier = owner->query_extended_state();
-    get_weapon_color__11TItemWeaponFPv(color_tmp, this);
+    get_weapon_color__11TItemWeaponFv(color_tmp, this);
     copy_argb(&launch.color, (NJS_ARGB *)color_tmp);
     launch.facing = owner->rotation_y;
     get_joint_position(2, &launch.first_joint);

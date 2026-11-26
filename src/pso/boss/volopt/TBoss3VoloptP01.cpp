@@ -42,10 +42,11 @@
 
 extern "C" {
 void init_collision_body_parts(void *obj, void *parts, s32 count);
-void free_collision_body_parts(void *obj);
+}
+void free_collision_body_parts(TObjCollidable *actor);
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
-}
+
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptP01_class_name = "TBoss3VoloptP01";
@@ -196,7 +197,7 @@ void TBoss3VoloptP01::run_task() {
         run_demo_task();
         return;
     }
-    if (has_flag_0x800() != 0) {
+    if (is_actor_dead() != 0) {
         run_death_reaction();
     } else if (test_flag30_512() != 0 && !(actorFlags & 0x04000000)) {
         run_hit_reaction();

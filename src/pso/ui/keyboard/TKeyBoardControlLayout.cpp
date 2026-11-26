@@ -1,4 +1,6 @@
+#include "pso/system/memory.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -46,33 +48,48 @@ void TKeyBoardControl::set_depth(f32 depth) {
 }
 
 void TKeyBoardControl::set_position(void *pos) {
-    f32 *p = (f32 *)pos;
-    m_base->target_position[0] = (f32)(p[0] - 4.0f);
-    m_base->target_position[1] = (f32)(p[1] - 10.0f);
+    const NJS_POINT2 *point = (const NJS_POINT2 *)pos;
+
+    m_base->target_position[0] = point->x - 4.0f;
+    m_base->target_position[1] = point->y - 10.0f;
     m_base->tween_ticks = 3;
 }
 
 void TKeyBoardControl::set_soft_position(u8 *pos) {
-    f32 *p = (f32 *)pos;
-    m_soft->target_position[0] = (f32)p[0];
-    m_soft->target_position[1] = (f32)p[1];
+    const NJS_POINT2 *point = (const NJS_POINT2 *)pos;
+
+    m_soft->target_position[0] = point->x;
+    m_soft->target_position[1] = point->y;
     m_soft->save_position();
 }
 
 void TKeyBoardControl::set_hard_position(u8 *pos) {
-    f32 *p = (f32 *)pos;
-    m_hard->target_position[0] = (f32)p[0];
-    m_hard->target_position[1] = (f32)p[1];
+    const NJS_POINT2 *point = (const NJS_POINT2 *)pos;
+
+    m_hard->target_position[0] = point->x;
+    m_hard->target_position[1] = point->y;
     m_hard->save_position();
 }
 
 void TKeyBoardControl::set_sub_position(u8 *pos) {
-    f32 *p = (f32 *)pos;
-    m_base->target_position[0] = (f32)(p[0] - 4.0f);
-    m_base->target_position[1] = (f32)(p[1] - 10.0f);
+    const NJS_POINT2 *point = (const NJS_POINT2 *)pos;
+
+    m_base->target_position[0] = point->x - 4.0f;
+    m_base->target_position[1] = point->y - 10.0f;
     m_base->save_position();
 }
 
 void TKeyBoardControl::set_text(char *s) {
     m_base->set_text(s);
 }
+
+char *TKeyBoardControl::realloc_buffer() {
+    char *out;
+
+    out = (char *)mem_alloc(m_base->measure_text_overflow());
+    m_base->export_text(out);
+    return out;
+}
+
+int TKeyBoardControl::is_cancelled() { return m_base->is_cancelled(); }
+int TKeyBoardControl::is_confirmed() { return m_base->is_confirmed(); }

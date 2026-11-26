@@ -20,7 +20,6 @@
 #include "pso/system/MatrixStack.h"
 
 // Area set-up functions of TLobby_80299A60/B90/C4C.cpp, which have no header.
-s32 initialize_boss_scene();
 s32 init_scene_delo2();
 s32 load_dragon2_scene();
 

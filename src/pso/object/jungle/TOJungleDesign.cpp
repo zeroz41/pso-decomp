@@ -4,7 +4,6 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "types.h"
 #include "pso/object/jungle/TOJungleDesign.h"
-#include "pso/object/jungle/TOJungleDesign_802FEEB4.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"

@@ -46,7 +46,7 @@ s32 TObjMapObject::is_any_player_within_radius_xz(f32 radius_sq) {
         player = TObjPlayer::get_player_data(slot);
         if (player != NULL && player->get_entity_id() < 0x1000) {
             if (player->get_floor() == get_current_floor() &&
-                horizontal_distance_squared((const Vec *)&position, (const Vec *)&player->position) < radius_sq) {
+                horizontal_distance_squared(&position, &player->position) < radius_sq) {
                 return 1;
             }
         }

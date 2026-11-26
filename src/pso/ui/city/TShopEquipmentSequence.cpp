@@ -161,15 +161,15 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
 
 void TShopEquipmentSequence::open_buy_window() {
     TShopEquipmentListWindow *o = new TShopEquipmentListWindow(tl_05, this, player);
-    o->on_close = TShopEquipmentSequence::exit;
+    o->on_close = exit;
     reset_controller_input_state();
     set_state(7);
 }
 
 void TShopEquipmentSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x26);
-    o->on_close = TShopEquipmentSequence::exit;
-    o->on_empty = TShopEquipmentSequence::init_window;
+    o->on_close = exit;
+    o->on_empty = init_window;
     reset_controller_input_state();
     set_state(7);
 }

@@ -1,4 +1,6 @@
 #include "pso/object/container/ContainerResources.h"
+#include "pso/object/container/TOContainerAncientEnemy.h"
+#include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
 #include "pso/object/switch/TOSwitchAttack_801778A4.h"
@@ -137,11 +139,10 @@
 extern "C" {
 void TMainCursor__sub_80154090();
 void TMainCursor__sub_80154094();
-void free_ancient_container_resources();
 void TContainerAncient01R__sub_8018AF74();
-void load_door_jung_resources();
+}
+extern "C" {
 void release_boss_warp_resources();
-void load_lobby_butterfly_bml_resource();
 }
 void load_labo_design_object_table();
 void load_chat_sensor();

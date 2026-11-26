@@ -5,8 +5,8 @@
 
 struct DVDFileInfo;
 
-extern "C" {
 void gcci_dvd_async_callback(s32 result, DVDFileInfo *file);
-}
+
+void cvfs_forward_error(s32, const char *message, void *handle);
 
 #endif

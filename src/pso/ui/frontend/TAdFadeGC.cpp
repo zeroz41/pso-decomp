@@ -9,7 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/player/PlayerSlots.h"
 
 
@@ -91,7 +91,7 @@ void TAdFadeGC::run_task() {
     f32 new_opacity;
     f32 var_f2;
     if (((s32)all_parents_unqueued_for_destruction()) != 0) {
-        elapsed_frames = (s32) (elapsed_frames + 1);
+        elapsed_frames = (elapsed_frames + 1);
         switch (fade_mode) {
         case 0:
             wipe_width += 60.0f;

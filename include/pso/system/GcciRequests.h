@@ -40,9 +40,7 @@ LAYOUT_ASSERT(GcciRequestCommandBlock, offsetof(DVDFileInfo, cb) == 0);
 LAYOUT_ASSERT(GcciRequestDvdLength, offsetof(DVDFileInfo, length) == 0x34);
 LAYOUT_ASSERT(GcciStatusSize, sizeof(GcciStatus) == 12);
 LAYOUT_ASSERT(GcciStatusState, offsetof(GcciStatus, state) == 4);
-extern "C" {
 void *gcCiOpen(const char *name, s32 entry, s32 mode);
 s32 gcCiGetFileSize(char *name);
-}
 
 #endif

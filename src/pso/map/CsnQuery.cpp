@@ -48,12 +48,15 @@ s32 get_csn_group_flags(u8 arg0) {
 }
 
 void TObjPlayer__sub_80079108(void) {  }
+}
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color) {  }
 void csn_debug_hook_hit_record(CsnHit *hit) {  }
 void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 void csn_debug_hook_query_name(const char *name) {  }
+extern "C" {
 void TObjPlayer__sub_8007911C(void) {  }
+}
 void csn_debug_hook_origin_vector(const Vec *) {  }
 void csn_debug_hook_segment(const Vec *, const Vec *) {  }
 
@@ -100,7 +103,6 @@ s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 
 #define GT_TMAX (2.0f)       /* no hit yet */
 #define GT_EPS_NY (1e-5f)    /* skip walls (normal y) */
 #define GT_EPS_EDGE (-1e-4f) /* edge test tolerance */
-}
 s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg) {
   Vec *origin = origin_arg;
   u32 mask = mask_arg;

@@ -101,6 +101,7 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 x, f32 y, f32 depth)
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
 }
+}
 
 void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale) {
     Pos_800FBEA8 pos;
@@ -139,7 +140,6 @@ void draw_small_font_text(u32 color, const char *s, f32 x, f32 y, f32 scale) {
         x += ((u8 (*)(s32))get_small_font_glyph_width)(id);
     }
     TWindowSubStatusDisp::get_player();
-}
 }
 
 u32 get_name_text_width(void* p) { return ((u32 (*)(void*))calc_small_font_text_width)(p); }

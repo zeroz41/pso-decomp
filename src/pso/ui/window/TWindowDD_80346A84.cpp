@@ -2,17 +2,18 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDD_80346A84.h"
 
-extern "C" {
 void *load_encrypted_archive_data(const char *);
+extern "C" {
 
 extern s32 TWindowDD__word_select_lists;
 s32 window_dd_element_count;
+}
 
-saddr TWindowDD::get_element_ptr(s32 list_id) {
-    if (list_id == -1) {
+saddr TWindowDD::get_element_ptr(s32 index) {
+    if (index == -1) {
         return 0;
     }
-    if (list_id == -0x32) {
+    if (index == -0x32) {
         switch ((s32) TWindowDD::window_mode) {
         case 0:
             return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x8C0;
@@ -26,10 +27,10 @@ saddr TWindowDD::get_element_ptr(s32 list_id) {
             return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x928;
         }
     } else {
-        if ((list_id >= 0) && (list_id < (s32) window_dd_element_count)) {
-            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (list_id * 8);
+        if ((index >= 0) && (index < (s32) window_dd_element_count)) {
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (index * 8);
         }
-        switch (list_id) {
+        switch (index) {
         default:
             return 0;
         case -60:
@@ -46,7 +47,6 @@ saddr TWindowDD::get_element_ptr(s32 list_id) {
             return TWindowDD__word_select_lists + 0x28;
         }
     }
-}
 }
 
 extern s32 TWindowDD__data_805D6E28;
@@ -141,22 +141,17 @@ void ws_data_load(void) {
     }
 }
 
-s32 get_initial_word_select_list(saddr window_dd) {
+s32 get_initial_word_select_list(TWindowDD *window_dd) {
   s32 list_base;
   s32 offset;
-  saddr result;
-  offset = window_dd;
   list_base = 0;
-  switch (((TWindowDD *)window_dd)->get_word_select_context())
+  switch (window_dd->get_word_select_context())
   {
     case 0:
       list_base = 1;
       break;
     case 1:
       list_base = 3;
-      if (offset)
-    {
-    }
       break;
     case 2:
       list_base = 5;
@@ -171,14 +166,12 @@ s32 get_initial_word_select_list(saddr window_dd) {
       list_base = 0xB;
       break;
   }
-  result = offset;
   offset = 0;
-  if (TWindowDD__sub_80346F30((u8 *)((saddr) result)) != 0)
+  if (TWindowDD__sub_80346F30(window_dd) != 0)
   {
     offset = 1;
   }
-  result = list_base + offset;
-  return result;
+  return list_base + offset;
 }
 
 void TWindowDD::render() {  }
@@ -213,6 +206,6 @@ s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index) {
     return result;
 }
 
-s32 TWindowDD__sub_80346F30(u8 *window) {
-    return ((TWindowDD *)window)->menu_index != -1;
+s32 TWindowDD__sub_80346F30(TWindowDD *window_dd) {
+    return window_dd->menu_index != -1;
 }

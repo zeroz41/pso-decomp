@@ -29,17 +29,17 @@ void TAdGameStartShadowGC::run_task() {
     s32 alpha;
     s32 faded;
 
-    m_frame = (s32) (m_frame + 1);
+    m_frame = (m_frame + 1);
     frame = m_frame;
     if (frame < 0xA) {
-        m_alpha = (s32) (m_alpha + 0x19);
+        m_alpha = (m_alpha + 0x19);
         alpha = m_alpha;
         if (alpha > 0xFF) {
             alpha = 0xFF;
         }
         m_alpha = alpha;
     } else if (frame > 0x1C) {
-        m_alpha = (s32) (m_alpha - 0x19);
+        m_alpha = (m_alpha - 0x19);
         faded = m_alpha;
         if (faded < 0) {
             faded = 0;

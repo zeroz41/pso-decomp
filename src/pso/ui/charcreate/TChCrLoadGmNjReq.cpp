@@ -15,7 +15,6 @@ const char *TChCrLoadGmNjReq__name = "TChCrLoadGmNjReq";
 #pragma pop
 
 
-
 void TChCrLoadGmNjReq::run_task() {
     s32 timer;
     timer = lifetime_remaining - 1;

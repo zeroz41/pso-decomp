@@ -70,7 +70,7 @@ extern "C" {
 char *TAdEnterSerialAccessGC__sub_80321738(void);
 char *TAdEnterSerialAccessGC__sub_803217B8(void);
 char *TAdEnterSerialAccessGC__sub_80321874(void);
-void *create_callback_at_zero_vec2(WindowCallback callback);
 }
+void *create_callback_at_zero_vec2(WindowCallback callback);
 
 #endif

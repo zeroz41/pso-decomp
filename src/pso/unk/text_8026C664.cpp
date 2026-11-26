@@ -14,6 +14,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 struct Stack_8026C708
 {
@@ -69,7 +70,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
 void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
-void text_builder_reset(void);
 
 
 s32 fn_8026C7AC(void *arg0, s8 arg1) {
@@ -130,8 +130,6 @@ void decay_page_arrow_offset(PageIndicator *o) {
 #pragma pop
 
 
-extern "C" {
-
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;
     s8 cur;
@@ -164,8 +162,6 @@ s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
         page_indicator->arrow_offset = (-1e+01f);
     }
     return 1;
-}
-
 }
 
 void *delete_if_allocated(void *storage, s16 release) {

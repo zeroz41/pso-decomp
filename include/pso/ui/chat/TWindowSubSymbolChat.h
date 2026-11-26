@@ -5,11 +5,11 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+class TWindowCheckBox;
 struct SymbolChatPreset;
 struct TWindowChatSymbol;
 struct TWindowMenu;
 struct TWindowMessageYesNo;
-struct TWindowOptionCtrl;
 class TKeyBoardControl;
 struct TWindowSubSymbolChatFaceType;
 struct TWindowSubSymbolChatParts;
@@ -35,7 +35,7 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowMenu *symbol_list;
     TWindowMenu *main_menu;
     TWindowMessageYesNo *confirm_window;
-    TWindowOptionCtrl *option_window;
+    TWindowCheckBox *option_window;
     TWindowSubSymbolChatFaceType *face_type_window;
     TWindowSubSymbolChatParts *parts;
     TWindowSubSymbolChatPartsSet *parts_set;
@@ -62,7 +62,7 @@ struct TWindowSubSymbolChat : public TObject {
     void update_state();
     void draw_selected_entry();
     TKeyBoardControl *create_keyboard_control();
-    TWindowOptionCtrl *create_confirm_window();
+    TWindowCheckBox *create_confirm_window();
     TWindowMessageYesNo *open_confirm_prompt();
     TWindowMenu *create_menu();
     static TWindowMenu *create_menu(void *chat);
@@ -93,4 +93,9 @@ struct TWindowSubSymbolChat : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
+
+extern "C" {
+TWindowMenu *TWindowSubSymbolChat__sub_8028233C(s32 chat);
+SymbolChatPreset *get_symbol_chat_receive_buffer(void);
+}
 #endif

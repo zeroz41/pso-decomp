@@ -33,8 +33,10 @@
 
 extern "C" {
 extern s32 boss4_zanzo_bml_index_table[];
+}
 
 const char *TObjDFDemo2::name = "TObjDFDemo2";
+extern "C" {
 __declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};
 __declspec(section ".data") s32 TObjDFDemo2__motion_index_table[2] = {0x12, 0x11};
 CameraPlayback df_demo2_camera_playback = {0, 0, 0, 0.0f, 0.5f};

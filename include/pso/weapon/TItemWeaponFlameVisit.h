@@ -16,6 +16,5 @@ public:
     s32 hits; // 10 for item index 1, else 1; copied to the descriptor's +0x10
 };
 
-extern "C" TItem *TItemWeaponFlameVisit::create(u8 *item);
 
 #endif

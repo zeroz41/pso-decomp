@@ -7,7 +7,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
-extern "C" {
 TObjBoss5Ctrl *boss5_ctrl_instance;
 #pragma fp_contract on
 s32 TBoss8Dragon::is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared) {
@@ -44,6 +43,4 @@ void boss5_attack_pillars_in_range(const Vec *pos, const DragonAttackParams *par
             trigger_pillars_in_range(pillar_controller, pos, params);
         }
     }
-}
-
 }

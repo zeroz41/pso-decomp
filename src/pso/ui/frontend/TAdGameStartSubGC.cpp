@@ -35,16 +35,16 @@ void TAdGameStartSubGC::run_task() {
     f32 center;
     s32 frame;
     s32 alpha;
-    m_frame = (s32) (m_frame + 1);
+    m_frame = (m_frame + 1);
     frame = m_frame;
     if (frame < 4) {
         m_scale_x = (f32) ((3.0f) - ((0.6666667f) * (f32) frame));
         m_scale_y = (f32) ((3.0f) - ((0.6666667f) * (f32) m_frame));
     } else if (frame > 0x1C) {
         m_scale_x = (f32) ((1.0f) - ((-0.6666667f) * (frame - 0x1D)));
-        m_scale_y = (f32) ((1.0f) - ((-0.6666667f) * (f32) (m_frame - 0x1D)));
+        m_scale_y = (f32) ((1.0f) - ((-0.6666667f) * (m_frame - 0x1D)));
         if ((s32) m_frame > 0x1D) {
-            m_alpha = (s32) (m_alpha - 0x55);
+            m_alpha = (m_alpha - 0x55);
         }
         alpha = m_alpha;
         if (alpha < 0) {
@@ -80,13 +80,13 @@ TAdGameStartSubGC::TAdGameStartSubGC(TObject *parent, GameStartLetterLayout *lay
     game_start_player_instance = get_multiplay_texture_list();
     m_rest.x0 = (64.0f) * (f32)m_cell + m_origin.x;
     m_rest.y0 = m_origin.y;
-    m_rest.x1 = (64.0f) * (f32)(m_cell + 1) + m_origin.x;
+    m_rest.x1 = (64.0f) * (m_cell + 1) + m_origin.x;
     m_rest.y1 = (128.0f) + m_origin.y;
     m_center_x = (0.5f) * (m_rest.x1 - m_rest.x0) + m_rest.x0;
     m_center_y = (0.5f) * (m_rest.y1 - m_rest.y0) + m_rest.y0;
     m_quad.u0 = (64.0f) * (f32)m_cell / 512.0f;
     m_quad.v0 = (0.0f);
-    m_quad.u1 = ((64.0f) * (f32)(m_cell + 1) - (1.0f)) / 512.0f;
+    m_quad.u1 = ((64.0f) * (m_cell + 1) - (1.0f)) / 512.0f;
     m_quad.v1 = (0.25f);
 }
 #pragma pop

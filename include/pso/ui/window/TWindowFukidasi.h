@@ -57,19 +57,20 @@ public:
     void get_boundary_offset(s32 angle, f32 *out);
     TWindowFukidasi *find_balloon_overlap_for(TWindowFukidasi *first);
     void rearm_balloon(saddr flags);
-    void show_immediately();
+    void refresh_rect_placement();
     s32 shift_rect_with_head(f32 *rect, f32 *out);
     s32 rest_balloon(f32 *rect, f32 *out);
     s32 try_place_bubble(f32 *rect, f32 *out);
-    s32 find_random_free_position(f32 *rect, f32 *out);
+    s32 find_random_free_position(f32 *rect, f32 *out); // random spot in the client view; true when draw_resolved_window returns NULL there
     void clamp_text_size(f32 *out);
-    void refresh_rect_placement();
+    s32 is_speech_balloon_ready();
+    void show_immediately();
     void set_text(const char *str, s32 flags);
     void open(u32 *symbol, s32 flags);
 
     u8 state;            // run_task's state machine
     u8 balloon_flags;    // bit 0 shown, 1 reveal, 2 active, 5 balloon visible
-    u8 unk_72;
+    u8 content_kind;     // 0 text entry, 1 symbol chat, 2 none (calc_text_size)
     s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
     s16 hide_ticks;      // frames left before the balloon starts to close (counts down in run_task state 4)
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
@@ -89,9 +90,6 @@ LAYOUT_ASSERT(TWindowFukidasi_balloon_center_offset, offsetof(TWindowFukidasi, b
 LAYOUT_ASSERT(TWindowFukidasi_head_position_offset, offsetof(TWindowFukidasi, head_position) == 0x90);
 LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
-extern "C" {
-}
-s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
 }

@@ -3,7 +3,7 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
-#include "pso/unk/text_8007C0CC.h"
+#include "pso/system/SubtractiveRng.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
@@ -15,36 +15,32 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
 #include <string.h>
 
 extern "C" {
-f32 rotate_matrix_by_node_angles(void *, void *);
-s32 scale_current_matrix(void *);
-f32 post_translate_matrix(void *);
-void subtractive_rng_seed(void *, s32);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
-extern u8 chr_select_rng_state[];
+extern SubtractiveRng chr_select_rng_state;
 extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[];
 extern s32 memcard_access_active;
 }
 int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
-void draw_ginja_box_tree(u8 *node) {
-    saddr flags;
-    u8 *child;
-    u8 *cur;
-    cur = node;
+void draw_ginja_box_tree(NJS_OBJECT *node) {
+    u32 flags;
+    NJS_OBJECT *child;
     do {
-        flags = *(s32 *)((s8 *)cur + 0);
+        flags = node->evalflags;
         push_matrix();
         if (!(flags & 1)) {
-            post_translate_matrix(cur + 8);
+            post_translate_matrix(node->pos);
         }
         if (!(flags & 2)) {
-            rotate_matrix_by_node_angles(cur + 0x14, (void *) (flags & 0x20));
+            rotate_matrix_by_node_angles(node->ang, flags & 0x20);
         }
         if (!(flags & 4)) {
-            scale_current_matrix(cur + 0x20);
+            scale_current_matrix(node->scl);
         }
         if (!(flags & 0x100000)) {
             TParticleCtrl::end_effect_render();
@@ -52,17 +48,17 @@ void draw_ginja_box_tree(u8 *node) {
             TParticleCtrl::begin_effect_render();
         }
         if (!(flags & 8)) {
-            draw_ginja_model(*(void **)((s8 *)cur + 4));
+            draw_ginja_model(node->model);
         }
         if (!(flags & 0x10)) {
-            child = (u8 *)(*(u8 **)((s8 *)cur + 0x2C));
+            child = node->child;
             if (child != NULL) {
                 draw_ginja_box_tree(child);
             }
         }
         pop_matrix();
-        cur = (u8 *)(*(u8 **)((s8 *)cur + 0x30));
-    } while (cur != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
@@ -101,16 +97,16 @@ void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data) {
     plain = new Pso3CharacterFile;
     unshuffled = new Pso3CharacterFile;
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(plain, save_data);
-    subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle((s32 *)chr_select_rng_state);
-    subtractive_rng_unshuffle((void *)chr_select_rng_state, (const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
+    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
+    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(save_data, unshuffled);
     delete unshuffled;
     delete plain;
-    subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)chr_select_rng_state)->apply_rng_cipher((u32 *)save_data, 0x194B0);
-    subtractive_rng_seed(chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)save_data));
-    subtractive_rng_xor_buffer((s32 *)chr_select_rng_state, (u32 *)save_data, 0x194AC);
+    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.apply_rng_cipher((u32 *)save_data, 0x194B0);
+    subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)save_data));
+    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)save_data, 0x194AC);
 }
 
 s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {

@@ -7,7 +7,8 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 FloorMapSelection floor_map_registry[18];
 
@@ -305,11 +306,12 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
 extern "C" {
 int selected_episode;
-void randomize_adventure_maps(void);
-void TLobby__sub_80207BB0(void);
-s32 get_game_play_mode();
-s32 get_floor_map_terrain(s32 floor);
 }
+void randomize_adventure_maps(void);
+extern "C" {
+void TLobby__sub_80207BB0(void);
+}
+s32 get_floor_map_terrain(s32 floor);
 s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;
 int story_select_current = -1;
@@ -338,9 +340,9 @@ saddr get_floor_area(s32 floor) {
 }
 void init_floor_map_registry(void);
 
-void set_floor_map_variant(s32 floor, s32 arg1) {
+void set_floor_map_variant(s32 floor, s32 terrain) {
     if (floor <= 0x11) {
-        floor_map_registry[floor].terrain = arg1;
+        floor_map_registry[floor].terrain = terrain;
     }
 }
 

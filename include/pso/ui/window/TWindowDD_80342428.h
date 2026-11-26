@@ -3,9 +3,11 @@
 
 #include "types.h"
 
+struct TWindowDD;
+
 // --- C functions defined in TWindowDD_80342428.cpp ---
 extern "C" {
-void TWindowDD__sub_80342428(u8 *window_dd);
+void TWindowDD__sub_80342428(TWindowDD *window_dd);
 }
 // --- end of C functions
 

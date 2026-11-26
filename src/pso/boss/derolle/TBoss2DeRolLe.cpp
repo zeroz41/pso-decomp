@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -337,7 +338,7 @@ void TBoss2DeRolLe::clear_harmful_statuses() {  }
 
 void TBoss2DeRolLe::apply_shock_status() {  }
 
-void TBoss2DeRolLe::apply_movement_ailment(s32) {  }
+void TBoss2DeRolLe::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss2DeRolLe::apply_confusion_status() {  }
 
@@ -3620,7 +3621,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         position.z = 60.29f;
         update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(this, (saddr)joints[i]);
+            assign_slots_from_list(joints[i]);
         }
         refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x20);
@@ -3676,8 +3677,6 @@ void TBoss2DeRolLe::handle_despawn_state(u32 reason) {
     }
 }
 
-extern "C" {
-
 // The model-node callback the body draws with: records the listed nodes' positions, the breakup
 // piece points and the matrices the tentacles and joints follow.
 void derolle_capture_node_points(NJS_OBJECT *) {
@@ -3708,8 +3707,6 @@ void derolle_capture_node_points(NJS_OBJECT *) {
         derolle_capture_tentacle_matrices++;
     }
     derolle_capture_node_index += 1;
-}
-
 }
 
 void derolle_begin_node_capture(TBoss2DeRolLe *boss) {

@@ -1,4 +1,5 @@
 #include "pso/render/StripBufferPair.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/memory.h"
@@ -61,7 +62,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/unk/text_80357058.h"
+#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
@@ -71,9 +72,56 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/render/ChunkModelDraw.h"
+
+
+
+s32 TBoss6PlotFalz::is_phase_reached() {
+    TBoss6PlotFalz *p = TBoss6PlotFalz::instance;
+    if (!p) {
+        return 0;
+    }
+    return TBoss6PlotFalz::instance->get_scene_state() >= 7 ? 1 : 0;
+}
+
+s32 TBoss6PlotFalz::is_flag_set() {
+    return (u8)((u8) (TBoss6PlotFalz::instance != 0));
+}
+
+s32 TBoss6PlotFalz::get_next_point(s16 *set_index_out, s16 *entity_id_out) {
+    if (count_free_child_ids() < 1) {
+        return 0;
+    }
+    *set_index_out = this->set_index + next_child_index;
+    *entity_id_out = this->entity_id + next_child_index;
+    next_child_index = next_child_index + 1;
+    return 1;
+}
+
+s32 TBoss6PlotFalz::count_free_child_ids() {
+    s32 n;
+    n = next_child_index;
+    if ((n < 1) || (n > 0x1FD)) {
+        return 0;
+    }
+    return 0x1FD - n;
+}
+
+void TBoss6PlotFalz::reset_child_ids() { next_child_index = 1; }
+s32 TBoss6PlotFalz::is_ending_or_split_screen() {
+    s32 result;
+
+    result = 0;
+    if ((get_main_phase() == 0xF) || (is_split_screen() != 0)) {
+        result = 1;
+    }
+    return (u8) result;
+}
+int TBoss6PlotFalz::is_ready() { return 0; }
+
+
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -814,7 +862,6 @@ extern "C" {
 
 void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFalz::warp_nearby_players(); }
 
-void release_all_players_control_lock(void);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
     void *p;
@@ -878,7 +925,7 @@ void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
     s8 mode;
     message->swap_entity_id();
     boss = (TBoss6PlotFalz *)get_enemy_entity(message->header.client_id);
-    if (boss != NULL && boss == reinterpret_cast<TBoss6PlotFalz *>(TBoss6PlotFalz::instance)) {
+    if (boss != NULL && boss == TBoss6PlotFalz::instance) {
         phase = message->phase;
         if (phase >= 0 && phase < 9 && phase != boss->get_scene_state()) {
             boss->set_state(phase);
@@ -929,7 +976,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
     restore_player_cameras();
     TBoss6PlotFalz::queue_instance_destruction();
     TBoss6PlotFalz::destroy_static_instance();
-    TBoss6PlotFalz::instance = 0;
+    TBoss6PlotFalz::instance = NULL;
     TBoss6PlotFalz::fade_amount = -1.0f;
 }
 
@@ -943,7 +990,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
 
     m_name = TBoss6PlotFalz::name;
     reset_child_ids();
-    TBoss6PlotFalz::instance = (saddr)this;
+    TBoss6PlotFalz::instance = this;
     apply_set_data(set_data);
     copy_set_entry(&set_entry, set_data);
     set_entry.kind = 0;
@@ -1006,7 +1053,7 @@ s32 TBoss6PlotFalz::get_scene_state() { return state_index; }
 BmlResource *TBoss6PlotFalz::get_scene_archive() { return boss6_scene_archive; }
 
 u16 boss6_plot_falz_player_order_table[4];
-saddr TBoss6PlotFalz::instance;
+TBoss6PlotFalz *TBoss6PlotFalz::instance;
 TBoss6Type1 *TBoss6PlotFalz::type1_instance;
 TBoss6Type2 *TBoss6PlotFalz::type2_instance;
 s32 plot_falz_phase;

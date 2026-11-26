@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/object/TObjHMS_EZRope_Player_800FEFCC.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"

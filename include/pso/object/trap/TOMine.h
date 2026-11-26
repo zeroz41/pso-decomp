@@ -15,6 +15,9 @@ struct TOMine : public TObjChara {
     virtual f32 receive_weapon_special_attack(void *, void *);
     void detonate();
     void update_float_height();
+    void sync_position();
+    // Calls sync_position (name inferred).
+    void apply_float_position();
     void trigger_group();
     void follow_target();
     void update_trigger();
@@ -30,14 +33,14 @@ struct TOMine : public TObjChara {
     virtual void vfunc_85();
     virtual void set_armed();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
     virtual const char *get_name();
     virtual void apply_object_set_data(void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     Vec float_position; // copied from position on spawn; y bobs in update_float_height
     u32 float_flags;  // bit 2: it has reached its float height
@@ -71,4 +74,9 @@ struct BmlResource;
 extern BmlResource *mine_model_archive;
 // The one collision sphere TOMineTrap and the four TOMineIcon constructors install.
 extern CollisionBody mine_collision_body_parts[1];
+struct game_command_header;
+
+void handle_6x80_trigger_trap(game_command_header *command);
+void set_mine_trap_damage(f32 farg0);
+
 #endif

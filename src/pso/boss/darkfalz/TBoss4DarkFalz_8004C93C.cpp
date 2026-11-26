@@ -152,7 +152,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
         TBoss4DarkFalz::type3_instance = NULL;
         i = 0;
         do {
-            obj_setArrS16_FC(this, i, defeat_params[i]);
+            set_attack_credit_slot(i, defeat_params[i]);
             i += 1;
         } while (i < 4);
     }
@@ -291,7 +291,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
         TBoss4DarkFalz::type2_instance->queue_destruction();
         TBoss4DarkFalz::type2_instance = NULL;
         for (i = 0; i < 4; i++) {
-            obj_setArrS16_FC(this, i, arr[i]);
+            set_attack_credit_slot(i, arr[i]);
         }
     }
     state_timer = 0x118;

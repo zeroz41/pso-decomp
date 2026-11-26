@@ -5,8 +5,4 @@
 
 void load_labo_design_object_table(void);
 
-// --- C functions defined in text_80365348.cpp ---
-void load_labo_design_object_table(void);
-// --- end of C functions
-
 #endif

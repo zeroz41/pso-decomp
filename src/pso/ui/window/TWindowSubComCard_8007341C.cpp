@@ -65,7 +65,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));
                 strcat(challenge_progress_text_buffer, "\n");
             } else {
-                if ((s32)decode_challenge_count((u32)(slot->rank)) == 0) {
+                if ((s32)decode_challenge_count(slot->rank) == 0) {
                     strcat(challenge_progress_text_buffer, "            ");
                 } else {
                     p = challenge_set_stage_times(data, kind);
@@ -74,7 +74,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
                     for (j = 0; j < n; j++, p++) {
                         sum += decode_challenge_time(*p);
                     }
-                    sl = (s32)decode_challenge_count((u32)(slot->rank));
+                    sl = (s32)decode_challenge_count(slot->rank);
                     split_challenge_time(sum, &h1, &m1, &s1);
                     sprintf(buf2, "%02d'%02d\"%02d %s", h1, m1, s1, challenge_grade_letter_table[sl]);
                     strcat(challenge_progress_text_buffer, buf2);
@@ -90,7 +90,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
 
 void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
     TWindowMessage *window;
-    window = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1));
+    window = TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1);
     challenge_mode_state.record_window = window;
     if (window == NULL) {
         return;
@@ -109,7 +109,7 @@ void TChallenge::open_challenge_progress_window(s32 slot) {
     ChallengeClientRecords *rec;
     s32 i;
     TWindowMessage *window;
-    window = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1));
+    window = TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1);
     challenge_mode_state.record_window = window;
     if (window == NULL) {
         return;

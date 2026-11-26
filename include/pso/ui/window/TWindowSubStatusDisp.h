@@ -55,7 +55,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
     void dispatch_page_update();
     void dispatch_page_init();
-    void set_count_ratio_text(s32 arg1, s32 arg2);
+    void set_count_ratio_text(s32 count, s32 total);
     void clear_visible_flag();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
 
@@ -64,7 +64,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void render_forward();
     static void end_render_forward();
     static void begin_render();
-    void clear_fields();
     static saddr get_download_server();
     static u32 calc_text_width(char *s);
     static s32 is_alpha_char(u16 arg0);
@@ -77,27 +76,14 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void append_play_time(u32 time);
     static void append_comma();
     s8 *copy_message_page_text();
-    void set_selected_index(s16 selected_index);
-    static void draw_status(saddr window, s32 arg2, s32 item);
-    static void dispatch_without_flags(saddr window, s32 arg2, s32 item);
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
-    s16 get_value();
     void set_all_values(s32 meseta);
     void set_animated_target(s32 meseta, f32 frames);
     static void update_palette_sprite();
-    void set_string(uaddr string);
-    void set_text(uaddr label, s32 string, s32 value_18);
-    void set_text(uaddr label, s32 value_18);
-    void refresh_selected_entry(s32 play_sound);
     void init_scroll_pos();
-    int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
-    void start_hp_text_color_transition();
-    void init_gauge_entry();
-    void update_status_entry();
-    void update_hp_tp_level();
     static f32 get_base_y(f32 width);
     void update_entry_color();
     void set_entry_state(s8 entry_state);
@@ -119,15 +105,11 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
-    void append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows);
-    s32 update_hp_entry();
     static s32 destroy_status_display(saddr window, s16 delete_flag);
     u8 *construct_type1_heading(s32 title, s32 client_index);
     void update_entry_visibility();
-    s32 update_hp_gauge();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
-    static void *destroy_free_buffers(void *window_sub_status_disp, s16 delete_flag);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);
@@ -137,6 +119,6 @@ LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_x, offsetof(TWindowSubStatusDisp
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp, scale_y) == 0x70);
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_size, sizeof(TWindowSubStatusDisp) == 0x74);
-extern "C" s32 measure_string_len(const char *str);
+s32 measure_string_len(const char *str);
 
 #endif

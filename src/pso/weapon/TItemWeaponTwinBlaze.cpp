@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/scene/TScene.h"
 #include "pso/weapon/TItemWeaponTwinBlaze.h"
 #include "pso/item/TItemTimerEventHpDrain.h"
 #include "pso/system/task/TObject.h"
@@ -19,7 +20,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-extern "C" s32 is_item_area_enabled(s32 area);
 
 void TItemWeaponTwinBlaze::emit_marker_effects() {
     Vec pos;

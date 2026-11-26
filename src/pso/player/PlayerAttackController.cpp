@@ -33,10 +33,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/ui/hud/TMainCursor_8013E7B8.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
@@ -225,7 +223,7 @@ int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags, 32
 CapturedTarget *PlayerAttackController::get_first_target() { return lockon_targets.get_captured_target_entry(0); }
 
 void TObjPlayer::set_action_palette_state_mode(u8 mode) {
-    set_player_action_palette_mode(&action_palette_state, mode);
+    action_palette_state.set_mode(mode);
 }
 
 void TObjPlayer::clear_flag_128() { this->clear_state_flags(128); }

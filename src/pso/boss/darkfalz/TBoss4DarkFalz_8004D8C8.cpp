@@ -14,7 +14,7 @@ void TBoss4Type3::get_defeat_params(u16 *a, u16 *b, u16 *out) {
     *a = local_attacker_id;
     *b = attacker_id;
     for (i = 0; i < 4; i++) {
-        out[i] = obj_getArrU16_FC(this, i);
+        out[i] = get_attack_credit_slot(i);
     }
 }
 
@@ -23,7 +23,7 @@ void TBoss4Type2::get_demo2_params(u16 *a, u16 *b, u16 *out) {
     *a = local_attacker_id;
     *b = attacker_id;
     for (i = 0; i < 4; i++) {
-        out[i] = obj_getArrU16_FC(this, i);
+        out[i] = get_attack_credit_slot(i);
     }
 }
 

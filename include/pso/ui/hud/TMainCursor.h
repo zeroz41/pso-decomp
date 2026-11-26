@@ -101,4 +101,34 @@ struct TMainCursor : public TObject {
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);
+
+s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
+s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
+
+void set_cursor_action_palette_mode(TMainCursor *cursor, u8 mode);
+void set_cursor_palette_slot(ActionPaletteTag *tag, u8 slot);
+void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode);
+u8 get_cursor_palette_mode(void *p);
+void set_target_part(class LockOnTargetPart *target, u16 part, s32 index, s32 flag);
+void set_cursor_slot(void *p, u8 v);
+void set_cursor_mode(void *p, u8 v);
+void load_target_cursor_models(void);
+extern "C" {
+void render_marker(TMainCursor *main_cursor);
+struct CsnHit *is_target_obstructed(class LockOnActionSlot *unused, const Vec *to, const Vec *from);
+s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
+void set_action_channel_inactive(u8 *entry);
+void set_action_channel_active(u8 *entry);
+int get_lock_on_cursor_model(void);
+void TMainCursor__sub_8013E310(void *p);
+u8 get_target_palette_slot(void *p);
+u8 get_target_palette_mode(void *p);
+void deactivate_action_channel(void *p);
+void activate_action_channel(void *p);
+void clear_marker_color(void *a0);
+int get_empty_action_entry(void);
+int get_target_cursor_model(void);
+void TLockOnCursor__sub_8013EB80(void *p);
+void TLockOnCursor__sub_8013EB8C(void *p);
+}
 #endif

@@ -7,9 +7,9 @@ struct Vec;
 struct TObjEnemy;
 class TObjChara;
 
-extern "C" {
 // Sets the velocity that carries `from` toward `to` at `speed`.
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
+extern "C" {
 // Makes `dest` the new move_destination when it is on the ground and reachable (flags: 2 skips
 // the check_path_obstructed test, 4 the csnVector line test).
 s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags);

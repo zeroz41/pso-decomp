@@ -9,6 +9,7 @@ struct WindowDrawContext;
 class TWindowLayoutEntry {
 public:
     int is_flag_4_set() const;
+    int is_flag80_set() const;
     u16 flags;
     s16 client;
 

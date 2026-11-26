@@ -14,6 +14,7 @@ union TObjEneMe1Canadin_LineColor {
 // The fading copy of an EffLine segment that TObjEneMe1Canadin_EffLine::run_task leaves behind.
 class TObjEneMe1Canadin_EffLineFade : public TObject {
 public:
+    static const char *class_name;
     TObjEneMe1Canadin_EffLineFade(TObject *parent, Vec *from, Vec *to);
     virtual ~TObjEneMe1Canadin_EffLineFade();
     virtual void run_task();

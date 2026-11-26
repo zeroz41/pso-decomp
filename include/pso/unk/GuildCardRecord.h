@@ -5,7 +5,7 @@
 #include "pso/network/TPlyMeetUserExtension.h"
 
 // One com-card list record (0xBC bytes). TLobby keeps the selected card and an
-// 8-entry list; serial comes from a running counter (TLobby::init_player_entry).
+// 8-entry list; serial comes from a running counter (init_player_entry).
 struct GuildCardRecord {
     s32 id;
     s32 serial;
@@ -26,5 +26,16 @@ struct GuildCardRecord {
 };
 
 extern "C" char *TWindowSubComCard__sub_8027523C(GuildCardRecord *entry);
+
+class TUserAns;
+
+void handle_user_search_answer(TUserAns &response);
+void find_and_load_com_card(u32 serial);
+void init_player_entry(GuildCardRecord *entry, u8 *response);
+s32 remove_com_card_by_id(u32 id);
+void remove_com_card_entry(s32 index);
+char *build_text_from_comma_list(char *list);
+char *parse_csv_token(char *src, char *dst);
+char *skip_to_comma_field(char *s, s32 a, s32 b);
 
 #endif

@@ -82,6 +82,7 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
     swap_floor_set_flags_header(out);
     return TLobby__sub_8020BF88();
 }
+}
 
 #pragma push
 #pragma opt_propagation off
@@ -186,6 +187,7 @@ s32 TLobby::load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 
     return 0;
 }
 #pragma pop
+extern "C" {
 
 void TLobby__sub_8020BB18(void) {
     FloorObjectSetRow *p = floor_decoration_rows;
@@ -201,5 +203,4 @@ void TLobby__sub_8020BB18(void) {
         }
     }
 }
-
 }

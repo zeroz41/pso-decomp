@@ -46,6 +46,7 @@ static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjCollidable.h"
 
 struct Obj_8018B180 { u8 pad[0x38]; Vec pos; };
 
@@ -77,8 +78,8 @@ BmlResource *TContainerAncient01__sub_8018BE90(void);
 void TContainerAncient01__sub_8018B180(TContainerAncient01 *self, f32 range);
 
 void TContainerAncient01R__sub_8018AF74(void);
+}
 
-s32 free_collision_body_parts(void *);
 
 
 const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h_s_konte2.gj", NULL };
@@ -119,8 +120,6 @@ static const NpcAnimationBinding container_ancient_anim_binding = {
 
 const char *container_ancient01_r_name = "TContainerAncient01R";
 
-}
-
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/render/GinjaMaterial.h"
@@ -154,7 +153,7 @@ BmlResource *container_ancient01_r_bml_resource;
 
 s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
-s32 TContainerAncient01::try_start_action(s32, s32) { return 1; }
+s32 TContainerAncient01::try_start_action(void *, s32, f32) { return 1; }
 
 void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
 
@@ -171,7 +170,7 @@ int TContainerAncient01::get_table_entry(int a0) {  return container_ancient01_e
 
 s32 TContainerAncient01R::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
-s32 TContainerAncient01R::try_start_action(s32, s32) { return 1; }
+s32 TContainerAncient01R::try_start_action(void *, s32, f32) { return 1; }
 
 void TContainerAncient01R::apply_knockback_from_attacker(u8 *, f32) {  }
 
@@ -265,12 +264,12 @@ void TContainerAncient01::run_task() {
             }
             frame_timer = this->frame_timer;
             this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(((u8 *)this), -1, frame_timer);
+            submit_cursor_candidate((u8 *)this, -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                *(f32 *)((s8 *)this + 0x3C) = (f32) (*(f32 *)((s8 *)this + 0x3C) - 0.025f);
+                if (*(f32 *)((s8 *)this + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {
@@ -348,8 +347,8 @@ void TContainerAncient01::sub_8018B700() {
     }
 }
 
-void TContainerAncient01::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             sub_8018B700();
             this->opened = 1;
@@ -548,12 +547,12 @@ void TContainerAncient01R::run_task() {
             }
             frame_timer = this->frame_timer;
             this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(((u8 *)this), -1, frame_timer);
+            submit_cursor_candidate((u8 *)this, -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                *(f32 *)((s8 *)this + 0x3C) = (f32) (*(f32 *)((s8 *)this + 0x3C) - 0.025f);
+                if (*(f32 *)((s8 *)this + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {
@@ -630,9 +629,9 @@ void TContainerAncient01R::open_container() {
     }
 }
 
-void TContainerAncient01R::vfunc_6(s16 *state, s32 notify) {
+void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
     this->m_338 = (s16) *state;
-    if (notify != 0) {
+    if (live != 0) {
         if ((this->hp - this->m_338) <= 0) {
             this->reset_hp();
             this->open_container();

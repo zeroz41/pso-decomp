@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/model_render_state.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -12,8 +12,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_8033573C.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -34,12 +32,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/system/SoundEffect.h"
 
 void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
     TLobby::draw_with_camera(TLobby::get_record(record), camera, 0x20, (-1e+01f));
 }
-
 
 
 s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller) {

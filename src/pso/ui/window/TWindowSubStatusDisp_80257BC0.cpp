@@ -26,21 +26,17 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/unk/TWindowLayoutEntry.h"
-
-
-extern "C" {
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/LabelValueRow.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/HelpItemStatCompareRow.h"
+#include "pso/ui/window/HelpItemRarityStarRow.h"
 
 struct Desc_80257D44 {
     u32 cols;
     u32 rows;
     u32 recs[1];
 };
-
-
-void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
-void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
-}
-u8 *construct_text_entry(u8 *text_entry, u8 *rec, s32 client);
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
 
@@ -134,7 +130,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 3:
                 o = ::operator new(0x2C);
                 if (o != NULL) {
-                    o = construct_text_entry((u8 *)o, (u8 *)rec, client);
+                    o = __ct__15WindowTextEntryFP16TextLayoutRecordl(o, reinterpret_cast<TextLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
@@ -182,7 +178,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 9:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = ((TWindowSubComCard *)o)->init_fields((saddr)rec, (int)client);
+                    o = __ct__13LabelValueRowFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 1;
@@ -190,7 +186,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 10:
                 o = ::operator new(0x14);
                 if (o != NULL) {
-                    o = TWindowHelpItem__sub_8025A95C(o, rec, client);
+                    o = __ct__21HelpItemRarityStarRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0xC / 4;
@@ -198,7 +194,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 11:
                 o = ::operator new(0x24);
                 if (o != NULL) {
-                    o = TWindowHelpItem__sub_8025A594(o, rec, client);
+                    o = __ct__22HelpItemStatCompareRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0xC / 4;

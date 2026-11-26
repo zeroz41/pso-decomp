@@ -9,7 +9,6 @@
 #include "pso/render/GinjaTexture.h"
 
 
-
 void TTextureWave::advance_wrapped_cursor() {
     s32 cursor;
     s32 width;

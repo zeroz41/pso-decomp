@@ -15,11 +15,12 @@
 #include "pso/system/ControllerInput.h"
 
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 extern "C" {
-u8 *init_shop_judgment_window(void *p);
 
 void copy_vec2__FPvPv(void *, void *);
+}
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
@@ -103,9 +104,6 @@ void TAdYesNoBaseGC::vfunc_11() {
     if ((s32) this->m_20 != (s32) this->m_1c) {
         this->m_28 = 0;
     }
-}
-
-
 }
 TAdYesNoBaseGC::~TAdYesNoBaseGC() {
     if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x40)))->queue_destruction(); this->m_40 = 0; }

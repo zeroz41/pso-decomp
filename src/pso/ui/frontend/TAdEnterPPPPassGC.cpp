@@ -1,6 +1,8 @@
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
+#include "pso/network/NetworkConnect.h"
+#include "pso/unk/text_80145A94.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -20,8 +22,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include <string.h>
-#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
-#include "pso/system/SoundEffect.h"
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
@@ -32,10 +32,6 @@ extern "C" {
 extern s32 password_entry_dispatch_state;
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 void request_main_phase(int);
-s32 load_network_info(void);
-s32 TLobby__sub_80145DB4(int);
-s8 *TLobby__sub_80146D14(void);
-s8 *TLobby__sub_80146D44(void);
 }
 
 void TAdEnterPPPPassGC::render() {
@@ -161,8 +157,8 @@ void TAdEnterPPPPassGC::run_task() {
 }
 
 void TAdEnterPPPPassGC::set_password(const char *password) {
-    if ((TLobby__sub_8014618C() != 0) && (TLobby::is_state_active() != 0)) {
-        TLobby::set_ppp_password(password);
+    if ((TLobby__sub_8014618C() != 0) && (is_state_active() != 0)) {
+        set_ppp_password(password);
         return;
     }
     memset(ppp_password_buffer, 0, 0x20);
@@ -178,7 +174,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     password_entry_dispatch_state = 0;
     m_40 = 0;
     if (load_network_info() != 0) {
-        TLobby::init_account_entries();
+        init_account_entries();
     } else {
         request_main_phase(0x13);
         queue_destruction();
@@ -186,7 +182,7 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     }
     ok = 0;
     if (TLobby__sub_8014618C() != 0) {
-        if (TLobby::is_state_active() != 0) {
+        if (is_state_active() != 0) {
             if (*TLobby__sub_80146D14() != 0) {
                 ok = 1;
             }

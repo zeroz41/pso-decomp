@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void refresh_player_status(s32 client_id);
-}
 
 #endif

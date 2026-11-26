@@ -5,14 +5,12 @@
 #include "types.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_8007763C.h"
 #include <string.h>
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/network/TLobby.h"
-#include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -21,8 +19,6 @@
 #include "pso/system/byteswap.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/network/client_id.h"
-#include "pso/system/SoundEffect.h"
-
 static const s32 symbol_chat_sound_ids[9] = {
     0x53507, 0x52608, 0x52A09, 0x5250A, 0x5230B, 0x5250C, 0x5280D, 0x5250E, 0x53719,
 };
@@ -221,7 +217,7 @@ void SavedSymbolChatPresets::load_symbol_chat_data() {
     SymbolChatPreset *e;
     e = entries;
     data = (saddr)load_disc_file("symbolchat.dat");
-    move_data((void *)(e), (const void *)((const void *)data), (u32)0x420);
+    move_data(e, (const void *)((const void *)data), (u32)0x420);
     safe_free(reinterpret_cast<void *>(data));
     for (i = 0; i < 6; i++) {
         e[i].bswap_entry();
@@ -241,15 +237,12 @@ unsigned char pending_symbol_chat_count;
 void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; symbol_chat_receive_buffer.clear_entries(); }
 
 
-
-
 SymbolChatPayload *SymbolChatPreset::get_data_ptr() { return &payload; }
 void TWindowSubSymbolChat::bswap_symbol_chat_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); ((SymbolChatPayload *)((char*)this + 0x8))->byteswap_entry(); }
 void SymbolChatPayload::byteswap_entry() { bswap_32(&appearance); { int i; for (i = 0; i < 4; i++) { bswap_16(&facial_parts[i]); } } }
 void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); broadcast_subcommand(this); }
 void init_symbol_chat_header(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
 
-    extern int selected_symbol_chat_preset;
 saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
 
 int SymbolChatPreset::is_initialized() { return flags & 1; }

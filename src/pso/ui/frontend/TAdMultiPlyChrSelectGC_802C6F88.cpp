@@ -6,7 +6,7 @@
 #include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
@@ -23,7 +23,6 @@ saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_ins
 int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cursor_texture_list; }
 
 NJS_TEXLIST *TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return player_tex_texture_list_ptr; }
-
 
 
 TAdMultiPlyChrSelectTransitionGC *lbl_805D67E8;

@@ -19,9 +19,9 @@
 #include "pso/item/mag/TItemMagGrowEff.h"
 #include "pso/item/mag/TItemMagSub.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_80291D94.h"
@@ -516,7 +516,7 @@ void TItemMag::on_equip() {
         owner_watch.area = get_current_floor_area();
     }
     owner_watch.hp = ((TObjChara *)owner)->get_actor_hp();
-    owner_watch.tp = get_actor_tp(owner);
+    owner_watch.tp = owner->get_actor_tp();
     if (test_flags_any(&effect_flags.bits, 1) != 0) {
         state &= ~MAG_INACTIVE;
     } else {

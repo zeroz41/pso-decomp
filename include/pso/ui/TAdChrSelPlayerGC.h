@@ -16,6 +16,9 @@ public:
     void place_model_for_mode(s32 index);
     void init_model_animation();
     void set_cursor_index(s32);
+    void reset_cursor();
+    void set_cursor_index_1();
+    void set_cursor_index_2();
     void set_field_100(s32 value);
     void set_index_and_close_status(s32 index);
     void set_status_value(s32 value);
@@ -45,4 +48,13 @@ LAYOUT_ASSERT(TAdChrSelPlayerGC_pending_state_offset, offsetof(TAdChrSelPlayerGC
 LAYOUT_ASSERT(TAdChrSelPlayerGC_layout_mode_offset, offsetof(TAdChrSelPlayerGC, layout_mode) == 0x104);
 LAYOUT_ASSERT(TAdChrSelPlayerGC_status_index_offset, offsetof(TAdChrSelPlayerGC, status_index) == 0x110);
 
+extern "C" {
+void TAdChrSelPlayerGC__sub_802E10A0(void);
+}
+extern "C" {
+void TAdMultiConfirmGC__sub_802E03D0(void *p);
+void TAdMultiConfirmGC__sub_802E0448(void *p);
+void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha);
+void TObjPlayer__sub_802E0580(void *_w0, int _w1, void *_w2);
+}
 #endif

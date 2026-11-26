@@ -34,8 +34,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 
-extern "C" {
 const char *TObjDFDemo3::name = "TObjDFDemo3";
+extern "C" {
 __declspec(section ".rodata") CameraAngles df_demo3_zero_camera_angles = {0, 0, 0};
 ModelNodePositionEntry df_demo3_node_capture_entries[2] = {{0}, {-1}};
 CameraPlayback df_demo3_camera_playback = {0, 6, 0, 0.0f, 1.0f};

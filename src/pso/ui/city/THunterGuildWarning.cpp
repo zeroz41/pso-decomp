@@ -72,7 +72,7 @@ void THunterGuildWarning::open_warning_windows(void *) {
     case 0:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
+            windows[id] = TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
             windows[id]->append_line(get_message_text(99), 0x81);
@@ -82,7 +82,7 @@ void THunterGuildWarning::open_warning_windows(void *) {
     case 1:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
+            windows[id] = TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
             windows[id]->append_line(get_message_text(104), 0x81);
@@ -98,7 +98,7 @@ void THunterGuildWarning::open_warning_windows(void *) {
         for (i = 0; i < 4; i++) {
             if (id != i) {
                 if (get_player_by_client_id(i) != NULL) {
-                    windows[i] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
+                    windows[i] = TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
                 }
                 if (windows[i] != NULL) {
                     windows[i]->append_line(get_message_text(text), 0x81);
@@ -201,8 +201,7 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 // ---- pso/unk/text_80211C3C
 
 #include "pso/unk/text_80211C3C.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/quest/TQuestListOnline.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 extern "C" {
 s32 get_online_client_state(void);
@@ -236,7 +235,6 @@ s32 TLobby__sub_80211C3C(void) {
 
 
 #include "pso/unk/TLobby_80211F0C.h"
-
 
 
 s32 TLobby::handle_main_phase(saddr player) {
@@ -318,10 +316,7 @@ s32 is_in_hunter_guild(s32 client_id) {
 
 // ---- pso/unk/TLobby_80211F0C
 
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 
-
-#include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/player/PlayerSlots.h"
 
 

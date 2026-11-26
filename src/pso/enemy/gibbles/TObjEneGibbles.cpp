@@ -29,7 +29,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/vector.h"
 #include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
@@ -416,7 +416,7 @@ void TObjEneGibbles::render() {
 }
 
 void gibbles_render_node_callback(NJS_OBJECT *) {
-    if ((s32) gibbles_render_node_index == 0x18) {
+    if (gibbles_render_node_index == 0x18) {
         rotate_matrix_x(NULL, gibbles_render_rotation_x);
     }
     gibbles_render_node_index += 1;
@@ -984,7 +984,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
                 d = horizontal_distance_squared(&p->body_center, &v);
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
-                    a.power = get_attack_params_atp_min(gibbles_combat_stat_entries[0]);
+                    a.power = gibbles_combat_stat_entries[0]->get_atp_min();
                     p->apply_knockback_from_attacker((u8 *)this, p->receive_direct_attack(this, a, NULL, -1, -1));
                 }
             }
@@ -1005,7 +1005,7 @@ s32 TObjEneGibbles::landing_damage_players() {
             if (dist <= gibbles_combat_stat_entries[1]->get_damage_radius() * gibbles_combat_stat_entries[1]->get_damage_radius()) {
                 DirectAttackPayload attack;
                 attack.kind = 0;
-                attack.power = get_attack_params_atp_min(gibbles_combat_stat_entries[1]);
+                attack.power = gibbles_combat_stat_entries[1]->get_atp_min();
                 f32 res = pl->receive_direct_attack(this, attack, NULL, -1, -1);
                 pl->apply_knockback_from_attacker((u8 *)this, res);
                 if (res > 0.0f) {
@@ -1281,7 +1281,7 @@ void TObjEneGibbles::state_punch() {
             phase = 2;
         }
         if (phase == 1) {
-            attack_from_joint_31(1, get_attack_params_atp_min(gibbles_combat_stat_entries[2]));
+            attack_from_joint_31(1, gibbles_combat_stat_entries[2]->get_atp_min());
         }
         if (action_flags != 4) {
             phase = 3;

@@ -49,8 +49,6 @@ s32 get_network_config_buffer_size(s32 backup_mode);
 s32 get_network_info_file_size(void);
 s32 get_network_info_card_key(int channel, u8 *key);
 u32 calc_crc32(u8 *buf, s32 len);
-extern "C" {
 u32 update_crc32(u32 crc, u8 *buf, s32 len);
-}
 
 #endif

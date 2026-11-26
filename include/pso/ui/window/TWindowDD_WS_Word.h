@@ -9,6 +9,12 @@ class TWindowDD_WS_Word : public TWindowBase {
 public:
     TWindowDD_WS_Word(s32 list_id, s32 visible_count);
     virtual ~TWindowDD_WS_Word();
+    static TWindowDD_WS_Word *create(s32 element_list, s32 rows);
+    void disable_input(); // inferred: sets state_flags bit 0
+    void enable_input();  // inferred: clears state_flags bit 0
+    s16 get_element_list_id() const;
+    s32 get_scroll_top() const; // inferred: first visible token (selected token minus its row)
+    int get_selected_id() const;
     virtual void render();
     virtual void run_task();
     void add_scroll_offset(int offset);
@@ -27,15 +33,16 @@ public:
     s32 get_selected_row();
     s32 get_token_count();
     s32 get_selected_row_text();
+    void set_pos_and_data(f32 x);
     void use_active_strips();
     void use_dim_strips();
     s32 state_flags;
     s32 strip_point_index; // point table index for the strips; 0 also picks the first v range
     s32 selected_token_index;
     s32 selected_row;
-    s32 element_list_id; // element list id, read by load_element_list
+    s32 element_list_id; // read by load_element_list
     s32 token_count;
-    s32 visible_row_count; // visible row count
+    s32 visible_row_count;
     s32 visible_entry_count;
     s16 *token_ids;
     f32 pad_84;

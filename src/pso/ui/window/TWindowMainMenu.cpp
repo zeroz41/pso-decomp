@@ -2,11 +2,11 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubTrade.h"
+#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
-#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -26,16 +26,14 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubOption.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TWindowStatusCategoryMenu.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -56,7 +54,6 @@ extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 
 
 extern "C" {
-s32 is_trade_range_bit_set(s32);
 s32 select_main_menu_item_10(s32);
 }
 
@@ -107,7 +104,6 @@ TWindowMainMenu::~TWindowMainMenu() {
     destroy_submenu();
     close();
 }
-extern "C" {
 void TWindowMainMenu::run_task() {  }
 
 void TWindowMainMenu::render() {  }
@@ -323,7 +319,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
         description_item_id = id;
         if (help_window == NULL) {
             const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
-            help_window = (TWindowMessage *)TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
+            help_window = TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
             ((TWindowBase *)help_window)->set_depth(49999.0f);
             call_if_split_screen((uaddr)help_window, this->client_index);
         }
@@ -334,7 +330,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
 void TWindowMainMenu::close_child_window() { if (help_window != NULL) { ((TWindowBase *)this->help_window)->close(); help_window = NULL; } }
 
 void TWindowMainMenu::sub_80263FE0() {
-    toggle_help_window_on_button((s32)help_window, this->client_index);
+    toggle_help_window_on_button((uaddr)help_window, this->client_index);
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
@@ -497,12 +493,13 @@ void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }
 f32 get_main_menu_layer_depth(u8 *parent, u32 layer) {
     return ((TWindowMainMenu *)parent)->depth_base - (f32) layer;
 }
+extern "C" {
 
-void TWindowSubEquip__sub_80263AF4(void) {  }
+void TWindowSubEquip__sub_80263AF4(void *, s32) {}
+}
 
 void call_if_split_screen(uaddr object, s32 client_id) {
     if ((is_split_screen() != 0) && (object != 0U)) {
         fn_802449E0((u8 *)object);
     }
-}
 }

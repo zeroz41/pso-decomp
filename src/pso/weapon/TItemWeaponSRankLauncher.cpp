@@ -12,7 +12,7 @@
 #include "pso/effect/item/TItemEffLandHit.h"
 
 extern "C" {
-void get_weapon_color__11TItemWeaponFPv(void *, void *);
+void get_weapon_color__11TItemWeaponFv(void *, void *);
 }
 
 void TItemWeaponSRankLauncher::transform_model_node() {
@@ -24,7 +24,7 @@ void TItemWeaponSRankLauncher::transform_model_node() {
 void TItemWeaponSRankLauncher::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     u8 color[16];
     desc->flags |= 0x39C;
-    get_weapon_color__11TItemWeaponFPv(color, this);
+    get_weapon_color__11TItemWeaponFv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
     desc->hits = 4;

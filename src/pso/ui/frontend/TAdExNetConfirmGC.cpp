@@ -1,10 +1,54 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/text_8042EE4C.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
+#include "pso/unk/text_8014618C.h"
+#include "pso/network/NetworkConnect.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/ui/frontend/TAdWarningBaseGC.h"
+#include "pso/unk/text_80145A94.h"
 
-s32 TAdExNetConfirmGC::is_confirmed() {
-    s32 sp8;
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/network/TLobby.h"
+#include "pso/system/task/TObject.h"
 
-    get_network_adapter_type(&sp8);
-    return (u32) __cntlzw(1 - sp8) >> 5;
+#pragma readonly_strings on
+
+const char *lbl_805D4200 = "TAdExNetConfirmGC";
+
+void TAdExNetConfirmGC::render() {
+    vfunc_9();
 }
+
+saddr TAdExNetConfirmGC::vfunc_7() {
+    if (is_confirmed() != 0) {
+        return get_localized_text_entry(0x22, 1);
+    }
+    return get_localized_text_entry(0x22, 0);
+}
+
+void TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
+
+void TAdExNetConfirmGC::run_task() {
+    vfunc_8();
+}
+
+TAdExNetConfirmGC::~TAdExNetConfirmGC() {
+
+}
+
+TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent) {
+    m_name = lbl_805D4200;
+    if ((TLobby__sub_80145DB4(1) != 0) || (TLobby__sub_80145DB4(4) != 0)) {
+        if (load_network_info() != 0) {
+            init_account_entries();
+        } else {
+            request_main_phase(0x13);
+        }
+        queue_destruction();
+        TAdMultiChgGameModeGC::set_game_mode();
+        return;
+    }
+}
+

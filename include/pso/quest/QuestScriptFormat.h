@@ -9,7 +9,7 @@ struct QuestBinHeader {
     u32 code_offset;
     u32 function_table_offset;
     u32 size;
-    u32 unused;
+    u16 unused[2];
     s8 language;
     s8 unk_11;
     s8 quest_number;

@@ -1,6 +1,7 @@
 #ifndef PSO_OBJECT_LOBBY_TOBJBUTTERFLYLOBBY_H
 #define PSO_OBJECT_LOBBY_TOBJBUTTERFLYLOBBY_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -10,25 +11,25 @@ struct ObjectSetData;
 struct TObjButterflyLobby : public TObjBase {
     TObjButterflyLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjButterflyLobby();
-    u32 m_90;
-    u8 unk_94[0x10];
-    f32 m_a4;
-    u8 unk_A8[0x4];
-    f32 m_ac;
+    // 0 hidden while a lobby event runs, 2 growing back, 3 shown, 1 shrinking away.
+    s32 appear_state;
+    f32 appear_scale;
+    Vec hover_origin;  // its start position; y is the height it bobs around
+    Vec velocity;
     f32 animation_frame;
-    u8 unk_B4[0x4];
-    f32 m_b8;
-    s16 m_bc;
-    s16 m_be;
-    u8 m_c0;
-    u8 m_c1;
-    u8 m_c2;
-    u8 _padC3[0x1];
+    f32 animation_speed;
+    f32 lift;  // vertical push toward the bobbing height
+    s16 state_timer;
+    s16 bob_phase;
+    u8 flight_state;  // 0 hovering, 1 drifting, 2 turning
+    u8 rising;
+    u8 turn_dir;
     NJS_OBJECT *lobby_model;
     NJS_TEXLIST *model_textures;
     static void free_singleton_805D4E6C();
     static void alloc_scene_buffer();
     void init_params();
+    void draw_butterfly();
     virtual void render();
     void update_fade();
     virtual void run_task();
@@ -36,5 +37,7 @@ struct TObjButterflyLobby : public TObjBase {
     static void *create(void *set_data);
 };
 
+LAYOUT_ASSERT(TObjButterflyLobby_hover_origin, offsetof(TObjButterflyLobby, hover_origin) == 0x98);
+LAYOUT_ASSERT(TObjButterflyLobby_turn_dir, offsetof(TObjButterflyLobby, turn_dir) == 0xC2);
 LAYOUT_ASSERT(TObjButterflyLobby_size, sizeof(TObjButterflyLobby) == 0xCC);
 #endif

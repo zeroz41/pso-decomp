@@ -34,4 +34,8 @@ LAYOUT_ASSERT(TWindowSubSymbolChatFaceType_size, sizeof(TWindowSubSymbolChatFace
 LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, selection) == 0x64);
 LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
 
+
+extern "C" {
+void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx);
+}
 #endif

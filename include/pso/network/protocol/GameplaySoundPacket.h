@@ -20,7 +20,7 @@ LAYOUT_ASSERT(PlaySoundPacketSoundOffset, offsetof(G_PlaySound_6xB2, sound_id) =
 // Fills in the subcommand and size, in words.
 void init_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
 void send_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
-extern "C" void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
+void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
 void handle_6xB2_play_sound_from_player(game_command_header *header);
 
 #endif

@@ -33,11 +33,11 @@ struct SendChallengeRetryCmdStack {
 
 struct TLobbyStack { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
 
-extern "C" {
 void build_6x8A_packet(u8 *arg0);
 void build_6x95_packet(u8 *arg0);
 void build_6x97_packet(u8 *arg0);
 void build_6x9D_packet(u8 *arg0);
+extern "C" {
 void TLobby__sub_80072724(TLobby *lobby);
 void TLobby__sub_800722AC(s32 arg0);
 void TLobby__sub_80072618(void);

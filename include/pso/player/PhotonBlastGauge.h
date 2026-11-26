@@ -122,7 +122,7 @@ struct PhotonBlastGauge {
 LAYOUT_ASSERT(PhotonBlastGaugeFlagOffset, offsetof(PhotonBlastGauge, flags) == 0x40);
 LAYOUT_ASSERT(PhotonBlastGaugeSize, sizeof(PhotonBlastGauge) == 0x54);
 
-extern "C" void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
+void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
 
 void handle_6x38_donate_to_photon_blast(saddr src);
 void handle_6x39_set_photon_blast_ready_flag(saddr src);

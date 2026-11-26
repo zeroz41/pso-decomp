@@ -32,8 +32,8 @@ void TWindowSubEquipList::render() {
         reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *)this) + 0x24)),
         draw_context);
     draw_selected_list_entry(draw_context);
-    if ((uaddr) this->status_display != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render(draw_context);
+    if (this->status_display != NULL) {
+        this->status_display->forward_render(draw_context);
     }
 }
 #pragma pop

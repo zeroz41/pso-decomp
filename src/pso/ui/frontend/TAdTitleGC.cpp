@@ -32,7 +32,6 @@ saddr get_localized_text_entry(s32, s32);
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
 // these are written first and land last.
 extern const s32 current_language;
-extern int lobby_cursor_active_flag;
 }
 
 int game_files_modified() { return game_files_modified_flag; }

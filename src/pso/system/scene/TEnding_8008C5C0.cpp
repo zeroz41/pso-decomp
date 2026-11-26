@@ -11,7 +11,7 @@
 #include "pso/system/scene/TEnding.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/scene/TEnding_8008C5C0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/ControllerInput.h"
@@ -31,9 +31,8 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PlayerActionProvider.h"
 
-extern "C" {
 extern const char TEnding__class_name_string[] = "TEnding";
-s32 switch_to_fallback_main_phase();
+extern "C" {
 void request_main_phase(s32 arg0);
 }
 void create_player_ending_motion(void);

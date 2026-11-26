@@ -17,6 +17,7 @@
 #include "pso/object/TObjRoomId.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
@@ -62,7 +63,6 @@ void set_player_room_control_flag(TObjPlayer *player);
 #pragma push
 #pragma fp_contract on
 void TObjRoomId::run_task() {
-    TObjRoomId *o = this;
     Vec v = room_id_base_normal;
     Vec d;
     s32 absent;
@@ -72,8 +72,8 @@ void TObjRoomId::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         for (s32 i = 0; i < 4; i++) {
             if (get_player_by_client_id(i) != NULL) {
-                r = 10.0f * o->scale.x + 30.0f;
-                if (o->is_player_in_range(i, r * r) != 0) {
+                r = 10.0f * this->scale.x + 30.0f;
+                if (this->is_player_in_range(i, r * r) != 0) {
                     absent = 0;
                 }
             }
@@ -83,34 +83,34 @@ void TObjRoomId::run_task() {
         return;
     }
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, o->set_params[1]);
-    matrix_mult_vec(0, &v, &o->normal);
+    rotate_matrix_y(0, this->set_params[1]);
+    matrix_mult_vec(0, &v, &this->normal);
     pop_matrices(1);
     for (s32 i = 0; i < 4; i++) {
         TObjPlayer *p = get_player_by_client_id(i);
         if (p == NULL) {
             continue;
         }
-        r = 10.0f * o->scale.x;
-        if (o->is_player_in_range(i, r * r) == 0) {
+        r = 10.0f * this->scale.x;
+        if (this->is_player_in_range(i, r * r) == 0) {
             continue;
         }
-        d.x = p->position.x - o->position.x;
+        d.x = p->position.x - this->position.x;
         d.y = 0.0f;
-        d.z = p->position.z - o->position.z;
-        if (vec3_dot(&d, &o->normal) > 0.0f) {
-            if (o->set_params[2] == 0x10000) {
-                p->room = (s16)o->scale.y;
+        d.z = p->position.z - this->position.z;
+        if (vec3_dot(&d, &this->normal) > 0.0f) {
+            if (this->set_params[2] == 0x10000) {
+                p->room = (s16)this->scale.y;
                 set_player_room_control_flag(p);
             } else {
-                p->set_room((s16)o->scale.y);
+                p->set_room((s16)this->scale.y);
             }
         } else {
-            if (o->set_params[2] == 0x10000) {
-                p->room = (s16)o->scale.z;
+            if (this->set_params[2] == 0x10000) {
+                p->room = (s16)this->scale.z;
                 set_player_room_control_flag(p);
             } else {
-                p->set_room((s16)o->scale.z);
+                p->set_room((s16)this->scale.z);
             }
         }
     }
@@ -136,7 +136,6 @@ void set_player_room_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x02000000);
 }
 
-extern s32 local_client_id;
 
 u16 get_entity_id_kind(u16 entity_id) {
     u16 r;

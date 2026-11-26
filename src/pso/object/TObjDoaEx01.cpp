@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
@@ -15,7 +16,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/TObjDoaEx01_8018DFFC.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/door/TODoorAncient01.h"
@@ -38,9 +38,6 @@ const char *doa_ex01_name = "TObjDoaEx01";
 BmlResource *doa_ex01_resource_bundle;
 u8 *doa_ex01_alpha_model_node;
 u8 *doa_ex01_alpha_model_sibling;
-
-
-extern "C" {
 
 
 #pragma push
@@ -93,11 +90,10 @@ void TObjDoaEx01::update_open() {
 }
 
 void TObjDoaEx01::update_opening() {
-    TObjDoaEx01 *self = this;
-    self->animation_frame += self->animation_step;
-    if (self->animation_frame > self->animation_end_frame - 1.0f) {
-        self->animation_frame = self->animation_end_frame - 1.0f;
-        self->object_state = 2;
+    this->animation_frame += this->animation_step;
+    if (this->animation_frame > this->animation_end_frame - 1.0f) {
+        this->animation_frame = this->animation_end_frame - 1.0f;
+        this->object_state = 2;
     }
 }
 void TObjDoaEx01::update_closed() {
@@ -215,12 +211,11 @@ void TObjDoaEx01::render() {
     }
     try_open();
 }
+extern "C" {
 
 s32 init_collision_body_parts(void *, void *, int);
-
-s32 free_collision_body_parts(void *);
-
 }
+
 TObjDoaEx01::~TObjDoaEx01() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);

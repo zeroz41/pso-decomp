@@ -2,12 +2,13 @@
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/unk/TQuestManager.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/npc/TNpcPlayer.h"
@@ -41,7 +42,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -52,8 +53,7 @@
 #include "pso/unk/TLobby_8020B03C.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/city/TShopGetItemWindow_8021F0A4.h"
-#include "pso/ui/city/TShopGetItemWindow_8021F074.h"
+#include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
@@ -61,16 +61,14 @@
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
-#include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/warp/ForestWarpResources.h"
@@ -101,6 +99,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/unk/TObjFreezeShell.h"
 
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -193,7 +192,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
     {fn_803000C8, TLobby__sub_803000A0},
-    {prepare_adventure_maps, TLobby__sub_802075F4},
+    {prepare_adventure_maps, release_adventure_maps},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, TLobby::destroy_tombstone},
@@ -217,7 +216,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::load_set_gsl_files, clear_map_set_data},
     {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
     {alloc_work_buffer, TLobby__sub_801A5478},
-    {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
+    {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {init_switch_table, clear_switch_table},
     {reset_shop_stock_and_params, clear_all_shop_stock},
@@ -225,13 +224,13 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
     {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
-    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::clear_auto_reply_flags},
+    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
-    {TLobby::init_char_slots, free_char_slots},
+    {init_char_slots, free_char_slots},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},

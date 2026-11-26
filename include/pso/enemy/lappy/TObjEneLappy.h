@@ -23,7 +23,7 @@ struct LappyMovementParameters {
     f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
     f32 move_speed;    // walk speed; a target nearer than this is dropped too
     s32 turn_speed;    // turn_toward_direction's max step
-    u32 unknown_0c[4];
+    u32 extra[4];
 };
 
 // The enemy set entry create hands the constructor (TBoss4DarkFalzSetEntry's layout; field

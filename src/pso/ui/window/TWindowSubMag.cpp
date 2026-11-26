@@ -4,7 +4,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/unk/text_8025373C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
@@ -38,9 +37,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowHelpItem_802540AC.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -58,7 +55,6 @@ extern u8 *text_language_group_table;
 extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
-s32 are_status_entries_ready__13TWindowSubMagFi(void *);
 }
 
 const char *TWindowSubMag::class_name = "TWindowSubMag";
@@ -76,15 +72,13 @@ extern "C" const char lbl_805DD648[] = "";
 
 TItemData *TWindowHelpItem::get_mag_state() { return active_item; }
 
-void TWindowHelpItem::clear_flag60_bit8() { m_60 &= ~8; }
+void TWindowHelpItem::enable_help_toggle() { help_flags &= ~8; }
 
-void TWindowHelpItem::set_flag60_bit8() { m_60 |= 8; }
+void TWindowHelpItem::disable_help_toggle() { help_flags |= 8; }
 
 bool is_mag_full(u8 *arg0) {
     return (*(f32 *)((s8 *)arg0 + 0x194) < 2.0f) == 0;
 }
-
-extern "C" {
 
 int TWindowSubMagPhoton::is_cancelled() { return m_60 & 2; }
 
@@ -168,7 +162,7 @@ void TWindowSubMag::run_task() {
         if (slotwin == NULL) {
             slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
         }
-        help->sub_80255E24();
+        help->unlock_page_flip();
         list->refresh_mag_item_list(2);
         list->clear_decided();
         list->start_scroll(188.0f);
@@ -199,8 +193,8 @@ void TWindowSubMag::run_task() {
         }
         if (help != NULL) {
             window_request_show(help);
-            help->sub_80255E24();
-            help->clear_flag60_bit8();
+            help->unlock_page_flip();
+            help->enable_help_toggle();
             call_if_split_screen((uaddr)help, client_id);
         }
         list->start_scroll(188.0f);
@@ -223,7 +217,7 @@ void TWindowSubMag::run_task() {
         }
         ((TWindowSubStatusDisp *)(list))->init_scroll_pos();
         help->update_help_item(1);
-        help->set_flag60_bit4();
+        help->lock_page_flip();
         if (list2 == NULL) {
             list2 = (TWindowMenuIconLine *)create_list();
         }
@@ -250,7 +244,7 @@ void TWindowSubMag::run_task() {
     case 8:
         window_request_show(help);
         window_request_refresh((u8 *)help);
-        help->set_flag60_bit8();
+        help->disable_help_toggle();
         help->refresh_copied_items();
         list->refresh_mag_item_list(2);
         slotwin->set_mag_slot_state(help->get_mag_state());
@@ -261,12 +255,12 @@ void TWindowSubMag::run_task() {
         }
         break;
     case 9:
-        if (are_status_entries_ready__13TWindowSubMagFi(help) != 0) {
+        if (help->are_status_entries_ready() != 0) {
             state = 10;
         }
         break;
     case 10:
-        if (fn_8025373C(help) != 0) {
+        if (help->advance_mag_levels() != 0) {
             play_sound_effect(0x4002A80F, 0, 0, 0);
             timer = 0;
             state = 11;
@@ -275,7 +269,7 @@ void TWindowSubMag::run_task() {
             break;
         }
     case 11:
-        if ((f32)timer++ > (3e+01f) && are_status_entries_ready__13TWindowSubMagFi(help) != 0) {
+        if ((f32)timer++ > (3e+01f) && help->are_status_entries_ready() != 0) {
             state = 10;
         }
         break;
@@ -303,8 +297,8 @@ void TWindowSubMag::run_task() {
         }
         if (help != NULL) {
             help->request_close();
-            help->set_flag60_bit8();
-            help->set_flag60_bit4();
+            help->disable_help_toggle();
+            help->lock_page_flip();
         }
         photon = new TWindowSubMagPhoton(get_window_layout_position(0xA), mag, client_id);
         photon->set_depth(get_main_menu_layer_depth((u8 *)parent, 3));
@@ -355,6 +349,7 @@ saddr TWindowSubMag::create_list() {
     equip_kind_window->refresh_usable_item_list();
     return reinterpret_cast<saddr>(equip_kind_window);
 }
+extern "C" {
 
 // dead-stripped: only its literals survive. 2.0f (.sdata2 0x805DD668) is pooled after create_action_menu's
 // 172.0f and ahead of run_task's literals, but its one live user is_mag_full is generated last (deferred
@@ -362,6 +357,7 @@ saddr TWindowSubMag::create_list() {
 // used it first. Minimal body after is_mag_full's check; name inferred.
 static int is_mag_fed_full(TItemMag *mag) {
     return mag->feeds_while_full >= 2.0f;
+}
 }
 
 void *TWindowSubMag::create_action_menu(s32 id) {
@@ -437,7 +433,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     size.y = 40.0f;
     win = TWindowMessage::create(&pos, &size.x, 1, this->client_id);
     ((TWindowBase *)win)->set_depth(get_main_menu_layer_depth((u8 *)parent, 6));
-    ((TWindowMessage *)win)->append_line((saddr)((s32 *)get_shared_text_buffer()), (int)2);
+    ((TWindowMessage *)win)->append_line((saddr)((s32 *)get_shared_text_buffer()), 2);
     ((TWindowAddition *)win)->set_position_xy(scale, scale);
     return win;
 }
@@ -490,11 +486,9 @@ void TWindowSubMag::update_mag_help() {
     if (selected_blast != (s8) this->m_1d) {
         this->m_1d = (u8) selected_blast;
         if (selected_blast == -1) {
-            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), (int)0x80);
+            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), 0x80);
             return;
         }
-        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), (int)0x80);
+        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), 0x80);
     }
-}
-
 }

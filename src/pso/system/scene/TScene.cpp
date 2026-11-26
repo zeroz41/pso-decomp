@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -29,7 +30,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include <string.h>
@@ -48,6 +49,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/text_800F8A0C.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -61,7 +63,6 @@ extern struct Tbl_8020335C group_selection_area_id_table;
 
 
 
-extern "C" s32 is_item_area_enabled(s32 area);
 
 
 extern s32 boss_area_id_table[];
@@ -93,9 +94,7 @@ s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 depth, f32 
 
 
 
-SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
 
-SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 
 
@@ -111,8 +110,6 @@ struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; 
 
 }
 
-
-void end_ginja_model_draw(void);
 
 extern W_802043CC lbl_8044A858[];
 
@@ -158,10 +155,6 @@ extern u8 lbl_8044A80C[];
 
 
 
-extern "C" {
-
-saddr get_player_name_copy_buffer();
-
 
 extern CsnGroup **scene_collision_data;
 
@@ -169,7 +162,6 @@ extern CsnGroup **scene_collision_data;
 
 
 
-void bind_gvm_texture_list(s32 *, u32);
 
 
 
@@ -179,8 +171,6 @@ struct Sp8Buf20_80206494 {
     s32 f0; s32 f4; s32 f8; s32 fc;
     s32 f10; s32 f14; s32 f18; s32 f1c;
 };
-
-}
 
 
 #pragma readonly_strings on
@@ -242,9 +232,6 @@ s32 floor_bin_file_size;
 void *material_info_buffer;
 s32 scene_file_buffer_size;
 
-extern "C" {
-s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c);
-}
 void load_scene_map_file(saddr name);
 void load_scene_collision_file(saddr name);
 void load_floor_scene(void);
@@ -605,7 +592,7 @@ void TScene::load_current_floor() {
         if (found <= 0) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)".gvm");
         }
-        bind_gvm_texture_list(path, scene_material_root->texlist);
+        bind_gvm_texture_list((const char *)path, (NJS_TEXLIST *)scene_material_root->texlist);
     }
     TScene::load_scene_data(ent);
     TScene::load_supplementary_t_rel(ent);
@@ -887,7 +874,7 @@ void load_floor_scene(void) {
         if (found <= 0) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)".gvm");
         }
-        bind_gvm_texture_list(path, scene_material_root->texlist);
+        bind_gvm_texture_list((const char *)path, (NJS_TEXLIST *)scene_material_root->texlist);
     }
     TScene::load_floor_rel_file(ent);
     TScene::load_tam_file(ent);

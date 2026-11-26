@@ -177,29 +177,18 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value
 
 }
 
-struct Entry_80269A0C {
-    u16 flags;
-    u8 pad2[6];
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    f32 f14;
-    u8 pad18[0x24 - 0x18];
-    s32 f24;
-};
-
 extern "C" {
 void measure_message_text_width(void *, f32);
 
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
-    Entry_80269A0C *e;
+    WindowTextEntry *e;
     TWindowMessageLine *rec;
     f32 y;
     f32 lim;
     if (text == 0) {
         return 0;
     }
-    e = (Entry_80269A0C *)self->get_array_entry(self->next_line);
+    e = (WindowTextEntry *)self->get_array_entry(self->next_line);
     rec = &self->lines[self->next_line];
     if (((TWindowSubComCard *)e)->get_field_20() != 0U) {
         self->scroll_up_line((u8 *)e);
@@ -220,12 +209,12 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
             e->flags |= 8;
         }
     }
-    e->fC = self->next_line_y;
-    e->f24 = color;
+    e->y = self->next_line_y;
+    e->color = color;
     if (flags & 2) {
-        set_text_entry_string((u8 *)e, text, 0x20);
+        set_text_entry_string(e, text, 0x20);
     } else {
-        set_text_entry_string((u8 *)e, text, 0);
+        set_text_entry_string(e, text, 0);
     }
     if (flags & 0x20) {
         e->flags |= 1;
@@ -245,18 +234,18 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 co
     }
     measure_message_text_width(e, y);
     if (flags & 0x200) {
-        e->f8 = y - e->f10;
+        e->x = y - e->width;
     } else {
-        e->f8 = 0.0f;
+        e->x = 0.0f;
     }
     rec->flags = flags;
     rec->timer = self->line_display_ticks;
     if (++self->next_line >= self->line_count) {
         self->next_line = 0;
     }
-    self->next_line_y += 2.0f + e->f14;
+    self->next_line_y += 2.0f + e->height;
     if (flags & 1) {
-        self->target_scroll_y = (self->next_line_y - e->f14) - 2.0f;
+        self->target_scroll_y = (self->next_line_y - e->height) - 2.0f;
     } else if (self->next_line_y > (self->scroll_offset[1] + self->frame_size[1]) - 2e+01f) {
         lim = self->next_line_y - (self->frame_size[1] - 2e+01f);
         if (self->target_scroll_y < lim) {
@@ -300,16 +289,16 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client) {
+TWindowMessage *TWindowMessage::create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client) {
     TLobby__sub_80269DA4(size, rows);
-    return (u8 *)new TWindowMessage(position, rows, client);
+    return new TWindowMessage(position, rows, client);
 }
 
-u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
+TWindowMessage *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
     return TWindowMessage::create(pos, size, (u32)rows, 4);
 }
 
-u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
+TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
     return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 

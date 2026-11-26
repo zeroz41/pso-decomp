@@ -31,13 +31,6 @@ void TChCrTagPlGraphic::draw_class_illustration() {
 
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
-struct TChCrTagPlGraphicLayout {
-    f32 m_scale;
-    f32 m_depth;
-    vec2f pos;
-    vec2f selected_pos;
-};
-
 
 void TChCrTagPlGraphic::render() {
     set_depth_buffer_settings_1();
@@ -49,7 +42,7 @@ void TChCrTagPlGraphic::render() {
 const char *ch_cr_tag_pl_graphic_class_name = "TChCrTagPlGraphic";
 #pragma readonly_strings reset
 
-const TChCrTagPlGraphicLayout TChCrTagPlGraphic__data_804664A4[12] = {
+const TChCrTagPlGraphicLayout tag_player_graphic_layout_table[12] = {
     {0.85f, -3.0625f, {337.0f, 158.0f}, {405.0f, 127.0f}},
     {0.8f, -3.140625f, {435.0f, 160.0f}, {448.0f, 128.0f}},
     {0.94f, -3.21875f, {343.0f, 125.0f}, {489.0f, 127.0f}},
@@ -68,10 +61,10 @@ const f32 tag_player_graphic_match_value_table[4] = {-3.296875f, -3.21875f, -3.1
 
 #pragma push
 #pragma fp_contract on
-void TChCrTagPlGraphic::sub_802A3230() {
+void TChCrTagPlGraphic::update_layout() {
     const TChCrTagPlGraphicLayout *e;
 
-    e = &TChCrTagPlGraphic__data_804664A4[this->m_index];
+    e = &tag_player_graphic_layout_table[this->m_index];
     this->m_alpha = this->m_fade * this->m_highlight;
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
@@ -94,7 +87,7 @@ void TChCrTagPlGraphic::sub_802A3230() {
 
 void TChCrTagPlGraphic::run_task() {
     TChCrTag::run_task();
-    sub_802A3230();
+    update_layout();
 }
 
 s32 TChCrTagPlGraphic::is_selected() {
@@ -124,7 +117,7 @@ TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, s32 index) : TChCrTag(pare
     m_highlight_in_step = 0.13333334f;
     m_highlight_out_step = -0.06666667f;
     m_alpha = 0.0f;
-    e = &TChCrTagPlGraphic__data_804664A4[m_index];
+    e = &tag_player_graphic_layout_table[m_index];
     m_depth = e->m_depth;
     m_scale = e->m_scale;
     copy_vec2(&pos, (void *)&e->pos);
@@ -138,7 +131,7 @@ void TChCrTagPlGraphic::create_matching_tags() {
     s32 i, j;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 12; j++) {
-            if (TChCrTagPlGraphic__data_804664A4[j].m_depth == tag_player_graphic_match_value_table[i]) {
+            if (tag_player_graphic_layout_table[j].m_depth == tag_player_graphic_match_value_table[i]) {
                 TChCrTagPlGraphic::create(j);
             }
         }

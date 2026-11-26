@@ -43,6 +43,12 @@ public:
     f32 get_frame();
     s16 get_actor_hp();
     s16 get_hpmax();
+    s16 get_actor_tp();
+    s16 get_tpmax();
+    // The meseta in its stat block.
+    s32 get_actor_meseta();
+    // Takes `amount` meseta from its stat block; 0 when it holds less.
+    s32 try_spend_actor_meseta(s32 amount);
     s32 obj_isState3_324();
     s32 obj_isState2_324();
     // control_state 1: this machine drives it.
@@ -94,6 +100,15 @@ public:
     // Sets attacker_id; a local player's id also becomes local_attacker_id
     // (single screen) or goes to TObjPlayer::add_id_to_slots (split screen).
     void record_attack_source(u16 id);
+    // Puts `id` in the first free attack-credit slot unless a slot holds it.
+    void add_id_to_slots(u16 id);
+    // Takes over `source`'s credit: its slots (split screen) or its local attacker.
+    void assign_slots_from_list(TObjChara *source);
+    // Subtracts `amount` HP unless it is in state 2.
+    s32 damage_hp(s32 amount);
+    // Hit sparks at `pos` and its switch attack, unless actor flag 0x02000000 is set.
+    void activate_switch_attacks(const Vec *pos);
+    void clear_velocity();
     // Records a non-null attacker's entity id as the attack source.
     void attach_mine_trap(TObjBase *attacker);
     u16 get_local_attacker_id();
@@ -105,7 +120,7 @@ public:
     void spawn_confusion_feedback_effect(s32 play_sound);
     void play_shock_feedback(s32 play_sound);
     s16 clamp_hp();
-    void spawn_freeze_shell_effect(u32, s32);
+    void spawn_freeze_shell_effect(CollisionBody *body, s32 play_sound);
     s32 check_heavy_damage_flag(f32);
     virtual s32 add_actor_exp(s32);
     virtual s32 consume_timer_field(s32);
@@ -119,14 +134,14 @@ public:
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(s32 attacker, s32 collider);
+    virtual s32 try_start_action(void *attacker, s32 collider, f32 accuracy);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual void refresh_target();
     virtual int has_no_target();
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual int test_flag30_512();
-    virtual int has_flag_0x800();
+    virtual int is_actor_dead(); // actor flag 0x800, set just before run_death_reaction
     virtual int test_flag_1000();
     virtual s32 update_poison_status();
     virtual s32 update_action_hold_status();
@@ -141,7 +156,7 @@ public:
     virtual void apply_paralysis();
     virtual void apply_slow_status();
     virtual void apply_confusion_status();
-    virtual void apply_movement_ailment(s32);
+    virtual void apply_movement_ailment(CollisionBody *body);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
     virtual void apply_attack_stat_status(void *);
@@ -180,6 +195,11 @@ public:
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
+    u16 get_attack_credit_slot(s32 index);
+    void set_attack_credit_slot(s32 index, u16 id);
+    void clear_attack_credit_slot(s32 index);
+    void set_model_param(s16 v);
+    void set_model_id(s16 v);
     union {
         u16 attack_credit_slots[4];
         struct {
@@ -259,7 +279,6 @@ public:
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);
-extern "C" s32 try_spend_actor_meseta(TObjChara *actor, s32 amount);
 
 LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
 LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);
@@ -278,16 +297,10 @@ LAYOUT_ASSERT(TObjCharaAttackCreditSlotsOffset, offsetof(TObjChara, attack_credi
 // Advances position through the wall and ground probes.
 void move_with_wall_slide(TObjChara *actor);
 
-void obj_clearArrS16_FC(TObjChara *actor, s32 index);
-extern "C" {
 s32 add_actor_hp(TObjChara *actor, s16 amount);
-s32 add_actor_tp(TObjChara *actor, s32 amount);
+s32 subtract_actor_hp(TObjChara *actor, s16 amount);
+s32 add_actor_tp(TObjChara *actor, s16 amount);
 s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
-
-u16 obj_getArrU16_FC(TObjChara *actor, s32 index);
-void obj_setArrS16_FC(TObjChara *actor, s32 index, u16 value);
-void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id);
-}
 
 #endif

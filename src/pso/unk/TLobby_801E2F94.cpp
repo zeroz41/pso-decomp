@@ -4,7 +4,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
@@ -41,6 +40,7 @@
 #include <dolphin/gx.h>
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/unk/text_803DA798.h"
 #undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
@@ -48,8 +48,6 @@ void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f3
     TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
 }
-
-s32 set_texture_num(s32 i);
 
 void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
     ParticleStripVertex v[4];
@@ -146,12 +144,9 @@ void set_screen_center(f32 x, f32 y) {
     camera_viewport_center_y = y;
 }
 
-extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32 blended) { select_texture_by_surface_id(surface_id); draw_screen_textured_strip((ScreenTexturedVertex *)vertices, count, blended); }
-
-}
 
 struct Ctrl_801E352C {
     u8 pad[4];
@@ -165,16 +160,13 @@ struct DrawTransformedPrimitiveLines {
 
 
 extern "C" {
-void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags);
+void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags);
 }
 void reset_line_width(void);
-void setup_opaque_color_draw(void);
-void setup_blended_textured_draw(void);
-void load_context_texture_obj(void);
 
 void set_line_width(int a0);
 
-void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
+void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
     u32 c;
     load_screen_space_matrix();
     if (flags & 4) {
@@ -184,20 +176,20 @@ void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
     }
     GXSetLineWidth(0xC, GX_TO_ZERO);
     if (flags & 0x10) {
-        GXBegin(GX_LINESTRIP, GX_VTXFMT4, n);
+        GXBegin(GX_LINESTRIP, GX_VTXFMT4, count);
     } else {
-        GXBegin(GX_LINES, GX_VTXFMT4, n);
+        GXBegin(GX_LINES, GX_VTXFMT4, count);
     }
-    while (n > 0) {
-        n--;
-        gx_write_f32x3(scale * l->verts[n].x, scale * l->verts[n].y, scale);
-        c = l->colors[n];
+    while (count > 0) {
+        count--;
+        gx_write_f32x3(scale * l->verts[count].x, scale * l->verts[count].y, scale);
+        c = l->colors[count];
         gx_write_u32((c << 8) | (c >> 24));
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
 }
 
-void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags) {
+void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags) {
     Vec *p;
     u32 *c;
     load_camera_view_matrix();
@@ -208,13 +200,13 @@ void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags) {
     }
     GXSetLineWidth((u8)current_line_width, GX_TO_ZERO);
     if (flags & 0x10) {
-        GXBegin(GX_LINESTRIP, GX_VTXFMT4, n * 2);
+        GXBegin(GX_LINESTRIP, GX_VTXFMT4, count * 2);
     } else {
-        GXBegin(GX_LINES, GX_VTXFMT4, n * 2);
+        GXBegin(GX_LINES, GX_VTXFMT4, count * 2);
     }
     p = l->positions;
     c = l->colors;
-    while (n > 0) {
+    while (count > 0) {
         gx_write_f32x3(p->x, p->y, p->z);
         gx_write_u32((*c << 8) | (*c >> 24));
         c++;
@@ -225,7 +217,7 @@ void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags) {
             p++;
             c++;
         }
-        n--;
+        count--;
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
     reset_line_width();
@@ -234,25 +226,25 @@ void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags) {
 void reset_line_width(void) { current_line_width = 12; }
 
 void set_line_width(int a0) { current_line_width = a0; }
-void ColorLineList::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
+void ColorLineList::draw_strip_swap_color(s32 count, s32 flags, f32 scale) {
     s32 i;
     u32 x;
     u32 *p;
     if (!(flags & 2)) {
-        draw_polygon_2d((NJS_POINT2COL *)this, n, flags, scale);
+        draw_polygon_2d((NJS_POINT2COL *)this, count, flags, scale);
         return;
     }
     p = colors;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < count; i++) {
         x = *p;
         *p = (x << 8) | (x >> 24);
         p++;
     }
-    draw_polygon_2d((NJS_POINT2COL *)this, n, flags, scale);
+    draw_polygon_2d((NJS_POINT2COL *)this, count, flags, scale);
     {
     u32 *q = colors;
     u32 y;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < count; i++) {
         y = *q;
         *q = (y >> 8) | (y << 24);
         q++;
@@ -305,7 +297,7 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
 }
-void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
+void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 count, u32 flags) {
     Vec *p;
     NJS_TEX *uv;
     u32 *c;
@@ -323,11 +315,11 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
     } else {
         setup_opaque_color_draw();
     }
-    GXBegin(GX_TRIANGLEFAN, GX_VTXFMT4, n);
+    GXBegin(GX_TRIANGLEFAN, GX_VTXFMT4, count);
     c = fan->col;
     p = fan->p;
     uv = fan->tex;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < count; i++) {
         gx_write_f32x3(p->x, p->y, p->z);
         gx_write_u32(*c);
         if (flags & 8) {
@@ -357,9 +349,9 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
 
     pos = 0;
     p = (u8 *)(file + *offset);
-    move_data((void *)((&tag)), (const void *)(p), 4);
+    move_data(((&tag)), (const void *)(p), 4);
     TLobby__sub_801E3CF0((u32 *)&tag);
-    move_data((void *)((&size)), (const void *)(p + 4), 4);
+    move_data(((&size)), (const void *)(p + 4), 4);
     TLobby__sub_801E3CF0(&size);
     p += 8;
     *offset += 8;
@@ -413,7 +405,7 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     if (size_out != 0) {
         *size_out = size;
     }
-    move_data((void *)(buf), (const void *)(p), size);
+    move_data((buf), (const void *)(p), size);
     DCFlushRange(buf, size);
     p += size;
     *offset += size;
@@ -422,17 +414,17 @@ bad:
     *type = 0x2A2A2A2A;
     return 0;
 next:
-    move_data((void *)((&tag)), (const void *)(p), 4);
+    move_data(((&tag)), (const void *)(p), 4);
     TLobby__sub_801E3CF0((u32 *)&tag);
     *offset += 4;
     tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
-        move_data((void *)((&size)), (const void *)(p + 4), 4);
+        move_data(((&size)), (const void *)(p + 4), 4);
         TLobby__sub_801E3CF0(&size);
         p += 8;
         *offset += 4;
         while (size != 0) {
-            move_data((void *)((&b0)), (const void *)(p), 1);
+            move_data(((&b0)), (const void *)(p), 1);
             p++;
             *offset += 1;
             size--;
@@ -443,18 +435,18 @@ next:
                 off = b0 & 0x3F;
                 break;
             case 0x80:
-                move_data((void *)((&b1)), (const void *)(p), 1);
+                move_data(((&b1)), (const void *)(p), 1);
                 p++;
                 size--;
                 *offset += 1;
                 off = ((b0 << 8) & 0x3F00) | b1;
                 break;
             case 0xC0:
-                move_data((void *)((&b1)), (const void *)(p), 1);
+                move_data(((&b1)), (const void *)(p), 1);
                 size--;
-                move_data((void *)((&b2)), (const void *)(p + 1), 1);
+                move_data(((&b2)), (const void *)(p + 1), 1);
                 size--;
-                move_data((void *)((&b3)), (const void *)(p + 2), 1);
+                move_data(((&b3)), (const void *)(p + 2), 1);
                 p += 3;
                 size--;
                 *offset += 3;
@@ -485,8 +477,8 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 extern "C" {
 void TLobby__sub_803382E4(void);
-s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
-s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
+s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2);
+s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2);
 void run_end_of_render_tasks(void);
 
 
@@ -558,14 +550,14 @@ loop_1:
     }
     return temp_r3;
 }
-void bswap_16(u16 *p) {
-    u32 v = *p;
-    *p = (u16) (((v >> 8) & 0xFF) | ((v << 8) & 0xFF00));
+void bswap_16(u16 *val) {
+    u32 v = *val;
+    *val = (u16) (((v >> 8) & 0xFF) | ((v << 8) & 0xFF00));
 }
 
-void bswap_32(u32 *p) {
-    u32 v = *p;
-    *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
+void bswap_32(u32 *val) {
+    u32 v = *val;
+    *val = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
 
 // Empty hooks after the byte-swap helpers; callers in the battle, Dark Falz and Sorcerer code.

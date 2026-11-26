@@ -230,7 +230,9 @@ Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
 
-void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { init_guild_card_tag__17TWindowSubComCardFi((saddr)this); return this; }
+// The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
+void *__ct__14GuildCardEntryFv(void *card);
+void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
 void clear_equipped_flag(void* item) { *(u32*)((char*)item + 0x4) &= 0xfffffff7; }
 
 void TAdSinglePlyChrSelectGC::clear_inventory_slot() {

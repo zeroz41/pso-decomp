@@ -43,8 +43,6 @@ void TWindowChoiceSetting::sub_80249078() {
 }
 #pragma pop
 
-extern "C" {
-
 void TWindowChoiceSetting::begin_scroll(f32 height) {
     u16 flags = m_80;
     if (flags & 1) {
@@ -54,34 +52,29 @@ void TWindowChoiceSetting::begin_scroll(f32 height) {
     }
 }
 
-void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
+void TWindowChoiceSetting::sub_80249144() {
     u16 flags;
     WindowTextEntry *entry;
-    TWindowChoiceSetting *window = (TWindowChoiceSetting *)window_choice_setting;
-    flags = window->m_80;
+    flags = m_80;
     if (!(flags & 1)) {
-        window->m_80 = (u16) (flags | 1);
-        entry = (WindowTextEntry *)window->get_array_entry((s32)window->get_field_74());
-        window->target_size[1] = 20.0f + entry->height;
-        if (window->window_flags & 0x40) {
-            window->target_size[1] += 6.0f;
+        m_80 = (u16)(flags | 1);
+        entry = (WindowTextEntry *)get_array_entry(get_field_74());
+        target_size[1] = 20.0f + entry->height;
+        if (window_flags & 0x40) {
+            target_size[1] += 6.0f;
         }
-        window->tween_ticks = 3;
+        tween_ticks = 3;
     }
 }
 
-void TWindowSubComCard__sub_80249220(const NJS_POINT2 *extent, s32 rows);
-
-TWindowChoiceSetting *create_choice_setting_window__17TWindowSubComCardFiii(
+TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
     const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows) {
-    TWindowSubComCard__sub_80249220(extent, rows);
+    sub_80249220(extent, rows);
     return new TWindowChoiceSetting(const_cast<NJS_POINT2 *>(position), rows);
 }
 
-void TWindowSubComCard__sub_80249220(const NJS_POINT2 *extent, s32 rows) {
+void TWindowChoiceSetting::sub_80249220(const NJS_POINT2 *extent, s32 rows) {
     fn_80268C5C(extent, rows);
-}
-
 }
 
 void TWindowChoiceSetting::render() {
@@ -106,7 +99,7 @@ void TWindowChoiceSetting::run_task() {
     ControllerInputContext *pad;
     ControllerInputContext *context;
     if ((is_selected() == 0) && (is_open() == 0)) {
-        if (this->m_70 & 0x10) {
+        if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 move_cursor_prev();

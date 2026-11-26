@@ -12,9 +12,9 @@ extern "C" {
 extern const DragonBulletParticles lbl_80474B68 = {0x224, 0x226, 0x229};
 extern const DragonBulletParticles lbl_80474B74 = {0x21A, 0x218, 0x229};
 extern const DragonBulletParticles lbl_80474B80 = {0x20A, 0x206, 0x209};
+}
 extern const char TBoss8DragonEffBullet::class_name_string[] = "TBoss8DragonEffBullet";
 const char *TBoss8DragonEffBullet::name = TBoss8DragonEffBullet::class_name_string;
-}
 
 void TBoss8DragonEffBullet::render() {}
 

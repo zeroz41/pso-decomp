@@ -8,8 +8,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/collision/TObjBgmColCtrl_8017E498.h"
-#include "pso/object/collision/TObjBgmColCtrl_8017E8E4.h"
 #include "pso/player/TObjPlayer_8017E4EC.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -19,6 +17,7 @@
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 #pragma defer_codegen on
@@ -38,9 +37,7 @@ u32 bgm_col_ctrl_current_theme_id;
 
 void create_bgm_col_zones(void);
 extern s32 tl_05;
-int get_quest_bgm_issued_flag(void);
 
-extern s32 local_client_id;
 
 struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
 
@@ -163,7 +160,7 @@ void create_bgm_col_zones(void) {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {
-            VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443690[i].pos);
+            VecCopy(&set.position, &lbl_80443690[i].pos);
             set.scale.x = lbl_80443690[i].radius;
             set.set_params[0] = lbl_80443690[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);
@@ -171,7 +168,7 @@ void create_bgm_col_zones(void) {
         break;
     case AREA_PIONEER2_EP2:
         for (i = 0; i < 12; i++) {
-            VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443780[i].pos);
+            VecCopy(&set.position, &lbl_80443780[i].pos);
             set.scale.x = lbl_80443780[i].radius;
             set.set_params[0] = lbl_80443780[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);

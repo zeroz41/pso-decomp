@@ -3,7 +3,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxTalk.h"
-#include "pso/unk/text_803C5B50.h"
+#include "pso/audio/AdxtEntryAfs.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
@@ -11,7 +11,8 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
 
 struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
@@ -101,8 +102,6 @@ void set_music_streams_volume(s32 total) {
     }
     set_field_40_and_notify(adxt_players[1], var_r31);
 }
-extern "C" {
-
 void TLobby::release_bgm_resource() {
     if ((s32) bgm_stream_active != 0) {
         stop_audio_stream(adxt_players[1]);
@@ -110,10 +109,12 @@ void TLobby::release_bgm_resource() {
         TLobby::init_layout_positions();
     }
 }
+extern "C" {
 
 extern void *bgm_stream_buffers[];
 extern const char *bgm_stream_files[];
-int get_music_base_gain(void);
+}
+extern "C" {
 
 void TLoadCtrl__sub_80226DA0(s32 index) {
     if (index < 0 || index >= 4) {
@@ -301,7 +302,7 @@ struct SndHooks {
     void (*free)(void *ptr);
 };
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
-void setup_adx_file_systems(s32 *arg0);
+void setup_adx_file_systems(s32 *read_mode);
 void init_runtime_threads(s32 *cfg);
 u32 ARInit(u32 *stack_index_addr, u32 num_entries);
 void ARQInit(void);

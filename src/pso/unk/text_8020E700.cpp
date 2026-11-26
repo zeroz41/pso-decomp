@@ -45,6 +45,7 @@ GenerateShopShieldPoolTable ** armor_random_rel;
 s32 shop_player_level;
 extern s32 shop_difficulty_tier;
 void push_shop_pool_entry(ShopPool *, u8);
+}
 s32 is_duplicate_shop_shield_or_unit(IsDuplicateShopShieldOrUnitItem *, s32);
 s32 is_duplicate_shop_armor(IsDuplicateShopArmorRecord *arg0, s32 arg1);
 s32 is_duplicate_shop_armor(IsDuplicateShopArmorRecord *arg0, s32 arg1) {
@@ -67,8 +68,6 @@ s32 is_duplicate_shop_shield_or_unit(IsDuplicateShopShieldOrUnitItem *arg0, s32 
         }
     }
     return 1;
-}
-
 }
 
 void generate_shop_unit_pool(s32 arg0) {
@@ -276,7 +275,7 @@ void generate_armor_shop_stock(s32 arg0) {
 extern "C" {
 
 // ---- pso/unk/TLobby_8020EDBC
-void mem_free(void *p);
+void mem_free(void *allocation);
 }
 
 void TLobby::free_rocks() {

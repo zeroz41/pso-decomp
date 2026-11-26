@@ -95,35 +95,35 @@ s32 TTecGiZonde::find_chain_targets() {
     }
     switch (band) {
     case 0:
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 0.5f);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 0.5f);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         break;
     case 1:
         scale *= 1.2f;
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         break;
     case 2:
         scale *= 1.4f;
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         break;
     case 3:
         scale *= 1.2f;
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
         break;
     case 4:
         scale *= 1.4f;
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, scale);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
         break;
     case 5:
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 5.0f);
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 0.5f);
-        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 0.5f);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 5.0f);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 0.5f);
+        new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, len, 0.5f);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
         break;
@@ -150,28 +150,28 @@ s32 TTecGiZonde::find_chain_targets() {
         scale = 0.5f;
         switch (band) {
         case 0:
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
             break;
         case 2:
             scale *= 1.4f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
             break;
         case 3:
             scale *= 1.2f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
             break;
         case 4:
             scale *= 1.4f;
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, scale);
             break;
         case 5:
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, 5.0f);
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, 0.5f);
-            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, (f32)len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 5.0f);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->parts[targetList.records[i].flag].pos, &d2, 0x14000000, 20, len2, 0.5f);
             break;
         }
         } else {

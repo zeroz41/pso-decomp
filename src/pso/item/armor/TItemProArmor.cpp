@@ -19,7 +19,6 @@
 
 
 // Defined in TItemData.cpp, which has no header yet.
-void *lookup_item_pmt_record(u8 *item);
 
 const char *item_pro_armor_class_name = "TItemProArmor";
 

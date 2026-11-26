@@ -22,7 +22,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/unk/TLobby_802D79EC.h"
@@ -55,9 +55,72 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/system/TGStream.h"
 #include "pso/system/GslArchive.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/network/protocol/packet_classes.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/system/memory.h"
+#include "pso/network/protocol/SendGuildCardPacket.h"
 
-void load_particle_entry_resources(void);
-void load_technique_resources(void);
+// The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
+// initialiser, which CW emits last in its file, so it opens this file.
+
+s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }
+int GuildCardEntry::is_active() const { return flags & 1; }
+s8 GuildCardEntry::get_char_class() { return char_class; }
+
+s32 GuildCardEntry::sub_8007B6F4() const {
+    if (flags & 2) {
+        return 0;
+    }
+    return 1;
+}
+
+void G_SendGuildCard_6x06::bswap() {
+    header.bswap();
+    card.bswap();
+}
+
+void GuildCardEntry::bswap() { tag.bswap(); }
+
+void G_SendGuildCard_6x06::send_to(u32 client) {
+    bswap();
+    // The packet starts with its header: send it as a whole game command.
+    ((game_command *)&header)->send_to_client(client);
+}
+
+int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
+
+G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
+    header.subcommand = 6;
+    header.size = sizeof(G_SendGuildCard_6x06) / 4;
+}
+
+int TAdSinglePlyChrSelectGC::get_state() {  return (int)guild_card_save_payload; }
+
+void TPlyGuildCardTag::bswap() {
+    bswap_32(&m_guildcard_number);
+    bswap_16(&m_tag2);
+}
+
+void set_guild_card_receive_active() {
+    short_mail_flags |= 2;
+}
+
+s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
+
+char *ShortMailEntry::get_sender_name() { return sender_name; }
+
+s32 TObjPlayer::get_section_id() {
+    s8 id = *((s8 *)this + 0x88C);
+    return id;
+}
+
+const char *TObjPlayer::get_name() { return name; }
+
 
 
 extern "C" {
@@ -212,8 +275,6 @@ s32 TLobby::check_disconnect_conditions() {
 void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
 }
 
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct CollectActiveCardIdsL { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
 

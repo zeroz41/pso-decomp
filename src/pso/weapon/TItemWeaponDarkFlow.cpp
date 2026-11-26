@@ -15,7 +15,7 @@ void TItemWeaponDarkFlow::init_weapon_effect_descriptor(WeaponEffectDescriptor *
 
 void TItemWeaponDarkFlow::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (((TObjChara *)owner)->get_actor_hp() * 8 < ((TObjChara *)owner)->get_hpmax()) {
+        if (owner->get_actor_hp() * 8 < owner->get_hpmax()) {
             fire_shot_at_target(&owner->position, NULL, -0x238E);
             fire_shot_at_target(&owner->position, NULL, -0x11C7);
             fire_shot_at_target(&owner->position, NULL, 0);

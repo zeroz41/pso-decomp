@@ -9,8 +9,8 @@ extern s32 warning_aram_load_done_flag;
 extern int lobby_count_value;
 extern s32 aram_request_busy_flag;
 
-extern "C" {
 void reset_warning_aram_cache(void);
+extern "C" {
 int TAdWarningBaseGC__sub_8032D020(void);
 void TAdWarningBaseGC__sub_8032D188(void);
 }

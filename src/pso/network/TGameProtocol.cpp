@@ -1,11 +1,13 @@
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/object/trap/TOMine.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
@@ -15,6 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/protocol/GameplaySoundPacket.h"
+#include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_801E3F24.h"
@@ -50,6 +53,9 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+#include "pso/player/PlayerAttackController.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/technique/TTecLuker.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -65,16 +71,7 @@ s32 dispatching_own_subcommand;
 
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x18_vol_opt2_boss_actions();
-extern "C" void handle_6x32_medical_center_revive_all_players();
-extern "C" void handle_6x34();
-extern "C" void handle_6x36();
-extern "C" void handle_6x41_move_to_position();
-extern "C" void handle_6x54();
-extern "C" void handle_6x57(G_Unknown_6x57 *command);
-extern "C" void handle_6x5F_drop_item();
-extern "C" void handle_6x64();
-extern "C" void handle_6x65();
-extern "C" void handle_6x68_set_telepipe_state();
+void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();
@@ -82,15 +79,8 @@ extern "C" void handle_6x6E_sync_game_state();
 extern "C" void handle_6x70_sync_player_disp_and_inventory();
 extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
-extern "C" void handle_6x80_trigger_trap(game_command_header *command);
 extern "C" void handle_6x87_shrink_player();
 extern "C" void handle_6x88_restore_shrunken_player();
-extern "C" void handle_6x8B();
-extern "C" void handle_6x8C();
-extern "C" void handle_6x8E();
-extern "C" void handle_6x98();
-extern "C" void handle_6x99();
-extern "C" void handle_6xB1();
 u32 lbl_804C5238[10] = { 0 };
 
 u8 subcommand_area_masks[36] = {
@@ -281,7 +271,6 @@ void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6
 void handle_6x03(void) {  }
 void handle_6x02(void) {  }
 
-extern "C" {
 void dispatch_6x_subcommand(G_ParameterHeader *command) {
     s32 i;
     char buf[0x80];
@@ -294,7 +283,6 @@ void dispatch_6x_subcommand(G_ParameterHeader *command) {
             return;
         }
     }
-}
 }
 
 void TPsoDataBuf::recv_pso_data_buf(size_t size) {

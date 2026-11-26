@@ -17,6 +17,5 @@ public:
     s32 rotation_x;  // rotate_matrix_x angle of the model hook
 };
 
-extern "C" TItem *TItemWeaponSBeatsBlade::create(u8 *item);
 
 #endif

@@ -88,9 +88,7 @@ int is_alnum(int c);
 int is_lower(int c);
 s32 is_ending_sequence_active(void);
 
-extern "C" {
 s32 get_end_text_font_loaded_flag(void);
 s32 get_ending_scene_active(void);
-}
 
 #endif

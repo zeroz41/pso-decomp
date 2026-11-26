@@ -5,6 +5,8 @@
 
 // The option menu's Snapshot file check: asks to create the file on the Memory Card in Slot B and walks
 // through the card errors (text group 0x24).
+struct TWindowMessageYesNo;
+
 class TSnapshotFileSetup : public TObject {
 public:
     TSnapshotFileSetup(TObject *parent);
@@ -18,7 +20,7 @@ public:
     s32 flags;
     s32 result;            // 1 file ready, 2 cancelled, 3 manage the Memory Card
     u32 shown_message;     // the text group 0x24 entry on screen
-    uaddr message_window;  // TWindowMessageYesNo
+    TWindowMessageYesNo *message_window;
 };
 LAYOUT_ASSERT(TSnapshotFileSetup_size, sizeof(TSnapshotFileSetup) == 0x30);
 

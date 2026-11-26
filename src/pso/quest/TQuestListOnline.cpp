@@ -182,7 +182,7 @@ void TQuestListOnline::build_list_window() {
         }
         if (description_window == NULL) {
             WindowSize size = online_description_window_size;
-            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
             description_window->append_line((saddr)quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
         } else {
             description_window->append_line((saddr)quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
@@ -197,7 +197,7 @@ void TQuestListOnline::show_info_window() {
     if (info_window == NULL) {
         WindowSize size = online_info_window_size;
         entity_id = player->get_entity_id();
-        info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&size, 1, entity_id);
+        info_window = TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&size, 1, entity_id);
         info_window->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
             info_window->set_position_xy(0.75f, 0.75f);

@@ -35,7 +35,7 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr, saddr);
 int get_chat_shortcut(s32 index);
-saddr fn_8002AE08(s32);
+s32 fn_8002AE08(s32 client_id);
 void send_chat_shortcut(s32);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
@@ -274,7 +274,7 @@ void TWindowChat::handle_chat_input() {
     if (flags & 2)
     {
       context = &controller_input_state.controllers[0];
-      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)(local_client_id)))) == 0))
+      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), fn_8002AE08(local_client_id)) == 0))
       {
         flags = (u16) (flags & 0xFFFFFFFD);
         close_all_children();
@@ -306,7 +306,7 @@ void TWindowChat::handle_chat_input() {
       if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->sub_8025CB10() == 0))
     {
       close_all_children();
-      inputMode = (u8) (inputMode + 1);
+      inputMode = (inputMode + 1);
       mode = inputMode;
       if (((s8) mode) >= 3)
       {
@@ -374,7 +374,7 @@ TWindowChat::~TWindowChat() {
             }
         }
     }
-    if ((u32)symbolChatWindow != 0U) {
+    if (symbolChatWindow != NULL) {
         this->symbolChatWindow->queue_destruction();
         symbolChatWindow = NULL;
     }
@@ -386,15 +386,15 @@ TWindowChat::~TWindowChat() {
         this->auxiliaryWindow->close();
         auxiliaryWindow = NULL;
     }
-    if ((u32)softKeyboard != 0U) {
+    if (softKeyboard != NULL) {
         ((TWindowBase *)this->softKeyboard)->close();
         softKeyboard = NULL;
     }
-    if ((u32)hardKeyboard != 0U) {
+    if (hardKeyboard != NULL) {
         ((TWindowBase *)this->hardKeyboard)->close();
         hardKeyboard = NULL;
     }
-    if ((u32)composer != 0U) {
+    if (composer != NULL) {
         ((TWindowBase *)this->composer)->close();
         composer = NULL;
     }

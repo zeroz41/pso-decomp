@@ -10,7 +10,7 @@ class TParticleCtrl;
 struct TOMonumentAncient02 : public TObjMapObject {
     TOMonumentAncient02(TObject *parent, void *set_data);
     virtual ~TOMonumentAncient02();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual void interact(u16 client);
     s32 activated;  // 1 once its story flag is set: it shakes and its light pulses
     s32 brightening;  // 1 while the light brightens

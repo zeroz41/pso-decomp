@@ -10,7 +10,8 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
-
+#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 const f32 chr_move_effect_pos_table[7][2] = {
     { 28.0f, 182.0f }, { 28.0f, 225.0f }, { 28.0f, 268.0f },
@@ -19,7 +20,6 @@ const f32 chr_move_effect_pos_table[7][2] = {
 const u8 chr_move_effect_color_table[2][4] = { { 0x25, 0x76, 0x68, 0xFF }, { 0x25, 0x76, 0x30, 0xFF } };
 const f32 chr_move_effect_size[2] = { 180.0f, 38.0f };
 const char *TAdChrMoveEffectGC__class_name = "TAdChrMoveEffectGC";
-
 
 struct S_803491F8 { u32 w[8]; };
 
@@ -80,7 +80,6 @@ void TAdChrMoveEffectGC::sub_80348E34() {
 TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params);
-
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
@@ -200,11 +199,16 @@ TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
     }
 }
 
-
 TAdChrMoveEffectGC::TAdChrMoveEffectGC(TObject *parent) : TObject(parent) {
     m_name = TAdChrMoveEffectGC__class_name;
     active = 0;
 }
 
-
 #pragma pop
+
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_move_effect(saddr ad_chr_move_effect_gc) {
+    if (chr_move_effect_instance == NULL) {
+        chr_move_effect_instance = new TAdChrMoveEffectGC((TObject *)ad_chr_move_effect_gc);
+    }
+    return chr_move_effect_instance;
+}

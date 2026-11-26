@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/LobbyPlayerActionProvider.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 

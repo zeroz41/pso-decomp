@@ -33,10 +33,10 @@ void WordSelectMessage::remember_selected_id() {
         lbl_805D6E24 = ids[0];
     }
 }
-s32 TWindowDD__sub_80346FC0(s16 arg0) {
+s32 TWindowDD__sub_80346FC0(s16 id) {
     u8 var_r3;
     var_r3 = 0;
-    if ((arg0 >= 0x7F) && (arg0 <= 0x138)) {
+    if ((id >= 0x7F) && (id <= 0x138)) {
         var_r3 = 1;
     }
     return var_r3;

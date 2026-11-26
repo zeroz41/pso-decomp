@@ -64,7 +64,6 @@ extern "C" {
 
 
 
-void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
 void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
@@ -289,10 +288,10 @@ s32 update_challenge_result_player_locks() {
             if (player && (player)->check_player_flag1() == 0) {
                 send_impose_hold(player, (int)(-1));
                 obj_set_flag_20000(player);
-                get_player_result__18TChallenge4PResultFPv(player, 0);
-                get_player_result__18TChallenge4PResultFPv(player, 1);
-                get_player_result__18TChallenge4PResultFPv(player, 2);
-                get_player_result__18TChallenge4PResultFPv(player, 3);
+                player->disable_palette_slot(0);
+                player->disable_palette_slot(1);
+                player->disable_palette_slot(2);
+                player->disable_palette_slot(3);
                 if ((player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
                 TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
@@ -305,7 +304,7 @@ s32 update_challenge_result_player_locks() {
             if (player && (player)->check_player_flag1() != 0) {
                 send_release_hold(player);
                 obj_clear_flag30_20000(player);
-                ((TChallenge4PResult *)player)->get_player_rank();
+                player->enable_all_palette_slots();
                 if ((player)->check_flag_0x40000000()) fn_8034BE38(player);
                 TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();

@@ -11,6 +11,7 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 class TSnapshotFileSetup;
 struct NJS_POINT2;
+class TWindowCheckBox;
 
 struct TWindowOptionCtrl : public TObject {
     TWindowOptionCtrl(TObject *parent);
@@ -24,7 +25,7 @@ struct TWindowOptionCtrl : public TObject {
     TWindowMenu *main_menu;
     TWindowMenu *sub_menu;
     void *m_30;
-    TWindowMenuIconLine *option_menu;
+    TWindowCheckBox *option_menu;
     TWindowBase *sound_balance_window;
     TWindowBase *snap_shot_window;
     TWindowMessageYesNo *yes_no_window;
@@ -38,21 +39,18 @@ struct TWindowOptionCtrl : public TObject {
     void init_selection_indices();
     void apply_and_close(s32 bgm_index);
     s32 handle_input(s32 language);
-    // The cursor position of the entry at m_88.
-    s32 update_selected_item();
-    static void add_menu_item(saddr check_box_window, s32 arg2, s32 item);
     static void set_field_value(s32 arg0, s16 arg1);
     static s32 get_option_field_C();
     static const char *text_or_default(const char *text);
     static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
     static saddr open_yes_no_window(saddr parent, s32 message_id, s32 index);
-    saddr create_option_menu();
+    TWindowCheckBox *create_option_menu();
     saddr create_sub_menu_window();
     saddr create_snap_shot_window();
     saddr create_sound_balance_window();
-    saddr create_sound_mode_menu();
+    TWindowCheckBox *create_sound_mode_menu();
     saddr create_list_window();
-    saddr create_select_menu_window();
+    TWindowCheckBox *create_select_menu_window();
     saddr create_menu();
     virtual void render();
     virtual void run_task();

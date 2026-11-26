@@ -8,7 +8,6 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 
 
-
 void TChCrLoadGmNjReq::start_character_load_task() {
     BmlResource *request;
 

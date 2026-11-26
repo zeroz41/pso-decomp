@@ -9,8 +9,8 @@
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjMemoryBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
-#include "pso/unk/text_803CC294.h"
-#include "pso/unk/text_803CE568.h"
+#include "pso/system/Adxf.h"
+#include "pso/system/CvFs.h"
 
 
 s32 init_ref_count;

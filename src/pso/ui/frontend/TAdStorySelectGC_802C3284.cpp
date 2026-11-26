@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
-#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -25,7 +24,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/system/SoundEffect.h"
 
 struct B_802C3400 { NJS_POINT2 e[2]; };
 

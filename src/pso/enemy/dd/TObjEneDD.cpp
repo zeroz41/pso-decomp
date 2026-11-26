@@ -43,7 +43,7 @@ extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
 #include "pso/ui/TLevelSelect.h"
@@ -95,10 +95,7 @@ f32 fabs_float(f32);
 
 
 
-extern "C" {
 TargetCandidate enemy_target_candidate_table[4];
-u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
-}
 
 
 #include "pso/enemy/fly/TObjEneBm3Fly.h"
@@ -177,7 +174,7 @@ void TObjEneDD::init_position_vectors() {
 }
 
 s32 TObjEneDD::update_status_effects() {
-    if (this->has_flag_0x800() != 0) {
+    if (this->is_actor_dead() != 0) {
         this->run_death_reaction();
         return 1;
     }
@@ -648,7 +645,7 @@ int TObjEneDD::has_move_failures(s32 limit) {
 
 void TObjEneDD_ST::set_active() { active_flags = 1; }
 
-void TObjEneDD::clear_field_388() { active_flags = 0; }
+void TObjEneDD::clear_active_flags() { active_flags = 0; }
 
 void TObjEneDD::init_model(CollisionBody *bodies, s32 count) {
     init_collision_body_parts(this, bodies, count);
@@ -1202,7 +1199,7 @@ void TObjEneDD_ST::turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32
 
     dist = scale;
     turn_toward_target_direction(iscale);
-    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)dist);
+    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), dist);
 }
 
 void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1212,7 +1209,7 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
+    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)(dz), (f32)(dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1220,7 +1217,7 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
+    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)(dist));
 }
 
 CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale) {

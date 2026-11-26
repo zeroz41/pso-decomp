@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
@@ -29,6 +28,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowActionPalette.h"
 
 
 struct UpdateCustomizeHelpTextWindow {
@@ -70,7 +70,6 @@ void text_builder_append();
 }
 
 void text_builder_reset();
-s32 get_palette_consumable_count(u16, s32);
 
 extern "C" {
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};

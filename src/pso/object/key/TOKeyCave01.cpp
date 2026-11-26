@@ -4,7 +4,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyCave01.h"
@@ -22,10 +22,10 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/render/render_util.h"
 
 // The default constant-material colour (owner unit not split yet; 27 files
 // declare it with their own types, see the lane report).
-extern u8 chunk_material_color_half_alpha_f32[];
 
 const char *bm_fs_obj_do_doa_panel_model_names[] = {"fs_obj_do_doa_panel.gj", NULL};
 const char *bm_fs_obj_do_doa_panel_motion_names[] = {NULL};
@@ -202,7 +202,7 @@ void TOKeyCave01::render() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
         if (is_on != 1) {
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
         pop_matrix();

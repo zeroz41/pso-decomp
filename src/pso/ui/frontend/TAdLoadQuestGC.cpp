@@ -12,12 +12,10 @@
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowCost.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma readonly_strings on
 
-extern "C" TWindowCost *create_cost_window(s32 client) {
+TWindowCost *create_cost_window(s32 client) {
     if (TCameraCtrl::get_camera_id() <= 2) {
         return NULL;
     }

@@ -61,6 +61,7 @@ struct AnimationMotion;
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_801F4560.h"
 
 
 struct Ids_8029B428 {
@@ -97,7 +98,6 @@ void TLobby__sub_8029B2A4(void* p);
 }
 s32 is_any_player_near(saddr arg0);
 
-void clear_story_flag_in_bank(s32 n, s32 flag);
 
 #pragma inline_depth(1)
 
@@ -302,10 +302,10 @@ s32 is_any_player_near(saddr arg0) {
 }
 
 
-void TODoorJungleMain::vfunc_6(s16 *state, s32 notify) {
+void TODoorJungleMain::apply_saved_state(s16 *state, s32 live) {
     if ((state != NULL) && ((s16) *state == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
-        if (notify == 0) {
+        if (live == 0) {
             this->animation_end_frame = (f32) (this->motion->frameCount - 1);
             set_indexed_flags(0, 8);
             if (map_csn != NULL) {

@@ -1,17 +1,93 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/chat/SymbolChatPreset.h"
+#include "types.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
+#include "pso/ui/chat/TWindowSubSymbolChatParts.h"
+
+
+s32 TWindowSubSymbolChatFaceType::get_face_index() {
+    return (s8)cursor_col + (s8)cursor_row * 2;
+}
+
+s32 TWindowSubSymbolChatFaceType::is_cancelled() {
+    return result_flags & 2;
+}
+
+s32 TWindowSubSymbolChatFaceType::is_open() {
+    return this->result_flags & 1;
+}
+
+s32 TWindowSubSymbolChatParts::is_cancelled() {
+    return result_flags & 2;
+}
+
+s32 TWindowSubSymbolChatParts::is_confirmed() {
+    return this->result_flags & 1;
+}
+
+void TWindowSubSymbolChatHelp::set_flag60_bit2() {
+    feature_flags = (u8)(feature_flags | 2);
+}
+
+void TWindowSubSymbolChatHelp::set_flag60_bit1() {
+    feature_flags = (u8)(feature_flags | 1);
+}
+
+void TWindowSubSymbolChatHelp::clear_help_feature_flag1() {
+    feature_flags &= ~1;
+}
+
+void TWindowSubSymbolChatHelp::set_pos_and_flag(s32 *first, s32 *second) {
+    flip_u = first;
+    flip_v = second;
+    feature_flags = (u8)(feature_flags | 4);
+}
+
+void TWindowSubSymbolChatHelp::clear_flag60_bit4() {
+    feature_flags = (u8)(feature_flags & ~4);
+}
+
+void TWindowSubSymbolChatHelp::clear_flag60_bit2() {
+    feature_flags = (u8)(feature_flags & ~2);
+}
+
+s32 TWindowSubSymbolChatPartsSet::is_cancelled() {
+    return result_flags & 2;
+}
+
+s32 TWindowSubSymbolChatPartsSet::is_active() {
+    return this->result_flags & 1;
+}
+
+s32 TWindowSubSymbolChatPartsSet::get_cursor_x() {
+    return cursor_x;
+}
+
+s32 TWindowSubSymbolChatPartsSet::get_cursor_pos() {
+    return cursor_y;
+}
+
+void SymbolChatPreset::clear_flag_bit2() {
+    flags &= 0xFFFFFFFD;
+}
+
+void SymbolChatPreset::set_flag_bit2() {
+    flags |= 2;
+}
+
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80281814.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -27,10 +103,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
-#include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_802838C4.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80283954.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
@@ -38,7 +111,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/vector.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -428,7 +501,7 @@ void TWindowSubSymbolChat::run_task() {
         if (TWindowSubSymbolChat::count_instance_empty_slots() > 1) {
             help_window->set_flag60_bit1();
         } else {
-            clear_help_feature_flag1(help_window);
+            help_window->clear_help_feature_flag1();
         }
         help_window->set_pos_and_flag(&symbol_chat_flip_u, &symbol_chat_flip_v);
         this->selected_value = 0xDU;
@@ -563,7 +636,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         help_window->clear_flag60_bit4();
         help_window->clear_flag60_bit2();
-        clear_help_feature_flag1(help_window);
+        help_window->clear_help_feature_flag1();
         this->selected_value = 0x17U;
     case 23:
     case 27:
@@ -886,20 +959,20 @@ TWindowMessageYesNo *TWindowSubSymbolChat::open_confirm_prompt() {
     return r;
 }
 
-TWindowOptionCtrl *TWindowSubSymbolChat::create_confirm_window() {
-    saddr check_box_window;
+TWindowCheckBox *TWindowSubSymbolChat::create_confirm_window() {
+    TWindowCheckBox *check_box_window;
 
-    check_box_window = (saddr)create_check_box_window_for_local_client(get_window_layout_position(0x79), lbl_804D2B48);
+    check_box_window = create_check_box_window_for_local_client(get_window_layout_position(0x79), lbl_804D2B48);
     ((TWindowMenuIconLine *)check_box_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0xAC));
-    TWindowOptionCtrl::add_menu_item(check_box_window, (saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);
-    if (is_preset_flag_bit9_set(reinterpret_cast<const SymbolChatPreset *>(selected_preset)) != 0) {
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(0);
+    check_box_window->add_menu_item((saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
+    check_box_window->add_menu_item((saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);
+    if (is_preset_flag_bit9_set(selected_preset) != 0) {
+        check_box_window->set_selected_index(0);
     } else {
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(1);
+        check_box_window->set_selected_index(1);
     }
     ((TWindowSubShortCutList *)check_box_window)->set_flag70_bit10();
-    return (TWindowOptionCtrl *)check_box_window;
+    return check_box_window;
 }
 
 TKeyBoardControl *TWindowSubSymbolChat::create_keyboard_control() {

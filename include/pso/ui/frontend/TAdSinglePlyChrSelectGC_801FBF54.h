@@ -5,6 +5,12 @@
 #include "types.h"
 
 class TPlyCharData;
+struct CharacterFile;
+struct CharacterFileSlot;
+struct CharacterSaveRecord;
+
+CharacterFileSlot *get_selected_character_slot(CharacterFile *file);
+CharacterSaveRecord *get_selected_save_record(CharacterFile *file);
 struct GuildCardSaveData;
 
 // What the card slot summary lookups report about a card slot.

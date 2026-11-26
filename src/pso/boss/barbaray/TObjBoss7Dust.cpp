@@ -4,7 +4,7 @@
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
-#include "pso/unk/text_802F0E24.h"
+#include "pso/boss/barbaray/Boss7CommonResource.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"

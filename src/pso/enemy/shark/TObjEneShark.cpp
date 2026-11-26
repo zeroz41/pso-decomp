@@ -507,8 +507,7 @@ TObjEneShark::~TObjEneShark() {
 #pragma defer_codegen on
 
 s32 TObjEneMoja::calc_technique_level() {
-    TObjEneMoja *self = this;
-    player_stats *p = self->stat_block;
+    player_stats *p = this->stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;

@@ -1,14 +1,15 @@
 // CRI adx_inis.c: ADXT_Finish, ADXT_Init and the SVM server callbacks they register.
 #include "pso/audio/AdxtInit.h"
 #include "pso/audio/AdxError.h"
+#include "pso/audio/AdxbDecoder.h"
 #include <string.h>
 #include "pso/unk/text_803D31A4.h"
-#include "pso/unk/text_803CE240.h"
+#include "pso/audio/AixPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxFsServer.h"
 #include "pso/audio/AdxLock.h"
-#include "pso/unk/TLobby_803CC0B4.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxEncoder.h"
@@ -16,8 +17,7 @@
 #include "pso/system/Adxf.h"
 #include "pso/audio/SjMemoryBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
-#include "pso/unk/text_803CC294.h"
-#include "pso/unk/text_803CE568.h"
+#include "pso/system/CvFs.h"
 
 extern "C" {
 s32 lbl_805D4658 = 1;
@@ -35,7 +35,7 @@ void adxt_finish() {
     temp_r0 = TLobby_init_ref_count - 1;
     TLobby_init_ref_count = temp_r0;
     if (temp_r0 == 0) {
-        TLobby::shutdown_cleanup();
+        gcrna_bridge_shutdown();
         adxf_finish();
         adxstm_finish_fs();
         lsc_shutdown();
@@ -46,7 +46,7 @@ void adxt_finish() {
         TLobby__sub_803D3194();
         adx_unlock();
         adx_lock();
-        TLobby::clear_session_buffer();
+        adxb_finish();
         adxerr_finish();
         sj_memory_buffer_shutdown();
         sj_ring_buffer_shutdown();
@@ -64,10 +64,10 @@ void adxt_init() {
         sj_memory_buffer_init();
         adxerr_init();
         adxstm_clear_requests();
-        TLobby::reset_sound_buffers();
+        adxb_init();
         adxf_init();
         TLobby__sub_803CC114();
-        TLobby::flush_update(adxt_error_callback, NULL);
+        gcrna_bridge_set_error_callback(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
         if (lbl_805D4658 == 1) {

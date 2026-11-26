@@ -1,4 +1,5 @@
 #include <dolphin/ar.h>
+#include "pso/quest/QuestDownloadAramFile.h"
 #include "types.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -35,7 +36,6 @@ LAYOUT_ASSERT(QuestDownloadAramDmaBytesOffset, offsetof(QuestDownloadAramDmaBuff
 LAYOUT_ASSERT(QuestDownloadAramDmaRequestOffset, offsetof(QuestDownloadAramDmaBuffer, request) == 0x2040);
 LAYOUT_ASSERT(QuestDownloadAramDmaBufferSize, sizeof(QuestDownloadAramDmaBuffer) == 0x2060);
 
-extern "C" {
 extern QuestDownloadAramDmaBuffer quest_download_aram_dma_buffer;
 void aram_dma_done(uaddr request);
 
@@ -54,6 +54,7 @@ s32 start_askdic(void) {
     }
     return result;
 }
+extern "C" {
 
 s32 aram_seek(s32 handle, s32 offset, s32 whence) {
     s32 r;
@@ -83,6 +84,7 @@ s32 aram_seek(s32 handle, s32 offset, s32 whence) {
         break;
     }
     return quest_download_aram_file.pos;
+}
 }
 
 const char aram_dma_timeout_message[] = "ASKDIC:ARAM DMA Timeout!!\n";
@@ -126,9 +128,11 @@ s32 TQuestVmDownLoadServer::aram_dma_read(s32 handle, void *dst, s32 size) {
 s32 aram_close(s32 handle) {
     return 0;
 }
+extern "C" {
 
 s32 aram_open(const char *name, s32 mode) {
     return 1;
+}
 }
 
 void aram_dma_done(uaddr request) {
@@ -145,8 +149,6 @@ void aram_dma_setup(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeou
     quest_download_aram_size = quest_download_aram_file.remain;
     quest_download_aram_priority = priority;
     quest_download_aram_timeout = timeout_ms * (__OSBusClock / 4 / 1000);
-}
-
 }
 
 QuestDownloadAramDmaBuffer quest_download_aram_dma_buffer;

@@ -1,17 +1,17 @@
-#include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
-#include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubTechnique_80286BD4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/ui/window/TWindowMenu.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/quest/TQuestThread.h"
@@ -23,12 +23,58 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/system/SoundEffect.h"
+
+s32 TWindowSubTechnique::category_changed() {
+    if (category_menu == NULL) {
+        return 0;
+    }
+    if (current_category == category_menu->get_selected_value()) {
+        return 0;
+    }
+    current_category = category_menu->get_selected_value();
+    return 1;
+}
+
+struct Base_80286B0C { char pad[0x18]; };
+struct VObj_80286B0C : Base_80286B0C {
+    virtual void v0();
+#define VV(n) virtual void v##n();
+VV(1)VV(2)VV(3)VV(4)VV(5)VV(6)VV(7)VV(8)VV(9)VV(10)
+VV(11)VV(12)VV(13)VV(14)VV(15)VV(16)VV(17)VV(18)VV(19)VV(20)
+VV(21)VV(22)VV(23)VV(24)VV(25)VV(26)VV(27)VV(28)VV(29)VV(30)
+VV(31)VV(32)VV(33)
+#undef VV
+    virtual s32 v36();
+};
+
+
+
+void TWindowSubTechnique::get_selection(s16 *arg0, s32 *arg1, s32 client) {
+    void *player;
+
+    player = get_player_by_client_id(client);
+    if (player != NULL) {
+        *arg0 = *(s16 *)((s8 *)player + 0x32E);
+        *arg1 = ((VObj_80286B0C *)player)->v36();
+    }
+}
+
+s32 TWindowSubTechnique::update_selection(s16 *arg0, s32 *arg1, s32 client) {
+    s32 spC;
+    s16 sp8;
+
+    TWindowSubTechnique::get_selection(&sp8, &spC, client);
+    if ((sp8 == (s16) *arg0) && (spC == (s32) *arg1)) {
+        return 0;
+    }
+    *arg0 = sp8;
+    *arg1 = spC;
+    return 1;
+}
 
 const char *TWindowSubTechnique::class_name = "TWindowSubTechnique";
 static const f32 technique_help_window_size[2] = { 242.0f, 161.0f };
@@ -46,8 +92,6 @@ void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 s32 add_text_entry__11TWindowMenuFllll(saddr, const char *, s32, s16, s32);
 s32 add_text_entry__11TWindowMenuFlll(saddr, const char *, s32, s16);
 const char *get_technique_name(s16);
-void add_gray_text_entry(saddr, const char *, s32, s16);
-}
 
 void TWindowSubTechnique::get_current_selection(s16 *arg0, s32 *arg1, s32 client) { TWindowSubTechnique::get_selection(arg0, arg1, client); }
 
@@ -75,6 +119,7 @@ s32 TWindowSubTechnique::lookup_technique(s32 technique, s32 client) {
 }
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
     const char *technique_name;
+    void add_gray_text_entry(saddr, const char *, s32, s16);
 
     technique_name = get_technique_name(id);
     if (TWindowSubTechnique::lookup_technique(id, client) == 0) {
@@ -111,6 +156,7 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
   titled_window_menu->set_flag70_bit10();
   return titled_window_menu;
+}
 }
 
 extern u8 *text_language_group_table;
@@ -160,7 +206,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       help_technique = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        help_window->append_line((saddr)((void *)lbl_805DD83C), (int)0x82);
+        help_window->append_line((saddr)((void *)lbl_805DD83C), 0x82);
         return;
       }
       text_builder_reset();
@@ -173,7 +219,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
       text_builder_append((u8 *)((saddr) get_help_text_string(0x2E)));
       text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
       text_builder_append((u8 *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
-      help_window->append_line((saddr)((void *) get_shared_text_buffer()), (int)0x82);
+      help_window->append_line((saddr)((void *) get_shared_text_buffer()), 0x82);
     }
   }
 }
@@ -216,10 +262,10 @@ void TWindowSubTechnique::run_task() {
         break;
     }
     case 3:
-        help_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x14), technique_help_window_size, 1, (s32)playerIndex);
+        help_window = TWindowMessage::create(get_window_layout_position(0x14), technique_help_window_size, 1, (s32)playerIndex);
         ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
-        ((TWindowSubTradeMain *)technique_menu)->clear_trade_flag();
+        technique_menu->clear_flag_40();
         ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();
         technique_menu->clear_flag_and_release();
         ((TWindowOptionCtrl *)technique_menu)->clear_flag70_bit4();
@@ -288,4 +334,4 @@ saddr get_technique_description_text(s32 technique) {
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
-void TWindowSubTradeMain::clear_trade_flag() { this->m_70 &= 0xffffffbf; }
+void TWindowMenu::clear_flag_40() { m_70 &= ~0x40; }

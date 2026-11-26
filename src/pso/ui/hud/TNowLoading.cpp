@@ -15,8 +15,6 @@
 
 extern "C" {
 const char *now_loading_class_name = "TNowLoading";
-void TNowLoading__sub_8001D4D0(void);
-void TNowLoading__sub_8001D4D4(void);
 
 void TNowLoading::render() {  }
 
@@ -95,5 +93,5 @@ TNowLoading::TNowLoading(TObject *parent, Vec *pos) : TObject(parent) {
 }
 #pragma pop
 
-void TNowLoading__sub_8001D4D0(void) {  }
-void TNowLoading__sub_8001D4D4(void) {  }
+void TNowLoading::cleanup() {  }
+void TNowLoading::setup() {  }

@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/window/TWindowSubOption.h"
@@ -17,11 +16,10 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -37,7 +35,6 @@ struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
-s32 fn_8027D1E8(s32);
 extern Ent_8027CFC8 quest_board_handlers[];
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
 }
@@ -69,7 +66,7 @@ void TWindowSubQuestBoard::run_task() {
     switch (this->state) {
     case 0:
     case 1:
-        fn_8027D1E8((saddr)select_window);
+        select_window->sub_8027D1E8();
         this->state = 2;
     case 2:
         if (select_window->is_cancelled() != 0) {
@@ -101,8 +98,8 @@ void TWindowSubQuestBoard::render() {  }
 int TWindowSubQuestBoard::set_card_flags_direct(int card_flags_direct) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, card_flags_direct, -2); }
 
 void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value * 2, -3);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 2, -3);
 }
 
 void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
@@ -110,18 +107,18 @@ void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
 }
 
 void TWindowSubQuestBoard::clear_card_window_flags(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value * 8, -9);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 8, -9);
 }
 
 void TWindowSubQuestBoard::set_card_window_flags(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 8, -0x301);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 8, -0x301);
 }
 
 void TWindowSubQuestBoard::set_board_flags(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 0xA, -0x1C01);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 0xA, -0x1C01);
 }
 
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -195,58 +192,58 @@ saddr TWindowSubOption::create_option_menu_window() {
     return (saddr)titled_window_menu;
 }
 
-saddr TWindowSubOption::create_option_value_window(s32 option) {
+TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {
     s16 value;
-    saddr window;
+    TWindowCheckBox *window;
     s32 flag;
-    window = (saddr)TWindowSubStatusDisp__sub_80248BE8(get_window_layout_position(0x16), (saddr)option_value_window_size, (s32)client_id);
+    window = TWindowCheckBox::create(get_window_layout_position(0x16), (saddr)option_value_window_size, (s32)client_id);
     switch (option) {
     case 0:
-        ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x66)));
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x6F)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x70)), 1);
+        window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x66)));
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x6F)), 0);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x70)), 1);
         value = ((TWindowKeyBoardHard *)(client_id))->is_card_flag_set();
         break;
     case 1:
-        ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x67)));
-        TWindowSubStatusDisp::draw_status(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x71)), 0);
-        TWindowSubStatusDisp::draw_status(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x72)), 1);
+        window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x67)));
+        window->draw_status((saddr) (TWindowSubStatusDisp::get_message_10(0x71)), 0);
+        window->draw_status((saddr) (TWindowSubStatusDisp::get_message_10(0x72)), 1);
         value = TWindowKeyBoardHard::test_card_flag_2(client_id);
         break;
     case 2:
-        ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x68)));
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x73)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x74)), 1);
+        window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x68)));
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x73)), 0);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x74)), 1);
         value = test_keyboard_card_flag4((void *)client_id);
         break;
     case 4:
-        ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x6A)));
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0xA6)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0xA7)), 1);
+        window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x6A)));
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0xA6)), 0);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0xA7)), 1);
         flag = TWindowKeyBoardHard::test_card_flag_8(client_id);
         vibration = flag;
         value = (s16) flag;
         break;
     case 3:
-        ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x69)));
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x75)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x76)), 1);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x77)), 2);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x78)), 3);
+        window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x69)));
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x75)), 0);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x76)), 1);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x77)), 2);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x78)), 3);
         value = TWindowSubStatusDisp::get_card_window_flags(client_id);
         break;
     case 5:
-        ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x6E)));
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x79)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x7A)), 1);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x7B)), 2);
-        TWindowSubStatusDisp::dispatch_without_flags(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x7C)), 3);
+        window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x6E)));
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x79)), 0);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x7A)), 1);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x7B)), 2);
+        window->dispatch_without_flags((saddr) (TWindowSubStatusDisp::get_message_10(0x7C)), 3);
         value = fn_801A51F0(client_id);
         break;
     }
-    ((TWindowSubStatusDisp *)window)->set_selected_index(value);
+    window->set_selected_index(value);
     ((TWindowSubShortCutList *)window)->set_flag70_bit10();
-    ((TWindowBase *)window)->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
+    window->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
     return window;
 }
 
@@ -255,7 +252,7 @@ void TWindowSubOption::update_quest_board_card_flags() {
     s32 value;
 
     selected_menu_value = menu->get_selected_value();
-    value = ((TWindowOptionCtrl *)value_window)->update_selected_item();
+    value = value_window->update_selected_item();
     switch (selected_menu_value) {
     case 0:
         ((TWindowSubQuestBoard *)(client_id))->set_card_flags_direct(value);
@@ -283,7 +280,7 @@ void TWindowSubOption::update_photon_selection() {
     s32 value;
 
     selected_menu_value = menu->get_selected_value();
-    value = ((TWindowOptionCtrl *)value_window)->update_selected_item();
+    value = value_window->update_selected_item();
     if ((selected_menu_value == 4) && ((s8)vibration != value)) {
         (vibration) = (u8) value;
         if ((s8)vibration == 0) {

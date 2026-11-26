@@ -46,6 +46,9 @@ struct TShopItemListWindow : public TShopWindowBase {
 
 LAYOUT_ASSERT(TShopItemListWindow_size, sizeof(TShopItemListWindow) == 0x1C4);
 
+// Favoured grind type per section ID (-1: none).
+extern s32 section_id_favored_grind_table[10];
+
 LAYOUT_ASSERT(TShopItemListWindow_items_offset, offsetof(TShopItemListWindow, shop_items) == 0x58);
 
 #endif

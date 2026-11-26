@@ -29,7 +29,6 @@ struct TAdAgreementBaseGC : public TObject {
 LAYOUT_ASSERT(TAdAgreementBaseGC_size, sizeof(TAdAgreementBaseGC) == 0x38);
 
 extern "C" {
-void *__dt__18TAdAgreementBaseGCFv(void *arg0, s16 arg1);
 void fn_80329BAC(void *p);
 }
 

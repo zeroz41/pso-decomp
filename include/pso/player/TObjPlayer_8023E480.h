@@ -4,12 +4,12 @@
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
 
-extern "C" {
 s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist);
 s32 load_streamed_prs_texture(const char *name, NJS_TEXLIST *texlist);
 s32 load_disc_prs_texture(const char *name, NJS_TEXLIST *texlist);
 s32 load_texture_if_valid(NJS_TEXLIST *texlist);
 s32 free_texture_if_valid(NJS_TEXLIST *texlist);
+extern "C" {
 void init_buffers(void);
 }
 

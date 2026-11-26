@@ -38,4 +38,13 @@ struct TShopGetItemWindow : public TShopWindowBase {
 };
 
 LAYOUT_ASSERT(TShopGetItemWindow_size, sizeof(TShopGetItemWindow) == 0x68);
+
+struct TObjPlayer;
+// The shop's item level: the player's level plus one, clamped to 1..199.
+void calc_item_count(TObjPlayer *player, s32 *count);
+void init_shop_world_context(void);
+// Section ID the shop stock is rolled for (0..9).
+extern s32 shop_section_id;
+void clear_all_shop_stock(void);
+void reset_shop_stock_and_params(void);
 #endif

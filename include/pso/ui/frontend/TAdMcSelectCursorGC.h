@@ -41,8 +41,5 @@ LAYOUT_ASSERT(TAdMcSelectCursorGC_cursor_alpha_offset, offsetof(TAdMcSelectCurso
 LAYOUT_ASSERT(TAdMcSelectCursorGC_mode_offset, offsetof(TAdMcSelectCursorGC, render_direct) == 0x13C);
 LAYOUT_ASSERT(TAdMcSelectCursorGC_size, sizeof(TAdMcSelectCursorGC) == 0x140);
 
-extern "C" {
-void *__dt__19TAdMcSelectCursorGCFv(void *arg0, s16 arg1);
-}
 
 #endif

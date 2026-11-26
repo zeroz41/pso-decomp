@@ -6,7 +6,6 @@
 #include "types.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/unk/TLobby_80227AA0.h"
-#include "pso/unk/text_8023F660.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
@@ -16,7 +15,7 @@
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
 void TLobby__sub_80227AA8(s32 tracks) {
-    fn_8023F660((&sound_control_state), (tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
+    sound_control_state.fn_8023F660((tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
 }
 
 
@@ -27,7 +26,7 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
+void TLobby__sub_80227AF8(s32 slot, const Vec *position) { TLobby__sub_8023F754(slot, position); }
 }
 
 extern s32 local_client_id;
@@ -190,8 +189,6 @@ void is_sound_enabled(void) {
 }
 
 
-s32 update_sound_frame(SoundControlState *self);
-s32 init_sound_aux_effects(SoundControlState *self);
 extern "C" {
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_80226B64(int);
@@ -233,10 +230,12 @@ void load_floor_sound_bank(s32 arg0) {
 void TLobby__sub_8022804C(void) {
     TLobby__sub_802401C8(&sound_control_state);
 }
+}
 
 void update_global_sound_frame(void) {
     update_sound_frame(&sound_control_state);
 }
+extern "C" {
 
 void TLobby__sub_8022809C(void) {
     ((TLobby *)&sound_control_state)->reset_sound_state();

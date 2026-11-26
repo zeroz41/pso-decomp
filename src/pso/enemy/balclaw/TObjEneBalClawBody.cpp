@@ -341,36 +341,35 @@ void TObjEneBalClawBody::run_demo_task() {
 }
 
 void TObjEneBalClawBody::update_chase() {
-    TObjEneBalClawBody *body = this;
     s16 v;
-    switch (body->state) {
+    switch (this->state) {
     case 0:
-        body->actorFlags &= 0xFBFFFEFF;
-        body->clear_flags_30();
+        this->actorFlags &= 0xFBFFFEFF;
+        this->clear_flags_30();
         v = 6;
-        if (body->behavior_flags & 0x01000000) {
+        if (this->behavior_flags & 0x01000000) {
             v = 1;
         }
-        body->requested_action = v;
-        body->state = 1;
-        if (body->target != NULL) {
-            VecCopy(&body->move_destination, &((TObjChara *)body->target)->body_center);
+        this->requested_action = v;
+        this->state = 1;
+        if (this->target != NULL) {
+            VecCopy(&this->move_destination, &((TObjChara *)this->target)->body_center);
         }
         break;
     case 1:
-        if (body->target == NULL) {
-            body->reset_enemy_state();
+        if (this->target == NULL) {
+            this->reset_enemy_state();
             break;
         }
-        play_persistent_sound(0x4003B235, body, &body->position, 0, 0);
-        body->velocity.y = 0.0f;
+        play_persistent_sound(0x4003B235, this, &this->position, 0, 0);
+        this->velocity.y = 0.0f;
         {
-            update_enemy_wander_move(body, ((TObjChara *)body->target)->body_center, 1, ((EnemyMoveParams *)body->movementParameters)->min_distance);
+            update_enemy_wander_move(this, ((TObjChara *)this->target)->body_center, 1, ((EnemyMoveParams *)this->movementParameters)->min_distance);
         }
-        body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
-        body->advance_animation();
-        apply_actor_gravity(body, NULL, 0.0f);
-        body->update_collisions();
+        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        this->update_collisions();
         break;
     case -1:
         break;
@@ -378,50 +377,49 @@ void TObjEneBalClawBody::update_chase() {
 }
 
 void TObjEneBalClawBody::update_damage() {
-    TObjEneBalClawBody *body = this;
     s32 next_mode;
     s32 percent;
-    switch (body->state) {
+    switch (this->state) {
     case -1:
         break;
     case 0:
-        body->actorFlags &= ~0x200000;
-        body->requested_action = body->get_flag_0x388_b24() != 0 ? 3 : 8;
-        body->state = 1;
+        this->actorFlags &= ~0x200000;
+        this->requested_action = this->get_flag_0x388_b24() != 0 ? 3 : 8;
+        this->state = 1;
     case 1: {
-        body->advance_animation();
-        body->velocity.y = 0.0f;
-        Vec v = body->body_center;
-        v.x += body->velocity.x;
-        v.z += body->velocity.z;
-        if (check_path_obstructed(body, &v) == 0) {
-            move_with_wall_slide(body);
+        this->advance_animation();
+        this->velocity.y = 0.0f;
+        Vec v = this->body_center;
+        v.x += this->velocity.x;
+        v.z += this->velocity.z;
+        if (check_path_obstructed(this, &v) == 0) {
+            move_with_wall_slide(this);
         } else {
-            body->velocity.x = body->velocity.z = 0.0f;
+            this->velocity.x = this->velocity.z = 0.0f;
         }
-        body->velocity.x *= 0.9f;
-        body->velocity.z *= 0.9f;
-        apply_actor_gravity(body, NULL, 0.0f);
-        body->update_collisions();
-        if (body->action_flags != 8U) {
+        this->velocity.x *= 0.9f;
+        this->velocity.z *= 0.9f;
+        apply_actor_gravity(this, NULL, 0.0f);
+        this->update_collisions();
+        if (this->action_flags != 8U) {
             next_mode = 0;
-            body->referenceHp = body->hp;
-            body->actorFlags &= ~0x200;
-            body->behavior_flags &= ~1;
-            if (body->get_flag_0x388_b24() == 0) {
-                percent = body->get_int_parameter(0);
+            this->referenceHp = this->hp;
+            this->actorFlags &= ~0x200;
+            this->behavior_flags &= ~1;
+            if (this->get_flag_0x388_b24() == 0) {
+                percent = this->get_int_parameter(0);
                 if (percent <= 0) {
                     percent = 0xA;
                 }
-                if (body->hp <= (body->hpmax * percent) / 100) {
-                    if (!(body->behavior_flags & 0x02000000)) {
-                        body->targetId = body->attacker_id;
-                        body->behavior_flags |= 0x02000000;
+                if (this->hp <= (this->hpmax * percent) / 100) {
+                    if (!(this->behavior_flags & 0x02000000)) {
+                        this->targetId = this->attacker_id;
+                        this->behavior_flags |= 0x02000000;
                     }
                     next_mode = 2;
                 }
             }
-            body->update_if_active(next_mode);
+            this->update_if_active(next_mode);
         }
         break;
     }
@@ -429,258 +427,255 @@ void TObjEneBalClawBody::update_damage() {
 }
 
 void TObjEneBalClawBody::run_death_sequence() {
-    TObjEneBalClawBody *body = this;
     s32 i;
     TObjEnemy *claw;
-    switch (body->state) {
+    switch (this->state) {
     case 0:
         refresh_lobby_state();
-        body->behavior_flags &= ~0x20000;
-        if (body->get_flag_0x388_b24() != 0) {
-            body->requested_action = 4;
-            body->state = 1;
-            for (i = 0; i < body->child_count; i++) {
-                claw = (TObjEnemy *)find_entity_by_id(body->child_ids[i]);
+        this->behavior_flags &= ~0x20000;
+        if (this->get_flag_0x388_b24() != 0) {
+            this->requested_action = 4;
+            this->state = 1;
+            for (i = 0; i < this->child_count; i++) {
+                claw = (TObjEnemy *)find_entity_by_id(this->child_ids[i]);
                 if (claw != NULL) {
                     claw->send_entity_set_flags();
                     claw->queue_destruction();
                 }
             }
         } else {
-            body->requested_action = 9;
-            body->velocity.y = body->hover_height / 11.666666f;
-            body->state = 2;
+            this->requested_action = 9;
+            this->velocity.y = this->hover_height / 11.666666f;
+            this->state = 2;
         }
-        play_sound_effect(0x4003AD37, reinterpret_cast<const Vec *>((u8 *)&body->position), 0, 0);
+        play_sound_effect(0x4003AD37, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         break;
     case 1:
-        body->advance_animation();
-        if (body->frame >= 20.0f) {
-            body->state = 3;
+        this->advance_animation();
+        if (this->frame >= 20.0f) {
+            this->state = 3;
         }
         break;
     case 2:
-        body->advance_animation();
-        if (body->frame >= 10.0f) {
-            body->hover_height -= body->velocity.y;
-            if (body->hover_height <= 0.0f) {
-                body->hover_height = 0.0f;
-                body->state = 3;
+        this->advance_animation();
+        if (this->frame >= 10.0f) {
+            this->hover_height -= this->velocity.y;
+            if (this->hover_height <= 0.0f) {
+                this->hover_height = 0.0f;
+                this->state = 3;
             }
         }
         break;
     case 3:
-        body->fade.start_fade_out();
-        fn_800D911C(&body->body_center);
-        body->behavior_flags |= 4;
-        body->state = 4;
+        this->fade.start_fade_out();
+        fn_800D911C(&this->body_center);
+        this->behavior_flags |= 4;
+        this->state = 4;
     case 4:
-        body->advance_animation();
-        if ((&body->fade)->decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&body->position, 0);
-            body->send_entity_set_flags();
-            body->queue_destruction();
+        this->advance_animation();
+        if ((&this->fade)->decay_value_toward_floor() == 1) {
+            TDeadSpot::spawn_kind0_scale7_5(&this->position, 0);
+            this->send_entity_set_flags();
+            this->queue_destruction();
         }
         break;
     }
 }
 
 void TObjEneBalClawBody::update_attack() {
-    TObjEneBalClawBody *body = this;
-    switch (body->state) {
+    switch (this->state) {
     case 0:
-        if (body->get_flag_0x388_b24() != 0) {
-            body->reset_enemy_state();
+        if (this->get_flag_0x388_b24() != 0) {
+            this->reset_enemy_state();
             return;
         }
-        if (body->attacker_id < 0x1000) {
-            body->targetId = body->attacker_id;
-            body->target = static_cast<TObjChara *>(find_active_entity_by_id(body->targetId));
-            if (body->target != NULL && (((TObjChara *)body->target)->actorFlags & 0x04000800)) {
-                body->targetId = 0xFFFF;
-                body->target = NULL;
+        if (this->attacker_id < 0x1000) {
+            this->targetId = this->attacker_id;
+            this->target = static_cast<TObjChara *>(find_active_entity_by_id(this->targetId));
+            if (this->target != NULL && (((TObjChara *)this->target)->actorFlags & 0x04000800)) {
+                this->targetId = 0xFFFF;
+                this->target = NULL;
             }
         } else {
-            body->find_target_in_range(250.0f);
+            this->find_target_in_range(250.0f);
         }
-        if (body->targetId != 0xFFFF) {
-            body->behavior_flags &= ~0x20000;
-            body->requested_action = 6;
-            body->state = 1;
+        if (this->targetId != 0xFFFF) {
+            this->behavior_flags &= ~0x20000;
+            this->requested_action = 6;
+            this->state = 1;
         } else {
-            body->run_idle_action();
+            this->run_idle_action();
         }
         break;
     case 1:
-        if (body->target == NULL) {
-            body->reset_enemy_state();
+        if (this->target == NULL) {
+            this->reset_enemy_state();
         } else {
-            body->velocity.y = 0.0f;
-            calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
+            this->velocity.y = 0.0f;
+            calc_velocity_toward_destination(this, this->body_center, ((TObjChara *)this->target)->body_center, 0.7f);
             {
-                Vec n1 = body->body_center;
-                n1.x += body->velocity.x;
-                n1.z += body->velocity.z;
-                if (check_path_obstructed(body, &n1) == 0) {
-                    move_with_wall_slide(body);
+                Vec n1 = this->body_center;
+                n1.x += this->velocity.x;
+                n1.z += this->velocity.z;
+                if (check_path_obstructed(this, &n1) == 0) {
+                    move_with_wall_slide(this);
                 }
             }
-            body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
-            body->target_distance_sq = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
-            if (body->target_distance_sq <= body->attack_params->get_attack_range() * body->attack_params->get_attack_range()) {
-                body->requested_action = 7;
-                body->state = 2;
-                body->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->attack_effect_angle, 0x12B, 2);
-                body->effects[2]->enable();
-                body->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&body->body_center, body->attack_effect_angle, 0x12C, 2);
-                body->effects[3]->enable();
+            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+            this->target_distance_sq = xz_distance_squared(&this->body_center, &((TObjChara *)this->target)->body_center);
+            if (this->target_distance_sq <= this->attack_params->get_attack_range() * this->attack_params->get_attack_range()) {
+                this->requested_action = 7;
+                this->state = 2;
+                this->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, this->attack_effect_angle, 0x12B, 2);
+                this->effects[2]->enable();
+                this->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, this->attack_effect_angle, 0x12C, 2);
+                this->effects[3]->enable();
             }
         }
         break;
     case 2:
         push_matrix_from(identity_matrix);
-        post_translate_matrix(&body->body_center.x);
-        rotate_matrix_y(0, body->rotation_y);
-        body->calc_joint_matrices(body->frame);
+        post_translate_matrix(&this->body_center.x);
+        rotate_matrix_y(0, this->rotation_y);
+        this->calc_joint_matrices(this->frame);
         pop_matrix();
-        body->get_anim_node_position(8, &body->attack_effect_position);
-        body->attack_effect_angle[0] = 0;
-        body->attack_effect_angle[1] = body->rotation_y + 0x4000;
-        body->attack_effect_angle[2] = -0x4000;
-        if (body->frame >= 9.0f && body->frame < 17.0f) {
-            body->effects[2]->set_position(&body->attack_effect_position);
-            body->effects[2]->set_direction(body->attack_effect_angle);
+        this->get_anim_node_position(8, &this->attack_effect_position);
+        this->attack_effect_angle[0] = 0;
+        this->attack_effect_angle[1] = this->rotation_y + 0x4000;
+        this->attack_effect_angle[2] = -0x4000;
+        if (this->frame >= 9.0f && this->frame < 17.0f) {
+            this->effects[2]->set_position(&this->attack_effect_position);
+            this->effects[2]->set_direction(this->attack_effect_angle);
         } else {
-            body->effects[2]->enable();
+            this->effects[2]->enable();
         }
-        if (body->frame >= 12.0f && body->frame < 17.0f) {
-            body->effects[3]->set_position(&body->attack_effect_position);
-            body->effects[3]->set_direction(body->attack_effect_angle);
+        if (this->frame >= 12.0f && this->frame < 17.0f) {
+            this->effects[3]->set_position(&this->attack_effect_position);
+            this->effects[3]->set_direction(this->attack_effect_angle);
         } else {
-            body->effects[3]->enable();
+            this->effects[3]->enable();
         }
-        body->velocity.y = 0.0f;
-        calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
+        this->velocity.y = 0.0f;
+        calc_velocity_toward_destination(this, this->body_center, ((TObjChara *)this->target)->body_center, 0.7f);
         {
-            Vec n2 = body->body_center;
-            n2.x += body->velocity.x;
-            n2.z += body->velocity.z;
-            if (check_path_obstructed(body, &n2) == 0) {
-                move_with_wall_slide(body);
+            Vec n2 = this->body_center;
+            n2.x += this->velocity.x;
+            n2.z += this->velocity.z;
+            if (check_path_obstructed(this, &n2) == 0) {
+                move_with_wall_slide(this);
             }
         }
-        body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
-        if (body->is_passing_frame(10.0f) != 0) {
-            play_sound_effect(0x4003B034, &body->position, 0, 0);
-            if (((TObjChara *)body->target)->select_melee_contact_body(body, 1.0f) != 0) {
-                ((TObjChara *)body->target)->receive_physical_attack(body, 1.0f);
-                ((TObjChara *)body->target)->apply_knockback_from_attacker((u8 *)body, 3.0f);
-                if (!(((TObjChara *)body->target)->actorFlags & 0x800) && ((TObjChara *)(body->target))->get_actor_hp() > 0) {
-                    send_6x2F_change_player_hp(body->entity_id, body->targetId, 1);
+        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        if (this->is_passing_frame(10.0f) != 0) {
+            play_sound_effect(0x4003B034, &this->position, 0, 0);
+            if (((TObjChara *)this->target)->select_melee_contact_body(this, 1.0f) != 0) {
+                ((TObjChara *)this->target)->receive_physical_attack(this, 1.0f);
+                ((TObjChara *)this->target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                if (!(((TObjChara *)this->target)->actorFlags & 0x800) && ((TObjChara *)(this->target))->get_actor_hp() > 0) {
+                    send_6x2F_change_player_hp(this->entity_id, this->targetId, 1);
                 }
             }
         }
-        if (body->action_flags != 4) {
-            body->set_actor_flags(0x800);
+        if (this->action_flags != 4) {
+            this->set_actor_flags(0x800);
         }
         break;
     case -1:
-        if (body->effects[2] != NULL) {
-            body->effects[2]->queue_destruction();
-            body->effects[2] = NULL;
+        if (this->effects[2] != NULL) {
+            this->effects[2]->queue_destruction();
+            this->effects[2] = NULL;
         }
-        if (body->effects[3] != NULL) {
-            body->effects[3]->queue_destruction();
-            body->effects[3] = NULL;
+        if (this->effects[3] != NULL) {
+            this->effects[3]->queue_destruction();
+            this->effects[3] = NULL;
         }
-        body->behavior_flags |= 0x20000;
+        this->behavior_flags |= 0x20000;
         break;
     }
-    body->advance_animation();
-    apply_actor_gravity(body, NULL, 0.0f);
-    body->check_object_collisions();
-    check_enemy_body_collisions(body);
+    this->advance_animation();
+    apply_actor_gravity(this, NULL, 0.0f);
+    this->check_object_collisions();
+    check_enemy_body_collisions(this);
 }
 
 void TObjEneBalClawBody::update_combined_attack() {
-    TObjEneBalClawBody *body = this;
-    switch (body->state) {
+    switch (this->state) {
     case 0:
-        if (body->get_flag_0x388_b24() == 0) {
-            body->reset_enemy_state();
+        if (this->get_flag_0x388_b24() == 0) {
+            this->reset_enemy_state();
             return;
         }
-        body->find_target_in_range(250.0f);
-        if (body->targetId != 0xFFFF) {
-            body->requested_action = 1;
-            body->state = 1;
-            if (select_enemy_destination(body, body->body_center, 1) != 0) {
-                copy_position_if_valid(body, body->body_center);
+        this->find_target_in_range(250.0f);
+        if (this->targetId != 0xFFFF) {
+            this->requested_action = 1;
+            this->state = 1;
+            if (select_enemy_destination(this, this->body_center, 1) != 0) {
+                copy_position_if_valid(this, this->body_center);
             }
         } else {
-            body->reset_enemy_state();
+            this->reset_enemy_state();
         }
         break;
     case 1:
-        if (body->target == NULL) {
-            body->reset_enemy_state();
+        if (this->target == NULL) {
+            this->reset_enemy_state();
         } else {
-            body->velocity.y = 0.0f;
-            calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
+            this->velocity.y = 0.0f;
+            calc_velocity_toward_destination(this, this->body_center, ((TObjChara *)this->target)->body_center, 0.7f);
             {
-                Vec n1 = body->body_center;
-                n1.x += body->velocity.x;
-                n1.z += body->velocity.z;
-                if (check_path_obstructed(body, &n1) == 0) {
-                    move_with_wall_slide(body);
+                Vec n1 = this->body_center;
+                n1.x += this->velocity.x;
+                n1.z += this->velocity.z;
+                if (check_path_obstructed(this, &n1) == 0) {
+                    move_with_wall_slide(this);
                 }
             }
-            body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
-            body->target_distance_sq = xz_distance_squared(&body->body_center, &((TObjChara *)body->target)->body_center);
-            if (body->target_distance_sq <= body->attack_params->get_attack_range() * body->attack_params->get_attack_range()) {
-                body->requested_action = 2;
-                body->state = 2;
-                play_sound_effect(0x4003B033, &body->position, 0, 0);
+            this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+            this->target_distance_sq = xz_distance_squared(&this->body_center, &((TObjChara *)this->target)->body_center);
+            if (this->target_distance_sq <= this->attack_params->get_attack_range() * this->attack_params->get_attack_range()) {
+                this->requested_action = 2;
+                this->state = 2;
+                play_sound_effect(0x4003B033, &this->position, 0, 0);
             }
         }
         break;
     case 2:
-        if (body->target == NULL) {
-            body->reset_enemy_state();
+        if (this->target == NULL) {
+            this->reset_enemy_state();
         } else {
-            body->velocity.y = 0.0f;
-            calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
-            move_with_wall_slide(body);
+            this->velocity.y = 0.0f;
+            calc_velocity_toward_destination(this, this->body_center, ((TObjChara *)this->target)->body_center, 0.7f);
+            move_with_wall_slide(this);
             {
-                Vec n2 = body->body_center;
-                n2.x += body->velocity.x;
-                n2.z += body->velocity.z;
-                if (check_path_obstructed(body, &n2) == 0) {
-                    move_with_wall_slide(body);
+                Vec n2 = this->body_center;
+                n2.x += this->velocity.x;
+                n2.z += this->velocity.z;
+                if (check_path_obstructed(this, &n2) == 0) {
+                    move_with_wall_slide(this);
                 }
             }
-            if (body->is_passing_frame(10.0f) != 0) {
-                if (((TObjChara *)body->target)->select_melee_contact_body(body, 1.0f) != 0) {
-                    if (body->random_ratio() <= 0.1f) {
+            if (this->is_passing_frame(10.0f) != 0) {
+                if (((TObjChara *)this->target)->select_melee_contact_body(this, 1.0f) != 0) {
+                    if (this->random_ratio() <= 0.1f) {
                         DirectAttackPayload q = {0xF, 0.0f};
-                        ((TObjChara *)body->target)->receive_direct_attack(body, q, 0, -1, -1);
+                        ((TObjChara *)this->target)->receive_direct_attack(this, q, 0, -1, -1);
                     }
-                    ((TObjChara *)body->target)->receive_physical_attack(body, 1.0f);
-                    ((TObjChara *)body->target)->apply_knockback_from_attacker((u8 *)body, 3.0f);
+                    ((TObjChara *)this->target)->receive_physical_attack(this, 1.0f);
+                    ((TObjChara *)this->target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 }
-                body->melee_hit_count++;
+                this->melee_hit_count++;
             }
-            if (body->action_flags != 4) {
-                body->reset_enemy_state();
+            if (this->action_flags != 4) {
+                this->reset_enemy_state();
             }
         }
         break;
     case -1:
         break;
     }
-    body->advance_animation();
-    apply_actor_gravity(body, NULL, 0.0f);
-    body->update_collisions();
+    this->advance_animation();
+    apply_actor_gravity(this, NULL, 0.0f);
+    this->update_collisions();
 }
 
 // Shows the arm models of the first count claw slots and hides the rest.
@@ -701,31 +696,30 @@ void TObjEneBalClawBody::show_claw_arms(s32 count) {
 }
 
 void TObjEneBalClawBody::update_appear() {
-    TObjEneBalClawBody *body = this;
     s32 cleared;
     s32 flags;
-    switch (body->state) {
+    switch (this->state) {
     case 0:
-        body->behavior_flags |= 4;
-        body->actorFlags |= 0x04000000;
-        body->requested_action = (body->behavior_flags & 0x01000000) ? 0 : 5;
-        play_area_se_with_particle(&body->position);
-        body->fade.start_fade_in();
-        body->state = 1;
+        this->behavior_flags |= 4;
+        this->actorFlags |= 0x04000000;
+        this->requested_action = (this->behavior_flags & 0x01000000) ? 0 : 5;
+        play_area_se_with_particle(&this->position);
+        this->fade.start_fade_in();
+        this->state = 1;
     case 1:
-        body->advance_animation();
-        apply_actor_gravity(body, NULL, 0.0f);
-        if ((&body->fade)->advance_toward_max() == 1) {
-            flags = body->behavior_flags;
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        if ((&this->fade)->advance_toward_max() == 1) {
+            flags = this->behavior_flags;
             cleared = flags & ~5;
-            body->behavior_flags = cleared;
-            body->state = -1;
-            body->reset_enemy_state();
+            this->behavior_flags = cleared;
+            this->state = -1;
+            this->reset_enemy_state();
         }
         return;
     case -1:
-        body->behavior_flags &= ~5;
-        body->actorFlags &= 0xFBFFFFFF;
+        this->behavior_flags &= ~5;
+        this->actorFlags &= 0xFBFFFFFF;
         break;
     }
 }
@@ -884,260 +878,254 @@ void TObjEneBalClawBody::run_attack_action() {
 }
 
 void TObjEneBalClawBody::update_combine() {
-    TObjEneBalClawBody *body = this;
     s32 all;
     s32 cnt;
     TObjEneBalClawClaw *claw;
     f32 lim;
-    switch (body->state) {
+    switch (this->state) {
     case 0:
-        if (body->get_flag_0x388_b24() != 0) {
-            body->reset_enemy_state();
+        if (this->get_flag_0x388_b24() != 0) {
+            this->reset_enemy_state();
             return;
         }
-        body->form_timer = 0;
-        if (body->summon_claws() == 0) {
-            body->reset_enemy_state();
+        this->form_timer = 0;
+        if (this->summon_claws() == 0) {
+            this->reset_enemy_state();
             return;
         }
-        body->behavior_flags |= 1;
-        body->behavior_flags &= ~0x04020000;
-        body->state_timer = 0x258;
-        body->state = 1;
-        body->requested_action = 5;
-        body->effects[0] = create_particle_emitter(&body->body_center, 0x128);
+        this->behavior_flags |= 1;
+        this->behavior_flags &= ~0x04020000;
+        this->state_timer = 0x258;
+        this->state = 1;
+        this->requested_action = 5;
+        this->effects[0] = create_particle_emitter(&this->body_center, 0x128);
         break;
     case 1:
-        body->effects[0]->set_position(&body->body_center);
-        body->advance_animation();
-        apply_actor_gravity(body, NULL, 0.0f);
+        this->effects[0]->set_position(&this->body_center);
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
         all = 1;
         cnt = 0;
         lim = 225.0f;
-        for (s32 i = 0; i < body->child_count; i++) {
-            claw = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
+        for (s32 i = 0; i < this->child_count; i++) {
+            claw = (TObjEneBalClawClaw *)find_entity_by_id(this->child_ids[i]);
             if (claw != NULL) {
                 cnt++;
                 if (claw->target_distance_sq > lim) {
                     all = 0;
                 }
             } else {
-                body->child_ids[i] = 0xFFFF;
+                this->child_ids[i] = 0xFFFF;
             }
         }
-        if (--body->state_timer <= 0 || cnt == 0) {
-            body->behavior_flags &= ~1;
-            body->reset_enemy_state();
+        if (--this->state_timer <= 0 || cnt == 0) {
+            this->behavior_flags &= ~1;
+            this->reset_enemy_state();
             return;
         }
         if (all == 1) {
-            for (s32 i = 0; i < body->child_count; i++) {
-                TObjEneBalClawClaw *claw2 = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
+            for (s32 i = 0; i < this->child_count; i++) {
+                TObjEneBalClawClaw *claw2 = (TObjEneBalClawClaw *)find_entity_by_id(this->child_ids[i]);
                 if (claw2 != NULL) {
                     claw2->attach();
-                    body->hp += ((TObjChara *)claw2)->get_actor_hp();
+                    this->hp += ((TObjChara *)claw2)->get_actor_hp();
                 }
             }
-            body->effects[1] = create_particle_emitter(&body->body_center, 0x12A);
-            body->effects[1]->enable();
-            body->requested_action = 0xB;
-            body->behavior_flags |= 0x04000000;
-            body->state = 2;
+            this->effects[1] = create_particle_emitter(&this->body_center, 0x12A);
+            this->effects[1]->enable();
+            this->requested_action = 0xB;
+            this->behavior_flags |= 0x04000000;
+            this->state = 2;
         }
         break;
     case 2:
-        body->effects[0]->set_position(&body->body_center);
-        body->advance_animation();
-        apply_actor_gravity(body, NULL, 0.0f);
-        if (body->frame < 9.0f) {
-            body->effects[1]->enable();
+        this->effects[0]->set_position(&this->body_center);
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        if (this->frame < 9.0f) {
+            this->effects[1]->enable();
         } else {
-            body->effects[1]->clear_active_flag();
-            body->effects[1]->set_position(&body->body_center);
+            this->effects[1]->clear_active_flag();
+            this->effects[1]->set_position(&this->body_center);
         }
-        if (body->requested_action != 0xB) {
-            body->effects[0]->queue_destruction();
-            body->effects[0] = NULL;
-            spawn_particle_effect(&body->body_center, 0x129);
-            body->set_form(1);
-            body->advance_animation();
-            body->behavior_flags &= ~0x04000000;
-            body->timer = 0x1E;
-            body->state = 3;
-            play_sound_effect(0x4003AD30, &body->position, 0, 0);
+        if (this->requested_action != 0xB) {
+            this->effects[0]->queue_destruction();
+            this->effects[0] = NULL;
+            spawn_particle_effect(&this->body_center, 0x129);
+            this->set_form(1);
+            this->advance_animation();
+            this->behavior_flags &= ~0x04000000;
+            this->timer = 0x1E;
+            this->state = 3;
+            play_sound_effect(0x4003AD30, &this->position, 0, 0);
         }
         break;
     case 3:
-        body->effects[1]->set_position(&body->body_center);
-        body->advance_animation();
-        apply_actor_gravity(body, NULL, 0.0f);
-        if (--body->timer <= 0) {
-            body->behavior_flags &= ~1;
-            body->reset_enemy_state();
+        this->effects[1]->set_position(&this->body_center);
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        if (--this->timer <= 0) {
+            this->behavior_flags &= ~1;
+            this->reset_enemy_state();
         }
         break;
     case -1:
-        if (body->behavior_flags & 0x04000000) {
-            body->set_form(1);
-            body->advance_animation();
+        if (this->behavior_flags & 0x04000000) {
+            this->set_form(1);
+            this->advance_animation();
         }
-        if (body->get_flag_0x388_b24() == 0) {
-            for (s32 i = 0; i < body->child_count; i++) {
-                claw = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
+        if (this->get_flag_0x388_b24() == 0) {
+            for (s32 i = 0; i < this->child_count; i++) {
+                claw = (TObjEneBalClawClaw *)find_entity_by_id(this->child_ids[i]);
                 if (claw != NULL) {
                     claw->clear_flag();
                 }
             }
         }
-        body->behavior_flags |= 0x20000;
-        if (body->effects[0] != NULL) {
-            body->effects[0]->queue_destruction();
-            body->effects[0] = NULL;
+        this->behavior_flags |= 0x20000;
+        if (this->effects[0] != NULL) {
+            this->effects[0]->queue_destruction();
+            this->effects[0] = NULL;
         }
-        if (body->effects[1] != NULL) {
-            body->effects[1]->queue_destruction();
-            body->effects[1] = NULL;
+        if (this->effects[1] != NULL) {
+            this->effects[1]->queue_destruction();
+            this->effects[1] = NULL;
         }
         break;
     }
 }
 
 void TObjEneBalClawBody::update_split() {
-    TObjEneBalClawBody *body = this;
-    switch (body->state) {
+    switch (this->state) {
     case -1:
         break;
     case 0:
-        if (body->get_flag_0x388_b24() == 0) {
-            body->reset_enemy_state();
+        if (this->get_flag_0x388_b24() == 0) {
+            this->reset_enemy_state();
             return;
         }
-        body->form_timer = 0;
-        body->set_form(0);
-        body->timer = 0x1E;
-        body->state = 1;
+        this->form_timer = 0;
+        this->set_form(0);
+        this->timer = 0x1E;
+        this->state = 1;
         return;
     case 1:
-        body->advance_animation();
-        apply_actor_gravity(body, NULL, 0.0f);
-        body->timer--;
-        if (body->timer <= 0) {
-            body->reset_enemy_state();
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        this->timer--;
+        if (this->timer <= 0) {
+            this->reset_enemy_state();
         }
         return;
     }
 }
 
 void TObjEneBalClawBody::calc_slot_offset_position(s32 slot, Vec *out, s32 *angle_out) {
-    TObjEneBalClawBody *self = this;
     s32 angle;
     push_matrix();
     angle = (s32)(182.04445f * (f32)(slot * 0x5A + 0x2D));
-    *angle_out = self->rotation_y + angle;
+    *angle_out = this->rotation_y + angle;
     out->x = 0.0f;
     out->y = 0.0f;
     out->z = 13.0f;
     set_matrix_identity(0);
     rotate_matrix_y(0, angle);
     matrix_mult_vec(0, out, out);
-    vec3_add_to(out, &self->position);
+    vec3_add_to(out, &this->position);
     pop_matrix();
 }
 
 s32 TObjEneBalClawBody::summon_claws() {
-    TObjEneBalClawBody *self = this;
     s32 i;
     TObjEneBalClawClaw *p;
     s32 j;
-    self->child_count = 0;
+    this->child_count = 0;
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
-            self->room == p->room && p->check_active() != 0) {
-            self->child_ids[self->child_count++] = p->get_entity_id();
-            if (self->child_count >= 4) {
+            this->room == p->room && p->check_active() != 0) {
+            this->child_ids[this->child_count++] = p->get_entity_id();
+            if (this->child_count >= 4) {
                 break;
             }
         }
     }
-    for (j = 0; j < self->child_count; j++) {
-        TObjEneBalClawClaw *claw = static_cast<TObjEneBalClawClaw *>(find_entity_by_id(self->child_ids[j]));
-        claw->join_body(self->entity_id);
+    for (j = 0; j < this->child_count; j++) {
+        TObjEneBalClawClaw *claw = static_cast<TObjEneBalClawClaw *>(find_entity_by_id(this->child_ids[j]));
+        claw->join_body(this->entity_id);
     }
-    return self->child_count;
+    return this->child_count;
 }
 
 void TObjEneBalClawBody::update_retreat() {
-    TObjEneBalClawBody *self = this;
-    switch (self->state) {
+    switch (this->state) {
     case -1:
         break;
     case 0: {
-        self->actorFlags &= ~0x100;
-        self->requested_action = self->get_flag_0x388_b24() != 0 ? 1 : 6;
-        Vec d = self->body_center;
-        subtract_vector(&d, &((TObjChara *)self->target)->body_center);
-        self->pick_open_direction((f32 *)&d, 60.0f, 30.0f);
-        self->state = 1;
+        this->actorFlags &= ~0x100;
+        this->requested_action = this->get_flag_0x388_b24() != 0 ? 1 : 6;
+        Vec d = this->body_center;
+        subtract_vector(&d, &((TObjChara *)this->target)->body_center);
+        this->pick_open_direction((f32 *)&d, 60.0f, 30.0f);
+        this->state = 1;
         break;
     }
     case 1: {
-        if (self->target == NULL) {
+        if (this->target == NULL) {
             reset_enemy_state();
             break;
         }
         if (this->is_actor_cadence_frame(0x5A) != 0) {
-            Vec d2 = self->body_center;
-            subtract_vector(&d2, &((TObjChara *)self->target)->body_center);
-            self->pick_open_direction((f32 *)&d2, 60.0f, 30.0f);
+            Vec d2 = this->body_center;
+            subtract_vector(&d2, &((TObjChara *)this->target)->body_center);
+            this->pick_open_direction((f32 *)&d2, 60.0f, 30.0f);
         }
-        VecCopy(&self->move_origin, &self->body_center);
-        calc_velocity_toward_destination(self, self->move_origin, self->move_destination, ((EnemyMoveParams *)self->movementParameters)->min_distance);
-        self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, &self->velocity);
-        Vec v = self->body_center;
-        v.x += self->velocity.x;
-        v.z += self->velocity.z;
-        if (check_path_obstructed(self, &v) == 0) {
-            move_with_wall_slide(self);
+        VecCopy(&this->move_origin, &this->body_center);
+        calc_velocity_toward_destination(this, this->move_origin, this->move_destination, ((EnemyMoveParams *)this->movementParameters)->min_distance);
+        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        Vec v = this->body_center;
+        v.x += this->velocity.x;
+        v.z += this->velocity.z;
+        if (check_path_obstructed(this, &v) == 0) {
+            move_with_wall_slide(this);
         }
-        self->advance_animation();
-        apply_actor_gravity(self, NULL, 0.0f);
-        self->update_collisions();
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
+        this->update_collisions();
         break;
     }
     }
 }
 
 void TObjEneBalClawBody::update_return_home() {
-    TObjEneBalClawBody *self = this;
     s16 mode;
-    switch (self->state) {
+    switch (this->state) {
     case 0:
-        self->actorFlags &= 0xFFFBFEFF;
+        this->actorFlags &= 0xFFFBFEFF;
         mode = 6;
-        if (self->behavior_flags & 0x01000000) {
+        if (this->behavior_flags & 0x01000000) {
             mode = 1;
         }
-        self->requested_action = mode;
-        self->state = 1;
-        VecCopy(&self->move_destination, (const Vec *)&self->home_position);
+        this->requested_action = mode;
+        this->state = 1;
+        VecCopy(&this->move_destination, (const Vec *)&this->home_position);
         break;
     case 1: {
-        self->velocity.y = 0.0f;
-        VecCopy(&self->move_origin, &self->body_center);
-        calc_velocity_toward_destination(self, self->move_origin, self->move_destination, ((EnemyMoveParams *)self->movementParameters)->min_distance);
-        self->turn_toward_direction(((EnemyMoveParams *)self->movementParameters)->turn_speed, &self->velocity);
-        Vec v = self->body_center;
-        v.x += self->velocity.x;
-        v.z += self->velocity.z;
-        if (check_path_obstructed(self, &v) == 0) {
-            move_with_wall_slide(self);
+        this->velocity.y = 0.0f;
+        VecCopy(&this->move_origin, &this->body_center);
+        calc_velocity_toward_destination(this, this->move_origin, this->move_destination, ((EnemyMoveParams *)this->movementParameters)->min_distance);
+        this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed, &this->velocity);
+        Vec v = this->body_center;
+        v.x += this->velocity.x;
+        v.z += this->velocity.z;
+        if (check_path_obstructed(this, &v) == 0) {
+            move_with_wall_slide(this);
         }
-        if (xz_distance_squared(&self->position, &self->home_position) < 100.0f) {
-            self->reset_enemy_state();
+        if (xz_distance_squared(&this->position, &this->home_position) < 100.0f) {
+            this->reset_enemy_state();
         }
-        self->advance_animation();
-        apply_actor_gravity(self, NULL, 0.0f);
+        this->advance_animation();
+        apply_actor_gravity(this, NULL, 0.0f);
         break;
     }
     case -1:

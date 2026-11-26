@@ -10,6 +10,9 @@ symbol starts inside it, and it is shorter than the alignment of the address
 it ends on (at least 8). Splitting a unit off at an aligned address leaves
 such a gap outside every unit. The same padding passes when it was exact or
 linked before (a hand-written table that spelled the pad out as a zero entry).
+The same rule runs the other way: alignment padding that joins coverage (a TU
+merge whose object now emits the pad between two of its own parts) offsets
+total_data. Any other new coverage still has to be reconciled explicitly.
 """
 from __future__ import annotations
 
@@ -211,6 +214,11 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
     data_regressions = [row for row in data_regressions if row not in exact_padding]
     linked_data_lost = [row for row in linked_data_lost if row not in linked_padding]
     data_coverage_gained = lost_data_ranges(after, before, exact_only=False)
+    if data_coverage_gained:
+        read = read if read is not None else dol_reader()
+        starts = starts if starts is not None else symbol_starts()
+    padding_gained = [row for row in data_coverage_gained if is_alignment_padding(row, read, starts)]
+    data_coverage_gained = [row for row in data_coverage_gained if row not in padding_gained]
     linked_data_gained = lost_data_ranges(after, before, exact_only=False, complete_only=True)
     if data_regressions:
         failures.append('Previously exact data ranges regressed or disappeared')
@@ -226,7 +234,8 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
         failures.append("Previously linked data ranges are no longer selected from source")
     # Padding that passed above leaves the byte totals it was counted in.
     padding_bytes = {
-        'total_data': sum(row["size"] for row in padding_lost),
+        'total_data': sum(row["size"] for row in padding_lost)
+                      - sum(row["size"] for row in padding_gained),
         'matched_data': sum(row["size"] for row in exact_padding),
         'complete_data': sum(row["size"] for row in linked_padding),
     }
@@ -249,6 +258,7 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
         "data_coverage_lost": data_coverage_lost,
         "padding_coverage_lost": padding_lost,
         "data_coverage_gained": data_coverage_gained,
+        "padding_coverage_gained": padding_gained,
         "linked_functions_lost": rows(old_linked.keys() - new_linked.keys(), old_linked),
         "linked_functions_gained": rows(new_linked.keys() - old_linked.keys(), new_linked),
         "linked_data_lost": linked_data_lost,
@@ -296,6 +306,7 @@ def main() -> int:
             print(f"  data: {row['module']} {row['section']} {row['address']} +{row['size']} bytes")
         for key, label in (('data_coverage_lost', 'lost coverage'),
                            ('padding_coverage_lost', 'padding left coverage'),
+                           ('padding_coverage_gained', 'padding joined coverage'),
                            ('data_coverage_gained', 'new coverage'),
                            ('linked_data_lost', 'lost linked data')):
             for row in delta[key]:

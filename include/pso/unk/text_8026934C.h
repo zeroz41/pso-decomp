@@ -4,6 +4,6 @@
 #include "types.h"
 
 struct TWindowMeseta;
-extern "C" TWindowMeseta *create_meseta_window(s32 client);
+TWindowMeseta *create_meseta_window(s32 client);
 
 #endif

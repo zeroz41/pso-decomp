@@ -25,7 +25,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include <stddef.h>
-#include "pso/unk/text_802F0E24.h"
+#include "pso/boss/barbaray/Boss7CommonResource.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"

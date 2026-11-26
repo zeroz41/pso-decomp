@@ -3,6 +3,60 @@
 
 #include "types.h"
 #include "pso/system/ModelDrawCallback.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+// One vertex of the chunk vertex cache: transformed position and normal, then
+// the vertex colour and a pad word to 32 bytes.
+struct ChunkCachedVertex {
+    Vec pos;
+    Vec normal;
+    u32 color;
+    u32 pad;
+};
+LAYOUT_ASSERT(ChunkCachedVertex_size, sizeof(ChunkCachedVertex) == 0x20);
+
+// One recorded chunk vertex cache: the transformed vertices of one model draw.
+struct ChunkCacheBuffer {
+    void *vertices;
+    s32 bytes;
+};
+struct ChunkCacheRecording {
+    ChunkCacheBuffer buffers[32];
+    s32 index;
+};
+
+// The current 3x4 matrix as the weighted-vertex transform stores it, in
+// paired-single order.
+struct ChunkPairedMatrix {
+    f32 m00, m10;
+    f32 m20, m01;
+    f32 m11, m21;
+    f32 m02, m12;
+    f32 m22, m03;
+    f32 m13, m23;
+};
+LAYOUT_ASSERT(ChunkPairedMatrix_size, sizeof(ChunkPairedMatrix) == 0x30);
+
+// A chunk vertex stream entry: position then normal, untransformed.
+struct ChunkVertexPosNormal {
+    Vec pos;
+    Vec normal;
+};
+LAYOUT_ASSERT(ChunkVertexPosNormal_size, sizeof(ChunkVertexPosNormal) == 0x18);
+
+struct WeightedChunkVertex {
+    ChunkVertexPosNormal vertex;
+    s16 weight;
+    u16 index;
+};
+LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
+
+// NJD_CV_VN_D8 records: position, normal and a diffuse colour.
+struct ChunkVertexNormalColor {
+    Vec pos;
+    Vec normal;
+    f32 color;
+};
 
 struct NJS_OBJECT;
 struct NJS_MOTION;
@@ -54,6 +108,26 @@ void clear_motion_packed_rotation();
 void traverse_animated_node_tree(NJS_OBJECT *node);
 
 // ShapeMotionDraw.cpp: shape motions (per-node vertex and normal keys).
+// The state a shape motion is sampled with: the first part of a
+// MotionContext, without the samplers. Each node's row of NJS_MOTION::mdata
+// holds vertex and normal shape keys (NJS_MKEY_P) and their counts.
+struct ShapeMotionContext {
+    u8 *row;
+    s32 key_list_size;  // bytes of the row's key pointers
+    s32 row_size;       // bytes of a whole row
+    void **keys;
+    u32 *key_counts;
+    f32 frame;
+    u32 frame_count;  // NJS_MOTION::nbFrame
+    s32 channel;      // the row's next channel
+    u32 type;         // NJS_MOTION::type (NJD_MTYPE_*)
+};
+
+LAYOUT_ASSERT(ShapeMotionContext_size, sizeof(ShapeMotionContext) == 0x24);
+
+extern ShapeMotionContext *current_shape_motion_context;
+extern ShapeMotionContext shape_motion_contexts[2];
+
 // Bits of the current chunk draw (set_chunk_render_flags, and the strip marks
 // set_chunk_blend_depth_mode leaves).
 extern u32 chunk_render_flags;

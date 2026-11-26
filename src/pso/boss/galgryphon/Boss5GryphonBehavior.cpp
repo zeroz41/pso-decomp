@@ -92,7 +92,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/GinjaTextureMatrices.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 // TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
@@ -415,7 +414,7 @@ void TBoss5Gryphon::clear_harmful_statuses() {  }
 
 void TBoss5Gryphon::apply_shock_status() {  }
 
-void TBoss5Gryphon::apply_movement_ailment(s32) {  }
+void TBoss5Gryphon::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss5Gryphon::apply_confusion_status() {  }
 
@@ -427,11 +426,8 @@ void TBoss5Gryphon::apply_poison_status() {  }
 
 TBoss5Gryphon *TBoss5Gryphon::get_instance() { return boss5_gryphon_instance; }
 
-extern "C" {
 const Vec *get_arena_center(void) {
     return &boss5_gryphon_arena_center;
-}
-
 }
 void get_gryphon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
     if (boss5_gryphon_instance == NULL) {
@@ -535,7 +531,6 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     u32 flags[4];
     s32 i;
 
-    __ct__14SubtractiveRngFv(this->rng);
     this->m_name = boss5_gryphon_type_name_pointer;
     if (boss5_gryphon_instance == NULL) {
         boss5_gryphon_instance = this;
@@ -2582,7 +2577,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
         pop_matrix();
         this->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &left, this->rotation_y);
         this->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &right, this->rotation_y);
-        subtractive_rng_seed(this->rng, this->motion->args.seed);
+        subtractive_rng_seed(&this->rng, this->motion->args.seed);
         break;
     case ENEMY_STATE_UPDATE:
         this->advance_animation();
@@ -2592,7 +2587,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
             apply_lightning_hit(this, &this->position, gryphon_sixty);
         }
         if (boss5_gryphon_behavior_params[2]->attack.action_level >= 4 && this->lightning.frame % 20 == 0) {
-            this->fire_horn_lightning((this->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio());
+            this->fire_horn_lightning((this->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * this->rng.next_ratio());
         }
         this->spawn_ancient_trap(0x40032D11);
         this->lightning.frame++;
@@ -2709,7 +2704,7 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         this->set_offscreen_height();
         this->flags |= 4;
         this->play_se(0x4003A818);
-        subtractive_rng_seed(this->rng, this->motion->args.seed);
+        subtractive_rng_seed(&this->rng, this->motion->args.seed);
         this->rotation_x = 0x4000;
         this->dive.frame = 0;
         this->dive.frame_limit = (f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
@@ -2741,10 +2736,10 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
                 this->dive.step = 1;
             }
             found = 0;
-            ang = 65536.0f * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio();
-            r = (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio();
-            if ((reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio() > 0.5f) {
-                pl = get_player_by_client_id((u16)((s32)(gryphon_four * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio())));
+            ang = 65536.0f * this->rng.next_ratio();
+            r = this->rng.next_ratio();
+            if (this->rng.next_ratio() > 0.5f) {
+                pl = get_player_by_client_id((u16)((s32)(gryphon_four * this->rng.next_ratio())));
                 if (pl->is_alive() != 0) {
                     CsnHit *hit;
                     r *= gryphon_fifty;
@@ -3718,9 +3713,9 @@ void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     s32 ang;
     CsnHit *hit;
 
-    r = (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio();
+    r = this->rng.next_ratio();
     r = 100.0f * r + 100.0f;
-    ang = (s32)(45056.0f * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio() + (f32)this->rotation_y);
+    ang = (s32)(45056.0f * this->rng.next_ratio() + (f32)this->rotation_y);
     if (left != 0) {
         if (this->lightning.horns[0] == NULL) return;
         this->lightning.horns[0]->get_start_position(&pos);

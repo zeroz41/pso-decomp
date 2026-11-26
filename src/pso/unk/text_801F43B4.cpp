@@ -1,7 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include <string.h>
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/ui/TLevelSelect.h"
@@ -10,8 +10,6 @@
 #include "pso/camera/TCameraCtrl.h"
 
 u8 quest_story_flags_by_difficulty[4][128];
-
-extern "C" {
 
 void copy_card_window_data(void) {
     uaddr character_save_record;
@@ -43,7 +41,6 @@ s32 TLevelSelect::get_difficulty_flag_bit(s32 n, s32 flag) {
         return (quest_story_flags_by_difficulty[n][byteIdx] & (1 << shift)) >> shift;
     }
     return quest_story_flags_by_difficulty[n][byteIdx - 1] & 1;
-}
 }
 
 s32 get_story_flag(s32 flag) {

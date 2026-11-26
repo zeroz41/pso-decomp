@@ -16,10 +16,8 @@ struct WindowLayoutEntries {
 LAYOUT_ASSERT(WindowEntriesSize, sizeof(WindowLayoutEntries) == 8);
 LAYOUT_ASSERT(WindowEntriesItemsOffset, offsetof(WindowLayoutEntries, items) == 4);
 
-extern "C" {
 void draw_visible_window_entries(const void *window, const WindowLayoutEntries *entries, WindowDrawContext *context);
 // Populate the entry list from the dimensions and packed part descriptors.
 void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout, s32 client);
-}
 
 #endif

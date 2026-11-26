@@ -1,38 +1,51 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/frontend/TAdTitleGC.h"
 #include "types.h"
+#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdDialingGC.h"
+#include "pso/network/TLobby.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/network/PppApi.h"
-#include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdDialingGC.h"
+#include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdDialingGC_80328B20.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
+#include "pso/unk/text_80145A94.h"
 
-struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
+void TAdDialingGC::open() {
+    TAdDialingGC::instance = NULL;
+    TLobby__sub_802A0F70();
+    TLobby__sub_802A5154();
+}
+
+void TAdDialingGC::close() {
+    TLobby::free_dialing_gc();
+    TLobby::free_dialog_global();
+    TAdDialingGC::instance = NULL;
+}
+
+void TAdDialingGC::create() {
+    if (TAdDialingGC::instance == NULL) {
+        new TAdDialingGC(tl_window);
+    }
+}
 
 TAdDialingGC *TAdDialingGC::instance;
 extern "C" {
 s8 func_801A5E54__Fv();
-}
-
-struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
-
-
-extern "C" {
 BOOL fn_80145A44(char *dst);
 }
 
@@ -43,7 +56,7 @@ extern const char *TAdDialingGC__name;
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC__name);
     TAdDialingGC::instance = this;
-    if (TLobby::is_state_active() != 0) {
+    if (is_state_active() != 0) {
         this->dial_mode = 1;
     } else if (TLobby__sub_8014618C() == 1) {
         this->dial_mode = 2;
@@ -86,7 +99,6 @@ void TAdDialingGC::render() {
     draw_if_flag_set();
     update();
 }
-
 
 __declspec(section ".rodata") extern const NJS_POINT2 dialing_top_rect_position[] = { 0, 28.0f };
 __declspec(section ".rodata") extern const NJS_POINT2 dialing_top_rect_size[] = { 640.0f, 84.0f };
@@ -139,7 +151,7 @@ void TAdDialingGC::draw_dialing_status() {
     if (fn_80145A44(a) == 0) {
         a[0] = 0;
     }
-    sprintf(b, dialing_message_format, a, TLobby::get_dialing_phone_number());
+    sprintf(b, dialing_message_format, a, get_dialing_phone_number());
     sprintf(c, (char *)get_connection_message_text(1), b);
     draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
 }
@@ -246,8 +258,8 @@ void TAdDialingGC::update_status_message() {
     }
 }
 
-void TAdDialingGC::update_dialing_display(int _w0) {
-    draw_menu_font_string_white((const char *)get_connection_message_text(_w0), 23.0f, 331.0f);
+void TAdDialingGC::update_dialing_display(int id) {
+    draw_menu_font_string_white((const char *)get_connection_message_text(id), 23.0f, 331.0f);
 }
 
 void TAdDialingGC::update() {
@@ -487,4 +499,3 @@ block_12:
         break;
     }
 }
-

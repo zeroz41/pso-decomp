@@ -13,12 +13,13 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     void update_slot_display_flags();
     s32 get_slot_flag(s8 slot);
     int is_shortcut_active();
+    void sub_8027D1E8();
     void sub_8027D230();
     int is_open();
     int is_cancelled();
     u8 get_page_index();
     virtual void render();
-    u8 state_flags;
+    s8 state_flags;
     s8 slot;
     u8 _pad62[0x2];
     TWindowSubStatusDisp *status_disp;
@@ -32,5 +33,8 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
 LAYOUT_ASSERT(TWindowSubQuestBoardSelect_size, sizeof(TWindowSubQuestBoardSelect) == 0x68);
 
 extern "C" {
+void TWindowCtrl__sub_8027D1F8(void);
+void TWindowCtrl__sub_8027D214(void);
 }
+
 #endif

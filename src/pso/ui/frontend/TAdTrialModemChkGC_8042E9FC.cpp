@@ -79,8 +79,6 @@ void get_isao_trial_params(const char **number, const char **domain, const char 
     pages[11] = "file:/isao/case11/menu.htm";
 }
 
-extern "C" {
-
 #pragma push
 #pragma optimize_for_size off
 s32 set_shared_memory_data(u8 *src, u32 size) {
@@ -176,17 +174,19 @@ s32 set_disc_error_message(s32 index, const char *message) {
     return ret;
 }
 #pragma pop
+extern "C" {
 
 s32 EXIGetType(int, int, void *);
+}
 u32 lbl_805D7CC8;
 
 s32 get_network_adapter_type(s32 *out_type) {
     s32 adapter_type;
-    if ((u32) lbl_805D7CC8 == 2U) {
+    if (lbl_805D7CC8 == 2U) {
         *out_type = 2;
         goto block_18;
     }
-    if ((u32) lbl_805D7CC8 == 5U) {
+    if (lbl_805D7CC8 == 5U) {
         *out_type = 5;
         goto block_18;
     }
@@ -218,6 +218,7 @@ block_18:
     return 0;
 }
 
+
 s32 fn_8042EF48(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
@@ -225,7 +226,6 @@ s32 fn_8042EF48(s8 value) {
     shared_memory_disc_messages->unk_000 = value;
     shared_memory_block->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
-}
 }
 
 s32 set_modem_check_param_360(s8 value) {

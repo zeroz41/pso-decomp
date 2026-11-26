@@ -2,15 +2,14 @@
 #include "pso/audio/AdxError.h"
 #include "pso/audio/AdxLock.h"
 #include <dolphin/os/OSThread.h>
-#include "pso/unk/text_803D2F1C.h"
+#include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/AdxHeader.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxDecode4.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
-#include "pso/unk/TLobby_803BFE50.h"
-#include "pso/unk/TLobby_803CBF50.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/audio/GcrnaBridgeReady.h"
 #include "pso/audio/GcrnaBridgeTeardown.h"
 #include "pso/network/TLobby.h"
@@ -132,7 +131,7 @@ inline void inl_803C9608(void) {
             }
         }
         lbl_805D7564 = 3;
-        TLobby::run_sequence();
+        gcrna_bridge_update_streams();
         lbl_805D7564 = 0;
         adx_unlock();
     }
@@ -207,7 +206,7 @@ void TLobby__sub_803C9608(void) {
             }
         }
         lbl_805D7564 = 3;
-        TLobby::run_sequence();
+        gcrna_bridge_update_streams();
         lbl_805D7564 = 0;
         adx_unlock();
     }
@@ -367,7 +366,7 @@ void stop_audio_stream(AdxtPlayer *player) {
         }
     }
     adx_lock();
-    TLobby::dispatch_packet(player->rna_handle, 0);
+    gcrna_bridge_set_trans_sw(player->rna_handle, 0);
     TLobby__sub_803CC030(player->rna_handle, 0);
     player->input_state->reset_flag();
     if ((s32)player->source_type == 2) {
@@ -385,7 +384,7 @@ void stop_audio_stream(AdxtPlayer *player) {
 
 void TLobby__sub_803C9DB4(AdxtPlayer *player) {
     adx_lock();
-    TLobby::dispatch_packet(player->rna_handle, 0);
+    gcrna_bridge_set_trans_sw(player->rna_handle, 0);
     TLobby__sub_803CC030(player->rna_handle, 0);
     player->input_state->reset_flag();
     if ((s32)player->source_type == 2) {
@@ -417,7 +416,7 @@ void TLobby__sub_803C9E38(AdxtPlayer *player, SjRingBuffer *sj) {
         }
     }
     adx_lock();
-    TLobby::dispatch_packet(player->rna_handle, 0);
+    gcrna_bridge_set_trans_sw(player->rna_handle, 0);
     TLobby__sub_803CC030(player->rna_handle, 0);
     player->input_state->reset_flag();
     if ((s32)player->source_type == 2) {
@@ -515,7 +514,7 @@ void adx_destroy_stream_player(AdxtPlayer *player) {
             }
         }
         adx_lock();
-        TLobby::dispatch_packet(player->rna_handle, 0);
+        gcrna_bridge_set_trans_sw(player->rna_handle, 0);
         TLobby__sub_803CC030(player->rna_handle, 0);
         player->input_state->reset_flag();
         if ((s32)player->source_type == 2) {
@@ -604,7 +603,7 @@ AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size) {
         adx_destroy_stream_player(c);
         return NULL;
     }
-    if ((c->rna_handle = TLobby::run_step_5210(c->output_rings, n)) == NULL) {
+    if ((c->rna_handle = gcrna_bridge_create(c->output_rings, n)) == NULL) {
         adx_destroy_stream_player(c);
         return NULL;
     }

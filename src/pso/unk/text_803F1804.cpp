@@ -8,6 +8,7 @@ uaddr si_polling_callback;
 s32 key_board_control_polling_channel_mask;
 void OSClearContext(void *);
 void OSSetCurrentContext(void *);
+}
 
 void call_si_polling_callback(s32 arg0, void *arg1) {
     u8 ctx[0x2C8];
@@ -30,6 +31,4 @@ uaddr set_si_polling_callback(uaddr arg0) {
         SIUnregisterPollingHandler((void *) (((s32 *)call_si_polling_callback)));
     }
     return temp_r31;
-}
-
 }

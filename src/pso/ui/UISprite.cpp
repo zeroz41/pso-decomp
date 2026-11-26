@@ -374,7 +374,7 @@ NJS_POINT3COL creation_ruler_line_desc = { creation_ruler_line_verts, creation_r
 s32 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
     NJS_TEXANIM *cells;
     resolve_creation_sprite_table(&cells, &sprite_id);
-    return (s16)(cells[sprite_id].sx);
+    return cells[sprite_id].sx;
 }
 
 f32 ui_sprite_scale = 1.0f;

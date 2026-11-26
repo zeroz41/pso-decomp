@@ -79,7 +79,6 @@ struct NJS_OBJECT;
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/player/PlayerSlots.h"
 #include "types.h"
 
@@ -177,8 +176,10 @@ BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", boss
 // (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
 s32 boss1_dragon_base_param_ids[1] = {0x12};
 s32 boss1_dragon_register_object_ids[1] = {0x12};
+}
 const char *TBoss1Dragon::name = "TBoss1Dragon";
 extern const DragonAttackParams TBoss1Dragon::foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
+extern "C" {
 extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f, {100.0f, 1}};
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, {10.0f, 1}};
 extern const DragonAttackParams dragon_fireball_impact_damage_params = {1, 10.0f, 30.0f, {10.0f, 1}};
@@ -376,7 +377,7 @@ void TBoss1Dragon::clear_harmful_statuses() {  }
 
 void TBoss1Dragon::apply_shock_status() {  }
 
-void TBoss1Dragon::apply_movement_ailment(s32) {  }
+void TBoss1Dragon::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss1Dragon::apply_confusion_status() {  }
 
@@ -675,7 +676,6 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     s32 i;
     s32 j;
 
-    __ct__14SubtractiveRngFv(this->randomState);
     this->m_name = TBoss1Dragon::name;
     if ((u32)boss1_dragon_main_instance == 0U) {
         boss1_dragon_main_instance = (saddr)this;
@@ -2922,7 +2922,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         s32 low = (s32)((100.0f) * this->savedZ);
         seed *= 0x10000UL;
         seed |= (u32)low & 0xFFFFUL;
-        subtractive_rng_seed(this->randomState, seed);
+        subtractive_rng_seed(&this->randomState, seed);
         break;
     }
     case 6:
@@ -2977,18 +2977,18 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                     if (((TObjBase *)player)->is_alive() != 0) {
                         VecCopy(&position, &player->position);
                         position.x += (100.0f) *
-                            ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                            (this->randomState.next_ratio() - (0.5f));
                         position.z += (100.0f) *
-                            ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                            (this->randomState.next_ratio() - (0.5f));
                         found = 1;
                     }
                 }
                 if (found == 0) {
                     position.x = 700.0f *
-                        ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                        (this->randomState.next_ratio() - (0.5f));
                     position.y = (0.0f);
                     position.z = 700.0f *
-                        ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                        (this->randomState.next_ratio() - (0.5f));
                 }
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &position);
             }

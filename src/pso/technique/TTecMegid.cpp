@@ -259,8 +259,8 @@ void TTecMegid::run_task() {
         queue_destruction();
         return;
     }
-    for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[band].count; i++) {
-        if (((Data_80235740 *)TTecMegid__emitter_bands)[band].rows[i].flags & 4) {
+    for (i = 0; i < TTecMegid__emitter_bands[band].count; i++) {
+        if (TTecMegid__emitter_bands[band].rows[i].flags & 4) {
             Vec off = tec_megid_offset_vec;
             Vec p;
             push_matrix_from(identity_matrix);

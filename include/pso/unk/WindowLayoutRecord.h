@@ -37,9 +37,9 @@ LAYOUT_ASSERT(LayoutEntryCopyRecord_size, sizeof(LayoutEntryCopyRecord) == 0x2C)
 struct TextLayoutRecord {
     s32 type;
     f32 pos[2];
-    f32 pad_0C;
-    u32 pad_10;
-    s32 pad_14;
+    f32 depth;
+    u32 color;
+    s32 flags;
     const char *text;
 };
 
@@ -93,8 +93,8 @@ struct TypeLayoutRecord {
     s32 type;
 };
 
-// Types 10 and 11 (0xC bytes), read by TWindowHelpItem__sub_8025A95C and
-// TWindowHelpItem__sub_8025A594.
+// Types 10 and 11 (0xC bytes), read by the HelpItemRarityStarRow and HelpItemStatCompareRow
+// constructors.
 struct PointLayoutRecord {
     s32 type;
     f32 pos[2];

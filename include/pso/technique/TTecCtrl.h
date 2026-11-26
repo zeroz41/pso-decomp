@@ -41,4 +41,6 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl);
 // Copies the lock-on cursor's targets for technique `kind` into owner's technique data.
 void capture_technique_targets(int kind, TObjPlayer *owner);
 
+void load_technique_resources(void);
+
 #endif

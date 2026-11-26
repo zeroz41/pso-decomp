@@ -19,6 +19,6 @@ struct TObjAreaWarp : public TObjWarpBase {
 };
 LAYOUT_ASSERT(TObjAreaWarp_size, sizeof(TObjAreaWarp) == 0xC4);
 
-extern "C" TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range);
+TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range);
 
 #endif

@@ -67,7 +67,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual void apply_paralysis();
     virtual void apply_slow_status();
     virtual void apply_confusion_status();
-    virtual void apply_movement_ailment(s32);
+    virtual void apply_movement_ailment(CollisionBody *);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
     virtual void run_miss_reaction();
@@ -216,9 +216,9 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 };
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
-extern "C" {
 void derolle_capture_node_points(NJS_OBJECT *);
 void derolle_begin_node_capture(TBoss2DeRolLe *boss);
+extern "C" {
 void handle_6x13_de_rol_le_boss_actions(DeRolLeActionPacket *packet);
 void handle_6x14_de_rol_le_boss_actions_with_target(DeRolLeActionTargetPacket *packet);
 s32 play_sound(s32 id, Vec *position);

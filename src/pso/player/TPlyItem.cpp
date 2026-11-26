@@ -1,12 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/save/CardFileInfo.h"
+#include "pso/item/item_create.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
 #include <string.h>
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/memory.h"
@@ -71,7 +72,6 @@ struct InventorySortBuffer {
 };
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
-s32 item_identity_matches(u8 *item, u8 *other);
 }
 s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
@@ -444,7 +444,7 @@ s32 TPlyItem::use_item(TObjPlayer *player, s32 key, s32 amount) {
     TItemList *node;
 
     if (key == -1) {
-        try_spend_actor_meseta(player, amount);
+        player->try_spend_actor_meseta(amount);
         return 1;
     }
     node = start_inventory_update(key);

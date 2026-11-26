@@ -55,13 +55,4 @@ void clear_equipped_flag(void *item);
 int is_unit_item_data(void *entry);
 }
 
-// --- C functions defined in TAdSinglePlyChrSelectGC_80202A68.cpp ---
-extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file);
-void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1);
-void clear_equipped_flag(void *item);
-int is_unit_item_data(void *entry);
-}
-// --- end of C functions
-
 #endif

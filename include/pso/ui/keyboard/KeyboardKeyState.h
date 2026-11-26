@@ -2,6 +2,7 @@
 #define PSO_UI_KEYBOARD_KEYBOARDKEYSTATE_H
 
 #include "types.h"
+#include "pso/system/ControllerInput.h"
 
 // The state of the hardware keyboard: the port it was last read from, the raw key codes of the current report,
 // the keys waiting to be handled, one pressed bit per key code and the auto-repeat timers.
@@ -54,4 +55,10 @@ struct KeyboardKeyState {
 LAYOUT_ASSERT(KeyboardKeyState_size, sizeof(KeyboardKeyState) == 0xB0);
 extern KeyboardKeyState hardware_keyboard_state;
 
+
+struct TKeyBoardControl;
+extern "C" {
+void TKeyBoardControl__sub_80131F5C(void);
+void TKeyBoardControl__sub_80131F60(void);
+}
 #endif

@@ -12,6 +12,8 @@ class TWindowLayoutNumber;
 struct TWindowInputNumber : public TWindowBase {
     s32 is_locked(s32);
     s32 test_input_flag(s32 buttons);
+    void set_flag_40();
+    void clear_flag_40();
     void refresh_digit_entries();
     void align_digits();
     void draw_arrows(WindowDrawContext *context, TWindowLayoutNumber *digit, int confirmed);
@@ -34,7 +36,7 @@ struct TWindowInputNumber : public TWindowBase {
     void update_value();
     void handle_decrement();
     void move_cursor_next();
-    void set_value(f32 farg0);
+    void set_value(f32 value);
     int is_confirmed();
     int is_cancelled();
     s32 get_value();

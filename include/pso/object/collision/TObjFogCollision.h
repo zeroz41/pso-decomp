@@ -7,7 +7,7 @@
 struct TObjFogCollision : public TObjBase {
     TObjFogCollision(TObject *parent, void *set);
     virtual ~TObjFogCollision();
-    virtual void init_params(s32);
+    virtual void init_params();
     virtual void draw_debug_text();
     virtual void draw_volume();
     virtual void render();

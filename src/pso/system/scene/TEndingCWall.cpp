@@ -12,7 +12,7 @@
 #include "pso/system/scene/TEndingC_8008D00C.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/system/scene/TEndingPic.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"

@@ -16,7 +16,9 @@ u8 default_setting_0A(void *rules);
 u8 default_setting_09(void *rules);
 u8 default_setting_08(void *rules);
 u8 default_setting_07(void *rules);
+}
 u8 default_setting_06(void *rules);
+extern "C" {
 u8 default_setting_05(void *rules);
 u8 default_setting_04(void *rules);
 u8 default_setting_03(void *rules);

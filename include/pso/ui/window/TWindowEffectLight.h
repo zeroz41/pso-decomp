@@ -7,7 +7,7 @@
 
 class TWindowEffectLight : public TObject {
 public:
-    TWindowEffectLight(void *position, s16 arg2, u32 id);
+    TWindowEffectLight(void *position, s16 kind, u32 id);
     virtual ~TWindowEffectLight();
     void sub_802AD040(f32);
     void draw_outline_quad(s32);
@@ -31,7 +31,7 @@ LAYOUT_ASSERT(TWindowEffectLight_age_offset, offsetof(TWindowEffectLight, age) =
 LAYOUT_ASSERT(TWindowEffectLight_player_offset, offsetof(TWindowEffectLight, player_id) == 0x28);
 
 extern "C" {
-u8 *__ct__18TWindowEffectLightFPvsUl(u8 *self, void *arg1, s16 arg2, u32 id);
+u8 *__ct__18TWindowEffectLightFPvsUl(u8 *self, void *position, s16 kind, u32 id);
 }
 
 #endif

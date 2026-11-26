@@ -62,7 +62,7 @@ extern "C" s32 set_story_flag_or_send_quest_flag(u32 flag);
 
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
-void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
+void TOMonumentAncient02::apply_saved_state(s16 *state, s32) {
     object_state = *state;
     switch (object_state) {
     case 2:

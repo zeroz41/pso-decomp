@@ -1,16 +1,16 @@
+#include "types.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/unk/TQuestManager.h"
-#include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
@@ -21,6 +21,27 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowTextEntry.h"
+
+void TWindowSubQuestBoardSelect::sub_8027D1E8() {
+    state_flags &= ~1;
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8027D1F8(void) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags &= ~0x10;
+    }
+}
+
+void TWindowCtrl__sub_8027D214(void) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags |= 0x10;
+    }
+}
+
+}
 
 #pragma push
 #pragma readonly_strings on
@@ -66,12 +87,12 @@ extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *str;
-    u8 *entry_1;
+    WindowTextEntry *entry_1;
     str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
-    entry_1 = (u8 *)(this->get_array_entry(1));
+    entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     set_text_entry_string(entry_1, (uaddr)str, 0);
     measure_message_text_width(entry_1, 100000.0f);
-    *(f32 *)((s8 *)entry_1 + 8) = (f32) (385.0f - *(f32 *)((s8 *)entry_1 + 0x10));
+    entry_1->x = (f32) (385.0f - entry_1->width);
 }
 
 
@@ -105,13 +126,13 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
     } while (i < 6);
     entry_1 = static_cast<WindowTextEntry *>(get_array_entry(1));
     if (no_slot_open != 0) {
-        *(s8 *)&this->slot = -1;
+        slot = -1;
         entry_1->flags |= 2;
-        this->state_flags = (u8) (this->state_flags | 4);
+        state_flags |= 4;
         return;
     }
     entry_1->flags &= 0xFFFFFFFD;
-    this->state_flags = (u8) (this->state_flags & 0xFFFFFFFB);
+    state_flags &= ~4;
 }
 
 
@@ -182,14 +203,14 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
 void TWindowSubQuestBoardSelect::handle_cancel() {
     if (is_open() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->state_flags = (u8) (this->state_flags | 2);
+        state_flags |= 2;
     }
 }
 
 void TWindowSubQuestBoardSelect::handle_decide() {
     if (this->is_shortcut_active() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
-        this->state_flags = (u8) (this->state_flags | 1);
+        state_flags |= 1;
     }
 }
 
@@ -274,13 +295,13 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
         heading = (saddr)((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     }
     this->status_disp = (TWindowSubStatusDisp *)heading;
-    *(s8 *)&this->state_flags = 0;
+    state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
-    set_text_entry_string((u8 *)entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
+    set_text_entry_string((WindowTextEntry *)entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)entry_0)->get_field_20();
     title_width = (f32) calc_text_width();
     entry_0->x = 210.0f - 0.5f * title_width;
-    *(s8 *)&this->slot = -1;
+    slot = -1;
     update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, title_width);
     this->select_next();
 }

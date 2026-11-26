@@ -18,9 +18,7 @@ struct TWindowSnapShot : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSnapShot_size, sizeof(TWindowSnapShot) == 0x64);
 
-extern "C" {
 const char *get_player_motion_filename(void);
-}
 
 // The player motion archive (PlyMotionData.rlc) lives in auxiliary RAM. Only its header and
 // directory stay in main memory; motions are read back from ARAM one entry at a time.

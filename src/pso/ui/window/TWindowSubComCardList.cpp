@@ -1,7 +1,7 @@
 #include "pso/player/GuildCardEntry.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
@@ -24,13 +24,79 @@
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/ui/window/TWindowShortListCtrl.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
+  s16 page_row;
+  u16 *array_entry;
+  if (!(actor_frame_tick & 0x10))
+  {
+    page_row = (this->get_selected_index()) - (storage->get_type() * 7);
+    if ((page_row >= 0) && (page_row < 7))
+    {
+      array_entry = (u16 *) this->get_array_entry((s32) page_row);
+      if ((*array_entry) & 1)
+      {
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)array_entry, 1);
+      }
+    }
+  }
+}
+
+void TWindowSubComCardList::sub_80275360() {
+    GuildCardEntry *card;
+    s32 n;
+    s32 index;
+    saddr msg;
+
+    this->reset_entries();
+    index = storage->get_type();
+    index *= 7;
+    for (n = 0; n < 7; n++, index++) {
+        if (index >= (s32)this->card_count) {
+            break;
+        }
+        if (this->cards != 0) {
+            card = (GuildCardEntry *)(this->cards + index * 0x90);
+        } else if (this->card_slots != 0) {
+            card = (GuildCardEntry *)(this->card_slots + index * 0x100);
+        } else {
+            return;
+        }
+        if (card->is_active() == 0) {
+            break;
+        }
+        this->add_text_entry((saddr)card->get_name(), 7, index);
+    }
+    if (this->get_field_72() <= 0) {
+        switch ((s8)this->empty_message) {
+        case 0:
+            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
+            break;
+        case 1:
+            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
+            break;
+        }
+        add_gray_text_entry((TWindowMenu *)this, (const char *)msg, 4, -1);
+    }
+}
+
+s32 TWindowSubComCard::create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message) {
+    fn_80266378(7);
+    return (saddr)new TWindowSubComCardList((const NJS_POINT2 *)parent, card_slot, count, empty_message);
+}
+
+u8 *TWindowSubComCard::sub_802754EC(saddr parent) {
+    fn_80266378(7);
+    return (u8 *)new TWindowSubComCardList((const NJS_POINT2 *)parent);
+}
+
 
 #pragma readonly_strings on
 
 const char *TWindowSubComCardList::class_name = "TWindowSubComCardList";
-
-extern "C" {
-s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 
 void TWindowSubComCardList::render() {
     WindowDrawContext *ctx;
@@ -82,10 +148,10 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
     set_scroll_target(223.0f, 184.0f);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
+TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(card_slot, arg3) / 7.0f);
+    n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
@@ -99,5 +165,4 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, s32 car
     sub_80275360();
     set_flag70_bit10();
     set_scroll_target(223.0f, 184.0f);
-}
 }

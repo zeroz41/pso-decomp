@@ -11,9 +11,10 @@
 
 struct Handle6x07SymbolChatPacket { u8 pad[4]; s32 f4; u32 f8; };
 
+SymbolChatPreset symbol_chat_receive_buffer;
+
 extern "C" {
 extern u8 *text_language_group_table;
-SymbolChatPreset symbol_chat_receive_buffer;
 void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command);
 s32 get_technique_name(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (id * 4));

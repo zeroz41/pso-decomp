@@ -2,7 +2,7 @@
 #include "pso/audio/AdxError.h"
 #include "pso/audio/AdxLock.h"
 #include <dolphin/os/OSThread.h>
-#include "pso/unk/text_803D2F1C.h"
+#include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/network/TLobby.h"
@@ -13,7 +13,7 @@
 
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
-#include "pso/unk/text_803CE568.h"
+#include "pso/system/CvFs.h"
 
 extern "C" {
 s32 lbl_805D7550;

@@ -171,7 +171,7 @@ void TObjNpcBase::update_conversation() {
     }
     switch (phase) {
     case 0:
-        VecCopy(&d, &((TObjBase *)target)->position);
+        VecCopy(&d, &target->position);
         subtract_vector(&d, &position);
         ang = 10430.38043493439 * atan2_float(d.x, d.z);
         switch (object_number) {
@@ -184,8 +184,8 @@ void TObjNpcBase::update_conversation() {
             phase = 1;
             request_action(0);
             pkt1.init();
-            pkt1.header.client_id = ((TObjBase *)(target))->get_entity_id();
-            VecCopy(&pkt1.pos, &((TObjBase *)target)->position);
+            pkt1.header.client_id = target->get_entity_id();
+            VecCopy(&pkt1.pos, &target->position);
             pkt1.angle = ang + 0x8000;
             pkt1.send();
             break;
@@ -195,8 +195,8 @@ void TObjNpcBase::update_conversation() {
                 rotation_y = ang;
                 request_action(0);
                 pkt2.init();
-                pkt2.header.client_id = ((TObjBase *)(target))->get_entity_id();
-                VecCopy(&pkt2.pos, &((TObjBase *)target)->position);
+                pkt2.header.client_id = target->get_entity_id();
+                VecCopy(&pkt2.pos, &target->position);
                 pkt2.angle = rotation_y + 0x8000;
                 pkt2.send();
             } else {
@@ -265,7 +265,7 @@ void TObjNpcBase::update_conversation() {
                 end_conversation_camera();
                 break;
             }
-            if (target != 0 && local_client_id == ((TObjBase *)(target))->get_entity_id()) {
+            if (target != 0 && local_client_id == target->get_entity_id()) {
                 player = get_player_by_client_id(local_client_id);
                 if (player != NULL && player->check_player_flag1() != 0) {
                     send_release_hold(player);

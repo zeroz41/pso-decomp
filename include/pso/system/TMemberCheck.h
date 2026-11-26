@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TWindowCheckBox;
+
 class TMemberCheck : public TObject {
 public:
     TMemberCheck(TObject* parent);
@@ -12,7 +14,7 @@ public:
     void open_member_name_window();
     virtual void run_task();
 
-    void *member_window;
+    TWindowCheckBox *member_window;
     char names[4][0x18];
 };
 

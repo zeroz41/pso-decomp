@@ -15,6 +15,9 @@ struct TNowLoading : public TObject {
     Vec m_position; // 65 units in front of the camera
     virtual void render();
     virtual void run_task();
+    // Called by TLoadCtrl when a now-loading load ends / starts.
+    static void cleanup();
+    static void setup();
     u8 pad_38[4];
 };
 

@@ -10,9 +10,9 @@ public:
     virtual void apply_use_effect();
     static TItem *create(u8 *item);
     // The TP the three kinds give (by item index).
-    int get_max_tp();
-    int calc_large_tp();
-    int calc_small_tp();
+    s16 get_max_tp();
+    s16 calc_large_tp();
+    s16 calc_small_tp();
 };
 
 #endif

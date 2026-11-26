@@ -12,7 +12,6 @@
 
 const char *TAdSubPlyItemGC__name = "TAdSubPlyItemGC";
 
-struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 
 u8 level_text_buffer[0x40];
 
@@ -44,16 +43,16 @@ void TAdSubPlyItemGC::run_task() {
     }
 }
 
-void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLabel *e) {
+void TAdSubPlyItemGC::set_entry_text(PlayerSlotLabel *e) {
     s32 i = e->slot;
-    strncpy(self->names[i], e->name, 0xFE);
-    self->levels[i] = e->level;
-    copy_vec2(&self->name_pos[i], &e->position);
-    self->level_pos[i].x = (180.0f + self->name_pos[i].x) -
-                           (f32)calc_text_width((char *)self->format_level_text(self->levels[i]));
-    self->level_pos[i].y = 20.0f + self->name_pos[i].y;
-    self->alpha[i] = 0;
-    self->visible[i] = 1;
+    strncpy(names[i], e->name, 0xFE);
+    levels[i] = e->level;
+    copy_vec2(&name_pos[i], &e->position);
+    level_pos[i].x = (180.0f + name_pos[i].x) -
+                           (f32)calc_text_width((char *)format_level_text(levels[i]));
+    level_pos[i].y = 20.0f + name_pos[i].y;
+    alpha[i] = 0;
+    visible[i] = 1;
 }
 
 void TAdSubPlyItemGC::hide_all_entries() {

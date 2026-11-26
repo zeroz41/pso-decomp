@@ -18,6 +18,5 @@ public:
     WeaponCanopyScale scale;  // canopy scale (scale_current_matrix)
 };
 
-extern "C" TItem *TItemWeaponMadamsParasol::create(u8 *item);
 
 #endif

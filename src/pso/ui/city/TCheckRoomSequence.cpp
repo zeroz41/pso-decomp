@@ -62,6 +62,11 @@ struct BankItemStackView
   s16 f16;
 };
 
+BankItemRecord *bank_item_records_by_slot[4];
+s32 bank_item_count_by_slot[4];
+s32 bank_meseta_by_slot[4];
+u32 TCheckRoomSequence::slot_active_flags[4];
+
 extern "C" {
 // The runtime's array new and BankItemRecord::BankItemRecord(), whose address
 // C++ does not let alloc_item_buffers take.
@@ -69,11 +74,6 @@ void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n
 void __ct__14BankItemRecordFv();
 s32 get_max_stack_size__9TItemDataFv(void *);
 s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);
-
-BankItemRecord *bank_item_records_by_slot[4];
-s32 bank_item_count_by_slot[4];
-s32 bank_meseta_by_slot[4];
-u32 TCheckRoomSequence::slot_active_flags[4];
 
 s32 TCheckRoomSequence::check_room_ready() {
     if (TRaderMapCore::is_not_split_screen() == 0) {
@@ -181,7 +181,7 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
     s32 amount;
     bank_meseta = get_room_data(get_split_screen_slot());
     if (bank_meseta > 0) {
-        amount = 999999 - get_actor_meseta((u8 *)player);
+        amount = 999999 - player->get_actor_meseta();
         amount = (amount < bank_meseta) ? amount : bank_meseta;
         if (amount > 0) {
             if (number_input == NULL) {
@@ -214,7 +214,7 @@ void TCheckRoomSequence::accept_meseta_deposit() {
         amount = number_input->get_value();
         slot = get_split_screen_slot();
         bank_credit_meseta(amount, slot);
-        try_spend_actor_meseta(player, amount);
+        player->try_spend_actor_meseta(amount);
         copy_bank_to_card_window(slot);
         if (deposit_window != NULL) {
             deposit_window->set_meseta(get_room_data(slot));
@@ -238,7 +238,7 @@ void TCheckRoomSequence::begin_meseta_deposit() {
     s32 amount;
     slot = get_split_screen_slot();
     if (get_bank_meseta_capacity(slot) > 0) {
-        meseta = get_actor_meseta((u8 *)player);
+        meseta = player->get_actor_meseta();
         if (meseta > 0) {
             amount = get_bank_meseta_capacity(slot);
             amount = (amount < meseta) ? amount : meseta;
@@ -722,6 +722,7 @@ s32 delete_bank_item(u8 *item, s32 slot) {
     }
     return 0;
 }
+}
 
 void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
@@ -833,10 +834,9 @@ void copy_bank_to_card_window(s32 slot) {
         if (w != 0) {
             w->meseta = bank_meseta_by_slot[slot];
             w->count = bank_item_count_by_slot[slot];
-            move_data((void *)((w->items)), (const void *)(bank_item_records_by_slot[slot]), 0x12C0);
+            move_data(((w->items)), (const void *)(bank_item_records_by_slot[slot]), 0x12C0);
         }
     }
-}
 }
 #pragma pop
 
@@ -847,7 +847,7 @@ void copy_bank_from_card_window(s32 slot) {
     if (w != 0) {
         bank_meseta_by_slot[slot] = w->meseta;
         bank_item_count_by_slot[slot] = w->count;
-        move_data((void *)((bank_item_records_by_slot[slot])), (const void *)(w->items), 0x12C0);
+        move_data(((bank_item_records_by_slot[slot])), (const void *)(w->items), 0x12C0);
     }
 }
 #pragma pop
@@ -901,7 +901,7 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *p, void *a1) { *(unsigned char*)(a1) = *(unsigned char*)(p); *(unsigned char*)((char*)a1 + 0x1) = *(unsigned char*)((char*)p + 0x1); *(unsigned char*)((char*)a1 + 0x2) = *(unsigned char*)((char*)p + 0x2); *(unsigned char*)((char*)a1 + 0x3) = *(unsigned char*)((char*)p + 0x3); *(unsigned char*)((char*)a1 + 0x4) = *(unsigned char*)((char*)p + 0x4); *(unsigned char*)((char*)a1 + 0x5) = *(unsigned char*)((char*)p + 0x5); ((TObjPlayer *)((char*)a1 + 0x6))->copy_entry_bytes((char*)p + 0x6); ((TObjPlayer *)((char*)a1 + 0x8))->copy_entry_bytes((char*)p + 0x8); ((TObjPlayer *)((char*)a1 + 0xa))->copy_entry_bytes((char*)p + 0xa); *(void**)((char*)a1 + 0xc) = *(void**)((char*)p + 0xc); *(void**)((char*)a1 + 0x10) = *(void**)((char*)p + 0x10); }
+void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) { *(unsigned char*)(item) = *(unsigned char*)(p); *(unsigned char*)((char*)item + 0x1) = *(unsigned char*)((char*)p + 0x1); *(unsigned char*)((char*)item + 0x2) = *(unsigned char*)((char*)p + 0x2); *(unsigned char*)((char*)item + 0x3) = *(unsigned char*)((char*)p + 0x3); *(unsigned char*)((char*)item + 0x4) = *(unsigned char*)((char*)p + 0x4); *(unsigned char*)((char*)item + 0x5) = *(unsigned char*)((char*)p + 0x5); ((TObjPlayer *)((char*)item + 0x6))->copy_entry_bytes((char*)p + 0x6); ((TObjPlayer *)((char*)item + 0x8))->copy_entry_bytes((char*)p + 0x8); ((TObjPlayer *)((char*)item + 0xa))->copy_entry_bytes((char*)p + 0xa); *(void**)((char*)item + 0xc) = *(void**)((char*)p + 0xc); *(void**)((char*)item + 0x10) = *(void**)((char*)p + 0x10); }
 
 #pragma push
 #pragma optimization_level 1

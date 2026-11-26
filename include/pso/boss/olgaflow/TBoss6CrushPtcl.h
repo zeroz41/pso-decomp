@@ -13,7 +13,7 @@ public:
     virtual ~TBoss6CrushPtcl();
     virtual void run_task();
 
-    s32 m_1C;
+    s32 age;  // frames since it spawned; the dust emitter is released at 6
     TParticleCtrl *dust_emitter;
     TParticleCtrl *debris_emitter;
 

@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
 void copy_line_vertex(void *p, void *q);
-}
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 }

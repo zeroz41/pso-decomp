@@ -19,6 +19,5 @@ public:
 };
 
 // Factory
-extern "C" TItem *TItemWeaponHildebluesCane::create(u8 *item);
 
 #endif

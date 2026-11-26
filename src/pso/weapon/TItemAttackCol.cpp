@@ -23,34 +23,21 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include <string.h>
 #include "pso/technique/TTecCtrl.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/item/item_pmt.h"
 
-struct Stack_802E456C {
-    u8 sp8;
-    u8 sp9;
-    u8 pad_A[0x2];
-    u8 * spC;
-    u8 pad_10[0x4];
-    u8 * sp14;
-    s32 sp18;
-};
-
 extern "C" {
 
-s32 play_weapon_hit_sound(void *);
 
-void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
 
 
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
@@ -187,12 +174,7 @@ s32 TItemAttackColBase::has_game_join_id() {
 }
 
 s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
-    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E456C, spC) == 0x4);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802E456C, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802E456C, sp18) == 0x10);
-    Stack_802E456C stack;
+    ItemSoundRequest sound;
     CollisionBody *target_body;
     s32 damage;
     TObjChara *target;
@@ -221,14 +203,14 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
         }
         damage = (s32) var_f31;
         player->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(player, damage));
-        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
-        ((ItemSoundRequest *)(&stack.sp8))->clear();
-        stack.sp8 = ((TItem *)item)->get_item_group();
-        stack.sp9 = ((TItem *)item)->get_item_index();
-        stack.spC = (u8 *)player;
-        stack.sp14 = (u8 *)target;
-        stack.sp18 = hit->body;
-        play_weapon_hit_sound(&stack.sp8);
+        player->apply_camera_shake(target, damage);
+        sound.clear();
+        sound.group = ((TItem *)item)->get_item_group();
+        sound.index = ((TItem *)item)->get_item_index();
+        sound.player = player;
+        sound.target = target;
+        sound.collider = hit->body;
+        play_weapon_hit_sound(&sound);
         return 1;
     }
     return 0;

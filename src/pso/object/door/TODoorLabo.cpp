@@ -15,7 +15,7 @@
 #include "pso/object/door/TODoorFourLightSeabed.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/door/TODoorBase.h"
@@ -91,7 +91,6 @@ TODoorFourLightBase::~TODoorFourLightBase() {
 
 }
 
-extern "C" {
 void TODoorFourLightBase::render() {
     if (update_object_view_visibility(view_range, model_radius) != 1) {
         return;
@@ -263,7 +262,7 @@ void TODoorFourLightBase::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightBase::vfunc_6(s16 *state, s32) {
+void TODoorFourLightBase::apply_saved_state(s16 *state, s32) {
     if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
@@ -336,8 +335,6 @@ void free_seabed_four_light_door_resources() {
         delete (BmlResource *)door_labo_bml_resource;
         door_labo_bml_resource = NULL;
     }
-}
-
 }
 const char *door_four_light_seabed_class_name = "TODoorFourLightSeabed";
 const FourLightNodeTable door_four_light_seabed_index_table = {{2, 4, 9, 11, 3, 5, 10, 12}};

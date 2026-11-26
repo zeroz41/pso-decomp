@@ -73,16 +73,16 @@
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/network/client_id.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
+#include "pso/unk/text_801F43B4.h"
 
-s32 get_story_flag(s32);
 
 s32 city_main_warp_enabled_destinations;
 
@@ -160,11 +160,11 @@ const char *TObjCityAreaWarp::class_name = "TObjCityAreaWarp";
 const char *TObjCityMapWarp::class_name = "TObjCityMapWarp";
 const char *TObjLaboMapWarp::class_name = "TObjLaboMapWarp";
 
+void update_main_warp_visible_mask(s32 select_type);
 extern "C" {
 
-void update_main_warp_visible_mask(s32 select_type);
-
 void TObjCityMainWarp__sub_80186AB8(void);
+}
 
 
 #pragma push
@@ -201,6 +201,7 @@ s32 TObjCityMainWarpChallenge::are_all_players_in_range() {
 s32 TObjCityMainWarp::get_phase_flag() {
     return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
 }
+extern "C" {
 
 char *TObjCityMainWarp__sub_80186AF4(void) {
     return area_title;
@@ -211,6 +212,7 @@ void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }
 void TObjCityMainWarp::reset() { clear_enabled_main_warps(); update_main_warp_visible_mask(0); }
 
 void TObjCityMainWarp__sub_80186AB8(void) {  }
+}
 
 s32 TObjCityMainWarp::get_floor_warp_bit(s32 floor) {
     s32 bit = -1;
@@ -359,6 +361,7 @@ void TObjCityMainWarp::clear_active_bit(s32 floor) {
         city_main_warp_enabled_destinations &= ~(1 << floor_warp_bit);
     }
 }
+extern "C" {
 
 void clear_enabled_main_warps(void) { city_main_warp_enabled_destinations = 0; }
 
@@ -378,6 +381,7 @@ void unlock_main_warp_destination(s32 id) {
             break;
         }
     }
+}
 }
 
 TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -799,7 +803,5 @@ void TObjLaboMapWarp::draw_debug_destinations() {
     debug_printf_at(0x130021, "<- MODEL TYPE");
     debug_printf_at(0x130022, "<- MESSAGE : %s", labo_map_warp_dest_name_table_b[set_params[2]]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-}
-
 }
 

@@ -56,7 +56,7 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/render/model_render_state.h"
@@ -101,15 +101,15 @@ TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage::init_params = {
     225.0f, 0.0f, 0x600,
 };
 
-extern "C" {
-
 CollisionBody shinowa_mirage_model_init_data[1] = {
     {{0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
+extern "C" {
 
 __declspec(section ".data") const char *bm_ene_me3_shinowa_model_names[2] = {
     shinowa_model, NULL,
 };
+}
 
 const char *bm_ene_me3_shinowa_motion_names[11] = {
     shinowa_apper_motion, shinowa_backstep_motion, shinowa_damage_motion, shinowa_death_motion,
@@ -400,15 +400,14 @@ void TObjEneMe3Shinowa::update_body_colliders() {
 void TObjEneMe3Shinowa::fn_800E762C() {  }
 
 f32 TObjEneMe3Shinowa::get_node_world_y() {
-    TObjEneMe3Shinowa *self = this;
     Vec v;
     NJS_OBJECT *node;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
-    bind_motion_context((NJS_MOTION *)self->current_motion, self->frame);
-    node = (NJS_OBJECT *)self->model;
+    bind_motion_context((NJS_MOTION *)this->current_motion, this->frame);
+    node = (NJS_OBJECT *)this->model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);
@@ -599,7 +598,7 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_fade_appear(reason);
         return;
     case 2:
-        state_t_wait((s32)reason);
+        state_t_wait(reason);
         return;
     case 3:
         state_drop_appear(reason);
@@ -608,13 +607,13 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_chase_target(reason);
         return;
     case 5:
-        state_f_attack((s32)reason);
+        state_f_attack(reason);
         return;
     case 6:
-        state_sword_attack((s32)reason);
+        state_sword_attack(reason);
         return;
     case 7:
-        state_backstep((s32)reason);
+        state_backstep(reason);
         return;
     case 8:
         state_scatter(reason);
@@ -1021,7 +1020,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
         this->body_y = this->position.y;
         this->body_offset_y = 0.0f;
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1163,7 +1162,7 @@ void TObjEneMe3Shinowa::state_backstep(s32 reason) {
         break;
     case 5:
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1289,7 +1288,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
             this->particle_emitters[1]->queue_destruction();
             this->particle_emitters[1] = NULL;
         }
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1438,7 +1437,7 @@ void TObjEneMe3Shinowa::state_damage(s32 reason) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1531,7 +1530,7 @@ void TObjEneMe3Shinowa::render() {
     }
     if (detail != 0) {
         update_player_state_default();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
@@ -1594,10 +1593,10 @@ void TObjEneMe3Shinowa::render_demo() {
     }
     gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         toggle_particle_effect();
         if (gold != 0) {
-            textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            textures = texlist->textures;
             for (i = 0; i < 3; i++) {
                 saved_texaddr[i] = textures[i + 3].texture;
             }
@@ -1643,7 +1642,7 @@ void TObjEneMe3Shinowa::render_demo() {
         }
         pop_matrix();
         if (gold != 0) {
-            textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            textures = texlist->textures;
             for (i = 0; i < 3; i++) {
                 textures[i + 3].texture = saved_texaddr[i];
             }
@@ -2018,5 +2017,4 @@ void TObjEneMe3ShinowaMirage::state_fade_out(s32 mode) {
         update_ground_contact();
         break;
     }
-}
 }

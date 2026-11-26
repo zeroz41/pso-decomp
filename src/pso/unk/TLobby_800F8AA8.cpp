@@ -7,7 +7,7 @@
 #include "pso/render/Draw2D.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/render/GinjaView.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -35,10 +35,9 @@
 #include "pso/system/TGStream.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_8007C550.h"
-#include "pso/unk/text_8007C0CC.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_800FFE04.h"
 #include "pso/system/TLoadCtrl.h"
@@ -64,10 +63,12 @@ char player_name_copy_buffer[16];
 
 extern "C" {
 const char *disc_read_filename = lbl_805D2B10;
+}
 
 s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
 }
+extern "C" {
 
 void copy_name(char *name) {
     strncpy(player_name_copy_buffer, name, 0x10);
@@ -837,9 +838,9 @@ void apply_phase_keyboard_mode() {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(TLobby::init_chr_select));
+            TLobby::set_keyboard_mode((saddr)(init_chr_select));
         } else {
-            TLobby::set_keyboard_mode((saddr)(TLobby::reset_to_chr_select));
+            TLobby::set_keyboard_mode((saddr)(reset_to_chr_select));
         }
         break;
     case 14:
@@ -861,6 +862,7 @@ void apply_phase_keyboard_mode() {
 
 extern "C" {
 void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
+}
 
 void TLobby::invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
@@ -965,6 +967,7 @@ void TLobby::load_font_texture() {
         }
     }
 }
+extern "C" {
 
 void TLobby__sub_800F8F34(void) { lobby_state_byte_flag = 1; }
 
@@ -1184,7 +1187,6 @@ void TLobby::free_nodes_with_id(uaddr root) {
 
 u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     QuestDownloadFile *file = (QuestDownloadFile *)src;
-    s32 rng[60];
     u32 decompressed_size;
     u32 seed;
 
@@ -1195,30 +1197,28 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     if (decompressed_size > capacity) {
         return 0U;
     }
-    __ct__14SubtractiveRngFv(&rng[0]);
-    subtractive_rng_seed(&rng[0], seed);
-    ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, size - 8);
+    SubtractiveRng rng;
+    subtractive_rng_seed(&rng, seed);
+    rng.crypt_data_be((u32 *)file->data, size - 8);
     prs_decompress_buffer(file->data, dst);
     return decompressed_size;
 }
 
 u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
-    s32 rng[60];
     u32 v0 = decompressed_size;
     s32 v4 = seed;
 
     if (v0 > capacity) {
         return 0U;
     }
-    __ct__14SubtractiveRngFv(rng);
-    subtractive_rng_seed(rng, v4);
-    subtractive_rng_xor_buffer(rng, (u32 *)data, size - 8);
+    SubtractiveRng rng;
+    subtractive_rng_seed(&rng, v4);
+    subtractive_rng_xor_buffer(&rng, (u32 *)data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
 
 void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
-    s32 rng[60];
     s32 v0 = *(s32 *)&this->m_name;
     s32 v4 = *(s32 *)&this->m_flags;
     void *ret;
@@ -1227,9 +1227,9 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     if (ret == NULL) {
         return NULL;
     }
-    __ct__14SubtractiveRngFv(rng);
-    subtractive_rng_seed(rng, v4);
-    subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
+    SubtractiveRng rng;
+    subtractive_rng_seed(&rng, v4);
+    subtractive_rng_xor_buffer(&rng, (u32 *)&this->m_prev, size - 8);
     prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
@@ -1244,7 +1244,6 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     u8 *buf;
     void *ret;
     s32 sp8;
-    s32 rng[60];
 
     size = get_resource_file_size(name);
     if (size <= 0) {
@@ -1264,9 +1263,9 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         safe_free(buf);
         ret = TQuestVmDownLoadServer::alloc(sp8);
         buf = load_disc_file(name);
-        __ct__14SubtractiveRngFv(rng);
-        subtractive_rng_seed(rng, h);
-        subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
+        SubtractiveRng rng;
+        subtractive_rng_seed(&rng, h);
+        subtractive_rng_xor_buffer(&rng, (u32 *)(buf + 8), size - 8);
         prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }

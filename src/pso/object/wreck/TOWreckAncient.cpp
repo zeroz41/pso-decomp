@@ -17,7 +17,6 @@
 #include "pso/object/wreck/TOWreckAncient07.h"
 #include "pso/object/wreck/TOWreckAncientBrakable.h"
 #include "pso/object/wreck/TOWreckAncientBrakable05.h"
-#include "pso/object/wreck/TOWreckAncientBrakable_8017D444.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -276,7 +275,7 @@ void TOWreckAncientBrakable::run_task() {
     s32 id;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOWreckAncientBrakable__sub_8017D444(this);
+        sub_8017D444();
         return;
     }
     switch (state) {
@@ -322,7 +321,7 @@ void TOWreckAncientBrakable::spawn_debris() {
     }
 }
 
-void TOWreckAncientBrakable__sub_8017D444(void *) {  }
+void TOWreckAncientBrakable::sub_8017D444() {  }
 
 
 // --- TOWreckAncientBrakable05 ---

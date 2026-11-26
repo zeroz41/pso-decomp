@@ -191,7 +191,7 @@ void TWindowSubCustomSelect::render() {
     ((TWindowBase *)window_sub_custom_select)->draw_window_frame(draw_context);
     window_sub_custom_select->draw_palette_cells(draw_context);
     window_sub_custom_select->draw_cursor(draw_context);
-    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->status_display)))->forward_render(draw_context);
+    ((TWindowSubStatusDisp *)(window_sub_custom_select->status_display))->forward_render(draw_context);
     draw_window_scrollbar(window_sub_custom_select->scroll_bar, draw_context, window_sub_custom_select->scroll_offset);
 }
 

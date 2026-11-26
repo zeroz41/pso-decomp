@@ -5,7 +5,6 @@
 #include "pso/unk/text_802A1020.h"
 #include "pso/unk/text_802A1144.h"
 #include "pso/unk/text_802A1154.h"
-#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TUnk_804DCB64.h"
 #include "pso/network/TLobby.h"
@@ -19,6 +18,9 @@
 #include "pso/ui/Language.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/text_800FA464.h"
 
 typedef struct Entry_802A1020 {
     const char *file;
@@ -28,15 +30,11 @@ typedef struct Entry_802A1020 {
 
 s32 opening_movie_selector = 1;
 extern "C" {
-s32 switch_to_fallback_main_phase();
-s32 request_queued_main_phase();
-void request_main_phase(s32 arg0);
-void set_fallback_main_phase(s32 arg0);
-void set_queued_main_phase(s32 queued_main_phase);
+void request_main_phase(s32 phase);
+}
+extern "C" {
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 s8 movie_finished_flag;
 u8 opening_movie_purpose;
 s32 game_files_modified_flag;

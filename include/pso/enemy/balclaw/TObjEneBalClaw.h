@@ -36,7 +36,6 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
 LAYOUT_ASSERT(TObjEneBalClaw_size, sizeof(TObjEneBalClaw) == 0x3C0);
 
 struct BmlResource;
-struct BmlMotionEntry;
 struct NJS_OBJECT;
 
 // The record TLobby::dispatch_shared_handler_a(31 body, 32 claw) returns (DarkGunner's layout).
@@ -49,20 +48,10 @@ struct BalClawBehaviorParams {
 struct BalClawMovement {
     EnemyMoveParams move;
     s16 m_c;
-    s16 m_e;
+    s16 pad_E;
     s32 m_10;
-    s32 m_14;
+    s32 pad_14;
     s32 m_18;
-};
-
-// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
-// MojaAnimationBinding and DelDepthAnimationBinding).
-struct BalClawSpawnParams {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
 };
 
 // The Bal Claw BML archive, loaded by TObjEneBalClaw::load_resources.

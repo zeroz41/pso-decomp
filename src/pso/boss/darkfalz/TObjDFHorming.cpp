@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4Fade.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -308,9 +309,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
-extern "C" {
-void release_all_players_control_lock(void);
-}
 
 extern "C" {
 s32 is_local_client_floor_leader();

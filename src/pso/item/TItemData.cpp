@@ -21,6 +21,19 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueParams.h"
+#include "pso/ui/frontend/TAdRicoRing.h"
+#include "pso/item/TItemMenuCtrl.h"
+#include "pso/item/TItemEquipBase.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_pmt.h"
+#include "pso/network/client_id.h"
+#include "pso/item/item_param.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/weapon/TItemAttacker.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -51,18 +64,17 @@ struct Parm_8010C320
 };
 
 extern "C" {
-s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
+s32 check_equip_requirements(void *self, TItemData *item, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *, int);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
-f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0);
+f32 calc_clock_bonus__9TItemDataFPv(u8 *item);
 void * lookup_item_pmt_record(u8 *item);
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
-void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
-void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st);
+void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
+void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st);
 }
-u8 get_technique_learn_limit(u8, u8);
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 
 struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
@@ -97,7 +109,6 @@ static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
 extern const u8 lbl_805DAB68 = 0x40;
 }
-saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id);
 extern "C" {
 
 
@@ -175,7 +186,7 @@ void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData 
 }
 #pragma pop
 
-void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
+void apply_bonuses(u8 *item, s32 player, u8 *a, u8 *b, Stats_8010BA9C *st) {
     Bonus_8010BA9C *bn;
     u8 t = item[0];
     switch (t) {
@@ -264,7 +275,7 @@ void TItemData::add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s
     }
 }
 
-void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2, void *res, EquipStats *st, Stats2_8010BEC4 *st2) {
+void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2) {
     Parm_8010C1E0 *parm;
     s32 kind;
     s16 amount;
@@ -458,9 +469,9 @@ s32 TItemData::is_wrapped(void *data) {
     }
 }
 
-f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0) {
+f32 calc_clock_bonus__9TItemDataFPv(u8 *item) {
     f32 bonus = 0.0f;
-    switch (arg0[1]) {
+    switch (item[1]) {
     case 0x94:
         bonus = (f32) (TLobby::get_internet_beat() / 4);
         break;
@@ -482,7 +493,6 @@ u16 TItemData::get_packed_value() {
 }
 #undef lookup_item_pmt_record
 
-u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
 
 s32 TItemData::is_usable(void *data) {
@@ -567,8 +577,8 @@ s32 get_item_icon_index(const u8 *q) {
 
 
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
-void init_srank_weapon_item(TItemData *arg0, uaddr arg1, u8 arg2);
-s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
+void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group);
+s32 TItemData__sub_8010CAB0(s32 self, s8 index);
 
 }
 int TItemData::isValidGroundDrop() {
@@ -595,12 +605,12 @@ int TItemData::isValidGroundDrop() {
     } else return 0;
 }
 
-void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 arg2) {
+void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group) {
     s8 sp8[10];
     item_data->init();
-    if ((src != 0U) && (((arg2 >= 0x70U) && (arg2 <= 0x88U)) || ((arg2 >= 0xA5U) && (arg2 <= 0xA9U)))) {
+    if ((src != 0U) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
         *(s8 *)((s8 *)item_data + 0) = 0;
-        item_data->data1.data_u8[1] = arg2;
+        item_data->data1.data_u8[1] = group;
         *(s8 *)((s8 *)item_data + 2) = 0;
         memset(sp8, 0, 0xA);
         sp8[0] = 0x41;
@@ -609,8 +619,8 @@ void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 arg2) {
     }
 }
 
-s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1) {
-    return (arg1 != 0) ? (s8)(arg1 + 0x40) : 0;
+s32 TItemData__sub_8010CAB0(s32 self, s8 index) {
+    return (index != 0) ? (s8)(index + 0x40) : 0;
 }
 
 s8 TItemData::char_to_letter_index(void *self, s8 c) {
@@ -705,18 +715,6 @@ s32 TItemData::get_max_stack_size() {
 
 #undef lookup_item_pmt_record
 
-#include "pso/ui/frontend/TAdRicoRing.h"
-#include "pso/item/TItemMenuCtrl.h"
-#include "pso/item/TItemEquipBase.h"
-#include "pso/item/mag/TItemMag.h"
-#include "pso/item/armor/TItemProShield.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80104FCC.h"
-#include "pso/item/item_pmt.h"
-#include "pso/network/client_id.h"
-#include "pso/item/item_param.h"
-#include "pso/player/PlayerSlots.h"
-#include "pso/player/TPlyDispData.h"
 
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
@@ -752,7 +750,6 @@ struct Item_8010E59C {
     s32 meseta;
 };
 
-saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
@@ -768,7 +765,7 @@ s16 TItemData::get_field6_bswap(void *data) {
 }
 
 void TItemData::set_unit_modifier(s16 modifier) {
-    this->data1.data_u16[3] = modifier;
+    data1.data_u16[3] = modifier;
     bswap_16(&this->data1.data_u16[3]);
 }
 
@@ -779,7 +776,7 @@ s16 TItemData::get_bswap16_field8(void *data) {
 }
 
 void TItemData::set_bswapped_field_8(s16 evp_bonus) {
-    this->data1.data_u16[4] = evp_bonus;
+    data1.data_u16[4] = evp_bonus;
     bswap_16(&this->data1.data_u16[4]);
 }
 
@@ -790,7 +787,7 @@ s16 TItemData::getS16_06(void *data) {
 }
 
 void TItemData::set_dfp_bonus(s16 dfp_bonus) {
-    this->data1.data_u16[3] = dfp_bonus;
+    data1.data_u16[3] = dfp_bonus;
     bswap_16(&this->data1.data_u16[3]);
 }
 
@@ -1167,7 +1164,6 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
 }
 
 f32 TItemData::get_armor_set_multiplier(u8 *player) {
-    u8 *arg0 = (u8 *)this;
     f32 v;
     saddr b1;
     TItem *a1;
@@ -1184,7 +1180,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
     saddr p;
     u8 c;
     v = 1.0f;
-    switch (arg0[2]) {
+    switch (data1.data_u8[2]) {
     case 24:
         found = 0;
         for (i = 0; i != 12 && found != 1; i++) {
@@ -1338,34 +1334,34 @@ f32 TItemData::get_set_bonus_multiplier(saddr player) {
     return 1.0f;
 }
 
-void TItemData::apply_equip_effects(s32 arg1, saddr player, saddr arg3, saddr arg4, s32 arg5) {
+void TItemData::apply_equip_effects(s32 owner, saddr attack_bonus, saddr param_bonus, saddr stat_bonus, s32 hp_tp_bonus) {
 
-    if ((arg1 != 0) || (arg1 = (saddr)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
-        get_set_bonus_multiplier(arg1);
-        calc_clock_bonus__9TItemDataFPv(this, arg1);
+    if ((owner != 0) || (owner = (saddr)get_player_by_client_id(local_client_id), ((owner == 0) == 0))) {
+        get_set_bonus_multiplier(owner);
+        calc_clock_bonus__9TItemDataFPv(this, owner);
         switch ((s32) (this->data1.data_u8[0])) {
         case 0:
-            add_weapon_stat_bonuses(arg1, (s16 *)player, (s32)arg3, (s16 *)arg4, arg5);
+            add_weapon_stat_bonuses(owner, (s16 *)attack_bonus, (s32)param_bonus, (s16 *)stat_bonus, hp_tp_bonus);
             break;
         case 1:
             switch ((s32) (this->data1.data_u8[1])) {
             case 1:
-                add_armor_stat_contribution__9TItemDataFPviiPv(this, arg1, player, arg3, arg4, arg5);
+                add_armor_stat_contribution__9TItemDataFPviiPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
                 break;
             case 2:
-                add_shield_stat_contribution__9TItemDataFPviiPv(this, arg1, player, arg3, arg4, arg5);
+                add_shield_stat_contribution__9TItemDataFPviiPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
                 break;
             case 3:
-                apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(this, arg1, player, arg3, arg4, arg5);
+                apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
                 break;
             }
             break;
         case 2:
-            add_mag_stat_bonuses(arg1, (u8 *)player, (u8 *)arg3, (EquipStats *)arg4, arg5);
+            add_mag_stat_bonuses(owner, (u8 *)attack_bonus, (u8 *)param_bonus, (EquipStats *)stat_bonus, hp_tp_bonus);
             break;
         }
-        apply_bonuses(this, arg1, player, arg3, arg4, arg5);
-        apply_custom_shield_bonus(arg1, (TItemData *)player, (TItemData *)arg3, (EquipStats *)arg4, arg5);
+        apply_bonuses(this, owner, attack_bonus, param_bonus, stat_bonus, hp_tp_bonus);
+        apply_custom_shield_bonus(owner, (TItemData *)attack_bonus, (TItemData *)param_bonus, (EquipStats *)stat_bonus, hp_tp_bonus);
     }
 }
 
@@ -1406,7 +1402,6 @@ struct Pmt_8010DF9C
   u8 pad_e[2];
   u8 level;
 };
-f32 get_item_price_coefficient(u8 type, u8 sub);
 s32 TItemData::calc_price() {
   Item_8010DF9C *item = (Item_8010DF9C *) this;
   Pmt_8010DF9C *pmt;
@@ -1598,8 +1593,8 @@ s32 format_item_description(u8 *item) {
 }
 
 void TItemData::format_item_name(char *buf) {
-    u8 *arg0 = (u8 *)this;
-    Item_8010E59C *item = (Item_8010E59C *)arg0;
+    u8 *bytes = (u8 *)this;
+    Item_8010E59C *item = (Item_8010E59C *)bytes;
     s8 *slot;
     char *name;
     s32 *pmt;
@@ -1615,21 +1610,21 @@ void TItemData::format_item_name(char *buf) {
         sprintf(buf, "%d%s", item->meseta, TWindowSubStatusDisp::get_download_server());
         return;
     }
-    pmt = (s32 *)lookup_item_pmt_record(arg0);
+    pmt = (s32 *)lookup_item_pmt_record(bytes);
     if (pmt != NULL) {
         name = (char *)get_text_collection(*pmt);
     } else {
         name = (char *)get_text_collection(0x1F4);
     }
-    if (TItemData::is_wrapped(arg0) != 0) {
+    if (TItemData::is_wrapped(bytes) != 0) {
         sprintf(buf, "%s", get_text_collection(0x77));
         return;
     }
     t = item->type;
     if (t == 0) {
-        if (TItemData::is_custom_name_srank(arg0) != 0) {
+        if (TItemData::is_custom_name_srank(bytes) != 0) {
             memset(tmp, 0, 10);
-            ((TItemData *)arg0)->decode_packed_name_chars(tmp);
+            ((TItemData *)bytes)->decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
                 if (item->grind != 0) {
                     sprintf(buf, "%s +%d", &tmp[1], item->grind);
@@ -1644,7 +1639,7 @@ void TItemData::format_item_name(char *buf) {
             return;
         }
         slot = (s8 *)TObjPlayer::get_item_by_slot_flag(item->flags);
-        if (TItemData::is_rare_item(arg0) != 0) {
+        if (TItemData::is_rare_item(bytes) != 0) {
             if (check_item_flags() == 1) {
                 if (item->grind != 0) {
                     sprintf(buf, "%s +%d", name, item->grind);
@@ -1692,10 +1687,10 @@ void TItemData::format_item_name(char *buf) {
         }
     } else if (t == 1 && item->sub == 3) {
         memset(sign, 0, 3);
-        pmt = (s32 *)lookup_item_pmt_record(arg0);
+        pmt = (s32 *)lookup_item_pmt_record(bytes);
         if (pmt != NULL) {
             lim = *(s16 *)((u8 *)pmt + 0xC);
-            v = TItemData::get_field6_bswap(arg0);
+            v = TItemData::get_field6_bswap(bytes);
             if (v < -lim) {
                 sign[0] = '-';
                 sign[1] = '-';
@@ -1831,4 +1826,16 @@ void TItemData::init_meseta(s32 amount) {
     init();
     data1.data_u8[0] = 4;
     data2.data_u32 = amount;
+}
+
+s32 TItemData::get_stack_count() {
+    u8 count;
+
+    if (TItemData::lookup_item_def(this) != 0) {
+        count = data1.data_u8[5];
+        if (count != 0) {
+            return count;
+        }
+    }
+    return 1;
 }

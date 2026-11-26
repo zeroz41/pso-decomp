@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
@@ -8,7 +9,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TLobby.h"
@@ -36,11 +36,10 @@ extern "C" {
 s32 text_builder_append();
 }
 void text_builder_reset(void);
-extern "C" {
 const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-s32 is_trade_range_bit_set(s32 client);
+extern "C" {
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
 }
 
@@ -188,7 +187,7 @@ TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 mess
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
     }
     ((s32 (*)(s32))text_builder_append)(message);
-    window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->client_id);
+    window = TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->client_id);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
 }

@@ -10,9 +10,7 @@ struct ItemClassLoadUnloadEntry {
     void (*unload)();
 };
 
-extern "C" {
 s32 create_load_unload_set(ItemClassLoadUnloadEntry *table);
-}
 
 extern "C" {
 void *TItemDrop__sub_8010F168(void *arg0, s16 arg1);

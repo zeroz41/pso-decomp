@@ -16,7 +16,6 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -189,7 +188,7 @@ s32 TShopEquipmentListWindow::check_purchase_eligibility() {
         return 0;
     }
     i = this->item_list->get_cursor_value();
-    if (this->stock[i].data2.price > get_actor_meseta((u8 *)this->player)) {
+    if (this->stock[i].data2.price > this->player->get_actor_meseta()) {
         return 0;
     }
     r = &this->stock[i];

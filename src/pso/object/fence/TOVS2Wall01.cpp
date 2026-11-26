@@ -91,6 +91,7 @@ struct Ent_8017B9B0 { s16 a; s16 b; };
 extern "C" {
 
 void TOVS2Wall01__sub_8017B9AC(void *) {  }
+}
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
     WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
@@ -136,7 +137,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         o->access_object_saved_state(&spC, 1);
         spC.a = o->mode;
         o->access_object_saved_state(&spC, 0);
-        o->vfunc_6(&spC.a, 0);
+        o->apply_saved_state(&spC.a, 0);
     } else {
         *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
         if (sp8.a != 1) {
@@ -168,19 +169,17 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
     }
 }
 
-}
-
-// ---- TOVS2Wall01 (vfunc_6, spawn_debris)
+// ---- TOVS2Wall01 (apply_saved_state, spawn_debris)
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
+void TOVS2Wall01::apply_saved_state(s16 *state, s32 live) {
     s32 mode;
 
-    if (arg1 != NULL) {
-        this->mode = (s16) *arg1;
+    if (state != NULL) {
+        this->mode = (s16) *state;
     }
     mode = this->mode;
     if (mode != 1) {
@@ -189,7 +188,7 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
         }
     } else {
         this->hits_left = 0;
-        if (arg2 != 0) {
+        if (live != 0) {
             break_wall();
         }
     }
@@ -250,17 +249,6 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
 
 
 // ---- TOVS2Wall01_8017BE08
-struct VBase_14_1eb8da { char pad[0x14]; };
-struct VObj_14_1eb8da : VBase_14_1eb8da {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6(s32, s32);
-    virtual s32 m7();
-};
 extern "C" {
 int submit_cursor_candidate(void*, int);
 // ---- TOVS2Wall01_8017C7A4
@@ -296,7 +284,7 @@ f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit(
 int TOVS2Wall01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
-s32 TOVS2Wall01::try_start_action(s32, s32) { return 1; }
+s32 TOVS2Wall01::try_start_action(void *, s32, f32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);
@@ -427,7 +415,6 @@ void *TOVS2Wall01::create(void *set_data) {
     return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
-    u8 *arg0 = (u8 *)this;
     s32 var_r31;
     fade.update();
     this->in_view = this->update_object_view_visibility(view_range, model_radius);
@@ -441,7 +428,7 @@ void TOVS2Wall01::render() {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-            ((VObj_14_1eb8da *)(arg0 + (832)))->m6(chunk_polygon_flags_and_mask, model_render_flags);
+            fade.set_flags_and_apply_damage_color();
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
@@ -450,7 +437,7 @@ void TOVS2Wall01::render() {
         draw_ginja_object(this->model);
         pop_matrix();
         if (var_r31 != 0) {
-            ((VObj_14_1eb8da *)(arg0 + (832)))->m7();
+            fade.clear_flag_and_notify();
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
@@ -458,9 +445,8 @@ void TOVS2Wall01::render() {
     }
 }
 void TOVS2Wall01::run_task() {
-    u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOVS2Wall01__sub_8017B9AC(arg0);
+        TOVS2Wall01__sub_8017B9AC((u8 *)this);
         return;
     }
     switch (this->mode) {

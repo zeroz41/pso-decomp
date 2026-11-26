@@ -112,8 +112,8 @@ void TWindowInputNumber::move_cursor_next() {
     }
 }
 
-void TWindowInputNumber::set_value(f32 farg0) {
-    this->target_size[0] = farg0;
+void TWindowInputNumber::set_value(f32 value) {
+    this->target_size[0] = value;
     TWindowBase::save_position();
     align_digits();
 }
@@ -164,20 +164,19 @@ void TWindowInputNumber::align_digits() {
 #pragma pop
 
 void TWindowInputNumber::refresh_digit_entries() {
-  s32 i;
-  u8 *entry;
-  s32 rest;
-  i = 0;
-  rest = this->value;
-  do
-  {
-    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(i);
-    *((s32 *) (((s8 *) entry) + 0x20)) = (s32) (rest % 10);
-    draw_right_aligned_number(entry);
-    rest = rest / 10;
-    i += 1;
-  }
-  while (((u32) i) < 6U);
+    s32 i;
+    TWindowLayoutNumber *entry;
+    s32 rest;
+
+    i = 0;
+    rest = value;
+    do {
+        entry = (TWindowLayoutNumber *)get_array_entry(i);
+        entry->value = rest % 10;
+        draw_right_aligned_number(entry);
+        rest = rest / 10;
+        i++;
+    } while ((u32)i < 6U);
 }
 
 void TWindowInputNumber::calc_digit_count() {

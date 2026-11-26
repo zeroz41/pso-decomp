@@ -24,6 +24,7 @@ struct TShopEquipmentSequence : public TShopSequence {
     TObject *counter_camera; // 0x34: set_service_counter_camera
     void open_sell_window();
     void open_buy_window();
+    // Window callbacks: the player left the window / has nothing the shop buys.
     static void exit(TShopWindowBase *window);
     static void init_window(TShopWindowBase *window);
 };

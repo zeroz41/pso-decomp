@@ -87,7 +87,7 @@ void TObjLight::run_task() {
     }
     {
     Vec fwd = {0.0f, 0.0f, -1.0f};
-    VecCopy((Vec *)&self->base_dir, &scene_light_state.view_direction);
+    VecCopy(&self->base_dir, &scene_light_state.view_direction);
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {
         self->color.x = self->param[0] - 10000.0f;

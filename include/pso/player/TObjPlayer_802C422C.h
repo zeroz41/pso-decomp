@@ -6,9 +6,6 @@
 class TPlyDispConfigSmth;
 
 class TPlyCharData;
-extern "C" {
-void TObjPlayer__sub_802C46E0(TPlyDispConfigSmth *palette, s32 row, s32 index, s32 mode, u16 slot);
-}
 class TPlyDispConfig;
 // Initialises a new character's secondary action palette.
 void init_character_action_config(TPlyDispConfig *config);

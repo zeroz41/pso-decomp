@@ -34,4 +34,8 @@ struct TTecLuker : public TTecCircle {
 LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);
 
 void create_quest_telepipe_for_client(u16 client);
+struct G_SetTelepipeState_6x68;
+
+void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
+
 #endif

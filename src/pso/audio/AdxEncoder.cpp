@@ -21,7 +21,7 @@ static AdxEncChannel adx_encoder_channel_work_pools[16];
 static AdxEncHistory adx_encoder_history_pool[16];
 static AdxEncoder adx_encoder_context_pool[8];
 
-void TLobby__sub_803C5E78(void) {
+void adx_encoder_exec_server(void) {
     s32 i;
     AdxEncoder *enc;
 
@@ -35,13 +35,13 @@ void TLobby__sub_803C5E78(void) {
     } while (i < 8);
 }
 
-inline void set_coef_5ED4(AdxEncCoef *d, s16 coef1, s16 coef2) {
+inline void set_coef(AdxEncCoef *d, s16 coef1, s16 coef2) {
     d->coef1 = coef1;
     d->coef2 = coef2;
 }
 
 /* Reads each input's first sample as the start history; returns the channels read. */
-inline s32 read_start_history_5ED4(AdxEncoder *enc) {
+inline s32 read_start_history(AdxEncoder *enc) {
     SjChunk b;
     s32 i;
 
@@ -70,7 +70,7 @@ void adx_encoder_step_context(AdxEncoder *enc) {
 
     if (enc->state == 1) {
         out = adxenc_get_output(enc);
-        if (read_start_history_5ED4(enc) < enc->channels) {
+        if (read_start_history(enc) < enc->channels) {
             return;
         }
         for (i = 0; i < enc->channels; i++) {
@@ -85,26 +85,25 @@ void adx_encoder_step_context(AdxEncoder *enc) {
         for (i = 0; i < enc->channels; i++) {
             AdxEncChannel *c = enc->channel[i];
             calc_adx_predictor_coeffs((s16)enc->highpass_freq, enc->sample_rate, &coef1, &coef2);
-            set_coef_5ED4(&c->coef, coef1, coef2);
-            set_coef_5ED4(&c->history->coef, coef1, coef2);
+            set_coef(&c->coef, coef1, coef2);
+            set_coef(&c->history->coef, coef1, coef2);
         }
         enc->state = 2;
     } else if (enc->state == 2) {
-        adx_process_encoder_output((u8 *)enc);
+        adx_process_encoder_output(enc);
     }
 }
 
-void adx_process_encoder_output(u8 *encoder_buf) {
-    AdxEncoder *enc = (AdxEncoder *)encoder_buf;
+void adx_process_encoder_output(AdxEncoder *enc) {
     s32 encoded_samples;
 loop_1:
-    if ((s8)enc->end_of_input == 0) {
+    if (enc->end_of_input == 0) {
 loop_2:
         encoded_samples = adx_encode_available_blocks(enc);
         if (encoded_samples != 0) {
             enc->bytes_written += encoded_samples;
             if (enc->samples_encoded >= enc->total_samples) {
-                enc->end_of_input = 1U;
+                enc->end_of_input = 1;
                 goto loop_1;
             }
             goto loop_2;
@@ -114,7 +113,7 @@ loop_2:
     }
 }
 
-void TLobby__sub_803C60F0(AdxEncoder *enc, s32 channels, s32 sample_rate, s32 total_samples) {
+void adx_encoder_set_input_info(AdxEncoder *enc, s32 channels, s32 sample_rate, s32 total_samples) {
     enc->channels = channels;
     enc->sample_rate = sample_rate;
     enc->total_samples = total_samples;
@@ -122,11 +121,11 @@ void TLobby__sub_803C60F0(AdxEncoder *enc, s32 channels, s32 sample_rate, s32 to
     enc->data_offset = 0x11C;
 }
 
-void TLobby__sub_803C610C(AdxEncoder *enc) {
+void adx_encoder_end_input(AdxEncoder *enc) {
     enc->end_of_input = 1;
 }
 
-void TLobby__sub_803C6118(AdxEncoder *enc) {
+void adx_encoder_start(AdxEncoder *enc) {
     enc->pad_28 = 0;
     enc->bytes_written = 0;
     enc->samples_encoded = 0;
@@ -134,7 +133,7 @@ void TLobby__sub_803C6118(AdxEncoder *enc) {
     enc->state = 1;
 }
 
-void TLobby__sub_803C6138(AdxEncoder *enc) {
+void adx_encoder_destroy(AdxEncoder *enc) {
     AdxEncChannel *c;
     if (enc != NULL) {
         adx_lock();
@@ -153,7 +152,7 @@ void TLobby__sub_803C6138(AdxEncoder *enc) {
     }
 }
 
-inline AdxEncHistory *alloc_history_61C4(void) {
+inline AdxEncHistory *alloc_history(void) {
     AdxEncHistory *h;
     s32 i;
     for (i = 0; i < 16; i++) {
@@ -165,8 +164,8 @@ inline AdxEncHistory *alloc_history_61C4(void) {
     return (i < 16) ? h : NULL;
 }
 
-inline AdxEncChannel *alloc_channel_61C4(s32 block_samples) {
-    AdxEncHistory *h = alloc_history_61C4();
+inline AdxEncChannel *alloc_channel(s32 block_samples) {
+    AdxEncHistory *h = alloc_history();
     AdxEncChannel *c;
     s32 i;
     if (h == NULL) {
@@ -189,7 +188,7 @@ inline AdxEncChannel *alloc_channel_61C4(s32 block_samples) {
 }
 
 /* Creates an encoder reading nch PCM inputs and writing ADX to dst (CRI ADX encoder create). */
-AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
+AdxEncoder *adx_encoder_create(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
     AdxEncoder *enc;
     s32 len;
     s32 i;
@@ -233,9 +232,9 @@ AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst)
     enc->loop_end_byte = 0;
     enc->pad_38 = 0;
     enc->total_samples = 0;
-    enc->pad_40 = enc->block_samples * ((enc->header_samples - 1) / enc->block_samples + 1);
-    enc->channel[0] = alloc_channel_61C4(enc->block_samples);
-    enc->channel[1] = alloc_channel_61C4(enc->block_samples);
+    enc->padded_samples = enc->block_samples * ((enc->header_samples - 1) / enc->block_samples + 1);
+    enc->channel[0] = alloc_channel(enc->block_samples);
+    enc->channel[1] = alloc_channel(enc->block_samples);
     enc->start_hist2[0] = 0;
     enc->start_hist1[0] = 0;
     enc->start_hist2[1] = 0;
@@ -255,7 +254,7 @@ void adx_encoder_pool_init() {
 #pragma push
 #pragma opt_propagation off
 
-inline s32 put8_803C6860(SjRingBuffer *s, const void *v) {
+inline s32 header_put8(SjRingBuffer *s, const void *v) {
     SjChunk b;
     s->interface->get_chunk(s, 0, 1, &b);
     if (b.size < 1) {
@@ -267,7 +266,7 @@ inline s32 put8_803C6860(SjRingBuffer *s, const void *v) {
     return 1;
 }
 
-inline s32 put16_803C6860(SjRingBuffer *s, const void *v) {
+inline s32 header_put16(SjRingBuffer *s, const void *v) {
     SjChunk b;
     s->interface->get_chunk(s, 0, 2, &b);
     if (b.size < 2) {
@@ -280,7 +279,7 @@ inline s32 put16_803C6860(SjRingBuffer *s, const void *v) {
     return 1;
 }
 
-inline s32 put32_803C6860(SjRingBuffer *s, const void *v) {
+inline s32 header_put32(SjRingBuffer *s, const void *v) {
     SjChunk b;
     s->interface->get_chunk(s, 0, 4, &b);
     if (b.size < 4) {
@@ -293,7 +292,7 @@ inline s32 put32_803C6860(SjRingBuffer *s, const void *v) {
     return 1;
 }
 
-inline s32 putn_803C6860(SjRingBuffer *s, void *src, s32 n) {
+inline s32 header_put_bytes(SjRingBuffer *s, void *src, s32 n) {
     SjChunk b;
     s->interface->get_chunk(s, 0, n, &b);
     if (b.size < n) {
@@ -317,103 +316,103 @@ s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *s) {
 
     len = strlen(adx_encoder_copyright_tag);
     h = 0x8000;
-    if (put16_803C6860(s, &h) != 1) {
+    if (header_put16(s, &h) != 1) {
         goto fail;
     }
     h2 = encoder->data_offset;
-    if (put16_803C6860(s, &h2) != 1) {
+    if (header_put16(s, &h2) != 1) {
         goto fail;
     }
     c = encoder->encoding_type;
-    if (put8_803C6860(s, &c) != 1) {
+    if (header_put8(s, &c) != 1) {
         goto fail;
     }
     c = encoder->block_size;
-    if (put8_803C6860(s, &c) != 1) {
+    if (header_put8(s, &c) != 1) {
         goto fail;
     }
     c = encoder->sample_bits;
-    if (put8_803C6860(s, &c) != 1) {
+    if (header_put8(s, &c) != 1) {
         goto fail;
     }
     c = encoder->channels;
-    if (put8_803C6860(s, &c) != 1) {
+    if (header_put8(s, &c) != 1) {
         goto fail;
     }
     w = encoder->sample_rate;
-    if (put32_803C6860(s, &w) != 1) {
+    if (header_put32(s, &w) != 1) {
         goto fail;
     }
     w = encoder->header_samples;
-    if (put32_803C6860(s, &w) != 1) {
+    if (header_put32(s, &w) != 1) {
         goto fail;
     }
     h = encoder->highpass_freq;
-    if (put16_803C6860(s, &h) != 1) {
+    if (header_put16(s, &h) != 1) {
         goto fail;
     }
     c = 4;
-    if (put8_803C6860(s, &c) != 1) {
+    if (header_put8(s, &c) != 1) {
         goto fail;
     }
     c = 0;
-    if (put8_803C6860(s, &c) != 1) {
+    if (header_put8(s, &c) != 1) {
         goto fail;
     }
     w = 0;
-    if (put32_803C6860(s, &w) != 1) {
+    if (header_put32(s, &w) != 1) {
         goto fail;
     }
     h = encoder->start_hist1[0];
-    if (put16_803C6860(s, &h) != 1) {
+    if (header_put16(s, &h) != 1) {
         goto fail;
     }
     h = encoder->start_hist2[0];
-    if (put16_803C6860(s, &h) != 1) {
+    if (header_put16(s, &h) != 1) {
         goto fail;
     }
     h = encoder->start_hist1[1];
-    if (put16_803C6860(s, &h) != 1) {
+    if (header_put16(s, &h) != 1) {
         goto fail;
     }
     h = encoder->start_hist2[1];
-    if (put16_803C6860(s, &h) != 1) {
+    if (header_put16(s, &h) != 1) {
         goto fail;
     }
     total = 0x1C;
     if (encoder->loop_count > 0) {
         h = encoder->loop_type;
-        if (put16_803C6860(s, &h) != 1) {
+        if (header_put16(s, &h) != 1) {
             goto fail;
         }
         h = encoder->loop_count;
-        if (put16_803C6860(s, &h) != 1) {
+        if (header_put16(s, &h) != 1) {
             goto fail;
         }
         total += 4;
         for (i = 0; i < encoder->loop_count; i++) {
             h = i;
-            if (put16_803C6860(s, &h) != 1) {
+            if (header_put16(s, &h) != 1) {
                 goto fail;
             }
             h = 1;
-            if (put16_803C6860(s, &h) != 1) {
+            if (header_put16(s, &h) != 1) {
                 goto fail;
             }
             w = encoder->loop_start_sample;
-            if (put32_803C6860(s, &w) != 1) {
+            if (header_put32(s, &w) != 1) {
                 goto fail;
             }
             w = encoder->loop_start_byte;
-            if (put32_803C6860(s, &w) != 1) {
+            if (header_put32(s, &w) != 1) {
                 goto fail;
             }
             w = encoder->loop_end_sample;
-            if (put32_803C6860(s, &w) != 1) {
+            if (header_put32(s, &w) != 1) {
                 goto fail;
             }
             w = encoder->loop_end_byte;
-            if (put32_803C6860(s, &w) != 1) {
+            if (header_put32(s, &w) != 1) {
                 goto fail;
             }
             total += 0x14;
@@ -422,11 +421,11 @@ s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *s) {
     c = 0;
     lim = encoder->data_offset - len;
     for (; total < lim; total++) {
-        if (put8_803C6860(s, &c) != 1) {
+        if (header_put8(s, &c) != 1) {
             goto fail;
         }
     }
-    if (putn_803C6860(s, adx_encoder_copyright_tag, len) != len) {
+    if (header_put_bytes(s, adx_encoder_copyright_tag, len) != len) {
         goto fail;
     }
     total += len;
@@ -439,7 +438,7 @@ fail:
 
 #pragma push
 #pragma opt_propagation off
-inline void put16_803C7748(SjRingBuffer *s, const void *src) {
+inline void stream_put16(SjRingBuffer *s, const void *src) {
     SjChunk b;
     s->interface->get_chunk(s, 0, 2, &b);
     if (b.size < 2) {
@@ -451,7 +450,7 @@ inline void put16_803C7748(SjRingBuffer *s, const void *src) {
     }
 }
 
-inline void put_803C7748(SjRingBuffer *s, void *src, s32 n) {
+inline void stream_put_bytes(SjRingBuffer *s, void *src, s32 n) {
     SjChunk b;
     s->interface->get_chunk(s, 0, n, &b);
     if (b.size < n) {
@@ -481,19 +480,19 @@ s32 adx_write_zero_padded_block(AdxEncoder *enc) {
         return 0;
     }
     w = 0x8001;
-    put16_803C7748(s, &w);
+    stream_put16(s, &w);
     w = len;
-    put16_803C7748(s, &w);
+    stream_put16(s, &w);
     zero = 0;
     for (i = 0; i < len; i++) {
-        put_803C7748(s, &zero, 1);
+        stream_put_bytes(s, &zero, 1);
     }
     return n;
 }
 #pragma pop
 
 /* Pulls n samples per channel from the input streams into pcm. */
-inline s32 read_input_samples_7978(AdxEncoder *enc, s16 **pcm, s32 n) {
+inline s32 read_input_samples(AdxEncoder *enc, s16 **pcm, s32 n) {
     SjRingBuffer **in;
     SjChunk b;
     s32 got;
@@ -519,13 +518,13 @@ inline s32 read_input_samples_7978(AdxEncoder *enc, s16 **pcm, s32 n) {
 }
 
 /* Stores a channel's predictor history into the encoder. */
-inline void set_history_7978(AdxEncoder *enc, s32 ch, s16 hist1, s16 hist2) {
+inline void set_block_history(AdxEncoder *enc, s32 ch, s16 hist1, s16 hist2) {
     enc->hist1[ch] = hist1;
     enc->hist2[ch] = hist2;
 }
 
 /* Scales and quantizes one block of every channel. */
-inline void encode_channels_7978(AdxEncoder *enc) {
+inline void encode_channels(AdxEncoder *enc) {
     s32 ch;
     AdxEncChannel *c;
     AdxEncHistory *h;
@@ -536,12 +535,12 @@ inline void encode_channels_7978(AdxEncoder *enc) {
         h = c->history;
         enc->block_scale[ch] = c->scale;
         enc->block_inv_scale[ch] = c->inv_scale;
-        set_history_7978(enc, ch, h->hist1, h->hist2);
+        set_block_history(enc, ch, h->hist1, h->hist2);
         adx_encoder_finish_block(enc, ch);
     }
 }
 
-inline s32 encode_block_7978(AdxEncoder *enc) {
+inline s32 encode_block(AdxEncoder *enc) {
     s16 *pcm[2];
     s32 i;
     s32 n;
@@ -550,7 +549,7 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
     pcm[1] = enc->pcm[1];
     n = (enc->block_samples < enc->total_samples - enc->samples_encoded) ? enc->block_samples
                                                                           : enc->total_samples - enc->samples_encoded;
-    if (read_input_samples_7978(enc, pcm, n) == 0) {
+    if (read_input_samples(enc, pcm, n) == 0) {
         return 0;
     }
     if (n < enc->block_samples) {
@@ -561,7 +560,7 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
         }
     }
     enc->samples_encoded += enc->block_samples;
-    encode_channels_7978(enc);
+    encode_channels(enc);
     return enc->block_samples;
 }
 
@@ -576,7 +575,7 @@ s32 adx_encode_available_blocks(AdxEncoder *enc) {
         if (out->interface->get_available(out, 0) / 18 / enc->channels <= 0) {
             break;
         }
-        if (encode_block_7978(enc) == 0) {
+        if (encode_block(enc) == 0) {
             break;
         }
         total += adx_write_encoded_blocks(enc);
@@ -584,16 +583,6 @@ s32 adx_encode_available_blocks(AdxEncoder *enc) {
     return total;
 }
 
-inline void put_803C7C10(SjRingBuffer *s, void *src, s32 n) {
-    SjChunk b;
-    s->interface->get_chunk(s, 0, n, &b);
-    if (b.size < n) {
-        s->interface->unget_chunk(s, 0, &b);
-    } else {
-        memcpy(b.data, src, n);
-        s->interface->put_chunk(s, 1, &b);
-    }
-}
 s32 adx_write_encoded_blocks(AdxEncoder *enc) {
     s32 i;
     s32 total;
@@ -604,10 +593,10 @@ s32 adx_write_encoded_blocks(AdxEncoder *enc) {
     for (; i < enc->channels; i++) {
         s16 v = enc->block_scale[i] - 1;
         c = v >> 8;
-        put_803C7C10(s, &c, 1);
+        stream_put_bytes(s, &c, 1);
         c = v;
-        put_803C7C10(s, &c, 1);
-        put_803C7C10(s, enc->block_data[i], 16);
+        stream_put_bytes(s, &c, 1);
+        stream_put_bytes(s, enc->block_data[i], 16);
         total += 0x12;
     }
     return total;
@@ -662,7 +651,7 @@ void adx_encoder_finish_block(AdxEncoder *enc, s32 ch) {
 
 
 /* Predicts sample i from the channel history and records the residual. */
-inline void predict_sample_8020(AdxEncChannel *c, s32 i, s16 smp) {
+inline void predict_sample(AdxEncChannel *c, s32 i, s16 smp) {
     s32 j;
     if (i == 0) {
         for (j = 0; j < c->block_samples; j++) {
@@ -682,20 +671,20 @@ inline void predict_sample_8020(AdxEncChannel *c, s32 i, s16 smp) {
     }
 }
 
-inline s16 residual_8020(AdxEncChannel *c, s32 i) {
+inline s16 residual(AdxEncChannel *c, s32 i) {
     if (c == NULL) {
         return 0;
     }
     return c->samples[i];
 }
 
-inline void set_history_8020(AdxEncHistory *h, s16 hist1, s16 hist2) {
+inline void set_history(AdxEncHistory *h, s16 hist1, s16 hist2) {
     h->hist1 = hist1;
     h->hist2 = hist2;
 }
 
 /* Runs the decoder's predictor on a quantized value to track what the decoder will see. */
-inline void decode_sample_8020(AdxEncChannel *c, s16 v) {
+inline void decode_sample(AdxEncChannel *c, s16 v) {
     AdxEncHistory *dec = c->history;
     if (dec != NULL) {
         s32 d = v + ((dec->coef.coef1 * dec->hist1 + dec->coef.coef2 * dec->hist2) >> 12);
@@ -713,9 +702,9 @@ s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch) {
     AdxEncHistory *dec = c->history;
     s32 scale;
 
-    set_history_8020(c, enc->hist1[ch], enc->hist2[ch]);
+    set_history(c, enc->hist1[ch], enc->hist2[ch]);
     for (i = 0; i < enc->block_samples; i++) {
-        predict_sample_8020(c, i, smp[i]);
+        predict_sample(c, i, smp[i]);
     }
     scale = (c->peak - 1) / 7 + 1;
     c->scale = ADXENC_MAX(ADXENC_MIN(scale, adx_encoder_max_scale), 1);
@@ -724,7 +713,7 @@ s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch) {
     } else {
         c->inv_scale = 32767.0 / c->peak;
     }
-    set_history_8020(c->history, enc->hist1[ch], enc->hist2[ch]);
+    set_history(c->history, enc->hist1[ch], enc->hist2[ch]);
     for (i = 0; i < enc->block_samples; i++) {
         s16 s = *smp;
         s32 f;
@@ -732,9 +721,9 @@ s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch) {
         s32 q;
         s32 k;
         s16 d;
-        set_history_8020(c, dec->hist1, dec->hist2);
-        predict_sample_8020(c, i, s);
-        d = residual_8020(c, i);
+        set_history(c, dec->hist1, dec->hist2);
+        predict_sample(c, i, s);
+        d = residual(c, i);
         f = d * c->inv_scale;
         v = ADXENC_MIN(32767, ADXENC_MAX(-32768, f));
         if (v < 0) {
@@ -746,7 +735,7 @@ s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch) {
         c->quantized[i] = k;
         f = k * c->scale;
         d = ADXENC_MIN(32767, ADXENC_MAX(-32768, f));
-        decode_sample_8020(c, d);
+        decode_sample(c, d);
         smp++;
     }
     return 0;

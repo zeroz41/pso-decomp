@@ -106,7 +106,7 @@ void init_md5_state(MD5Context *ctx) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void Decode(u32 *output, u8 *input, u32 len) {
+static inline void Decode(u32 *output, u8 *input, u32 len) {
     u32 i, j;
     for (i = 0, j = 0; j < len; i++, j += 4) {
         output[i] = ((u32)input[j]) | (((u32)input[j + 1]) << 8) | (((u32)input[j + 2]) << 16) | (((u32)input[j + 3]) << 24);

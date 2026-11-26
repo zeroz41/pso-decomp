@@ -6,8 +6,8 @@
 // --- C functions defined in THunterGuildSeqOnlineTask_802156A0.cpp ---
 extern "C" {
 u8 lookup_key_value__6TLobbyFc(s8 x);
-void update_item_appraisal(saddr appraisal);
 }
+void update_item_appraisal(saddr appraisal);
 // --- end of C functions
 
 #endif

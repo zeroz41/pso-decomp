@@ -61,7 +61,7 @@ void TItemWeapon::draw_weapon_model() {
             TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
             TObjPlayer__weapon_node_ids[2] = parameters->effect_nodes[2];
             if (this->model_motion == NULL) {
-                this->set_model_node_callback((saddr)apply_weapon_node_material);
+                this->set_model_node_callback(apply_weapon_node_material);
             } else {
                 set_chunk_model_node_callback(apply_weapon_node_material);
             }
@@ -133,7 +133,6 @@ struct SRankModelIds { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 extern SRankModelIds srank_weapon_model_ids[];
 void TItemWeapon::request_equipped_model() {
-    TItemWeapon *arg0 = this;
     u8 v = this->get_item_group();
     if (v >= 0xAA) {
         SRankModelIds t;
@@ -144,8 +143,8 @@ void TItemWeapon::request_equipped_model() {
         t.e = srank_weapon_model_ids[0].e;
         v = ((u8 *)&t)[get_motion_type()];
     }
-    arg0->request_model_load(v);
-    arg0->create_weapon_trail_effects();
+    this->request_model_load(v);
+    this->create_weapon_trail_effects();
 }
 
 
@@ -256,8 +255,8 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
     weapon->trail_end_joints[trail] = end_joint;
 }
 
-void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
-void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
+void TObjChara::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
+void TObjChara::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
@@ -287,7 +286,7 @@ void increment_model_node_counter(void) {
 
 int TObjPlayer::get_player_list() {  return model_node_counter; }
 
-void TItemWeapon::set_model_node_callback(s32 v) { model_node_callback = (void (*)(NJS_OBJECT *))v; }
+void TItemWeapon::set_model_node_callback(void (*callback)(NJS_OBJECT *)) { model_node_callback = callback; }
 
 void reset_model_node_counter(void) { model_node_counter = 0; }
 

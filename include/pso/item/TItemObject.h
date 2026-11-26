@@ -59,8 +59,12 @@ LAYOUT_ASSERT(ItemObjectSize, sizeof(TItemObject) == 0x104);
 s32 get_tool_palette_index(TItem *item);
 
 // The Star Atomizer's effect: tells the players within range of self.
-extern "C" void send_nearby_player_ids(TObjPlayer *self, f32 range);
+void send_nearby_player_ids(TObjPlayer *self, f32 range);
 
 void handle_6x66_use_star_atomizer(u8 *arg0);
+
+struct TObjPlayer;
+
+void send_star_atomizer_targets(TObjPlayer *player);
 
 #endif

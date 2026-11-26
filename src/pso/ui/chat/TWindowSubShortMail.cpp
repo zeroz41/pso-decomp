@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyAutoReply.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -28,11 +29,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
-#include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 
 class TChCrTagPlBack;
@@ -120,7 +119,7 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         main_menu = NULL;
     }
     clear_unread_flags();
-    TLobby::sync_auto_reply_state();
+    sync_auto_reply_state();
 }
 
 void TWindowSubShortMail::run_task() {
@@ -283,7 +282,7 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 19:
-        if (TLobby::is_active() != 0) {
+        if (::is_active() != 0) {
             state = 0x14;
         } else {
             state = 0x18;
@@ -315,7 +314,7 @@ void TWindowSubShortMail::run_task() {
         if (auto_reply_menu->is_cancelled() != 0) {
             state = 0x14;
         } else if (auto_reply_menu->is_decided() != 0) {
-            if (TLobby::set_flag_bit0(auto_reply_menu->get_selected_value()) != 0) {
+            if (set_flag_bit0(auto_reply_menu->get_selected_value()) != 0) {
                 if (auto_reply_window != NULL) { auto_reply_window->close(); auto_reply_window = NULL; }
             }
             state = 0x14;
@@ -328,7 +327,7 @@ void TWindowSubShortMail::run_task() {
         if (main_menu != NULL) { main_menu->close(); main_menu = NULL; }
         if (keyboard == NULL) {
             keyboard = create_keyboard();
-            keyboard->set_text(reinterpret_cast<char *>(TLobby::get_card_window_area()));
+            keyboard->set_text(reinterpret_cast<char *>(get_card_window_area()));
         }
         keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBB)));
         keyboard->clear_keyboard_flag60_bit1();
@@ -354,7 +353,7 @@ void TWindowSubShortMail::run_task() {
         } else if (confirm_window->is_child_visible() != 0) {
             if (confirm_window->get_selected_value() == 0) {
                 void *b = keyboard->realloc_buffer();
-                ((TLobby *)b)->set_short_mail_text();
+                set_short_mail_text((char *)b);
                 mem_free(b);
                 state = 1;
             } else {
@@ -500,12 +499,12 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
 
     window_layout_position = get_window_layout_position(0xA1);
     list = create_window_menu_default(window_layout_position, 2);
-    if (TLobby::get_flag_bit0() != 0) {
+    if (get_flag_bit0() != 0) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
-        list->add_text_entry(TLobby::get_card_window_area(), 0, 0);
+        list->add_text_entry(get_card_window_area(), 0, 0);
     } else {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 0, 0);
-        add_gray_text_entry(list, (const char *)(TLobby::get_card_window_area()), 0, 0);
+        add_gray_text_entry(list, (const char *)(get_card_window_area()), 0, 0);
     }
     list->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
@@ -521,7 +520,7 @@ TWindowMenu *TWindowSubShortMail::open_menu(void) {
     menu = create_window_menu_default(window_layout_position, 2);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
-    if (TLobby::get_flag_bit0() == 0) {
+    if (get_flag_bit0() == 0) {
         ((TWindowSubComCardList *)menu)->set_selected_index(1);
     }
     menu->set_flag70_bit10();
@@ -532,7 +531,7 @@ TWindowMenu *TWindowSubShortMail::open_menu(void) {
 TWindowMessageYesNo *TWindowSubShortMail::open_confirm_dialog() {
     TWindowMessageYesNo *dialog;
 
-    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
     open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x9f), 206.0f);
     dialog->set_menu_selected_index(0);
     dialog->set_choice_menu_flag70_bit10();
@@ -542,7 +541,7 @@ TWindowMessageYesNo *TWindowSubShortMail::open_confirm_dialog() {
 TWindowMessageYesNo *TWindowSubShortMail::open_delete_confirm_dialog() {
     TWindowMessageYesNo *dialog;
 
-    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
     open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), get_window_layout_position(0xa3), 206.0f);
     dialog->set_menu_selected_index(0);
     dialog->set_choice_menu_flag70_bit10();

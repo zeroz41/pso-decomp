@@ -1,11 +1,9 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
-#include "pso/ui/chat/SymbolChatSprite.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
-#include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -17,21 +15,14 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
 
-struct PartUv {
-    f32 u;
-    f32 v;
-};
-
-typedef struct PartWindowTable { u8 pad[0x34]; void *win[1]; } PartWindowTable;
-
-typedef struct PartWindowSet { u8 pad[4]; PartWindowTable *tbl; } PartWindowSet;
+#include "pso/ui/window/WindowSpritePart.h"
+#include "pso/ui/chat/SymbolChatPayload.h"
 
 extern "C" {
 
@@ -40,7 +31,6 @@ struct SymbolChatSpriteLayout {
     u32 rows;
     SpritePartLayoutRecord recs[25];
 };
-
 
 
 SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
@@ -80,7 +70,7 @@ const char *window_chat_symbol_name = "TWindowChatSymbol";
 #pragma pop
 
 extern const NJS_POINT2 symbol_chat_face_uv_table[4];
-extern const PartUv symbol_chat_parts_set_part_uv_table[4];
+extern const NJS_POINT2 symbol_chat_parts_set_part_uv_table[4];
 extern const NJS_POINT2 symbol_chat_part_uv_table[70];
 extern const NJS_POINT2 symbol_chat_part_size_table[3];
 extern const int symbol_chat_parts_color_table[8];
@@ -90,7 +80,7 @@ extern const int chat_help_color_table[8];
 const NJS_POINT2 symbol_chat_face_uv_table[4] = {
     { 2.0f, 194.0f }, { 2.0f, 130.0f }, { 66.0f, 130.0f }, { 66.0f, 194.0f },
 };
-const PartUv symbol_chat_parts_set_part_uv_table[4] = {
+const NJS_POINT2 symbol_chat_parts_set_part_uv_table[4] = {
     { 178.0f, 168.0f }, { 128.0f, 168.0f }, { 178.0f, 128.0f }, { 128.0f, 128.0f },
 };
 // Texture coordinates of the 70 symbol-chat parts in r256_symparts.
@@ -126,24 +116,23 @@ const int chat_help_color_table[8] = {
 };
 
 
-int TWindowSubSymbolChatPartsSet::get_parts_entry(int a0) {  return symbol_chat_parts_color_table[a0]; }
+int TWindowSubSymbolChatPartsSet::get_parts_color(int index) { return symbol_chat_parts_color_table[index]; }
 
-void TWindowSubSymbolChatPartsSet::set_pos(s16 prev, s16 next) {
-    *(f32 *)&this->m_prev = (f32) (32.0f + (f32) prev);
-    *(f32 *)&this->m_next = (f32) next;
+void TWindowSubSymbolChatPartsSet::set_pos(WindowSpritePart *sprite, s16 x, s16 y) {
+    sprite->x = (f32)(32.0f + (f32)x);
+    sprite->y = (f32)y;
 }
 
 #pragma push
 #pragma fp_contract on
-#define o ((SymbolChatSprite *)sprite)
-void TWindowSubSymbolChatPartsSet::set_part_sprite(void *sprite, s16 id, s32 a, s32 b) {
+void TWindowSubSymbolChatPartsSet::set_part_sprite(WindowSpritePart *sprite, s16 id, s32 flip_u, s32 flip_v) {
     const NJS_POINT2 *e;
     const NJS_POINT2 *size;
     if (id == -1) {
-        ((TWindowHelpItem *)o)->set_flag0_bit2();
+        ((TWindowHelpItem *)sprite)->set_flag0_bit2();
         return;
     }
-    ((TWindowSubStatusDisp *)o)->clear_visible_flag();
+    ((TWindowSubStatusDisp *)sprite)->clear_visible_flag();
     if (id < 0x30) {
         size = &symbol_chat_part_size_table[0];
     } else if (id < 0x3C) {
@@ -151,106 +140,101 @@ void TWindowSubSymbolChatPartsSet::set_part_sprite(void *sprite, s16 id, s32 a, 
     } else {
         size = &symbol_chat_part_size_table[2];
     }
-    o->x -= 0.5f * size->x;
-    o->y -= 0.5f * size->y;
-    o->w = size->x;
-    o->h = size->y;
+    sprite->x -= 0.5f * size->x;
+    sprite->y -= 0.5f * size->y;
+    sprite->w = size->x;
+    sprite->h = size->y;
     e = &symbol_chat_part_uv_table[id];
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(o), (f32)e->x, (f32)e->y);
-    if (a != 0) {
-        swap_sprite_u_edges(reinterpret_cast<WindowSpritePart *>(o));
+    set_sprite_uv_from_pixels(sprite, (f32)e->x, (f32)e->y);
+    if (flip_u != 0) {
+        swap_sprite_u_edges(sprite);
     }
-    if (b != 0) {
-        swap_sprite_v_edges(reinterpret_cast<WindowSpritePart *>(o));
+    if (flip_v != 0) {
+        swap_sprite_v_edges(sprite);
     }
 }
-#undef o
 #pragma pop
 
-u16 *TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 sel) {
-    return (u16 *)this->get_array_entry(sel + 0xD);
+WindowSpritePart *TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 sel) {
+    return (WindowSpritePart *)this->get_array_entry(sel + 0xD);
 }
 
-void TWindowSubSymbolChatPartsSet::apply_part_to_window(void *window_set_ptr, void *part_ptr, int index) {
-    PartWindowSet *window_set = (PartWindowSet *)window_set_ptr;
-    SymbolChatPart *part = (SymbolChatPart *)part_ptr;
-    void *w;
+void TWindowSubSymbolChatPartsSet::apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index) {
+    WindowSpritePart *w;
     u8 f;
-    w = window_set->tbl->win[index];
-    ((TWindowSubSymbolChatPartsSet *)w)->set_pos(part->x, part->y);
+    w = static_cast<WindowSpritePart *>(entries->items[index + 13]);
+    set_pos(w, part->x, part->y);
     f = part->flags;
-    TWindowSubSymbolChatPartsSet::set_part_sprite(w, part->id, (s32)(f & 1), (s32)((f >> 1) & 1));
+    set_part_sprite(w, part->id, (s32)(f & 1), (s32)((f >> 1) & 1));
 }
 
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(SymbolChatSprite *help, SymbolChatSprite *extra_icon, SymbolChatSprite *shortcut_icon, u16 packed, s32 sel, s32 flip_u, s32 flip_v, s32 slot) {
+void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index) {
     f32 u;
     f32 v;
-    const PartUv *uv;
-    if (packed == 0xFF) {
+    const NJS_POINT2 *uv;
+    if (code == 0xFF) {
         ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
         ((TWindowHelpItem *)help)->set_flag0_bit2();
-        ((TWindowHelpItem *)extra_icon)->set_flag0_bit2();
+        ((TWindowHelpItem *)alternate)->set_flag0_bit2();
         return;
     }
     ((TWindowSubStatusDisp *)shortcut_icon)->clear_visible_flag();
     ((TWindowSubStatusDisp *)help)->clear_visible_flag();
-    ((TWindowSubStatusDisp *)extra_icon)->clear_visible_flag();
-    u = 32.0f * (f32)(packed & 7);
-    v = 32.0f * (f32)((packed >> 3) & 7);
-    help->kind = ((packed >> 6) & 3) + 7;
-    help->entry = TWindowSubSymbolChatPartsSet::get_parts_entry(sel);
-    if (packed <= 0x12) {
-        uv = &symbol_chat_parts_set_part_uv_table[slot];
-        set_sprite_dimensions(reinterpret_cast<WindowSpritePart *>(help), 31.0f, 31.0f);
+    ((TWindowSubStatusDisp *)alternate)->clear_visible_flag();
+    u = 32.0f * (f32)(code & 7);
+    v = 32.0f * (f32)((code >> 3) & 7);
+    help->kind = ((code >> 6) & 3) + 7;
+    help->color = get_parts_color(color);
+    if (code <= 0x12) {
+        uv = &symbol_chat_parts_set_part_uv_table[uv_index];
+        set_sprite_dimensions(help, 31.0f, 31.0f);
         shortcut_icon->x = help->x - 5.0f;
         shortcut_icon->y = help->y;
-        set_sprite_dimensions(reinterpret_cast<WindowSpritePart *>(shortcut_icon), 50.0f, 40.0f);
-        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(shortcut_icon), uv->u, uv->v);
-        ((TWindowHelpItem *)extra_icon)->set_flag0_bit2();
+        set_sprite_dimensions(shortcut_icon, 50.0f, 40.0f);
+        set_sprite_uv_from_pixels(shortcut_icon, uv->x, uv->y);
+        ((TWindowHelpItem *)alternate)->set_flag0_bit2();
     } else {
-        set_sprite_dimensions(reinterpret_cast<WindowSpritePart *>(help), 30.0f, 30.0f);
-        extra_icon->x = help->x;
-        extra_icon->y = help->y;
+        set_sprite_dimensions(help, 30.0f, 30.0f);
+        alternate->x = help->x;
+        alternate->y = help->y;
         ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
     }
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), u, v);
+    set_sprite_uv_from_pixels(help, u, v);
     if (flip_u != 0) {
-        swap_sprite_u_edges(reinterpret_cast<WindowSpritePart *>(help));
+        swap_sprite_u_edges(help);
     }
     if (flip_v != 0) {
-        swap_sprite_v_edges(reinterpret_cast<WindowSpritePart *>(help));
+        swap_sprite_v_edges(help);
     }
 }
 
-u16 *get_shortcut_icon_entry(void *window, s32 sel) {
-    return (u16 *)((TWindowBase *)window)->get_array_entry(sel + 0x1);
+WindowSpritePart *get_shortcut_icon_entry(void *window, s32 sel) {
+    return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 0x1);
 }
 
-u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr index) {
-    return (u16 *)get_array_entry(index + 9);
+WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr index) {
+    return (WindowSpritePart *)get_array_entry(index + 9);
 }
 
-u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
-    return (u16 *)((TWindowBase *)window)->get_array_entry(sel + 5);
+WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
+    return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 5);
 }
 
 void apply_facial_part_sprites(WindowLayoutEntries *entries, s32 packed, s32 cur) {
-    SymbolChatSprite **p = (SymbolChatSprite **)entries->items + cur;
-    setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(p[5], p[9], p[1], (u16)((u8)packed), (s32)((packed >> 8) & 7), (s32)((packed >> 11) & 1), (s32)((packed >> 12) & 1), cur);
+    WindowSpritePart **p = (WindowSpritePart **)entries->items + cur;
+    TWindowSubSymbolChatPartsSet::setup_part_sprites(p[5], p[9], p[1], (u16)((u8)packed), (s32)((packed >> 8) & 7), (s32)((packed >> 11) & 1), (s32)((packed >> 12) & 1), cur);
 }
 }
 
-#define w ((SymbolChatSprite *)sprite)
-int set_symbol_chat_face_sprite(void *sprite, u8 b) {
+int set_symbol_chat_face_sprite(WindowSpritePart *sprite, u8 b) {
     const NJS_POINT2 *e;
     e = &symbol_chat_face_uv_table[b & 3];
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(w), (f32)e->x, (f32)e->y);
-    return w->entry = TWindowSubSymbolChatPartsSet::get_parts_entry((b >> 2) & 7);
+    set_sprite_uv_from_pixels(sprite, (f32)e->x, (f32)e->y);
+    return sprite->color = TWindowSubSymbolChatPartsSet::get_parts_color((b >> 2) & 7);
 }
-#undef w
 
 void apply_face_appearance_sprite(WindowLayoutEntries *entries, u8 appearance) {
-    set_symbol_chat_face_sprite(entries->items[0], appearance);
+    set_symbol_chat_face_sprite(static_cast<WindowSpritePart *>(entries->items[0]), appearance);
 }
 
 void get_symbol_chat_frame_size(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }

@@ -147,7 +147,7 @@ void TBoss6Type2::clear_harmful_statuses() {}
 
 void TBoss6Type2::apply_shock_status() {}
 
-void TBoss6Type2::apply_movement_ailment(s32) {}
+void TBoss6Type2::apply_movement_ailment(CollisionBody *) {}
 
 void TBoss6Type2::apply_confusion_status() {}
 
@@ -498,8 +498,7 @@ s32 TBoss6Type2::find_index_in_table(u32 v) {
 }
 
 s32 TBoss6Type2::pick_random_other_index() {
-    TBoss6Type2 *o = this;
-    s32 t = TBoss6Type2::find_index_in_table(o->target_attribute_mask);
+    s32 t = TBoss6Type2::find_index_in_table(this->target_attribute_mask);
     s32 r = t + (s32)(2.99f * (3.0517578e-05f * (f32)rand())) + 1;
     if (r >= 4) {
         r -= 4;
@@ -629,7 +628,7 @@ void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
     *a = local_attacker_id;
     *b = attacker_id;
     for (i = 0; i < 4; i++) {
-        out[i] = obj_getArrU16_FC(this, i);
+        out[i] = get_attack_credit_slot(i);
     }
 }
 

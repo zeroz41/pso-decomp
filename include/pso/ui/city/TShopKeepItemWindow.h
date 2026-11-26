@@ -21,6 +21,7 @@ struct TShopKeepItemEntry {
 };
 
 struct TShopKeepItemWindow : public TShopWindowBase {
+    static const char *class_name;
     TShopKeepItemWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TShopKeepItemWindow();
     void handle_deposit_list_select();

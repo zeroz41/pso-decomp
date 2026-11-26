@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
@@ -31,11 +30,10 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby_802268F4.h"
 
-
-extern "C" {
 
 const char *logo_class_name = "TLogo";
 
@@ -51,7 +49,6 @@ void (*logo_load_callback_table[18])(void) = {
     TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
-}
 extern int sega_logo_done_flag;
 
 // This unit was built with deferred inlining (-inline off,deferred): the compiler emits

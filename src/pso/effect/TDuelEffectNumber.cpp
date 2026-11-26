@@ -13,9 +13,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-}
-
 const char *TDuelEffectNumber::class_name = "TDuelEffectNumber";
 
 // Texel origin of each digit's 64x85 cell in the duel texture.

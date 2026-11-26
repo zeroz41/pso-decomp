@@ -5,8 +5,8 @@
 
 struct WindowDrawContext;
 
-extern "C" {
 void draw_window_tab(WindowDrawContext *context, f32 *position, u8 style, f32 width);
+extern "C" {
 f32 TWindowSubStatusDisp__sub_80287570(void *heading);
 f32 TWindowSubStatusDisp__sub_802877A4(f32 text_width);
 struct HeadingEntry;

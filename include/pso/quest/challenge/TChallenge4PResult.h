@@ -41,7 +41,6 @@ public:
     void handle_result_code();
     void update_input();
 public:
-    void get_player_rank();
     static void update_entries(TItemData *item, s32 slot);
 };
 

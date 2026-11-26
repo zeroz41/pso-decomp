@@ -7,6 +7,7 @@
 
 class TChCrEffWall : public TObject {
 public:
+    static const char *name;
     TChCrEffWall(TObject *_w1);
     virtual ~TChCrEffWall();
     virtual void render();

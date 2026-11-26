@@ -10,7 +10,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLOC_End.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLOC_Start.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -20,21 +20,16 @@
 #include "pso/unk/text_8023601C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/ui/hud/TMainCursor_8013B524.h"
-#include "pso/ui/hud/TMainCursor_8013E1C8.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/hud/TMainCursor_8013B690.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/hud/TMainCursor_8013F104.h"
 #include "pso/system/vector.h"
-#include "pso/ui/hud/TMainCursor_8013BEB8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TLockOnCursor.h"
@@ -45,25 +40,15 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/hud/TMainCursor_8013DEF8.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject_8001A448.h"
-#include "pso/ui/hud/TMainCursor_8013E2E4.h"
-#include "pso/ui/hud/TMainCursor_8013E47C.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/ui/hud/TMainCursor_8013E624.h"
-#include "pso/ui/hud/TMainCursor_8013E7B8.h"
-#include "pso/ui/hud/TLockOnCursor_8013EA08.h"
-#include "pso/ui/hud/TLockOnCursor_8013EB80.h"
 #include "pso/unk/text_80072004.h"
-#include "pso/ui/hud/TLockOnCursor_8013EE00.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TMainCursor_80154090.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -76,17 +61,11 @@
 #undef PSO_SDK_COMPACT_MATH
 
 
-
 extern void *lock_on_list_clear_vtable[6];
 
 
-extern "C" {
-
 extern const char *lockon_list_clear_task_name;
 
-}
-
-extern TObjPlayer *player_slot_table[12];
 
 
 extern "C" {
@@ -104,7 +83,6 @@ s32 rotate_matrix_y(s32, s32);
 u8 get_cast_technique_level(void *, s32);
 s16 get_action_palette_mode(TObjPlayer *player, s32 index);
 }
-
 
 
 extern "C" void render__7TObjectFv();
@@ -139,12 +117,8 @@ void *lock_on_list_clear_vtable[6] = {
 };
 
 
-
 extern "C" {
 f32 vec3_dot(void *, void *);
-s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
-s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
-
 }
 
 struct TLockOnCursor;
@@ -167,25 +141,17 @@ extern f32 scratch_vec5[3];
 }
 
 
-
-
 u8 * lock_on_cursor_bml_resource;
 s32 lock_on_cursor_model;
 s32 TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
 extern "C" {
-void __destroy_arr(void *, void *, int, int);
-}
-extern "C" {
 void reset_target_part_entry(LockOnTargetPart *);
 
-void __construct_array(void *, void *, void *, int, int);
 }
 
 extern const f32 lbl_805DB0C4;
-
-
 
 
 
@@ -204,7 +170,7 @@ void TLOC_ListClear::run_task() {
     }
 }
 
-extern "C" TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
+TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
     if (task != NULL) {
         *(void ***)((u8 *)task + 0x18) = lock_on_list_clear_vtable;
         if (task->m_target.resolve() != 0 && task->m_target.get_player()->lock_on_cursor != NULL) {
@@ -968,13 +934,11 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
     return found;
 }
 
-extern "C" {
 
 CsnHit *is_target_obstructed(LockOnActionSlot *unused, const Vec *to, const Vec *from) {
     return csnVector(from, to, 0x28A0);
 }
 
-}
 
 #pragma push
 #pragma fp_contract on
@@ -1382,13 +1346,9 @@ void LockOnActionSlot::reset_state() {
     target_records.clear();
 }
 
-extern "C" {
-
 void copy_action_entry(void *dst, void *src) {
     *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
     *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
-}
-
 }
 
 s32 ActionPriorityList::sort_actions_by_priority() {

@@ -468,7 +468,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                         if (player->is_locally_controlled() != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
-                                TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());
+                                TObjPlayer::send_6x26_unequip_item(player, item->get_item_id());
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
@@ -565,7 +565,7 @@ s32 TObjEneDf2Bringer::attack_visible_players() {
         if (player->is_alive() != 0) {
             horizontal_distance_squared(&body_center, &player->position);
             if (csnLookAt(&body_center, &player->body_center) == NULL) {
-                dmg = floor_to_float(0.25f * (f32)get_actor_tp(player));
+                dmg = floor_to_float(0.25f * (f32)player->get_actor_tp());
                 player->check_can_act((s16)dmg);
                 total += dmg;
                 new TObjEneDf2BringerTpDrainPoint(this, &player->body_center, &node_points[3]);
@@ -947,7 +947,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
     case 5:
         status_flags &= ~4;
         bodies->flags &= ~0x700;
-        clear_field_388();
+        clear_active_flags();
         break;
     }
 }
@@ -1241,7 +1241,7 @@ void TObjEneDf2Bringer::update_damage_state(s32 reason) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1345,9 +1345,9 @@ void TObjEneDf2Bringer::render() {
             }
         }
         df2_bringer_uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         {
-            NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            NJS_TEXNAME *textures = texlist->textures;
             saved_texture = textures[1].texture;
             textures[1].texture = textures[face_texture].texture;
         }
@@ -1374,7 +1374,7 @@ void TObjEneDf2Bringer::render() {
         TParticleCtrl::end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        reinterpret_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = saved_texture;
+        texlist->textures[1].texture = saved_texture;
         return;
     }
     for (i = 0; i < 4; i++) {
@@ -1395,7 +1395,7 @@ void TObjEneDf2Bringer::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
         toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

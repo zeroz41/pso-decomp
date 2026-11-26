@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.h"
+#include "pso/enemy/AreaSoundRemap.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/map/FloorArea.h"

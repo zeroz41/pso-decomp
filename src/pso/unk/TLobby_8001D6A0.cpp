@@ -3,9 +3,9 @@
 #include "types.h"
 #include "pso/network/TProtocol.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/TLobbyBattleParamData.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -27,73 +27,18 @@
 #pragma readonly_strings on
 
 
-extern "C" {
-extern s32 auto_reply_flags;
-
-void TLobby::sync_auto_reply_state() {
-    if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
-        if (TLobby::get_flag_bit0() != 0) {
-            protocol_instance->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
-        } else {
-            protocol_instance->send_disable_auto_reply();
-        }
-        auto_reply_flags &= ~4;
-        auto_reply_flags = TLobby::get_flag_bit0() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);
-    }
-}
-
-saddr TLobby::get_card_window_area() {
-    return get_character_save_record(0xFFFF) + 0x2050;
-}
-void TLobby::set_short_mail_text() {
-    saddr arg0 = (saddr)this;
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
-    TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
-    *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
-    auto_reply_flags |= 4;
-    if (TLobby::is_active() != 0) {
-        TLobby::set_flag_bit0(1);
-        return;
-    }
-    TLobby::set_flag_bit0(0);
-}
-
-int TLobby::get_flag_bit0() { return (auto_reply_flags & 0x1); }
-
-s32 TLobby::set_flag_bit0(s32 enabled) {
-    s32 var_r3;
-    s32 ret;
-
-    ret = TLobby::get_flag_bit0();
-    if (ret == enabled) {
-        return 0;
-    }
-    var_r3 = auto_reply_flags & 0xFFFFFFFE;
-    if (enabled != 0) {
-        var_r3 = auto_reply_flags | 1;
-    }
-    auto_reply_flags = var_r3;
-    return 1;
-}
-
-}
+BattleParameterBank *battle_parameter_buffer;
+player_stats *battle_param_stats;
+AttackParams *battle_param_attacks;
+ActorParamBlock *battle_param_resistances;
+BattleMovementParams *battle_param_movement;
+s32 battle_parameter_difficulty;
+s32 battle_param_lab_variant;
+saddr lobby_instance;
 
 struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
 
-
-s32 TLobby::is_active() {
-    return *(s8 *)TLobby::get_card_window_area() == 0 ? 0 : 1;
-}
-
-void reset_auto_reply_flags(s32 _w0) {
-    auto_reply_flags = 0;
-}
-
-void TLobby::clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
-void TLobby__sub_8001DC04(void* p) { reset_auto_reply_flags((saddr)p); }
 
 
 s32 *get_shared_text_buffer(void) {
@@ -133,7 +78,7 @@ void load_battle_param_entry(void) {
     read_disc_file(name, file);
     idx = battle_parameter_difficulty;
     new_var = (dst = battle_parameter_buffer);
-    move_data((void *)((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
+    move_data(((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
     {
       player_stats *p = ((0, dst))->stats;
       s32 i;
@@ -144,7 +89,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
+    move_data(((new_var->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
     {
       AttackParams *p = new_var->attacks;
       s32 i;
@@ -155,7 +100,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
+    move_data(((new_var->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
     {
       s32 i;
       ActorParamBlock *p = new_var->resistances;
@@ -166,7 +111,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
+    move_data(((new_var->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
     {
       s32 i;
       BattleMovementParams *p = new_var->movement;
@@ -203,11 +148,10 @@ struct CopyDataBlk { s32 w[6]; };
 
 struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
-extern "C" {
-
 void set_lobby_instance(s32 arg0) {
     lobby_instance = arg0;
 }
+extern "C" {
 
 void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 i;
@@ -322,6 +266,7 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
     }
     return (u8)var_r0;
 }
+}
 
 BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
@@ -338,9 +283,11 @@ AttackParams *get_battle_param_attack(int a0, int a1) {  return &battle_param_at
 player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
 
 player_stats *get_battle_param_stats(int a0, int a1) {  return &battle_param_stats[a1]; }
+extern "C" {
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
+}
 }
 
 
@@ -383,7 +330,6 @@ void TLobby::free_boss4_rock() {
     battle_param_attacks = NULL;
     battle_param_resistances = NULL;
     battle_param_movement = NULL;
-}
 }
 
 void alloc_battle_param_tables(void) {
@@ -482,6 +428,7 @@ void set_clock_offset_from_server_time(TLobby *packet) {
         *(s32 *)(save + 8) = offset;
     }
 }
+}
 
 s32 TLobby::calc_time_from_hms() {
     saddr arg0 = (saddr)this;
@@ -501,6 +448,7 @@ s32 parse_two_digit_number(void *arg0) {
     v += s[1] - '0';
     return v;
 }
+extern "C" {
 
 s32 __cvt_fp2unsigned(f32);
 }

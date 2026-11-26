@@ -21,10 +21,12 @@ LAYOUT_ASSERT(FloorSetFlagsPayloadSize, sizeof(FloorSetFlagsPayload) == 0x4000);
 LAYOUT_ASSERT(FloorSetFlagsHeaderSize, sizeof(FloorSetFlagsHeader) == 0x10);
 LAYOUT_ASSERT(FloorSetFlagsEnemyOffset, offsetof(FloorSetFlagsHeader, enemy_offset) == 8);
 
-extern "C" {
 void swap_floor_set_flags_header(FloorSetFlagsHeader *header);
+extern "C" {
 void TLobby__sub_8020B47C(FloorSetFlagsHeader *buffer);
+}
 void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16 length);
+extern "C" {
 int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buffer);
 void TLobby__sub_8020BB18(void);
 }

@@ -173,7 +173,7 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
         TBoss6PlotFalz::type2_instance->get_phase_values(&local_attacker_id, &attacker_id, out);
         i = 0;
         do {
-            obj_setArrS16_FC(this, i, out[i]);
+            set_attack_credit_slot(i, out[i]);
             i += 1;
         } while (i < 4);
     }

@@ -28,16 +28,16 @@ extern "C" {
 s32 TWindowSubComCard__sub_8026906C(void);
 
 void TWindowMenuInfomation::request_close() {
-    if (!(this->m_70 & 8) && (TWindowMenuInfomation::is_open() == 0)) {
+    if (!(this->state_flags & 8) && (TWindowMenuInfomation::is_open() == 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_70 = (u16) (this->m_70 | 4);
+        this->state_flags = (u16) (this->state_flags | 4);
     }
 }
 void TWindowMenuInfomation::draw() {
     get_array_entry(this->index);
     if (TWindowSubComCard__sub_8026906C() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
-        this->m_70 = (u16) (this->m_70 | 2);
+        this->state_flags = (u16) (this->state_flags | 2);
         if (this->heading != 0) {
             this->heading->set_entry_state(2);
         }
@@ -51,7 +51,7 @@ void TWindowMenuInfomation::move_next_choice() {
 loop_1:
     candidate += 1;
     if (candidate >= entry_capacity) {
-        if (!(this->m_70 & 1)) {
+        if (!(this->state_flags & 1)) {
             candidate = 0;
             goto block_4;
         }
@@ -74,7 +74,7 @@ void TWindowMenuInfomation::move_cursor_prev() {
 loop_1:
     candidate -= 1;
     if (candidate < 0) {
-        if (!(this->m_70 & 1)) {
+        if (!(this->state_flags & 1)) {
             candidate = entry_capacity - 1;
             goto block_4;
         }
@@ -129,13 +129,13 @@ void TWindowMenuInfomation::update_scroll_offset() {
 
 void TWindowMenuInfomation::clamp_scroll() {
     NJS_POINT2 range;
-    f32 temp_f1;
+    f32 height;
     if (scroll_bar != NULL) {
         range.x = 0.0f;
-        temp_f1 = this->frame_size[1] - 20.0f;
-        range.y = temp_f1;
+        height = this->frame_size[1] - 20.0f;
+        range.y = height;
         if (this->heading != 0) {
-            range.y = temp_f1 - 6.0f;
+            range.y = height - 6.0f;
         }
         scroll_bar->clamp_offset(scroll_offset, &range);
     }
@@ -158,7 +158,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     window->next_entry = 0;
     window->index = 0;
     window->entry_capacity = (s16)rows;
-    window->m_70 = 0;
+    window->state_flags = 0;
     window->heading = NULL;
     window->scroll_bar = NULL;
     for (i = 0; i < rows; i++) {
@@ -219,13 +219,13 @@ void TWindowMenuInfomation::render() {
 }
 
 void TWindowMenuInfomation::run_task() {
-    uaddr heading_window;
+    TWindowSubStatusDisp *heading_window;
     WindowScrollBar *scroll;
     ControllerInputContext *input;
     ControllerInputContext *pad;
     ControllerInputContext *context;
     if ((this->is_selected() == 0) && (this->is_open() == 0)) {
-        if (m_70 & 0x10) {
+        if (state_flags & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
@@ -251,9 +251,9 @@ void TWindowMenuInfomation::run_task() {
         }
     }
     if ((f32) open_tick >= 7.5f) {
-        heading_window = (uaddr)heading;
-        if (heading_window != 0U) {
-            ((TWindowSubStatusDisp *)heading_window)->update_subwindow();
+        heading_window = heading;
+        if (heading_window != NULL) {
+            heading_window->update_subwindow();
         }
         scroll = scroll_bar;
         if (scroll != NULL) {
@@ -264,7 +264,7 @@ void TWindowMenuInfomation::run_task() {
     this->step_window_tween();
     this->update_scroll_offset();
     this->clamp_scroll();
-    ((TWindowBase *)this)->update_window_entry_list(&entry_list);
+    update_window_entry_list(&entry_list);
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {

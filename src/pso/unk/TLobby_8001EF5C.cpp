@@ -83,12 +83,16 @@ BmlArchiveHeader *bml_archive_header;
 BmlArchiveEntry * bml_header_record_ptr;
 s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
+}
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
+extern "C" {
 s32 TLobby__sub_800F9FF4(saddr);
 s32 release_texture_list(void *);
 
 extern const char *lbl_805D2B10;
+}
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
+extern "C" {
 void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
 
 
@@ -167,6 +171,7 @@ extern "C" void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset
     }
     return load_nj_chunk_model_resource(file, offset, tag);
 }
+}
 
 void BmlResource::LoadTextureSub(const char *filename, s32 index) {
     char buf[0x20];
@@ -192,7 +197,6 @@ void BmlResource::set_flag_and_notify() {
     if (on_loaded != NULL) {
         on_loaded(callback_context);
     }
-}
 }
 
 s32 LoadBmlExec(BmlResource *bml, const char *name) {
@@ -814,7 +818,6 @@ static inline void request_motions(BmlResource *resource, const char **list) {
 }
 
 // TBinModel constructor (inferred: strings "TBinModel_NORMAL" / "TBinModel_REQ", operator new(0x440) at each caller).
-extern "C" {
 BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
     const char **models, const char **motions,
     BmlLoadCallback on_loaded, void *context, void *arena) {
@@ -875,5 +878,4 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
         request_motions(resource, motions);
     }
     return resource;
-}
 }

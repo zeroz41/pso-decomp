@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponLavisCannon.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/effect/item/TItemEffLavis.h"

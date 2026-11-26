@@ -18,7 +18,6 @@
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowMessageLog_8026AA38.h"
-#include "pso/unk/text_8026A93C.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -50,10 +49,8 @@ char *TWindowMessageLog::get_active_photon_object(u16 id) {
 }
 void TWindowMessageLog::clamp_scroll_offset() {
     NJS_POINT2 range;
-    f32 frame_height;
     range.x = 0.0f;
-    frame_height = this->frame_size[1];
-    range.y = frame_height - 20.0f;
+    range.y = this->frame_size[1] - 20.0f;
     if (scroll_bar->clamp_offset(scroll_offset, &range) != 0) {
         this->target_scroll_y = (f32) this->scroll_offset[1];
     }
@@ -231,12 +228,12 @@ void chat_log_add_line(const char *text) {
 
 void append_text_space(void);
 
-void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
+void post_chat_log_message(u16 id, const char *text) {
     char *str;
-    if ((s32) arg0 == (s32) local_client_id) {
-        cache_last_chat_line((uaddr)shared_text_buffer);
+    if ((s32) id == (s32) local_client_id) {
+        cache_last_chat_line((uaddr)text);
     }
-    str = TWindowMessageLog::get_active_photon_object(arg0);
+    str = TWindowMessageLog::get_active_photon_object(id);
     text_builder_reset();
     if (str != NULL) {
         text_builder_append((u8 *)str);
@@ -244,13 +241,13 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
         text_builder_append((u8 *)">");
         append_text_space();
     }
-    text_builder_append((u8 *)shared_text_buffer);
-    shared_text_buffer = (s32 *) get_shared_text_buffer();
-    chat_log_add_line((const char *)shared_text_buffer);
+    text_builder_append((u8 *)text);
+    text = (const char *)get_shared_text_buffer();
+    chat_log_add_line(text);
     {
         TWindowMessageLog *log = TWindowCtrl::get_field44();
         if (log != NULL) {
-            log->append_line((saddr) shared_text_buffer);
+            log->append_line((saddr)text);
         }
     }
 }

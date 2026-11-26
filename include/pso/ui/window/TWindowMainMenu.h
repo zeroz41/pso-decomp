@@ -88,4 +88,10 @@ LAYOUT_ASSERT(MainMenuSize, sizeof(TWindowMainMenu) == 0x60);
 
 int test_keyboard_card_flag4(void *p);
 
+extern "C" {
+void TWindowSubEquip__sub_80263AF4(void *, s32);
+}
+f32 get_main_menu_layer_depth(u8 *parent, u32 layer);
+void call_if_split_screen(uaddr object, s32 client_id);
+
 #endif

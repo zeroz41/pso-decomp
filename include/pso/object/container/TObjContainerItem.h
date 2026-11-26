@@ -10,7 +10,7 @@ struct TObjContainerItem : public TObjContainerCommon {
     virtual void draw_model();
     virtual void update_state();
     virtual void spawn_break_effects() const;
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     static void *create(void *set_data);
 };
 

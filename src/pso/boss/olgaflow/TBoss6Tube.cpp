@@ -32,10 +32,8 @@ const s32 boss6_tube_model_order[3] = { 2, 0, 1 };
 BmlResource *boss6_tube_bml_resource;
 NJS_TEXLIST *boss6_tube_texture_list;
 
-extern "C" {
 s32 TBoss6Tube::previous_scroll_phase;
 f32 TBoss6Tube::scroll_delta;
-}
 
 // run_task's state 1: spawn the trap and run update_scroll_delta.
 void TBoss6Tube::activate_warp() {

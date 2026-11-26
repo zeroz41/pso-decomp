@@ -113,8 +113,10 @@ struct TItemWeapon : public TItemEquipBase {
     void set_flag_8_unless_on_ground();
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
     void call_impact_callback(saddr arg1, saddr arg2);
-    void set_model_node_callback(s32);
+    void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
+    // The photon colour (blended by photon_phase), white when the weapon has none.
+    NJS_ARGB get_weapon_color();
     s32 is_active_in_game();
     void roll_technique();
     // The owner is on the third step of a combo and the weapon is identified.
@@ -164,8 +166,6 @@ struct TItemWeapon : public TItemEquipBase {
     WeaponHitCallback hit_callback;     // deliver_hit, on the target hit
 };
 
-struct WeaponMarkerPacket { s8 kind,variant; u8 pad[2]; TObjPlayer* player; s32 unobserved[3]; };
-
 LAYOUT_ASSERT(WeaponTrailsOffset, offsetof(TItemWeapon,trails)==0x18C);
 LAYOUT_ASSERT(WeaponTechniqueRollOffset, offsetof(TItemWeapon,technique_roll)==0x1BC);
 LAYOUT_ASSERT(WeaponPreviousTechniqueRollOffset, offsetof(TItemWeapon,previous_technique_roll)==0x1C0);
@@ -185,7 +185,6 @@ LAYOUT_ASSERT(WeaponShotCallbackOffset, offsetof(TItemWeapon,shot_callback)==0x1
 LAYOUT_ASSERT(WeaponGunPointOffset, offsetof(TItemWeapon,gun_point_joint)==0x1CE);
 LAYOUT_ASSERT(WeaponHitCallbackOffset, offsetof(TItemWeapon,hit_callback)==0x1F4);
 LAYOUT_ASSERT(WeaponBaseSize, sizeof(TItemWeapon)==0x1F8);
-LAYOUT_ASSERT(WeaponMarkerPacketSize, sizeof(WeaponMarkerPacket)==0x14);
 extern "C" {
 void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s32 end_joint);
 // TItemWeapon's destructor under its own symbol, for the derived classes

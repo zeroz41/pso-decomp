@@ -24,104 +24,91 @@ void set_draw_texture_and_color(s32 idx, s32 color);
 }
 void set_constant_material_color(u32 x);
 extern "C" {
-struct Col_802575C0 { u8 r, g, b, a; };
-
-struct Fade_802575C0 {
-    u16 flags;
-    u8 pad2[0x16];
-    Col_802575C0 col;
-    u8 pad1c[0x2C - 0x1C];
-    u32 rgb;
-    u8 pad30[4];
-    f32 tr, tg, tb;
-    u8 pad40[4];
-    f32 cr, cg, cb;
-    u8 pad50[4];
-    f32 dr, dg, db;
-};
-
-
 extern const float lbl_805DCE58;
 
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
 
-u32 update_text_color_transition(Fade_802575C0 *fade) {
+}
+
+// The four bytes of a colour as copy4 stores them into TWindowStatusGauge::color.
+struct ColorBytes { u8 r, g, b, a; };
+
+u32 TWindowStatusGaugeFeedback::update_text_color_transition() {
     s32 done = 1;
-    if (fade->cr < fade->tr) {
-        f32 v = fade->cr + fade->dr;
-        fade->cr = CLAMP_8025737C(v, 0.0f, fade->tr);
-        if (fade->cr < fade->tr) {
+    if (fade_current.r < fade_target.r) {
+        f32 v = fade_current.r + fade_step.r;
+        fade_current.r = CLAMP_8025737C(v, 0.0f, fade_target.r);
+        if (fade_current.r < fade_target.r) {
             done = 0;
         }
     } else {
-        f32 v = fade->cr + fade->dr;
-        fade->cr = CLAMP_8025737C(v, fade->tr, 255.0f);
-        if (fade->cr > fade->tr) {
+        f32 v = fade_current.r + fade_step.r;
+        fade_current.r = CLAMP_8025737C(v, fade_target.r, 255.0f);
+        if (fade_current.r > fade_target.r) {
             done = 0;
         }
     }
-    if (fade->cg < fade->tg) {
-        f32 v = fade->cg + fade->dg;
-        fade->cg = CLAMP_8025737C(v, 0.0f, fade->tg);
-        if (fade->cg < fade->tg) {
+    if (fade_current.g < fade_target.g) {
+        f32 v = fade_current.g + fade_step.g;
+        fade_current.g = CLAMP_8025737C(v, 0.0f, fade_target.g);
+        if (fade_current.g < fade_target.g) {
             done = 0;
         }
     } else {
-        f32 v = fade->cg + fade->dg;
-        fade->cg = CLAMP_8025737C(v, fade->tg, 255.0f);
-        if (fade->cg > fade->tg) {
+        f32 v = fade_current.g + fade_step.g;
+        fade_current.g = CLAMP_8025737C(v, fade_target.g, 255.0f);
+        if (fade_current.g > fade_target.g) {
             done = 0;
         }
     }
-    if (fade->cb < fade->tb) {
-        f32 v = fade->cb + fade->db;
-        fade->cb = CLAMP_8025737C(v, 0.0f, fade->tb);
-        if (fade->cb < fade->tb) {
+    if (fade_current.b < fade_target.b) {
+        f32 v = fade_current.b + fade_step.b;
+        fade_current.b = CLAMP_8025737C(v, 0.0f, fade_target.b);
+        if (fade_current.b < fade_target.b) {
             done = 0;
         }
     } else {
-        f32 v = fade->cb + fade->db;
-        fade->cb = CLAMP_8025737C(v, fade->tb, 255.0f);
-        if (fade->cb > fade->tb) {
+        f32 v = fade_current.b + fade_step.b;
+        fade_current.b = CLAMP_8025737C(v, fade_target.b, 255.0f);
+        if (fade_current.b > fade_target.b) {
             done = 0;
         }
     }
     if (done) {
-        fade->flags &= ~0x40;
-        return fade->rgb;
+        flags &= ~0x40;
+        return goal_color;
     }
     {
         u32 argb = 0xFF00;
-        argb |= (u8)fade->cr;
+        argb |= (u8)fade_current.r;
         argb <<= 8;
-        argb |= (u8)fade->cg;
+        argb |= (u8)fade_current.g;
         argb <<= 8;
-        argb |= (u8)fade->cb;
+        argb |= (u8)fade_current.b;
         return argb;
     }
 }
 
-void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time) {
-    Col_802575C0 c;
-    if (array_entry->rgb != rgb) {
-        array_entry->rgb = rgb;
+void TWindowStatusGaugeFeedback::start_text_color_transition(u32 rgb, f32 time) {
+    ColorBytes c;
+    if (goal_color != rgb) {
+        goal_color = rgb;
         c.r = rgb >> 16;
         c.g = rgb >> 8;
         c.b = rgb;
-        array_entry->tr = c.r;
-        array_entry->tg = c.g;
-        array_entry->tb = c.b;
-        copy4(&c, &array_entry->col);
+        fade_target.r = c.r;
+        fade_target.g = c.g;
+        fade_target.b = c.b;
+        copy4(&c, &color);
         time = 1.0f / time;
-        array_entry->cr = c.r;
-        array_entry->cg = c.g;
-        array_entry->cb = c.b;
-        array_entry->dr = time * (array_entry->tr - array_entry->cr);
-        array_entry->dg = time * (array_entry->tg - array_entry->cg);
-        array_entry->db = time * (array_entry->tb - array_entry->cb);
-        array_entry->flags |= 0x40;
+        fade_current.r = c.r;
+        fade_current.g = c.g;
+        fade_current.b = c.b;
+        fade_step.r = time * (fade_target.r - fade_current.r);
+        fade_step.g = time * (fade_target.g - fade_current.g);
+        fade_step.b = time * (fade_target.b - fade_current.b);
+        flags |= 0x40;
     }
-}
 }
 
 #pragma push
@@ -205,7 +192,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
 
 void TWindowStatusGaugeFeedback::update() {
     if (flags & 0x40) {
-        color = update_text_color_transition((Fade_802575C0 *)this);
+        color = update_text_color_transition();
     }
     if ((f32)shown != target) {
         f32 max = maximum;
@@ -242,7 +229,7 @@ TWindowStatusGaugeFeedback::TWindowStatusGaugeFeedback(LayoutEntryCopyRecord *so
     shown = (s16)target;
     rising_color = source->color_rising;
     falling_color = source->color_falling;
-    m_2c = color;
+    goal_color = color;
     timer = 0;
 }
 

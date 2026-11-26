@@ -23,17 +23,17 @@
 // The unit is compiled with deferred code generation: functions are emitted last to first, so the source runs
 // from the LineFade constructor (the unit's last function) back to EffLight::render (its first).
 
-const char *TObjEneMe1Canadin_EffLineFade__class_name = "TObjEneMe1Canadin_EffLineFade";
-const char *TObjEneMe1Canadin_EffLine__name = "TObjEneMe1Canadin_EffLine";
-const char *TObjEneMe1Canadin_EffDischarge__name = "TObjEneMe1Canadin_EffDischarge";
-const char *TObjEneMe1Canadin_EffLight__name = "TObjEneMe1Canadin_EffLight";
+const char *TObjEneMe1Canadin_EffLineFade::class_name = "TObjEneMe1Canadin_EffLineFade";
+const char *TObjEneMe1Canadin_EffLine::name = "TObjEneMe1Canadin_EffLine";
+const char *TObjEneMe1Canadin_EffDischarge::name = "TObjEneMe1Canadin_EffDischarge";
+const char *TObjEneMe1Canadin_EffLight::name = "TObjEneMe1Canadin_EffLight";
 
 extern "C" {
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 }
 
 TObjEneMe1Canadin_EffLineFade::TObjEneMe1Canadin_EffLineFade(TObject *parent, Vec *from, Vec *to) : TObject(parent) {
-    m_name = TObjEneMe1Canadin_EffLineFade__class_name;
+    m_name = TObjEneMe1Canadin_EffLineFade::class_name;
     VecCopy(&points[0], from);
     VecCopy(&points[1], to);
     colors[0].rgba = 0xFFFF0033;
@@ -68,7 +68,7 @@ void TObjEneMe1Canadin_EffLineFade::render() {
 #pragma push
 #pragma opt_propagation off
 TObjEneMe1Canadin_EffLine::TObjEneMe1Canadin_EffLine(TObject *parent, Vec *from, Vec *to) : TObject(parent) {
-    m_name = TObjEneMe1Canadin_EffLine__name;
+    m_name = TObjEneMe1Canadin_EffLine::name;
     tracked_from = from;
     tracked_to = to;
     VecCopy(&start, tracked_from);
@@ -103,7 +103,7 @@ void TObjEneMe1Canadin_EffLine::render() {
 
 TObjEneMe1Canadin_EffDischarge::TObjEneMe1Canadin_EffDischarge(TObjEneMe1Canadin *parent, Vec *from, Vec *to)
     : TObject(parent) {
-    m_name = TObjEneMe1Canadin_EffDischarge__name;
+    m_name = TObjEneMe1Canadin_EffDischarge::name;
     owner = parent;
     VecCopy(&seg_start, from);
     VecCopy(&target, to);
@@ -163,7 +163,7 @@ void TObjEneMe1Canadin_EffDischarge::render() {}
 
 TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 count) : TObject(parent) {
     s32 i;
-    m_name = TObjEneMe1Canadin_EffLight__name;
+    m_name = TObjEneMe1Canadin_EffLight::name;
     capacity = count;
     head = 0;
     tail = 0;

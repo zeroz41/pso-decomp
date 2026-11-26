@@ -22,6 +22,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
@@ -33,10 +34,6 @@ const NJS_ARGB boss2_mine_render_color = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 
 extern "C" {
-
-f32 atan2_float(f32 y, f32 x);
-
-f32 newton_sqrtf(s32, f32, f32, f32);
 
 __declspec(section ".data") s32 boss2_mine_params[2] = { 0x11, 0x11 };
 
@@ -65,7 +62,7 @@ void TBoss2Mine::clear_harmful_statuses() {  }
 
 void TBoss2Mine::apply_shock_status() {  }
 
-void TBoss2Mine::apply_movement_ailment(s32) {  }
+void TBoss2Mine::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss2Mine::apply_confusion_status() {  }
 
@@ -443,7 +440,7 @@ void TBoss2FloorMine::state_launch(s32 reason) {
         rotation_y = angle;
         rotation_x = 0x4000;
         y = body_center.y;
-        fall_time = newton_sqrtf(angle, (2.0f * (y - target_pos.y)) / 0.2f, y, 2.0f);
+        fall_time = newton_sqrtf((2.0f * (y - target_pos.y)) / 0.2f);
         drop_distance = 10.0f * fall_time;
         throw_speed = 10.0f;
         fall_speed = 0.0f;

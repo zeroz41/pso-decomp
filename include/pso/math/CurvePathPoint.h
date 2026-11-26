@@ -10,6 +10,8 @@
 struct CurvePathPoint {
     Vec pos;
     f32 length;
+
+    void bswap();
 };
 
 LAYOUT_ASSERT(CurvePathPointSize, sizeof(CurvePathPoint) == 0x10);

@@ -166,7 +166,7 @@ void TTecPlayerInfluence::spawn_support_tec_range_effect() {
                 fx.w[1] = spawn_particle_effect(&pos, 0x1F2);
                 fx.w[2] = spawn_particle_effect(&pos, 0x19D);
             }
-            switch ((s16)kind) {
+            switch (kind) {
             case 14:
                 break;
             case 16:

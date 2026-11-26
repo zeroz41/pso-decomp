@@ -41,11 +41,12 @@
 
 #pragma dont_inline off
 
-const char *shop_equipment_sell_window_class_name = "TShopEquipmentSellWindow";
+const char *TShopEquipmentSellWindow::class_name = "TShopEquipmentSellWindow";
 
 TShopEquipmentSellWindow::TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text) : TShopWindowBase(parent) {
-    this->m_name = shop_equipment_sell_window_class_name;
+    this->m_name = class_name;
     this->unused_370 = 0;
+
     this->entry_count = 0;
     this->title_text = title_text;
     this->state = 0;
@@ -118,14 +119,14 @@ void TShopEquipmentSellWindow::build_sell_list() {
     s32 n;
     s32 i;
     s32 v;
-    void *r;
+    TItemList *list;
     n = this->player->inventory_objects->count_matching_items(items);
     this->entry_count = 0;
     for (i = 0; i < n; i++) {
         if (items[i] != NULL) {
             v = TShopEquipmentSellWindow::get_item_data_value(reinterpret_cast<uaddr>(items[i]));
             if (v > 0 && items[i]->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
-                this->entries[this->entry_count].item = (TItem *)reinterpret_cast<uaddr>(items[i]);
+                this->entries[this->entry_count].item = items[i];
                 this->entries[this->entry_count].data.data2.price = v / 8;
                 this->entries[this->entry_count].index = i;
                 this->entry_count++;
@@ -171,17 +172,17 @@ void TShopEquipmentSellWindow::build_sell_list() {
     }
     if (this->owned_window == NULL) {
         this->owned_window = create_window_quantity((u16)get_player_entity_id());
-        r = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[0].data);
-        if (r != NULL) {
-            this->owned_window->set_entry_count((TItem *)((TItemList *)r)->get_owner_if_alive());
+        list = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[0].data);
+        if (list != NULL) {
+            this->owned_window->set_entry_count(list->get_owner_if_alive());
         } else {
             this->owned_window->set_entry_count(NULL);
         }
     } else if (this->item_list != NULL) {
         v = this->item_list->get_cursor_value();
-        r = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[v].data);
-        if (r != NULL) {
-            this->owned_window->set_entry_count((TItem *)((TItemList *)r)->get_owner_if_alive());
+        list = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[v].data);
+        if (list != NULL) {
+            this->owned_window->set_entry_count(list->get_owner_if_alive());
         } else {
             this->owned_window->set_entry_count(NULL);
         }
@@ -198,7 +199,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
 
 void TShopEquipmentSellWindow::handle_selection() {
     s32 i;
-    void *n;
+    TItemList *list;
     s32 type;
     if (this->item_list != NULL) {
         i = this->item_list->get_cursor_value();
@@ -206,9 +207,9 @@ void TShopEquipmentSellWindow::handle_selection() {
             this->help_window->set_displayed_item_by_id(this->entries[i].data.id);
         }
         if (this->owned_window != NULL && i != this->last_cursor) {
-            n = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[i].data);
-            if (n != 0) {
-                this->owned_window->set_entry_count((TItem *)((TItemList *)n)->get_owner_if_alive());
+            list = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[i].data);
+            if (list != NULL) {
+                this->owned_window->set_entry_count(list->get_owner_if_alive());
             } else {
                 this->owned_window->set_entry_count(NULL);
             }

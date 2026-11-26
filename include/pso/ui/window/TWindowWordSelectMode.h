@@ -12,6 +12,7 @@ public:
     virtual void render();
     s32 get_selected_row();
     void hide_selection();
+    static TWindowWordSelectMode *create();
     void set_clamped_selection(s32 clamped_selection);
     void handle_input();
     void set_clamped_page(s32 clamped_page);

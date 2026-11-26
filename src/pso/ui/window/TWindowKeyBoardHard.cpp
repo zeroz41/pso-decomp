@@ -446,10 +446,6 @@ void TWindowKeyBoardHard::process_all_key_states() {
 }
 
 void TWindowKeyBoardHard::update_modifier_flags() {
-    s32 flags;
-    s32 updated_flags;
-    u32 shift_held;
-    TWindowKeyBoardBase *control;
     if (hardware_keyboard_state.get_key_state() != 0) {
         if ((hardware_keyboard_state.is_key_pressed(0x56) != 0) || (hardware_keyboard_state.is_key_pressed(0x5B) != 0)) {
             input_flags |= 2;
@@ -482,24 +478,19 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     } else {
         input_flags &= 0xFFFFFF7F;
     }
-    flags = input_flags;
-    if ((flags & 0x80) && (flags & 1)) {
-        input_flags = flags & 0xFFFFFFEF;
+    if ((input_flags & 0x80) && (input_flags & 1)) {
+        input_flags &= ~0x10;
     }
-    updated_flags = input_flags;
-    shift_held = updated_flags & 0x80;
-    if (((shift_held != 0) && !(updated_flags & 0x10)) || ((updated_flags & 0x10) && (shift_held == 0))) {
+    if (((input_flags & 0x80) && !(input_flags & 0x10)) || ((input_flags & 0x10) && !(input_flags & 0x80))) {
         input_flags |= 0x20;
     } else {
-        input_flags &= 0xFFFFFFDF;
+        input_flags &= ~0x20;
     }
     if (input_flags & 0x80) {
-        control = m_control;
-        control->composition_flags = (s32) (control->composition_flags | 0x20);
+        m_control->composition_flags |= 0x20;
         return;
     }
-    control = m_control;
-    control->composition_flags = (s32) (control->composition_flags & 0xFFFFFFDF);
+    m_control->composition_flags &= ~0x20;
 }
 
 void TWindowKeyBoardHard::set_mode3() {

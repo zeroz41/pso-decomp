@@ -65,7 +65,7 @@ typedef struct Font_80145804 {
 } Font_80145804;
 
 extern "C" {
-void load_texture_list(void *);
+s32 load_texture_list(NJS_TEXLIST *list);
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
 GinjaTextureInput menu_font_render_rects[2];
 NJS_TEXNAME lbl_8050C090[2];

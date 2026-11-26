@@ -34,21 +34,21 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
-#include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include <stdlib.h>
 #include "pso/object/base/CollisionActorLookup.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #undef PSO_SDK_COMPACT_MATH
+
 
 extern "C" {
 f32 xyz_distance(void *, void *);
 struct Entry_80250380 { u8 pad[0x10]; f32 w; f32 h; };
-
-
-
 
 }
 
@@ -58,7 +58,6 @@ s32 fn_80252CBC(void);
 s32 measure_message_text_width(int, f32);
 }
 
-void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 extern "C" {
 f32 vec3_dot(void *, void *);
 void rotate_matrix_y(s32, s32);
@@ -77,6 +76,7 @@ u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
 
 extern "C" {
+
 saddr get_zero_vec2();
 }
 
@@ -104,7 +104,7 @@ TWindowFukidasi::~TWindowFukidasi() {
 }
 
 void TWindowFukidasi::run_task() {
-  switch (static_cast<u8>(state))
+  switch (state)
   {
     case 1:
       calc_text_size(&target_size[0]);
@@ -124,7 +124,7 @@ void TWindowFukidasi::run_task() {
       this->set_flag2c_bit100();
       state = 4U;
     case 4:
-      if ((balloon_flags) & 8)
+      if (balloon_flags & 8)
     {
       hide_ticks = (s16) ((hide_ticks) - 1);
       m_58 += 0.1f;
@@ -136,7 +136,7 @@ void TWindowFukidasi::run_task() {
     }
       break;
     case 5:
-      clamp_text_size(&target_size[0]);
+      this->clamp_text_size(target_size);
       tween_ticks = 6;
       this->clear_flag();
       this->set_flag2c_bit100();
@@ -152,7 +152,7 @@ void TWindowFukidasi::run_task() {
       this->clear_flag();
       this->clear_flag2c_bit100();
       this->window_flags = (s32) ((this->window_flags) & 0xFFFFFFFE);
-      balloon_flags = (u8) ((balloon_flags) | 0x10);
+      balloon_flags = (u8) (balloon_flags | 0x10);
       state = 8U;
     case 8:
       if (this->approach(0.0f) != 0)
@@ -168,7 +168,7 @@ void TWindowFukidasi::run_task() {
   this->update_reveal_timer();
   if (this->is_active() != 0)
   {
-    ((TWindowBase *)this)->update_window_entry_list(&entry_list);
+    update_window_entry_list(&entry_list);
   }
 }
 
@@ -177,7 +177,7 @@ void TWindowFukidasi::run_task() {
 void TWindowFukidasi::render() {
     f32 off[2];
     WindowDrawContext *v;
-    switch (static_cast<u8>(state)) {
+    switch (state) {
     case 0:
         project_anchor(NULL, head_position);
         this->place_rect_at_head_or_slot();
@@ -186,13 +186,13 @@ void TWindowFukidasi::render() {
         state = 1;
         break;
     case 2:
-        refresh_rect_placement();
+        this->refresh_rect_placement();
         break;
     case 4:
-        refresh_rect_placement();
+        this->refresh_rect_placement();
         break;
     case 6:
-        refresh_rect_placement();
+        this->refresh_rect_placement();
         break;
     case 8:
         this->place_rect_at_head_or_slot();
@@ -433,7 +433,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32
     *(s32 *)(this + 0) = (saddr) window_fukidasi_class_name;
     this->state = 0;
     this->balloon_flags = 0;
-    this->unk_72 = 2;
+    this->content_kind = 2;
     this->slot = -1;
     this->speaker_id = speaker;
     this->client_index = client;
@@ -487,19 +487,19 @@ void TWindowFukidasi::measure_text_unbounded(int entry) {
 #pragma fp_contract on
 void TWindowFukidasi::set_text(const char *str, s32 flags) {
   u32 new_var;
-  u8 *entry;
+  WindowTextEntry *entry;
   init_flags(flags);
   clear_flag();
-  if (((u8) unk_72) != 0)
+  if (content_kind != 0)
   {
-    unk_72 = 0U;
+    content_kind = 0U;
     entry_list.destroy_all_items();
     init_window_layout_entries(
         &entry_list,
         reinterpret_cast<const void *>(&window_fukidasi_layout_entries.value),
-        (int) client_index);
+        client_index);
   }
-  entry = (u8 *) get_array_entry(0);
+  entry = (WindowTextEntry *)get_array_entry(0);
   if (flags & 1)
   {
     set_text_entry_string(entry, (uaddr)str, 0x20);
@@ -510,7 +510,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   }
   if (flags & 4)
   {
-    *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x40);
+    entry->flags |= 0x40;
     measure_message_text_width_default(entry);
   }
   else
@@ -519,13 +519,13 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   }
   if (flags & 0x80)
   {
-    *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x200);
+    entry->flags |= 0x200;
   }
   else
   {
-    *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) & 0xFFFFFDFF);
+    entry->flags &= 0xFFFFFDFF;
   }
-  *((s32 *) (((s8 *) entry) + 0x24)) = 0xFF000000;
+  entry->color = 0xFF000000;
   new_var = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x100));
   hide_ticks = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
   if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) client_index)) > 0.0f)
@@ -533,7 +533,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
     open_tick = 0;
   }
   play_sound_effect(0x53705, 0, 0, 0);
-  if (((u8) state) != 0)
+  if (state != 0)
   {
     state = 5U;
   }
@@ -546,11 +546,11 @@ void TWindowFukidasi::open(u32 *symbol, s32 flags) {
 
     restart = 0;
     init_flags(flags);
-    if ((u8) unk_72 != 1) {
-        unk_72 = 1U;
+    if (content_kind != 1) {
+        content_kind = 1U;
         entry_list.destroy_all_items();
         ((TWindowSubSymbolChat *)&entry_list)->init_layout_entries(client_index);
-        if ((u8) state != 0) {
+        if (state != 0) {
             restart = 1;
         }
     } else {
@@ -1041,7 +1041,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 #pragma pop
 // Dead-stripped from the DOL: no code of it survives, only its literals (1000, 0.5
 // and 19 at 0x805DCD08-0x805DCD13 and 10430.38 at 0x8044ED70), pooled between
-// approach's 0.011 and TWindowFukidasi__sub_802505C0's 2^-15. It aims from the
+// approach's 0.011 and find_random_free_position's 2^-15. It aims from the
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
 // same atan2 scale. Name inferred from that role.
@@ -1074,7 +1074,7 @@ void TWindowFukidasi::sync_display_pos() { this->content_scale[0] = this->tail_s
 
 void TWindowFukidasi::calc_text_size(f32 *out) {
     Entry_80250380 *e;
-    switch (unk_72) {
+    switch (content_kind) {
     case 0:
         e = (Entry_80250380 *)get_array_entry(0);
         out[0] = 0.1f + (8.0f + e->w);
@@ -1104,7 +1104,7 @@ void TWindowFukidasi::clamp_text_size(f32 *out) {
 }
 
 s32 TWindowFukidasi::check_card_match_enabled(const char *text) {
-    if ((u8) unk_72 != 0) {
+    if (content_kind != 0) {
         return 0;
     }
     return (u32) __cntlzw(strcmp((const char *)((TWindowSubComCard *)this->get_array_entry(0))->get_field_20(), text)) >> 5;
@@ -1119,7 +1119,7 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
         state = 5;
     }
     init_flags(flags);
-    switch ((s32) unk_72) {
+    switch (content_kind) {
     case 0:
         n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20()), (u32)0x100);
         hide_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
@@ -1133,11 +1133,11 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
 }
 
 #pragma pop
-s32 is_speech_balloon_ready(u8 *window_base) {
-    s32 t = *(window_base + 0x72);
+s32 TWindowFukidasi::is_speech_balloon_ready() {
+    s32 t = content_kind;
     switch (t) {
     case 0:
-        ((TWindowBase *)window_base)->get_array_entry(0);
+        get_array_entry(0);
         return fn_80252CBC();
     case 1:
     case 2:
@@ -1150,7 +1150,7 @@ void TWindowFukidasi::show_immediately() {
     s32 t;
     state = 4;
     balloon_flags |= 0x40;
-    calc_text_size(&target_size[0]);
+    calc_text_size(target_size);
     refresh_rect_placement();
     TWindowFukidasi__sub_80252C38(this);
     set_flag2c_bit100();
@@ -1158,7 +1158,7 @@ void TWindowFukidasi::show_immediately() {
     tail_scale = 1.0f;
     sync_display_pos();
     open_tick = 0x186A0;
-    t = unk_72;
+    t = content_kind;
     switch (t) {
     case 0:
         ((TWindowHelpItem *)get_array_entry(0))->reset_float_field();

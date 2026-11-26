@@ -56,6 +56,7 @@ class LockOnActionSlot;
 struct TMovie;
 struct CapturedTargetList;
 class TPlayerLobbyMarker;
+struct PlayerRequirementStats;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -112,6 +113,7 @@ extern PlayerJointMatrixSet *player_shared_buffer_base;
 extern u32 shared_state_flags[2];
 
 // Constants the player code shares from its .sdata2 pool.
+extern const char *TObjPlayer_name;
 extern const f32 player_zero;
 extern f32 player_half;
 extern f32 player_one;
@@ -182,7 +184,7 @@ struct TObjPlayer : public TObjChara {
     void init_class_flags(PlayerSyncRecord *record);
     void sub_801BB8B0(u8 *);
     s32 setup_control_role(s32);
-    bool is_target_in_facing_cone(void *);
+    s32 is_target_in_facing_cone(Vec *target);
     void create_inventory();
     void select_contextual_pickup_action();
     void init_trait_flags();
@@ -190,6 +192,7 @@ struct TObjPlayer : public TObjChara {
     void update_rotation();
     void load_action_motions(u16 entity_id);
     s16 get_ata();
+    s16 get_dfp();
     s16 obj_getS16_116();
     void sub_801BEE2C(s16);
     void sub_801BEE24(s16);
@@ -354,11 +357,11 @@ struct TObjPlayer : public TObjChara {
     void damp_planar_velocity();
     s16 clamp_tp();
     static void clear_s16_arrays(void* p);
-    s32 add_capped_counter_999(s32 arg1);
+    s32 add_capped_counter_999(s32 amount);
     int get_tp_materials_clamped();
     int get_hp_material_points();
-    s32 clamp_hp_value(s16 *arg1);
-    void set_hp_clamped(s16 arg1);
+    s32 clamp_hp_value(s16 *value);
+    void set_hp_clamped(s16 value);
     void spawn_recovery_effect();
     void set_attribute_entry(s32 i, void *q);
     void copy_entry_bytes(void* q);
@@ -378,7 +381,7 @@ struct TObjPlayer : public TObjChara {
     s32 check_flag(s32 flag);
     // Set while a menu window holds the player's input, with the action buttons masked.
     s32 is_controls_locked();
-    static s32 check_flag_01000000(void *player);
+    s32 is_drop_weapon_on_death_disabled();
     Vec *get_position_ptr();
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
@@ -391,6 +394,8 @@ struct TObjPlayer : public TObjChara {
     s32 test_action_mask(s32 arg1);
     s32 test_action_4();
     s32 test_action_8000();
+    int check_flag_24576();
+    int test_flag_16();
     s32 test_action_40000();
     s32 test_action_80000();
     int is_inactive();
@@ -431,8 +436,6 @@ struct TObjPlayer : public TObjChara {
     static saddr get_item_by_slot_flag(u8 flags);
     void set_flag_10000();
     void set_state_flags(u32 v);
-    void set_model_param(s16 v);
-    void set_model_id(s16 v);
     s16 is_status_subsystem_ready();
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
@@ -512,19 +515,13 @@ struct TObjPlayer : public TObjChara {
     void set_evade_materials_used(u8 v);
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
-    void*reset_sub_status_disp();
     static s32 reset_and_return(saddr p);
     void clear_base();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
-    u8 get_field_5();
-    u8 get_byte_4();
-    u8 get_team_id();
-    u8 get_char_class();
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
-    s32 get_slot_value_checked(s32 i);
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();
@@ -538,12 +535,13 @@ struct TObjPlayer : public TObjChara {
     void start_action();
     void set_attack_state();
     void send_state_sync();
-    static int try_change_action(void* p);
+    int try_lobby_chair_change_action();
+    void update_lobby_chair_controls();
     s16 select_idle_action();
     void update_dispatch_v76();
     void do_action();
     void update_if_flagged();
-    static int try_change_action_wrapper(void* p);
+    int try_lobby_animation_change_action();
     void init_effects();
     void start_action_21();
     void send_position_update();
@@ -596,7 +594,7 @@ struct TObjPlayer : public TObjChara {
     void begin_action_0xB();
     void run_if_flag_10();
     int try_apply_status_action();
-    static s32 try_apply_status_action(TObjPlayer *player);
+    s32 try_status_action();
     s32 check_flag30_bit20();
     // Action state machine: run_action_state_phase dispatches a state's phase to its handler.
     void run_action_state_phase(s16 state, s16 phase);
@@ -627,7 +625,7 @@ struct TObjPlayer : public TObjChara {
     void start_action_c();
     void send_6x50_switch_interaction();
     void update_if_flag_set();
-    static void set_flag_0x100000(void* p);
+    void set_flag_0x100000();
     static void apply_velocity_if_free(saddr player);
     static void apply_velocity_if_free(void *player);
     void complete_guard_reaction();
@@ -665,7 +663,7 @@ struct TObjPlayer : public TObjChara {
     void start_attack_preparation();
     void setup_attack_stage();
     void send_attack_target_packet();
-    s32 check_mode_action(s32 arg1);
+    s32 check_mode_action(s32 action);
     s32 can_perform_physical_action();
     void update_by_state();
     void apply_movement_if_ready();
@@ -703,7 +701,9 @@ struct TObjPlayer : public TObjChara {
     void set_chair_seat_animation(s16 value);
     int is_action_flag_28();
     void set_anim_flag();
+    void set_action_flag_28();
     void clear_flag_200();
+    void set_flag_200();
     void set_float_param(s16 value);
     void byteswap_6x49_packet();
     void swap_endian_shorts();
@@ -711,6 +711,8 @@ struct TObjPlayer : public TObjChara {
     void bswap_field4_sub();
     void*build_packet_header();
     void *copy_6x40_walk_to_position_packet(void *pkt);
+    // The speed of the requested action in the action table.
+    f32 get_action_rate_entry();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
     void *copy_packet_pos_6x42(void *pkt);
@@ -762,7 +764,7 @@ struct TObjPlayer : public TObjChara {
     void initialize_player_data();
     void init_item_counts_max();
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
-    static void setup_effect_slots(s32 arg0, TPlyDispConfigSmth *palette);
+    static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
     void export_state_to_record(TPlyCharData *record);
@@ -851,7 +853,7 @@ struct TObjPlayer : public TObjChara {
     void sync_current_area();
     static int get_key_machine_global_state(void* p);
     void set_flag_drop_weapon_on_death();
-    static void disable_drop_weapon_on_death(void *player);
+    void disable_drop_weapon_on_death();
     static void update_photon_chair(TObjPlayer *player);
     void refresh_equipment_slot();
     void clear_stealth_suit_flags();
@@ -887,6 +889,12 @@ struct TObjPlayer : public TObjChara {
     void set_flag_4096();
     void disable_primary_action_input();
     void disable_action_input();
+    void enable_action_input();
+    s32 is_action_input_disabled();
+    void disable_palette_slot(s32 slot);
+    void enable_palette_slot(s32 slot);
+    void enable_all_palette_slots();
+    s32 is_palette_slot_enabled(s32 slot);
     int try_use_item_by_type(int kind, int group, int subgroup);
     s32 check_can_add_item(s8 kind, s8 group);
     s32 can_use_item(void *item);
@@ -899,7 +907,7 @@ struct TObjPlayer : public TObjChara {
     void stop_battle_music();
     s32 classify_action_state();
     void update_foot_stamp(int marker);
-    void play_footstep_sound(f32 at_frame, f32 farg1);
+    void play_footstep_sound(f32 first_frame, f32 second_frame);
     void revive();
     s32 get_recovery_need_flags();
     s32 can_use_action();
@@ -926,7 +934,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_effect_channel_active(saddr player, s32 index);
     static void refresh_party_cursors(saddr player);
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
-    u16 select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
+    u16 select_action_palette_and_apply(s32 secondary, s32 row, s32 index);
     saddr refresh_effect();
     void update_ground_contact();
     s32 check_actor_blocking_move();
@@ -1003,7 +1011,7 @@ struct TObjPlayer : public TObjChara {
     void update_warp_relocation();
     s32 try_camera_action(s32 tech);
     void bswap_entry_list();
-    static void update_party_cursors(saddr cursors, s32 result);
+    static void update_party_cursors(saddr cursors, saddr player);
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);
@@ -1053,12 +1061,16 @@ struct TObjPlayer : public TObjChara {
     void add_tp_material(u8 amount);
     void add_hp_material(u8 amount);
     s32 try_pickup_item();
-    void emit_footstep_effect(f32 at_frame, f32 farg1);
+    void emit_footstep_effect(f32 first_frame, f32 second_frame);
     void update_target();
     void check_level_up();
+    // The stats shown with `incoming` equipped in place of what its slot holds
+    // (1 when filled), and with the item `key` taken off (2 when filled).
+    s32 preview_equip_stats(PlayerRequirementStats *out, u8 *incoming);
+    s32 preview_unequip_stats(PlayerRequirementStats *out, s32 key);
     void send_unequip_held_item();
     void restart_death_pose();
-    static PhotonBlastRequest *get_photon_blast_element(s32 arg0);
+    static PhotonBlastRequest *get_photon_blast_element(s32 index);
     void enter_photon_blast_action();
     void prepare_photon_blast_action();
     void enter_technique_cast();
@@ -1076,7 +1088,10 @@ struct TObjPlayer : public TObjChara {
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, s16 tech);
     static void send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count);
     static s32 fill_player_record(void *, void *);
-    s32 foreach_player();
+    static void foreach_player(void (*callback)(TObjPlayer *));
+    s32 calc_scaled_value(s32 value);
+    void prepare_guild_return(s32);
+    void apply_camera_shake(TObjCollidable *target, s32 damage);
     static s32 begin_action_state(TPlyCharData *character);
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(TObjPlayer *));
@@ -1091,7 +1106,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_key_machine_ready();
     void recover_full();
     void apply_speed_scale(f32 speed);
-    static s32 test_ordered_anim_markers(void *, f32, f32);
+    s32 test_ordered_anim_markers(f32 first_frame, f32 second_frame);
     void remove_status_effect(StatStatusReceipt effect);
     void send_status_effect_remove(StatStatusReceipt effect);
     void dispatch_status_effect_msg(StatStatusReceipt effect);
@@ -1111,7 +1126,7 @@ struct TObjPlayer : public TObjChara {
     void resend_status_effects();
     void reset_pending_action();
     void release_pending_action();
-    int reset_action_input();
+    void reset_action_input();
     void release_action_palettes();
     void release_lock_on_cursor();
     void send_selected_spawn_position(u16 id);
@@ -1140,6 +1155,7 @@ struct TObjPlayer : public TObjChara {
     void enter_off_floor_state();
     void update_off_floor_state();
     void fade_out_off_floor();
+    void deactivate_off_floor_body();
     void off_floor_phase2_nop();
     void off_floor_phase7_nop();
     void warp_phase8_nop();
@@ -1277,15 +1293,19 @@ extern s16 item_equip_attach_equip_flag_table[];
 // demo_camera_params_table.
 extern s16 demo_camera_index;
 
-extern "C" {
+// The player object of each client id (NULL while the slot is empty).
+extern TObjPlayer *player_slot_table[12];
+
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
 void rebuild_player_inventory(TObjPlayer *player);
-}
 
 // Clears the player's control-lock flag (0x200); run on every player slot.
 void release_control_lock(TObjPlayer *player);
 
 // Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
 void on_inventory_item_added(TItem *item, s32 slot);
+
+// Whether any of mask is set in the flags of collision body `body` (name inferred).
+s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask);
 #endif

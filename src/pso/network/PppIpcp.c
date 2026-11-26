@@ -283,7 +283,7 @@ void ipcp_reset_options(PppFsm *o) {
     q->peer.flags = q->peer.flags | q->peer.want.flags;
 }
 
-inline u32 ppp_option_bit(u16 bit) {
+static inline u32 ppp_option_bit(u16 bit) {
     if (bit < 8) {
         return bit;
     }
@@ -376,7 +376,7 @@ s16 recv_ipcp_config_nak(PppFsm *self, PppHeader *item, PppFrame *arg) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline PppFrame *build_requested_options(IpcpConfig *opts) {
+static inline PppFrame *build_requested_options(IpcpConfig *opts) {
     PppFrame *t;
     PppFrame *v = NULL;
     t = v;
@@ -388,7 +388,7 @@ inline PppFrame *build_requested_options(IpcpConfig *opts) {
     v = t;
     return v;
 }
-inline s32 read_option_byte(PppFrame **p) {
+static inline s32 read_option_byte(PppFrame **p) {
     if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
@@ -691,7 +691,7 @@ done:
     return blk;
 }
 
-inline s32 ppp_option_type(s32 bit) {
+static inline s32 ppp_option_type(s32 bit) {
     if (bit < 8) {
         return bit;
     }

@@ -67,7 +67,7 @@ s32 knuckle_second_hand_pass;
 extern s32 knuckle_marker_joint_table[];
 void TItemWeaponFist::transform_model_node() {
     MirrorPlane plane;
-    if ((TObjPlayer::get_player_list() == 0) && (get_item_index() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
+    if ((TObjPlayer::get_player_list() == 0) && (get_item_index() == 3) && (knuckle_second_hand_pass != 0)) {
         plane.point_z = 0.0f;
         plane.point_y = 0.0f;
         plane.point_x = 0.0f;

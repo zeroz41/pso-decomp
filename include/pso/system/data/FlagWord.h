@@ -20,4 +20,8 @@ extern "C" {
 FlagWord *__ct__8FlagWordFv(void *flags);
 }
 
+extern "C" {
+// Whether any bit of `mask` is set in the flag word.
+s32 test_flags_any(s32 *flags, s32 mask);
+}
 #endif

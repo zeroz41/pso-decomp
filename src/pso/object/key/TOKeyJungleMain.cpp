@@ -21,7 +21,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-extern s32 game_difficulty_selection;
 
 extern "C" {
 // TOKeyJungleMain::dispatch_by_phase: the call passes the flag word without the u16 truncation the

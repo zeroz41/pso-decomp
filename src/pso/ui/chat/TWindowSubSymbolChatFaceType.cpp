@@ -1,5 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
-#include "pso/ui/chat/SymbolChatSprite.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/SoundEffect.h"
@@ -7,8 +7,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubSymbolChatFaceType_80283A70.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80283954.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -156,8 +154,8 @@ void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
 void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        SymbolChatSprite *e = (SymbolChatSprite *)get_array_entry(i);
-        e->entry = TWindowSubSymbolChatPartsSet::get_parts_entry(*selection);
+        WindowSpritePart *e = (WindowSpritePart *)get_array_entry(i);
+        e->color = TWindowSubSymbolChatPartsSet::get_parts_color(*selection);
     }
 }
 

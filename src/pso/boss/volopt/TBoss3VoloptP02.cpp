@@ -37,7 +37,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
@@ -324,7 +324,7 @@ void TBoss3VoloptP02::run_task() {
     node_44_color[4] = (s8)fabs_float(wave * pulse_color[2]);
     pulse_angle += pulse_speed;
     if (TObjPlayer::check_demo_mode() != 1) {
-        if (has_flag_0x800() != 0) {
+        if (is_actor_dead() != 0) {
             run_death_reaction();
         } else if (test_flag30_512() != 0) {
             if (TBoss3Volopt::is_v2_mode() != 0) {

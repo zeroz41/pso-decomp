@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 const char *lbl_805D41F0 = "TAdSnAkPassConfirmGC";
 // Serial info window position, then the message window position and size given to init_parts.

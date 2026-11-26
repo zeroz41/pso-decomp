@@ -6,7 +6,6 @@
 #include "types.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-extern "C" {
 s32 find_enemy_factory_entry(const volatile EnemySetRecord *row, EnemyFactoryEntry *out) {
     s32 index = 0;
     EnemyFactoryEntry *table = enemy_factory_area_table[get_current_floor_area()];
@@ -20,6 +19,4 @@ s32 find_enemy_factory_entry(const volatile EnemySetRecord *row, EnemyFactoryEnt
         index++;
     }
     return -1;
-}
-
 }

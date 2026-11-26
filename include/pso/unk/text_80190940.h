@@ -3,7 +3,4 @@
 
 #include "types.h"
 
-// --- C functions defined in text_80190940.cpp ---
-// --- end of C functions
-
 #endif

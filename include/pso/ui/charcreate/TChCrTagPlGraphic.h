@@ -4,11 +4,19 @@
 #include "pso/math/TMath.h"
 #include "types.h"
 
+// One row of the class illustration layout table.
+struct TChCrTagPlGraphicLayout {
+    f32 m_scale;
+    f32 m_depth;
+    vec2f pos;
+    vec2f selected_pos;
+};
+
 class TChCrTagPlGraphic : public TChCrTag {
 public:
     TChCrTagPlGraphic(TObject *parent, s32 index);
     virtual ~TChCrTagPlGraphic();
-    void sub_802A3230();
+    void update_layout();
     virtual void render();
     virtual void run_task();
     virtual s32 is_selected();

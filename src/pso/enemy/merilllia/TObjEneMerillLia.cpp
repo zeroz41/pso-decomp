@@ -416,11 +416,11 @@ void TObjEneMerillLia::beast_update_approach() {
                 if (home_chase_frames++ < 60.0f) {
                     VecCopy(&dest, &home_position);
                 } else {
-                    VecCopy(&dest, &((TObjChara *)target)->body_center);
+                    VecCopy(&dest, &target->body_center);
                 }
             } else {
                 home_chase_frames = 0;
-                VecCopy(&dest, &((TObjChara *)target)->body_center);
+                VecCopy(&dest, &target->body_center);
             }
             update_target_near_flag();
             select_move_speed();
@@ -497,9 +497,9 @@ void TObjEneMerillLia::beast_update_group_chase() {
             save.y = position.y;
             save.z = position.z;
             if (retreat_speed <= 0.0f) {
-                dist = enemy_backstep_from_point(this, ((TObjChara *)target)->body_center, far_move_speed);
+                dist = enemy_backstep_from_point(this, target->body_center, far_move_speed);
             } else {
-                dist = enemy_backstep_from_point(this, ((TObjChara *)target)->body_center, retreat_speed);
+                dist = enemy_backstep_from_point(this, target->body_center, retreat_speed);
             }
             turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
             retreat_timer--;

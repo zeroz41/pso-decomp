@@ -1,5 +1,6 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -27,6 +28,7 @@
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_8020BFC4.h"
 #include "pso/unk/text_8020B5CC.h"
@@ -80,10 +82,10 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/object/switch/TSwitch.h"
@@ -96,11 +98,10 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
+#include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/quest/challenge/TChallenge.h"
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/object/TObjControl.h"
@@ -188,7 +189,9 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
+}
 void lobby_debug_printf_stub(const char *fmt, ...);
+extern "C" {
 void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
@@ -202,8 +205,10 @@ extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
+}
 void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
+extern "C" {
 void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
@@ -423,9 +428,9 @@ void TLobby::send_game_character() {
     memset(&blocked_senders, 0, sizeof(blocked_senders));
     ((TLobby *)&blocked_senders)->collect_active_card_ids();
     memset(&auto_reply, 0, sizeof(auto_reply));
-    if (TLobby::get_flag_bit0() != 0) {
+    if (get_flag_bit0() != 0) {
         auto_reply.header.flags = 1;
-        strncpy(auto_reply.text, (char *)TLobby::get_card_window_area(), 0x200);
+        strncpy(auto_reply.text, (char *)get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
     challenge.challenge = card->challenge;
@@ -467,7 +472,7 @@ void TLobby::update_idle_timeout(void *object) {
             t->state = 1;
             if (lobby_idle_timeout_window == 0 && has_window_task_root() != 0) {
                 sprintf(lobby_idle_timeout_text_buffer, (const char *)TLobby::get_seq_phase(0x1F), t->limit - elapsed);
-                lobby_idle_timeout_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xCA)), (const f32 *)(&tmp), 1);
+                lobby_idle_timeout_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xCA)), (const f32 *)(&tmp), 1);
                 lobby_idle_timeout_window->append_line((saddr)lobby_idle_timeout_text_buffer, (int)0x80);
                 lobby_idle_timeout_window->set_depth(30000.0f);
                 lobby_idle_timeout_window->complete_reveal();
@@ -853,7 +858,7 @@ void show_card_list_message(void *msg) {
     }
     if (TLobby::lobby_state == 0x11) {
         NJS_POINT2 p = card_list_message_window_size[0];
-        TLobby::card_list_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xC9)), (const f32 *)(&p), 1);
+        TLobby::card_list_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xC9)), (const f32 *)(&p), 1);
         TLobby::card_list_window->append_line((saddr)((char *)msg + 4), (int)3);
         TLobby::card_list_window->set_depth(37000.0f);
     }
@@ -863,7 +868,7 @@ void show_card_list_message(void *msg) {
 void TLobby::show_seq_phase_message(int id) {
     if (current_dialog_window == 0) {
         NJS_POINT2 tmp = { 342.0f, 144.0f };
-        current_dialog_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
+        current_dialog_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
         current_dialog_window->set_depth(30001.0f);
     }
     current_dialog_window->append_line((int)(TLobby::get_seq_phase(id)), (int)1);
@@ -872,7 +877,7 @@ void TLobby::show_seq_phase_message(int id) {
 void show_dialog_value_line(saddr text) {
     if (TLobby::current_dialog_window == 0) {
         NJS_POINT2 tmp = { 342.0f, 144.0f };
-        TLobby::current_dialog_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
+        TLobby::current_dialog_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
         TLobby::current_dialog_window->set_depth(30001.0f);
     }
     TLobby::current_dialog_window->append_line((int)text, (int)1);
@@ -887,7 +892,7 @@ void TLobby::close_com_card_window() {
 void show_join_entry_message(s32 id) {
     if (TLobby::join_entry_window_obj == 0) {
         NJS_POINT2 tmp = { 558.0f, 224.0f };
-        TLobby::join_entry_window_obj = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc2), &tmp);
+        TLobby::join_entry_window_obj = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc2), &tmp);
     }
     TLobby::join_entry_window_obj->append_line((int)(TLobby::get_seq_phase(id)), (int)1);
 }
@@ -958,7 +963,7 @@ void TLobby::run_task() {
     if (quest_download_active != 0) {
         update_network_wait_icon();
     }
-    r = TLobby::query_task_active();
+    r = query_task_active();
     if (protocol_instance->m_is_invalid_packet != 0 || get_link_status() == 0 || r < 0) {
         protocol_instance->m_is_invalid_packet = 0;
         TQuestListOnline::close_windows_and_reset();
@@ -1758,7 +1763,7 @@ void TLobby::update_player_window() {
 void handle_error(s32 text) {
     if (TLobby::download_list_window == 0) {
         NJS_POINT2 tmp = { 224.0f, 188.0f };
-        TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc6), &tmp);
+        TLobby::download_list_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc6), &tmp);
     }
     TLobby::download_list_window->append_line((int)text, (int)3);
     TLobby::lobby_state = 0x14;
@@ -2035,9 +2040,9 @@ void TLobby::send_selected_character() {
     memset(&blocked_senders, 0, sizeof(blocked_senders));
     ((TLobby *)&blocked_senders)->collect_active_card_ids();
     memset(&auto_reply, 0, sizeof(auto_reply));
-    if (TLobby::get_flag_bit0() != 0) {
+    if (get_flag_bit0() != 0) {
         auto_reply.header.flags = 1;
-        strncpy(auto_reply.text, (char *)TLobby::get_card_window_area(), 0x200);
+        strncpy(auto_reply.text, (char *)get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
     challenge.challenge = card->challenge;
@@ -2087,7 +2092,7 @@ void TLobby::handle_state(int checksum_ok) {
 void handle_server_message(s32 text) {
     if (TLobby::download_list_window == 0) {
         NJS_POINT2 tmp = { 224.0f, 188.0f };
-        TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc7), &tmp);
+        TLobby::download_list_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc7), &tmp);
     }
     TLobby::download_list_window->append_line((int)text, (int)3);
 }
@@ -2095,7 +2100,7 @@ void handle_server_message(s32 text) {
 void handle_lobby_text(s32 text) {
     if (TLobby::join_entry_window_obj == 0) {
         NJS_POINT2 tmp = { 558.0f, 224.0f };
-        TLobby::join_entry_window_obj = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc8), &tmp);
+        TLobby::join_entry_window_obj = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc8), &tmp);
     }
     TLobby::join_entry_window_obj->append_line((int)text, (int)3);
     TLobby::lobby_state = 0x16;
@@ -2544,7 +2549,7 @@ void TLobby::open_download_list_window(int count, void *entries) {
     {
         NJS_POINT2 p = { 224.0f, 188.0f };
         w = get_window_layout_position(0xC7);
-        download_list_window = (TWindowMessage *)TWindowMessage::create(w, (const f32 *)(&p), 1);
+        download_list_window = TWindowMessage::create(w, (const f32 *)(&p), 1);
         download_list_window->append_line((saddr)((char *)list + 0x2C), (int)3);
     }
     card_list_selected_index = 0;
@@ -2689,7 +2694,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
     protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
     protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)receive_short_mail;
-    protocol_instance->m_recv_handlers.handle_41_recv_user_ans = TLobby::handle_user_search_answer;
+    protocol_instance->m_recv_handlers.handle_41_recv_user_ans = handle_user_search_answer;
     protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
     protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
     protocol_instance->m_recv_handlers.handle_95_request_character_data_packet = TLobby::send_selected_character;

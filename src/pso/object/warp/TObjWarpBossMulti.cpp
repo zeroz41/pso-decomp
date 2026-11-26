@@ -19,14 +19,13 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include <string.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
@@ -58,7 +57,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
@@ -90,7 +89,6 @@ const char *warp_boss_multi_name = "TObjWarpBossMulti";
 
 
 extern "C" {
-s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
@@ -108,7 +106,6 @@ void release_boss_warp_resources(void);
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
-extern u32 player_slot_table[];
 extern s32 lbl_805D55C0;
 
 
@@ -315,7 +312,7 @@ void TObjWarpBoss::update() {
 void TObjWarpBoss::update_warp_dialogs() {
     void *player;
   s32 i;
-  int j;
+  s32 j;
   u32 color;
   f32 pos[2];
   void *p;
@@ -324,12 +321,12 @@ void TObjWarpBoss::update_warp_dialogs() {
     case 0:
       if ((TObjWarpBossMulti::is_lobby_active() == 0) && (yes_no_window == 0))
     {
-      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
       if (yes_no_window != 0)
       {
-        ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
-        ((TWindowMessageYesNo *)yes_no_window)->set_menu_selected_index(1);
-        ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
+        yes_no_window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
+        yes_no_window->set_menu_selected_index(1);
+        yes_no_window->set_choice_menu_flag70_bit10();
         TWindowCtrl::begin_client_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
@@ -340,7 +337,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       if (yes_no_window == 0)
     {
       i = 0x36;
-      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
       if (yes_no_window != 0)
       {
         initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(i), 368.0f);
@@ -355,11 +352,11 @@ void TObjWarpBoss::update_warp_dialogs() {
     player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
     if (player_list_window != 0)
     {
-      ((TWindowSubTradeMain *)player_list_window)->set_visible();
-      ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
+      player_list_window->set_flag_40();
+      player_list_window->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        TWindowSubStatusDisp::dispatch_without_flags((saddr)player_list_window, (saddr)player_names[i], (s32)i);
+        player_list_window->dispatch_without_flags((saddr)player_names[i], (s32)i);
       }
     }
     request_active_window_close();
@@ -368,14 +365,14 @@ void TObjWarpBoss::update_warp_dialogs() {
   {
     for (j = 0; j < player_count; j++)
     {
-            ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
+            player_list_window->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
       TObjPlayer *player;
       if (state == 1 && (player = get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
       {
         color = 0xFFFF00FF;
       }
-      fn_80248994(player_list_window, color, j);
+      player_list_window->sub_80248994(color, j);
     }
   }
 }
@@ -464,10 +461,10 @@ void TObjWarpBoss::update_warp_confirmation() {
     case 2:
         update_warp_dialogs();
         if (yes_no_window != NULL) {
-            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
+            if (yes_no_window->is_cancelled() != 0) {
                 state_step = 3;
-            } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+            } else if (yes_no_window->is_child_visible() != 0) {
+                r = yes_no_window->get_selected_value();
                 if (r == 0) {
                     warp_player(local_client_id);
                     warp_triggered = 1;
@@ -687,7 +684,7 @@ void handle_6x6A_set_boss_warp_flags(void *packet) {
 
 void TObjWarpBoss::close_windows() {
     if (yes_no_window != NULL) {
-        ((TWindowMessageYesNo *)yes_no_window)->close();
+        yes_no_window->close();
         yes_no_window = NULL;
     }
     if (menu_window != 0) {
@@ -758,7 +755,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
 
     player = get_player_by_client_id(local_client_id);
     var_r30 = 1;
-    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
+    if ((player != NULL) && (player->is_actor_dead() != 0)) {
         var_r30 = 0;
     }
     if ((player != NULL) && (player->is_controls_locked() != 0)) {
@@ -766,8 +763,8 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     }
     if (var_r30 == 0) {
         if (yes_no_window != NULL) {
-            ((TObject *)yes_no_window)->suspend_update();
-            ((TObject *)yes_no_window)->disallow_rendering();
+            yes_no_window->suspend_update();
+            yes_no_window->disallow_rendering();
         }
         if (menu_window != 0) {
             ((TObject *)menu_window)->suspend_update();
@@ -779,8 +776,8 @@ void TObjWarpBoss::update_warp_boss_visibility() {
         }
     } else {
         if (yes_no_window != NULL) {
-            ((TObject *)yes_no_window)->clear_update_suspension();
-            ((TObject *)yes_no_window)->allow_rendering();
+            yes_no_window->clear_update_suspension();
+            yes_no_window->allow_rendering();
         }
         if (menu_window != 0) {
             ((TObject *)menu_window)->clear_update_suspension();
@@ -822,22 +819,22 @@ TObjWarpBossMulti::~TObjWarpBossMulti() {
 
 void TObjWarpBossMulti::run_task() {
     s32 i;
-    uaddr pl;
+    TObjPlayer *pl;
     f32 r;
 
     for (i = 0; i < 4; i++) {
         pl = player_slot_table[i];
-        if (pl != 0U && ((TObjChara *)pl)->is_locally_controlled() != 0) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
-                if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
-                    if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {
+        if (pl != NULL && pl->is_locally_controlled() != 0) {
+            if (pl->get_floor() == get_current_floor()) {
+                if (xz_distance_squared(&pl->position, &position) <= (r = 25.0f + warp_range) * r) {
+                    if (TObjWarpBossMulti::is_flag_clear(pl) != 0) {
                         player_in_range[i] = 1;
-                        ((TObjPlayer *)pl)->set_flag_4096();
+                        pl->set_flag_4096();
                     }
-                } else if (TObjWarpBossMulti::is_flag_clear((void*)pl) == 0) {
+                } else if (TObjWarpBossMulti::is_flag_clear(pl) == 0) {
                     if (player_in_range[i] != 0) {
                         player_in_range[i] = 0;
-                        ((TObjPlayer *)pl)->clear_flag_4096();
+                        pl->clear_flag_4096();
                     }
                 }
             }

@@ -12,7 +12,7 @@ struct TObjBoss8PillerCtrl : public TObject {
     virtual ~TObjBoss8PillerCtrl();
     virtual void run_task();
     virtual void render();
-    s32 fn_8035BFF8(const Vec *pos);
+    s32 is_outside_arena(const Vec *pos);  // farther than 373 from the centre in xz; run_task drops pillars there
     void sub_8035C034(Vec *pos);
 
     Vec position;
@@ -26,7 +26,7 @@ struct TObjBoss8PillerCtrl : public TObject {
 
 LAYOUT_ASSERT(TObjBoss8PillerCtrl_size, sizeof(TObjBoss8PillerCtrl) == 0x38);
 
-// Spawns a TObjBoss8PillerCtrl under tl_05 (pso/unk/text_802FE908.cpp); the ctor drops the f32
+// Spawns a TObjBoss8PillerCtrl under tl_05 (Boss8DemoObjects.cpp); the ctor drops the f32
 void create_boss8_piller_ctrl(const Vec *position, u16 id, f32 ignored);
 
 struct Ent_8035C03C { s32 x; s32 y; };

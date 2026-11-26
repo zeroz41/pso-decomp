@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -106,15 +106,15 @@ void TMemberCheck::update_member_proximity() {
                 player = get_player_by_client_id(i);
                 if (player != 0) {
                     if (xz_distance_squared(&designated_player->position, &player->position) <= 625.0f) {
-                        ((THunterGuildSeqOffline *)(this->member_window))->advance_matching_entries(1, i);
+                        this->member_window->advance_matching_entries(1, i);
                     } else {
-                        ((THunterGuildSeqOffline *)(this->member_window))->advance_matching_entries(0, i);
+                        this->member_window->advance_matching_entries(0, i);
                     }
                 } else {
-                    ((THunterGuildSeqOffline *)(this->member_window))->advance_matching_entries(0, i);
+                    this->member_window->advance_matching_entries(0, i);
                 }
             } else {
-                ((THunterGuildSeqOffline *)(this->member_window))->advance_matching_entries(1, i);
+                this->member_window->advance_matching_entries(1, i);
             }
             i += 1;
         } while (i < 4);
@@ -128,16 +128,16 @@ void TMemberCheck::open_member_name_window() {
     }
     member_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), (const void *)member_name_window_pos);
     if (member_window != 0) {
-        ((TWindowSubTradeMain *)member_window)->set_visible();
-        ((TWindowSubTradeMain *)member_window)->set_close_flag();
+        member_window->set_flag_40();
+        member_window->set_close_flag();
         for (i = 0; i < 4; i++) {
             TObjPlayer *p = get_player_by_client_id(i);
             if (p != 0) {
                 strcpy(names[i], p->name);
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)member_window, (saddr)names[i], (s32)i);
+                member_window->dispatch_without_flags((saddr)names[i], (s32)i);
             } else {
                 names[i][0] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)member_window, (saddr)names[i], (s32)i);
+                member_window->dispatch_without_flags((saddr)names[i], (s32)i);
             }
         }
     }

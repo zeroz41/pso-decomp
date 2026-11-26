@@ -29,9 +29,4 @@ extern const Vec lbl_80478B48[1];
 extern const ParticleAngles lbl_80478B54[1];
 extern const char *TAdFloorLoadPrtGC__class_name;
 
-extern "C" {
-void fn_8034AD28(void);
-void fn_8034AD2C(void);
-}
-
 #endif

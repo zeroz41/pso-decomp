@@ -22,8 +22,8 @@ TObjQuestColApc *create_quest_col_apc(ObjectSetData *set, s32 *out_id);
 TObjQuestColApcIN *create_quest_col_apc_in(ObjectSetData *set, s32 *out_id);
 TObjQuestColApcINW *create_quest_col_apc_inw__6TLobbyFPvPv(ObjectSetData *set, s32 *out_id);
 void send_quest_collision_warp();
-Vec *set_quest_col_warp_position(TObjQuestColApcINW *trigger, const Vec *position);
 }
+Vec *set_quest_col_warp_position(TObjQuestColApcINW *trigger, const Vec *position);
 
 extern s32 quest_collision_warp_pending;  // set by TObjQuestColApcINW's trigger check
 

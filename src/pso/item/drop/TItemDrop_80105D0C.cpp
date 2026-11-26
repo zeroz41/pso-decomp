@@ -48,7 +48,6 @@ u8 fn_801D7168(void *);
 u8 fn_801D719C(void *);
 u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
-u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);
 }
 

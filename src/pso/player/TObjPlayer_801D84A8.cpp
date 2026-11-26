@@ -16,10 +16,13 @@
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
+}
 s32 get_game_play_mode();
+extern "C" {
 
 s32 TObjPlayer__sub_801AF694(void *, s32);
 s32 get_empty_action_entry(void *);
+}
 void TPlyDispConfigSmth::init() {
     s32 i;
     i = 0;
@@ -265,8 +268,6 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
         return 1;
     }
     return is_palette_entry_displayable(kind, arg) ? 1 : 0;
-}
-
 }
 
 struct Obj_801D8474 { s8 a; u8 b; };

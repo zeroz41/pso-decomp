@@ -8,7 +8,6 @@
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -17,6 +16,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include <string.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #pragma push
 
 #include "types.h"
@@ -33,7 +34,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -43,15 +44,12 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/system/ControllerInput.h"
 
 struct CharacterSelectCallbackTable {
     s32 value;
     u8 remaining[0x194];
 };
-
-
-
-
 
 
 // Window position and size setup passes to create_message_window_for_size
@@ -75,14 +73,8 @@ extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
 s32 start_memcard_read(s32, void *, u32, s32);
-}
-extern "C" {
-s32 run_load_callback_table(void *, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
-
-extern u8 lobby_rule_settings[];
-CharacterSaveRecord *get_selected_save_record(CharacterFile *);
-
+}
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
@@ -320,7 +312,7 @@ void TCharSaveSequence::wait_card_check() {
             check_memory_card->queue_destruction();
             check_memory_card = NULL;
             state = 2;
-            message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
+            message_window = create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
             char_save_message_flags |= 1;
             return;
         }
@@ -352,6 +344,7 @@ void TCharSaveSequence::set_char_slots(s32 message, s32 sub_message) {
         message_window->append_line(get_message_text(sub_message), 8);
     }
 }
+
 void on_chr_select_fade_out_done(TObject *) { request_queued_main_phase(); }
 void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
@@ -386,7 +379,6 @@ void TAdSinglePlyChrSelectGC::run_frame() {
         }
     }
     render_tick();
-}
 }
 
 struct CharacterSelectCallbackTable;

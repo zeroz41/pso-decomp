@@ -30,8 +30,6 @@ struct TAdWarningBaseGC : public TObject {
 
 LAYOUT_ASSERT(TAdWarningBaseGC_size, sizeof(TAdWarningBaseGC) == 0x30);
 
-extern "C" {
 void clear_aram_request_busy(uaddr request);
-}
 
 #endif

@@ -11,6 +11,7 @@
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_80293D84.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 
 const char *TChCrEffFade__class_name = "TChCrEffFade";
 
@@ -70,7 +71,6 @@ struct FadeStrip : ColorLineList {
     u32 color0, color1, color2, color3;
 };
 
-
 // The 640x480 screen corners the fade strip is drawn over.
 ColorLineVertex chcr_eff_fade_strip_rect[4] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
@@ -91,8 +91,6 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
     strip.draw_strip_swap_color(4, 6, -1.5f);
 }
 
-
-
 void TChCrEffFade::render() {
     f32 alpha_now;
 
@@ -109,7 +107,6 @@ void TChCrEffFade::render() {
     }
     TCameraCtrl::restore_saved_view();
 }
-
 
 void TChCrEffFade::update_fade() {
     s32 current;
@@ -159,4 +156,12 @@ TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject((
     }
     this->update_fade();
     mode = unused;
+}
+
+void *TObjCMMainMenu::create_fade(void *duration, void *mode) {
+    return new TChCrEffFade(-1, (saddr)duration, (saddr)mode);
+}
+
+void *create_fade_effect(void *duration, void *mode) {
+    return new TChCrEffFade(1, (saddr)duration, (saddr)mode);
 }

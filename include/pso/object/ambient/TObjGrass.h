@@ -28,17 +28,17 @@ struct TObjGrass : public TObjEnemy {
     void sub_800BDD70();
     void sub_800BD4D8();
     void sub_800BCE44();
-    Vec m_374;
-    Vec m_380;
-    void* m_38c;
-    u8 unk_390[0x8];
-    f32 m_398;
-    s16 m_39c;
-    s16 m_39e;
-    u32 m_3a0;
-    s32 m_3a4;
-    s32 m_3a8;
-    u32 m_3ac;
+    void sub_800BCA2C();  // empty; run_task calls it in demo mode
+    Vec camera_vec;
+    Vec render_vec;
+    Vec origin_vec;
+    f32 charge_distance;     // how far the charge attack runs (target distance + 30, at least 100)
+    s16 move_mode;           // 1 wander near home, 2 chase (parameters[1] > 0), 0 target lost
+    s16 attack_kind;         // row of grass_bml_resource bound as attack stats; picks run_attack_action's mode
+    s32 particle_timer;      // update_dying spawns a particle every 4 frames
+    s32 lost_target_frames;  // frames moved without a target; the move ends past 150
+    s32 view_detail;
+    s32 fading_in;
     TObjEnemyColorFade fade;
     TAttackTraceStrip *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     void update_dying();
@@ -46,13 +46,14 @@ struct TObjGrass : public TObjEnemy {
     void update();
     void update_web_attack();
     void update_chase_target();
-    static void update_ai(void *arg0);
+    void update_ai();
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
     static void destroy_all();
     static void load_resources();
     void init_from_table_entry(s32 i);
+    void clear_hit_targets();
     TObjChara *hit_targets[12];  // players this charge has already hit
 };
 

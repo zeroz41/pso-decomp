@@ -19,7 +19,7 @@
 #include "pso/unk/FloorMapNames.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/byteswap.h"
 #include <string.h>
 #include "pso/unk/TLobby_800F8AA8.h"
@@ -129,6 +129,7 @@ typedef FloorLifecycleEntry E_80208020;
 extern "C" {
 s32 bswap_16__FPUs(u16 *, s32);
 s32 bswap_32__FPUl(s32 *, s32);
+}
 
 s32 init_object_set_data(ObjectSetData *set) {
     s32 r;
@@ -139,6 +140,7 @@ s32 init_object_set_data(ObjectSetData *set) {
     set->entity_id = 0xFFFF;
     return r;
 }
+extern "C" {
 
 void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0) {
     E_80207F80 *p = (E_80207F80 *)floor_lifecycle_callback_tables[arg0];
@@ -155,9 +157,9 @@ void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0) {
         }
     }
 }
+}
 
 void TLobby::update_current_floor() { get_current_floor_area(); ((void (*)(void))run_floor_cleanup_callbacks__6TLobbyFi)(); }
-}
 s32 run_floor_initialize_callbacks(s32 floor) {
     E_80208020 *p = floor_lifecycle_callback_tables[floor];
     Fn_80208020 f;

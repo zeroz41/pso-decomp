@@ -19,8 +19,8 @@ struct TContainerAncient01R : public TObjChara {
     void update_spawning();
     void sub_8018A688();
     void reset_hp();
-    virtual void vfunc_6(s16 *, s32);
-    virtual s32 try_start_action(s32, s32);
+    virtual void apply_saved_state(s16 *, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual void render();
     virtual void run_task();

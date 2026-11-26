@@ -25,4 +25,8 @@ public:
 };
 LAYOUT_ASSERT(TTitleMenu_size, sizeof(TTitleMenu) == 0x3C);
 
+
+extern "C" {
+s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller);
+}
 #endif

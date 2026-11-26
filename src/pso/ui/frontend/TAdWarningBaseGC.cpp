@@ -10,7 +10,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/GbaAramCache.h"
-#include "pso/system/SoundEffect.h"
 
 const char *lbl_805D4208 = "TAdWarningBaseGC";
 static const f32 lbl_80477334[2] = {46.0f, 131.0f};

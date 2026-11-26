@@ -198,8 +198,8 @@ void TObjEneDarkGunCenter::run_task() {
             id = find_nearest_visible_player(this, NULL, 1000.0f);
             if (id != 0xFFFF) {
                 target = get_player_by_client_id(id);
-                ang = (s32)(10430.38043493439 * atan2_float(((TObjBase *)target)->position.z - position.z,
-                                                            ((TObjBase *)target)->position.x - position.x)) + 0x4000;
+                ang = (s32)(10430.38043493439 * atan2_float(target->position.z - position.z,
+                                                            target->position.x - position.x)) + 0x4000;
                 for (i = 0; i < gunner_count; i++) {
                     gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
                     if (gunner != NULL) {

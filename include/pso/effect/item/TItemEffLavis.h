@@ -13,6 +13,6 @@ public:
 };
 
 LAYOUT_ASSERT(LavisEffectSize, sizeof(TItemEffLavis) == 0x6C);
-extern "C" TItemEffLavis* create_lavis_shot(void* owner, const Vec* start,
+TItemEffLavis* create_lavis_shot(void* owner, const Vec* start,
                                           const Vec* endpoint, f32 life);
 #endif

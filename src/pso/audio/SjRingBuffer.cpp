@@ -8,27 +8,26 @@ extern "C" {
 s32 sj_ring_buffer_get_extra_buffer_size(SjRingBuffer* buffer) { return buffer->extra_buffer_size; }
 s32 sj_ring_buffer_get_buffer_size(SjRingBuffer* buffer) { return buffer->buffer_size; }
 u8* sj_ring_buffer_get_buffer(SjRingBuffer* buffer) { return buffer->buffer; }
-#define MIN_803D2A14(a, b) ((a) < (b) ? (a) : (b))
+#define SJ_MIN(a, b) ((a) < (b) ? (a) : (b))
 
-#define MIN_803D2640(a, b) ((a) < (b) ? (a) : (b))
-bool sj_ring_buffer_is_chunk_available(SjRingBuffer *o, s32 mode, s32 n, s32 *out) {
+bool sj_ring_buffer_is_chunk_available(SjRingBuffer *buffer, s32 side, s32 requested_size, s32 *available_size) {
     s32 t;
     middleware_interrupt_lock_enter();
-    if (mode == 0) {
-        t = MIN_803D2640(o->writable_bytes, o->extra_buffer_size + (o->buffer_size - o->write_position));
-        mode = MIN_803D2640(t, n);
-    } else if (mode == 1) {
-        t = MIN_803D2640(o->readable_bytes, o->extra_buffer_size + (o->buffer_size - o->read_position));
-        mode = MIN_803D2640(t, n);
+    if (side == 0) {
+        t = SJ_MIN(buffer->writable_bytes, buffer->extra_buffer_size + (buffer->buffer_size - buffer->write_position));
+        side = SJ_MIN(t, requested_size);
+    } else if (side == 1) {
+        t = SJ_MIN(buffer->readable_bytes, buffer->extra_buffer_size + (buffer->buffer_size - buffer->read_position));
+        side = SJ_MIN(t, requested_size);
     } else {
-        mode = 0;
-        if (o->error_callback != 0) {
-            o->error_callback(o->error_context, -3);
+        side = 0;
+        if (buffer->error_callback != 0) {
+            buffer->error_callback(buffer->error_context, -3);
         }
     }
-    *out = mode;
+    *available_size = side;
     middleware_interrupt_lock_leave();
-    return !(n - mode);
+    return !(requested_size - side);
 }
 
 void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 side, SjChunk *sj_chunk) {
@@ -78,58 +77,57 @@ void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 side, SjChunk 
         middleware_interrupt_lock_leave();
     }
 
-#define MIN_803D28D8(a, b) ((a) < (b) ? (a) : (b))
-void sj_ring_buffer_put_chunk(SjRingBuffer *o, s32 mode, SjChunk *b) {
+void sj_ring_buffer_put_chunk(SjRingBuffer *buffer, s32 side, SjChunk *chunk) {
     s32 d;
     s32 n;
     s32 e;
-    if (b->size <= 0 || b->data == 0) {
+    if (chunk->size <= 0 || chunk->data == 0) {
         return;
     }
     middleware_interrupt_lock_enter();
-    if (mode == 1) {
-        o->readable_bytes += b->size;
-        d = b->data - o->buffer;
-        if (d < o->extra_buffer_size) {
-            n = MIN_803D28D8(b->size, o->extra_buffer_size - d);
-            memcpy(o->buffer + (o->buffer_size + d), b->data, n);
+    if (side == 1) {
+        buffer->readable_bytes += chunk->size;
+        d = chunk->data - buffer->buffer;
+        if (d < buffer->extra_buffer_size) {
+            n = SJ_MIN(chunk->size, buffer->extra_buffer_size - d);
+            memcpy(buffer->buffer + (buffer->buffer_size + d), chunk->data, n);
         }
-        e = (b->data - o->buffer) + b->size;
-        if (e > o->buffer_size) {
-            n = MIN_803D28D8(b->size, e - o->buffer_size);
-            memcpy(o->buffer, o->buffer + (e - n), n);
+        e = (chunk->data - buffer->buffer) + chunk->size;
+        if (e > buffer->buffer_size) {
+            n = SJ_MIN(chunk->size, e - buffer->buffer_size);
+            memcpy(buffer->buffer, buffer->buffer + (e - n), n);
         }
-    } else if (mode == 0) {
-        o->writable_bytes += b->size;
+    } else if (side == 0) {
+        buffer->writable_bytes += chunk->size;
     } else {
-        b->size = 0;
-        b->data = 0;
-        if (o->error_callback != 0) {
-            o->error_callback(o->error_context, -3);
+        chunk->size = 0;
+        chunk->data = 0;
+        if (buffer->error_callback != 0) {
+            buffer->error_callback(buffer->error_context, -3);
         }
     }
     middleware_interrupt_lock_leave();
 }
 
-void sj_ring_buffer_get_chunk(SjRingBuffer *r, s32 which, s32 max, SjChunk *out) {
+void sj_ring_buffer_get_chunk(SjRingBuffer *buffer, s32 side, s32 requested_size, SjChunk *chunk) {
     middleware_interrupt_lock_enter();
-    if (which == 0) {
-        out->size = MIN_803D2A14(r->writable_bytes, r->extra_buffer_size + (r->buffer_size - r->write_position));
-        out->size = MIN_803D2A14(out->size, max);
-        out->data = r->buffer + r->write_position;
-        r->write_position = (r->write_position + out->size) % r->buffer_size;
-        r->writable_bytes -= out->size;
-    } else if (which == 1) {
-        out->size = MIN_803D2A14(r->readable_bytes, r->extra_buffer_size + (r->buffer_size - r->read_position));
-        out->size = MIN_803D2A14(out->size, max);
-        out->data = r->buffer + r->read_position;
-        r->read_position = (r->read_position + out->size) % r->buffer_size;
-        r->readable_bytes -= out->size;
+    if (side == 0) {
+        chunk->size = SJ_MIN(buffer->writable_bytes, buffer->extra_buffer_size + (buffer->buffer_size - buffer->write_position));
+        chunk->size = SJ_MIN(chunk->size, requested_size);
+        chunk->data = buffer->buffer + buffer->write_position;
+        buffer->write_position = (buffer->write_position + chunk->size) % buffer->buffer_size;
+        buffer->writable_bytes -= chunk->size;
+    } else if (side == 1) {
+        chunk->size = SJ_MIN(buffer->readable_bytes, buffer->extra_buffer_size + (buffer->buffer_size - buffer->read_position));
+        chunk->size = SJ_MIN(chunk->size, requested_size);
+        chunk->data = buffer->buffer + buffer->read_position;
+        buffer->read_position = (buffer->read_position + chunk->size) % buffer->buffer_size;
+        buffer->readable_bytes -= chunk->size;
     } else {
-        out->size = 0;
-        out->data = 0;
-        if (r->error_callback != NULL) {
-            r->error_callback(r->error_context, -3);
+        chunk->size = 0;
+        chunk->data = 0;
+        if (buffer->error_callback != NULL) {
+            buffer->error_callback(buffer->error_context, -3);
         }
     }
     middleware_interrupt_lock_leave();
@@ -185,24 +183,24 @@ extern s32 sj_ring_buffer_init_count;
 extern SjRingBufferInterface sj_ring_buffer_interface;
 __declspec(section ".rodata") extern const u8 sj_ring_buffer_uuid[16];
 __declspec(section ".sdata2") extern const char *const volatile sj_version_pointer;
-SjRingBuffer *sj_ring_buffer_create(void* data, s32 bsize, s32 x24) {
+SjRingBuffer *sj_ring_buffer_create(void* buffer, s32 buffer_size, s32 extra_buffer_size) {
     SjRingBuffer *s;
     s32 i;
     middleware_interrupt_lock_enter();
     for (i = 0; i < 256; i++) {
-        if (((SjRingBuffer *)&sj_ring_buffer_pool)[i].in_use == 0) {
+        if (sj_ring_buffer_pool[i].in_use == 0) {
             break;
         }
     }
     if (i == 256) {
         s = 0;
     } else {
-        s = &((SjRingBuffer *)&sj_ring_buffer_pool)[i];
+        s = &sj_ring_buffer_pool[i];
         s->in_use = 1;
         s->interface = &sj_ring_buffer_interface;
-        s->buffer = (u8*)data;
-        s->buffer_size = bsize;
-        s->extra_buffer_size = x24;
+        s->buffer = (u8*)buffer;
+        s->buffer_size = buffer_size;
+        s->extra_buffer_size = extra_buffer_size;
         s->type_uuid = sj_ring_buffer_uuid;
         s->error_callback = sj_ring_buffer_error_halt;
         s->error_context = s;
@@ -220,14 +218,14 @@ void sj_ring_buffer_shutdown(void) {
     ref_count = sj_ring_buffer_init_count - 1;
     sj_ring_buffer_init_count = ref_count;
     if (ref_count == 0) {
-        memset(&sj_ring_buffer_pool, 0, 0x3000);
+        memset(sj_ring_buffer_pool, 0, sizeof(sj_ring_buffer_pool));
     }
 }
 
 void sj_ring_buffer_init(void) {
     const char *ver = sj_version_pointer;
     if (sj_ring_buffer_init_count == 0) {
-        memset(&sj_ring_buffer_pool, 0, 0x3000);
+        memset(sj_ring_buffer_pool, 0, sizeof(sj_ring_buffer_pool));
     }
     sj_ring_buffer_init_count += 1;
 }

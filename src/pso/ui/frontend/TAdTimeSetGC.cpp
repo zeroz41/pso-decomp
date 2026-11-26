@@ -19,7 +19,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/frontend/TAdTimeSetGC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -37,10 +37,44 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
+
+#pragma push
+#pragma defer_codegen off
+
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+
+s32 CharacterPreview::get_hair_model() { return part_models[0]; }
+NJS_TEXLIST *CharacterPreview::get_chara_making_data() { return &head_textures.list; }
+s32 CharacterPreview::get_head_model() { return part_models[1]; }
+s32 CharacterPreview::get_attachment_model() { return part_models[2]; }
+NJS_TEXLIST *CharacterPreview::get_status_data() { return &other_textures.list; }
+saddr CharacterPreview::get_body_model() { return body_model; }
+NJS_TEXLIST *CharacterPreview::get_status_sub() { return &body_textures.list; }
+
+void TAdPlyStatusGC::set_status_param(CharacterPreview *preview) { ply_status_preview = preview; }
+
+TAdPlyStatusGC *TAdPlyStatusGC::get_index() { return ply_status_gc_instance; }
+
+void TAdPlyStatusGC::set_status_index(int a0, int a1) { ply_status_index = a1; }
+
+
+void TAdPlyStatusGC::close_window(s32 index) {
+    TAdPlyStatusGC::window_offset_index = index;
+    if (window != NULL) {
+        window->close();
+        window = NULL;
+    }
+}
+
+#pragma pop
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
-s32 get_memcard_free_files(s32 chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 }
 
@@ -789,7 +823,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (message_window != NULL || menu_window != NULL) {
         return;
     }
-    message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)time_set_message_pos, (NJS_POINT2 *)time_set_message_size);
+    message_window = create_message_window_for_size((NJS_POINT2 *)time_set_message_pos, (NJS_POINT2 *)time_set_message_size);
     if (message_window == NULL) {
         return;
     }

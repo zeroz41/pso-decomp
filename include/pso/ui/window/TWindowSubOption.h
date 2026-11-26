@@ -5,6 +5,7 @@
 
 struct TWindowMainMenu;
 struct TWindowMenu;
+class TWindowCheckBox;
 
 // The main menu's "Options" sub-window: a list of the six options and the value window of the
 // selected one.
@@ -14,7 +15,7 @@ public:
     virtual ~TWindowSubOption();
     void update_photon_selection();
     saddr create_option_menu_window();
-    saddr create_option_value_window(s32);
+    TWindowCheckBox *create_option_value_window(s32);
     void update_quest_board_card_flags();
     virtual void render();
     virtual void run_task();
@@ -24,7 +25,7 @@ public:
     saddr client_id;
     TWindowMainMenu *parent;
     TWindowMenu *menu;     // the option list create_option_menu_window makes
-    uaddr value_window;      // the value window create_option_value_window opens for the selected option
+    TWindowCheckBox *value_window;      // the value window create_option_value_window opens for the selected option
 };
 LAYOUT_ASSERT(TWindowSubOption_size, sizeof(TWindowSubOption) == 0x30);
 

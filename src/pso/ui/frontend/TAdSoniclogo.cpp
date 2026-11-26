@@ -26,7 +26,6 @@ void TAdSoniclogo::request_destroy(TObject *fade) {
 }
 
 
-
 void TAdSoniclogo::render() {
     render_logo_with_default(sonic_logo_object, 16, -1, -150.0f);
 }

@@ -10,6 +10,7 @@ class TObjEneBm9Mericarol;
 
 class TObjEneBm9Mericarol_Bomb : public TAttackCollider {
 public:
+    static const char *class_name;
     TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast);
     virtual ~TObjEneBm9Mericarol_Bomb();
     virtual void render();
@@ -22,7 +23,7 @@ public:
     Vec look_ahead;            // pos + look_ahead is the segment tested against walls
     Vec ground_normal;        // ground surface orientation used by the shadow
     AreaAttackContact contact;
-    s32 m_ec;
+    s32 yaw;                   // the effects spawn turned a quarter past it
     DirectAttackPayload attack; // kind: 5 in v2 mode, else by phase; 0x12 for the final blast
     f32 fall_speed;
     s32 age;                   // frames alive; destroyed at 150

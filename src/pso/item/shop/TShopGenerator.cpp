@@ -74,7 +74,6 @@ s32 TShopGenerator__slot_active_table[4];
 extern "C" {
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-int is_flag_400_set__10TObjPlayerFPv(void *p);
 extern s32 lbl_805D55C0;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
@@ -140,7 +139,7 @@ void TShopGenerator::run_task() {
             if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
             if (is_slot_active(((TObjBase *)(p))->get_entity_id()) == 1) continue;
             if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(p))->get_entity_id()) == 1) continue;
-            if (is_flag_400_set__10TObjPlayerFPv((void *)p) == 1) continue;
+            if (((TObjPlayer *)p)->is_action_input_disabled() == 1) continue;
             if (((TObjPlayer *)p)->is_controls_locked() == 1) continue;
             get_slot_flag = service->get_slot_flag;
             if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(p))->get_entity_id())) == 1) continue;
@@ -154,7 +153,7 @@ void TShopGenerator::run_task() {
         if (q == 0) return;
         if (is_slot_active(((TObjBase *)(q))->get_entity_id()) == 1) return;
         if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(q))->get_entity_id()) == 1) return;
-        if (is_flag_400_set__10TObjPlayerFPv((void *)q) == 1) return;
+        if (((TObjPlayer *)q)->is_action_input_disabled() == 1) return;
         if (((TObjPlayer *)q)->is_controls_locked() == 1) return;
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;

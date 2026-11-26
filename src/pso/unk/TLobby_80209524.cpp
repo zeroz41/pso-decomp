@@ -10,7 +10,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/TSetManager.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_802097B0.h"
@@ -40,11 +39,9 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include <stdlib.h>
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/map/TSetEvtDestroy.h"
 
 // ---- pso/unk/TLobby_80209524
-
-extern "C" {
-
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
@@ -57,8 +54,6 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
         }
     }
     return table;
-}
-
 }
 
 struct DestroyEventShuffleTableEntry;
@@ -81,12 +76,7 @@ s32 challenge_event_source_size;
 
 extern "C" {
 EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity) {
-    void *storage = ::operator new(0xE8);
-    SubtractiveRng *rng = static_cast<SubtractiveRng *>(storage);
-    if (rng != NULL) {
-        rng = reinterpret_cast<SubtractiveRng *>(__ct__14SubtractiveRngFv(storage));
-    }
-    table->rngState = rng;
+    table->rngState = new SubtractiveRng;
     table->entries = static_cast<s32 *>(mem_alloc(capacity * sizeof(*table->entries)));
     table->cursor = 0;
     table->count = capacity;
@@ -144,7 +134,7 @@ void TLobby::append_swapped_u32(s32 *value) {
     if (challenge_action_buffer != NULL) {
         src = *value;
         bswap_32((u32 *)&src);
-        move_data((void *)(challenge_action_buffer + challenge_action_size), &src, 4);
+        move_data((challenge_action_buffer + challenge_action_size), &src, 4);
         challenge_action_size += 4;
     }
 }
@@ -184,11 +174,6 @@ struct BsearchRecordTmp { u8 pad[0x18]; s16 v; u8 pad2[2]; };
 struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
 
 struct TLobbyEntry { s16 id; s16 count; s32 offset; };
-
-void init_event_shuffle_table(EventShuffleTable *table, s32 count);
-
-s32 next_event_shuffle_entry(EventShuffleTable *s);
-extern "C" {
 
 void select_event_shuffle_table(s16 id) {
     TLobbyEntry e;
@@ -278,7 +263,6 @@ void lookup_item_data_record(AppendOut *arg0, s32 key) {
         arg0->f42 = r.h[0];
         arg0->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
-}
 }
 void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
     PickWeightedEntryHdr hdr = *(PickWeightedEntryHdr *)item_data_table_buffer;
@@ -1101,6 +1085,7 @@ extern "C" {
 
 EnemySetRecord *get_loaded_enemy_set_rows();
 FloorObjectSetRow *get_loaded_object_set_rows();
+}
 
 EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_rows(); }
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
@@ -1127,6 +1112,7 @@ s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
 int TLobby::get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
 
 int TLobby::get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
+extern "C" {
 
 // ---- pso/unk/text_8020B47C
 // Copies the received object and enemy set flags of every floor into the floor tables.

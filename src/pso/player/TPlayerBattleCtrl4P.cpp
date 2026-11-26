@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_801C4F80.h"
@@ -54,10 +54,11 @@
 #include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_8020BC50.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 
 // Window size {width, height} passed to TWindowMessage::create.
@@ -76,14 +77,10 @@ void TLobby__sub_801B09A4(void);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
-extern s16 battle_event_second_table[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
-extern "C" {
 void reset_map();
-}
 char team_matchup_message_buffer[256];
-    extern int evt2_random_enemies_mode;
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 s32 lbl_805D6AB0;
 // Japanese text (shift-JIS)
@@ -780,7 +777,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
   {
     if (get_player_by_client_id(j) != NULL)
     {
-      TLobby::apply_battle_rules_to_players();
+      apply_battle_rules_to_players();
     }
   }
 }
@@ -1113,7 +1110,7 @@ s32 TPlayerBattleCtrl4P::calc_battle_score(TObjPlayer *player) {
     score -= (f32)player->battle_score.damage_stats[2].get_total();
     score += (f32)player->battle_score.damage_stats[0].get_total();
     score -= (f32)player->battle_score.damage_stats[1].get_total();
-    score += (f32)get_actor_meseta((u8 *)player) * player->battle_score.damage_stats[4].get_bonus_weight();
+    score += (f32)player->get_actor_meseta() * player->battle_score.damage_stats[4].get_bonus_weight();
     total = (s32)score;
     player->battle_score.slots.set_score(total);
     return total;

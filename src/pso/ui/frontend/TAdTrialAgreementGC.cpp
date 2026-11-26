@@ -1,6 +1,6 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -10,14 +10,12 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_8033573C.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/ui/TTitleMenu.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -35,7 +33,6 @@
 #pragma readonly_strings on
 
 
-
 void TAdTrialAgreementGC::render() {
     check_main_task_state();
 }
@@ -50,7 +47,6 @@ loop_1:
         goto loop_1;
     }
 }
-
 
 
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";

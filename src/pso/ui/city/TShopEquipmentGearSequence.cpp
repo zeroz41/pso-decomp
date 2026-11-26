@@ -21,7 +21,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
-
+#include "pso/unk/text_80222C28.h"
 
 
 s32 shop_gear_pending_message;
@@ -29,7 +29,6 @@ s32 shop_gear_pending_state;
 
 extern "C" {
 extern const char *shop_equipment_gear_sequence_class_name;
-s32 get_shop_text(s32);
 }
 
 #pragma readonly_strings on

@@ -8,6 +8,8 @@ struct TOWreckAncientBrakable : public TOWreckAncient {
     TOWreckAncientBrakable(s32 model_index);
     virtual ~TOWreckAncientBrakable();
     virtual void run_task();
+    // Inferred: run_demo_task (empty; run_task calls it in demo mode).
+    void sub_8017D444();
     void spawn_debris();
     u32 state;      // inferred: 0 standing, 1 broken (run_task's switch)
     s32 switch_id;  // inferred: the floor switch that breaks it, -1 for none (is_current_floor_switch_set)

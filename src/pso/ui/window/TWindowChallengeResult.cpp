@@ -13,6 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #pragma push
 #pragma readonly_strings on
 
@@ -63,18 +64,19 @@ const char *lbl_804CE2AC[3] = {
 TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count)
     : TWindowBase((u8 *)&lbl_804CE298, 4, (u8 *)get_window_layout_position(0x3F)) {
     s32 i;
-    ResultEntry *e;
+    WindowTextEntry *e;
+    ResultEntry *count;
     s32 hours;
 
     m_name = TWindowChallengeResult__name;
     for (i = 0; i < 3; i++) {
-        e = (ResultEntry *)get_array_entry(i * 2);
-        set_text_entry_string((u8 *)e, (uaddr)lbl_804CE2AC[i], 0);
+        e = (WindowTextEntry *)get_array_entry(i * 2);
+        set_text_entry_string(e, (uaddr)lbl_804CE2AC[i], 0);
         measure_message_text_width_default(e);
         e->x = 233.0f - e->width;
     }
-    set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)team_name, 0x20);
-    e = (ResultEntry *)get_array_entry(3);
+    set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), (uaddr)team_name, 0x20);
+    e = (WindowTextEntry *)get_array_entry(3);
     text_builder_reset();
     hours = clear_seconds / 3600;
     clear_seconds = clear_seconds % 3600;
@@ -89,11 +91,11 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
         text_builder_append((u8 *)":");
         append_padded_number(clear_seconds, 2);
     }
-    set_text_entry_string((u8 *)e, (uaddr)(get_shared_text_buffer()), 0x20);
-    e = (ResultEntry *)get_array_entry(5);
-    e->value = death_count;
-    draw_right_aligned_number(e);
-    e->x = 233.0f + e->width;
+    set_text_entry_string(e, (uaddr)(get_shared_text_buffer()), 0x20);
+    count = (ResultEntry *)get_array_entry(5);
+    count->value = death_count;
+    draw_right_aligned_number(count);
+    count->x = 233.0f + count->width;
     if (TCameraCtrl::get_camera_id() == 4) {
         scale_x = 0.68f;
         scale_y = 0.68f;

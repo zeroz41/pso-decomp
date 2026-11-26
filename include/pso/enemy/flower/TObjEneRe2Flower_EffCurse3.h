@@ -16,4 +16,8 @@ public:
 };
 LAYOUT_ASSERT(TObjEneRe2Flower_EffCurse3_size, sizeof(TObjEneRe2Flower_EffCurse3) == 0x28);
 
+extern "C" {
+void TObjPlayer__sub_800C4D44(void);
+}
+
 #endif

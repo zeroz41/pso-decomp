@@ -159,25 +159,25 @@ void TAdMultiSaveGC::run_task() {
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF314() {
-    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 0), 1);
     return msg;
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF2B4() {
-    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 3), 1);
     return msg;
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF254() {
-    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 3), 1);
     return msg;
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF1F4() {
-    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 2), 1);
     return msg;
 }

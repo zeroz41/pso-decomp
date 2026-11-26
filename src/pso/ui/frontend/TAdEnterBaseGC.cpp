@@ -17,12 +17,10 @@
 
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
-#include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
-#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
@@ -110,8 +108,7 @@ s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
 
-void fn_8025DE10(void *context, void *cursor);
-
+void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor);
 
 
 extern char serial_access_hex_string_buf[];
@@ -121,12 +118,9 @@ u8 *get_access_key_input_buffer();
 u8 *get_raw_serial_input_buffer();
 
 
-
 }
 extern s32 tl_clipout;
 char serial_access_hex_string_buf[0x40];
-
-
 
 
 s32 TAdPsoPassSaveGC__sub_8032B584(void) {
@@ -285,7 +279,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
 }
 
 TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, void *message_index) {
-    TWindowMessage *window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
+    TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
     window->append_line(get_localized_text_entry(0x17, (saddr)message_index), 1);
     return window;
 }
@@ -372,7 +366,7 @@ void draw_masked_password_field(saddr context) {
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
-        fn_8025DE10((void *)context, &p2);
+        fn_8025DE10((WindowDrawContext *)context, &p2);
     }
 }
 

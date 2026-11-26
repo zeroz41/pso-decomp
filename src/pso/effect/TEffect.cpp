@@ -15,7 +15,7 @@ s32 particle_texture_id_table[54];
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step) {
     Vec next;
-    approach_vector_fixed_distance((const Vec *)current, (const Vec *)target, (Vec *)&next, step);
+    approach_vector_fixed_distance(current, target, &next, step);
     current->x = next.x;
     current->y = next.y;
     current->z = next.z;

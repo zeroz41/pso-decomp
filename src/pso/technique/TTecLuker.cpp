@@ -38,7 +38,7 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TTelepipeMarker.h"
@@ -110,8 +110,10 @@ s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
+}
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
-s32 free_collision_body_parts(void *);
+void free_collision_body_parts(TObjCollidable *actor);
+extern "C" {
 s32 submit_cursor_candidate(void *, s32);
 }
 extern u8 identity_matrix[];

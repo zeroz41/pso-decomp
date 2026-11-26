@@ -18,6 +18,13 @@ s32 is_room_enemy_set_cleared(s32, s32);
 const char *lbl_805D2828 = "TObjBoss5Ctrl";
 }
 
+void TObjBoss5Ctrl::play_pillar_sound() {
+    TObjBoss5Ctrl *controller = boss5_ctrl_instance;
+    if (controller != NULL && controller->pillar_demo != NULL) {
+        controller->pillar_demo->play_sound_once();
+    }
+}
+
 void TObjBoss5Ctrl::run_task() {
     if (sound_countdown-- <= 0) {
         play_sound_effect(0x40033215, NULL, 0, 0);
@@ -68,4 +75,12 @@ TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
             pillar_demo = TObjBoss5PillarDemo::create();
         }
     }
+}
+
+extern "C" TObject *tl_01;
+
+TObjBoss5Ctrl *TObjBoss5Ctrl::create() {
+    TObjBoss5Ctrl *controller = new TObjBoss5Ctrl(tl_01);
+    boss5_ctrl_instance = controller;
+    return controller;
 }

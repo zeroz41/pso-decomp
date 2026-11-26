@@ -23,6 +23,8 @@ public:
     s32 is_channel_active_at(s32 row, s32 index);
     s32 is_channel_active(s32 index);
     void set_tag(s32 row, s32 index, s32 mode, u16 slot);
+    // Calls set_tag with the same arguments.
+    void sub_802C46E0(s32 row, s32 index, s32 mode, u16 slot);
     void set_tag_slot(s32 row, s32 index, s32 slot);
     void set_tag_mode(s32 row, s32 index, s32 mode);
     u16 get_tag_slot(s32 row, s32 index);
@@ -64,6 +66,7 @@ public:
     void clear_secondary_bank();
     void set_primary_bank();
     void set_secondary_bank();
+    int is_secondary_bank_empty(s32 bank);
 };
 
 #endif

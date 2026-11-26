@@ -5,4 +5,4 @@
 
 s16 TWindowChoiceSetting::get_field_74() { return this->index; }
 
-int TWindowMenuInfomation::is_open() { return (this->m_70 >> 1) & 0x1; }
+int TWindowMenuInfomation::is_open() { return (this->state_flags >> 1) & 0x1; }

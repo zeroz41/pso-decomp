@@ -1,6 +1,5 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyCharData.h"
@@ -18,7 +17,6 @@
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/SoundEffect.h"
 
 struct Range_802937E8 { s32 min; s32 max; };
 
@@ -33,7 +31,7 @@ const s32 lbl_80464E90[2] = {0, 4};
 const int char_select_class_id_table[12] = {0, 1, 2, 9, 3, 11, 4, 5, 10, 6, 7, 8};
 const s32 lbl_805DD9D8[1] = {4};
 
-int get_char_select_class_id(int a0) {  return char_select_class_id_table[a0]; }
+int get_char_select_class_id(int index) { return char_select_class_id_table[index]; }
 
 void TChCrCharSelect::wrap_slot_index_to_range() {
     s32 min = char_select_class_group_range_table[TChCrCharSelect::selected_char_index].min;
@@ -96,7 +94,6 @@ void TChCrCharSelect::handle_menu_input() {
     }
 }
 
-
 void TChCrCharSelect::handle_cursor_input() {
     s32 next;
     s32 previous;
@@ -123,7 +120,6 @@ void TChCrCharSelect::handle_cursor_input() {
     }
 }
 
-
 void TChCrCharSelect::run_task() {
     reset_proportions();
     static void (TChCrCharSelect::*tbl[3])() = {
@@ -149,7 +145,6 @@ void TChCrCharSelect::init_widgets() { TChCrTagOccupation::create_all(); TChCrTa
 
 TChCrCharSelect::~TChCrCharSelect() {}
 
-
 TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     m_name = TChCrCharSelect__name;
     TChCrEffTag::set_eff_tag(0);
@@ -163,4 +158,14 @@ TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     }
     TObjCMIcon::set_screen_position(&lbl_80464E88);
     init_widgets();
+}
+
+TChCrCharSelect *TChCrCharSelect::create(TObject *parent) {
+    return new TChCrCharSelect(parent);
+}
+
+void TChCrCharSelect::init_and_create(TObject *parent) {
+    TChCrCharSelect::selected_char_index = -1;
+    TChCrCharSelect::selected_slot_index = -1;
+    create(parent);
 }

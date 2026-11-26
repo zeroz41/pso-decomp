@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/object/door/TODoorFourLightRuins.h"
 #include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/render/NinjaUtil.h"
@@ -20,7 +21,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
 
@@ -46,8 +47,6 @@ s32 init_collision_body_parts(void *, void *, int);
 u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);
-void free_collision_body_parts(void *);
-
 }
 
 
@@ -237,7 +236,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightRuins::vfunc_6(s16 *state, s32) {
+void TODoorFourLightRuins::apply_saved_state(s16 *state, s32) {
     if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
@@ -446,7 +445,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightSpace::vfunc_6(s16 *state, s32) {
+void TODoorFourLightSpace::apply_saved_state(s16 *state, s32) {
     if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }

@@ -23,7 +23,7 @@
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -852,13 +852,13 @@ void TChallenge::update_quest_challenge_state() {
     }
 }
 
-void TChallenge::set_challenge_record_page(s32 v) {
-    if (v < 0 || v >= 0x11) {
+void TChallenge::set_challenge_record_page(s32 mode) {
+    if (mode < 0 || mode >= 0x11) {
         return;
     }
-    if (challenge_mode_state.record_window_mode != v) {
-        show_challenge_record_window(v);
-        challenge_mode_state.record_window_mode = v;
+    if (challenge_mode_state.record_window_mode != mode) {
+        show_challenge_record_window(mode);
+        challenge_mode_state.record_window_mode = mode;
     }
 }
 

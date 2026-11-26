@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.h"
+#include "pso/enemy/AreaSoundRemap.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/object/TObjLuker_801329B0.h"

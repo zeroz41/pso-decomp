@@ -278,7 +278,7 @@ static inline DnsBuffer *dns_alloc_buffer(DnsResolverState *g) {
     }
     return NULL;
 }
-inline NetworkAddress *dns_next_server(DnsResolverState *g, DnsQuery *a) {
+static inline NetworkAddress *dns_next_server(DnsResolverState *g, DnsQuery *a) {
     s16 t, n, i;
     for (i = 0; i < (n = g->nservers); i++) {
         NetworkAddress *r = &g->servers[(a->server + (t = a->status)) % n];
@@ -450,7 +450,7 @@ s32 dns_clear_server(void) {
     return cnt;
 }
 
-inline s32 addr_compare(u32 family, NetworkAddress *a, NetworkAddress *b) {
+static inline s32 addr_compare(u32 family, NetworkAddress *a, NetworkAddress *b) {
     switch (family) {
     case 4:
         if (b->family != 4) {
@@ -687,7 +687,7 @@ extern void dns_expire_cache(void) {
     }
 }
 
-inline DnsQuery *find_query_for_request(DnsResolverState *base, NetworkReceivePrefix *req) {
+static inline DnsQuery *find_query_for_request(DnsResolverState *base, NetworkReceivePrefix *req) {
     s16 count;
     s16 key;
     s16 i;
@@ -762,7 +762,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
   return 0;
 }
 
-inline DnsQuery *find_query_by_socket(s16 id) {
+static inline DnsQuery *find_query_by_socket(s16 id) {
     DnsResolverState *g = &dns_resolver_state;
     s16 n;
     DnsQuery *e;
@@ -976,7 +976,7 @@ s16 dns_parse_reply(DnsQuery *self)
   return 0;
 }
 #pragma pop
-inline DnsAddr *find_host_addr(DnsHost *host, DnsAddr *rec) {
+static inline DnsAddr *find_host_addr(DnsHost *host, DnsAddr *rec) {
     s16 cnt;
     DnsAddr *node;
     if (host == 0 || rec == 0) {
@@ -1144,7 +1144,7 @@ extern s32 dns_expand_name(DnsQuery *self, u8 *p, s32 n, u8 *dst)
 }
 #pragma pop
 
-inline void cancel_ptr_queries(DnsPtr *o, s16 b) {
+static inline void cancel_ptr_queries(DnsPtr *o, s16 b) {
     DnsResolverState *base = &dns_resolver_state;
     s16 i;
     DnsQuery *e;
@@ -1189,7 +1189,7 @@ extern void dns_complete_query(DnsQuery *self, s16 a, s16 b)
     dispatch_request_callback(self, b);
 }
 
-inline s32 close_query_socket(DnsQuery *query, s32 id) {
+static inline s32 close_query_socket(DnsQuery *query, s32 id) {
     s32 r;
     if ((s16)id < 0) {
         return 0;

@@ -1,6 +1,13 @@
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/memory.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/network/TLobby.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/enemy/lappy/TObjEneLappy.h"
+#include "pso/ui/window/TWindowLockOn.h"
 
 StripUvRef *plist_strip_write_ptr;
 s16 *plist_strip_uv_write_ptr;
@@ -120,4 +127,65 @@ void StripBufferPair::count_plist_strips_by_texture(s16 *plist, s32 texture_filt
             }
         }
     }
+}
+
+void StripBufferPair::scroll_uvs(s16 scroll_u, s16 scroll_v) {
+    s32 i;
+    s16 *strip;
+    s16 *uv;
+    u32 n;
+    u32 j;
+    s32 len;
+    s32 k;
+    scroll_u %= 256;
+    scroll_v %= 256;
+    for (i = 0; i < strip_count; i++) {
+        strip = strips[i].strip;
+        uv = strips[i].uv;
+        n = *strip++ & 0x3FFF;
+        for (j = 0; j < n; j++) {
+            len = *strip++;
+            if (len < 0) {
+                len = -len;
+            }
+            for (k = 0; k < len; k++) {
+                strip[1] = uv[0] + scroll_u;
+                strip[2] = uv[1] + scroll_v;
+                uv += 2;
+                strip += 3;
+            }
+        }
+    }
+}
+
+StripBufferPair::~StripBufferPair() {
+    mem_free(uvs);
+    uvs = NULL;
+    mem_free(strips);
+    strips = NULL;
+}
+
+extern "C" {
+
+StripBufferPair::StripBufferPair(NJS_OBJECT *model, s32 texture_filter) {
+    strip_count = 0;
+    uv_count = 0;
+    plist_texture_matches_filter = 0;
+    count_model_strips_by_texture(model, texture_filter);
+    strips = (StripUvRef *)mem_alloc(strip_count * 8);
+    uvs = (s16 *)mem_alloc(uv_count * 4);
+    plist_strip_write_ptr = strips;
+    plist_strip_uv_write_ptr = uvs;
+    plist_texture_matches_filter = 0;
+    collect_model_strips_by_texture(model, texture_filter);
+}
+void TObjEnemy::clear_lobby_object_state() {
+    EnemyStateRecord record;
+    if (this->exchange_object_state(&record, 1) != 0) {
+        record.flags = 0;
+        record.damage = 0;
+        this->exchange_object_state(&record, 0);
+    }
+}
+
 }

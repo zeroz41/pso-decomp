@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -64,8 +64,6 @@ static CollisionBody trap_ancient01_collision_body[1] = {
     {{0.0f, 20.0f, 0.0f}, 14.0f, 0.0f, 0, 0x08011F04, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 const char *trap_ancient01_class_name = "TOTrapAncient01";
-
-extern const char *TObjPlayer_name;
 
 f32 TObjCollidable::get_body_radius(s32 body) {
     return bodies[body].radius;
@@ -415,9 +413,9 @@ void TOTrapAncient01::release_trapped_player() {
     }
 }
 
-void TOTrapAncient01::vfunc_6(s16 *state, s32 notify) {
+void TOTrapAncient01::apply_saved_state(s16 *state, s32 live) {
     if ((s16) *state == 4) {
-        if (notify == 1) {
+        if (live == 1) {
             this->play_sounds();
         }
         this->release_trapped_player();

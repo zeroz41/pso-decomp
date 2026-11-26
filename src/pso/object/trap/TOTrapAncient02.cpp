@@ -47,8 +47,8 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/TLevelSelect.h"
 
-extern s32 game_difficulty_selection;
 
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
 const char *bm_obj_ruins_pillar_motion_names[] = {NULL};
@@ -123,7 +123,7 @@ s32 TOTrapAncient02R::roll_physical_accuracy(void *, s32, f32) {
     return 1;
 }
 
-s32 TOTrapAncient02R::try_start_action(s32, s32) {
+s32 TOTrapAncient02R::try_start_action(void *, s32, f32) {
     return 1;
 }
 
@@ -542,7 +542,7 @@ f32 TOTrapAncient02R::receive_physical_attack(void *, f32) {
                 state = mode;
                 send_object_state_update(&state);
                 access_object_saved_state(&state, 0);
-                vfunc_6(&state, 1);
+                apply_saved_state(&state, 1);
             }
         }
     }
@@ -735,6 +735,6 @@ void TOTrapAncient02R::vfunc_88() {}
 void TOTrapAncient02R::vfunc_86() {
     if (is_current_room(this) == 1) {
         debug_draw_scaled(&home_position, &scratch_vec, &trap_ancient_light_color);
-        TOTrapAncient02R__sub_80154D78(this);
+        sub_80154D78();
     }
 }

@@ -25,7 +25,6 @@
 
 
 
-
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
 extern "C" {
 f32 vector_length(f32 *v);
@@ -59,7 +58,6 @@ s32 creation_resource_ready_state;
 extern "C" {
 s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
-void load_creation_shape_rel(TCMCharacter *character);
 void TCharaMaking__sub_8028E3A0();
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 
@@ -236,17 +234,8 @@ const char *TCMCharacter__name = "TCMCharacter";
 __declspec(section ".rodata") CreationModelPart empty_creation_model_part = {0, 0};
 #pragma pop
 __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {0,0};
-
-struct Sel_802902CC {
-    u8 pad0[4];
-    saddr a4;
-    saddr a8;
-    s32 c[3];
-    saddr d[3];
-    saddr e[3];
-};
-
 }
+void load_creation_shape_rel(TCMCharacter *character);
 extern CreationShapeBlend creation_shape_blend;
 s32 scan_creation_resources(void *context);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);

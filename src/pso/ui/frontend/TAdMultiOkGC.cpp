@@ -5,7 +5,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/SoundEffect.h"
 const char multi_confirm_texture_archive_name[] = "f064_multiconfirm";
 NJS_TEXNAME multi_confirm_texture_entries[1] = {{(char *)multi_confirm_texture_archive_name, 0, {0}}};
 __declspec(section ".data") NJS_TEXLIST multi_confirm_texture_descriptor = { multi_confirm_texture_entries, 1 };

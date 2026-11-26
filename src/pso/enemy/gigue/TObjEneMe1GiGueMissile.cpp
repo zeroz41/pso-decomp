@@ -32,13 +32,13 @@
 BmlResource *gigue_missile_resource;
 const char *me1_gi_gue_missile_name = "TObjEneMe1GiGueMissile";
 
-void TObjEneMe1GiGueMissile::explode(void *pos) {
+void TObjEneMe1GiGueMissile::explode(const Vec *pos) {
     TObjPlayer *p;
     s32 i;
-    new TFireExplosion(40.0f, (const Vec *)pos, 0, tl_07);
+    new TFireExplosion(40.0f, pos, 0, tl_07);
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
-        if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= 1600.0f) {
+        if (p != NULL && horizontal_distance_squared(&p->position, pos) <= 1600.0f) {
             DirectAttackPayload hit;
             hit.kind = 0;
             hit.power = power;

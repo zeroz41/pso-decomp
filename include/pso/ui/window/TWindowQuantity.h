@@ -22,8 +22,6 @@ struct TWindowQuantity : public TWindowBase {
 LAYOUT_ASSERT(TWindowQuantity_scale_offset, offsetof(TWindowQuantity, scale) == 0x64);
 LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 
-extern "C" {
 TWindowQuantity *create_window_quantity(s32 client);
-}
 
 #endif

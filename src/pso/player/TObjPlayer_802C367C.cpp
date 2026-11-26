@@ -6,8 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_802C422C.h"
 
-extern "C" {
-
 int init_new_character_data(void *data) {
     TPlyCharData *record = (TPlyCharData *)data;
     record->m_inventory.m_num_items = 0;
@@ -51,22 +49,22 @@ void init_technique_levels(s32 flags, u8 *counts) {
     }
 }
 
-void TObjPlayer::setup_effect_slots(s32 arg0, TPlyDispConfigSmth *palette) {
-    TObjPlayer__sub_802C46E0(palette, 0, 0, 1, 0);
-    TObjPlayer__sub_802C46E0(palette, 1, 0, 1, 0);
-    TObjPlayer__sub_802C46E0(palette, 0, 1, 2, 0);
-    TObjPlayer__sub_802C46E0(palette, 0, 2, 2, 1);
-    if (arg0 & 0x60) {
-        TObjPlayer__sub_802C46E0(palette, 0, 3, 4, 0);
+void TObjPlayer::setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette) {
+    palette->sub_802C46E0(0, 0, 1, 0);
+    palette->sub_802C46E0(1, 0, 1, 0);
+    palette->sub_802C46E0(0, 1, 2, 0);
+    palette->sub_802C46E0(0, 2, 2, 1);
+    if (v1_flags & 0x60) {
+        palette->sub_802C46E0(0, 3, 4, 0);
         return;
     }
-    TObjPlayer__sub_802C46E0(palette, 0, 3, 3, 0);
+    palette->sub_802C46E0(0, 3, 3, 0);
 }
 
 void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
     struct stats st;
     level = TObjPlayer::clamp_index_to_max(level);
-    copy_stats__10TObjPlayerFPv(&st, get_class_base_stats(cls));
+    copy_stats(&st, get_class_base_stats(cls));
     if (level != 0) {
         apply_class_level_growth(cls, level, &st);
     }
@@ -93,5 +91,4 @@ void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
 
 void init_new_character_stats(TPlyCharData *character) {
     init_character_stats_for_level(character->m_disp_part2.char_class, character, 0);
-}
 }

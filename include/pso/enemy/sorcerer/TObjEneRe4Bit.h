@@ -12,7 +12,7 @@ struct TObjEneRe4InitParams {
     f32 max_distance;
     f32 min_distance;
     s32 turn_speed;
-    u32 unk_c[4];
+    u32 extra[4];
 };
 
 struct TObjEneRe4Bit : public TObjEneDD_ST {
@@ -44,7 +44,7 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void apply_attack_stat_status(void *);
     void clear_harmful_statuses();
     void apply_shock_status();
-    void apply_movement_ailment(s32);
+    void apply_movement_ailment(CollisionBody *);
     void apply_confusion_status();
     void apply_slow_status();
     void apply_paralysis();

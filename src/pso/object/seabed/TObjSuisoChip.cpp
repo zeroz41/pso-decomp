@@ -34,8 +34,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
-extern s32 actor_frame_tick;
 
 // One kind of TObjSeabedSuiso_CH.
 struct SeabedSuisoKind {
@@ -340,7 +340,7 @@ void TObjSeabedSuiso_CH::render() {
         if (motion != NULL) {
             draw_ginja_model_with_motion(kind_model, motion, animation_frame);
         } else {
-            draw_ginja_box_tree((u8 *)kind_model);
+            draw_ginja_box_tree((NJS_OBJECT *)kind_model);
         }
         pop_matrix();
         set_model_node_callback(0);

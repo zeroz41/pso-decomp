@@ -68,7 +68,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     s32 shake_timer;
     s32 shake_preset;
     TBoss6Demo15_TYPE2_WAIT *wait_demo;  // the DEMO_WAIT_T2 scene object
-    static s32 get_hp();
+    static TBoss6PlotFalz *get_instance();
     static TBoss6Type2 *get_type2();
     static s32 damage_player_hp(s32 client, u32 damage);
     static s32 sort_active_players();
@@ -158,7 +158,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static TBoss6Type2 *type2_instance;
     static const char *name;
     static f32 fade_amount;
-    static saddr instance;
+    static TBoss6PlotFalz *instance;
 };
 
 // The two Olga Flow bodies of the running fight, NULL when there is none.
@@ -172,10 +172,8 @@ extern "C" {
 void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio);
 }
 
-extern "C" {
 // TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
 s32 boss6_sphere_blocks_player_view(void *pos, f32 r);
-}
 
 // The record exchange_object_state reads and writes.
 struct TBoss6PlotFalzStateRecord {

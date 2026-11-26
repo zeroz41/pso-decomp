@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 struct CharacterAppearanceFields;
 struct BmlResourceDescriptor;
@@ -18,9 +19,9 @@ s32 validate_player_visual_record(void *record);
 
 extern "C" {
 void TCharaMaking__sub_8028E790(void);
+}
 // The section id a character name hashes to.
 s32 calc_section_id_from_name(s8 *name);
-}
 
 struct TCharaMaking : public TObject {
     TCharaMaking(TObject *parent);
@@ -41,4 +42,18 @@ struct TCharaMaking : public TObject {
 };
 
 LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);
+
+void request_chara_making_archives(void);
+// Character-creation helpers built in TCharaMaking's unit; they act on the selected slot, not on a menu.
+void copy_char_name(const char *name);
+void select_char_menu();
+s32 get_current_char_flag();
+extern "C" {
+int TAdSinglePlyChrSelectGC__sub_8028DC14(void);
+int TAdSinglePlyChrSelectGC__sub_8028DC1C(void *p);
+CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void);
+void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record);
+void TObjCMMainMenu__sub_8028D9F8(void);
+void fn_8028DBC4(s32 _w0);
+}
 #endif

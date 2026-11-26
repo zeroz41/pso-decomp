@@ -7,7 +7,6 @@
 #include "pso/ui/TTitleMenu.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 
 
 #include "pso/network/TLobby.h"

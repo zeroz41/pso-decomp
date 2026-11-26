@@ -18,7 +18,7 @@ struct TBoss7LaserPtcl : public TObject {
     Vec displacement;
     TParticleCtrl *particles[2];
     f32 travel_distance;
-    u8 unknown50[4];
+    u8 pad_50[4];
     s32 yaw;
 
     virtual void run_task();

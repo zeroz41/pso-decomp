@@ -105,7 +105,7 @@ saddr fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, Net
     return ret;
 }
 
-inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
+static inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
     s16 n;
     s16 i;
     NetFragment *ent;
@@ -123,7 +123,7 @@ inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
     }
     return 0;
 }
-inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g) {
+static inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g) {
     s16 lim;
     NetFragment *f;
     u32 acc;
@@ -591,6 +591,7 @@ s32 fragment_flush(void) {
 
 u16 ones_complement_sum(void *data, s16 n) {
     u8 *p = data;
+    u16 *w;
     u16 tmp[2];
     u32 sum;
     u32 odd;
@@ -607,19 +608,19 @@ u16 ones_complement_sum(void *data, s16 n) {
         n--;
         odd = 1;
     }
+    w = (u16 *)p;
     while (n > 0) {
-        if ((((uaddr)p & 0xF) == 0) && (n >= 8)) {
+        if ((((uaddr)w & 0xF) == 0) && (n >= 8)) {
             break;
         }
-        sum += *(u16*)p;
-        p += 2;
+        sum += *w;
+        w++;
         n--;
     }
     if (n > 8) {
-        sum += *(u16*)p;
+        sum += *w;
         n--;
         while (n > 8) {
-            u16 *w = (u16 *)p;
             sum += w[4];
             sum += w[1];
             sum += w[2];
@@ -628,13 +629,12 @@ u16 ones_complement_sum(void *data, s16 n) {
             sum += w[5];
             sum += w[6];
             sum += w[7];
-            p += 16;
+            w += 8;
             n -= 8;
         }
-        p += 2;
+        w++;
     }
     while (n >= 8) {
-        u16 *w = (u16 *)p;
         sum += w[0];
         sum += w[1];
         sum += w[2];
@@ -643,16 +643,16 @@ u16 ones_complement_sum(void *data, s16 n) {
         sum += w[5];
         sum += w[6];
         sum += w[7];
-        p += 16;
+        w += 8;
         n -= 8;
     }
     while (n > 0) {
-        sum += *(u16*)p;
-        p += 2;
+        sum += *w;
+        w++;
         n--;
     }
     if (odd) {
-        ((u8*)tmp)[0] = *p;
+        ((u8*)tmp)[0] = *(u8 *)w;
         sum += tmp[0];
         hi = sum >> 24;
         sum <<= 8;

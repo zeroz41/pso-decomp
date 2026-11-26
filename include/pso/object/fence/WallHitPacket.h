@@ -20,6 +20,6 @@ LAYOUT_ASSERT(WallHitPacketReasonOffset, offsetof(WallHitPacket, update_reason) 
 LAYOUT_ASSERT(WallHitPacketHitsOffset, offsetof(WallHitPacket, remaining_hits) == 0xE);
 
 struct game_command_header;
-extern "C" void handle_6x86_hit_destructible_object(game_command_header *command);
+void handle_6x86_hit_destructible_object(game_command_header *command);
 
 #endif

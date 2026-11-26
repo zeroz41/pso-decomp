@@ -17,9 +17,7 @@ NJS_OBJECT *get_boss_warp_model(void);
 AnimationMotion *get_boss_warp_motion(void);
 AnimationMotion *get_boss_warp_bml_motion(void);
 NJS_TEXLIST *get_boss_warp_base_textures(void);
-extern "C" {
 NJS_TEXLIST *get_boss_warp_effect_textures(void);
-}
 
 struct TObjWarpBossMulti : public TObjAreaWarp {
     TObjWarpBossMulti(TObject *parent, void *set_data);

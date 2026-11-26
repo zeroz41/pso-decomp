@@ -52,7 +52,7 @@ public:
     void update_load_progress();
 public:
     void reset_request();
-    static void *create(void *arg0);
+    static void *create(void *parent);
     s32 m_68[3];
     TChCrLoadAfs *m_74[6];
     s32 m_8c;

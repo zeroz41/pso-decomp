@@ -4,42 +4,141 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItemData.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include <stddef.h>
 
 struct PageIndicator;
+class HelpItemStatCompareRow;
+
+// One of a weapon's three attribute slots: the area it boosts (1-5) and the
+// percentage.
+struct WeaponAttribute {
+    u8 area;
+    s8 percent;
+};
+
+// Layout tables of the help item window (cols, rows, then the records read by
+// init_window_layout_entries).
+
+// item_layout_entries: six type-11 points, the item icon sprite and a row of text and value entries.
+struct HelpItemLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[6];
+    SpritePartLayoutRecord icon;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    ValueLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+};
+
+struct HelpItemLinesLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[5];
+};
+
+struct HelpItemResistanceLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[5];
+    TextLayoutRecord rec_5;
+    ValueLayoutRecord rec_6;
+};
+
+// One stat row: its name, its value and its gauge.
+struct HelpItemStatRowLayout {
+    TextLayoutRecord name;
+    ValueLayoutRecord value;
+    LayoutEntryCopyRecord gauge;
+};
+
+struct HelpItemStatsLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[3];
+    HelpItemStatRowLayout stats[4];
+    TextLayoutRecord level_up;
+};
+
+struct HelpItemSpritesLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord sprites[4];
+};
+
+struct HelpItemTextLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text;
+    PointLayoutRecord rec_1;
+};
+
+struct HelpItemTechDiskLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text;
+    SpritePartLayoutRecord icon;
+    TextLayoutRecord rec_2;
+    ValueLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    ValueLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+};
+
+struct HelpItemDescriptionLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text;
+};
+
+// inferred: the attribute area names show_weapon_attributes labels the first four rows with
+// ("Hit" is the fifth).
+extern const char native_attribute_label[];
+extern const char abeast_attribute_label[];
+extern const char machine_attribute_label[];
+extern const char dark_attribute_label[];
 
 struct TWindowHelpItem : public TWindowBase
 {
-    static void * description_text_layout[9];
-    static void * resistance_layout_entries[31];
-    static void * item_layout_entries[67];
+    static HelpItemDescriptionLayout description_text_layout;
+    static HelpItemResistanceLayout resistance_layout_entries;
+    static HelpItemLayout item_layout_entries;
     virtual ~TWindowHelpItem();
     virtual void render();
     virtual void run_task();
-    void sub_802534B0();
+    void show_item_description();
+    void show_item_by_id(saddr id);
     void update_tech_disk_details();
+    void update_tech_disk_stats();
+    void idle_update();
     void init_text(void *);
-    void sub_80255E24();
-    void set_flag60_bit4();
-    void set_flag60_bit8();
-    void clear_flag60_bit8();
+    void unlock_page_flip();
+    void lock_page_flip();
+    void disable_help_toggle();
+    void enable_help_toggle();
     TItemData *get_mag_state();
     s32 update_mag_status_gauges();
+    s32 are_status_entries_ready();
+    s32 advance_mag_levels();
     void update_help_item(s32 mode);
-    u8 m_60;
+    // 1: an item is shown, 2: it has pages, 4: page flipping locked,
+    // 8: the help button toggle is off.
+    u8 help_flags;
     u8 _pad61[0x3];
     PageIndicator *page_indicator;
     TItemData *active_item;
-    u32 secondary_item;
-    uaddr primary_item;
-    u8 _pad74[0x14];
+    u32 secondary_item;       // shown when no primary item is set (secondary_id)
+    uaddr primary_item;       // takes precedence; compared with the equipped one
+    TItemData item_copy;      // copy of the item secondary_id names
     TItemData displayed_item;
-    u32 active_id;
+    s32 active_id;  // id of the item on show, -1 for none
     u32 secondary_id;
     u32 primary_id;
     f32 scale_x;
     f32 scale_y;
-    struct CallbackWords { u32 words[3]; } m_callback;
+    void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
 
     TWindowHelpItem(void *position, s32 index);
     void set_flag0_bit2();
@@ -47,7 +146,20 @@ struct TWindowHelpItem : public TWindowBase
     static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
-    static void update_resistance_rows(void *window_base);
+    void update_resistance_rows();
+    // The pages dispatch_item_help shows for each item type.
+    void show_weapon_requirements();
+    void show_weapon_attributes();
+    void show_armor_requirements();
+    void show_armor_resistances();
+    void show_shield_resistances();
+    void show_mag_stats();
+    void show_mag_growth();
+    void show_mag_photon_blasts();
+    void update_requirements();
+    void update_level_requirement();
+    void update_stat_comparison();
+    void set_percentage_rows(WeaponAttribute *attributes, void (HelpItemStatCompareRow::*set)(s32));
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
@@ -69,9 +181,7 @@ struct TWindowHelpItem : public TWindowBase
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();
-    static void update_stat_disp2(void *window_base);
-    static void tick_display_timer(void *row);
-    static void *destroy(void *row, s16 flags);
+    void update_stat_disp2();
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);
@@ -79,5 +189,4 @@ LAYOUT_ASSERT(HelpItem_name_offset, offsetof(TWindowHelpItem, m_name) == 0);
 LAYOUT_ASSERT(HelpItem_active_item_offset, offsetof(TWindowHelpItem, active_item) == 0x68);
 LAYOUT_ASSERT(HelpItem_page_offset, offsetof(TWindowHelpItem, page_indicator) == 0x64);
 LAYOUT_ASSERT(HelpItem_callback_offset, offsetof(TWindowHelpItem, m_callback) == 0xB0);
-LAYOUT_ASSERT(HelpItem_callback_size, sizeof(TWindowHelpItem::CallbackWords) == 12);
 #endif

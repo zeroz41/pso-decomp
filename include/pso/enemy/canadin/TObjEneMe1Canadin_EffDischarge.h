@@ -8,6 +8,7 @@ struct TObjEneMe1Canadin;
 
 class TObjEneMe1Canadin_EffDischarge : public TObject {
 public:
+    static const char *name;
     TObjEneMe1Canadin_EffDischarge(TObjEneMe1Canadin *parent, Vec *from, Vec *to);
     virtual ~TObjEneMe1Canadin_EffDischarge();
     virtual void run_task();

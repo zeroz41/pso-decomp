@@ -84,7 +84,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
@@ -125,7 +125,6 @@ union WarpStringPos {
 extern "C" {
 
 
-int is_flag_400_set__10TObjPlayerFPv(void *p);
 
 extern s32 lbl_805D55C0;
 
@@ -276,11 +275,11 @@ s32 TObjWarpBase::is_warp_enabled() {
     if (lbl_805D55C0 != 0) {
         return 0;
     }
-    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
+    if ((player != NULL) && (player->is_actor_dead() != 0)) {
         return 0;
     }
     if (player != NULL) {
-        return is_flag_400_set__10TObjPlayerFPv(player) == 0;
+        return player->is_action_input_disabled() == 0;
     }
     if ((player != NULL) && (player->is_body_collision_inactive() != 0)) {
         return 0;
@@ -358,11 +357,11 @@ s32 TObjMapWarp::can_warp(u16 client_id) {
     if (lbl_805D55C0 != 0) {
         return 0;
     }
-    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
+    if ((player != NULL) && (player->is_actor_dead() != 0)) {
         return 0;
     }
     if (player != NULL) {
-        return is_flag_400_set__10TObjPlayerFPv(player) == 0;
+        return player->is_action_input_disabled() == 0;
     }
     return 1;
 }
@@ -452,7 +451,7 @@ void TObjMapWarp::draw_debug_destinations() {
         rotate_matrix_y(0, set_params[0]);
         matrix_mult_vec(NULL, &a, &a);
         pop_matrix();
-        VecCopy((Vec *)&b, (const Vec *)end);
+        VecCopy(&b, (const Vec *)end);
         b.y += 5.0f;
         a.y += 5.0f;
         debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);
@@ -602,7 +601,7 @@ void TObjAreaWarp::handle_area_selection() {
 
 void TObjAreaWarp::confirm_area_transfer(TObjPlayer *player) {
     floor_transition_state.set_next_floor((int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
-    ((s32 (*)(void))mark_area_change_pending)();
+    mark_area_change_pending();
     send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (floor_transition_state.get_next_floor()));
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x40003205, 0U, 0, 0);

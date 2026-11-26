@@ -17,6 +17,5 @@ public:
     Vec shot_origins[2];
 };
 
-extern "C" TItem *TItemWeaponSambaMaracas::create(u8 *item);
 
 #endif

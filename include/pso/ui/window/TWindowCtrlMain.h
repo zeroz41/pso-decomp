@@ -24,7 +24,7 @@ struct TWindowCtrlMain : public TObject {
     static saddr get_instance();
     static void advance_card_status(s32 local_client_id);
     static void free_window();
-    static void release_ptr(void **arg0);
+    static void release_ptr(void **ptr);
     static f32 get_scale();
     static f32 get_bottom(s32 viewport_index);
     static f32 get_right(s32 viewport_index);

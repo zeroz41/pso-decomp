@@ -43,7 +43,6 @@ LAYOUT_ASSERT(SlimeTailPoseOffset, offsetof(TObjEneSlimeTailAttack, pose) == 0x3
 LAYOUT_ASSERT(SlimeTailSize, sizeof(TObjEneSlimeTailAttack) == 0x3CC);
 
 struct TObjEneSlimeWaterBomb;
-extern "C" {
 // The tail model's node callback (set_chunk_model_node_callback): counts the nodes drawn and
 // stores the view-space origins of nodes 4..7 in slime_tail_node_capture's shadows, node 7's also
 // in its attachment.
@@ -51,7 +50,6 @@ void capture_slime_tail_node(NJS_OBJECT *);
 void reset_slime_tail_node_index(void);
 void get_slime_tail_pose(SlimeTailPose *dst);
 SlimeTailPose *copy_slime_tail_pose(SlimeTailPose *dst, SlimeTailPose *src);
-}
 
 // The node callback's scratch pose; draw_body copies it into pose (get_slime_tail_pose).
 struct SlimeTailNodeCapture {

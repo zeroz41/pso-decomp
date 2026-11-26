@@ -98,33 +98,10 @@ struct Obj_802C8C60 {
     s32 fF8;
 };
 
-struct Base_802C9600 { char pad[0x18]; };
-
-struct VObj_802C9600 : Base_802C9600 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21();
-};
-
-typedef void (VObj_802C9600::*Act_802C9600)();
 
 typedef struct F4_802C8FF8 { f32 v[4]; } F4_802C8FF8;
 
 
-struct Base_802C936C { char pad[0x18]; };
-
-struct VObj_802C936C : Base_802C936C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-};
 
 
 
@@ -373,10 +350,10 @@ void TOTrapChainSaw::update_state() {
     (this->*tbl[behavior])();
     // This trap keeps its frame at 0xB4, the frame step at 0xB8 and its motion at 0xBC
     // (TObjMapObject's fields are laid out differently).
-    if (*(u8 **)((s8 *)((u8 *)this) + 0xBC) != NULL) {
-        *(f32 *)((s8 *)((u8 *)this) + 0xB4) = *(f32 *)((s8 *)((u8 *)this) + 0xB4) + *(f32 *)((s8 *)((u8 *)this) + 0xB8);
-        if (*(f32 *)((s8 *)((u8 *)this) + 0xB4) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0xBC)) + 4) - 1)) {
-            *(f32 *)((s8 *)((u8 *)this) + 0xB4) = (0.0f);
+    if (*(u8 **)((s8 *)this + 0xBC) != NULL) {
+        *(f32 *)((s8 *)this + 0xB4) = *(f32 *)((s8 *)this + 0xB4) + *(f32 *)((s8 *)this + 0xB8);
+        if (*(f32 *)((s8 *)this + 0xB4) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1)) {
+            *(f32 *)((s8 *)this + 0xB4) = (0.0f);
         }
     }
 }
@@ -499,7 +476,7 @@ void TOTrapChainSaw::update_demo() {
     if (TObjPlayer::check_demo_mode() == 1) {
         temp_r31 = rotation_y;
         rotation_y = (saddr) (temp_r31 + yaw_offset);
-        TOTrapAncient02R__sub_80154D78(this);
+        sub_80154D78();
         rotation_y = temp_r31;
     }
 }
@@ -684,12 +661,12 @@ void TOTrapChainSawKey::vfunc_18(TObjPlayer *) {
 
 void TOTrapChainSawKey::update_state() {
     TOTrapChainSaw::update_state();
-    *(f32 *)((s8 *)((u8 *)this) + 0x104) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x104) + *(f32 *)((s8 *)((u8 *)this) + 0x108));
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x100)) + 4) - 1)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x104) = 0.0f;
+    *(f32 *)((s8 *)this + 0x104) = (f32) (*(f32 *)((s8 *)this + 0x104) + *(f32 *)((s8 *)this + 0x108));
+    if (*(f32 *)((s8 *)this + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x100)) + 4) - 1)) {
+        *(f32 *)((s8 *)this + 0x104) = 0.0f;
     }
     play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), this, &position, 0, 0);
-    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0xF0) == 1) {
+    if ((s32) *(s32 *)((s8 *)this + 0xF0) == 1) {
         play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), this, &position, 0, 0);
     }
 }

@@ -1,6 +1,0 @@
-#ifndef PSO_UI_FRONTEND_TADPLAYERLOADGC_803F18B8_H
-#define PSO_UI_FRONTEND_TADPLAYERLOADGC_803F18B8_H
-
-#include "pso/system/save/McFsGc.h"
-
-#endif

@@ -8,10 +8,10 @@
 struct GinjaTextureInput {
     void *data;
     s32 format;
-    u8 unknown08[8];
+    u8 pad_08[8];
     s32 width;
     s32 height;
-    u8 unknown18[0xC];
+    u8 pad_18[0xC];
 
     void set_render_rect(void *pixels, s32 format, s32 width, s32 height);
 };

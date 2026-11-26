@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/task/TMainTask.h"
 
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -15,7 +15,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

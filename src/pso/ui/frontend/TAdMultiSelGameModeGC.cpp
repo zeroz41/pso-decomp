@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -66,7 +66,6 @@ typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
 
 typedef struct Int3 { s32 v[3]; } Int3;
 
-extern "C" {
 
 static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
@@ -241,7 +240,6 @@ void TAdMultiSelGameModeGC::run_task() {
         &TAdMultiSelGameModeGC::exit_keyboard_mode,
     };
     (this->*tbl[state])();
-}
 }
 s32 TAdMultiSelGameModeGC::get_max_difficulty_for_party_level() {
     s32 m;

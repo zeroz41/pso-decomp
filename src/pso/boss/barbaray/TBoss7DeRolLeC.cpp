@@ -517,7 +517,7 @@ void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 
 void TBoss7DeRolLeC::apply_shock_status() {  }
 
-void TBoss7DeRolLeC::apply_movement_ailment(s32) {  }
+void TBoss7DeRolLeC::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss7DeRolLeC::apply_confusion_status() {  }
 
@@ -3290,7 +3290,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         position.z = -90.0f;
         update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(this, (saddr)joints[i]);
+            assign_slots_from_list(joints[i]);
         }
         refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x4C);

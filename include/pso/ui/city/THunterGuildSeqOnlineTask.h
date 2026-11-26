@@ -19,4 +19,7 @@ extern const char *hunter_guild_seq_online_client_name;
 
 void handle_6x73_exit_quest(void);
 
+// Clears the online quest download windows and download state.
+void reset_globals(void);
+
 #endif

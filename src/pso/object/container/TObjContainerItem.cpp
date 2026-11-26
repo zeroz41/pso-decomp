@@ -20,9 +20,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#define CAT2(a, b) a##b
-#define CAT(a, b) CAT2(a, b)
-#define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
@@ -58,6 +55,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/network/client_id.h"
 
 struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
 struct ForestBoxCollisionBody {
@@ -151,12 +150,10 @@ TObjChipParams *forest_box_debris_primary;
 TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
-extern "C" {
 extern const f32 lbl_805DBCF8;
+extern "C" {
 u32 init_collision_body_parts(void *, void *, s32);
-s32 free_collision_body_parts(void *);
 }
-extern s32 local_client_id;
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 lbl_805DBCF4;
 NJS_OBJECT *get_forest_box_model(s32 index);
@@ -304,7 +301,7 @@ f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload p
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         this->access_object_saved_state(&sp8, 0);
         this->send_object_state_update(&sp8);
@@ -460,7 +457,7 @@ void TObjContainerItem::draw_model() {
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-            draw_ginja_box_tree((u8 *)model);
+            draw_ginja_box_tree((NJS_OBJECT *)model);
             pop_matrix();
             break;
         case 1:
@@ -489,8 +486,8 @@ void TObjContainerItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerItem::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
@@ -551,7 +548,7 @@ void TObjContainerEnemy::draw_model() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((u8 *)model);
+        draw_ginja_box_tree((NJS_OBJECT *)model);
         pop_matrix();
         break;
     case 1:
@@ -603,8 +600,8 @@ void TObjContainerEnemy::spawn_break_effects() const {
     }
 }
 
-void TObjContainerEnemy::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
@@ -664,7 +661,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((u8 *)(*(saddr *)((s8 *)((u8 *)this) + 0x34)));
+        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
         pop_matrix();
             break;
         }
@@ -673,7 +670,7 @@ void TObjContainerNoItem::draw_model() {
 
 f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         this->access_object_saved_state(&sp8, 0);
         this->send_object_state_update(&sp8);
@@ -701,8 +698,8 @@ void TObjContainerNoItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerNoItem::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
@@ -754,7 +751,7 @@ void TObjContainerBase::draw_model() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_box_tree((u8 *)get_container_breakup_model(2));
+            draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
         case 1:
@@ -801,8 +798,8 @@ void TObjContainerBase::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerBase::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerBase::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
@@ -857,7 +854,7 @@ void TObjContainerAbeEnemy::draw_model() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_box_tree((u8 *)get_container_breakup_model(2));
+            draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
         case 1:
@@ -930,8 +927,8 @@ void TObjContainerAbeEnemy::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerAbeEnemy::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerAbeEnemy::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->set_flag8();

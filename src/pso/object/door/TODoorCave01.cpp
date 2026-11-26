@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80160804.h"
@@ -76,7 +76,7 @@ void TODoorCave01::send_state(void *src_arg) {
     }
 }
 
-void TODoorCave01::vfunc_6(s16 *state, s32) {
+void TODoorCave01::apply_saved_state(s16 *state, s32) {
     if (*state == 1) {
         door_flags |= LIGHT_LIT_MASK | 1;
     }

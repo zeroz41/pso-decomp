@@ -59,7 +59,7 @@ TBoss4ZakoDraw::~TBoss4ZakoDraw() {}
 
 #pragma push
 #pragma readonly_strings on
-extern "C" const char *TBoss4ZakoDraw::class_name = "TBoss4ZakoDraw";
+const char *TBoss4ZakoDraw::class_name = "TBoss4ZakoDraw";
 #pragma pop
 
 TBoss4ZakoDraw::TBoss4ZakoDraw(TObject *parent) : TObject(parent) {

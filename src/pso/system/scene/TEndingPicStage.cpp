@@ -39,8 +39,6 @@ void TEndingPicStage::pose_player(player_class_type class_type, s8 picture) {
     }
 }
 
-struct EndingCamera { u8 pad0[0x14]; s32 f14; s32 f18; Vec v1c; Vec v28; s32 tail[4]; };
-
 struct ColorF { f32 r, g, b, a; };
 
 player_class_type TObjPlayer::get_class_type() {
@@ -71,16 +69,16 @@ void TEndingPicStage::publish_light() {
 }
 
 void TEndingPicStage::set_camera() {
-    EndingCamera camera;
+    CameraParams camera;
     Vec position = ending_camera_position;
     Vec direction = ending_camera_direction;
 
     activate_camera_mode(9);
-    VecCopy(&camera.v1c, &position);
-    VecCopy(&camera.v28, &direction);
-    camera.f14 = 0x1693;
+    VecCopy(&camera.position, &position);
+    VecCopy(&camera.target, &direction);
+    camera.fov = 0x1693;
 
-    set_active_camera_pose_from_params((CameraParams *)&camera);
+    set_active_camera_pose_from_params(&camera);
 }
 
 void TEndingPicStage::set_picture(s32 picture) {
@@ -110,7 +108,7 @@ TEndingPicStage::TEndingPicStage(TObject *parent) : TObject(parent) {
     Vec position = ending_player_start_position;
     ending_player = TObjEndingPlayer::create((TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     ending_player->set_position_from(&position);
-    ((TItemData *)(&item))->init();
+    item.init();
     item.data1.data_u8[0] = 2;
     item.data1.data_u8[1] = 0;
 }

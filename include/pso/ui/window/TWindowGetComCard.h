@@ -19,7 +19,6 @@ struct TWindowGetComCard : public TObject {
     s32 timer;
     virtual void render();
     static void remove_entry(s32 index, GuildCardEntry *entries, s32 count);
-    static void construct_card_tags();
 
     static const char *class_name;
     static NJS_POINT2 window_rect; // where run_task opens the yes/no confirmation

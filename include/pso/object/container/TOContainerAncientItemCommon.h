@@ -7,7 +7,7 @@
 struct TOContainerAncientItemCommon : public TUnk_804B08BC {
     TOContainerAncientItemCommon(void *set_data);
     virtual ~TOContainerAncientItemCommon();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     static void *create(void *set_data);
 };
 

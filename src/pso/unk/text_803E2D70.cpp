@@ -13,12 +13,10 @@ typedef union WGPipe_803E2D70 {
     f32 f32;
 } WGPipe_803E2D70;
 
-extern "C" {
-void draw_projected_textured_strip(ProjectedStripVertex *v, s32 n);
+void draw_projected_textured_strip(ProjectedStripVertex *v, s32 count);
 
 void end_screen_textured_draw(void) {
     end_primitive_draw();
-}
 }
 
 #pragma push

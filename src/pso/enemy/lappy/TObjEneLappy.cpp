@@ -2,6 +2,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -25,7 +26,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
@@ -185,7 +186,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
-s32 check_path_obstructed(void *, void *);
 f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
 }

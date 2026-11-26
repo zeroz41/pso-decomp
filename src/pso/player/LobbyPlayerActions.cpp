@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/LobbyPlayerActionProvider.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 int LobbyPlayerActionProvider::is_male(s32 body_type) { return get_gender(body_type) == 0; }
 int LobbyPlayerActionProvider::is_male() { return get_gender() == 0; }

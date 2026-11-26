@@ -35,23 +35,19 @@
 #include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TObjEndingPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
-extern "C" {
-
-s32 get_main_phase();
-}
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
 void *consume_telepipe_arrival(u16, void *);
@@ -268,7 +264,6 @@ void TObjPlayer::reset_technique_caps() {}
 
 void TObjPlayer::release_technique_caps() {}
 
-extern "C" s32 get_record_byte_at(TPlyCharData *data, s32 tech);
 
 // A saved character's technique levels.
 void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
@@ -279,7 +274,7 @@ void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
     technique_state.copy_all_technique_entries(0x1D);
     i = 0;
     do {
-        set_technique_level_clamped(this, ((TObjPlayer *)record)->get_slot_value_checked(i) + get_record_byte_at(record, i), i);
+        set_technique_level_clamped(this, record->get_technique_level(i) + record->get_record_byte_at(i), i);
         i += 1;
     } while (i < 0x13);
 }
@@ -385,7 +380,6 @@ void TObjPlayer::destroy_child() {
     }
 }
 
-extern "C" {
 
 
 void TObjPlayer::load_character_state(TPlyCharData *record) {
@@ -405,9 +399,7 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
     this->item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 
-}
 
-extern "C" {
 
 
 
@@ -438,7 +430,6 @@ void TObjPlayer::update_action_animation() {
     }
 }
 
-}
 
 extern "C" {
 
@@ -529,7 +520,6 @@ TObjPlayer::~TObjPlayer() {
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
-extern const char *TObjPlayer_name;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(parent) {

@@ -36,6 +36,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_80120150.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
@@ -47,7 +48,7 @@ struct NJS_OBJECT;
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/math/MatrixTransforms.h"
@@ -69,13 +70,9 @@ typedef struct A16_8011E3E8 { s32 a; s32 b; s32 c; s32 d; } A16_8011E3E8;
 
 
 
-struct WeaponArgb { f32 alpha, red, green, blue; };
-
 extern "C" {
-WeaponArgb get_weapon_color__11TItemWeaponFPv(TItemWeapon *weapon);
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
-s32 rotate_matrix_y(int, void *);
 extern const f32 lbl_805DAC94;
 extern A12_8011E3E8 weapon_light_direction[];
 extern A16_8011E3E8 weapon_light_color[];
@@ -88,7 +85,6 @@ struct Stack_8011E56C {
 struct ShotVector { f32 x,y,z; };
 
 
-s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 TObjChara *resolve_hittable_target(s32, s32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
@@ -106,7 +102,7 @@ void TItemWeapon::set_weapon_category_flags() {
 
 void TItemWeapon::drain_owner_hp_fraction(f32 farg0) {
     if (owner != NULL) {
-        TObjectV8047c128_subtract_hp((u8 *)owner, (farg0 * (f32) ((TObjChara *)owner)->get_hpmax()));
+        subtract_actor_hp(owner, (farg0 * (f32) ((TObjChara *)owner)->get_hpmax()));
     }
 }
 
@@ -262,8 +258,8 @@ void TItemWeapon::create_weapon_trail_effects() {
 }
 
 u32 pack_weapon_trail_color(void *weapon) {
-    WeaponArgb w = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon);
-    return (__cvt_fp2unsigned(255.0f * w.alpha) << 24 | __cvt_fp2unsigned(255.0f * w.red) << 16 | __cvt_fp2unsigned(255.0f * w.green) << 8) | __cvt_fp2unsigned(255.0f * w.blue);
+    NJS_ARGB w = ((TItemWeapon *)weapon)->get_weapon_color();
+    return (__cvt_fp2unsigned(255.0f * w.a) << 24 | __cvt_fp2unsigned(255.0f * w.r) << 16 | __cvt_fp2unsigned(255.0f * w.g) << 8) | __cvt_fp2unsigned(255.0f * w.b);
 }
 
 void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
@@ -320,7 +316,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
                     VecCopy((Vec *)&v, &ph->bodies[item->get_captured_target_collider_index()].center);
                     subtract_vector(&v, ((Vec *)origin));
                     push_matrix_from(identity_matrix);
-                    ((void (*)(s32, s32))rotate_matrix_y)(0, angle);
+                    rotate_matrix_y(0, angle);
                     transform_point_by_current_matrix(&v.x, &atk.direction);
                     atk.flags |= 1;
                     pop_matrix();
@@ -379,7 +375,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         rec = get_weapon_range_record(this, 2);
         v.x = v.y = lbl_805DAC98;
         v.z = rec[0];
-        rotate_matrix_y(0, (void *)owner->rotation_y);
+        rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
         vec3_add_to(&pos, (const Vec *)origin);
@@ -462,7 +458,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 fallback.y = lbl_805DAC98;
                 fallback.x = lbl_805DAC98;
                 fallback.z = *range_record;
-                rotate_matrix_y(0, (void *) (owner->rotation_y + angle));
+                rotate_matrix_y(0, owner->rotation_y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
                 vec3_add_to((Vec *)&endpoint.x, (const Vec *)origin);
@@ -585,23 +581,9 @@ s32 TItemWeapon::is_active_in_game() {
 
 // ---- pso/unk/text_8011F710
 
-struct Stack_8011F7CC {
-    s8 sp8;
-    s8 sp9;
-    u8 pad_A[0x2];
-    u8 * spC;
-    u8 pad_10[0x4];
-    u8 * sp14;
-    s32 sp18;
-};
-
 struct Item_8011F760 { u8 pad[0x10]; s32 count; };
 
 extern "C" {
-s32 play_weapon_hit_sound(void *);
-void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
-void play_weapon_owner_sounds(void*);
-
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
 
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount) {
@@ -630,12 +612,7 @@ u32 TItemWeapon::get_attack_flags() {
 }
 
 void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011F7CC, sp8) == 0x0);
-    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8011F7CC, sp9) == 0x1);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011F7CC, spC) == 0x4);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8011F7CC, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8011F7CC, sp18) == 0x10);
-    Stack_8011F7CC stack;
+    ItemSoundRequest sound;
     f32 accuracy;
     f32 damage_dealt;
     s32 damage;
@@ -666,14 +643,14 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                 }
                 damage = (s32)damage_dealt;
                 owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
-                apply_camera_shake__10TObjPlayerFiii((saddr)owner, (saddr)target, damage);
-                ((ItemSoundRequest *)(&stack.sp8))->clear();
-                stack.sp8 = get_item_group();
-                stack.sp9 = get_item_index();
-                stack.spC = (u8 *)owner;
-                stack.sp14 = (u8 *)target;
-                stack.sp18 = body;
-                play_weapon_hit_sound(&stack.sp8);
+                owner->apply_camera_shake(target, damage);
+                sound.clear();
+                sound.group = get_item_group();
+                sound.index = get_item_index();
+                sound.player = owner;
+                sound.target = target;
+                sound.collider = body;
+                play_weapon_hit_sound(&sound);
             }
         }
     }
@@ -681,17 +658,17 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
 }
 void TItemWeapon::perform_action() {
     TItemWeapon* self=this;
-    WeaponMarkerPacket packet;
+    ItemSoundRequest sound;
     Vec gun_point;
     Vec fallback_point;
     if (self->is_active_in_game() && !self->is_hidden() && is_current_area_item_enabled()) {
         self->rotation_y=self->owner->rotation_y;
         self->stage=self->get_attack_stage();
-        ((ItemSoundRequest *)(&packet))->clear();
-        packet.kind=self->get_item_group();
-        packet.variant=self->get_item_index();
-        packet.player=self->owner;
-        play_weapon_owner_sounds(&packet);
+        sound.clear();
+        sound.group=self->get_item_group();
+        sound.index=self->get_item_index();
+        sound.player=self->owner;
+        play_weapon_owner_sounds(&sound);
         if(self->test_weapon_flags(0x40000)) {
             start_pad_rumble_client(0x80, 5, (s16)self->owner->get_entity_id());
         } else if(self->test_weapon_flags(0x80000) && self->is_mode_two_and_ready()) {
@@ -826,29 +803,22 @@ void TItemWeapon::update_equipped() {
     }
 }
 
-struct Pair_801200C0 { u8 a; u8 b; };
-
-struct Data_801200C0 { u8 pad[0x16]; u8 max; u8 pad17[0x27 - 0x17]; u8 flags; };
-
-struct Self_801200C0 { u8 pad[0x1a4]; Pair_801200C0 pairs[3]; u8 pad1aa[0x1d1 - 0x1aa]; u8 cur; u8 pad1d2[0x1dc - 0x1d2]; Data_801200C0 *data; };
-
 void TItemWeapon::update_owned() {
-    Self_801200C0 *self = (Self_801200C0 *)this;
     s32 i;
-    Pair_801200C0 *p;
-    if (self->data->max < this->grind) {
+    u8 *p;
+    if (this->parameters->max_grind < this->grind) {
         this->grind = 0;
     }
-    if (self->data->flags & 8) {
-        p = self->pairs;
+    if (this->parameters->flags & 8) {
+        p = this->attributes;
         for (i = 0; i < 3; i++) {
-            u8 a = p->a;
-            s8 b = p->b;
+            u8 a = p[0];
+            s8 b = p[1];
             if (a <= 5 && b != 0) {
-                p->a = 0;
-                p->b = 0;
+                p[0] = 0;
+                p[1] = 0;
             }
-            p++;
+            p += 2;
         }
     }
 }
@@ -857,7 +827,7 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponColorDescriptor_80120304 { s32 mode; WeaponArgb first, second; };
+struct WeaponColorDescriptor_80120304 { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 lbl_805DACA0;
 s16 weapon_node_material_index;
@@ -875,14 +845,14 @@ void apply_weapon_node_material(NJS_OBJECT *) {
     ((TItem *)weapon_render_callback_object)->end_shield_tev();
     ((TItemWeapon *)weapon_render_callback_object)->transform_model_node();
     if(node == weapon_node_material_index) {
-        WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
-        TItem::begin_constant_material_color((const NJS_ARGB *)&color);
+        NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+        TItem::begin_constant_material_color(&color);
     }
     if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
         TItem::begin_effect_render();
         if(test_flags_any((s32 *)&item_render_state, 4)) {
-            WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
-            TItem::begin_constant_material_color((const NJS_ARGB *)&color);
+            NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+            TItem::begin_constant_material_color(&color);
         }
     }
     increment_model_node_counter();
@@ -910,31 +880,31 @@ void TItemWeapon::advance_weapon_photon_phase() {
 
 #pragma push
 #pragma fp_contract on
-WeaponArgb get_weapon_color__11TItemWeaponFPv(TItemWeapon *weapon) {
-    WeaponArgb first, second;
+NJS_ARGB TItemWeapon::get_weapon_color() {
+    NJS_ARGB first, second;
     WeaponColorDescriptor_80120304 *descriptor;
     f32 override_alpha;
-    if (weapon->photon_color_id != -1) {
-        descriptor = (WeaponColorDescriptor_80120304 *)get_photon_color_record(weapon->photon_color_id);
+    if (photon_color_id != -1) {
+        descriptor = (WeaponColorDescriptor_80120304 *)get_photon_color_record(photon_color_id);
         if (descriptor->mode == 1) {
-            copy_argb((NJS_ARGB *)&first, (NJS_ARGB *)&descriptor->first);
-            copy_argb((NJS_ARGB *)&second, (NJS_ARGB *)&descriptor->second);
-            first.alpha = weapon->photon_phase * (second.alpha - first.alpha) + first.alpha;
-            first.red = weapon->photon_phase * (second.red - first.red) + first.red;
-            first.green = weapon->photon_phase * (second.green - first.green) + first.green;
-            first.blue = weapon->photon_phase * (second.blue - first.blue) + first.blue;
-            override_alpha = weapon->get_owner_alpha();
+            copy_argb(&first, &descriptor->first);
+            copy_argb(&second, &descriptor->second);
+            first.a = photon_phase * (second.a - first.a) + first.a;
+            first.r = photon_phase * (second.r - first.r) + first.r;
+            first.g = photon_phase * (second.g - first.g) + first.g;
+            first.b = photon_phase * (second.b - first.b) + first.b;
+            override_alpha = get_owner_alpha();
             if (lbl_805DAC9C != override_alpha) {
-                first.alpha = override_alpha;
+                first.a = override_alpha;
             }
             return first;
         } else {
             return descriptor->first;
         }
     } else {
-        WeaponArgb fallback;
-        fallback.alpha = lbl_805DAC9C;
-        fallback.blue = fallback.green = fallback.red = lbl_805DAC98;
+        NJS_ARGB fallback;
+        fallback.a = lbl_805DAC9C;
+        fallback.b = fallback.g = fallback.r = lbl_805DAC98;
         return fallback;
     }
 }
@@ -982,12 +952,6 @@ void TItemWeapon::remove_owner_bonuses() {
 }
 
 // ---- pso/unk/text_80120568
-struct Pair_801205F4 { u8 a; s8 b; };
-
-struct Data_801205F4 { u8 pad[0x27]; u8 flags; };
-
-struct Self_801205F4 { u8 pad[0xf0]; void *f0; u8 padf4[0x1a4 - 0xf4]; Pair_801205F4 pairs[3]; u8 pad1aa[0x1dc - 0x1aa]; Data_801205F4 *data; };
-
 struct Ctl_80120568B { char pad[0x18]; };
 
 struct Ctl_80120568 : Ctl_80120568B {
@@ -1072,12 +1036,11 @@ void TItemWeapon::on_unequip() {
 }
 
 void TItemWeapon::apply_owner_bonuses() {
-    Self_801205F4 *self = (Self_801205F4 *)this;
     s32 i;
-    ((TItemWeapon *)self)->apply_model_params();
-    if (!(self->data->flags & 8)) {
+    apply_model_params();
+    if (!(this->parameters->flags & 8)) {
         for (i = 0; i != 3; i++) {
-            ((TObjPlayer *)(self->f0))->set_attribute_entry(i, &self->pairs[i]);
+            owner->set_attribute_entry(i, &this->attributes[i * 2]);
         }
     }
 }

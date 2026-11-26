@@ -175,7 +175,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
         if ((yes_no_menu != NULL) && (yes_no_menu->is_decided() != 0)) {
             selected_menu_value = yes_no_menu->get_selected_value();
             if ((selected_menu_value == 0) && (item_list != NULL)) {
-                if (get_actor_meseta((u8 *)this->player) < 0x64) {
+                if (this->player->get_actor_meseta() < 0x64) {
                     yes_no_menu->close();
                     this->yes_no_menu = NULL;
                     send_message(5, 1);
@@ -244,8 +244,8 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->result_item = construct_item(&judged_item);
             this->item_list->add_list_entry(this->result_item, 0);
             ((TWindowSubShortCutList *)this->item_list)->set_flag70_bit10();
-            ((TWindowSubTradeMain *)this->item_list)->set_visible();
-            ((TWindowSubTradeMain *)this->item_list)->set_close_flag();
+            this->item_list->set_flag_40();
+            this->item_list->set_close_flag();
             this->item_list->calc_content_extent();
         }
         if (this->texture_window == NULL) {
@@ -286,7 +286,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     help_window->close();
                     help_window = NULL;
                 }
-                try_spend_actor_meseta(player, 0x64);
+                player->try_spend_actor_meseta(0x64);
                 if (check_equip_requirements(player, &judged_item, NULL) != 0) {
                     send_message(0xC, 1);
                     yes_no_menu->close();
@@ -441,7 +441,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                 this->timer = 3;
                 this->yes_no_menu->close();
                 this->yes_no_menu = NULL;
-                try_spend_actor_meseta(reinterpret_cast<TObjChara *>(this->player), 0x64);
+                reinterpret_cast<TObjChara *>(this->player)->try_spend_actor_meseta(0x64);
                 send_message(0xA, 1);
                 this->set_state(5);
                 return;

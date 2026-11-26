@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
@@ -29,11 +30,11 @@ const char *tank_class_name = "TObjTank";
 
 CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-extern "C" {
 BmlResource *tank_bml_resource;
 NJS_TEXLIST *tank_texture_list;
+extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-s32 free_collision_body_parts(void *);
+}
 
 void TObjTank::render() {
     NJS_TEXLIST *textures;
@@ -48,8 +49,6 @@ void TObjTank::render() {
 }
 
 void TObjTank::run_task() {  }
-
-}
 TObjTank::~TObjTank() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);

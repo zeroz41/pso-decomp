@@ -486,7 +486,7 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     Vec d;
     VecCopy(&d, &b);
     subtract_vector(&d, &a);
-    direction_to_rotation_xz((u8 *)((Vec *)&d), &tmp, &tmp2);
+    direction_to_rotation_xz((u8 *)(&d), &tmp, &tmp2);
     }
     this->path_pitch = approach_angle_limited(this->path_pitch, tmp, e->e);
     old = this->path_yaw;

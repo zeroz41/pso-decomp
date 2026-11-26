@@ -1,7 +1,6 @@
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" {
 void clear_child_target_refs(NJS_OBJECT *root, NJS_OBJECT *target) {
     if (root == NULL) {
         return;
@@ -24,6 +23,4 @@ void clear_chain_flags(NJS_OBJECT *root, NJS_OBJECT *target) {
             node->child = target;
         }
     }
-}
-
 }

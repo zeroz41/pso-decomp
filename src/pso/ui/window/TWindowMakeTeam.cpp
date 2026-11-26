@@ -174,10 +174,10 @@ TWindowMenuInfomation *TWindowMakeTeam::create_menu() {
     TWindowMenuInfomation *information_counter_window;
 
     information_counter_window = create_information_counter_window(5);
-    information_counter_window->update_next_entry((saddr)TWindowSubStatusDisp::get_message_10(0x4D), 0, 0);
-    information_counter_window->update_next_entry((saddr)TWindowSubStatusDisp::get_message_10(0x4E), 0, 1);
-    information_counter_window->update_next_entry((saddr)TWindowSubStatusDisp::get_message_10(0x4F), 0, 2);
-    information_counter_window->update_next_entry((saddr)TWindowSubStatusDisp::get_message_10(0x50), 0, 3);
+    information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x4D), 0, 0);
+    information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x4E), 0, 1);
+    information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x4F), 0, 2);
+    information_counter_window->update_next_entry(TWindowSubStatusDisp::get_message_10(0x50), 0, 3);
     ((TWindowSubStatusDisp *)information_counter_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x51), 4);
     return information_counter_window;
 }
@@ -263,7 +263,7 @@ s32 TWindowMakeTeam::is_enabled() {
     if ((s8)get_mode() == 1) {
         return (u8)(0U);
     }
-    return (u8)(this->selected_value);
+    return (u8)this->selected_value;
 }
 
 saddr TWindowMakeTeam::draw_entry_0x110(s8 index) {

@@ -11,4 +11,6 @@ void TLobby__sub_80104464(void);
 
 void handle_6x63_destroy_floor_item(void *command);
 
+void reset_map(void);
+
 #endif

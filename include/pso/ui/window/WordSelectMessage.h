@@ -3,9 +3,8 @@
 
 #include "types.h"
 
-// Compact word-select payload, independent of the window displaying it.
 // A word-select message as it is sent (the 6x74 payload): the chosen word ids, what they are about, and a
-// number some words carry (levels, amounts).
+// number some words carry (levels, amounts). The chat packet carries all 0x1C bytes.
 struct WordSelectMessage {
     s16 count;
     s16 type;

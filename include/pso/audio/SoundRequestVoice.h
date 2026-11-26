@@ -14,6 +14,8 @@ struct SoundRequestVoice {
     void clamp_reverb(f32 scale);
     void clamp_params();
     void update();
+    void update_random_flip_flag();
+    s32 init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags);
 
     SoundControlState *owner;
     s32 state;

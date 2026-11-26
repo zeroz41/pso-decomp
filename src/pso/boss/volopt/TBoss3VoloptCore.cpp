@@ -170,7 +170,7 @@ void TBoss3VoloptCore::run_task() {
     if (hit_cooldown > 0) {
         hit_cooldown--;
     }
-    if (has_flag_0x800() != 0) {
+    if (is_actor_dead() != 0) {
         run_death_reaction();
     } else if (test_flag30_512() != 0) {
         if (hit_cooldown > 0) {

@@ -93,7 +93,7 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/unk/text_80052420.h"
+#include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/unk/text_803D853C.h"
 
 #pragma defer_codegen on
@@ -1453,7 +1453,7 @@ void TBoss4Type2::clear_harmful_statuses() {  }
 
 void TBoss4Type2::apply_shock_status() {  }
 
-void TBoss4Type2::apply_movement_ailment(s32) {  }
+void TBoss4Type2::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss4Type2::apply_confusion_status() {  }
 

@@ -4,7 +4,7 @@
 #include <dolphin/os/OSAlloc.h>
 #include <dolphin/os/OSThread.h>
 #include <dolphin/card.h>
-#include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
+#include "pso/system/save/McFsGcRequests.h"
 
 #pragma scheduling off
 

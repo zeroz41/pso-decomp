@@ -1,12 +1,28 @@
 #include "types.h"
-#include "pso/ui/charcreate/TObjCMProportion.h"
+#include "pso/ui/charcreate/TChCrEffCtrlPl.h"
+#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/unk/text_80299420.h"
+#include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
-#include "pso/unk/text_80299420.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+
+PadSlot *get_creation_pad(void) {
+    return controller_physical_port_bank.sources[TChCrEffCtrlPl::get_clamped_player_index()];
+}
+
+s32 TChCrEffCtrlPl::get_clamped_player_index() {
+    s32 index = TAdMultiPlyChrSelectGC::is_selection_confirmed();
+    if (index < 0 || index > 3) {
+        index = 0;
+    }
+    return index;
+}
+int TChCrEffCtrlPl__sub_80298F6C() { return TAdMultiPlyChrSelectGC__sub_80299454(); }
+
 __declspec(section ".rodata") CreationInputState default_creation_input_state = { 0 };
 
 static s32 cm_proportion_pad_button_masks[4] = {0x10, 0x20, 0x40, 0x80};

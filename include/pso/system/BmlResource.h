@@ -67,7 +67,7 @@ LAYOUT_ASSERT(BmlResource_models_offset, offsetof(BmlResource, models) == 0x42C)
 LAYOUT_ASSERT(BmlResource_motions_offset, offsetof(BmlResource, motions) == 0x430);
 LAYOUT_ASSERT(BmlResource_model_count_offset, offsetof(BmlResource, model_count) == 0x434);
 
-extern "C" BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
+BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
     const char **models, const char **motions,
     BmlLoadCallback on_loaded, void *context, void *arena);
 

@@ -4,7 +4,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 #pragma push
 #pragma scheduling off
 TWindowMeseta *create_meseta_window(s32 client) {
@@ -12,5 +11,3 @@ TWindowMeseta *create_meseta_window(s32 client) {
                              reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0x82)));
 }
 #pragma pop
-
-}

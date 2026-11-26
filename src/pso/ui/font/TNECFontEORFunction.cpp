@@ -72,7 +72,6 @@ struct MenuGlyphEntry {
 };
 
 
-
 const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
     while (*p == '\t') {
         switch (*++p) {

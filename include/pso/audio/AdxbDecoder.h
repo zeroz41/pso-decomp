@@ -109,6 +109,9 @@ struct SpsdHeader {
 };
 
 extern "C" {
+// Clear the ADXB decoder pool and the WAV stream-input state (adxt_init / adxt_finish).
+void adxb_init(void);
+void adxb_finish(void);
 // One decode step for the handle's format.
 void adxb_exec_handle(AdxbDecoder *adxb);
 void adxb_exec_one_adx(AdxbDecoder *adxb);

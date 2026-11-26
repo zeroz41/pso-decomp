@@ -22,9 +22,6 @@ struct RebuildPlayersForStageChr {
     u8 pad38[0x50 - 0x38];
 };
 
-typedef ChallengeTechniqueLevel Pair_80071BC0;
-
-typedef ChallengeStageStart Tbl_80071BC0;
 
 s32 client_cleared_stages(s32 client, s32 slot) {
     s32 *list;
@@ -55,8 +52,8 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     RebuildPlayersForStageChr chr;
     s32 i;
     TObjPlayer *p;
-    Tbl_80071BC0 *t;
-    Pair_80071BC0 *e;
+    ChallengeStageStart *t;
+    ChallengeTechniqueLevel *e;
     if (stage < 0 || stage >= 0x10) {
         return;
     }

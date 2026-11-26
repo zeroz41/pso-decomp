@@ -3,7 +3,6 @@
 
 #include "types.h"
 
-struct FogParam_800FBC5C;
 #include "pso/system/task/TObject.h"
 
 // One fogentry.dat record.
@@ -69,6 +68,7 @@ struct TFogCtrl : public TObject {
     static void update_fog_entries();
     static void reset();
     static void create_instance();
+    static void destroy_instance();
     static s32 update_all(s32 entry, s32 flags);
     static s32 apply_all(s32 entry, s32 flags);
     static s32 update_first_active_fog();

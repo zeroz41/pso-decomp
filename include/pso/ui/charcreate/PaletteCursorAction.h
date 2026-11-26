@@ -12,5 +12,5 @@ struct PaletteCursorOverride {
     u32 enabled;
 };
 struct TObjPlayer;
-extern "C" s32 canSetMenuCursorAction(PaletteCursorOverride*, TObjPlayer*, u8 kind, u8 parameter);
+s32 canSetMenuCursorAction(PaletteCursorOverride*, TObjPlayer*, u8 kind, u8 parameter);
 #endif

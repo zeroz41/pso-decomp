@@ -1,11 +1,12 @@
+#include "types.h"
+#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
-#include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
@@ -13,6 +14,13 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
+
+void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
+    if (this->entry_count < this->entry_capacity) {
+        ((ItemListRow *)get_array_entry(entry_count))->init_list_entry(icon, arg2, arg3);
+        this->entry_count = (this->entry_count + 1);
+    }
+}
 
 #pragma readonly_strings on
 
@@ -66,7 +74,6 @@ TWindowShop *TShopJudgmentItemWindow::open_default(s32 title) {
 void TWindowShop::render() {
     WindowDrawContext *context;
     s32 n;
-    void *p;
     context = get_draw_context();
     draw_window_frame(context);
     draw_visible_window_entries(
@@ -80,12 +87,10 @@ void TWindowShop::render() {
     if (n > 0) {
         draw_item_list_capacity(this, context, this->entry_count, n);
     }
-    p = this->status_display;
-    if (p != NULL) {
-        ((TWindowSubStatusDisp *)(p))->forward_render(context);
+    if (status_display != NULL) {
+        status_display->forward_render(context);
     }
-    p = this->scroll_bar;
-    if (p != NULL) {
+    if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }

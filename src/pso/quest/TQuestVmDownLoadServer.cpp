@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -10,7 +11,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_8007C0CC.h"
+#include "pso/system/SubtractiveRng.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -71,17 +72,6 @@ extern s32 memcard_access_active;
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 
-struct SubtractiveRng {
-    SubtractiveRng();
-    s32 value;
-    u8 remaining[0xE4];
-};
-
-
-
-extern "C" {
-void subtractive_rng_seed(SubtractiveRng *, u32);
-}
 extern u8 quest_memcard_key[];
 QuestDownloadRecord quest_download_file_state;
 QuestDownloadRecord quest_download_file_slot;
@@ -90,13 +80,9 @@ QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 extern "C" {
-s32 get_memcard_free_files(s32);
-u8 *init_shop_judgment_window(void *p);
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
 }
 extern TObject *tl_03;
-LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
-struct SubtractiveRng;
 
 struct DownloadWindowPos { f32 a, b; };
 extern "C" {
@@ -336,20 +322,20 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     void *src;
     void *dst;
     body = ((u32 *)this) + 1;
-    ((u32 *)this)[0] = subtractive_rng_next((s32 *)&quest_download_cipher_state);
+    ((u32 *)this)[0] = subtractive_rng_next(&quest_download_cipher_state);
     *body = 0;
     *body = TQuestVmDownLoadServer__sub_801F8538(this, size);
     subtractive_rng_seed(&quest_download_cipher_state, ((u32 *)this)[0]);
-    subtractive_rng_xor_buffer((s32 *)&quest_download_cipher_state, body, (s32)((size - 4) & ~3));
+    subtractive_rng_xor_buffer(&quest_download_cipher_state, body, (s32)((size - 4) & ~3));
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);
-    ((TAdSinglePlyChrSelectGC *)(&quest_download_cipher_state))->apply_rng_cipher(((u32 *)this), size & ~3);
+    quest_download_cipher_state.apply_rng_cipher(((u32 *)this), size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), (const void *)((const void *)this), (u32)size);
+    move_data((src), (const void *)((const void *)this), size);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
-    subtractive_rng_make_shuffle((s32 *)&quest_download_cipher_state);
-    TAdSinglePlyChrSelectGC::permute_save_blocks(&quest_download_cipher_state, (const u8*)src, (u8*)dst, (u32)size);
-    move_data((void *)(this), (dst), (u32)size);
+    subtractive_rng_make_shuffle(&quest_download_cipher_state);
+    quest_download_cipher_state.permute_save_blocks((const u8*)src, (u8*)dst, (u32)size);
+    move_data((this), (dst), size);
     safe_free(dst);
     safe_free(src);
 }
@@ -358,17 +344,17 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *dst;
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), (const void *)((const void *)((u32 *)data)), (u32)size);
+    move_data((src), (const void *)((const void *)((u32 *)data)), size);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
-    subtractive_rng_make_shuffle((s32 *)&quest_download_cipher_state);
-    subtractive_rng_unshuffle((void *)&quest_download_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
-    move_data((void *)(((u32 *)data)), (dst), (u32)size);
+    subtractive_rng_make_shuffle(&quest_download_cipher_state);
+    subtractive_rng_unshuffle(&quest_download_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
+    move_data((((u32 *)data)), (dst), size);
     safe_free(dst);
     safe_free(src);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);
-    ((TAdSinglePlyChrSelectGC *)(&quest_download_cipher_state))->apply_rng_cipher(((u32 *)data), size & ~3);
+    quest_download_cipher_state.apply_rng_cipher(((u32 *)data), size & ~3);
     subtractive_rng_seed(&quest_download_cipher_state, ((u32 *)data)[0]);
-    subtractive_rng_xor_buffer((s32 *)&quest_download_cipher_state, (u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
+    subtractive_rng_xor_buffer(&quest_download_cipher_state, (u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
 }
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size) {
     u32 crc = -1;
@@ -395,7 +381,7 @@ s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
   {
     return 0;
   }
-  move_data(copy, data, (u32)size);
+  move_data(copy, data, size);
   // The word at +4 is the stored checksum: it must be zero while the CRC runs.
   stored = *(s32 *)(((s8 *)copy) + 4);
   *(s32 *)(((s8 *)copy) + 4) = 0;

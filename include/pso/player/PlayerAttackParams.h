@@ -18,6 +18,8 @@ struct AttackParams {
     f32 damage_radius;
     u8 pad_14[0x1C];
 
+    s16 get_atp_min();
+    s16 get_atp_max();
     s16 get_ata();
     void byteswap_packet();
     f32 get_attack_range();

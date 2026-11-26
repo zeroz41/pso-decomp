@@ -25,13 +25,15 @@ struct GvplPalette {
     s16 entry_count;
 };
 
-extern "C" {
 s32 load_gvpl_palette(GvplChunk *chunk, GvplPalette *palette);
 void init_and_load_tlut(s32 tlut_name, s32 format, s32 entry_count, void *entries);
+extern "C" {
 s32 init_ginja_texture_header(GinjaTextureHeader *header, u32 width, u32 height, u32 format);
-u32 get_texture_buffer_size(GinjaTextureHeader *header);
-s32 alloc_buffer_from_heap(GinjaTextureHeader *header);
-s32 free_texture_pixels(GinjaTextureHeader *header);
 }
+u32 get_texture_buffer_size(GinjaTextureHeader *header);
+extern "C" {
+s32 alloc_buffer_from_heap(GinjaTextureHeader *header);
+}
+s32 free_texture_pixels(GinjaTextureHeader *header);
 
 #endif

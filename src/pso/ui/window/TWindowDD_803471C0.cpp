@@ -18,10 +18,10 @@ u8 TWindowDD::is_id_in_special_range(s16 id) {
     return r;
 }
 
-s32 TWindowDD__sub_80347238(s16 arg0) {
+s32 TWindowDD__sub_80347238(s16 id) {
     u8 var_r3;
     var_r3 = 0;
-    if ((arg0 >= 0x300) && (arg0 <= 0x395)) {
+    if ((id >= 0x300) && (id <= 0x395)) {
         var_r3 = 1;
     }
     return var_r3;

@@ -17,6 +17,8 @@ struct TWindowGetComCard;
 struct TWindowBreakIn;
 class TWindowChat;
 struct TWindowCtrlPlayer;
+struct TObjPlayer;
+struct TWindowBreakIn;
 
 class TWindowFukidasi;
 class TObjBase;
@@ -29,7 +31,7 @@ struct TWindowCtrl : public TObject {
     s16 tick;  // frames since the windows opened; the open sequence and the pulse colour read it
     s16 open_step;  // next entry of the open sequence
     s16 submit_cooldown;
-    u32 pulse_color;
+    u32 pulse_color;  // ARGB that update_pulse_color cycles
     u16 window_id;
     u8 _pad2A[0x2];
     TWindowBreakIn *break_in;
@@ -73,7 +75,7 @@ struct TWindowCtrl : public TObject {
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
-    void handle_chat_message(char *arg1);
+    void handle_chat_message(char *message);
     static void suppress_all_slots();
     static void unsuppress_all_slots();
     static void suppress_slot(s32 client);

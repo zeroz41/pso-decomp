@@ -21,7 +21,7 @@ struct TObjComputer : public TObjMesBase {
 };
 
 LAYOUT_ASSERT(TObjComputer_size, sizeof(TObjComputer) == 0xC8);
-extern "C" void *create_stage_computer(void *placement);
+void *create_stage_computer(void *placement);
 void load_computer_resources();
 
 #endif

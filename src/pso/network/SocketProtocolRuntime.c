@@ -308,7 +308,7 @@ void tcp_reass_advance(TcpTcb *o) {
     }
 }
 
-inline void reasm_remove(TcpTcb *o, s16 idx) {
+static inline void reasm_remove(TcpTcb *o, s16 idx) {
     s16 j;
     if (idx < 0 || o->reasm_n < 0 || idx > o->reasm_n) {
         return;

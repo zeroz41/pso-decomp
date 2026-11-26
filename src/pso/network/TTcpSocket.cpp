@@ -1,7 +1,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetApi.h"
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
 #include "pso/network/NetStack.h"
 #pragma readonly_strings on
 #include "types.h"

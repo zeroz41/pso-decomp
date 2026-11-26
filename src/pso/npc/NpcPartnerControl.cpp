@@ -652,7 +652,7 @@ void apply_player_slot_status(s32 client, u32 status) {
         player->set_hp_clamped(player->get_hpmax());
         break;
     case 11:
-        player->set_tp(obj_getS16_2BA((u8 *)player));
+        player->set_tp(player->get_tpmax());
         break;
     }
 }

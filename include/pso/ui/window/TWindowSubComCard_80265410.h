@@ -11,11 +11,11 @@ void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
 void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 }
 TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, saddr title, s32 client_id);
-extern "C" {
 TWindowMenu *create_window_menu_default(const NJS_POINT2 *pos, s32 entries);
 TWindowMenu *create_titled_window_menu_default(const NJS_POINT2 *pos, s32 entries, saddr title);
+extern "C" {
 void fn_80266378(s32 rows);
-u8 *init_shop_judgment_window(void *p);
 }
+u8 *init_shop_judgment_window(void *p);
 
 #endif

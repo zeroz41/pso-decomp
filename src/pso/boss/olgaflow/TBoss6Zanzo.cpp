@@ -15,8 +15,6 @@
 #pragma dont_inline off
 const char *TBoss6Zanzo::name = "TBoss6Zanzo";
 
-extern "C" {
-
 void TBoss6Zanzo::set_effect_points(const Vec *points, const u32 *colors) {
     Boss6TrailPoint *p;
     Boss6TrailPoint *end;
@@ -138,8 +136,6 @@ void TBoss6Zanzo::run_task() {
         copy_trail_buffer(p, current);
         current->active = 0;
     }
-}
-
 }
 TBoss6Zanzo::~TBoss6Zanzo() {
     Boss6TrailFrame *p;

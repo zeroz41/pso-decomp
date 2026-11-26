@@ -4,7 +4,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "libc/ctype.h"
 
@@ -12,7 +12,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 #include "pso/system/scene/TEnding.h"
 
 NJS_TEXNAME TAdEndText::ending_font_textures[5] = {

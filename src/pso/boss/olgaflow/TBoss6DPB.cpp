@@ -68,7 +68,7 @@ void TBoss6DPB::run_task() {
         if ((f32)frame > 5.0f) {
             apply_shower_damage_to_players();
             play_sound_effect(0x40069411, &position, 0, 0);
-            sub_8035D8B0();
+            spawn_shower();
             queue_destruction();
         }
     }
@@ -108,7 +108,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
 }
 #pragma pop
 
-void TBoss6DPB::sub_8035D8B0() {
+void TBoss6DPB::spawn_shower() {
     Vec v = position;
     v.y = 5.0f;
     spawn_particle_effect_with_flags(&v, 0x21C, 0x40);

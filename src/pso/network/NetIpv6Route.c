@@ -183,7 +183,7 @@ void NetIPv6TickAddresses(void) {
 
 void NetIPv6CopyPrefix(u8* dst, s16 bits, u8* src);
 
-inline s16 ipv6_addr_compare(void *a, void *b) {
+static inline s16 ipv6_addr_compare(void *a, void *b) {
     s32 t = NetMemcmp(a, b, 16);
     if (t < 0) {
         return -1;
@@ -194,7 +194,7 @@ inline s16 ipv6_addr_compare(void *a, void *b) {
     return 0;
 }
 
-inline void remove_prefix_route(Ipv6State *g, s16 len, u8 *addr, void *src) {
+static inline void remove_prefix_route(Ipv6State *g, s16 len, u8 *addr, void *src) {
     u8 grp[16];
     s16 n;
     Ipv6Route *e;
@@ -354,10 +354,10 @@ void tick_entry_timers(void) {
     }
 }
 
-inline Ipv6Iface *ipv6_iface_at(Ipv6State *g, s16 idx) {
+static inline Ipv6Iface *ipv6_iface_at(Ipv6State *g, s16 idx) {
     return &g->ifaces[idx];
 }
-inline s16 ipv6_is_link_local(u8 *a) {
+static inline s16 ipv6_is_link_local(u8 *a) {
     u8 b;
 
     if (a[0] != 0xFE) {
@@ -573,7 +573,7 @@ extern s32 copy_ipv6_interface_addresses(s16 id, NetBufferRef *self, s32 len, u8
     return i;
 }
 
-inline s16 first_iface_addr(s16 *n, Ipv6Iface **ifs, void *out) {
+static inline s16 first_iface_addr(s16 *n, Ipv6Iface **ifs, void *out) {
     if (*n <= 0) {
         return 0;
     }
@@ -584,7 +584,7 @@ inline s16 first_iface_addr(s16 *n, Ipv6Iface **ifs, void *out) {
     return 1;
 }
 
-inline void remove_host_route(Ipv6State *g, void *grp, void *src) {
+static inline void remove_host_route(Ipv6State *g, void *grp, void *src) {
     s16 n = g->route_count;
     Ipv6Route *e = g->routes;
     for (; n > 0; n--, e++) {
@@ -982,13 +982,13 @@ s16 NetIPv6IsReachable(u8 *dst, u8 *src) {
 }
 
 s16 NetIPv6IsOwnAddress(void *self, s16 idx);
-inline s16 ipv6_is_multicast(u8 *a) {
+static inline s16 ipv6_is_multicast(u8 *a) {
     if (a[0] == 0xFF) {
         return 1;
     }
     return 0;
 }
-inline Ipv6Route *ipv6_routes(Ipv6State *g) {
+static inline Ipv6Route *ipv6_routes(Ipv6State *g) {
     return g->routes;
 }
 Ipv6Route *NetIPv6LookupRoute(void *dst, void *src) {
@@ -1171,7 +1171,7 @@ s16 NetIPv6IsOwnAddress(void *addr, s16 idx) {
     return 0;
 }
 
-inline Ipv6Iface *ipv6_get_iface(Ipv6State *g, s16 idx) {
+static inline Ipv6Iface *ipv6_get_iface(Ipv6State *g, s16 idx) {
     Ipv6Iface *ifc;
 
     if (idx < 0 || idx >= g->count) {
@@ -1455,7 +1455,7 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id)
     return 0;
 }
 
-inline Ipv6Iface *lookup_ipv6_iface(Ipv6State *g, s16 idx) {
+static inline Ipv6Iface *lookup_ipv6_iface(Ipv6State *g, s16 idx) {
     return ipv6_get_iface(g, idx);
 }
 extern s16 NetIPv6IsOwnLinkLocalAddress(u8 *addr, s16 idx) {
@@ -1531,7 +1531,7 @@ s16 NetIPv6CommonPrefixLength(void* p, void* q) {
     return n;
 }
 
-inline s16 ipv6_is_site_local(u8 *a) {
+static inline s16 ipv6_is_site_local(u8 *a) {
     u8 b;
 
     if (a[0] != 0xFE) {
@@ -1543,7 +1543,7 @@ inline s16 ipv6_is_site_local(u8 *a) {
     }
     return 1;
 }
-inline s16 ipv6_is_global_unicast(u8 *a) {
+static inline s16 ipv6_is_global_unicast(u8 *a) {
     if ((a[0] & 0xE0) != 0x20) {
         return 0;
     }
@@ -1578,7 +1578,7 @@ s16 NetIPv6GetAddressScopeClass(u8 *a) {
     return 0;
 }
 
-inline Ipv6Iface *ipv6_active_iface(s16 id) {
+static inline Ipv6Iface *ipv6_active_iface(s16 id) {
     Ipv6State *g;
     Ipv6Iface *e;
 

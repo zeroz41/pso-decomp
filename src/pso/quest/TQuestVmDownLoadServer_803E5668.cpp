@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/quest/TQuestVmDownLoadServer_803EB0D8.h"
 #include <string.h>
 #include "pso/quest/QuestDownloadRecords.h"
 #include "pso/quest/QuestDownloadText.h"
@@ -11,17 +12,15 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 extern s32 quest_text_end;
-void rebuild_current_slot_text_chain(s32 mode);
-void seek_quest_text_page(s32 pos, s32 mode);
 extern s32 quest_text_entry_len;
 extern s32 quest_text_cursor_pos;
-s32 quest_text_next_page(s32 mode, s32 force);
 extern s32 quest_page_node_count;
 extern s32 quest_page_node_index;
+extern "C" {
 void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
 s32 TQuestVmDownLoadServer__sub_803EDC20(u32);
+}
 extern u8 lbl_8058DC48[80];
 extern u8 lbl_8058DC98[80];
 extern u8 lbl_80591AC4[];
@@ -516,16 +515,17 @@ s32 TQuestVmDownLoadServer::handle_list_scroll(saddr *args) {
     strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     return quest_page_node_index + 1;
 }
-s32 OSFillFPUContext(saddr *arg0) {
+extern "C" {
+s32 OSFillFPUContext(saddr *context) {
     u32 id;
     s8 *a;
     s8 *b;
     if (quest_download_state == 0) {
         return -1;
     }
-    id = arg0[0];
-    a = (s8 *)arg0[1];
-    b = (s8 *)arg0[2];
+    id = context[0];
+    a = (s8 *)context[1];
+    b = (s8 *)context[2];
     if (id != 0) {
         if (quest_download_state >= 2) {
             TQuestVmDownLoadServer::init_buffer_pointers();
@@ -547,6 +547,7 @@ s32 OSFillFPUContext(saddr *arg0) {
     strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     quest_download_state = 3;
     return count_quest_text_entries(quest_download_slot_chain_table[0].chain);
+}
 }
 #pragma push
 #pragma dont_inline off
@@ -607,7 +608,6 @@ u8 lbl_8058DC48[80];
 u8 lbl_8058DC98[80];
 u8 lbl_8058DCE8[80];
 u8 quest_request_text_buffer[80];
-}
 QuestConvertString quest_convert_string;
 
 struct DispatchRequest0x13Stack {

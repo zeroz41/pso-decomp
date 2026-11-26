@@ -70,7 +70,6 @@ public:
     static Vec segment_points[14];
     static AnimationMotion * motion_data;
     static s32 segment_point_defaults[14];
-    static const int rest_angles[];
 };
 
 LAYOUT_ASSERT(TBoss2TentacleSegmentPos, offsetof(TBoss2Tentacle, segment_pos) == 0x30);

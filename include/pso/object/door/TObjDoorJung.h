@@ -19,4 +19,6 @@ struct TObjDoorJung : public TODoorBase {
 extern "C" void set_material_texture_slot_on_neighbours(TObject *node, void *slot);
 
 LAYOUT_ASSERT(TObjDoorJung_size, sizeof(TObjDoorJung) == 0xD8);
+void load_door_jung_resources(void);
+
 #endif

@@ -7,7 +7,6 @@ class TAdSystemFileCheckGC;
 
 extern "C" {
 s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
-void *__dt__20TAdSystemFileCheckGCFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TAdMultiChgGameModeGC_8036DE10.cpp ---

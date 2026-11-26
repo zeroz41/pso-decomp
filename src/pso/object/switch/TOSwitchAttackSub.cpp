@@ -15,6 +15,7 @@
 #include "pso/camera/CameraAngles.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/TLevelSelect.h"
 
 const char *switch_attack_name = "TOSwitchAttack";
 const char *switch_attack_sub_name = "TOSwitchAttackSub";
@@ -80,7 +81,6 @@ void TOSwitchAttack::create_sub(saddr parent, s32 stop_switch, s32 required_swit
     new TOSwitchAttackSub((TObject *)parent, stop_switch, required_switch, (u32)type, scale);
 }
 
-extern s32 game_difficulty_selection;
 
 void TOSwitchAttack::init_params() {
     f32 x;

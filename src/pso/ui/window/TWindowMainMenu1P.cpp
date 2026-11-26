@@ -100,15 +100,15 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     transition_x = (u8) ((transition_x) - 1);
     transition_y = (u8) ((transition_y) + -1);
-    if (((s8) (transition_x)) < 0)
+    if (((s8)transition_x) < 0)
     {
       transition_x = 0U;
     }
-    if (((s8) (transition_y)) < 0)
+    if (((s8)transition_y) < 0)
     {
       transition_y = 0U;
     }
-    if ((((s8) (transition_x)) == 0) && (((s8) (transition_y)) == 0))
+    if ((((s8)transition_x) == 0) && (((s8)transition_y) == 0))
     {
       flags_after = menu_flags;
       if (flags_after & 2)
@@ -123,11 +123,11 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     transition_x = (u8) ((transition_x) + 1);
     transition_y = (u8) ((transition_y) - 1);
-    if (((f32) ((s8) (transition_x))) > 6.0f)
+    if (((f32) ((s8)transition_x)) > 6.0f)
     {
       transition_x = 6U;
     }
-    if (((s8) (transition_y)) < 0)
+    if (((s8)transition_y) < 0)
     {
       transition_y = 0U;
     }
@@ -136,19 +136,19 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     transition_x = (u8) ((transition_x) + 1);
     transition_y = (u8) ((transition_y) + 1);
-    if (((f32) ((s8) (transition_x))) > 3.0f)
+    if (((f32) ((s8)transition_x)) > 3.0f)
     {
       transition_x = 3U;
     }
-    if (((f32) ((s8) (transition_y))) > 3.0f)
+    if (((f32) ((s8)transition_y)) > 3.0f)
     {
       transition_y = 3U;
     }
   }
-  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8) (transition_x)))) + 320.0f);
-  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (transition_y))));
-  TWindowCtrlMain::set_left(53.333332f * ((f32) ((s8) (transition_x))), client_index);
-  TWindowCtrlMain::set_bottom(480.0f - 74.666664f * ((f32) ((s8) (transition_y))), client_index);
+  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8)transition_x))) + 320.0f);
+  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8)transition_y)));
+  TWindowCtrlMain::set_left(53.333332f * ((f32) ((s8)transition_x)), client_index);
+  TWindowCtrlMain::set_bottom(480.0f - 74.666664f * ((f32) ((s8)transition_y)), client_index);
   backdrop.pad_40[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
   backdrop.pad_40[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
   tilt = backdrop.pad_40[1];

@@ -1,11 +1,11 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
-#include "pso/ui/chat/SymbolChatSprite.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
 
 #include "pso/network/TLobby.h"
@@ -28,9 +28,9 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
     s16 part_index;
     s32 free_slots;
     s32 skip;
-    u16 *part_flags;
-    u16 *second_entry;
-    u16 *third_entry;
+    WindowSpritePart *part_flags;
+    WindowSpritePart *second_entry;
+    WindowSpritePart *third_entry;
     u16 facial;
     u32 sign;
     const SymbolChatPart *part;
@@ -57,9 +57,9 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
             second_entry = get_parts_entry((saddr)i);
             third_entry = get_shortcut_icon_entry(this, i);
             i += 1;
-            *part_flags |= 2;
-            *second_entry |= 2;
-            *third_entry |= 2;
+            part_flags->flags |= 2;
+            second_entry->flags |= 2;
+            third_entry->flags |= 2;
         } while (i < 4);
         selection_mode = 2;
         return 0;
@@ -97,9 +97,9 @@ void TWindowSubSymbolChatPartsSet::set_selection_and_refresh(s8 *selection) {
 }
 void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
   s32 sel;
-  u16 *parts_entry;
-  u16 *second_entry;
-  u16 *third_entry;
+  WindowSpritePart *parts_entry;
+  WindowSpritePart *second_entry;
+  WindowSpritePart *third_entry;
   SymbolChatPreset *instance;
   result_out = result;
   scale = 2.0f;
@@ -117,12 +117,12 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
   do
   {
     parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(this, sel);
-    second_entry = (u16 *) this->get_parts_entry((saddr)sel);
-    third_entry = (u16 *) get_shortcut_icon_entry(this, sel);
+    second_entry = this->get_parts_entry((saddr)sel);
+    third_entry = get_shortcut_icon_entry(this, sel);
     sel += 1;
-    *parts_entry |= 2;
-    *second_entry |= 2;
-    *third_entry |= 2;
+    parts_entry->flags |= 2;
+    second_entry->flags |= 2;
+    third_entry->flags |= 2;
   }
   while (sel < 4);
   instance = reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance());
@@ -138,17 +138,16 @@ const char *window_sub_symbol_chat_parts_set_name = "TWindowSubSymbolChatPartsSe
 static const NJS_POINT2 parts_set_window_size = {178.0f, 188.0f};
 
 extern "C" {
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 void draw_selection_corners(void *, void *, f32, f32);
 
 
 void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
     NJS_POINT2 corner;
-    SymbolChatSprite *e;
+    WindowSpritePart *e;
     switch (selection_mode) {
     case 1:
     case 3:
-        e = (SymbolChatSprite *)TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
+        e = TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
         corner.x = e->x - 3.0f;
         corner.y = e->y - 3.0f;
         draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
@@ -173,38 +172,38 @@ void TWindowSubSymbolChatPartsSet::handle_decide() {
 }
 
 void TWindowSubSymbolChatPartsSet::update_part_sprites() {
-    u16 *e2;
-    void *b3;
-    void *a1;
-    void *a3;
-    void *b1;
-    u16 *e;
-    void *c;
+    WindowSpritePart *e2;
+    WindowSpritePart *b3;
+    WindowSpritePart *a1;
+    WindowSpritePart *a3;
+    WindowSpritePart *b1;
+    WindowSpritePart *e;
+    WindowSpritePart *c;
     switch (selection_mode) {
     case 0:
     case 2:
         e = get_entry_offset_d(first_part_index);
-        ((TWindowSubSymbolChatPartsSet *)e)->set_pos(cursor_x, cursor_y);
-        TWindowSubSymbolChatPartsSet::set_part_sprite(e, part_id, *first_flag_out, *second_flag_out);
+        set_pos(e, cursor_x, cursor_y);
+        set_part_sprite(e, part_id, *first_flag_out, *second_flag_out);
         if (*result_out != 0) {
             e2 = get_entry_offset_d((u32)second_part_index);
-            *e2 &= ~2;
-            ((TWindowSubSymbolChatPartsSet *)e2)->set_pos((s16)(0x40 - cursor_x), cursor_y);
-            TWindowSubSymbolChatPartsSet::set_part_sprite(e2, part_id, *first_flag_out == 0, *second_flag_out);
+            e2->flags &= ~2;
+            set_pos(e2, (s16)(0x40 - cursor_x), cursor_y);
+            set_part_sprite(e2, part_id, *first_flag_out == 0, *second_flag_out);
         } else if ((u32)second_part_index < 0xC) {
-            *get_entry_offset_d((u32)second_part_index) |= 2;
+            get_entry_offset_d((u32)second_part_index)->flags |= 2;
         }
         break;
     case 3:
         a3 = get_parts_entry(this, (u32)second_part_index);
         b3 = get_parts_entry((saddr)(u32)second_part_index);
         c = get_shortcut_icon_entry(this, (u32)second_part_index);
-        setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a3, b3, c, 0xFF, 0, 0, 0, 0);
+        setup_part_sprites(a3, b3, c, 0xFF, 0, 0, 0, 0);
     case 1:
         a1 = get_parts_entry(this, first_part_index);
         b1 = get_parts_entry((saddr)first_part_index);
         c = get_shortcut_icon_entry(this, first_part_index);
-        setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a1, b1, c, part_id, *selection_out, *first_flag_out, *second_flag_out, first_part_index);
+        setup_part_sprites(a1, b1, c, part_id, *selection_out, *first_flag_out, *second_flag_out, first_part_index);
         break;
     }
 }

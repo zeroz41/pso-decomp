@@ -19,7 +19,6 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct Elem_80128A74 { u8 pad[0x1c]; u8 position[0x2c - 0x1c]; };
 
@@ -85,17 +84,17 @@ u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 fram
 extern "C" {
 
 void TItemWeaponSRankPunch::emit_marker_effects() {
-    saddr burst_state;
+    PlayerAttackController *attack_state;
     s32 i;
-    u32 player_addr;
+    TObjPlayer *player;
     TObjPlayer__sub_80128A70();
-    player_addr = (u32)owner;
-    if (player_addr == 0U) return;
-    burst_state = player_addr + 0x7CC;
-    if (get_burst_counter((void *)burst_state) == 0) {
+    player = owner;
+    if (player == NULL) return;
+    attack_state = &player->attack_state;
+    if (get_burst_counter(attack_state) == 0) {
         i = 0;
         do {
-            increment_burst_counter((u8 *)burst_state);
+            increment_burst_counter((u8 *)attack_state);
             i += 1;
         } while (i != 2);
         this->flags.set(2);
@@ -132,9 +131,9 @@ void TItemWeaponSRankPunch::transform_model_node() {
 }
 
 void TItemWeaponSRankPunch::draw_held_model() {
-    s32 saved_model;
+    NJS_OBJECT *saved_model;
 
-    saved_model = (s32)item_model;
+    saved_model = item_model;
     this->flags.set(1);
     draw_weapon_at_joint((saddr)this, 0x30);
     get_joint_position(1, &shot_origins[0]);
@@ -142,7 +141,7 @@ void TItemWeaponSRankPunch::draw_held_model() {
     this->flags.clear(1);
     draw_weapon_at_joint((saddr)this, 0x23);
     get_joint_position(1, &shot_origins[1]);
-    item_model = (NJS_OBJECT *)saved_model;
+    item_model = saved_model;
 }
 
 TItemWeaponSRankPunch::~TItemWeaponSRankPunch() {}

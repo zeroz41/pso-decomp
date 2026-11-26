@@ -69,3 +69,6 @@ TWindowMenuMainMenu::TWindowMenuMainMenu(const NJS_POINT2 *position, s32 client)
     save_position();
 }
 
+TWindowMenuMainMenu *TWindowMainMenu::create_menu(const NJS_POINT2 *position, s32 client) {
+    return new TWindowMenuMainMenu(position, client);
+}

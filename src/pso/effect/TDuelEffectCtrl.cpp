@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/SoundEffect.h"

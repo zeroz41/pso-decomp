@@ -7,6 +7,7 @@
 struct TItem;
 struct TItemData;
 struct WindowScrollBar;
+struct TWindowSubStatusDisp;
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:
@@ -27,6 +28,13 @@ public:
     void move_cursor_next();
     void handle_open();
     void set_flag4();
+    void clear_flag4();
+    void set_flag_40();
+    void clear_flag_40();
+    void set_close_flag();
+    void clear_close_flag();
+    void activate();
+    void deactivate();
     // Opening the selected entry then plays no decide sound.
     void disable_decide_sound();
     int get_flag();
@@ -79,6 +87,9 @@ public:
     void disable_cancel();
     void advance_line(s32 message);
     void advance_status_disp_entry(s32 message);
+    void advance_all_entries(s32 play_sound);
+    void refresh_selected_entry(s32 play_sound);
+    void append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows);
     void push_status_disp_entry(s32 count, s32 id);
     // Append a row for one of the player's five battle items (stat 0-4) when
     // they hold any; gray_out greys it where items cannot be used.
@@ -95,7 +106,7 @@ public:
     s16 saved_cursor;           // save_cursor_selection, before the list is rebuilt
     u8 unk_7A[0x2];
     s32 saved_cursor_value;
-    void * status_display;
+    TWindowSubStatusDisp *status_display;
     WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);

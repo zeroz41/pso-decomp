@@ -11,7 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowShop.h"
@@ -414,7 +414,7 @@ void TQuestListVM::build_download_list() {
         }
         if (description_window == NULL) {
             WindowSize size = description_window_size;
-            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
             description_window->append_line((saddr)entries[0].description, 0x80);
             described_entry = 0;
         }
@@ -516,7 +516,7 @@ void TQuestListVM::poll_quest_download() {
 void TQuestListVM::open_confirm_window() {
     if (detail_window == NULL) {
         WindowSize size = detail_window_size;
-        detail_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), size.dimensions, 1, player->get_entity_id());
+        detail_window = TWindowMessage::create(get_window_layout_position(0x2E), size.dimensions, 1, player->get_entity_id());
         detail_window->append_line((saddr)((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
         detail_window->set_depth(-13000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {

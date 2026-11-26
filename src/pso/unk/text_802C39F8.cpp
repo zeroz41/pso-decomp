@@ -3,8 +3,6 @@
 #include "types.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/TLobby.h"
-extern "C" {
-
 void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination) {
     s32 i;
     for (i = 0; i < count; i++) {
@@ -13,9 +11,9 @@ void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem 
 }
 
 // The template copy keeps the two reserved presence bytes already in the destination.
-void copy_item_entry_array(s32 n, const TPlyInventoryItem *src, TPlyInventoryItem *dst) {
+void copy_item_entry_array(s32 count, const TPlyInventoryItem *src, TPlyInventoryItem *dst) {
     s32 i;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < count; i++) {
         // The retail copy stores the presence bytes before the flags word.
         *reinterpret_cast<volatile u8 *>(&dst->m_present[0]) = *reinterpret_cast<const u8 *>(&src->m_present[0]);
         *reinterpret_cast<volatile u8 *>(&dst->m_present[1]) = *reinterpret_cast<const volatile u8 *>(&src->m_present[1]);
@@ -24,6 +22,4 @@ void copy_item_entry_array(s32 n, const TPlyInventoryItem *src, TPlyInventoryIte
         dst++;
         src++;
     }
-}
-
 }

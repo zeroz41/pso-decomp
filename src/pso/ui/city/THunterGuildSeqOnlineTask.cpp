@@ -31,7 +31,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
@@ -206,8 +206,7 @@ void TLobby::handle_quest_download_chunk() {
     if (online_quest_bin_download_complete != 0 && online_quest_dat_download_complete != 0) {
         if (online_quest_download_barrier_window == NULL) {
             NJS_POINT2 pos = download_barrier_window_size;
-            online_quest_download_barrier_window = reinterpret_cast<TWindowMessage *>(
-                create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xBE), &pos));
+            online_quest_download_barrier_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xBE), &pos);
             online_quest_download_barrier_window->append_line((int)(get_message_text(0x61)), (int)1);
             online_quest_download_barrier_window->set_depth(36000.0f);
             online_quest_download_barrier_window->complete_reveal();
@@ -228,8 +227,7 @@ void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     OnlineQuestDownloadState *s;
     if (online_quest_download_window == NULL) {
         NJS_POINT2 p = download_window_size;
-        online_quest_download_window = reinterpret_cast<TWindowMessage *>(
-            create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x2C), &p));
+        online_quest_download_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x2C), &p);
         online_quest_download_window->append_line(get_guild_text(0x14), 1);
         online_quest_download_window->complete_reveal();
         online_quest_download_window->set_depth(37000.0f);
@@ -300,7 +298,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
                 online_quest_info_window = NULL;
             }
             NJS_POINT2 p = quest_info_window_size;
-            online_quest_info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
+            online_quest_info_window = TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
             online_quest_info_window->set_depth(37000.0f);
             online_quest_info_window->append_line((saddr)quest_list_online_selected_quest_info->text, 0x80);
             if (TCameraCtrl::get_camera_id() >= 2) {
@@ -315,6 +313,7 @@ void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu) {
         memcpy(quest_list_online_quest_list_buffer, &menu, sizeof(OnlineQuestMenu));
         set_quest_list_online_state(1);
     }
+}
 }
 
 void TQuestListOnline::release_resources() {
@@ -369,4 +368,3 @@ void TQuestListOnline::init_download_buffers() {
 }
 
 void reset_globals(void) { online_quest_download_window = NULL; online_quest_info_window = NULL; online_quest_download_barrier_window = NULL; quest_download_active = 0; memset(&quest_list_online_dat_download_state, 0, sizeof(OnlineQuestDownloadState)); memset(&quest_list_online_bin_download_state, 0, sizeof(OnlineQuestDownloadState)); online_quest_bin_download_complete = 0; online_quest_dat_download_complete = 0; quest_download_received_bytes = 0; quest_download_graph_current_bytes = 0; }
-}

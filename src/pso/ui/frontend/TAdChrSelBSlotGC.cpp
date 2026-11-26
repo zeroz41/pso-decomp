@@ -25,7 +25,8 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -41,9 +42,8 @@ PlayerSlotLabel chr_select_b_slot_entry;
 
 extern "C" {
 s32 start_memcard_format(s32, s32, s32, s32, s32);
-s32 are_split_screen_battle_players_tied(void);
-extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 }
+extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 
 void TAdChrSelBSlotGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -118,7 +118,7 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
     if (plate->is_slot_value_ready(2)) {
         slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
         for (i = 0; i < 4; i++) {
-            set_entry_text__15TAdSubPlyItemGCFPvPv(player_items, build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
+            player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
             if (is_character_transferred(i)) {
                 move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_b_slot_positions[i]));
             }
@@ -845,6 +845,6 @@ TAdChrSelBSlotGC *TAdChrSelBSlotGC::create(void *parent) {
 int TAdChrSelBSlotGC::get_global_state() {  return TAdChrSelBSlotGC__global_state; }
 
 TAdChrSelASlotGC *TAdChrSelBSlotGC::get_global_slot_data() { return TAdChrSel__global_slot_data; }
-s32 TLobby::get_battle_ctrl_default() {
+s32 get_battle_ctrl_default() {
     return are_split_screen_battle_players_tied() != 0 ? 0 : battle_ctrl_default_value;
 }

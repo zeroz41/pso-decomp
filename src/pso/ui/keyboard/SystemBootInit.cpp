@@ -10,10 +10,8 @@
 #include <dolphin/pad.h>
 #include <dolphin/gx.h>
 #undef PSO_SDK_COMPACT_MATH
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
@@ -46,24 +44,21 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
 #include "pso/ui/frontend/TAdEndText.h"
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/TLobby_801461EC.h"
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/network/NetworkConnect.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_80243370.h"
@@ -329,10 +324,10 @@ void init_game_systems(void) {
     TParticleCtrl::init_particle_buffer();
     GXSetPixelFmt(GX_PF_RGBA6_Z24, GX_ZC_LINEAR);
     init_disc_error_messages();
-    TLobby::init_keyboard_buffer();
+    init_keyboard_buffer();
     TAdPlayerLoadGC::load_banner_files();
     TLobby::load_player_data();
-    TLobby::init_account_entries();
+    init_account_entries();
     load_ha_u032_kage();
     fn_800FFE10();
     TLobby::reset_story_select();
@@ -358,7 +353,7 @@ MainPhaseEntry main_phase_table[] = {
     { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
     { TAdMultiChgGameModeGC__sub_8023F50C, run_game_mode_select_frame, TLobby::release_scene_resources },
     { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
-    { run_online_lobby_scene, TLobby::update_camera_state, cleanup_online_lobby_scene },
+    { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
     { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
     { NULL, NULL, NULL },
     { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, release_single_ply_chr_select_scene },

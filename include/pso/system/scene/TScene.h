@@ -145,6 +145,15 @@ extern s8 floor_scene_ready_flag;
 extern s32 reflection_pass_active;
 extern f32 visibility_radius_margin;
 
-extern "C" s32 is_item_area_enabled(s32 area);
+s32 is_item_area_enabled(s32 area);
+
+struct SceneMaterialCycle;
+struct SceneMaterialNode;
+struct SceneMaterialStatic;
+struct SceneMaterialAnimated;
+
+s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c);
+SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *record);
+SceneMaterialNode *resolve_indirect_object_record(void *, SceneMaterialAnimated *record);
 
 #endif
