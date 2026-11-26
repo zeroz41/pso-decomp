@@ -85,6 +85,7 @@ NJS_SPRITE loading_compass_sprite = {
     { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &loading_texture_list, loading_compass_texanim,
 };
 
+}
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -116,7 +117,6 @@ void TLobby__sub_803382E4(void) {
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
     }
-}
 }
 #pragma pop
 

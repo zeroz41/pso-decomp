@@ -634,6 +634,4 @@ void TLobby::free(void *p) { xfree(p); }
 void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
 void pre_retrace_callback(void) {  }
 int post_retrace_callback(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
-extern "C" {
 void TLobby__sub_80227A90(s32, const char *) {  }
-}

@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
 void TLobby__sub_803382E4(void);
-}
 void render_info_icon_overlay(void);
 extern "C" {
 void TLobby__sub_80338534(void);

@@ -26,9 +26,7 @@ public:
 LAYOUT_ASSERT(TDeferredRenderQueue_size, sizeof(TDeferredRenderQueue) == 0x84);
 
 // Floor resource callbacks (TLobby's load/release table): both forget the instance.
-extern "C" {
 void TLobby__sub_8032BE30(void);
 void TLobby__sub_8032BE3C(void);
-}
 
 #endif

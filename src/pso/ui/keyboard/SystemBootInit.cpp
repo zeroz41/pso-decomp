@@ -74,6 +74,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/text_800FFE04.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;

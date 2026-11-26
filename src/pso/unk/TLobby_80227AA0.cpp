@@ -26,6 +26,7 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby_803382E4.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
 
@@ -189,7 +190,6 @@ void is_sound_enabled(void) {
 
 
 extern "C" {
-s32 TLobby__sub_80226B64(int);
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,
     5, 7, 9, -1, 10, 11, 1, 14, 14, 15, 15, 12,
@@ -223,9 +223,10 @@ void load_floor_sound_bank(s32 floor) {
     }
 }
 
+}
+
 void TLobby__sub_8022804C(void) {
     TLobby__sub_802401C8(&sound_control_state);
-}
 }
 
 void update_global_sound_frame(void) {
