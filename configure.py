@@ -1193,8 +1193,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/dragon/TObjBoss1Crater.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/dragon/ObjBoss1CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/Boss6Type2Data.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # Boss7TentacleData.cpp keeps its two class-name strings in .rodata after the angle tables.
-    "pso/boss/barbaray/Boss7TentacleData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjBoss7Dust.cpp holds TObjBoss7Dust and TObjBoss7DustCtrl: Dust's code comes first in .text,
     # yet DustCtrl's class name precedes Dust's in .sdata/.rodata and Dust's vtable precedes
     # DustCtrl's: deferred, written from the unit's last function back.

@@ -7441,15 +7441,12 @@ pso/boss/barbaray/TBoss7PhotonBullet.cpp:
 	.sdata      start:0x805D3FD0 end:0x805D3FD8
 	.sdata2     start:0x805DEBE0 end:0x805DEBFC
 
-pso/boss/barbaray/Boss7TentacleData.cpp:
-	.rodata     start:0x80474070 end:0x804740C8
-	.sdata      start:0x805D3FD8 end:0x805D3FE0
-
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp:
 	.text       start:0x802EF800 end:0x802F0E24
-	.rodata     start:0x804740C8 end:0x804740E0
+	.rodata     start:0x80474070 end:0x804740E0
 	.data       start:0x804E4830 end:0x804E4860
 	.bss        start:0x80541528 end:0x80541928
+	.sdata      start:0x805D3FD8 end:0x805D3FE0
 	.sbss       start:0x805D6948 end:0x805D694C
 	.sdata2     start:0x805DEC00 end:0x805DEC64
 

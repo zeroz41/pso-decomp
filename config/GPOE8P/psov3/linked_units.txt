@@ -287,7 +287,6 @@ pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
 pso/player/PhotonChairSeat.cpp
 pso/boss/barbaray/TBoss7PhotonBullet.cpp
-pso/boss/barbaray/Boss7TentacleData.cpp
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp
 pso/boss/goldragon/TBoss8Dragon.cpp
 pso/boss/goldragon/TBoss8DragonColli.cpp
