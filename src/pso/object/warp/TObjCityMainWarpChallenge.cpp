@@ -43,17 +43,16 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/player/PlayerSlots.h"
-const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
-static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
-static const char lbl_80444A58[] = "<- KEY ID : %d";
+#include "pso/ui/window/TWindowComCardFollower.h"
+const char *TObjCityMainWarpChallenge::class_name = "TObjCityMainWarpChallenge";
+static const char next_stage_format[] = "<- NEXT STAGE No.%d";
+static const char key_id_format[] = "<- KEY ID : %d";
 
 
-extern "C" {
-s32 is_local_client_floor_leader(s32);
-void request_active_window_close(void);
+extern "C" s32 is_local_client_floor_leader();
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = lbl_805D32B8;
+    m_name = class_name;
     frame = 0.0f;
     warp_range = 19.0f;
     dest_floor = set_params[0];
@@ -145,9 +144,9 @@ void TObjCityMainWarpChallenge::debug_print_area_num() {
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        debug_printf_at(0x130020, lbl_80444A44, set_params[0]);
+        debug_printf_at(0x130020, next_stage_format, set_params[0]);
     }
-    debug_printf_at(0x130021, lbl_80444A58, key_id);
+    debug_printf_at(0x130021, key_id_format, key_id);
 }
 
 void TObjCityMainWarpChallenge::update_state() {
@@ -160,13 +159,13 @@ void TObjCityMainWarpChallenge::update_state() {
         update_warp_sequence();
         return;
     case 2:
-        ((TObjCityMainWarp *)this)->update_state();
+        update_area_transfer();
         return;
     case 3:
-        update_challenge_warp_window(this);
+        update_warp_window();
         return;
     case 4:
-        ((TObjCityMainWarp *)this)->update_floor_switch_state();
+        update_floor_switch_state();
         return;
     }
 }
@@ -324,7 +323,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
             }
         }
         if (TWindowSubTradeMain::get_warp_state() != 0 && get_main_phase() == 0xF &&
-            ((s32 (*)())is_local_client_floor_leader)() != 0 && are_all_players_in_range() != 0) {
+            is_local_client_floor_leader() != 0 && are_all_players_in_range() != 0) {
             send_6x6A_set_boss_warp_flags(2);
             state_step = 5;
         }
@@ -333,7 +332,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         }
         break;
     case 3:
-        TObjCityMainWarp::notify_player_warp(this, local_client_id);
+        release_warp_effect(local_client_id);
         state_step = 4;
         break;
     case 4:
@@ -342,7 +341,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
             break;
         }
         if (TWindowSubTradeMain::get_warp_state() != 0 && get_main_phase() == 0xF &&
-            ((s32 (*)())is_local_client_floor_leader)() != 0 && are_all_players_in_range() != 0) {
+            is_local_client_floor_leader() != 0 && are_all_players_in_range() != 0) {
             send_6x6A_set_boss_warp_flags(2);
             state_step = 5;
         }
@@ -350,9 +349,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 5:
         break;
     case -1:
-        TObjCityMainWarpChallenge::close_windows();
+        close_windows();
         break;
     }
-}
-
 }

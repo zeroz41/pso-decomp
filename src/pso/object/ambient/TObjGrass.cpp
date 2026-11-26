@@ -245,9 +245,8 @@ void *TObjGrass::create(void *set_data) {
 
 void TObjGrass::run_task() {
     s16 mode;
-    s32 temp_r30;
     u16 client;
-    TObjPlayer *temp_r3_2;
+    TObjPlayer *player;
     TObjChara *target;
     if (TObjPlayer::check_demo_mode() == 1) {
         update_demo();
@@ -255,10 +254,10 @@ void TObjGrass::run_task() {
     }
     client = this->targetId;
     if (client < 0x1000U) {
-        temp_r3_2 = get_player_by_client_id(client);
-        if (temp_r3_2 != NULL) {
-            if (temp_r3_2->get_floor() == get_current_floor()) {
-                this->target = temp_r3_2;
+        player = get_player_by_client_id(client);
+        if (player != NULL) {
+            if (player->get_floor() == get_current_floor()) {
+                this->target = player;
                 goto done;
             }
         }
@@ -804,9 +803,9 @@ void TObjGrass::run_attack_action() {
 }
 
 void TObjGrass::update_swing_attack() {
-    Vec sp20;
-    Vec dst;
-    Vec sp8;
+    Vec trace_tip;
+    Vec trace_base;
+    Vec to_target;
     s32 ang;
     Vec *ent;
     s32 idx;
@@ -820,9 +819,9 @@ void TObjGrass::update_swing_attack() {
             this->actorFlags &= ~0x200000;
             this->timer = 0;
         } else {
-            VecCopy(&sp8, &this->target->body_center);
-            subtract_vector(&sp8, &this->body_center);
-            ang = turn_toward_direction(((GrassMovementParams *)this->movementParameters)->turn, &sp8);
+            VecCopy(&to_target, &this->target->body_center);
+            subtract_vector(&to_target, &this->body_center);
+            ang = turn_toward_direction(((GrassMovementParams *)this->movementParameters)->turn, &to_target);
             apply_actor_gravity(this, (s32 *)(0), (0.0f));
             if (ang < this->attack_params->get_attack_angle()) {
                 this->phase = 1;
@@ -881,10 +880,10 @@ void TObjGrass::update_swing_attack() {
                 post_translate_matrix(&this->position.x);
                 rotate_matrix_y(0, this->rotation_y);
                 scale_matrix(0, (1.3f), (1.3f), (1.3f));
-                matrix_mult_vec_array(NULL, ent, &dst, 2);
+                matrix_mult_vec_array(NULL, ent, &trace_base, 2);
                 pop_matrix();
                 if (this->savers[idx] != NULL) {
-                    this->savers[idx]->add_segment(&dst, &sp20);
+                    this->savers[idx]->add_segment(&trace_base, &trace_tip);
                 }
             }
         }

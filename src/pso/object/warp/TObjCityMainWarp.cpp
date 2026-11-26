@@ -26,36 +26,21 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-
-struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
-
-struct Obj_80186CC8 { u8 pad[0x1c]; u16 id; };
-
-struct Obj_80186DA0 {
-    u8 pad0[0xD0];
-    s32 fD0;
-    u8 padD4[0xDC - 0xD4];
-    s16 fDC;
-    u8 padDE[2];
-    s16 fE0;
-    u8 padE2[0x16C - 0xE2];
-    s32 id;
-};
-
-extern "C" {
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 void TObjCityMainWarpChallenge::close_windows() {
-    if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
-        this->yes_no_window->close();
-        *(u32 *)((s8 *)this + 0x168) = 0U;
+    if (yes_no_window != NULL) {
+        yes_no_window->close();
+        yes_no_window = NULL;
     }
-    if (this->menu_window != NULL) {
-        this->menu_window->close();
-        (this->menu_window) = 0U;
+    if (menu_window != NULL) {
+        menu_window->close();
+        menu_window = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
-        ((TWindowBase *)(this->player_list_window))->close();
-        *(u32 *)((s8 *)this + 0x164) = 0U;
+    if (player_list_window != NULL) {
+        ((TWindowBase *)player_list_window)->close();
+        player_list_window = NULL;
     }
     TWindowCtrl::end_client_keyboard_hold(local_client_id);
     TWindowCtrl::clear_flag();
@@ -63,44 +48,43 @@ void TObjCityMainWarpChallenge::close_windows() {
 }
 
 void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
-    Obj_80186CC8 *self = (Obj_80186CC8 *)this;
-    Pkt_80186CC8 pkt;
-    ((TWindowSubTradeMain *)(&pkt))->init_pkt_cmd_6A();
-    pkt.id = self->id;
-    pkt.value = value;
-    ((TWindowSubTradeMain *)(&pkt))->send_60_update();
+    G_SetBossWarpFlags_6x6A pkt;
+    ((TWindowSubTradeMain *)&pkt)->init_pkt_cmd_6A();
+    pkt.header.entity_id = entity_id;
+    pkt.flags = value;
+    ((TWindowSubTradeMain *)&pkt)->send_60_update();
 }
 
-void TObjCityMainWarp::notify_player_warp(void *arg0, s32 local_client_id) {
+void TObjCityMainWarpChallenge::release_warp_effect(s32 client) {
     TObjPlayer *player;
 
-    player = get_player_by_client_id(local_client_id);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
         send_release_hold(player);
         obj_clear_flag30_20000(player);
     }
 }
 
-void TObjCityMainWarpChallenge::trigger_warp_effect(s32 local_client_id) {
+void TObjCityMainWarpChallenge::trigger_warp_effect(s32 client) {
     TObjPlayer *player;
 
-    player = get_player_by_client_id(local_client_id);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
         send_impose_hold(player, -1);
         obj_set_flag_20000(player);
         this->warp_effect_timer = 0x12C;
     }
 }
-void TObjCityMainWarp::update_floor_switch_state() {
-    Obj_80186DA0 *arg0 = (Obj_80186DA0 *)this;
-    switch (arg0->fE0) {
+
+void TObjCityMainWarpChallenge::update_floor_switch_state() {
+    switch (state_step) {
     case 0:
-        arg0->fD0 = 0;
-        arg0->fE0 = 1;
+        model = 0;
+        state_step = 1;
         break;
     case 1:
-        if (arg0->id >= 0 && is_current_floor_switch_set((u16)arg0->id) == 1) {
-            arg0->fDC = 0;
+        if (key_id >= 0 && is_current_floor_switch_set((u16)key_id) == 1) {
+            next_state = 0;
         }
         break;
     case -1:
@@ -108,51 +92,44 @@ void TObjCityMainWarp::update_floor_switch_state() {
     }
 }
 
-}
+void TObjCityMainWarpChallenge::update_warp_window() {
 
-extern "C" {
-
-void request_active_window_close(void);
-}
-
-void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
-
-    switch (warp->state_step) {
+    switch (state_step) {
     case 0:
-        warp->state_step = 1;
-        *(s32 *)((s8 *)warp + 0xD0) = 0;
+        state_step = 1;
+        model = 0;
         return;
     case 1:
-        if (find_local_city_warp_player(warp, warp->warp_range) != NULL) {
-            if (warp->menu_window == NULL) {
-                warp->menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
-                if (warp->menu_window != NULL) {
-                    warp->menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
-                    warp->menu_window->set_flag_40();
-                    warp->menu_window->calc_window_size();
-                    align_menu_entry_positions(warp->menu_window);
+        if (find_local_city_warp_player(this, warp_range) != NULL) {
+            if (menu_window == NULL) {
+                menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
+                if (menu_window != NULL) {
+                    menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    menu_window->set_flag_40();
+                    menu_window->calc_window_size();
+                    align_menu_entry_positions(menu_window);
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
         } else {
-            if (warp->menu_window != NULL) {
-                ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
-                warp->menu_window = NULL;
+            if (menu_window != NULL) {
+                menu_window->close();
+                menu_window = NULL;
             }
             TWindowCtrl::end_client_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
             TWindowCtrl::unsuppress_slot(local_client_id);
         }
-        if ((s32) warp->player_on_dest_floor == 0) {
-            warp->next_state = 0;
+        if (player_on_dest_floor == 0) {
+            next_state = 0;
         }
         return;
     case -1:
-        if (warp->menu_window != NULL) {
-            ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
-            warp->menu_window = NULL;
+        if (menu_window != NULL) {
+            menu_window->close();
+            menu_window = NULL;
         }
         TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
@@ -163,41 +140,38 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
 
 s32 city_main_warp_destination_id;
 
-extern "C" {
-s32 is_local_client_floor_leader(s32);
+extern "C" s32 is_local_client_floor_leader();
 
-void TObjCityMainWarp::update_state() {
-    s32 temp_r0_2;
+void TObjCityMainWarpChallenge::update_area_transfer() {
     TObjPlayer *player;
 
-    switch (*(s16 *)((s8 *)this + 0xE0)) {
+    switch (state_step) {
     case 0:
-        *(s32 *)((s8 *)this + 0x17C) = 0x96;
-        *(s16 *)((s8 *)this + 0xE0) = 1;
-        *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) | 1);
-        *(NJS_OBJECT **)((s8 *)this + 0xD0) = city_common_model_archive->models[0].model;
-        this->menu_destinations[3] = (saddr) city_common_model_archive->motions[5].motion;
+        state_timer = 0x96;
+        state_step = 1;
+        state_flags |= 1;
+        model = (saddr)city_common_model_archive->models[0].model;
+        motion = city_common_model_archive->motions[5].motion;
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {
             player = find_local_city_warp_player(this, warp_range);
             if (player != NULL) {
-                TObjCityMainWarp::notify_player_warp(this, local_client_id);
-                this->dest_floor = city_main_warp_destination_id;
-                this->confirm_area_transfer(player);
-                *(s16 *)((s8 *)this + 0xE0) = 2;
+                release_warp_effect(local_client_id);
+                dest_floor = city_main_warp_destination_id;
+                confirm_area_transfer(player);
+                state_step = 2;
             }
         }
-        temp_r0_2 = *(s32 *)((s8 *)this + 0x17C) - 1;
-        *(s32 *)((s8 *)this + 0x17C) = temp_r0_2;
-        if (temp_r0_2 <= 0) {
-            *(s16 *)((s8 *)this + 0xE0) = 2;
+        if (--state_timer <= 0) {
+            state_step = 2;
         }
+        break;
     case -1:
         break;
     case 2:
-        *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) & 0xFFFFFFFE);
-        *(s16 *)((s8 *)this + 0xDC) = 3;
+        state_flags &= ~1;
+        next_state = 3;
         break;
     }
 }
@@ -207,7 +181,7 @@ void TObjCityMainWarpChallenge::update_warp_sequence() {
     switch (this->state_step) {
     case 0:
         this->warp_countdown = 0x12C;
-        play_sound_effect(0x40003205, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
+        play_sound_effect(0x40003205, &this->position, 0, 0);
         this->state_step = 1;
         this->model = (saddr)city_common_model_archive->models[0].model;
         this->motion = city_common_model_archive->motions[5].motion;
@@ -221,7 +195,8 @@ void TObjCityMainWarpChallenge::update_warp_sequence() {
             }
         }
         if (TWindowSubTradeMain::get_warp_state() != 0) {
-            if (is_local_client_floor_leader(this->warp_countdown--) != 0) {
+            warp_countdown--;
+            if (is_local_client_floor_leader() != 0) {
                 if (this->warp_countdown <= 0) {
                     r = 1;
                 } else {
@@ -237,9 +212,7 @@ void TObjCityMainWarpChallenge::update_warp_sequence() {
     case 2:
         break;
     case -1:
-        ((TObjCityMainWarpChallenge *) this)->close_windows();
+        close_windows();
         break;
     }
-}
-
 }

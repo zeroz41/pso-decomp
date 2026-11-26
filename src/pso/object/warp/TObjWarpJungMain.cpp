@@ -37,6 +37,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -63,7 +64,6 @@ GinjaModel *warp_jung_beam_models[6];
 
 extern "C" {
 saddr get_localized_text_entry(s32, s32);
-void request_active_window_close(void);
 }
 
 

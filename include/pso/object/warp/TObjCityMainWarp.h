@@ -20,9 +20,6 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     static void set_active_bit(s32 floor);
     static void reset();
     static s32 get_phase_flag();
-    static void notify_player_warp(void *arg0, s32 local_client_id);
-    void update_floor_switch_state();
-    void update_state();
     void render();
     static void *create(void *set_data);
     static void clear_active_bit(s32 floor);
@@ -41,9 +38,6 @@ struct TObjCityMainWarp : public TObjAreaWarp {
 };
 
 LAYOUT_ASSERT(TObjCityMainWarp_size, sizeof(TObjCityMainWarp) == 0x154);
-
-struct TObjCityMainWarpChallenge;
-void update_challenge_warp_window(TObjCityMainWarpChallenge *warp);
 
 // The floor the city main warp sends the player to (TObjDoor::set_main_warp_id).
 extern s32 city_main_warp_destination_id;

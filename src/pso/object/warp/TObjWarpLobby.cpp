@@ -28,6 +28,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 #pragma readonly_strings on
 
@@ -73,7 +74,6 @@ void TObjWarpLobby::debug_print_area_num() {
 
 
 extern "C" {
-void request_active_window_close(void);
 
 NJS_TEXLIST *lobby_warp_textures;
 

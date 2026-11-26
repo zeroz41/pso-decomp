@@ -9,6 +9,7 @@ class TWindowCheckBox;
 struct TWindowMessageYesNo;
 
 struct TObjCityMainWarpChallenge : public TObjAreaWarp {
+    static const char *class_name;
     TObjCityMainWarpChallenge(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarpChallenge();
     void sub_801875F8();
@@ -19,6 +20,10 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     void update_warp_sequence();
     void trigger_warp_effect(s32);
     void send_6x6A_set_boss_warp_flags(u16);
+    void release_warp_effect(s32 client);  // undoes trigger_warp_effect's hold on the player
+    void update_floor_switch_state();      // state 4: waits for the key_id floor switch
+    void update_warp_window();             // state 3: the menu window while a player stands on the warp
+    void update_area_transfer();           // state 2: sends the local player on to city_main_warp_destination_id
     s32 are_all_players_in_range();
     f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
     u8 pad_c8[0x8];
@@ -43,7 +48,8 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     void run_task();
     s32 warp_triggered;     // 1 once trigger_warp_effect ran for the local player in this state
     s32 warp_effect_timer;  // 300 when trigger_warp_effect starts the player's warp effect
-    u8 unk_178[0x8];
+    u8 pad_178[0x4];
+    s32 state_timer;  // 150 when update_area_transfer starts; at 0 it moves on without a player
     static void *create(void *set_data);
 };
 
