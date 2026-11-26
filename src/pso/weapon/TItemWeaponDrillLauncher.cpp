@@ -98,7 +98,7 @@ void TItemWeaponDrillLauncher::emit_marker_effects() {
         launch_rare_weapon_special(&gun_point, 1, (f32) (1.0f));
         return;
     }
-    launch_shot((u8 *)&gun_point, 0, 0, 1);
+    launch_shot(&gun_point, 0, 0, 1);
 }
 void TItemWeaponDrillLauncher::transform_model_node() {
     s32 player_list;

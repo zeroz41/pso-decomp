@@ -22,7 +22,7 @@ void TItemWeaponSRankBazooka::transform_model_node() {
 // slides back, throws a casing, then returns.
 void TItemWeaponSRankBazooka::update_weapon() {
     s32 ang;
-    WeaponVector v;
+    Vec v;
     s32 a[3];
     if (recoil_state == 1) {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));

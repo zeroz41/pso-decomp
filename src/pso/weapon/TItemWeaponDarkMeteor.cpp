@@ -70,15 +70,15 @@ void TItemWeaponDarkMeteor::emit_marker_effects() {
         return;
     }
     get_joint_position(6, &origin);
-    launch_shot((u8 *)&origin, 0, 0, 1);
+    launch_shot(&origin, 0, 0, 1);
     get_joint_position(9, &origin);
-    launch_shot((u8 *)&origin, 1, 0x11C7, 1);
+    launch_shot(&origin, 1, 0x11C7, 1);
     get_joint_position(3, &origin);
-    launch_shot((u8 *)&origin, 2, -0x11C7, 1);
+    launch_shot(&origin, 2, -0x11C7, 1);
     get_joint_position(0xA, &origin);
-    launch_shot((u8 *)&origin, 3, 0x2000, 1);
+    launch_shot(&origin, 3, 0x2000, 1);
     get_joint_position(4, &origin);
-    launch_shot((u8 *)&origin, 4, -0x2000, 1);
+    launch_shot(&origin, 4, -0x2000, 1);
 }
 
 void TItemWeaponDarkMeteor::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {

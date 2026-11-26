@@ -105,13 +105,13 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
         punch_flags.set(2);
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)rocket_punch_return_timer, 0x3C);
         punch_flags.set(4);
-        if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) == 1) {
+        if (launch_shot(&shot_origins[0], 0, 0, 1) == 1) {
             punch_flags.clear(4);
-            launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
+            launch_shot(&shot_origins[1], 0, 0, 0);
             return;
         }
         punch_flags.clear(4);
-        launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
+        launch_shot(&shot_origins[1], 0, 0, 1);
     }
 }
 

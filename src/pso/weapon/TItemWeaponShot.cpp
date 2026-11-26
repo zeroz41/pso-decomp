@@ -43,7 +43,7 @@ void TItemWeaponShot::emit_marker_effects() {
     // signed i but an unsigned != loop test (cmpwi i,0 / cmplwi i,5), as in the tree
     for (i = 0; (u32)i != 5U; i++) {
         get_joint_position(muzzle_joints[i], &pos);
-        launch_shot((u8 *)&pos, i, basic_shot_angle_table[i], 1);
+        launch_shot(&pos, i, basic_shot_angle_table[i], 1);
         if (i == 0) {
             spawn_particle_effect(&pos, 9);
         }

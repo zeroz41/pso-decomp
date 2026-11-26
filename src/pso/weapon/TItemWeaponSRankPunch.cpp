@@ -96,13 +96,13 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
         this->flags.set(2);
         TItemAttacker::spawn_item_timer(this, clear_rico_ring_flag, 0x3C);
         this->flags.set(4);
-        if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) == 1) {
+        if (launch_shot(&shot_origins[0], 0, 0, 1) == 1) {
             this->flags.clear(4);
-            launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
+            launch_shot(&shot_origins[1], 0, 0, 0);
             return;
         }
         this->flags.clear(4);
-        launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
+        launch_shot(&shot_origins[1], 0, 0, 1);
     }
 }
 

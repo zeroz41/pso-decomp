@@ -19,9 +19,9 @@ public:
     static TItem *create(u8 *item);
     void apply_scale_if_active(f32);
     s32 rotation;                    // rotate_matrix_z angle (index 6)
-    WeaponVector scale;              // node 3 (index 5)
-    WeaponVector first_translation;  // node 1 (index 5)
-    WeaponVector second_translation; // node 2 (index 5)
+    Vec scale;              // node 3 (index 5)
+    Vec first_translation;  // node 1 (index 5)
+    Vec second_translation; // node 2 (index 5)
 };
 
 #endif

@@ -34,7 +34,7 @@ void TItemWeaponYasminkov2000H::update_attack() {
 }
 
 void TItemWeaponYasminkov2000H::update_weapon() {
-    WeaponVector dir;
+    Vec dir;
     s32 angle[3];
     s32 a;
 

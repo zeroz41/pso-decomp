@@ -16,10 +16,10 @@ void TItemWeaponGuldMilla::emit_marker_effects() {
         shot_callback = (WeaponShotCallback)create_gun_shot;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     }
-    if (launch_shot((u8 *)&gun_point, 0, 0, 1) != 0) {
-        launch_shot((u8 *)&second_gun_point, 0, 0, 0);
+    if (launch_shot(&gun_point, 0, 0, 1) != 0) {
+        launch_shot(&second_gun_point, 0, 0, 0);
     } else {
-        launch_shot((u8 *)&second_gun_point, 0, 0, 1);
+        launch_shot(&second_gun_point, 0, 0, 1);
     }
 }
 

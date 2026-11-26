@@ -14,7 +14,7 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
     saddr kind;
     CapturedTargetList *ext;
     s32 i;
-    u8 buf[0xC];
+    Vec buf;
     switch (owner->is_status_subsystem_ready()) {
     case 1:
         kind = 8;
@@ -26,7 +26,7 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
         kind = 8;
         break;
     }
-    if (get_joint_position(1, buf) != 0) {
+    if (get_joint_position(1, &buf) != 0) {
         ext = owner->get_extended_state();
         if (ext != 0) {
             for (i = 0; i != ext->get_captured_target_count(); i++) {
@@ -36,7 +36,7 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
                     targets.count = 1;
                     targets.records[0].id = item->uid;
                     targets.records[0].flag = item->collider_index;
-                    TTecGiZonde::create(owner, (Vec *)buf, &targets, kind);
+                    TTecGiZonde::create(owner, &buf, &targets, kind);
                 }
             }
         }

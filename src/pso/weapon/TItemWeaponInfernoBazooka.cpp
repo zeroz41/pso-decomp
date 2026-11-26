@@ -127,10 +127,10 @@ void TWeaponCasing::render() {
 
 
 void TObjPlayer::launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle) {
-    u8 sp8[0x18];
+    Vec pos;
     void *object;
-    if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, sp8) != 0)) {
-        object = new TWeaponCasing((TObject *)parent, (TItem *)item, (Vec *)sp8, (Vec *)velocity, (s32 *)angle);
+    if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, &pos) != 0)) {
+        object = new TWeaponCasing((TObject *)parent, (TItem *)item, &pos, (Vec *)velocity, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }

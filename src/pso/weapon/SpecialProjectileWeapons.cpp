@@ -122,7 +122,7 @@ void TItemWeaponEvilCurst::transform_model_node() {
 }
 
 void TItemWeaponEvilCurst::draw_held_model() {
-    s32 joint_position;
+    Vec joint_position;
     NJS_OBJECT *model_link;
     NJS_OBJECT *effect_model;
     if (item_model != NULL && is_hidden() == 0) {
@@ -136,7 +136,7 @@ void TItemWeaponEvilCurst::draw_held_model() {
             TEquippedWeaponDrawTask::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
             TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
-            post_translate_matrix((const f32 *)&joint_position);
+            post_translate_matrix(&joint_position.x);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
             effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);

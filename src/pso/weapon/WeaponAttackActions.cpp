@@ -328,7 +328,7 @@ void TItemWeapon::fill_status_info(S_802E451C *params) {
     restore_action_type();
 }
 
-void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
+void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale) {
     CapturedTargetList *ext;
     Vec pos;
     f32 dist;
@@ -364,10 +364,10 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
-        vec3_add_to(&pos, (const Vec *)origin);
+        vec3_add_to(&pos, origin);
     }
     {
-        CsnHit *hit = csnVector((const Vec *)origin, &pos, 0x8100);
+        CsnHit *hit = csnVector(origin, &pos, 0x8100);
         if (hit != NULL) {
             dist = xyz_distance(origin, &hit->contact->point);
         } else {
@@ -402,7 +402,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
     }
 }
 
-s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
+s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
     s32 launched;
     DelayedWeaponHit hit;
     f32 *range_record;
@@ -421,19 +421,19 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
         if (targets != 0) {
             has_aim_target = 0;
             aim_target = NULL;
-            Vec endpoint = *reinterpret_cast<const Vec *>(origin);
+            Vec endpoint = *origin;
             if (i < targets->get_captured_target_count()) {
                 aim_entry = targets->get_captured_target_entry(i);
                 aim_target = ((TObjChara *(*)(u16, s16))resolve_hittable_target)(aim_entry->get_uid(), aim_entry->get_captured_target_collider_index());
                 if (aim_target != NULL) {
                     target_body = &aim_target->bodies[aim_entry->get_captured_target_collider_index()];
                     VecCopy(&endpoint, &target_body->center);
-                    subtract_vector(&endpoint, (const Vec *)origin);
+                    subtract_vector(&endpoint, origin);
                     distance_scale = normalize_vector(&endpoint) - target_body->radius;
                     endpoint.x *= distance_scale;
                     endpoint.y *= distance_scale;
                     endpoint.z *= distance_scale;
-                    vec3_add_to(&endpoint, (const Vec *)origin);
+                    vec3_add_to(&endpoint, origin);
                     has_aim_target = 1;
                 }
             }
@@ -447,10 +447,10 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 rotate_matrix_y(0, owner->rotation_y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
-                vec3_add_to(&endpoint, (const Vec *)origin);
+                vec3_add_to(&endpoint, origin);
             }
             Vec rayOrigin = owner->body_center;
-            rayOrigin.y = ((Vec *)origin)->y;
+            rayOrigin.y = origin->y;
             wall_hit = csnVector(&rayOrigin, &endpoint, 0x8100);
             if (wall_hit == NULL) {
                 if (aim_target != NULL) {
@@ -466,7 +466,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                         hit.weapon = this->get_item_id();
                         hit.collider = last_entry->get_captured_target_collider_index();
                         hit.damage = owner->query_extended_state();
-                        spawn_item_attacker(tl_05, (const Vec *)origin, ((s32) flight_frames), &hit);
+                        spawn_item_attacker(tl_05, origin, ((s32) flight_frames), &hit);
                         launched = 1;
                         this->restore_action_type();
                     }
@@ -477,7 +477,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 VecCopy(&endpoint, &wall_hit->contact->point);
                 flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
                 if ((wall_hit->contact->flags & 0x100) && (impact_callback != NULL)) {
-                    spawn_land_hit_effect(tl_05, this, (Vec *)origin, &endpoint, (s32)flight_frames);
+                    spawn_land_hit_effect(tl_05, this, origin, &endpoint, (s32)flight_frames);
                 }
             }
             this->spawn_light_task();
@@ -672,7 +672,7 @@ void TItemWeapon::perform_action() {
                 return;
             }
             get_gun_point(&fallback_point);
-            launch_shot((u8 *)&fallback_point,0,0,1);
+            launch_shot(&fallback_point,0,0,1);
         }
     }
 }
@@ -984,7 +984,7 @@ void TItemWeapon::on_equip() {
 // ---- pso/player/TObjPlayer_801207E8
 
 
-s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
+s32 TItemWeapon::get_joint_position(s32 joint, Vec *out) {
     Vec joint_origin;
     TObjPlayer *player;
 
@@ -993,9 +993,9 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         return 0;
     }
     if (joint == -1) {
-        player->get_anim_node_position(0x30, (Vec *)out);
+        player->get_anim_node_position(0x30, out);
     } else if (joint == -2) {
-        player->get_anim_node_position(0x23, (Vec *)out);
+        player->get_anim_node_position(0x23, out);
     } else if (item_model != NULL) {
         joint_origin.z = weapon_float_zero;
         joint_origin.y = weapon_float_zero;
@@ -1003,10 +1003,10 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         push_matrix();
         ::copy_matrix(NULL, get_model_joint_matrix(owner, joint));
         premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
-        transform_point_by_current_matrix(&joint_origin.x, static_cast<Vec *>(out));
+        transform_point_by_current_matrix(&joint_origin.x, out);
         pop_matrix();
     } else {
-        player->get_anim_node_position(0x30, (Vec *)out);
+        player->get_anim_node_position(0x30, out);
     }
     return 1;
 }

@@ -35,10 +35,10 @@ void TItemWeaponFrozenShooter::init_weapon_effect_descriptor(WeaponEffectDescrip
 
 void TItemWeaponFrozenShooter::emit_marker_effects() {
     Vec point;
-    u8 *p;
+    Vec *p;
     get_gun_point(&point);
     skip_freeze = 0;
-    p = reinterpret_cast<u8 *>(&point);
+    p = &point;
     if (is_mode_two_and_ready() != 0) {
         fire_shot_at_target(&point, second_model, 0);
     } else if (get_item_index() == 1) {

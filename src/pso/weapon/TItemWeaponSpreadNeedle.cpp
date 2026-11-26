@@ -9,18 +9,18 @@
 const s32 five_joint_shot_angle_table[5] = {0, 0x888, -0x888, 0x11C7, -0x11C7};
 
 void TItemWeaponSpreadNeedle::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
 
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 0, five_joint_shot_angle_table[0], 1);
+    launch_shot(&pos, 0, five_joint_shot_angle_table[0], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 1, five_joint_shot_angle_table[1], 1);
+    launch_shot(&pos, 1, five_joint_shot_angle_table[1], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 2, five_joint_shot_angle_table[2], 1);
+    launch_shot(&pos, 2, five_joint_shot_angle_table[2], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 3, five_joint_shot_angle_table[3], 1);
+    launch_shot(&pos, 3, five_joint_shot_angle_table[3], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 4, five_joint_shot_angle_table[4], 1);
+    launch_shot(&pos, 4, five_joint_shot_angle_table[4], 1);
 }
 
 TItemWeaponSpreadNeedle::TItemWeaponSpreadNeedle(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

@@ -23,7 +23,7 @@ void TItemWeaponHeavenPunisher::activate_effect(s32 effect_variant) {
       {
         if (effect_variant == 0)
         {
-          (this->launch_shot((u8 *)&captured_muzzle, (0), (0), (1)));
+          (this->launch_shot(&captured_muzzle, (0), (0), (1)));
           return;
         }
         if (effect_variant == 1)
@@ -48,7 +48,7 @@ void TItemWeaponHeavenPunisher::heaven_punisher_strike_locks() {
         }
     } else {
         get_gun_point(&muzzle);
-        launch_shot(reinterpret_cast<u8 *>(&muzzle), 0, 0, 1);
+        launch_shot(&muzzle, 0, 0, 1);
     }
 }
 
@@ -66,7 +66,7 @@ void TItemWeaponHeavenPunisher::emit_marker_effects() {
         return;
     }
     this->get_gun_point(&origin);
-    this->launch_shot((u8 *)&origin, 0, 0, 1);
+    this->launch_shot(&origin, 0, 0, 1);
 }
 u32 *copy_attack_targets(u32 *dst, u32 *src) {
     u32 *d = dst;

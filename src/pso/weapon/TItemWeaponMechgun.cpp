@@ -15,10 +15,10 @@ void TItemWeaponMechgun::transform_model_node() {
 }
 
 void TItemWeaponMechgun::emit_marker_effects() {
-    if (launch_shot((u8 *)&muzzle[0], 0, 0, 1) != 0) {
-        launch_shot((u8 *)&muzzle[1], 0, 0, 0);
+    if (launch_shot(&muzzle[0], 0, 0, 1) != 0) {
+        launch_shot(&muzzle[1], 0, 0, 0);
     } else {
-        launch_shot((u8 *)&muzzle[1], 0, 0, 1);
+        launch_shot(&muzzle[1], 0, 0, 1);
     }
     advance_angle_wrap(&effectAngle, 0x2000);
     effectFrame = 1;

@@ -37,13 +37,13 @@ void TItemWeaponBaranzLauncher::emit_marker_effects() {
     spin_speed += 0x2AAA;
     if (is_model_shown() != 0) {
         get_joint_position(2, &pos);
-        launch_shot((u8 *)&pos, 0, 0x4FA, 1);
+        launch_shot(&pos, 0, 0x4FA, 1);
         get_joint_position(3, &pos);
-        launch_shot((u8 *)&pos, 1, 0xE38, 1);
+        launch_shot(&pos, 1, 0xE38, 1);
         get_joint_position(4, &pos);
-        launch_shot((u8 *)&pos, 2, -0x4FA, 1);
+        launch_shot(&pos, 2, -0x4FA, 1);
         get_joint_position(5, &pos);
-        launch_shot((u8 *)&pos, 3, -0xE38, 1);
+        launch_shot(&pos, 3, -0xE38, 1);
     }
 }
 

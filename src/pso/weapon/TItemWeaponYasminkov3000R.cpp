@@ -15,9 +15,9 @@ void TItemWeaponYasminkov3000R::transform_model_node() {
 }
 
 void TItemWeaponYasminkov3000R::emit_marker_effects() {
-    WeaponVector dir;
+    Vec dir;
     s32 angle[3];
-    WeaponVector muzzle;
+    Vec muzzle;
     s32 a;
 
     slide_state = 2;
@@ -30,7 +30,7 @@ void TItemWeaponYasminkov3000R::emit_marker_effects() {
     angle[2] = 0;
     TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&dir, (uaddr)angle);
     get_joint_position(2, &muzzle);
-    spawn_particle_effect((const Vec *)&muzzle, 9);
+    spawn_particle_effect(&muzzle, 9);
 }
 
 void TItemWeaponYasminkov3000R::update_weapon() {

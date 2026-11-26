@@ -50,17 +50,17 @@ void TItemWeaponYasminkov9000M::update_weapon() {
 
 void TItemWeaponYasminkov9000M::emit_marker_effects() {
     slide_state = 2;
-    if (launch_shot((u8 *)&muzzles[0], 0, 0, 1) != 0) {
-        launch_shot((u8 *)&muzzles[1], 0, 0, 0);
+    if (launch_shot(&muzzles[0], 0, 0, 1) != 0) {
+        launch_shot(&muzzles[1], 0, 0, 0);
     } else {
-        launch_shot((u8 *)&muzzles[1], 0, 0, 1);
+        launch_shot(&muzzles[1], 0, 0, 1);
     }
     spawn_particle_effect((const Vec *)&muzzles[0], 9);
     spawn_particle_effect((const Vec *)&muzzles[1], 9);
 }
 
-void TItemWeaponYasminkov9000M::yasminkov_9000m_eject_casing(WeaponVector *pos, s32 angle_offset) {
-    WeaponVector dir;
+void TItemWeaponYasminkov9000M::yasminkov_9000m_eject_casing(Vec *pos, s32 angle_offset) {
+    Vec dir;
     s32 angle[3];
     s32 a;
 

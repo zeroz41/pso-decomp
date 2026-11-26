@@ -55,7 +55,7 @@ void TItemWeaponWindmill::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
             set_sound_pitch_request(play_sound_effect(0x4001AA05, &owner->position, 0, 0), 0x300, 0);
-            launch_shot((u8 *)&gun_point, 0, 0, 1);
+            launch_shot(&gun_point, 0, 0, 1);
         }
     }
 }

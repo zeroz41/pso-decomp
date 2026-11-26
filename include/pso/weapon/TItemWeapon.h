@@ -12,7 +12,6 @@ struct CsnHit;
 class TItemEffectWeapon;
 class TObjChara;
 struct TObjPlayer;
-struct WeaponVector { f32 x,y,z; };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
@@ -52,7 +51,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual ~TItemWeapon();
     saddr get_tp();
     void update_active_game_effect();
-    void launch_rare_weapon_special(void *, s32, f32);
+    void launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale);
     void fill_status_info(S_802E451C *params);
     void drain_owner_hp_fraction(f32);
     virtual void *get_center();
@@ -77,7 +76,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void remove_owner_bonuses();
     virtual void on_model_loaded();
     // The virtuals every weapon adds.
-    virtual s32 launch_shot(u8 *origin, s32 target, s32 angle, s32 apply);
+    virtual s32 launch_shot(Vec *origin, s32 target, s32 angle, s32 apply);
     virtual void emit_marker_effects();
     virtual void update_attack();
     virtual void update_idle();
@@ -137,7 +136,7 @@ struct TItemWeapon : public TItemEquipBase {
     void update_trail_slot(s32 slot);
     // Where a joint of the owner's model is on screen (-1, -2: the owner's
     // own points), stored as a Vec at out; 0 without an owner.
-    s32 get_joint_position(s32 joint, void *out);
+    s32 get_joint_position(s32 joint, Vec *out);
     void set_technique_roll_range(s32 range);
     void set_color_node(s16 node);
     // get_joint_position of gun_point_joint, where shots start.

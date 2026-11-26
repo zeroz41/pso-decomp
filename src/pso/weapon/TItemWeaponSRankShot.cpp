@@ -24,19 +24,19 @@ void TItemWeaponSRankShot::transform_model_node() {
 }
 
 void TItemWeaponSRankShot::emit_marker_effects() {
-    WeaponVector pos;
+    Vec pos;
     TObjPlayer__sub_80128A70();
     get_joint_position(7, &pos);
-    spawn_particle_effect((const Vec *)&pos, 9);
-    launch_shot((u8 *)&pos, 0, s_rank_shot_marker_offsets[0], 1);
+    spawn_particle_effect(&pos, 9);
+    launch_shot(&pos, 0, s_rank_shot_marker_offsets[0], 1);
     get_joint_position(3, &pos);
-    launch_shot((u8 *)&pos, 1, s_rank_shot_marker_offsets[1], 1);
+    launch_shot(&pos, 1, s_rank_shot_marker_offsets[1], 1);
     get_joint_position(5, &pos);
-    launch_shot((u8 *)&pos, 2, s_rank_shot_marker_offsets[2], 1);
+    launch_shot(&pos, 2, s_rank_shot_marker_offsets[2], 1);
     get_joint_position(2, &pos);
-    launch_shot((u8 *)&pos, 3, s_rank_shot_marker_offsets[3], 1);
+    launch_shot(&pos, 3, s_rank_shot_marker_offsets[3], 1);
     get_joint_position(6, &pos);
-    launch_shot((u8 *)&pos, 4, s_rank_shot_marker_offsets[4], 1);
+    launch_shot(&pos, 4, s_rank_shot_marker_offsets[4], 1);
 }
 
 void TItemWeaponSRankShot::update_idle() {
