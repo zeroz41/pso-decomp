@@ -749,8 +749,7 @@ pso/player/TPlayerBattleCtrl.cpp
 pso/unk/TLobby_801C4F80.cpp
 pso/unk/TLobby_801D3518.cpp
 pso/unk/TLobby_801D6BF8.cpp
-pso/unk/TLobby_801D6DC4.cpp
-pso/unk/TLobby_801D726C.cpp
+pso/network/LobbyRuleSettings.cpp
 pso/unk/TLobby_801E2F94.cpp
 pso/unk/TLobby_801E43E4.cpp
 pso/unk/TLobby_801F3A24.cpp
@@ -1671,11 +1670,6 @@ pso/unk/TAdDialingSelectGC.cpp
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/unk/text_801A5778.cpp
 pso/unk/text_801D34E0.cpp
-pso/unk/text_801D6D60.cpp
-pso/unk/text_801D6D8C.cpp
-pso/unk/text_801D6DB0.cpp
-pso/unk/text_801D7134.cpp
-pso/unk/text_801D7238.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
 pso/unk/text_801E4BCC.cpp

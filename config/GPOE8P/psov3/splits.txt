@@ -4738,26 +4738,8 @@ pso/unk/TLobby_801D6BF8.cpp:
 pso/player/TObjPlayer_801D6C4C.cpp:
 	.text       start:0x801D6C4C end:0x801D6D60
 
-pso/unk/text_801D6D60.cpp:
-	.text       start:0x801D6D60 end:0x801D6D8C
-
-pso/unk/text_801D6D8C.cpp:
-	.text       start:0x801D6D8C end:0x801D6DB0
-
-pso/unk/text_801D6DB0.cpp:
-	.text       start:0x801D6DB0 end:0x801D6DC4
-
-pso/unk/TLobby_801D6DC4.cpp:
-	.text       start:0x801D6DC4 end:0x801D7134
-
-pso/unk/text_801D7134.cpp:
-	.text       start:0x801D7134 end:0x801D7238
-
-pso/unk/text_801D7238.cpp:
-	.text       start:0x801D7238 end:0x801D726C
-
-pso/unk/TLobby_801D726C.cpp:
-	.text       start:0x801D726C end:0x801D7860
+pso/network/LobbyRuleSettings.cpp:
+	.text       start:0x801D6D60 end:0x801D7860
 
 pso/player/DamageStatSlot.cpp:
 	.text       start:0x801D7860 end:0x801D78E4
