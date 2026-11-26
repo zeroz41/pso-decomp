@@ -30,6 +30,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 
@@ -139,8 +140,6 @@ void TLobby__sub_801B09A4(void);
 
 void request_active_window_close(void);
 void __destroy_new_array(void *, void *);
-void TAdSinglePlyChrSelectGC__sub_801C5120(void);
-void TAdSinglePlyChrSelectGC__sub_801C5158(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void __ct__19PlayerCharDataEntryFv(void);
@@ -157,18 +156,6 @@ extern s32 battle_intro_value_table[];
 
 extern char battle_intro_message_buffer[];
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
-extern "C" {
-
-
-void TAdSinglePlyChrSelectGC__sub_801C50C0(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C50CC();
-void TAdSinglePlyChrSelectGC__sub_801C50D8(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C50E4();
-void TAdSinglePlyChrSelectGC__sub_801C50F0(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
-void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
-u16 TAdSinglePlyChrSelectGC__sub_801C5114();
-}
 
 
 
@@ -756,8 +743,8 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
             idx = 5;
         } else {
             idx = 4;
-            s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-            TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
+            s = get_battle_disconnect_count() - 1;
+            set_battle_disconnect_count((u16)(s > 0 ? s : 0));
         }
         BattleIntroWindowSize p = {238.0f, 188.0f};
         window_4c = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
@@ -781,10 +768,10 @@ void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
     lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
-    TAdSinglePlyChrSelectGC__sub_801C5158();
+    TBattleProximitySound::clear_instance();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
-    TAdSinglePlyChrSelectGC__sub_801C5120();
+    clear_duel_result_window();
 }
 
 void free_char_slots(void) {
@@ -991,40 +978,40 @@ void record_local_battle_placement(void *arg0) {
         switch (slot) {
         case 0:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C5114();
+                u16 c = get_battle_first_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C5108(m);
+                set_battle_first_place_count(m);
             }
             break;
         case 1:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C50FC();
+                u16 c = get_battle_second_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C50F0(m);
+                set_battle_second_place_count(m);
             }
             break;
         case 2:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C50E4();
+                u16 c = get_battle_third_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C50D8(m);
+                set_battle_third_place_count(m);
             }
             break;
         case 3:
             {
-                u16 c = TAdSinglePlyChrSelectGC__sub_801C50CC();
+                u16 c = get_battle_fourth_place_count();
                 s32 m = 0xFFFF;
                 if (c + 1 < m) m = c + 1;
-                TAdSinglePlyChrSelectGC__sub_801C50C0(m);
+                set_battle_fourth_place_count(m);
             }
             break;
         }
     }
-    s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-    TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
+    s = get_battle_disconnect_count() - 1;
+    set_battle_disconnect_count((u16)(s > 0 ? s : 0));
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
@@ -1069,14 +1056,14 @@ void TPlayerBattleCtrl::init_battle_round() {
   TWindowCtrl::create_alt_timer();
   TWindowCtrl::set_timer_window_time(time_limit);
   TOMineTrap::destroy_matching_traps();
-  char_select_slot = TAdSinglePlyChrSelectGC::get_char_select_slot();
+  char_select_slot = get_battle_disconnect_count();
   char_select_slot = char_select_slot + 1;
   var_r3 = 0xFFFF;
   if (char_select_slot < var_r3)
   {
     var_r3 = char_select_slot;
   }
-  TAdSinglePlyChrSelectGC::set_slot((u16) var_r3);
+  set_battle_disconnect_count((u16) var_r3);
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
@@ -1139,7 +1126,7 @@ void TPlayerBattleCtrl::init() {
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
     TLobby__sub_8020BCE4();
-    TAdSinglePlyChrSelectGC::destroy();
+    TBattleProximitySound::destroy();
     destroy_floor_decoration_objects();
     i = 0;
     battle_ctrl_default = 0;
@@ -1184,7 +1171,7 @@ void finish_chr_select_scene_init(void) {
         reset_cameras_to_actor(player, 0);
     }
     ((TLobby *)tl_05)->destroy_matching_children();
-    TAdSinglePlyChrSelectGC::destroy();
+    TBattleProximitySound::destroy();
 }
 
 void TLobby::destroy_matching_children() {

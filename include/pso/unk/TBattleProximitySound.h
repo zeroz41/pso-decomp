@@ -3,17 +3,38 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-// Created by TAdSinglePlyChrSelectGC::create_if_key_pressed in the battle areas; run_task plays a proximity
-// sound by the distance from its owner to the nearest other player until its life runs out.
+struct TObjPlayer;
+
+// The battle sonar: using a sonar item (TWindowSubItem, TWindowShortListCtrl) creates it in the battle
+// areas; run_task plays a proximity sound by the distance from its owner to the nearest other player until
+// its life runs out.
 class TBattleProximitySound : public TObject {
 public:
     TBattleProximitySound(TObject *parent);
     virtual ~TBattleProximitySound();
     virtual void run_task();
+    // Creates the instance in the battle areas when none runs; returns 1 when it did.
+    static s32 create();
+    static void destroy();
+    static void clear_instance();
+    static TBattleProximitySound *instance;
     s32 life;
     s32 timer;
-    s32 owner;
+    TObjPlayer *owner;
 };
 LAYOUT_ASSERT(TBattleProximitySound_size, sizeof(TBattleProximitySound) == 0x28);
+
+// The active character's battle results (CharacterSaveRecord::online_battle): battles won in each place and
+// battles left early. Defined in the same unit as TBattleProximitySound.
+void set_battle_disconnect_count(u16 count);
+u16 get_battle_disconnect_count();
+void set_battle_fourth_place_count(u16 count);
+u16 get_battle_fourth_place_count();
+void set_battle_third_place_count(u16 count);
+u16 get_battle_third_place_count();
+void set_battle_second_place_count(u16 count);
+u16 get_battle_second_place_count();
+void set_battle_first_place_count(u16 count);
+u16 get_battle_first_place_count();
 
 #endif

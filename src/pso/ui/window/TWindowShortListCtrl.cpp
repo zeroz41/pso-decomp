@@ -25,7 +25,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"
@@ -246,7 +246,7 @@ void TWindowShortListCtrl::run_task() {
         }
         sel = list_window->get_cursor_value();
         if ((sel & 0xF) == 4) {
-            if (TAdSinglePlyChrSelectGC::create_if_key_pressed() == 0) {
+            if (TBattleProximitySound::create() == 0) {
                 break;
             }
             player->sonar_stock.consume(1);

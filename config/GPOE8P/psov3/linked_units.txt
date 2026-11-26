@@ -1563,7 +1563,7 @@ pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp
+pso/unk/TBattleProximitySound.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp
 pso/ui/frontend/TTextureWave.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp

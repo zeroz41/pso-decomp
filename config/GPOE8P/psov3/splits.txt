@@ -4609,7 +4609,7 @@ pso/unk/TLobby_801C4F80.cpp:
 	.text       start:0x801C4F80 end:0x801C50A8
 	.sdata2     start:0x805DC300 end:0x805DC304
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp:
+pso/unk/TBattleProximitySound.cpp:
 	.text       start:0x801C50A8 end:0x801C53D4
 	.data       start:0x804C3F48 end:0x804C3F60
 	.sbss       start:0x805D5DD0 end:0x805D5DD8

@@ -9,4 +9,9 @@ BattleRanking *get_battle_rankings(void);
 
 void show_duel_result_window(saddr gain, saddr duration);
 
+class TBattleMusicGainTask;
+// The battle music gain task show_duel_result_window runs; its dtor and clear_duel_result_window clear it.
+extern TBattleMusicGainTask *duel_result_window;
+void clear_duel_result_window();
+
 #endif

@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -642,7 +643,7 @@ void TPlayerBattleCtrl4P::reset_players() {
         }
     }
     destroy_dead_spots(tl_05);
-    TAdSinglePlyChrSelectGC::destroy();
+    TBattleProximitySound::destroy();
 }
 
 void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {

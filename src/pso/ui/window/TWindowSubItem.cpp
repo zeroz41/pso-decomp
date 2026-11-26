@@ -27,7 +27,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/ControllerInput.h"
@@ -378,7 +378,7 @@ void TWindowSubItem::run_task() {
                 this->state = 1;
             }
             p = get_player_by_client_id(this->client_id);
-            if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TAdSinglePlyChrSelectGC::create_if_key_pressed() != 0) {
+            if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TBattleProximitySound::create() != 0) {
                 p->sonar_stock.consume(1);
                 this->state = 1;
                 return;
