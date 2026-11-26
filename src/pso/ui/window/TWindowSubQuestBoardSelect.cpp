@@ -54,7 +54,7 @@ struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 
 // inferred: window_sub_quest_board_select_layout_entries, the layout table
-// TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
+// quest_board_select_window_parameters points at (two text entries, six slot sprites).
 struct SubQuestBoardSelectWindowLayout {
     u32 cols;
     u32 rows;
@@ -76,7 +76,7 @@ SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
         {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
     },
 };
-WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
+WindowDescriptor quest_board_select_window_parameters = {
     {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
 
@@ -286,7 +286,7 @@ u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push
 #pragma fp_contract on
-TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
+TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&quest_board_select_window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 title_width;
     WindowTextEntry *entry_0;
     WindowHeading *heading;

@@ -22,6 +22,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include <string.h>
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
@@ -31,7 +32,6 @@ typedef void (TAdEnterPPPPassGC::*StateHandler)();
 extern "C" {
 extern s32 password_entry_dispatch_state;
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
-void request_main_phase(int);
 }
 
 void TAdEnterPPPPassGC::render() {

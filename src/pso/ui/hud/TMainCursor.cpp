@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -56,6 +57,7 @@
 #include "pso/math/ScratchVectors.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/effect/TEffect.h"
+#include "pso/render/DebugFont.h"
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -75,8 +77,6 @@ extern const char *lock_on_start_task_name;
 extern "C" {
 
 void draw_chunk_object(void);
-
-s32 rotate_matrix_y(s32, s32);
 
 u8 get_cast_technique_level(void *, s32);
 s16 get_action_palette_mode(TObjPlayer *player, s32 index);
@@ -115,9 +115,6 @@ void *lock_on_list_clear_vtable[6] = {
 };
 
 
-extern "C" {
-f32 vec3_dot(void *, void *);
-}
 
 struct TLockOnCursor;
 
@@ -153,9 +150,6 @@ extern const f32 lbl_805DB0C4;
 
 
 
-extern "C" {
-
-}
 
 // TMainCursor and TLockOnCursor are one translation unit: their vtables and the lock-on tasks' sit
 // together in .data in reverse key-function order. Deferred code generation is switched on and off
@@ -1162,7 +1156,7 @@ void TMainCursor::render() {
 
 void TMainCursor::validate_target() {
     TObjPlayer *t;
-    unk_20.clear(0xB);
+    state_flags.clear(0xB);
     t = get_owner_player();
     if (t == NULL) {
         this->update_target_sub();
@@ -1550,7 +1544,7 @@ TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
 u16 CursorTarget::get_entity_id() { return entity_id; }
 
 
-void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->unk_20.set(2); }
+void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->state_flags.set(2); }
 
 u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
 
@@ -1575,19 +1569,19 @@ int CursorTarget::matches_id(u16 id) {
 
 CursorTarget *LockOnSelection::get_target() { return &target; }
 
-void TMainCursor::update_target_sub() { unk_20.set(1); }
+void TMainCursor::update_target_sub() { state_flags.set(1); }
 
 u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&unk_20, 2); }
+int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&state_flags, 2); }
 
-int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&unk_20, 8); }
+int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&state_flags, 8); }
 
-int TMainCursor::update() { return test_flags_any((s32 *)&unk_20, 4); }
+int TMainCursor::update() { return test_flags_any((s32 *)&state_flags, 4); }
 
-int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&unk_20, 1); }
+int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&state_flags, 1); }
 
 u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 
@@ -1595,7 +1589,7 @@ u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 s16 CursorTarget::get_target_id() { return target_id; }
 
 
-void TMainCursor::check_flag_4() { unk_20.set(4); }
+void TMainCursor::check_flag_4() { state_flags.set(4); }
 
 u8 TMainCursor::get_palette_slot() { return get_target_palette_slot(&target.palette_tag); }
 

@@ -16,6 +16,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803DD5E0.h"
 
 void draw_menu_text(f32 x, f32 y, const char *text, u32 color) {
     draw_menu_font_string(text, color, 0, x, y, 0.5f);
@@ -65,7 +66,6 @@ typedef struct Font_80145804 {
 } Font_80145804;
 
 extern "C" {
-s32 load_texture_list(NJS_TEXLIST *list);
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
 GinjaTextureInput menu_font_render_rects[2];
 NJS_TEXNAME lbl_8050C090[2];

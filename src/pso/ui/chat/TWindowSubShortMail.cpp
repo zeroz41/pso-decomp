@@ -33,6 +33,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -41,9 +42,6 @@ const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
 static const f32 short_mail_item_size[2] = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
-extern "C" {
-s32 *get_shared_text_buffer(void);
-}
 
 extern saddr tl_00;
 

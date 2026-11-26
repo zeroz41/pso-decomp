@@ -20,6 +20,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <string.h>
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
@@ -34,7 +35,6 @@ TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC::input_buffer = { 0 };
 extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
-void request_main_phase(s32 arg0);
 }
 
 void TAdEnterPasswordGC::render() {

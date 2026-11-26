@@ -82,7 +82,7 @@ extern "C" {
 }
 
 
-const char *TWindowCtrl__name = "TWindowCtrl";
+const char *TWindowCtrl::class_name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
 static const s16 split_open_times[6] = {0, 4, 8, 12, 0, 0};
 static const s16 open_times[4] = {24, 30, 36, 0};
@@ -253,7 +253,7 @@ void TWindowCtrl::shutdown() {
 
 TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TWindowCtrl__name;
+    m_name = TWindowCtrl::class_name;
     if (instance != NULL) {
         instance->queue_destruction();
     }

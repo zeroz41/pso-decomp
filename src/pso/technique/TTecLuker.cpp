@@ -420,7 +420,7 @@ TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(par
     switch (i)
     {
       case 2:
-        VecCopy((Vec *)&v, &ground_pos);
+        VecCopy(&v, &ground_pos);
         v.y += 1.8f;
         particles[i] = spawn_continuous_particle_effect_with_flags(&v, row[i], 0x40);
         if ((particles[i] != 0) && (id != 3))
@@ -437,7 +437,7 @@ TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(par
         break;
     }
   }
-  VecCopy((Vec *)&v2, &pos);
+  VecCopy(&v2, &pos);
   v2.y += 15.0f;
   if (is_split_screen() == 0)
   {

@@ -78,33 +78,33 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     scale = 0.5f;
     switch (arg1) {
     case 0:
-        new TTecZondeEff((TObject *)tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, 0.5f);
+        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, 0.5f);
         break;
     case 1:
         scale *= 1.2f;
-        new TTecZondeEff((TObject *)tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
+        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
         break;
     case 2:
         scale *= 1.4f;
-        new TTecZondeEff((TObject *)tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
+        new TTecZondeEff(tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
         break;
     case 3:
         for (j = 0; j < 3; j++) {
-            new TTecZondeEff((TObject *)tl_07, &strikes[j].pos, &strikes[j].dir, 0x14000000, 0x14, strikes[j].len, 0.5f);
+            new TTecZondeEff(tl_07, &strikes[j].pos, &strikes[j].dir, 0x14000000, 0x14, strikes[j].len, 0.5f);
         }
         break;
     case 4:
         scale *= 1.4f;
         for (k = 0; k < 3; k++) {
-            new TTecZondeEff((TObject *)tl_07, &strikes[k].pos, &strikes[k].dir, 0x14000000, 0x14, strikes[k].len, (f32)scale);
+            new TTecZondeEff(tl_07, &strikes[k].pos, &strikes[k].dir, 0x14000000, 0x14, strikes[k].len, (f32)scale);
         }
         break;
     case 5:
         for (m = 0; m < 14; m++) {
             if (m == 0) {
-                new TTecZondeEff((TObject *)tl_07, &strikes[m].pos, &strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 5.0f);
+                new TTecZondeEff(tl_07, &strikes[m].pos, &strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 5.0f);
             } else {
-                new TTecZondeEff((TObject *)tl_07, &strikes[m].pos, &strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 0.5f);
+                new TTecZondeEff(tl_07, &strikes[m].pos, &strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 0.5f);
             }
         }
         break;
@@ -331,7 +331,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         spawn_particle_effect(&node, 0xBE);
     }
     if (phase == 1) {
-        VecCopy((Vec *)&v, pos);
+        VecCopy(&v, pos);
         v.y += 100.0f;
         {
             Vec t = zonde_bolt_direction;

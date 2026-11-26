@@ -81,8 +81,8 @@
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_800F9B84.h"
+#include "pso/render/GinjaView.h"
 
-void set_screen_size(f32, f32);
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
 // before it (sync_mode_state).

@@ -82,10 +82,10 @@ void TWindowCheckBox::sync_level_field() {
 #pragma readonly_strings on
 
 
-const char *TWindowCheckBox__class_name = "TWindowCheckBox";
+const char *TWindowCheckBox::class_name = "TWindowCheckBox";
 
 void TWindowCheckBox::init_check_box(s32 client) {
-    this->m_name = TWindowCheckBox__class_name;
+    this->m_name = TWindowCheckBox::class_name;
     this->client_index = client;
 }
 
@@ -125,7 +125,7 @@ void TWindowCheckBox::run_task() {
     WindowHeading *status;
     WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *input2;
     ControllerInputContext *context;
     controller_index = is_player_input_active(((s32) this->client_index));
     if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
@@ -138,11 +138,11 @@ void TWindowCheckBox::run_task() {
                 this->move_cursor_next();
             }
         } else {
-            temp_r29_2 = &controller_input_state.controllers[controller_index];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            input2 = &controller_input_state.controllers[controller_index];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_cursor_next();
             }
         }

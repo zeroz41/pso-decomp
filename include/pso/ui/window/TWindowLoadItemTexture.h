@@ -9,6 +9,7 @@ struct NJS_TEXLIST;
 struct TItemData;
 
 struct TWindowLoadItemTexture : public TWindowBase {
+    static const char *class_name;
     TWindowLoadItemTexture(void *position, f32 *extent, s32 client);
     virtual ~TWindowLoadItemTexture();
     virtual void render();

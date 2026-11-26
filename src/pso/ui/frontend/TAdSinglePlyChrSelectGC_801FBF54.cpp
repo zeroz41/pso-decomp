@@ -106,20 +106,6 @@ u32 char_select_date_stamp[3];
 s32 chr_select_serial_seeds[2];
 s32 lbl_80513918[2];
 
-struct Hdr_801FBFD0 {
-    u32 sum;
-    u8 pad4[0x118 - 0x4];
-    s32 f118;
-    u8 pad11C[0x12C - 0x11C];
-};
-
-struct Buf_801FBFD0 {
-    u8 pad0[0x2048];
-    Hdr_801FBFD0 hdr;
-};
-
-struct Buf_801FBFD0;
-
 extern "C" {
 extern s32 memcard_access_active;
 
@@ -156,11 +142,11 @@ void TAdSinglePlyChrSelectGC::set_card_disk_id(s32 chan) {
 
 s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *out_value) {
     s32 ok;
-    Buf_801FBFD0 *buf;
+    u8 *buf;
     u32 sum;
     s32 v;
     u32 r;
-    Hdr_801FBFD0 *h;
+    SystemSaveData *h;
     if (poll_memcard_result(chan) != 0) {
         return 0;
     }
@@ -170,16 +156,16 @@ s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *out_value) {
     memcard_access_active = 1;
     TAdSinglePlyChrSelectGC::set_card_disk_id(chan);
     ok = 0;
-    buf = (Buf_801FBFD0 *)TQuestVmDownLoadServer::alloc(0x6000);
+    buf = (u8 *)TQuestVmDownLoadServer::alloc(0x6000);
     if (TAdSinglePlyChrSelectGC::load_player_slot(chan, memory_card_system_dir_name, buf) == 0 &&
         TAdSinglePlyChrSelectGC::wait_for_card_load(chan) == 1) {
-        h = &buf->hdr;
-        v = h->f118;
+        h = (SystemSaveData *)(buf + 0x2048);
+        v = h->serial_seed;
         ok = 1;
         *out_value = v;
-        sum = h->sum;
-        h->sum = 0;
-        r = calc_crc32_bitwise((u8 *)h, (u32)(sizeof(Hdr_801FBFD0)));
+        sum = h->checksum;
+        h->checksum = 0;
+        r = calc_crc32_bitwise((u8 *)h, 0x12CU);
         if (r != sum) {
             ok = 0;
         }
@@ -1004,55 +990,16 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct B1C_801FE010 { u32 w[7]; };
-
-struct B10_801FE010 { u32 w[4]; };
-
-struct B200_801FE010 { u32 w[0x80]; };
-
-struct B90_801FE010 { u32 w[0x24]; };
-
-struct B420_801FE010 { u32 w[0x108]; };
-
-struct BAC_801FE010 { u32 w[0x2B]; };
-
-struct B100_801FE010 { u32 w[0x40]; };
-
-struct B28_801FE010 { u32 w[0xA]; };
-
-struct B40_801FE010 { u32 w[0x10]; };
-
-struct S_801FE010 {
-    u32 a0, a4, a8, aC, a10, a14;
-    B1C_801FE010 b18;
-    B10_801FE010 b34;
-    B200_801FE010 b44;
-    u32 c244, c248, c24C;
-    BankItemRecord items[200];
-    B90_801FE010 d1510;
-    B420_801FE010 d15A0;
-    ChatShortcut slots[20];
-    BAC_801FE010 e2050;
-    BAC_801FE010 e20FC;
-    B1C_801FE010 e21A8;
-    B100_801FE010 e21C4;
-    B28_801FE010 e22C4;
-    B28_801FE010 e22EC;
-    B40_801FE010 e2314;
-    B1C_801FE010 e2354;
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct S_801FE010;
 struct B8_801FDFB8 { u32 w[2]; };
 
 struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
 extern "C" {
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
-S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S_801FE010 *source);
+CharacterSaveRecord *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(CharacterSaveRecord *dest, CharacterSaveRecord *source);
 
 }
 
@@ -1213,7 +1160,7 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *src_file, int
 #define src ((P_801FDFB8 *)a1)
 void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void *a0, void *a1) {
     TProtocol::copy_player_data(&dst->char_data, &src->char_data);
-    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv((S_801FE010 *)dst->a, (S_801FE010 *)src->a);
+    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv((CharacterSaveRecord *)dst->a, (CharacterSaveRecord *)src->a);
     dst->f278C = src->f278C;
     dst->f2794 = src->f2794;
     return a0;
@@ -1222,47 +1169,8 @@ void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void *a0, void *a1) {
 #undef src
 
 
-S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S_801FE010 *source) {
-    BankItemRecord *p;
-    BankItemRecord *q;
-    ChatShortcut *s;
-    ChatShortcut *t;
-    dest->a0 = source->a0;
-    dest->a4 = source->a4;
-    dest->a8 = source->a8;
-    dest->aC = source->aC;
-    dest->a10 = source->a10;
-    dest->a14 = source->a14;
-    dest->b18 = source->b18;
-    dest->b34 = source->b34;
-    dest->b44 = source->b44;
-    dest->c244 = source->c244;
-    dest->c248 = source->c248;
-    dest->c24C = source->c24C;
-    p = dest->items;
-    q = source->items;
-    do {
-        *p = *q;
-        p++;
-        q++;
-    } while (p < dest->items + 200);
-    dest->d1510 = source->d1510;
-    dest->d15A0 = source->d15A0;
-    s = dest->slots;
-    t = source->slots;
-    do {
-        *s = *t;
-        s++;
-        t++;
-    } while (s < dest->slots + 20);
-    dest->e2050 = source->e2050;
-    dest->e20FC = source->e20FC;
-    dest->e21A8 = source->e21A8;
-    dest->e21C4 = source->e21C4;
-    dest->e22C4 = source->e22C4;
-    dest->e22EC = source->e22EC;
-    dest->e2314 = source->e2314;
-    dest->e2354 = source->e2354;
+CharacterSaveRecord *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(CharacterSaveRecord *dest, CharacterSaveRecord *source) {
+    *dest = *source;
     return dest;
 }
 
@@ -1298,19 +1206,19 @@ s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, Characte
 }
 
 CardSlotSummary *get_secondary_slot_summary(u32 i) {
-    u8 *slot;
+    CharacterFile *view;
     if (i >= 7U) {
         return NULL;
     }
     if (TAdSinglePlyChrSelectGC::is_entry_valid(secondary_card_character_save_buffer, i) == 0) {
         return NULL;
     }
-    // The slot's bytes from the start of the file, its fields 4 bytes (the file header) further on.
-    slot = (u8 *)secondary_card_character_save_buffer + i * sizeof(CharacterFileSlot);
-    card_slot_summary.name = (const char *)(slot + 0x374);
-    card_slot_summary.level = *(s32 *)(slot + 0x368);
-    card_slot_summary.copied = *(u32 *)(slot + 0x2790);
-    card_slot_summary.play_time = *(s32 *)(slot + 0x42C);
+    // A file-shaped view that starts at slot i: its slots[0] is slot i of the file.
+    view = (CharacterFile *)((u8 *)secondary_card_character_save_buffer + i * sizeof(CharacterFileSlot));
+    card_slot_summary.name = view->slots[0].chardata.m_disp_part2.name;
+    card_slot_summary.level = view->slots[0].chardata.m_stats.level;
+    card_slot_summary.copied = view->slots[0].copied;
+    card_slot_summary.play_time = view->slots[0].record.play_time;
     return &card_slot_summary;
 }
 
@@ -1329,18 +1237,18 @@ TPlyCharData *TAdSinglePlyChrSelectGC::get_entry(int i) {
 
 
 CardSlotSummary *get_card_slot_summary(u32 i) {
-    u8 *slot;
+    CharacterFile *view;
     if (i >= 7U) {
         return NULL;
     }
     if (TAdSinglePlyChrSelectGC::is_entry_valid(card_character_save_buffer, i) == 0) {
         return NULL;
     }
-    // The slot's bytes from the start of the file, its fields 4 bytes (the file header) further on.
-    slot = (u8 *)card_character_save_buffer + i * sizeof(CharacterFileSlot);
-    card_slot_summary.name = (const char *)(slot + 0x374);
-    card_slot_summary.level = *(s32 *)(slot + 0x368);
-    card_slot_summary.copied = *(u32 *)(slot + 0x2790);
+    // A file-shaped view that starts at slot i: its slots[0] is slot i of the file.
+    view = (CharacterFile *)((u8 *)card_character_save_buffer + i * sizeof(CharacterFileSlot));
+    card_slot_summary.name = view->slots[0].chardata.m_disp_part2.name;
+    card_slot_summary.level = view->slots[0].chardata.m_stats.level;
+    card_slot_summary.copied = view->slots[0].copied;
     return &card_slot_summary;
 }
 

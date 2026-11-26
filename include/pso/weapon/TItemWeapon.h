@@ -52,7 +52,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual ~TItemWeapon();
     saddr get_tp();
     void update_active_game_effect();
-    void launch_rare_weapon_special(void *, s32, f32);
+    void launch_rare_weapon_special(Vec *, s32, f32);
     void fill_status_info(S_802E451C *params);
     void drain_owner_hp_fraction(f32);
     virtual void *get_center();

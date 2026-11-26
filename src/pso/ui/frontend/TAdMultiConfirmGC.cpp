@@ -13,17 +13,15 @@
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 extern "C" {
-void TAdMultiConfirmGC__sub_802E03D0(void *);
-void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
 }
-s32 is_multiplayer_character_slot_selected(s32 arg0);
 void TAdMultiConfirmGC::render() {  }
 
 void TAdMultiConfirmGC::run_task() {

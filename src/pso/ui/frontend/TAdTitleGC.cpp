@@ -14,6 +14,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 // The title banner textures: English (title_midashi_texnames_eng/78) and Japanese (title_midashi_texnames/98) name lists and texlists.
 NJS_TEXNAME title_midashi_texnames_eng[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };
@@ -24,9 +26,7 @@ NJS_TEXLIST title_midashi_texlist = { title_midashi_texnames, 2 };
 const char *ad_title_gc_class_name = "TAdTitleGC";
 
 extern "C" {
-u32 calc_text_width(char *s);
 uaddr title_midashi_texlist_current;
-saddr get_localized_text_entry(s32, s32);
 
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
 // these are written first and land last.

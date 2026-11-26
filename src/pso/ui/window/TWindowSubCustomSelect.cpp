@@ -34,7 +34,7 @@ struct Ent_802776D0 { u16 id; u16 sub; };
 
 
 // inferred: window_sub_custom_select_layout_entries, the layout table
-// TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
+// custom_select_window_settings points at (two sprite parts and a value entry).
 struct SubCustomSelectWindowLayout {
     u32 cols;
     u32 rows;
@@ -48,7 +48,7 @@ SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
     {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 3, 4},
     {4, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
 };
-WindowDescriptor TWindowSubCustomSelect__window_settings = {
+WindowDescriptor custom_select_window_settings = {
     {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
 };
 
@@ -244,7 +244,7 @@ const u32 custom_select_android_action_table[20] = {
 #pragma fp_contract on
 #pragma fp_contract on
 TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
-    : TWindowAddition((u8 *)&TWindowSubCustomSelect__window_settings,
+    : TWindowAddition((u8 *)&custom_select_window_settings,
                       static_cast<s16>(client), (u8 *)get_window_layout_position(0x10)) {
     NJS_POINT2 pos;
     Big_80277AEC *p;

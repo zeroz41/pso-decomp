@@ -24,6 +24,7 @@ class TWindowFukidasi;
 class TObjBase;
 
 struct TWindowCtrl : public TObject {
+    static const char *class_name;
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
     static TWindowCtrl *instance;

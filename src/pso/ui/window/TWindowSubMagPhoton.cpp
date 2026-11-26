@@ -70,7 +70,7 @@ const char *TWindowSubMagPhoton::class_name = "TWindowSubMagPhoton";
 
 
 // inferred: window_sub_mag_photon_layout_entries, the layout table
-// TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
+// mag_photon_layout_descriptor points at (a frame sprite and three photon blast icons).
 struct SubMagPhotonWindowLayout {
     u32 cols;
     u32 rows;
@@ -85,7 +85,7 @@ SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
         {6, {20.0f, 77.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &hud_texlist, 3, 4},
     },
 };
-WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
+WindowDescriptor mag_photon_layout_descriptor = {
     {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
 };
 
@@ -103,8 +103,8 @@ void TWindowSubMagPhoton::play_open_sound() {
 }
 
 void TWindowSubMagPhoton::update_selection_input() {
-    u8 temp_r3;
-    u8 temp_r3_2;
+    u8 index;
+    u8 index_after;
     ControllerInputContext *window_choice_setting;
     window_choice_setting = &controller_input_state.controllers[is_player_input_active(((s32) this->client_index))];
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
@@ -121,13 +121,13 @@ void TWindowSubMagPhoton::update_selection_input() {
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
             this->selected_blast_index = (this->selected_blast_index - 1);
         }
-        temp_r3 = this->selected_blast_index;
-        if ((s8) temp_r3 < 0) {
-            this->selected_blast_index = (temp_r3 + 3);
+        index = this->selected_blast_index;
+        if ((s8) index < 0) {
+            this->selected_blast_index = (index + 3);
         }
-        temp_r3_2 = this->selected_blast_index;
-        if ((s8) temp_r3_2 >= 3) {
-            this->selected_blast_index = (temp_r3_2 - 3);
+        index_after = this->selected_blast_index;
+        if ((s8) index_after >= 3) {
+            this->selected_blast_index = (index_after - 3);
         }
     }
 }
@@ -171,7 +171,7 @@ void TWindowSubMagPhoton::run_task() {
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
 TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *mag_state, s32 client)
-    : TWindowBase((u8 *)&TWindowSubMagPhoton__layout_descriptor, client, (u8 *)position) {
+    : TWindowBase((u8 *)&mag_photon_layout_descriptor, client, (u8 *)position) {
     m_name = class_name;
     copy_vec2(target_position, const_cast<NJS_POINT2 *>(position));
     save_position();

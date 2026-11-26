@@ -52,27 +52,27 @@ TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f3
 
 #pragma pop
 
-// inferred: TWindowLoadItemTexture__window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
-// TWindowLoadItemTexture__layout_entries, the layout table it points at.
+// inferred: load_item_texture_window_descriptor (passed to the TWindowBase constructor by the window's constructor) and
+// load_item_texture_layout_entries, the layout table it points at.
 struct LoadItemTextureWindowLayout {
     u32 cols;
     u32 rows;
     SpritePartLayoutRecord rec_0;
 };
 
-LoadItemTextureWindowLayout TWindowLoadItemTexture__layout_entries = {
+LoadItemTextureWindowLayout load_item_texture_layout_entries = {
     1, 1,
     {6, {-4.0f, -10.0f}, {0.0f, 0.0f}, 0.0f, 0.0f, 0.5f, -1, NULL, 0, 6},
 };
 
-WindowDescriptor TWindowLoadItemTexture__window_descriptor = {
-    {0.0f, 0.0f}, 38000.0f, &TWindowLoadItemTexture__layout_entries, 0x2B,
+WindowDescriptor load_item_texture_window_descriptor = {
+    {0.0f, 0.0f}, 38000.0f, &load_item_texture_layout_entries, 0x2B,
 };
 
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
+const char *TWindowLoadItemTexture::class_name = "TWindowLoadItemTexture";
 #pragma pop
 extern saddr tl_07;
 
@@ -111,8 +111,8 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
 }
 
 TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 client)
-    : TWindowBase((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)client, (u8 *)position) {
-    m_name = TWindowLoadItemTexture__name;
+    : TWindowBase((u8 *)&load_item_texture_window_descriptor, (s16)client, (u8 *)position) {
+    m_name = TWindowLoadItemTexture::class_name;
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
         draw_scale[1] = draw_scale[0] = 1.0f;

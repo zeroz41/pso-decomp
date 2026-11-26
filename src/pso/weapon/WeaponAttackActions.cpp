@@ -328,7 +328,7 @@ void TItemWeapon::fill_status_info(S_802E451C *params) {
     restore_action_type();
 }
 
-void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
+void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale) {
     CapturedTargetList *ext;
     Vec pos;
     f32 dist;
@@ -364,10 +364,10 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
-        vec3_add_to(&pos, (const Vec *)origin);
+        vec3_add_to(&pos, origin);
     }
     {
-        CsnHit *hit = csnVector((const Vec *)origin, &pos, 0x8100);
+        CsnHit *hit = csnVector(origin, &pos, 0x8100);
         if (hit != NULL) {
             dist = xyz_distance(origin, &hit->contact->point);
         } else {

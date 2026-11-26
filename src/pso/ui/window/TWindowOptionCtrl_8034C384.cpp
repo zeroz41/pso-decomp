@@ -34,7 +34,7 @@ TSnapshotFileSetup::~TSnapshotFileSetup() {
 
 void TSnapshotFileSetup::run_task() {
     s32 state;
-    s32 temp_r0_2;
+    s32 current_state;
     if (!(this->flags & 1)) {
         switch (TObjBoss2Tunnel::save_snapshot()) {
         case 1:
@@ -100,9 +100,9 @@ void TSnapshotFileSetup::run_task() {
             break;
         }
     }
-    temp_r0_2 = this->state;
+    current_state = this->state;
     {
-        switch (temp_r0_2) {
+        switch (current_state) {
         case 0:
         case 1:
             set_option_and_confirm(0, 1);

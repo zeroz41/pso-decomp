@@ -44,7 +44,7 @@ LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowActionPalette__name = "TWindowActionPalette";
+const char *TWindowActionPalette::class_name = "TWindowActionPalette";
 #pragma pop
 
 struct PaletteItemKind { u8 group; u8 index; };
@@ -134,7 +134,7 @@ WindowDescriptor twindow_action_palette_layout = {
 TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
     u32 i;
 
-    this->m_name = TWindowActionPalette__name;
+    this->m_name = TWindowActionPalette::class_name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale.x = 0.5f;
         this->scale.y = 0.5f;

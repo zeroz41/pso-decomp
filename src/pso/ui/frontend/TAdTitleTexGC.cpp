@@ -13,6 +13,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/ui/Language.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are written
 // in reverse address order; the data below stays in source order.
@@ -35,9 +36,6 @@ const char *TAdTitleTexGC::name = "TAdTitleTexGC";
 
 NJS_TEXLIST *player_tex_texture_list_ptr;
 
-extern "C" {
-extern const s32 current_language;
-}
 
 void load_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {

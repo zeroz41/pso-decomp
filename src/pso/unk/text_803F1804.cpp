@@ -26,9 +26,9 @@ uaddr set_si_polling_callback(uaddr callback) {
     previous = si_polling_callback;
     si_polling_callback = callback;
     if (callback != 0U) {
-        SIRegisterPollingHandler((void *) (((s32 *)call_si_polling_callback)));
+        SIRegisterPollingHandler((void *) ((call_si_polling_callback)));
     } else {
-        SIUnregisterPollingHandler((void *) (((s32 *)call_si_polling_callback)));
+        SIUnregisterPollingHandler((void *) ((call_si_polling_callback)));
     }
     return previous;
 }

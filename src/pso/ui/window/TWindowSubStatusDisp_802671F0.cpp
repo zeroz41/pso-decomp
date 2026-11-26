@@ -511,12 +511,12 @@ void TWindowMenuIconLine::start_scroll(f32 height) {
 }
 
 void TWindowSubStatusDisp::init_scroll_pos() {
-    u16 temp_r4;
+    u16 flags;
     void *temp;
 
-    temp_r4 = *(u16 *)((s8 *)this + 0x70);
-    if (!(temp_r4 & 0x20)) {
-        *(u16 *)((s8 *)this + 0x70) = (u16) (temp_r4 | 0x20);
+    flags = *(u16 *)((s8 *)this + 0x70);
+    if (!(flags & 0x20)) {
+        *(u16 *)((s8 *)this + 0x70) = (u16) (flags | 0x20);
         temp = (u16 *)this->get_array_entry((s16)((*(s16 *)((s8 *)this + 0x74))));
         this->target_size[1] = (f32) (20.0f + *(f32 *)((s8 *)temp + 0x14));
         if (this->window_flags & 0x40) {

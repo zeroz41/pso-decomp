@@ -54,7 +54,7 @@ struct TMainCursor : public TObject {
     void set_size(f32);
     // 0 = ring shrinking onto the target, 1 = steady, 2 = fading out.
     u32 phase;
-    FlagWord unk_20;
+    FlagWord state_flags;
     CursorOwner owner;
     u8 pad_26[0x2];
     // Resting height of the ring above the target, the minimum it shrinks to, and the height it starts from.

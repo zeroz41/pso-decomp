@@ -28,7 +28,7 @@ void TWindowSubLog::render() {  }
 
 void TWindowSubLog::run_task() {
     ControllerInputContext *context;
-    u8 *temp_r3;
+    u8 *scroll;
     if ((chat->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&submission) != 0)) {
         consume_active_flag(chat);
     }
@@ -47,8 +47,8 @@ void TWindowSubLog::run_task() {
     if ((test_previous_buttons_packed(context, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
         ((TAdScrollWinGC *)log_window)->advance_scroll(6.0f);
     }
-    temp_r3 = (u8 *)log_window;
-    if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
+    scroll = (u8 *)log_window;
+    if ((*(f32 *)((s8 *)scroll + 0x3C) == *(f32 *)((s8 *)scroll + 0x4C)) && ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
         play_sound_effect(0x52F16, 0, 0, 0);
         parent_menu->on_submenu_closed();
         parent_menu->clear_log_active();

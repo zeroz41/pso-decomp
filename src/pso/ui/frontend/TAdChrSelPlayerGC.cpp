@@ -17,6 +17,8 @@
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/unk/text_803D8F74.h"
 
 extern const char lbl_804728D0[] = "TAdChrSelPlayerGC";
 BmlResource *multi_ply_chr_select_resource_bundle;
@@ -66,10 +68,8 @@ extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(int, int);
 
 extern TObjMotionAction lbl_804E2F78[9];
 

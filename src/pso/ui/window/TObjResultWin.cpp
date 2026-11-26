@@ -114,15 +114,15 @@ void TObjResultWin::build_result_text() {
     }
 }
 void TObjResultWin::run_task() {
-    s32 temp_r0;
+    s32 countdown;
     if ((u32) m_window == 0U) {
         if (has_window_task_root() != 0) {
             create_window();
         }
     } else {
-        temp_r0 = m_countdown - 1;
-        m_countdown = temp_r0;
-        if (temp_r0 < 0) {
+        countdown = m_countdown - 1;
+        m_countdown = countdown;
+        if (countdown < 0) {
             m_countdown = 0;
         }
         if ((s32) m_close_requested != 0) {

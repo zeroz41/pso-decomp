@@ -10,7 +10,7 @@
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
-const char *TWindowKeyBoardHard__name = "TWindowKeyBoardHard";
+const char *TWindowKeyBoardHard::class_name = "TWindowKeyBoardHard";
 u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
 // The vowels and N/Y that take an accent, upper and lower case in pairs.
 const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
@@ -629,7 +629,7 @@ void TWindowKeyBoardHard::run_task() {
 
 TWindowKeyBoardHard::~TWindowKeyBoardHard() {}
 TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindowBase((u8 *)&keyboard_hard_window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB9))) {
-    this->m_name = TWindowKeyBoardHard__name;
+    this->m_name = TWindowKeyBoardHard::class_name;
     this->input_flags = 0;
     m_control = control;
     this->m_64 = 0;

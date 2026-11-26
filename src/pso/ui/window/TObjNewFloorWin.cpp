@@ -19,7 +19,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
-extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
+extern "C" { extern const char new_floor_window_class_name_string[16] = "TObjNewFloorWin"; }
 
 
 
@@ -81,7 +81,7 @@ void TObjNewFloorWin::open_window() {
 TObjNewFloorWin::~TObjNewFloorWin() {}
 
 
-const char *TObjNewFloorWin::class_name = TObjNewFloorWin__class_name_string;
+const char *TObjNewFloorWin::class_name = new_floor_window_class_name_string;
 
 TObjNewFloorWin::TObjNewFloorWin(TObject *object, s32 client_id) : TObject(object) {
     this->m_name = class_name;

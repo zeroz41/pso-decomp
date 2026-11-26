@@ -46,8 +46,8 @@ extern "C" {
 s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *words, char *buffer);
 s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *words, char *buffer, u16 player);
 s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *words, char *buffer, u16 player);
-s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *words, char *buffer, u16 player);
-s32 TWindowDD__sub_80345608(WordSelectMessage *words, char *buffer, u16 player);
+s32 format_french_message__9TWindowDDFPvPvUs(WordSelectMessage *words, char *buffer, u16 player);
+s32 format_spanish_message(WordSelectMessage *words, char *buffer, u16 player);
 }
 
 #endif

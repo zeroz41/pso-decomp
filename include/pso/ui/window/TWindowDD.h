@@ -176,20 +176,23 @@ void load_word_select_data(void);
 extern char *window_dd_buffer_a;
 extern char *window_dd_buffer_b;
 // Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
-extern char **TWindowDD__player_name_buffers;
+extern char **word_select_player_names;
 // Six word lists allocated as one block; their ids live in word_select_word_storage.
-extern TWindowDDValueList *TWindowDD__word_select_lists;
+extern TWindowDDValueList *word_select_lists;
 extern s16 *word_select_word_storage;
 // Word strings of the loaded ws_data archive and the string index of each word id.
 extern char **ws_word_strings;
 extern s16 *ws_word_string_index;
 extern s32 window_dd_element_count;
 extern s32 twindowdd_entry_count;
-extern TWindowDDValueList *TWindowDD__data_805D6E40;
-extern TWindowDDValueList *TWindowDD__data_805D6E44;
-extern u8 *TWindowDD__data_805D6E48;
+// Archive words 4-6 (not in Japanese): two variant lists for word ids 0x5AC-0x5F9, three inflected-form
+// lists for word ids 0x5FA-0x682 plus a list of words used without a lead-in, and the form (0-3) each
+// word id 0x2C9-0x552 selects. Names inferred from the formatters.
+extern TWindowDDValueList *ws_word_variant_lists;
+extern TWindowDDValueList *ws_word_form_lists;
+extern u8 *ws_word_form_index;
 // Spanish prefix categories, loaded from the word-select archive header.
-extern u8 *lbl_805D6E4C;
+extern u8 *ws_spanish_prefix_categories;
 // The loaded ws_data_<lang>.bin archives (French goes to TWindowDD::ws_data_buffer).
 extern void *ws_data_jp;
 extern void *ws_data_us;

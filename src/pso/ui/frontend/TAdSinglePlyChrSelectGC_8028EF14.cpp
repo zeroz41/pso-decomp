@@ -22,6 +22,9 @@
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_80290B3C.h"
+#include "pso/unk/text_80290BE0.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 
@@ -68,7 +71,6 @@ void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 memcard_access_active;
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
-void rotate_matrix_y(int, u32);
 s32 release_texture_list(void *);
 
 #pragma push
@@ -238,8 +240,6 @@ __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {
 }
 void load_creation_shape_rel(TCMCharacter *character);
 s32 scan_creation_resources(void *context);
-uaddr relocate_data_block_pointers(uaddr data, u32 size);
-void reset_character_creation_figure_rotation(void);
 
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint creation_shape_corners[9];
 #pragma defer_codegen on

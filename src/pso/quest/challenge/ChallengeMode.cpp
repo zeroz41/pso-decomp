@@ -878,7 +878,7 @@ void TChallenge::update_battle_cleanup_flag() {
 
 void TChallenge::create_time_window() {
     spawn_challenge_tombstones();
-    create_ch_time_win((TObject *)tl_07);
+    create_ch_time_win(tl_07);
     ((TLobby *)tl_07)->create_new_floor_windows();
     if (challenge_mode_state.solo_play_notice_shown == 0) {
         TObjSoloPlayWin::create((TObject*)tl_07);

@@ -31,7 +31,7 @@
 const char *keyboard_base_type_name_pointer = "TWindowKeyBoardBase";
 #pragma pop
 
-WindowDescriptor TWindowKeyBoardBase__window_descriptor = {
+WindowDescriptor keyboard_base_window_descriptor = {
     {0.0f, 0.0f}, 50026.0f, NULL, 0x23,
 };
 u32 keyboard_key_colors[3] = { 0x00000000, 0xC03040C0, 0x1030A0C0 };
@@ -916,7 +916,7 @@ void TWindowKeyBoardBase::run_task() {
 TWindowKeyBoardBase::~TWindowKeyBoardBase() {
     mem_free(candidate_buffer);
 }
-TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardBase__window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
+TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&keyboard_base_window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
     s32 language;
 
     this->m_name = keyboard_base_type_name_pointer;

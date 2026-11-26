@@ -170,8 +170,8 @@ void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     card = reinterpret_cast<saddr>(&cmd->card);
     if ((((s32 (*)(int))is_guild_card_invalid)(card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
         set_guild_card_receive_active();
-        if (((s32 (*)(int, void *, int))update_matching_card_slot)(card, TWindowGetComCard__received_guild_card_tags, 4) == 0) {
-            ((s32 (*)(int, void *, int))replace_matching_card)(card, TWindowGetComCard__received_guild_card_tags, 4);
+        if (((s32 (*)(int, void *, int))update_matching_card_slot)(card, received_guild_card_tags, 4) == 0) {
+            ((s32 (*)(int, void *, int))replace_matching_card)(card, received_guild_card_tags, 4);
         }
     }
 }
@@ -317,7 +317,7 @@ s32 fill_guild_card_from_short_mail(u8 *ply_guild_card_tag, s32 id) {
 s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
   unsigned char new_var;
   saddr player;
-  u8 *temp_r4;
+  u8 *player_tag;
   player = (saddr)get_player_by_client_id(client);
   if (player == 0)
   {
@@ -329,17 +329,17 @@ s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
   *((u8 *) (((s8 *) ply_guild_card_tag) + 0x8F)) = (u8) (*((u8 *) (((s8 *) player) + 0x88D)));
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8E)) = ((TObjPlayer *)player)->get_section_id();
   new_var = ((TObjPlayer *)player)->get_language();
-  temp_r4 = (u8 *)(player + 0xDAC);
+  player_tag = (u8 *)(player + 0xDAC);
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8D)) = new_var;
-  if (temp_r4 == 0)
+  if (player_tag == 0)
   {
     return 0;
   }
-  if (((u32) (*((u32 *) (((s8 *) temp_r4) + 4)))) == 0U)
+  if (((u32) (*((u32 *) (((s8 *) player_tag) + 4)))) == 0U)
   {
     return 0;
   }
-  __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(ply_guild_card_tag, temp_r4);
+  __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(ply_guild_card_tag, player_tag);
   return 1;
 }
 
@@ -351,16 +351,16 @@ void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
 }
 void TLobby::fill_guild_card_from_char(s32 index) {
     uaddr char_index;
-    u8 *temp_r31;
+    u8 *char_data;
     char_index = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(index);
     if (char_index != 0U) {
-        temp_r31 = (unsigned char *) (char_index + 0x370);
-        if (temp_r31 != NULL) {
+        char_data = (unsigned char *) (char_index + 0x370);
+        if (char_data != NULL) {
             *(u8 *)((s8 *)this + 0x8C) = (u8) (*(u8 *)((s8 *)this + 0x8C) | 1);
-            strncpy((char *)this + 8, (const char *)temp_r31, 0x17);
+            strncpy((char *)this + 8, (const char *)char_data, 0x17);
             *(s8 *)((s8 *)this + 0x1F) = 0;
-            *(u8 *)((s8 *)this + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
-            *(u8 *)((s8 *)this + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);
+            *(u8 *)((s8 *)this + 0x8F) = (u8) *(u8 *)((s8 *)char_data + 0x31);
+            *(u8 *)((s8 *)this + 0x8E) = (u8) *(u8 *)((s8 *)char_data + 0x30);
             *(s8 *)((s8 *)this + 0x8D) = (s8) current_language;
             if (protocol_instance != NULL) {
                 TPlyGuildCardTag *src = &protocol_instance->m_guildcard_tag;
@@ -375,30 +375,30 @@ void TLobby::fill_guild_card_from_char(s32 index) {
 s32 com_card_keyboard_mode;
 
 void TObjPlayer::set_com_card_window(s32 client) {
-    saddr temp_r31;
+    saddr guild_card;
     u32 character_save_record;
 
     com_card_keyboard_mode = 0;
     character_save_record = ((u32)get_character_save_record((u32)client));
     if (character_save_record != 0U) {
-        temp_r31 = character_save_record + 0x1510;
-        if (temp_r31 != 0) {
-            ((TLobby *)temp_r31)->fill_guild_card_from_char(client);
-            com_card_keyboard_mode = temp_r31;
+        guild_card = character_save_record + 0x1510;
+        if (guild_card != 0) {
+            ((TLobby *)guild_card)->fill_guild_card_from_char(client);
+            com_card_keyboard_mode = guild_card;
         }
     }
 }
 
-GuildCardEntry TWindowGetComCard__received_guild_card_tags[4];
+GuildCardEntry received_guild_card_tags[4];
 
 void remove_first_received_card(void) {
-    TWindowGetComCard::remove_entry(0, TWindowGetComCard__received_guild_card_tags, 4);
-    if (TWindowGetComCard__received_guild_card_tags[0].is_active() == 0) {
+    TWindowGetComCard::remove_entry(0, received_guild_card_tags, 4);
+    if (received_guild_card_tags[0].is_active() == 0) {
         destroy_com_card_window();
     }
 }
 GuildCardEntry *get_received_guild_card_tags(void) {
-    return TWindowGetComCard__received_guild_card_tags;
+    return received_guild_card_tags;
 }
 extern "C" {
 
@@ -415,7 +415,7 @@ void TWindowGetComCard::remove_entry(s32 index, GuildCardEntry *entries, s32 cou
 void clear_received_guild_cards(s32 _w0) {
     destroy_com_card_window();
     for (s32 i = 0; i < 4; i++) {
-        clear_entry_active_flag(&TWindowGetComCard__received_guild_card_tags[i]);
+        clear_entry_active_flag(&received_guild_card_tags[i]);
     }
 }
 void TWindowGetComCard__sub_8007B65C(void* p) { clear_received_guild_cards((saddr)p); }

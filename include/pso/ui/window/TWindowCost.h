@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMeseta.h"
 
 struct TWindowCost : public TWindowMeseta {
+    static const char *class_name;
     TWindowCost(void *position, s32 client, s32 text);
     virtual ~TWindowCost();
     virtual void run_task();

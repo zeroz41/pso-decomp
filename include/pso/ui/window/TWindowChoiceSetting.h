@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowMenuInfomation.h"
 
 struct TWindowChoiceSetting : public TWindowMenuInfomation {
+    static const char *class_name;
     TWindowChoiceSetting(void *parent, s32 rows);
     virtual ~TWindowChoiceSetting();
     void update_scroll_tween();

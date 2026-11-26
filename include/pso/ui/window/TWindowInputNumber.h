@@ -12,6 +12,7 @@ struct NJS_POINT2;
 class TWindowLayoutNumber;
 
 struct TWindowInputNumber : public TWindowBase {
+    static const char *class_name;
     s32 is_locked(s32);
     s32 test_input_flag(s32 buttons);
     void set_flag_40();

@@ -18,6 +18,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
 static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};
@@ -26,7 +27,6 @@ static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
 static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
-void *get_localized_text_entry(int, u32);
 
 void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;

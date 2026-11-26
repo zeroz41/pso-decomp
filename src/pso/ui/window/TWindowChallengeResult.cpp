@@ -17,7 +17,7 @@
 #pragma push
 #pragma readonly_strings on
 
-const char *TWindowChallengeResult__name = "TWindowChallengeResult";
+const char *TWindowChallengeResult::class_name = "TWindowChallengeResult";
 #pragma pop
 
 
@@ -68,7 +68,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
     ResultEntry *count;
     s32 hours;
 
-    m_name = TWindowChallengeResult__name;
+    m_name = TWindowChallengeResult::class_name;
     for (i = 0; i < 3; i++) {
         e = (WindowTextEntry *)get_array_entry(i * 2);
         set_text_entry_string(e, (uaddr)challenge_result_labels[i], 0);

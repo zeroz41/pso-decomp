@@ -4641,8 +4641,8 @@ void qst_op_npc_crt(void) {
     s32 *npc_addr;
     s32 npc_type;
     TLobby::free_luker_object();
-    npc_addr = (s32 *)qst_args;
-    npc_addr = (s32 *)qst_args;
+    npc_addr = qst_args;
+    npc_addr = qst_args;
     npc_type = qst_args[1];
     npc_addr = (s32 *)((u8 *)((s32 *)(uaddr) (u16) qst_args[0]));
     send_npc_create((saddr)npc_addr, npc_type);

@@ -145,7 +145,6 @@ StickEscapeDetector::StickEscapeDetector() {
 }
 
 s32 TKeyBoardControl::get_ascii_key() {
-  short new_var;
   s32 shift_held;
   s32 result;
   u8 key;
@@ -204,7 +203,7 @@ s32 TKeyBoardControl::get_ascii_key() {
       return result;
     case 0x3A:
       result = 0x3A;
-      if (new_var = shift_held != 0)
+      if (shift_held != 0)
     {
       return 0x2A;
     }

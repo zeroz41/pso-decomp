@@ -18,7 +18,7 @@ WindowDescriptor window_callback_base_params = {
     {0.0f, 0.0f}, 50045.0f, NULL, 0x23,
 };
 
-const char *TWindowCallBack__name = "TWindowCallBack";
+const char *TWindowCallBack::class_name = "TWindowCallBack";
 
 s32 TBoss6Type2::get_state() { return this->action_state; }
 s32 TBoss6Type1::get_gravity_attack_state() { return action_state; }
@@ -48,7 +48,7 @@ void TWindowCallBack::run_task() { update_window(); update_fade(); }
 TWindowCallBack::~TWindowCallBack() {}
 TWindowCallBack::TWindowCallBack(u8 *position, u8 *scale, WindowCallback callback_function)
     : TWindowBase((u8 *)&window_callback_base_params, 4, position) {
-    m_name = TWindowCallBack__name;
+    m_name = TWindowCallBack::class_name;
     copy_vec2(target_size, scale);
     save_position();
     set_field_60(callback_function);

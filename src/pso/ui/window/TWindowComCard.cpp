@@ -44,7 +44,7 @@ WindowDescriptor com_card_window_descriptor = {
     {206.0f, 180.0f}, 50100.0f, &com_card_layout_entries, 0x23,
 };
 
-const char *TWindowComCard__class_name = "TWindowComCard";
+const char *TWindowComCard::class_name = "TWindowComCard";
 void *com_card_status_text_table[6] = {
     (void *)"Jpn.", (void *)"Eng.", (void *)"Ger.", (void *)"Fr.",
     (void *)"Span.", (void *)"??????",
@@ -64,7 +64,7 @@ extern u8 *text_language_group_table;
 void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
 
 void TWindowComCard::set_help_mode(s32 help_mode) {
-    const ComCardHelpRect *temp_r4;
+    const ComCardHelpRect *rect;
 
     if (help_mode == 0xE) {
         *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
@@ -76,8 +76,8 @@ void TWindowComCard::set_help_mode(s32 help_mode) {
     } else {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
-    temp_r4 = &com_card_help_panel_rect_table[help_mode];
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), temp_r4->x, temp_r4->y);
+    rect = &com_card_help_panel_rect_table[help_mode];
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), rect->x, rect->y);
 }
 
 s32 get_class_name_text(s32 class_index) {
@@ -92,7 +92,7 @@ void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
 
 TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
     : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
-    m_name = TWindowComCard__class_name;
+    m_name = TWindowComCard::class_name;
     update_com_card_display(&entry_list, data);
 }
 

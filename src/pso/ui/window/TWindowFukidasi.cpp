@@ -61,10 +61,10 @@ s32 measure_message_text_width(int, f32);
 extern "C" {
 f32 vec3_dot(void *, void *);
 void rotate_matrix_y(s32, s32);
-__declspec(section ".rodata") extern const char TWindowFukidasi__class_name_string[] = "TWindowFukidasi";
+__declspec(section ".rodata") extern const char window_fukidasi_class_name_string[] = "TWindowFukidasi";
 }
 
-extern const u32 TWindowFukidasi__balloon_color_table[16] = {
+extern const u32 balloon_color_table[16] = {
     0xFFFFC8C8, 0xFFA2FF9D, 0xFFFBFFB5, 0xFFB0F8FF, 0xFFD1ADFF, 0xFFFFBF7C, 0xFFA5B6FB, 0xFFFFB99C,
     0xFF90D29B, 0xFF8BB5EE, 0xFFFFB5DA, 0xFFFFFF8C, 0xFFE6E8CA, 0xFFDEFFBD, 0xFFC6C2FF, 0xFFFFE1EB,
 };
@@ -73,7 +73,7 @@ extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
-const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
+const char *window_fukidasi_class_name = window_fukidasi_class_name_string;
 
 extern "C" {
 
@@ -609,7 +609,7 @@ void TWindowFukidasi::set_color(u16 color) {
     this->balloon_color = 0xFFF8F8F8;
     TObjChara *chara;
     if (((u32)color < 0xCU) && ((chara = get_player_by_client_id((u32)color)) != 0) && (chara->obj_isState3_324() == 0)) {
-        this->balloon_color = (s32) TWindowFukidasi__balloon_color_table[(u16)color];
+        this->balloon_color = (s32) balloon_color_table[(u16)color];
     }
 }
 

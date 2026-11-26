@@ -35,25 +35,25 @@ TWindowSubAreaMap::TWindowSubAreaMap(TObject *parent, s32 client) : TObject(pare
 }
 
 void TWindowSubAreaMapDisp::update_manual_scroll() {
-    ControllerInputContext *temp_r31;
+    ControllerInputContext *pad;
     if ((s32) this->m_6c != 0) {
-        temp_r31 = &controller_input_state.controllers[0];
-        if ((test_previous_buttons_packed(temp_r31, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
+        pad = &controller_input_state.controllers[0];
+        if ((test_previous_buttons_packed(pad, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
             this->m_64 += 6.0f;
         }
-        if ((test_previous_buttons_packed(temp_r31, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
+        if ((test_previous_buttons_packed(pad, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
             this->m_64 -= 6.0f;
         }
-        if ((test_previous_buttons_packed(temp_r31, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
+        if ((test_previous_buttons_packed(pad, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
             *(f32 *)&this->unk_60 += 6.0f;
         }
-        if ((test_previous_buttons_packed(temp_r31, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
+        if ((test_previous_buttons_packed(pad, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
             *(f32 *)&this->unk_60 -= 6.0f;
         }
-        if (test_previous_buttons_packed(temp_r31, 0x20000) != 0) {
+        if (test_previous_buttons_packed(pad, 0x20000) != 0) {
             *(f32 *)&this->unk_68 -= 6.0f;
         }
-        if (test_previous_buttons_packed(temp_r31, 0x10000) != 0) {
+        if (test_previous_buttons_packed(pad, 0x10000) != 0) {
             *(f32 *)&this->unk_68 += 6.0f;
         }
         TRaderMapCore::pan_horizontal((f32) (*(f32 *)&this->unk_60));

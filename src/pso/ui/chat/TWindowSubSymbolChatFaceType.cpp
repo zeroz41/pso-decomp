@@ -17,6 +17,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/unk/TLobby_800FD78C.h"
 extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
 
@@ -39,7 +40,6 @@ void TWindowSubSymbolChatFaceType::confirm_selection() {
 
 extern "C" {
 
-extern s32 actor_frame_tick;
 
 
 void TWindowSubSymbolChatFaceType::handle_input() {

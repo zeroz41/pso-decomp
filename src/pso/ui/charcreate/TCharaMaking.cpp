@@ -32,6 +32,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -208,7 +209,6 @@ extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {

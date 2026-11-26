@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct TWindowSubEquipKind : public TWindowMenuIconLine {
+    static const char *class_name;
     TWindowSubEquipKind(u8 *parent, s32 client);
     virtual ~TWindowSubEquipKind();
     void draw_tab_label(void *);
@@ -17,7 +18,7 @@ struct TWindowSubEquipKind : public TWindowMenuIconLine {
 
 LAYOUT_ASSERT(TWindowSubEquipKind_size, sizeof(TWindowSubEquipKind) == 0x8C);
 
-extern const char *TWindowSubEquipKind__class_name;
+extern const char *TWindowSubEquipKind::class_name;
 
 struct NJS_POINT2;
 
