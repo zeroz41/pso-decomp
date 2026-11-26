@@ -36,7 +36,6 @@ struct GameStateSyncScratch {
 };
 LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
 LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
-struct GameJoinPlayerRecord { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
 /* 6x70: an extended subcommand header and the sending player's sync record. */
 struct PlayerSyncPacket {
     G_ClientIDHeader header;

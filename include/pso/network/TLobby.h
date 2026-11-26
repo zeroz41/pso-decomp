@@ -10,6 +10,7 @@ struct AsyncFileReadRequest;
 struct EnemySetRecord;
 struct ServerMenuEntry;
 class TLobbyIdleTimer;
+struct GameStateSyncScratch;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
 struct G_ClientIDHeader;
@@ -147,8 +148,6 @@ struct TLobby : public TObject {
     static void update_keyboard_menu();
     static void clear_counters();
     static void disconnect_protocol();
-    void bswap_fields();
-    void bswap_header_3words();
     static char *init_serial_access();
     static void create_map_csn_ctrl();
     static s32 is_status_zero();
@@ -261,8 +260,8 @@ struct TLobby : public TObject {
     static void release_bg_multi_textures();
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
-    void send_6x71_to_player();
-    void send_6x6D_item_state();
+    static void send_6x71_to_player(s32 client_id);
+    static void send_6x6D_item_state(s32 client_id);
     static void make_players();
     static u8 lookup_table_value(s8 x);
     bool is_slot_match();
@@ -409,8 +408,8 @@ struct TLobby : public TObject {
     static s32 parse_color_code(char *s);
     void destroy_matching_children();
     static void destroy_download_server(TObject *fade);
-    void send_compressed_packet_6c();
-    void send_cmd_6B();
+    static void send_compressed_packet_6c(s32 client_id);
+    static void send_cmd_6B(s32 client_id);
     u8 *create_new_floor_windows();
     static void append_float_value(s32 reg);
     static void append_int_param(s32 reg);
@@ -435,10 +434,9 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static void *bsearch_record(void *, int, int);
-    static void bswap_6x6E_sync_game_state(void*);
+    static void bswap_6x6E_sync_game_state(GameStateSyncScratch *);
     static void bswap_and_handle_packet(void *packet, int size);
     static void bswap_header_fields(void *header);
-    static void bswap_inventory(void*);
     static void bswap_player_data(PlayerSyncRecord *record);
     static s32 change_file_extension(char *dest, char *filename, char *ext);
     static void close_all_windows(void *);
@@ -564,7 +562,6 @@ struct TLobby : public TObject {
     static s32 block_number;  // from the 0x67 lobby join packet
     static s32 join_lobby_idle_timer;
     static s32 player_setup_pending;
-    static u32 join_entries[3252];  // 12 TPlyJoinLobbyEntry
     static s16 pending_local_client_id;  // add_lobby_members' client id, for construct_lobby_players
     static s32 date_seconds;
     static s32 card_list_selected_index;

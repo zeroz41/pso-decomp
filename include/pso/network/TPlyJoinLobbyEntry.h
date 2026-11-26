@@ -42,7 +42,7 @@ void copy_gc_tag(gc_tag *dst, gc_tag *src);
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_join_entry_message(s32 id);
-void show_dialog_value_line(saddr text);
+void show_dialog_value_line(const char *text);
 extern "C" {
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
 void *__ct__13GameListEntryFv(void *entry);

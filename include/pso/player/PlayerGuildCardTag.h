@@ -13,6 +13,7 @@ struct PlayerGuildCardTag {
     u32 guildcard_number;
 
     PlayerGuildCardTag();
+    void bswap();
 };
 
 #endif

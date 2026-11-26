@@ -17,6 +17,7 @@ struct PlayerPkState {
     void enable();
     PlayerPkState();
     void reset();
+    void bswap();
 };
 
 LAYOUT_ASSERT(PlayerPkState_size, sizeof(PlayerPkState) == 0x8);
