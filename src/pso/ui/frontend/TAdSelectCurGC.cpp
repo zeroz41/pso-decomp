@@ -10,7 +10,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/ui/frontend/TAdSelectCurGC_802AED98.h"
+
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
@@ -115,14 +115,11 @@ NJS_TEXNAME select_cursor_eng_texture_entry = {"f256_ad_eng", 0, NULL};
 NJS_TEXLIST select_cursor_eng_texture_list = {&select_cursor_eng_texture_entry, 1};
 NJS_TEXNAME select_cursor_texture_entry = {"f256_ad", 0, NULL};
 NJS_TEXLIST select_cursor_texture_list = {&select_cursor_texture_entry, 1};
-/* inferred: TObject name the constructor stores */
 const char *TAdSelectCurGC::name = "TAdSelectCurGC";
 NJS_TEXLIST *menu_selection_cursor_texture_list;
 
-extern "C" {
+// Read once: the language cannot change while the texture loads.
 extern const s32 current_language;
-void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
-}
 
 void TAdSelectCurGC::run_task() {
     s32 ok;
@@ -198,8 +195,8 @@ TAdSelectCurGC::TAdSelectCurGC(TObject *parent, const NJS_POINT2 *position, cons
     : TObject(parent) {
     s32 i;
     m_name = TAdSelectCurGC::name;
-    copy_vec2__FPvPv(&entry_positions[0], position);
-    copy_vec2__FPvPv(&cursor_size, size);
+    copy_vec2(&entry_positions[0], const_cast<NJS_POINT2 *>(position));
+    copy_vec2(&cursor_size, const_cast<NJS_POINT2 *>(size));
     selected_index = 0;
     entry_count = 0;
     confirmation = 0;

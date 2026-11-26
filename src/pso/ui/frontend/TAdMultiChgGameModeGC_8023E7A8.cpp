@@ -56,7 +56,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlyPltAnimGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
-#include "pso/ui/frontend/TAdSelectCurGC_802AED98.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
