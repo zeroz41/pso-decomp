@@ -13,10 +13,10 @@ struct PointLight;
 struct LightEntry;
 
 extern "C" {
-TQuestThread *TLobby__sub_80134A20(void *p);
+TQuestThread *create_quest_stats_thread(void *p);
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1);
 }
-void TObjLight__sub_801337FC(void *light);
+void init_light_stub(void *light);
 void init_area_lights(void);
 void init_map_lights(LightEntry *entry);
 // Sets the diffuse colour of the scene light.

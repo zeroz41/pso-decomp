@@ -116,7 +116,7 @@ void TWindowDuelResult::build_stats_page() {
     set_default_status(c, get_localized_text_entry(0x10, 5));
     pl = get_player_by_client_id(client_index);
     if (pl != 0) {
-        set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), (uaddr)pl->appearance.name, 0x20);
+        set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), pl->appearance.name, 0x20);
         vals[0] = pl->battle_score.kills.get_total();
         vals[1] = pl->battle_score.deaths.get_total();
         vals[2] = pl->battle_score.damage_given.get_total();
@@ -178,11 +178,11 @@ void TWindowDuelResult::build_ranking_page() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
-            set_text_entry_string((WindowTextEntry *)c, (uaddr)player->appearance.name, 0x20);
+            set_text_entry_string((WindowTextEntry *)c, player->appearance.name, 0x20);
             text_builder_reset();
             text_builder_append_int(e->score);
-            text_builder_append((const char *)get_localized_text_entry(0x10, 0xD));
-            set_text_entry_string(d, (uaddr)get_shared_text_buffer(), 0x20);
+            text_builder_append(get_localized_text_entry(0x10, 0xD));
+            set_text_entry_string(d, get_shared_text_buffer(), 0x20);
             measure_message_text_width_default(d);
             d->x = (372.0f) - d->width;
         }

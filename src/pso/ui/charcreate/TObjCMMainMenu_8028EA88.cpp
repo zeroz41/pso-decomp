@@ -3,7 +3,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

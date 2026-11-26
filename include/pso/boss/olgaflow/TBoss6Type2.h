@@ -51,7 +51,7 @@ struct TBoss6Type2Joint {
     s32 aim_angle;
 };
 
-struct Boss6Type2MotionBlock;
+struct MotionIndexBlock;
 
 // Where the body walks to: the heading and position a 6xA5 action decodes.
 struct Boss6Type2MoveTarget {
@@ -326,7 +326,7 @@ struct TBoss6Type2 : public TObjEnemy
     void act_niramu();
     void update_info_stat();
     void act_wait();
-    static Boss6Type2MotionBlock *copy_block(Boss6Type2MotionBlock *d, const Boss6Type2MotionBlock *s);
+    static MotionIndexBlock *copy_block(MotionIndexBlock *d, const MotionIndexBlock *s);
     void pick_walk_target(Boss6GridBytes *grid);
     void change_motion(s32 motion);
     void spawn_sword_wave();
@@ -350,7 +350,7 @@ struct TBoss6Type2 : public TObjEnemy
     static TBoss6Type2Motion motion_table[15];
     static const s32 initial_actor_flag_masks[4];
     static const s32 player_hit_rock_indices[6];
-    static const Boss6Type2ParticleAttachment particle_attachment_table[14];
+    static const ParticleAttachment particle_attachment_table[14];
     static const s32 no_target_sound_ids[4];
     static const char * name;
     static const s32 initial_rotation[3];

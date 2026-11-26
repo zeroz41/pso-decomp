@@ -96,7 +96,7 @@ TObjBoss5Pillar *TObjBoss5Pillar::create(Vec *pos) {
 }
 
 extern "C" {
-void TObjBoss5Pillar__sub_8028B70C(void) {  }
-void TObjBoss5Pillar__sub_8028B710(void) {  }
+void pillar_update_stub(void) {  }
+void pillar_forward_stub(void) {  }
 
 }

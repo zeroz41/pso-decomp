@@ -48,7 +48,7 @@ const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
-TItemAttackColBase::TItemAttackColBase(TObject *parent, ItemAttackColParams *params) : TObject(parent) {
+TItemAttackColBase::TItemAttackColBase(TObject *parent, AttackColParams *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
     body.offset.y = 0.0f;
@@ -208,7 +208,7 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     return 0;
 }
 
-void reset_attack_params(ItemAttackColParams *params) {
+void reset_attack_params(AttackColParams *params) {
     params->position.x = 0.0f;
     params->position.y = 0.0f;
     params->position.z = 0.0f;

@@ -129,7 +129,7 @@ struct TWindowSubComCard : public TObject {
     void send_find_user_for_selected_card();
     static TWindowSubComCardList *send_cmd_133();
     static TWindowSubComCardList *init_layout();
-    void *get_message_10(s32 index);
+    const char *get_message_10(s32 index);
 };
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);

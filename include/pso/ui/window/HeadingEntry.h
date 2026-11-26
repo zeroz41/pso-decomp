@@ -11,7 +11,7 @@ __declspec(section ".data") extern NJS_TEXLIST f256_hyouji_texlist;
 // A heading line of a window (text, position, width) that reveals its text over time.
 class HeadingEntry {
 public:
-    HeadingEntry(f32 *position, saddr title, s8 entry_state, s32 client_id);
+    HeadingEntry(f32 *position, const char *title, s8 entry_state, s32 client_id);
     ~HeadingEntry();
     void update_color();
     void set_state(s8 entry_state);
@@ -20,7 +20,7 @@ public:
     void advance_reveal();
     s32 is_enabled(); // flags bit 0 clear: drawn white in state 0, else grey
 
-    saddr text;
+    const char *text;
     f32 x;
     f32 y;
     f32 width;
@@ -36,7 +36,7 @@ public:
 // The title heading a window keeps above its frame.
 class WindowHeading : public HeadingEntry {
 public:
-    WindowHeading(saddr title, s32 client_id);
+    WindowHeading(const char *title, s32 client_id);
     ~WindowHeading();
     void render(WindowDrawContext *context);
     void update();

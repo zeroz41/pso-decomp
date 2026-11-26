@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 // Weapon overrides and the collider constructor share this shot record.
-struct WeaponEffectDescriptor : ItemAttackColParams {
+struct WeaponEffectDescriptor : AttackColParams {
     s32 rotation_y;
     Vec direction;
     f32 speed;

@@ -20,7 +20,7 @@ void TAdSnAkPassConfirmGC::render() {
     render_dialog();
 }
 
-saddr TAdSnAkPassConfirmGC::get_message_text() { return get_localized_text_entry(39, 0); }
+const char *TAdSnAkPassConfirmGC::get_message_text() { return get_localized_text_entry(39, 0); }
 void TAdSnAkPassConfirmGC::on_no_chosen() { if (info_window != NULL) { info_window->close(); info_window = NULL; } }
 void TAdSnAkPassConfirmGC::on_yes_chosen() { if (info_window != NULL) { info_window->close(); info_window = NULL; } }
 void TAdSnAkPassConfirmGC::on_cancel() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }

@@ -12,7 +12,7 @@
 #include "pso/network/NetworkInfoCodec.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/McFsGc.h"
-#include "pso/network/NetworkInfoOpen.h"
+#include "pso/network/NetworkConfig.h"
 
 extern char default_provider_name_0[];
 extern char default_provider_name_1[];

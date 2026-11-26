@@ -5260,7 +5260,9 @@ s32 TBoss1Dragon::isV2Mode() {
 }
 
 void copy_xyz(void *dst, void *src) {
-    ((u32 *)dst)[0] = ((u32 *)src)[0];
-    ((u32 *)dst)[1] = ((u32 *)src)[1];
-    ((u32 *)dst)[2] = ((u32 *)src)[2];
+    u32 *src_u32 = (u32 *)src;
+    u32 *dst_u32 = (u32 *)dst;
+    dst_u32[0] = src_u32[0];
+    dst_u32[1] = src_u32[1];
+    dst_u32[2] = src_u32[2];
 }

@@ -21,9 +21,9 @@ public:
     virtual ~LabelValueRow();
     virtual void update();
     virtual void render(WindowDrawContext *context);
-    void set_string(void *string);
-    void set_text(void *label_text, void *string, s32 id);
-    void set_text(uaddr label_text, s32 id);
+    void set_string(const char *string);
+    void set_text(const char *label_text, const char *string, s32 id);
+    void set_text(const char *label_text, s32 id);
     s32 get_entry_id();
     int is_flag_4_set();
     // LabelValueRow's copy of TWindowLayoutEntry::is_flag80_set (next to get_entry_id).

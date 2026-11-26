@@ -28,10 +28,17 @@ enum quest_suspend_reason {
     QST_WAIT_ITEM_CHOICE       = 12, // item id to a register, -1 on cancel
 };
 
+// One quest VM cell: opcodes read it as an integer, a float or an address.
+union QuestValue {
+    s32 i;
+    f32 f;
+    void *p;
+};
+
 struct QuestVmContext {
     u8 *code;
     s32 *function_table;
-    s32 *registers;
+    QuestValue *registers;
     TWindowMessageQuest *message_window;
     TWindowMenu *list_window;
     u8 result_register;
@@ -71,8 +78,8 @@ extern saddr qst_pc;
 extern s32 qst_call_stack[64];
 extern s32 qst_call_stack_depth;
 // r0-r255 / f0-f255 quest VM register table
-extern s32 *qst_registers;
-extern saddr qst_args[8];
+extern QuestValue *qst_registers;
+extern QuestValue qst_args[8];
 extern s32 qst_arg_count;
 extern quest_suspend_reason qst_suspend_reason;
 // register a finished wait writes its result into

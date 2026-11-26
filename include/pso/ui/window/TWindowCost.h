@@ -6,7 +6,7 @@
 
 struct TWindowCost : public TWindowMeseta {
     static const char *class_name;
-    TWindowCost(void *position, s32 client, s32 text);
+    TWindowCost(void *position, s32 client, const char *text);
     virtual ~TWindowCost();
     virtual void run_task();
     void set_cost(s32 cost);

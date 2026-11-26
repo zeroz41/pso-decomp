@@ -5,7 +5,7 @@
 
 void draw_loading_compass(void);
 void render_info_icon_overlay(void);
-void draw_info_icon_overlay(void);
+void draw_loading_overlay(void);
 void free_info_icon_texture(void);
 void load_info_icon(void);
 

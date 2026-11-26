@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/network/NetworkInfoOpen.h"
+#include "pso/network/NetworkConfig.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoCodec.h"
 #include <dolphin/os/OSAlloc.h>

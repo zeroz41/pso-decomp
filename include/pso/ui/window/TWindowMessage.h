@@ -27,7 +27,7 @@ struct TWindowMessage : public TWindowAddition {
     void retire_scrolled_lines();
     void advance_reveal_cursor();
     void scroll_up_line(u8 *line_entry);
-    int append_line(int text, int mode);
+    int append_line(const char *text, int mode);
     static TWindowMessage *create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client);
     static TWindowMessage *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
     s32 oldest_line;
@@ -44,7 +44,7 @@ struct TWindowMessage : public TWindowAddition {
     void update_line_timers();
 };
 
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
+s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color);
 
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);

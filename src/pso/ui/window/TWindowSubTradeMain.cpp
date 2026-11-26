@@ -144,6 +144,7 @@ void TWindowSubTradeMain::run_task() {
     s32 player;
     saddr entry;
     saddr n;
+    const char *error_text;
     player = is_player_input_active(this->client_id);
     if (this->chat->is_mode_bit4() != 0 && chat_accept_submission((saddr)&this->submission) != 0) {
         consume_active_flag(this->chat);
@@ -449,9 +450,9 @@ void TWindowSubTradeMain::run_task() {
         if (this->menu != NULL) {
             this->menu->request_close();
         }
-        if ((n = TLobby::check_trade_items_and_show_error()) != 0) {
+        if ((error_text = TLobby::check_trade_items_and_show_error()) != 0) {
             if (this->dialog == NULL) {
-                this->dialog = open_option_dialog_thunk(n);
+                this->dialog = open_option_dialog_thunk(error_text);
             }
             this->state = 0x1C;
         } else {
@@ -532,12 +533,12 @@ void TWindowSubTradeMain::render() {  }
 
 TWindowMenu *TWindowSubTradeMain::build_trade_menu() {
   TWindowMenu *titled_window_menu;
-  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), client_id);
-  titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
-  titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
-  titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
-  titled_window_menu->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDD), 6, 0x14, (int) 0xFFEE946E);
-  titled_window_menu->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
+  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x5C), 5, (0, TWindowSubStatusDisp::get_message_10(0x26)), client_id);
+  titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
+  titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
+  titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
+  titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDD), 6, 0x14, (int) 0xFFEE946E);
+  titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   titled_window_menu->update_layout_height(282.0f);
   align_menu_entry_positions(titled_window_menu);
   return titled_window_menu;
@@ -545,11 +546,11 @@ TWindowMenu *TWindowSubTradeMain::build_trade_menu() {
 
 TWindowMenu *TWindowSubTradeMain::create_trade_menu() {
   TWindowMenu *titled_window_menu;
-  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), client_id);
-  titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
-  titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
-  titled_window_menu->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
-  titled_window_menu->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
+  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x5E), 4, (0, TWindowSubStatusDisp::get_message_10(0xDD)), client_id);
+  titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
+  titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
+  titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
+  titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   titled_window_menu->update_layout_height(282.0f);
   align_menu_entry_positions(titled_window_menu);
   return titled_window_menu;
@@ -558,8 +559,8 @@ TWindowMenu *TWindowSubTradeMain::create_trade_menu() {
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, client_id, NULL, NULL);
     open_yes_no_prompt(window,
-        reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
-        reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE6)),get_window_layout_position(0x5F), 282.0f);
+        TWindowSubStatusDisp::get_message_10(0x20),
+        TWindowSubStatusDisp::get_message_10(0xE6),get_window_layout_position(0x5F), 282.0f);
     window->set_menu_selected_index(1);
     return window;
 }
@@ -571,14 +572,14 @@ TWindowMessageYesNo *TWindowSubTradeMain::update_from_lobby() {
 }
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_status_window() {
-    return open_option_dialog(reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xF7)));
+    return open_option_dialog(TWindowSubStatusDisp::get_message_10(0xF7));
 }
 
-TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog_thunk(saddr message) {
+TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog_thunk(const char *message) {
     return open_option_dialog(message);
 }
 
-TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog(saddr message) {
+TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog(const char *message) {
     TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(this, client_id, NULL, NULL);
     initialize_option_dialog(dialog, message, get_window_layout_position(0x5F), 282.0f);
     return dialog;
@@ -587,8 +588,8 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog(saddr message) {
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, client_id, NULL, NULL);
     open_yes_no_prompt(window,
-        reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
-        reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE4)),get_window_layout_position(0x5F), 282.0f);
+        TWindowSubStatusDisp::get_message_10(0x20),
+        TWindowSubStatusDisp::get_message_10(0xE4),get_window_layout_position(0x5F), 282.0f);
     window->set_menu_selected_index(1);
     return window;
 }
@@ -601,7 +602,7 @@ TWindowSubEquipKind *TWindowSubTradeMain::create_trade_window() {
         return 0;
     }
     w = create_equip_kind_window(get_window_layout_position(0x60), &trade_window_pos, client_id);
-    w->ensure_status_display((saddr)p->get_name());
+    w->ensure_status_display(p->get_name());
     w->set_trade_state(0);
     w->refresh_trade_item_list(get_trade_offer_items()->entries);
     w->deactivate();
@@ -617,7 +618,7 @@ TWindowSubEquipKind *TWindowSubTradeMain::open_trade_equip_window() {
         return 0;
     }
     w = create_equip_kind_window(get_window_layout_position(0x61), &trade_equip_window_pos, client_id);
-    w->ensure_status_display((saddr)p->get_name());
+    w->ensure_status_display(p->get_name());
     w->set_trade_state(0);
     w->refresh_trade_item_list(get_trade_window_state()->entries);
     w->deactivate();
@@ -629,7 +630,7 @@ TWindowSubEquipKind *TWindowSubTradeMain::create_list() {
     TWindowSubEquipKind *equip_kind_window;
 
     equip_kind_window = create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->client_id);
-    equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
+    equip_kind_window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x24));
     equip_kind_window->refresh_trade_item_list(get_trade_list_items()->entries);
     equip_kind_window->set_depth(get_main_menu_layer_depth(reinterpret_cast<u8 *>(parent_menu), 2));
     return equip_kind_window;
@@ -637,7 +638,7 @@ TWindowSubEquipKind *TWindowSubTradeMain::create_list() {
 
 TWindowInputNumber *TWindowSubTradeMain::create_input_number(s32 maximum) {
     TWindowInputNumber *window = new TWindowInputNumber(get_window_layout_position(0x5D), 1, maximum, 1, (s16)client_id);
-    window->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
+    window->create(TWindowSubStatusDisp::get_message_10(0x28));
     window->set_value(282.0f);
     return window;
 }

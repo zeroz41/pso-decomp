@@ -88,11 +88,11 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         }
     }
 }
-void disable_pack_item_rows(TWindowMenuIconLine *qst_pack_select_window, s32 item) {
+void disable_pack_item_rows(TWindowMenuIconLine *window, s32 item) {
     s32 i;
     ItemListRow *row;
-    for (i = 0; i < qst_pack_select_window->entry_capacity; i++) {
-        row = static_cast<ItemListRow *>(qst_pack_select_window->get_array_entry(i));
+    for (i = 0; i < window->entry_capacity; i++) {
+        row = static_cast<ItemListRow *>(window->get_array_entry(i));
         if (row->is_flag_4_set() != 0 && item == row->get_item()) {
             row->category_style = 0xFFAAAAAA;
             row->style = 0xFF909090;

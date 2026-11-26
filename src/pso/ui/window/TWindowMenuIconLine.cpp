@@ -188,7 +188,7 @@ void TWindowMenuIconLine::add_list_entry(s32 message) {
     }
 }
 
-void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s32 item) {
+void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, const char *src, s32 item) {
     u8 status_icon;
     u8 category_icon;
 
@@ -256,7 +256,7 @@ void TWindowMenuIconLine::refresh_selected_entry(s32 play_sound) {
     }
 }
 
-void TWindowMenuIconLine::add_status_entry(s8 flags, s32 src, s32 item) {
+void TWindowMenuIconLine::add_status_entry(s8 flags, const char *src, s32 item) {
     u8 category_icon;
     s16 index = entry_count;
 
@@ -279,7 +279,7 @@ void TWindowMenuIconLine::add_status_entry(s8 flags, s32 src, s32 item) {
     }
 }
 
-void TWindowMenuIconLine::append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows) {
+void TWindowMenuIconLine::append_entry(s32 flag, const char *src, s32 item, s32 extra_flag, s32 space_rows) {
     ItemListRow *row;
     s32 i;
     f32 k;
@@ -355,7 +355,7 @@ void TWindowMenuIconLine::add_ground_item(TItemData *item, s32 index) {
     }
 }
 
-void TWindowMenuIconLine::add_text_entry(s32 text, s32 id) {
+void TWindowMenuIconLine::add_text_entry(const char *text, s32 id) {
     if (entry_count < entry_capacity) {
         ItemListRow *entry = (ItemListRow *)get_array_entry(entry_count);
         entry->init_display(text, id);
@@ -487,7 +487,7 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     }
 }
 
-void TWindowMenuIconLine::ensure_status_display(s32 title) {
+void TWindowMenuIconLine::ensure_status_display(const char *title) {
     WindowHeading *heading;
 
     if (this->status_display == NULL) {
@@ -743,7 +743,7 @@ void TWindowMenuInfomation::disable_entry_by_id(s32 id) {
         }
     }
 }
-void TWindowMenuInfomation::set_entry_string_by_id(void *string, s32 entry_id) {
+void TWindowMenuInfomation::set_entry_string_by_id(const char *string, s32 entry_id) {
     s32 i;
     LabelValueRow *e;
     for (i = 0; i < entry_capacity; i++) {
@@ -754,7 +754,7 @@ void TWindowMenuInfomation::set_entry_string_by_id(void *string, s32 entry_id) {
     }
 }
 
-void TWindowMenuInfomation::update_next_entry(void *label, void *string, s32 id) {
+void TWindowMenuInfomation::update_next_entry(const char *label, const char *string, s32 id) {
     s16 next_row;
 
     next_row = next_entry;
@@ -764,7 +764,7 @@ void TWindowMenuInfomation::update_next_entry(void *label, void *string, s32 id)
     }
 }
 
-void TWindowMenuInfomation::add_text_entry(uaddr label_text, s32 id) {
+void TWindowMenuInfomation::add_text_entry(const char *label_text, s32 id) {
     s16 next_row;
 
     next_row = next_entry;

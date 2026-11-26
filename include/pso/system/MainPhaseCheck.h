@@ -5,7 +5,7 @@
 #include "pso/system/MainPhaseState.h"
 
 extern "C" {
-s32 fn_8000F740(MainPhaseState *state);
+s32 is_game_scene_phase(MainPhaseState *state);
 }
 
 #endif

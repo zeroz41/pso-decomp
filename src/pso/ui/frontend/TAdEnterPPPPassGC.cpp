@@ -119,7 +119,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
 }
 
 void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
-    prompt_window = TAdEnterSerialAccessGC::show_message_window(this, (void *)3);
+    prompt_window = TAdEnterSerialAccessGC::show_message_window(this, 3);
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
@@ -152,7 +152,7 @@ void TAdEnterPPPPassGC::run_task() {
 }
 
 void TAdEnterPPPPassGC::set_password(const char *password) {
-    if ((has_broadband_adapter() != 0) && (is_state_active() != 0)) {
+    if ((has_broadband_adapter() != 0) && (is_pppoe_selected() != 0)) {
         set_ppp_password(password);
         return;
     }
@@ -177,14 +177,14 @@ TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     }
     ok = 0;
     if (has_broadband_adapter() != 0) {
-        if (is_state_active() != 0) {
+        if (is_pppoe_selected() != 0) {
             if (*get_ppp_password() != 0) {
                 ok = 1;
             }
         } else {
             ok = 1;
         }
-    } else if (adapter_supports_connection(1) != 0 && *get_modem_user_name() != 0) {
+    } else if (has_network_adapter(1) != 0 && *get_modem_login_password() != 0) {
         ok = 1;
     }
     if (ok != 0) {

@@ -18,7 +18,7 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     virtual void run_task();
     virtual void on_accept();
     virtual void on_cancel();
-    virtual saddr get_message_text();
+    virtual const char *get_message_text();
 };
 
 LAYOUT_ASSERT(TAdSnAkPassConfirmGC_size, sizeof(TAdSnAkPassConfirmGC) == 0x4C);

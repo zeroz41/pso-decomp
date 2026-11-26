@@ -17,6 +17,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/system/task/DestructorChain.h"
 
 
 // 0 while the scene tree is drawn for geometry, particles and UI; 1 during
@@ -26,11 +27,6 @@ u32 render_pass = 1;
 // The original's static initializer sits before the weak copies of the
 // TObject inlines this unit emits, which no compiler-generated __sinit
 // reproduces, so the destructor chain and __sinit are spelled out.
-struct DestructorChain {
-    DestructorChain *next;
-    void *destructor;
-    void *object;
-};
 #pragma suppress_init_code on
 #pragma no_static_dtors on
 DestructorChain main_task_dtor_chain;

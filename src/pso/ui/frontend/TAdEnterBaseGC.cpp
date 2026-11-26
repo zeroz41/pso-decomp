@@ -149,7 +149,7 @@ void TAdEnterBaseGC::create_parts() {
 void TAdEnterBaseGC::run_task() {  }
 
 void TAdEnterBaseGC::get_title_position(Position *position) {
-    u32 half_width = calc_text_width((char *)get_localized_text_entry(23, 4)) >> 1;
+    u32 half_width = calc_text_width(get_localized_text_entry(23, 4)) >> 1;
     f32 offset = half_width;
     f32 x = enter_base_text_anchor[0];
     offset = x - offset;
@@ -270,9 +270,9 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
     return (u8 *)"";
 }
 
-TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, void *message_index) {
+TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, s32 message_index) {
     TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
-    window->append_line(get_localized_text_entry(0x17, (saddr)message_index), 1);
+    window->append_line(get_localized_text_entry(0x17, message_index), 1);
     return window;
 }
 
@@ -302,11 +302,11 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
 
 void render_entry_window(void *window, void *context) {
     ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
-    draw_menu_text_scaled(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
+    draw_menu_text_scaled(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {
     case 0:
     case 1:
-        fn_8032AC94();
+        entry_window_render_stub();
         return;
     case 2:
         draw_entry_field_box();
@@ -319,7 +319,7 @@ void render_entry_window(void *window, void *context) {
 
 void TAdEnterBaseGC::render() {  }
 
-void fn_8032AC94(void) {  }
+void entry_window_render_stub(void) {  }
 
 void draw_entry_field_box(void) {
     ChrSelPlateLayout layout;

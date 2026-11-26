@@ -12,7 +12,7 @@ struct BmlResource;
 struct TOBind : public TObjCollidable {
     TOBind(void *set_data);
     virtual ~TOBind();
-    void sub_80158608();
+    void run_task_stub();
     void update_motion();
     u8 pad_AC[0x4];
     u32 triggered;

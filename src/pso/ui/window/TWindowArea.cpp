@@ -51,11 +51,11 @@ TWindowArea *create_window_area() {
 
 #pragma push
 #pragma fp_contract on
-TWindowArea *create_area_window(void *text) {
+TWindowArea *create_area_window(const char *text) {
     TWindowArea *object;
     WindowTextEntry *title_entry;
     object = new TWindowArea();
-    ((TWindowSubStatusDisp *)object)->set_entry_display_value((saddr)text);
+    ((TWindowSubStatusDisp *)object)->set_entry_display_value(text);
     hide_window(object);
     title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
     title_entry->x = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
@@ -76,7 +76,7 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
     append_padded_number((count), (2U));
     text_builder_append("/");
     append_padded_number((total), (2U));
-    this->set_entry_display_value((saddr) (get_shared_text_buffer()));
+    this->set_entry_display_value(get_shared_text_buffer());
     TWindowSubStatusDisp::count_ratio_value = count;
 }
 

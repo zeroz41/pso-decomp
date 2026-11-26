@@ -99,7 +99,7 @@ TargetCandidate enemy_target_candidate_table[4];
 #include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
-int fn_800FD8A0(void*);
+int is_stored_target(void*);
 }
 
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
@@ -260,7 +260,7 @@ s32 pack_debug_text_position(s32 x, s32 y) {
     return ((x + 0x13) << 0x10) | (y + 0x1A);
 }
 
-int TObjEneDD::get_target_info() { return fn_800FD8A0(this); }
+int TObjEneDD::get_target_info() { return is_stored_target(this); }
 
 void TObjEneDD::init_common_from(TObjBase *source) {
     reset_state_fields();
@@ -272,7 +272,7 @@ void TObjEneDD::init_common_from(TObjBase *source) {
 
 void TObjEnemy::submit_default_cursor_candidate() { submit_cursor_candidate(this, -1); }
 
-void TBoss8Dragon__sub_800BB7DC(void *self) {  }
+void enemy_death_stub(void *self) {  }
 
 void debug_effect_hook_scaled(void *self, s32 id, f32 scale) {  }
 
@@ -1016,9 +1016,9 @@ s32 TObjEneDD::clamp_frame_index(s32 frame) {
     return idx;
 }
 
-void TObjEneDD__sub_800B9B24(f32) {}
+void lappy_render_scale_stub(f32) {}
 
-void TObjEneDD::init_lights() { current_scene_light->debug_scene_light_hook(); TObjLight__sub_801337FC(lbl_805D555C); }
+void TObjEneDD::init_lights() { current_scene_light->debug_scene_light_hook(); init_light_stub(lbl_805D555C); }
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {

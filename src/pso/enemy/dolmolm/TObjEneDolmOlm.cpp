@@ -933,7 +933,7 @@ void TObjEneDolmOlm::spawn_ground_effects(Vec *pos) {
     }
 }
 void TObjEneDolmOlm::run_demo_task() {  }
-s32 TObjEneDolmOlm__sub_80300CF0(void) {
+s32 max_difficulty_level_stub(void) {
     return 0x7FFFFFFF;
 }
 void TObjEneDolmOlm::reset_count() { multi_chr_select_state = 0; }

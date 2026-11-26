@@ -68,7 +68,7 @@ void TWindowSubComCardList::refresh_page() {
         if (card->is_active() == 0) {
             break;
         }
-        this->add_text_entry((saddr)card->get_name(), 7, index);
+        this->add_text_entry(card->get_name(), 7, index);
     }
     if (this->get_entry_count() <= 0) {
         switch ((s8)this->empty_message) {

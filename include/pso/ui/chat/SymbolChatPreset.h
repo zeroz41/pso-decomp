@@ -59,7 +59,7 @@ extern u8 pending_symbol_chat_count;
 
 void clear_received_symbol_chat(void);
 
-void release_received_symbol_chat(void);
+void symbol_chat_on_floor_free_stub(void);
 
 struct G_SymbolChat_6x07;
 

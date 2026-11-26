@@ -460,10 +460,10 @@ void TWindowMenu::open() {
 }
 
 void add_gray_text_entry(TWindowMenu *list, const char *text, s32 kind, s32 id) {
-    list->add_text_entry((saddr)text, kind | 0x10, id, 0xFF909090);
+    list->add_text_entry(text, kind | 0x10, id, 0xFF909090);
 }
 
-s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
+s32 TWindowMenu::add_text_entry(const char *text, s32 flags, s32 id, s32 color) {
     s16 row_index;
     WindowTextEntry *entry;
     TWindowMenuRow *row;
@@ -507,7 +507,7 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
     return 1;
 }
 
-s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id) {
+s32 TWindowMenu::add_text_entry(const char *text, s32 flags, s32 id) {
     return add_text_entry(text, flags, id, -1);
 }
 
@@ -519,19 +519,19 @@ TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char
   TWindowMenu *window_menu = create_window_menu(position, 2, id);
   if (yes_text == NULL)
   {
-    window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5B)), 6, 0);
+    window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5B)), 6, 0);
   }
   else
   {
-    window_menu->add_text_entry((saddr)yes_text, 6, 0);
+    window_menu->add_text_entry(yes_text, 6, 0);
   }
   if (no_text == NULL)
   {
-    window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5C)), 6, 1);
+    window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5C)), 6, 1);
   }
   else
   {
-    window_menu->add_text_entry((saddr)no_text, 6, 1);
+    window_menu->add_text_entry(no_text, 6, 1);
   }
   window_menu->calc_window_size();
   if (window_menu->frame_size[0] < 104.0f)
@@ -555,7 +555,7 @@ TWindowMenu *create_window_menu_default(const NJS_POINT2 *pos, s32 entries) {
     return create_window_menu(pos, entries, 4);
 }
 
-TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, saddr title, s32 client_id) {
+TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, const char *title, s32 client_id) {
     TWindowMenu *menu = create_window_menu(position, count, client_id);
     WindowHeading *heading = new WindowHeading(title, client_id);
     menu->heading = heading;
@@ -563,7 +563,7 @@ TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, sa
     return menu;
 }
 
-TWindowMenu *create_titled_window_menu_default(const NJS_POINT2 *pos, s32 entries, saddr title) {
+TWindowMenu *create_titled_window_menu_default(const NJS_POINT2 *pos, s32 entries, const char *title) {
     return create_titled_window_menu(pos, entries, title, 4);
 }
 

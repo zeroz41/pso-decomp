@@ -82,7 +82,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     s32 is_timer_expired();
     void handle_defeat();
     static void spawn_defeat_effects();
-    s32 sub_8004B07C();
+    s32 force_action_stub();
     void set_fade(s32 color, f32 alpha);
     void place_players_on_ring();
     void place_players_for_demo();

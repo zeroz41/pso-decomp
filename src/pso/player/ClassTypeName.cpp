@@ -5,7 +5,7 @@
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
-saddr get_class_type_name(s32 class_flags) {
+const char *get_class_type_name(s32 class_flags) {
     if (class_flags & CLASS_FLAG_HUNTER) {
         return get_message_text(3);
     }
@@ -18,6 +18,6 @@ saddr get_class_type_name(s32 class_flags) {
     return 0;
 }
 
-saddr select_main_menu_item_10(s32 id) {
+const char *select_main_menu_item_10(s32 id) {
     return get_localized_text_entry(0xA, id);
 }

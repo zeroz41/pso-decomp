@@ -62,7 +62,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/PlayerSlots.h"
@@ -392,7 +392,7 @@ void TBoss6PlotFalz::spawn_player_hit_effects() {
     TObjPlayer *p;
     s32 i;
     f32 k;
-    if (check_boss6_thanks_ship_door() != 0) {
+    if (is_boss6_ship_door_open() != 0) {
         play_sound_effect(0x40033231, 0, 0, 0);
         k = 12.5f;
         for (i = 0; i < registered_player_count; i++) {

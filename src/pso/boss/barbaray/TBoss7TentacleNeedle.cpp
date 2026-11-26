@@ -501,6 +501,7 @@ void TBoss7TentacleNeedle::destroy_instance() {
 #pragma push
 #pragma fp_contract on
 TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(parent) {
+    s32 *pos_s32 = (s32 *)pos;
     m_name = boss7_tentacle_needle_name_ptr;
     unk_34 = 1e-05f;
     rotation[0] = 0;
@@ -512,10 +513,10 @@ TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(
     state = 0;
     timer = 0;
     s32 w0; s32 w1; s32 w2; s32 v[3];
-    w2 = ((s32 *)pos)[0];
+    w2 = pos_s32[0];
     w0 = w2;
-    w1 = ((s32 *)pos)[1];
-    w2 = ((s32 *)pos)[2];
+    w1 = pos_s32[1];
+    w2 = pos_s32[2];
     v[0] = w0;
     v[1] = w1;
     v[2] = w2;

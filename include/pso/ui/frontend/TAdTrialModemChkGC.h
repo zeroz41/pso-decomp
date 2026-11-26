@@ -9,7 +9,7 @@ struct TAdTrialModemChkGC : public TAdWarningBaseGC {
     static const char *name;
     TAdTrialModemChkGC(TObject *parent);
     virtual ~TAdTrialModemChkGC();
-    virtual saddr get_message_text();
+    virtual const char *get_message_text();
     virtual void on_close();
     static void init_modem_check_phase();
     static void check_modem_result();
@@ -36,9 +36,9 @@ s32 set_modem_trial_param(s16 value);
 extern "C" {
 // Resets the shared-memory connect parameters to the modem check defaults.
 s32 init_modem_check_params();
-s32 TAdTrialModemChkGC__sub_8042F080(s16 value);
-s32 TAdTrialModemChkGC__sub_8042F0D4(s8 value);
-s32 fn_8042EF48(s8 value);
+s32 set_connect_param_1C2(s16 value);
+s32 set_connect_param_13D(s8 value);
+s32 set_disc_messages_byte0(s8 value);
 }
 
 #endif

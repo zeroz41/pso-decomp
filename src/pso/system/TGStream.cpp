@@ -69,8 +69,8 @@ char *gsl_archive_path_buffer_ptr = (char *)gsl_archive_entries;
 saddr gstream_tmp_buffer;
 AdxfHandle *gsl_adxf_handle;
 s32 gsl_entry_count;
-s32 TItemDrop__data_805D53CC;
-s32 TItemDrop__data_805D53D0;
+s32 gsl_archive_write_mode;
+s32 gsl_archive_write_started;
 s32 gstream_read_offset;
 s32 gstream_buffer_read_offset;
 s32 gstream_buffer_valid_size;
@@ -200,7 +200,7 @@ void reset_gstream_buffer(void) {
     gstream_buffer_read_offset = 0x40000;
 }
 
-void TGStream__sub_800FDD64(void) {  }
+void async_file_read_stub(void) {  }
 
 s32 TGStream::get_file_size() { return gstream_file_size; }
 GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
@@ -221,17 +221,17 @@ GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
 void close_gsl_archive(void) {
     char buf[32];
     s32 n;
-    if (TItemDrop__data_805D53CC == 0) {
+    if (gsl_archive_write_mode == 0) {
         ADXF_Close(gsl_adxf_handle);
         gsl_adxf_handle = 0;
     } else {
         n = strlen(gsl_archive_path_buffer_ptr);
         if (n > 0) {
             TLobby::change_file_extension(buf, gsl_archive_filename, (char *)"txt");
-            fn_800F93B4(buf, gsl_archive_entries, n);
+            on_gsl_archive_close(buf, gsl_archive_entries, n);
         }
-        TItemDrop__data_805D53D0 = 0;
-        TItemDrop__data_805D53CC = 0;
+        gsl_archive_write_started = 0;
+        gsl_archive_write_mode = 0;
     }
 }
 
@@ -239,7 +239,7 @@ void open_gsl_archive(char *name) {
     GslArchiveEntry *e;
     s32 i;
     strncpy(gsl_archive_filename, name, 0x20);
-    if (TItemDrop__data_805D53CC == 0) {
+    if (gsl_archive_write_mode == 0) {
         gsl_adxf_handle = ADXF_Open(name, 0);
         if (gsl_adxf_handle != 0) {
             TGStream::reset();
@@ -263,7 +263,7 @@ void open_gsl_archive(char *name) {
         }
     } else {
         gsl_entry_count = 0;
-        TItemDrop__data_805D53D0 = 1;
+        gsl_archive_write_started = 1;
         *gsl_archive_path_buffer_ptr = 0;
     }
 }
@@ -377,14 +377,14 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
     }
 }
 
-void TItemDrop__sub_800FE2D8(void) {  }
+void free_chr_select_stub(void) {  }
 
 void reset_gstream_globals(void) {
     gstream_tmp_buffer = 0;
     gsl_adxf_handle = 0;
     gsl_archive_filename[0] = 0;
-    TItemDrop__data_805D53CC = 0;
-    TItemDrop__data_805D53D0 = 0;
+    gsl_archive_write_mode = 0;
+    gsl_archive_write_started = 0;
     gsl_entry_count = 0;
 }
 GslArchiveEntry gsl_archive_entries[256];

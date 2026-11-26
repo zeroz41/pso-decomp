@@ -108,7 +108,7 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
     d = to->slots;
     s = from->slots;
     do {
-        TAdSinglePlyChrSelectGC__sub_80202D7C(d, s);
+        copy_character_file_slot(d, s);
         d++;
         s++;
     } while (d < &to->slots[7]);
@@ -120,7 +120,7 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
 
 #define dst ((P_801FDFB8 *)a0)
 #define src ((P_801FDFB8 *)a1)
-void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
+void *copy_character_file_slot(void *a0, void *a1) {
     dst->char_data = src->char_data;
     ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
     dst->copy_stamp = src->copy_stamp;

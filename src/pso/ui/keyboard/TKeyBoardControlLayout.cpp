@@ -79,7 +79,7 @@ void TKeyBoardControl::set_sub_position(u8 *pos) {
     m_base->save_position();
 }
 
-void TKeyBoardControl::set_text(char *s) {
+void TKeyBoardControl::set_text(const char *s) {
     m_base->set_text(s);
 }
 

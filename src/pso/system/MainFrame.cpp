@@ -13,7 +13,7 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/charcreate/CreationResourceFree.h"
 
-void stop_audio_and_free_resources(void) {
+void exit_main_menu_scene(void) {
     s32 *task;
     TLobby::stop_audio_streams();
     task = (s32 *)&main_task;

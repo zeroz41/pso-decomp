@@ -144,7 +144,7 @@ void unload_item_drop_globals();
 // A random value below count from rng.
 s32 item_drop_rng_below(SubtractiveRng *rng, u32 count);
 
-u8 TItemDrop__sub_80107B04(void *lobby);
+u8 default_rule_value_stub(void *lobby);
 
 struct DifficultyLetters { char *n[4]; };
 

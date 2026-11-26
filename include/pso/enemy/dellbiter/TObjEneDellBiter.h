@@ -94,7 +94,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     s32 validate_or_update_target();
     void update_front_particle();
     void play_step_effect();
-    void fn_80305684();
+    void walk_state_stub();
     void confuse_nearby_players();
     static void step_demo_script(NJS_OBJECT *);
     void update_state(s32 reason);

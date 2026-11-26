@@ -13,7 +13,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"

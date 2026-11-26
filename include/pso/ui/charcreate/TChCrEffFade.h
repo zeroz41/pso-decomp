@@ -26,7 +26,7 @@ LAYOUT_ASSERT(TChCrEffFade_size, sizeof(TChCrEffFade) == 0x30);
 
 void *create_fade_effect(s32 duration, s32 mode);
 
-void draw_fade_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha);
-void draw_fade_hexagon_grid(void *context, f32 scale);
+void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha);
+void draw_hexagon_grid(void *context, f32 scale);
 
 #endif

@@ -11,7 +11,7 @@ struct SymbolChatPreset;
 
 struct TWindowChatSymbol : public TWindowBase {
     static const char *class_name;
-    TWindowChatSymbol(const NJS_POINT2 *position, saddr size);
+    TWindowChatSymbol(const NJS_POINT2 *position, const NJS_POINT2 *size);
     virtual ~TWindowChatSymbol();
     void set_selection(SymbolChatPreset *preset);
     void set_from_key(s32 index);

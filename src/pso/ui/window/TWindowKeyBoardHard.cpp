@@ -360,7 +360,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         }
         break;
     case 26:
-        if (busy == 0 && is_mode0_set() == 0) {
+        if (busy == 0 && is_input_mode_3() == 0) {
             w = m_control;
             t = w->composition_flags;
             if (t & 1) {
@@ -374,7 +374,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         }
         break;
     case 27:
-        if (is_mode0_set() == 0) {
+        if (is_input_mode_3() == 0) {
             t = input_flags;
             if ((t & 0x84) != 0x84) {
                 u32 u;
@@ -426,7 +426,7 @@ void TWindowKeyBoardHard::process_key_input(u8 key) {
         }
     } else {
 block_7:
-        if ((is_mode1_set() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
+        if ((is_caps_lock_on() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
             ch -= 0x20;
         }
         m_control->set_input_mode(mode);
@@ -453,17 +453,17 @@ void TWindowKeyBoardHard::update_modifier_flags() {
             input_flags &= 0xFFFFFFFD;
         }
     }
-    if (hardware_keyboard_state.sub_801321B4() != 0) {
+    if (hardware_keyboard_state.is_control_held() != 0) {
         input_flags |= 2;
     } else {
         input_flags &= 0xFFFFFFFD;
     }
-    if (hardware_keyboard_state.is_key_57_pressed() != 0) {
+    if (hardware_keyboard_state.is_alt_held() != 0) {
         input_flags |= 4;
     } else {
         input_flags &= 0xFFFFFFFB;
     }
-    if (hardware_keyboard_state.sub_80132274() != 0) {
+    if (hardware_keyboard_state.is_menu_key_held() != 0) {
         input_flags |= 8;
     } else {
         input_flags &= 0xFFFFFFF7;
@@ -652,6 +652,6 @@ void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 value) {
 void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 5), -0x21);
 }
-int TWindowKeyBoardHard::is_mode0_set() { return (this->input_flags >> 6) & 0x1; }
-int TWindowKeyBoardHard::is_mode1_set() { return (this->input_flags >> 10) & 0x1; }
+int TWindowKeyBoardHard::is_input_mode_3() { return (this->input_flags >> 6) & 0x1; }
+int TWindowKeyBoardHard::is_caps_lock_on() { return (this->input_flags >> 10) & 0x1; }
 int TWindowKeyBoardHard::is_key_active() { return this->input_flags & 0x200; }

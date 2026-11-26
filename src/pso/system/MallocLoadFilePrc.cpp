@@ -1111,8 +1111,8 @@ s32 TLobby::run_disk_error_check() {
 // The GSL archive close hook, the resource load tasks (TRelDataFile children of
 // resource_load_task_root, one per relocatable data file), the quest and text archive
 // decryption, the disc-file wrappers and TLobby::run_frame.
-void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
-    fn_800FFE14(fn_800FFE04(), entries, count);
+void on_gsl_archive_close(char *filename, GslArchiveEntry *entries, s32 count) {
+    gsl_archive_close_stub(gsl_archive_owner_stub(), entries, count);
 }
 
 TRelDataFile::~TRelDataFile() {}
@@ -1416,7 +1416,7 @@ void TLobby::run_frame() {
     tl_su->debug_update();
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         system_reset();
-        fn_801E2C50();
+        lobby_frame_stub();
     }
     restore_saved_depth_alpha_state();
     if (static_cast<s8>(poll_reset_request()) != 0) {

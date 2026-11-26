@@ -13,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"

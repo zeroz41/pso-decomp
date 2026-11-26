@@ -281,7 +281,7 @@ TObjEneRecobox::~TObjEneRecobox() {
 
 void TObjEneRecobox::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->update_if_800BB858();
+        this->update_demo_mode();
         return;
     }
     if (this->update_status_effects() != 4) {
@@ -726,7 +726,7 @@ void TObjEneRecobox::remove_tracked_id(s32 id) {
     }
 }
 
-void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { apply_set_parameters(); } }
+void TObjEneRecobox::update_demo_mode() { if (get_target_info() != 0) { apply_set_parameters(); } }
 
 
 void TObjEneRecobox::render() {

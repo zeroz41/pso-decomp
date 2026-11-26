@@ -110,11 +110,11 @@ void request_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 void deactivate_keyboard(void);
 extern "C" {
-void TLobby__sub_801A3E94(void);
+void reload_lobby_floor_stub(void);
 }
 extern "C" {
-void TLobby__sub_801A3CF8(void);
-int TLobby__sub_801A3E8C(void);
+void online_lobby_frame_stub(void);
+int online_lobby_check_stub(void);
 }
 extern "C" {
 s32 reset_story_select__6TLobbyFPv();
@@ -133,7 +133,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {load_keyboard_resources, free_keyboard_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
-    {reset_clock_bar_pulse, release_clock_bar_pulse},
+    {reset_clock_bar_pulse, clock_bar_on_floor_free_stub},
     {alloc_battle_param_tables, free_battle_param_tables},
     {reset_id_counters, free_id_counters},
     {init_entity_tables, clear_entity_tables},
@@ -157,7 +157,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {reset_info_board_on_load, reset_info_board_on_unload},
     {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
-    {clear_received_symbol_chat, release_received_symbol_chat},
+    {clear_received_symbol_chat, symbol_chat_on_floor_free_stub},
     {reset_choice_search_data, free_choice_search_data},
     {load_word_select_data, TWindowDD::free_buffers},
     {reset_globals, NULL},
@@ -194,7 +194,7 @@ void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flag
 
 void init_chr_select() { clear_controller_reset_request(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); clear_keyboard_input_flag(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
-void TLobby__sub_801A3CF8(void) {  }
+void online_lobby_frame_stub(void) {  }
 
 void start_udp_test_game() {
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[0]))->bswap_udp_test_header();
@@ -227,8 +227,8 @@ void TLobby::bswap_udp_test_header() {
     bswap_32((u32 *)(&this->m_flags));
 }
 
-int TLobby__sub_801A3E8C(void) { return 0; }
-void TLobby__sub_801A3E94(void) {  }
+int online_lobby_check_stub(void) { return 0; }
+void reload_lobby_floor_stub(void) {  }
 
 void reload_lobby_floor_scene(void) {
     TObject holder(NULL);
@@ -266,7 +266,7 @@ void reload_lobby_floor_scene(void) {
     main_task.run_task();
     main_task.render_screen_overlay();
     load_quest_story_flags(0);
-    TLobby__sub_801A3E94();
+    reload_lobby_floor_stub();
     TLobby::process_deferred_player_setup();
     TLobby::install_game_join_handlers();
     TObjPlayer::send_local_player_visible();
@@ -461,7 +461,7 @@ void change_floor_reload_area(void) {
         new_game_setup_flags &= ~1;
         reset_enemy_and_object_ids();
         select_game_player_actions();
-        TLobby__sub_80207E24(game_variations, 0x80);
+        copy_game_variations(game_variations, 0x80);
         apply_phase_keyboard_mode();
         run_load_callback_table(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
         TLobby::reset_item_id_counters();
@@ -481,7 +481,7 @@ void change_floor_reload_area(void) {
         }
     }
     if (r != 0) {
-        TLobby__sub_801A3E94();
+        reload_lobby_floor_stub();
     }
     TObjPlayer::send_local_player_visible();
     TLobby::process_deferred_player_setup();
@@ -645,7 +645,7 @@ void run_online_lobby_scene(void) {
     lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
     TKeyBoardControl::update();
-    TLobby__sub_801F3774();
+    quest_flag_sync_stub();
     reset_controller_input_state();
     clear_keyboard_key_state();
     set_fallback_main_phase(2);
@@ -665,7 +665,7 @@ void run_online_lobby_scene(void) {
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
-    reset_lobby_story_select();
+    reset_online_story_select();
     load_floor_object_set(0xF);
     TAdDialingGC::open();
     ((TAdDialingGC *)tl_window)->create();
@@ -698,9 +698,9 @@ void run_online_lobby_scene(void) {
     } else {
         lobby = new TLobby(tl_su);
         new TGameProtocol(tl_su);
-        TLobby__sub_801A3CF8();
+        online_lobby_frame_stub();
         TLobby::reset_state_flags();
-        if (TLobby__sub_801A3E8C() != 0) {
+        if (online_lobby_check_stub() != 0) {
             TLobby::load_set_gsl_files();
             floor_transition_state.init_range(0);
         } else {
@@ -715,7 +715,7 @@ void run_online_lobby_scene(void) {
         main_task.begin_frame();
         main_task.run_task();
         main_task.render_screen_overlay();
-        if (TLobby__sub_801A3E8C() != 0) {
+        if (online_lobby_check_stub() != 0) {
             start_udp_test_game();
         } else {
             TLobby::run_join_lobby_connect(lobby);

@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/item/TItemTimerEventTypes.h"
 
 const char TItemTimerEvent::class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent::class_name = TItemTimerEvent::class_name_string;
@@ -41,7 +42,7 @@ void TObjPlayer::clear_state_flags(s32 mask) {
   state_flags = state_flags & ~mask;
 }
 
-void fn_8011E1D4(TObjPlayer *player) {
+void clear_timer_flag_unless_android(TObjPlayer *player) {
     if (!(player->appearance.classFlags & CLASS_FLAG_ANDROID)) {
         player->clear_state_flags(0x10000);
     }
@@ -66,7 +67,7 @@ void TItemTimerEvent::notify_if_active(int client) {
 void TItemTimerEvent::check_battle_ctrl(int client) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
     if (player != NULL) {
-        fn_8011E1D4(player);
+        clear_timer_flag_unless_android(player);
     }
 }
 

@@ -225,22 +225,22 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
 void TDeadSpot::spawn_kind0_scale2_5(const Vec *point, s32 delay) {
-    spawn_corpse_mark(point, 0, delay, 2.5f);
+    spawn_dead_spot_fade(point, 0, delay, 2.5f);
 }
 extern "C" {
 
 void TDeadSpot::spawn_kind0_scale7_5(const Vec *point, s32 delay) {
-    spawn_corpse_mark(point, 0, delay, 7.5f);
+    spawn_dead_spot_fade(point, 0, delay, 7.5f);
 }
 
 void TDeadSpot::spawn_kind0_scale15(const Vec *point, s32 delay) {
-    spawn_corpse_mark(point, 0, delay, 15.0f);
+    spawn_dead_spot_fade(point, 0, delay, 15.0f);
 }
 
 // Dead-stripped, see spawn_dead_spot_kind0_scale2_5.
 }
 void TDeadSpot::spawn_kind0_scale25(const Vec *point, s32 delay) {
-    spawn_corpse_mark(point, 0, delay, 25.0f);
+    spawn_dead_spot_fade(point, 0, delay, 25.0f);
 }
 extern "C" {
 
@@ -279,8 +279,8 @@ void TDeadSpot::spawn_kind2_scale25(const Vec *point, s32 delay) {
 
 
 
-void spawn_corpse_mark(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
-    new TUnk_80494A10(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
+void spawn_dead_spot_fade(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
+    new TDeadSpotFade(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
 void TDeadSpot::spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale) {

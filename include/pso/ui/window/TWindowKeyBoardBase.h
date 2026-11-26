@@ -17,7 +17,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void draw_input_text(WindowDrawContext *context);
     void draw_wrapped_text(WindowDrawContext *context, NJS_POINT2 *cursor);
     void draw_text_glyphs(WindowDrawContext *context, NJS_POINT2 *cursor);
-    int sub_8025EB68();
+    int is_state_flag_8_set();
     s32 has_text();
     void clear_flag60_bit1();
     void set_flag62_bit4();
@@ -91,7 +91,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void key_escape();
     void handle_backspace();
     void update_input_state2();
-    void set_text(char *s);
+    void set_text(const char *s);
     void init();
     void commit_composition_text();
     s32 measure_text_overflow();

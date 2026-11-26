@@ -390,7 +390,7 @@ void TObjEneMe3Shinowa::update_body_colliders() {
     bodies->offset.y = body_offset_y + (body_center.y - position.y);
 }
 
-void TObjEneMe3Shinowa::fn_800E762C() {  }
+void TObjEneMe3Shinowa::demo_stub() {  }
 
 f32 TObjEneMe3Shinowa::get_node_world_y() {
     Vec v;
@@ -1562,7 +1562,7 @@ void TObjEneMe3Shinowa::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E762C(); select_gold_or_normal_variant(); } }
+void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { demo_stub(); select_gold_or_normal_variant(); } }
 #pragma push
 #pragma pool_data off
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
@@ -1652,7 +1652,7 @@ TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, void *set_data) : 
     s32 i;
     m_name = TObjEneMe3ShinowaReal_class_name;
     invoke_initialization_hook(set_data);
-    fn_800E762C();
+    demo_stub();
     init_enemy();
     mirage_index = 0;
     behavior_flags &= ~0x1000;
@@ -1873,7 +1873,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     owner_id = owner->get_entity_id();
     init_common_from(owner);
     parameters[1] = owner->parameters[1];
-    fn_800E762C();
+    demo_stub();
     this->entity_id = entity_id;
     this->set_index = set_index;
     init_enemy();

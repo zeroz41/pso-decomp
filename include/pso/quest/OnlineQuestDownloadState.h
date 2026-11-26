@@ -18,7 +18,8 @@ extern "C" {
 extern OnlineQuestDownloadState quest_list_online_dat_download_state;
 extern OnlineQuestDownloadState quest_list_online_bin_download_state;
 }
+void decompress_online_quest_dat(const u8 *data, s32 size);
 
-void decompress_online_quest_list(const u8 *data, s32 size);
+void decompress_online_quest_dat(const u8 *data, s32 size);
 
 #endif

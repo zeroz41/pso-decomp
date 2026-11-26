@@ -28,6 +28,6 @@ struct TItemTimerEvent : public TItemHeapObject {
 
 LAYOUT_ASSERT(TItemTimerEvent_size, sizeof(TItemTimerEvent) == 0x2C);
 
-void fn_8011E1D4(TObjPlayer *player);
+void clear_timer_flag_unless_android(TObjPlayer *player);
 
 #endif

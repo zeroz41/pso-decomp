@@ -84,7 +84,7 @@ void TObjWarpLobby::open_lobby_menu() {
     position.y = 1e+02f;
     this->menu_window = create_window_menu_default(&position, 0xF);
     for (i = 0; i < 0xF; i++) {
-        this->menu_window->add_text_entry((saddr)warp_lobby_directory_label_table[i], 6, i);
+        this->menu_window->add_text_entry(warp_lobby_directory_label_table[i], 6, i);
     }
     this->menu_window->calc_window_size();
     align_menu_entry_positions(this->menu_window);

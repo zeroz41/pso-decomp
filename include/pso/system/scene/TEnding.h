@@ -37,7 +37,7 @@ LAYOUT_ASSERT(TEndingRate, offsetof(TEnding, timing_rate) == 0x24);
 LAYOUT_ASSERT(TEndingTicks, offsetof(TEnding, elapsed_ticks) == 0x28);
 LAYOUT_ASSERT(TEndingRing, offsetof(TEnding, ring_controller) == 0x70C);
 
-void TEnding__sub_8008C9F8(void);
+void reset_ending_stub(void);
 
 // The ending scene's main phase: per-frame update and release (main_phase_table).
 void run_game_frame(void);

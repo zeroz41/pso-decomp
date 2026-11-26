@@ -181,7 +181,7 @@ void TObjCityMainWarpChallenge::update_warp_dialogs() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
             if (this->yes_no_window != 0) {
-                this->yes_no_window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
+                this->yes_no_window->open_yes_no_prompt_with_text(TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
                 this->yes_no_window->set_menu_selected_index(1);
                 this->yes_no_window->set_choice_menu_flag70_bit10();
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
@@ -194,7 +194,7 @@ void TObjCityMainWarpChallenge::update_warp_dialogs() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
             if (this->yes_no_window != 0) {
-                initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
+                initialize_option_dialog(this->yes_no_window, TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
         }
         break;
@@ -207,7 +207,7 @@ void TObjCityMainWarpChallenge::update_warp_dialogs() {
             this->player_list_window->disable_input();
             this->player_list_window->set_close_flag();
             for (i = 0; i < this->player_count; i++) {
-                this->player_list_window->dispatch_without_flags((saddr)this->player_names[i], i);
+                this->player_list_window->dispatch_without_flags(this->player_names[i], i);
             }
         }
         request_active_window_close();

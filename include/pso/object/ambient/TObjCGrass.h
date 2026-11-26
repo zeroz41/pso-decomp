@@ -27,7 +27,7 @@ struct TObjCGrass : public TObjMotion {
     CsnGroundCandidates ground_candidates;
     virtual void render();
     virtual void run_task();
-    static void release_resources();
+    static void free_resources();
     static void load_resources();
 };
 

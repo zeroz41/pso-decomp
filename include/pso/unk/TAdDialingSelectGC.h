@@ -34,6 +34,6 @@ typedef struct DialingWindowPos {
 } DialingWindowPos;
 
 // The idle timeout setting of the client's character save record.
-s32 get_idle_timeout_index(u32 client);
+s32 get_idle_timeout_setting(u32 client);
 
 #endif

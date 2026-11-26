@@ -17,7 +17,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/audio/MusicUnlockFlags.h"
@@ -539,7 +539,7 @@ void update_music_fade(void) {
         }
     }
     if (adxt_players[2] != NULL && adxt_get_stat(adxt_players[2]) == 3) {
-        apply_default_stream_mix((saddr)adxt_players[2]);
+        update_voice_stream_mix(adxt_players[2]);
     }
 }
 
@@ -580,11 +580,11 @@ void init_adx_audio_system(void) {
     AIInit(NULL);
     VISetPostRetraceCallback(post_retrace_callback);
     VISetPreRetraceCallback(pre_retrace_callback);
-    adxt_set_error_callback(bgm_adxt_error_callback, 0);
+    adxt_set_error_callback(adxt_error_callback_stub, 0);
     ARAlloc(0xC00000);
     sndSetHooks(&hooks);
     sndInit(48, 48, 48, 4, 1, 0xC00000);
-    adxt_set_error_callback(bgm_adxt_error_callback, 0);
+    adxt_set_error_callback(adxt_error_callback_stub, 0);
     for (i = 0; i < 2; i++) {
         adxt_players[i] = adx_create_stream_player(2, bgm_stream_buffers[i], 0x2D1E4);
         if (adxt_players[i] == NULL) {
@@ -617,5 +617,5 @@ void TLobby::free(void *p) { xfree(p); }
 
 void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
 void pre_retrace_callback(u32 retrace_count) {}
-void post_retrace_callback(u32 retrace_count) { run_sound_retrace_hook(); }
-void bgm_adxt_error_callback(s32, const char *) {  }
+void post_retrace_callback(u32 retrace_count) { run_sound_retrace(); }
+void adxt_error_callback_stub(s32, const char *) {  }

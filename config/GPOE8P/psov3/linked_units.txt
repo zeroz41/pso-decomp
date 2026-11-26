@@ -738,7 +738,7 @@ pso/item/shop/ShopStockCount.cpp
 pso/ui/city/AppraisalScore.cpp
 pso/ui/CounterTextLookup.cpp
 pso/audio/SoundRequests.cpp
-pso/audio/BgmStream.cpp
+pso/audio/MusicControl.cpp
 pso/player/PlayerStatusRefresh.cpp
 pso/audio/SoundControlState.cpp
 pso/audio/SoundRequestVoice.cpp
@@ -761,13 +761,13 @@ pso/system/GameModeQueries.cpp
 pso/boss/darkfalz/TBoss4ZakoDrawCreate.cpp
 pso/player/LobbyPlayerActionProvider.cpp
 pso/player/LobbyPlayerActions.cpp
-pso/ui/TitleTextureResources.cpp
+pso/ui/TitleTextures.cpp
 pso/ui/charcreate/TChCrTagOccHeader.cpp
 pso/ui/frontend/TTitleBackground.cpp
 pso/ui/LoadingInfoIcon.cpp
 pso/ui/window/TWindowMenuTeamStatus.cpp
-pso/network/InfoBoardInit.cpp
-pso/network/InfoBoardRequest.cpp
+pso/network/InfoBoardState.cpp
+pso/network/InfoBoardRequests.cpp
 pso/ui/frontend/DialingMessageWindow.cpp
 pso/ui/chat/TSymbolChatCapture.cpp
 pso/ui/window/TBGMulti.cpp
@@ -1590,7 +1590,7 @@ pso/boss/galgryphon/Boss5CommonResource.cpp
 pso/render/ShadowedObjectDraw.cpp
 pso/quest/challenge/ChallengeClearedStages.cpp
 pso/quest/challenge/ChallengeStagePlayers.cpp
-pso/quest/challenge/ChallengeCommands.cpp
+pso/network/ChallengePackets.cpp
 pso/network/LobbyName.cpp
 pso/ui/chat/ChatShortcuts.cpp
 pso/ui/chat/SymbolChatCommand.cpp
@@ -1617,7 +1617,7 @@ pso/unk/text_801D34E0.cpp
 pso/player/CastTechniqueLevel.cpp
 pso/player/TechniqueLevelLearn.cpp
 pso/effect/sprite/TQuadSprite.cpp
-pso/quest/QuestFlagCommand.cpp
+pso/quest/QuestFlagSync.cpp
 pso/quest/OfflineQuestFilename.cpp
 pso/quest/QuestStoryFlags.cpp
 pso/quest/challenge/ChallengeTaskQuery.cpp
@@ -1653,7 +1653,7 @@ pso/ui/frontend/TitleMenuText.cpp
 pso/ui/frontend/OpeningMovie.cpp
 pso/player/InventoryItemCopy.cpp
 pso/player/StartingInventory.cpp
-pso/render/MericarolRenderTexture.cpp
+pso/render/MericarolTexture.cpp
 pso/boss/barbaray/Boss7CommonResource.cpp
 pso/object/warp/Boss7TunnelAreaWarp.cpp
 pso/boss/barbaray/TObjBoss7Tunnel_ParticleParent.cpp
@@ -1708,7 +1708,7 @@ pso/render/ProjectedStripDraw.cpp
 pso/render/ChunkModelDraw.cpp
 pso/render/ChunkMotionDraw.cpp
 pso/render/ChunkVertexColorCache.cpp
-pso/system/SiPollingCallback.cpp
+pso/system/SiPolling.cpp
 pso/network/NetworkInfoEntry.cpp
 pso/network/NetApi.c
 pso/system/LaunchDol.cpp
@@ -1789,7 +1789,7 @@ pso/technique/TTecLightCharge.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/player/PlayerActionProvider.cpp
 pso/network/NetworkInfoRequests.cpp
-pso/network/NetworkInfoOpen.cpp
+pso/network/NetworkConfig.cpp
 pso/audio/AdxBsc.cpp
 pso/render/GinjaMaterial.cpp
 pso/system/movie/MovieFramePack.cpp

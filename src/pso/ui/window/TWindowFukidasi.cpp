@@ -489,11 +489,11 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   entry = (WindowTextEntry *)get_array_entry(0);
   if (flags & 1)
   {
-    set_text_entry_string(entry, (uaddr)str, 0x20);
+    set_text_entry_string(entry, str, 0x20);
   }
   else
   {
-    set_text_entry_string(entry, (uaddr)str, 0);
+    set_text_entry_string(entry, str, 0);
   }
   if (flags & 4)
   {

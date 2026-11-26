@@ -48,5 +48,5 @@ TObjBoss5PillarDemo *TObjBoss5PillarDemo::create() {
     return new TObjBoss5PillarDemo(tl_02, (Vec *)model->pos);
 }
 
-void TObjBoss5PillarDemo__sub_8028ACE0(void) {  }
-void TObjBoss5PillarDemo__sub_8028ACE4(void) {  }
+void pillar_demo_stub_a(void) {  }
+void pillar_demo_stub_b(void) {  }

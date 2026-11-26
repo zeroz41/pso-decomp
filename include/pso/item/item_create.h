@@ -29,7 +29,7 @@ void normalize_drop_area(s32 *p);
 
 ItemCombination *find_eligible_combination_recipe(TObjPlayer *player, TItemData *item);
 
-void TItemDisconnectCtrl__sub_80105BE8(void);
+void item_class_slot7_load(void);
 
 // The one equipped item item combines with, or NULL when none or several do.
 TItem *find_unique_combination_target(TObjPlayer *player, TItemData *item);

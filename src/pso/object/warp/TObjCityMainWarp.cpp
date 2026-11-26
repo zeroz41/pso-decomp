@@ -105,7 +105,7 @@ void TObjCityMainWarpChallenge::update_warp_window() {
             if (menu_window == NULL) {
                 menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if (menu_window != NULL) {
-                    menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    menu_window->add_text_entry(TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     menu_window->disable_input();
                     menu_window->calc_window_size();
                     align_menu_entry_positions(menu_window);

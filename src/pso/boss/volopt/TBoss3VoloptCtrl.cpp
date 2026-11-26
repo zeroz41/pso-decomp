@@ -11,7 +11,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/player/PlayerCommands.h"

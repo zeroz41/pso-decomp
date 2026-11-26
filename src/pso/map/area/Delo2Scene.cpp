@@ -3,7 +3,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/FloorReflection.h"

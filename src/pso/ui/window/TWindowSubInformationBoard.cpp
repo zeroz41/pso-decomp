@@ -171,16 +171,16 @@ void TWindowSubInformationBoard::render() {  }
 
 TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
   TWindowMenu *list;
-  list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+  list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
-    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
+    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
   else
   {
     add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
-  list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
+  list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
   list->set_flag70_bit10();
   list->update_layout_height(179.0f);
   align_menu_entry_positions(list);
@@ -197,13 +197,13 @@ TWindowMenu *TWindowSubInformationBoard::create_board_menu() {
     if (board == NULL) {
         return NULL;
     }
-    w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+    w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, TWindowSubStatusDisp::get_message_10(0x1D));
     // The packet's header flags carry the entry count; an entry with no text is listed grayed out.
     n = board->header.flags;
     it = board->entries;
     for (i = 0; i < n; i++, it++) {
         if (it->text[0] != 0) {
-            w->add_text_entry((saddr)it->name, 0x16, i);
+            w->add_text_entry(it->name, 0x16, i);
         } else {
             add_gray_text_entry(w, it->name, 0x16, i);
         }
@@ -245,7 +245,7 @@ void TWindowSubInformationBoard::set_message_index(s32 index) {
     static const s32 message_ids[3] = {0x119, 0x11A, 0};
     if ((s32) this->shown_index != index) {
         this->shown_index = index;
-        this->message_window->append_line((saddr)TWindowSubStatusDisp::get_message_10(message_ids[index]), 0x80);
+        this->message_window->append_line(TWindowSubStatusDisp::get_message_10(message_ids[index]), 0x80);
     }
 }
 
@@ -256,7 +256,7 @@ void TWindowSubInformationBoard::set_page(s32 page) {
         board = TLobby::get_info_board_ptr();
         if (board != NULL) {
             this->shown_index = page;
-            this->message_window->append_line((saddr)board->entries[page].text, 0x80);
+            this->message_window->append_line(board->entries[page].text, 0x80);
         }
     }
 }

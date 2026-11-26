@@ -25,8 +25,8 @@ void reset_to_fallback_main_phase(void);
 void request_pending_file_read_flush(void);
 void set_lobby_state_byte_flag(void);
 
-// The GSL archive close hook: hands the archive's entries to fn_800FFE14.
-void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count);
+// The GSL archive close hook: hands the archive's entries to gsl_archive_close_stub.
+void on_gsl_archive_close(char *filename, GslArchiveEntry *entries, s32 count);
 // Reads and decrypts an encrypted archive; size receives its decompressed size.
 void *load_encrypted_text_archive(char *name, s32 *size);
 // Loads name.pr2 and its relocations name.pr3 as one named resource file; returns its root.

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/flower/TObjEneRe2FlowerShared.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -20,8 +21,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerCommands.h"
 
-extern const f32 lbl_805D9FAC;
-extern const f32 lbl_805D9FC4;
 
 void TObjEneRe2Flower::state_destroy(s32 reason) {
     switch (reason) {

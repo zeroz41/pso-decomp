@@ -40,15 +40,15 @@ public:
     f32 scale;                     // 0xC4, drawn while above zero
 };
 
-class TUnk_80494A10 : public TDeadSpot {
+class TDeadSpotFade : public TDeadSpot {
 public:
-    TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale);
-    virtual ~TUnk_80494A10();
+    TDeadSpotFade(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale);
+    virtual ~TDeadSpotFade();
     virtual void run_task();
     f32 alpha;  // 0-1, fades the spot in once it is drawn
 };
 LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
-LAYOUT_ASSERT(TUnk_80494A10_size, sizeof(TUnk_80494A10) == 0xCC);
+LAYOUT_ASSERT(TDeadSpotFade_size, sizeof(TDeadSpotFade) == 0xCC);
 
 extern const char *dead_spot_class_name;
 

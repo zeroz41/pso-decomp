@@ -7,10 +7,10 @@ struct PhoneNumber {
     char number[0x20];
 };
 
-// A dial-up account; load_network_configs fills three of them, [2] is the modem account.
+// A dial-up account (the login fields of a network settings entry); load_network_configs fills three of them, [2] is the modem account.
 struct AccountEntry {
-    char host[0x80];
-    char user[0x20];
+    char login_user[0x80];
+    char login_password[0x20];
     PhoneNumber phone[3]; /* dial-up numbers (get_modem_phone_number, connect_modem) */
     char mail_address[0x40];
     char mail_server[0x40];
@@ -40,7 +40,7 @@ LAYOUT_ASSERT(NetworkConfig_size, sizeof(NetworkConfig) == 0x124);
 
 // --- C functions defined in NetworkConnect.cpp ---
 extern "C" {
-void TLobby__sub_80147978(void);
+void network_shutdown_stub(void);
 }
 int has_modem_adapter(void);
 s32 apply_static_network_config(s32 *netmask);
@@ -51,8 +51,8 @@ void get_local_ip_address(s32 *out_addr);
 s32 init_network_and_connect(void);
 void disconnect_lan(void);
 char *get_ppp_password(void);
-char *get_modem_user_name(void);
-char *get_account_user_name(s32 idx);
+char *get_modem_login_password(void);
+char *get_account_login_password(s32 idx);
 void copy_ip_address(u32 *dst, const u32 *src);
 s32 disconnect_network(void);
 s32 connect_with_any_phone_number(s32 id);

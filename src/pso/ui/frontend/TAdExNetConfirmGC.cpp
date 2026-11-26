@@ -19,7 +19,7 @@ void TAdExNetConfirmGC::render() {
     render_dialog();
 }
 
-saddr TAdExNetConfirmGC::get_message_text() {
+const char *TAdExNetConfirmGC::get_message_text() {
     if (is_confirmed() != 0) {
         return get_localized_text_entry(0x22, 1);
     }
@@ -38,7 +38,7 @@ TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 
 TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent) {
     m_name = TAdExNetConfirmGC_class_name;
-    if ((adapter_supports_connection(1) != 0) || (adapter_supports_connection(4) != 0)) {
+    if ((has_network_adapter(1) != 0) || (has_network_adapter(4) != 0)) {
         if (load_network_info() != 0) {
             init_account_entries();
         } else {

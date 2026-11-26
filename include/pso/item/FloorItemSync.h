@@ -5,7 +5,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/protocol_types.h"
 
-void unload_select_confirm(void);
+void select_confirm_exit_stub(void);
 void respawn_missing_floor_items(s32 floor);
 
 struct G_DestroyFloorItem_6x63;

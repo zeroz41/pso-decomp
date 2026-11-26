@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
@@ -516,7 +517,7 @@ void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy
 
 extern "C" {
 s32 is_challenge_task_running();
-s32 TAdSinglePlyChrSelectGC__sub_8028DC14();
+s32 char_select_check_stub();
 }
 
 void TAdSinglePlyChrSelectGC::free_char_data_slots(CharacterBufferTable *table) {
@@ -825,7 +826,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             delete file;
         }
         if (TAdPlayerLoadGC::get_instance() == 0 && (ret = poll_memcard_result(character_save_card_slot)) == 0) {
-            TAdSinglePlyChrSelectGC__sub_8028DC14();
+            char_select_check_stub();
             TAdSinglePlyChrSelectGC::update_play_time();
             TAdSinglePlyChrSelectGC::set_global_flags(1);
             memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
@@ -992,17 +993,17 @@ s32 begin_character_card_save(void) {
 #pragma dont_inline on
 s32 copy_character_between_files(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
 
-void TAdSinglePlyChrSelectGC::open_confirm_window() { memcard_access_active = 1; TAdSinglePlyChrSelectGC::draw_window_bg((saddr)1, pso_character_card_filename.filename, character_save_file_buffer, character_save_file_block_count); card_load_sequence_state = 18; }
+void TAdSinglePlyChrSelectGC::open_confirm_window() { memcard_access_active = 1; TAdSinglePlyChrSelectGC::draw_window_bg(1, pso_character_card_filename.filename, character_save_file_buffer, character_save_file_block_count); card_load_sequence_state = 18; }
 
 
 s32 TAdSinglePlyChrSelectGC::load_pso_system(int chan) {
     s32 r = -1;
     system_save_card_channel = chan;
     if (chan >= 0 && chan <= 7) {
-        r = TAdPlayerLoadGC::find_card_file(chan, (const char *)&pso_system_card_filename);
+        r = TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename);
         if (r == 0) {
             memcard_access_active = 1;
-            r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)&pso_system_card_filename, (system_save_file_buffer)));
+            r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, pso_system_card_filename, (system_save_file_buffer)));
         }
     }
     return r;
@@ -1446,12 +1447,6 @@ s32 poll_secondary_card_load(void) {
 }
 
 
-extern "C" {
-s8 poll_reset_request__Fv(void);
-
-
-}
-
 s32 TAdSinglePlyChrSelectGC::load_selected_char() {
     s32 result;
 
@@ -1523,7 +1518,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (poll_reset_request__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
             delete check;
         }
@@ -1554,7 +1549,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (poll_reset_request__Fv() != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0) {
                 break;
             }
             render_tick();
@@ -1608,7 +1603,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (poll_reset_request__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;
             }
             render_tick();
@@ -1717,7 +1712,7 @@ s32 TAdSinglePlyChrSelectGC::init(void) {
     if ((selected_character_data != NULL) && (active_character_save_record != NULL) && (card_character_save_buffer != 0)) {
         if ((get_player_by_client_id(local_client_id) != NULL) && (TTecCtrl::is_technique_ready() == 0) && (is_challenge_task_running() != 1)) {
             TObjPlayer::init_battle_selection();
-            TAdSinglePlyChrSelectGC__sub_8028DC14();
+            char_select_check_stub();
         }
         TAdSinglePlyChrSelectGC::clear_flags(3);
         TAdSinglePlyChrSelectGC::update_play_time();
@@ -1875,7 +1870,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
         }
         if (TAdPlayerLoadGC::get_instance() == 0 && (ret = poll_memcard_result(character_save_card_slot)) == 0) {
             TObjPlayer::sync_char_select_state();
-            TAdSinglePlyChrSelectGC__sub_8028DC14();
+            char_select_check_stub();
             TAdSinglePlyChrSelectGC::update_play_time();
             TAdSinglePlyChrSelectGC::increment_counter();
             switch (get_main_phase()) {
@@ -2384,7 +2379,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         }
         if (TAdPlayerLoadGC::get_instance() == 0 && poll_memcard_result(character_save_card_slot) == 0) {
             TObjPlayer::sync_char_select_state();
-            TAdSinglePlyChrSelectGC__sub_8028DC14();
+            char_select_check_stub();
             TAdSinglePlyChrSelectGC::update_play_time();
             TAdSinglePlyChrSelectGC::set_global_flags(1);
             active_character_save_record->save_count++;
@@ -2425,7 +2420,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
 
 
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_8028DC1C();
+void reset_char_appearance_callback();
 }
 
 s32 TAdSinglePlyChrSelectGC::increment_frame() {
@@ -2544,7 +2539,7 @@ void init_fresh_character_card(void) {
     chr = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(chr, 0, 0x41C);
-    TAdSinglePlyChrSelectGC__sub_8028DC1C();
+    reset_char_appearance_callback();
     TObjPlayer::begin_action_from_char_select();
     memset(card, 0, 0x2370);
     getDateStamp(&char_select_date_stamp.stamp);
@@ -2554,7 +2549,7 @@ void init_fresh_character_card(void) {
     card->flags = 0;
     card->save_count = 1;
     memcpy(card->account, get_account_entry(0), 0x1C);
-    memcpy(card->user_name, get_account_user_name(0), 0x10);
+    memcpy(card->user_name, get_account_login_password(0), 0x10);
     clear_all_story_flags();
     card->bank_item_count = 0;
     card->bank_meseta = 0;
@@ -2640,7 +2635,7 @@ void TAdSinglePlyChrSelectGC::run_save_load_sequence(void) {
         break;
     case 3:
         TObjPlayer::init_battle_selection();
-        TAdSinglePlyChrSelectGC__sub_8028DC14();
+        char_select_check_stub();
         card_load_sequence_state = 4;
         break;
     case 4:

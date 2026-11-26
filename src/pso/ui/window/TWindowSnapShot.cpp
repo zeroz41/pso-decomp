@@ -28,7 +28,7 @@
 
 void upload_player_motion_data() { aram_transfer_sync(1, player_motion_archive->get_buffer(), player_motion_aram_addr, player_motion_aram_size); }
 
-void TWindowSnapShot__sub_802A7DA0(void) {  }
+void snapshot_shutdown_stub(void) {  }
 
 void alloc_player_motion_aram() {
     s32 file_size = TGStream::get_resource_file_size(get_player_motion_filename());
@@ -111,7 +111,7 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-TWindowSnapShot::TWindowSnapShot(saddr position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
+TWindowSnapShot::TWindowSnapShot(const NJS_POINT2 *position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
     saddr entry_1;
     m_name = TWindowSnapShot::class_name;
     this->result_flags = 0U;

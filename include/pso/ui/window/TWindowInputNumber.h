@@ -49,7 +49,7 @@ struct TWindowInputNumber : public TWindowBase {
     int is_cancelled();
     s32 get_value();
     void set_scale(f32 x, f32 y);
-    void create(s32 title);
+    void create(const char *title);
     void calc_digit_count();
     virtual void run_task();
 };

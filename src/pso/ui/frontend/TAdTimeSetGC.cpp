@@ -116,7 +116,7 @@ static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::enter_state_19, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::init_menu_window, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::build_selection_summary, &TAdTimeSetGC::run_states_19_21},
-    {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::run_state_22},
+    {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::result_bg_exit_stub},
     {&TAdTimeSetGC::show_confirm_dialog, &TAdTimeSetGC::run_state_23},
     {&TAdTimeSetGC::enter_state_24, &TAdTimeSetGC::update_state},
 };
@@ -312,8 +312,8 @@ void TAdTimeSetGC::reset_on_load_complete() {
 
 void TAdTimeSetGC::open_char_select() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 8));
-    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x29), get_localized_text_entry(0x1C, 0x16));
+    strcpy(text, get_localized_text_entry(0x1C, 8));
+    close_and_dispatch(text, 1, get_localized_text_entry(0x1C, 0x29), get_localized_text_entry(0x1C, 0x16));
 }
 
 void TAdTimeSetGC::handle_confirm_menu() {
@@ -359,7 +359,7 @@ void TAdTimeSetGC::update_load_countdown() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -393,7 +393,7 @@ void TAdTimeSetGC::update_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -426,7 +426,7 @@ void TAdTimeSetGC::update_char_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -457,7 +457,7 @@ void TAdTimeSetGC::run_state_12() {
         message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -483,7 +483,7 @@ void TAdTimeSetGC::update_close_timer() {
         message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (message_frames < 0xF && is_message_skip_pressed() != 0) {
+        if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
         if (message_frames == 0) {
@@ -548,8 +548,8 @@ void TAdTimeSetGC::run_state_16() {
 
 void TAdTimeSetGC::enter_state_17() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x25));
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    strcpy(text, get_localized_text_entry(0x1C, 0x25));
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::run_states_17_18() {
@@ -564,21 +564,21 @@ void TAdTimeSetGC::run_states_17_18() {
 
 void TAdTimeSetGC::enter_state_18() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x27));
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    strcpy(text, get_localized_text_entry(0x1C, 0x27));
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::enter_state_19() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x26));
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    strcpy(text, get_localized_text_entry(0x1C, 0x26));
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::init_menu_window() {
     create_backgrounds();
-    strcpy(text, (const char *)get_localized_text_entry(0x1C, 1));
+    strcpy(text, get_localized_text_entry(0x1C, 1));
     strcat(text, "\n");
-    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    close_and_dispatch(text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::run_states_19_21() {
@@ -612,18 +612,18 @@ void TAdTimeSetGC::build_selection_summary() {
     create_backgrounds();
     text[0] = 0;
     if (load_status & 0x80) {
-        strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1D));
+        strcat(text, get_localized_text_entry(0x1C, 0x1D));
         strcat(text, "\n");
     }
     if (load_status & 0x100) {
-        strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1E));
+        strcat(text, get_localized_text_entry(0x1C, 0x1E));
         strcat(text, "\n");
     }
     if (load_status & 0x200) {
-        strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1F));
+        strcat(text, get_localized_text_entry(0x1C, 0x1F));
         strcat(text, "\n");
     }
-    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
+    close_and_dispatch(text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
 }
 
 void TAdTimeSetGC::create_result_bg() {
@@ -631,11 +631,11 @@ void TAdTimeSetGC::create_result_bg() {
     close_and_dispatch(get_localized_text_entry(0x1C, 0x1C), -1, 0, 0);
 }
 
-void TAdTimeSetGC::run_state_22() {
+void TAdTimeSetGC::result_bg_exit_stub() {
 }
 
 void TAdTimeSetGC::show_confirm_dialog() {
-    s32 files;
+    const char *files;
     s32 flags;
 
     files = get_localized_text_entry(0x1C, 0x18);
@@ -655,7 +655,7 @@ void TAdTimeSetGC::show_confirm_dialog() {
     }
     sprintf(text, "%s\n%s\n%s", get_localized_text_entry(0x1C, 0x17), files, get_localized_text_entry(0x1C, 0x14));
     create_backgrounds();
-    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
+    close_and_dispatch(text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
 }
 
 void TAdTimeSetGC::run_state_23() {
@@ -686,7 +686,7 @@ void TAdTimeSetGC::update_state() {
             return;
         default:
         case 1:
-            request_reset_phase();
+            restart_main_phase();
             break;
         }
     }
@@ -801,8 +801,8 @@ void TAdTimeSetGC::close_windows() {
 }
 
 // sel -1: message only; -2: one menu entry; otherwise two entries with entry sel selected.
-void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 second_text) {
-    u32 entry_text;
+void TAdTimeSetGC::open_message_choice(const char *text, s32 sel, const char *first_text, const char *second_text) {
+    const char *entry_text;
 
     if (message_window != NULL || menu_window != NULL) {
         return;
@@ -824,13 +824,13 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     }
     entry_text = first_text;
     if (first_text == 0) {
-        entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
+        entry_text = TWindowSubStatusDisp::get_message_10(0x5B);
     }
     if (sel != -2) {
         menu_window->add_text_entry(entry_text, 5, 0);
         entry_text = second_text;
         if (second_text == 0) {
-            entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
+            entry_text = TWindowSubStatusDisp::get_message_10(0x5C);
         }
         menu_window->add_text_entry(entry_text, 5, 1);
     } else {
@@ -847,8 +847,8 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
 }
 
 void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry) {
-    s32 text;
-    s32 first_text;
+    const char *text;
+    const char *first_text;
 
     text = get_localized_text_entry(0x1C, entry);
     first_text = 0;
@@ -861,7 +861,7 @@ void TAdTimeSetGC::open_message_choice_by_entries(s32 entry, s32 sel, s32 first_
     open_message_choice(text, sel, first_text, 0);
 }
 
-void TAdTimeSetGC::close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text) {
+void TAdTimeSetGC::close_and_dispatch(const char *text, s32 sel, const char *first_text, const char *second_text) {
     close_windows();
     open_message_choice(text, sel, first_text, second_text);
 }
@@ -887,11 +887,11 @@ void TAdTimeSetGC::apply_settings() {
     TAdMultiChgGameModeGC::open_title_scene();
 }
 
-void TAdTimeSetGC::request_reset_phase() {
+void TAdTimeSetGC::restart_main_phase() {
     request_main_phase(0);
 }
 
-s32 TAdTimeSetGC::is_message_skip_pressed() {
+s32 TAdTimeSetGC::is_decide_pressed() {
     if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;
@@ -1038,13 +1038,13 @@ T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {
 void T_ATS_DrawCalendar::render() {
     char buf[0x24];
     DateStamp date;
-    char *s;
+    const char *s;
     f32 w;
     s32 wd;
 
     if (visible != 0) {
         T_ATS_DrawCalendarPos p = pos;
-        s = (char *)get_localized_text_entry(0x1C, 0xC);
+        s = get_localized_text_entry(0x1C, 0xC);
         draw_menu_font_string_white(s, -(0.5f * (f32)calc_text_width(s) - p.x), p.y);
         p.y += 30.0f;
         getDateStamp(&date);

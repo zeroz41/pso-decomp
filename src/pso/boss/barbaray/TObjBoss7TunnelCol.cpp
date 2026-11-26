@@ -153,7 +153,7 @@ void TObjBoss7Tunnel::run_task() {
     };
     void (TObjBoss7Tunnel::*handler)() = phase_handlers[phase];
     (this->*handler)();
-    sub_802F273C();
+    run_task_stub();
 }
 
 f32 boss7_tunnel_particle_pos_table[12] = {
@@ -207,7 +207,7 @@ void TObjBoss7Tunnel::update_phase_motion() {
     }
 }
 
-void TObjBoss7Tunnel::sub_802F273C() {  }
+void TObjBoss7Tunnel::run_task_stub() {  }
 
 void TObjBoss7Tunnel::advance_effect_timer() {
     this->scroll_speed += 0.05f;

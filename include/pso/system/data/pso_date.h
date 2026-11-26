@@ -10,7 +10,7 @@ u8 calc_day_in_cycle(s32 *date);
 
 void fill_date_from_seconds(u32 secs, DateStamp *out);
 u8 calc_day_of_week(u16 year, u8 month, u8 day);
-void fn_801E2C50(void);
+void lobby_frame_stub(void);
 void reset_system(void);
 void system_reset(void);
 

@@ -297,7 +297,7 @@ void TObjEneMoja::run_task() {
     TObjPlayer *player;
     TObjChara *t;
     if (TObjPlayer::check_demo_mode() == 1) {
-        TObjPlayer__sub_800ACA0C(this);
+        moja_run_task_stub(this);
         return;
     }
     id = this->targetId;

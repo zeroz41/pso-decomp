@@ -98,7 +98,7 @@ void TShopEquipmentSequence::update_state() {
         set_state(9);
         return;
     case 7:
-        TShopEquipmentSequence__sub_8021D65C();
+        equipment_shop_state_stub();
         return;
     case 9:
         close_if_done();
@@ -112,10 +112,10 @@ void TShopEquipmentSequence::update_state() {
 
 
 void TShopEquipmentSequence::open_greeting() {
-    f32 pos[2];
-    pos[0] = 332.0f;
-    pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), pos);
+    NJS_POINT2 pos;
+    pos.x = 332.0f;
+    pos.y = 80.0f;
+    create_message_window(get_window_layout_position(0x2C), &pos);
     display_shop_message(0x27, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_player_entity_id());
     set_state(2);
@@ -180,7 +180,7 @@ void TShopEquipmentSequence::close_if_done() {
     }
 }
 
-void TShopEquipmentSequence__sub_8021D65C(void) {  }
+void equipment_shop_state_stub(void) {  }
 
 void TShopEquipmentSequence::handle_confirm() {
     if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {

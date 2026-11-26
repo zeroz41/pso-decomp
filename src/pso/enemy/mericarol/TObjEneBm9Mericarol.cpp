@@ -48,7 +48,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/network/TLobby.h"
-#include "pso/render/MericarolRenderTexture.h"
+#include "pso/render/MericarolTexture.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/render/AltModel.h"
 #include "pso/object/base/ActorCollision.h"

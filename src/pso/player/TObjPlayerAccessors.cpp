@@ -838,7 +838,7 @@ s16 TObjMotion::get_requested_action() { return requested_action; }
 BmlMotionEntry *PlayerActionProvider::get_motion_list(s32) { return 0; }
 int PlayerActionProvider::is_male() { return 0; }
 int PlayerActionProvider::load_motions(s32) { return 0; }
-int TObjPlayer::sub_802a7290_fwd() { return ((PlayerMotionKey *)this)->get_motion_type(); }
+int TObjPlayer::get_action_motion_type() { return ((PlayerMotionKey *)this)->get_motion_type(); }
 int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_type(); }
 
 // Data-only unit split off the shared player model buffers.

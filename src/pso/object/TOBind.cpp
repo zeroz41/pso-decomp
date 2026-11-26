@@ -30,7 +30,7 @@ __declspec(section ".data") const char *bm_o_bind_model_names[3] = { "fe_obj_bin
 __declspec(section ".data") const char *bm_o_bind_motion_names[2] = { "fs_obj_bind_laz_moto.njm", NULL };
 BmlResourceDescriptor bm_o_bind_resource_descriptor = { "bm_o_bind.bml", bm_o_bind_model_names, bm_o_bind_motion_names, 2, 1 };
 
-void TOBind::sub_80158608() {  }
+void TOBind::run_task_stub() {  }
 
 
 void TOBind::update_motion() {
@@ -46,7 +46,7 @@ void TOBind::update_motion() {
 
 void TOBind::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_80158608();
+        run_task_stub();
         return;
     }
     if ((s32) this->triggered != 1) {

@@ -2,7 +2,6 @@
 #include "pso/ui/charcreate/TChCrTagInformationStr.h"
 #include "pso/ui/charcreate/CharCreationTagSelect.h"
 
-extern s32 char_creation_tag_info_selected_index;
 void select_char_creation_tag_info(TObject *o, s32 index) {
     if (index == char_creation_tag_info_selected_index || index < -1 || index >= 0xF) {
         return;

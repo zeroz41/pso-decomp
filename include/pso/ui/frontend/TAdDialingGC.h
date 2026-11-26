@@ -56,6 +56,6 @@ LAYOUT_ASSERT(TAdDialingGC_size, sizeof(TAdDialingGC) == 0xA8);
 
 void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size);
 extern "C" {
-void TAdDialingGC__sub_80328B20(TAdDialingGC *screen);
+void dialing_render_stub(TAdDialingGC *screen);
 }
 #endif

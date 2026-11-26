@@ -4,6 +4,6 @@
 #include "types.h"
 
 // Takes no argument: the body calls check_ship_door() without setting r3.
-s32 check_boss6_thanks_ship_door(void);
+s32 is_boss6_ship_door_open(void);
 
 #endif

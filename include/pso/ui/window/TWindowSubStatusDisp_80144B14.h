@@ -3,11 +3,11 @@
 
 #include "types.h"
 
-u32 calc_fullwidth_text_width(char *s);
+u32 calc_fullwidth_text_width(const char *s);
 void pack_ci4_texels(u8 *dst, u32 pixel);
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 extern "C" {
-u32 calc_text_width(char *s);
+u32 calc_text_width(const char *s);
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);
 void draw_menu_font_string_white(const char *text, f32 x, f32 y);
 u32 get_font_char_advance(u16 arg0);

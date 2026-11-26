@@ -15,7 +15,7 @@
 #include "pso/ui/TLevelSelect.h"
 
 
-void TLobby__sub_801F3774(void) {  }
+void quest_flag_sync_stub(void) {  }
 
 void TLobby::send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;

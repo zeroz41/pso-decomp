@@ -298,7 +298,7 @@ void TObjEneLappy::play_walk_sound() {
         play_sound_effect(remap_area_sound_id(0x3D20C, 5), &position, 0, 0);
     }
 }
-void TObjEneLappy::sub_800BFF54() {}
+void TObjEneLappy::run_task_stub() {}
 
 void TObjEneLappy::render() {
     s32 detail;
@@ -319,7 +319,7 @@ void TObjEneLappy::render() {
             rotate_matrix_y(0, this->rotation_y);
             if (this->lappy_flags & 0x400) {
                 scale_matrix(0, 2.0f, 1.5f, 2.0f);
-                TObjEneDD__sub_800B9B24(0.6666667f);
+                lappy_render_scale_stub(0.6666667f);
             }
             model_render_flags &= 0xFFFFFBFF;
             set_motion_packed_rotation();
@@ -832,7 +832,7 @@ void TObjEneLappy::run_task() {
     set_flag_1();
     if (TObjPlayer::check_demo_mode() == 1) {
         apply_variant_speeds();
-        sub_800BFF54();
+        run_task_stub();
         return;
     }
     target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));

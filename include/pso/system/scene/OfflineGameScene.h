@@ -28,9 +28,9 @@ extern FloorResourceCallbacks offline_game_scene_callbacks[48];
 // Views on screen: 1, or 2 to 4 in a split-screen game (TCameraCtrl::get_view_count).
 extern int camera_split_screen_selector;
 
-void TLobby__sub_801A2DF4(void);
-void TLobby__sub_801A2DF8(void);
-void TLobby__sub_801A2DFC(void);
+void offline_scene_init_stub_a(void);
+void offline_scene_init_stub_b(void);
+void offline_scene_init_stub_c(void);
 void apply_char_to_players();
 
 #endif

@@ -1184,7 +1184,7 @@ struct G_SetChallengeTime_6x95 {
 LAYOUT_ASSERT(G_SetChallengeTime_6x95Size, sizeof(G_SetChallengeTime_6x95) == 0x14);
 
 // 6x9D: A player has died in challenge mode. Sent by send_challenge_dead_flag_packet and
-// send_challenge_dead_flag_cmd; received by handle_6x9D_set_challenge_dead_flag. Size checked:
+// send_challenge_dead_flag; received by handle_6x9D_set_challenge_dead_flag. Size checked:
 // build_6x9D_packet sets the header size to 2 words.
 struct G_SetChallengeDeadFlag_6x9D {
  struct G_ClientIDHeader header;

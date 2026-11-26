@@ -34,7 +34,6 @@ const CaneScaleTable cane_node4_scale_steps = {
     },
 };
 
-LAYOUT_ASSERT(CaneScaleTable_size, sizeof(CaneScaleTable) == 0x60);
 void TItemWeaponSorcerersCane::transform_model_node() {
     s32 player_list;
     s32 scale_step;

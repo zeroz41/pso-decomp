@@ -57,7 +57,7 @@ TWindowSubItemList::~TWindowSubItemList() {}
 
 TWindowSubItemList::TWindowSubItemList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 0x24, client) {
     m_name = TWindowSubItemList::class_name;
-    ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
+    ensure_status_display(TWindowSubStatusDisp::get_message_10(0x24));
     create_menu_scroll_bar();
     reset_selected();
     item_count = 0;

@@ -33,7 +33,7 @@ uaddr advance_character_load_buffer(s32 slot, s32 size) {
     if (chr_select_load_buffer_base == NULL) {
         return 0U;
     }
-    TLobby__sub_8028D7D0(slot);
+    check_load_buffer_slot_stub(slot);
     if ((size < 0) || (size > 0xA000)) {
         return 0U;
     }
@@ -68,7 +68,7 @@ uaddr reset_character_load_buffer(s32 slot) {
     if (chr_select_load_buffer_base == NULL) {
         return 0U;
     }
-    TLobby__sub_8028D7D0(slot);
+    check_load_buffer_slot_stub(slot);
     if (slot < 4) {
         address = reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (u32)slot * 0xA000U;
         chr_select_load_buffer_base_table[slot] = reinterpret_cast<u8 *>(address);
@@ -80,7 +80,7 @@ uaddr reset_character_load_buffer(s32 slot) {
     return address;
 }
 
-void TLobby__sub_8028D7D0(s32 i) {
+void check_load_buffer_slot_stub(s32 i) {
     s32 n = 4;
     if (chr_select_load_buffer_base == 0) return;
     if (chr_select_load_buffer != 0) n = 12;
@@ -132,7 +132,7 @@ void create_character_creation_effects(void) {
     character_creation_effects.wall = create_TChCrEffWall(tl_03);
     character_creation_effects.heading = create_TChCrEffTag(tl_03);
     character_creation_effects.controller_plate = NULL;
-    if (is_controller_plate_shown() != 0) {
+    if (should_show_controller_plate() != 0) {
         character_creation_effects.controller_plate = TChCrEffCtrlPl::create(tl_03);
     }
 }

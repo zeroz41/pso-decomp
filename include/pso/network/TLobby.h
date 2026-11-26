@@ -135,7 +135,7 @@ struct TLobby : public TObject {
     static void disconnect_protocol();
     static char *init_serial_access();
     static void create_map_csn_ctrl();
-    static s32 is_status_zero();
+    static s32 is_tone_dialing();
 
     static void *create_npc(void *set_data);
     static s32 is_idle();
@@ -233,8 +233,8 @@ struct TLobby : public TObject {
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
-    static void send_6x71_to_player(int client_id);
-    static void send_6x6D_item_state(int client);
+    static void send_6x71_to_player(s32 client_id);
+    static void send_6x6D_item_state(s32 client_id);
     static void make_players();
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
@@ -272,7 +272,7 @@ struct TLobby : public TObject {
     static void send_trade_proposal_modify();
     static void update_trade_list_send();
     static void update_trade_proposal_state();
-    static s32 check_trade_items_and_show_error();
+    static const char *check_trade_items_and_show_error();
     static void apply_trade_items();
 
     void update_alloc_size();
@@ -341,7 +341,7 @@ struct TLobby : public TObject {
     static void clear_flag400();
     static void check_flags_and_proceed();
     static void cancel_trade();
-    static s32 show_event_message(s32 client_id, s32 result, s32 item_id);
+    static const char *show_event_message(s32 client_id, s32 result, s32 item_id);
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
@@ -357,8 +357,8 @@ struct TLobby : public TObject {
     static s32 parse_color_code(char *s);
     void destroy_matching_children();
     static void destroy_download_server(TObject *fade);
-    static void send_compressed_packet_6c(int client);
-    static void send_cmd_6B(int client);
+    static void send_compressed_packet_6c(s32 client_id);
+    static void send_cmd_6B(s32 client_id);
     u8 *create_new_floor_windows();
     static void append_float_value(s32 reg);
     static void append_int_param(s32 reg);
@@ -402,7 +402,7 @@ struct TLobby : public TObject {
     static void disable_window_flags(void*);
     static void get_menu_field_280();
     static s32 get_progress_info(void *, void *, void *, void *);
-    static saddr get_seq_phase(int);
+    static const char *get_seq_phase(int);
     static void handle_com_card();
     static void handle_comcard_window();
     static void handle_create_game_window();
@@ -503,7 +503,6 @@ struct TLobby : public TObject {
     static s32 block_number;  // from the 0x67 lobby join packet
     static s32 join_lobby_idle_timer;
     static s32 player_setup_pending;
-    static u32 join_entries[3252];  // 12 TPlyJoinLobbyEntry
     static s16 pending_local_client_id;  // add_lobby_members' client id, for construct_lobby_players
     static s32 date_seconds;
     static s32 card_list_selected_index;
@@ -527,7 +526,7 @@ s32 is_local_player_off_current_floor();
 class TPlyCharData;
 
 extern "C" {
-void fn_801058E8(TPlyCharData *chr);
+void set_first_inventory_item_flag(TPlyCharData *chr);
 }
 
 char *get_lobby_name();
@@ -546,7 +545,7 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 
 class TObject;
 
-s32 get_online_message_text(s32 id);
+const char *get_online_message_text(s32 id);
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 // A5: the quest info text, shown in the card list window.

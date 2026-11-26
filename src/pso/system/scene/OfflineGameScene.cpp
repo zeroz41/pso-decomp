@@ -99,13 +99,14 @@
 #include "pso/quest/QuestActiveFlag.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/system/task/DestructorChain.h"
 
 
 void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void TLobby::shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
-void TLobby__sub_801A2DF4(void) {  }
-void TLobby__sub_801A2DF8(void) {  }
-void TLobby__sub_801A2DFC(void) {  }
+void offline_scene_init_stub_a(void) {  }
+void offline_scene_init_stub_b(void) {  }
+void offline_scene_init_stub_c(void) {  }
 
 void recreate_split_screen_players(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -198,7 +199,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::update_keyboard_menu, free_keyboard_soft_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
-    {reset_clock_bar_pulse, release_clock_bar_pulse},
+    {reset_clock_bar_pulse, clock_bar_on_floor_free_stub},
     {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {alloc_battle_param_tables, free_battle_param_tables},
@@ -227,7 +228,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {reset_info_board_on_load, reset_info_board_on_unload},
     {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
-    {clear_received_symbol_chat, release_received_symbol_chat},
+    {clear_received_symbol_chat, symbol_chat_on_floor_free_stub},
     {reset_choice_search_data, free_choice_search_data},
     {init_char_slots, free_char_slots},
     {init_jungle_key_slots, unload_jungle_key_slots},
@@ -273,7 +274,7 @@ void TLobby::reload_offline_area() {
     TKeyBoardControl::update();
     free_area_event_sets();
     clear_floor_population();
-    randomize_offline_area_maps();
+    randomize_offline_maps();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     apply_phase_keyboard_mode();
@@ -599,14 +600,14 @@ void init_offline_game_scene(void) {
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
-    TLobby__sub_801F3774();
-    TLobby__sub_801A2DFC();
+    quest_flag_sync_stub();
+    offline_scene_init_stub_c();
     apply_char_to_players();
-    TLobby__sub_801A2DF8();
+    offline_scene_init_stub_b();
     actor_frame_tick = 0;
     local_client_id = 0;
     designated_client_id = 0;
-    TLobby__sub_801A2DF4();
+    offline_scene_init_stub_a();
     leader_selection.find_leader_section_id(designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     TLoadCtrl::cleanup_scene();
@@ -652,11 +653,6 @@ void TScene::set_scene(int scene) { scene_resource_index = scene; }
 // The global character record. The original's static initializer precedes this
 // file's inline copies, which a compiler-generated one never does, so the
 // initializer is spelled out.
-struct DestructorChain {
-    DestructorChain *next;
-    void *destructor;
-    void *object;
-};
 extern "C" {
 static void __sinit_OfflineGameScene_cpp();
 TPlyCharData *__ct__12TPlyCharDataFv(TPlyCharData *self);

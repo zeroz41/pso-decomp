@@ -29,7 +29,7 @@ void debug_print(const char *text) {
 
 void debug_printf(const char *format, ...) {}
 
-void TLobby__sub_8007EB70(void) {}
+void init_quest_vm_stub(void) {}
 
 void operator delete(void *p) {
     xfree(p);

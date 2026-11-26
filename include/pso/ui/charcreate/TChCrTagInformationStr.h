@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+extern s32 char_creation_tag_info_selected_index;
+
 class TChCrTagInformationStr : public TObject {
 public:
     static const char *class_name;

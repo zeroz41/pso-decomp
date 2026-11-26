@@ -73,10 +73,10 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     if (player != NULL) {
         text_builder_append(player->get_name());
     }
-    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0xD9));
+    text_builder_append(TWindowSubStatusDisp::get_message_10(0xD9));
     dialog = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
     const NJS_POINT2 *position = get_window_layout_position(0xB2);
-    dialog->open_yes_no_prompt_with_text(reinterpret_cast<saddr>(get_shared_text_buffer()),position, 260.0f);
+    dialog->open_yes_no_prompt_with_text(get_shared_text_buffer(),position, 260.0f);
     dialog->set_choice_menu_flag70_bit10();
     TObjPlayer *local = get_player_by_client_id(local_client_id);
     if (local != NULL) {

@@ -71,7 +71,7 @@ void TWindowDD_WS_String::fit_width_to_text() {
     }
 }
 
-void TWindowDD_WS_String::set_first_entry_text(uaddr str) {
+void TWindowDD_WS_String::set_first_entry_text(const char *str) {
     WindowTextEntry *entry;
     entry = (WindowTextEntry *)get_array_entry(0);
     if (entry != NULL) {
@@ -95,7 +95,7 @@ WindowDescriptor word_select_string_descriptor = {
 
 TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
-TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, uaddr str, s32 style)
+TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, const char *str, s32 style)
     : TWindowBase((u8 *)&word_select_string_descriptor, 4, (u8 *)pos) {
     WindowTextEntry *entry;
     m_name = class_name;
@@ -116,7 +116,7 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, uaddr str, s32 sty
     open_tick = 0x01000000;
 }
 
-TWindowDD_WS_String *TWindowDD_WS_String::create(f32 width, f32 *pos, f32 *size, uaddr str, s32 style) {
+TWindowDD_WS_String *TWindowDD_WS_String::create(f32 width, f32 *pos, f32 *size, const char *str, s32 style) {
     word_select_string_descriptor.size[0] = width;
     word_select_string_descriptor.size[1] = window_dd_row_height;
     return new TWindowDD_WS_String(pos, size, str, style);

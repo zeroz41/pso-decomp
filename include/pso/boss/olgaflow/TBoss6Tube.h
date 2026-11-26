@@ -29,7 +29,7 @@ struct TBoss6Tube : public TObject {
     void activate_warp();
     // Puts run_task in state 2 (update_wobble); TBoss6PlotFalz::free_child calls it.
     void start_wobble();
-    static s32 sub_802B1018();
+    static s32 run_task_check_stub();
     static void free_resources();
     static void load_resources();
     static const char *name;

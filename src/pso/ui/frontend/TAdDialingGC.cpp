@@ -48,7 +48,7 @@ const char *TAdDialingGC::name = "TAdDialingGC";
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC::name);
     TAdDialingGC::instance = this;
-    if (is_state_active() != 0) {
+    if (is_pppoe_selected() != 0) {
         this->dial_mode = 1;
     } else if (has_broadband_adapter() == 1) {
         this->dial_mode = 2;
@@ -86,7 +86,7 @@ void TAdDialingGC::run_task() {
 }
 
 void TAdDialingGC::render() {
-    TAdDialingGC__sub_80328B20(this);
+    dialing_render_stub(this);
     render_if_flag_set();
     draw_if_flag_set();
     update();
@@ -134,7 +134,7 @@ void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
     draw_polygon_2d(&poly, 4, 7, -120.0f);
 }
 
-void TAdDialingGC__sub_80328B20(TAdDialingGC *) {}
+void dialing_render_stub(TAdDialingGC *) {}
 
 void TAdDialingGC::draw_dialing_status() {
     char a[0x20];
@@ -304,7 +304,7 @@ void TAdDialingGC::show_guide_button() {
     if (!(this->dial_flags & 2)) {
         GuideButtonSpec spec;
         spec.kind = 1;
-        spec.label = (const char *)get_localized_text_entry(0xF, 0x13);
+        spec.label = get_localized_text_entry(0xF, 0x13);
         spec.from.x = 485.0f;
         spec.to.x = 485.0f;
         spec.from.y = 421.0f;

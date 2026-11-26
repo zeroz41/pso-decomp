@@ -65,9 +65,10 @@
 #include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/BattleModeDataCmd.h"
 #include "pso/item/FloorItemSync.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -105,8 +106,8 @@ const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 
 
 extern "C" {
-void TObjEneRe4Sorcerer__sub_801E3F14(s32);
-void TObjEneRe4Sorcerer__sub_801E3F18(void);
+void start_duel_stub_a(s32);
+void start_duel_stub_b(void);
 
 }
 
@@ -229,7 +230,7 @@ void TPlayerBattleCtrl::update_battle_intro() {
         state_20 = 1;
         break;
     case 1:
-        window_4c->append_line((saddr)intro_text, 0x80);
+        window_4c->append_line(intro_text, 0x80);
         timer = 0xF0;
         state_20 = 2;
         break;
@@ -260,7 +261,7 @@ void TPlayerBattleCtrl::update_battle_intro() {
             }
         }
         sprintf(battle_intro_message_buffer, text[6], names[0].s, names[1].s, names[2].s, names[3].s);
-        ((TWindowMessage *)(window_4c))->append_line((saddr)battle_intro_message_buffer, 0x80);
+        ((TWindowMessage *)(window_4c))->append_line(battle_intro_message_buffer, 0x80);
         timer = 0xF0;
         state_20 = 4;
         break;
@@ -439,14 +440,14 @@ void TPlayerBattleCtrl::update_duel_result() {
                     static const BattleIntroWindowSize size = {216.0f, 84.0f};
                     window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)(&size), 1);
                     if (window_4c != NULL) {
-                        window_4c->append_line((saddr)text[0], 0x80);
+                        window_4c->append_line(text[0], 0x80);
                     }
                 }
                 if (window_50 == NULL) {
                     window_50 = create_window_menu_default(get_window_layout_position(0x54), 3);
-                    window_50->add_text_entry((saddr)text[1], 6, 1);
-                    window_50->add_text_entry((saddr)text[2], 6, 2);
-                    window_50->add_text_entry((saddr)text[3], 6, 3);
+                    window_50->add_text_entry(text[1], 6, 1);
+                    window_50->add_text_entry(text[2], 6, 2);
+                    window_50->add_text_entry(text[3], 6, 3);
                     window_50->calc_window_size();
                     align_menu_entry_positions(window_50);
                     window_50->set_ready_flag();
@@ -713,7 +714,7 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
         BattleIntroWindowSize p = {238.0f, 188.0f};
         window_4c = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
         if (window_4c != NULL) {
-            window_4c->append_line((saddr)text[idx], 0x80);
+            window_4c->append_line(text[idx], 0x80);
         }
         state_20 = 1;
         break;
@@ -1055,8 +1056,8 @@ void TPlayerBattleCtrl::start_duel_battle() {
     uaddr p;
     s32 area;
     s32 i;
-    TObjEneRe4Sorcerer__sub_801E3F14(4);
-    TObjEneRe4Sorcerer__sub_801E3F18();
+    start_duel_stub_a(4);
+    start_duel_stub_b();
     start_time = OSGetTime();
     TLobby::handle_battle_result((u16)local_client_id, 1);
     if ((p = (saddr)get_local_player()) != 0) {
@@ -1089,7 +1090,7 @@ void TPlayerBattleCtrl::init() {
     TOMineTrap::destroy_matching_traps();
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
-    TLobby__sub_8020BCE4();
+    mark_floor_enemies_dead();
     TBattleProximitySound::destroy();
     destroy_floor_decoration_objects();
     i = 0;

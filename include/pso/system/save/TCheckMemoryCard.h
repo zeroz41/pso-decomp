@@ -28,9 +28,9 @@ struct TCheckMemoryCard : public TObject {
     s32 check_player_data();
     s32 check_card();
     void update_card_display(s32 kind, s32 sel, s32 sub_entry, s32 alt_sub_entry);
-    void recreate_message_and_menu(u32 text, s32 sel, u32 first_entry, u32 second_entry);
+    void recreate_message_and_menu(const char *text, s32 sel, const char *first_entry, const char *second_entry);
     void create_card_message(s32 kind, s32 sel, s32 sub_entry, s32 alt_sub_entry);
-    void create_message_and_menu(u32 text, s32 sel, u32 first_entry, u32 second_entry);
+    void create_message_and_menu(const char *text, s32 sel, const char *first_entry, const char *second_entry);
     void close_windows();
     void set_state(s32 new_state);
     void reset();

@@ -53,7 +53,7 @@ struct TObjEneIllGill : public TObjEnemy {
     void clear_charge_hits();
     void update_shadow_attack();
     void update_damage_recovery();
-    void sub_803669B0();
+    void update_state_6();
     void update_weapon_attack();
     void update_forward_movement();
     void update_charge_attack();

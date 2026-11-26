@@ -97,7 +97,7 @@ void TObjSuisouLobby::update_particle() {
     }
 }
 
-void TObjSuisouLobby::sub_80369D68() {}
+void TObjSuisouLobby::init_stub() {}
 
 void *TObjSuisouLobby::create(void *set_data) {
     return new TObjSuisouLobby(tl_05, set_data);
@@ -160,7 +160,7 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
     } else {
         fade_state = 3;
     }
-    sub_80369D68();
+    init_stub();
     fade_scale = 1.0f;
     model = model_resource->models->model;
     texlist = lobby_texlist;

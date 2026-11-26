@@ -122,10 +122,10 @@ void TMedicalCenterSequence::restore_player_state() {
 }
 
 void TMedicalCenterSequence::open_greeting_window() {
-    f32 pos[2];
-    pos[0] = 332.0f;
-    pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), pos);
+    NJS_POINT2 pos;
+    pos.x = 332.0f;
+    pos.y = 80.0f;
+    create_message_window(get_window_layout_position(0x2C), &pos);
     display_shop_message(0x1F, 1);
     meseta_window = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
@@ -257,9 +257,9 @@ void TMedicalCenterMes::run_task() {
         }
         set_shop_slot_active(player->get_entity_id());
         TWindowCtrl::suppress_slot(player->get_entity_id());
-        f32 pos[2] = {332.0f, 80.0f};
+        NJS_POINT2 pos = {332.0f, 80.0f};
         s32 id = player->get_entity_id();
-        create_message_window(get_window_layout_position(0x2C), pos, id);
+        create_message_window(get_window_layout_position(0x2C), &pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
             player->init_effect_5f0();

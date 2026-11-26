@@ -26,13 +26,13 @@ public:
     static s32 is_system_card_file_absent();
     static s32 is_load_complete();
     s32 poll_load_status();
-    s32 is_message_skip_pressed();
-    void request_reset_phase();
+    s32 is_decide_pressed();
+    void restart_main_phase();
     void apply_settings();
     void close_and_next(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
-    void close_and_dispatch(u32 text, s32 sel, u32 first_text, u32 second_text);
+    void close_and_dispatch(const char *text, s32 sel, const char *first_text, const char *second_text);
     void open_message_choice_by_entries(s32 entry, s32 sel, s32 first_entry, s32 second_entry);
-    void open_message_choice(u32 text, s32 sel, u32 first_text, u32 second_text);
+    void open_message_choice(const char *text, s32 sel, const char *first_text, const char *second_text);
     void close_windows();
     void create_backgrounds();
     s32 check_capacity();
@@ -47,7 +47,7 @@ public:
     void enter_state_24();
     void run_state_23();
     void show_confirm_dialog();
-    void run_state_22();
+    void result_bg_exit_stub();
     void create_result_bg();
     void build_selection_summary();
     void run_states_19_21();

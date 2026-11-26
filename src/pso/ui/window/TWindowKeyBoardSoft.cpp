@@ -526,7 +526,7 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 col, s32 row) {
 #pragma push
 #pragma fp_contract on
 #pragma pool_data off
-void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
+void TWindowKeyBoardSoft::draw_key_labels(WindowDrawContext *ctx) {
     u32 tab_color;
     u32 page;
     s32 cursor;
@@ -655,7 +655,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
 }
 #pragma pop
 
-void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
+void TWindowKeyBoardSoft::draw_key_area_borders(WindowDrawContext *ctx) {
     ColorLineVertex v[5];
     u32 col[5];
     ColorLineList d;
@@ -834,8 +834,8 @@ void TWindowKeyBoardSoft::render() {
     WindowDrawContext *ctx;
     ctx = (WindowDrawContext *)(draw_default_entry());
     draw_key_frames(ctx);
-    sub_80261DD8(ctx);
-    sub_802616BC(ctx);
+    draw_key_area_borders(ctx);
+    draw_key_labels(ctx);
 }
 
 #pragma push

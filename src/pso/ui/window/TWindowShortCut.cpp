@@ -71,7 +71,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     WindowTextEntry *preview = (WindowTextEntry *)get_array_entry(10);
 
     kind = shortcut[0];
-    set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
+    set_text_entry_string(shortcut_label, TWindowSubStatusDisp::get_message_10(0xC4), 0);
     get_shortcut_entry_codes(index, &icon, &icon_detail, client_index);
     if (icon != 0x33) {
         const NJS_POINT2 *origin = get_entry_ptr(icon);
@@ -83,22 +83,22 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
     const NJS_POINT2 *detail_origin = get_entry_ptr(icon_detail);
     detail_icon->set_sprite_uv_from_pixels(detail_origin->x, detail_origin->y);
-    set_text_entry_string(kind_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC5), 0);
-    set_text_entry_string(kind_name, (uaddr)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
+    set_text_entry_string(kind_label, TWindowSubStatusDisp::get_message_10(0xC5), 0);
+    set_text_entry_string(kind_name, TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
     s32 kind_sprite = shortcut_kind_sprites[kind - 1];
     const NJS_POINT2 *kind_origin = get_entry_ptr(kind_sprite);
     kind_icon->set_sprite_uv_from_pixels(kind_origin->x, kind_origin->y);
 
     position.x = 211.0f;
     position.y = 380.0f;
-    set_text_entry_string(preview_label, (uaddr)TWindowSubStatusDisp::get_message_10(0x35), 0);
+    set_text_entry_string(preview_label, TWindowSubStatusDisp::get_message_10(0x35), 0);
 
     switch (kind) {
     case 0:
         break;
     case 1: {
         char *text = get_chat_shortcut_text(shortcut + 1);
-        set_text_entry_string(preview, (uaddr)text, 0);
+        set_text_entry_string(preview, text, 0);
         preview->measure_text(200.0f);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
@@ -106,7 +106,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.x = round_away_from_zero(position.x - 0.5f * size.x);
         position.y = round_away_from_zero(position.y - 0.5f * size.y);
         preview_window = create_quest_message_window_at(&position, &size);
-        dispatch_message_window_text(preview_window, (saddr)text, 0x402);
+        dispatch_message_window_text(preview_window, text, 0x402);
         preview_window->set_depth(50060.0f);
         break;
     }
@@ -114,7 +114,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         char *buffer = get_shared_text_buffer();
         u16 player = (u16)local_client_id;
         TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(shortcut + 1), buffer, player);
-        set_text_entry_string(preview, (uaddr)get_shared_text_buffer(), 0);
+        set_text_entry_string(preview, get_shared_text_buffer(), 0);
         measure_message_text_width_default(preview);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
@@ -122,13 +122,13 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.x = round_away_from_zero(position.x - 0.5f * size.x);
         position.y = round_away_from_zero(position.y - 0.5f * size.y);
         preview_window = create_quest_message_window_at(&position, &size);
-        dispatch_message_window_text(preview_window, (saddr)get_shared_text_buffer(), 2);
+        dispatch_message_window_text(preview_window, get_shared_text_buffer(), 2);
         preview_window->set_depth(50060.0f);
         break;
     }
     case 3: {
         SymbolChatPreset *preset = TWindowChat::open_symbol_chat(shortcut + 1);
-        set_text_entry_string(preview, (uaddr)preset->get_symbol_chat_data(), 0);
+        set_text_entry_string(preview, (const char *)preset->get_symbol_chat_data(), 0);
         f32 height;
         f32 width;
         width = 203.0f;
@@ -137,7 +137,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.x -= 0.5f * width;
         size.y = height;
         position.y -= 0.5f * height;
-        TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol(&position, (saddr)&size);
+        TWindowChatSymbol *symbol = new TWindowChatSymbol(&position, &size);
         symbol_preview = symbol;
         symbol_preview->set_selection(preset);
         symbol_preview->set_depth(50060.0f);
@@ -169,10 +169,10 @@ TWindowShortCut::~TWindowShortCut() {
     }
     delete this->heading;
 }
-TWindowShortCut::TWindowShortCut(saddr position, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)position) {
+TWindowShortCut::TWindowShortCut(const NJS_POINT2 *position, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)position) {
     WindowHeading *heading;
     m_name = TWindowShortCut::class_name;
-    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
+    heading = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
     this->heading = heading;
     this->preview_window = NULL;
     this->symbol_preview = NULL;

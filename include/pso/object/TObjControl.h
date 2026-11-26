@@ -21,7 +21,7 @@ public:
 
 TObjChara *get_enemy_entity(u16 entity_id);
 
-void obj_control_on_floor_free(void);
+void object_control_on_floor_free_stub(void);
 
 // The enemy's row of the floor's set data (what set_entry points at).
 struct EnemySetData {

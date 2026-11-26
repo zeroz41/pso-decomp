@@ -119,8 +119,8 @@ void reset_current_char_appearance(s32 _w0) {
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
-int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { reset_current_char_appearance((saddr)p); return 1; }
+int char_select_check_stub(void) { return 1; }
+int reset_char_appearance_callback(void* p) { reset_current_char_appearance((saddr)p); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -203,7 +203,7 @@ CharacterHeightRange character_proportion_height_table[12] = {
 };
 
 extern "C" {
-s32 reset_uv_if_out_of_range(f32 *uv);
+s32 reset_invalid_proportions(f32 *proportions);
 }
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
@@ -421,7 +421,7 @@ s32 validate_player_visual_record(void *record) {
             ok = 0;
         }
     }
-    if (reset_uv_if_out_of_range(&d->width) != 0) {
+    if (reset_invalid_proportions(&d->width) != 0) {
         ok = 0;
     }
     if (flags != 0) {
@@ -467,10 +467,10 @@ void bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextu
   body->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
   body->present = 1;
 }
-s32 reset_uv_if_out_of_range(f32 *uv) {
-    if (uv[0] < 0.0f || uv[0] >= 1.0f || uv[1] < 0.0f || uv[1] >= 1.0f) {
-        uv[0] = 0.0f;
-        uv[1] = 0.0f;
+s32 reset_invalid_proportions(f32 *proportions) {
+    if (proportions[0] < 0.0f || proportions[0] >= 1.0f || proportions[1] < 0.0f || proportions[1] >= 1.0f) {
+        proportions[0] = 0.0f;
+        proportions[1] = 0.0f;
         return 1;
     }
     return 0;
@@ -574,7 +574,7 @@ void request_chara_making_archives(void) {
     }
 }
 
-void TCharaMaking__sub_8028E790(void) {  }
+void chara_making_init_stub(void) {  }
 
 extern TObject *tl_03;
 

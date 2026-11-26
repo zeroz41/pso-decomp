@@ -29,7 +29,7 @@ void *TWindowRoom::get_title_entry() {
     return (void *)this->get_array_entry(0);
 }
 
-void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
+void TWindowSubStatusDisp::set_entry_display_value(const char *str) {
     set_text_entry_string((WindowTextEntry *)(get_array_entry(0)), str, 0x60);
 }
 
@@ -51,7 +51,7 @@ TWindowRoom::TWindowRoom(char *title)
     WindowTextEntry *entry;
     m_name = TWindowRoom::class_name;
     entry = (WindowTextEntry *)this->get_array_entry(0);
-    set_text_entry_string(entry, (uaddr)title, 0x60);
+    set_text_entry_string(entry, title, 0x60);
     measure_message_text_width_default(entry);
     target_size[0] = 10.0f + (entry->x + entry->width);
     target_position[0] -= target_size[0];

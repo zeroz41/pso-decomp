@@ -172,6 +172,7 @@ void TObjEneNanoDrago::run_move_action() {  }
 void TObjEneNanoDrago::run_attack_action() {  }
 void TObjEneNanoDrago::run_idle_action() {  }
 TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCustom(parent) {
+    EnemyPlacement *setData_enemyplacement = (EnemyPlacement *)setData;
     s32 i;
     m_name = nano_drago_name;
     apply_set_data(setData);
@@ -179,7 +180,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
-    state36C = ((EnemyPlacement *)setData)->state;
+    state36C = setData_enemyplacement->state;
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
     set_action_table(action_table);
@@ -212,7 +213,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     alternateBeam = 0;
     set_param(0xF);
     sinkingOffset = 0.0f;
-    if (((EnemyPlacement *)setData)->wave != 0 && !(behavior_flags & 0x40000)) {
+    if (setData_enemyplacement->wave != 0 && !(behavior_flags & 0x40000)) {
         start_appear();
     }
     flightHeight = 0.0f;

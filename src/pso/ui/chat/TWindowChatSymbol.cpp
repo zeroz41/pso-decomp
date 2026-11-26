@@ -311,7 +311,7 @@ WindowDescriptor window_chat_symbol_settings = {
     {203.0f, 78.0f}, 50100.0f, &symbol_chat_layout_sprite_records, 0xB,
 };
 
-TWindowChatSymbol::TWindowChatSymbol(const NJS_POINT2 *position, saddr size) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)position) {
+TWindowChatSymbol::TWindowChatSymbol(const NJS_POINT2 *position, const NJS_POINT2 *size) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)position) {
     this->m_name = class_name;
     set_size((f32 *)size);
     this->selected_preset = 0;

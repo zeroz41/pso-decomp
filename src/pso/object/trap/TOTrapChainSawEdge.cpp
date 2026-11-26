@@ -382,7 +382,7 @@ void TOTrapChainSaw::update_demo() {
     if (TObjPlayer::check_demo_mode() == 1) {
         base_yaw = rotation_y;
         rotation_y = base_yaw + yaw_offset;
-        sub_80154D78();
+        collision_update_stub();
         rotation_y = base_yaw;
     }
 }

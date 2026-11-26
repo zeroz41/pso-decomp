@@ -815,7 +815,7 @@ pso/ui/window/TObjCHTimeWinTimer.cpp:
 pso/player/TPlyCharData.cpp:
 	.text       start:0x80071DFC end:0x80072230
 
-pso/quest/challenge/ChallengeCommands.cpp:
+pso/network/ChallengePackets.cpp:
 	.text       start:0x80072230 end:0x800726F0
 
 pso/object/TObjChallengeRetry.cpp:
@@ -4845,7 +4845,7 @@ pso/ui/city/THunterGuildSeqOffline_801F3718.cpp:
 pso/object/door/TObjDoor_801F3754.cpp:
 	.text       start:0x801F3754 end:0x801F3774
 
-pso/quest/QuestFlagCommand.cpp:
+pso/quest/QuestFlagSync.cpp:
 	.text       start:0x801F3774 end:0x801F3A24
 	.rodata     start:0x80449CD8 end:0x80449D08
 	.bss        start:0x80512790 end:0x805127D0
@@ -5275,7 +5275,7 @@ pso/audio/SoundRequests.cpp:
 	.sbss       start:0x805D6278 end:0x805D62D8
 	.sdata2     start:0x805DC740 end:0x805DC760
 
-pso/audio/BgmStream.cpp:
+pso/audio/MusicControl.cpp:
 	.text       start:0x80226C3C end:0x80227AA0
 	.ctors      start:0x80433FA0 end:0x80433FA4
 	.rodata     start:0x8044C858 end:0x8044C8D0
@@ -7237,7 +7237,7 @@ pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp:
 	.sdata      start:0x805D3F38 end:0x805D3F3C
 	.sdata2     start:0x805DE778 end:0x805DE780
 
-pso/render/MericarolRenderTexture.cpp:
+pso/render/MericarolTexture.cpp:
 	.text       start:0x802D1C84 end:0x802D1D48
 	.bss        start:0x80540B98 end:0x80540BD0
 	.sbss       start:0x805D6880 end:0x805D6884
@@ -8194,7 +8194,7 @@ pso/ui/TTitleMenu.cpp:
 	.data       start:0x804EE458 end:0x804EE470
 	.sdata2     start:0x805DF8B0 end:0x805DF8C4
 
-pso/ui/TitleTextureResources.cpp:
+pso/ui/TitleTextures.cpp:
 	.text       start:0x80335E7C end:0x80336054
 	.data       start:0x804EE470 end:0x804EE488
 	.sdata2     start:0x805DF8C8 end:0x805DF8E8
@@ -8511,14 +8511,14 @@ pso/ui/frontend/TAdFloorLoadCamGC.cpp:
 	.sdata      start:0x805D4340 end:0x805D4344
 	.sdata2     start:0x805DFDA8 end:0x805DFDD0
 
-pso/network/InfoBoardInit.cpp:
+pso/network/InfoBoardState.cpp:
 	.text       start:0x8034C18C end:0x8034C224
 	.sbss       start:0x805D6E98 end:0x805D6EA0
 
 pso/ui/window/TWindowSubInformationBoard_8034C224.cpp:
 	.text       start:0x8034C224 end:0x8034C23C
 
-pso/network/InfoBoardRequest.cpp:
+pso/network/InfoBoardRequests.cpp:
 	.text       start:0x8034C23C end:0x8034C384
 
 pso/ui/window/TSnapshotFileSetup.cpp:
@@ -10484,7 +10484,7 @@ pso/ui/keyboard/KBDXfer.c:
 	.bss        start:0x805A2720 end:0x805A28C0
 	.sbss       start:0x805D7930 end:0x805D7934
 
-pso/system/SiPollingCallback.cpp:
+pso/system/SiPolling.cpp:
 	.text       start:0x803F1804 end:0x803F18B8
 	.sbss       start:0x805D7938 end:0x805D7940
 
@@ -10500,7 +10500,7 @@ pso/system/save/McFsGc.cpp:
 pso/system/save/McFsGcRequests.cpp:
 	.text       start:0x803F339C end:0x803F3BF8
 
-pso/network/NetworkInfoOpen.cpp:
+pso/network/NetworkConfig.cpp:
 	.text       start:0x803F3BF8 end:0x803F3DD4
 	.data       start:0x804FCE38 end:0x804FCE68
 	.sbss       start:0x805D7980 end:0x805D7988 align:32

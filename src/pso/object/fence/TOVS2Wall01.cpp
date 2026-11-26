@@ -85,7 +85,7 @@ BmlResource *vs2_wall01_bml_resource;
 
 extern "C" {
 
-void TOVS2Wall01__sub_8017B9AC(void *) {  }
+void vs2_wall_run_task_stub(void *) {  }
 }
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
@@ -432,7 +432,7 @@ void TOVS2Wall01::render() {
 }
 void TOVS2Wall01::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOVS2Wall01__sub_8017B9AC((u8 *)this);
+        vs2_wall_run_task_stub((u8 *)this);
         return;
     }
     switch (this->mode) {

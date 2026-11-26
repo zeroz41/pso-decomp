@@ -162,7 +162,7 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
     text_builder_append(sep);
     text_builder_append(value);
     e = (WindowTextEntry *)get_array_entry(next_line);
-    r = append_message_window_line(this, (saddr)get_shared_text_buffer(), flags | 2, -1);
+    r = append_message_window_line(this, get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
         x = (0.5f) * (target_size[0] - 8.0f);
         x -= (f32)calc_text_width((char *)label);
@@ -177,7 +177,7 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
 }
 
 
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
+s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color) {
     WindowTextEntry *e;
     TWindowMessageLine *rec;
     f32 y;
@@ -263,7 +263,7 @@ WindowDescriptor message_window_settings = {
 };
 
 
-int TWindowMessage::append_line(int text, int flags) { return append_message_window_line(this, text, flags, -1); }
+int TWindowMessage::append_line(const char *text, int flags) { return append_message_window_line(this, text, flags, -1); }
 
 void set_message_window_default_flags(void) {
     message_window_settings.flags = 3;

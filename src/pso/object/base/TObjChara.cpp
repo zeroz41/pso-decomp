@@ -1347,7 +1347,7 @@ s32 TObjChara::select_melee_contact_body(TObjChara *attacker, f32 factor) {
         for (i = 0; i < body_count; i++) {
             if (!(bodies[i].flags & 0x02000000)) {
                 VecCopy(&point, &bodies[i].offset);
-                matrix_mult_vec(0, &point, &point);
+                matrix_mult_vec(NULL, &point, &point);
             }
             dist = point.x * point.x + point.z * point.z;
             r = (bodies[i].radius + attacker->get_attack_range()) * (bodies[i].radius + attacker->get_attack_range());

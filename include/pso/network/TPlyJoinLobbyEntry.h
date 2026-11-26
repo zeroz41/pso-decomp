@@ -27,9 +27,9 @@ extern TAdScrollWinGC *lobby_scroll_text_window;
 extern TWindowMessage *lobby_idle_timeout_window;
 
 void handle_generate_id(void);
-void handle_lobby_text(s32 text);
-void handle_server_message(s32 text);
-void handle_error(s32 text);
+void handle_lobby_text(const char *text);
+void handle_server_message(const char *text);
+void handle_error(const char *text);
 void update_state_with_location(void);
 void lobby_init_hook(void);
 void render_idle_timeout(void);
@@ -42,7 +42,7 @@ void copy_gc_tag(gc_tag *dst, gc_tag *src);
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_join_entry_message(s32 id);
-void show_dialog_value_line(saddr text);
+void show_dialog_value_line(const char *text);
 extern "C" {
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
 void *__ct__13GameListEntryFv(void *entry);

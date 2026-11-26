@@ -65,7 +65,7 @@ void TQuestListChallenge::close_windows() {
     }
 }
 
-void TQuestListChallenge::idle_state() {}
+void TQuestListChallenge::state_stub() {}
 
 void TQuestListChallenge::invoke_callback_and_destroy() {
     void (*callback)(TShopWindowBase *) = on_accept;
@@ -130,8 +130,8 @@ static inline TWindowMessage *create_quest_detail_window(const NJS_POINT2 *posit
 void TQuestListChallenge::update_selection() {
     s32 sel;
     s32 id;
-    s32 text;
-    s32 text2;
+    const char *text;
+    const char *text2;
     if (sequence->is_message_ready() == 0) {
         return;
     }
@@ -181,7 +181,7 @@ void TQuestListChallenge::update_selection() {
 void TQuestListChallenge::create_quest_list_window() {
     s32 id;
     s32 i;
-    s32 e;
+    const char *e;
 
     if (sequence->is_message_ready() != 0 && list_window == NULL) {
         id = player->get_entity_id();
@@ -203,7 +203,7 @@ void TQuestListChallenge::update_state() {
         &TQuestListChallenge::handle_confirm_select,
         &TQuestListChallenge::invoke_callback_and_destroy,
         &TQuestListChallenge::destroy,
-        &TQuestListChallenge::idle_state,
+        &TQuestListChallenge::state_stub,
     };
     (this->*tbl[state])();
 }

@@ -12,7 +12,7 @@
 const char *TObjBoss8PillerCtrl::class_name = "TObjBoss8PillerCtrl";
 
 // grid steps around the centre, ring by ring; {0xFFFF, 0xFFFF} closes a ring
-const Boss8PillerCtrlParam boss8_piller_ctrl_params[41] = {
+const PillerGridStep boss8_piller_ctrl_params[41] = {
     {0, 0}, {0xFFFF, 0xFFFF},
     {1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {0xFFFF, 0xFFFF},
     {2, 0}, {-2, 0}, {-1, 1}, {-1, -1}, {2, 1}, {2, -1}, {-1, 2}, {-1, -2}, {0, 2}, {0, -2}, {1, 2}, {1, -2}, {0xFFFF, 0xFFFF},
@@ -24,7 +24,7 @@ const Boss8PillerCtrlParam boss8_piller_ctrl_params[41] = {
 TObjBoss8PillerCtrl::TObjBoss8PillerCtrl(TObject *parent, f32, const Vec *pos, u16 id) : TObject(parent) {
     m_name = TObjBoss8PillerCtrl::class_name;
     VecCopy(&position, pos);
-    sub_8035C034(&position);
+    position_stub(&position);
     position.y = 0.0f;
     frame = 0;
     piller_arg = id;
@@ -69,7 +69,7 @@ void TObjBoss8PillerCtrl::run_task() {
 
 void TObjBoss8PillerCtrl::render() {  }
 
-void TObjBoss8PillerCtrl::sub_8035C034(Vec *pos) {  }
+void TObjBoss8PillerCtrl::position_stub(Vec *pos) {  }
 
 s32 TObjBoss8PillerCtrl::is_outside_arena(const Vec *pos) {
     Vec position;

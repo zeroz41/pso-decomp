@@ -50,12 +50,10 @@
 #include "pso/render/gjSystem.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 
-extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
-}
 // The collision body every telepipe field collider starts from: a 0.01 sphere.
 CollisionBody telepipe_field_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 0.01f, 0.0f, 0, 0x8031F0B, {0.0f, 0.0f, 0.0f}, 0.0f};

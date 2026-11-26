@@ -495,7 +495,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&cust
     this->back_bank = 1;
     this->cursor_frame = 0;
     this->angle = 0xB200;
-    heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
+    heading = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
     status_disp = heading;
     this->refresh_palette_slots();
 }

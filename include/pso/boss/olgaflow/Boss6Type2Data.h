@@ -9,9 +9,9 @@
 // The constructor addresses every table on its own (no shared .rodata base); TBoss6Rock reads
 // boss6_arena_center as well.
 
-struct Boss6Type2ParticleAttachment { s32 a; s32 b; };
-struct Boss6Type2MotionBlock { s32 a; s32 b; s32 rest[7]; };
-struct Boss6Type2CollisionBodyNode { s32 kind; s32 idx; };
+struct ParticleAttachment { s32 effect_id; s32 node; };
+struct MotionIndexBlock { s32 a; s32 b; s32 rest[7]; };
+struct CollisionBodyNode { s32 kind; s32 idx; };
 struct TBoss6Type2MotionTrack;
 
 // Fallbacks load_battle_params uses when the boss parameter entries are not positive.
@@ -38,9 +38,9 @@ extern const s32 boss6_type2_variant_id_table[4];
 extern const s32 boss6_type2_body_model_indices[2];
 extern const Boss6StripDesc boss6_type2_plot_falz_entry_table[2];
 extern const s32 boss6_type2_zero_vec[4];
-extern const Boss6Type2MotionBlock boss6_type2_zero_motion_block;
+extern const MotionIndexBlock boss6_type2_zero_motion_block;
 extern const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform;
-extern const Boss6Type2CollisionBodyNode boss6_type2_collision_body_nodes[3];
+extern const CollisionBodyNode boss6_type2_collision_body_nodes[3];
 extern const s32 boss6_type2_mag_spawn_offsets[2];
 extern const Vec boss6_type2_player_aim_offset;
 

@@ -29,7 +29,7 @@ public:
 public:
     void close_and_advance(s32 message);
     void set_message_by_index(s32 message);
-    void open_message_window(u32 text);
+    void open_message_window(const char *text);
     void destroy_if_keyboard_idle();
     void save_if_dirty();
     void close_and_advance_to_3();

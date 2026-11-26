@@ -204,7 +204,7 @@ void TObjCMMainMenu::run_task() {
     };
     (this->*table[state])();
     creation_menu_selected_entry = this->entries[this->selected_entry];
-    TObjCMMainMenu::update_random_proportion_action(this);
+    update_random_proportion_action();
     after_state_update();
     switch (state) {
     case 4:
@@ -405,7 +405,7 @@ void TObjCMMainMenu::update_slide_offset() {
     }
 }
 
-void TObjCMMainMenu::update_random_proportion_action(void * _w0) {
+void TObjCMMainMenu::update_random_proportion_action() {
     f32 right_trigger_ratio;
     f32 ratio;
     if (TAdSinglePlyChrSelectGC::is_active() != 0) {
@@ -559,7 +559,7 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
         step = 19.0f * s;
         y = 396.0f * s - step;
         for (i = 0; i < 2; i++) {
-            const char *str = (const char *)get_message_text(i + 0x3B);
+            const char *str = get_message_text(i + 0x3B);
             f32 x = 604.0f - (f32)calc_text_width((char *)str);
             TCameraCtrl::restore_full_screen_view();
             draw_menu_text(x, y, str, color);
@@ -1879,14 +1879,14 @@ void TObjCMName::run_task() {
         if (ticks > 1) {
             kb = new TKeyBoardControl(this, 12, 0, 0, TChCrEffCtrlPl::get_clamped_player_index());
             keyboard = kb;
-            ((TKeyBoardControl *)keyboard)->set_text((char *)appearance->name);
+            (keyboard)->set_text((char *)appearance->name);
             scale = TObjCMMainMenu::get_scale();
             pos[0] = 148.0f;
             pos[1] = 137.0f * scale;
-            ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)pos);
+            (keyboard)->set_sub_position((u8 *)pos);
             pos[0] = 53.0f;
             pos[1] = 178.0f * scale;
-            ((TKeyBoardControl *)keyboard)->set_soft_position((u8 *)pos);
+            (keyboard)->set_soft_position((u8 *)pos);
             initialized = 1;
         }
     } else if (active == 0) {
@@ -1898,8 +1898,8 @@ void TObjCMName::run_task() {
         if ((fade += 0.16666667f) > 1.0f) {
             fade = 1.0f;
         }
-        if (((TKeyBoardControl *)keyboard)->is_confirmed() != 0) {
-            buf = (char *)((TKeyBoardControl *)keyboard)->realloc_buffer();
+        if ((keyboard)->is_confirmed() != 0) {
+            buf = (char *)(keyboard)->realloc_buffer();
             sound = 0x53704;
             strncpy(name, buf, 12);
             name[12] = 0;

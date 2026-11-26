@@ -39,8 +39,8 @@ void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     }
 }
 
-TWindowMenuTeamStatus *TWindowMenuTeamStatus::create(void *tbl) {
-    return new TWindowMenuTeamStatus((saddr)tbl);
+TWindowMenuTeamStatus *TWindowMenuTeamStatus::create(const char *tbl) {
+    return new TWindowMenuTeamStatus(tbl);
 }
 
 TWindowMenuTeamStatus::~TWindowMenuTeamStatus() {}
@@ -51,5 +51,5 @@ WindowDescriptor team_status_window_layout = {
     {605.0f, 184.0f}, 50050.0f, team_status_window_layout_entries, 3,
 };
 
-TWindowMenuTeamStatus::TWindowMenuTeamStatus(s32 arg)
+TWindowMenuTeamStatus::TWindowMenuTeamStatus(const char *arg)
     : TWindowShop((u8 *)get_window_layout_position(0xB0), arg, 0x40, (u8 *)&team_status_window_layout) {}

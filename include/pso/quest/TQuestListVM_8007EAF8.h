@@ -12,7 +12,7 @@ extern CameraParams *demo_camera_params_table[16];
 
 TQuestVmDownLoadServer *get_quest_vm_download_server(void);
 extern "C" {
-void TLobby__sub_8007EB70(void);
+void init_quest_vm_stub(void);
 void __dl__FPv(void);
 }
 u8 *alloc_zeroed_array(s32 count, s32 size);

@@ -82,7 +82,7 @@ void init_scene_fog_system(void) {
 }
 
 void TFogCtrl::reset() {
-    TObjFogCollisionPoison__sub_801533BC();
+    fog_reset_stub();
     destroy_instance();
     if (fog_entry_array != NULL) {
         mem_free(fog_entry_array);

@@ -326,7 +326,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
 }
 
 void TAdChrSelPlayerGC::draw_model_with_arg(NJS_OBJECT *model) {
-    this->model = (NJS_OBJECT *)model;
+    this->model = model;
     set_motion_interpolation_flag();
     draw_saving_joints_checked();
 }

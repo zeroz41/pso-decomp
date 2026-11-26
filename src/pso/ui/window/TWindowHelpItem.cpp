@@ -245,7 +245,7 @@ void TWindowHelpItem::clear_help_item() {
     m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s8 page) { if (set_list_page(page_indicator, page) != 0) { this->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s8 page) { if (turn_page_indicator(page_indicator, page) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(TItemData *item, s32 id) { this->secondary_id = id; this->secondary_item = item; update_cursor_selection(); dispatch_item_help(); }
 
@@ -331,7 +331,7 @@ void TWindowHelpItem::dispatch_item_help() {
         } else {
             help_flags &= ~2;
             lock_page_flip();
-            init_text((void *)(get_localized_text_entry(0x10, ((s32)primary_id & 0xF) + 0x18)));
+            init_text(get_localized_text_entry(0x10, ((s32)primary_id & 0xF) + 0x18));
         }
     } else if (active_item->is_wrapped() != 0) {
         help_flags &= ~2;
@@ -777,7 +777,7 @@ void TWindowHelpItem::show_armor_resistances() {
     update_resistance_rows();
     label = (WindowTextEntry *)get_array_entry(5);
     value_entry = (TWindowLayoutNumber *)get_array_entry(6);
-    TWindowDuelResult::set_default_status(label, (saddr)TWindowSubStatusDisp::get_message_10(0xA1));
+    TWindowDuelResult::set_default_status(label, TWindowSubStatusDisp::get_message_10(0xA1));
     label->reveal_all();
     value_entry->value = active_item->data1.data_u8[5];
 }
@@ -1127,7 +1127,7 @@ void TWindowHelpItem::show_item_description() {
     m_callback = &TWindowHelpItem::idle_update;
     e = (WindowTextEntry *)this->get_array_entry(0);
     this->format_description_with_price();
-    set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((e), (get_shared_text_buffer()), 0x20);
     e->reveal_all();
     e2 = (HelpItemRarityStarRow *)this->get_array_entry(1);
     e2->stars = (u8)(active_item)->calc_display_grade();
@@ -1156,7 +1156,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         if (current_language == LANGUAGE_JAPANESE) {
             text_builder_append(get_help_text_string(active_item->data1.data_u8[4]));
         }
-        set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
+        set_text_entry_string(e0, get_shared_text_buffer(), 0x20);
         e0->reveal_all();
         e1 = (WindowSpritePart *)this->get_array_entry(1);
         e2 = (WindowTextEntry *)this->get_array_entry(2);
@@ -1207,7 +1207,7 @@ void TWindowHelpItem::update_displayed_item() {
     this->init_text((get_shared_text_buffer()));
 }
 
-void TWindowHelpItem::init_text(void *str) {
+void TWindowHelpItem::init_text(const char *str) {
     WindowTextEntry *e;
     init_window_layout_entries(
         &this->entry_list,
@@ -1215,7 +1215,7 @@ void TWindowHelpItem::init_text(void *str) {
         this->client_index);
     m_callback = &TWindowHelpItem::idle_update;
     e = (WindowTextEntry *)this->get_array_entry(0);
-    set_text_entry_string(e, (uaddr)str, 0x20);
+    set_text_entry_string(e, str, 0x20);
     e->reveal_all();
 }
 

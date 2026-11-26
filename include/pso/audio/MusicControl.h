@@ -1,5 +1,5 @@
-#ifndef PSO_AUDIO_BGMSTREAM_H
-#define PSO_AUDIO_BGMSTREAM_H
+#ifndef PSO_AUDIO_MUSICCONTROL_H
+#define PSO_AUDIO_MUSICCONTROL_H
 
 #include "types.h"
 
@@ -8,7 +8,7 @@
 void *musyx_malloc_hook(u32 size);
 void pre_retrace_callback(u32 retrace_count);
 void post_retrace_callback(u32 retrace_count);
-void bgm_adxt_error_callback(s32, const char *);
+void adxt_error_callback_stub(s32, const char *);
 
 // Starts the loading music stream of the given index (0-3).
 void start_bgm_stream(s32 index);

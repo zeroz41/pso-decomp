@@ -6,8 +6,8 @@
 // The account settings init_work reads from the network configuration.
 struct AccountConfigRecord {
     s32 f0;
-    char host[0x80];
-    char user[0x20];
+    char login_user[0x80];
+    char login_password[0x20];
     char phone[3][0x40];
     u32 dns1;
     u32 dns2;
@@ -52,12 +52,12 @@ extern void *network_info_work;
 extern u16 network_config_open;
 extern int network_lease_time; /* the DHCP lease time NetworkConnect keeps */
 BOOL read_dial_prefix(char *dst);
-s32 adapter_supports_connection(s32 mode);
+s32 has_network_adapter(s32 mode);
 int is_network_info_loaded(void);
 
 // 1 when the broadband configuration's connection type is 1 (PPPoE).
-s32 is_state_active();
-s32 is_dhcp_connection(void);
+s32 is_pppoe_selected();
+s32 is_dhcp_selected(void);
 
 s32 is_confirmed();
 s32 has_broadband_adapter(void);

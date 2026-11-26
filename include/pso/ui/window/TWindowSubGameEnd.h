@@ -23,8 +23,8 @@ struct TWindowSubGameEnd : public TObject {
 
 LAYOUT_ASSERT(TWindowSubGameEnd_size, sizeof(TWindowSubGameEnd) == 0x2C);
 
-void clear_game_end_window_flag_on_floor_free(void);
-void clear_game_end_window_flag_on_floor_load(void);
+void clear_game_end_window_on_floor_free(void);
+void clear_game_end_window_on_floor_load(void);
 
 void init_char_select(TObject *fade);
 

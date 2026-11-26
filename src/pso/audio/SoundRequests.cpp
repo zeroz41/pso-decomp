@@ -10,7 +10,7 @@
 #include "pso/audio/SoundPlayback.h"
 #include "pso/system/vector.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -104,7 +104,7 @@ void update_music_stream_gain(s32 user) {
   music_stream_gain = (s32) (0.42333332f * ((f32) total));
   set_music_streams_volume(total);
 }
-void TTecRaFoie__sub_80226254(void) {  }
+void cleanup_city_area_stub(void) {  }
 
 void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     if ((sound_requests_enabled != 0) && (slot >= 0) && (slot < 0x28)) {
@@ -124,7 +124,7 @@ void stop_sound_request(s32 idx) {
     }
 }
 
-int init_lobby_sound_mode(void) { return TLobby::init_sound_mode(); }
+int init_sound_output_mode(void) { return TLobby::init_sound_mode(); }
 
 int TLobby::init_sound_mode() {
     u8 *p;
@@ -172,7 +172,7 @@ void TLobby::set_sound_output_mode(s32 mode) {
 void reset_sound_pitch_requests(void) {
     s32 i;
     if (sound_requests_enabled != 0) {
-        TLobby__sub_80227D38();
+        fade_all_voice_channels();
     }
     for (i = 0; i < 0x28; i++) {
         sound_pitch_requests[i].flags &= lbl_805DC748;
@@ -355,7 +355,7 @@ void update_sound_request_slots(void) {
         }
         if (lbl_805D6279 == 0) {
             for (i = 0; i < 0x28; i++) {
-                r = get_sound_request_voice_state(i);
+                r = get_sound_voice_state(i);
                 if (r == -1 || r == 1) {
                     e = &sound_pitch_requests[i];
                     t = &e->timer;
@@ -389,7 +389,7 @@ void update_sound_request_slots(void) {
     }
 }
 
-int reset_floor_sound_state(s32) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); init_lobby_sound_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
+int enable_sound_requests(s32) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); init_sound_output_mode(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
 s32 reset_sound_request_state(void) {
     s32 i;

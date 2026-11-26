@@ -92,7 +92,7 @@ s32 TWindowMessageYesNo::is_child_visible() {
     }
     return choice_menu->is_decided();
 }
-void initialize_option_dialog(TWindowMessageYesNo *dialog, s32 message, const NJS_POINT2 *position, f32 width) {
+void initialize_option_dialog(TWindowMessageYesNo *dialog, const char *message, const NJS_POINT2 *position, f32 width) {
     dialog->message_menu = create_window_menu(position, 1, dialog->client_id);
     dialog->message_menu->add_text_entry(message, 0x21, 0);
     dialog->message_menu->disable_input();
@@ -100,9 +100,9 @@ void initialize_option_dialog(TWindowMessageYesNo *dialog, s32 message, const NJ
     dialog->message_menu->calc_layout_height(width);
 }
 
-void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, const NJS_POINT2 *message_position, f32 width) {
+void open_yes_no_prompt(TWindowMessageYesNo *dialog, const char *title, const char *text, const NJS_POINT2 *message_position, f32 width) {
     NJS_POINT2 position;
-    if (title == 0U) {
+    if (title == NULL) {
         dialog->message_menu = create_window_menu(message_position, 1, dialog->client_id);
     } else {
         dialog->message_menu = reinterpret_cast<TWindowMenu *>(create_titled_window_menu(message_position, 1, title, dialog->client_id));
@@ -116,7 +116,7 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, const 
 }
 
 
-void TWindowMessageYesNo::open_yes_no_prompt_with_text(s32 text, const NJS_POINT2 *pos, f32 width) {
+void TWindowMessageYesNo::open_yes_no_prompt_with_text(const char *text, const NJS_POINT2 *pos, f32 width) {
     open_yes_no_prompt(this, 0, text, pos, width);
 }
 

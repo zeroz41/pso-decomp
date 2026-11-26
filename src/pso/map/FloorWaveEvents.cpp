@@ -100,9 +100,9 @@ s32 TLobby::is_scene_ready() {
     }
     return 0;
 }
-void TLobby__sub_80207E24(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
-void TLobby__sub_80207E44(void) {  }
-void randomize_offline_area_maps(void) { randomize_adventure_maps(); }
+void copy_game_variations(void* p, s32 size) { ((TLobby *)p)->copy_table_entries(size); }
+void init_city_area_stub(void) {  }
+void randomize_offline_maps(void) { randomize_adventure_maps(); }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection) {
     return get_floor_map_selection(floor, selection);
 }
@@ -118,7 +118,7 @@ saddr get_floor_scene_table(s32 area) {
 
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
-void reset_lobby_story_select(void) { TLobby::reset_story_select(); }
+void reset_online_story_select(void) { TLobby::reset_story_select(); }
 
 s32 init_object_set_data(ObjectSetData *set) {
     s32 r;
@@ -350,16 +350,16 @@ void send_6x05_wave_set_switch(s16 switch_id) {
     }
     ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
-s32 wave_link_objects(s16 room, s16 wave) { return TLobby::link_matching_objects(room, wave); }
-s32 wave_spawn_objects(s16 room, s16 wave) { return spawn_objects_at_pos(room, wave); }
+s32 wave_event_link_objects(s16 room, s16 wave) { return TLobby::link_matching_objects(room, wave); }
+s32 wave_event_spawn_objects(s16 room, s16 wave) { return spawn_objects_at_pos(room, wave); }
 
 void request_wave_event_stop(void) { wave_event_stop_requested = 1; }
 
-void TLobby__sub_80208648(void) {  }
+void command_exit_stub(void) {  }
 
 
 WaveEventAction wave_event_action_table[16] = {
-    { TLobby::invoke_command, TLobby__sub_80208648 },
+    { TLobby::invoke_command, command_exit_stub },
     { TLobby::invoke_command, request_wave_event_stop },
     { 0, 0 },
     { 0, 0 },
@@ -367,8 +367,8 @@ WaveEventAction wave_event_action_table[16] = {
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_spawn_objects },
-    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_link_objects },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_spawn_objects },
+    { TLobby::dispatch_opcode_two_u16, (WaveEventActionFunc)wave_event_link_objects },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_set_switch },
     { TLobby::dispatch_stream_command, (WaveEventActionFunc)send_6x05_wave_clear_switch },
     { dispatch_wave_event_action, (WaveEventActionFunc)send_6x67_wave_trigger_event },

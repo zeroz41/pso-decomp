@@ -26,8 +26,8 @@
 
 void * player_render_texture_buffer;
 
-extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
-const char *TObjEneRe2Flower_EffCurse3::class_name = TObjEneRe2Flower_EffCurse3__class_name_string;
+extern const char re2_flower_eff_curse3_class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
+const char *TObjEneRe2Flower_EffCurse3::class_name = re2_flower_eff_curse3_class_name_string;
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {

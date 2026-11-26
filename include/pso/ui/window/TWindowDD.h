@@ -100,10 +100,10 @@ struct TWindowDD : public TObject
     static s16 read_resolved_value(s32 entry_id, s32 value_index);
     static void append_word_select_entry_words(WordSelectMessage *entry, char *buf, s32 *pos);
     static void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
-    static void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos);
+    static void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, const char *word, char *buf, s32 *pos);
     static void append_word_select_token(s16 id, char *buf, s32 *pos);
     static void convert_type3_message(WordSelectMessage *src, WordSelectMessage *dst);
-    static void append_word_inside_phrase(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *buf, s32 *pos);
+    static void append_word_inside_phrase(WordSelectMessage *src, s16 id, const char *verb, const char *phrase, char *buf, s32 *pos);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
     static s32 is_non_topic_word(s32 id);
@@ -259,7 +259,7 @@ extern const f32 window_dd_quad_scales[8];
 void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices, s32 row);
 void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices);
 f32 word_select_inverse_depth(f32 depth, f32 offset);
-saddr get_word_select_token_text(s16 id);
+const char *get_word_select_token_text(s16 id);
 void handle_6x74_word_select(G_WordSelect_6x74 *cmd);
 
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.

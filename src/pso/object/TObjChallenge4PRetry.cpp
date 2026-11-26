@@ -28,7 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"

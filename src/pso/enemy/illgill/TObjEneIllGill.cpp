@@ -238,7 +238,7 @@ void TObjEneIllGill::run_task() {
         update_shadow_attack();
         break;
     case 6:
-        sub_803669B0();
+        update_state_6();
         break;
     case 7:
         update_damage_recovery();
@@ -903,7 +903,7 @@ void TObjEneIllGill::free_resources() {
 
 void TObjEneIllGill::run_miss_reaction() { clear_actor_flags(256); }
 
-void TObjEneIllGill::sub_803669B0() {
+void TObjEneIllGill::update_state_6() {
     this->clear_actor_flags((int)(0x04040000U));
     this->advance_animation();
     if (!(this->actorFlags & 0x800000)) {
@@ -1369,10 +1369,11 @@ void TObjEneIllGill::update_charge_attack() {
 
 #pragma pop
 TObjIllGillKage::TObjIllGillKage(TObject *parent, uaddr target) : TObjBase(parent) {
+    TObjBase *target_tobjbase = (TObjBase *)target;
     m_name = ill_gill_kage_class_name;
     if (target != 0U) {
-        VecCopy(&position, &((TObjBase *)target)->position);
-        this->target_id = ((TObjBase *)target)->get_entity_id();
+        VecCopy(&position, &target_tobjbase->position);
+        this->target_id = target_tobjbase->get_entity_id();
         this->timer = 0xB4;
         this->state = 0;
     } else {

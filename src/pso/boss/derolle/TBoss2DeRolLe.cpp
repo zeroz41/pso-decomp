@@ -1600,7 +1600,7 @@ void TBoss2DeRolLe::update_projectile_spawns() {
     }
 }
 
-void TBoss2DeRolLe::sub_800338BC() {  }
+void TBoss2DeRolLe::position_travel_stub() {  }
 
 s32 play_sound(s32 id, Vec *position) {
     return play_sound_effect(id, position, 0, 0);
@@ -2167,7 +2167,7 @@ void TBoss2DeRolLe::handle_position_travel_state(u32 reason, s32 from, s32 to) {
         break;
     case 0:
         advance_animation();
-        sub_800338BC();
+        position_travel_stub();
         r = 0;
         switch (state_ints[0]) {
         case 0:
@@ -3771,8 +3771,8 @@ void TBoss2DeRolLe::render() {
         scene_light_state.color.r = 0.3f;
         scene_light_state.color.g = 0.4f;
         scene_light_state.color.b = 0.5f;
-        current_scene_light->sub_8013379C(&scene_light_state);
-        ambient_light_instance->sub_801336DC();
+        current_scene_light->apply_scene_light_stub(&scene_light_state);
+        ambient_light_instance->update_stub();
     }
     this->draw();
     copy_argb(col, &saved);

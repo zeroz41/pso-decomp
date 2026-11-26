@@ -20,9 +20,9 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 extern "C" {
-char *get_message_text(s32);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
@@ -100,7 +100,7 @@ void open_challenge_window(TChallenge *challenge, s32 challenge_id) {
         challenge_mode_state.record_window->set_position_xy(0.75f, 0.75f);
     }
     format_challenge_stage_times(challenge, challenge_id);
-    challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
+    challenge_mode_state.record_window->append_line(challenge_progress_text_buffer, 0);
 }
 extern "C" {
 
@@ -137,7 +137,7 @@ void TChallenge::open_challenge_progress_window(s32 slot) {
             strcat(challenge_progress_text_buffer, "\n");
         }
     }
-    challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
+    challenge_mode_state.record_window->append_line(challenge_progress_text_buffer, 0);
 }
 
 void TChallenge::show_challenge_record_window(s32 mode) {

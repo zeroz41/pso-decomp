@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void init_ginja_texture_buffer(void *p);
+void init_texture_header_and_alloc(void *p);
 }
 
 #endif

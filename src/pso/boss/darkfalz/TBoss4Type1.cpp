@@ -1016,8 +1016,10 @@ void TBoss4Type1::tick_state_398_timer() {
 }
 
 void copy_vec2(void *dst, void *src) {
-    ((f32 *)dst)[0] = ((f32 *)src)[0];
-    ((f32 *)dst)[1] = ((f32 *)src)[1];
+    f32 *src_f32 = (f32 *)src;
+    f32 *dst_f32 = (f32 *)dst;
+    dst_f32[0] = src_f32[0];
+    dst_f32[1] = src_f32[1];
 }
 
 void TBoss4Type1::start_motion_for_index() {

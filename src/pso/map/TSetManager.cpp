@@ -58,6 +58,8 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixReflect.h"
 
@@ -283,7 +285,7 @@ void destroy_current_floor_objects(void) {
 }
 extern "C" {
 
-void TLobby__sub_8020BCE4(void) {
+void mark_floor_enemies_dead(void) {
     EnemySetRecord *p;
     s32 n;
     s32 i;
@@ -468,17 +470,17 @@ s32 TWindowDD::check_all_ready(s32 floor) {
     s16 flags;
     s32 object_type;
     s32 i;
-    u8 *active_floor_enemy_rows;
+    EnemySetRecord *active_floor_enemy_rows;
 
-    active_floor_enemy_rows = reinterpret_cast<u8 *>(get_active_floor_enemy_rows(floor));
+    active_floor_enemy_rows = get_active_floor_enemy_rows(floor);
     object_type = TLobby::get_object_type(floor);
     if (active_floor_enemy_rows != NULL) {
         for (i = 0; i < object_type; i++) {
-            flags = *(s16 *)((s8 *)active_floor_enemy_rows + 2);
+            flags = active_floor_enemy_rows->flags;
             if (!(flags & 8) && (flags & 2)) {
                 return 0;
             }
-            active_floor_enemy_rows += 0x48;
+            active_floor_enemy_rows++;
         }
     }
     return 1;
@@ -486,11 +488,11 @@ s32 TWindowDD::check_all_ready(s32 floor) {
 
 
 s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
-    IsRoomFreeOfActiveEnemiesRow *rows = reinterpret_cast<IsRoomFreeOfActiveEnemiesRow *>(get_active_floor_enemy_rows(floor));
+    EnemySetRecord *rows = get_active_floor_enemy_rows(floor);
     s32 count = TLobby::get_object_type(floor);
     if (rows != NULL) {
         for (; count > 0; count--, rows++) {
-            if (rows[0].room == room && !(rows[0].flags & 8) && (rows[0].flags & 2)) {
+            if (rows[0].placement.room == room && !(rows[0].flags & 8) && (rows[0].flags & 2)) {
                 return 0;
             }
         }
@@ -580,7 +582,7 @@ s32 TObjCollidable::set_flag8() {
 
     set_entry = this->set_entry;
     if (set_entry != NULL) {
-        *(s16 *)((s8 *)set_entry + 2) = (s16) (*(s16 *)((s8 *)set_entry + 2) | 8);
+        ((EnemySetRecord *)set_entry)->flags = (s16) (((EnemySetRecord *)set_entry)->flags | 8);
         return 1;
     }
     return 0;
@@ -1015,31 +1017,22 @@ s32 object_condition_count;
 s32 enemy_condition_count;
 
 
-typedef ObjectFactoryEntry Ent_8020D5AC;
-
-extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, int);
-}
 void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
 extern "C" {
 s32 is_battle_mode_running();
 }
-void apply_room_transform(void *matrix, u8 *rotation, u8 *room);
+void apply_room_transform(Vec *position, s32 *angles, SceneMaterialSection *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq);
 void spawn_decorations_in_range(TSetManager *manager);
-void apply_room_transform(void *matrix, u8 *rotation, u8 *room_arg) {
-    SceneMaterialSection *room = (SceneMaterialSection *)room_arg;
-    s32 *angles = (s32 *)rotation;
+void apply_room_transform(Vec *position, s32 *angles, SceneMaterialSection *room) {
     push_matrix_from(identity_matrix);
     translate_matrix(0, room->position.x, room->position.y, room->position.z);
     rotate_matrix_z(0, room->angles[2]);
     rotate_matrix_x(0, room->angles[0]);
     rotate_matrix_y(0, room->angles[1]);
-    matrix_mult_vec(0, matrix, matrix);
+    matrix_mult_vec(NULL, position, position);
     pop_matrix();
     angles[0] = angles[0] + room->angles[0];
     angles[1] = angles[1] + room->angles[1];
@@ -1058,7 +1051,7 @@ void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count) {
             cached_id = row->placement.room;
         }
         if (cached_room) {
-            apply_room_transform(&row->placement.position, (u8 *)row->placement.rotation, (u8 *)cached_room);
+            apply_room_transform(&row->placement.position, (s32 *)row->placement.rotation, (SceneMaterialSection *)cached_room);
         }
     }
 }
@@ -1077,7 +1070,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
             key = p->placement.room;
         }
         if (sec != NULL) {
-            apply_room_transform(&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
+            apply_room_transform(&p->placement.position, (s32 *)p->placement.rotation, (SceneMaterialSection *)sec);
         }
     }
 }
@@ -1119,7 +1112,7 @@ s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq) {
 }
 
 void spawn_decorations_in_range(TSetManager *manager) {
-    Ent_8020D5AC *tbl;
+    ObjectFactoryEntry *tbl;
     FloorObjectSetRow *p;
     s32 i;
     TObjBase *obj;

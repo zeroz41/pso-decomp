@@ -34,7 +34,7 @@ void TWindowMessageLog::load_chat_history() {
     s32 i;
     for (i = 0; i < 30; i++) {
         if (chat_log_lines[i] != 0) {
-            append_line((saddr)chat_log_lines[i]);
+            append_line(chat_log_lines[i]);
         }
     }
     complete_reveal();
@@ -132,7 +132,7 @@ void TWindowMessageLog::advance_scroll(f32 v) { pending_scroll += v; }
 // Same body as advance_scroll; called with the opposite direction.
 void TWindowMessageLog::add_pending_scroll(f32 v) { pending_scroll += v; }
 
-void TWindowMessageLog::append_line(s32 shared_text_buffer) {
+void TWindowMessageLog::append_line(const char *shared_text_buffer) {
     ((TWindowMessage *)(this))->append_line(shared_text_buffer, 0x502);
     update_scroll_position();
 }
@@ -259,7 +259,7 @@ void post_chat_log_message(u16 id, const char *text) {
     {
         TWindowMessageLog *log = TWindowCtrl::get_field44();
         if (log != NULL) {
-            log->append_line((saddr)text);
+            log->append_line(text);
         }
     }
 }

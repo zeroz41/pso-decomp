@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/network/NetworkInfoEntry.h"
 #include <string.h>
-#include "pso/network/NetworkInfoOpen.h"
+#include "pso/network/NetworkConfig.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
 #include "pso/system/save/McFsGc.h"
@@ -14,7 +14,7 @@
 #include "pso/system/SwitcherLaunch.h"
 
 BOOL read_dial_prefix(char *dst) {
-    if (copy_current_entry_dial_prefix(dst, 0x20) == 0) {
+    if (get_network_config_outside_line_number(dst, 0x20) == 0) {
         return strlen(dst) != 0 ? TRUE : FALSE;
     }
     return FALSE;
@@ -160,15 +160,15 @@ s32 load_network_info(void) {
             return 1;
         }
         memset(&buf, 0, 0x270);
-        copy_current_entry_name(buf.name, 0x80);
-        copy_current_entry_phone_number(0, (char *)buf.x, 0x40);
+        get_network_config_login_user(buf.name, 0x80);
+        get_network_config_phone_number(0, (char *)buf.x, 0x40);
         if (buf.name[0] == 0 || buf.x[0] == 0) {
             return 0;
         }
     }
     return found;
 }
-s32 adapter_supports_connection(s32 mode) {
+s32 has_network_adapter(s32 mode) {
     s32 adapter_type;
     get_network_adapter_type(&adapter_type);
     switch (adapter_type) {
@@ -194,19 +194,19 @@ s32 adapter_supports_connection(s32 mode) {
 
 int is_network_info_loaded(void) {  return (network_info_flags & 0x1); }
 
-s32 TLobby::is_status_zero() {
+s32 TLobby::is_tone_dialing() {
     u8 status;
 
-    if ((get_current_entry_dial_type(&status) == 0) && (status == 0)) {
+    if ((get_network_config_dial_type(&status) == 0) && (status == 0)) {
         return 1;
     }
     return 0;
 }
 
-s32 is_state_active() {
+s32 is_pppoe_selected() {
     u8 state;
 
-    if (get_current_entry_connection_type((&state)) != 0) {
+    if (get_network_config_ip_set_type((&state)) != 0) {
         return 0;
     }
     if (state == 0) {
@@ -214,9 +214,9 @@ s32 is_state_active() {
     }
     return (u32) __cntlzw(1 - state) >> 5;
 }
-s32 is_dhcp_connection(void) {
+s32 is_dhcp_selected(void) {
     u8 state;
-    if (get_current_entry_connection_type((&state)) != 0) {
+    if (get_network_config_ip_set_type((&state)) != 0) {
         return 0;
     }
     if (state == 0) {
@@ -233,25 +233,25 @@ s32 init_struct(LanConfigRecord *info) {
         return 0;
     }
     memset(info, 0, sizeof(*info));
-    if (get_current_entry_connection_type(&state) != 0) {
+    if (get_network_config_ip_set_type(&state) != 0) {
         return 0;
     }
     info->connection_type = state;
-    get_current_entry_ip_addr(&info->ip_addr);
-    get_current_entry_netmask(&info->netmask);
-    get_current_entry_gateway(&info->gateway);
-    copy_current_entry_dhcp_hostname(info->dhcp_hostname, sizeof(info->dhcp_hostname));
-    copy_current_entry_mail_name(info->mail_name, sizeof(info->mail_name));
-    copy_current_entry_mail_address(info->mail_address, sizeof(info->mail_address));
-    copy_current_entry_pop_server(info->pop_server, sizeof(info->pop_server));
-    copy_current_entry_pop_user(info->pop_user, sizeof(info->pop_user));
-    copy_current_entry_pop_password(info->pop_password, sizeof(info->pop_password));
-    copy_current_entry_pop_password(info->pop_password, sizeof(info->pop_password));
-    get_current_entry_proxy_port(&info->proxy_port);
-    copy_current_entry_name(info->ppp_user, sizeof(info->ppp_user));
-    copy_current_entry_password(info->ppp_password, sizeof(info->ppp_password));
-    get_current_entry_dns1(&info->dns1);
-    get_current_entry_dns2(&info->dns2);
+    get_network_config_ip_address(&info->ip_addr);
+    get_network_config_subnet_mask(&info->netmask);
+    get_network_config_default_gateway(&info->gateway);
+    get_network_config_pc_name(info->dhcp_hostname, sizeof(info->dhcp_hostname));
+    get_network_config_mail_name(info->mail_name, sizeof(info->mail_name));
+    get_network_config_mail_address(info->mail_address, sizeof(info->mail_address));
+    get_network_config_pop_server(info->pop_server, sizeof(info->pop_server));
+    get_network_config_pop_id(info->pop_user, sizeof(info->pop_user));
+    get_network_config_pop_password(info->pop_password, sizeof(info->pop_password));
+    get_network_config_pop_password(info->pop_password, sizeof(info->pop_password));
+    get_network_config_proxy_port(&info->proxy_port);
+    get_network_config_login_user(info->ppp_user, sizeof(info->ppp_user));
+    get_network_config_login_password(info->ppp_password, sizeof(info->ppp_password));
+    get_network_config_dns_server1(&info->dns1);
+    get_network_config_dns_server2(&info->dns2);
     return 0;
 }
 
@@ -263,21 +263,21 @@ s32 init_work(s32 unused, AccountConfigRecord *info) {
     if (!(network_info_flags & 1)) {
         return 0;
     }
-    copy_current_entry_name(info->host, sizeof(info->host));
-    copy_current_entry_password(info->user, sizeof(info->user));
-    get_current_entry_dns1(&info->dns1);
-    get_current_entry_dns2(&info->dns2);
-    copy_current_entry_mail_address(info->mail_address, sizeof(info->mail_address));
-    copy_current_entry_mail_server(info->mail_server, sizeof(info->mail_server));
-    copy_current_entry_pop_server(info->pop_server, sizeof(info->pop_server));
-    copy_current_entry_pop_user(info->pop_user, sizeof(info->pop_user));
-    copy_current_entry_pop_password(info->pop_password, sizeof(info->pop_password));
+    get_network_config_login_user(info->login_user, sizeof(info->login_user));
+    get_network_config_login_password(info->login_password, sizeof(info->login_password));
+    get_network_config_dns_server1(&info->dns1);
+    get_network_config_dns_server2(&info->dns2);
+    get_network_config_mail_address(info->mail_address, sizeof(info->mail_address));
+    get_network_config_mail_server(info->mail_server, sizeof(info->mail_server));
+    get_network_config_pop_server(info->pop_server, sizeof(info->pop_server));
+    get_network_config_pop_id(info->pop_user, sizeof(info->pop_user));
+    get_network_config_pop_password(info->pop_password, sizeof(info->pop_password));
     memset(dst, 0, 0x20);
     memset(scratch, 0, 0x40);
-    copy_current_entry_dial_prefix((char *)((s32 *)dst), 0x20);
-    copy_current_entry_phone_number(0, info->phone[0], sizeof(info->phone[0]));
-    copy_current_entry_phone_number(1, info->phone[1], sizeof(info->phone[1]));
-    copy_current_entry_phone_number(2, info->phone[2], sizeof(info->phone[2]));
+    get_network_config_outside_line_number((char *)((s32 *)dst), 0x20);
+    get_network_config_phone_number(0, info->phone[0], sizeof(info->phone[0]));
+    get_network_config_phone_number(1, info->phone[1], sizeof(info->phone[1]));
+    get_network_config_phone_number(2, info->phone[2], sizeof(info->phone[2]));
     return 0;
 }
 

@@ -175,7 +175,7 @@ void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
         c = l->colors[count];
         gx_write_u32((c << 8) | (c >> 24));
     }
-    TObjEneRe4Sorcerer__sub_801E3F20();
+    draw_2d_stub();
 }
 
 void draw_line_list(NJS_POINT3COL *l, s32 count, u32 flags) {
@@ -208,7 +208,7 @@ void draw_line_list(NJS_POINT3COL *l, s32 count, u32 flags) {
         }
         count--;
     }
-    TObjEneRe4Sorcerer__sub_801E3F20();
+    draw_2d_stub();
     reset_line_width();
 }
 
@@ -284,7 +284,7 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
             gx_write_f32x2((f32)cols[0] / 255.0f, (f32)cols[1] / 255.0f);
         }
     }
-    TObjEneRe4Sorcerer__sub_801E3F20();
+    draw_2d_stub();
 }
 void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 count, u32 flags) {
     Vec *p;
@@ -318,7 +318,7 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 count, u32 flags) {
         p++;
         c++;
     }
-    TObjEneRe4Sorcerer__sub_801E3F20();
+    draw_2d_stub();
     end_primitive_draw();
 }
 
@@ -544,12 +544,12 @@ void bswap_32(u32 *val) {
 }
 
 // Empty hooks after the byte-swap helpers; callers in the battle, Dark Falz and Sorcerer code.
-void TObjEneRe4Sorcerer__sub_801E3F14(void) {  }
-void TObjEneRe4Sorcerer__sub_801E3F18(void) {  }
+void start_duel_stub_a(void) {  }
+void start_duel_stub_b(void) {  }
 
 void set_texture_scroll(f32, f32) {  }
 
-void TObjEneRe4Sorcerer__sub_801E3F20(void) {  }
+void draw_2d_stub(void) {  }
 
 // GX FIFO write helpers and a word copy used by the draw helpers above; the 6x subcommand
 // handlers after them open TGameProtocol.cpp.

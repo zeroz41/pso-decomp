@@ -731,6 +731,6 @@ void TOTrapAncient02R::run_demo() {}
 void TOTrapAncient02R::vfunc_86() {
     if (is_current_room(this) == 1) {
         debug_draw_scaled(&home_position, &scratch_vec, &trap_ancient_light_color);
-        sub_80154D78();
+        collision_update_stub();
     }
 }

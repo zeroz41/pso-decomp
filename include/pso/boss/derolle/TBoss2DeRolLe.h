@@ -125,7 +125,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void update_particle_ctrls();
     void release_splash_particles(TParticleCtrl *ctrl);
     void update_projectile_spawns();
-    void sub_800338BC();
+    void position_travel_stub();
     void update_pulsing_colors();
     void handle_roll_dive_state(u32 reason, s32 side);
     void set_move_direction(s32 side);

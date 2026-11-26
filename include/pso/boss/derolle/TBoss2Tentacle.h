@@ -23,8 +23,8 @@ public:
     static void load_shared_model();
     static void release_shared_model();
 
-    void sub_8003998C();
-    void sub_80039990();
+    void run_task_stub();
+    void strike_arc_stub();
     void shape_strike_arc(f32 length);
     void advance_motion_position();
     void enter_drop_back();

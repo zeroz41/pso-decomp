@@ -156,7 +156,7 @@ void TLogo::run_task() {
         }
         break;
     case 2:
-        if (adapter_supports_connection(1) == 0) {
+        if (has_network_adapter(1) == 0) {
             modem_check = new TAdTrialModemChkGC(this);
             state = 3U;
             return;

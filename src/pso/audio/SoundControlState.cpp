@@ -1,4 +1,6 @@
 #include "pso/system/Adxf.h"
+#include "pso/audio/AdxTalk.h"
+#include "pso/audio/AdxUiBridge.h"
 #include "musyx/musyx.h"
 #include "pso/audio/SoundBankTables.h"
 #include "pso/network/TLobby.h"
@@ -511,11 +513,9 @@ u8 sound_bin_data[0x258];   // contents of SOUND.BIN (read by init_sound_aux_eff
 void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
-s32 adxt_get_stat(s32);
-s32 adx_ui_bridge_get_stream_id(s32, s32);
 }
 
-void SoundControlState::set_stream_mix(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
+void SoundControlState::set_stream_mix(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
     if (span < 0) {
         span = 0;
     }
@@ -544,7 +544,7 @@ void SoundControlState::set_stream_mix(s32 tracks, s32 vol, s32 pan, s32 span, s
         span = 0;
     }
     if (adxt_get_stat(tracks) == 3) {
-        sndStreamMixParameter(adx_ui_bridge_get_stream_id(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+        sndStreamMixParameter(adx_ui_bridge_get_stream_id((AdxUiBridgeTarget *)tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
     }
 }
 
@@ -603,7 +603,7 @@ void SoundControlState::set_reverb_level(f32 level) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-s32 get_sound_request_voice_state(s32 voice) {
+s32 get_sound_voice_state(s32 voice) {
   u8 *voices;
   s8 *entry;
   if ((voice >= 0) && (voice < 0x28))
@@ -733,12 +733,12 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 extern "C" {
 
-s32 free_sound_entry_data(SoundControlState *self, int id);
+s32 start_sound_bank_load(SoundControlState *self, int id);
 
 s32 SoundControlState::is_ready() {
     return (u8) (load_state == 1);
 }
-void TLobby__sub_8023FCC0(SoundControlState *self) {
+void update_sound_bank_load(SoundControlState *self) {
     s32 i;
     s32 j;
     s32 pos;
@@ -758,7 +758,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     if (pos == -1) {
         self->route_pos = 0;
-        free_sound_entry_data(self, self->route[self->route_pos]);
+        start_sound_bank_load(self, self->route[self->route_pos]);
         return;
     }
     errors = 0;
@@ -810,7 +810,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
     self->route_pos++;
     if (self->route[self->route_pos] >= 0) {
-        free_sound_entry_data(self, self->route[self->route_pos]);
+        start_sound_bank_load(self, self->route[self->route_pos]);
         return;
     }
     self->group_state = self->next_group_state;
@@ -833,7 +833,7 @@ void fade_voice_channels(s32 step) {
         start_voice_fade(&sound_request_voices[i], step);
     }
 }
-s32 free_sound_entry_data(SoundControlState *self, int id) {
+s32 start_sound_bank_load(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].file_data[3] != 0) {
@@ -893,7 +893,7 @@ fail:
 }
 
 
-int sound_retrace_hook(SoundControlState *self) { return 0; }
+int sound_retrace_stub(SoundControlState *self) { return 0; }
 s32 update_sound_frame(SoundControlState *self) {
     s32 t;
     s32 i;
@@ -903,7 +903,7 @@ s32 update_sound_frame(SoundControlState *self) {
     self->elapsed = t - self->tick;
     self->tick = t;
     self->ms = self->elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
-    TLobby__sub_8023FCC0(self);
+    update_sound_bank_load(self);
     self->advance_rng();
     for (i = 0; i < 40; i++) {
         tick_sound_voice(&sound_request_voices[i]);

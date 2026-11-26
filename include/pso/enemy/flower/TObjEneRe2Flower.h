@@ -23,7 +23,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     virtual void render_demo();
     void sync_center_offset();
     s32 is_rare_variant();
-    void sub_800C3BA8();
+    void init_stub();
     s32 remap_sound_for_variant(s32 sound_id);
     // dispatch_action's states 0-11, named by the motions they request through
     // re2_flower_animation_descriptors (attack0 damege1 die2 laugh3 waitc4 waito5 wake6)

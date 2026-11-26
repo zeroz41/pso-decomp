@@ -26,6 +26,7 @@
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/render_util.h"
+#include "pso/render/render_util.h"
 
 
 

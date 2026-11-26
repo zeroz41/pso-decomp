@@ -34,7 +34,7 @@ u32 TKeyBoardControl_key_bit_table[6] = { 16, 32, 64, 128, 4, 2 };
 u32 keyboard_poll_key_codes[6] = { 94, 93, 92, 95, 97, 76 };
 s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
 
-s32 lbl_805D34C8 = 1;
+s32 controller_polling_enabled = 1;
 ControllerInputState controller_input_state;
 ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
@@ -68,7 +68,7 @@ s32 check_reset_button() {
 }
 
 s32 is_keyboard_control_held(void) {
-    return hardware_keyboard_state.sub_801321B4();
+    return hardware_keyboard_state.is_control_held();
 }
 
 s32 is_keyboard_shift_held(void) {
@@ -265,7 +265,7 @@ s32 keyboard_read_key_checked(u8 key) {
     return keyboard_check_and_read((s32)(key));
 }
 void update_keyboard_input_frame() {
-    hardware_keyboard_state.process_raw_keys();
+    hardware_keyboard_state.process_key_reports();
     if (is_split_screen() == 0) {
         ControllerInputContext *keyboard = &controller_input_state.keyboard;
         keyboard->poll_key_state();
@@ -290,7 +290,7 @@ void controller_stuff(void) {
     f32 cstick_x;
     f32 cstick_y;
     f32 magnitude;
-    if (lbl_805D34C8 != 0) {
+    if (controller_polling_enabled != 0) {
         bind_controller_devices();
         for (bank = 0; bank < 2; bank++) {
             if (bank == 0) {
@@ -557,7 +557,7 @@ void init_pad_state() {
     for (i = 0; i < 4; i++) {
         pad_recalibration_hold_frames[i] = 0;
     }
-    lbl_805D34C8 = 1;
+    controller_polling_enabled = 1;
 }
 s32 ControllerInputContext::poll_key_state() {
     s32 i;

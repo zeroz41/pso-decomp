@@ -184,7 +184,7 @@ void TBoss2Tentacle::run_task() {
                 segment_scale = 1.0f;
                 attack_phase = 3;
             }
-            sub_8003998C();
+            run_task_stub();
             break;
         case 3:
             reach -= 8.0f;
@@ -219,8 +219,8 @@ void TBoss2Tentacle::run_task() {
 }
 #pragma pool_data reset
 
-void TBoss2Tentacle::sub_8003998C() {  }
-void TBoss2Tentacle::sub_80039990() {  }
+void TBoss2Tentacle::run_task_stub() {  }
+void TBoss2Tentacle::strike_arc_stub() {  }
 
 #pragma push
 #pragma fp_contract on
@@ -243,7 +243,7 @@ void TBoss2Tentacle::shape_strike_arc(f32 length) {
         pt->x = scale * t;
         pt->y = scale * (d * (a * d) + h);
     }
-    sub_80039990();
+    strike_arc_stub();
     segment_pos[2].x = 0.0f;
     segment_pos[2].y = 0.0f;
     segment_pos[2].z = 0.0f;
@@ -265,7 +265,7 @@ void TBoss2Tentacle::shape_strike_arc(f32 length) {
         segment_pos[j].z = 0.0f;
     }
     segment_ang[11] = segment_ang[10];
-    sub_80039990();
+    strike_arc_stub();
     w = bend;
     if (w < 1.0f) {
         k = 1.0f - w;

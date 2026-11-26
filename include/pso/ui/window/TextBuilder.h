@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+extern char text_builder_buffer[0x100];
+
 // Shared text builder: appends into text_builder_buffer at text_builder_write_cursor.
 void append_padded_number(s32 v, u8 n);
 void append_text_space(void);

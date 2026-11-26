@@ -54,8 +54,8 @@ struct TWindowSubTradeMain : public TObject {
     // Opens the status window once the trade list was sent.
     void show_trade_status();
     TWindowMessageYesNo *open_confirm_yes_no();
-    TWindowMessageYesNo *open_option_dialog(saddr message);
-    TWindowMessageYesNo *open_option_dialog_thunk(saddr message);
+    TWindowMessageYesNo *open_option_dialog(const char *message);
+    TWindowMessageYesNo *open_option_dialog_thunk(const char *message);
     TWindowMessageYesNo *open_status_window();
     TWindowMessageYesNo *update_from_lobby();
     TWindowMenu *create_trade_menu();

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void fn_80299420(void *p, void *q);
+void copy_creation_input_state(void *p, void *q);
 
 #endif

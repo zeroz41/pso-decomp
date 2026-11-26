@@ -13,7 +13,7 @@ public:
 };
 
 void update_area_count_text(TWindowArea *area);
-TWindowArea *create_area_window(void *text);
+TWindowArea *create_area_window(const char *text);
 TWindowArea *create_window_area();
 
 #endif

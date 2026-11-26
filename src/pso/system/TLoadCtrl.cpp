@@ -3,7 +3,7 @@
 #include "pso/player/LocalClientId.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdFloorLoadGC.h"

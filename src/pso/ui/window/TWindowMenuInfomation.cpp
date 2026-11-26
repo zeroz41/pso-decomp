@@ -93,7 +93,7 @@ void TWindowMenuInfomation::create_sub_window(const char *title) {
     WindowHeading *heading;
 
     if (this->heading == NULL) {
-        heading = new WindowHeading((saddr)title, this->client_index);
+        heading = new WindowHeading(title, this->client_index);
         this->heading = heading;
         this->window_flags |= 0x40;
     }

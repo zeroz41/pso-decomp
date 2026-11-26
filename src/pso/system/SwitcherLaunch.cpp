@@ -53,7 +53,7 @@ void init_disc_error_messages(void) {
     disc_error_code = p[-0x55d0];
     p[-0x55d0] = z;
     init_shared_memory();
-    fn_8042EF48(0);
+    set_disc_messages_byte0(0);
     set_disc_error_message(4, disc_error_message_text);
     set_disc_error_message(1, disc_error_insert_disc_text);
     set_disc_error_message(0, disc_error_cover_open_text);
@@ -83,7 +83,7 @@ s32 launch_switcher_dol(const char *url) {
     return 1;
 }
 
-void launch_trial_switcher_dol(s32 use_modem_url) {
+void launch_browser(s32 use_modem_url) {
   s32 url_index;
   s32 modem_ready;
   modem_ready = 0;

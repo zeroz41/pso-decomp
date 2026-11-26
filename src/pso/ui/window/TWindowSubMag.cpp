@@ -324,7 +324,7 @@ saddr TWindowSubMag::setup_list() {
 
     window_layout_position = get_window_layout_position(7);
     equip_kind_window = create_equip_kind_window(window_layout_position, &mag_equip_kind_window_size, this->client_id);
-    equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x29));
+    equip_kind_window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x29));
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
     equip_kind_window->set_flag70_bit10();
     equip_kind_window->refresh_mag_item_list(2);
@@ -336,7 +336,7 @@ saddr TWindowSubMag::create_list() {
 
     const NJS_POINT2 *window_layout_position = get_window_layout_position(0xD);
     equip_kind_window = create_equip_kind_window(window_layout_position, &mag_feed_equip_kind_window_size, this->client_id);
-    equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
+    equip_kind_window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x24));
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)parent, 2));
     equip_kind_window->set_flag70_bit10();
     equip_kind_window->refresh_usable_item_list();
@@ -359,16 +359,16 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     TItemMag *item;
     stats.init();
     item = static_cast<TItemMag *>(find_item_by_id(id));
-    window = create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
+    window = create_titled_window_menu(get_window_layout_position(8), 2, TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     window->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
     if (((s32 (*)(TItemMag *))is_mag_full)(item) != 0) {
         add_gray_text_entry(window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
-        window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
+        window->add_text_entry((TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     }
     mag->deserialize_mag(&stats);
     if (stats.get_photon_blast(0) != -1) {
-        window->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
+        window->add_text_entry((TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     } else {
         add_gray_text_entry(window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }
@@ -406,10 +406,10 @@ TWindowMessage *TWindowSubMag::create_learned_blast_toast() {
         return 0;
     }
     text_builder_reset();
-    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0x64));
+    text_builder_append(TWindowSubStatusDisp::get_message_10(0x64));
     append_text_space();
     text_builder_append(get_photon_blast_name(n));
-    text_builder_append((const char *)TWindowSubStatusDisp::get_message_10(0x4C));
+    text_builder_append(TWindowSubStatusDisp::get_message_10(0x4C));
     n = calc_text_width((char *)get_shared_text_buffer());
     if (TCameraCtrl::get_camera_id() > 2) {
         scale = 0.85f;
@@ -422,7 +422,7 @@ TWindowMessage *TWindowSubMag::create_learned_blast_toast() {
     size.y = 40.0f;
     win = TWindowMessage::create(&pos, &size.x, 1, this->client_id);
     win->set_depth(get_main_menu_layer_depth((u8 *)parent, 6));
-    win->append_line((saddr)((s32 *)get_shared_text_buffer()), 2);
+    win->append_line(get_shared_text_buffer(), 2);
     win->set_position_xy(scale, scale);
     return win;
 }
@@ -475,9 +475,9 @@ void TWindowSubMag::update_mag_help() {
     if (selected_blast != (s8) this->help_blast) {
         this->help_blast = (u8) selected_blast;
         if (selected_blast == -1) {
-            this->message->append_line((saddr)((s32 *)mag_empty_line), 0x80);
+            this->message->append_line(mag_empty_line, 0x80);
             return;
         }
-        this->message->append_line((saddr)get_help_text_string(selected_blast + 0x27), 0x80);
+        this->message->append_line(get_help_text_string(selected_blast + 0x27), 0x80);
     }
 }

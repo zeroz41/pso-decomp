@@ -346,14 +346,14 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
     a.y = word_page_label_y;
     b.x = word_label_hidden_x;
     b.y = word_page_label_y;
-    labels[0] = TWindowDD_WS_String::create(word_page_label_width, &a.x, &b.x, (uaddr) word_page_select_label, 4);
+    labels[0] = TWindowDD_WS_String::create(word_page_label_width, &a.x, &b.x, word_page_select_label, 4);
   }
   {
     a.x = next_word_page_label_x;
     a.y = next_word_page_label_y;
     b.x = word_label_hidden_right_x;
     b.y = next_word_page_label_y;
-    labels[1] = TWindowDD_WS_String::create(next_word_page_label_width, &a.x, &b.x, (uaddr) word_page_next_label, 4);
+    labels[1] = TWindowDD_WS_String::create(next_word_page_label_width, &a.x, &b.x, word_page_next_label, 4);
   }
   {
     a.x = word_prompt_x;
@@ -373,7 +373,7 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
     a.y = message_label_y;
     b.x = word_label_hidden_x;
     b.y = message_label_y;
-    text = TWindowDD_WS_String::create(message_label_width, &a.x, &b.x, (uaddr)TWindowDD::work_buffer, 0);
+    text = TWindowDD_WS_String::create(message_label_width, &a.x, &b.x, TWindowDD::work_buffer, 0);
     labels[3] = text;
     if (text != 0)
     {

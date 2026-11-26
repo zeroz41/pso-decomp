@@ -5,11 +5,11 @@
 
 struct GslArchiveEntry;
 
-// Empty stubs (each returns 0); fn_800F93B4, the GSL archive close hook,
-// hands the closed archive's entries to fn_800FFE14.
-int fn_800FFE04(void);
-void fn_800FFE0C(void);
-void fn_800FFE10(void);
-int fn_800FFE14(s32, GslArchiveEntry *, s32);
+// Empty stubs (each returns 0); on_gsl_archive_close, the GSL archive close hook,
+// hands the closed archive's entries to gsl_archive_close_stub.
+int gsl_archive_owner_stub(void);
+void system_shutdown_stub(void);
+void system_init_stub(void);
+int gsl_archive_close_stub(s32, GslArchiveEntry *, s32);
 
 #endif

@@ -178,7 +178,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     title_len = (s32)measure_string_len((const char *)str);
     title = static_cast<char *>(mem_alloc(title_len + 1));
     strncpy(title, (const char *)str, (u32)title_len + 1);
-    display = new WindowHeading(reinterpret_cast<saddr>(title), client_index);
+    display = new WindowHeading(title, client_index);
     heading = display;
     this->manual_scroll = 0;
 }

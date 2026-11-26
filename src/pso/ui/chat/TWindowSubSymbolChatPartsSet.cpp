@@ -337,7 +337,7 @@ TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
 }
 
 TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second)
-    : TWindowChatSymbol(position, (saddr)&parts_set_window_size) {
+    : TWindowChatSymbol(position, &parts_set_window_size) {
     m_name = class_name;
     set_depth(50030.0f);
     result_flags = 0;
@@ -347,7 +347,7 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
     selection_out = NULL;
     first_flag_out = first;
     second_flag_out = second;
-    WindowHeading *heading = new WindowHeading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
+    WindowHeading *heading = new WindowHeading(TWindowSubStatusDisp::get_message_10(0x34), client_index);
     heading_display = heading;
     offset_x = 21.0f;
     offset_y = 49.0f;

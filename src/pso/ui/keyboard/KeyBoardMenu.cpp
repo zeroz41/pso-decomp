@@ -18,8 +18,8 @@ void TLobby::update_menu_cursor() {
     }
     current_language = (language) (s8) *(u8 *)((s8 *)global_state + 7);
 }
-saddr get_localized_text_entry(s32 group, s32 id) {
-    return (saddr)text_language_group_table[group][id];
+const char *get_localized_text_entry(s32 group, s32 id) {
+    return text_language_group_table[group][id];
 }
 void free_keyboard_soft_resources() {
     TLanguage::free_alphabet_textures();

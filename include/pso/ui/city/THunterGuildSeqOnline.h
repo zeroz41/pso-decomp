@@ -50,7 +50,7 @@ struct THunterGuildSeqOnline_Server : public TShopSequence {
     // (state 7) and an empty quest list (state 11).
     static void on_quest_list_cancelled();
     static void on_quest_downloaded();
-    static void reset_quest_list_vm();
+    static void on_quest_download_failed();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 check_step;
     s32 exit_action;  // 1: close_window leaves through the fade-out; 0 and 2 just close
@@ -75,7 +75,7 @@ void reset_random_enemies_mode(TObject *fade);
 // --- C functions defined in THunterGuildSeqOnline.cpp ---
 void clear_online_client_instance_table(void);
 extern "C" {
-void THunterGuildSeqOffline__sub_80213EBC(void);
+void on_quest_list_state_10(void);
 }
 // --- end of C functions
 

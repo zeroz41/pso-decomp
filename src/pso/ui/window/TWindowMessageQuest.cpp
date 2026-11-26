@@ -16,7 +16,7 @@ void TWindowMessageQuest::set_frame_mode(s32 mode) {
 }
 }
 
-int dispatch_message_window_text(TWindowMessageQuest *window, s32 text, s32 flags) {
+int dispatch_message_window_text(TWindowMessageQuest *window, const char *text, s32 flags) {
     switch (window->frame_mode) {
     case 0:
         return append_message_window_line(window, text, flags, 0xFF000000);

@@ -25,7 +25,7 @@ public:
     void update_arrival();
     // Phase 2 (name inferred): the tunnel has stopped; nothing to do.
     void update_stopped();
-    void sub_802F273C();
+    void run_task_stub();
     void update_dust_spawn();
     // spawns table[spawn_index] each 800 units of scroll; at count it wraps to 0, or holds
     // the last entry when hold_last is set

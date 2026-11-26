@@ -265,7 +265,7 @@ void TObjEneGibbles::init_params() {
 void TObjEneGibbles::run_task() {
     TObjChara *chased;
     if (TObjPlayer::check_demo_mode() == 1) {
-        sub_802D7E3C();
+        run_task_stub();
         return;
     }
     {
@@ -1168,7 +1168,7 @@ void TObjEneGibbles::state_attack() {
             attack_from_joint_31(0, 0.0f);
         }
         if (13.0f <= frame && frame <= 19.0f) {
-            sub_802D8034();
+            attack_stub();
         }
         if (is_passing_frame(15.0f) != 0) {
             phase = 3;
@@ -1190,7 +1190,7 @@ void TObjEneGibbles::state_attack() {
             attack_from_joint_53(0, 0.0f);
         }
         if (24.0f <= frame && frame <= 34.0f) {
-            sub_802D8034();
+            attack_stub();
         }
         if (is_passing_frame(31.0f) != 0) {
             phase = 5;
@@ -1212,7 +1212,7 @@ void TObjEneGibbles::state_attack() {
             attack_from_joint_31(0, 0.0f);
         }
         if (43.0f <= frame && frame <= 54.0f) {
-            sub_802D8034();
+            attack_stub();
         }
         if (is_passing_frame((frame_count - 1.0f) - play_speed) != 0) {
             requested_action = 0;
@@ -1663,7 +1663,7 @@ void TObjEneGibbles::sync_state() {
     }
 }
 
-void TObjEneGibbles::sub_802D8034() {}
+void TObjEneGibbles::attack_stub() {}
 
 u32 TObjEneGibbles::resolve_sound_id(u32 sound_id) {
     s32 area;
@@ -1722,7 +1722,7 @@ void TObjEneGibbles::update_shadow_height() {
     this->bodies->offset.y = this->body_center.y - this->position.y;
 }
 
-void TObjEneGibbles::sub_802D7E3C() {}
+void TObjEneGibbles::run_task_stub() {}
 
 void TObjEneGibbles::play_ground_contact_sound() {
     if (is_passing_frame(7.0f) != 0 || is_passing_frame(20.0f) != 0) {

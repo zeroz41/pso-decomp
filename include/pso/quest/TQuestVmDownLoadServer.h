@@ -74,7 +74,7 @@ public:
     void destroy();
     void close();
     void check_client_connections();
-    void show_status_message(saddr text, s32 flags);
+    void show_status_message(const char *text, s32 flags);
     void close_message();
     void check_cancel_input();
     static void create();

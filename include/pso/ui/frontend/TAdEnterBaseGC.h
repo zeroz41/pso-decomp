@@ -35,7 +35,7 @@ struct TAdEnterBaseGC : public TObject {
 LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x40);
 
 extern "C" {
-void fn_8032AC94(void);
+void entry_window_render_stub(void);
 // TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
 }
 

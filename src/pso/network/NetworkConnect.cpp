@@ -26,6 +26,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include "pso/player/LocalClientId.h"
+#include "pso/network/NetworkConnectTypes.h"
 #undef PSO_SDK_COMPACT_MATH
 
 s32 lobby_local_ip_addr;
@@ -56,9 +57,9 @@ u32 dhcp_work_buffer[368];
 char lobby_dns_domain[0x100];
 AccountEntry lobby_account_entries[3];
 NetworkConfig network_config;
-__declspec(section ".data") s32 lbl_8050CE0C[2];
-char modem_user_name[0x20];
-char account_user_copy[0x20];
+__declspec(section ".data") s32 lobby_network_info_loaded[2];
+char modem_login_password[0x20];
+char account_login_password_copy[0x20];
 u8 lbl_8050CE54[0x114];
 
 void init_keyboard_buffer() {
@@ -271,8 +272,8 @@ s32 query_task_active() {
     return 0;
 }
 
-int has_modem_adapter(void) { return adapter_supports_connection(1); }
-int get_link_status_value() { return adapter_supports_connection(4); }
+int has_modem_adapter(void) { return has_network_adapter(1); }
+int get_link_status_value() { return has_network_adapter(4); }
 
 int get_link_status() {
     NetLinkStatus link;
@@ -344,13 +345,13 @@ void flush_pending_flags() {
 
     connect_pending_flags &= 0xFFFFFFFE;
     teardown_dns();
-    if (is_dhcp_connection() != 0) {
+    if (is_dhcp_selected() != 0) {
         if (connect_pending_flags & 0x10) {
             DHCP_release((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
             connect_pending_flags &= 0xFFFFFFEF;
             dhcp_stop();
         }
-    } else if (is_state_active() != 0) {
+    } else if (is_pppoe_selected() != 0) {
         if (lobby_net_session_id != -1) {
             if_down(((s16) lobby_net_session_id), 0);
             stop.wait = 0;
@@ -407,10 +408,10 @@ s32 run_connect_sequence() {
         if (ok != 0) {
             return 0xE;
         }
-        if (is_dhcp_connection() != 0) {
+        if (is_dhcp_selected() != 0) {
             lobby_net_session_id = id;
             r = apply_dhcp_network_config(&netmask);
-        } else if (is_state_active() != 0) {
+        } else if (is_pppoe_selected() != 0) {
             r = connect_pppoe(&netmask);
         } else {
             lobby_net_session_id = id;
@@ -442,7 +443,7 @@ char *get_modem_phone_number(s32 idx) {
 void set_ppp_password(const char *src) {
     char *password;
     has_broadband_adapter();
-    is_state_active();
+    is_pppoe_selected();
     password = network_config.ppp_password;
     memset(password, 0, 0x20);
     strncpy(password, src, 0x1F);
@@ -451,16 +452,16 @@ void set_ppp_password(const char *src) {
 
 char *get_ppp_password(void) {
     has_broadband_adapter();
-    is_state_active();
+    is_pppoe_selected();
     return network_config.ppp_password;
 }
 
-char *get_modem_user_name(void) {
-    return (char *)&modem_user_name;
+char *get_modem_login_password(void) {
+    return (char *)&modem_login_password;
 }
 
-char *get_account_user_name(s32 idx) {
-    return lobby_account_entries[idx].user;
+char *get_account_login_password(s32 idx) {
+    return lobby_account_entries[idx].login_password;
 }
 
 AccountEntry *get_account_entry(int idx) { return &lobby_account_entries[idx]; }
@@ -469,13 +470,13 @@ void load_network_configs() {
     LanConfigRecord info;
 
     if (is_network_info_loaded() == 1) {
-        lbl_8050CE0C[1] = 1;
+        lobby_network_info_loaded[1] = 1;
     } else {
-        lbl_8050CE0C[1] = 0;
+        lobby_network_info_loaded[1] = 0;
     }
     if (init_work(1, &w) == 0) {
-        strncpy(lobby_account_entries[0].host, w.host, 0x7F);
-        strncpy(lobby_account_entries[0].user, w.user, 0x1F);
+        strncpy(lobby_account_entries[0].login_user, w.login_user, 0x7F);
+        strncpy(lobby_account_entries[0].login_password, w.login_password, 0x1F);
         strncpy(lobby_account_entries[0].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[0].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[0].phone[2].number, w.phone[2], 0x1F);
@@ -489,8 +490,8 @@ void load_network_configs() {
         lobby_account_entries[0].valid = 0;
     }
     if (init_work(2, &w) == 0) {
-        strncpy(lobby_account_entries[1].host, w.host, 0x7F);
-        strncpy(lobby_account_entries[1].user, w.user, 0x1F);
+        strncpy(lobby_account_entries[1].login_user, w.login_user, 0x7F);
+        strncpy(lobby_account_entries[1].login_password, w.login_password, 0x1F);
         strncpy(lobby_account_entries[1].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[1].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[1].phone[2].number, w.phone[2], 0x1F);
@@ -504,8 +505,8 @@ void load_network_configs() {
         lobby_account_entries[1].valid = 0;
     }
     if (init_work(0, &w) == 0) {
-        strncpy(lobby_account_entries[2].host, w.host, 0x7F);
-        strncpy(lobby_account_entries[2].user, w.user, 0x1F);
+        strncpy(lobby_account_entries[2].login_user, w.login_user, 0x7F);
+        strncpy(lobby_account_entries[2].login_password, w.login_password, 0x1F);
         strncpy(lobby_account_entries[2].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[2].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[2].phone[2].number, w.phone[2], 0x1F);
@@ -545,7 +546,6 @@ void teardown_dns() {
 }
 
 
-struct PppPasswordBuffer { s32 value; u8 remaining[0x94]; };
 extern PppPasswordBuffer ppp_password_buffer;
 
 s32 set_dns_servers() {
@@ -603,7 +603,7 @@ void get_link_state(s16 *state, s16 *reason) {
 }
 
 /* Modem dial-up connection to phone number idx of the modem account (AT+MS=V34 init command,
-   or the one stored by copy_current_entry_modem_init). */
+   or the one stored by get_network_config_modem_command). */
 s32 connect_modem(s32 idx, s16 id) {
     NetConnectCfg cfg;
     ModemConfig modem;
@@ -621,13 +621,13 @@ s32 connect_modem(s32 idx, s16 id) {
     s32 len;
     s32 n;
 
-    if (adapter_supports_connection(1) == 0) {
+    if (has_network_adapter(1) == 0) {
         return 6;
     }
     if (lobby_account_entries[2].valid == 0) {
         return 1;
     }
-    if (lbl_8050CE0C[1] == 0) {
+    if (lobby_network_info_loaded[1] == 0) {
         return 1;
     }
     if (lobby_account_entries[2].phone[idx].number[0] == 0) {
@@ -666,7 +666,7 @@ s32 connect_modem(s32 idx, s16 id) {
     modem.init_count = 1;
     modem.init_command = command;
     memset(response, 0, sizeof(response));
-    switch (copy_current_entry_modem_init(response, sizeof(response))) {
+    switch (get_network_config_modem_command(response, sizeof(response))) {
     case 0:
         memset(command, 0, sizeof(command));
         n = strlen(response);
@@ -703,11 +703,11 @@ s32 connect_modem(s32 idx, s16 id) {
     ppp_set_modem_property(&modem);
     cfg.flags = 1;
     cfg.wait = 0;
-    cfg.user = lobby_account_entries[2].host;
-    if (*get_modem_user_name() == 0) {
+    cfg.user = lobby_account_entries[2].login_user;
+    if (*get_modem_login_password() == 0) {
         cfg.password = get_ppp_password_buffer();
     } else {
-        cfg.password = modem_user_name;
+        cfg.password = modem_login_password;
     }
     cfg.phone_number = get_modem_phone_number(idx);
     cfg.callback = 0;
@@ -717,7 +717,7 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.transport_settings[2] = 0;
     cfg.transport_settings[3] = 3;
     cfg.transport_settings[4] = 1;
-    if (TLobby::is_status_zero() != 0) {
+    if (TLobby::is_tone_dialing() != 0) {
         cfg.modem.type = 0;
     } else {
         cfg.modem.type = 1;
@@ -830,7 +830,7 @@ s32 connect_with_any_phone_number(s32 id) {
     return result;
 }
 
-void TLobby__sub_80147978(void) {  }
+void network_shutdown_stub(void) {  }
 void init_account_entries() {
     memset(&lobby_account_entries[0], 0, sizeof(AccountEntry));
     memset(&lobby_account_entries[1], 0, sizeof(AccountEntry));
@@ -845,10 +845,10 @@ void init_account_entries() {
         net_session_mode = 1;
     }
     load_network_configs();
-    memset(modem_user_name, 0, 0x20);
-    strncpy(modem_user_name, lobby_account_entries[2].user, 0x1F);
-    memset(account_user_copy, 0, 0x20);
-    strncpy(account_user_copy, lobby_account_entries[0].user, 0x1F);
+    memset(modem_login_password, 0, 0x20);
+    strncpy(modem_login_password, lobby_account_entries[2].login_password, 0x1F);
+    memset(account_login_password_copy, 0, 0x20);
+    strncpy(account_login_password_copy, lobby_account_entries[0].login_password, 0x1F);
 }
 
 void set_network_lease_time(s32 seconds) { network_lease_time = seconds; }

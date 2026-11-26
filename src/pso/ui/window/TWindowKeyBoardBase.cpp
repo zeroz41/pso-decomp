@@ -885,7 +885,7 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
 extern "C" {
 
 void TWindowKeyBoardBase::render() {
-    if ((sub_8025EB68() == 0) && ((has_text() != 0) || (this->request_flags & 2))) {
+    if ((is_state_flag_8_set() == 0) && ((has_text() != 0) || (this->request_flags & 2))) {
         WindowDrawContext *context = draw_default_entry();
         if (this->request_flags & 2) {
             draw_window_frame(context);
@@ -943,7 +943,7 @@ void load_ask_dictionary() {
     start_askdic();
 }
 
-int TWindowKeyBoardBase::sub_8025EB68() { return (this->state_flags >> 3) & 0x1; }
+int TWindowKeyBoardBase::is_state_flag_8_set() { return (this->state_flags >> 3) & 0x1; }
 int test_keyboard_card_flag_128(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 128); }
 int test_keyboard_card_flag_64(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 64); }
 int test_keyboard_card_flag_32(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 32); }

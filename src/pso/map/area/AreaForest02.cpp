@@ -5,7 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjRainCtrl.h"

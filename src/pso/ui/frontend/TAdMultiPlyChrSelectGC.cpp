@@ -1731,7 +1731,7 @@ s32 TAdMultiPlyChrSelectGC::cursor_to_card_index(s32 cursor) {
 
 u8 *TAdMultiPlyChrSelectGC::format_player_number_text(s32 player_number) {
     memset(player_number_text_buffer, 0, 0x80);
-    sprintf((char *)player_number_text_buffer, (const char *)get_localized_text_entry(0x1F, 0), player_number + 1);
+    sprintf((char *)player_number_text_buffer, get_localized_text_entry(0x1F, 0), player_number + 1);
     return player_number_text_buffer;
 }
 

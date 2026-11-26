@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/TLobby.h"
 
 #include "pso/map/FloorArea.h"

@@ -1087,7 +1087,7 @@ void TObjEneDelDepthBomb::run_task() {
     } else {
         done = 1;
     }
-    if (fn_80313268() != 0) {
+    if (render_check_stub() != 0) {
         done = 1;
     }
     travelled = distance + speed;
@@ -1144,4 +1144,4 @@ void TObjEneDelDepthBomb::render() {
 }
 #pragma pop
 
-s32 TObjEneDelDepthBomb::fn_80313268() { return 0; }
+s32 TObjEneDelDepthBomb::render_check_stub() { return 0; }

@@ -53,13 +53,13 @@ void draw_page_arrow_right(WindowDrawContext *context, f32 x, f32 y, f32 depth, 
 }
 
 
-s32 reset_list_page_indicator(PageIndicator *indicator, s8 count) {
+s32 reset_page_indicator(PageIndicator *indicator, s8 count) {
     indicator->page = 0;
     indicator->count = count;
     return 1;
 }
 
-s32 set_list_page(PageIndicator *indicator, s8 page) {
+s32 turn_page_indicator(PageIndicator *indicator, s8 page) {
     if (page == indicator->page) {
         return 0;
     }

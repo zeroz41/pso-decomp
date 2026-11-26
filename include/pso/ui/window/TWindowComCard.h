@@ -28,7 +28,7 @@ struct TWindowComCard : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowComCard_size, sizeof(TWindowComCard) == 0x60);
 
-s32 get_class_name_text(s32 class_index);
+const char *get_class_name_text(s32 class_index);
 
 struct ComCardHelpRect { f32 x, y; };
 

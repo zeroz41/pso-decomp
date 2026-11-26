@@ -774,7 +774,7 @@ void TObjPlayer::send_position_update() {
     }
 }
 
-void TObjPlayer::sub_801C8C50(s16 phase) {
+void TObjPlayer::handle_warp_phase(s16 phase) {
   {
     switch (phase)
     {
@@ -4490,7 +4490,7 @@ void TObjPlayer::run_action_state_phase(s16 state, s16 phase) {
         run_warp_action_phase(phase);
         break;
     case 21:
-        sub_801C8C50(phase);
+        handle_warp_phase(phase);
         break;
     case 22:
         run_off_floor_state_phase(phase);

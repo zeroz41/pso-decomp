@@ -19,8 +19,9 @@ TRecvChoiceSearchOptions *choice_search_options;
 ChoiceSearchResultList *choice_search_results;
 extern "C" {
 
-int fn_80077788(void) { return 0; }
-int fn_80077790(void) { return 0; }
+int quest_hack_check_b_stub(void) { return 0; }
+int quest_hack_check_a_stub(void) { return 0; }
+
 }
 
 void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config) {

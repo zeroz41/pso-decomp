@@ -492,7 +492,7 @@ f32 get_main_menu_layer_depth(u8 *parent, u32 layer) {
 }
 extern "C" {
 
-void TWindowSubEquip__sub_80263AF4(void *, s32) {}
+void equip_window_stub(void *, s32) {}
 }
 
 void call_if_split_screen(TWindowBase *window, s32 client_id) {

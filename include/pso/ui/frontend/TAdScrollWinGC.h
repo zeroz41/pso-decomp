@@ -13,7 +13,7 @@ struct TWindowMessageLog;
 class TAdScrollWinGC : public TObject {
 public:
     static const char *class_name;
-    TAdScrollWinGC(TObject *parent, s32 mode, s32 text);
+    TAdScrollWinGC(TObject *parent, s32 mode, const char *text);
     virtual ~TAdScrollWinGC();
     virtual void run_task();
     virtual void render();

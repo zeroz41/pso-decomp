@@ -358,7 +358,7 @@ void TObjFogCollisionPoison::clear_state_array() {
     }
 }
 
-void TObjFogCollisionPoison__sub_801533BC(void) {  }
+void fog_reset_stub(void) {  }
 
 void TObjFogCollisionPoison::create() {
     s32 i;

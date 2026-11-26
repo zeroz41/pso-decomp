@@ -4,7 +4,7 @@
 #include "pso/ui/window/MessageInformationWindow.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMessageInfomation.h"
-TWindowMessageInfomation *create_message_information_window(const NJS_POINT2 *position, const void *extent, saddr client) {
+TWindowMessageInfomation *create_message_information_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 client) {
   u8 *state;
   TWindowMessageInfomation *window;
   state = (u8 *) get_message_window_settings();

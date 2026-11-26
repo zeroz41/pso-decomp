@@ -21,8 +21,8 @@ void sync_auto_reply_state() {
     }
 }
 
-saddr get_card_window_area() {
-    return get_character_save_record(0xFFFF) + 0x2050;
+const char *get_card_window_area() {
+    return (const char *)(get_character_save_record(0xFFFF) + 0x2050);
 }
 void set_short_mail_text(char *text) {
     u8 *mail_text;

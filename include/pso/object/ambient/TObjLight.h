@@ -28,7 +28,7 @@ struct TObjLight : public TObjBase {
     virtual void render();
     virtual void run_task();
     static PointLight *alloc_light_slot();
-    void sub_8013379C(TObjLightSceneLightState *state);
+    void apply_scene_light_stub(TObjLightSceneLightState *state);
     void init_directional_light();
     void debug_scene_light_hook();
     static void free_shared_data();

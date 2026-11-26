@@ -13,7 +13,7 @@ struct TAdYesNoBaseGC : public TObject {
     virtual void on_cancel() = 0;
     virtual void on_yes_chosen() {}
     virtual void on_no_chosen() {}
-    virtual saddr get_message_text() = 0;  // the prompt text: get_localized_text_entry
+    virtual const char *get_message_text() = 0;  // the prompt text: get_localized_text_entry
     virtual void run_dialog();
     virtual void render_dialog();
     s32 create_message_window();

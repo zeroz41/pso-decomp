@@ -14,7 +14,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client);
     virtual ~TWindowKeyBoardSoft();
     void draw_key_frames(WindowDrawContext *);
-    void sub_802616BC(WindowDrawContext *);
+    void draw_key_labels(WindowDrawContext *);
     void handle_cursor_move(s32);
     void spawn_key_effect(s32, s32);
     void handle_page_cycle_input(s32);
@@ -51,7 +51,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void get_key_style(s32 key, s32 *count, u32 *color);
     void handle_key_press(s32 port);
     f32 get_key_reveal_ratio(WindowDrawContext *context, f32 x, f32 y, f32 width, f32 height);
-    void sub_80261DD8(WindowDrawContext *ctx);
+    void draw_key_area_borders(WindowDrawContext *ctx);
     int get_flag_bit0();
 };
 

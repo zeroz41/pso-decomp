@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void draw_title_menu_text(s32 unused, u8 *position, s32 title, s32 color, saddr text);
+void draw_title_text(s32 unused, u8 *position, s32 title, s32 color, const char *text);
 
 #endif

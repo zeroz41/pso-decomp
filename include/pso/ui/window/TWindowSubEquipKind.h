@@ -26,6 +26,6 @@ struct NJS_POINT2;
 
 TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client);
 void mark_unequippable_items(TWindowSubEquipKind *window);
-void disable_pack_item_rows(TWindowMenuIconLine *qst_pack_select_window, s32 item);
+void disable_pack_item_rows(TWindowMenuIconLine *window, s32 item);
 
 #endif

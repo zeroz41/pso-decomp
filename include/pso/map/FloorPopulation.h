@@ -142,7 +142,7 @@ void init_scene_objects();
 void destroy_current_floor_objects(void);
 void destroy_floor_decoration_objects(void);
 extern "C" {
-void TLobby__sub_8020BCE4(void);
+void mark_floor_enemies_dead(void);
 }
 void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags);
 void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set);

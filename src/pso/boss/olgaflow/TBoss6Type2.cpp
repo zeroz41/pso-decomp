@@ -77,7 +77,7 @@ const TBoss6Type2DefaultParams TBoss6Type2::default_battle_parameters = {
     120,
 };
 const s32 TBoss6Type2::initial_actor_flag_masks[4] = { 0x41, 0x42, 0x44, 0x48 };
-const Boss6Type2ParticleAttachment TBoss6Type2::particle_attachment_table[14] = {
+const ParticleAttachment TBoss6Type2::particle_attachment_table[14] = {
     { 0x22D, 8 }, { 0x22D, 9 }, { 0x22D, 10 }, { 0x22D, 3 }, { 0x22D, 4 }, { 0x22D, 5 }, { 0x228, -1 },
     { 0x22A, -1 }, { 0x137, 16 }, { 0x138, 16 }, { 0x139, 16 }, { 0x13A, 16 }, { 0x13B, 16 }, { 0x22C, 13 },
 };
@@ -90,10 +90,10 @@ const s32 boss6_type2_variant_id_table[4] = { 1, 2, 3, 4 };
 const s32 boss6_type2_body_model_indices[2] = { 4, 5 };
 const Boss6StripDesc boss6_type2_plot_falz_entry_table[2] = { { 4, 0x69, 0 }, { 5, 0x69, 0 } };
 const s32 boss6_type2_zero_vec[4] = { 0, 0, 0, 0 };
-const Boss6Type2MotionBlock boss6_type2_zero_motion_block = { 0 };
+const MotionIndexBlock boss6_type2_zero_motion_block = { 0 };
 const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform = { NULL, 0.0f, 0.0f, 0.0f, 1.0f / 15.0f, NULL, 0.0f };
 const s32 TBoss6Type2::no_target_sound_ids[4] = { 0x68528, 0x68529, 0x6852A, 0x6852B };
-const Boss6Type2CollisionBodyNode boss6_type2_collision_body_nodes[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
+const CollisionBodyNode boss6_type2_collision_body_nodes[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
 const s32 TBoss6Type2::player_hit_rock_indices[6] = { 3, 4, 5, 8, 9, 10 };
 const s32 boss6_type2_mag_spawn_offsets[2] = { 0x1FE, 0x1FD };
 const Vec boss6_type2_player_aim_offset = { 0.0f, 19.8f, -5.0f };
@@ -130,7 +130,7 @@ Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
 
 
 extern "C" {
-void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec);
+void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec);
 
 
 struct ByteBlock_C { u8 bytes[0xc]; };
@@ -156,7 +156,7 @@ extern const s32 boss6_type2_hit_effect_node_table[] = { 4, 9, 11, 0 };
 
 
 
-struct Boss6Type2MotionBlock;
+struct MotionIndexBlock;
 
 // The body runs one motion track (trk[], TBoss6Type2Motion::motion[]); track 0 follows
 // the motion table rows. The code loads both from .sdata2, and CW puts them inside the
@@ -187,7 +187,7 @@ TBoss6Type2 *TBoss6Type2::create(Boss6BodySpawnParams *params) {
     return new TBoss6Type2(new TObjControl(tl_04), params);
 }
 
-void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec) {
+void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec) {
     *dest = *boss6_type2_zero_vec;
     *(ByteBlock_C *)((saddr) dest + 4) = *(const ByteBlock_C *)((saddr) boss6_type2_zero_vec + 4);
 }
@@ -245,7 +245,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     trail_effect = TBoss6Zanzo::create(this, 7, 0xF);
     random_factor = 0;
     next_motion = 0x11;
-    TBoss6Type2__sub_802BE4E0((s32 *)&move_target, (s32 *)boss6_type2_zero_vec);
+    copy_move_target((s32 *)&move_target, (s32 *)boss6_type2_zero_vec);
     move_target.heading = rotation_y;
     VecCopy(&move_target.position, &position);
     action_flags = 0;
@@ -750,7 +750,7 @@ void TBoss6Type2::set_action_state(s32 action) {
     }
 }
 
-Boss6Type2MotionBlock *TBoss6Type2::copy_block(Boss6Type2MotionBlock *d, const Boss6Type2MotionBlock *s) {
+MotionIndexBlock *TBoss6Type2::copy_block(MotionIndexBlock *d, const MotionIndexBlock *s) {
     *d = *s;
     return d;
 }
@@ -759,7 +759,7 @@ void TBoss6Type2MotionTrack::copy_from(TBoss6Type2MotionTrack *src) { *this = *s
 
 void TBoss6Type2::init_motion_entries() {
     s32 i;
-    TBoss6Type2::copy_block((Boss6Type2MotionBlock *)&motion_index, &boss6_type2_zero_motion_block);
+    TBoss6Type2::copy_block((MotionIndexBlock *)&motion_index, &boss6_type2_zero_motion_block);
     for (i = 0; i < get_motion_track_count(); i++) {
         TBoss6Type2MotionTrack *e = &motion_tracks[i];
         AnimationMotion *motion;
@@ -1250,7 +1250,7 @@ void TBoss6Type2::update_collision_bodies() {
     CollisionBody *e;
     if (this->bodies != NULL) {
         for (i = 0; i < 3; i++) {
-            const Boss6Type2CollisionBodyNode *t;
+            const CollisionBodyNode *t;
             e = &this->bodies[i];
             t = &boss6_type2_collision_body_nodes[i];
             base = NULL;
@@ -1710,7 +1710,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
         buf[k] = j;
         avail_tbl[j] = 0;
     }
-    TBoss6Type2__sub_80356E50((saddr)buf, cnt, force);
+    send_subordinate_actions_group0((saddr)buf, cnt, force);
     mem_free(buf);
     play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
@@ -2197,9 +2197,9 @@ void TBoss6Type2::update_part_positions() {
     s32 i = 0;
     do {
         Vec v = position;
-        const Boss6Type2ParticleAttachment *e = &TBoss6Type2::particle_attachment_table[i];
+        const ParticleAttachment *e = &TBoss6Type2::particle_attachment_table[i];
         if (particle_emitters[i] != 0) {
-            s32 idx = e->b;
+            s32 idx = e->node;
             if (idx >= 0) {
                 VecCopy(&v, &node_positions[idx]);
             }
@@ -2212,7 +2212,7 @@ void TBoss6Type2::update_part_positions() {
 void TBoss6Type2::spawn_particle_slot(s32 slot) {
     if (particle_emitters[slot] == 0) {
         Vec v = position;
-        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2::particle_attachment_table[slot].a);
+        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2::particle_attachment_table[slot].effect_id);
         if (particle_emitters[slot] != 0) {
             particle_emitters[slot]->set_flags(0x40);
         }

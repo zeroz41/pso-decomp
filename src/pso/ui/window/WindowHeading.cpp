@@ -40,7 +40,7 @@ void WindowHeading::update() { advance_reveal(); }
 
 WindowHeading::~WindowHeading() {}
 
-WindowHeading::WindowHeading(saddr title, s32 client_id)
+WindowHeading::WindowHeading(const char *title, s32 client_id)
     : HeadingEntry((f32 *)heading_title_offset, title, 1, client_id) {}
 
 #pragma push
@@ -63,20 +63,20 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     text_builder_reset();
     text_builder_append(":");
     text_builder_append(record->get_sub_disp_ptr());
-    set_text_entry_string(entry_1, (uaddr)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string(entry_1, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");
     text_builder_append(record->get_name());
-    set_text_entry_string(entry_3, (uaddr)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string(entry_3, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");
-    text_builder_append(TWindowSubComCard__sub_8027523C(record));
-    set_text_entry_string(entry_5, (uaddr)(get_shared_text_buffer()), 0x60);
+    text_builder_append(get_guild_card_s2a(record));
+    set_text_entry_string(entry_5, (get_shared_text_buffer()), 0x60);
     if ((s8) *(u8 *)record->get_card_data_ptr() != 0) {
         text_builder_reset();
         text_builder_append(":");
         text_builder_append(record->get_card_data_ptr());
-        set_text_entry_string(entry_7, (uaddr)(get_shared_text_buffer()), 0x60);
+        set_text_entry_string(entry_7, (get_shared_text_buffer()), 0x60);
         entry_6->show();
         entry_7->show();
     } else {
@@ -87,7 +87,7 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
         text_builder_reset();
         text_builder_append(record->get_sub_obj());
         text_builder_append((const char *)(TWindowSubStatusDisp::get_message_10(0x45)));
-        set_text_entry_string(entry_8, (uaddr)(get_shared_text_buffer()), 0x60);
+        set_text_entry_string(entry_8, (get_shared_text_buffer()), 0x60);
         entry_8->show();
         return;
     }

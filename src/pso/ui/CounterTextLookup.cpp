@@ -18,34 +18,34 @@ const char ****shop_text_groups;
 static const s32 appraisal_text_group_table[10] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 static const s32 guild_text_play_mode_table[4] = {1, 2, 3, 0};
 
-saddr get_quest_list_text(s32 group, s32 index) {
+const char *get_quest_list_text(s32 group, s32 index) {
     if (shop_text_groups != NULL) {
-        return (saddr)(*shop_text_groups)[group][index];
+        return (*shop_text_groups)[group][index];
     }
-    return (saddr)quest_and_shop_error_text;
+    return quest_and_shop_error_text;
 }
 
-saddr get_guild_text(s32 index) {
+const char *get_guild_text(s32 index) {
     s32 group;
     if (shop_text_groups != NULL) {
         group = guild_text_play_mode_table[get_game_play_mode()];
-        return (saddr)(*shop_text_groups)[group][index];
+        return (*shop_text_groups)[group][index];
     }
-    return (saddr)quest_and_shop_error_text;
+    return quest_and_shop_error_text;
 }
 
-saddr get_appraisal_text(s32 index) {
+const char *get_appraisal_text(s32 index) {
     if (shop_text_groups != NULL) {
-        return (saddr)(*shop_text_groups)[appraisal_text_group_table[shop_section_id]][index];
+        return (*shop_text_groups)[appraisal_text_group_table[shop_section_id]][index];
     }
-    return (saddr)quest_and_shop_error_text;
+    return quest_and_shop_error_text;
 }
 
-saddr get_shop_text(s32 index) {
+const char *get_shop_text(s32 index) {
     if (shop_text_groups != NULL) {
-        return (saddr)(**shop_text_groups)[index];
+        return (**shop_text_groups)[index];
     }
-    return (saddr)quest_and_shop_error_text;
+    return quest_and_shop_error_text;
 }
 
 

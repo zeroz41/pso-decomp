@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void send_challenge_dead_flag_cmd(s32 index);
+void send_challenge_dead_flag(s32 index);
 void send_own_challenge_records(void);
 
 void handle_6x97_select_challenge_mode_failure_option(void *player);

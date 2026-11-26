@@ -30,7 +30,7 @@ struct GuildCardRecord {
 // The com-card record picked in the com-card or choice-search windows (load_selected_guild_card_record).
 extern GuildCardRecord selected_guild_card_record;
 
-extern "C" char *TWindowSubComCard__sub_8027523C(GuildCardRecord *entry);
+extern "C" char *get_guild_card_s2a(GuildCardRecord *entry);
 // Copies the record's ship name to lobby_ship_name and asks the server to move to the card owner.
 void jump_to_guild_card_owner(GuildCardRecord *entry);
 
@@ -46,7 +46,7 @@ char *build_text_from_comma_list(char *list);
 char *parse_csv_token(char *src, char *dst);
 char *skip_to_comma_field(char *s, s32 a, s32 b);
 extern "C" {
-void TLobby__sub_802422EC(void *dst, void *src);
+void copy_guild_card_f4c(void *dst, void *src);
 }
 
 #endif

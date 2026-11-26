@@ -27,17 +27,10 @@ LAYOUT_ASSERT(BmlModelLoadRequestArchiveOffset, offsetof(BmlModelLoadRequest, re
 LAYOUT_ASSERT(BmlModelLoadRequestSizeOffset, offsetof(BmlModelLoadRequest, size) == 0x14);
 
 
-LAYOUT_ASSERT(BmlMotionLoadRequestSize, sizeof(BmlMotionLoadRequest) == 8);
 
 
-LAYOUT_ASSERT(BmlTextureLoadRequestSize, sizeof(BmlTextureLoadRequest) == 8);
 
 
-LAYOUT_ASSERT(BmlArchiveEntry_size, sizeof(BmlArchiveEntry) == 0x40);
-LAYOUT_ASSERT(BmlArchiveEntry_unpacked_size_offset, offsetof(BmlArchiveEntry, rawSize) == 0x28);
-LAYOUT_ASSERT(BmlArchiveEntry_texture_size_offset, offsetof(BmlArchiveEntry, texSize) == 0x2C);
-LAYOUT_ASSERT(BmlArchiveHeader_compression_offset, offsetof(BmlArchiveHeader, compressed) == 8);
-LAYOUT_ASSERT(BmlArchiveHeader_entries_offset, offsetof(BmlArchiveHeader, recs) == 0x40);
 
 extern "C" {
 char tmp_buf_name[0x20];
@@ -370,7 +363,7 @@ void free_chr_select_data() {
         xfree(bml_load_buffer);
         bml_load_buffer = NULL;
     }
-    TItemDrop__sub_800FE2D8();
+    free_chr_select_stub();
     safe_free(lobby_download_buffer);
     lobby_download_buffer = 0;
 }

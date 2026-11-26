@@ -16,7 +16,7 @@ public:
     void handle_first_reward();
     void finish_result();
     virtual void run_task();
-    void show_message(saddr text_handle);
+    void show_message(const char *text);
     void handle_third_reward();
     s32 get_slot_index();
     s32 state_1c;

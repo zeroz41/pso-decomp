@@ -665,7 +665,7 @@ void move_snapshot_frame(void) {
 }
 
 void draw_snapshot_capture_overlay(void) {
-    Quad_8007D828 q;
+    ScreenQuad q;
     ProjectedVertex v[4];
     s32 i;
     set_default_alpha_blend();
@@ -946,7 +946,7 @@ s32 take_snapshot(void) {
                         graph->render();
                     }
                     TLobby::update_pulse_colors(1);
-                    draw_info_icon_overlay();
+                    draw_loading_overlay();
                     TParticleCtrl::end_effect_render();
                     render_tick();
                 } while (poll_memcard_result(1) == 0xFFFFFFFF);

@@ -14,7 +14,7 @@
 #include "pso/ui/TLevelSelect.h"
 
 extern "C" {
-void TEndingAB__sub_8008CCC0(TEndingAB *);
+void render_ending_ab_stub(TEndingAB *);
 }
 
 LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
@@ -253,7 +253,7 @@ void TEndingAB::set_fish_global_param() {
     }
 }
 
-extern "C" void TEndingAB__sub_8008CCC0(TEndingAB *) {}
+extern "C" void render_ending_ab_stub(TEndingAB *) {}
 
 void TEndingAB::init_float_table() {
     quads[0].x0 = 228.0f;
@@ -310,7 +310,7 @@ void TEndingAB::render() {
     if (TEndingAB::fade_sequence_state != 0) {
         set_fish_global_param();
         draw_overlay();
-        TEndingAB__sub_8008CCC0(this);
+        render_ending_ab_stub(this);
     }
 }
 

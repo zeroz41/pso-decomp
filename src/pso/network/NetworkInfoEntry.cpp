@@ -14,7 +14,7 @@
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 copy_current_entry_name(char *dst, s32 len) {
+s32 get_network_config_login_user(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -45,7 +45,7 @@ s32 copy_current_entry_name(char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 copy_current_entry_password(char *dst, s32 len) {
+s32 get_network_config_login_password(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -76,7 +76,7 @@ s32 copy_current_entry_password(char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_current_entry_dns1(void *dst) {
+s32 get_network_config_dns_server1(void *dst) {
     NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -102,7 +102,7 @@ s32 get_current_entry_dns1(void *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_current_entry_dns2(void *dst) {
+s32 get_network_config_dns_server2(void *dst) {
     NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -128,7 +128,7 @@ s32 get_current_entry_dns2(void *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_current_entry_dial_type(u8 *dst) {
+s32 get_network_config_dial_type(u8 *dst) {
     NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -157,7 +157,7 @@ s32 get_current_entry_dial_type(u8 *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 copy_current_entry_dial_prefix(char *dst, s32 len) {
+s32 get_network_config_outside_line_number(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -191,7 +191,7 @@ s32 copy_current_entry_dial_prefix(char *dst, s32 len) {
 #pragma push
 #pragma optimize_for_size off
 #pragma peephole off
-s32 copy_current_entry_phone_number(s32 n, char *dst, s32 len) {
+s32 get_network_config_phone_number(s32 n, char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -228,7 +228,7 @@ s32 copy_current_entry_phone_number(s32 n, char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 copy_current_entry_modem_init(char *dst, s32 len) {
+s32 get_network_config_modem_command(char *dst, s32 len) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -262,7 +262,7 @@ s32 copy_current_entry_modem_init(char *dst, s32 len) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_current_entry_connection_type(u8 *dst) {
+s32 get_network_config_ip_set_type(u8 *dst) {
     NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -291,7 +291,7 @@ s32 get_current_entry_connection_type(u8 *dst) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_current_entry_ip_addr(void *dst) {
+s32 get_network_config_ip_address(void *dst) {
     NetworkInfoConfig *cfg;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -320,7 +320,7 @@ s32 get_current_entry_ip_addr(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_current_entry_netmask(void *dst) {
+s32 get_network_config_subnet_mask(void *dst) {
     if (get_network_config_mode() == 0) return -1;
     if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) return -5;
     NetworkInfoConfig *s = lobby_net_config_buffer; s16 i;
@@ -337,7 +337,7 @@ s32 get_current_entry_netmask(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 get_current_entry_gateway(void *dst) {
+s32 get_network_config_default_gateway(void *dst) {
     NetworkInfoConfig *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -366,7 +366,7 @@ s32 get_current_entry_gateway(void *dst) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_dhcp_hostname(char *buf, u32 n) {
+s32 get_network_config_pc_name(char *buf, u32 n) {
     NetworkInfoConfig *s;
     s16 i;
     if (get_network_config_mode() == 0) {
@@ -399,7 +399,7 @@ s32 copy_current_entry_dhcp_hostname(char *buf, u32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_mail_name(char *buf, s32 n) {
+s32 get_network_config_mail_name(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -430,7 +430,7 @@ s32 copy_current_entry_mail_name(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_mail_address(char *buf, s32 n) {
+s32 get_network_config_mail_address(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -461,7 +461,7 @@ s32 copy_current_entry_mail_address(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_mail_server(char *buf, s32 n) {
+s32 get_network_config_mail_server(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -492,7 +492,7 @@ s32 copy_current_entry_mail_server(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_pop_server(char *buf, s32 n) {
+s32 get_network_config_pop_server(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -523,7 +523,7 @@ s32 copy_current_entry_pop_server(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_pop_user(char *buf, s32 n) {
+s32 get_network_config_pop_id(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -554,7 +554,7 @@ s32 copy_current_entry_pop_user(char *buf, s32 n) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-s32 copy_current_entry_pop_password(char *buf, s32 n) {
+s32 get_network_config_pop_password(char *buf, s32 n) {
     s16 i;
     if (get_network_config_mode() == 0) {
         return -1;
@@ -585,7 +585,7 @@ s32 copy_current_entry_pop_password(char *buf, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 get_current_entry_proxy_port(u16 *out) {
+s32 get_network_config_proxy_port(u16 *out) {
     NetworkInfoConfig *s;
     s16 i;
     if (get_network_config_mode() == 0) {

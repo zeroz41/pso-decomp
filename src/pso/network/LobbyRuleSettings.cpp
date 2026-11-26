@@ -195,7 +195,7 @@ u8 LobbyRuleSettings::get_tech_disk_mode() {
 
 u8 LobbyRuleSettings::get_rules_active() {
     if (rules_active >= 2) {
-        return TItemDrop__sub_80107B04(this);
+        return default_rule_value_stub(this);
     }
     return rules_active;
 }
@@ -314,7 +314,7 @@ void LobbyRuleSettings::set_tech_disk_mode(u8 value) {
 
 void LobbyRuleSettings::set_section_id(u8 value) {
     if (value >= 2) {
-        value = TItemDrop__sub_80107B04(this);
+        value = default_rule_value_stub(this);
     }
     rules_active = value;
 }
@@ -322,7 +322,7 @@ void LobbyRuleSettings::set_section_id(u8 value) {
 void LobbyRuleSettings::reset_settings_to_default() {
     s32 k;
 
-    set_section_id(TItemDrop__sub_80107B04(this));
+    set_section_id(default_rule_value_stub(this));
     set_tech_disk_mode(default_setting_01(this));
     set_weapon_and_armor_mode(default_setting_02(this));
     set_mag_mode(default_setting_03(this));

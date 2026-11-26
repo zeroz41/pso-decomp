@@ -33,7 +33,7 @@ void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
         challenge_mode_state.client_died[idx] = 1;
     }
 }
-void send_challenge_dead_flag_cmd(s32 index) {
+void send_challenge_dead_flag(s32 index) {
     ChallengeDeadFlagStack stack;
     if (is_challenge_mode() == 0) {
         return;

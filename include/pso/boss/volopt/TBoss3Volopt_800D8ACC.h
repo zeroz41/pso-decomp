@@ -20,7 +20,7 @@ void spawn_particles_at(Vec *position);
 void disable_player_particle_effect(void);
 void enable_player_particle_effect(void);
 
-void spawn_corpse_mark(const Vec *point, s32 selector, s32 delay, f32 maxScale);
+void spawn_dead_spot_fade(const Vec *point, s32 selector, s32 delay, f32 maxScale);
 // Dead-stripped (no code in the DOL); names inferred, see TBoss3Volopt_800D8ACC.cpp.
 
 void create_particle_emitter_pair(Vec *position);

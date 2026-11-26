@@ -16,7 +16,7 @@ s32 TPlyDispConfigSmth::find_action_slot(TObjPlayer *player, s16 type, s32 enabl
 
     if (player != NULL && player->lock_on_cursor != NULL) {
         forced = &player->lock_on_cursor->palette_override;
-        if (TObjPlayer__sub_801D84F0(forced) != 0) {
+        if (is_palette_override_set(forced) != 0) {
             if (get_action_palette_tag_mode(forced) == 1) {
                 if (type == get_action_palette_tag_mode(forced)) {
                     return 0;

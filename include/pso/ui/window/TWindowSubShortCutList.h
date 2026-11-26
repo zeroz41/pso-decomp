@@ -16,7 +16,7 @@ struct TWindowSubShortCutList : public TWindowMenuIconLine {
     void refresh_entries();
     static TWindowSubShortCutList *create(const NJS_POINT2 *position, s32 index);
     virtual void run_task();
-    void draw_entry(s32 index, s32 status_style, s32 src, s32 item);
+    void draw_entry(s32 index, s32 status_style, const char *src, s32 item);
 };
 
 LAYOUT_ASSERT(TWindowSubShortCutList_size, sizeof(TWindowSubShortCutList) == 0x8C);

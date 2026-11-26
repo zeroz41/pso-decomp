@@ -87,7 +87,7 @@ void draw_tiled_background() {
 
 #pragma push
 #pragma fp_contract on
-void draw_split_screen_sweep() {
+void draw_scanline_sweep() {
     s32 i;
     f32 buf[8];
     if (split_screen_hud_animation_frame <= 0x1E) {
@@ -150,7 +150,7 @@ void draw_split_screen_hud() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         draw_bottom_bar();
-        draw_split_screen_sweep();
+        draw_scanline_sweep();
         draw_tiled_background();
         draw_split_screen_dividers();
         TCameraCtrl::restore_saved_view();

@@ -60,7 +60,7 @@ __declspec(section ".data") u32 creation_models_ready;
 s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
-void reset_uv_if_out_of_range();
+void reset_invalid_proportions();
 void copy_player_visual_record(void *, void *);
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
@@ -247,7 +247,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
     creation_figure_object = this;
-    res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[character_display_index(cm)], 0, 0, NULL);
+    res = (saddr)new BmlResource(6, character_making_resource_descriptor_table[character_display_index(cm)], 0, 0, NULL);
     chara_select_preview_resource = res;
     for (p = creation_texture_cache; p < creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY; p++) {
         p->in_use = 0;
@@ -695,7 +695,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
     s32 y;
     s32 x;
     s32 i;
-    reset_uv_if_out_of_range();
+    reset_invalid_proportions();
     map_shape_region_samples(find_shape_triangle_region(point), samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
@@ -843,7 +843,7 @@ void blend_creation_proportion_shapes(f32 *point) {
     u32 flags;
     s32 n;
     s32 m;
-    reset_uv_if_out_of_range();
+    reset_invalid_proportions();
     calc_shape_region_coefficients(point);
     map_shape_region_samples(creation_shape_blend.region, samples);
     creation_shape_blend.destination = creation_head_shape_destination.nodes;

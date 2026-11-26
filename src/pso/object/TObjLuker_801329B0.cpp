@@ -19,7 +19,7 @@ const s32 floor_destination_text_id_table[36] = {
     0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21,
 };
 
-saddr get_floor_destination_name(u32 area) {
+const char *get_floor_destination_name(u32 area) {
     if ((area == 0xB) && (game_difficulty_selection >= 3)) {
         area = 0xE;
     }
@@ -27,7 +27,7 @@ saddr get_floor_destination_name(u32 area) {
 }
 
 const char *TObjLuker::get_stat_table_entry(int a0) { return luker_stat_entry_ptr_table[a0]; }
-saddr enemy_name_for_rt_index(s32 rt_index) {
+const char *enemy_name_for_rt_index(s32 rt_index) {
     s32 index;
     index = rt_index;
     if (index < 0) {
@@ -37,7 +37,7 @@ saddr enemy_name_for_rt_index(s32 rt_index) {
         index = 0;
     }
     if ((s32) game_difficulty_selection >= 3) {
-        return (saddr)text_language_group_table[3][index];
+        return text_language_group_table[3][index];
     }
-    return (saddr)text_language_group_table[2][index];
+    return text_language_group_table[2][index];
 }

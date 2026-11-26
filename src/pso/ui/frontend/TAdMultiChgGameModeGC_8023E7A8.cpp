@@ -17,7 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/audio/BgmStream.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/unk/TLobby_802268F4.h"

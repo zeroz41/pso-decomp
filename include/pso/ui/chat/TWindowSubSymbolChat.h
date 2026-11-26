@@ -66,7 +66,7 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowSubSymbolChatParts *create_parts();
     void open_menu(TWindowMenu *menu);
     TWindowMenu *open_edit_menu();
-    static TWindowMenu *open_main_menu(void * _w0);
+    TWindowMenu *open_main_menu();
     void apply_symbol();
     TWindowMenu *create_symbol_list_card();
     TWindowChatSymbol *create_chat_symbol_window(s32 index);

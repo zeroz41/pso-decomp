@@ -65,7 +65,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     guide = p;
     guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
     guide->set_line(1, multi_confirm_empty_line);
-    set_confirm_camera();
+    set_preview_camera();
 }
 
 #pragma pop
@@ -116,7 +116,7 @@ void TAdMultiConfirmGC::run_task() {
     }
 }
 void TAdMultiConfirmGC::render() {  }
-void TAdMultiConfirmGC::set_confirm_camera() {
+void TAdMultiConfirmGC::set_preview_camera() {
     CameraParams cam;
     Vec b = {0.0f, 0.0f, 0.0f};
     Vec a = {0.0f, 0.0f, -100.0f};

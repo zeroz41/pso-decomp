@@ -30,6 +30,6 @@ void build_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *cmd) {
 }
 
 
-void TLobby__sub_802D3AA8(void) {
+void set_trade_active(void) {
     short_mail_flags |= 8;
 }

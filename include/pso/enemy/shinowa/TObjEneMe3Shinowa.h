@@ -77,7 +77,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     Vec start_position;  // position on entering state_scatter
     TParticleCtrl *particle_emitters[2];  // particles 0x115 / 0x116 of state_scatter
     void copy_position_vector();
-    void fn_800E762C();
+    void demo_stub();
     s32 check_in_range(f32);
     void state_break_apart(s32 reason);
     void state_cast_support(s32 reason);
