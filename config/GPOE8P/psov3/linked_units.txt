@@ -1579,8 +1579,7 @@ pso/ui/frontend/TAdPsoPassSaveGC.cpp
 pso/ui/frontend/TAdRayGC.cpp
 pso/ui/frontend/TAdRicoRingCtrl.cpp
 pso/ui/frontend/TAdSEGAlogo.cpp
-pso/ui/frontend/TAdSelectCurGC_802AE978.cpp
-pso/ui/frontend/TAdSelectCurGC_802AED98.cpp
+pso/ui/frontend/TAdSelectCurGC.cpp
 pso/ui/frontend/TAdSelectGameModeGC.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp

@@ -840,7 +840,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/lobby/TObjButterflyLobby.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -str reuse,readonly: the three string literals sit in .rodata; -sdata 4: the
     # 8-byte texture lists sit in .data, the 4-byte pointers in .sdata/.sbss.
-    "pso/ui/frontend/TAdSelectCurGC_802AED98.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/ui/frontend/TAdSelectCurGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # .sdata2 starts with the {44, 46} template of sub_800D6D64 (near the end of .text), then the floats in
     # forward .text order; .rodata has the two templates in reverse .text order: -inline off,deferred.
     "pso/enemy/merilllia/TObjEneMerillLia.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

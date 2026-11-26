@@ -7220,17 +7220,13 @@ pso/ui/window/TWindowMenuMainMenu.cpp:
 	.sdata      start:0x805D3E68 end:0x805D3E70
 	.sdata2     start:0x805DE138 end:0x805DE1B0
 
-pso/ui/frontend/TAdSelectCurGC_802AE978.cpp:
-	.text       start:0x802AE978 end:0x802AED98
-	.sdata2     start:0x805DE1B0 end:0x805DE1E0
-
-pso/ui/frontend/TAdSelectCurGC_802AED98.cpp:
-	.text       start:0x802AED98 end:0x802AF27C
+pso/ui/frontend/TAdSelectCurGC.cpp:
+	.text       start:0x802AE978 end:0x802AF27C
 	.rodata     start:0x80470740 end:0x80470790
 	.data       start:0x804DE3F8 end:0x804DE438
 	.sdata      start:0x805D3E70 end:0x805D3E78
 	.sbss       start:0x805D6700 end:0x805D6708
-	.sdata2     start:0x805DE1E0 end:0x805DE1E4
+	.sdata2     start:0x805DE1B0 end:0x805DE1E4
 
 pso/object/lab/TOCapsuleLabo.cpp:
 	.text       start:0x802AF27C end:0x802AF5FC
