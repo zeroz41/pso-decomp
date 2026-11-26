@@ -2,12 +2,12 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERJUNGEX_H
 
 #include "types.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
-struct TObjContainerJungEx : public TObjContainerCommon {
+struct TObjContainerJungEx : public TObjContainerBase {
     TObjContainerJungEx(TObject *parent, void *set_data);
     virtual ~TObjContainerJungEx();
     virtual void spawn_break_effects() const;

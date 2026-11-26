@@ -42,7 +42,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"

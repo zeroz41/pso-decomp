@@ -23,7 +23,6 @@
 #include "pso/object/TObjChip.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
@@ -102,7 +101,7 @@ static TObjChipParams forest_box_break_params[4] = {
     { 0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.5f, 0, 0, 0x16 },
 };
 
-// TObjContainerBase's name (the containers' constructors install it)
+// TObjContainerBase's name (its constructor and TUnk_804B66F4's install it)
 const char *container_base_name = "TObjContainerBase";
 const char *container_item_name = "TObjContainerItem";
 const char *container_enemy_name = "TObjContainerEnemy";
@@ -167,11 +166,11 @@ extern const f32 container_item_fade_distance;
 
 void CameraDistanceFade::set_fade_distance(f32 distance) { fade_distance = distance; }
 
-void TObjContainerCommon::spawn_break_effects() const {  }
+void TObjContainerBase::spawn_break_effects() const {  }
 
-void TObjContainerCommon::update_state() {  }
+void TObjContainerBase::update_state() {  }
 
-void TObjContainerCommon::draw_model() {  }
+void TObjContainerBase::draw_model() {  }
 
 void load_forest_box_resources(void) {
     BmlResource *bundle;
@@ -255,7 +254,7 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 
 #pragma push
 #pragma fp_contract on
-TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObjChara(parent) {
+TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjChara(parent) {
     m_name = container_base_name;
     apply_object_set_data(set_data);
     view_range = container_item_view_range;
@@ -273,11 +272,11 @@ TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObj
 
 #pragma pop
 
-s32 TObjContainerCommon::select_melee_contact_body(TObjChara *target, f32) {
+s32 TObjContainerBase::select_melee_contact_body(TObjChara *target, f32) {
     return xyz_distance_squared(&((TObjBase *)target)->position, &position) < melee_range_sq;
 }
 
-f32 TObjContainerCommon::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *, s32, s32) {
+f32 TObjContainerBase::receive_direct_attack(TObjBase *attacker, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -287,7 +286,7 @@ f32 TObjContainerCommon::receive_direct_attack(TObjBase *attacker, DirectAttackP
     return container_item_zero;
 }
 
-f32 TObjContainerCommon::receive_physical_attack(TObjChara *, f32) {
+f32 TObjContainerBase::receive_physical_attack(TObjChara *, f32) {
     s16 saved_state;
     if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
         saved_state = 1;
@@ -297,13 +296,13 @@ f32 TObjContainerCommon::receive_physical_attack(TObjChara *, f32) {
     return container_item_zero;
 }
 
-void TObjContainerCommon::run_task() {
+void TObjContainerBase::run_task() {
     distance_fade.step_fade();
     update_state();
     in_view = 0;
 }
 
-void TObjContainerCommon::render() {
+void TObjContainerBase::render() {
     if (update_object_view_visibility(view_range, model_radius) != 1) {
         return;
     }
@@ -321,7 +320,7 @@ void TObjContainerCommon::render() {
 }
 
 #pragma pool_data off
-void TObjContainerCommon::debug_print_item_box_info() {
+void TObjContainerBase::debug_print_item_box_info() {
     Item_80189E3C item;
     if (this->scale.x > container_item_zero) {
         this->random_item = 1;
@@ -344,7 +343,7 @@ void TObjContainerCommon::debug_print_item_box_info() {
 }
 #pragma pool_data reset
 
-void play_container_break_sound(const TObjContainerCommon *container) {
+void play_container_break_sound(const TObjContainerBase *container) {
     u32 area;
     area = get_current_floor_area();
     switch (area) {
@@ -399,11 +398,11 @@ void play_container_break_sound(const TObjContainerCommon *container) {
     }
 }
 
-void TObjContainerCommon::request_configured_item_drop(TObjContainerCommon *container) {
+void TObjContainerBase::request_configured_item_drop(TObjContainerBase *container) {
     container->request_box_item_drop(&position, random_item);
 }
 
-TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_item_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -492,7 +491,7 @@ void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_enemy_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -605,7 +604,7 @@ void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_no_item_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -703,7 +702,7 @@ void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TUnk_804B66F4::TUnk_804B66F4(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_base_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -714,12 +713,12 @@ TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjCont
     center.y += forest_box_collision_body_parts.offset.y;
 }
 
-TObjContainerBase::~TObjContainerBase() {
+TUnk_804B66F4::~TUnk_804B66F4() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-void TObjContainerBase::update_state() {
+void TUnk_804B66F4::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -731,7 +730,7 @@ void TObjContainerBase::update_state() {
     }
 }
 
-void TObjContainerBase::draw_model() {
+void TUnk_804B66F4::draw_model() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
@@ -750,7 +749,7 @@ void TObjContainerBase::draw_model() {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerBase::spawn_break_effects() const {
+void TUnk_804B66F4::spawn_break_effects() const {
     TObjChipParams a = container_break_particle_parameters;
     f32 za;
     f32 ya;
@@ -786,7 +785,7 @@ void TObjContainerBase::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerBase::apply_saved_state(s16 *state, s32 live) {
+void TUnk_804B66F4::apply_saved_state(s16 *state, s32 live) {
     if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
@@ -802,11 +801,11 @@ void TObjContainerBase::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-void *TObjContainerBase::create(void *set_data) {
-    return new TObjContainerBase(tl_05, set_data);
+void *TUnk_804B66F4::create(void *set_data) {
+    return new TUnk_804B66F4(tl_05, set_data);
 }
 
-TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_abe_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000;

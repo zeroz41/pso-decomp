@@ -2,11 +2,11 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERJUNGENEMY_H
 
 #include "types.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 
 struct NJS_OBJECT;
 
-struct TObjContainerJungEnemy : public TObjContainerCommon {
+struct TObjContainerJungEnemy : public TObjContainerBase {
     TObjContainerJungEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerJungEnemy();
     virtual void spawn_break_effects() const;

@@ -50,7 +50,7 @@
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/base/TObjChara.h"
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
@@ -5166,7 +5166,7 @@ void show_sub_status_window(void *window, s32 *str, s32 *name) {
 void draw_player_status(saddr window, void *player, saddr str) {
     saddr name;
 
-    name = (saddr)((TObjContainerCommon *)player)->get_name();
+    name = (saddr)((TObjContainerBase *)player)->get_name();
     if (name != 0) {
         if (static_cast<TObject *>(player)->check_value_equals(TObjPlayer_name) != 0) {
             ((s32 (*)(s32, s32, s32, s32))draw_status_line)(window, str, name, ((TObjPlayer *)player)->calc_battle_score());

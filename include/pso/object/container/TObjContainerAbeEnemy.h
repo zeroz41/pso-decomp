@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERABEENEMY_H
 
 #include "types.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 
-struct TObjContainerAbeEnemy : public TObjContainerCommon {
+struct TObjContainerAbeEnemy : public TObjContainerBase {
     TObjContainerAbeEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerAbeEnemy();
     virtual void spawn_break_effects() const;

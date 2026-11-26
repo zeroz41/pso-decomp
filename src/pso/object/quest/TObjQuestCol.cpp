@@ -26,7 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"

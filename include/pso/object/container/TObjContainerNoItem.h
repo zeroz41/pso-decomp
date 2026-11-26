@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERNOITEM_H
 
 #include "types.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 
-struct TObjContainerNoItem : public TObjContainerCommon {
+struct TObjContainerNoItem : public TObjContainerBase {
     TObjContainerNoItem(TObject *parent, void *set_data);
     virtual ~TObjContainerNoItem();
     virtual void draw_model();

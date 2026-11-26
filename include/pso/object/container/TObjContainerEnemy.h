@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERENEMY_H
 
 #include "types.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 
-struct TObjContainerEnemy : public TObjContainerCommon {
+struct TObjContainerEnemy : public TObjContainerBase {
     TObjContainerEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerEnemy();
     virtual void debug_print_item_box_info();

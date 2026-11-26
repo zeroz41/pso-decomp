@@ -17,7 +17,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TOContainerAncientItem.h"
 #include "pso/object/container/TOContainerAncientEnemy.h"
 #include "pso/object/container/TOContainerAncientEnemyCommon.h"
@@ -25,7 +25,6 @@
 #include "pso/object/container/TOContainerAncientItemRare.h"
 #include "pso/object/container/TOContainerAncientItemNone.h"
 #include "pso/object/container/TOContainerAncientItemCommon.h"
-#include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/CameraDistanceFade.h"
@@ -144,23 +143,23 @@ void G_FloorEvent_6x67::send() {
     send_subcommand(this);
 }
 
-void TObjContainerCommon::apply_saved_state(s16 *, s32) {  }
+void TObjContainerBase::apply_saved_state(s16 *, s32) {  }
 
-TObjContainerCommon::~TObjContainerCommon() {
+TObjContainerBase::~TObjContainerBase() {
 }
 
-s32 TObjContainerCommon::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
+s32 TObjContainerBase::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 
-s32 TObjContainerCommon::try_start_action(TObjChara *, s32, f32) { return 1; }
+s32 TObjContainerBase::try_start_action(TObjChara *, s32, f32) { return 1; }
 
-void TObjContainerCommon::apply_knockback_from_attacker(TObjBase *, f32) {  }
+void TObjContainerBase::apply_knockback_from_attacker(TObjBase *, f32) {  }
 
-f32 TObjContainerCommon::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
+f32 TObjContainerBase::receive_weapon_special_attack(TObjChara *, CollisionBody *) {
     receive_physical_attack(NULL, ancient_container_one);
     return ancient_container_zero;
 }
 
-int TObjContainerCommon::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
+int TObjContainerBase::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
 extern BmlResource *ancient_container_resource_bundle;
 
@@ -225,7 +224,7 @@ void free_ancient_container_resources(void) {
 
 #pragma pop
 
-TOContainerAncientItem::TOContainerAncientItem(void *set_data) : TObjContainerCommon(tl_05, set_data) {
+TOContainerAncientItem::TOContainerAncientItem(void *set_data) : TObjContainerBase(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
     init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
@@ -383,7 +382,7 @@ void TOContainerAncientItemNone::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerCommon(tl_05, set_data) {
+TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerBase(tl_05, set_data) {
     m_name = container_ancient_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000U;
