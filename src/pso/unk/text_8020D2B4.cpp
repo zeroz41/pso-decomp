@@ -57,7 +57,7 @@ s32 is_battle_mode_running();
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr pos, u8 *rotation, u8 *room);
 void resolve_set_row_factory_indices(void *manager, FloorObjectSetRow *rows, int count);
-s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
+s32 is_within_camera_distance(void *manager, void *position, f32 range_sq);
 void spawn_decorations_in_range(TSetManager *manager);
 void apply_room_transform(saddr pos, u8 *rotation, u8 *room) {
     push_matrix_from(&identity_matrix.value);
@@ -126,19 +126,19 @@ void resolve_set_row_factory_indices(void *manager, FloorObjectSetRow *rows, int
     }
 }
 
-s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
+s32 is_within_camera_distance(void *manager, void *position, f32 range_sq) {
     s32 n;
     s32 i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
-                if (xyz_distance_squared(static_cast<const Vec *>(arg1), &camera_ctrl_instance->split_pos[i]) < farg0) {
+                if (xyz_distance_squared(static_cast<const Vec *>(position), &camera_ctrl_instance->split_pos[i]) < range_sq) {
                     return 1;
                 }
             }
         }
-    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(arg1), &camera_ctrl_instance->pos) < farg0) {
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(position), &camera_ctrl_instance->pos) < range_sq) {
         return 1;
     }
     return 0;
