@@ -50,19 +50,13 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 
-extern SampledMotionPoints *dimedian_attack_left_trail;
-extern SampledMotionPoints *dimedian_attack_right_trail;
-
-extern saddr dimedian_resource_handles[];
-extern s32 dimedian_last_draw_tick[];
-
 
 s16 TObjPlayer::get_atp() { return this->atp; }
 s16 TObjPlayer::get_atp_range() { return this->atp_range; }
 void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
 
-void TObjMotion::set_override_speed(f32 farg0) {
-    this->override_speed = farg0;
+void TObjMotion::set_override_speed(f32 speed) {
+    this->override_speed = speed;
     set_motion_flags(MOTION_OVERRIDE_SPEED);
 }
 
@@ -335,12 +329,6 @@ extern "C" {
 extern const char dimedian_a_bml_filename[26];
 }
 extern "C" {
-extern const char *TObjEneDimedian_name_ref;
-
-
-
-extern const char *dimedian_model_name_table[4];
-extern const char *dimedian_motion_name_table[13];
 const char *dimedian_model_name_table[4] = {
     dimedian_sl_body_model_filename, dimedian_ssl_body_model_filename, dimedian_s_body_model_filename, NULL,
 };
@@ -377,9 +365,9 @@ CollisionBody dimedian_collision_body_table[3] = {
     {{0.0f, 15.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *TObjEneDimedian::create(void *arg2_) {
+void *TObjEneDimedian::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneDimedian(control, arg2_);
+    return new TObjEneDimedian(control, set_data);
 }
 
 player_stats **dimedian_boss_object_buf;
