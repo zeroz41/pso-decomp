@@ -1,6 +1,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
@@ -27,7 +28,6 @@ extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
 
 extern const char *window_duel_result_class_name;
-saddr get_shared_text_buffer(void);
 }
 void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 

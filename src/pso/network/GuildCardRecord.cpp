@@ -76,7 +76,6 @@ typedef struct Entry_80242380 {
     Ext_80242380 ext;
 } Entry_80242380;
 
-extern "C" char *get_shared_text_buffer();
 s32 lbl_805D63D8;
 int com_card_entry_count;
 extern "C" {
