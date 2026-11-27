@@ -116,7 +116,7 @@ void TObjEndingPlayer::render() {
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation.y);
-    calc_joint_matrices(current_motion, frame, (saddr)joint_matrices);
+    calc_joint_matrices(current_motion, frame, joint_matrices);
     pop_matrix();
 }
 
@@ -143,14 +143,14 @@ TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : T
     VecCopy(&position, src->pose.get_pos());
     rotation.y = src->pose.get_heading();
     select_class_action_provider();
-    joint_matrices = shared_model_buffer + this->get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer[this->get_entity_id()];
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
     frame = src->motion.frame;
     pause_motion();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation.y);
-    calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
+    calc_joint_matrices(current_motion, 0.0f, joint_matrices);
     pop_matrix();
     assign_lobby_slot_if_flagged(&src->equipment.items[0]);
     assign_lobby_slot_if_flagged(&src->equipment.items[1]);

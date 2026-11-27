@@ -124,6 +124,8 @@ void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerI
 
 class TPlyCharData;
 typedef GC_Mtx PlayerJointMatrixSet[32];
+// One player's 64 model joint matrices (0xC00 bytes).
+typedef GC_Mtx PlayerModelJointMatrices[64];
 extern u32 shared_state_flags[2];
 extern int shared_count;
 extern int shared_flag;
@@ -142,7 +144,7 @@ struct TObjPlayer : public TObjChara {
     // with that TU's data.
     virtual void reset_motion_fields();
     virtual ~TObjPlayer();
-    s32 calc_joint_matrices(NJS_MOTION *with, f32 at_frame, saddr matrices);
+    s32 calc_joint_matrices(NJS_MOTION *with, f32 at_frame, Mtx34 *matrices);
     virtual const char *get_name();
     void update_swim_flag(void *);
     void draw_weapon_if_not_hidden(void *);
@@ -338,8 +340,8 @@ struct TObjPlayer : public TObjChara {
     s32 is_action_available();
     static s32 is_any_teammate_in_state();
     static void set_shared_flag(int flag);
-    // Twelve 0xC00-byte joint matrix blocks, one per player slot.
-    static u8 *shared_model_buffer;
+    // Twelve model joint matrix blocks, one per player slot.
+    static PlayerModelJointMatrices *shared_model_buffer;
     // Twelve PlayerJointMatrixSet blocks of item node matrices, one per player slot.
     static PlayerJointMatrixSet *player_shared_buffer_base;
     // The party's photon blast requests (alloc_shared_buffers makes them, free_shared_data frees them).

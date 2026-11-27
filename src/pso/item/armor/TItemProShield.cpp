@@ -183,7 +183,7 @@ void TItemProShield::request_equipped_model() { request_item_model(); }
 
 void TItemProShield::draw_at_joint(s32 joint) {
     if ((item_model != NULL) && (owner != NULL) && (test_actor_flags(0x08000000) == 0) && (is_hidden() == 0)) {
-        push_matrix_from((void *)owner->get_joint_matrix(joint));
+        push_matrix_from(owner->get_joint_matrix(joint));
         TEquippedWeaponDrawTask::save_model_render_state();
         model_render_flags &= ~0x10;
         TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());

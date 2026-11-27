@@ -260,7 +260,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     set_motion_list(creation_menu_main_obj->motions);
     requested_action = creation_motion_group(creation_player_character);
     set_animation(requested_action);
-    joint_matrices = mem_alloc(0xC00);
+    joint_matrices = static_cast<Mtx34 *>(mem_alloc(0xC00));
     position.z = 0.0f;
     position.y = 0.0f;
     position.x = 0.0f;
@@ -583,14 +583,14 @@ void TCMCharacter::draw_creation_figure() {
         rotate_matrix_y(0, creation_figure_rotation_y);
         set_texture_list(&char_select_current_entry->body_textures.textures.list);
         this->draw_player_model();
-        push_matrix_from((void *)get_joint_matrix(0x3A));
+        push_matrix_from(get_joint_matrix(0x3A));
         set_texture_list(&char_select_current_entry->head_textures.textures.list);
         TObjPlayer::draw_part_model(creation_head_model_parts[char_select_current_entry->head].model);
         pop_matrix();
         v = creation_cap_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)get_joint_matrix(0x3B));
+            push_matrix_from(get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TObjPlayer::draw_part_model(v);
             pop_matrix();
@@ -599,7 +599,7 @@ void TCMCharacter::draw_creation_figure() {
         v = creation_hair_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)get_joint_matrix(0x3B));
+            push_matrix_from(get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();

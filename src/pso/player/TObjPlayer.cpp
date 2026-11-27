@@ -174,7 +174,7 @@ int shared_count;
 int shared_flag;
 u32 town_npc_shared_resource;
 s32 lbl_805D5D7C;
-u8 *TObjPlayer::shared_model_buffer;
+PlayerModelJointMatrices *TObjPlayer::shared_model_buffer;
 PlayerJointMatrixSet *TObjPlayer::player_shared_buffer_base;
 u32 shared_state_flags[2];
 ArrivalOverride player_arrival_overrides[12];
@@ -188,7 +188,7 @@ void finalize_player_shared() { TLobby::set_player_count(0); TObjPlayer::set_sha
 
 void TObjPlayer::alloc_shared_buffers() {
     if (shared_model_buffer == NULL) {
-        shared_model_buffer = static_cast<u8 *>(mem_alloc(0x9000));
+        shared_model_buffer = static_cast<PlayerModelJointMatrices *>(mem_alloc(12 * sizeof(PlayerModelJointMatrices)));
     }
     if (player_shared_buffer_base == NULL) {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
@@ -388,7 +388,7 @@ void TObjPlayer::reset_body_parts() {  }
 void TObjPlayer::init_body_parts(void *visual) { update_body_parts(visual); }
 
 void TObjPlayer::init_model_and_idle_pose() {
-    joint_matrices = shared_model_buffer + get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer[get_entity_id()];
     select_class_action_provider();
     load_action_motions(get_entity_id());
     init_idle_animation();
@@ -407,7 +407,7 @@ void TObjPlayer::update_input_and_draw() {
 }
 
 void TObjPlayer::init_model_buffer_and_actions(void *data) {
-    joint_matrices = shared_model_buffer + get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer[get_entity_id()];
     select_class_action_provider();
     action_provider->load_motions(get_entity_id());
     init_idle_animation();
@@ -1991,7 +1991,7 @@ void TObjPlayer::get_anim_node_position(s32 joint, Vec *out_pos) {
     stack.y = player_zero;
     stack.x = player_zero;
     push_matrix_from(0);
-    copy_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(get_joint_matrix(joint)));
+    copy_matrix(NULL, get_joint_matrix(joint));
     premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
     matrix_mult_vec(NULL, &stack, out_pos);
     pop_matrix();
@@ -5347,7 +5347,7 @@ void TObjPlayer::draw() {
     push_matrix();
     translate_matrix_vec3((u8 *)(0), (u8 *)(this->get_position_ptr()));
     rotate_matrix_y(0, this->rotation.y);
-    calc_joint_matrices(current_motion, player_zero, (saddr)joint_matrices);
+    calc_joint_matrices(current_motion, player_zero, joint_matrices);
     pop_matrix();
 }
 
@@ -5355,7 +5355,7 @@ void TObjPlayer::draw(f32 at_frame) {
     push_matrix();
     translate_matrix_vec3(NULL, (u8 *)get_position_ptr());
     rotate_matrix_y(NULL, rotation.y);
-    calc_joint_matrices(current_motion, at_frame, (saddr)joint_matrices);
+    calc_joint_matrices(current_motion, at_frame, joint_matrices);
     pop_matrix();
 }
 
