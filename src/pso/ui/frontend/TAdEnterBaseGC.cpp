@@ -193,7 +193,7 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *serial) {
     return serial_access_hex_string_buf;
 }
 
-void TAdEnterSerialAccessGC::store_serial_access_key(saddr serial, saddr access_key, saddr password) {
+void store_serial_access_key(saddr serial, saddr access_key, saddr password) {
     CharacterFile *instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
@@ -217,7 +217,7 @@ void clear_state(void) {
     }
 }
 
-void TAdEnterSerialAccessGC::clear_serial_buffer() {
+void clear_serial_buffer() {
     CharacterFile *instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();

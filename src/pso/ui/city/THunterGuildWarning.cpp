@@ -305,8 +305,8 @@ void update_hunter_guild_phase(void) {
         THunterGuildSeqOffline::clear_instance_table();
     }
     if (get_main_phase() == 0xF) {
-        THunterGuildSeqOffline::clear_slots();
-        THunterGuildSeqOffline::clear_slot_flags();
+        clear_slots();
+        clear_slot_flags();
         TQuestListOnline::release_resources();
     }
 }
@@ -318,7 +318,7 @@ void TLobby::update_guild_or_quest_phase() {
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();
-        THunterGuildSeqOffline::zero_four_slots();
+        zero_four_slots();
         clear_online_client_instance_table();
     }
 }

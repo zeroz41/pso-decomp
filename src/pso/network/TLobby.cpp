@@ -239,10 +239,10 @@ void TLobby::dispatch_by_index(s32 index) {
         clear_state();
         return;
     case 1:
-        TAdEnterSerialAccessGC::store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
+        store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
         return;
     case 2:
-        TAdEnterSerialAccessGC::clear_serial_buffer();
+        clear_serial_buffer();
         return;
     }
 }
@@ -1906,7 +1906,7 @@ void TLobby::handle_login_result(unsigned int result) {
     switch (result) {
     case 0:
         lobby_debug_printf_stub(lobby_msg_login_success);
-        TAdEnterSerialAccessGC::store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
+        store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
         if (login_pending_flag != 0) {
             event_counter = TAdSinglePlyChrSelectGC::increment_frame();
             protocol_instance->send_character_save_info(TAdSinglePlyChrSelectGC::get_player_count(), event_counter);

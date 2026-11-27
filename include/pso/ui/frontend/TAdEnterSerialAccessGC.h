@@ -50,8 +50,6 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void set_entered_value(u32 value, s32 field);
     static TWindowCallBack *create_callback(void *position, void *scale, WindowCallback callback);
     static TWindowBase *show_message_window(void *owner, s32 message_index);
-    static void clear_serial_buffer();
-    static void store_serial_access_key(saddr serial, saddr access_key, saddr password);
     static char *serial_to_hex_string(const char *serial);
     static int forward_input(void *screen, s32 field, const char *text);
     // 1 when text is a valid entry for field `mode`: 0 serial and 1 access key take digits, 2 password letters and digits.
@@ -75,5 +73,7 @@ char *format_saved_serial(void);
 char *format_entered_access_key(void);
 char *format_entered_serial(void);
 void *create_callback_at_zero_vec2(WindowCallback callback);
+void clear_serial_buffer();
+void store_serial_access_key(saddr serial, saddr access_key, saddr password);
 
 #endif

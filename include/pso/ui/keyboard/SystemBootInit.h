@@ -38,4 +38,6 @@ void shutdown_and_reset_system(void);
 // Set while a memory card access runs.
 extern s32 memcard_access_active;
 
+void run_tasks();
+
 #endif

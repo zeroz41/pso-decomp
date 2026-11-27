@@ -486,7 +486,7 @@ void TObjPlayer::render_tree(void *model) {
 
 
 void render_tick(void) {
-    TKeyBoardControl::run_tasks();
+    run_tasks();
     TParticleCtrl::begin_effect_render();
     GXSetZMode(GX_TRUE, GX_ALWAYS, GX_FALSE);
     TCameraCtrl::restore_full_screen_view();

@@ -85,14 +85,14 @@ THunterGuildSeqOnline_Server::~THunterGuildSeqOnline_Server() {
     hunter_guild_seq_online_server_instance = NULL;
 }
 
-void THunterGuildSeqOffline::zero_four_slots() {
+void zero_four_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
         hunter_guild_online_server_instance_table[i] = 0;
     }
 }
 
-void THunterGuildSeqOffline::clear_slot_flags() {
+void clear_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         hunter_guild_online_server_instance_table[i] = 0;
@@ -396,7 +396,7 @@ void clear_online_client_instance_table(void) {
     }
 }
 
-void THunterGuildSeqOffline::clear_slots() {
+void clear_slots() {
     s32 i;
     for (i = 0; i < 4; i++) hunter_guild_online_client_instance_table[i] = 0;
 }

@@ -98,7 +98,7 @@ void poll_input_devices_frame(void) {
     reset_state_byte();
 }
 
-void TKeyBoardControl::run_tasks() {
+void run_tasks() {
     TObjPlayer::clear_shadow_pass_request();
     update_global_sound_frame();
     if (sound_requests_enabled != 0) {
