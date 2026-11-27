@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-void copy_creation_input_state(void *p, void *q);
+struct CreationInputState;
+
+void copy_creation_input_state(CreationInputState *dst, CreationInputState *src);
 
 #endif
