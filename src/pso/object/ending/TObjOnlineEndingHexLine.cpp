@@ -241,8 +241,8 @@ void handle_6x92(u8 *packet) {
     f32 d;
     s32 idx;
 
-    TAdGameStartGC::bswap_6x92(packet);
     cmd = reinterpret_cast<G_Unknown_6x92 *>(packet);
+    TAdGameStartGC::bswap_6x92(cmd);
     idx = static_cast<s32>(cmd->client_id);
     v = cmd->value;
     idx = idx % 4;

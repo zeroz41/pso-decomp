@@ -21058,8 +21058,8 @@ copy_move_params__23TObjOnlineEndingHexMoveFP19EndingHexLineParamsPC19EndingHexL
 create__23TObjOnlineEndingHexMoveFP7TObject = .text:0x802E6218; // type:function size:0x48
 reset_hex_line_params__Fv = .text:0x802E6260; // type:function size:0x44
 __sinit_TObjOnlineEndingHexLine_cpp = .text:0x802E62A4; // type:function size:0x54 scope:local
-bswap_6x92__14TAdGameStartGCFPv = .text:0x802E62F8; // type:function size:0x3C
-send_6x92__14TAdGameStartGCFPv = .text:0x802E6334; // type:function size:0x34
+bswap_6x92__14TAdGameStartGCFP14G_Unknown_6x92 = .text:0x802E62F8; // type:function size:0x3C
+send_6x92__14TAdGameStartGCFP14G_Unknown_6x92 = .text:0x802E6334; // type:function size:0x34
 init_6x92__14TAdGameStartGCFP14G_Unknown_6x92 = .text:0x802E6368; // type:function size:0x14
 render__14TAdGameStartGCFv = .text:0x802E637C; // type:function size:0x4
 destroy_windows__14TAdGameStartGCFv = .text:0x802E6380; // type:function size:0xCC
