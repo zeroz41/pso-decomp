@@ -72,6 +72,7 @@ struct TMovie;
 struct CapturedTargetList;
 class TPlayerLobbyMarker;
 struct PlayerRequirementStats;
+struct PlayerAnimTableEntry;
 struct PlayerCastMotionRecord;
 
 // The frames a player stays protected from hits (after getting up, being
@@ -690,7 +691,7 @@ struct TObjPlayer : public TObjChara {
     s32 get_guild_return_yaw();
     s32 get_hospital_yaw();
     u8 *get_hospital_position();
-    long get_anim_table_entry(s32 picture);
+    const PlayerAnimTableEntry *get_anim_table_entry(s32 picture);
     const TObjMotionAction *get_table_entry_by_clamped_index();
     s32 get_footstep_floor_index();
     f32 get_photon_blast_complete_threshold();

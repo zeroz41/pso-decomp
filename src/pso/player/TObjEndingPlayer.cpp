@@ -36,8 +36,8 @@ s32 copy_player_visual_record(void *, void *);
 
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
 void TObjEndingPlayer::set_animation_from_data(s32 picture) {
-    s16 *entry = (s16 *)get_anim_table_entry(picture);
-    trade_item_by_group_kind(entry[0], entry[1]);
+    const PlayerAnimTableEntry *entry = get_anim_table_entry(picture);
+    trade_item_by_group_kind(entry->group, entry->kind);
     set_animation_default(picture);
 }
 

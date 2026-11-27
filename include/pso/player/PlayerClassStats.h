@@ -12,8 +12,8 @@ struct PlayerProfessionStatFactors { f32 hp; f32 tp; };
 // Record types of the class/motion tables; layouts from the original bytes and
 // the accessors' strides, field meanings unknown.
 struct PlayerAnimTableEntry {
-    s16 unk0;
-    s16 unk2;
+    s16 group;  // item the player holds in the ending picture (trade_item_by_group_kind)
+    s16 kind;
 };
 
 struct PlayerCastMotionRecord {

@@ -106,10 +106,8 @@ const PlayerCastMotionRecord *TObjPlayer::get_cast_motion_record() {
     return &player_cast_motion_record_table[this->has_valid_handle()][this->get_handle_value()];
 }
 
-long TObjPlayer::get_anim_table_entry(s32 picture) {
-  int row_offset;
-  row_offset = this->get_clamped_index() * 4;
-  return (*((s32 *) (((s8 *)player_anim_table_pointers) + row_offset))) + (picture * 4);
+const PlayerAnimTableEntry *TObjPlayer::get_anim_table_entry(s32 picture) {
+    return &player_anim_table_pointers[get_clamped_index()][picture];
 }
 
 const TObjMotionAction *TObjPlayer::get_table_entry_by_clamped_index() {
