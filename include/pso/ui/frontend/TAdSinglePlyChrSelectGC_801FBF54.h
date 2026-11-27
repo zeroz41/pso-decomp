@@ -13,6 +13,8 @@ struct CharacterSaveRecord;
 struct SubtractiveRng;
 
 extern SubtractiveRng chr_select_rng_state;
+// The two serial number generator seeds.
+extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[0x20];
 
 CharacterFileSlot *get_selected_character_slot(CharacterFile *file);

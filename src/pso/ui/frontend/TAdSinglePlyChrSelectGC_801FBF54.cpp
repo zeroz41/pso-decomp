@@ -63,9 +63,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" {
-extern s32 chr_select_serial_seeds[];
-}
 s32 is_card_flag_set(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 1); }
 void draw_ginja_box_tree(NJS_OBJECT *node) {
     u32 flags;

@@ -426,10 +426,6 @@ void TCharSaveSequence::init_warps() {
 
 typedef void (TCharSaveSequence::*Handler)();
 
-LAYOUT_ASSERT(ChrSelectSerialSeeds_size, sizeof(ChrSelectSerialSeeds) == 0x10);
-
-
-extern ChrSelectSerialSeeds chr_select_serial_seeds;
 
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
@@ -492,8 +488,8 @@ TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
 }
 
 void seed_character_select_serial_rng(s32 seed) {
-    chr_select_serial_seeds.seed_b = seed;
-    chr_select_serial_seeds.seed_a = seed;
+    chr_select_serial_seeds[1] = seed;
+    chr_select_serial_seeds[0] = seed;
 }
 
 #pragma pop
