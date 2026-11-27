@@ -78,7 +78,7 @@ void TOKey::init_key(ObjectSetData *set_entry) {
     apply_object_set_data(set_entry);
     init_switch_id();
     VecCopy(&center, &position);
-    m_20 = 2;
+    pad_20 = 2;
 }
 
 void TOKey::init_switch_id() {

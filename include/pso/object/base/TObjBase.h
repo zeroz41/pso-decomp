@@ -45,7 +45,7 @@ public:
     s32 is_active();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
-    s32 m_20;
+    s32 pad_20;
     NJS_TEXLIST *texlist;  // its texture list, made current before it draws
     // Copied from the object's set entry when it is spawned; see
     // link_matching_objects.

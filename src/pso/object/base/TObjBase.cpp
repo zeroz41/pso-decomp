@@ -254,7 +254,7 @@ void reset_id_counters() {
 }
 
 void TObjBase::reset_motion_fields() {
-    m_20 = 0;
+    pad_20 = 0;
     prev_position.z = 0.0f;
     prev_position.y = 0.0f;
     prev_position.x = 0.0f;
@@ -286,7 +286,7 @@ TObjBase::TObjBase(TObject *parent) : TObject(parent) {
     room = -1;
     set_group = 0;
     set_index = -1;
-    m_20 = 1;
+    pad_20 = 1;
     texlist = 0;
     model = NULL;
     set_entry = NULL;
