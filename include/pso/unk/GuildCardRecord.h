@@ -12,8 +12,8 @@ struct GuildCardRecord {
     s32 serial;
     char name[0x11];
     char ship_name[0x11];
-    char s2A[0x11];
-    char s3B[0x11];
+    char block_name[0x11];
+    char team_name[0x11];
     TRecvPort recv_port;
     TPlyMeetUserExtension ext;
 
@@ -22,7 +22,7 @@ struct GuildCardRecord {
     s32 get_id();
     char *get_sub_obj();
     char *get_ship_name();
-    char *get_card_data_ptr();
+    char *get_team_name();
     char *get_sub_disp_ptr();
     GuildCardRecord *copy_com_card_entry(GuildCardRecord *src);
 };
@@ -34,7 +34,7 @@ struct ChoiceSearchResult;
 // Fills selected_guild_card_record from a choice-search result.
 void load_selected_guild_card_record(ChoiceSearchResult *src);
 
-char *get_guild_card_s2a(GuildCardRecord *entry);
+char *get_guild_card_block_name(GuildCardRecord *entry);
 // Copies the record's ship name to lobby_ship_name and asks the server to move to the card owner.
 void jump_to_guild_card_owner(GuildCardRecord *entry);
 

@@ -81,9 +81,9 @@ void TKeyBoardControl::set_soft_flag60_bit1() {
 }
 char *GuildCardRecord::get_sub_obj() { return name; }
 char *GuildCardRecord::get_ship_name() { return ship_name; }
-char *get_guild_card_s2a(GuildCardRecord *entry) { return entry->s2A; }
+char *get_guild_card_block_name(GuildCardRecord *entry) { return entry->block_name; }
 
-char *GuildCardRecord::get_card_data_ptr() { return s3B; }
+char *GuildCardRecord::get_team_name() { return team_name; }
 
 GuildCardRecord *get_selected_guild_card_record(void) {
     return &selected_guild_card_record;
@@ -1540,9 +1540,9 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         text_builder_append(result->info);
         text_builder_append(guild_card_record->get_ship_name());
         text_builder_append("\n");
-        text_builder_append(get_guild_card_s2a(guild_card_record));
+        text_builder_append(get_guild_card_block_name(guild_card_record));
         text_builder_append("\n");
-        text_builder_append(guild_card_record->get_card_data_ptr());
+        text_builder_append(guild_card_record->get_team_name());
         this->message_window->append_line(get_shared_text_buffer(), 0x82);
     }
 }

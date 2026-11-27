@@ -69,9 +69,9 @@ void load_selected_guild_card_record(ChoiceSearchResult *src) {
   list = build_text_from_comma_list(list);
   cursor = list;
   cursor = parse_csv_token(cursor, selected_guild_card_record.ship_name);
-  cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
-  cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
-  parse_csv_token(cursor, selected_guild_card_record.s3B);
+  cursor = parse_csv_token(cursor, selected_guild_card_record.block_name);
+  cursor = parse_csv_token(cursor, selected_guild_card_record.block_name);
+  parse_csv_token(cursor, selected_guild_card_record.team_name);
   copy_guild_card_f4c(&selected_guild_card_record.recv_port, &src->reconnect);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->extension);
 }
@@ -184,9 +184,9 @@ void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     entry->name[0x10] = 0;
     p = build_text_from_comma_list(response->location);
     p = parse_csv_token(p, entry->ship_name);
-    p = parse_csv_token(p, entry->s2A);
-    p = parse_csv_token(p, entry->s2A);
-    parse_csv_token(p, entry->s3B);
+    p = parse_csv_token(p, entry->block_name);
+    p = parse_csv_token(p, entry->block_name);
+    parse_csv_token(p, entry->team_name);
 }
 
 void remove_com_card_entry(s32 index) {
