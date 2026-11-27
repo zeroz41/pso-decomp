@@ -3,15 +3,12 @@
 #include "pso/item/TItemToolGrinder.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-
-extern "C" {
-s32 add_weapon_grind(TItem *weapon, u8 amount);
-}
+#include "pso/weapon/TItemWeapon.h"
 
 void TItemToolGrinder::apply_use_effect() {
-    TItem *weapon;
+    TItemWeapon *weapon;
 
-    weapon = TObjPlayer::get_equipped_weapon(this->owner);
+    weapon = static_cast<TItemWeapon *>(TObjPlayer::get_equipped_weapon(this->owner));
     if (weapon != NULL) {
         add_weapon_grind(weapon, get_pmt_amount());
     }

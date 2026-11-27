@@ -203,6 +203,8 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
 void increment_model_node_counter(void);
 // weapon_factory_table's entry for weapons without a class of their own.
 TItem *create_common_weapon(u8 *item);
+// A grinder use: raises grind by amount, capped at the weapon's max_grind.
+s32 add_weapon_grind(TItemWeapon *weapon, u8 amount);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
 // The model node the weapon draw callback is at (counted by increment_model_node_counter).

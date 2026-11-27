@@ -551,11 +551,8 @@ s32 TItemWeapon::is_active_in_game() {
 }
 
 
-extern "C" {
-s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
-
-s32 add_weapon_grind(TItemWeapon *weapon, s32 amount) {
-    if ((s32)(weapon->parameters->max_grind - (u8)amount) < weapon->grind) {
+s32 add_weapon_grind(TItemWeapon *weapon, u8 amount) {
+    if ((s32)(weapon->parameters->max_grind - amount) < weapon->grind) {
         weapon->grind = weapon->parameters->max_grind;
     } else {
         weapon->grind += amount;
@@ -622,7 +619,6 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
             }
         }
     }
-}
 }
 void TItemWeapon::perform_action() {
     ItemSoundRequest sound;
