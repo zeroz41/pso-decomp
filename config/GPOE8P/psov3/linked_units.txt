@@ -1111,7 +1111,6 @@ pso/ui/window/TWindowMenu.cpp
 pso/ui/window/TWindowSubComCard.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp
 pso/ui/window/TWindowSubCustomSelect.cpp
-pso/ui/window/TWindowSubCustomSelect_80275D84.cpp
 pso/ui/window/TWindowSubEquip.cpp
 pso/ui/window/TWindowSubEquipKind.cpp
 pso/ui/window/TWindowSubEquipList.cpp

@@ -29,7 +29,6 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/enemy/BattleParamTables.h"
 
-
 extern "C" {
 u8 get_cast_technique_level(void *, s16);
 }
@@ -37,6 +36,9 @@ u8 get_cast_technique_level(void *, s16);
 extern "C" {
 extern const f32 customize_help_window_size[2] = {190.0f, 168.0f};
 }
+
+int TWindowSubCustomSelect::is_cancelled() { return this->state_flags & 0x2; }
+int TWindowSubCustomSelect::is_active() { return this->state_flags & 0x1; }
 
 TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     main_menu = parent;
