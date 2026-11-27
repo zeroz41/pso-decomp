@@ -27,7 +27,6 @@
 #include "pso/render/render_util.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/ProjectedStripDraw.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
@@ -919,81 +918,3 @@ int TWindowFukidasi::is_bit8_set() { return ((u32)window_flags >> 8) & 0x1; }
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 
 int TWindowFukidasi::is_overlapped() { return ((u32)window_flags >> 10) & 0x1; }
-void TWindowSubStatusDisp::update_entry_visibility() {
-    TWindowLayoutEntry *entry7;
-    TWindowLayoutEntry *entry6;
-    TWindowLayoutEntry *entry5;
-    TWindowLayoutEntry *entry4;
-    TWindowLayoutEntry *entry3;
-    TWindowLayoutEntry *entry2;
-    TWindowLayoutEntry *entry1;
-    TWindowLayoutEntry *entry0;
-    entry7 = (TWindowLayoutEntry *)this->get_array_entry(7);
-    entry6 = (TWindowLayoutEntry *)this->get_array_entry(6);
-    entry5 = (TWindowLayoutEntry *)this->get_array_entry(5);
-    entry4 = (TWindowLayoutEntry *)this->get_array_entry(4);
-    entry3 = (TWindowLayoutEntry *)this->get_array_entry(3);
-    entry2 = (TWindowLayoutEntry *)this->get_array_entry(2);
-    entry1 = (TWindowLayoutEntry *)this->get_array_entry(1);
-    entry0 = (TWindowLayoutEntry *)this->get_array_entry(0);
-    if (is_guild_card_receive_active() != 0) {
-        if (entry7 != NULL) {
-            entry7->show();
-        }
-        if (entry6 != NULL) {
-            entry6->show();
-        }
-    } else {
-        if (entry7 != NULL) {
-            entry7->hide();
-        }
-        if (entry6 != NULL) {
-            entry6->hide();
-        }
-    }
-    if (is_com_card_active() != 0) {
-        if (entry5 != NULL) {
-            entry5->show();
-        }
-        if (entry4 != NULL) {
-            entry4->show();
-        }
-    } else {
-        if (entry5 != NULL) {
-            entry5->hide();
-        }
-        if (entry4 != NULL) {
-            entry4->hide();
-        }
-    }
-    if (TWindowSubShortMail::is_active() != 0) {
-        if (entry3 != NULL) {
-            entry3->show();
-        }
-        if (entry2 != NULL) {
-            entry2->show();
-        }
-    } else {
-        if (entry3 != NULL) {
-            entry3->hide();
-        }
-        if (entry2 != NULL) {
-            entry2->hide();
-        }
-    }
-    if (is_trade_active() != 0) {
-        if (entry1 != NULL) {
-            entry1->show();
-        }
-        if (entry0 != NULL) {
-            entry0->show();
-        }
-    } else {
-        if (entry1 != NULL) {
-            entry1->hide();
-        }
-        if (entry0 != NULL) {
-            entry0->hide();
-        }
-    }
-}

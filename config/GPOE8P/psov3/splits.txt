@@ -5628,7 +5628,7 @@ pso/ui/window/TWindowArea.cpp:
 	.sdata2     start:0x805DCAB8 end:0x805DCAC8
 
 pso/ui/window/TWindowBase.cpp:
-	.text       start:0x80244774 end:0x80246B80
+	.text       start:0x80244774 end:0x80246980
 	.rodata     start:0x8044E658 end:0x8044E768
 	.data       start:0x804CE018 end:0x804CE030
 	.sdata      start:0x805D3888 end:0x805D3890
@@ -5636,13 +5636,10 @@ pso/ui/window/TWindowBase.cpp:
 	.sdata2     start:0x805DCAC8 end:0x805DCB5C
 
 pso/ui/window/TWindowBreakIn.cpp:
-	.text       start:0x80246B80 end:0x80246CB8
+	.text       start:0x80246980 end:0x80246CE8
 	.rodata     start:0x8044E768 end:0x8044E778
 	.data       start:0x804CE030 end:0x804CE1E4
 	.sdata      start:0x805D3890 end:0x805D3898
-
-pso/ui/chat/TWindowSubShortMail_80246CB8.cpp:
-	.text       start:0x80246CB8 end:0x80246CE8
 
 pso/ui/window/TWindowChallengeResult.cpp:
 	.text       start:0x80246CE8 end:0x80246FB0

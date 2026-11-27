@@ -75,7 +75,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void fill_card_text_entries(GuildCardRecord *record);
     void set_entry_display_value(const char *str);
     s32 get_display_mode();
-    void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
 };
 

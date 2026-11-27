@@ -18,7 +18,7 @@
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
+#include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"

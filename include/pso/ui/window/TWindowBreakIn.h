@@ -11,6 +11,7 @@ struct TWindowBreakIn : public TWindowBase {
     virtual ~TWindowBreakIn();
     virtual void render();
     virtual void run_task();
+    void update_entry_visibility();
 };
 
 LAYOUT_ASSERT(TWindowBreakIn_size, sizeof(TWindowBreakIn) == 0x60);
@@ -23,5 +24,11 @@ struct BreakInWindowLayout {
     SpritePartLayoutRecord rec[8];
 };
 
+
+// The break-in indicators: short_mail_flags bit 3 trade, bit 2 com card, bit 1 guild card receive.
+s32 is_com_card_active(void);
+s32 is_guild_card_receive_active(void);
+void set_guild_card_receive_active();
+s32 is_trade_active(void);
 
 #endif

@@ -1129,7 +1129,6 @@ pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
 pso/ui/window/TWindowSubShortCut.cpp
 pso/ui/window/TWindowSubShortCutList.cpp
-pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/window/WindowArrayEntry.cpp
 pso/ui/window/ChallengeRank.cpp

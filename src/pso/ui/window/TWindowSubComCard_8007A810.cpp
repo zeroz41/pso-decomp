@@ -7,7 +7,7 @@
 #include "pso/player/GuildCardEntry.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
+#include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/network/TLobby.h"
