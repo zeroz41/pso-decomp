@@ -577,7 +577,7 @@ void mcmdRandomKey(SynthVoice *svoice, SynthMacroStep *step) {
         detune = (u8)(step->para[0] >> 16);
     }
 
-    step->para[0] = ((u8)detune << 16) | 0x19 | ((k1 + (sndRand() % ((k2 - k1) + 1))) * 0x100);
+    step->para[0] = (detune << 16) | 0x19 | ((k1 + (sndRand() % ((k2 - k1) + 1))) * 0x100);
     step->para[1] = 0;
     mcmdSetKeyInline(svoice, step);
 }
@@ -1316,7 +1316,7 @@ static inline void mcmdIfVarCompare(SynthVoice *svoice, SynthMacroStep *step, u8
     if ((u8)(step->para[1] >> 8) != 0) {
         result = !result;
     }
-    if ((u8)result != 0) {
+    if (result != 0) {
         svoice->curAddr = svoice->addr + (u16)(step->para[1] >> 0x10);
     }
 }

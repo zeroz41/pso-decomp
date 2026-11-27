@@ -28,7 +28,7 @@ TTecCircle::TTecCircle(TObjBase *source, Vec *pos, Vec *target, s32 level) : TEf
     this->scale.z = 1.0f;
     this->m_74 = 0;
     this->contact = 0;
-    this->source = (TObjBase *)source;
+    this->source = source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -75,7 +75,7 @@ TTecCircle::TTecCircle(TObjBase *source, Vec *pos, s32 level) : TEffect() {
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->m_74 = 0;
-    this->source = (TObjBase *)source;
+    this->source = source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {

@@ -289,7 +289,7 @@ void voiceSetPriority(SynthVoice *svoice, u8 prio) {
     } else if (voicePrioSortRootListRoot != 0xFFFF) {
         if (prio >= voicePrioSortRootListRoot) {
             for (i = voicePrioSortRootListRoot; i != 0xFFFF; i = voicePrioSortRootList[i].next) {
-                if ((u16)i > prio) {
+                if (i > prio) {
                     break;
                 }
                 li = i;

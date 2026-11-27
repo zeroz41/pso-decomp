@@ -466,7 +466,7 @@ void TWindowFukidasi::init_flags(s32 flags) {
 // the way set_text does but without its 200 wrap width, using the
 // 1e6 "no limit" width draw_name_plate clips names with.
 void TWindowFukidasi::measure_text_unbounded(WindowTextEntry *entry) {
-    reinterpret_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
+    entry->measure_text(1000000.0f);
 }
 
 #pragma push

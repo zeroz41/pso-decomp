@@ -2763,7 +2763,7 @@ void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command) 
     if (lvl == 0xE) {
         lvl += p->technique_state.get_valid_technique();
     }
-    if (p->technique_state.check_technique_level((s16)tech, (u8)lvl) == 0) {
+    if (p->technique_state.check_technique_level(tech, (u8)lvl) == 0) {
         lvl = 0;
     }
     ul = lvl;
