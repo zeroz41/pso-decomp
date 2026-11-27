@@ -826,7 +826,8 @@ extern TcpTcb *tcp_newconn(TcpTcb *self, TcpHdr *th, NetworkAddress *a, NetworkA
     return dst;
 }
 extern s32 tcp_dooptions(TcpTcb *self, u8 *data, s16 total, TcpHdr *th);
-#define TCP_IDX(tp) ((s16)((TcpTcb *)(tp) - tcp_protocol_state.tcbs))
+// A TCB's socket index in tcp_protocol_state.tcbs.
+static inline s16 tcp_index(TcpTcb *tp) { return tp - tcp_protocol_state.tcbs; }
 #define TCP_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define TCP_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define TCP_REXMTTHRESH (tcp_protocol_state.rexmtthresh)
@@ -977,7 +978,7 @@ retry:
     switch (found->t_state) {
     case 1:
         if (kind & 4) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
+            NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 0xa);
             goto drop;
         }
         if (kind & 0x10) {
@@ -1044,11 +1045,11 @@ retry:
     case 2:
         ack = kind & 0x10;
         if ((ack && (s32)(ti->ack - found->iss) <= 0) || (s32)(ti->ack - found->snd_max) > 0) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xe);
+            NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 0xe);
             goto dropwithreset;
         }
         if (kind & 4) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
+            NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 0xa);
             if (ack) {
                 tcp_drop(found, 1);
             }
@@ -1069,7 +1070,7 @@ retry:
         found->rcv_adv = found->rcv_nxt = found->irs + 1;
         found->flags |= 1;
         if (ack && (s32)(found->snd_una - found->iss) > 0) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
+            NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 1);
             found->t_state = 4;
             found->maxseg = AT_TCP_Mss(found);
             switch (found->initial_window) {
@@ -1150,7 +1151,7 @@ retry:
             if ((kind & 2) && found->t_state == 10 && found->rcv_count == 0 &&
                 (s32)(hdr.seq - found->rcv_nxt) > 0) {
                 flag = found->rcv_nxt + 0x1F400;
-                NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
+                NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 4);
                 found->flags |= 0x80;
                 tcp_close(found);
                 goto retry;
@@ -1165,7 +1166,7 @@ retry:
         kind &= ~(8 | 1);
     }
     if (kind & 4) {
-        NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
+        NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 0xa);
         switch (found->t_state) {
         case 3:
         case 4:
@@ -1173,9 +1174,9 @@ retry:
         case 6:
         case 9:
             found->t_state = 0;
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
-            set_thread_state_and_resume(TCP_IDX(found), found->send_done, -5);
-            set_slot_state_and_resume(TCP_IDX(found), found->recv_done, -5);
+            NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 4);
+            set_thread_state_and_resume(tcp_index(found), found->send_done, -5);
+            set_slot_state_and_resume(tcp_index(found), found->recv_done, -5);
             if (tcp_close(found) != 0) {
                 found->t_state = -1;
             }
@@ -1183,7 +1184,7 @@ retry:
         case 7:
         case 8:
         case 10:
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
+            NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 4);
             found->flags |= 0x80;
             tcp_close(found);
             goto drop;
@@ -1200,7 +1201,7 @@ retry:
         if ((s32)(found->snd_una - hdr.ack) > 0 || (s32)(hdr.ack - found->snd_max) > 0) {
             goto dropwithreset;
         }
-        NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
+        NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 1);
         found->t_state = 4;
         found->maxseg = AT_TCP_Mss(found);
         switch (found->initial_window) {
@@ -1410,7 +1411,7 @@ retry:
             break;
         case 8:
             if (ourfinisacked) {
-                NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
+                NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 4);
                 tcp_close(found);
                 goto drop;
             }
@@ -1479,7 +1480,7 @@ fin_check:
     if (!(kind & 1)) {
         goto send_pending;
     }
-    NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 2);
+    NetDispatchSocketEvent(tcp_index(found), found->event_ctx, 3, 2);
     if (!(found->flags & 0x08)) {
         tcp_notify_receiver(found);
         found->flags |= 1;
