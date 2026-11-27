@@ -1186,9 +1186,9 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     return v0;
 }
 
-void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
-    s32 v0 = *(s32 *)&this->m_name;
-    s32 v4 = *(s32 *)&this->m_flags;
+void *QuestDownloadFile::alloc_download_quest(s32 size, s32 *out_size) {
+    s32 v0 = decompressed_size;
+    s32 v4 = seed;
     void *ret;
 
     ret = TQuestVmDownLoadServer::alloc(v0);
@@ -1197,8 +1197,8 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)&this->m_prev, size - 8);
-    prs_decompress_buffer(&this->m_prev, ret);
+    rng.xor_buffer((u32 *)data, size - 8);
+    prs_decompress_buffer(data, ret);
     if (out_size != NULL) {
         *out_size = v0;
     }
@@ -1209,7 +1209,7 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
 void *load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 size;
     s32 h;
-    u8 *buf;
+    QuestDownloadFile *buf;
     void *ret;
     s32 archive_size;
 
@@ -1218,23 +1218,23 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         return NULL;
     }
     if ((size <= 0x40000) && (tmp_buf_is_free() != 0)) {
-        buf = tmp_buf_use_req(load_file_prc_buffer_tag);
+        buf = (QuestDownloadFile *)tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
-        ret = ((TLobby *)buf)->alloc_download_quest(size, &archive_size);
+        ret = buf->alloc_download_quest(size, &archive_size);
         tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
+        buf = (QuestDownloadFile *)TQuestVmDownLoadServer::alloc(0x800);
         st.read_sectors_sync(1, buf);
-        archive_size = *(s32 *)((s8 *)buf + 0);
-        h = *(s32 *)((s8 *)buf + 4);
+        archive_size = buf->decompressed_size;
+        h = buf->seed;
         safe_free(buf);
         ret = TQuestVmDownLoadServer::alloc(archive_size);
-        buf = load_disc_file(name);
+        buf = (QuestDownloadFile *)load_disc_file(name);
         SubtractiveRng rng;
         rng.set_seed(h);
-        rng.xor_buffer((u32 *)(buf + 8), size - 8);
-        prs_decompress_buffer(buf + 8, ret);
+        rng.xor_buffer((u32 *)buf->data, size - 8);
+        prs_decompress_buffer(buf->data, ret);
         safe_free(buf);
     }
     if (out_size != NULL) {

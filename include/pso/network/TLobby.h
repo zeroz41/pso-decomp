@@ -84,7 +84,6 @@ struct TLobby : public TObject {
     static s32 get_game_mode();
     void collect_active_card_ids();
     static void send_status_packet();
-    void *alloc_download_quest(s32 size, s32 *out_size);
     // Empty free half of set_ending_callback in the scene load/free tables
     static int get_lobby_flag();
     void process_and_dispatch_packet();

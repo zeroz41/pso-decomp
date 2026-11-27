@@ -3838,7 +3838,7 @@ force_active:
   - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
   - alloc_char_records__23TAdSinglePlyChrSelectGCFP20CharacterBufferTable
   - alloc_download_buffer__17TCharSaveSequenceFv
-  - alloc_download_quest__6TLobbyFlPl
+  - alloc_download_quest__17QuestDownloadFileFlPl
   - alloc_global_buffer__Fv
   - allocate_bml_chunk
   - alloc_lobby_action_motion_buffer__Fv
