@@ -183,7 +183,7 @@ void TObjLobbyMain::advance_motion_frame() {
     f32 last;
     s32 motion = lobby_main_model_motions[model_index];
     if (motion != 5) {
-        last = (f32)get_bml_motion(model_resource, motion)->frameCount - 1.0f;
+        last = (f32)get_bml_motion(model_resource, motion)->nbFrame - 1.0f;
         animation_frame += 1.0f;
         if (last < animation_frame) {
             animation_frame -= last;

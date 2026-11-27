@@ -25,7 +25,7 @@ public:
     f32 pad_3c;     // 0x3C, set to 1.0f
     s32 angle;      // 0x40
     s32 pad_44;     // 0x44, set to 0
-    AnimationMotion *motion;  // 0x48, drawn with draw_model_motion
+    NJS_MOTION *motion;  // 0x48, drawn with draw_model_motion
     f32 frame;      // 0x4C
     Vec velocity;   // 0x50
     f32 distance;   // 0x5C

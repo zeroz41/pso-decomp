@@ -3,11 +3,13 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMessage;
+
 class TObjSoloPlayWin : public TObject {
 public:
     static const char *class_name;
     s32 m_state;
-    void* m_result_window;
+    TWindowMessage *m_result_window;
     s32 m_countdown;
 
     TObjSoloPlayWin(TObject* parent);

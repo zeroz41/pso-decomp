@@ -17,7 +17,7 @@ public:
     GinjaTextureInput texture_input;
     NJS_TEXLIST *texture_list;
     GvrTexture *image_data;
-    s32 output;
+    u8 *output;
     s32 displacement;
     s32 phase;
 

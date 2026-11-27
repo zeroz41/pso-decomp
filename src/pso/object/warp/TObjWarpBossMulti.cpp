@@ -96,8 +96,8 @@ BmlResource *boss_warp_resource_bundle;
 NJS_OBJECT *boss_warp_base_model;
 NJS_OBJECT *boss_warp_confirmation_model;
 NJS_OBJECT *warp_boss_model;
-AnimationMotion *warp_boss_motion;
-AnimationMotion *warp_boss_bml_motion;
+NJS_MOTION *warp_boss_motion;
+NJS_MOTION *warp_boss_bml_motion;
 NJS_TEXLIST *boss_warp_base_textures;
 NJS_TEXLIST *boss_warp_effect_textures;
 
@@ -116,9 +116,9 @@ NJS_OBJECT *get_boss_warp_confirmation_model(void) { return boss_warp_confirmati
 
 NJS_OBJECT *get_boss_warp_model(void) { return warp_boss_model; }
 
-AnimationMotion *get_boss_warp_motion(void) { return warp_boss_motion; }
+NJS_MOTION *get_boss_warp_motion(void) { return warp_boss_motion; }
 
-AnimationMotion *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
+NJS_MOTION *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
 
 NJS_TEXLIST *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
 
@@ -237,7 +237,7 @@ void TObjWarpBoss::run_task() {
         update();
         if (motion != NULL) {
             frame += 4.0f;
-            if ((1.0f + frame) >= (f32)motion->frameCount) {
+            if ((1.0f + frame) >= (f32)motion->nbFrame) {
                 frame = 0.0f;
             }
         }
@@ -843,13 +843,13 @@ void TObjWarpBossMulti::run_task() {
     switch (state) {
     case 0:
         frame += frame_step;
-        if (frame > (motion->frameCount - 1)) {
+        if (frame > (motion->nbFrame - 1)) {
             frame = 0.0f;
         }
         break;
     case 1:
         frame += frame_step;
-        if (frame > (bml_motion->frameCount - 1)) {
+        if (frame > (bml_motion->nbFrame - 1)) {
             frame = 0.0f;
         }
         handle_area_selection();

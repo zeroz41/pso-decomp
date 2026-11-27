@@ -6,7 +6,7 @@
 #include <dolphin/mtx.h>
 
 class ModelNodePositionCapture;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 class TParticleCtrl;
 struct TBoss6PlotFalz;

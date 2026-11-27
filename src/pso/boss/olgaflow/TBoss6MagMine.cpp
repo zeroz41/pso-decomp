@@ -64,7 +64,7 @@ void TBoss6MagMine::copy_pos() {
 
 void TBoss6MagMine::update_linked_state() {
     s32 textures;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     saddr model;
 
     set_motion_packed_rotation();
@@ -73,7 +73,7 @@ void TBoss6MagMine::update_linked_state() {
     motion = get_bml_motion(archive, 0);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     apply_boss6_hit_flash_color(hit_flash, 0.0f);
-    draw_model_motion((void *)model, motion, motion_frame);
+    draw_model_motion((NJS_OBJECT *)model, motion, motion_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();
 }

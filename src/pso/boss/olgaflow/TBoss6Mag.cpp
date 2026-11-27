@@ -310,7 +310,7 @@ void TBoss6MagMotionTrack::copy_state(TBoss6MagMotionTrack *src) {
 }
 
 void TBoss6Mag::init_motion_state() {
-    AnimationMotion *bml_motion;
+    NJS_MOTION *bml_motion;
     motion_state.copy_from(&boss6_type2_zero_vec3_block);
     motion_state.track.copy_state((TBoss6MagMotionTrack *)&boss6_type2_initial_state);
     bml_motion = get_bml_motion(scene_archive, boss6_type2_motion_table[0].motion);
@@ -323,7 +323,7 @@ void TBoss6Mag::update_motion_playback() {
     f32 n;
     f32 lim;
 
-    n = (f32)motion_state.track.motion->frameCount;
+    n = (f32)motion_state.track.motion->nbFrame;
     motion_state.track.frame += motion_state.track.speed;
     switch (motion_state.mode) {
     case 0:
@@ -352,7 +352,7 @@ void TBoss6Mag::update_motion_playback() {
 #pragma opt_common_subs off
 void TBoss6Mag::change_motion(s32 motion) {
     s32 row;
-    AnimationMotion *bml_motion;
+    NJS_MOTION *bml_motion;
     if ((motion != -1) && (motion != motion_state.index)) {
         motion_state.index = motion;
         row = motion * sizeof(TBoss6MagMotionEntry);
@@ -369,7 +369,7 @@ void TBoss6Mag::change_motion(s32 motion) {
 #pragma pop
 
 void TBoss6Mag::draw_model_motion_blend() {
-    TBoss6MagMotionBlend blend;
+    NJS_MOTION_LINK blend;
     NJS_TEXLIST *texlist;
     NJS_OBJECT *model;
     set_motion_packed_rotation();
@@ -381,10 +381,10 @@ void TBoss6Mag::draw_model_motion_blend() {
         draw_model_motion(model, motion_state.track.motion, motion_state.track.frame);
         capture->clear();
     } else {
-        blend.from = motion_state.track.prev_motion;
-        blend.from_frame = motion_state.track.prev_frame;
-        blend.to = motion_state.track.motion;
-        blend.to_frame = motion_state.track.frame;
+        blend.motion[0] = motion_state.track.prev_motion;
+        blend.frame[0] = motion_state.track.prev_frame;
+        blend.motion[1] = motion_state.track.motion;
+        blend.frame[1] = motion_state.track.frame;
         capture->install();
         draw_model_blend_motion(model, &blend, motion_state.track.blend);
         capture->clear();
@@ -664,7 +664,7 @@ void TBoss6Mag::spawn_falling_rocks() {
         p->z = r * cos_table_lookup(ang) + p->z;
         TBoss6Rock::push_out_of_rocks(p, 10.0f);
     }
-    TBoss6Type2::send_6xAD_grid_positions(index, (saddr)pts, 3);
+    TBoss6Type2::send_6xAD_grid_positions(index, pts, 3);
 }
 #pragma pop
 

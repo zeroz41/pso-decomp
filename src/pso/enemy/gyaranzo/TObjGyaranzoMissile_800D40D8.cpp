@@ -79,7 +79,7 @@ void TObjEneGyaranzoMine::explode() {
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
@@ -96,7 +96,7 @@ void TObjEneGyaranzoMine::explode() {
 }
 
 void TObjEneGyaranzoMine::render() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(mine_textures));
+    set_texture_list(mine_textures);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, yaw);
@@ -181,7 +181,7 @@ TObjEneGyaranzoMine::TObjEneGyaranzoMine(TObjBase *owner, Vec *pos, s32 angle, s
     probe_position.y += 5.0f;
     this->spin = spin;
     mine_model = gyaranzo_bml_resource->models[5].model;
-    mine_textures = (saddr)gyaranzo_bml_resource->models[5].texlist;
+    mine_textures = gyaranzo_bml_resource->models[5].texlist;
     room = owner->room;
     owner_id = owner->get_entity_id();
     pad_B8 = 0;

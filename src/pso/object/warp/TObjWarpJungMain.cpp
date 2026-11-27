@@ -52,7 +52,7 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 
 // The beam archive and what load_warp_beam_resources picks out of it.
 BmlResource *warp_jung_beam_bml_resource;
-AnimationMotion *warp_jung_beam_motion;
+NJS_MOTION *warp_jung_beam_motion;
 NJS_TEXLIST *warp_jung_textures;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
 GinjaModel *warp_jung_beam_uv_model;
@@ -134,7 +134,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
 
 void TObjWarpJungMain::run_task() {
     beam_frame += 4.0f;
-    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
+    if (beam_frame > (warp_jung_beam_motion->nbFrame - 1)) {
         beam_frame = 0.0f;
     }
     handle_area_selection();
@@ -195,7 +195,7 @@ void TObjWarpJung::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::con
 
 void TObjWarpJung::run_task() {
     beam_frame += 4.0f;
-    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
+    if (beam_frame > (warp_jung_beam_motion->nbFrame - 1)) {
         beam_frame = 0.0f;
     }
     handle_area_selection();
@@ -224,7 +224,7 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
 }
 
 f32 TObjWarpJung::get_static_field4_as_float() {
-    return (f32)warp_jung_beam_motion->frameCount;
+    return (f32)warp_jung_beam_motion->nbFrame;
 }
 
 void TObjWarpJung::set_global_render_param() { set_texture_list(warp_jung_textures); }

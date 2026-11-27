@@ -54,7 +54,7 @@ void TLanguage::free_alphabet_textures() {
 }
 
 void TLanguage::free_text_resources() {
-    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(text_resource));
+    TLobby::free_nodes_with_id(text_resource);
     soft_keyboard_layouts = NULL;
     text_language_group_table = 0;
     text_resource = NULL;

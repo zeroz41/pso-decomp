@@ -198,9 +198,9 @@ void TObjEneRe7Berura::load_static_resources() {
     re7_berura_detached_part_states[1].launch_frame = 29.0f;
     for (i = 0; i < 2; i++) {
         TObjEneRe7BeruraPart *e = &re7_berura_detached_part_states[i];
-        AnimationMotion *ent = re7_berura_shared_resource->motions[re7_berura_animation_definitions[e->action].motion].motion;
+        NJS_MOTION *ent = re7_berura_shared_resource->motions[re7_berura_animation_definitions[e->action].motion].motion;
         set_motion_packed_rotation();
-        bind_motion_context((NJS_MOTION *)ent, e->launch_frame);
+        bind_motion_context(ent, e->launch_frame);
         TObjEneRe7Berura::capture_arm_matrices(m, e);
         clear_motion_packed_rotation();
         e->first_object = find_model_node(m, e->first_node);
@@ -1506,7 +1506,7 @@ void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { apply_par
 
 void TObjEneRe7Berura::render_demo() {
     s32 idx;
-    AnimationMotion *mot;
+    NJS_MOTION *mot;
     f32 frame;
 
     get_target_info();
@@ -1530,8 +1530,8 @@ void TObjEneRe7Berura::render_demo() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (mot->frameCount - 1)) {
-            frame = (f32)mot->frameCount;
+        } else if (frame > (mot->nbFrame - 1)) {
+            frame = (f32)mot->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(model, mot, frame);

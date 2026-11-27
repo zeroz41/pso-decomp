@@ -46,7 +46,7 @@ TAdDialingGC *TAdDialingGC::instance;
 const char *TAdDialingGC::name = "TAdDialingGC";
 
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
-    *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC::name);
+    m_name = TAdDialingGC::name;
     TAdDialingGC::instance = this;
     if (is_pppoe_selected() != 0) {
         this->dial_mode = 1;

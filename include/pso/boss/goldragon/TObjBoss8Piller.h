@@ -5,7 +5,7 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_OBJECT;
 
 // A Gol Dragon pillar: plays its motion once, then removes itself.
@@ -23,7 +23,7 @@ public:
 
     Vec position;
     f32 frame;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     u16 dragon_id;  // entity id; run_task passes that entity's pillar attack to TBoss8Dragon::apply_pillar_attack
     static const char *class_name;
     static BmlResource * shared_resource;

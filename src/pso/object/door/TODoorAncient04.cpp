@@ -52,7 +52,7 @@ TODoorAncient04::TODoorAncient04(TObject *parent, void *set_data) : TODoorBase(p
     model = door_ancient04_archive->models[0].model;
     texlist = door_ancient04_texlists[1];
     motion = door_ancient04_archive->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient04_collision_body, 1);
     refresh_collision_body_centers();
@@ -76,7 +76,7 @@ void TODoorAncient04::load_resources() {
 
 void TODoorAncient04::free_resources() {
     if (door_ancient04_texlists != NULL) {
-        TObjPlayer::free_if_valid((saddr)door_ancient04_texlists[1]);
+        TObjPlayer::free_if_valid(door_ancient04_texlists[1]);
         if (door_ancient04_texlists != NULL) {
             mem_free(door_ancient04_texlists);
             door_ancient04_texlists = NULL;

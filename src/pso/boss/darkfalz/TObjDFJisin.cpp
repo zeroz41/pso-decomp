@@ -271,7 +271,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     NJS_TEXLIST *head_textures;
     uaddr attachment;
     NJS_TEXLIST *attachment_textures;
-    void *body;
+    NJS_OBJECT *body;
     NJS_TEXLIST *body_textures;
     if (0.0f == alpha) {
         return;
@@ -295,7 +295,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     }
     set_texture_list(body_textures);
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion(body, (void *)motion, frame);
+    draw_model_motion(body, (NJS_MOTION *)motion, frame);
     TObjDFTenchuFuru::unregister_callback();
     if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);

@@ -276,9 +276,9 @@ void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
 void TeneFakeTecThunderEff::clear_counter() { active = 0; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void *index) {
-    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
-    this->texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
+void TObjEneDarkGunner::set_fields_24_34_from_global(s32 index) {
+    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, index);
+    this->texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, index);
 }
 
 int TObjEneDarkGunner::is_death_gunner() { return (behavior_flags >> 26) & 0x1; }
@@ -315,7 +315,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     VecCopy(&home_position, &position);
     VecCopy(&move_origin, &position);
     VecCopy(&move_destination, &position);
-    set_fields_24_34_from_global((void *)1);
+    set_fields_24_34_from_global(1);
     motion_list = TObjEneDarkGunner::bml_resource->motions;
     action_table = dark_gunner_action_table;
     set_action_table(action_table);
@@ -394,7 +394,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner::bml_resource = NULL;
     }
     if (dark_gunner_effect_resource != NULL) {
-        TObjPlayer::free_if_valid((saddr)dark_gunner_effect_resource);
+        TObjPlayer::free_if_valid(dark_gunner_effect_resource);
         dark_gunner_effect_resource = NULL;
     }
     TObjPlayer::reset_effect_count();

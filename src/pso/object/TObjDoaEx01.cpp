@@ -225,7 +225,7 @@ TObjDoaEx01::TObjDoaEx01(TObject *parent, ObjectSetData *placement) : TODoorBase
     register_object_by_id();
     this->animation_frame = 0.0f;
     this->animation_step = 0.5f;
-    this->animation_end_frame = (f32)get_bml_motion(doa_ex01_resource_bundle, 0)->frameCount;
+    this->animation_end_frame = (f32)get_bml_motion(doa_ex01_resource_bundle, 0)->nbFrame;
     this->door_flags = 0x100001;
     this->glow_color.a = 1.0f;
     this->glow_color.r = 1.0f;

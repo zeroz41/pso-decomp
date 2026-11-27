@@ -194,7 +194,7 @@ TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) 
     apply_object_set_data(set_data);
     animation_frame = 0.0f;
     animation_step = 0.8f;
-    animation_end_frame = get_bml_motion(model_resource, 0)->frameCount;
+    animation_end_frame = get_bml_motion(model_resource, 0)->nbFrame;
     if (is_split_screen() != 0) {
         for (i = 0; i < 8; i++) {
             lights[i] = NULL;

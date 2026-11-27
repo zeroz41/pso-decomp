@@ -28,7 +28,7 @@ void TObjNpcHRM00::destroy_resources() {
         body_texture_gvm = NULL;
     }
     if (named_object_resource != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(named_object_resource));
+        TLobby::free_nodes_with_id(named_object_resource);
         named_object_resource = NULL;
     }
 }

@@ -52,7 +52,7 @@ TODoorAncient03::TODoorAncient03(TObject *parent, void *set_data) : TODoorBase(p
     model = door_ancient03_archive->models[0].model;
     texlist = door_ancient03_texlists[1];
     motion = door_ancient03_archive->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient03_collision_body, 1);
     refresh_collision_body_centers();
@@ -76,7 +76,7 @@ void TODoorAncient03::load_resources() {
 
 void TODoorAncient03::free_resources() {
     if (door_ancient03_texlists != NULL) {
-        TObjPlayer::free_if_valid((saddr)door_ancient03_texlists[1]);
+        TObjPlayer::free_if_valid(door_ancient03_texlists[1]);
         if (door_ancient03_texlists != NULL) {
             mem_free(door_ancient03_texlists);
             door_ancient03_texlists = NULL;

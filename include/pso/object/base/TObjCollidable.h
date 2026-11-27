@@ -90,6 +90,9 @@ struct ActorBodyHit {
     TObjCollidable *target;
     s32 body;  // index into target->bodies
 };
+// Mark body index of bodies as belonging to a battle team (0x80000000 or 0x40000000 in flags).
+void set_collision_body_team0(void *unused, CollisionBody *bodies, s32 index);
+void set_collision_body_team1(void *unused, CollisionBody *bodies, s32 index);
 void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
 struct G_UpdateObjectState_6x0B;

@@ -32,7 +32,7 @@ const char *TBoss2Tentacle::name = "TBoss2Tentacle";
 
 // Shared by the four tentacles, set up by load_shared_model.
 NJS_OBJECT *boss2_tentacle_model;
-AnimationMotion *TBoss2Tentacle::motion_data;
+NJS_MOTION *TBoss2Tentacle::motion_data;
 NJS_TEXLIST *boss2_tentacle_texlist;
 
 // The working copy of the model nodes drawn while striking, and the rest pose read from the model;
@@ -282,7 +282,7 @@ void TBoss2Tentacle::shape_strike_arc(f32 length) {
 #pragma pop
 
 void TBoss2Tentacle::advance_motion_position() {
-    f32 lim = (TBoss2Tentacle::motion_data->frameCount - 1);
+    f32 lim = (TBoss2Tentacle::motion_data->nbFrame - 1);
     frame += frame_speed;
     if (frame >= lim) {
         frame -= lim;
@@ -377,7 +377,7 @@ TBoss2Tentacle::TBoss2Tentacle(TObject *parent, const f32 (*joint)[4], s32 index
         VecCopy(&segment_pos[i], &TBoss2Tentacle::segment_points[i]);
         segment_ang[i] = TBoss2Tentacle::segment_point_defaults[i];
     }
-    frame = (TBoss2Tentacle::motion_data->frameCount - 1) * (3.0517578125e-05f * (f32)rand());
+    frame = (TBoss2Tentacle::motion_data->nbFrame - 1) * (3.0517578125e-05f * (f32)rand());
     frame_speed = 0.8f;
     yaw = 0;
     pitch = 0;

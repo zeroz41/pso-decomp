@@ -24,7 +24,7 @@ void TTextureWave::advance_wrapped_cursor() {
 
 TTextureWave::~TTextureWave() {
     release_texture_list(this->texture_list);
-    safe_free(reinterpret_cast<void *>(this->output));
+    safe_free(this->output);
 }
 
 void TTextureWave::init_image_buffer(u8 *image, s32 displacement) {
@@ -37,10 +37,10 @@ void TTextureWave::init_image_buffer(u8 *image, s32 displacement) {
     header = this->image_data;
     this->texture_id = (s32)header->global_index[0];
     this->texture_id = (s32)(this->texture_id | (header->global_index[1] << 0x10));
-    this->output = (saddr)TQuestVmDownLoadServer::alloc((this->height * (this->width * 2)) + 0x20);
+    this->output = (u8 *)TQuestVmDownLoadServer::alloc((this->height * (this->width * 2)) + 0x20);
     this->texture_list->textures = &this->texture_name;
     this->texture_list->nbTexture = 1;
-    this->texture_input.set_render_rect(reinterpret_cast<void *>(this->output + 0x20), 5, (int)this->width, (int)this->height);
+    this->texture_input.set_render_rect(this->output + 0x20, 5, (int)this->width, (int)this->height);
     set_texture_name(&this->texture_name, &this->texture_input, this->texture_id, 0x40800000);
     psoLoadTexture(this->texture_list);
 }
@@ -49,7 +49,7 @@ void TTextureWave::init_image_buffer(u8 *image, s32 displacement) {
 TTextureWave::TTextureWave(NJS_TEXLIST *list) {
     phase = 0;
     image_data = 0;
-    output = 0;
+    output = NULL;
     displacement = 0;
     height = 0;
     width = 0;

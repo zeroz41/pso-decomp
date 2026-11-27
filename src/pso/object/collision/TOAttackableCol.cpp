@@ -176,7 +176,7 @@ void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
 
 void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1); }
 
-f32 TOAttackableCol::apply_hit(saddr player) {
+f32 TOAttackableCol::apply_hit(TObjBase *player) {
   s32 id;
   s32 kind;
   s32 is_local_player;
@@ -185,7 +185,7 @@ f32 TOAttackableCol::apply_hit(saddr player) {
   TObject *thread_a;
   TObject *thread_b;
   is_local_player = 0;
-  if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
+  if (((player != 0) && (player->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
     is_local_player = 1;
   }
@@ -268,7 +268,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *set_data) {
     void *o;
-    o = (void *)new TOAttackableCol((saddr)set_data);
+    o = (void *)new TOAttackableCol(set_data);
     return o;
 }
 
@@ -279,9 +279,9 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
+TOAttackableCol::TOAttackableCol(void *set_data) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = attackable_col_name;
-    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     ((TObjChara *)this)->calc_attach_pos();
     set_actor_flags(0x60000000);
     init_collision_body_parts(this, &attackable_col_collision_parts, 1);
@@ -301,11 +301,11 @@ s32 TOAttackableCol::select_melee_contact_body(TObjChara *, f32) { return 1; }
 
 int TOAttackableCol::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TOAttackableCol::receive_physical_attack(TObjChara *player, f32) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_physical_attack(TObjChara *player, f32) { return this->apply_hit(player); }
 
-f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit(player); }
 
-f32 TOAttackableCol::receive_weapon_special_attack(TObjChara *player, CollisionBody *) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_weapon_special_attack(TObjChara *player, CollisionBody *) { return this->apply_hit(player); }
 
 void TOAttackableCol::apply_knockback_from_attacker(TObjBase *, f32) {  }
 

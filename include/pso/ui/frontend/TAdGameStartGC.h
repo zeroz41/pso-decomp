@@ -25,8 +25,8 @@ public:
     void create_effects();
     s32 is_active();
 
-    static void bswap_6x92(void *p);
-    static void send_6x92(void *p);
+    static void bswap_6x92(G_Unknown_6x92 *cmd);
+    static void send_6x92(G_Unknown_6x92 *p);
     static void init_6x92(G_Unknown_6x92 *p);
 
     GameStartLetterLayout m_letters[8];

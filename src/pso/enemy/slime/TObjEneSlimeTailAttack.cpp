@@ -289,13 +289,13 @@ TObjEneSlime::~TObjEneSlime() {
 void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 
 void TObjEneSlime::run_task() {
-    s32 enemy_state;
+    EnemyStateRecord enemy_state;
 
     if ((TObjPlayer::check_demo_mode() == 0) && (this->has_no_active_slot() != 0)) {
-        enemy_state = 0x800;
+        enemy_state.flags = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
-        this->apply_enemy_state(&enemy_state);
+        this->apply_enemy_state(&enemy_state.flags);
         send_entity_set_flags();
         queue_destruction();
     }
@@ -387,9 +387,9 @@ s32 TObjEneSlime::spawn_slime_in_slot(s32 index, Vec *position, Vec *velocity) {
     }
     slot = &this->child_slots[index];
     if (velocity == 0) {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)this, (saddr)&t);
+        slot->slime = TObjEneSlimeOne::create(this, &t);
     } else {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)this, (saddr)&t, (saddr)velocity);
+        slot->slime = TObjEneSlimeOne::create(this, &t, velocity);
     }
     if (slot->slime == NULL) {
         return 0;
@@ -438,15 +438,15 @@ s32 TObjEneSlime::try_spawn_child(Vec *position) {
 }
 
 #pragma push
-saddr TObjEneSlimeOne::create(saddr owner, saddr set_data) {
-    return (saddr)new TObjEneSlimeOne(new TObjControl(tl_04), (TObjEneSlime *)owner, (void *)set_data);
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data) {
+    return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data);
 }
 #pragma pop
 
 #pragma push
 
-saddr TObjEneSlimeOne::create(saddr owner, saddr set_data, saddr velocity) {
-    return (saddr)new TObjEneSlimeOne(new TObjControl(tl_04), (TObjEneSlime *)owner, (void *)set_data, (const Vec *)velocity);
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data, const Vec *velocity) {
+    return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data, velocity);
 }
 #pragma pop
 
@@ -895,7 +895,7 @@ void TObjEneSlimeOne::update_scan() {
     }
     this->motion_phase -= 0x600;
     if (this->motion_phase <= 0) {
-        n = (f32)(get_bml_motion(model_archive, 10))->frameCount / 0.5f;
+        n = (f32)(get_bml_motion(model_archive, 10))->nbFrame / 0.5f;
         this->motion_phase = 0;
         if (this->target_client_id != 0xFFFF) {
             direction.x = 1.0f;

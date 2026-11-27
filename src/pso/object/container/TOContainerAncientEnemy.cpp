@@ -202,7 +202,7 @@ void free_ancient_container_resources(void) {
     if (ancient_container_fragment_texture_lists != NULL) {
         i = 0;
         do {
-            TObjPlayer::free_if_valid((saddr)ancient_container_fragment_texture_lists[i]);
+            TObjPlayer::free_if_valid(ancient_container_fragment_texture_lists[i]);
             i += 1;
         } while (i < 3);
         p = ancient_container_fragment_texture_lists;

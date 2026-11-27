@@ -51,7 +51,7 @@ struct TOTrapChainSaw : public TObjMapObject {
     static void load_shared_resource();
     static void unload_static_data();
     static NJS_OBJECT *get_model(s32 index);
-    static AnimationMotion *get_motion(s32 index);
+    static NJS_MOTION *get_motion(s32 index);
     static NJS_TEXLIST *get_texlist(s32 index);
 };
 

@@ -112,7 +112,7 @@ void TObjWarpLobby::render() {
 void TObjWarpLobby::run_task() {
     s32 selected_menu_value;
     beam_frame += 4.0f;
-    if ((f32) (beam_motion->frameCount - 1) < beam_frame) {
+    if ((f32) (beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_phase += 336.0f;

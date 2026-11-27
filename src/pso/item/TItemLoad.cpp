@@ -214,7 +214,7 @@ void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texli
     }
 }
 
-void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion) {
+void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, NJS_MOTION **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
         *model = get_bml_model(bml_resource, 1);
         *texlist = get_bml_texlist(bml_resource, 0);

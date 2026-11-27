@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/warp/TObjMapWarp.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -24,7 +24,7 @@ struct TObjMapWarpAncient : public TObjMapWarp {
     NJS_TEXLIST *beam_textures;             // TObjGoalWarpAncient::get_archive_textures(2)
     NJS_TEXLIST *ksita_textures;            // TObjGoalWarpAncient::get_archive_textures(0)
     NJS_TEXLIST *nsita_textures;            // TObjGoalWarpAncient::get_archive_textures(4)
-    AnimationMotion *beam_motion;  // motion 1, de_obj1_swarp_beam_n.njm
+    NJS_MOTION *beam_motion;  // motion 1, de_obj1_swarp_beam_n.njm
     static void *create(void *set_data);
 };
 

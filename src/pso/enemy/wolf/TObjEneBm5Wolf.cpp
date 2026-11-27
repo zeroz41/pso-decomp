@@ -616,7 +616,7 @@ void TObjEneBm5Wolf::play_proximity_effect() {
 }
 
 f32 TObjEneBm5Wolf::calc_death_slide_speed(f32 speed) {
-    return (28.0f) / ((this->motion_list[this->action_table[9].motion].motion->frameCount - 1) / speed);
+    return (28.0f) / ((this->motion_list[this->action_table[9].motion].motion->nbFrame - 1) / speed);
 }
 
 int TObjEneBm5Wolf::get_flag_bit0() { return this->entity_id & 0x1; }
@@ -1910,7 +1910,7 @@ void TObjEneBm5Wolf::render_debug() {
     f32 frame;
     s32 idx;
     u32 n;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     TObjEneBm5Wolf *leader;
 
     if (this->get_target_info() != 0) {
@@ -1938,7 +1938,7 @@ void TObjEneBm5Wolf::render_debug() {
         if (frame < 0.0f) {
             frame = 0.0f;
         } else {
-            n = motion->frameCount;
+            n = motion->nbFrame;
             if (frame > (n - 1)) {
                 frame = (f32) n;
             }

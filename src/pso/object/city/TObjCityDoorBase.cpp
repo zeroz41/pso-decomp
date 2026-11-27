@@ -220,7 +220,7 @@ s32 TObjCityDoorBase::is_in_view() {
 TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_shop_params) {
     m_name = class_name;
-    end_frame = city_common_model_archive->motions[10].motion->frameCount - 1;
+    end_frame = city_common_model_archive->motions[10].motion->nbFrame - 1;
 }
 
 TObjCityDoor_Shop::~TObjCityDoor_Shop() {
@@ -248,7 +248,7 @@ void TObjCityDoor_Shop::render() {
 TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_guild_params) {
     m_name = class_name;
-    end_frame = get_city_common_motion(12)->frameCount - 1;
+    end_frame = get_city_common_motion(12)->nbFrame - 1;
 }
 
 TObjCityDoor_Guild::~TObjCityDoor_Guild() {
@@ -276,7 +276,7 @@ void TObjCityDoor_Guild::render() {
 TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_warp_params) {
     m_name = class_name;
-    end_frame = get_city_common_motion(8)->frameCount - 1;
+    end_frame = get_city_common_motion(8)->nbFrame - 1;
 }
 
 TObjCityDoor_Warp::~TObjCityDoor_Warp() {
@@ -344,7 +344,7 @@ s32 TObjCityDoor_Warp::is_rader_map_active() {
 TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_med_params) {
     m_name = class_name;
-    end_frame = get_city_common_motion(11)->frameCount - 1;
+    end_frame = get_city_common_motion(11)->nbFrame - 1;
 }
 
 TObjCityDoor_Med::~TObjCityDoor_Med() {

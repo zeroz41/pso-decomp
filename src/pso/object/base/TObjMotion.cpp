@@ -424,7 +424,7 @@ void TObjMotion::set_action_motion(s32 action) {
 }
 
 f32 TObjMotion::get_action_frame_count(s16 action) {
-    return (f32)motion_list[action_table[action].motion].motion->frameCount;
+    return (f32)motion_list[action_table[action].motion].motion->nbFrame;
 }
 
 s32 TObjMotion::is_anim_finished() {
@@ -546,7 +546,7 @@ void TMotionModel::play_backward() {
 }
 
 void TMotionModel::draw_model() {
-    draw_model_motion(get_model(), get_motion(), get_frame());
+    draw_model_motion((NJS_OBJECT *)get_model(), get_motion(), get_frame());
 }
 
 void setup_actor_draw_lighting() {

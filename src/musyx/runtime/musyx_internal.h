@@ -489,6 +489,8 @@ u32 salInitDsp(u32 flags);
 void salCtrlDsp(saddr dest);
 u32 salGetStartDelay(void);
 
+extern u8 dspSlave[];
+extern u16 dspSlaveLength;
 extern u16 dspCmdFirstSize;
 extern u16 *dspCmdList;
 extern u32 dspHRTFOn;

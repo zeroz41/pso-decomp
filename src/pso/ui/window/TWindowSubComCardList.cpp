@@ -49,7 +49,7 @@ void TWindowSubComCardList::refresh_page() {
     GuildCardEntry *card;
     s32 n;
     s32 index;
-    saddr msg;
+    const char *msg;
 
     this->reset_entries();
     index = storage->get_type();
@@ -73,13 +73,13 @@ void TWindowSubComCardList::refresh_page() {
     if (this->get_entry_count() <= 0) {
         switch ((s8)this->empty_message) {
         case 0:
-            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
+            msg = TWindowSubStatusDisp::get_message_10(0xD4);
             break;
         case 1:
-            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
+            msg = TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
-        add_gray_text_entry((TWindowMenu *)this, (const char *)msg, 4, -1);
+        add_gray_text_entry((TWindowMenu *)this, msg, 4, -1);
     }
 }
 

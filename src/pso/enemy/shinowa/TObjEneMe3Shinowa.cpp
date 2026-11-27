@@ -149,7 +149,7 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaParams *info;
     NJS_OBJECT *root;
     NJS_CNK_MODEL *cnk;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     NJS_OBJECT *model;
     f32 step;
     NJS_MOTION *trail;
@@ -211,7 +211,7 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage::material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3ShinowaMirage::bml_resource->motions[shinowa_mirage_motion_param_table[4].motion].motion;
-    TBreakUpMdlData *breakup = new TBreakUpMdlData(TObjEneMe3ShinowaMirage::bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    TBreakUpMdlData *breakup = new TBreakUpMdlData(TObjEneMe3ShinowaMirage::bml_resource->models->model, motion, motion->nbFrame - 1);
     TObjEneMe3ShinowaMirage::breakup_model = breakup;
     {
         Vec first;
@@ -1610,7 +1610,7 @@ void TObjEneMe3Shinowa::render_demo() {
         }
         if (mode == 0) {
             s32 action = (s32)parameters[2];
-            AnimationMotion *motion;
+            NJS_MOTION *motion;
             f32 at_frame;
             if (action < 0) {
                 action = 0;
@@ -1621,13 +1621,13 @@ void TObjEneMe3Shinowa::render_demo() {
             at_frame = parameters[3];
             if (at_frame < 0.0f) {
                 at_frame = 0.0f;
-            } else if (at_frame > (motion->frameCount - 1)) {
-                at_frame = (motion->frameCount - 1);
+            } else if (at_frame > (motion->nbFrame - 1)) {
+                at_frame = (motion->nbFrame - 1);
             }
             set_motion_packed_rotation();
             draw_model_motion(model, motion, at_frame);
             clear_motion_packed_rotation();
-            current_motion = (NJS_MOTION *)motion;
+            current_motion = motion;
             frame = at_frame;
             print_float_padded(pack_debug_text_position(0, 4), 5, get_node_world_y());
         } else {

@@ -70,7 +70,7 @@ void *TOKeyAncient01::create(void *set_data) {
 void TOKeyAncient01::free_shared_resources() {
     if (key_ancient01_texture_lists != NULL) {
         for (s32 i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid((saddr)key_ancient01_texture_lists[i]);
+            TObjPlayer::free_if_valid(key_ancient01_texture_lists[i]);
         }
         if (key_ancient01_texture_lists != NULL) {
             mem_free(key_ancient01_texture_lists);
@@ -110,7 +110,7 @@ TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) 
     texlist = key_ancient01_texture_lists[set_params[1]];
     model = key_ancient01_shared_resource_object->models[0].model;
     motion = key_ancient01_shared_resource_object->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.99f;
     init_collision_body_parts(this, key_ancient01_collision_body, 1);
     refresh_collision_body_centers();

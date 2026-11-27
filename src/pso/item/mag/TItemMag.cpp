@@ -385,13 +385,13 @@ int TItemMagSub::is_growth_inactive() { return test_flags(0x40) == 0; }
 
 void TItemMagSub::scale_owner_height(f32 factor) { owner_height_scale *= factor; }
 
-void TItemMagSub::set_model(void *model_arg, NJS_TEXLIST *textures_arg, void *animation_arg) {
+void TItemMagSub::set_model(NJS_OBJECT *model_arg, NJS_TEXLIST *textures_arg, NJS_MOTION *animation_arg) {
     model = model_arg;
     textures = textures_arg;
     animation = animation_arg;
     if (animation != NULL) {
         animation_frame = 0.0f;
-        animation_length = (f32)((NJS_MOTION *)animation)->nbFrame - 1.0f;
+        animation_length = (f32)animation->nbFrame - 1.0f;
     }
 }
 

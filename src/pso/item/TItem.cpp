@@ -1153,7 +1153,7 @@ void TItem::refresh_if_current_player() {
 s32 TItem::get_icon_index() {
     TItemData data;
     copy_to_item_data(&data);
-    return get_item_data((uaddr)&data);
+    return get_item_data(&data);
 }
 
 void TItem::set_item_group(u8 value) { item_group = value; }

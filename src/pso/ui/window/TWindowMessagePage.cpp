@@ -34,7 +34,7 @@ void TWindowMessagePage::update_message() {
     }
 }
 
-void TWindowMessagePage::set_message(void *msg, s32 flags) {
+void TWindowMessagePage::set_message(const char *msg, s32 flags) {
     while (page_text != NULL) {
         update_message();
     }

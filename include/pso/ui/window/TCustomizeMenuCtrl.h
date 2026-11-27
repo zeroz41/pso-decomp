@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowSubCustomEquip;
+
 struct TWindowMainMenu;
 struct TWindowSubCustomSelect;
 struct TWindowMessage;
@@ -21,7 +23,7 @@ public:
     u8 pad_1D[0x3];
     s32 client_id;
     TWindowMainMenu *main_menu;
-    uaddr custom_equip;
+    TWindowSubCustomEquip *custom_equip;
     TWindowSubCustomSelect *custom_select;
     TWindowMessage *help_window;
     u16 help_kind;

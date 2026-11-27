@@ -570,8 +570,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     state_flags = 0;
     {
         // exchange_object_state copies the object's whole 12-byte lobby record
-        u32 flags[3];
-        if (exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+        EnemyStateRecord record;
+        if (exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
             state_flags |= 0x8000;
         }
     }
@@ -3821,7 +3821,7 @@ int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
 
 void TBoss2DeRolLe::render_body() {
     s32 i;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     s32 idx;
     f32 frame;
     f32 max;
@@ -3847,7 +3847,7 @@ void TBoss2DeRolLe::render_body() {
     }
     motion = motion_list[action_table[idx].motion].motion;
     if (test_previous_buttons_packed(&controller_input_state.controllers[2], 4) != 0) {
-        max = motion->frameCount - 1;
+        max = motion->nbFrame - 1;
         this->frame = this->frame + parameters[2];
         while (this->frame < 0.0f) {
             this->frame = this->frame + max;
@@ -3860,8 +3860,8 @@ void TBoss2DeRolLe::render_body() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (motion->frameCount - 1)) {
-            frame = motion->frameCount;
+        } else if (frame > (motion->nbFrame - 1)) {
+            frame = motion->nbFrame;
         }
     }
     derolle_begin_node_capture(this);

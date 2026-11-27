@@ -25,7 +25,7 @@ public:
     // Sets the model rotation angles.
     void set_rotation(ParticleAngles *rotation);
     // Draws model (texlist, motion) instead of the sprite; loop repeats the motion.
-    void attach_model(void *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed);
+    void attach_model(NJS_OBJECT *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed);
     // Tints the particle by rgba (flags 0x100).
     void set_tint_color(NJS_ARGB *rgba);
     void set_draw_scale(f32 x, f32 y);
@@ -55,7 +55,7 @@ public:
     f32 scale_y;               // 0xA8
     u8 from_particle_heap;     // 0xAC, set by operator new: 1 = TParticleCtrl::heap
     u8 pad_ad[0x3];
-    void *model;               // 0xB0, the Ginja model drawn when flags & 0x200
+    NJS_OBJECT *model;         // 0xB0, the Ginja model drawn when flags & 0x200
     NJS_TEXLIST *texlist; // 0xB4, textures of model
     NJS_MOTION *motion;        // 0xB8
     f32 motion_frame;          // 0xBC

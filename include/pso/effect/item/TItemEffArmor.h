@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 class TParticleCtrl;
@@ -36,7 +36,7 @@ struct TItemEffArmor : public TObject {
     s32 angle_y;
     TObjPlayer *owner;
     NJS_OBJECT *model;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     NJS_TEXLIST *texture_list;
 };
 

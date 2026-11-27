@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 #include "pso/system/ControllerInputState.h"
 #include <dolphin/mtx.h>
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct TBoss7Joint;
 class TBoss7Tentacle;
@@ -220,7 +220,7 @@ struct TObjEneDD;
 s32 TBoss7Joint_get_shell_max_hp(void);
 void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *packet);
 void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *packet);
-AnimationMotion *get_boss7_motion(s32 kind);
+NJS_MOTION *get_boss7_motion(s32 kind);
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 struct Boss7LoadCallback {

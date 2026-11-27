@@ -1384,7 +1384,7 @@ void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { apply_pa
 void TObjEneDf2Bringer::render_demo() {
     f32 frame;
     s32 i;
-    AnimationMotion *mot;
+    NJS_MOTION *mot;
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
@@ -1404,8 +1404,8 @@ void TObjEneDf2Bringer::render_demo() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (mot->frameCount - 1)) {
-            frame = (mot->frameCount - 1);
+        } else if (frame > (mot->nbFrame - 1)) {
+            frame = (mot->nbFrame - 1);
         }
         set_motion_packed_rotation();
         draw_model_motion(model, mot, frame);

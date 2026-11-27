@@ -13,6 +13,7 @@ class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
 struct CharacterFile;
+class TCMCharacter;
 struct CharacterSaveRecord;
 struct TItemData;
 
@@ -183,7 +184,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 free_buffer();
     static void free_callbacks();
     static s32 free_data();
-    static s32 get_type(void* p);
+    static s32 get_checksum(CharacterFile *file);
     static void increment_counter();
     static void increment_counters();
     static s32 init_and_register(CharacterFile *source);
@@ -202,10 +203,10 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void render_frame();
     static void reset_save_header();
     static void save_character_file(int use_primary);
-    static void set_id(void* p, int v);
+    static void set_checksum(CharacterFile *file, s32 value);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
-    static void update_pair(void* p);
+    static void update_pair(TCMCharacter *character);
     static s32 update_play_time();
     static s32 verify_save_checksum(int keep_on_mismatch);
     static void verify_save_checksum();

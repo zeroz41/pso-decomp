@@ -211,7 +211,7 @@ void TPhotonGolla::collect_hit_targets() {
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjChara *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
                 if (target != NULL) {
                     Vec selected_delta = target->body_center;

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 
 // A row of a path object's profile table (profile picks it): the path motion, the path and motion
 // frame steps per frame, how far ahead along the path it looks to steer, and its turn step
@@ -38,9 +38,9 @@ struct TObjPathObj : public TObjBase {
     virtual void render();
     virtual void run_task();
     // node's position at frame of motion; 0 once frame passes the motion's last frame.
-    s32 sample_clamped_path_position(NJS_OBJECT *node, AnimationMotion *motion, Vec *pos, f32 frame);
+    s32 sample_clamped_path_position(NJS_OBJECT *node, NJS_MOTION *motion, Vec *pos, f32 frame);
     // Debug line along the whole path, one segment per step frames.
-    void draw_line_strip(NJS_OBJECT *node, AnimationMotion *motion, f32 step);
+    void draw_line_strip(NJS_OBJECT *node, NJS_MOTION *motion, f32 step);
     f32 view_distance; // render's first update_object_view_visibility argument; 500 unless a subclass sets it
     f32 view_radius;   // render's second update_object_view_visibility argument
 };

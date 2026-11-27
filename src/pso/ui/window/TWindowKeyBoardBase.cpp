@@ -201,7 +201,7 @@ void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
     }
 }
 
-void TWindowKeyBoardBase::remove_candidate(void *record) {
+void TWindowKeyBoardBase::remove_candidate(u8 *record) {
     s8 *src = (s8 *)record;
     s8 *dst = src;
     s32 len = src[1];
@@ -264,13 +264,13 @@ void TWindowKeyBoardBase::insert_string(char *src) {
 }
 #pragma pop
 
-void TWindowKeyBoardBase::update_input(void* a1) { remove_candidate(current_candidate); insert_string((char *)(a1)); }
+void TWindowKeyBoardBase::update_input(char *text) { remove_candidate(current_candidate); insert_string(text); }
 
 #pragma push
 #pragma optimization_level 2
-s32 TWindowKeyBoardBase::can_fit_candidate(void *window_sub_status_disp) {
+s32 TWindowKeyBoardBase::can_fit_candidate(const char *text) {
     s32 len = ((CandidateRecord *)current_candidate)->len;
-    s32 need = measure_string_len(reinterpret_cast<const char *>(window_sub_status_disp));
+    s32 need = measure_string_len(text);
 
     return (candidate_bytes_remaining >= need - len) ? 1 : 0;
 }

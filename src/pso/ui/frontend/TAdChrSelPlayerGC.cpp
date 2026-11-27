@@ -58,7 +58,7 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
     this->status_index = 0;
     layout_mode = window_offset_index;
     preview_data = NULL;
-    *(s32 *)&this->joint_matrices = (saddr)mem_alloc(0xC00);
+    this->joint_matrices = mem_alloc(0xC00);
     TAdPlyStatusGC::get_instance(this, window_offset_index);
     place_model_for_mode(layout_mode);
 }

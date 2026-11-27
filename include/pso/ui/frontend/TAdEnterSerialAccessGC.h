@@ -57,10 +57,10 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     // 1 when text is a valid entry for field `mode`: 0 serial and 1 access key take digits, 2 password letters and digits.
     static int validate_input(void *window, s32 mode, const char *text);
     // 1 when get_serial_text has a value for `field` to prefill the keyboard with.
-    static s32 has_serial_input(s32 parent, s32 field);
+    static s32 has_serial_input(TObject *parent, s32 field);
     // The saved (or entered) text of `field`: serial, access key or password; "" for the rest.
-    static u8 *get_serial_text(s32 owner, s32 field);
-    static TKeyBoardControl *create_keyboard_control(saddr parent, s32 field);
+    static u8 *get_serial_text(TObject *owner, s32 field);
+    static TKeyBoardControl *create_keyboard_control(TObject *parent, s32 field);
 
     static const NJS_POINT2 selection_positions[2];
     static char raw_serial_buffer[0xC];

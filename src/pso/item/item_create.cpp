@@ -430,8 +430,8 @@ ItemCreateFunction item_tool_factory_table[24] = {
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int get_sync_counter(u16 index) { return item_sync_counter_table[index]; }
-s32 get_item_data(u32 item) {
-    if (item != 0U) {
+s32 get_item_data(TItemData *item) {
+    if (item != NULL) {
         return get_item_icon_index();
     }
     return 0;

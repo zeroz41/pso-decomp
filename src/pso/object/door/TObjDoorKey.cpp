@@ -62,7 +62,7 @@ NJS_ARGB door_key_beam_color_table[10] = {
 };
 const char *door_key_class_name = "TObjDoorKey";
 
-saddr door_key_ginja_model_table[4];
+NJS_OBJECT *door_key_ginja_model_table[4];
 BmlResource *door_key_resource_handle;
 NJS_TEXLIST *door_key_texture_handle;
 s16 door_key_id_counter;
@@ -114,7 +114,7 @@ void TObjDoorKey::render() {
 
 void TObjDoorKey::draw_active_beam() {
     if (beam_uv_scroll_last_tick != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((NJS_OBJECT *)door_key_ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(door_key_ginja_model_table[1]->model), 0, 0x14, 0xE, 1);
         PPCSync();
         beam_uv_scroll_last_tick = actor_frame_tick;
     }
@@ -122,16 +122,16 @@ void TObjDoorKey::draw_active_beam() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_ginja_object((void *)door_key_ginja_model_table[0]);
+    draw_ginja_object(door_key_ginja_model_table[0]);
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
-    draw_ginja_object((void *)door_key_ginja_model_table[1]);
+    draw_ginja_object(door_key_ginja_model_table[1]);
     rotate_matrix_y(0, spin_angle);
-    saddr *g = door_key_ginja_model_table;
-    set_ginja_model_texture_slot(reinterpret_cast<void *>((((NJS_OBJECT *)g[2])->model)), ((u16)set_params[2]));
-    draw_ginja_object((void *)g[2]);
+    NJS_OBJECT **g = door_key_ginja_model_table;
+    set_ginja_model_texture_slot(reinterpret_cast<void *>(g[2]->model), ((u16)set_params[2]));
+    draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
@@ -143,14 +143,14 @@ void TObjDoorKey::draw_inactive_badge() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_ginja_object((void *)door_key_ginja_model_table[0]);
+    draw_ginja_object(door_key_ginja_model_table[0]);
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
-    saddr *g = door_key_ginja_model_table;
-    set_ginja_model_texture_slot(reinterpret_cast<void *>((((NJS_OBJECT *)g[2])->model)), ((u16)set_params[2]));
-    draw_ginja_object((void *)g[2]);
+    NJS_OBJECT **g = door_key_ginja_model_table;
+    set_ginja_model_texture_slot(reinterpret_cast<void *>(g[2]->model), ((u16)set_params[2]));
+    draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
@@ -250,7 +250,7 @@ void TObjDoorKey::free_key() {
         delete door_key_resource_handle;
         door_key_resource_handle = NULL;
     }
-    TObjPlayer::free_if_valid((saddr)door_key_texture_handle);
+    TObjPlayer::free_if_valid(door_key_texture_handle);
     door_key_texture_handle = NULL;
     beam_uv_scroll_last_tick = 0;
 }
@@ -259,9 +259,9 @@ void TObjDoorKey::load_resources() {
     saddr r = (saddr)new BmlResource(5, &door_key_resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
     door_key_texture_handle = LoadPvmFileTls("fe_obj_switch.gvm");
-    door_key_ginja_model_table[0] = (saddr)get_bml_model(door_key_resource_handle, 1);
-    door_key_ginja_model_table[1] = (saddr)get_bml_model(door_key_resource_handle, 2);
-    s32 t = (saddr)get_bml_model(door_key_resource_handle, 0);
+    door_key_ginja_model_table[0] = get_bml_model(door_key_resource_handle, 1);
+    door_key_ginja_model_table[1] = get_bml_model(door_key_resource_handle, 2);
+    NJS_OBJECT *t = get_bml_model(door_key_resource_handle, 0);
     door_key_id_counter = 0;
     door_key_ginja_model_table[2] = t;
     beam_uv_scroll_last_tick = 0;

@@ -125,7 +125,7 @@ void *TOKeyAncient02::create(void *set_data) {
 
 void TOKeyAncient02::free_static() {
     if (key_ancient02_texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)key_ancient02_texture_lists[1]);
+        TObjPlayer::free_if_valid(key_ancient02_texture_lists[1]);
         if (key_ancient02_texture_lists != NULL) {
             mem_free(key_ancient02_texture_lists);
             key_ancient02_texture_lists = NULL;

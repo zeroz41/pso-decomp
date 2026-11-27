@@ -80,7 +80,7 @@ WindowDescriptor custom_equip_window_descriptor = {
 
 
 int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
-int is_custom_equip_cancelled(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
+int is_custom_equip_cancelled(TWindowSubCustomEquip *custom_equip) { return custom_equip->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
     this->state_flags &= ~1;
     status_disp->set_state(1);
@@ -247,7 +247,7 @@ void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry) {
     position->y = entry->y - 15.0f;
 }
 
-void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
+void TWindowSubCustomEquip::layout_selection_parts(s32 selection) {
     NJS_POINT2 pos;
     WindowSpritePart *p;
     WindowSpritePart *a;
@@ -269,7 +269,7 @@ void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     }
     pos.x = 45.0f + p->x;
     pos.y = 53.0f + p->y;
-    set_help_icon_uv((saddr)b, (s32)this->client_index);
+    set_help_icon_uv(b, this->client_index);
     copy_vec2(&a->x, &pos);
     copy_vec2(&b->x, &pos);
     a->depth = p->depth;
@@ -281,17 +281,17 @@ void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     d->flags |= 2;
 }
 
-void TWindowSubCustomEquip::layout_entry_group(void *index) {
+void TWindowSubCustomEquip::layout_entry_group(s32 index) {
   WindowSpritePart *base;
   WindowSpritePart *e1;
   TWindowLayoutNumber *e2;
   u32 i;
   s32 idx;
   s32 v;
-  base = static_cast<WindowSpritePart *>(get_array_entry((saddr) index));
+  base = static_cast<WindowSpritePart *>(get_array_entry(index));
   for (i = 0; i < 3; i++)
   {
-    idx = ((saddr) index) + i;
+    idx = index + i;
     e1 = static_cast<WindowSpritePart *>(get_array_entry(idx + 1));
     e2 = static_cast<TWindowLayoutNumber *>(get_array_entry(idx + 4));
     e1->x = base->x + custom_equip_entry_offset_table[i].x;
@@ -304,7 +304,7 @@ void TWindowSubCustomEquip::layout_entry_group(void *index) {
   }
 }
 
-void TWindowSubCustomEquip::reset_selection() { layout_entry_group(((void*)9)); layout_entry_group(((void*)0)); layout_selection_parts(((void*)9)); }
+void TWindowSubCustomEquip::reset_selection() { layout_entry_group(9); layout_entry_group(0); layout_selection_parts(9); }
 
 void TWindowSubCustomEquip::refresh_palette_slots() {
     TObjPlayer *player;

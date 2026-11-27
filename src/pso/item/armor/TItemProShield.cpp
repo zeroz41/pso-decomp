@@ -172,8 +172,9 @@ void TItemProShield::update_owned() {
 }
 
 void TItemProShield::carry_over_stats(TItemData *data, TItem *item) {
-    data->set_dfp_bonus(((TItemProShield *)item)->dfp_bonus);
-    data->set_evp_bonus(((TItemProShield *)item)->evp_bonus);
+    TItemProShield *item_titemproshield = (TItemProShield *)item;
+    data->set_dfp_bonus(item_titemproshield->dfp_bonus);
+    data->set_evp_bonus(item_titemproshield->evp_bonus);
 }
 
 void TItemProShield::on_update_equipped() {}

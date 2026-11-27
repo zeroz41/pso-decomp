@@ -355,7 +355,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     s32 i;
     TObjChara *chara;
     for (i = 0; i < 16; i++) {
-        chara = (TObjChara *)TObjPlayer::get_battle_param(i);
+        chara = TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active(chara) != 0 &&
             chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);

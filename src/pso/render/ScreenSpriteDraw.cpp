@@ -466,21 +466,21 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 
 
-void TObjPlayer::render_tree(void *model) {
-    void *node;
+void TObjPlayer::render_tree(NJS_OBJECT *model) {
+    NJS_OBJECT *node;
 
     node = model;
     do {
         push_matrix();
         compose_motion_node_matrix(node);
         if (chunk_model_node_callback != NULL) {
-            chunk_model_node_callback(static_cast<NJS_OBJECT *>(node));
+            chunk_model_node_callback(node);
         }
-        if ((u32) *(u32 *)((s8 *)node + 0x2C) != 0U) {
-            TObjPlayer::render_tree((*(void **)((s8 *)node + 0x2C)));
+        if (node->child != NULL) {
+            TObjPlayer::render_tree(node->child);
         }
         pop_matrix();
-        node = *(void **)((s8 *)node + 0x30);
+        node = node->sibling;
     } while (node != NULL);
 }
 

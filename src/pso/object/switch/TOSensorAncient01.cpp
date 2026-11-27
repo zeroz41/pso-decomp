@@ -138,9 +138,9 @@ void *TOSensorAncient01::create(void *set_data) {
 
 void TOSensorAncient01::destroy() {
     if (ancient_sensor_resource_pair_table != NULL) {
-        TObjPlayer::free_if_valid((saddr)ancient_sensor_resource_pair_table[0].red);
-        TObjPlayer::free_if_valid((saddr)ancient_sensor_resource_pair_table[1].plain);
-        TObjPlayer::free_if_valid((saddr)ancient_sensor_resource_pair_table[1].red);
+        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[0].red);
+        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].plain);
+        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].red);
         if (ancient_sensor_resource_pair_table != NULL) {
             mem_free(ancient_sensor_resource_pair_table);
             ancient_sensor_resource_pair_table = NULL;
@@ -179,7 +179,7 @@ TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor
     }
     model = sensor_ancient01_model_resource->models[0].model;
     motion = sensor_ancient01_model_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.0f;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)model->model)->radius;

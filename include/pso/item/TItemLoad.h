@@ -9,7 +9,7 @@
 struct AdxfHandle;
 struct BmlResource;
 struct NJS_OBJECT;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 
 // One loaded ItemModel.afs file as TItemLoad::find_node_by_id hands it out:
@@ -131,7 +131,7 @@ public:
     static s32 has_resource_id(s32 id);
     static void get_item_texture_list(s32 index, NJS_TEXLIST **texlist);
     static void get_item_model(s32 index, NJS_OBJECT **model);
-    static void get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion);
+    static void get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, NJS_MOTION **motion);
     static void get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist);
     static ItemModelResource *find_node_by_id(s32 id);
     static void release_resource_by_id(s32 id);

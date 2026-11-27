@@ -29,10 +29,10 @@ struct DelDepthMotion {
     s32 motion;
     NJS_OBJECT *model;
     NJS_TEXLIST *texture;
-    AnimationMotion *animation;
+    NJS_MOTION *animation;
     NJS_OBJECT *secondModel;
     NJS_TEXLIST *secondTexture;
-    AnimationMotion *secondAnimation;
+    NJS_MOTION *secondAnimation;
     f32 speed;
     f32 endFrame;
     f32 frame;

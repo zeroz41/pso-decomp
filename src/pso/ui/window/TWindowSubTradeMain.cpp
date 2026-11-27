@@ -147,7 +147,7 @@ void TWindowSubTradeMain::run_task() {
     saddr n;
     const char *error_text;
     player = is_player_input_active(this->client_id);
-    if (this->chat->is_mode_bit4() != 0 && chat_accept_submission((saddr)&this->submission) != 0) {
+    if (this->chat->is_mode_bit4() != 0 && chat_accept_submission(&this->submission) != 0) {
         consume_active_flag(this->chat);
     }
     if (this->chat->is_visible() != 0) {

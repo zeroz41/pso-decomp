@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 
 struct BmlResource;
@@ -22,7 +22,7 @@ struct TOBind : public TObjCollidable {
     f32 motion_step;
     NJS_OBJECT *animated_model;
     NJS_TEXLIST *animated_textures;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     virtual void run_task();
     virtual void render();
     static void *create(void *set_data);

@@ -127,15 +127,15 @@ void TOKeyJungleMain::update_lock_state() {
 
 // Plays the switch motion once and loops the sw_naka motion.
 void TOKeyJungleMain::update_switch_on() {
-    AnimationMotion *motion = get_bml_motion(key_jungle_main_static_model_resource, 1);
+    NJS_MOTION *motion = get_bml_motion(key_jungle_main_static_model_resource, 1);
 
     switch_frame += 1.0f;
-    if (switch_frame > (motion->frameCount - 1)) {
-        switch_frame = motion->frameCount - 1;
+    if (switch_frame > (motion->nbFrame - 1)) {
+        switch_frame = motion->nbFrame - 1;
     }
     motion = get_bml_motion(key_jungle_main_static_model_resource, 0);
     sw_naka_frame += 1.0f;
-    if (sw_naka_frame > (motion->frameCount - 1)) {
+    if (sw_naka_frame > (motion->nbFrame - 1)) {
         sw_naka_frame = 0.0f;
     }
 }

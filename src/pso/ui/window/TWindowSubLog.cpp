@@ -28,7 +28,7 @@ void TWindowSubLog::render() {  }
 
 void TWindowSubLog::run_task() {
     ControllerInputContext *context;
-    if ((chat->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&submission) != 0)) {
+    if ((chat->is_mode_bit4() != 0) && (chat_accept_submission(&submission) != 0)) {
         consume_active_flag(chat);
     }
     if (chat->is_visible() != 0) {

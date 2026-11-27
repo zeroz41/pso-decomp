@@ -44,7 +44,7 @@ void TPhotonLine::run_task() {
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            player = (TObjBase *)TObjPlayer::get_battle_param(i);
+            player = TObjPlayer::get_battle_param(i);
             if (player == NULL) {
                 break;
             }

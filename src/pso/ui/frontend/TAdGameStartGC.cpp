@@ -29,13 +29,12 @@
 extern void *ad_game_start_name_ptr[2];
 
 
-void TAdGameStartGC::bswap_6x92(void *p) {
-    G_Unknown_6x92 *cmd = (G_Unknown_6x92 *)p;
+void TAdGameStartGC::bswap_6x92(G_Unknown_6x92 *cmd) {
     ((G_ClientIDHeader *)&cmd->header)->bswap();
     bswap_32(&cmd->client_id);
     bswap_32((u32 *)&cmd->value);
 }
-void TAdGameStartGC::send_6x92(void *p) { bswap_6x92(p); send_subcommand((u8 *)p); }
+void TAdGameStartGC::send_6x92(G_Unknown_6x92 *p) { bswap_6x92(p); send_subcommand((u8 *)p); }
 void TAdGameStartGC::init_6x92(G_Unknown_6x92 *p) {
     p->header.subcommand = 0x92;
     p->header.size = 3;

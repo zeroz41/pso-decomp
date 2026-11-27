@@ -41,7 +41,7 @@ void TWindowSubEquipKind::set_trade_state(s16 trade_state) {
 #pragma fp_contract on
 void TWindowSubEquipKind::draw_tab_label(WindowDrawContext *context) {
     NJS_POINT2 pos;
-    saddr msg;
+    const char *msg;
     s16 fl;
     u8 col;
 
@@ -61,9 +61,9 @@ void TWindowSubEquipKind::draw_tab_label(WindowDrawContext *context) {
         pos.x += 80.0f;
         pos.y += 4.0f;
         set_text_draw_params(context, 0, 0, (f32)(-1.0f / (0.1794f + context->depth)), 100000.0f);
-        msg = (saddr)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[trade_state]);
-        pos.x -= 0.5f * (f32)calc_text_width((const char *)msg);
-        draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);
+        msg = TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[trade_state]);
+        pos.x -= 0.5f * (f32)calc_text_width(msg);
+        draw_window_text((f32 *)&pos, msg, (0xFF000000), 0, 100000.0f);
     }
 }
 #pragma pop

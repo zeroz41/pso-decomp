@@ -2,12 +2,16 @@
 #define PSO_ITEM_ITEM_CREATE_H
 
 #include "types.h"
+#include "pso/system/data/FlagWord.h"
 
 struct TItemData;
 
+// Set while floor items are being synchronised.
+extern FlagWord lbl_805D5440;
+
 void set_boss_buf_entry(int value, u16 index);
 int get_sync_counter(u16 index);
-s32 get_item_data(u32 item);
+s32 get_item_data(TItemData *item);
 void forward_message(char *buf, TItemData *item);
 void mark_selected();
 int get_drop_flag();

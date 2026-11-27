@@ -1,3 +1,4 @@
+#include "pso/player/PlayerClassStats.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
@@ -163,7 +164,6 @@
 
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
-void *consume_telepipe_arrival(u16, void *);
 void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
@@ -746,7 +746,7 @@ block_14:
 }
 
 void TObjPlayer::place_on_area_entry() {
-    void *p;
+    const Vec *p;
     ArrivalOverride *e;
     TObjPlayerSet *other;
 
@@ -760,9 +760,9 @@ void TObjPlayer::place_on_area_entry() {
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, get_entity_id());
     } else if (this->obj_isState2_324() == 0) {
-        p = consume_telepipe_arrival(get_entity_id(), (u8 *)&this->rotation_y);
+        p = consume_telepipe_arrival(get_entity_id(), &this->rotation_y);
         if (p != NULL) {
-            this->set_position_from(p);
+            this->set_position_from((void *)p);
         } else {
             e = &player_arrival_overrides[get_entity_id()];
             if (this->obj_isState2_324() == 0 && e->get_active() == 1) {
@@ -811,8 +811,6 @@ void TObjPlayer::place_on_area_entry() {
 
 
 extern "C" {
-s32 set_collision_body_team0(int, int, int);
-s32 set_collision_body_team1(int, int, int);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s8 clamp_class_index(s8 cls);
@@ -2921,7 +2919,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
 }
 
 void TObjPlayer::get_hand_joint_position(Vec *out_pos) {
-    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), out_pos);
+    this->get_anim_node_position(get_cast_motion_record()->hand_joint, out_pos);
 }
 
 void TObjPlayer::init_effect_5f0() {
@@ -2932,9 +2930,9 @@ void TObjPlayer::init_effect_5f0() {
     anim_state.set_angle(this->rotation_y);
 }
 
-void TObjPlayer::clear_lobby_flag(void *base) {
+void TObjPlayer::clear_lobby_flag(TObjPlayer *base) {
     if (TLobby::connection_lost == 0) {
-        ((TObjBase *)base)->clear_actor_flags((u32)0x10000);
+        base->clear_actor_flags((u32)0x10000);
     }
 }
 
@@ -4240,7 +4238,7 @@ void TObjPlayer::start_battle_music() { battle_music.clear_target_lock(); }
 
 void TObjPlayer::stop_battle_music() { battle_music.reset_ring(); }
 
-s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
+s32 TObjPlayer::execute_palette_action(s32 mode, TObjCollidable *target) {
     s16 kind;
     s16 act;
     kind = ((s32 (*)(void *, s32))get_action_palette_mode)(this, mode);
@@ -4255,7 +4253,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
             return 0;
         }
         if (is_target_valid() != 0) {
-            ((TObjCollidable *)target)->interact(this->get_entity_id());
+            target->interact(this->get_entity_id());
             return 1;
         }
         break;
@@ -4302,7 +4300,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
 s32 TObjPlayer::handle_palette_button_input() {
     if (pad_binding.is_button_pressed(4) != 0 && is_palette_slot_enabled(1) != 0) {
         s32 mode;
-        void *target;
+        TObjCollidable *target;
         if (has_action_palette_entry() != 0) {
             target = find_entity_by_id(this->lock_on_cursor->selection.target.get_entity_id());
             mode = 0;
@@ -5772,9 +5770,9 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     team = cmd.team_number;
     p->pk_state.set_team(team);
     if (team == 1) {
-        set_collision_body_team1((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        set_collision_body_team1(p, p->bodies, 0);
     } else {
-        set_collision_body_team0((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
+        set_collision_body_team0(p, p->bodies, 0);
     }
 }
 int TObjPlayer::get_pk_team() { return pk_state.get_team(); }

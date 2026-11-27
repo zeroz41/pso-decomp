@@ -21,7 +21,7 @@ public:
     s32 rotation_y;
     s32 rotation_z;
     Vec position;
-    void *model;
+    NJS_OBJECT *model;
     NJS_TEXLIST *texlist;
     NJS_ARGB color;     // alpha drops by 0.2 a frame; gone below zero
     Vec scale;

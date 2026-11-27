@@ -74,7 +74,7 @@ void TObjEnemyCustom::update_if_active(s32 action) {
     }
 }
 
-saddr TObjPlayer::get_battle_param(int index) {
+TObjChara *TObjPlayer::get_battle_param(int index) {
     return player_battle_param_table[index];
 }
 
@@ -397,7 +397,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
-            object = (TObjChara *)TObjPlayer::get_battle_param(i);
+            object = TObjPlayer::get_battle_param(i);
             if (object == NULL) {
                 break;
             }

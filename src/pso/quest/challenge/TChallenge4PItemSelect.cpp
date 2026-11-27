@@ -217,7 +217,7 @@ void TChallenge4PResult::show_message(const char *text_handle) {
         message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), &pos, 1, slot_index);
     }
     if (message_window != NULL) {
-        message_window->set_message((void *)text_handle, 0x81);
+        message_window->set_message(text_handle, 0x81);
         if (TCameraCtrl::get_view_count() > 2) {
             message_window->set_position_xy(0.9f, 0.9f);
         }

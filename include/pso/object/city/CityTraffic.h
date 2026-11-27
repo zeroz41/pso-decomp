@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct Vec;
 struct BmlResource;
 struct NJS_TEXLIST;
@@ -16,7 +16,7 @@ extern NJS_TEXLIST *city_common_texture_list;
 
 void free_buffer_pair_table(void);
 NJS_OBJECT *get_city_common_model(s32 i);
-AnimationMotion *get_city_common_motion(s32 i);
+NJS_MOTION *get_city_common_motion(s32 i);
 void measure_traffic_path_lengths(void);
 s32 sample_aircar_path_position(s32 lane, Vec *pos, f32 frame);
 

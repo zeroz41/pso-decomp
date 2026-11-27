@@ -1,6 +1,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -107,7 +108,7 @@ void TWindowDuelResult::build_stats_page() {
     TObjPlayer *pl;
     s32 i;
     u8 *a;
-    u8 *b;
+    TWindowLayoutNumber *b;
     u8 *c;
     init_window_layout_entries(&entry_list, duel_result_window_layout_table, client_index);
     a = (u8 *)get_array_entry(0);
@@ -123,9 +124,9 @@ void TWindowDuelResult::build_stats_page() {
         vals[3] = pl->battle_score.damage_taken.get_total();
         for (i = 0; i < 4; i++) {
             a = (u8 *)get_array_entry(i * 3 + 2);
-            b = (u8 *)get_array_entry(i * 3 + 4);
+            b = (TWindowLayoutNumber *)get_array_entry(i * 3 + 4);
             set_default_status(a, get_localized_text_entry(0x10, i + 1));
-            *(s32 *)(b + 0x20) = vals[i];
+            b->value = vals[i];
         }
     }
 }

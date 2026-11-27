@@ -19,11 +19,11 @@ static const u8 forced_action_flag = 0x20;
 inline const u8 &get_random_action_flag() { return random_action_flag; }
 inline const u8 &get_forced_action_flag() { return forced_action_flag; }
 
-void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
+void TBoss6Type2::send_6xAD_grid_positions(s32 index, Vec *points, s32 count) {
     u8 a;
     u8 b;
     u8 buf[0x44];
-    saddr p;
+    Vec *p;
     s32 j;
     s32 i;
     if (count < 0 || count > 3) {
@@ -33,8 +33,8 @@ void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
     buf[0] = index;
     p = points;
     j = 1;
-    for (i = 0; i < count; i++, p += 0xC, j += 2) {
-        world_to_grid_pos((Vec *)p, (s8 *)&a, (s8 *)&b);
+    for (i = 0; i < count; i++, p++, j += 2) {
+        world_to_grid_pos(p, (s8 *)&a, (s8 *)&b);
         buf[j] = a;
         buf[j + 1] = b;
     }

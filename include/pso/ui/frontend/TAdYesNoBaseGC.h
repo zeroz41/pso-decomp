@@ -5,6 +5,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 
+struct TWindowMessage;
+struct TWindowMenu;
+
 struct TAdYesNoBaseGC : public TObject {
     static const char *class_name;
     TAdYesNoBaseGC(TObject *parent);
@@ -16,7 +19,7 @@ struct TAdYesNoBaseGC : public TObject {
     virtual const char *get_message_text() = 0;  // the prompt text: get_localized_text_entry
     virtual void run_dialog();
     virtual void render_dialog();
-    s32 create_message_window();
+    TWindowMessage *create_message_window();
     u32 state;
     u32 prev_state;
     u32 exit_state;
@@ -24,9 +27,9 @@ struct TAdYesNoBaseGC : public TObject {
     u32 default_selection;
     NJS_POINT2 message_position;
     NJS_POINT2 message_size;
-    uaddr message_window;
-    uaddr menu_window;
-    s32 create_menu_window();
+    TWindowMessage *message_window;
+    TWindowMenu *menu_window;
+    TWindowMenu *create_menu_window();
     void init_parts(void *position, void *size);
 };
 

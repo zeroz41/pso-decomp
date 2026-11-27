@@ -78,7 +78,7 @@ void TWindowShop::render() {
     draw_window_frame(context);
     draw_visible_window_entries(
         this,
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        &entry_list,
         context);
     if (!(this->state_flags & 0x80)) {
         draw_selected_list_entry(context);

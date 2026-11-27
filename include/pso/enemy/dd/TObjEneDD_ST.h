@@ -11,7 +11,7 @@ public:
     void draw_with_alt_model(s32);
     void set_active();
     void init_float_params();
-    void set_target_player(void *);
+    void set_target_player(TObjChara *);
     void enemy_clear_target();
     void enemy_init_acquire_period(s32);
     s32 select_and_apply_target(f32);

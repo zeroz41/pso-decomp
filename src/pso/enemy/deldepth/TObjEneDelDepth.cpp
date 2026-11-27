@@ -518,7 +518,7 @@ void TObjEneDelDepth::start_move_toward_player() {
     this->progress = ((30.0f * random_ratio()) + 70.0f);
     this->opacity = 1.0f;
     this->motionController->set_motion(7);
-    this->set_draw_mode((saddr)((void *)3));
+    this->set_draw_mode(3);
 }
 #pragma pop
 
@@ -536,7 +536,7 @@ void TObjEneDelDepth::update_movement() {
         clear_battle_param_slots();
         this->check_object_collisions();
         for (i = 0; i < 16; i++) {
-            pl = (TObjChara *)TObjPlayer::get_battle_param(i);
+            pl = TObjPlayer::get_battle_param(i);
             if (pl == 0) {
                 break;
             }
@@ -705,7 +705,7 @@ void TObjEneDelDepth::update_look_around() {
     }
     this->angle -= 0x600;
     if (this->angle <= 0) {
-        u32 n = ((AnimationMotion *)get_bml_motion(shared_resource, 0xB))->frameCount;
+        u32 n = ((NJS_MOTION *)get_bml_motion(shared_resource, 0xB))->nbFrame;
         lim = (s32)((f32)n / 0.5f);
         this->angle = 0;
         if (this->targetPlayer != 0xFFFF) {
@@ -931,7 +931,7 @@ void TObjEneDelDepth::init_move() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneDelDepth::update_death_fade() {
-    s32 record;
+    EnemyStateRecord record;
     switch (this->actionPhase) {
     case 0:
         if (--this->timer <= 0) {
@@ -950,10 +950,10 @@ void TObjEneDelDepth::update_death_fade() {
         break;
     case 2:
     default:
-        record = 0x800;
+        record.flags = 0x800;
         this->send_6x0A_enemy_state(&record);
         this->exchange_object_state(&record, 0);
-        apply_enemy_state(&record);
+        apply_enemy_state(&record.flags);
         this->send_entity_set_flags();
         TDeadSpot::spawn_kind0_scale7_5(&position, 0);
         this->queue_destruction();

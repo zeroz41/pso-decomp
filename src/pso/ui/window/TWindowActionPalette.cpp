@@ -141,7 +141,7 @@ void TWindowActionPalette::run_task() {
     u16 v;
     u16 target;
     u8 cnt;
-    TWindowHelpItem *help;
+    WindowSpritePart *help;
     player = get_player_by_client_id(client_index);
     if (player == NULL || (palette = player->refresh_effect()) == NULL) {
         return;
@@ -153,14 +153,14 @@ void TWindowActionPalette::run_task() {
     if (test_previous_buttons_packed(&controller_input_state.controllers[slot], get_control_button_mask(client_index)) != 0) {
         state = 3;
     }
-    help = (TWindowHelpItem *)get_array_entry(0);
-    set_help_icon_uv((saddr)help, client_index);
+    help = static_cast<WindowSpritePart *>(get_array_entry(0));
+    set_help_icon_uv(help, client_index);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
-        help->window_flags = -1;
+        help->color = -1;
     } else {
-        help->window_flags = 0xFF666666;
+        help->color = 0xFF666666;
     }
     v = player->select_action_palette_and_apply(0, 0, 0);
     if (v == 0) {
@@ -197,22 +197,21 @@ void TWindowActionPalette::run_task() {
 }
 
 void TWindowActionPalette::render() {
-    saddr context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
+    WindowDrawContext *context = setup_window_draw_context((f32 *)&scale);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     draw_frame(context);
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowActionPalette::draw_frame(saddr context) {
+void TWindowActionPalette::draw_frame(WindowDrawContext *ctx) {
     TexturedQuad corner;
     TexturedQuad top_row;
     TexturedQuad frame;
     TexturedQuad bottom_row;
-    WindowDrawContext *ctx = (WindowDrawContext *)context;
     f32 scale;
     f32 depth;
     scale = get_transition_progress();
@@ -476,10 +475,10 @@ s32 get_palette_item_amount(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void set_help_icon_uv(saddr help, saddr client_id) {
+void set_help_icon_uv(WindowSpritePart *help, s32 client_id) {
     if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
-        reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 56.0f);
+        help->set_sprite_uv_from_pixels(92.0f, 56.0f);
         return;
     }
-    reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 0.0f);
+    help->set_sprite_uv_from_pixels(92.0f, 0.0f);
 }

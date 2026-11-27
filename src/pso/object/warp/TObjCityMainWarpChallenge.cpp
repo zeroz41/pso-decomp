@@ -106,7 +106,7 @@ void TObjCityMainWarpChallenge::run_task() {
         update_state();
         if (motion != NULL) {
             frame += 4.0f;
-            if ((1.0f + frame) >= (f32)motion->frameCount) {
+            if ((1.0f + frame) >= (f32)motion->nbFrame) {
                 frame = 0.0f;
             }
         }

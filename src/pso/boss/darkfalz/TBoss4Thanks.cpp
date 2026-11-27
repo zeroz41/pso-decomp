@@ -173,7 +173,7 @@ void TBoss4Thanks::run_task() {
       break;
   }
   motion_frame += 0.6f;
-  len = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  len = ((f32) motions[current_motion]->nbFrame) - 1.0f;
   if (motion_frame >= len)
   {
     motion_frame -= len;

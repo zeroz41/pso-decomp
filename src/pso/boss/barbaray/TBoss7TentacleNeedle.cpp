@@ -46,7 +46,7 @@ const char *boss7_tentacle_needle_name_ptr = "TBoss7TentacleNeedle";
 NJS_OBJECT boss7_tentacle_model_nodes[14];
 Vec TBoss7Tentacle::segment_offsets[14];
 u32 TBoss7Tentacle::needle_offsets[14];
-AnimationMotion *boss7_tentacle_needle_motions[4];
+NJS_MOTION *boss7_tentacle_needle_motions[4];
 NJS_OBJECT *boss7_tentacle_needle_model;
 
 // Written last-to-first: built with -inline off,deferred, which emits functions in reverse source order
@@ -90,7 +90,7 @@ TBoss7Tentacle::TBoss7Tentacle(TObject *parent, const f32 (*joint)[4], s32 index
     next_state = 0;
     attack_phase = 0;
     init_segments();
-    frame = (f32)(motion->frameCount - 1) * (3.0517578e-05f * (f32)rand());
+    frame = (f32)(motion->nbFrame - 1) * (3.0517578e-05f * (f32)rand());
     frame_speed = 0.8f;
     yaw = 0;
     pitch = 0;
@@ -211,7 +211,7 @@ s32 TBoss7Tentacle::is_attack_finished() {
 }
 
 void TBoss7Tentacle::advance_path_position() {
-    f32 lim = (f32)(motion->frameCount - 1);
+    f32 lim = (f32)(motion->nbFrame - 1);
     frame = frame + frame_speed;
     if (frame >= lim) {
         frame = frame - lim;
@@ -625,7 +625,7 @@ void TBoss7TentacleNeedle::update_sink() {
 }
 
 s32 TBoss7TentacleNeedle::advance_toward_limit(f32 step) {
-    if (frame < (f32)motion->frameCount - 1.0f) {
+    if (frame < (f32)motion->nbFrame - 1.0f) {
         frame = frame + step;
         return 0;
     }
@@ -634,7 +634,7 @@ s32 TBoss7TentacleNeedle::advance_toward_limit(f32 step) {
 }
 
 void TBoss7TentacleNeedle::advance_anim_time_wrapped(f32 step) {
-    f32 lim = (f32)motion->frameCount - 1.0f;
+    f32 lim = (f32)motion->nbFrame - 1.0f;
     frame += step;
     if (lim <= frame) {
         frame -= lim;

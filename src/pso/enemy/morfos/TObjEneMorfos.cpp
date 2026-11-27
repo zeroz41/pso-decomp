@@ -274,7 +274,7 @@ void TObjEneMorfos::run_task() {
 
 void TObjEneMorfos::refresh_target() {  }
 
-void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state((saddr)((void*)11)); } }
+void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state(11); } }
 
 f32 TObjEneMorfos::receive_physical_attack(TObjChara *attacker, f32 scale) {
     Vec v;
@@ -325,7 +325,7 @@ void TObjEneMorfos::run_hit_reaction() {
     } else if (morfos_flags & 4) {
         clear_attack_receipts();
     } else {
-        transition_enemy_state((saddr)((void *)0xA));
+        transition_enemy_state(0xA);
     }
 }
 
@@ -341,7 +341,7 @@ s32 TObjEneMorfos::check_low_hp_trigger() {
 
 s32 TObjEneMorfos::try_enter_low_hp_state() {
     if (((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (this->random_ratio() <= burst_chance)) {
-        this->transition_enemy_state((saddr)((void*)(9)));
+        this->transition_enemy_state(9);
         return 1;
     }
     return 0;
@@ -1337,7 +1337,7 @@ static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};
 void TObjEneMorfos::render_demo() {
     s32 idx;
     f32 frame;
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         if (mode != 0xB) {
@@ -1359,8 +1359,8 @@ void TObjEneMorfos::render_demo() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (anim->frameCount - 1)) {
-            frame = (f32)anim->frameCount;
+        } else if (frame > (anim->nbFrame - 1)) {
+            frame = (f32)anim->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(model, anim, frame);

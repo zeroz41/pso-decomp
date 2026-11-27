@@ -96,10 +96,10 @@ s32 psoLoadTexture(NJS_TEXLIST *texlist) {
     return ret;
 }
 
-void TObjPlayer::free_if_valid(saddr texlist) {
+void TObjPlayer::free_if_valid(NJS_TEXLIST *texlist) {
     if (texlist != 0) {
-        release_texture_list((NJS_TEXLIST *)texlist);
-        safe_free(reinterpret_cast<void *>(texlist));
+        release_texture_list(texlist);
+        safe_free(texlist);
     }
 }
 
@@ -251,5 +251,5 @@ void TTextureWave::distort_image() {
             out[calc_gx_tile_index(x, y, width)] = color;
         }
     }
-    reload_texture_num(0, output + 0x20, NJD_TEXATTR_TYPE_MEMORY, 0);
+    reload_texture_num(0, reinterpret_cast<saddr>(output + 0x20), NJD_TEXATTR_TYPE_MEMORY, 0);
 }

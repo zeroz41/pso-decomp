@@ -216,7 +216,7 @@ void *TODoorMachine01::create(void *set_data) {
 
 void TODoorMachine01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
+        TObjPlayer::free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -254,7 +254,7 @@ TODoorMachine01::TODoorMachine01(TObject *parent, void *set_data) : TODoorBase(p
     model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
     init_collision_body_parts(this, door_machine01_collision_body, 1);
     refresh_collision_body_centers();

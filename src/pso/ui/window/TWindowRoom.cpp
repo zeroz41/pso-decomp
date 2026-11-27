@@ -42,7 +42,7 @@ void TWindowRoom::render() {
     draw_tab(context);
     draw_visible_window_entries(this, &entry_list, context);
 }
-void TWindowRoom::run_task() { update_window(); this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowRoom::run_task() { update_window(); this->update_window_entry_list(&entry_list); }
 
 TWindowRoom::~TWindowRoom() {}
 

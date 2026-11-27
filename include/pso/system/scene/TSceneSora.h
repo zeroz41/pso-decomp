@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct BmlResource;
 
@@ -12,7 +12,7 @@ struct TSceneSora : public TObjBase {
     TSceneSora(TObject *parent);
     virtual ~TSceneSora();
     NJS_OBJECT *sky_model;
-    AnimationMotion *sky_motion;
+    NJS_MOTION *sky_motion;
     NJS_TEXLIST *sky_textures;
     virtual void render();
     virtual void run_task();

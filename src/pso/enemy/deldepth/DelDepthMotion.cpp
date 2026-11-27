@@ -43,7 +43,7 @@ void DelDepthMotion::set_motion(s32 new_motion) {
         model = get_bml_model(data, 1);
         texture = get_bml_texlist(data, 1);
         animation = get_bml_motion(data, e->motion);
-        endFrame = animation->frameCount;
+        endFrame = animation->nbFrame;
         speed = e->speed;
         frame = 0.0f;
     } else {
@@ -57,7 +57,7 @@ void DelDepthMotion::set_motion(s32 new_motion) {
         secondModel = get_bml_model(data, q->model);
         secondTexture = get_bml_texlist(data, q->model);
         secondAnimation = get_bml_motion(data, q->motion);
-        endFrame = secondAnimation->frameCount;
+        endFrame = secondAnimation->nbFrame;
         speed = e->speed;
         frame = 0.0f;
     }

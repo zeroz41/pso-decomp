@@ -106,14 +106,14 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
 }
 
 void TItemWeaponSRankPunch::transform_model_node() {
-    void *p;
+    NJS_OBJECT *p;
     switch (get_model_node_counter()) {
     case 1:
         if (flags.test_flags_any(2) == 0) {
             if (flags.test_flags_any(1)) {
                 p = second_model;
             } else {
-                p = model_data[1];
+                p = (NJS_OBJECT *)model_data[1];
             }
             if (p) {
                 draw_ginja_object(p);

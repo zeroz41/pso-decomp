@@ -107,14 +107,14 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
 }
 
 void TItemWeaponRocketPunch::transform_model_node() {
-    void *model;
+    NJS_OBJECT *model;
     switch (get_model_node_counter()) {
     case 1:
         if (punch_flags.test_flags_any(2) == 0) {
             if (punch_flags.test_flags_any(1)) {
                 model = second_model;
             } else {
-                model = model_data[1];
+                model = (NJS_OBJECT *)model_data[1];
             }
             if (model) {
                 draw_ginja_object(model);

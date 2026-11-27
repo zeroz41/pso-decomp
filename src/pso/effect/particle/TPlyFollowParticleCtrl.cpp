@@ -200,10 +200,10 @@ void PlayerFollowParticles::create_hand_particles(TObjBase *owner) {
 }
 
 void TObjPlayer::clear_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player) {
-    TPlayerFootStamp::create(player, (void *)0);
+    TPlayerFootStamp::create(player, 0);
 }
 
 void TObjPlayer::enable_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player) {
-    TPlayerFootStamp::create(player, (void *)1);
+    TPlayerFootStamp::create(player, 1);
 }
 

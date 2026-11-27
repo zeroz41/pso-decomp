@@ -74,7 +74,7 @@ void TBoss6Mine::copy_pos() {
 
 void TBoss6Mine::draw() {
     s32 texlist;
-    AnimationMotion *bml_motion;
+    NJS_MOTION *bml_motion;
     saddr bml_model;
 
     set_motion_packed_rotation();
@@ -83,7 +83,7 @@ void TBoss6Mine::draw() {
     bml_motion = get_bml_motion(scene_archive, 0);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     apply_boss6_hit_flash_color(this->fade_amount, 0.0f);
-    draw_model_motion((void *)bml_model, bml_motion, this->anim_frame);
+    draw_model_motion((NJS_OBJECT *)bml_model, bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();
 }

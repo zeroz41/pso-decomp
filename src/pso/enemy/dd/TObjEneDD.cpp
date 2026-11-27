@@ -1059,7 +1059,7 @@ void TObjEneDD_ST::enemy_set_target_id(u16 id) {
     }
 }
 
-void TObjEneDD_ST::set_target_player(void *player) {
+void TObjEneDD_ST::set_target_player(TObjChara *player) {
     s32 n;
     s32 i;
     target_id = 0xFFFF;
@@ -1067,8 +1067,8 @@ void TObjEneDD_ST::set_target_player(void *player) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == TObjPlayer::get_player_data(i)) {
-            target_id = ((TObjBase *)(player))->get_entity_id();
-            current_target = (TObjChara *)player;
+            target_id = player->get_entity_id();
+            current_target = player;
             return;
         }
     }

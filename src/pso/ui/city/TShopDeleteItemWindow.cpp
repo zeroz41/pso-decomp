@@ -4,6 +4,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/TShopDeleteItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -119,7 +120,7 @@ void TShopDeleteItemWindow::open_item_list() {
     if (item_list == NULL) {
         TItemData item;
         s32 count;
-        item_list = create_item_list_window(get_shop_text(0x30), 200, ((TObjBase *)(player))->get_entity_id());
+        item_list = create_item_list_window(get_shop_text(0x30), 200, player->get_entity_id());
         item_list->set_capacity(200);
         for (i = 0; i < 200; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, base) != 0) {
@@ -154,7 +155,7 @@ void TShopDeleteItemWindow::open_item_list() {
     }
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
-            help_window = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
+            help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
             if (help_window != NULL && is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }
@@ -204,7 +205,7 @@ void TShopDeleteItemWindow::update_item_select() {
                 }
                 set_state(2);
             } else {
-                id = ((TObjBase *)(player))->get_entity_id();
+                id = player->get_entity_id();
                 confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_menu->set_ready_flag();
                 confirm_menu->set_selected_index(1);
@@ -221,7 +222,7 @@ void TShopDeleteItemWindow::update_item_select() {
 void TShopDeleteItemWindow::handle_number_input() {
     if (number_input != NULL && number_input->is_confirmed() != 0) {
         if (confirm_menu == NULL) {
-            u32 id = ((TObjBase *)(player))->get_entity_id();
+            u32 id = player->get_entity_id();
             confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
             confirm_menu->set_ready_flag();
             confirm_menu->set_selected_index(1);

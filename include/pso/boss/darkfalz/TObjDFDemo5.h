@@ -8,7 +8,7 @@
 class ModelNodePositionCapture;
 
 class TParticleCtrl;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 struct TObjDFDemo5 : public TObjBase {
     TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle);

@@ -63,7 +63,7 @@ void TSceneSora::render() {
 void TSceneSora::run_task() {
     if (sky_motion != NULL) {
         m_a0 += motion_step;
-        if (m_a0 > (sky_motion->frameCount - 1)) {
+        if (m_a0 > (sky_motion->nbFrame - 1)) {
             m_a0 = 0.0f;
         }
     } else {

@@ -74,7 +74,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     texlist = revlight_cave01_bml_resource->models[0].texlist;
     motion = revlight_cave01_bml_resource->motions[0].motion;
     animation_step = 0.8f;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     view_range = 500.0f;
     model_radius = ((NJS_CNK_MODEL *)model->model)->r;
     spin_angle = 0;

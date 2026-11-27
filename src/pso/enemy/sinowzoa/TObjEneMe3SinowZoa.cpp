@@ -153,7 +153,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     s32 count;
     NJS_OBJECT *model;
     NJS_CNK_MODEL *chunk;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
@@ -214,7 +214,7 @@ void TObjEneMe3SinowZoa::load_resources() {
         me3_sinow_zoa_material_color_pointers[2] = NULL;
     }
     motion = me3_sinow_zoa_bml_resource->motions[me3_sinow_zoa_animation_descriptors[5].motion].motion;
-    breakup = new TBreakUpMdlData(me3_sinow_zoa_bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    breakup = new TBreakUpMdlData(me3_sinow_zoa_bml_resource->models->model, motion, motion->nbFrame - 1);
     me3_sinow_zoa_breakup_model = breakup;
     {
         NpcAnimationBinding info = sinow_zoa_attack_binding_desc_a;
@@ -490,7 +490,7 @@ s32 TObjEneMe3SinowZoa::is_in_sword_range(f32) {
 void TObjEneMe3SinowZoa::attack_and_unequip() {
     f32 d;
     s32 near;
-    TObjChara *pl;
+    TObjPlayer *pl;
     near = is_passing_frame(23.0f);
     if (is_passing_frame(15.0f) != 0 || near != 0) {
         if (enemy_check_target_valid() != 0) {
@@ -499,11 +499,11 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                 current_target->apply_knockback_from_attacker(this, 3.0f);
                 if (d > 0.0f) {
                     if (is_alternate_variant() != 0) {
-                        pl = current_target;
+                        pl = (TObjPlayer *)current_target;
                         TItem *held;
                         if (pl->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
-                            ((TObjPlayer *)pl)->get_hand_joint_position(&hand_position);
+                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
+                            pl->get_hand_joint_position(&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {
@@ -1783,7 +1783,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
 void TObjEneMe3SinowZoa::render_demo() {
     s32 save[3];
     s32 flag;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     if (get_target_info() != 0) {
         if (starts_stealthed() != 0) {
@@ -1843,13 +1843,13 @@ void TObjEneMe3SinowZoa::render_demo() {
             frame = parameters[3];
             if (frame < 0.0f) {
                 frame = 0.0f;
-            } else if (frame > (motion->frameCount - 1)) {
-                frame = (motion->frameCount - 1);
+            } else if (frame > (motion->nbFrame - 1)) {
+                frame = (motion->nbFrame - 1);
             }
             set_motion_packed_rotation();
             draw_model_motion(model, motion, frame);
             clear_motion_packed_rotation();
-            current_motion = (NJS_MOTION *)motion;
+            current_motion = motion;
             this->frame = frame;
             frame = get_node_height();
             print_float_padded(pack_debug_text_position(0, 7), 5, frame);

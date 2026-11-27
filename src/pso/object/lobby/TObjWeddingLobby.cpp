@@ -76,7 +76,7 @@ void TObjWeddingLobby::run_task() {
         }
         break;
     }
-    last = (f32)get_bml_motion(resource_bundle, 0)->frameCount - 1.0f;
+    last = (f32)get_bml_motion(resource_bundle, 0)->nbFrame - 1.0f;
     animation_frame += 2.0f;
     if (last < animation_frame) {
         animation_frame -= last;

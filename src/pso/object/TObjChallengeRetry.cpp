@@ -62,12 +62,12 @@ void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet)
     bswap_client_id_packet(packet);
     send_subcommand(packet);
 }
-void bswap_client_id_packet(void *player) {
-    ((G_ClientIDHeader *)player)->bswap();
-    bswap_32((u32 *)((char *)player + 4));
-    bswap_32((u32 *)((char *)player + 8));
-    bswap_32((u32 *)((char *)player + 12));
-    bswap_32((u32 *)((char *)player + 16));
+void bswap_client_id_packet(G_SelectChallengeModeFailureOption_6x97 *packet) {
+    ((G_ClientIDHeader *)packet)->bswap();
+    bswap_32(&packet->client_id);
+    bswap_32(&packet->is_retry);
+    bswap_32(&packet->unused1);
+    bswap_32(&packet->unused2);
 }
 
 void build_6x97_packet(u8 *packet) {

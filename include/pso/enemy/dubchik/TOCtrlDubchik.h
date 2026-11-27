@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
+struct TFontSmallTask;
+
 struct TOCtrlDubchik : public TObjEnemy {
     TOCtrlDubchik(TObject *parent, void *set_data);
     virtual ~TOCtrlDubchik();
@@ -38,7 +40,7 @@ struct TOCtrlDubchik : public TObjEnemy {
     static void *create(void *set_data);
     static void destroy_instance();
     static void load_shared_resource();
-    static saddr create_font(saddr pos, s32 color, s32 life, const char *text);
+    static TFontSmallTask *create_font(Vec *pos, s32 color, s32 life, const char *text);
 };
 
 LAYOUT_ASSERT(TOCtrlDubchik_size, sizeof(TOCtrlDubchik) == 0x3A0);

@@ -169,7 +169,7 @@ TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma fp_contract on
 TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     : TWindowBase((u8 *)&window_sound_balance_settings, 4, (u8 *)position) {
-    u8 *e;
+    WindowTextEntry *e;
     SoundBalanceSettings *st;
 
     this->m_name = TWindowSoundBalance::class_name;
@@ -177,13 +177,13 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     this->selection = 0;
     this->music_gain = 1;
     this->sound_effect_gain = 1;
-    e = (u8 *)get_array_entry(0);
-    char *label = reinterpret_cast<WindowTextEntry *>(e)->get_text();
-    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
+    e = (WindowTextEntry *)get_array_entry(0);
+    char *label = e->get_text();
+    e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
-    e = (u8 *)get_array_entry(1);
-    label = reinterpret_cast<WindowTextEntry *>(e)->get_text();
-    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
+    e = (WindowTextEntry *)get_array_entry(1);
+    label = e->get_text();
+    e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
     if (st == 0) {

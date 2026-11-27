@@ -55,18 +55,18 @@ const FourLightNodeTable door_four_light_space_index_table = {4, 6, 8, 10, 5, 7,
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
+TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, void *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_ruins_class_name;
-    apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     init_door_switch_binding();
     init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     this->model_tree = (NJS_OBJECT *)get_green_door_model(0);
     this->texlist = get_green_door_texlist(0);
-    motion = (AnimationMotion *)get_green_door_motion(0);
-    this->animation_end_frame = (f32)motion->frameCount - 1.0f;
+    motion = (NJS_MOTION *)get_green_door_motion(0);
+    this->animation_end_frame = (f32)motion->nbFrame - 1.0f;
     this->animation_step = 0.5f;
     {
         FourLightNodeTable t = door_four_light_ruins_index_table;
@@ -257,18 +257,18 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 }
 
 
-TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
+TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, void *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_space_class_name;
-    apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     init_door_switch_binding();
     init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     this->model_tree = (NJS_OBJECT *)get_green_door_model(0);
     this->texlist = get_green_door_texlist(0);
-    motion = (AnimationMotion *)get_green_door_motion(0);
-    this->animation_end_frame = (f32)motion->frameCount - 1.0f;
+    motion = (NJS_MOTION *)get_green_door_motion(0);
+    this->animation_end_frame = (f32)motion->nbFrame - 1.0f;
     this->animation_step = 0.5f;
     {
         FourLightNodeTable t = door_four_light_space_index_table;

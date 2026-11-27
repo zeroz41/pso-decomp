@@ -41,8 +41,8 @@ s32 TObjSoloPlayWin::can_start_win_timer() {
 void TObjSoloPlayWin::open_result_window() {
     m_result_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3E)), (const f32 *)solo_play_result_window_extent, 1);
     if (m_result_window != 0) {
-        ((TWindowBase *)m_result_window)->set_depth(70200.0f);
-        ((TWindowMessage *)m_result_window)->append_line((get_message_text(0x5F)), (int)2);
+        m_result_window->set_depth(70200.0f);
+        m_result_window->append_line((get_message_text(0x5F)), (int)2);
     }
 }
 void TObjSoloPlayWin::update_close_timer() {
@@ -50,7 +50,7 @@ void TObjSoloPlayWin::update_close_timer() {
     m_countdown = countdown;
     if (countdown < 0) {
         if (m_result_window != 0) {
-            ((TWindowBase *)m_result_window)->close();
+            m_result_window->close();
             m_result_window = 0;
         }
         mark_solo_play_notice_shown();

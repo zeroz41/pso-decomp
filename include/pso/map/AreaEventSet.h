@@ -14,7 +14,7 @@ s32 export_floor_event_flags(s16 *dest);
 // The floor's event set storage from the area event set heap, NULL when taken.
 u8 *alloc_floor_event_set(s32 floor, s32 size);
 // Copies a received event set in as the floor's; 0 when the floor has one.
-s32 add_floor_event_set(s32 floor, saddr data, s32 size);
+s32 add_floor_event_set(s32 floor, const void *data, s32 size);
 void free_floor_event_sets();
 s32 load_all_floor_event_sets();
 void free_area_event_sets();

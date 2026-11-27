@@ -448,7 +448,7 @@ void TBoss8Dragon::free_static() {
 void TBoss8Dragon::clear_player_control() { boss8_dragon_player_control = 0; }
 
 TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    u32 record[4];
+    EnemyStateRecord record;
     s32 i;
     s32 j;
     Boss8DragonParams *cfg;
@@ -459,7 +459,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     }
     invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(record, 1) != 0 && (record[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
         this->flags |= 8;
     }
     this->init_position_vectors();
@@ -4760,7 +4760,7 @@ void TBoss8Dragon::render_nodes_flagged() {
 void TBoss8Dragon::draw_motion_model() {
     f32 f;
     s32 idx;
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
@@ -4781,8 +4781,8 @@ void TBoss8Dragon::draw_motion_model() {
         f = this->parameters[1];
         if (f < 0.0f) {
             f = 0.0f;
-        } else if (f > (f32)(anim->frameCount - 1)) {
-            f = anim->frameCount;
+        } else if (f > (f32)(anim->nbFrame - 1)) {
+            f = anim->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(this->model, anim, f);

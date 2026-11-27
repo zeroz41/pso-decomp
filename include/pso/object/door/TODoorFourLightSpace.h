@@ -10,7 +10,7 @@ extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
 extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 
 struct TODoorFourLightSpace : public TODoorBase {
-    TODoorFourLightSpace(saddr, saddr);
+    TODoorFourLightSpace(TObject *, void *);
     virtual ~TODoorFourLightSpace();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();

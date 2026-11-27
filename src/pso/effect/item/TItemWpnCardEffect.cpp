@@ -41,8 +41,8 @@ void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
     }
 }
 
-void start_wall_card(s32 item_id, saddr position, saddr direction) {
-    new TItemWpnCardEffect(tl_05, (f32 *)position, (f32 *)direction, 0, item_id);
+void start_wall_card(s32 item_id, f32 *position, f32 *direction) {
+    new TItemWpnCardEffect(tl_05, position, direction, 0, item_id);
 }
 
 void TObjPlayer::create_aux_object(s32 item_id, u32 *hit, f32 *direction) {

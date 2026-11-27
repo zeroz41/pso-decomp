@@ -226,7 +226,7 @@ s32 PlayerPkState::is_enabled() { return enabled; }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_equipped_weapon(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items.items, 6); }
+TItem *TObjPlayer::get_equipped_weapon(TObjPlayer *player) { return (TItem *)get_slot_value(player->equipped_items.items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -1415,7 +1415,7 @@ void TObjPlayer::show_miss_for_collider(s32 collider) {
 void TObjChara::show_miss_popup(const float *pos) {
     if (this->test_actor_flags(0x02000000) == 0 && this->is_locally_controlled() == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
-            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, miss_label_text);
+            TOCtrlDubchik::create_font((Vec *)pos, 0xFFFF0000, 0x14, miss_label_text);
         }
     }
 }
@@ -1829,7 +1829,7 @@ void TObjChara::run_hit_reaction() {  }
 
 void TObjChara::run_death_reaction() {  }
 
-void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); this->hp = this->hpmax; this->tp = this->tpmax; }
+void TObjChara::reset_pose() { clear_actor_flags(2048); this->hp = this->hpmax; this->tp = this->tpmax; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
@@ -2407,7 +2407,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     rec.kind = 0;
     rec.power = dmg;
     if (attacker_id < 0x1000) {
-        TItem *item = TObjPlayer::get_equipped_weapon(att);
+        TItem *item = TObjPlayer::get_equipped_weapon((TObjPlayer *)att);
         if (item == NULL) {
             mul = (1.0f);
         } else {

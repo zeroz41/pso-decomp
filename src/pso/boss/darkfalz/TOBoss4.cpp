@@ -74,7 +74,7 @@ TOBoss4Bird::TOBoss4Bird(void *set_data) {
     model_radius = ((GinjaModelBounds *)model->model)->radius;
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.0f;
     animation_frame = 0.0f;
     speed = 1.0f + scale.x;

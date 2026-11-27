@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 
 // The magic circle drawn under a photon blast: model 2 of the shared photon
 // blast resource, played through its motion while it grows in and fades out.
@@ -17,7 +17,7 @@ struct TPhotonMagicSquare : public TObjBase {
     virtual void render();
     virtual void run_task();
 
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 last_frame;
     f32 frame_step;
     f32 frame;

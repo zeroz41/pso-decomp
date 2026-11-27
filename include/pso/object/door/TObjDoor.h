@@ -4,7 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct CollisionBody;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 struct NJS_ARGB;
@@ -59,7 +59,7 @@ struct TObjDoor : public TObjCollidable {
     static CollisionBody collision_desc;
     static NJS_ARGB label_color_table[10];
     static const char *name;
-    static AnimationMotion *motion_table[2];
+    static NJS_MOTION *motion_table[2];
     static DoorModelSet model_resource_ptrs;
     static NJS_TEXLIST *resource_param;
 };

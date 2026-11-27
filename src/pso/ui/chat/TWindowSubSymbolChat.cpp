@@ -284,7 +284,7 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
 }
 
 void TWindowSubSymbolChat::run_task() {
-    saddr entry_name;
+    char *entry_name;
     u8 *window;
     switch (this->selected_value) {
     case 0:
@@ -772,9 +772,9 @@ void TWindowSubSymbolChat::run_task() {
             return;
         }
         if (this->keyboard->is_confirmed() != 0) {
-            entry_name = (saddr)this->keyboard->realloc_buffer();
-            this->selected_preset->set_entry_name((const char *)entry_name);
-            mem_free((void *)entry_name);
+            entry_name = this->keyboard->realloc_buffer();
+            this->selected_preset->set_entry_name(entry_name);
+            mem_free(entry_name);
             this->selected_value = 4U;
         }
         break;

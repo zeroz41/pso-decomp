@@ -8,7 +8,7 @@
 
 struct BmlResource;
 struct NJS_TEXLIST;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 // The seabed's breakable tank (object 0x224): one of three models, broken
 // into TObjSuisoChip debris. Its statics hold the seabed tank resources
@@ -31,7 +31,7 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
     static NJS_OBJECT *get_model12_node(int index);
     static NJS_OBJECT *get_model13_node(int index);
     static void notify_break(NJS_OBJECT *node);
-    static AnimationMotion *get_bml_motion_by_index(s32 index);
+    static NJS_MOTION *get_bml_motion_by_index(s32 index);
     static NJS_TEXLIST *get_texlist(int index); // the one texture list, whatever the index
     static NJS_OBJECT *get_model(int index);
 

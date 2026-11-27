@@ -552,10 +552,10 @@ s32 get_character_file_seed(CharacterFile *file) {
     return file->cipher_seed;
 }
 
-void TAdSinglePlyChrSelectGC::set_id(void* p, int v) { *(s32*)((char*)p + 0x0) = v; }
+void TAdSinglePlyChrSelectGC::set_checksum(CharacterFile *file, s32 value) { file->checksum = value; }
 
 
-s32 TAdSinglePlyChrSelectGC::get_type(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 TAdSinglePlyChrSelectGC::get_checksum(CharacterFile *file) { return file->checksum; }
 
 
 s32 TAdSinglePlyChrSelectGC::is_entry_valid(CharacterFile *self, int i) {
@@ -2086,7 +2086,7 @@ void game_state_load(void) {
             }
         }
     }
-    *(s8 *)((s8 *)selected_character_data + 3) = (s8) current_language;
+    selected_character_data->m_inventory.m_language = (s8)current_language;
 }
 
 s32 TAdSinglePlyChrSelectGC::apply_loaded_character(int verify_only) {
@@ -2115,7 +2115,7 @@ s32 TAdSinglePlyChrSelectGC::apply_loaded_character(int verify_only) {
             }
         }
     }
-    *((s8 *)selected_character_data + 3) = (s8)current_language;
+    selected_character_data->m_inventory.m_language = (s8)current_language;
     TAdSinglePlyChrSelectGC::set_state(0);
     return 1;
 }
@@ -2180,8 +2180,8 @@ void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
     CharacterFile *a;
     CharacterFile *b;
     set_character_file_seed(file, (s32)(chr_select_rng_state.next()));
-    TAdSinglePlyChrSelectGC::set_id(file, 0);
-    TAdSinglePlyChrSelectGC::set_id(file, (s32)(calc_crc32_bitwise((u8 *)file, 0x1156C)));
+    TAdSinglePlyChrSelectGC::set_checksum(file, 0);
+    TAdSinglePlyChrSelectGC::set_checksum(file, (s32)(calc_crc32_bitwise((u8 *)file, 0x1156C)));
     chr_select_rng_state.set_seed(get_character_file_seed(file));
     chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
@@ -2273,7 +2273,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
             i += 1;
             result++;
         } while (i < 0x1E);
-        *(s8 *)((s8 *)selected_character_data + 0) = 0;
+        selected_character_data->m_inventory.m_num_items = 0;
         init_class_starting_inventory(selected_character_data);
         TPlyCharData *character = selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
@@ -2437,14 +2437,14 @@ s32 TAdSinglePlyChrSelectGC::get_player_count() {
 
 
 s32 TAdSinglePlyChrSelectGC::update_elapsed_time(CharacterSaveRecord *record) {
-    s32 date[4];
+    DateStamp date;
     s32 start_seconds;
     s32 end_seconds;
 
     if (record != NULL) {
         DateToSeconds(&char_select_date_stamp.stamp, (int *)(&start_seconds));
-        getDateStamp((DateStamp *)date);
-        DateToSeconds((DateStamp *)(date), (int *)(&end_seconds));
+        getDateStamp(&date);
+        DateToSeconds(&date, (int *)(&end_seconds));
         record->play_time += end_seconds - start_seconds;
         return record->play_time;
     }
@@ -2473,8 +2473,8 @@ s32 TAdSinglePlyChrSelectGC::init_and_register(CharacterFile *source) {
 
     allocation = new CharacterFile;
     *allocation = *source;
-    type = TAdSinglePlyChrSelectGC::get_type(allocation);
-    TAdSinglePlyChrSelectGC::set_id(allocation, 0);
+    type = TAdSinglePlyChrSelectGC::get_checksum(allocation);
+    TAdSinglePlyChrSelectGC::set_checksum(allocation, 0);
     actual_sum = calc_crc32_bitwise((u8 *)allocation, 0x1156C);
     delete allocation;
     if (type == actual_sum) {

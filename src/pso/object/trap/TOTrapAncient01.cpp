@@ -265,7 +265,7 @@ void TOTrapAncient01::update_holding() {
         clear_battle_param_slots();
         check_object_collisions();
         for (i = 0; i < 16; i++) {
-            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+            p = TObjPlayer::get_battle_param(i);
             if (p == NULL) {
                 break;
             }

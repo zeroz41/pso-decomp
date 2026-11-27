@@ -61,7 +61,7 @@ StripBufferPair *air_car_buffer_pair_table[6];
 NJS_OBJECT *get_city_common_model(s32 i) {
     return (NJS_OBJECT *)city_common_model_archive->models[i].model;
 }
-AnimationMotion *get_city_common_motion(s32 i) {
+NJS_MOTION *get_city_common_motion(s32 i) {
     return city_common_model_archive->motions[i].motion;
 }
 
@@ -74,21 +74,21 @@ void measure_traffic_path_lengths(void) {
   Vec a2;
   Vec b2;
   f32 q2[4];
-  AnimationMotion *m;
+  NJS_MOTION *m;
   s32 i;
   s32 j;
   for (i = 0; i < 5; i++)
   {
     m = get_city_common_motion(city_traffic_path_motion_index_table[i]);
     f32 frame;
-    f32 end = (m->frameCount - 1);
+    f32 end = (m->nbFrame - 1);
     frame = 0.0f;
     f32 total = frame;
-    bind_motion_context((NJS_MOTION *)m, frame);
+    bind_motion_context(m, frame);
     sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &prev.x, (s32 *)&a, &b.x, q);
     for (frame += 0.5f; frame < end; frame += 0.5f)
     {
-      bind_motion_context((NJS_MOTION *)m, frame);
+      bind_motion_context(m, frame);
       sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &cur.x, (s32 *)&a2, &b2.x, q2);
       subtract_vector(&prev, &cur);
       total += normalize_vector_safe(&prev);
@@ -130,15 +130,15 @@ s32 sample_aircar_path_position(s32 lane, Vec *pos, f32 frame) {
     f32 quat[4];
     f32 lim;
     s32 r;
-    AnimationMotion *m = get_city_common_motion(city_traffic_path_motion_index_table[lane]);
-    u32 n = m->frameCount;
+    NJS_MOTION *m = get_city_common_motion(city_traffic_path_motion_index_table[lane]);
+    u32 n = m->nbFrame;
     r = 1;
     lim = (n - 1);
     if (frame > lim) {
         frame = lim;
         r = 0;
     }
-    bind_motion_context((NJS_MOTION *)m, frame);
+    bind_motion_context(m, frame);
     NJS_OBJECT *t = get_city_common_model(city_aircar_model_indices[lane]);
     sample_motion_node_transform(t, (f32 *)pos, (s32 *)&ang, &sp18.x, quat);
     return r;

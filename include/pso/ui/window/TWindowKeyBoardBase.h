@@ -52,7 +52,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void set_flag62_bit8();
     static int is_alnum(u16 code);
     void insert_string(char *src);
-    void update_input(void* a1);
+    void update_input(char *text);
     void append_text_entry(u8 *text);
     void write_name_and_text(char *name, char *text);
     void set_kanji_mode();
@@ -102,8 +102,8 @@ struct TWindowKeyBoardBase : public TWindowBase {
     // Adds the first IME conversion of text (requests 0x25, 0x26, 0x28, then 0x27)
     // that differs from it, unless text holds characters the conversions skip.
     void add_conversion_candidate(char *text);
-    void remove_candidate(void *record);
-    s32 can_fit_candidate(void *window_sub_status_disp);
+    void remove_candidate(u8 *record);
+    s32 can_fit_candidate(const char *text);
     s32 candidate_fits(char *name, char *text);
     void select_next_segment();
     void shrink_segment();

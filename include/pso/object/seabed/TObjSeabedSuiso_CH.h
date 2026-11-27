@@ -26,7 +26,7 @@ public:
     s32 kind;          // abs(set_params[0]) clamped to 3, indexes the kind table
     u32 switch_count;  // kind 3: how many switches, from set_params[1] >> 16
     s32 first_switch;  // kind 3: the first switch, from set_params[1] & 0xFFFF
-    void *kind_model;  // the kind's model
+    NJS_OBJECT *kind_model;  // the kind's model
     TParticleCtrl *emitter;  // the kind's particle emitter, 0 for none
 };
 LAYOUT_ASSERT(TObjSeabedSuiso_CH_size, sizeof(TObjSeabedSuiso_CH) == 0xDC);

@@ -86,7 +86,7 @@ void copy_anim_frame_to_slot(TextureFrameSlot *slot) {
 
 void free_effect_resources() {
     release_texture_list(effect_texture_file.texlist);
-    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(effect_rel));
+    TLobby::free_nodes_with_id(effect_rel);
     effect_rel = NULL;
 }
 

@@ -1761,7 +1761,7 @@ force_active:
   - is_status_text_shown__19TWindowKeyBoardHardFv
   - is_cancelled__15TSymbolChatMenuFv
   - class_name__14TWindowComCard
-  - __ct__14TWindowComCardFPC10NJS_POINT2Pv
+  - __ct__14TWindowComCardFPC10NJS_POINT2P14GuildCardEntry
   - __dt__22TWindowComCardFollowerFv
   - com_card_window_descriptor
   - com_card_follower_window_descriptor
@@ -1797,8 +1797,8 @@ force_active:
   - would_overflow_with__18KeyboardTextBufferFUs
   - insert_party_member_name__19TWindowKeyBoardBaseFl
   - skip_ime_candidates__19TWindowKeyBoardBaseFi
-  - remove_candidate__19TWindowKeyBoardBaseFPv
-  - can_fit_candidate__19TWindowKeyBoardBaseFPv
+  - remove_candidate__19TWindowKeyBoardBaseFPUc
+  - can_fit_candidate__19TWindowKeyBoardBaseFPCc
   - candidate_fits__19TWindowKeyBoardBaseFPcPc
   - text_resource__9TLanguage
   - __ct__22TWindowLoadItemTextureFPvPfl
@@ -4117,7 +4117,7 @@ force_active:
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
   - attach_mine_trap__9TObjCharaFP8TObjBase
-  - attach_model__9TParticleFPvP11NJS_TEXLISTP10NJS_MOTIONlf
+  - attach_model__9TParticleFP10NJS_OBJECTP11NJS_TEXLISTP10NJS_MOTIONlf
   - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FP17AreaAttackHistoryPv
@@ -5326,7 +5326,7 @@ force_active:
   - copy_character_data__23TAdSinglePlyChrSelectGCFPUc
   - copy_character_to_slot__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - copy_chat_entry__20TWindowSubSymbolChatFPl
-  - copy_data__18TCheckRoomSequenceFP14BankItemRecordPv
+  - copy_data__18TCheckRoomSequenceFP14BankItemRecordP9TItemData
   - copy_debris_params__8TObjChipFP14TObjChipParamsPC14TObjChipParams
   - copy_drop_node__FPUcPUc
   - copy_effect_data__18TAdChrMoveEffectGCFPvPv
@@ -5803,7 +5803,7 @@ force_active:
   - draw_fading_model_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_motion__11TObjDFDemo5Fv
   - draw_rects__18TAdLoadQuestLineGCFP13QuestLineRectl
-  - draw_frame__20TWindowActionPaletteFl
+  - draw_frame__20TWindowActionPaletteFP17WindowDrawContext
   - draw_fullscreen_texture_quad__Fl
   - draw_ginja_motion_node_tree__FP10NJS_OBJECT
   - draw_hanger__11TBoss4Type2Fv
@@ -5819,7 +5819,7 @@ force_active:
   - draw_light__12TODoorCave02FP10NJS_OBJECT
   - draw_lights__20TODoorFourLightSpaceFv
   - draw_line_ctrl_name
-  - draw_line_strip__11TObjPathObjFP10NJS_OBJECTP15AnimationMotionf
+  - draw_line_strip__11TObjPathObjFP10NJS_OBJECTP10NJS_MOTIONf
   - draw_line_task_data
   - draw_line_task_name
   - draw_line_task_resource
@@ -6676,7 +6676,7 @@ force_active:
   - get_seq_phase__6TLobbyFi
   - get_serial_seed__23TAdSinglePlyChrSelectGCFv
   - get_serial_result__22TAdEnterSerialAccessGCFv
-  - get_serial_text__22TAdEnterSerialAccessGCFll
+  - get_serial_text__22TAdEnterSerialAccessGCFP7TObjectl
   - get_set_bonus_multiplier__9TItemDataFPvi
   - get_shield_set_multiplier__9TItemDataFP10TObjPlayer
   - get_slot_flag__26TWindowSubQuestBoardSelectFSc
@@ -6698,7 +6698,7 @@ force_active:
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__13MaterialUsageFv
   - get_type__16PhotonBlastGaugeFv
-  - get_type__23TAdSinglePlyChrSelectGCFPv
+  - get_checksum__23TAdSinglePlyChrSelectGCFP13CharacterFile
   - get_vidlist
   - get_viewport_offset__17WindowDrawContextFl
   - get_weapon_set_multiplier__9TItemDataFP10TObjPlayer
@@ -6885,7 +6885,7 @@ force_active:
   - has_inactive_card__FP13GuildCardSlotl
   - has_no_active_slot__12TObjEneSlimeFv
   - has_photon_blast__8MagStatsFUc
-  - has_serial_input__22TAdEnterSerialAccessGCFll
+  - has_serial_input__22TAdEnterSerialAccessGCFP7TObjectl
   - has_valid_slot__23TAdSinglePlyChrSelectGCFv
   - has_visible_opacity__17MaterialShadeFadeFv
   - has_visible_opacity__18TObjEnemyColorFadeFv
@@ -7390,8 +7390,8 @@ force_active:
   - last_uv_scroll_tick__23TObjSeabedSuisoBrakable
   - layercmp
   - layout_entries__11TWindowMenuFv
-  - layout_entry_group__21TWindowSubCustomEquipFPv
-  - layout_selection_parts__21TWindowSubCustomEquipFPv
+  - layout_entry_group__21TWindowSubCustomEquipFl
+  - layout_selection_parts__21TWindowSubCustomEquipFl
   - lazer_fence4_class_name
   - lazer_fence_beam_motions
   - lazer_fence_beam_node_table
@@ -14460,7 +14460,7 @@ force_active:
   - render_status__18TAdMultiPlayerNoGCFv
   - render__22HelpItemStatCompareRowFP17WindowDrawContext
   - render__15WindowTextEntryFP17WindowDrawContext
-  - render_tree__10TObjPlayerFPv
+  - render_tree__10TObjPlayerFP10NJS_OBJECT
   - render_ui__9TMainTaskFv
   - render_with_fade__13TBoss5GryphonFl
   - render_with_fade__19TObjEneEpsilonGuardFPvi
@@ -15157,7 +15157,7 @@ force_active:
   - salGetStartDelay
   - salInitHRTFBuffer
   - salSynthSendMessage
-  - sample_clamped_path_position__11TObjPathObjFP10NJS_OBJECTP15AnimationMotionP3Vecf
+  - sample_clamped_path_position__11TObjPathObjFP10NJS_OBJECTP10NJS_MOTIONP3Vecf
   - sample_root_height__12TBoss1DragonFv
   - saveCurrentDestination__12TBoss1DragonFv
   - saveTargetDestination__12TBoss1DragonFv
@@ -15423,7 +15423,7 @@ force_active:
   - set_hit_flags_and_notify__19TBoss3VoloptMonitorFv
   - set_hold_flags__18TObjEneRe4SorcererFPv
   - set_hover_target_position__13TObjEneMorfosFv
-  - set_id__23TAdSinglePlyChrSelectGCFPvi
+  - set_checksum__23TAdSinglePlyChrSelectGCFP13CharacterFilel
   - set_texture_palette_bank__FP17GinjaTextureStatel
   - set_input_active__11TWindowChatFv
   - set_item_effect__22PlayerAttackControllerFv
@@ -16364,7 +16364,7 @@ force_active:
   - technique_contact_query_results
   - technique_menu_category_lists
   - tekker_descriptor_selector_table
-  - telepipe_record_differs
+  - telepipe_record_differs__FP13TelepipeStatesP3VecUs
   - tenchu_enter__11TBoss4Type2Fv
   - tenchu_idle__11TBoss4Type2Fv
   - tenchu_update__11TBoss4Type2Fv
@@ -16879,7 +16879,7 @@ force_active:
   - update_in_inventory__8TItemMagFv
   - update_indirect_texture_wave__FPUcllllUc
   - update_input__18TChallenge4PResultFv
-  - update_input__19TWindowKeyBoardBaseFPv
+  - update_input__19TWindowKeyBoardBaseFPc
   - update_input_number__18TShopGetItemWindowFv
   - update_intro_cutscene__12TBoss3VoloptFv
   - update_intro_phase__19TPlayerBattleCtrl4PFv
@@ -17270,8 +17270,8 @@ force_active:
   - update_window_7c__16TAdChrSelASlotGCFv
   - remove_from_pack_member_list__14TObjEneBm5WolfFv
   - update_yaw_animation__20TODragonflyMachine01Fv
-  - upload_font_glyph__FUsPv
-  - upload_glyph_if_needed__20TWindowSubStatusDispFUsPUcPPv
+  - upload_font_glyph__FUsP14MenuGlyphEntry
+  - upload_glyph_if_needed__20TWindowSubStatusDispFUsP14MenuGlyphEntryPP14MenuGlyphEntry
   - use_combination_recipe__5TItemFv
   - use_selected_item__14TWindowSubItemFv
   - uses_x__23MagNodeOscillationStateFv
@@ -17676,7 +17676,7 @@ force_active:
   - write_node_flags__FP10NJS_OBJECT
   - write_quest_data__22TQuestVmDownLoadServerFv
   - write_quest_data_named__22TQuestVmDownLoadServerFv
-  - write_telepipe_record__FPUcUssPUcl
+  - write_telepipe_record__FP13TelepipeStateUssPC3Vecl
   - __ct__25TItemWeaponYasminkov2000HFP7TObjectPUc
   - yasminkov_9000m_eject_casing__25TItemWeaponYasminkov9000MFP3Vecl
   - adxt_encode_into_input

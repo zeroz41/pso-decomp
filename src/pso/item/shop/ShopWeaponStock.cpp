@@ -547,7 +547,7 @@ void free_weapon_random_tables(void) {
         }
     }
     if (lobby_weapon_random_tables_ptr != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(lobby_weapon_random_tables_ptr));
+        TLobby::free_nodes_with_id(lobby_weapon_random_tables_ptr);
         lobby_weapon_random_tables_ptr = NULL;
     }
 }

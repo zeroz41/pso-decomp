@@ -299,7 +299,7 @@ TCMCharacter::~TCMCharacter() {
     char_creation_figure_draw_flag = 0;
 }
 
-void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
+void TAdSinglePlyChrSelectGC::update_pair(TCMCharacter *character) { TAdSinglePlyChrSelectGC::init_entry_tables(character); character->load_model_parts(); }
 
 void copy_creation_model_part(CreationModelPart *dst, CreationModelPart *src) {
     dst->present = src->present;

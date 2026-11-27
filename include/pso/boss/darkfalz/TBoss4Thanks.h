@@ -6,7 +6,7 @@
 
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
-struct AnimationMotion;
+struct NJS_MOTION;
 class TParticleCtrl;
 
 struct TBoss4Thanks : public TObject {
@@ -21,7 +21,7 @@ struct TBoss4Thanks : public TObject {
     s32 fade_frame;
     NJS_OBJECT *model;
     NJS_TEXLIST *texture_list;
-    AnimationMotion *motions[2];
+    NJS_MOTION *motions[2];
     TParticleCtrl *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 is_door_0x97_open();

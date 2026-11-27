@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -17,7 +17,7 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     static void load_resources();
     static NJS_TEXLIST *get_archive_textures(s32 index);
     static NJS_TEXLIST *get_goal_beam_textures();
-    static AnimationMotion *register_warp(s32 index);
+    static NJS_MOTION *register_warp(s32 index);
     // Indices are into bm_o_warp_ancient.bml's model and motion name tables (TObjMapWarpAncient.cpp);
     // the field names are inferred from those file names.
     f32 beam_frame;                // motion frame of beam_motion, +4 per run_task
@@ -28,8 +28,8 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     NJS_TEXLIST *beam_textures;             // get_goal_beam_textures() for a goal (set_params[2] < 0), else get_archive_textures(1)
     NJS_TEXLIST *gawa_textures;             // get_archive_textures(3)
     NJS_TEXLIST *naka_textures;             // get_archive_textures(5)
-    AnimationMotion *beam_motion;  // motion 0, de_obj2_swarp_beam.njm
-    AnimationMotion *naka_motion;  // motion 2, fe_obj3_swarp_naka.njm
+    NJS_MOTION *beam_motion;  // motion 0, de_obj2_swarp_beam.njm
+    NJS_MOTION *naka_motion;  // motion 2, fe_obj3_swarp_naka.njm
     static void *create(void *set_data);
 };
 

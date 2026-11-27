@@ -59,6 +59,7 @@ class TPlayerLobbyMarker;
 class TPlyInventoryItem;
 struct TechniqueContactList;
 struct EndingPlayerRecord;
+struct PlayerCastMotionRecord;
 struct PlayerSyncRecord;
 struct PlayerCharDataEntry;
 struct TLockOnCursor;
@@ -332,7 +333,7 @@ struct TObjPlayer : public TObjChara {
     void unequip_item(TItem *item);
     static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
     player_class_type get_class_type();
-    static void render_tree(void *model);
+    static void render_tree(NJS_OBJECT *model);
     s32 get_entrance_id();
     void set_entrance_id(s32 id);
     static void*get_pmt_record(int i);
@@ -376,7 +377,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_on_current_floor();
     s32 get_area();
     static s32 get_player_count();
-    static saddr get_battle_param(int index);
+    static TObjChara *get_battle_param(int index);
     s32 check_player_flag1();
     s32 check_flag(s32 flag);
     // Set while a menu window holds the player's input, with the action buttons masked.
@@ -387,7 +388,7 @@ struct TObjPlayer : public TObjChara {
     Vec *get_prev_position_ptr();
     static void set_com_card_window(s32 client);
     static s32 check_demo_mode();
-    static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
+    static TItem *get_equipped_weapon(TObjPlayer *player);  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
     s32 test_action_mask(s32 bits);
@@ -734,7 +735,7 @@ struct TObjPlayer : public TObjChara {
     static s32 validate_and_clear_slot(void *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_slot(u8 slot);
-    static void free_if_valid(saddr texlist);
+    static void free_if_valid(NJS_TEXLIST *texlist);
     static void play_effect_if_v2(s32 pitch);
     static s32 is_valid_and_active(const TObjCollidable *actor);
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
@@ -868,7 +869,7 @@ struct TObjPlayer : public TObjChara {
     s32 can_use_item(TItem *item);
     s32 dispatch_palette_action(u32 act);
     s32 handle_palette_button_input();
-    s32 execute_palette_action(s32 mode, void *target);
+    s32 execute_palette_action(s32 mode, TObjCollidable *target);
     void hold_battle_music();
     void release_battle_music();
     void start_battle_music();
@@ -924,7 +925,7 @@ struct TObjPlayer : public TObjChara {
     s32 apply_exp_level_growth();
     void update_status_effects();
     void update_position_history();
-    static void clear_lobby_flag(void *base);
+    static void clear_lobby_flag(TObjPlayer *base);
     void init_effect_5f0();
     void get_hand_joint_position(Vec *out_pos);
     void close_sub_window();
@@ -1180,7 +1181,7 @@ struct TObjPlayer : public TObjChara {
     int is_mounted();
     void clear_lobby_pose_hold();
     s32 get_lobby_entry_yaw();
-    u8 * get_cast_motion_record();
+    const PlayerCastMotionRecord *get_cast_motion_record();
     static void restore_model_render_state();
     static void save_model_render_state();
     s32 can_equip_item(s32 tech);

@@ -93,11 +93,6 @@ static const Vec telepipe_town_position_table_b[4] = {
     { 360.0f, -30.0f, -185.0f },
 };
 static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
-extern "C" {
-const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
-s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
-}
-void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
 s32 PlacementSlot::is_placed() { return (u8)(state == 2); }
 
 s32 PlacementQueue::is_first_slot_placed() { return slots[0].is_placed(); }
@@ -357,7 +352,7 @@ void TTecLuker::setup_telepipe_field() {
         s16 room;
         floor = get_current_floor();
         room = (s32)source->get_room();
-        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, source->get_entity_id(), floor, (u8 *)&pipe_pos, room);
+        write_telepipe_record(&((TObjPlayer *)source)->telepipe.state, source->get_entity_id(), floor, &pipe_pos, room);
         ((TObjPlayer *)source)->telepipe.state.send_telepipe_packet();
     }
 }
@@ -547,7 +542,7 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (telepipe_record_differs(rec, command->state.floor, &command->state.pos, command->state.owner_client_id) == 0) {
         return;
     }
-    write_telepipe_record((u8 *)rec, command->state.owner_client_id, command->state.floor, (u8 *)&command->state.pos, command->state.room_id);
+    write_telepipe_record(rec, command->state.owner_client_id, command->state.floor, &command->state.pos, command->state.room_id);
     if (is_split_screen() == 0 && command->state.owner_client_id == local_client_id) {
         return;
     }
@@ -560,16 +555,16 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     }
 }
 
-void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room) {
-    u8 *player;
-    *(u16 *)((s8 *)record + 0) = owner;
-    *(s16 *)((s8 *)record + 2) = floor;
-    VecCopy((Vec *)(record + 8), (const Vec *)pos);
-    *(s32 *)((s8 *)record + 4) = room;
+void write_telepipe_record(TelepipeState *record, u16 owner, s16 floor, const Vec *pos, s32 room) {
+    TObjPlayer *player;
+    record->owner_client_id = owner;
+    record->floor = floor;
+    VecCopy(&record->pos, pos);
+    record->room_id = room;
     if (owner <= 4U) {
-        player = (u8 *)get_player_by_client_id((s32)((u32) owner));
+        player = get_player_by_client_id((s32)((u32) owner));
         if (player != NULL) {
-            *(s32 *)((s8 *)record + 0x14) = (s32) *(s32 *)((s8 *)player + 0x60);
+            record->angle_y = player->rotation_y;
         }
     }
 }

@@ -53,7 +53,7 @@ s32 is_bml_loaded(BmlResource *resource) {
     return (resource->flags >> 10) & 1;
 }
 
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
+NJS_MOTION *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
 
@@ -400,7 +400,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 kind;
     *request->motion = NULL;
     position = 0;
-    AnimationMotion *data = (AnimationMotion *)request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
+    NJS_MOTION *data = (NJS_MOTION *)request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
     if (data == 0) {
         file_debug_printf("LoadBinMotionCallBack: Illegal format.");
     }
@@ -453,10 +453,10 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
     u32 offset;
     u32 tag;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     resource->motions[index].motion = NULL;
     offset = 0;
-    motion = static_cast<AnimationMotion *>(resource->allocate_bml_chunk(bytes, &offset, &tag));
+    motion = static_cast<NJS_MOTION *>(resource->allocate_bml_chunk(bytes, &offset, &tag));
     if (motion == NULL) {
         file_debug_printf("LoadBinMotionSub: Illegal format.");
         return 0;
@@ -493,7 +493,7 @@ s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
     u32 offset;
     s32 tag;
     s32 size;
-    AnimationMotion *data;
+    NJS_MOTION *data;
     motions[index].motion = NULL;
     size = read_disc_file_sectors(name, lobby_download_buffer);
     if (size == 0) {
@@ -504,7 +504,7 @@ s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
         file_debug_printf("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
-    data = static_cast<AnimationMotion *>(allocate_bml_chunk(lobby_download_buffer, &offset, (u32 *)&tag));
+    data = static_cast<NJS_MOTION *>(allocate_bml_chunk(lobby_download_buffer, &offset, (u32 *)&tag));
     if (data == 0) {
         file_debug_printf("LoadBinMotion: Illegal format.");
     }

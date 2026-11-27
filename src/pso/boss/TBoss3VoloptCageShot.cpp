@@ -39,7 +39,7 @@ s32 TBoss3VoloptCageShot::try_capture_target() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }

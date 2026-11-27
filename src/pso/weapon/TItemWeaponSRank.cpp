@@ -94,7 +94,6 @@ void TItemWeaponSRank::on_equipped() {
 }
 
 void TItemWeaponSRank::emit_marker_effects() {
-  u8 *self_bytes = (u8 *)this;
   Vec gun_point;
   s32 weapon_kind;
   s32 attack_flags;
@@ -108,26 +107,26 @@ void TItemWeaponSRank::emit_marker_effects() {
     {
       if (weapon_kind < 1)
       {
-        if ((self_bytes && self_bytes) && self_bytes)
+        if ((this && this) && this)
         {
         }
         goto block_7;
       }
-      if (((TItemWeapon *)self_bytes)->is_mode_two_and_ready() != 0)
+      if (this->is_mode_two_and_ready() != 0)
       {
-        ((TItemWeaponSRank *)self_bytes)->send_srank_stat_extra_to_locks();
+        this->send_srank_stat_extra_to_locks();
         return;
       }
-      ((TItemWeapon *)self_bytes)->update_active_game_effect();
+      this->update_active_game_effect();
       return;
     }
     block_7:
-    ((TItemWeapon *)self_bytes)->update_active_game_effect();
+    this->update_active_game_effect();
     return;
   }
   if ((new_var = attack_flags) & 2)
   {
-    ((TItemWeapon *)self_bytes)->get_gun_point(&gun_point);
+    this->get_gun_point(&gun_point);
     (this->launch_shot(&gun_point, (0), (0), (1)));
   }
 }

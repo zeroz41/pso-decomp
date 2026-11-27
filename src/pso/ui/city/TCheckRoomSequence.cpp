@@ -744,7 +744,7 @@ void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) 
 #pragma pop
 
 #pragma optimization_level 1
-s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
+s32 copy_bank_item_with_stack_limit(s32 idx, TItemData *data, s32 *out, s32 slot) {
   BankItemRecord *records = bank_item_records_by_slot[slot];
   s32 max;
   if (idx > 199)
@@ -757,7 +757,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   }
   TCheckRoomSequence::copy_data(&records[idx], data);
   *out = records[idx].amount;
-  max = ((TItemData *)data)->get_max_stack_size();
+  max = data->get_max_stack_size();
   if (max < *out)
   {
     *out = max;
@@ -768,7 +768,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
+s32 TCheckRoomSequence::copy_item_record(int idx, TItemData *data, int slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     if (idx > 199) {
         return 0;
@@ -880,8 +880,7 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) {
-    TItemData *dst = (TItemData *)item;
+void TCheckRoomSequence::copy_data(BankItemRecord *p, TItemData *dst) {
     dst->data1.data_u8[0] = p->item.data1.data_u8[0];
     dst->data1.data_u8[1] = p->item.data1.data_u8[1];
     dst->data1.data_u8[2] = p->item.data1.data_u8[2];

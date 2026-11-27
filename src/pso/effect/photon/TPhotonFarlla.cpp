@@ -222,7 +222,7 @@ void TPhotonFarlla::collect_hit_targets() {
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjChara *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
                 queue_photon_blast_hit(candidate->get_entity_id(), 0, 0, power);
             }

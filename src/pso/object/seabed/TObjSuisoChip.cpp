@@ -240,7 +240,7 @@ NJS_TEXLIST *TObjSeabedSuisoBrakable::get_texlist(int index) {
     return texture_list;
 }
 
-AnimationMotion *TObjSeabedSuisoBrakable::get_bml_motion_by_index(s32 index) {
+NJS_MOTION *TObjSeabedSuisoBrakable::get_bml_motion_by_index(s32 index) {
     if (bml_resource != NULL) {
         return get_bml_motion(bml_resource, index);
     }
@@ -281,7 +281,7 @@ void TObjSeabedSuiso_CH::init_kind_params() {
         animation_step = 0.0f;
     }
     if (motion != NULL) {
-        animation_end_frame = (f32)motion->frameCount - 1.0f;
+        animation_end_frame = (f32)motion->nbFrame - 1.0f;
     }
     view_range = seabed_suiso_kind_params[kind].view_range;
     model_radius = seabed_suiso_kind_params[kind].model_radius;
@@ -317,7 +317,7 @@ void TObjSeabedSuiso_CH::render() {
         if (motion != NULL) {
             draw_ginja_model_with_motion(kind_model, motion, animation_frame);
         } else {
-            draw_ginja_box_tree((NJS_OBJECT *)kind_model);
+            draw_ginja_box_tree(kind_model);
         }
         pop_matrix();
         set_model_node_callback(0);
@@ -338,7 +338,7 @@ void TObjSeabedSuiso_CH::update_state() {
 
 void TObjSeabedSuiso_CH::scroll_kind2_uvs() {
     s32 entry;
-    NJS_OBJECT *node = find_object_node((NJS_OBJECT *)kind_model, 4);
+    NJS_OBJECT *node = find_object_node(kind_model, 4);
 
     if (last_uv_scroll_tick != actor_frame_tick) {
         if (node != NULL && node->model != NULL) {

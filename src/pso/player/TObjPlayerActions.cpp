@@ -1,3 +1,4 @@
+#include "pso/player/PlayerClassStats.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -2843,7 +2844,7 @@ void TObjPlayer::exit_technique_cast() {
 
 void TObjPlayer::update_technique_cast() {
     s16 phase;
-    u8 *cast_record;
+    const PlayerCastMotionRecord *cast_record;
     this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (this->target_heading));
     cast_record = get_cast_motion_record();
     phase = this->phase;
@@ -2877,7 +2878,7 @@ void TObjPlayer::update_technique_cast() {
         }
         break;
     case 2:
-        if (this->is_passing_frame((f32) (*(f32 *)((s8 *)cast_record + 0xC))) != 0) {
+        if (this->is_passing_frame(cast_record->release_frame) != 0) {
             this->phase = 3;
             this->clear_state_flags(0x80);
             pause_motion();

@@ -692,7 +692,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                     attack_body->check_object_collisions();
                     if (attack_body->bodies->flags & 0x80000) {
                         for (i = 0; i < 0x10; i++) {
-                            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+                            p = TObjPlayer::get_battle_param(i);
                             if (p == NULL) {
                                 break;
                             }
@@ -855,7 +855,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
     if (bodies->flags & 0x80000) {
         ret = 1;
         for (i = 0; i < 16; i++) {
-            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+            p = TObjPlayer::get_battle_param(i);
             if (p == NULL) {
                 break;
             }

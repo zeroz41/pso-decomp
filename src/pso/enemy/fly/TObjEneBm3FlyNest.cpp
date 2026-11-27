@@ -148,7 +148,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
     f32 v;
     f32 spd;
 
-    lim = (motion->frameCount - 1);
+    lim = (motion->nbFrame - 1);
     frame += 0.8f;
     if (frame > lim) {
         frame -= lim;
@@ -1057,7 +1057,7 @@ void TObjEneBm3FlyNest::render() {
 #pragma pool_data off
 void TObjEneBm3FlyNest::render_with_state_debug() {
     f32 motion_frame;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     if (get_target_info() != 0) {
         switch (this->state) {
         default:
@@ -1082,11 +1082,11 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         break;
     case 9:
         motion = this->motion_list[this->action_table[7].motion].motion;
-        motion_frame = motion->frameCount - 1;
+        motion_frame = motion->nbFrame - 1;
         break;
     case 5:
         motion = this->motion_list[this->action_table[3].motion].motion;
-        motion_frame = motion->frameCount - 1;
+        motion_frame = motion->nbFrame - 1;
         break;
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {

@@ -557,7 +557,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
         {
         }
         n += buf->sync_records_size;
-        restore_switch_table((saddr)(&buf->payload[n]), buf->switch_table_size);
+        restore_switch_table(&buf->payload[n], buf->switch_table_size);
         activate_triggered_floor_events();
       }
       ::operator delete((0, buf));
@@ -2707,12 +2707,12 @@ void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
 #pragma auto_inline off
 #pragma dont_inline off
 
-void bswap_and_send_extended_subcommand(void *p, u32 client_id) { bswap_extended_subcommand_header(p); ((long_game_command_union *)p)->send_to_client(client_id); }
+void bswap_and_send_extended_subcommand(void *p, u32 client_id) { bswap_extended_subcommand_header((extended_game_command_header *)p); ((long_game_command_union *)p)->send_to_client(client_id); }
 
-void bswap_extended_subcommand_header(void* p) { TLobby::bswap_header_fields(p); }
-void TLobby::bswap_header_fields(void *header) {
-    bswap_16((u16 *)((u8 *)header + 2));
-    bswap_32((u32 *)((u8 *)header + 4));
+void bswap_extended_subcommand_header(extended_game_command_header *p) { TLobby::bswap_header_fields(p); }
+void TLobby::bswap_header_fields(extended_game_command_header *header) {
+    bswap_16(&header->header.id);
+    bswap_32(&header->size);
 }
 void TLobby::bswap_and_handle_packet(void *packet, int client_id) {
     bswap_client_id_header((G_ClientIDHeader *)packet);

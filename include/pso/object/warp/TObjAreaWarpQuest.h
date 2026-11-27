@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -21,7 +21,7 @@ struct TObjAreaWarpQuest : public TObjAreaWarp {
     u32 beam_rotation;
     NJS_OBJECT *warp_model;                // forest warp model 0, fs_obj_warp.gj
     NJS_OBJECT *beam_model;                // model 1, fs_obj_warp_beam.gj
-    AnimationMotion *beam_motion;  // motion 0, fs_obj_warp_beam.njm
+    NJS_MOTION *beam_motion;  // motion 0, fs_obj_warp_beam.njm
     NJS_TEXLIST *textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
     static void *create(void *set_data);
 };

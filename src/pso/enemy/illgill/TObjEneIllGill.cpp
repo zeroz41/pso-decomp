@@ -1125,7 +1125,7 @@ void TObjEneIllGill::update_shadow_attack() {
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);
                 if (this->action_flags != 4 && ((TObjCollidable *)target)->test_actor_flags(0x04000000) == 0) {
-                    void *m = (void *)new TObjIllGillKage(tl_05, (uaddr)this->target);
+                    void *m = (void *)new TObjIllGillKage(tl_05, this->target);
                 }
             } else {
                 this->action_flags &= ~4;
@@ -1369,12 +1369,11 @@ void TObjEneIllGill::update_charge_attack() {
 }
 
 #pragma pop
-TObjIllGillKage::TObjIllGillKage(TObject *parent, uaddr target) : TObjBase(parent) {
-    TObjBase *target_tobjbase = (TObjBase *)target;
+TObjIllGillKage::TObjIllGillKage(TObject *parent, TObjBase *target) : TObjBase(parent) {
     m_name = ill_gill_kage_class_name;
-    if (target != 0U) {
-        VecCopy(&position, &target_tobjbase->position);
-        this->target_id = target_tobjbase->get_entity_id();
+    if (target != NULL) {
+        VecCopy(&position, &target->position);
+        this->target_id = target->get_entity_id();
         this->timer = 0xB4;
         this->state = 0;
     } else {

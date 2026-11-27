@@ -490,7 +490,7 @@ s32 TObjCityMainWarp::is_warp_enabled() {
 }
 
 void TObjCityMainWarp::run_task() {
-    f32 lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
+    f32 lim = (f32)(city_common_model_archive->motions[7].motion->nbFrame - 1);
 
     frame += 4.0f;
     if (frame >= lim) {
@@ -555,7 +555,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
 void TObjCityAreaWarp::run_task() {
     f32 lim;
     if (TObjEneDD::is_main_phase_15() != 0) {
-        lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
+        lim = (f32)(city_common_model_archive->motions[7].motion->nbFrame - 1);
         frame += 4.0f;
         if (frame >= lim) {
             frame -= lim;
@@ -625,7 +625,7 @@ void TObjCityMapWarp::clamp_destination_index() {
 int TObjCityMapWarp::is_field88_zero() { return set_params[1] == 0; }
 
 void TObjCityMapWarp::run_task() {
-    u32 n = city_common_model_archive->motions[7].motion->frameCount;
+    u32 n = city_common_model_archive->motions[7].motion->nbFrame;
     f32 lim = (n - 1);
     animation_frame += 4.0f;
     if (animation_frame >= lim) {
@@ -723,7 +723,7 @@ int TObjLaboMapWarp::is_field88_zero() { return set_params[1] == 0; }
 
 void TObjLaboMapWarp::run_task() {
     f32 lim;
-    lim = (f32)(get_bml_motion(labo_map_warp_resource_bundle, 0)->frameCount - 1);
+    lim = (f32)(get_bml_motion(labo_map_warp_resource_bundle, 0)->nbFrame - 1);
     animation_frame += 4.0f;
     if (animation_frame >= lim) {
         animation_frame -= lim;

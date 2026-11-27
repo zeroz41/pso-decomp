@@ -32,7 +32,7 @@ void TObjNpcARW00::free_resources() {
         gvm_texture_handle = NULL;
     }
     if (static_model != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(static_model));
+        TLobby::free_nodes_with_id(static_model);
         static_model = NULL;
     }
 }

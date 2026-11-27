@@ -1140,11 +1140,11 @@ void free_data_file(void *p) { safe_free(p); }
 
 void *load_data_file(const char *path) { return load_disc_file(path); }
 
-void TLobby::free_nodes_with_id(uaddr root) {
+void TLobby::free_nodes_with_id(const void *root) {
     TRelDataFile *file = (TRelDataFile *)resource_load_task_root.m_down;
 
     while (file != NULL) {
-        if ((uaddr)file->root == root) {
+        if (file->root == root) {
             safe_free(file->data);
             delete file;
         }

@@ -26,7 +26,7 @@ public:
     f32 animation_frame;        // the motion frame update_anim_phase advances
     f32 animation_end_frame;    // where animation_frame wraps
     f32 animation_step;         // frames per update
-    AnimationMotion *motion;    // the looped motion, NULL for a static model
+    NJS_MOTION *motion;    // the looped motion, NULL for a static model
     f32 view_range;             // range classify_actor_view_detail is asked with
     f32 model_radius;
 };
