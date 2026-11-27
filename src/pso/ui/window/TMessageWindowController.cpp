@@ -144,7 +144,7 @@ s32 TMessageWindowController::is_ready() {
 }
 void TMessageWindowController::send_message(s32 index, s32 flags) {
     if (window != NULL) {
-        window->set_message((void *)(get_appraisal_text(index)), (s32)(flags | 0x80));
+        window->set_message(get_appraisal_text(index), (s32)(flags | 0x80));
     }
 }
 void TMessageWindowController::format_guild_message(s32 index, s32 flags) {
