@@ -197,7 +197,7 @@ void TObjDoorKey::trigger_activate_sound() {
 }
 
 void TObjDoorKey::update_switch_on() {
-    unk_F4 = unk_F4 + 0x14;
+    pad_F4 = pad_F4 + 0x14;
     spin_angle = (spin_angle + 0x200);
 }
 
@@ -220,8 +220,8 @@ TObjDoorKey::TObjDoorKey(TObject *parent, ObjectSetData *set_entry) : TOKey(pare
     init_key(set_entry);
     activated = 0;
     spin_angle = 0;
-    unk_EC = 0x14;
-    unk_F4 = 0;
+    pad_EC = 0x14;
+    pad_F4 = 0;
     particle = NULL;
     this->m_id = door_key_id_counter++;
     if (this->set_params[2] < 0) {
