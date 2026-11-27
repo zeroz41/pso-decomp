@@ -664,7 +664,6 @@ pso/render/TFogCtrl.cpp
 pso/ui/font/TFontSmallHelp.cpp
 pso/player/PhotonBlastGauge.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
-pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
 pso/ui/city/THunterGuildSeqOnline.cpp
 pso/ui/city/THunterGuildWarning.cpp
 pso/ui/city/TJudgmentSequence.cpp
