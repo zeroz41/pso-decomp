@@ -315,17 +315,16 @@ s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *out_value) {
     return ok;
 }
 
-s32 TAdSinglePlyChrSelectGC::init_char_slot_record() {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)this;
+s32 CharacterSaveRecord::init_char_slot_record() {
     s32 i;
-    if (record == NULL) {
+    if (this == NULL) {
         return 0;
     }
-    record->magic = 0xA205B064;
-    record->bank_item_count = 0;
-    record->bank_meseta = 0;
+    magic = 0xA205B064;
+    bank_item_count = 0;
+    bank_meseta = 0;
     for (i = 0; i < 200; i++) {
-        record->bank_items[i].init();
+        bank_items[i].init();
     }
     return 1;
 }
@@ -636,12 +635,11 @@ s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
 s32 TAdSinglePlyChrSelectGC::poll_memcard_status() { return verify_system_file(); }
 
 
-s32 TAdSinglePlyChrSelectGC::has_valid_slot() {
-    CharacterFile *file = (CharacterFile *)this;
+s32 CharacterFile::has_valid_slot() {
     s32 i;
-    if (file != NULL) {
+    if (this != NULL) {
         for (i = 0; i < 7; i++) {
-            u32 m = file->slots[i].record.magic;
+            u32 m = slots[i].record.magic;
             if (m != 0 && m != 0xA205B064) {
                 return 1;
             }
@@ -1017,7 +1015,7 @@ void TAdSinglePlyChrSelectGC::refresh_char_slots() {
             if (card_character_save_buffer->slots[i].copy_stamp.copied == 0) {
                 init_fresh_character_slot(i);
             } else {
-                ((TAdSinglePlyChrSelectGC *)&card_character_save_buffer->slots[i].record)->init_char_slot_record();
+                card_character_save_buffer->slots[i].record.init_char_slot_record();
             }
         }
     }
@@ -1025,7 +1023,7 @@ void TAdSinglePlyChrSelectGC::refresh_char_slots() {
 
 void init_fresh_character_slot(s32 slot) {
     init_new_character_data(&card_character_save_buffer->slots[slot].chardata);
-    ((TAdSinglePlyChrSelectGC *)&card_character_save_buffer->slots[slot].record)->init_char_slot_record();
+    card_character_save_buffer->slots[slot].record.init_char_slot_record();
 }
 
 s32 check_slot_a_card_save(void) {
@@ -1039,7 +1037,7 @@ s32 check_slot_a_card_save(void) {
         u8 a = system_save_payload->serial_number[i];
         if (a != b) return 1;
     }
-    if (((TAdSinglePlyChrSelectGC *)card_character_save_buffer)->has_valid_slot() != 0) return 5;
+    if (card_character_save_buffer->has_valid_slot() != 0) return 5;
     return 7;
 }
 
@@ -1055,7 +1053,7 @@ s32 check_slot_b_card_save(void) {
         u8 a = secondary_card_system_save_payload->serial_number[i];
         if (a != b) return 1;
     }
-    if (((TAdSinglePlyChrSelectGC *)secondary_card_character_save_buffer)->has_valid_slot() != 0) return 5;
+    if (secondary_card_character_save_buffer->has_valid_slot() != 0) return 5;
     return 7;
 }
 

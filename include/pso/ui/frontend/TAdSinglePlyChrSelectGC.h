@@ -74,7 +74,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_game_mode();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
-    s32 init_char_slot_record();
     static s32 is_ready();
     // Battle results of the client's character record (CharacterSaveRecord::split_screen_battle
     // and online_battle), shown in the status window.
@@ -92,7 +91,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_save_from_card();
     static s32 verify_card_player_data();
     static s32 poll_memcard_status();
-    s32 has_valid_slot();
     static int get_selection();
     static void set_global_flags(s32 flags);
     static CharacterFile *get_instance();
@@ -107,7 +105,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player(s32 chan, const char *filename, void *buf, s32 blocks);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
-    static void init_entry_tables(void* _w0);
     void reset_creation_parts();
     static s32 map_button_code(s32 code);
     static void render(void *self);
@@ -191,7 +188,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_id(CharacterFile *file, int v);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
-    static void update_pair(void* p);
     static s32 update_play_time();
     static s32 verify_save_checksum(int keep_on_mismatch);
     static void verify_save_checksum();

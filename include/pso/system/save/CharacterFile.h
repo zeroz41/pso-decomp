@@ -29,6 +29,8 @@ struct CharacterFile {
     ~CharacterFile();
     // 1 if slot i holds a character (its record has a creation time).
     s32 is_entry_valid(int i);
+    // 1 if a slot's record carries a magic that is neither empty nor a character's.
+    s32 has_valid_slot();
     // The slot TAdSinglePlyChrSelectGC::get_selection() picks, and its save record.
     CharacterFileSlot *get_selected_character_slot();
     CharacterSaveRecord *get_selected_save_record();

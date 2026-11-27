@@ -294,13 +294,16 @@ TCMCharacter::~TCMCharacter() {
     char_creation_figure_draw_flag = 0;
 }
 
-void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
+void TCMCharacter::update_pair() {
+    init_entry_tables();
+    load_model_parts();
+}
 
 void copy_creation_model_part(CreationModelPart *dst, CreationModelPart *src) {
     dst->present = src->present;
     dst->model = src->model;
 }
-void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
+void TCMCharacter::init_entry_tables() {
     for (s32 i = 0; i < 10; i++) {
         copy_creation_model_part(&creation_hair_model_parts[i], &empty_creation_model_part);
         copy_creation_model_part(&creation_cap_model_parts[i], &empty_creation_model_part);
@@ -511,7 +514,7 @@ void TCMCharacter::apply_character_appearance() {
     if (is_bml_loaded((BmlResource *)chara_select_preview_resource) == 0 || this->shape_rel_ready == 0) {
         return;
     }
-    TAdSinglePlyChrSelectGC::update_pair(this);
+    update_pair();
     raw = creation_player_character;
     app = raw;
     hair = raw->hair;

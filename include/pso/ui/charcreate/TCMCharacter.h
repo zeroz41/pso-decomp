@@ -17,6 +17,9 @@ public:
     void reset_model_parts();
     s32 bind_model_parts(NJS_OBJECT **selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
     void load_model_parts();
+    // Clears the hair, cap and head part tables, then binds the parts again.
+    void update_pair();
+    static void init_entry_tables();
     void *shape_rel;
     s32 shape_rel_size;
     s32 shape_rel_ready;
