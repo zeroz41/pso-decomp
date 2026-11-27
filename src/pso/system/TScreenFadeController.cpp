@@ -134,9 +134,9 @@ void TDeathTintFade::run_task() {
 
 void TDeathTintFade::render() {  }
 
-TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
+TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 pad_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
     u32 c;
-    this->unk_1C = unk_1C;
+    this->pad_1C = pad_1C;
     frame = 0;
     this->duration = duration;
     c = get_viewport_fill_color(local_client_id);
