@@ -38,10 +38,8 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
 CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask);
 // The deepest wall the rays of query reach within its radius, NULL for none.
 WallRayResult *query_wall_radial(WallRayQuery *query);
-extern "C" {
 // Line of sight: the hit record when a wall lies between from and to.
 CsnHit *csnLookAt(const Vec *from, const Vec *to);
-}
 
 // The scene buffer prepare_wall_query_polygons copies wall polygons into.
 void free_wall_query_buffer(void);

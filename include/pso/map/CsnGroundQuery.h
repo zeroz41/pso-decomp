@@ -40,14 +40,10 @@ LAYOUT_ASSERT(CsnHitSize, sizeof(CsnHit) == 8);
 // A cached query uses caller-provided storage for up to 14 groups and a null terminator.
 struct CsnGroup;
 class TObjCollidable;
-extern "C" {
 CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask);
-}
 // The ground straight below origin, NULL for none.
 CsnHit *csnVecterUnder(Vec *origin, u32 mask);
-extern "C" {
 // Drops pos onto the ground under it (from 10 units up, through the actor's
 // ground cache when it has one); 1 if found, the ground normal in *normal.
 s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
-}
 #endif

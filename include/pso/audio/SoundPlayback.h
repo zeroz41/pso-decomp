@@ -18,9 +18,7 @@ s32 get_sound_voice_volume_adjustment(void);
 int get_music_base_gain(void);
 void is_sound_enabled(void);
 s32 is_special_sound_id(u32 x);
-extern "C" {
 void load_floor_sound_bank(s32 floor);
-}
 s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 offset, s32 options);
 s32 play_packed_sound_once(u32 id, const Vec *position, s32 offset, s32 options);
 void release_sound_with_fade(s32 slot);

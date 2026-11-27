@@ -207,7 +207,6 @@ extern const f32 floor_sound_bank_volume_table[36] = {
 
 void refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
 
-extern "C" {
 void load_floor_sound_bank(s32 floor) {
     s32 bank;
 
@@ -226,8 +225,6 @@ void load_floor_sound_bank(s32 floor) {
             enable_sound_requests(0);
         }
     }
-}
-
 }
 
 void run_sound_retrace(void) {
