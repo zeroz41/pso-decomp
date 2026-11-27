@@ -72,7 +72,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 get_card_window_scale(s32 client_id);
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
-    void fill_card_text_entries(GuildCardRecord *record);
+
     void set_entry_display_value(const char *str);
     s32 get_display_mode();
     static void *find_cached_glyph(u16 code);

@@ -51,7 +51,7 @@ TWindowSubShortCut::~TWindowSubShortCut() {
     if (chat_window != NULL) { chat_window->queue_destruction(); this->chat_window = 0; }
     if (confirm_window != NULL) { confirm_window->close(); this->confirm_window = 0; }
     if (shortcut_window != NULL) { shortcut_window->close(); this->shortcut_window = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->menu = 0; }
+    if (menu != NULL) { menu->close(); menu = NULL; }
     if (com_card_list != NULL) { com_card_list->close(); com_card_list = NULL; }
 }
 

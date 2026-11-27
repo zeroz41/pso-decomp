@@ -49,14 +49,14 @@ void TLobby::drain_deferred_packets() {
     deferred_packet_buffer_state = 2;
     s32 i;
     while ((i = deferred_packet_buffer_used) < 0x10000) {
-        u8 *p;
+        packet *p;
         u16 n;
-        p = (u8 *)(deferred_packet_buffer + i);
-        n = (u16)to_be_uint16_t(*(u16 *)(p + 2));
-        if (p[0] == 0) {
+        p = (packet *)(deferred_packet_buffer + i);
+        n = (u16)to_be_uint16_t(p->pkt.header.size);
+        if (p->pkt.header.command == 0) {
             break;
         }
-        protocol_instance->handle_command((union packet *)p);
+        protocol_instance->handle_command(p);
         deferred_packet_buffer_used += n;
     }
 }

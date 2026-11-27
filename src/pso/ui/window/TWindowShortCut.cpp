@@ -155,7 +155,7 @@ void TWindowShortCut::render() {
     this->heading->render(ctx);
 }
 
-void TWindowShortCut::run_task() { this->heading->update(); update_window(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowShortCut::run_task() { this->heading->update(); update_window(); update_fade(); update_window_entry_list(&entry_list); }
 
 TWindowShortCut::~TWindowShortCut() {
     if (this->symbol_preview != NULL) {

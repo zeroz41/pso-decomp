@@ -27,10 +27,11 @@ const char *TWindowChoiceSetting::class_name = "TWindowChoiceSetting";
 void TWindowChoiceSetting::update_scroll_tween() {
     f32 target;
     uaddr steps;
+    TWindowLayoutRect *selected;
 
     if (this->choice_flags & 1) {
-        steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_index()));
-        target = *(f32 *)(steps + 0xC);
+        selected = static_cast<TWindowLayoutRect *>(this->get_array_entry(this->get_index()));
+        target = selected->y;
     } else {
         target = 0.0f;
     }
