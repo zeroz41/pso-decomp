@@ -1392,10 +1392,6 @@ G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ItemDataWords { u32 w[5]; };
-
-struct InventoryEntryLayout { u8 a; u8 b; u8 c; u8 d; s32 e; ItemDataWords f; };
-
 
 void G_InterLevelWarp_6x21::init() {
     floor = 0;
@@ -1481,16 +1477,14 @@ u16 LockOnNearestTarget::get_published_target_id() { return published_target_id;
 
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
-TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
-    InventoryEntryLayout *dst = (InventoryEntryLayout *)destination;
-    const InventoryEntryLayout *src = (const InventoryEntryLayout *)source;
-    dst->a = src->a;
-    dst->b = src->b;
-    dst->c = src->c;
-    dst->d = src->d;
-    dst->e = src->e;
-    dst->f = src->f;
-    return destination;
+TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *dst, const TPlyInventoryItem *src) {
+    dst->m_present[0] = src->m_present[0];
+    dst->m_present[1] = src->m_present[1];
+    dst->m_present[2] = src->m_present[2];
+    dst->m_present[3] = src->m_present[3];
+    dst->m_flags = src->m_flags;
+    __memcpy(&dst->m_data, &src->m_data, sizeof(TItemData));
+    return dst;
 }
 
 int TPlyDispConfig::is_primary_first_bank() { return m_smth.is_first_bank(); }
