@@ -652,7 +652,7 @@ s32 TAdSinglePlyChrSelectGC::has_valid_slot() {
     return 0;
 }
 
-void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy(selected_character_data, get_selected_character_slot(card_character_save_buffer), 0x41C); memcpy(active_character_save_record, get_selected_save_record(card_character_save_buffer), 0x2370); game_state_load(); }
+void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy(selected_character_data, card_character_save_buffer->get_selected_character_slot(), 0x41C); memcpy(active_character_save_record, card_character_save_buffer->get_selected_save_record(), 0x2370); game_state_load(); }
 
 
 extern "C" {
@@ -697,18 +697,18 @@ void TAdSinglePlyChrSelectGC::set_id(CharacterFile *file, int v) { file->checksu
 s32 TAdSinglePlyChrSelectGC::get_type(CharacterFile *file) { return file->checksum; }
 
 
-s32 TAdSinglePlyChrSelectGC::is_entry_valid(CharacterFile *self, int i) {
+s32 CharacterFile::is_entry_valid(int i) {
     if (i >= 7) return 0;
-    return self->slots[i].record.creation_seconds ? 1 : 0;
+    return slots[i].record.creation_seconds ? 1 : 0;
 }
 
-CharacterFileSlot *get_selected_character_slot(CharacterFile *self) {
-    return &self->slots[TAdSinglePlyChrSelectGC::get_selection()];
+CharacterFileSlot *CharacterFile::get_selected_character_slot() {
+    return &slots[TAdSinglePlyChrSelectGC::get_selection()];
 }
 
 
-CharacterSaveRecord *get_selected_save_record(CharacterFile *self) {
-    return &self->slots[TAdSinglePlyChrSelectGC::get_selection()].record;
+CharacterSaveRecord *CharacterFile::get_selected_save_record() {
+    return &slots[TAdSinglePlyChrSelectGC::get_selection()].record;
 }
 
 
@@ -804,7 +804,7 @@ s32 save_active_character_to_card(void) {
         memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
-            get_selected_save_record(file),
+            file->get_selected_save_record(),
             get_character_save_record(0xFFFF),
             file,
             TAdSinglePlyChrSelectGC::get_instance());
@@ -818,8 +818,8 @@ s32 save_active_character_to_card(void) {
             TLobby::disconnect_protocol();
             return ret;
         }
-        memcpy(get_selected_character_slot(card_character_save_buffer),
-               get_selected_character_slot(file), 0x41C);
+        memcpy(card_character_save_buffer->get_selected_character_slot(),
+               file->get_selected_character_slot(), 0x41C);
         if (buf != 0) {
             safe_free(buf);
         }
@@ -829,7 +829,7 @@ s32 save_active_character_to_card(void) {
         if (TAdPlayerLoadGC::get_instance() == 0 && (ret = poll_memcard_result(character_save_card_slot)) == 0) {
             TAdSinglePlyChrSelectGC::update_play_time();
             TAdSinglePlyChrSelectGC::set_global_flags(1);
-            memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
+            memcpy(card_character_save_buffer->get_selected_save_record(), active_character_save_record, 0x2370);
             chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = TAdEnterSerialAccessGC::get_serial_seed();
             TAdSinglePlyChrSelectGC::encrypt_save_data(card_character_save_buffer);
             TAdSinglePlyChrSelectGC::save_character_file(1);
@@ -930,7 +930,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
-            get_selected_save_record(file),
+            file->get_selected_save_record(),
             get_character_save_record(0xFFFF),
             file,
             TAdSinglePlyChrSelectGC::get_instance());
@@ -946,7 +946,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             }
             return ret;
         }
-        if (active_character_save_record->save_count != get_selected_save_record(file)->save_count) {
+        if (active_character_save_record->save_count != file->get_selected_save_record()->save_count) {
             if (buf != 0) {
                 safe_free(buf);
             }
@@ -968,9 +968,9 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             char_select_check_stub();
             TAdSinglePlyChrSelectGC::update_play_time();
             TAdSinglePlyChrSelectGC::set_global_flags(1);
-            memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
-            memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
-            *(s32 *)((s8 *)(get_selected_character_slot(card_character_save_buffer)) + 0x36C) = 0;
+            memcpy(card_character_save_buffer->get_selected_character_slot(), selected_character_data, 0x41C);
+            memcpy(card_character_save_buffer->get_selected_save_record(), active_character_save_record, 0x2370);
+            *(s32 *)((s8 *)(card_character_save_buffer->get_selected_character_slot()) + 0x36C) = 0;
             chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = TAdEnterSerialAccessGC::get_serial_seed();
             TAdSinglePlyChrSelectGC::encrypt_save_data(card_character_save_buffer);
             TAdSinglePlyChrSelectGC::save_character_file(1);
@@ -1322,7 +1322,7 @@ CardSlotSummary *get_secondary_slot_summary(u32 i) {
     if (i >= 7U) {
         return NULL;
     }
-    if (TAdSinglePlyChrSelectGC::is_entry_valid(secondary_card_character_save_buffer, i) == 0) {
+    if (secondary_card_character_save_buffer->is_entry_valid(i) == 0) {
         return NULL;
     }
     // A file-shaped view that starts at slot i: its slots[0] is slot i of the file.
@@ -1341,7 +1341,7 @@ CardSlotSummary *get_secondary_slot_summary(u32 i) {
 
 
 TPlyCharData *TAdSinglePlyChrSelectGC::get_entry(int i) {
-    if (TAdSinglePlyChrSelectGC::is_entry_valid(secondary_card_character_save_buffer, i) != 0) {
+    if (secondary_card_character_save_buffer->is_entry_valid(i) != 0) {
         return &secondary_card_character_save_buffer->slots[i].chardata;
     }
     return 0;
@@ -1353,7 +1353,7 @@ CardSlotSummary *get_card_slot_summary(u32 i) {
     if (i >= 7U) {
         return NULL;
     }
-    if (TAdSinglePlyChrSelectGC::is_entry_valid(card_character_save_buffer, i) == 0) {
+    if (card_character_save_buffer->is_entry_valid(i) == 0) {
         return NULL;
     }
     // A file-shaped view that starts at slot i: its slots[0] is slot i of the file.
@@ -1423,7 +1423,7 @@ s32 is_secondary_slot_active(u32 i) {
     if (i >= 7U) {
         return 0;
     }
-    if ((secondary_card_character_save_buffer != NULL) && (TAdSinglePlyChrSelectGC::is_entry_valid(secondary_card_character_save_buffer, (s32) i) != 0)) {
+    if ((secondary_card_character_save_buffer != NULL) && (secondary_card_character_save_buffer->is_entry_valid(i) != 0)) {
         return 1;
     }
     return 0;
@@ -1436,7 +1436,7 @@ s32 TAdSinglePlyChrSelectGC::is_slot_active(unsigned int slot) {
         return 0;
     }
     result = card_character_save_buffer;
-    if ((result != 0U) && (TAdSinglePlyChrSelectGC::is_entry_valid(result, i) != 0)) {
+    if ((result != 0U) && (result->is_entry_valid(i) != 0)) {
         return 1;
     }
     return 0;
@@ -1975,7 +1975,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             memset(file, 0, 0x1156C);
             memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
             TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-            ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
+            ret = TAdSinglePlyChrSelectGC::compare_save_headers(file->get_selected_save_record(), get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
                 if (buf != 0) {
                     safe_free(buf);
@@ -1988,7 +1988,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 }
                 return ret;
             }
-            if (active_character_save_record->save_count != get_selected_save_record(file)->save_count) {
+            if (active_character_save_record->save_count != file->get_selected_save_record()->save_count) {
                 if (buf != 0) {
                     safe_free(buf);
                 }
@@ -2015,25 +2015,25 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             switch (get_main_phase()) {
             case 0xF:
                 TAdSinglePlyChrSelectGC::set_global_flags(1);
-                memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
-                memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
+                memcpy(card_character_save_buffer->get_selected_character_slot(), selected_character_data, 0x41C);
+                memcpy(card_character_save_buffer->get_selected_save_record(), active_character_save_record, 0x2370);
                 if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
-                    p = reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items();
+                    p = reinterpret_cast<TPlyCharData *>(card_character_save_buffer->get_selected_character_slot())->m_inventory.get_items();
                     for (i = 0; i < 30; i++) {
                         p->clear();
                         p++;
                     }
-                    *(u8 *)get_selected_character_slot(card_character_save_buffer) = 0;
-                    memset(get_selected_save_record(card_character_save_buffer)->bank_items, 0, 0x12C0);
-                    get_selected_save_record(card_character_save_buffer)->bank_item_count = 0;
-                    get_selected_save_record(card_character_save_buffer)->bank_meseta = 0;
+                    *(u8 *)card_character_save_buffer->get_selected_character_slot() = 0;
+                    memset(card_character_save_buffer->get_selected_save_record()->bank_items, 0, 0x12C0);
+                    card_character_save_buffer->get_selected_save_record()->bank_item_count = 0;
+                    card_character_save_buffer->get_selected_save_record()->bank_meseta = 0;
                 }
-                *(s32 *)((u8 *)get_selected_character_slot(card_character_save_buffer) + 0x36C) = 0;
+                *(s32 *)((u8 *)card_character_save_buffer->get_selected_character_slot() + 0x36C) = 0;
                 break;
             default:
                 save_quest_story_flags();
-                memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
-                memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
+                memcpy(card_character_save_buffer->get_selected_character_slot(), selected_character_data, 0x41C);
+                memcpy(card_character_save_buffer->get_selected_save_record(), active_character_save_record, 0x2370);
                 break;
             }
             t = TAdEnterSerialAccessGC::get_serial_seed();
@@ -2213,8 +2213,8 @@ void encrypt_guild_card_payload(GuildCardSaveData *data, void *) {
 #pragma pop
 
 void game_state_load(void) {
-    memcpy(selected_character_data, get_selected_character_slot(card_character_save_buffer), 0x41C);
-    memcpy(active_character_save_record, get_selected_save_record(card_character_save_buffer), 0x2370);
+    memcpy(selected_character_data, card_character_save_buffer->get_selected_character_slot(), 0x41C);
+    memcpy(active_character_save_record, card_character_save_buffer->get_selected_save_record(), 0x2370);
     load_quest_story_flags(0);
     if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
@@ -2242,8 +2242,8 @@ s32 TAdSinglePlyChrSelectGC::apply_loaded_character(int verify_only) {
     if (verify_only != 0) {
         return 1;
     }
-    memcpy(selected_character_data, get_selected_character_slot(card_character_save_buffer), 0x41C);
-    memcpy(active_character_save_record, get_selected_save_record(card_character_save_buffer), 0x2370);
+    memcpy(selected_character_data, card_character_save_buffer->get_selected_character_slot(), 0x41C);
+    memcpy(active_character_save_record, card_character_save_buffer->get_selected_save_record(), 0x2370);
     load_quest_story_flags(0);
     if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
@@ -2276,8 +2276,8 @@ void TAdSinglePlyChrSelectGC::prepare_save_data(void) {
     s32 r = TAdEnterSerialAccessGC::get_serial_seed();
     chr_select_serial_seeds[1] = r;
     chr_select_serial_seeds[0] = r;
-    memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
-    memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
+    memcpy(card_character_save_buffer->get_selected_character_slot(), selected_character_data, 0x41C);
+    memcpy(card_character_save_buffer->get_selected_save_record(), active_character_save_record, 0x2370);
     TAdSinglePlyChrSelectGC::encrypt_save_data(card_character_save_buffer);
     TAdSinglePlyChrSelectGC::save_character_file(1);
 }
@@ -2409,7 +2409,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
     TPlyInventoryItem *result;
 
     if ((void *) selected_character_data != NULL) {
-        result = reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items();
+        result = reinterpret_cast<TPlyCharData *>(card_character_save_buffer->get_selected_character_slot())->m_inventory.get_items();
         i = 0;
         do {
             result->clear();
@@ -2502,7 +2502,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         memset(file, 0, 0x1156C);
         memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-        if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
+        if (TAdSinglePlyChrSelectGC::compare_save_headers(file->get_selected_save_record(), get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {
                 safe_free(buf);
             }
@@ -2527,28 +2527,28 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
             TAdSinglePlyChrSelectGC::set_global_flags(1);
             active_character_save_record->save_count++;
             TAdSinglePlyChrSelectGC::increment_counter();
-            memcpy(get_selected_character_slot(card_character_save_buffer), selected_character_data, 0x41C);
-            memcpy(get_selected_save_record(card_character_save_buffer), active_character_save_record, 0x2370);
+            memcpy(card_character_save_buffer->get_selected_character_slot(), selected_character_data, 0x41C);
+            memcpy(card_character_save_buffer->get_selected_save_record(), active_character_save_record, 0x2370);
             if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
                 s32 i;
                 TPlyInventoryItem *p;
-                p = reinterpret_cast<TPlyCharData *>(get_selected_character_slot(card_character_save_buffer))->m_inventory.get_items();
+                p = reinterpret_cast<TPlyCharData *>(card_character_save_buffer->get_selected_character_slot())->m_inventory.get_items();
                 for (i = 0; i < 30; i++) {
                     p->clear();
                     p++;
                 }
                 {
-                    u8 *s = (u8 *)get_selected_character_slot(card_character_save_buffer);
+                    u8 *s = (u8 *)card_character_save_buffer->get_selected_character_slot();
                     *s = 0;
                 }
                 {
-                    CharacterSaveRecord *q = get_selected_save_record(card_character_save_buffer);
+                    CharacterSaveRecord *q = card_character_save_buffer->get_selected_save_record();
                     memset(q->bank_items, 0, 0x12C0);
                     q->bank_item_count = 0;
                     q->bank_meseta = 0;
                 }
             }
-            *(s32 *)((u8 *)get_selected_character_slot(card_character_save_buffer) + 0x36C) = 0;
+            *(s32 *)((u8 *)card_character_save_buffer->get_selected_character_slot() + 0x36C) = 0;
             chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = TAdEnterSerialAccessGC::get_serial_seed();
             TAdSinglePlyChrSelectGC::encrypt_save_data(card_character_save_buffer);
             TAdSinglePlyChrSelectGC::save_character_file(1);

@@ -27,6 +27,11 @@ struct CharacterFileSlot {
 struct CharacterFile {
     CharacterFile();
     ~CharacterFile();
+    // 1 if slot i holds a character (its record has a creation time).
+    s32 is_entry_valid(int i);
+    // The slot TAdSinglePlyChrSelectGC::get_selection() picks, and its save record.
+    CharacterFileSlot *get_selected_character_slot();
+    CharacterSaveRecord *get_selected_save_record();
 
     u32 checksum;    // CRC32 of the file, written by encrypt_save_data
     CharacterFileSlot slots[7];

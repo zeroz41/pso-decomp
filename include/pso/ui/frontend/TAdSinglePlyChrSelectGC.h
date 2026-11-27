@@ -206,7 +206,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_char_data_slots(CharacterBufferTable *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
-    static s32 is_entry_valid(CharacterFile *self, int i);
     static s32 is_same_slot_entry(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int slot);
     static s32 load_character_and_wait();

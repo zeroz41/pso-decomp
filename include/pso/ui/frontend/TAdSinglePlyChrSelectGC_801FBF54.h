@@ -17,8 +17,6 @@ extern SubtractiveRng chr_select_rng_state;
 extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[0x20];
 
-CharacterFileSlot *get_selected_character_slot(CharacterFile *file);
-CharacterSaveRecord *get_selected_save_record(CharacterFile *file);
 struct GuildCardSaveData;
 
 // What the card slot summary lookups report about a character slot of a card file.

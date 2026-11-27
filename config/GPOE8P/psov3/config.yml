@@ -229,7 +229,7 @@ force_active:
   - __dt__17CharacterFileSlotFv
   - set_character_file_seed__FP13CharacterFilel
   - get_character_file_seed__FP13CharacterFile
-  - get_selected_character_slot__FP13CharacterFile
+  - get_selected_character_slot__13CharacterFileFv
   - load_character_file_slot_b__Fl
   - copy_character_between_files__FP13CharacterFilelP13CharacterFilel
   - poll_secondary_card_load__Fv
@@ -7235,7 +7235,7 @@ force_active:
   - is_entity_locally_controlled__Fl
   - is_manual_camera_held__13TCameraFollowFv
   - is_valid__24ModelNodePositionCaptureFPC22ModelNodePositionEntry
-  - is_entry_valid__23TAdSinglePlyChrSelectGCFP13CharacterFilei
+  - is_entry_valid__13CharacterFileFi
   - is_entry_valid__Fl
   - is_far_from_origin__10TBoss6MineFv
   - is_field88_zero__15TObjCityMapWarpFv

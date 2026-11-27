@@ -243,7 +243,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(obj->get_selected_save_record(), get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 char_save_message_flags &= ~1;
