@@ -148,7 +148,7 @@ TShopGenerator::TShopGenerator(ObjectSetData *set_data) : TObjBase(tl_05) {
     s32 service_index;
     m_name = class_name;
     this->apply_object_set_data(set_data);
-    this->m_90 = 0;
+    this->pad_90 = 0;
     this->service_check_delay = 5;
     service_index = this->set_params[0];
     if (service_index < 0) {

@@ -22,7 +22,7 @@ struct TShopGenerator : public TObjBase {
     virtual ~TShopGenerator();
     BOOL is_player_in_service_range(TObjBase *player, f32 range);
     virtual void run_task();
-    u32 m_90;
+    u32 pad_90;
     s32 service_check_delay; // frames to wait before the first service check (the constructor sets 5)
     static s32 is_no_service_active(void *self, TObjBase *player);
     static int is_slot_active(u16 client);
