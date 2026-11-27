@@ -352,7 +352,7 @@ u8 roll_weapon_special_for_stars(u8 stars) {
     s32 i;
     result = 0;
     if (stars < 4U) {
-        n = ((u32 (*)(int, int))roll_item_channel_below)(weapon_special_roll_channel_table[stars], 0xF);
+        n = roll_item_channel_below(weapon_special_roll_channel_table[stars], 0xF);
         key = stars + 1;
         c = 0;
         i = 1;

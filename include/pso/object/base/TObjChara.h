@@ -88,6 +88,9 @@ public:
     void adjust_atp_range(int);
     s16 get_base_dfp();
     void adjust_dfp(int);
+    // Thunder and ice resistance (element_resist 1 and 2), named as in the item help window.
+    s16 get_eth();
+    s16 get_eic();
     s32 recalc_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats, f32 xscale, f32 yscale);
     s32 set_motion_params(player_stats *base_stats);
     void show_miss_popup(const float *);

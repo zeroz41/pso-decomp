@@ -131,8 +131,8 @@ extern "C" {
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 }
 
-s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target, f32 base_chance);
-s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target);
+s32 calc_freeze_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 base_chance);
+s32 calc_shock_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 power);
 void obj_copyVec2_0(u8* d, u8* s);
 
 
@@ -449,9 +449,9 @@ s16 TObjChara::get_base_dfp() { return this->base_dfp; }
 
 void TObjChara::adjust_dfp(int amount) { this->dfp = (this->dfp + amount); }
 
-s16 TObjPlayer::get_eth() { return this->element_resist[1]; }
+s16 TObjChara::get_eth() { return this->element_resist[1]; }
 
-s16 TObjPlayer::get_eic() { return this->element_resist[2]; }
+s16 TObjChara::get_eic() { return this->element_resist[2]; }
 
 #pragma push
 #pragma scheduling off
@@ -2113,7 +2113,7 @@ f32 TObjChara::receive_direct_attack(TObjBase *att, DirectAttackPayload payload,
                 if (f < 0.0f) {
                     f = 0.0f;
                 }
-                if (((s32 (*)(TObjChara *, TObjChara *, TObjChara *, f32))calc_freeze_chance)(this, ((TObjChara *)att), this, (0.025f) * ((0.025f) * f + (5.0f))) != 0) {
+                if (calc_freeze_chance(this, att, this, (0.025f) * ((0.025f) * f + (5.0f))) != 0) {
                     this->apply_movement_ailment(coll);
                 }
             }
@@ -2137,7 +2137,7 @@ f32 TObjChara::receive_direct_attack(TObjBase *att, DirectAttackPayload payload,
             this->check_heavy_damage_flag(dmg);
             this->hit_flags |= 4;
             if ((this->is_locally_controlled() != 0 || ((TObjPlayer *)att)->is_local_player() != 0) &&
-                ((s32 (*)(TObjChara *, TObjChara *, TObjChara *, f32))calc_shock_chance)(this, ((TObjChara *)att), this, info.power) != 0) {
+                calc_shock_chance(this, att, this, info.power) != 0) {
                 this->apply_shock_status();
             }
             activate_switch_attacks(&pos);
@@ -2661,7 +2661,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
         if (chance < (0.0f)) {
             chance = (0.0f);
         }
-        if (((s32 (*)(void *, void *, void *, f32))calc_freeze_chance)(this, att, this, chance) != 0) {
+        if (calc_freeze_chance(this, att, this, chance) != 0) {
             if (test_actor_flags(0x02000000) == 0) {
                 TEffHit::create(&pos);
                 dispatch_weapon_special_effect(att, this, &pos, 1);
@@ -2738,7 +2738,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
         this->check_heavy_damage_flag(dmg);
         hit_flags |= 4;
         if ((this->is_locally_controlled() != 0 || ((TObjPlayer *)att)->is_local_player() != 0) &&
-            ((s32 (*)(void *, void *, void *, f32))calc_shock_chance)(this, att, this, dmg) != 0) {
+            calc_shock_chance(this, att, this, dmg) != 0) {
             apply_shock_status();
         }
         if (test_actor_flags(0x02000000) == 0) {
@@ -3454,7 +3454,7 @@ void TObjChara::clear_velocity() {
     velocity.x = 0.0f;
 }
 
-s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target) {
+s32 calc_shock_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 power) {
     f32 chance;
 
     if ((attacker->get_entity_id() >= 0x1000U) && (target->get_entity_id() < 0x1000U)) {
@@ -3467,10 +3467,10 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *targe
     } else {
         chance = (0.06666667f);
     }
-    return ((TObjChara *)actor)->random_ratio() < chance;
+    return actor->random_ratio() < chance;
 }
 
-s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target, f32 base_chance) {
+s32 calc_freeze_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 base_chance) {
     f32 chance;
 
     chance = base_chance;
@@ -3484,7 +3484,7 @@ s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *targ
     } else if ((0.4f) < chance) {
         chance = (0.4f);
     }
-    return ((TObjChara *)actor)->random_ratio() < chance;
+    return actor->random_ratio() < chance;
 }
 
 void TObjChara::spawn_poison_effect(s32 play_sound) {

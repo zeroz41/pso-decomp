@@ -505,14 +505,12 @@ void TObjEneDD::calc_wall_clamped_destination(Vec *out, f32 dx, f32 dz, f32 dist
     } else {
         Vec *p;
         f32 ddx;
-        f32 px;
         f32 ddz;
         this->wall_probe_failures++;
         p = &n->contact->point;
-        px = p->x;
+        ddx = p->x - this->position.x;
         ddz = p->z - this->position.z;
-        ddx = px - this->position.x;
-        dist = ((f32 (*)(f32, f32, f32))newton_sqrtf)(ddx * ddx + ddz * ddz, px, ddz) - this->wall_reach;
+        dist = newton_sqrtf(ddx * ddx + ddz * ddz) - this->wall_reach;
     }
     out->x = dx * dist + this->position.x;
     out->y = this->position.y;

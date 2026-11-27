@@ -246,7 +246,7 @@ extern "C" {
 // TCameraCtrl::get_nth_view_player_id, whose u16 return this caller does not see: it extends the id at every use.
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
-s32 is_in_hunter_guild(s32 client_id) {
+int is_in_hunter_guild(int client_id) {
     s32 kind;
     s32 player;
     if (get_main_phase() == 14) {

@@ -364,9 +364,6 @@ struct TObjPlayer : public TObjChara {
     void set_attribute_entry(s32 i, WeaponAttribute *attribute);
     WeaponAttribute *get_attribute_entry(s32 i);
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
-    // Thunder and ice resistance (element_resist 1 and 2), named as in the item help window.
-    s16 get_eth();
-    s16 get_eic();
     s32 get_floor();
     s32 is_on_current_floor();
     s32 get_area();

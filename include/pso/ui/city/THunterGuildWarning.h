@@ -34,7 +34,7 @@ void clear_guild_warning_on_guild_exit(void);
 void clear_guild_warning_on_quest_exit(void);
 
 s32 get_guild_quest_list_stage(void);
-s32 is_in_hunter_guild(s32 client_id);
+int is_in_hunter_guild(int client_id);
 
 void *create_lobby_object_05(TObjPlayer *player);
 void *handle_main_phase(TObjPlayer *player);

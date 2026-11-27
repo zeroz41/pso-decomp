@@ -41,9 +41,8 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
     {"ITEM STORE", TShopItemTecSequence::init_slot_table, TShopItemTecSequence::release_slot_table,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
-    // is_in_hunter_guild still carries a recovered s32 prototype; the table proves int(int).
     {"HUNTER GUILD", update_guild_or_quest_phase, update_hunter_guild_phase,
-     handle_main_phase, (int (*)(int))is_in_hunter_guild},
+     handle_main_phase, is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},
     {"JUDGMENT", TJudgmentSequence::init_slot_flags, TJudgmentSequence::release_slot_flags,
@@ -57,18 +56,16 @@ s32 TShopGenerator::slot_active_table[4];
 extern "C" {
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-// run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
-bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *player, f32 range);
 }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
+BOOL TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
     f32 to_self[3];
     if (xyz_distance_squared(&player->position, &position) > (range * range)) {
-        return 0;
+        return FALSE;
     }
     f32 facing[3] = {0.0f, 0.0f, -1.0f};
     push_matrix_from(&identity_matrix);
@@ -79,7 +76,7 @@ bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
     to_self[1] = this->position.y - player->position.y;
     to_self[2] = this->position.z - player->position.z;
     normalize_vector((Vec *)to_self);
-    return (vec3_dot(facing, to_self) > -0.5f) == 0;
+    return (vec3_dot(facing, to_self) > -0.5f) == 0 ? TRUE : FALSE;
 }
 #pragma pop
 
@@ -118,7 +115,7 @@ void TShopGenerator::run_task() {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p == 0) continue;
-            if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
+            if (is_player_in_service_range(p, 20.0f) == 0) continue;
             if (is_slot_active(p->get_entity_id()) == 1) continue;
             if (TMedicalCenterMes::get_slot_flag(p->get_entity_id()) == 1) continue;
             if (p->is_action_input_disabled() == 1) continue;
@@ -140,7 +137,7 @@ void TShopGenerator::run_task() {
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
-        if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
+        if (is_player_in_service_range(q, 20.0f) == 0) return;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[q->get_controller_port()], 4) == 0) return;
         service->create(q);
     }

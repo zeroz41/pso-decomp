@@ -4747,7 +4747,7 @@ force_active:
   - calc_follow_goal__10TNpcPlayerFv
   - calc_follow_position__11TCameraCtrlFv
   - calc_forward_point__12TBoss1DragonFPfPf
-  - calc_freeze_chance__FP10TObjPlayerP10TObjPlayerP10TObjPlayerf
+  - calc_freeze_chance__FP9TObjCharaP8TObjBaseP8TObjBasef
   - calc_grid_index__11TBoss4Type3Fv
   - calc_grid_target_position__11TBoss4Type2Fv
   - calc_gvm_entry_stride__FUs
@@ -4782,7 +4782,7 @@ force_active:
   - calc_rotated_vector__16TObjEneBm5GibonUFlP3VecPl
   - calc_scale__18TWindowEffectLightFv
   - calc_segment_uvs__25TBoss5GryphonLightningEffFPv
-  - calc_shock_chance__FP10TObjPlayerP10TObjPlayerP10TObjPlayer
+  - calc_shock_chance__FP9TObjCharaP8TObjBaseP8TObjBasef
   - calc_slot_offset_position__18TObjEneBalClawBodyFlP3VecPl
   - calc_font_scale__14TFontSmallTaskFv
   - calc_small_tp__14TItemToolFluidFv

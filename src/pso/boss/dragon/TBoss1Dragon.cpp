@@ -4539,8 +4539,7 @@ void TBoss1Dragon::handle_walk_state(u32 reason) {
         factor = (4.0f);
         this->position.x = dx * factor + this->position.x;
         this->position.z = dz * factor + this->position.z;
-        horizontal_distance_squared(&this->position, home);
-        dx = ((f32 (*)(void))newton_sqrtf)();
+        dx = newton_sqrtf(horizontal_distance_squared(&this->position, home));
         VecCopy(home, &this->position);
         this->fallVelocity = this->fallVelocity + dx;
         return;

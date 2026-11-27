@@ -542,10 +542,10 @@ void TObjEneBm5Wolf::set_anim_state() {
 f32 TObjEneBm5Wolf::calc_circle_offset(Vec *target, Vec *out) {
     f32 dx;
     f32 dz;
-    dz = position.z - target->z;
     dx = position.x - target->x;
+    dz = position.z - target->z;
     f32 distSq = dx * dx + dz * dz;
-    f32 inv = 1.0f / ((f32 (*)(f32, f32))newton_sqrtf)(distSq, position.x);
+    f32 inv = 1.0f / newton_sqrtf(distSq);
     out->x = dx * inv;
     out->y = 0.0f;
     out->z = dz * inv;
