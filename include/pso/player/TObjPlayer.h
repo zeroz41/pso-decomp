@@ -695,7 +695,7 @@ struct TObjPlayer : public TObjChara {
     f32 get_photon_blast_upper_bound();
     f32 get_photon_blast_hold_frame();
     f32 get_attack_recovery_count();
-    static s32 get_current_state_field(s32 cls, s32 lvl);
+    static s32 get_current_state_field(s8 cls, s32 lvl);
     s32 get_class_state_field(s32 lvl);
     player_stats *get_class_stat_entry();
     f32 get_tp_class_factor();
@@ -941,7 +941,7 @@ struct TObjPlayer : public TObjChara {
     static void spawn_fire_explosion_at_item(s32 id, ActorBodyHit *hit, Vec *velocity);
     static void spawn_fire_explosion(TItemWeapon *weapon, const Vec *position);
     void push_model_fade_color();
-    static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);
+    static bool is_slot_within_limit(s8 cls, s16 tech, u8 level);
     s32 can_use_camera_field();
     void init_parts();
     u16 get_action_palette_entry(s32 index);

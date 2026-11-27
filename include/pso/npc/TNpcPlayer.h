@@ -219,7 +219,7 @@ struct TNpcPlayer : public TObject {
     static TPlyCharData *build_npc_player_record(s32 index);
     static void ensure_rock_singleton();
     void init_equipment();
-    static s32 send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
+    static s32 send_command(s8 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
     void update_combat_action();
     void request_technique_cast(s32 kind);
     s32 select_recovery_action(s32 check_leader);

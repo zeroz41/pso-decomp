@@ -29,8 +29,7 @@
 
 
 extern "C" {
-s32 clamp_class_index(s32);
-s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
+s8 clamp_class_index(s8 cls);
 }
 // The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
 PlayerLevelTableRow ***ply_level_table;
@@ -96,9 +95,9 @@ u8 *TObjPlayer::get_hospital_position() {
     return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (this->get_entity_id() * 0xC);
 }
 
-const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
+const TPlyInventoryItem *get_class_starting_inventory(s8 cls) {
     clamp_class_index(cls);
-    return class_starting_inventory_table[(s8)cls];
+    return class_starting_inventory_table[cls];
 }
 
 const PlayerCastMotionRecord *TObjPlayer::get_cast_motion_record() {
@@ -267,19 +266,19 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
 };
 
 s32 get_class_max_exp(TObjPlayer *player) {
-    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(player), TObjPlayer::get_max_level());
+    return TObjPlayer::get_current_state_field(player->get_class_index(), TObjPlayer::get_max_level());
 }
 
-s32 TObjPlayer::get_current_state_field(s32 cls, s32 lvl) {
+s32 TObjPlayer::get_current_state_field(s8 cls, s32 lvl) {
     return get_ply_level_table_row(cls, lvl)->experience;
 }
 
 s32 TObjPlayer::get_class_state_field(s32 lvl) {
-    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), lvl); }
+    return TObjPlayer::get_current_state_field(get_class_index(), lvl); }
 
-PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
+PlayerLevelTableRow *get_ply_level_table_row(s8 cls, s32 level) {
     PlayerLevelTableRow **table = *ply_level_table;
-    return &table[(s8)clamp_class_index(cls)][TObjPlayer::clamp_index_to_max(level)];
+    return &table[clamp_class_index(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
 void free_ply_level_tbl() { TLobby::free_nodes_with_id(ply_level_table); }
@@ -295,12 +294,12 @@ ActorParamBlock *get_class_defense_template(TObjPlayer *player) {
     return &((ActorParamBlock *)class_defense_template_table)[static_cast<s8>(player->get_class_index())];
 }
 
-stats *get_class_base_stats(s32 cls) {
-    return player_class_base_stat_tables[(s8)clamp_class_index(cls)];
+stats *get_class_base_stats(s8 cls) {
+    return player_class_base_stat_tables[clamp_class_index(cls)];
 }
 
-const player_stats *get_class_stat_caps(s32 cls) {
-    return &player_class_stat_caps[(s8)clamp_class_index(cls)];
+const player_stats *get_class_stat_caps(s8 cls) {
+    return &player_class_stat_caps[clamp_class_index(cls)];
 }
 
 player_stats *TObjPlayer::get_class_stat_entry() {
