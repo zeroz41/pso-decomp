@@ -29,7 +29,7 @@ void TWindowChoiceSetting::update_scroll_tween() {
     uaddr steps;
 
     if (this->choice_flags & 1) {
-        steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_field_74()));
+        steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_index()));
         target = *(f32 *)(steps + 0xC);
     } else {
         target = 0.0f;
@@ -59,7 +59,7 @@ void TWindowChoiceSetting::shrink_to_selected_entry() {
     flags = choice_flags;
     if (!(flags & 1)) {
         choice_flags = (u16)(flags | 1);
-        entry = (WindowTextEntry *)get_array_entry(get_field_74());
+        entry = (WindowTextEntry *)get_array_entry(get_index());
         target_size[1] = 20.0f + entry->height;
         if (window_flags & 0x40) {
             target_size[1] += 6.0f;
@@ -150,7 +150,7 @@ TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenu
     choice_flags = 0;
 }
 
-s16 TWindowChoiceSetting::get_field_74() { return this->index; }
+s16 TWindowChoiceSetting::get_index() { return this->index; }
 
 int TWindowMenuInfomation::is_open() { return (this->state_flags >> 1) & 0x1; }
 

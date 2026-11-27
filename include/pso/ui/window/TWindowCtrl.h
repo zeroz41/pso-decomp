@@ -136,7 +136,7 @@ struct TWindowCtrl : public TObject {
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
-    static TWindowMessageLog *get_field44();
+    static TWindowMessageLog *get_message_log();
     static void set_flag_active();
     static void clear_flag_8();
     static void set_flag_bit0();

@@ -2002,7 +2002,7 @@ TWindowDD_WS_Word *TWindowDD::init_last_child() {
     if (level > 0) {
         child = word_windows[level - 1];
         if (child != NULL) {
-            child->init_and_mark_field8C();
+            child->init_and_mark_text_refresh();
             child->set_pos_and_data(word_page_x);
             child->target_size[0] = word_page_width;
         }

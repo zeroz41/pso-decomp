@@ -181,7 +181,7 @@ void TWindowDD_WS_Word::free_child() {
     visible_entry_count = 0;
 }
 
-void TWindowDD_WS_Word::init_and_mark_field8C() {
+void TWindowDD_WS_Word::init_and_mark_text_refresh() {
     init_layout_entries();
     load_element_list();
     needs_text_refresh = 1;

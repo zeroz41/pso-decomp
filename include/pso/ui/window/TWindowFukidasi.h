@@ -34,7 +34,7 @@ public:
     virtual void render();
     void clear_flag();
     u16 get_speaker_id();
-    s16 get_field_20();
+    s16 get_client_index();
     int get_flag_bit1();
     s8 alloc_nearest_free_slot();
     int is_balloon_visible();

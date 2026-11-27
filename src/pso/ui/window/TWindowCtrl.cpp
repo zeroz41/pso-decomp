@@ -84,7 +84,7 @@ LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, com_card_window) == 0
 
 s32 TWindowSimpleStatus::get_width() { return this->client_index; }
 
-s16 TWindowFukidasi::get_field_20() { return this->client_index; }
+s16 TWindowFukidasi::get_client_index() { return this->client_index; }
 
 s32 TWindowCtrlPlayer::is_suppressed() { return this->flags & 0x1; }
 
@@ -730,7 +730,7 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     cy = (0.5f * frame_size[1]) + frame_position[1];
     do {
         if (!(TWindowCtrl::instance->flags & mask)) {
-            m = TWindowCtrl::get_message_by_type((s8)i, get_field_20());
+            m = TWindowCtrl::get_message_by_type((s8)i, get_client_index());
             if (m != NULL) {
                 dx = cx - m->x;
                 dy = cy - m->y;

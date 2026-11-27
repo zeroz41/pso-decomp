@@ -255,7 +255,7 @@ void post_chat_log_message(u16 id, const char *text) {
     text = get_shared_text_buffer();
     chat_log_add_line(text);
     {
-        TWindowMessageLog *log = TWindowCtrl::get_field44();
+        TWindowMessageLog *log = TWindowCtrl::get_message_log();
         if (log != NULL) {
             log->append_line(text);
         }
@@ -339,7 +339,7 @@ void init_chat_log_heap(void) {
     }
 }
 
-TWindowMessageLog *TWindowCtrl::get_field44() {
+TWindowMessageLog *TWindowCtrl::get_message_log() {
     if (instance == NULL) {
         return 0;
     }
