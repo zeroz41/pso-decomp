@@ -38,7 +38,7 @@ struct LobbyOverlayVertices {
 };
 
 s32 lobby_request_flags;
-int info_icon_texture;
+NJS_TEXLIST *info_icon_texture;
 s32 lobby_pulse_color_phase;
 
 NJS_TEXNAME loading_texture_names[3] = {
@@ -172,8 +172,8 @@ void draw_loading_overlay(void) {
     setup_projected_color_draw(1);
     draw_projected_quads(overlay->title, 4);
     end_projected_color_draw();
-    if ((u32)info_icon_texture != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
+    if (info_icon_texture != 0) {
+        set_texture_list(info_icon_texture);
         if (lobby_request_flags & 4) {
             set_texture_num(1);
         } else {
@@ -230,4 +230,4 @@ void update_pulse_colors(s32 request) {
 
 void free_info_icon_texture(void) { TObjPlayer::free_if_valid(info_icon_texture); }
 
-void load_info_icon(void) { info_icon_texture = (saddr)LoadPvmFileTls("InfoIcon.gvm"); }
+void load_info_icon(void) { info_icon_texture = LoadPvmFileTls("InfoIcon.gvm"); }

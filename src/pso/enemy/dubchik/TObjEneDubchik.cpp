@@ -350,7 +350,7 @@ void TObjEneDubchik::free_resources() {
     }
     dubchik_texlist = NULL;
     if (dubchik_variant_texlist != NULL) {
-        TObjPlayer::free_if_valid((saddr)dubchik_variant_texlist);
+        TObjPlayer::free_if_valid(dubchik_variant_texlist);
         dubchik_variant_texlist = NULL;
     }
     reset_effect_count();

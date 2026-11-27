@@ -85,7 +85,7 @@ void TObjDoor::load_resources() {
 }
 
 void TObjDoor::free_resources() {
-    TObjPlayer::free_if_valid((saddr)resource_param);
+    TObjPlayer::free_if_valid(resource_param);
     resource_param = NULL;
     if (door_resource_handle != NULL) {
         delete door_resource_handle;

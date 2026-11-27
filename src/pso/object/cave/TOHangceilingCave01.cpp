@@ -134,8 +134,8 @@ void load_turiten_singo_resources(void) {
 
 void TOHangceilingCave01::destroy_instance() {
     if (turiten_singo_texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)turiten_singo_texture_lists[1]);
-        TObjPlayer::free_if_valid((saddr)turiten_singo_texture_lists[0]);
+        TObjPlayer::free_if_valid(turiten_singo_texture_lists[1]);
+        TObjPlayer::free_if_valid(turiten_singo_texture_lists[0]);
         if (turiten_singo_texture_lists != NULL) {
             mem_free(turiten_singo_texture_lists);
             turiten_singo_texture_lists = NULL;

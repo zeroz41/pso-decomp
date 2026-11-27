@@ -215,7 +215,7 @@ void *TOKeyCave01::create(void *set_data) {
 
 void TOKeyCave01::free_objects() {
     if (key_cave01_texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)key_cave01_texture_lists[0]);
+        TObjPlayer::free_if_valid(key_cave01_texture_lists[0]);
         if (key_cave01_texture_lists != NULL) {
             mem_free(key_cave01_texture_lists);
             key_cave01_texture_lists = NULL;

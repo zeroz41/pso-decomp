@@ -69,7 +69,7 @@ void *TOKeyAncient01::create(void *set_data) {
 void TOKeyAncient01::free_shared_resources() {
     if (key_ancient01_texture_lists != NULL) {
         for (s32 i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid((saddr)key_ancient01_texture_lists[i]);
+            TObjPlayer::free_if_valid(key_ancient01_texture_lists[i]);
         }
         if (key_ancient01_texture_lists != NULL) {
             mem_free(key_ancient01_texture_lists);

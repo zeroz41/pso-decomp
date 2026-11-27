@@ -86,7 +86,7 @@ void TODoorAncient08::load_resources() {
 
 void TODoorAncient08::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)texture_lists[1]);
+        TObjPlayer::free_if_valid(texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

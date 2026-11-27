@@ -216,7 +216,7 @@ void *TODoorMachine01::create(void *set_data) {
 
 void TODoorMachine01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
+        TObjPlayer::free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

@@ -5,6 +5,7 @@
 #include "dolphin/mtx/GeoTypes.h"
 
 struct NJS_OBJECT;
+struct NJS_TEXLIST;
 struct PhotonBlastRequest;
 struct PhotonBlastRequestSlot;
 struct PhotonBlastRegistry;
@@ -728,7 +729,7 @@ struct TObjPlayer : public TObjChara {
     static s32 validate_and_clear_slot(void *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_slot(u8 slot);
-    static void free_if_valid(saddr texlist);
+    static void free_if_valid(NJS_TEXLIST *texlist);
     static void play_effect_if_v2(s32 pitch);
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);

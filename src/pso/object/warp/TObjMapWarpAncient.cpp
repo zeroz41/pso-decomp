@@ -67,7 +67,7 @@ void TObjGoalWarpAncient::load_resources() {
 }
 
 void TObjMapWarpAncient::free_globals() {
-    TObjPlayer::free_if_valid((saddr)goal_warp_ancient_gvm_texture);
+    TObjPlayer::free_if_valid(goal_warp_ancient_gvm_texture);
     goal_warp_ancient_gvm_texture = NULL;
     if (ancient_warp_shared_resource != NULL) {
         delete ancient_warp_shared_resource;

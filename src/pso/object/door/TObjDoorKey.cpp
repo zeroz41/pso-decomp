@@ -250,7 +250,7 @@ void TObjDoorKey::free_key() {
         delete door_key_resource_handle;
         door_key_resource_handle = NULL;
     }
-    TObjPlayer::free_if_valid((saddr)door_key_texture_handle);
+    TObjPlayer::free_if_valid(door_key_texture_handle);
     door_key_texture_handle = NULL;
     beam_uv_scroll_last_tick = 0;
 }
