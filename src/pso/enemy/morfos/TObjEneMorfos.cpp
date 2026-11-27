@@ -76,10 +76,6 @@ static const s32 morfos_boss_ids[1] = { 0x40 };
 static const s32 morfos_object_ids[1] = { 0x40 };
 static const s32 morfos_handler_a_ids[1] = { 0x40 };
 
-extern "C" {
-// check_value_in_range called on int arguments: the u16 prototype adds a clrlwi per argument at both calls.
-s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
-}
 
 
 
@@ -886,7 +882,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
                         enemy_copy_target_destination();
                         update_velocity();
                         target_angle = (u16)((s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)) + 0x8000);
-                        if (check_value_in_range__13TObjEneMorfosFPvUsUsUs(this, old, rotation.y, target_angle) != 0) {
+                        if (check_value_in_range(old, rotation.y, target_angle) != 0) {
                             rotation.y = target_angle;
                             step = 2;
                             requested_action = 2;
@@ -895,7 +891,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
                     }
                 }
             }
-            if (step == 1 && check_value_in_range__13TObjEneMorfosFPvUsUsUs(this, old, rotation.y, burst_start_angle) != 0) {
+            if (step == 1 && check_value_in_range(old, rotation.y, burst_start_angle) != 0) {
                 step = 2;
                 requested_action = 2;
             }
@@ -1279,16 +1275,16 @@ s32 TObjEneMorfos::get_rotation_y() { return rotation.y; }
 
 Vec *TObjEneMorfos::get_arm_point() { return &node_points[1]; }
 
-u8 TObjEneMorfos::check_value_in_range(void *, u16 start, u16 end, u16 value) {
-    s32 r;
+s32 TObjEneMorfos::check_value_in_range(s32 start, s32 end, s32 value) {
+    u8 r;
     s32 d;
     s32 c;
     s32 b;
     s32 a;
-    a = start;
-    b = end;
+    a = start & 0xFFFF;
+    b = end & 0xFFFF;
     if (a > b) {
-        c = value;
+        c = value & 0xFFFF;
         r = 0;
         d = a - c;
         if ((d >= 0 && b - c >= 0) || (d <= 0 && b - c <= 0)) {
@@ -1296,10 +1292,10 @@ u8 TObjEneMorfos::check_value_in_range(void *, u16 start, u16 end, u16 value) {
         }
         return r;
     } else {
-        s32 r2;
+        u8 r2;
         s32 d2;
         s32 c2;
-        c2 = value;
+        c2 = value & 0xFFFF;
         r2 = 0;
         d2 = a - c2;
         if ((d2 <= 0 && b - c2 >= 0) || (d2 >= 0 && b - c2 <= 0)) {

@@ -86,7 +86,8 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     Vec *get_arm_point();         // node_points[1]: where TObjEneMorfosArm sits
     s32 get_rotation_y();
     void update_ground_probe();
-    static u8 check_value_in_range(void *, u16 start, u16 end, u16 value);
+    // Whether value lies on the arc from start up to end, wrapping past 0xFFFF; angles are taken as 16 bits.
+    s32 check_value_in_range(s32 start, s32 end, s32 value);
     s32 step;                 // state work variables
     s32 counter;
     s32 step_timer;
