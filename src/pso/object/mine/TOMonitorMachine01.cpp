@@ -148,8 +148,8 @@ void TOMonitorMachine01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, NULL);
     monitor_machine01_bml_resource = resource;
     screen = ((NJS_OBJECT *)resource->models[0].model)->child->sibling->sibling;
-    monitor_machine01_scroll_meshes[1] = static_cast<GinjaModel *>(screen->model);
-    monitor_machine01_scroll_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
+    monitor_machine01_scroll_meshes[1] = screen->ginja_model;
+    monitor_machine01_scroll_meshes[0] = screen->sibling->sibling->ginja_model;
     monitor_machine01_last_update_tick = 0;
 }
 

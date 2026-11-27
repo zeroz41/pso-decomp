@@ -3671,9 +3671,9 @@ void TBoss7DeRolLeC::restore_joint_polygons() {
     model = get_archive_model(0);
     for (i = 0; i != 10; i++) {
         node = find_model_node(model, boss7_derolle_c_joint_node_ids[i]);
-        ((NJS_CNK_MODEL *)node->model)->polygon_list = joint_polygons[i];
+        node->chunk_model->polygon_list = joint_polygons[i];
         node = find_model_node(model, boss7_derolle_c_shell_node_ids[i]);
-        ((NJS_CNK_MODEL *)node->model)->polygon_list = shell_polygons[i];
+        node->chunk_model->polygon_list = shell_polygons[i];
     }
 }
 
@@ -3682,11 +3682,11 @@ void TBoss7DeRolLeC::hide_joint_polygons(s32 joint) {
     if (joint >= 0 && joint < 10) {
         node = find_model_node(get_archive_model(0), boss7_derolle_c_joint_node_ids[joint]);
         if (node != NULL) {
-            ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
+            node->chunk_model->polygon_list = NULL;
         }
         node = find_model_node(get_archive_model(0), boss7_derolle_c_shell_node_ids[joint]);
         if (node != NULL) {
-            ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
+            node->chunk_model->polygon_list = NULL;
         }
     }
 }
@@ -3696,8 +3696,8 @@ void TBoss7DeRolLeC::save_joint_polygons() {
     s32 i;
     model = get_archive_model(0);
     for (i = 0; i != 10; i++) {
-        joint_polygons[i] = ((NJS_CNK_MODEL *)find_model_node(model, boss7_derolle_c_joint_node_ids[i])->model)->polygon_list;
-        shell_polygons[i] = ((NJS_CNK_MODEL *)find_model_node(model, boss7_derolle_c_shell_node_ids[i])->model)->polygon_list;
+        joint_polygons[i] = find_model_node(model, boss7_derolle_c_joint_node_ids[i])->chunk_model->polygon_list;
+        shell_polygons[i] = find_model_node(model, boss7_derolle_c_shell_node_ids[i])->chunk_model->polygon_list;
     }
 }
 #pragma push

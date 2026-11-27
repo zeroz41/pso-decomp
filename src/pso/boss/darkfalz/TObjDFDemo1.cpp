@@ -215,7 +215,7 @@ void TObjDFDemo1::draw_zanzo_parts() {
     if (timer < 0x88) {
         alpha = (timer - 0x7C) / 12.0f;
     }
-    col = ((NJS_CNK_MODEL *)find_model_node(zanzo_parts[1].model, 0x6A)->model)->polygon_list;
+    col = find_model_node(zanzo_parts[1].model, 0x6A)->chunk_model->polygon_list;
     f = 0.0f;
     if (timer >= 0xF0) {
         f = 1.0f;
@@ -231,7 +231,7 @@ void TObjDFDemo1::draw_zanzo_parts() {
     }
     for (i = 0; i < 3; i++) {
         e = &df_demo1_node_colors[i];
-        col = ((NJS_CNK_MODEL *)find_model_node(zanzo_parts[e->part].model, e->node)->model)->polygon_list;
+        col = find_model_node(zanzo_parts[e->part].model, e->node)->chunk_model->polygon_list;
         s32 old = col[e->slot];
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);
     }

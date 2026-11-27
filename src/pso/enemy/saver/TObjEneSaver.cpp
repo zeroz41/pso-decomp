@@ -699,7 +699,7 @@ void initialize_saver_resources(void) {
     r = new BmlResource(1, &bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
     saver_bml_resource = r;
     NJS_OBJECT *scroll_node = r->models[0].model->child->sibling;
-    saver_scroll_polygons = static_cast<NJS_CNK_MODEL *>(scroll_node->model)->polygon_list;
+    saver_scroll_polygons = scroll_node->chunk_model->polygon_list;
     saver_scroll_tick = 0;
     saver_render_node_index = 0;
     saver_render_rotation_x = 0;

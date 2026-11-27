@@ -233,7 +233,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8: {
-            s16 *strip = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
+            s16 *strip = model->child->sibling->chunk_model->polygon_list;
             saved = strip[3];
             strip[3] = (u8)strip[3];
             break;
@@ -282,7 +282,7 @@ void TObjEneDimedian::render() {
         case 0:
         case 1:
         case 8:
-            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
+            model->child->sibling->chunk_model->polygon_list[3] = saved;
             break;
         }
     }
@@ -416,9 +416,9 @@ void TObjEneDimedian::load_resources() {
         dimedian_resource_ptr = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
     }
     models = dimedian_resource_ptr->models;
-    dimedian_resource_handles[0] = (saddr)((NJS_CNK_MODEL *)models[0].model->child->sibling->sibling->model)->polygon_list;
-    dimedian_resource_handles[1] = (saddr)((NJS_CNK_MODEL *)models[1].model->child->sibling->sibling->model)->polygon_list;
-    dimedian_resource_handles[2] = (saddr)((NJS_CNK_MODEL *)models[2].model->child->sibling->sibling->model)->polygon_list;
+    dimedian_resource_handles[0] = (saddr)models[0].model->child->sibling->sibling->chunk_model->polygon_list;
+    dimedian_resource_handles[1] = (saddr)models[1].model->child->sibling->sibling->chunk_model->polygon_list;
+    dimedian_resource_handles[2] = (saddr)models[2].model->child->sibling->sibling->chunk_model->polygon_list;
     dimedian_last_draw_tick[0] = 0;
     dimedian_last_draw_tick[1] = 0;
     dimedian_last_draw_tick[2] = 0;

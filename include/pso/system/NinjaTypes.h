@@ -154,11 +154,17 @@ struct NJS_CNK_MODEL {
     f32 r;  // bounding radius around center
 };
 
+struct GinjaModel;
+
 // Ninja model hierarchy node.
 typedef struct NJS_OBJECT NJS_OBJECT;
 struct NJS_OBJECT {
     u32 evalflags;
-    void *model;
+    union {
+        void *model;
+        NJS_CNK_MODEL *chunk_model;
+        struct GinjaModel *ginja_model;
+    };
     f32 pos[3];
     union {
         s32 ang[3];

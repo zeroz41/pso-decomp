@@ -8,7 +8,7 @@ void visit_matching_models(UvScrollBuffer *buffer, NJS_OBJECT *node, s32 texture
     do {
         id = texture_id;
         if (node->model != NULL) {
-            collect_scroll_uv_entries(buffer, static_cast<GinjaModel *>(node->model), id);
+            collect_scroll_uv_entries(buffer, node->ginja_model, id);
         }
         if (node->child != NULL) {
             visit_matching_models(buffer, node->child, id);

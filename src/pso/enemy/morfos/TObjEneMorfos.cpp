@@ -149,8 +149,8 @@ void TObjEneMorfos::load_static_data() {
     morfos_zero_vector[2] = 0.0f;
     morfos_phase = 0;
     morfos_camera_path_cursor = NULL;
-    morfos_body_scroll_polygons = ((NJS_CNK_MODEL *)mgr->models[1].model->child->model)->polygon_list;
-    morfos_wall_scroll_polygons = ((NJS_CNK_MODEL *)mgr->models[2].model->model)->polygon_list;
+    morfos_body_scroll_polygons = mgr->models[1].model->child->chunk_model->polygon_list;
+    morfos_wall_scroll_polygons = mgr->models[2].model->chunk_model->polygon_list;
     morfos_body_scroll_tick = 0;
     morfos_wall_scroll_tick = 0;
     for (i = 0; i < 1; i++) {

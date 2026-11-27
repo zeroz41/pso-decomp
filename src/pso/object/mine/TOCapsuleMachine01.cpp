@@ -68,7 +68,7 @@ void TOCapsuleMachine01::alloc_and_load_resource() {
     NJS_OBJECT *root;
     capsule_machine01_model_resource = resource;
     root = (NJS_OBJECT *)resource->models[0].model;
-    capsule_machine_ginja_mesh_handle = static_cast<GinjaModel *>(root->child->sibling->child->sibling->model);
+    capsule_machine_ginja_mesh_handle = root->child->sibling->child->sibling->ginja_model;
     capsule_machine01_last_update_frame_tick = 0;
 }
 

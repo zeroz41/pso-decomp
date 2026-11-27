@@ -167,7 +167,7 @@ void TObjEneDellBiter::load_resources() {
     {
         BmlResource *resource = dell_biter_shared_model_resource;
         NJS_OBJECT *object = resource->models->model;
-        dell_biter_scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
+        dell_biter_scrolling_uv_polygon_list = (saddr)object->child->chunk_model->polygon_list;
         dell_biter_last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { resource->motions, dell_biter_param_table, 0, 1, 10 };
         TObjNpcEnemy::register_animated_chunk((s16)0x46, resource->models->model, resource->models->texlist,

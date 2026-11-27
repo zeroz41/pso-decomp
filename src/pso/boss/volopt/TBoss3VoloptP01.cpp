@@ -178,7 +178,7 @@ void TBoss3VoloptP01::init_breakup_effect() {
     volopt_p01_shared_handler_b = dispatch_shared_handler_b(0x22);
     volopt_p01_object_handle = register_object(0x22);
     volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)dispatch_shared_handler_a(0x22);
-    volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(volopt_p01_chunk_list->model)->polygon_list);
+    volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(volopt_p01_chunk_list->chunk_model->polygon_list);
 }
 
 void TBoss3VoloptP01::destroy() {

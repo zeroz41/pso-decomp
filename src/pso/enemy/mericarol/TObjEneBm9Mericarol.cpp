@@ -1225,7 +1225,7 @@ void TObjEneBm9Mericarol::render() {
     mericarol_node_counter = 0;
     toggle_particle_effect();
     if (!(flags & 0x10)) {
-        plist = ((NJS_CNK_MODEL *)model->child->sibling->sibling->sibling->model)->polygon_list;
+        plist = model->child->sibling->sibling->sibling->chunk_model->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
         set_chunk_model_node_callback(TObjEneBm9Mericarol::update_particle_effect);
@@ -1255,7 +1255,7 @@ void TObjEneBm9Mericarol::render() {
     }
     if (!(flags & 0x10)) {
         set_chunk_model_node_callback(NULL);
-        ((NJS_CNK_MODEL *)model->child->sibling->sibling->model)->polygon_list[5] = saved;
+        model->child->sibling->sibling->chunk_model->polygon_list[5] = saved;
     }
     end_effect_render();
     restore_alpha_ref();

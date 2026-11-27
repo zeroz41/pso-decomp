@@ -449,7 +449,7 @@ void TObjTombstone::update_render_flags() {
 
     if (tombstone_shared_resource_object != NULL) {
         if (tombstone_first_run_flag == 0) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(model->child->sibling->model), -8, 0, 0, 1);
+            scroll_ginja_mesh_uvs(model->child->sibling->ginja_model, -8, 0, 0, 1);
             tombstone_first_run_flag = 1;
             PPCSync();
         }

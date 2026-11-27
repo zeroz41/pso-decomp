@@ -212,8 +212,8 @@ void TObjEneRe7Berura::load_static_resources() {
         e->object.child = e->first_object->child;
         e->object.sibling = 0;
     }
-    berura_node_matrix_ptr_a = (s32 *)(((NJS_CNK_MODEL *)find_model_node(m, 2)->model)->polygon_list + 4);
-    berura_node_matrix_ptr_b = ((NJS_CNK_MODEL *)find_model_node(m, 1)->model)->polygon_list + 4;
+    berura_node_matrix_ptr_a = (s32 *)(find_model_node(m, 2)->chunk_model->polygon_list + 4);
+    berura_node_matrix_ptr_b = find_model_node(m, 1)->chunk_model->polygon_list + 4;
     belra_uv_animation_buffer = new StripBufferPair(re7_berura_shared_resource->models->model, 2);
     SampledMotionPoints *sampled = new SampledMotionPoints(4, 14.0f, 17.0f, 0.8f);
     belra_trail_buffer = sampled;

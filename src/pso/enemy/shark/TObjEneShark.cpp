@@ -244,9 +244,9 @@ void TObjEneShark::render() {
       case 8:
       case 9:
       {
-        s16 *p = ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list;
+        s16 *p = model->child->sibling->chunk_model->polygon_list;
         s16 t = p[3];
-        ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = (u8) (p[3]);
+        model->child->sibling->chunk_model->polygon_list[3] = (u8) (p[3]);
         v28 = t;
       }
         break;
@@ -255,13 +255,13 @@ void TObjEneShark::render() {
     {
       s16 a;
       s16 b;
-      s16 *p = ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list;
+      s16 *p = model->child->sibling->sibling->chunk_model->polygon_list;
       a = p[2];
       b = p[3];
       p[2] = -0xB4;
       v26 = a;
       v27 = b;
-      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[3] = -1;
+      model->child->sibling->sibling->chunk_model->polygon_list[3] = -1;
     }
     toggle_particle_effect();
     shark_render_node_index = 0;
@@ -324,8 +324,8 @@ void TObjEneShark::render() {
     end_effect_render();
     if (in_group == 0)
     {
-      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[2] = v26;
-      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[3] = v27;
+      model->child->sibling->sibling->chunk_model->polygon_list[2] = v26;
+      model->child->sibling->sibling->chunk_model->polygon_list[3] = v27;
     }
     switch (this->mode)
     {
@@ -333,7 +333,7 @@ void TObjEneShark::render() {
       case 1:
       case 8:
       case 9:
-        ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = v28;
+        model->child->sibling->chunk_model->polygon_list[3] = v28;
         break;
     }
   }

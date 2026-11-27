@@ -114,7 +114,7 @@ void TObjDoorKey::render() {
 
 void TObjDoorKey::draw_active_beam() {
     if (beam_uv_scroll_last_tick != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(door_key_ginja_model_table[1]->model), 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(door_key_ginja_model_table[1]->ginja_model, 0, 0x14, 0xE, 1);
         PPCSync();
         beam_uv_scroll_last_tick = actor_frame_tick;
     }

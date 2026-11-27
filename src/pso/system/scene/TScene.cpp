@@ -380,7 +380,7 @@ void TScene::tick_material_fmt1() {
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (fabs_float(uv->u) >= 1.0f || fabs_float(uv->v) >= 1.0f) {
-                    GinjaModel *model = static_cast<GinjaModel *>(node->model);
+                    GinjaModel *model = node->ginja_model;
                     scroll_ginja_mesh_uvs(model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
@@ -413,7 +413,7 @@ void TScene::tick_material_fmt1() {
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (uv->u >= 1.0f || uv->v >= 1.0f) {
-                    GinjaModel *model = static_cast<GinjaModel *>(node->model);
+                    GinjaModel *model = node->ginja_model;
                     scroll_ginja_mesh_uvs(model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;

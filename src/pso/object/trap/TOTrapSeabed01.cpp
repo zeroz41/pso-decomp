@@ -266,7 +266,7 @@ void TOTrapSeabed01::render_effect_layers() {
     set_texture_list(trap_seabed01_texture_file);
     if (actor_frame_tick != effect_uv_scroll_last_tick) {
         if (trap_seabed01_ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(trap_seabed01_ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
+            scroll_ginja_mesh_uvs(trap_seabed01_ginja_model->ginja_model, 0, -20, seabed01_ginja_mesh_index, 1);
             PPCSync();
         }
         effect_uv_scroll_last_tick = actor_frame_tick;

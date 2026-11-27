@@ -176,7 +176,7 @@ void TOTrapAncient02::load_resources() {
     case AREA_VR_TEMPLE_BETA:
         resource = new BmlResource(1, &records[1].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_model = find_object_node(get_bml_model(resource, 0), 2)->ginja_model;
         uv_scroll_mesh_index = 2;
         uv_scroll_last_tick = 0;
         break;
@@ -191,14 +191,14 @@ void TOTrapAncient02::load_resources() {
     case AREA_TOWER:
         resource = new BmlResource(1, &records[2].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_model = find_object_node(get_bml_model(resource, 0), 2)->ginja_model;
         uv_scroll_mesh_index = 1;
         uv_scroll_last_tick = 0;
         break;
     default:
         resource = new BmlResource(1, &records[0].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        uv_scroll_model = static_cast<GinjaModel *>(resource->models->model->child->child->model);
+        uv_scroll_model = resource->models->model->child->child->ginja_model;
         uv_scroll_mesh_index = 1;
         uv_scroll_last_tick = 0;
         break;

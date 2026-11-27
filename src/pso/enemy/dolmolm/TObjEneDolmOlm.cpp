@@ -355,7 +355,7 @@ void TObjEneDolmOlm::render() {
         case 8:
         case 9: {
             s16 t;
-            s16 *chunk = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
+            s16 *chunk = model->child->sibling->chunk_model->polygon_list;
             t = chunk[3];
             saved = t;
             chunk[3] = (u8)t;
@@ -393,7 +393,7 @@ void TObjEneDolmOlm::render() {
         case 1:
         case 8:
         case 9:
-            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
+            model->child->sibling->chunk_model->polygon_list[3] = saved;
             break;
         }
     }

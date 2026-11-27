@@ -166,11 +166,11 @@ void TObjEneMe1Canadin::load_resources() {
     canadin_leader_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
     canadin_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
     model = bm_ene_me1_mb_resource->models[1].model;
-    canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
-    canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 2)->model)->polygon_list + 2);
+    canadin_leader_node3_diffuse = (s32 *)(find_model_node(model, 3)->chunk_model->polygon_list + 2);
+    canadin_leader_node2_diffuse = (s32 *)(find_model_node(model, 2)->chunk_model->polygon_list + 2);
     model2 = bm_ene_me1_mb_resource->models[0].model;
-    canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 3)->model)->polygon_list + 2);
-    canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 2)->model)->polygon_list + 2);
+    canadin_node3_diffuse = (s32 *)(find_model_node(model2, 3)->chunk_model->polygon_list + 2);
+    canadin_node2_diffuse = (s32 *)(find_model_node(model2, 2)->chunk_model->polygon_list + 2);
     init_alt_model();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { bm_ene_me1_mb_resource->motions, canadin_action_table, 0, 0, 7 };

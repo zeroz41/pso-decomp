@@ -390,7 +390,7 @@ void write_node_flags(NJS_OBJECT *object) {
     if (!(object->evalflags & NJD_EVAL_UNIT_SCL)) {
         node_flag_cursor->flags |= NODE_HAS_SCL;
     }
-    model = (NJS_CNK_MODEL *)object->model;
+    model = object->chunk_model;
     if (model != NULL) {
         node_flag_cursor->flags |= NODE_HAS_MODEL;
         if (model->vertex_list != NULL) {

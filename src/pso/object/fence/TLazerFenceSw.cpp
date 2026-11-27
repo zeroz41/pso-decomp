@@ -92,7 +92,7 @@ void TLazerFenceSw::draw_laser_beam() {
     set_texture_list(lazer_fence_sw_texture_list);
     if (actor_frame_tick != last_scroll_tick && uv_scroll >= 1.0f) {
         last_scroll_tick = actor_frame_tick;
-        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model), 0, (s32)uv_scroll, 5, 1);
+        scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->ginja_model, 0, (s32)uv_scroll, 5, 1);
         PPCSync();
         uv_scroll = uv_scroll - (f32)(s32)uv_scroll;
     }

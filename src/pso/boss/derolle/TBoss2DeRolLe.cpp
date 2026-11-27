@@ -492,14 +492,14 @@ void TBoss2DeRolLe::load_resources() {
     // The shell segments' material colour words (just past each chunk list's first 8 bytes).
     n = res->models[2].model->child;
     for (i = 0; i < 10; i++) {
-        derolle_segment_joint_node_offsets[i] = (uaddr)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
-        boss2_derolle_segment_color_targets[i] = (u32 *)(((NJS_CNK_MODEL *)n->child->model)->polygon_list + 4);
+        derolle_segment_joint_node_offsets[i] = (uaddr)(n->chunk_model->polygon_list + 4);
+        boss2_derolle_segment_color_targets[i] = (u32 *)(n->child->chunk_model->polygon_list + 4);
         n = n->sibling;
     }
-    boss2_derolle_primary_color_targets[0] = (u32 *)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+    boss2_derolle_primary_color_targets[0] = (u32 *)(n->chunk_model->polygon_list + 4);
     m = n->sibling;
-    boss2_derolle_primary_color_targets[1] = (u32 *)(((NJS_CNK_MODEL *)m->model)->polygon_list + 4);
-    boss2_derolle_primary_color_targets[2] = (u32 *)(((NJS_CNK_MODEL *)m->sibling->model)->polygon_list + 4);
+    boss2_derolle_primary_color_targets[1] = (u32 *)(m->chunk_model->polygon_list + 4);
+    boss2_derolle_primary_color_targets[2] = (u32 *)(m->sibling->chunk_model->polygon_list + 4);
     derolle_breakup_node = find_model_node(res->models[2].model, 0x4D);
     derolle_breakup_node_child = derolle_breakup_node->child;
     for (m2 = 0; m2 < 11; m2++) {

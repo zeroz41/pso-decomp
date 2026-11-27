@@ -201,7 +201,7 @@ void TBoss3VoloptMonitor::load_resources() {
     clear_texlist_names(&volopt_monitor_texture_table);
     psoLoadTexturePvmFile("fe_obj_vo_momitor.gvm", volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
-        volopt_monitor_screen_meshes[i] = static_cast<GinjaModel *>(get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->model);
+        volopt_monitor_screen_meshes[i] = get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->ginja_model;
     }
     volopt_monitor_stats = (BossStats *)register_boss(0x23);
     volopt_monitor_stats_b = dispatch_shared_handler_b(0x23);

@@ -194,19 +194,19 @@ void TObjEneMe3SinowZoa::load_resources() {
     me3_sinow_zoa_body_node_position.y = 0.0f;
     me3_sinow_zoa_body_node_position.z = 0.0f;
     model = me3_sinow_zoa_bml_resource->models->model;
-    chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 9)->model);
+    chunk = find_model_node(model, 9)->chunk_model;
     if (chunk != NULL) {
         me3_sinow_zoa_material_color_pointers[0] = reinterpret_cast<u32 *>(chunk->polygon_list + 2);
     } else {
         me3_sinow_zoa_material_color_pointers[0] = NULL;
     }
-    chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 13)->model);
+    chunk = find_model_node(model, 13)->chunk_model;
     if (chunk != NULL) {
         me3_sinow_zoa_material_color_pointers[1] = reinterpret_cast<u32 *>(chunk->polygon_list + 2);
     } else {
         me3_sinow_zoa_material_color_pointers[1] = NULL;
     }
-    chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 38)->model);
+    chunk = find_model_node(model, 38)->chunk_model;
     if (chunk != NULL) {
         me3_sinow_zoa_material_color_pointers[2] = reinterpret_cast<u32 *>(chunk->polygon_list + 2);
     } else {

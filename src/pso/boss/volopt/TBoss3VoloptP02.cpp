@@ -291,9 +291,9 @@ void TBoss3VoloptP02::load_resources() {
     for (j = 0; j < 5; j++) {
         chain_nodes_b[j] = find_model_node(render_root, chain_node_ids_b[j]);
     }
-    node_44_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_44->model)->polygon_list);
-    node_27_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_27->model)->polygon_list);
-    node_3f_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_3f->model)->polygon_list);
+    node_44_color = reinterpret_cast<u8 *>(model_node_44->chunk_model->polygon_list);
+    node_27_color = reinterpret_cast<u8 *>(model_node_27->chunk_model->polygon_list);
+    node_3f_color = reinterpret_cast<u8 *>(model_node_3f->chunk_model->polygon_list);
     boss_stat_handle = register_boss(0x25);
     shared_handler_b = dispatch_shared_handler_b(0x25);
     object_handle = register_object(0x25);

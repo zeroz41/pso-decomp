@@ -157,7 +157,7 @@ void TObjEneMe1Gee::load_resources() {
     gee_leader_breakup_model = p;
     p = new TBreakUpMdlData(me1_gee_resource_bundle->models->model);
     gee_breakup_model = p;
-    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(me1_gee_resource_bundle->models->model, 4)->model)->polygon_list + 2);
+    gee_node4_diffuse = (s32 *)(find_model_node(me1_gee_resource_bundle->models->model, 4)->chunk_model->polygon_list + 2);
     init_alt_model();
     {
         NpcAnimationBinding params = { NULL, me1_gee_motion_parameters, 0, 0, 4 };

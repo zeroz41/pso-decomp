@@ -160,7 +160,7 @@ void TObjComputer::draw_model() {
         u32 tick = actor_frame_tick;
         if (tick != last_scroll_tick && uv_scroll_time >= 1.0f) {
             last_scroll_tick = tick;
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(screen_model->child->model), 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
+            scroll_ginja_mesh_uvs(screen_model->child->ginja_model, 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
             PPCSync();
             f32 time = uv_scroll_time;
             uv_scroll_time = time - (f32)(s32)time;

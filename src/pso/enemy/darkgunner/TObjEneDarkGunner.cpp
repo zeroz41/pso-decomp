@@ -354,8 +354,8 @@ void load_darkgunner_effect_resources() {
     dark_gunner_shadow_chunk_object = get_bml_model(TObjEneDarkGunner::bml_resource, 0);
     dark_gunner_cly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 0);
     dark_gunner_rcly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
-    dark_gunner_body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
-    dark_gunner_cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
+    dark_gunner_body_child_polygons = get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->chunk_model->polygon_list;
+    dark_gunner_cly_line_polygons = get_bml_model(TObjEneDarkGunner::bml_resource, 0)->chunk_model->polygon_list;
     init_fake_tec_texlist();
     TEneEffHamon::init_fish_effects();
     dark_gunner_effect_resource = LoadPvmFileTls("re5_b_gunner_body_pika.gvm");

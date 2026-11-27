@@ -716,7 +716,7 @@ void TBoss6Type2::run_task() {
     update_camera();
     decay_glow_and_calc_hp_ratio();
     scroll_strips.scroll_strips_uv(8, 0);
-    NJS_CNK_MODEL *scroll_model = static_cast<NJS_CNK_MODEL *>(find_model_node(get_bml_model(archive, 1), 1)->model);
+    NJS_CNK_MODEL *scroll_model = find_model_node(get_bml_model(archive, 1), 1)->chunk_model;
     scroll_chunk_plist_uvs(scroll_model->polygon_list, 8, 0, 0);
     update_head_aim();
     copy_vec_array();

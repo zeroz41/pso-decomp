@@ -43,7 +43,7 @@ void draw_shape_motion_node_tree(NJS_OBJECT *node) {
         push_matrix();
         compose_motion_node_matrix(node);
         if (!(node->evalflags & 0x80)) {
-            model = (NJS_CNK_MODEL *)node->model;
+            model = node->chunk_model;
             if (model != NULL && !(node->evalflags & 8)) {
                 sample_shape_node_vertices(&model->vertex_list, &vertices);
                 saved = model->vertex_list;

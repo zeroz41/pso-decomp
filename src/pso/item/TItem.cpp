@@ -1416,7 +1416,7 @@ void TItem::notify_owner(s32 sound) {
 }
 
 void scroll_item_model_uvs(NJS_OBJECT *object, s32 du, s32 dv, u16 mesh) {
-    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(object->model), du, dv, mesh, 1);
+    scroll_ginja_mesh_uvs(object->ginja_model, du, dv, mesh, 1);
     PPCSync();
 }
 

@@ -73,15 +73,15 @@ void TObjEneEpsilon::load_assets() {
     epsilon_guard_shared_handler_b = dispatch_shared_handler_b(0x24);
     epsilon_guard_registered_object_handle = register_object(0x24);
     epsilon_guard_movement_params = (TObjEneEpsilonGuardParams *)dispatch_shared_handler_a(0x24);
-    epsilon_guard_part_color_table[0] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->model)->polygon_list;
-    epsilon_guard_part_color_table[1] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->model)->polygon_list;
-    epsilon_guard_part_color_table[2] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->child->model)->polygon_list;
-    epsilon_guard_part_color_table[3] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->child->model)->polygon_list;
-    epsilon_guard_part_color_table[4] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->sibling->child->model)->polygon_list;
-    epsilon_guard_part_color_table[5] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 1)->child->model)->polygon_list;
-    epsilon_guard_part_color_table[6] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 2)->child->model)->polygon_list;
-    epsilon_guard_part_color_table[8] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 3)->model)->polygon_list;
-    epsilon_guard_part_color_table[7] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 4)->model)->polygon_list;
+    epsilon_guard_part_color_table[0] = (u8 *)get_bml_model(epsilon_bml_resource, 0)->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[1] = (u8 *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[2] = (u8 *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[3] = (u8 *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[4] = (u8 *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->sibling->sibling->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[5] = (u8 *)get_bml_model(epsilon_bml_resource, 1)->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[6] = (u8 *)get_bml_model(epsilon_bml_resource, 2)->child->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[8] = (u8 *)get_bml_model(epsilon_bml_resource, 3)->chunk_model->polygon_list;
+    epsilon_guard_part_color_table[7] = (u8 *)get_bml_model(epsilon_bml_resource, 4)->chunk_model->polygon_list;
     init_alt_model();
     {
         NpcAnimationBinding binding = { NULL, epsilon_action_table, 0, 0, 1 };

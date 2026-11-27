@@ -222,19 +222,19 @@ void TObjEneMe3Stelth::load_shared_resources() {
     me3_stelth_body_node_position[1] = 0.0f;
     me3_stelth_body_node_position[2] = 0.0f;
     m = me3_stelth_bml_resource->models->model;
-    q = (NJS_CNK_MODEL *)find_model_node(m, 9)->model;
+    q = find_model_node(m, 9)->chunk_model;
     if (q != NULL) {
         me3_stelth_material_color_pointers[0] = (u32 *)(q->polygon_list + 2);
     } else {
         me3_stelth_material_color_pointers[0] = 0;
     }
-    q = (NJS_CNK_MODEL *)find_model_node(m, 0xD)->model;
+    q = find_model_node(m, 0xD)->chunk_model;
     if (q != NULL) {
         me3_stelth_material_color_pointers[1] = (u32 *)(q->polygon_list + 2);
     } else {
         me3_stelth_material_color_pointers[1] = 0;
     }
-    q = (NJS_CNK_MODEL *)find_model_node(m, 0x26)->model;
+    q = find_model_node(m, 0x26)->chunk_model;
     if (q != NULL) {
         me3_stelth_material_color_pointers[2] = (u32 *)(q->polygon_list + 2);
     } else {

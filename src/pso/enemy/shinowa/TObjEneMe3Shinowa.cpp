@@ -189,19 +189,19 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaMirage::body_node_position.y = 0.0f;
     TObjEneMe3ShinowaMirage::body_node_position.z = 0.0f;
     root = TObjEneMe3ShinowaMirage::bml_resource->models->model;
-    cnk = (NJS_CNK_MODEL *)find_model_node(root, 9)->model;
+    cnk = find_model_node(root, 9)->chunk_model;
     if (cnk != NULL) {
         TObjEneMe3ShinowaMirage::material_color_pointers[0] = (s32 *)(cnk->polygon_list + 2);
     } else {
         TObjEneMe3ShinowaMirage::material_color_pointers[0] = NULL;
     }
-    cnk = (NJS_CNK_MODEL *)find_model_node(root, 13)->model;
+    cnk = find_model_node(root, 13)->chunk_model;
     if (cnk != NULL) {
         TObjEneMe3ShinowaMirage::material_color_pointers[1] = (s32 *)(cnk->polygon_list + 2);
     } else {
         TObjEneMe3ShinowaMirage::material_color_pointers[1] = NULL;
     }
-    cnk = (NJS_CNK_MODEL *)find_model_node(root, 38)->model;
+    cnk = find_model_node(root, 38)->chunk_model;
     if (cnk != NULL) {
         TObjEneMe3ShinowaMirage::material_color_pointers[2] = (s32 *)(cnk->polygon_list + 2);
     } else {

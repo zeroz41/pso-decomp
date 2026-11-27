@@ -80,7 +80,7 @@ void TObjTailsTailsMove::find_vertex_list() {
     if (child == NULL) return;
     NJS_OBJECT *tail = child->child;
     if (tail == NULL) return;
-    NJS_CNK_MODEL *model = (NJS_CNK_MODEL *)tail->model;
+    NJS_CNK_MODEL *model = tail->chunk_model;
     if (model == NULL || model->vertex_list == NULL) return;
     m_vertices = (u32 *)model->vertex_list;
     m_state = 1;

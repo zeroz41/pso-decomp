@@ -75,7 +75,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, ObjectSetData *set_data) : T
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->nbFrame - 1.0f;
     view_range = 500.0f;
-    model_radius = ((NJS_CNK_MODEL *)model->model)->r;
+    model_radius = model->chunk_model->r;
     spin_angle = 0;
     spin_speed = (s32)(182.04445f * scale.x);
 }

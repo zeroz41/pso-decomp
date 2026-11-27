@@ -88,10 +88,10 @@ void TOComputerMachine01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_kenkyu_com_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
     screen = ((NJS_OBJECT *)resource->models->model)->child;
-    screen_meshes[3] = static_cast<GinjaModel *>(screen->model);
-    screen_meshes[2] = static_cast<GinjaModel *>(screen->sibling->model);
-    screen_meshes[1] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
-    screen_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->sibling->model);
+    screen_meshes[3] = screen->ginja_model;
+    screen_meshes[2] = screen->sibling->ginja_model;
+    screen_meshes[1] = screen->sibling->sibling->ginja_model;
+    screen_meshes[0] = screen->sibling->sibling->sibling->ginja_model;
     last_scroll_frame = 0;
 }
 
