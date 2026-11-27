@@ -44,12 +44,6 @@ struct LightEntry {
 };
 LAYOUT_ASSERT(LightEntry_size, sizeof(LightEntry) == 0x44);
 
-// A LightEntry as lightentry.bin stores it: copied as raw bytes, since it is
-// still big-endian until bswap_data.
-struct LightEntryBytes {
-    u8 bytes[sizeof(LightEntry)];
-};
-
 // The scene's light as the map's light entry sets it up (init_map_lights).
 struct TObjLightSceneLightState : public LightEntry {
     u8 pad_44[0xC];

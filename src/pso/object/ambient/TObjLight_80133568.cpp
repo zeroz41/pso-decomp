@@ -301,7 +301,7 @@ void init_area_lights(void) {
         if (is_online_ready() != 0) {
             area += 48.0f;
         }
-        *(LightEntryBytes *)&entry = *(LightEntryBytes *)&light_entry_data[area];
+        __memcpy(&entry, &light_entry_data[area], sizeof(entry));
         entry.bswap_data();
         init_map_lights(&entry);
         return;

@@ -659,8 +659,8 @@ void WallPolygon::copy_wall_polygon(const CsnFace *source) {
     *reinterpret_cast<u32 *>(face.vertex) = *reinterpret_cast<const u32 *>(source->vertex);
     face.vertex[2] = source->vertex[2];
     face.flags = source->flags;
-    *reinterpret_cast<VecWords *>(&face.normal) = *reinterpret_cast<const VecWords *>(&source->normal);
-    *reinterpret_cast<VecWords *>(&face.center) = *reinterpret_cast<const VecWords *>(&source->center);
+    __memcpy(&face.normal, &source->normal, sizeof(Vec));
+    __memcpy(&face.center, &source->center, sizeof(Vec));
     face.radius = source->radius;
 }
 #pragma pop

@@ -79,6 +79,4 @@ struct WallPolygon {
     void copy_wall_polygon(const CsnFace *source);
 };
 
-struct VecWords { u32 words[3]; };
-
 #endif
