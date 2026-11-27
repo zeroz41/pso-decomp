@@ -154,7 +154,7 @@ void TBoss3VoloptP01::init_params() {
     register_by_id();
     load_model(17);
     start_rise();
-    ((TBoss3VoloptP01Collision *)bodies)->flags &= ~1;
+    bodies->flags &= ~1;
     charge_effect = NULL;
     glow_effect = NULL;
     add_flags_2e4(4);
@@ -217,7 +217,7 @@ void TBoss3VoloptP01::run_task() {
         VecCopy(&body_center, &position);
         y = body_center.y;
         body_center.y = y + (18.0f + y_offset);
-        ((TBoss3VoloptP01Collision *)bodies)->height = 18.0f + y_offset;
+        bodies->offset.y = 18.0f + y_offset;
         copy_position();
         angle = pulse_angle;
         pulse_angle = angle + 0x400;
@@ -254,7 +254,7 @@ void TBoss3VoloptP01::render() {
             rotate_matrix_y(0, rotation.y);
             flags = behavior_flags;
             if (flags & 0x40000) {
-                draw_chunk_model(((TBoss3VoloptP01Model *)model)->pieces->root);
+                draw_chunk_model(model->child->model);
             } else {
                 if (flags & 0x80000) {
                     volopt_p01_breakup_color_ptr[7] = 255.0f * fabs_float(sin_table_lookup(pulse_angle));
@@ -340,7 +340,7 @@ void TBoss3VoloptP01::update_breakup() {
         set_flags_30();
         actorFlags |= 0x44040000;
         actorFlags &= ~0x20000000;
-        ((TBoss3VoloptP01Collision *)bodies)->flags |= 0x1000;
+        bodies->flags |= 0x1000;
         this->requested_action = 4;
         state = 1;
         timer = 0x5A;
@@ -620,7 +620,7 @@ void TBoss3VoloptP01::update_attack() {
 void TBoss3VoloptP01::start_rise() {
     rise_phase = 0;
     y_offset = -40.0f;
-    ((TBoss3VoloptP01Collision *)bodies)->flags |= 1;
+    bodies->flags |= 1;
 }
 
 s32 TBoss3VoloptP01::update_rise() {
@@ -654,7 +654,7 @@ s32 TBoss3VoloptP01::update_sink() {
     if (y_offset <= -40.0f) {
         y_offset = -40.0f;
         rise_phase = 0;
-        ((TBoss3VoloptP01Collision *)bodies)->flags &= ~1;
+        bodies->flags &= ~1;
         return 1;
     }
     return 0;

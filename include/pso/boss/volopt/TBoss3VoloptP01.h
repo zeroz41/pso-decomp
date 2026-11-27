@@ -11,24 +11,7 @@ class TObjVoloptShutter;
 class TBreakUpMdlData;
 struct TBoss3Volopt;
 
-// Collision record behind TObjCollidable::m_a4.
 class TParticleCtrl;
-struct TBoss3VoloptP01Collision {
-    u8 pad_0[0x4];
-    f32 height;
-    u8 pad_8[0x10];
-    u32 flags;
-};
-
-struct TBoss3VoloptModelNode {
-    u8 pad_0[0x4];
-    void *root;
-};
-
-struct TBoss3VoloptP01Model {
-    u8 pad_0[0x2C];
-    TBoss3VoloptModelNode *pieces;
-};
 
 struct TBoss3VoloptP01Params {
     u8 pad_0[0x18];
