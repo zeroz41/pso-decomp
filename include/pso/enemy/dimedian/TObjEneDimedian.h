@@ -39,6 +39,8 @@ LAYOUT_ASSERT(TObjEneDimedian_size, sizeof(TObjEneDimedian) == 0x43C);
 class TObjBase;
 
 struct SampledMotionPoints;
+struct BmlResource;
+extern BmlResource *dimedian_resource_ptr;                  // the Dimedian BML (TLobby::load_dimedian_resources)
 extern SampledMotionPoints *dimedian_attack_left_trail;  // left attack trail samples
 extern SampledMotionPoints *dimedian_attack_right_trail; // right attack trail samples
 extern saddr dimedian_resource_handles[];

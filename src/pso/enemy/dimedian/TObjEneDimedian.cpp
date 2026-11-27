@@ -374,7 +374,6 @@ player_stats **dimedian_boss_object_buf;
 AttackParams **dimedian_attack_stat_table;
 ActorParamBlock **dimedian_boss_objects;
 f32 **dimedian_buffer_ptr;
-extern BmlResource *dimedian_resource_ptr;
 
 void TObjEneDimedian::free_boss_objects() {
     if (dimedian_boss_object_buf != NULL) {
