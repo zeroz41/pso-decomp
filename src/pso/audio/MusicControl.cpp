@@ -22,6 +22,7 @@
 #include "pso/audio/MusicUnlockFlags.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/AdxManager.h"
+#include "pso/audio/AdxUiBridge.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "dolphin/ar.h"
 #include "dolphin/ai.h"
@@ -44,7 +45,7 @@ u32 ar_stack_index[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
 void *se_stream_buffer;
-void *adx_rna_work_buffer;
+u8 *adx_rna_work_buffer;
 s32 music_active;
 s32 music_state;
 s32 music_fade_slot_index;
@@ -276,12 +277,6 @@ void turn_off_bgm_p2(void) {
     adxt_pause(adxt_players[music_fade_slot_index], 1);
     adxt_pause(adxt_players[2], 1);
     music_state = 2;
-}
-
-
-
-extern "C" {
-void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
 }
 
 // The four .acx streams start_bgm_stream starts by index.
@@ -569,7 +564,7 @@ void init_adx_audio_system(void) {
     bgm_stream_buffers[0] = xmalloc(0x2D1E4);
     bgm_stream_buffers[1] = xmalloc(0x2D1E4);
     se_stream_buffer = xmalloc(0xA924);
-    adx_rna_work_buffer = xmalloc(0xA000);
+    adx_rna_work_buffer = static_cast<u8 *>(xmalloc(0xA000));
     gcrna_bridge_init_buffers(adx_rna_work_buffer, 0xA000, 5);
     adxt_init();
     setup_adx_file_systems(NULL);

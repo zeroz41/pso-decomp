@@ -17,8 +17,8 @@
 #pragma readonly_strings on
 
 extern "C" {
-extern u8 adx_stream_ring_buffer_storage[];
-extern u8 adx_stream_ring_buffer[];
+u8 adx_stream_ring_buffer_storage[0x40];
+u8 adx_stream_ring_buffer[0x400];
 
 void adxt_encode_into_input(AdxtPlayer *player, s32 channels, s32 sample_rate, s32 total_samples) {
     SjRingBuffer *arr[2];
@@ -104,6 +104,4 @@ void adxt_entry_count_increment(void) {
 }
 
 
-u8 adx_stream_ring_buffer_storage[0x40];
-u8 adx_stream_ring_buffer[0x400];
 char music_stream_afs_filename_buffer[0x120];

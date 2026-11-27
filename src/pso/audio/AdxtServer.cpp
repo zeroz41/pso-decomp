@@ -5,6 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
+#include "pso/audio/AdxtServer.h"
 #include "pso/audio/AudioStreamInput.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
@@ -24,7 +25,6 @@ void adxt_trap_entry_update(void *context);
 
 extern "C" {
 void adxt_loop_callback(void *context);
-void adxt_exec_handle(AdxtPlayer *);
 }
 extern "C" {
 

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void adx_rna_set_buffer_storage();
+void adx_rna_set_buffer_storage(u8 *buffer, u32 size, s32 count);
 }
 
 #endif

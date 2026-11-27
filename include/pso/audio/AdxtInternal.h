@@ -86,6 +86,7 @@ void adxt_set_output_vol(AdxtPlayer *player, s32 volume);
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
 void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj);
+void adxt_start_sj(AdxtPlayer *player, SjRingBuffer *sj);
 void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan);
 void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index);
 void ADXT_StartFname(AdxtPlayer *player, const char *name);

@@ -6,6 +6,8 @@
 #include "pso/audio/AdxHeader.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/audio/AdxTalk.h"
+#include "pso/audio/AdxtInit.h"
+#include "pso/audio/AdxtServer.h"
 #include "pso/audio/AdxDecode4.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
@@ -98,9 +100,6 @@ typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 
 extern "C" {
-void adxt_exec_handle(AdxtPlayer *);
-extern AdxtPlayer adx_stream_player_pool[16];
-
 s32 adxt_rate_mode;
 s32 adxt_server_stage;
 s32 adxt_resync_count;
