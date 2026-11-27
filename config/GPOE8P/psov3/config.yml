@@ -531,8 +531,8 @@ force_active:
   - fish_model__12TEneEffHamon
   - TEnemyTaskList_class_name
   - TEnemyTaskList_name
-  - TFogCtrl__data_805DA948
-  - TFogCtrl__data_805DA94C
+  - fog_ctrl_zero
+  - fog_range_adjust_max_width
   - swap_slots__8TFogCtrlFll
   - on_entries_released__8TFogCtrlFv
   - on_entries_loaded__8TFogCtrlFv

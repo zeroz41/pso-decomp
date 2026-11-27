@@ -37,10 +37,11 @@ const char *TFogCtrl_EOR_name = "TFogCtrl_EOR";
 }
 
 extern "C" {
-extern const f32 TFogCtrl__data_805DA948 = 0.0f;
-extern const f32 TFogCtrl__data_805DA94C = 640.0f;
-#define FOG_ZERO (*(const f32 *)&TFogCtrl__data_805DA948)
-#define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
+extern const f32 fog_ctrl_zero = 0.0f;
+// The fog range-adjust width limit on a full screen (a split-screen view clamps to 320).
+extern const f32 fog_range_adjust_max_width = 640.0f;
+#define FOG_ZERO (*(const f32 *)&fog_ctrl_zero)
+#define FOG_MAX (*(const f32 *)&fog_range_adjust_max_width)
 }
 
 s32 area_fog_row_table[36] = {
