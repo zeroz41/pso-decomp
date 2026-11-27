@@ -35,7 +35,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -355,7 +355,7 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01::breakup_model, &volopt_p01_breakup_params,
+            create_breakup_mdl(TBoss3VoloptP01::breakup_model, &volopt_p01_breakup_params,
                                texlist, &body_center, rotation.y);
             trigger_dell_biter_events(&body_center);
             behavior_flags |= 0x40000;

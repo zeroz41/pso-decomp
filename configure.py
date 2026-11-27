@@ -555,7 +555,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/photon/TPhotonMylla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # the TAdStorySelectGC ctor reaches each of its .rodata initialisers with its own lis/addi (no shared base): -pool off.
     "pso/ui/frontend/TAdStorySelectGC.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
-    "pso/object/TObjLuker_801329B0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/DisplayNames.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -inline off,deferred: the ctor reaches __vt__16TObjOnlineEnding through the unit's .data
     # anchor, so the vtable is pooled before the functions; the source runs from the last function back.
     "pso/object/ending/TObjOnlineEnding.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -655,7 +655,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdMcSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiSaveGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -sdata 4: the 8-byte model name table 0x80494A40 sits in .data, the 4-byte motion name table in .sdata.
-    "pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/boss/volopt/EnemyEffectHelpers.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdMcSelectCursorGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcSelectMcGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdPlyPltAnimGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1361,7 +1361,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-fp_contract on", "-str reuse,readonly")},
     # send_subordinate_actions loads its two flag bytes from .sdata2 ahead of its float literals: constant references
     # inlined at the use (the TBoss6Type2.cpp form), so this unit is built with inlining on.
-    "pso/boss/olgaflow/TBoss6Type2_80356E50.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
+    "pso/boss/olgaflow/Boss6SubordinateActions.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
     "pso/boss/olgaflow/TBoss6Type2Actions.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6CrushRock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
     # break_rocks_in_wave loads the bitmap length from .sdata2 ahead of run_task's float literals: a constant reference

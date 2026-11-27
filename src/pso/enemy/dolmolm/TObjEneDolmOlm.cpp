@@ -52,7 +52,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

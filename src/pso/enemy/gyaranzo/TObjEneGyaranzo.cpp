@@ -54,7 +54,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -572,7 +572,7 @@ void TObjEneGyaranzo::update_death_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl(gyaranzo_breakup_model_obj, &gyaranzo_death_breakup_params,
+            create_breakup_mdl(gyaranzo_breakup_model_obj, &gyaranzo_death_breakup_params,
                                texlist, &body_center, rotation.y);
             send_entity_set_flags();
             trigger_dell_biter_events(&body_center);

@@ -31,7 +31,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 

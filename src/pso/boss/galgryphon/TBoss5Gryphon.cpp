@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
+#include "pso/boss/goldragon/DragonAttackRange.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"

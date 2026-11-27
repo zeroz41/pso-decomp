@@ -34,7 +34,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/GameplaySoundPacket.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
+#include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/ChunkMaterialState.h"

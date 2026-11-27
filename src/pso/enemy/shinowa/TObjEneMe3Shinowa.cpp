@@ -62,7 +62,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
 
@@ -1464,7 +1464,7 @@ void TObjEneMe3Shinowa::state_break_apart(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl(TObjEneMe3ShinowaMirage::breakup_model, &shinowa_mirage_breakup_params,
+                create_breakup_mdl(TObjEneMe3ShinowaMirage::breakup_model, &shinowa_mirage_breakup_params,
                                    texlist, &position, rotation.y);
                 VecCopy(&pos, &position);
                 pos.x += 20.0f * sin_table_lookup(rotation.y);

@@ -25,6 +25,7 @@
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/boss/olgaflow/Boss6SubordinateActions.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -664,7 +665,7 @@ void TBoss6Mag::spawn_falling_rocks() {
         p->z = r * cos_table_lookup(ang) + p->z;
         TBoss6Rock::push_out_of_rocks(p, 10.0f);
     }
-    TBoss6Type2::send_6xAD_grid_positions(index, pts, 3);
+    send_6xAD_grid_positions(index, pts, 3);
 }
 #pragma pop
 

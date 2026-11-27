@@ -35,7 +35,7 @@ struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -863,7 +863,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 set_intangible();
-                TBoss3Volopt::create_breakup_mdl(epsilon_body_breakup_model, &epsilon_guard_destroy_breakup_params,
+                create_breakup_mdl(epsilon_body_breakup_model, &epsilon_guard_destroy_breakup_params,
                                    texlist, &body_center, rotation.y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);

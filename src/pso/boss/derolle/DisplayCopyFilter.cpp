@@ -2,7 +2,7 @@
 #include "types.h"
 #include <dolphin/gx/GXFrameBuffer.h>
 #undef PSO_SDK_COMPACT_MATH
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
+#include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/gjSystem.h"
 
@@ -19,4 +19,4 @@ s32 get_display_copy_filter(void) {  return display_copy_filter_enabled; }
 
 void reset_display_copy_filter(void) { display_copy_filter_enabled = 1; }
 
-void TObjBoss2Tunnel::enable_and_trigger() { display_copy_filter_enabled = 1; set_display_copy_filter(1); }
+void enable_display_copy_filter(void) { display_copy_filter_enabled = 1; set_display_copy_filter(1); }

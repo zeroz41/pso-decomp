@@ -49,7 +49,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
@@ -1665,7 +1665,7 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
             this->leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl(gee_breakup_model, NULL,
+        create_breakup_mdl(gee_breakup_model, NULL,
                            this->texlist, &this->body_center, this->rotation.y);
         play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
         this->status_flags |= 0x400000;
@@ -2153,7 +2153,7 @@ void TObjEneMe1GeeLeader::state_rise(s32 msg) {
 void TObjEneMe1GeeLeader::state_dead(s32 msg) {
     switch (msg) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl(gee_leader_breakup_model, NULL,
+        create_breakup_mdl(gee_leader_breakup_model, NULL,
                            this->texlist, &this->body_center, this->rotation.y);
         this->status_flags |= 0x400000;
         refresh_lobby_state();

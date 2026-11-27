@@ -12,7 +12,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/object/base/TObjCharaHelpers.h"

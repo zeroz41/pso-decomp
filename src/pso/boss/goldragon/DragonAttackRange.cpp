@@ -4,18 +4,18 @@
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/object/door/GreenDoorResource.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
+#include "pso/boss/goldragon/DragonAttackRange.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 TObjBoss5Ctrl *boss5_ctrl_instance;
 #pragma fp_contract on
-s32 TBoss8Dragon::is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared) {
+s32 is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared) {
     f32 dx = pos->x - node->pos[0];
     f32 dz = pos->z - node->pos[2];
     return (dx * dx + dz * dz) < range_squared;
 }
 
-f32 TBoss8Dragon::calc_sq_offset(const DragonAttackParams *params, f32 padding) {
+f32 calc_sq_offset(const DragonAttackParams *params, f32 padding) {
     f32 range = params->radius + padding;
     return range * range;
 }

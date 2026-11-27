@@ -1,7 +1,7 @@
 #include "pso/system/TLanguage.h"
 #include "types.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -26,7 +26,7 @@ const char *get_floor_destination_name(u32 area) {
     return get_localized_text_entry(9, floor_destination_text_id_table[area]);
 }
 
-const char *TObjLuker::get_stat_table_entry(int a0) { return luker_stat_entry_ptr_table[a0]; }
+const char *get_section_id_name(int section_id) { return luker_stat_entry_ptr_table[section_id]; }
 const char *enemy_name_for_rt_index(s32 rt_index) {
     s32 index;
     index = rt_index;

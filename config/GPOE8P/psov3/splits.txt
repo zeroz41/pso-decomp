@@ -656,7 +656,7 @@ pso/boss/galgryphon/Boss5CommonResource.cpp:
 pso/render/ShadowedObjectDraw.cpp:
 	.text       start:0x80066F5C end:0x80067034
 
-pso/boss/goldragon/TBoss8Dragon_80067034.cpp:
+pso/boss/goldragon/DragonAttackRange.cpp:
 	.text       start:0x80067034 end:0x80067124
 	.sbss       start:0x805D4DE0 end:0x805D4DE8
 
@@ -1575,7 +1575,7 @@ pso/npc/TargetPlayerLookup.cpp:
 pso/effect/GroundContactSound.cpp:
 	.text       start:0x800D8830 end:0x800D8A2C
 
-pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp:
+pso/boss/volopt/EnemyEffectHelpers.cpp:
 	.text       start:0x800D8A2C end:0x800D9560
 	.rodata     start:0x8043C728 end:0x8043C758
 	.data       start:0x80494A40 end:0x80494AE0
@@ -2724,7 +2724,7 @@ pso/ui/keyboard/KeyboardKeyState.cpp:
 pso/player/ClassTypeName.cpp:
 	.text       start:0x8013292C end:0x801329B0
 
-pso/object/TObjLuker_801329B0.cpp:
+pso/object/DisplayNames.cpp:
 	.text       start:0x801329B0 end:0x80132A5C
 	.rodata     start:0x8043E9F0 end:0x8043EAE8
 	.data       start:0x804A6EE0 end:0x804A6F10
@@ -8544,7 +8544,7 @@ pso/boss/olgaflow/TBoss6SwordShot.cpp:
 	.sdata      start:0x805D43A8 end:0x805D43B0
 	.sdata2     start:0x805DFFE8 end:0x805E0018
 
-pso/boss/olgaflow/TBoss6Type2_80356E50.cpp:
+pso/boss/olgaflow/Boss6SubordinateActions.cpp:
 	.text       start:0x80356E50 end:0x80357058
 	.rodata     start:0x804793B8 end:0x804793C0
 	.sdata2     start:0x805E0018 end:0x805E0028
@@ -8916,7 +8916,7 @@ pso/ui/frontend/TAdSystemFileCheckGC.cpp:
 	.sbss       start:0x805D7020 end:0x805D7024
 	.sdata2     start:0x805E0420 end:0x805E043C
 
-pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp:
+pso/boss/derolle/DisplayCopyFilter.cpp:
 	.text       start:0x8036EF0C end:0x8036EF84
 	.sdata      start:0x805D44F8 end:0x805D4500
 

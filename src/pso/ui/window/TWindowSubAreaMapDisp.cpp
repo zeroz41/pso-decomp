@@ -2,7 +2,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
 #include "pso/ui/window/TWindowArea.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"

@@ -15,7 +15,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -326,7 +326,7 @@ void TWindowSubStatusDisp::vt0() {
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st->classId);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
-            v = TObjLuker::get_stat_table_entry(st->section);
+            v = get_section_id_name(st->section);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(4)), v, 0);
         }
         portrait = (WindowSpritePart *)get_array_entry(5);

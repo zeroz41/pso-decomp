@@ -225,8 +225,6 @@ public:
     static void clear_player_control();
     static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
     static void *create(EnemyPlacement *set_data);
-    static s32 is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared);
-    static f32 calc_sq_offset(const DragonAttackParams *params, f32 padding);
     static void place_parts_in_ring(s32 n, s32 hp, s32 seed);
     static s32 find_target_enemy();
     static s32 is_any_part_alive();

@@ -55,7 +55,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"

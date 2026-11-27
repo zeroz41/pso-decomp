@@ -15,7 +15,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"

@@ -43,7 +43,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 

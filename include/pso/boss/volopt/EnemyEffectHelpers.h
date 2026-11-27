@@ -1,10 +1,17 @@
-#ifndef PSO_BOSS_VOLOPT_TBOSS3VOLOPT_800D8ACC_H
-#define PSO_BOSS_VOLOPT_TBOSS3VOLOPT_800D8ACC_H
+#ifndef PSO_BOSS_VOLOPT_ENEMYEFFECTHELPERS_H
+#define PSO_BOSS_VOLOPT_ENEMYEFFECTHELPERS_H
 
 #include "types.h"
 #include <dolphin/mtx.h>
 
 struct Vec;
+class TBreakUpMdlData;
+struct BreakUpParamRow;
+struct NJS_TEXLIST;
+
+// A TBreakUpMdl of model at position: the pieces a destroyed enemy or part breaks into.
+void create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist, const Vec *position,
+                        s32 rotation_y);
 
 // Particles 251, 252 and 227 at pos; the break-apart and death states call it.
 void trigger_dell_biter_events(const Vec *pos);
@@ -21,7 +28,7 @@ void disable_player_particle_effect(void);
 void enable_player_particle_effect(void);
 
 void spawn_dead_spot_fade(const Vec *point, s32 selector, s32 delay, f32 maxScale);
-// Dead-stripped (no code in the DOL); names inferred, see TBoss3Volopt_800D8ACC.cpp.
+// Dead-stripped (no code in the DOL); names inferred, see EnemyEffectHelpers.cpp.
 
 void create_particle_emitter_pair(Vec *position);
 

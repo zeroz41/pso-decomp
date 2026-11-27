@@ -22,7 +22,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/network/client_id.h"
 
 
@@ -178,7 +178,7 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
     if (n > 0xA) {
         n = 0xA;
     }
-    TWindowDuelResult::set_default_status(t10, TObjLuker::get_stat_table_entry(n));
+    TWindowDuelResult::set_default_status(t10, get_section_id_name(n));
     if (card->is_own_card() != 0) {
         id = card->get_card_id();
         if (id == 0) {

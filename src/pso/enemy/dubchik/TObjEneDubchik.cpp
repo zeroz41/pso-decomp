@@ -47,7 +47,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/DebugFont.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -1166,7 +1166,7 @@ void TObjEneDubchik::update_dying() {
         } else {
             play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
         }
-        TBoss3Volopt::create_breakup_mdl(breakup_model_ptr, &dubchik_breakup_params,
+        create_breakup_mdl(breakup_model_ptr, &dubchik_breakup_params,
                            texlist, &body_center, rotation.y);
         refresh_lobby_state();
         send_entity_set_flags();

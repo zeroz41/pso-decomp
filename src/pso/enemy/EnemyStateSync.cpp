@@ -17,7 +17,7 @@
 #include "pso/npc/TObjNpcFomarl.h"
 #include "pso/npc/TObjNpcMale.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/npc/ChaoNpcSpawn.h"
 #include "pso/npc/NightsNpcResource.h"

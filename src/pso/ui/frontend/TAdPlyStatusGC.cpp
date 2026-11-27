@@ -12,7 +12,7 @@
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
@@ -171,7 +171,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
         if (flags & 1) {
             sprintf(text[1], ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(text[1], ":%s", TObjLuker::get_stat_table_entry(*reinterpret_cast<const s8 *>(&card.section_id)));
+            sprintf(text[1], ":%s", get_section_id_name(*reinterpret_cast<const s8 *>(&card.section_id)));
         }
         sprintf(text[2], ":%04d:%02d'", hours, mins);
     }

@@ -54,7 +54,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/math/MatrixTransforms.h"
@@ -1679,7 +1679,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl(canadin_breakup_model, NULL,
+        create_breakup_mdl(canadin_breakup_model, NULL,
                            texlist, &body_center, rotation.y);
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
@@ -2193,7 +2193,7 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl(canadin_leader_breakup_model, NULL,
+        create_breakup_mdl(canadin_leader_breakup_model, NULL,
                            texlist, &body_center, rotation.y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();

@@ -31,6 +31,7 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/gibbles/TObjEneGibbles.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
@@ -354,7 +355,7 @@ void TObjEneRecon::state_death(s32 reason) {
             spawn_particle_effect_with_flags(&position, 0x45, 0x40);
             spawn_particle_effect_with_flags(&position, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
-            TBoss3Volopt::create_breakup_mdl(boss3_volopt_instance, &recon_breakup_params,
+            create_breakup_mdl(boss3_volopt_instance, &recon_breakup_params,
                                texlist, &body_center, rotation.y);
             break;
         }

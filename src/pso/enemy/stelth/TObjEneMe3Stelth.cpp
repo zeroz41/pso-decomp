@@ -78,7 +78,7 @@
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
@@ -1449,7 +1449,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl(me3_stelth_breakup_model, &me3_stelth_breakup_params,
+                create_breakup_mdl(me3_stelth_breakup_model, &me3_stelth_breakup_params,
                                    texlist, &position, rotation.y);
                 VecCopy(&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation.y);

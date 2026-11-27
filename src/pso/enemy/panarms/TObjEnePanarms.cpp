@@ -46,7 +46,7 @@
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

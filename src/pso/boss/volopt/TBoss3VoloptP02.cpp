@@ -57,7 +57,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -1076,7 +1076,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         spawn_ambient_particles();
         position.y = 0.5319149f * this->frame;
         if (this->frame >= 47.0f) {
-            TBoss3Volopt::create_breakup_mdl(breakup_model, &death_breakup_params,
+            create_breakup_mdl(breakup_model, &death_breakup_params,
                                texlist, &body_center, rotation.y);
             trigger_dell_biter_events(&body_center);
             refresh_lobby_state();
@@ -1154,10 +1154,10 @@ void TBoss3VoloptP02::spawn_breakup_models() {
         behavior_flags = flags | 0x10000;
         render_anim_model_at_pos();
         get_anim_node_position(2, &pos);
-        TBoss3Volopt::create_breakup_mdl(breakup_models[0], &part_breakup_params,
+        create_breakup_mdl(breakup_models[0], &part_breakup_params,
                            texlist, &pos, rotation.y);
         get_anim_node_position(0x12, &pos);
-        TBoss3Volopt::create_breakup_mdl(breakup_models[1], &part_breakup_params,
+        create_breakup_mdl(breakup_models[1], &part_breakup_params,
                            texlist, &pos, rotation.y);
         hide_model_nodes(breakup_flags_a);
     }
@@ -1176,7 +1176,7 @@ void TBoss3VoloptP02::break_off_part_b() {
         bodies[1].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x32, &pos);
-        TBoss3Volopt::create_breakup_mdl(breakup_models[2], &part_breakup_params,
+        create_breakup_mdl(breakup_models[2], &part_breakup_params,
                            texlist, &pos, rotation.y);
         hide_model_nodes(breakup_flags_b);
         play_sound_effect(0x4003A80F, &position, 0, 1);
@@ -1196,7 +1196,7 @@ void TBoss3VoloptP02::break_off_part_c() {
         bodies[2].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x22, &pos);
-        TBoss3Volopt::create_breakup_mdl(breakup_models[3], &part_breakup_params,
+        create_breakup_mdl(breakup_models[3], &part_breakup_params,
                            texlist, &pos, rotation.y);
         hide_model_nodes(breakup_flags_c);
         play_sound_effect(0x4003A80F, &position, 0, 1);
@@ -1212,7 +1212,7 @@ void TBoss3VoloptP02::trigger_breakup() {
         bodies[3].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
-        TBoss3Volopt::create_breakup_mdl(breakup_models[4], &part_breakup_params,
+        create_breakup_mdl(breakup_models[4], &part_breakup_params,
                            texlist, &body_center, rotation.y);
         hide_model_nodes(breakup_flags_d);
         play_sound_effect(0x4003A80F, &position, 0, 1);

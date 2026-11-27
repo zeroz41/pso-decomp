@@ -29,6 +29,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
@@ -982,7 +983,7 @@ void TObjEneMe1GiGue::break_apart() {
     Vec pos;
     VecCopy(&pos, &position);
     pos.y += 40.0f + flightHeight;
-    TBoss3Volopt::create_breakup_mdl(gigue_breakup_model, NULL,
+    create_breakup_mdl(gigue_breakup_model, NULL,
                        texlist, &pos, rotation.y);
     refresh_lobby_state();
     send_entity_set_flags();

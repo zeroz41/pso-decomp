@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ShadowedObjectDraw.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/goldragon/DragonAttackRange.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PhotonBlastResults.h"
@@ -23,9 +24,9 @@ void TObjBoss5FloorStone::trigger_switches_in_range(const Vec *pos, const Dragon
     BmlModelEntry *models;
     models = boss5_common_bml_resource->models;
     root = models[5].model;
-    range_squared = TBoss8Dragon::calc_sq_offset(params, 50.0f);
+    range_squared = calc_sq_offset(params, 50.0f);
     for (node = root->child; node != NULL; node = node->sibling) {
-        if (!(node->evalflags & NJD_EVAL_HIDE) && TBoss8Dragon::is_within_xz_distance(pos, node, range_squared) != 0) {
+        if (!(node->evalflags & NJD_EVAL_HIDE) && is_within_xz_distance(pos, node, range_squared) != 0) {
             effect_pos.x = node->pos[0];
             effect_pos.y = node->pos[1];
             effect_pos.z = node->pos[2];

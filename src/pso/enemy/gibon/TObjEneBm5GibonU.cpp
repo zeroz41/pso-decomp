@@ -58,7 +58,7 @@ struct NJS_OBJECT;
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/render/render_util.h"
 #include "pso/render/BlobShadow.h"

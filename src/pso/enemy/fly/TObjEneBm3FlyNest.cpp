@@ -43,7 +43,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"

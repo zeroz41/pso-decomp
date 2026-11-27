@@ -227,7 +227,7 @@ pso/boss/volopt/TBoss3VoloptHiraisin.cpp
 pso/boss/volopt/TBoss3VoloptMonitor.cpp
 pso/boss/volopt/TBoss3VoloptP01.cpp
 pso/boss/volopt/TBoss3VoloptP02.cpp
-pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp
+pso/boss/volopt/EnemyEffectHelpers.cpp
 pso/render/reflection.cpp
 pso/render/MaterialColorFade.cpp
 pso/unk/SampledMotionPoints.cpp
@@ -276,7 +276,7 @@ pso/boss/olgaflow/TBoss6Type1Actions.cpp
 pso/boss/olgaflow/TBoss6Type2.cpp
 pso/boss/olgaflow/TBoss6Type2Actions.cpp
 pso/boss/olgaflow/TBoss6MagActions.cpp
-pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
+pso/boss/olgaflow/Boss6SubordinateActions.cpp
 pso/boss/olgaflow/TBoss6Zanzo.cpp
 pso/boss/olgaflow/Boss6PlayerSnapshots.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
@@ -294,7 +294,7 @@ pso/boss/goldragon/TBoss8DragonEffBullet.cpp
 pso/boss/goldragon/TBoss8DragonEffTail.cpp
 pso/boss/goldragon/TBoss5Gryphon_Flags.cpp
 pso/boss/goldragon/BossAssetVariant.cpp
-pso/boss/goldragon/TBoss8Dragon_80067034.cpp
+pso/boss/goldragon/DragonAttackRange.cpp
 pso/boss/goldragon/AreaAttackHistory.cpp
 pso/boss/goldragon/TBoss8DragonLeaderPart.cpp
 pso/boss/goldragon/TBoss8DragonPart.cpp
@@ -309,7 +309,7 @@ pso/boss/derolle/TObjBoss2Tunnel_Snapshot.cpp
 pso/boss/derolle/TObjBoss2Tunnel_ParticleParent.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/barbaray/TObjBoss7TunnelCol.cpp
-pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
+pso/boss/derolle/DisplayCopyFilter.cpp
 pso/boss/derolle/ProjectedColorDraw.cpp
 pso/boss/galgryphon/TObjBoss5Ctrl.cpp
 pso/boss/galgryphon/TObjBoss5FloorGrass.cpp
@@ -1281,7 +1281,7 @@ pso/technique/TTecSupportCharge.cpp
 pso/system/TrailStrip.cpp
 pso/object/lobby/TObjLobbyMain.cpp
 pso/object/TObjLuker.cpp
-pso/object/TObjLuker_801329B0.cpp
+pso/object/DisplayNames.cpp
 pso/map/TObjMapCsn.cpp
 pso/object/base/TObjMapObject.cpp
 pso/object/warp/TObjMapWarpAncient.cpp

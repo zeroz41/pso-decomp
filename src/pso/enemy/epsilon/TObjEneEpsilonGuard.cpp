@@ -33,7 +33,7 @@ struct NJS_OBJECT;
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 player_stats *epsilon_guard_boss_stat_handle;
@@ -296,7 +296,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
         break_timer++;
         if (break_timer >= 0x14) {
             clear_intangible();
-            TBoss3Volopt::create_breakup_mdl(epsilon_guard_breakup_model, &epsilon_guard_breakup_params,
+            create_breakup_mdl(epsilon_guard_breakup_model, &epsilon_guard_breakup_params,
                                texlist, &position, rotation.y);
             play_sound_effect(0x4003AD4C, &body_center, 0, 0);
             trigger_dell_biter_events(&body_center);

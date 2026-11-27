@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -42,8 +42,8 @@ TAttackTraceStrip *TAttackTraceStrip::create(u32 color_a, u32 color_b) {
     return new TAttackTraceStrip(tl_05, color_a, color_b);
 }
 
-void TBoss3Volopt::create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
-                                    const Vec *position, s32 rotation_y) {
+void create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
+                        const Vec *position, s32 rotation_y) {
     new TBreakUpMdl(tl_05, model, const_cast<BreakUpParamRow *>(params), texlist,
                     const_cast<Vec *>(position), rotation_y);
 }

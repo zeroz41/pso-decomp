@@ -76,7 +76,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -1557,7 +1557,7 @@ void TObjEneMe3SinowZoa::state_death(s32 mode) {
             if (this->state_timer >= 0x14) {
                 this->state_step = 2;
                 this->behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl(me3_sinow_zoa_breakup_model, &sinow_zoa_breakup_params,
+                create_breakup_mdl(me3_sinow_zoa_breakup_model, &sinow_zoa_breakup_params,
                                    this->texlist, &this->position, this->rotation.y);
                 VecCopy(&p, &this->position);
                 p.x += 20.0f * sin_table_lookup(this->rotation.y);

@@ -31,7 +31,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -498,7 +498,7 @@ void TObjCMMainMenu::draw_confirmation() {
         icon_pos.y = 234.0f;
         draw_ui_sprite(section_id_sprites[character->section], &icon_pos, -3.0625f, section_alpha);
     }
-    const char *section_name = TObjLuker::get_stat_table_entry(character->section);
+    const char *section_name = get_section_id_name(character->section);
     if (character->flags & 1) {
         section_name = unknown_section_name;
     }

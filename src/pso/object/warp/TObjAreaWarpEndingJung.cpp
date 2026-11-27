@@ -59,7 +59,7 @@
 #include "pso/map/FloorMapSelection.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/StoryQuestProgress.h"

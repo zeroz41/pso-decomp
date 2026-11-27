@@ -10,7 +10,7 @@
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
+#include "pso/boss/goldragon/DragonAttackRange.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/system/BmlResource.h"
 
@@ -128,10 +128,10 @@ void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec 
     s32 i;
 
     n = boss5_common_bml_resource->models[2].model;
-    off = TBoss8Dragon::calc_sq_offset(params, 50.0f);
+    off = calc_sq_offset(params, 50.0f);
     n = n->child;
     for (i = 0; i < pillar_controller->count; i++) {
-        if (pillar_controller->pillars[i] != NULL && TBoss8Dragon::is_within_xz_distance(pos, n, off) != 0) {
+        if (pillar_controller->pillars[i] != NULL && is_within_xz_distance(pos, n, off) != 0) {
             pillar_controller->pillars[i]->play_sound_once();
         }
         n = n->sibling;

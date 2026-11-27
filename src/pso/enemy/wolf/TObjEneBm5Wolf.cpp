@@ -108,7 +108,7 @@ s32 bm5_wolf_render_node_index;
 s32 bm5_wolf_render_joint_y_rotation;
 }
 #include <stddef.h>
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"

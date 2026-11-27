@@ -27,7 +27,6 @@ struct TObjLuker : public TObjBase {
     s32 is_player_in_range(f32 range);
     virtual void render();
     virtual void run_task();
-    static const char *get_stat_table_entry(int a0);
     static void *create(ObjectSetData *set_data);
 };
 

@@ -34,7 +34,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
@@ -983,7 +983,7 @@ void TObjEneBm3Fly::action(s32 msg) {
         enemy_death_stub();
         debug_effect_hook_scaled(0xF1, 1.0f);
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl(bm3_fly_breakup_model, &bm3_fly_breakup_params,
+        create_breakup_mdl(bm3_fly_breakup_model, &bm3_fly_breakup_params,
                            this->texlist, &this->body_center, this->rotation.y);
         this->step = 0;
         return;

@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/task/TObject.h"

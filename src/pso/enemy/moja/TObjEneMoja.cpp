@@ -59,7 +59,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

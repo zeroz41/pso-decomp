@@ -29,7 +29,7 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
+#include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/map/TSetManager.h"
 #include "pso/math/MatrixVector.h"
@@ -291,7 +291,7 @@ void init_game_systems(void) {
     init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
     init_pad_slots_and_read(0, 0, 0);
-    TObjBoss2Tunnel::enable_and_trigger();
+    enable_display_copy_filter();
     init_pad_rumble();
     init_pad_state();
     set_shape_vertex_buffer((u32 *)motion_blend_buffer);

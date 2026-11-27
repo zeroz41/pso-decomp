@@ -43,7 +43,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"

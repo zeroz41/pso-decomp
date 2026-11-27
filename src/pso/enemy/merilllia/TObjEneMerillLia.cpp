@@ -51,7 +51,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/ActorCollision.h"

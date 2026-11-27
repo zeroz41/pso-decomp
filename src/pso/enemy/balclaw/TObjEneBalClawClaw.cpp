@@ -18,7 +18,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/SoundEffect.h"

@@ -20,7 +20,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
@@ -100,7 +100,7 @@ void TBoss3VoloptHiraisin::update_descend() {
 void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
-    TBoss3Volopt::create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
+    create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
                        get_bml_texlist(volopt_hiraisin_resources, 0x10), &body_center, rotation.y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);

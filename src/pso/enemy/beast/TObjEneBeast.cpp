@@ -59,7 +59,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/audio/SoundRequests.h"
 
