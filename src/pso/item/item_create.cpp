@@ -884,7 +884,6 @@ ItemCreateFunction item_create_fn_table[5] = {
     create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
-void send_6x60_standard_drop_item_request(TObjEnemy *self);
 }
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
@@ -1156,37 +1155,36 @@ TItem *create_armor_for_item(u8 *item) {
     }
     return 0;
 }
-extern "C" {
 
 // Clears a drop request's position. Dead-stripped from the game: only its 0.0f literal remains.
-void clear_drop_request_position(Vec *v) {
+extern "C" void clear_drop_request_position(Vec *v) {
     v->x = 0.0f;
     v->y = 0.0f;
     v->z = 0.0f;
 }
 
-void send_6x60_standard_drop_item_request(TObjEnemy *self) {
+void send_6x60_standard_drop_item_request(TObjEnemy *enemy) {
     TObjPlayer *p1;
     TObjPlayer *p2;
-    if (self != 0) {
+    if (enemy != 0) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
                 (p1->get_floor() != p2->get_floor() ||
                  designated_client_id == local_client_id)) {
-                if (self->set_index != -1) {
-                    EnemyStateRecord e = enemy_state_records[self->set_index];
+                if (enemy->set_index != -1) {
+                    EnemyStateRecord e = enemy_state_records[enemy->set_index];
                     if (e.drop_id != 0xFFFF) {
                         G_StandardDropItemRequest_PC_V3_BB_6x60 pkt;
                         G_StandardDropItemRequest_DC_6x60 &drop = pkt.__base_G_StandardDropItemRequest_DC_6x60;
                         pkt.init();
                         drop.floor = get_current_floor();
-                        drop.rt_index = self->rt_index;
-                        drop.entity_index = self->set_index;
-                        drop.pos.x = self->position.x;
-                        drop.pos.z = self->position.z;
-                        drop.room = self->room;
+                        drop.rt_index = enemy->rt_index;
+                        drop.entity_index = enemy->set_index;
+                        drop.pos.x = enemy->position.x;
+                        drop.pos.z = enemy->position.z;
+                        drop.room = enemy->room;
                         pkt.effective_area = get_current_floor_area();
                         Vec v;
                         v.x = drop.pos.x;
@@ -1236,7 +1234,6 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
             }
         }
     }
-}
 }
 
 TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {

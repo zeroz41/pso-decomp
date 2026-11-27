@@ -20,6 +20,7 @@ void handle_select_confirm();
 s32 is_valid_drop_floor(s32 floor);
 s32 is_valid_area_id(s32 index);
 struct TObjPlayer;
+struct TObjEnemy;
 struct TItem;
 struct TItemData;
 struct ItemCombination;
@@ -30,6 +31,9 @@ s32 item_identity_matches(u8 *item, u8 *other);
 s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 void normalize_drop_area(s32 *p);
+
+// Sends the 6x60 standard drop request for a killed enemy.
+void send_6x60_standard_drop_item_request(TObjEnemy *enemy);
 
 ItemCombination *find_eligible_combination_recipe(TObjPlayer *player, TItemData *item);
 

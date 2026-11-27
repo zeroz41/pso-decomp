@@ -51,15 +51,7 @@
 #include "pso/render/render_util.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/object/TObjLuker_801329B0.h"
-
-
-extern "C" {
-
-
-int send_6x60_standard_drop_item_request(void*);
-
-
-}
+#include "pso/item/item_create.h"
 
 
 s32 area_random_seed;
@@ -528,7 +520,7 @@ void TObjEnemy::distribute_experience() {
     }
 }
 
-int TObjEnemy::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
+void TObjEnemy::query_lobby_state() { send_6x60_standard_drop_item_request(this); }
 
 void TObjEnemy::refresh_lobby_state() { distribute_experience(); query_lobby_state(); }
 

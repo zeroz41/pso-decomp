@@ -37,7 +37,7 @@ struct TObjEnemy : public TObjChara {
     void award_enemy_experience(u16 client);
     void distribute_experience();
     // send_6x60_standard_drop_item_request for this enemy.
-    int query_lobby_state();
+    void query_lobby_state();
     // distribute_experience, then query_lobby_state; the death reactions call it.
     void refresh_lobby_state();
     void send_6x9C_enemy_low_game_flags(s32);
