@@ -10,6 +10,7 @@
 struct TItemData;
 struct AttackParams;
 struct ActorParamBlock;
+struct player_stats;
 class TPlyInventoryItem;
 struct TObjPlayer;
 struct G_PickUpItem_6x59;
@@ -68,7 +69,7 @@ struct TItem : public TObjCollidable {
     virtual void add_equip_stats(s32 apply);
     virtual void remove_equip_stats(s32 apply);
     virtual void subtract_item_stat_bonus(AttackParams *attack, ActorParamBlock *params, s16 *stats);
-    virtual void subtract_equip_stats(void *atp, s16 *stats, s16 *stats2);
+    virtual void subtract_equip_stats(AttackParams *attack, ActorParamBlock *params, player_stats *stats);
     virtual void render_equipped();
     virtual void render_equipped_shadow();
     virtual void render_equipped_deferred();

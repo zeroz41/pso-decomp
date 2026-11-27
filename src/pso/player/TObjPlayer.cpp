@@ -1850,12 +1850,12 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
         break;
     }
     if (prev != NULL) {
-        prev->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
+        prev->subtract_equip_stats(&a, &d, &b);
         if (prev->get_item_type() == 1 && prev->get_item_group() == 1) {
             for (slot = 9; slot <= 12; slot++) {
                 TItem *unit = TObjPlayer::get_slot_value(this->equipped_items.items, slot);
                 if (unit != NULL) {
-                    unit->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
+                    unit->subtract_equip_stats(&a, &d, &b);
                 }
             }
         }
@@ -1912,12 +1912,12 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
     a = *this->attack_params;
     b = *this->param_block;
     c = *this->stat_block;
-    owner->subtract_equip_stats(&a, (s16 *)&b, (s16 *)&c);
+    owner->subtract_equip_stats(&a, &b, &c);
     if (owner->get_item_type() == 1 && owner->get_item_group() == 1) {
         for (i = 9; i <= 12; i++) {
             TItem *s = TObjPlayer::get_slot_value(this->equipped_items.items, i);
             if (s != NULL) {
-                s->subtract_equip_stats(&a, (s16 *)&b, (s16 *)&c);
+                s->subtract_equip_stats(&a, &b, &c);
             }
         }
     }

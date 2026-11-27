@@ -195,10 +195,7 @@ void TItemEquipBase::deduct_cap_excess(s32 item, s16 *stat, s16 excess) {
     }
 }
 
-void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
-    AttackParams *attack = (AttackParams *)atp;
-    ActorParamBlock *params = (ActorParamBlock *)stats;
-    EquipStatBonus *player_stats = (EquipStatBonus *)stats2;
+void TItemEquipBase::subtract_equip_stats(AttackParams *attack, ActorParamBlock *params, player_stats *stats) {
     if (attack != NULL) {
         attack->sub_atp_min(attack_bonus.get_atp_min());
         attack->sub_atp_max(attack_bonus.get_atp_max());
@@ -213,14 +210,14 @@ void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
         params->values[4] -= param_bonus.values[4];
         params->values[5] -= param_bonus.values[5];
     }
-    if (player_stats != NULL) {
-        player_stats->atp -= stat_bonus.atp;
-        player_stats->mst -= stat_bonus.mst;
-        player_stats->evp -= stat_bonus.evp;
-        player_stats->hp -= stat_bonus.hp;
-        player_stats->dfp -= stat_bonus.dfp;
-        player_stats->ata -= stat_bonus.ata;
-        player_stats->lck -= stat_bonus.lck;
+    if (stats != NULL) {
+        stats->stats.atp -= stat_bonus.atp;
+        stats->stats.mst -= stat_bonus.mst;
+        stats->stats.evp -= stat_bonus.evp;
+        stats->stats.hp -= stat_bonus.hp;
+        stats->stats.dfp -= stat_bonus.dfp;
+        stats->stats.ata -= stat_bonus.ata;
+        stats->stats.lck -= stat_bonus.lck;
     }
 }
 
@@ -261,8 +258,8 @@ void TItemEquipBase::remove_equip_stats(s32 apply) {
     if (owner != NULL) {
         AttackParams *attack = get_actor_attack_params(owner);
         ActorParamBlock *params = get_actor_param_block(owner);
-        s16 *stats = (s16 *)owner->get_stats();
-        subtract_equip_stats(attack, (s16 *)params, stats);
+        player_stats *stats = owner->get_stats();
+        subtract_equip_stats(attack, params, stats);
         if (apply) {
             add_actor_hp_bonus(owner, (s16)-hp_tp_bonus.hp);
             add_actor_tp_bonus(owner, (s16)-hp_tp_bonus.tp);

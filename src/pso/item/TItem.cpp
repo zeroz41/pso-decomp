@@ -1354,7 +1354,7 @@ void TItemEquipBase::refresh_owner_stats() {
 
 void TItem::subtract_item_stat_bonus(AttackParams *, ActorParamBlock *, s16 *) {}
 
-void TItem::subtract_equip_stats(void *, s16 *, s16 *) {}
+void TItem::subtract_equip_stats(AttackParams *, ActorParamBlock *, player_stats *) {}
 
 void TItem::render_equipped() {}
 
