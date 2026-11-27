@@ -11,11 +11,11 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/object/TObjRoomId.h"
 
 
 #pragma readonly_strings on
 
-extern "C" s32 is_item_light_interaction_blocked();
 
 void TObjItemLight::run_task() {
     s32 i;

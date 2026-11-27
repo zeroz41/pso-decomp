@@ -23,9 +23,7 @@ u16 get_entity_id_kind(u16 entity_id);
 
 LAYOUT_ASSERT(TObjRoomId_size, sizeof(TObjRoomId) == 0x9C);
 
-extern "C" {
-bool is_item_light_interaction_blocked(void);
-}
+BOOL is_item_light_interaction_blocked(void);
 // TRUE when `object` is the room id object whose debug lines are drawn.
 s32 is_current_room(void *object);
 

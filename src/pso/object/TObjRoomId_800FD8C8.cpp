@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 
 // One TU with its own .sbss block (8-aligned start after the previous TU's pad).
-u8 item_light_interaction_blocked_flag;
+s8 item_light_interaction_blocked_flag;
 void *current_room_id;
 
 s32 is_current_room(void *object) {
@@ -19,6 +19,6 @@ void TObjRoomId::draw_debug_line(s32 row, s32 column, const char *format) {
     }
 }
 
-bool is_item_light_interaction_blocked(void) {
-    return (s8) item_light_interaction_blocked_flag != 0;
+BOOL is_item_light_interaction_blocked(void) {
+    return item_light_interaction_blocked_flag ? TRUE : FALSE;
 }
