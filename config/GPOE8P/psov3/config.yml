@@ -4659,7 +4659,7 @@ force_active:
   - bswap__24G_ActivateMagEffect_6x61Fv
   - bswap__25G_SwitchStateChanged_6x05Fv
   - bswap__31G_DropStackedItem_PC_V3_BB_6x5DFv
-  - bswap_and_handle_packet__6TLobbyFii
+  - bswap_and_handle_packet__FPvi
   - bswap_and_send_extended_subcommand__FPvUl
   - bswap__16TArrowColorEntryFv
   - bswap_data__10LightEntryFv

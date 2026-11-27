@@ -687,6 +687,7 @@ pso/map/FloorTransition.cpp
 pso/system/TTokenListParse.cpp
 pso/ui/hud/TLoadingCur.cpp
 pso/network/TLobby.cpp
+pso/network/LobbyHelpers.cpp
 pso/unk/TLobbyEventTheme.cpp
 pso/unk/TLobbyAutoReply.cpp
 pso/enemy/BattleParamTables.cpp

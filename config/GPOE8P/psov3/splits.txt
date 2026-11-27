@@ -2758,7 +2758,7 @@ pso/object/ambient/TObjLight_80133568.cpp:
 	.sdata2     start:0x805DB088 end:0x805DB0A8
 
 pso/network/TLobby.cpp:
-	.text       start:0x801349C8 end:0x8013AE18
+	.text       start:0x801349C8 end:0x8013A2DC
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130
@@ -2769,6 +2769,9 @@ pso/network/TLobby.cpp:
 
 pso/network/TPlyJoinLobbySdata2.cpp:
 	.sdata2     start:0x805DB0C0 end:0x805DB0C8
+
+pso/network/LobbyHelpers.cpp:
+	.text       start:0x8013A2DC end:0x8013AE18
 
 pso/ui/hud/TMainCursor.cpp:
 	.text       start:0x8013AE18 end:0x8013F264
