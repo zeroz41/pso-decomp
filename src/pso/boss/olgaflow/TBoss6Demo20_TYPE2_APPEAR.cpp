@@ -8,7 +8,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/olgaflow/Boss6Type2Appearance.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"
@@ -307,15 +306,14 @@ TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR::create(TBoss6PlotFalz *plo
     return new TBoss6Demo20_TYPE2_APPEAR(plot);
 }
 
-void initialize_boss6_type2_appear_particle_origin(void) {
+// Offsets the particle origin from the appearance origin, spelled out because the original keeps that Vec, zeroed,
+// in .data.
+void __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp() {
     boss6_type2_appear_offset_particle_origin.x = boss6_type2_appear_origin.x;
     boss6_type2_appear_offset_particle_origin.y = 50.0f + boss6_type2_appear_origin.y;
     boss6_type2_appear_offset_particle_origin.z = boss6_type2_appear_origin.z;
 }
-extern "C" {
-__declspec(section ".ctors") static void *const initialize_boss6_type2_appear_particle_origin_ref = (void *)initialize_boss6_type2_appear_particle_origin;
-
-}
+__declspec(section ".ctors") static void *const boss6_type2_appear_global_initializer = (void *)__sinit_TBoss6Demo20_TYPE2_APPEAR_cpp;
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
 extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};

@@ -1770,7 +1770,7 @@ force_active:
   - class_name__14TWindowCtrlSub
   - update_countdown__17TWindowCtrlPlayerFv
   - set_return_city_open__11TWindowCtrlFv
-  - __sinit_TWindowDD_WS_ScrollBar_cpp
+  - __sinit_TWindowDD_WS_ScrollBar_cpp__Fv
   - __ct__19TWindowDD_WS_StringFPfPfPCcl
   - __sinit_TWindowDD_WS_String_cpp
   - __ct__17TWindowDD_WS_WordFll
@@ -5338,7 +5338,7 @@ force_active:
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
   - set_parameters__15TEffStarLight2DFP19StarLightParameters
   - pop_fade_color__23TEquippedWeaponDrawTaskFv
-  - copy_global_value_block__Fv
+  - __sinit_TChallenge4P_cpp__Fv
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
@@ -6330,7 +6330,7 @@ force_active:
   - get_screen_position__14TObjWarpStringFUs
   - fn_8019F9AC
   - alloc_player_ids__Fl
-  - __sinit_OfflineGameScene_cpp
+  - __sinit_OfflineGameScene_cpp__Fv
   - clear_bank__18TPlyDispConfigSmthFv
   - set_bank__18TPlyDispConfigSmthFv
   - decrement_state__19PhotonBlastDonationFv
@@ -7171,7 +7171,7 @@ force_active:
   - __ct__13TBoss7BreakUpFP7TObject
   - __ct__16TItemWeaponRifleFP7TObjectPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
-  - initialize_boss6_type2_appear_particle_origin__Fv
+  - __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp__Fv
   - __ct__24TItemWeaponTheSighOfAGodFP7TObjectPUc
   - initialize_fmt1_materials__6TSceneFv
   - initialize_fmt2_materials__6TSceneFv
@@ -9088,7 +9088,7 @@ force_active:
   - npc_hosa_resource_descriptor
   - npc_lappy_animation_table
   - npc_player_collision_body_part
-  - npc_player_ply_char_data_global
+  - npc_player_char_data_dtor_chain
   - npc_normal_set_34
   - number_format_digit_buffer
   - obj_camera_class_name

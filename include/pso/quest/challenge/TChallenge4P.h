@@ -60,7 +60,6 @@ struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flag
 s32 calc_min_challenge_progress();
 s32 check_ready_status();
 void clamp_and_store_layout_index(s32 stage);
-void copy_global_value_block();
 void destroy_tombstone();
 void draw_if_ready2();
 s32 get_normalized_mode();

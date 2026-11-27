@@ -57,9 +57,7 @@ u32 old_render_flags;
 u32 render_shadow_flags;
 u32 old_render_shadow_flags;
 
-extern "C" {
 void __sinit_TObject_cpp();
-}
 __declspec(section ".ctors") static void *const object_global_initializer = (void *)__sinit_TObject_cpp;
 
 #pragma defer_codegen on

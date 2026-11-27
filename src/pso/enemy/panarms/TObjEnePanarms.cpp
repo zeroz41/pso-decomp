@@ -137,9 +137,7 @@ extern const s32 panarms_beam_down_charge_points[3] = { 3, 4, 0 };
 /* State table of TObjEnePanarms: {enter, update} per state, indexed by state; filled by the TU's __sinit. */
 extern PanarmsState panarms_state_table[14];
 // The unit's static initializer comes before the weak copies of the inline accessors it emits.
-extern "C" {
 static void __sinit_TObjEnePanarms_cpp();
-}
 __declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
 
 

@@ -232,9 +232,7 @@ void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void reset_com_card_list_callback(void) { TLobby::reset_com_card_list(); }
 
 
-extern "C" {
 static void __sinit_GuildCardRecord_cpp();
-}
 __declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_GuildCardRecord_cpp;
 
 static void __sinit_GuildCardRecord_cpp() {

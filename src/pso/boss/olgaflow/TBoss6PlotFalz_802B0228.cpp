@@ -6,7 +6,6 @@
 #include "pso/boss/olgaflow/TBoss6Demo21_TYPE2_DEAD.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalzState.h"
-#include "pso/boss/olgaflow/Boss6Type2Appearance.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"

@@ -64,11 +64,10 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
 s8 get_cast_technique_level(void *, s16);
 
 void copy_player_visual_record(void *, void *);
-void __sinit_TNpcPlayer_cpp();
 }
 
 disp_data_part2 npc_player_visual_record;
-DestructorChain npc_player_ply_char_data_global;
+DestructorChain npc_player_char_data_dtor_chain;
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
@@ -90,6 +89,7 @@ const char *TNpcPlayer::name = "TNpcPlayer";
 // npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
 // of this file, which no compiler-generated __sinit reproduces.
+void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
 
 int get_registered_object_count(void);
@@ -1011,7 +1011,7 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, &npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, &npc_player_char_data_dtor_chain);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {

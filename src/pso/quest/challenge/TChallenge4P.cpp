@@ -856,7 +856,9 @@ void TChallenge4P::run_task() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_max_size(16)
-void copy_global_value_block() {
+// Copies the default settings into challenge4p_mode_state, spelled out because the original's static initializer
+// precedes this file's deferred constructor and destructor.
+void __sinit_TChallenge4P_cpp() {
     __memcpy(&challenge4p_mode_state, &challenge_default_settings, sizeof(ChallengeModeState));
 }
 
@@ -876,4 +878,4 @@ TChallenge4P::~TChallenge4P() {
     challenge_retry_object = NULL;
 }
 
-__declspec(section ".ctors") static void *const __sinit_TChallenge4P_cpp_ref = (void *)copy_global_value_block;
+__declspec(section ".ctors") static void *const challenge4p_global_initializer = (void *)__sinit_TChallenge4P_cpp;

@@ -120,7 +120,7 @@ const s32 panbara_retreat_angle_offset[2] = {0x800, -0x800};
 
 
 
-extern "C" void __sinit_TObjEnePanBARA_cpp();
+void __sinit_TObjEnePanBARA_cpp();
 __declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanBARA_cpp;
 // Indexed by the half's state: set_state runs enter, run_task runs update.
 extern PanBARAState panarms_state_fn_table[17];

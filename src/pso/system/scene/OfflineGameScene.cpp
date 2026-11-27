@@ -659,9 +659,7 @@ void TScene::set_scene(int scene) { scene_resource_index = scene; }
 // The global character record. The original's static initializer precedes this
 // file's inline copies, which a compiler-generated one never does, so the
 // initializer is spelled out.
-extern "C" {
 static void __sinit_OfflineGameScene_cpp();
-}
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
