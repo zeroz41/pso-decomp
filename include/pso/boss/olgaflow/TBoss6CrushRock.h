@@ -7,6 +7,7 @@
 #include <stddef.h>
 
 struct NJS_TEXLIST;
+struct NJS_OBJECT;
 
 class TBoss6CrushRock : public TObject {
 public:
@@ -17,7 +18,7 @@ public:
     static s32 is_falz_alive();
 
     struct Angles { s32 x, y, z; };
-    void *model;
+    NJS_OBJECT *model;
     NJS_TEXLIST *texture_list;
     Vec position;
     Vec velocity;

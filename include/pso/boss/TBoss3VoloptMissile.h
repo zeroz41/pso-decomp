@@ -10,7 +10,7 @@
 class TParticleCtrl;
 class TBoss3VoloptMissile : public TObjCollidable {
 public:
-    saddr model;
+    NJS_OBJECT *model;
     s32 textures;
     Vec velocity;
     u8 pad_c0[0xC];

@@ -196,12 +196,6 @@ struct TBoss6MagMotionEntry {
     s32 motion;
     f32 speed;
 };
-struct TBoss6MagMotionBlend {
-    NJS_MOTION *from;
-    NJS_MOTION *to;
-    f32 from_frame;
-    f32 to_frame;
-};
 // copy_vec3 copies the motion track as one block of words, which a struct with float members does not give.
 struct TBoss6MagMotionWords {
     s32 index;

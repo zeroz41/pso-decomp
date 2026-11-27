@@ -5202,11 +5202,12 @@ void TObjPlayer::foreach_player(void (*callback)(TObjPlayer *)) {
 s32 TObjPlayer::reset_volopt_state() { return is_item_area_enabled(this->get_area()); }
 
 void TObjPlayer::play_phase_transition_sound(saddr child) {
+    NJS_OBJECT *model = (NJS_OBJECT *)child;
     if (((get_main_phase() == 0xE) || (get_main_phase() == 0xF)) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
-        draw_chunk_object((void *)child);
+        draw_chunk_object(model);
         return;
     }
-    draw_chunk_object((void *)child);
+    draw_chunk_object(model);
 }
 
 s16 TObjPlayer::get_current_mode_animation() {

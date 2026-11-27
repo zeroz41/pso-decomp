@@ -339,7 +339,7 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
-    draw_ginja_object(*(void * *)&this->base_model);
+    draw_ginja_object(this->base_model);
     pop_matrix();
 }
 

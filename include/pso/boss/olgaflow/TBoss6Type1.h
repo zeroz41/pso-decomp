@@ -346,7 +346,6 @@ LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, target_p
 LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
 LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
 // The two motions and frames draw_model_blend_motion blends.
-struct Boss6BlendMotion { NJS_MOTION *motions[2]; f32 frames[2]; };
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 
 #endif

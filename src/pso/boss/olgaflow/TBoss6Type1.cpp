@@ -718,7 +718,7 @@ void TBoss6Type1::set_motion_set(s32 set) {
 #pragma push
 #pragma opt_propagation off
 void TBoss6Type1::draw_part_motions() {
-    Boss6BlendMotion b;
+    NJS_MOTION_LINK b;
     s32 i;
     saddr id;
     NJS_TEXLIST *textures;
@@ -738,15 +738,15 @@ void TBoss6Type1::draw_part_motions() {
             set_texture_list(textures);
             if (0.0f == a->blend) {
                 cb->install();
-                draw_model_motion((void *)id, a->motion, a->frame);
+                draw_model_motion((NJS_OBJECT *)id, a->motion, a->frame);
                 cb->clear();
             } else {
-                b.motions[0] = a->prev_motion;
-                b.frames[0] = a->prev_frame;
-                b.motions[1] = a->motion;
-                b.frames[1] = a->frame;
+                b.motion[0] = a->prev_motion;
+                b.frame[0] = a->prev_frame;
+                b.motion[1] = a->motion;
+                b.frame[1] = a->frame;
                 cb->install();
-                draw_model_blend_motion((void *)id, &b, a->blend);
+                draw_model_blend_motion((NJS_OBJECT *)id, &b, a->blend);
                 cb->clear();
             }
         }

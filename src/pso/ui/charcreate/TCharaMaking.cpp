@@ -278,7 +278,7 @@ void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *charac
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
-    draw_chunk_object((void *)child);
+    draw_chunk_object((NJS_OBJECT *)child);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;

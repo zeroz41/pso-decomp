@@ -369,7 +369,7 @@ void TBoss6Mag::change_motion(s32 motion) {
 #pragma pop
 
 void TBoss6Mag::draw_model_motion_blend() {
-    TBoss6MagMotionBlend blend;
+    NJS_MOTION_LINK blend;
     NJS_TEXLIST *texlist;
     NJS_OBJECT *model;
     set_motion_packed_rotation();
@@ -381,10 +381,10 @@ void TBoss6Mag::draw_model_motion_blend() {
         draw_model_motion(model, motion_state.track.motion, motion_state.track.frame);
         capture->clear();
     } else {
-        blend.from = motion_state.track.prev_motion;
-        blend.from_frame = motion_state.track.prev_frame;
-        blend.to = motion_state.track.motion;
-        blend.to_frame = motion_state.track.frame;
+        blend.motion[0] = motion_state.track.prev_motion;
+        blend.frame[0] = motion_state.track.prev_frame;
+        blend.motion[1] = motion_state.track.motion;
+        blend.frame[1] = motion_state.track.frame;
         capture->install();
         draw_model_blend_motion(model, &blend, motion_state.track.blend);
         capture->clear();

@@ -51,8 +51,8 @@ void TObjVoloptPillar::spawn_debris_chips() {
 }
 
 
-static saddr volopt_pillar_model;
-static saddr volopt_pillar_base_model;
+static NJS_OBJECT *volopt_pillar_model;
+static NJS_OBJECT *volopt_pillar_base_model;
 static s32 volopt_pillar_textures;
 static s32 volopt_pillar_base_textures;
 
@@ -68,12 +68,12 @@ void TObjVoloptPillar::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));
-        draw_chunk_object((void *)volopt_pillar_model);
+        draw_chunk_object(volopt_pillar_model);
         pop_matrix();
         push_matrix();
         translate_matrix(0, position.x, start_y, position.z);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_base_textures));
-        draw_chunk_object((void *)volopt_pillar_base_model);
+        draw_chunk_object(volopt_pillar_base_model);
         pop_matrix();
         restore_scene_lighting();
         TParticleCtrl::end_effect_render();
@@ -163,9 +163,9 @@ void TObjVoloptPillar::run_task() {
 }
 
 void TObjVoloptPillar::cache_target_values() {
-    volopt_pillar_model = (saddr)boss3_volopt_resources->models[0x17].model;
+    volopt_pillar_model = boss3_volopt_resources->models[0x17].model;
     volopt_pillar_textures = (saddr)boss3_volopt_resources->models[0x17].texlist;
-    volopt_pillar_base_model = (saddr)boss3_volopt_resources->models[0x15].model;
+    volopt_pillar_base_model = boss3_volopt_resources->models[0x15].model;
     volopt_pillar_base_textures = (saddr)boss3_volopt_resources->models[0x15].texlist;
 }
 

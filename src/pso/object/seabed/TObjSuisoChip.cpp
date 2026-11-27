@@ -317,7 +317,7 @@ void TObjSeabedSuiso_CH::render() {
         if (motion != NULL) {
             draw_ginja_model_with_motion(kind_model, motion, animation_frame);
         } else {
-            draw_ginja_box_tree((NJS_OBJECT *)kind_model);
+            draw_ginja_box_tree(kind_model);
         }
         pop_matrix();
         set_model_node_callback(0);
@@ -338,7 +338,7 @@ void TObjSeabedSuiso_CH::update_state() {
 
 void TObjSeabedSuiso_CH::scroll_kind2_uvs() {
     s32 entry;
-    NJS_OBJECT *node = find_object_node((NJS_OBJECT *)kind_model, 4);
+    NJS_OBJECT *node = find_object_node(kind_model, 4);
 
     if (last_uv_scroll_tick != actor_frame_tick) {
         if (node != NULL && node->model != NULL) {

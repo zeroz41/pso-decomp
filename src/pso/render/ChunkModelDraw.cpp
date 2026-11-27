@@ -788,7 +788,7 @@ void draw_chunk_model(void *model) {
 }
 
 
-void draw_chunk_object(void *child) {
+void draw_chunk_object(NJS_OBJECT *child) {
     setup_model_draw_state(child);
     transform_chunk_object_tree(child, draw_chunk_vertices_cached);
     end_chunk_draw();

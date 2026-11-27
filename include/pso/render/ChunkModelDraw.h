@@ -66,7 +66,7 @@ void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size);
 void apply_chunk_texture_command(s32 header, s32 texture_word);
 void draw_chunk_model(void *model);
 extern "C" {
-void draw_chunk_object(void *child);
+void draw_chunk_object(NJS_OBJECT *child);
 }
 void set_chunk_alpha_compare_ref(u8 ref);
 void set_chunk_blend(u32 x);
@@ -92,12 +92,12 @@ s32 draw_chunk_vertices_cached(void *model);
 void end_chunk_draw();
 
 // Draws model posed by motion and deformed by shape (a Ninja shape motion) at frame.
-void draw_chunk_model_with_shape_motion(void *model, void *motion, NJS_MOTION *shape, f32 frame);
+void draw_chunk_model_with_shape_motion(NJS_OBJECT *model, NJS_MOTION *motion, NJS_MOTION *shape, f32 frame);
 void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blend_factor, ModelDrawCallback draw_model);
 void draw_shape_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, NJS_MOTION *shape, f32 frame, ModelDrawCallback draw_model);
-void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
+void draw_model_blend_motion(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blend_factor);
 extern "C" {
-void draw_model_motion(void *model, void *motion, f32 frame);
+void draw_model_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
 }
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
 void draw_object_tree_recursive(NJS_OBJECT *node);

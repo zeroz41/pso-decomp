@@ -198,7 +198,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         push_matrix();
         post_translate_matrix(&dark_falz_part_node_position.x);
         set_texture_list(attachment_textures);
-        draw_chunk_object((void *)attachment);
+        draw_chunk_object((NJS_OBJECT *)attachment);
         pop_matrix();
     }
     if (head != NULL) {
@@ -236,7 +236,7 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
             set_texture_list(part_texlist);
-            draw_chunk_object((void *)part);
+            draw_chunk_object((NJS_OBJECT *)part);
             pop_matrix();
         }
         if (head != NULL) {
@@ -264,14 +264,14 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
+void TObjPlayer::draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, f32 frame, f32 alpha) {
     TObjPlayer *player;
     NJS_OBJECT *head;
     NJS_OBJECT *hair;
     NJS_TEXLIST *head_textures;
     uaddr attachment;
     NJS_TEXLIST *attachment_textures;
-    void *body;
+    NJS_OBJECT *body;
     NJS_TEXLIST *body_textures;
     if (0.0f == alpha) {
         return;
@@ -295,12 +295,12 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     }
     set_texture_list(body_textures);
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion(body, (void *)motion, frame);
+    draw_model_motion(body, motion, frame);
     TObjDFTenchuFuru::unregister_callback();
     if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
         set_texture_list(attachment_textures);
-        draw_chunk_object((void *)attachment);
+        draw_chunk_object((NJS_OBJECT *)attachment);
         pop_matrix();
     }
     if (head != NULL) {

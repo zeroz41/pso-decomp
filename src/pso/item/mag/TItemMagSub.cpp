@@ -263,7 +263,7 @@ void TItemMagSub::render() {
             clear_motion_packed_rotation();
             set_chunk_model_node_callback(0);
         } else {
-            draw_node_tree_with_callback((NJS_OBJECT *)model, TItemMagSub::update_node_oscillation);
+            draw_node_tree_with_callback(model, TItemMagSub::update_node_oscillation);
         }
         drawn_node = 0;
         pop_matrix();
