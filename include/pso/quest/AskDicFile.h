@@ -24,14 +24,11 @@ void mark_name_cache_dirty(void);
 void save_name_cache(void);
 s32 get_slot_entry_length(s32 slot_index);
 void reset_slot_range(s32 begin, s32 end, s32 mode);
-s32 quest_text_prev_page(s32 mode, s32 force);
 void build_cursor_candidates(void);
 void build_best_candidate(s32 pos, s32 x);
-s32 is_jis_kanji_code(u16 ch);
 extern "C" {
 void set_quest_text_run_attr(u16 *run, s32 count, s32 attr);
 }
-u16 calc_quest_entry_score(const QuestDownloadEntryNode *entry, u16 attribute);
 s32 quest_char_is_closing_mark(u8 ch);
 s32 quest_char_is_letter(u8 ch);
 s32 quest_char_is_digit(u8 ch);
@@ -41,11 +38,9 @@ s32 release_slot_entry(u32 index);
 s32 find_best_slot_entry(s32 id, u8 key, u8 sub_key, void *dst);
 s32 save_and_close_download_file(void);
 s32 open_ask_dictionary(s8 *quest_vm_down_load_server);
-s32 start_askdic(void);
 extern "C" {
 s32 aram_seek(s32 handle, s32 offset, s32 whence);
 }
-s32 aram_close(s32 handle);
 extern "C" {
 s32 aram_open(const char *name, s32 mode);
 }

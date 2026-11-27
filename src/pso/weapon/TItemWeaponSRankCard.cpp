@@ -21,8 +21,8 @@ void TItemWeaponSRankCard::init_weapon_effect_descriptor(WeaponEffectDescriptor 
     desc->flags |= 0x282;
     get_weapon_color__11TItemWeaponFv(&color, this);
     copy_argb(&desc->color, &color);
-    desc->hit_effect = (void *)TObjPlayer::create_network_object;
-    desc->wall_effect = (void *)start_wall_card;
+    desc->hit_effect = TObjPlayer::create_network_object;
+    desc->wall_effect = start_wall_card;
 }
 
 void TItemWeaponSRankCard::update_weapon() {

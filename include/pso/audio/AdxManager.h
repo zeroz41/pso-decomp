@@ -28,6 +28,7 @@ s32 is_adxm_initialized(void);
 void adxm_set_error_callback(AdxMessageCallback callback, s32 context);
 void exec_vsync_servers(void);
 void vblank_thread_loop(void);
+// SVM lock/unlock callbacks init_runtime_threads registers.
 void __OSCallResetFunctions(s32 context);
 void adxm_svm_unlock_callback(s32 context);
 }

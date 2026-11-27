@@ -10,8 +10,8 @@
 // wall: a particle flash, then a trail, gone after 12 frames.
 class TItemWpnCardEffect : public TObject {
 public:
-    TItemWpnCardEffect(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id);
-    TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id);
+    TItemWpnCardEffect(TObject *parent, const Vec *position, Vec *direction, s32 tint, s32 item_id);
+    TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, Vec *direction, s32 tint, s32 item_id);
     virtual ~TItemWpnCardEffect();
     void anchor_card_effect();
     virtual void run_task();
@@ -39,8 +39,8 @@ LAYOUT_ASSERT(TItemWpnCardEffect_size, sizeof(TItemWpnCardEffect) == 0x70);
 // The card drawn with the weapon's second model, fading in while flashing.
 class TItemWpnCardModelEffect : public TItemWpnCardEffect {
 public:
-    TItemWpnCardModelEffect(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id);
-    TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id);
+    TItemWpnCardModelEffect(TObject *parent, const Vec *position, Vec *direction, s32 tint, s32 item_id);
+    TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, Vec *direction, s32 tint, s32 item_id);
     virtual ~TItemWpnCardModelEffect();
     void init_offset_vectors();
     virtual void render();
@@ -54,8 +54,8 @@ public:
 LAYOUT_ASSERT(TItemWpnCardModelEffect_size, sizeof(TItemWpnCardModelEffect) == 0x90);
 
 // Guardianna's yellow card where a shot hits a wall; the red and untinted cards of other weapons.
-void start_guardianna_wall_card(s32 item_id, f32 *position, f32 *direction);
-void start_red_wall_card(s32 item_id, f32 *position, f32 *direction);
-void start_wall_card(s32 item_id, f32 *position, f32 *direction);
+void start_guardianna_wall_card(s32 item_id, const Vec *position, Vec *velocity);
+void start_red_wall_card(s32 item_id, const Vec *position, Vec *velocity);
+void start_wall_card(s32 item_id, const Vec *position, Vec *velocity);
 
 #endif

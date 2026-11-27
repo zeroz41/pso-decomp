@@ -15,7 +15,6 @@ void init_light_globals(s32, s32);
 void set_model_render_flags(u32 flags);
 extern "C" {
 f32 clampMaterialChannel(f32 value, f32 lower, f32 upper);
-void set_chunk_material_override_pair(s32 first, s32 second);
 }
 
 // One controller's state in keyboard_control_pad_slots (0x34 bytes, four of them),

@@ -327,10 +327,6 @@ struct Boss1DragonParams {
 struct DragonModelState { s32 state[2]; f32 params[4]; };
 struct DragonEffectRotation { s32 x, y, z; };
 
-struct DragonAttackParams;
-
-void copy_dragon_attack_params(DragonAttackParams *destination, const DragonAttackParams *source);
-
 // The pad button its owner's card flag 2 picks: 0x20000 when set, else 0x10000.
 s32 get_control_button_mask(s32 client_id);
 

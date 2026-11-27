@@ -49,7 +49,7 @@ TItemEffFlame::TItemEffFlame(TObject *parent, ActorBodyHit *hit) : TObject(paren
     disallow_rendering();
 }
 
-void spawn_flame_effect(void *unused, ActorBodyHit *hit) {
+void spawn_flame_effect(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
     if (hit != NULL) {
         TItemEffFlame *flame = new TItemEffFlame(tl_05, hit);
         TItemAttacker::spawn_item_timer(flame, release_flame, 30);

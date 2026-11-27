@@ -152,6 +152,7 @@ struct TBoss4Type1AttackTables {
 
 class TObject;
 
+// Shared by the first and second combat forms.
 void apply_tenchu_hits(TObject *source);
 void spawn_tenchu_furu(TObject *parent);
 

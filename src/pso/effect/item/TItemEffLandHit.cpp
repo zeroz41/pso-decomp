@@ -32,8 +32,8 @@ void spawn_hit_particle_trio(Vec *pos) {
 }
 #pragma pop
 
-void spawn_wall_hit_particles(s32 layer, Vec *pos) {
-    spawn_hit_particle_trio(pos);
+void spawn_wall_hit_particles(s32 item_id, const Vec *pos, Vec *velocity) {
+    spawn_hit_particle_trio(const_cast<Vec *>(pos));
 }
 
 void spawn_weapon_impact_effect(s32 layer, TItemWeapon *weapon, Vec *start, Vec *end) {

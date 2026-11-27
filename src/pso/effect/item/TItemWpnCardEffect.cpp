@@ -35,55 +35,55 @@ const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
 #pragma fp_contract on
 
-void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
-    if ((hit != NULL) && ((u32) *hit != 0U)) {
-        new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, (f32 *)direction, 0, item_id);
+void TObjPlayer::create_network_object(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
+    if (hit != NULL && hit->target != NULL) {
+        new TItemWpnCardEffect(tl_05, hit, velocity, 0, item_id);
     }
 }
 
-void start_wall_card(s32 item_id, f32 *position, f32 *direction) {
-    new TItemWpnCardEffect(tl_05, position, direction, 0, item_id);
+void start_wall_card(s32 item_id, const Vec *position, Vec *velocity) {
+    new TItemWpnCardEffect(tl_05, position, velocity, 0, item_id);
 }
 
-void TObjPlayer::create_aux_object(s32 item_id, u32 *hit, f32 *direction) {
-    if ((hit != NULL) && ((u32) *hit != 0U)) {
-        new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, direction, 0xFFFF0000, item_id);
+void TObjPlayer::create_aux_object(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
+    if (hit != NULL && hit->target != NULL) {
+        new TItemWpnCardEffect(tl_05, hit, velocity, 0xFFFF0000, item_id);
     }
 }
 
-void start_red_wall_card(s32 item_id, f32 *position, f32 *direction) {
-    new TItemWpnCardEffect(tl_05, position, direction, 0xFFFF0000, item_id);
+void start_red_wall_card(s32 item_id, const Vec *position, Vec *velocity) {
+    new TItemWpnCardEffect(tl_05, position, velocity, 0xFFFF0000, item_id);
 }
 
-void TObjPlayer::start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction) {
-    if ((hit != NULL) && ((u32) *hit != 0U)) {
-        new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, direction, -0x100, item_id);
+void TObjPlayer::start_guardianna_hit_card(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
+    if (hit != NULL && hit->target != NULL) {
+        new TItemWpnCardEffect(tl_05, hit, velocity, -0x100, item_id);
     }
 }
 
-void start_guardianna_wall_card(s32 item_id, f32 *position, f32 *direction) {
-    new TItemWpnCardEffect(tl_05, position, direction, -0x100, item_id);
+void start_guardianna_wall_card(s32 item_id, const Vec *position, Vec *velocity) {
+    new TItemWpnCardEffect(tl_05, position, velocity, -0x100, item_id);
 }
 
-TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
+TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, Vec *direction, s32 tint, s32 item_id) : TObject(parent) {
     target_id = hit->target->get_entity_id();
     this->item_id = item_id;
     copy_actor_body_hit(&hit_target, hit);
-    VecCopy(&this->direction, (const Vec *)direction);
+    VecCopy(&this->direction, direction);
     VecCopy(&position, &hit->target->bodies[hit->body].center);
-    rotation[1] = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
+    rotation[1] = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction->x, direction->z);
     this->tint = tint;
     init();
 }
 
-TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
+TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, const Vec *position, Vec *direction, s32 tint, s32 item_id) : TObject(parent) {
     hit_target.target = NULL;
     hit_target.body = 0;
     target_id = 0xFFFF;
     this->item_id = item_id;
-    VecCopy(&this->direction, (const Vec *)direction);
-    VecCopy(&this->position, (const Vec *)position);
-    rotation[1] = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]));
+    VecCopy(&this->direction, direction);
+    VecCopy(&this->position, position);
+    rotation[1] = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction->x, direction->z));
     this->tint = tint;
     init();
 }
@@ -189,19 +189,19 @@ void TItemWpnCardEffect::anchor_card_effect() {
         }
     }
 }
-void TObjPlayer::create_and_init_effect(s32 item_id, u32 *hit, f32 *direction) {
-    if ((hit != NULL) && ((u32) *hit != 0U)) {
-        new TItemWpnCardModelEffect(tl_05, (ActorBodyHit *)hit, direction, 0, item_id);
+void TObjPlayer::create_and_init_effect(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
+    if (hit != NULL && hit->target != NULL) {
+        new TItemWpnCardModelEffect(tl_05, hit, velocity, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 item_id, f32 *position, f32 *direction) {
-    new TItemWpnCardModelEffect(tl_05, position, direction, 0, item_id);
+void TObjPlayer::alloc_and_init(s32 item_id, const Vec *position, Vec *velocity) {
+    new TItemWpnCardModelEffect(tl_05, position, velocity, 0, item_id);
 }
-TItemWpnCardModelEffect::TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
+TItemWpnCardModelEffect::TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, Vec *direction, s32 tint, s32 item_id)
     : TItemWpnCardEffect(parent, hit, direction, tint, item_id) {
     init_offset_vectors();
 }
-TItemWpnCardModelEffect::TItemWpnCardModelEffect(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id)
+TItemWpnCardModelEffect::TItemWpnCardModelEffect(TObject *parent, const Vec *position, Vec *direction, s32 tint, s32 item_id)
     : TItemWpnCardEffect(parent, position, direction, tint, item_id) {
     init_offset_vectors();
 }

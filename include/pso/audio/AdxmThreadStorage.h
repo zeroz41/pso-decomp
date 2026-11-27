@@ -26,9 +26,5 @@ extern volatile s32 adxm_worker_thread_stopped;
 extern volatile s32 lobby_worker_thread_run_flag;
 extern volatile s32 adxm_busy_wait_stopped;
 extern volatile s32 adxm_busy_wait_run_flag;
-
-// SVM lock/unlock callbacks init_runtime_threads registers.
-void __OSCallResetFunctions(s32 context);
-void adxm_svm_unlock_callback(s32 context);
 }
 #endif

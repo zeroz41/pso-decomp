@@ -28,6 +28,6 @@ LAYOUT_ASSERT(TItemEffFlameSize, sizeof(TItemEffFlame) == 0x28);
 // Weapon hit callbacks: a burst where a shot hits a wall, and flames on an
 // actor's body.
 void spawn_flame_wall_impact(TObject *parent, TItemEquipBase *weapon, const Vec *from, Vec *hit);
-void spawn_flame_effect(void *unused, ActorBodyHit *hit);
+void spawn_flame_effect(s32 item_id, ActorBodyHit *hit, Vec *velocity);
 
 #endif

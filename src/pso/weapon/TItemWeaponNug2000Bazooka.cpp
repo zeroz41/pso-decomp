@@ -7,14 +7,14 @@
 #include "pso/technique/TFireExplosion.h"
 #include "pso/weapon/TExplosionCollider.h"
 
-void spawn_nug2000_wall_explosion(s32 item_id, const Vec *pos) {
+void spawn_nug2000_wall_explosion(s32 item_id, const Vec *pos, Vec *velocity) {
     TItemWeapon *weapon = static_cast<TItemWeapon *>(find_item_by_id(item_id));
     if (weapon != NULL) {
         spawn_fire_explosion_at(weapon, pos);
     }
 }
 
-void spawn_nug2000_hit_explosion(s32 item_id, ActorBodyHit *hit) {
+void spawn_nug2000_hit_explosion(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
     TItemWeapon *weapon = static_cast<TItemWeapon *>(find_item_by_id(item_id));
     if (weapon != NULL) {
         spawn_fire_explosion_at(weapon, &hit->target->bodies[hit->body].center);
@@ -32,8 +32,8 @@ void spawn_fire_explosion_at(TItemWeapon *weapon, const Vec *pos) {
 }
 
 void TItemWeaponNug2000Bazooka::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
-    desc->hit_effect = (void *)spawn_nug2000_hit_explosion;
-    desc->wall_effect = (void *)spawn_nug2000_wall_explosion;
+    desc->hit_effect = spawn_nug2000_hit_explosion;
+    desc->wall_effect = spawn_nug2000_wall_explosion;
     desc->spin[0] = -0x4000;
     desc->particle = 0x1bb;
     desc->trail_particle = 0x1bc;

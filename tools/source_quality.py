@@ -97,6 +97,13 @@ CATALOG: tuple[Pattern, ...] = (
     _p("local_decl", "Prototypes and externs in source files", "void heap_free(void *);",
        _NEVER, "linkage", sources_only=True),
     _p("self_param", "self receivers in C++", "void widget_draw(TWidget *self)", _NEVER, "linkage"),
+    # a definition under extern "C" whose symbol is mangled: CodeWarrior keeps the C++ linkage of an earlier
+    # prototype, so the build matches while the source says C
+    _p("extern_c_cxx", 'C++ functions defined under extern "C"', 'extern "C" { void widget_reset(TWidget *w) {',
+       _NEVER, "linkage", sources_only=True),
+    _p("static_init", "Hand-written static initializers",
+       '__declspec(section ".ctors") static void *const init = (void *)__sinit_TWidget_cpp;', _NEVER, "linkage",
+       sources_only=True, needle=r"ctors"),
     _p("mangled_member", "Hand-mangled member names", "update__6TEnemyFv",
        r"\b[A-Za-z_]\w*?__\d+[A-Za-z_]\w*?F\w*\b", "linkage"),
     _p("mangled_free", "Hand-mangled free functions", "helper__Fv", r"\b[A-Za-z_]\w*?__F[A-Za-z]\w*\b", "linkage"),
@@ -175,6 +182,8 @@ CATALOG: tuple[Pattern, ...] = (
        "types"),
     _p("cross_cast", "Pointers cast to an unrelated class", "TPlayer *p; ((TWidget *)p)->f()", _NEVER, "types"),
     _p("void_arg", "void * casts on arguments", "f((void *)widget)", _NEVER, "types", needle=r"void"),
+    _p("void_function", "Functions kept as void *", "params->on_hit = (void *)spawn_hit_effect;", _NEVER,
+       "types"),
     _p("void_table", "Tables of void pointers", "void *handlers[] = {",
        r"\bvoid\s*\*\s*(?:const\s+)?(?!(?i:\w*(?:vt|vtable|vtbl)))\w+\s*\[[^\]\n]*\]\s*(?:\[[^\]\n]*\]\s*)*=\s*\{",
        "types", needle=r"void"),
@@ -236,7 +245,11 @@ CATALOG: tuple[Pattern, ...] = (
        sources_only=True),
     _p("duplicate_class", "Classes declared in more than one file", "class TEnemy {", _NEVER,
        "placement"),
+    _p("duplicate_decl", "Functions declared in more than one header", "void heap_free(void *); (two headers)",
+       _NEVER, "placement"),
     _p("misowned_member", "Members that belong to another class", "TWidget::set_sound_volume(int)", _NEVER,
+       "placement"),
+    _p("misplaced_unit", "Units filed in the wrong folder", "unk/TWidgetTimer.cpp, enemy/wolf/TWidget.cpp", _NEVER,
        "placement"),
     # assembly
     _p("inline_asm", "Inline assembly", "asm { ... }",
@@ -849,6 +862,57 @@ def address_unit(rel: str) -> list[tuple[int, str]]:
     return []
 
 
+_UNIT_SUFFIXES = {".c", ".cc", ".cp", ".cpp", ".cxx"}
+
+
+def misplaced_units(paths: Iterable[str]) -> dict[str, list[Finding]]:
+    """misplaced_unit by file: a unit in a folder named unk (not sorted yet) and a header there that no unit is
+    named after, a unit whose header (the one header with its name) is in another folder, and a unit named as a
+    part of a family (Family_Part, or FamilyPart where the family name has two words or more) whose family unit is
+    in another folder that is not a parent of this one. Folders are compared under src/ and include/, which mirror
+    each other."""
+    paths = list(paths)
+    folder = lambda rel: "/".join(Path(rel).parent.parts[1:])
+    units = [rel for rel in paths if Path(rel).suffix.lower() in _UNIT_SUFFIXES]
+    headers = collections.defaultdict(list)
+    for rel in paths:
+        if Path(rel).suffix.lower() in HEADER_SUFFIXES:
+            headers[Path(rel).stem].append(rel)
+    families = collections.defaultdict(set)
+    for rel in units:
+        families[Path(rel).stem].add(folder(rel))
+    out = collections.defaultdict(list)
+    for stem, found in headers.items():   # a header no unit is named after counts on its own (one move fixes both)
+        for rel in found:
+            if "unk" in Path(rel).parts and stem not in families:
+                out[rel].append(Finding("misplaced_unit", f"{Path(rel).name} (in unk)", 1))
+    for rel in units:
+        here, stem, name = folder(rel), Path(rel).stem, Path(rel).name
+        own = headers.get(stem, [])
+        if "unk" in Path(rel).parts:
+            out[rel].append(Finding("misplaced_unit", f"{name} (in unk)", 1))
+        elif len(own) == 1 and folder(own[0]) != here:
+            out[rel].append(Finding("misplaced_unit", f"{name} (header in {folder(own[0])})", 1))
+        elif family := _family(stem, families):
+            if here not in families[family] and not any(here.startswith(f + "/") for f in families[family]):
+                out[rel].append(Finding("misplaced_unit", f"{name} ({family} in {min(families[family])})", 1))
+    return out
+
+
+def _family(stem: str, families: Container[str]) -> str | None:
+    """The longest unit name that stem extends at a word boundary (Family_Part, FamilyPart), when it has two words
+    or more after a class prefix T."""
+    for cut in range(len(stem) - 1, 2, -1):
+        if not (stem[cut] == "_" or (stem[cut].isupper() and stem[cut - 1].islower())):
+            continue
+        family = stem[:cut]
+        if len(re.findall(r"[A-Z][a-z0-9]+", family[1:] if family.startswith("T") else family)) < 2:
+            return None
+        if family in families:
+            return family
+    return None
+
+
 _CLASS_BODY = re.compile(r"\b(typedef\s+)?(class|struct|union)\b\s*(?:([A-Za-z_]\w*)\s*)?(?:final\s*)?"
                          r"(?::(?!:)\s*[^{};]*)?\{")
 
@@ -1393,6 +1457,189 @@ def local_decls(text: str, blanked: "_Blanked") -> list[tuple[int, str]]:
     return sorted(found + block_decls(text, blanked, defined))
 
 
+# --- functions kept as void *, static initializers, prototypes in more than one header ---------------------------
+# A function stored in a void * field or variable loses its type: the call site casts it back to whatever it
+# guesses. Which names are functions is known only over the whole tree, so a file keeps its candidates and
+# relations() judges them.
+
+_QUALIFIED = r"((?:[A-Za-z_]\w*\s*::\s*)*[A-Za-z_]\w*)"
+_VOID_FUNCTION = re.compile(r"\(\s*(?:const\s+)?void\s*\*\s*\)\s*&?\s*" + _QUALIFIED + r"\b(?!\s*(?:[(\[.]|->|::))")
+_FIELD_STORE = re.compile(r"(?:->|(?<![.\w])\.)\s*([A-Za-z_]\w*)\s*=(?!=)\s*&?\s*" + _QUALIFIED + r"\s*;")
+_VOID_VARIABLE = re.compile(r"\bvoid\s*\*\s*(?:const\s+)?[A-Za-z_]\w*\s*=\s*&?\s*" + _QUALIFIED + r"\s*[;,]")
+_VOID_TABLE = re.compile(r"\bvoid\s*\*\s*(?:const\s+)?\w+\s*(?:\[[^\]\n]*\]\s*)+=\s*\{")   # void_table, hand_vtable
+_STATIC_INIT = re.compile(r'__declspec\s*\(\s*section\s+"\.ctors"\s*\)')
+_FIELD_DECL = re.compile(r"\s*(?:(?:const|volatile|mutable)\s+)*(?:(?:struct|class|union|enum)\s+)?"
+                         r"([A-Za-z_][\w:]*)\s*([*&\s]*?)\s*(?:const\s+)?([A-Za-z_]\w*)\s*(?:\[[^\]]*\]\s*)*(?::\s*\w+\s*)?")
+_FUNCTION_POINTER = re.compile(r"\(\s*\*\s*(?:const\s+)?([A-Za-z_]\w*)\s*\)\s*\(")
+
+
+def _void_casts_skipped(text: str, code: str, blanked: "_Blanked"):
+    """offset -> whether other checks count a (void *) cast there: tables of void pointers (void_table,
+    hand_vtable), .ctors entries (static_init) and call arguments (void_arg, by line)."""
+    spans = [(m.end() - 1, _matching(code, m.end() - 1)) for m in _VOID_TABLE.finditer(code)]
+    spans += [(m.start(), code.find(";", m.end())) for m in _STATIC_INIT.finditer(text)]
+    inside = _inside(_outermost(spans))
+    args = {(line, found) for line, found in void_args(blanked)}
+    return lambda offset, found: inside(offset) or (blanked.line(offset), found) in args
+
+
+def void_function_candidates(text: str, blanked: "_Blanked") -> list[tuple[str, str, str, int]]:
+    """(name, field or "", finding text, line) of each place a name may be a function kept as void *: a
+    `(void *)name` cast, `void *p = name;`, and `->field = name;` (judged against the fields declared void *)."""
+    if "void" not in text and "=" not in text:
+        return []
+    code, out = blanked(), []
+    if "void" in text:
+        skipped = _void_casts_skipped(text, code, blanked)
+        for match in _VOID_FUNCTION.finditer(code):
+            if not skipped(match.start(), _normal(match[0])):
+                out.append((re.sub(r"\s+", "", match[1]), "", _normal(match[0]), blanked.line(match.start())))
+        for match in _VOID_VARIABLE.finditer(code):
+            if not skipped(match.start(), ""):
+                out.append((re.sub(r"\s+", "", match[1]), "", _normal(match[0].rstrip(";,")),
+                            blanked.line(match.start())))
+    for match in _FIELD_STORE.finditer(code):
+        out.append((re.sub(r"\s+", "", match[2]), match[1], _normal(match[0].rstrip(";")),
+                    blanked.line(match.start())))
+    return out
+
+
+def member_types(blanked: "_Blanked") -> tuple[set[str], set[str]]:
+    """(fields declared void *, fields declared with any other type) of the classes in a file."""
+    if not blanked.bodies():
+        return set(), set()
+    code, void, other = blanked(), set(), set()
+    for offset, _, _ in blanked.bodies():
+        brace = code.find("{", offset)
+        for piece in re.split(r"[;{}]", code[brace + 1:_matching(code, brace)]):
+            piece = _ACCESS.sub("", piece)
+            pointer = _FUNCTION_POINTER.search(piece)
+            if pointer:
+                other.add(pointer[1])
+                continue
+            if "(" in piece or "=" in piece or "," in piece:
+                continue
+            found = _FIELD_DECL.fullmatch(piece)
+            if found and found[1] not in ("typedef", "return", "using", "friend"):
+                (void if found[1] == "void" and found[2].strip() == "*" else other).add(found[3])
+    return void, other
+
+
+def static_inits(text: str, blanked: "_Blanked") -> list[tuple[int, str]]:
+    """static_init: (line, entry) of each pointer placed in .ctors by hand. The compiler writes a unit's static
+    initializer (__sinit_<unit>) and its .ctors entry from the file's global constructors and initialized data."""
+    code, out = blanked(), []
+    for match in _STATIC_INIT.finditer(text):
+        if code[match.start():match.start() + 10] == "__declspec":   # not in a comment
+            end = code.find(";", match.end())
+            entry = code[match.end():end].split("=", 1)[-1]
+            out.append((blanked.line(match.start()), _normal(c_casts(entry).replace("(void *)", " "))))
+    return out
+
+
+def extern_c_defined(text: str, blanked: "_Blanked") -> list[tuple[int, str]]:
+    """(line, name) of each free function a C++ source file defines under `extern "C"` (a member keeps C++ linkage
+    wherever it is defined)."""
+    out = []
+    for lead, head, body, _ in _extern_c_heads(text, blanked()):
+        found = _declared(head) if body else None
+        if (found and found[1] and not re.search(r"::\s*~?" + found[0] + r"\s*\(", head)
+                and not re.match(r'extern\s*"C\+\+"', text[lead:lead + 16])):
+            out.append((blanked.line(lead), found[0]))
+    return out
+
+
+_STANDARD_HEADERS = {"assert.h", "ctype.h", "errno.h", "float.h", "limits.h", "locale.h", "math.h", "setjmp.h",
+                     "signal.h", "stdarg.h", "stddef.h", "stdint.h", "stdio.h", "stdlib.h", "string.h", "time.h",
+                     "wchar.h", "wctype.h", "inttypes.h", "stdbool.h", "iso646.h", "fenv.h", "complex.h", "tgmath.h"}
+
+
+def _param_types(code: str, span: tuple[int, int]) -> tuple[str, ...]:
+    """The parameter types of the list whose parentheses are at span, names, defaults and tags dropped."""
+    inner = code[span[0] + 1:span[1]]
+    if inner.strip() in ("", "void"):
+        return ()
+    out = []
+    for piece in _declarators(inner):
+        equals = _top_level(piece, "=")
+        piece = piece[:equals[0]] if equals else piece
+        found = _declared(piece)
+        if found and not found[1] and found[0] not in _NOT_A_NAME:
+            at = piece.rfind(found[0])
+            piece = piece[:at] + piece[at + len(found[0]):]
+        piece = re.sub(r"\b(?:struct|class|union|enum)\s+", "", piece)
+        out.append(re.sub(r"\s*([*&,()\[\]])\s*", r"\1", " ".join(piece.split())))
+    return tuple(out)
+
+
+def free_prototypes(blanked: "_Blanked") -> list[tuple[str, int, tuple[str, ...]]]:
+    """(name, line, parameter types) of each free function a header declares without defining: not a member, not
+    in a namespace, not static (each unit has its own), not a typedef or a macro invocation."""
+    code, out = blanked(), []
+    for d in blanked.prototypes():
+        if d.in_class or d.scope or "::" in d.name or _MACRO_NAME.fullmatch(d.name):
+            continue
+        start = max(code.rfind(c, 0, d.params[0]) for c in ";{}") + 1
+        head = _drop_attributes(code[start:d.params[0]])
+        if re.search(r"\b(?:typedef|static|template|using|friend)\b", head) or "operator" in d.name:
+            continue
+        out.append((d.name, blanked.line(d.params[0]), _param_types(code, d.params)))
+    return out
+
+
+def _public(rel: str) -> bool:
+    """A library header others include (under an include directory), not one private to the library's sources."""
+    return "include" in Path(rel).parts[:-1]
+
+
+def repeated_prototypes(files: dict[str, list[tuple[str, int, tuple[str, ...]]]],
+                        library: dict[str, list[tuple[str, int, tuple[str, ...]]]],
+                        config: "Config | None") -> dict[str, list[Finding]]:
+    """duplicate_decl by file: each copy of a free function's prototype after the one that stays, the copies being
+    those with the same parameter types or, when symbols.txt has one function by the name (no overloads), any.
+    The copy that stays is a library's own (a public library header), else the C library's (a header named like
+    one, which is never counted: each runtime has its own), else the one in the header named after the unit
+    defining the function, else one in the defining unit's component (a public header before a private one, then
+    the nearest folder), else the first by path. Files are the counted headers; library holds the public library
+    headers' prototypes."""
+    places = collections.defaultdict(list)   # name -> [(home rank, path, line, types, counted)]
+    for rel, found in [*files.items(), *((rel, found) for rel, found in library.items() if _public(rel))]:
+        for name, line, types in found:
+            places[name].append((rel, line, types, rel in files))
+    out = collections.defaultdict(list)
+    for name, copies in places.items():
+        if len(copies) < 2 or not any(counted for *_, counted in copies):
+            continue
+        symbols, units = config.functions(name) if config else ((), ())
+        stems = {Path(unit).stem for unit in units}
+        homes = [Path(unit).parent.parts for unit in units]
+
+        def rank(copy):
+            rel, line, _, counted = copy
+            folder = Path(rel).parent.parts[1:]   # under src/ or include/, as units are named
+            near = max((len(list(itertools.takewhile(lambda pair: pair[0] == pair[1], zip(folder, home))))
+                        for home in homes), default=0)
+            return (counted, Path(rel).name not in _STANDARD_HEADERS, Path(rel).stem not in stems,
+                    near == 0, not rel.startswith("include/"), -near, rel, line)
+
+        sets = [sorted(copies, key=rank)] if len(symbols) == 1 else \
+            [sorted(group, key=rank) for group in _by_types(copies).values()]
+        for group in sets:
+            home = group[0]
+            for rel, line, _, counted in group[1:]:
+                if counted and Path(rel).name not in _STANDARD_HEADERS:
+                    where = "again in this header" if rel == home[0] else f"also in {Path(home[0]).name}"
+                    out[rel].append(Finding("duplicate_decl", f"{name} ({where})", line))
+    return out
+
+
+def _by_types(copies: list) -> dict[tuple[str, ...], list]:
+    groups = collections.defaultdict(list)
+    for copy in copies:
+        groups[copy[2]].append(copy)
+    return groups
+
+
 # --- parameter names, compared across files ----------------------------------------------------------------------
 # A prototype pairs with the one definition of the same qualified name and parameter count. A parameter named by a
 # placeholder on one side and a real name on the other is debt (param_name_split).
@@ -1506,11 +1753,12 @@ PARSED = {
     "void_arg": lambda rel, text, blanked: void_args(blanked) if "void" in text else [],
     "cast_macro": lambda rel, text, blanked: cast_macros(blanked) if "define" in text else [],
     "static_this": lambda rel, text, blanked: static_this_calls(blanked) if "this" in text and "::" in text else [],
+    "static_init": lambda rel, text, blanked: static_inits(text, blanked) if ".ctors" in text else [],
 }
 # Checks judged over the whole tree (see relations()): they depend on more than one file, or on the config. A
 # header named after an address (address_unit) counts only when no unit has its name, since one rename fixes both.
 TREE_CHECKS = {"duplicate_class", "header_extern_c", "param_name_split", "address_unit", "misowned_member",
-               "overlay_type", "cross_cast"}
+               "misplaced_unit", "overlay_type", "cross_cast", "void_function", "duplicate_decl", "extern_c_cxx"}
 
 
 # --- per-file scan ----------------------------------------------------------------------------------------------
@@ -1556,6 +1804,11 @@ class FileScan:
     overlays: list = dataclasses.field(default_factory=list)     # see plain_structs()
     blobs: dict = dataclasses.field(default_factory=dict)        # struct of byte arrays declared here -> its size
     var_casts: list = dataclasses.field(default_factory=list)    # (declared class, cast class, cast text, line)
+    void_uses: list = dataclasses.field(default_factory=list)    # see void_function_candidates()
+    void_fields: set = dataclasses.field(default_factory=set)    # fields declared void * (member_types())
+    typed_fields: set = dataclasses.field(default_factory=set)   # fields declared with another type
+    prototypes: list = dataclasses.field(default_factory=list)   # header: see free_prototypes()
+    c_definitions: list = dataclasses.field(default_factory=list)   # C++ source: see extern_c_defined()
 
 
 class _Blanked:
@@ -1685,9 +1938,15 @@ def scan_file(rel: str, text: str, keep: bool = False) -> FileScan:
     var_casts = [(c.declared, c.cast, c.text, blanked.line(c.offset)) for c in typed_casts(blanked)
                  if c.depth == 1 and c.declared_depth == 1 and not c.address and not c.member and c.name != "this"
                  and c.declared and c.declared != c.cast] if "*)" in text or "_cast" in text else []
+    suffix = Path(rel).suffix.lower()
+    void_fields, typed_fields = member_types(blanked)
     return FileScan(counts, this_casts, subobject_calls, dict(classes), aliases, bodies,
                     found if keep else None, c_functions, signatures(blanked), *plain_structs(blanked),
-                    var_casts=var_casts)
+                    var_casts=var_casts, void_uses=void_function_candidates(text, blanked),
+                    void_fields=void_fields, typed_fields=typed_fields,
+                    prototypes=free_prototypes(blanked) if header else [],
+                    c_definitions=extern_c_defined(text, blanked) if suffix in CPP_SUFFIXES and "extern" in text
+                    else [])
 
 
 class ClassMap:
@@ -1856,20 +2115,48 @@ def overlay_types(texts: dict[str, str], scans: dict[str, FileScan]) -> dict[str
     return {rel: found for rel, found in out.items() if found}
 
 
+def void_functions(scans: dict[str, FileScan], library: dict[str, tuple[list, list]],
+                   classes: "ClassMap") -> dict[str, list[Finding]]:
+    """void_function by file: a function's name cast to void *, put in a void * variable, or stored in a field that
+    every class declaring it declares void *. A name is a function when some file declares or defines one by it
+    and no class has it (a constructor's name is its class's)."""
+    functions = {name.rsplit("::", 1)[-1] for sigs in [*(s.signatures for s in scans.values()),
+                                                      *(sigs for sigs, _ in library.values())]
+                 for _, name, _ in sigs}
+    functions -= set(classes.bases) | set(classes.aliases)
+    void = set().union(*(s.void_fields for s in scans.values()))
+    void -= set().union(*(s.typed_fields for s in scans.values()))
+    out = collections.defaultdict(list)
+    for rel, scan in scans.items():
+        for name, field, text, line in scan.void_uses:
+            if name.rsplit("::", 1)[-1] in functions and (not field or field in void):
+                out[rel].append(Finding("void_function", text, line))
+    return out
+
+
 def relations(scans: dict[str, FileScan], config: "Config | None" = None,
-              library: dict[str, list] | None = None,
+              library: dict[str, tuple[list, list]] | None = None,
               members: dict[str, list[Finding]] | None = None) -> dict[str, list[Finding]]:
     """Findings that depend on more than one file, by the file they are in: classes declared twice,
     extern "C" in headers on functions a C++ unit defines, parameters named differently in a prototype and its
-    definition (library: signatures() of files read only to pair them), headers named after an address that no unit
+    definition (library: library() of files read only to pair them), headers named after an address that no unit
     shares a name with, members in the wrong class, and the findings read again from the revision's texts
     (members: text_relations())."""
     classes = ClassMap(scans.values())
     out = duplicates(scans)
     for rel, found in (members or {}).items():
         out[rel] += found
+    library = library or {}
     for rel, found in param_names([*sorted((rel, s.signatures) for rel, s in scans.items()),
-                                   *sorted((library or {}).items())], scans).items():
+                                   *sorted((rel, sigs) for rel, (sigs, _) in library.items())], scans).items():
+        out[rel] += found
+    for rel, found in repeated_prototypes({rel: s.prototypes for rel, s in scans.items() if s.prototypes},
+                                          {rel: protos for rel, (_, protos) in library.items() if protos},
+                                          config).items():
+        out[rel] += found
+    for rel, found in void_functions(scans, library, classes).items():
+        out[rel] += found
+    for rel, found in misplaced_units(scans).items():
         out[rel] += found
     units = {Path(rel).stem for rel in scans if Path(rel).suffix.lower() not in HEADER_SUFFIXES}
     for rel, scan in scans.items():
@@ -1879,6 +2166,8 @@ def relations(scans: dict[str, FileScan], config: "Config | None" = None,
         if config is not None:
             found += [Finding("header_extern_c", f'extern "C" {name}', line)
                       for line, name in scan.c_functions if config.cxx_linkage(name)]
+            found += [Finding("extern_c_cxx", f'extern "C" {name}', line)
+                      for line, name in scan.c_definitions if config.mangled_only(name)]
         if Path(rel).suffix.lower() in HEADER_SUFFIXES and Path(rel).stem not in units:
             found += [Finding("address_unit", name, line) for line, name in address_unit(rel)]
         if found:
@@ -2108,6 +2397,9 @@ def middleware(configure: str) -> tuple[int, int] | None:
     return (int(start[1], 16), int(end[1], 16)) if start and end else None
 
 
+_FREE_SYMBOL = re.compile(r"([A-Za-z_]\w*?)__F\w*")   # CodeWarrior's free function: name__F<parameters>
+
+
 @dataclass
 class Config:
     linkage: dict[str, set[str]]   # function name -> the units defining it
@@ -2117,6 +2409,7 @@ class Config:
     rev: str | None = None
     c_defined: dict[str, set[str]] = dataclasses.field(default_factory=dict)   # unit -> its extern "C" definitions
     sources: list[str] | None = None   # the library C++ sources at rev (read lazily)
+    free: dict[str, set[str]] | None = None   # free function name -> its symbols (functions())
 
     def c_definitions(self, unit: str) -> set[str]:
         """The functions the unit's source (the C++ file under a library root whose path ends with the unit's name)
@@ -2132,6 +2425,21 @@ class Config:
             texts = self.repo.read(self.rev, rels, None) if rels else {}
             self.c_defined[unit] = set().union(*(extern_c_definitions(text) for text in texts.values()))
         return self.c_defined[unit]
+
+    def functions(self, name: str) -> tuple[set[str], set[str]]:
+        """(symbols, units) of the free functions named `name`: its C symbol and its C++ ones (name__F...)."""
+        if self.free is None:
+            self.free = collections.defaultdict(set)
+            for symbol in self.linkage:
+                mangled = _FREE_SYMBOL.fullmatch(symbol)
+                if mangled or not re.search(r"__\d|[^\w]", symbol):
+                    self.free[mangled[1] if mangled else symbol].add(symbol)
+        symbols = self.free.get(name, set())
+        return symbols, set().union(*(self.linkage[s] for s in symbols)) if symbols else set()
+
+    def mangled_only(self, name: str) -> bool:
+        """True when symbols.txt has C++ functions named `name` (name__F...) and no C one."""
+        return name not in self.linkage and bool(self.functions(name)[0])
 
     def cxx_linkage(self, name: str) -> bool:
         """True when a C++ unit, and no C unit, defines the function with C++ linkage. A middleware unit is never
@@ -2226,9 +2534,15 @@ def _row(key: str) -> dict:
     return {"key": key, "name": p.name, "example": p.example, "group": p.group, "category": GROUPS[p.group]}
 
 
-def library(texts: Iterable[tuple[str, str]]) -> dict[str, list]:
-    """signatures() of library files (LIBRARY_ROOTS)."""
-    return {rel: signatures(_Blanked(text)) for rel, text in texts if source_file(rel)}
+def library(texts: Iterable[tuple[str, str]]) -> dict[str, tuple[list, list]]:
+    """(signatures(), free_prototypes() of a public header) of library files (LIBRARY_ROOTS)."""
+    out = {}
+    for rel, text in texts:
+        if source_file(rel):
+            blanked = _Blanked(text)
+            header = Path(rel).suffix.lower() in HEADER_SUFFIXES and _public(rel)
+            out[rel] = (signatures(blanked), free_prototypes(blanked) if header else [])
+    return out
 
 
 def counted(rel: str) -> bool:

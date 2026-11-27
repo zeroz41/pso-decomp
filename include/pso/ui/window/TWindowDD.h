@@ -6,7 +6,6 @@
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/system/NinjaTypes.h"
 
-s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 s32 is_verb_word(s32 value);
 
 class TWindowDD_WS_Word;

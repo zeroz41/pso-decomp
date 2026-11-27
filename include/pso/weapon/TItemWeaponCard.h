@@ -28,8 +28,8 @@ public:
     u32 fan_flags;      // bit 0 while the attack stage is 2: draw the two extra cards
     s32 effect_id;      // TItemEffCane::create's effect: 445, 341 or 447
     f32 effect_scale;   // the shot's scale (WeaponEffectDescriptor::scale)
-    void *wall_effect;  // called where the shot hits a wall (WeaponEffectDescriptor::wall_effect)
-    void *hit_effect;   // called on the target the shot hits (WeaponEffectDescriptor::hit_effect)
+    TItemAttackColHitWall wall_effect;   // called where the shot hits a wall (WeaponEffectDescriptor::wall_effect)
+    TItemAttackColHitObject hit_effect;  // called on the target the shot hits (WeaponEffectDescriptor::hit_effect)
 };
 
 // Weapon 0x8C00 and every card group without its own class.
@@ -84,7 +84,7 @@ public:
     virtual ~TItemWeaponSectionIdCard();
     // The hit_effect and wall_effect: spawn_hit_particles where the shot struck.
     static void spawn_hit_particles_at(s32 item_id, ActorBodyHit *hit, Vec *dir);
-    static void spawn_hit_particles_at_vec(s32 item_id, Vec *pos, Vec *dir);
+    static void spawn_hit_particles_at_vec(s32 item_id, const Vec *pos, Vec *dir);
     static void spawn_hit_particles(Vec *pos, const Vec *dir);
 };
 

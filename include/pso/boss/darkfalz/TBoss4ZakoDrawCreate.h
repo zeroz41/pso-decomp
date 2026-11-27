@@ -7,10 +7,6 @@ class TObject;
 
 void *create_boss4_zako_draw(TObject *parent);
 
-// --- C functions defined in TBoss4ZakoDrawCreate.cpp ---
-void *create_boss4_zako_draw(TObject *parent);
-// --- end of C functions
-
 int get_online_ready_flag();
 
 #endif

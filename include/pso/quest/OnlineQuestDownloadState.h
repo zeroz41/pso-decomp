@@ -20,6 +20,4 @@ extern OnlineQuestDownloadState quest_list_online_bin_download_state;
 }
 void decompress_online_quest_dat(const u8 *data, s32 size);
 
-void decompress_online_quest_dat(const u8 *data, s32 size);
-
 #endif

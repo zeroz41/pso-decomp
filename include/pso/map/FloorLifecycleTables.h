@@ -9,5 +9,4 @@ struct FloorLifecycleEntry {
 };
 
 extern FloorLifecycleEntry* floor_lifecycle_callback_tables[36];
-s32 run_floor_initialize_callbacks(s32 floor);
 #endif

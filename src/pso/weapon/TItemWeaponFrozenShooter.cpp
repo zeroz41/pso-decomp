@@ -13,7 +13,7 @@
 
 #pragma push
 #pragma fp_contract on
-void frozen_shooter_freeze_hit(int, ActorBodyHit *hit) {
+void frozen_shooter_freeze_hit(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
     TObjChara *target;
     if (hit != NULL && obj_is_hit_receivable(hit->target) != 0) {
         target = (TObjChara *)hit->target;
@@ -25,7 +25,7 @@ void frozen_shooter_freeze_hit(int, ActorBodyHit *hit) {
 
 void TItemWeaponFrozenShooter::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     if (skip_freeze == 0) {
-        desc->hit_effect = (void *)frozen_shooter_freeze_hit;
+        desc->hit_effect = frozen_shooter_freeze_hit;
     }
     desc->hits = hits;
     desc->spin[0] = 0x4000;

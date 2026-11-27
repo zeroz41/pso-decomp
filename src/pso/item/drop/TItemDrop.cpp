@@ -25,6 +25,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/GslArchive.h"
+#include "pso/system/TGStream.h"
 #include "pso/item/item_create.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/item/armor/TItemProArmor.h"

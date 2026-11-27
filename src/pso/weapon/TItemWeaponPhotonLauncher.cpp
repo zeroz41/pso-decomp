@@ -29,7 +29,7 @@ void TItemWeaponPhotonLauncher::init_weapon_effect_descriptor(WeaponEffectDescri
     desc->model = second_model;
     desc->hits = 4;
     desc->scale = 2.0f;
-    desc->wall_effect = (void *)spawn_wall_hit_particles;
+    desc->wall_effect = spawn_wall_hit_particles;
 }
 
 void TItemWeaponPhotonLauncher::emit_marker_effects() {

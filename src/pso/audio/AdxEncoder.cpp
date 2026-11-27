@@ -5,6 +5,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include <string.h>
 #include "pso/audio/AdxEncoder.h"
+#include "pso/audio/AdxHeader.h"
 
 #include "types.h"
 

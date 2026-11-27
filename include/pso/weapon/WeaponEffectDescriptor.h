@@ -5,6 +5,13 @@
 #include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 
+// Called when the collider hits a wall (or at once for an instant one):
+// the weapon's item id, where it is and its velocity.
+typedef void (*TItemAttackColHitWall)(s32 item_id, const Vec *position, Vec *velocity);
+// Called for each target it hits: the weapon's item id, the target's
+// ActorBodyHit entry and the collider's velocity.
+typedef void (*TItemAttackColHitObject)(s32 item_id, ActorBodyHit *hit, Vec *velocity);
+
 // Weapon overrides and the collider constructor share this shot record.
 struct WeaponEffectDescriptor : AttackColParams {
     s32 rotation_y;
@@ -18,8 +25,8 @@ struct WeaponEffectDescriptor : AttackColParams {
     s32 spin[3];
     f32 star_width;
     NJS_ARGB color;
-    void *wall_effect;
-    void *hit_effect;
+    TItemAttackColHitWall wall_effect;
+    TItemAttackColHitObject hit_effect;
     s32 particle;
     s32 trail_particle;
 };

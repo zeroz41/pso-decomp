@@ -153,6 +153,12 @@ typedef struct SND_AUX_CHORUS {
     u32 period;
 } SND_AUX_CHORUS;
 
+typedef u32 (*SND_STREAM_UPDATE_CALLBACK)(void *buffer1, u32 len1, void *buffer2, u32 len2, u32 user);
+
+typedef struct SND_ADPCMSTREAM_INFO {
+    s16 coefTab[8][2];
+} SND_ADPCMSTREAM_INFO;
+
 typedef struct SND_HOOKS {
     void *(*malloc)(u32 addr);
     void (*free)(void *addr);
@@ -172,7 +178,16 @@ s32 sndFXKeyOff(s32 vid);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aramSize);
 void sndVolume(u8 volume, u16 time, u8 vGroup);
 void sndOutputMode(s32 mode);
+u32 sndStreamAllocLength(u32 samples, u32 flags);
+u32 sndStreamAllocEx(u8 prio, void *buffer, u32 samples, u32 frq, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb, u8 studio,
+                     u32 flags, SND_STREAM_UPDATE_CALLBACK updateFunction, u32 user, SND_ADPCMSTREAM_INFO *adpcmInfo);
+void sndStreamARAMUpdate(u32 stid, u32 off1, u32 len1, u32 off2, u32 len2);
 void sndStreamMixParameter(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol);
+void sndStreamMixParameterEx(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb);
+void sndStreamFrq(u32 stid, u32 frq);
+void sndStreamFree(u32 stid);
+u32 sndStreamActivate(u32 stid);
+void sndStreamDeactivate(u32 stid);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 u32 sndPopGroup(void);
 }

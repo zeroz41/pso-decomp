@@ -116,7 +116,6 @@ struct StickEscapeDetector {
 };
 
 LAYOUT_ASSERT(StickEscapeDetector_size, sizeof(StickEscapeDetector) == 0xC);
-void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input);
 
 class TPlyCharData;
 typedef GC_Mtx PlayerJointMatrixSet[32];
@@ -755,11 +754,11 @@ struct TObjPlayer : public TObjChara {
     static void enable_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player);
     static void clear_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player);
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
-    static void alloc_and_init(s32 item_id, f32 *position, f32 *direction);
-    static void create_and_init_effect(s32 item_id, u32 *hit, f32 *direction);
-    static void start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction);
-    static void create_aux_object(s32 item_id, u32 *hit, f32 *direction);
-    static void create_network_object(s32 item_id, u32 *hit, saddr direction);
+    static void alloc_and_init(s32 item_id, const Vec *position, Vec *velocity);
+    static void create_and_init_effect(s32 item_id, ActorBodyHit *hit, Vec *velocity);
+    static void start_guardianna_hit_card(s32 item_id, ActorBodyHit *hit, Vec *velocity);
+    static void create_aux_object(s32 item_id, ActorBodyHit *hit, Vec *velocity);
+    static void create_network_object(s32 item_id, ActorBodyHit *hit, Vec *velocity);
     void free_indexed_entry(s32 _w1);
     static void create_cleanup_object(void *parent);
     static void free_static_buffer();
@@ -983,8 +982,8 @@ struct TObjPlayer : public TObjChara {
     void trade_item_by_group_kind(s16 group, s16 kind);
     f32 select_normal_attack_marker();
     static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
-    static void spawn_fire_explosion_for_item(s32 id, s32 item);
-    static void spawn_fire_explosion_at_item(s32 id, saddr context);
+    static void spawn_fire_explosion_for_item(s32 item_id, const Vec *position, Vec *velocity);
+    static void spawn_fire_explosion_at_item(s32 item_id, ActorBodyHit *hit, Vec *velocity);
     static void spawn_fire_explosion(TItemWeapon *item_weapon, const Vec *pos);
     void push_model_fade_color();
     static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);

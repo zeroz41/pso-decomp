@@ -43,7 +43,6 @@ struct NetworkInfoCardFile {
 LAYOUT_ASSERT(NetworkInfoCardFileExtent, sizeof(NetworkInfoCardFile) == 0x8000);
 
 
-s32 take_network_info_request_result(s32 *card_result, s32 *card_detail);
 void update_network_info_load(void);
 s32 request_network_info_exists(s32 channel);
 s32 take_network_info_exists_result(s32 *card_result, s32 *card_detail);

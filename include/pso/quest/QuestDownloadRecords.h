@@ -109,7 +109,6 @@ extern "C" {
 s32 count_quest_text_entries(const QuestDownloadTextNode *chain);
 QuestDownloadTextNode *advance_quest_text_entries(QuestDownloadTextNode *chain, s32 count);
 }
-QuestDownloadTextNode *next_quest_text_entry(QuestDownloadTextNode *chain);
 extern "C" {
 QuestDownloadTextNode *detach_quest_text_tail(QuestDownloadTextNode *chain);
 void free_quest_text_chain(QuestDownloadTextNode *chain);

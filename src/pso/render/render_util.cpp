@@ -18,7 +18,6 @@
 #include "pso/render/ModelDrawContext.h"
 
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
-#include "pso/render/render_util_tail.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 

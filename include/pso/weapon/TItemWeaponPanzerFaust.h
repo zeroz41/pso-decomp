@@ -28,7 +28,7 @@ LAYOUT_ASSERT(TItemWeaponPanzerFaust_size, sizeof(TItemWeaponPanzerFaust) == 0x2
 
 TItem *create_panzer_faust(u8 *item);
 // The Panzer Faust's hit and wall-hit callbacks.
-void spawn_faust_hit_explosion(s32 id, ActorBodyHit *hit);
-void spawn_faust_wall_explosion(s32 id, Vec *pos);
+void spawn_faust_hit_explosion(s32 item_id, ActorBodyHit *hit, Vec *velocity);
+void spawn_faust_wall_explosion(s32 item_id, const Vec *pos, Vec *velocity);
 
 #endif
