@@ -1144,7 +1144,6 @@ void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TSetManager::apply_floor_set_rows() {
-    u8 *self = (u8 *)this;
     s32 current_floor;
     LobbyFloorRows *floor;
     current_floor = get_current_floor();
@@ -1166,7 +1165,7 @@ void TSetManager::apply_floor_set_rows() {
     }
     if (floor_decoration_row_count > 0) {
         apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);
-        resolve_set_row_factory_indices(self, floor_decoration_rows, floor_decoration_row_count);
+        resolve_set_row_factory_indices(this, floor_decoration_rows, floor_decoration_row_count);
     }
     this->step = 1;
 }

@@ -1648,24 +1648,23 @@ int TItemData::calc_display_grade() {
 }
 
 s32 TItemData::get_base_rarity() {
-    u8 *item = (u8 *)this;
     ItemToolPmt *p;
-    switch (item[0]) {
+    switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        p = (ItemToolPmt *)lookup_item_pmt_record(item);
+        p = (ItemToolPmt *)lookup_item_pmt_record(data1.data_u8);
         if (p != NULL) {
             return get_item_star_count(p->id);
         }
         break;
     case 3:
-        p = (ItemToolPmt *)lookup_item_pmt_record(item);
+        p = (ItemToolPmt *)lookup_item_pmt_record(data1.data_u8);
         if (p != NULL && (p->flags & 0x80)) {
             return 0xC;
         }
         break;
     case 2:
-        if (item[1] >= 0x28) {
+        if (data1.data_u8[1] >= 0x28) {
             return 0xC;
         }
         break;
