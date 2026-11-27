@@ -1865,13 +1865,16 @@ s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 
 #pragma push
 #pragma opt_propagation off
-// Builds the two global lists after bm5_gibon_u_stat_params and registers their destructors, spelled out because
-// the original's static initializer precedes this file's inline copies.
+// CodeWarrior: builds the two global lists after bm5_gibon_u_stat_params and registers their destructors, spelled
+// out because the original's static initializer precedes this file's inline copies. Elsewhere the lists start
+// zeroed, which is what their constructor sets, and their destructor does nothing.
+#ifdef __MWERKS__
 void __sinit_TObjEneBm5GibonU_cpp() {
     TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)bm5_gibon_u_stat_params;
     __register_global_object(data->node_list.reset(), __dt__20TObjEneBm5GibonUListFv, &data->node_list_chain);
     __register_global_object(data->enemy_list.reset(), __dt__20TObjEneBm5GibonUListFv, &data->enemy_list_chain);
 }
+#endif
 #pragma pop
 
 TObjEneBm5GibonUNode::TObjEneBm5GibonUNode() {
@@ -2460,4 +2463,6 @@ void TObjEneBm5GibonU::dispatch_action(u32 state, s32 reason) {
     }
 }
 
+#ifdef __MWERKS__
 __declspec(section ".ctors") static void *const bm5_gibon_u_global_initializer = (void *)__sinit_TObjEneBm5GibonU_cpp;
+#endif

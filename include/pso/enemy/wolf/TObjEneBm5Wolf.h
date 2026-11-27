@@ -37,9 +37,11 @@ struct TObjEneBm5WolfList {
     void remove(TObjEneBm5WolfNode *node);
 };
 
-// The list's destructor by symbol, for the static initializer that registers the global lists (C++ cannot take a
-// destructor's address).
+#ifdef __MWERKS__
+// The list's destructor by symbol, for CodeWarrior's hand-written static initializer that registers the global
+// lists (C++ cannot take a destructor's address).
 extern "C" void __dt__18TObjEneBm5WolfListFv(void *object, s16 flags);
+#endif
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
     TObjEneBm5Wolf(TObject *parent, EnemyPlacement *set_data);
