@@ -62,7 +62,7 @@ struct TBoss2Mine : public TObjEneDD {
     s32 pulse_phase;           // 0 brightening, 1 fading, 2 waiting, 3 off
     s32 step;
     s32 timer;
-    s32 m_3d0;
+    s32 pad_3d0;
     u8 pad_3D4[0x4];
     s32 tilt;
     union {

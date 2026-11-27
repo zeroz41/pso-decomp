@@ -120,7 +120,7 @@ void TBoss2Mine::init(s32 variant) {
     this->pulse_phase = 2;
     this->step = 0;
     this->timer = 0;
-    this->m_3d0 = 0;
+    this->pad_3d0 = 0;
     this->tilt = 0;
     this->throw_distance = 0.0f;
     this->throw_distance_left = 0.0f;
