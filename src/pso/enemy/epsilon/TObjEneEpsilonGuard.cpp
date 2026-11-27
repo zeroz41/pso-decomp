@@ -700,7 +700,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     flags = 0;
     flags |= 0x10;
     set_intangible();
-    effect_model = (void *)get_bml_model(epsilon_bml_resource, 3);
+    effect_model = get_bml_model(epsilon_bml_resource, 3);
     effect_motion = (NJS_MOTION *)get_bml_motion(epsilon_bml_resource, 3);
     effect_frame = 0.0f;
     effect_timer = 0;

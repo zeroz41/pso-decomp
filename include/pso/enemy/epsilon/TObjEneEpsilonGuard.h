@@ -53,7 +53,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     s32 orbit_angle;       // angle around the body handed to set_orbit_destination
     s32 orbit_angle_step;  // added to orbit_angle each frame (state_orbit)
     TParticleCtrl *emitter;    // queued for destruction with the guard
-    void *effect_model;        // BML model 3, drawn by render_guard_effect
+    NJS_OBJECT *effect_model;        // BML model 3, drawn by render_guard_effect
     NJS_MOTION *effect_motion; // BML motion 3
     s32 effect_step;           // sub-step of update_effect_attack (grow, hold, shrink)
     s32 effect_timer;          // frames the effect is held (update_effect_attack)
