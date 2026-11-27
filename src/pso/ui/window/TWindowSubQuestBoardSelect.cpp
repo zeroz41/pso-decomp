@@ -135,7 +135,7 @@ void TWindowSubQuestBoardSelect::select_next() {
 
 extern "C" {
 
-void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
+void TWindowSubQuestBoardSelect::draw_selection_leader_line(WindowDrawContext *ctx) {
     ColorLineVertex v[3];
     ColorLineList d;
     u32 colors[3];
@@ -150,10 +150,10 @@ void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawCont
     if (ctx->open_tick < 0) {
         return;
     }
-    if (self->get_slot_flag(self->slot) == 0) {
+    if (this->get_slot_flag(this->slot) == 0) {
         return;
     }
-    e = static_cast<WindowTextEntry *>(self->get_array_entry(self->slot + 2));
+    e = static_cast<WindowTextEntry *>(this->get_array_entry(this->slot + 2));
     draw_selection_corners(ctx, &e->x, 56.0f, 0.3f);
     x = ctx->inner_x + e->x;
     y = ctx->inner_y + e->y;
@@ -162,7 +162,7 @@ void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawCont
     } else {
         alpha = 0xFF000000;
     }
-    e = static_cast<WindowTextEntry *>(self->get_array_entry(1));
+    e = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     depth = 0.1794f + ctx->depth;
     d.verts = v;
     d.colors = colors;
@@ -233,7 +233,7 @@ void TWindowSubQuestBoardSelect::render() {
     ctx = draw_default_entry();
     draw_window_frame(ctx);
     status_disp->render(ctx);
-    draw_selection_leader_line(this, ctx);
+    draw_selection_leader_line(ctx);
     draw_visible_window_entries(
         this,
         &this->entry_list,

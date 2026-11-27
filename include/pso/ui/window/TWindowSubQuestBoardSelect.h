@@ -31,6 +31,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     void handle_decide();
     void select_next();
     void handle_page_input();
+    void draw_selection_leader_line(WindowDrawContext *ctx);
     virtual void run_task();
 };
 

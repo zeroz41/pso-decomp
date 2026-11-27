@@ -41,10 +41,10 @@ struct TWindowMessage : public TWindowAddition {
     void complete_reveal();
     // Adds "label : value" with the colon at the window's centre.
     s32 add_label_value_line(const char *label, const char *value, u32 flags);
+    s32 append_message_window_line(const char *text, s32 flags, s32 color);
     void update_line_timers();
 };
 
-s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color);
 
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);

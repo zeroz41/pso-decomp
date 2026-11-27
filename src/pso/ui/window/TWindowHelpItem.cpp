@@ -210,7 +210,7 @@ void TWindowHelpItem::render() {
         context);
     flags = this->help_flags;
     if ((flags & 1) && (flags & 2)) {
-        draw_list_page_indicator(page_indicator, context);
+        page_indicator->draw_list_page_indicator(context);
     }
 }
 

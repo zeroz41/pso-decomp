@@ -74,29 +74,29 @@ s32 turn_page_indicator(PageIndicator *indicator, s8 page) {
 #pragma push
 #pragma fp_contract on
 #pragma readonly_strings on
-void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
+void PageIndicator::draw_list_page_indicator(WindowDrawContext *context) {
     NJS_POINT2 pos;
     f32 scale;
-    if (r->open_tick < 0) {
+    if (context->open_tick < 0) {
         return;
     }
-    pos.x = (r->x + r->w) - 79.0f;
-    pos.y = (r->y + r->h) - 22.0f;
-    scale = (-1.0f) / (0.1495f + r->depth);
+    pos.x = (context->x + context->w) - 79.0f;
+    pos.y = (context->y + context->h) - 22.0f;
+    scale = (-1.0f) / (0.1495f + context->depth);
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    draw_page_arrow_right(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
-    draw_page_arrow_left(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    draw_page_arrow_right(context, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)this->arrow_offset);
+    draw_page_arrow_left(context, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)this->arrow_offset);
     end_screen_draw();
-    set_text_draw_params(r, 0, 1, scale, (f32)1e+05f);
+    set_text_draw_params(context, 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
-    text_builder_append_int(self->page + 1);
+    text_builder_append_int(this->page + 1);
     pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));
     u8 advance = get_font_char_advance(map_char_to_font_code('/'));
     pos.x -= 0.5f * (f32)advance;
     text_builder_append("/");
-    text_builder_append_int(self->count);
+    text_builder_append_int(this->count);
     draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, (f32)1e+05f);
 }
 #pragma pop

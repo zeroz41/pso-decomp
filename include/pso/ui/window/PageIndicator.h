@@ -18,13 +18,13 @@ struct PageIndicator {
     // Observed dynamic callers already sign-extend the two byte values.
     PageIndicator(s8 page, s8 count, s32 client);
     s8 get_type();
+    void draw_list_page_indicator(WindowDrawContext *context);
 };
 
 LAYOUT_ASSERT(PageIndicator_size, sizeof(PageIndicator) == 0xC);
 LAYOUT_ASSERT(PageIndicator_input_port, offsetof(PageIndicator, input_port) == 4);
 LAYOUT_ASSERT(PageIndicator_arrow_offset, offsetof(PageIndicator, arrow_offset) == 8);
 
-void draw_list_page_indicator(PageIndicator *, WindowDrawContext *);
 s32 handle_list_page_flip_input(PageIndicator *);
 void decay_page_arrow_offset(PageIndicator *);
 

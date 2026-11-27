@@ -241,7 +241,7 @@ void TWindowSubStatusDisp::render() {
             this,
             &this->entry_list,
             context);
-        draw_list_page_indicator(page_indicator, context);
+        page_indicator->draw_list_page_indicator(context);
     }
 }
 

@@ -112,7 +112,7 @@ void TWindowSubComCardList::render() {
         this->heading->render(ctx);
     }
     if (this->storage != 0) {
-        draw_list_page_indicator(this->storage, ctx);
+        this->storage->draw_list_page_indicator(ctx);
     }
 }
 

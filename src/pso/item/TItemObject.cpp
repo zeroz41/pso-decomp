@@ -166,18 +166,18 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     }
 }
 
-void send_nearby_player_ids(TObjPlayer *self, f32 range) {
+void TObjPlayer::send_nearby_player_ids(f32 range) {
     G_UseStarAtomizer_6x66 cmd;
     s32 j;
     u16 i;
     TObjPlayer *player;
-    if (self != NULL && self->is_local_or_split_screen() != 0) {
+    if (this != NULL && this->is_local_or_split_screen() != 0) {
         cmd.init_header();
         j = 0;
         for (i = 0; i != 4; i++) {
             player = get_player_by_client_id(i);
             if (player != NULL) {
-                if (horizontal_distance_squared(&self->position, &player->position) < range) {
+                if (horizontal_distance_squared(&this->position, &player->position) < range) {
                     cmd.target_client_ids[j++] = player->get_entity_id();
                 } else {
                     cmd.target_client_ids[j++] = -1;

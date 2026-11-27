@@ -321,7 +321,7 @@ s32 TWindowDD_WS_Word::can_scroll(s32 direction) {
     return ((u32) (this->selected_token_index - (row + 1)) >> 0x1FU) ^ 1;
 }
 
-void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
+void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
     WindowVertex verts[8];
     WindowVertex *v;
     s32 tex;
@@ -344,18 +344,18 @@ void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     if (rect->open_tick < 0) {
         return;
     }
-    c = 0.5f * self->frame_size[1] + self->frame_position[1];
-    f32 depth = word_select_inverse_depth(self->draw_depth, 0.0f);
+    c = 0.5f * this->frame_size[1] + this->frame_position[1];
+    f32 depth = word_select_inverse_depth(this->draw_depth, 0.0f);
     reset_window_vertices(verts, depth, -1);
-    copy_window_point_table(verts, self->strip_point_index);
+    copy_window_point_table(verts, this->strip_point_index);
     set_frame_column_vertices_x(rect, verts);
     s = rect->scale[1];
-    count = self->visible_row_count;
-    top = -(0.5f * self->frame_size[1]);
+    count = this->visible_row_count;
+    top = -(0.5f * this->frame_size[1]);
     y0 = top * s + c;
     bottom = top + window_dd_row_height;
     y1 = bottom * s + c;
-    if (self->strip_point_index == 0) {
+    if (this->strip_point_index == 0) {
         v0 = word_row_strip_v;
         v1 = v0 + window_dd_row_height;
     } else {
@@ -364,9 +364,9 @@ void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     }
     v0 *= window_dd_texel_scale;
     v1 *= window_dd_texel_scale;
-    frac = window_dd_row_height * fractional_part(-self->scroll_offset / window_dd_row_height);
+    frac = window_dd_row_height * fractional_part(-this->scroll_offset / window_dd_row_height);
     if (0.0f != frac) {
-        count = self->visible_row_count - 1;
+        count = this->visible_row_count - 1;
         if (frac < 0.0f) {
             part = frac + window_dd_row_height;
         } else {
@@ -406,7 +406,7 @@ void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         }
     }
     if (0.0f != frac) {
-        yb = 0.5f * self->frame_size[1] * s + c;
+        yb = 0.5f * this->frame_size[1] * s + c;
         v = verts;
         for (s32 i = 0; i < 4; i++) {
             v[0].y = y1;
@@ -417,13 +417,13 @@ void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         }
         draw_window_vertices(verts, 8, tex, 1);
     }
-    if (self->token_count > 0 && self->is_input_enabled() != 0) {
-        depth = word_select_inverse_depth(self->draw_depth, 0.1f);
+    if (this->token_count > 0 && this->is_input_enabled() != 0) {
+        depth = word_select_inverse_depth(this->draw_depth, 0.1f);
         reset_window_vertices(verts, depth, -1);
         copy_window_point_table(verts, 1);
         set_frame_column_vertices_x(rect, verts);
-        f32 row = (f32)self->selected_row;
-        f32 first_y = -(0.5f * self->frame_size[1]);
+        f32 row = (f32)this->selected_row;
+        f32 first_y = -(0.5f * this->frame_size[1]);
         y0 = row * window_dd_row_height + first_y;
         s = rect->scale[1];
         bottom = y0 + window_dd_row_height;
@@ -446,7 +446,7 @@ void TWindowDD_WS_Word::render() {
     s32 j;
     entry = draw_default_entry();
     calc_inner_rect(entry);
-    draw_word_row_strips(this, entry);
+    draw_word_row_strips(entry);
     if (needs_text_refresh != 0) {
         needs_text_refresh = 0;
         idx = selected_token_index - selected_row;

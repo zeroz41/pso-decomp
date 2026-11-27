@@ -74,7 +74,7 @@ void TWindowSubShortCutList::render() {
         status_display->render(context);
     }
     if (storage != NULL) {
-        draw_list_page_indicator(storage, context);
+        storage->draw_list_page_indicator(context);
     }
 }
 

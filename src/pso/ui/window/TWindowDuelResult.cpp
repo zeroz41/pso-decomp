@@ -211,7 +211,7 @@ void TWindowDuelResult::render() {
     WindowDrawContext *context = setup_window_draw_context(&scale_x);
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
-    draw_list_page_indicator(page_indicator, context);
+    page_indicator->draw_list_page_indicator(context);
 }
 
 void TWindowDuelResult::run_task() {
