@@ -156,7 +156,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void request_default_jittered_camera();
     s32 is_timer_expired();
     void reset_fields_4e0();
-    s32 is_field3F8_over_0x20();
+    s32 has_spare_child_ids();
     int is_field4b0_delta_reached();
     s32 is_ready();
     s32 check_field4b0_threshold();

@@ -1880,7 +1880,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     init_enemy();
     mirage_index = 0;
     behavior_flags |= 0x1000;
-    set_flag_0x100();
+    set_mirage();
     material_color = 0xB000FFB0;
     position.y = -500.0f;
     prev_position.y = -500.0f;
@@ -1958,7 +1958,7 @@ void TObjEneMe3ShinowaMirage::activate_mirage(s32 index) {
 
 void TObjEneMe3ShinowaMirage::init_mirage() { transition_enemy_state(15); }
 
-void TObjEneMe3ShinowaMirage::set_flag_0x100() {
+void TObjEneMe3ShinowaMirage::set_mirage() {
     behavior_flags |= 0x100;
     disable_body_collision();
 }
@@ -1998,7 +1998,7 @@ void TObjEneMe3ShinowaMirage::state_fade_out(s32 mode) {
     case 3:
         if (fade_color.a <= -1.0f) {
             behavior_flags &= ~0x200;
-            set_flag_0x100();
+            set_mirage();
             position.y = -500.0f;
             prev_position.y = -500.0f;
             bodies->center.y = -500.0f;

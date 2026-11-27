@@ -124,9 +124,9 @@ TObjMotionAction saver_action_table[11] = {
 
 const char *saver_class_name = "TObjEneSaver";
 const NpcAnimationBinding saver_init_binding_desc = { NULL, saver_action_table, 0, 1, 11 };
-const Vec lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
-const Vec lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
-const Vec lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
+const Vec saver_joint_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec saver_target_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec saver_target_pair_zero_vec = {0.0f, 0.0f, 0.0f};
 EnemyMoveParams saver_move_params = {
     250.0f, 1.25f, 0x400, {0, 0x64, 0, 0},
 };
@@ -885,7 +885,7 @@ void TObjEneSaver::render() {
         pop_matrix();
         push_matrix_from(anim_model_matrix_array[26]);
         {
-            Vec t = lbl_8043A8A4;
+            Vec t = saver_joint_zero_vec;
             matrix_mult_vec(NULL, &t, &particle_position);
         }
         pop_matrix();
@@ -943,7 +943,7 @@ void TObjEneSaver::refresh_target() {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec v = lbl_8043A8B0;
+        Vec v = saver_target_zero_vec;
         best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
@@ -988,7 +988,7 @@ void TObjEneSaver::refresh_target() {
         f32 best2;
         f32 best;
         f32 d;
-        Vec v = lbl_8043A8BC;
+        Vec v = saver_target_pair_zero_vec;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;

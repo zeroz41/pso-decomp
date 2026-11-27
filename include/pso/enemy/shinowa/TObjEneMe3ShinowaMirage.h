@@ -30,7 +30,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     static void advance_camera_ctrl_step(NJS_OBJECT *);
     void render();
     void clear_mirage();
-    void set_flag_0x100();
+    void set_mirage();
     void init_mirage();
     void activate_mirage(s32 index);
     void run_task();

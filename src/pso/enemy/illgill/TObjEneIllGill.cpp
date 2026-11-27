@@ -106,7 +106,7 @@ CollisionBody illGillCollisionBody = {
 AttackParams *ill_gill_combat_parameter_variants[4] = {0, 0, 0, 0};
 const char *TObjEneIllGill_class_name = "TObjEneIllGill";
 const NpcAnimationBinding illGillAnimBinding = { NULL, illGillActions, 0, 1, 10 };
-const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
+const Vec ill_gill_target_zero_vec = {0.0f, 0.0f, 0.0f};
 const char *ill_gill_kage_class_name = "TObjIllGillKage";
 }
 
@@ -322,7 +322,7 @@ void TObjEneIllGill::refresh_target() {
         if (test_actor_flags(0x10) != 0) {
             i = 0;
             best = 0xFFFF;
-            Vec v = lbl_8047A328;
+            Vec v = ill_gill_target_zero_vec;
             bestDist = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);

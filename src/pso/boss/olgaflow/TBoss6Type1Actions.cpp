@@ -133,7 +133,7 @@ void TBoss6Type1::update_state() {
             send_ret_rnd();
             return;
         }
-        if (is_field3F8_over_0x20() != 0) {
+        if (has_spare_child_ids() != 0) {
             send_flow_action_if_idle(this, 0x25);
             return;
         }

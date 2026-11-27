@@ -117,8 +117,8 @@ TObjMotionAction gibbles_action_table[10] = {
 };
 const char *gibbles_class_name = gibbles_class_name_string;
 const NpcAnimationBinding gibbles_resource_binding_desc = { NULL, gibbles_action_table, 0, 1, 10 };
-const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
-const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
+const Vec gibbles_target_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec gibbles_target_pair_zero_vec = {0.0f, 0.0f, 0.0f};
 const Vec gibbles_joint_zero_vec = {0.0f, 0.0f, 0.0f};
 EnemyMoveParams gibbles_move_params = {
     250.0f, 1.25f, 0x400, {0, 0x64, 0, 0},
@@ -458,7 +458,7 @@ void TObjEneGibbles::refresh_target() {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec v = lbl_80472768;
+        Vec v = gibbles_target_zero_vec;
         best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
@@ -503,7 +503,7 @@ void TObjEneGibbles::refresh_target() {
         f32 best2;
         f32 best;
         f32 d;
-        Vec v = lbl_80472774;
+        Vec v = gibbles_target_pair_zero_vec;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
