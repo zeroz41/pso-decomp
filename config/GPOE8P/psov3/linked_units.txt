@@ -242,7 +242,6 @@ pso/effect/GroundContactSound.cpp
 pso/effect/particle/ParticleStrip.cpp
 pso/effect/particle/ParticleResources.cpp
 pso/boss/darkfalz/TBoss4Type3.cpp
-pso/boss/darkfalz/TBoss4Type3_800524E8.cpp
 pso/boss/darkfalz/TBoss4Zako.cpp
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp
 pso/boss/darkfalz/TBoss4Zanzo.cpp
@@ -1544,7 +1543,6 @@ pso/system/MainPhaseCheck.cpp
 pso/ui/frontend/TAdDrawLineCtrl.cpp
 pso/ui/frontend/TitleBackground.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
-pso/boss/darkfalz/DrainPlayerHp.cpp
 pso/boss/galgryphon/Boss5CommonResource.cpp
 pso/render/ShadowedObjectDraw.cpp
 pso/quest/challenge/ChallengeClearedStages.cpp
