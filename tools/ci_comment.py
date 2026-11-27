@@ -2,6 +2,7 @@
 """Render the pull request comment from `check_pr.py --json` output.
 
     python tools/ci_comment.py result.json --sha <commit> --run-url <url> [--quality quality.json]
+        [--case-labels case_labels.json]
 
 A missing or unreadable result file renders as a failure that ran no checks, which is
 what a CI run that stopped before the gate looks like. The input is produced by the
@@ -210,14 +211,54 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
     return lines
 
 
+def render_case_labels(found: dict | None, repo: str) -> list[str]:
+    """The report-only numbered case label section, from `case_labels.py --base ... --json` (run by master's copy
+    of the script over the pull request's merge commit, whose text is untrusted)."""
+    lines = ["", "### Numbered case labels"]
+    least = number((found or {}).get("min"))
+    keys = ("counted_switches", "counted_labels", "numbered")
+    before, after = (counts((found or {}).get(side), *keys) for side in ("base", "head"))
+    if least is None or before is None or after is None:
+        return lines + ["", "Not measured for this run (see the run log). Check locally with "
+                        "`python tools/case_labels.py`."]
+    head = found.get("head_commit")
+    head = head if isinstance(head, str) and re.fullmatch(r"[0-9a-f]{40}", head) else ""
+    new = listed(found, "new")
+    lines += ["", "Report only, not in the debt total: `switch` statements whose labels are bare numbers "
+              "(`case 3:`). Where the executable names the values, an enum says what they are.", "",
+              "| Count | Before → after |", "|---|---:|"]
+    labels = (f"Switches with {least}+ numbered labels", "Numbered labels in those switches", "All numbered labels")
+    lines += [f"| {label} | {before_after(b, a)} |" for label, b, a in zip(labels, before, after)]
+    if new:
+        title = plural(len(new), "new or changed switch", "new or changed switches")
+        lines += ["", f"<details><summary>{title} with {least}+ numbered labels</summary>", "", "| Where | Subject | Numbered | Values |", "|---|---|---:|---|"]
+        for row in new[:QUALITY_ROWS]:
+            path, line = row.get("path"), number(row.get("line"))
+            label = f"{path.rsplit('/', 1)[-1] if isinstance(path, str) else ''}:{line or ''}"
+            where = (f"[{code(label)}](https://github.com/{repo}/blob/{head}/{urllib.parse.quote(path)}#L{line})"
+                     if repo and head and isinstance(path, str) and line else code(label))
+            values = [v for v in row.get("values") or [] if number(v) is not None] \
+                if isinstance(row.get("values"), list) else []
+            shown = ", ".join(str(v) if -10 < v < 10 else hex(v) for v in values[:12])
+            more = ", …" if len(values) > 12 else ""
+            lines.append(f"| {where} | {code(row.get('subject') or '', 60)} | {len(values):,} | {code(shown)}{more} |")
+        if len(new) > QUALITY_ROWS:
+            lines.append(f"| … {len(new) - QUALITY_ROWS:,} more in the run log | | | |")
+        lines.append("</details>")
+    lines += ["", "`python tools/case_labels.py` lists them by directory, by subject and by size."]
+    return lines
+
+
 def render(result: dict | None, sha: str, run_url: str, quality: dict | None = None,
-           measured: bool = False, repo: str = "") -> str:
+           measured: bool = False, repo: str = "", case_labels: dict | None = None,
+           labels_measured: bool = False) -> str:
     checks = {c.get("name"): c for c in (result or {}).get("checks", []) if isinstance(c, dict)}
     passed = isinstance(result, dict) and result.get("result") == "pass" and checks.get("build", {}).get("ok") is True
     sha = re.sub(r"[^0-9a-f]", "", sha)[:10]
     lines = [MARKER, f"### {PASS if passed else FAIL} CI {'passed' if passed else 'failed'}"
              + (f" · `{sha}`" if sha else "") + (f" · [run]({run_url})" if run_url else ""), ""]
     quality_lines = render_quality(quality, repo) if measured else []
+    quality_lines += render_case_labels(case_labels, repo) if labels_measured else []
     if result is None:
         lines.append("The run stopped before the gate wrote its results; see the run log.")
         return "\n".join(lines + quality_lines) + "\n"
@@ -272,11 +313,15 @@ def main() -> int:
     parser.add_argument("--sha", default="")
     parser.add_argument("--run-url", default="")
     parser.add_argument("--quality", type=Path, help="source_quality.py --json output (missing: not measured)")
+    parser.add_argument("--case-labels", type=Path,
+                        help="case_labels.py --base ... --json output (missing: not measured)")
     args = parser.parse_args()
     result, quality = load(args.result), load(args.quality) if args.quality else None
+    case_labels = load(args.case_labels) if args.case_labels else None
     found = re.fullmatch(r"https://github\.com/([\w.-]+/[\w.-]+)/actions/runs/\d+(/attempts/\d+)?", args.run_url)
     run_url, repo = (args.run_url, found[1]) if found else ("", "")
-    print(render(result, args.sha, run_url, quality, measured=args.quality is not None, repo=repo), end="")
+    print(render(result, args.sha, run_url, quality, measured=args.quality is not None, repo=repo,
+                 case_labels=case_labels, labels_measured=args.case_labels is not None), end="")
     return 0
 
 
