@@ -169,12 +169,9 @@ struct TWindowHelpItem : public TWindowBase
     void set_displayed_item_data(TItemData *item, s32 id);
     void set_items_and_refresh(TItemData *item, s32 id);
     void update_cursor_selection();
-    void set_flag0_bit20();
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
-    void set_flag8_and_field20(s32 next_value);
     void set_compare_color(s32 count);
-    void set_flag4_and_field1c(s32 count);
     void set_help_text(uaddr str);
     s32 is_item_already_equipped();
     void format_description_with_price();
