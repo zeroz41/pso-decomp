@@ -473,11 +473,8 @@ s16 TObjPlayer::select_idle_action() {
             if (keyboard_is_key_down(0x2D) != 0) {
                 return action_provider->get_key_4_action();
             }
-            goto block_109;
         }
-        goto block_109;
     }
-block_109:
     return get_no_action();
 }
 
@@ -3550,11 +3547,10 @@ s32 TObjPlayer::check_mode_action(s32 action) {
             if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                 return 0;
             }
-            goto block_5;
+        } else {
+            return 0;
         }
-        return 0;
     }
-block_5:
     return can_perform_physical_action();
 }
 

@@ -583,12 +583,7 @@ void TWindowHelpItem::update_level_requirement() {
             update_stat_comparison();
             level_value = (TWindowLayoutNumber *)get_array_entry(0xA);
             item_pmt_record = (ArmorPmtEntry *)lookup_item_pmt_record((u8 *)active_item);
-            if (check_equip_requirements(player, active_item, &requirement) == 0) {
-                if (!(requirement & 1)) {
-                    goto block_4;
-                }
-            } else {
-block_4:
+            if (check_equip_requirements(player, active_item, &requirement) != 0 || !(requirement & 1)) {
                 if (item_pmt_record->required_level != 0) {
                     level_value->value = (s32) (player->get_actor_level_index() + 1);
                 }

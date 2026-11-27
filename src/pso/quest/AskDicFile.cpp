@@ -884,57 +884,19 @@ s32 is_char_allowed(const u8 *text, s16 len) {
   return 1;
 }
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(2)
 s32 read_name_index_table(void) {
-  s32 handle;
-  s32 open_status;
-  s32 status;
-  status = 0;
-  if (aram_seek(quest_download_file_handle, 0x400, (int)status) == (-1))
-  {
-    handle = aram_open(quest_vm_download_server_file_info, ask_dictionary_open_mode);
-    if (handle == (-1))
-    {
-      quest_download_file_handle = (open_status = -1);
+    if (seek_dictionary(0x400) == -1) {
+        return -1;
     }
-    else
-    {
-      quest_download_file_handle = handle;
-      open_status = 0;
+    if (aram_dma_read(quest_download_file_handle, quest_name_index_table, 0x1000) != 0x1000) {
+        return -1;
     }
-    if (open_status != 0)
-    {
-      status = -1;
-    }
-    else
-    {
-      if (ask_dictionary_open_mode)
-      {
-      }
-      if (aram_seek(quest_download_file_handle, 0x400, 0) == (-1))
-      {
-        status = -1;
-      }
-      else
-      {
-        goto block_8;
-      }
-    }
-  }
-  else
-  {
-    block_8:
-    status = 0;
-  }
-  if (status == (-1))
-  {
-    return -1;
-  }
-  if (aram_dma_read(quest_download_file_handle, quest_name_index_table, 0x1000) != 0x1000)
-  {
-    return -1;
-  }
-  return 0;
+    return 0;
 }
+#pragma pop
 
 #pragma push
 #pragma dont_inline off

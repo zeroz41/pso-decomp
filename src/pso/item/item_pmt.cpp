@@ -403,9 +403,7 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
         if ((flags != 0) && (flags < 0x29U)) {
             return (saddr)get_text_collection(flags + 0x1CB);
         }
-        goto block_6;
     }
-block_6:
     return (saddr)empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {

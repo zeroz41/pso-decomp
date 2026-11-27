@@ -31,13 +31,12 @@ s32 TObjEvtCollision::is_any_player_in_range(f32 range_sq) {
                 return 1;
             }
         }
-        goto block_10;
+    } else {
+        local_player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+        if ((local_player != NULL) && (xyz_distance_squared(&local_player->position, &position) < range_sq)) {
+            return 1;
+        }
     }
-    local_player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
-    if ((local_player != NULL) && (xyz_distance_squared(&local_player->position, &position) < range_sq)) {
-        return 1;
-    }
-block_10:
     return 0;
 }
 

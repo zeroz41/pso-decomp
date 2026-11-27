@@ -118,20 +118,18 @@ void TObjCityMainWarpChallenge::render() {
         if (xz_distance_squared(&camera_ctrl_instance->pos, &this->position) > 160000.0f) {
             return;
         }
-        goto block_4;
+    } else if (update_object_view_visibility(400.0f, 40.0f) == 0) {
+        return;
     }
-    if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-block_4:
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
-        push_matrix();
-        post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(city_common_model_archive->models[12].model);
-        TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, (f32)frame);
-        TParticleCtrl::end_effect_render();
-        pop_matrix();
-    }
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+    push_matrix();
+    post_translate_matrix(&this->position.x);
+    rotate_matrix_y(0, this->rotation_y);
+    draw_ginja_object(city_common_model_archive->models[12].model);
+    TParticleCtrl::begin_effect_render();
+    draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, (f32)frame);
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
 }
 
 void TObjCityMainWarpChallenge::debug_print_area_num() {

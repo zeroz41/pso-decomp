@@ -302,9 +302,7 @@ void TTecLuker::run_task() {
             } else {
                 send_6x21_inter_level_warp(traveller_player, 0);
             }
-            goto block_43;
         }
-block_43:
         {
         s32 i;
         TObjPlayer *p;

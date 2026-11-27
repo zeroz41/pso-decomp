@@ -754,80 +754,75 @@ void TObjEneRecobox::render() {
         }
         if (view_detail != 0) {
             fading_in = 0;
-            if (render_trap_model_if_visible() == 0) {
-                saved_model_render_flags = model_render_flags;
-                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
-                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                if ((s16)mode == 1) {
-                    if (this->fade.has_visible_opacity() != 0) {
-                        if (defer_render() != 0) {
-                            model_render_flags = saved_model_render_flags;
-                            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                            return;
-                        }
-                        fading_in = 1;
-                        this->fade.set_flags_and_apply_damage_color();
-                        goto block_18;
-                    }
-                    model_render_flags = saved_model_render_flags;
-                    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                    return;
-                }
-block_18:
-                camera_fade = &this->fades[camera_mode];
-                camera_fade->update();
-                camera_fading = camera_fade->updateFromCamera(&body_center);
-                if ((fading_in == 0) && (camera_fading != 0)) {
+            if (render_trap_model_if_visible() != 0) {
+                return;
+            }
+            saved_model_render_flags = model_render_flags;
+            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+            if ((s16)mode == 1) {
+                if (this->fade.has_visible_opacity() != 0) {
                     if (defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;
                         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                         return;
                     }
-                    camera_fade->set_flags_and_apply_damage_color();
-                }
-                update_secondary_light();
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
-                push_matrix();
-                post_translate_matrix(&position.x);
-                rotate_matrix_y(0, rotation_y);
-                switch (mount_type) {
-                case 1:
-                    rotate_matrix_x(0, 0x8000);
-                    break;
-                case 2:
-                    rotate_matrix_x(0, 0x4000);
-                    break;
-                }
-                TObjEneDD::clear_global_flag_400();
-                toggle_particle_effect();
-                if (view_detail == 1) {
-                    draw();
+                    fading_in = 1;
+                    this->fade.set_flags_and_apply_damage_color();
                 } else {
-                    draw_motion_model();
+                    model_render_flags = saved_model_render_flags;
+                    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                    return;
                 }
-                TParticleCtrl::end_effect_render();
-                pop_matrix();
-                update_primary_light();
-                if (fading_in != 0) {
-                    this->fade.clear_flag_and_notify();
-                } else if (camera_fading != 0) {
-                    camera_fade->clear_flag_and_notify();
-                }
-                model_render_flags = saved_model_render_flags;
-                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                goto block_37;
             }
-        } else {
-            goto block_37;
+            camera_fade = &this->fades[camera_mode];
+            camera_fade->update();
+            camera_fading = camera_fade->updateFromCamera(&body_center);
+            if ((fading_in == 0) && (camera_fading != 0)) {
+                if (defer_render() != 0) {
+                    model_render_flags = saved_model_render_flags;
+                    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                    return;
+                }
+                camera_fade->set_flags_and_apply_damage_color();
+            }
+            update_secondary_light();
+            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            push_matrix();
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(0, rotation_y);
+            switch (mount_type) {
+            case 1:
+                rotate_matrix_x(0, 0x8000);
+                break;
+            case 2:
+                rotate_matrix_x(0, 0x4000);
+                break;
+            }
+            TObjEneDD::clear_global_flag_400();
+            toggle_particle_effect();
+            if (view_detail == 1) {
+                draw();
+            } else {
+                draw_motion_model();
+            }
+            TParticleCtrl::end_effect_render();
+            pop_matrix();
+            update_primary_light();
+            if (fading_in != 0) {
+                this->fade.clear_flag_and_notify();
+            } else if (camera_fading != 0) {
+                camera_fade->clear_flag_and_notify();
+            }
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         }
-    } else {
-block_37:
-        VecCopy(&body_center, &position);
     }
+    VecCopy(&body_center, &position);
 }
 
 // pool_data off: each debug string is reached with its own lis/addi.

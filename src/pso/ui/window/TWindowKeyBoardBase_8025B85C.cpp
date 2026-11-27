@@ -61,24 +61,22 @@ void TWindowKeyBoardBase::convert_composition() {
         if (!(flags & 4)) {
             convert_input_text();
             count = this->candidate_count;
-            if (!(state_flags & 0x10)) {
-                do {
-                    this->candidate_count = count;
-                    count = ime_request_extend_segment(name, text);
-                } while (count != 0);
-                add_conversion_candidate(name);
-                name[0] = 0;
-                write_name_and_text(name, name);
-                goto block_5;
-            }
-        } else {
-block_5:
-            if ((s32) this->candidate_index != 0xF1) {
-                set_kana_mode();
+            if (state_flags & 0x10) {
                 return;
             }
-            set_kanji_mode();
+            do {
+                this->candidate_count = count;
+                count = ime_request_extend_segment(name, text);
+            } while (count != 0);
+            add_conversion_candidate(name);
+            name[0] = 0;
+            write_name_and_text(name, name);
         }
+        if ((s32) this->candidate_index != 0xF1) {
+            set_kana_mode();
+            return;
+        }
+        set_kanji_mode();
     }
 }
 
@@ -157,20 +155,18 @@ void TWindowKeyBoardBase::key_f7() {
             if (!(flags & 4)) {
                 convert_input_text();
                 count = this->candidate_count;
-                if (!(state_flags & 0x10)) {
-                    do {
-                        this->candidate_count = count;
-                        count = ime_request_extend_segment(name, text);
-                    } while (count != 0);
-                    add_conversion_candidate(name);
-                    name[0] = 0;
-                    write_name_and_text(name, name);
-                    goto block_6;
+                if (state_flags & 0x10) {
+                    return;
                 }
-            } else {
-block_6:
-                set_kana_mode();
+                do {
+                    this->candidate_count = count;
+                    count = ime_request_extend_segment(name, text);
+                } while (count != 0);
+                add_conversion_candidate(name);
+                name[0] = 0;
+                write_name_and_text(name, name);
             }
+            set_kana_mode();
         } else if (!(request_flags & 8) && (is_chat_shortcut_set(0xE) != 0)) {
             active_input_mode = 0xE;
             state_flags = (u16) (state_flags | 0x41);
@@ -189,20 +185,18 @@ void TWindowKeyBoardBase::key_f6() {
             if (!(flags & 4)) {
                 convert_input_text();
                 count = this->candidate_count;
-                if (!(state_flags & 0x10)) {
-                    do {
-                        this->candidate_count = count;
-                        count = ime_request_extend_segment(name, text);
-                    } while (count != 0);
-                    add_conversion_candidate(name);
-                    name[0] = 0;
-                    write_name_and_text(name, name);
-                    goto block_6;
+                if (state_flags & 0x10) {
+                    return;
                 }
-            } else {
-block_6:
-                set_kanji_mode();
+                do {
+                    this->candidate_count = count;
+                    count = ime_request_extend_segment(name, text);
+                } while (count != 0);
+                add_conversion_candidate(name);
+                name[0] = 0;
+                write_name_and_text(name, name);
             }
+            set_kanji_mode();
         } else if (!(request_flags & 8) && (is_chat_shortcut_set(0xD) != 0)) {
             active_input_mode = 0xD;
             state_flags = (u16) (state_flags | 0x41);

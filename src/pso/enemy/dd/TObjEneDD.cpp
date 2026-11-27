@@ -1152,12 +1152,9 @@ s32 TObjEneDD_ST::enemy_validate_retained_target() {
         if (is_target_unobstructed_from(this->current_target) != 0) {
             return 1;
         }
-        goto block_5;
-    }
-    if (this->enemy_has_live_target() != 0) {
+    } else if (this->enemy_has_live_target() != 0) {
         return 1;
     }
-block_5:
     this->enemy_clear_target();
     return 0;
 }
