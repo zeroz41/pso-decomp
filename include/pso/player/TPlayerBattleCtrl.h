@@ -50,7 +50,7 @@ public:
     s32 state_1c;
     s32 state_20;
     s32 state_24;
-    s32 unk_28;
+    s32 pad_28;
     s32 timer;
     s64 start_time;
     s32 time_left;

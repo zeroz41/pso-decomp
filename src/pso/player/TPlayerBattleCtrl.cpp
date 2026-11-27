@@ -131,7 +131,7 @@ char battle_intro_message_buffer[0x100];
 TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     TObjPlayer *player;
     m_name = player_battle_ctrl_name;
-    unk_28 = 0;
+    pad_28 = 0;
     state_24 = 0;
     state_20 = 0;
     state_1c = 0;
