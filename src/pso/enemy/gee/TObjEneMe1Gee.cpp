@@ -166,7 +166,7 @@ void TObjEneMe1Gee::load_resources() {
     }
 }
 
-void *TObjEneMe1Gee::create(void *set_data) {
+void *TObjEneMe1Gee::create(EnemyPlacement *set_data) {
     return new TObjEneMe1Gee(tl_04, set_data, 0);
 }
 
@@ -190,7 +190,7 @@ void TObjEneMe1Gee::free_globals() {
     TObjEneMe1Gee_NEEDLE::free_global();
 }
 
-TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
+TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, EnemyPlacement *set_data, s32 kind) : TObjEneDD_ST(parent) {
     m_name = me1_gee_class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;

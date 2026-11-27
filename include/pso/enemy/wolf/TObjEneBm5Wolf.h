@@ -37,7 +37,7 @@ struct TObjEneBm5WolfList {
 };
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
-    TObjEneBm5Wolf(TObject *parent, void *set_data);
+    TObjEneBm5Wolf(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBm5Wolf();
     virtual void run_task();
     virtual void render();
@@ -109,7 +109,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void remove_from_pack_member_list();
     void add_to_pack_member_list();
     static void free_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void register_global_objects();
     void flanking_state(s32 event);

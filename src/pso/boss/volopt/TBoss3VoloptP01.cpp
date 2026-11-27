@@ -110,7 +110,7 @@ void clear_target_cursor_list(TargetCursorList *list) {
     list->count = 0;
 }
 
-TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptP01_class_name;
     apply_set_data(set_data);
     init_params();
@@ -169,7 +169,7 @@ TBoss3VoloptP01::~TBoss3VoloptP01() {
     free_collision_body_parts(this);
 }
 
-void *TBoss3VoloptP01::create(void *set_data) {
+void *TBoss3VoloptP01::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptP01(tl_04, set_data);
 }
 

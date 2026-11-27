@@ -156,7 +156,7 @@ static const s32 moja_hittable_body_flags = 0x8001;
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
-TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
+TObjEneMoja::TObjEneMoja(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     m_name = moja_name;
     apply_set_data(setData);
     init_position_vectors();
@@ -289,7 +289,7 @@ void TObjEneMoja::free_resources() {
     }
 }
 
-void *TObjEneMoja::create(void *setData) {
+void *TObjEneMoja::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneMoja(parent, setData);
 }

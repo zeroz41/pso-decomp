@@ -414,7 +414,7 @@ CollisionBody shark_collision_body_table[3] = {
     { { 0.0f, 15.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *TObjEneShark::create(void *setData) {
+void *TObjEneShark::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneShark(parent, setData);
 }
@@ -536,7 +536,7 @@ void TObjEneShark::set_model_variant(s32 i) {
 
 void TObjEneBeastBase::play_group_chase_sound() {  }
 
-TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(parent) {
+TObjEneShark::TObjEneShark(TObject *parent, EnemyPlacement *setData) : TObjEneBeastBase(parent) {
     s32 color;
     s32 i;
 

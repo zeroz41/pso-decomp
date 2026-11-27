@@ -179,7 +179,7 @@ void TObjEneMe1Canadin::load_resources() {
     }
 }
 
-void *TObjEneMe1Canadin::create(void *set_data) {
+void *TObjEneMe1Canadin::create(EnemyPlacement *set_data) {
     return new TObjEneMe1Canadin(tl_04, set_data, 0);
 }
 
@@ -203,7 +203,7 @@ void TObjEneMe1Canadin::free_resources() {
     }
 }
 
-TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
+TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, EnemyPlacement *set_data, s32 kind) : TObjEneDD_ST(parent) {
     m_name = me1_canadin_class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
@@ -1874,11 +1874,11 @@ void TObjEneMe1Canadin::render_demo() {
 }
 #pragma pool_data reset
 
-void *TObjEneMe1CanadinLeader::create(void *set_data) {
+void *TObjEneMe1CanadinLeader::create(EnemyPlacement *set_data) {
     return new TObjEneMe1CanadinLeader(tl_04, set_data);
 }
 
-TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {
+TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, EnemyPlacement *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {
     s32 i;
 
     m_name = me1_canadin_leader_class_name;

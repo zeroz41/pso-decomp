@@ -307,9 +307,9 @@ u16 TBoss4Type3::pick_random_target_player() {
 }
 
 
-TBoss4DarkFalzSetEntry dark_falz_set_entry;
+EnemyPlacement dark_falz_set_entry;
 
-s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, s16 *entity_id_out) {
+s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, u16 *entity_id_out) {
     s32 n = next_child_index;
     if ((n < 1) || (n > 0x1FE)) {
         return 0;
@@ -441,8 +441,8 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     p.owner = this;
     r = 28.571428f;
     dr = 57.142857f;
-    copy_set_entry(&p.set_index, &dark_falz_set_entry);
-    p.unk_0C = 1;
+    copy_set_entry(&p.entry, &dark_falz_set_entry);
+    p.entry.room = 1;
     if (game_difficulty_selection == 3) {
         r *= 1.25f;
         dr *= 1.25f;
@@ -452,12 +452,12 @@ void TBoss4DarkFalz::spawn_zako_rings() {
         ang = 0;
         step = 0x10000 / n;
         for (i = 0; i < n; i++) {
-            if (alloc_child_ids(&p.set_index, &p.entity_id) == 0) {
+            if (alloc_child_ids(&p.entry.enemy_index, &p.entry.id) == 0) {
                 return;
             }
-            VecCopy(&p.position, &dark_falz_zako_ring_origin_vec);
-            p.position.x += r * sin_table_lookup(ang);
-            p.position.z += r * cos_table_lookup(ang);
+            VecCopy(&p.entry.position, &dark_falz_zako_ring_origin_vec);
+            p.entry.position.x += r * sin_table_lookup(ang);
+            p.entry.position.z += r * cos_table_lookup(ang);
             TBoss4Zako::create(&p);
             ang += step;
         }
@@ -744,16 +744,16 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
 }
 
 
-TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data) : TObjEnemy(parent) {
+TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = TBoss4DarkFalz::name;
     reset_child_ids();
-    if (set_data->kind != 0x200) {
+    if (set_data->child_count != 0x200) {
         return;
     }
     dark_falz_controller_instance = this;
     apply_set_data(set_data);
     copy_set_entry(&dark_falz_set_entry, set_data);
-    dark_falz_set_entry.kind = 0;
+    dark_falz_set_entry.child_count = 0;
     clear_lobby_object_state();
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     VecCopy(&body_center, &position);
@@ -848,8 +848,8 @@ void TBoss4DarkFalz::load_resources() {
     }
 }
 
-void *TBoss4DarkFalz::create(void *set_data) {
-    return new TBoss4DarkFalz(new TObjControl(tl_04), (TBoss4DarkFalzSetEntry *)set_data);
+void *TBoss4DarkFalz::create(EnemyPlacement *set_data) {
+    return new TBoss4DarkFalz(new TObjControl(tl_04), set_data);
 }
 
 s32 TBoss4DarkFalz::get_phase() { return state_index; }

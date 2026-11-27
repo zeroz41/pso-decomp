@@ -15,24 +15,24 @@ struct NpcBodyResourceSlot {
 
 // The GameCube-only story NPCs: one class, a body model per NPC type loaded per area.
 struct TObjNpcNgcBase : public TObjNpcMale {
-    TObjNpcNgcBase(TObject *parent, void *set_data, BmlResource *resource);
+    TObjNpcNgcBase(TObject *parent, EnemyPlacement *set_data, BmlResource *resource);
     virtual ~TObjNpcNgcBase();
     static void free_shared_resources();
     static void load_resources();
-    static void *create_kenkyuw2(void *set_data);
-    static void *create_nctrunk2(void *set_data);
-    static void *create_nctrunk(void *set_data);
-    static void *create_gunsinei(void *set_data);
-    static void *create_ncman(void *set_data);
-    static void *create_ncwoman(void *set_data);
-    static void *create_ncchild(void *set_data);
-    static void *create_elly_t(void *set_data);
-    static void *create_nol_t(void *set_data);
-    static void *create_delta_w(void *set_data);
-    static void *create_paganini_t(void *set_data);
-    static void *create_leo_w(void *set_data);
-    static void *create_karen_t(void *set_data);
-    static void *create_michel_t(void *set_data);
+    static void *create_kenkyuw2(EnemyPlacement *set_data);
+    static void *create_nctrunk2(EnemyPlacement *set_data);
+    static void *create_nctrunk(EnemyPlacement *set_data);
+    static void *create_gunsinei(EnemyPlacement *set_data);
+    static void *create_ncman(EnemyPlacement *set_data);
+    static void *create_ncwoman(EnemyPlacement *set_data);
+    static void *create_ncchild(EnemyPlacement *set_data);
+    static void *create_elly_t(EnemyPlacement *set_data);
+    static void *create_nol_t(EnemyPlacement *set_data);
+    static void *create_delta_w(EnemyPlacement *set_data);
+    static void *create_paganini_t(EnemyPlacement *set_data);
+    static void *create_leo_w(EnemyPlacement *set_data);
+    static void *create_karen_t(EnemyPlacement *set_data);
+    static void *create_michel_t(EnemyPlacement *set_data);
 
     static const char *class_name;
 

@@ -288,7 +288,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_stat_table = dispatch_shared_handler_a(0x24);
 }
 
-void *TBoss3VoloptHiraisin::create(void *set_data) {
+void *TBoss3VoloptHiraisin::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptHiraisin(tl_04, set_data);
 }
 
@@ -335,7 +335,7 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObjBase *parent, u16 id, s32 index) 
     init_params();
 }
 
-TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptHiraisin_name;
     apply_set_data(set_data);
     init_params();

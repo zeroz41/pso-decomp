@@ -151,7 +151,7 @@ void TObjEneDelDepth::reset_globals() {
     model_render_flags = saved_model_render_flags;
 }
 
-void *TObjEneDelDepth::create(void *setData) {
+void *TObjEneDelDepth::create(EnemyPlacement *setData) {
     return new TObjEneDelDepth(new TObjControl((TObject *)tl_04), setData);
 }
 
@@ -185,7 +185,7 @@ void TObjEneDelDepth::free_shared_data() {
     }
 }
 
-TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(parent) {
+TObjEneDelDepth::TObjEneDelDepth(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     m_name = del_depth_name;
     add_flags_2e4(8);
     apply_set_data(setData);

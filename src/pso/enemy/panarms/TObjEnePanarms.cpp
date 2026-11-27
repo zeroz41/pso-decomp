@@ -212,8 +212,8 @@ ModelNodePositionEntry panarms_model_node_desc[6] = {
     { 0x35 }, { 0x22 }, { 0x38 }, { 0x46 }, { 0x3b }, { -1 },
 };
 
-void *TObjEnePanarms::create(void *setData) {
-    return new TObjEnePanarms(new TObjControl(tl_04), static_cast<EnemyPlacement *>(setData));
+void *TObjEnePanarms::create(EnemyPlacement *setData) {
+    return new TObjEnePanarms(new TObjControl(tl_04), setData);
 }
 
 void TObjEnePanarms::load_and_spawn_npc() {

@@ -10,7 +10,7 @@ class TParticleCtrl;
 class TObjPlayer;
 
 struct TObjEneRe2Flower : public TObjEneDD_ST {
-    TObjEneRe2Flower(TObject *parent, void *setData);
+    TObjEneRe2Flower(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneRe2Flower();
     virtual void run_task();
     virtual void render();
@@ -49,7 +49,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     void set_child_flags();
     TObjPlayer *find_target_in_range();
     static void destroy_instance();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     int is_tower_variant();
 
     s32 base_yaw;            // the stem's yaw; rotation_y - base_yaw turns the head (node 1)

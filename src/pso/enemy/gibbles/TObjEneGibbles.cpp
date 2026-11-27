@@ -240,9 +240,9 @@ void TObjEneGibbles::free_static() {
     }
 }
 
-void *TObjEneGibbles::create(void *setData) {
+void *TObjEneGibbles::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
-    return new TObjEneGibbles(parent, static_cast<EnemyPlacement *>(setData));
+    return new TObjEneGibbles(parent, setData);
 }
 
 void TObjEneGibbles::init_params() {

@@ -7,7 +7,7 @@
 
 struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
     TBoss3VoloptHiraisin(TObjBase *parent, u16 id, s32 index);
-    TBoss3VoloptHiraisin(TObject *parent, void *set_data);
+    TBoss3VoloptHiraisin(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss3VoloptHiraisin();
     virtual void run_task();
     virtual void render();
@@ -20,7 +20,7 @@ struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
     void dispatch_state();
     static void destroy();
     static void init_models();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void init_params();
     void load_params_from_table(s32 index);
     void clear_flag_08000000();

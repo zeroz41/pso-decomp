@@ -134,7 +134,7 @@ void TObjEnemyCustom::set_flags_30() {
     actorFlags |= 0x04040000;
 }
 
-TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptMonitor_name;
     apply_set_data(set_data);
     variant = 0;
@@ -190,7 +190,7 @@ void TBoss3VoloptMonitor::init_params() {
     clear_lobby_object_state();
 }
 
-void *TBoss3VoloptMonitor::create(void *set_data) {
+void *TBoss3VoloptMonitor::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptMonitor(tl_04, set_data);
 }
 

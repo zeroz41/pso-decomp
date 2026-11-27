@@ -302,7 +302,7 @@ void TObjNpcEnemy::render() {
 TObjNpcEnemy::~TObjNpcEnemy() {}
 
 
-TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
+TObjNpcEnemy::TObjNpcEnemy(TObject *parent, EnemyPlacement *set_data) : TObjNpcBase(parent) {
     m_name = name;
     apply_set_data(set_data);
     init_position_vectors();
@@ -316,7 +316,7 @@ TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent
     set_npc_data(get_entry_by_index((s16)rotation.x));
 }
 
-void *TObjNpcEnemy::create(void *set_data) {
+void *TObjNpcEnemy::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcEnemy(control, set_data);
 }

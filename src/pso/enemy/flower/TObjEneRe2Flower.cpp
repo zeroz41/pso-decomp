@@ -116,7 +116,7 @@ void load_re2_flower_resources(void) {
     TObjNpcEnemy::register_animated_chunk(0x37, models->model, models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
-void *TObjEneRe2Flower::create(void *setData) {
+void *TObjEneRe2Flower::create(EnemyPlacement *setData) {
     return new TObjEneRe2Flower(tl_04, setData);
 }
 
@@ -128,7 +128,7 @@ void TObjEneRe2Flower::destroy_instance() {
     }
 }
 
-TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_ST(parent) {
+TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, EnemyPlacement *setData) : TObjEneDD_ST(parent) {
     s32 variant;
 
     m_name = re2_flower_class_name;

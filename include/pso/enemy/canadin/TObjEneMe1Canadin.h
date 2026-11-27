@@ -26,7 +26,7 @@ struct TObjEneMe1CanadinParams {
 };
 
 struct TObjEneMe1Canadin : public TObjEneDD_ST {
-    TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind);
+    TObjEneMe1Canadin(TObject *parent, EnemyPlacement *set_data, s32 kind);
     TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id);
     virtual ~TObjEneMe1Canadin();
     virtual void dispatch_action(u32 state, s32 reason);
@@ -113,7 +113,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void copy_pos();
     void run_task();
     void setup_enemy();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void free_resources();
     void state_return_home(s32 msg);

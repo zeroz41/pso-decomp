@@ -229,7 +229,7 @@ void TObjEneMe3SinowZoa::load_resources() {
 
 extern "C" {
 
-void *TObjEneMe3SinowZoa::create_real(void *set_data) { return TObjEneMe3SinowZoaReal::create_instance(set_data); }
+void *TObjEneMe3SinowZoa::create_real(EnemyPlacement *set_data) { return TObjEneMe3SinowZoaReal::create_instance(set_data); }
 
 void TObjEneMe3SinowZoa::free_resources() {
     if (me3_sinow_zoa_breakup_model != NULL) {
@@ -2108,11 +2108,11 @@ f32 TObjEneMe3SinowZoa::receive_direct_attack(TObjBase *source, DirectAttackPayl
     return damage;
 }
 
-void *TObjEneMe3SinowZoaReal::create_instance(void *set_data) {
+void *TObjEneMe3SinowZoaReal::create_instance(EnemyPlacement *set_data) {
     return new TObjEneMe3SinowZoaReal(tl_04, set_data);
 }
 
-TObjEneMe3SinowZoaReal::TObjEneMe3SinowZoaReal(TObject *parent, void *set_data) : TObjEneMe3SinowZoa(parent) {
+TObjEneMe3SinowZoaReal::TObjEneMe3SinowZoaReal(TObject *parent, EnemyPlacement *set_data) : TObjEneMe3SinowZoa(parent) {
     m_name = me3_sinow_zoa_real_name;
     invoke_initialization_hook(set_data);
     setup_move_bounds();

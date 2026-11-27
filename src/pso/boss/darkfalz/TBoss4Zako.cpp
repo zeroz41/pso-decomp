@@ -78,7 +78,7 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     add_flags_2e4(8);
     owner = set_data->owner;
     owner->count_minion_spawned();
-    apply_set_data(&set_data->set_index);
+    apply_set_data(&set_data->entry);
     clear_lobby_object_state();
     archive = TBoss4DarkFalz::get_dat_resource();
     texlist = 0;

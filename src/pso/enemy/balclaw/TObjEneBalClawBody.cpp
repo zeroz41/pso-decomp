@@ -155,9 +155,9 @@ TObjEneBalClawBody::~TObjEneBalClawBody() {
     }
 }
 
-void *TObjEneBalClawBody::create(void *set_data) {
+void *TObjEneBalClawBody::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneBalClawBody(control, static_cast<EnemyPlacement *>(set_data));
+    return new TObjEneBalClawBody(control, set_data);
 }
 
 void TObjEneBalClawBody::run_task() {

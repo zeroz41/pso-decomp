@@ -615,17 +615,17 @@ void TBoss4Type2::spawn_bishi_around_players() {
     s32 i;
     s32 j;
     TObjPlayer *pl;
-    copy_set_entry(&b.set_index, &dark_falz_set_entry);
+    copy_set_entry(&b.entry, &dark_falz_set_entry);
     b.owner = owner;
-    b.unk_0C = 1;
+    b.entry.room = 1;
     for (i = 0; i < registered_player_count; i++) {
         pl = TObjPlayer::get_player_data(i);
         if (pl != 0 && is_player_in_boss_area(pl->get_entity_id()) != 0) {
             for (j = 0; j < 3; j++) {
-                if (owner->alloc_child_ids(&b.set_index, &b.entity_id) != 0) {
-                    VecCopy(&b.position, &pl->position);
-                    b.position.x += bishi_spawn_offset_table[j].x;
-                    b.position.z += bishi_spawn_offset_table[j].z;
+                if (owner->alloc_child_ids(&b.entry.enemy_index, &b.entry.id) != 0) {
+                    VecCopy(&b.entry.position, &pl->position);
+                    b.entry.position.x += bishi_spawn_offset_table[j].x;
+                    b.entry.position.z += bishi_spawn_offset_table[j].z;
                     TBoss4Bishi::create(&b);
                 }
             }

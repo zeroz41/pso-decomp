@@ -5,11 +5,11 @@
 #include "pso/npc/TObjNpcMale.h"
 
 struct TObjNpcHRM00 : public TObjNpcMale {
-    TObjNpcHRM00(TObject *parent, void *set_data);
+    TObjNpcHRM00(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcHRM00();
     static void destroy_resources();
     static void load_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static NJS_OBJECT **named_object_resource;
     static NJS_TEXLIST *body_texture_gvm;

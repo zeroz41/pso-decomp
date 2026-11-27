@@ -532,7 +532,7 @@ void TBoss7DeRolLeC::load_resources() {
     TWindowCtrl::suppress_all_slots();
 }
 
-void *TBoss7DeRolLeC::create(void *set_data) {
+void *TBoss7DeRolLeC::create(EnemyPlacement *set_data) {
     return new TBoss7DeRolLeC(tl_04, set_data);
 }
 
@@ -544,7 +544,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
     }
 }
 
-TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
+TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     u32 state[3];
 
     m_name = TBoss7DeRolLeC::class_name;
@@ -3705,7 +3705,7 @@ void TBoss7DeRolLeC::save_joint_polygons() {
 #pragma opt_propagation off
 #pragma opt_lifetimes off
 void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Angle3 *angle, s32 flags) {
-    Boss7CrawfishSetData set;
+    EnemyPlacement set;
     u16 id;
     TObject *child;
     if (crawfish_parent != NULL && slot > 0) {
@@ -3719,14 +3719,14 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Angle3 
                 return;
             }
         }
-        set.set_index = set_index + offset.value;
-        set.kind = 1;
-        set.unk_04 = 0;
-        set.entity_id = id;
+        set.enemy_index = set_index + offset.value;
+        set.child_count = 1;
+        set.unknown04 = 0;
+        set.id = id;
         set.room = room;
         set.wave = 0;
-        set.unk_0C = 0;
-        set.unk_0E = 0;
+        set.unknown0c[0] = 0;
+        set.unknown0c[1] = 0;
         VecCopy(&set.position, position);
         copy_xyz(&set.rotation, angle);
         if (flags & 1) {

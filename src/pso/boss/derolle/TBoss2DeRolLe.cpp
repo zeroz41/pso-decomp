@@ -529,7 +529,7 @@ void TBoss2DeRolLe::load_resources() {
     TWindowCtrl::suppress_all_slots();
 }
 
-void *TBoss2DeRolLe::create(void *set_data) {
+void *TBoss2DeRolLe::create(EnemyPlacement *set_data) {
     return new TBoss2DeRolLe(tl_04, set_data);
 }
 
@@ -554,7 +554,7 @@ void TBoss2DeRolLe::reset_parts() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
+TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     u16 id;
     s32 set;
     s32 i;

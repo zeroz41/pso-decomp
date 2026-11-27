@@ -9,16 +9,16 @@
 struct EnemyPlacement {
     s16 enemy_index;
     s16 child_count;
-    u8 unknown04[2];
+    s16 unknown04;
     u16 id;
     s16 room;
     s16 wave;
-    u8 unknown0c[4];
+    s16 unknown0c[2];
     Vec position;
     s32 rotation[3];
     f32 parameters[5];
     s16 variant;
-    s16 state;  // copied to TObjEnemy::state36C, as EnemySetData::state
+    s16 state;  // copied to TObjEnemy::state36C
 };
 
 LAYOUT_ASSERT(EnemyPlacementSize, sizeof(EnemyPlacement) == 0x40);

@@ -290,7 +290,7 @@ force_active:
   - TBoss1DragonColli_sphere_chain_desc
   - collision_body_templates__19TBoss1DragonEffTail
   - name__19TBoss1DragonEffTail
-  - __ct__12TBoss1DragonFP7TObjectPv
+  - __ct__12TBoss1DragonFP7TObjectP14EnemyPlacement
   - boss1_dragon_arena_center
   - boss1_dragon_primary_sequence_table
   - boss1_dragon_behavior_params
@@ -349,7 +349,7 @@ force_active:
   - run_task__11TObjDFDemo0Fv
   - __ct__11TBoss4BishiFP7TObjectP17TBoss4ZakoSetData
   - TBoss4Bishi_spawn_offsets
-  - __ct__14TBoss4DarkFalzFP7TObjectP22TBoss4DarkFalzSetEntry
+  - __ct__14TBoss4DarkFalzFP7TObjectP14EnemyPlacement
   - name__14TBoss4DarkFalz
   - spawn_defeat_effects__14TBoss4DarkFalzFv
   - get_begun_stage__22PlayerAttackControllerFv
@@ -1045,7 +1045,7 @@ force_active:
   - __ct__18TObjEneBalClawClawFP7TObjectP18TObjEneBalClawBodyUslPC3Vecll
   - __ct__18TObjEneBalClawClawFP7TObjectP14EnemyPlacement
   - beast_boss4_rock_handler_ids
-  - __ct__12TObjEneBeastFP7TObjectPv
+  - __ct__12TObjEneBeastFP7TObjectP14EnemyPlacement
   - bm3_fly_nest_attachment_sample_origin
   - __ct__17TObjEneBm3FlyNestFP7TObjectP14EnemyPlacement
   - __dt__17TObjEneBm3FlyNestFv
@@ -1059,7 +1059,7 @@ force_active:
   - run_demo_task__13TObjEneBm3FlyFv
   - render_demo__13TObjEneBm3FlyFv
   - dispatch_action__13TObjEneBm3FlyFUll
-  - __ct__16TObjEneBm5GibonUFP7TObjectPv
+  - __ct__16TObjEneBm5GibonUFP7TObjectP14EnemyPlacement
   - bm5_gibon_u_stat_params
   - TObjEneBm5GibonU__data_805DA158
   - TObjEneBm5GibonU__data_805DA160
@@ -1110,7 +1110,7 @@ force_active:
   - get_spawn_position__16TObjEneBm5GibonUFv
   - bm5_wolf_bml_resource
   - bm5_wolf_collider_params
-  - __ct__14TObjEneBm5WolfFP7TObjectPv
+  - __ct__14TObjEneBm5WolfFP7TObjectP14EnemyPlacement
   - bm5_wolf_render_joint_y_rotation
   - TObjEneBm5Wolf__data_805D9D74
   - TObjEneBm5Wolf__data_805D9D78
@@ -1136,7 +1136,7 @@ force_active:
   - bm5_wolf_render_node_index
   - bm5_wolf_stat_params
   - __ct__18TObjEneBm5WolfNodeFv
-  - __ct__19TObjEneBm9MericarolFP7TObjectPv
+  - __ct__19TObjEneBm9MericarolFP7TObjectP14EnemyPlacement
   - __vt__19TObjEneBm9Mericarol
   - run_demo_task__20TObjEneDarkGunCenterFv
   - param_table__16TObjEneDellBiter
@@ -1153,7 +1153,7 @@ force_active:
   - target_farthest_visible_player__17TObjEneDf2BringerFv
   - check_rush_hits__17TObjEneDf2BringerFv
   - dimedian_boss_objects
-  - __ct__15TObjEneDimedianFP7TObjectPv
+  - __ct__15TObjEneDimedianFP7TObjectP14EnemyPlacement
   - dolm_olm_param_table
   - update_special_attack__14TObjEneDolmOlmFv
   - update_retreat__14TObjEneDolmOlmFv
@@ -1181,11 +1181,11 @@ force_active:
   - TObjEneIllGill_model_file_list
   - TObjEneIllGill_motion_name_table
   - lappy_class_name
-  - __ct__12TObjEneLappyFP7TObjectPv
+  - __ct__12TObjEneLappyFP7TObjectP14EnemyPlacement
   - lappy_model_names
   - lappy_ap_hw_motion_names
   - lappy_hw_motion_names
-  - __ct__23TObjEneMe1CanadinLeaderFP7TObjectPv
+  - __ct__23TObjEneMe1CanadinLeaderFP7TObjectP14EnemyPlacement
   - release_from_formation__17TObjEneMe1CanadinFv
   - order_attack__17TObjEneMe1CanadinFv
   - has_status_flag__17TObjEneMe1CanadinFl
@@ -1242,7 +1242,7 @@ force_active:
   - me1_gi_gue_barrier_barrier_resource_object
   - __ct__22TObjEneMe1GiGueBarrierFP7TObjectP15TObjEneMe1GiGue
   - __ct__22TObjEneMe1GiGueMissileFP8TObjBaseP3VecP3Vecff
-  - __ct__15TObjEneMe1GiGueFP7TObjectPv
+  - __ct__15TObjEneMe1GiGueFP7TObjectP14EnemyPlacement
   - me1_gi_gue_model_filename_table
   - capture_shot_origins__15TObjEneMe1GiGueFv
   - collect_shot_targets__15TObjEneMe1GiGueFv
@@ -1260,9 +1260,9 @@ force_active:
   - lbl_8050BEB8
   - lbl_8058D520
   - gigue_missile_resource
-  - __ct__20TObjEneMe3StelthRealFP7TObjectPv
-  - __ct__21TObjEneMe3ShinowaRealFP7TObjectPv
-  - __ct__22TObjEneMe3SinowZoaRealFP7TObjectPv
+  - __ct__20TObjEneMe3StelthRealFP7TObjectP14EnemyPlacement
+  - __ct__21TObjEneMe3ShinowaRealFP7TObjectP14EnemyPlacement
+  - __ct__22TObjEneMe3SinowZoaRealFP7TObjectP14EnemyPlacement
   - state_warp__18TObjEneMe3SinowZoaFl
   - state_death__18TObjEneMe3SinowZoaFl
   - state_vanish__18TObjEneMe3SinowZoaFl
@@ -1289,7 +1289,7 @@ force_active:
   - state_ambush__16TObjEneMe3StelthFl
   - is_in_sword_range__16TObjEneMe3StelthFf
   - me3_stelth_trail_buffer
-  - __ct__16TObjEneMerillLiaFP7TObjectPv
+  - __ct__16TObjEneMerillLiaFP7TObjectP14EnemyPlacement
   - play_kafun_sound__16TObjEneMerillLiaFv
   - play_dig_sound__16TObjEneMerillLiaFv
   - beast_idle_update__16TObjEneMerillLiaFv
@@ -1315,7 +1315,7 @@ force_active:
   - update_lower_state__13TObjEneRe4BitFl
   - update_raise_state__13TObjEneRe4BitFl
   - TObjEneRe4Bit_boss_handles
-  - __ct__18TObjEneRe4SorcererFP7TObjectPv
+  - __ct__18TObjEneRe4SorcererFP7TObjectP14EnemyPlacement
   - TObjEneRe4Sorcerer__data_805DA78C
   - TObjEneRe4Sorcerer__data_805DA790
   - TObjEneRe4Sorcerer__data_805DA794
@@ -1334,11 +1334,11 @@ force_active:
   - dispatch_action__18TObjEneRe4SorcererFUll
   - re7_berura_punch_collision_body_templates
   - TObjEneRe7BeruraPunch__data_805D97A0
-  - __ct__16TObjEneRe7BeruraFP7TObjectPv
+  - __ct__16TObjEneRe7BeruraFP7TObjectP14EnemyPlacement
   - re7_berura_attack_stat_handles
   - TObjEneRe7Berura__vt85
   - movement__14TObjEneRecobox
-  - __ct__14TObjEneRecoboxFP7TObjectPv
+  - __ct__14TObjEneRecoboxFP7TObjectP14EnemyPlacement
   - recobox_resource_bundle
   - recobox_shared_object_handle
   - __vt__14TObjEneRecobox
@@ -1346,11 +1346,11 @@ force_active:
   - recon_ai_parameters
   - set_reflection_scissor__FPC3Vecl
   - saver_class_name
-  - __ct__12TObjEneSaverFP7TObjectPv
+  - __ct__12TObjEneSaverFP7TObjectP14EnemyPlacement
   - __vt__12TObjEneSaver
   - shark_action_table
-  - __ct__12TObjEneSharkFP7TObjectPv
-  - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimePvPC3Vec
+  - __ct__12TObjEneSharkFP7TObjectP14EnemyPlacement
+  - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimeP14EnemyPlacementPC3Vec
   - project_to_ground__15TObjEneSlimeOneFv
   - slime_one_target_depth
   - slime_one_target_depth_initialized
@@ -1359,7 +1359,7 @@ force_active:
   - slime_tail_attack_name
   - __ct__21TObjEneSlimeWaterBombFP15TObjEneSlimeOneP15TObjEneSlimeOne
   - slime_attack_target_param_table
-  - __ct__12TObjEneSlimeFP7TObjectPUc
+  - __ct__12TObjEneSlimeFP7TObjectP14EnemyPlacement
   - copy_child_slot__FP14SlimeChildSlotP14SlimeChildSlot
   - __ct__14TObjEnvSoundExFP7TObjectP13ObjectSetData
   - __ct__12TObjEnvSoundFP7TObjectP13ObjectSetData
@@ -1375,7 +1375,7 @@ force_active:
   - update_hold__12TObjGrassWebFv
   - grass_attack_params
   - grass_class_name
-  - __ct__9TObjGrassFP7TObjectPv
+  - __ct__9TObjGrassFP7TObjectP14EnemyPlacement
   - grass_grass_type_param_table
   - grass_render_node_index
   - grass_resource_bundle
@@ -1414,17 +1414,17 @@ force_active:
   - texture_list__12TObjNpcARM00
   - class_name__11TObjNpcBase
   - set_npc_talk__12CursorActionFv
-  - __ct__20TObjNpcCloakroomBaseFP7TObjectPv
+  - __ct__20TObjNpcCloakroomBaseFP7TObjectP14EnemyPlacement
   - name__20TObjNpcCloakroomBase
   - static_instance__20TObjNpcCloakroomBase
   - name__18TObjNpcConnoisseur
   - collision_body_parts__12TObjNpcEnemy
-  - __ct__12TObjNpcEnemyFP7TObjectPv
+  - __ct__12TObjNpcEnemyFP7TObjectP14EnemyPlacement
   - entry_table__12TObjNpcEnemy
   - name__12TObjNpcEnemy
   - name__17TObjNpcExpertBase
   - shared_resource__17TObjNpcExpertBase
-  - __ct__17TObjNpcFemaleBaseFP7TObjectPv
+  - __ct__17TObjNpcFemaleBaseFP7TObjectP14EnemyPlacement
   - name__19TObjNpcGovernorBase
   - shared_resource__19TObjNpcGovernorBase
   - name__12TObjNpcHFW01
@@ -1459,7 +1459,7 @@ force_active:
   - shared_model_resource__14TObjNpcMaleOld
   - name__15TObjNpcMaleTall
   - shared_model_resource__15TObjNpcMaleTall
-  - __ct__11TObjNpcMojaFP7TObjectPv
+  - __ct__11TObjNpcMojaFP7TObjectP14EnemyPlacement
   - body_resources__14TObjNpcNgcBase
   - name__12TObjNpcNFW01
   - name__12TObjNpcNHW00
@@ -1512,7 +1512,7 @@ force_active:
   - update_wait__17TObjEneDarkGunnerFv
   - run_task__17TObjEneDarkGunnerFv
   - __dt__17TObjEneDarkGunnerFv
-  - __ct__17TObjEneDarkGunnerFP7TObjectPv
+  - __ct__17TObjEneDarkGunnerFP7TObjectP14EnemyPlacement
   - get_float_parameter__17TObjEneDarkGunnerFl
   - run_demo_task__12TObjEneSaverFv
   - state_defence__12TObjEneSaverFv
@@ -1932,7 +1932,7 @@ force_active:
   - __ct__11TPlayerSoulFP7TObjectUs
   - __ct__12CursorActionFv
   - __ct__12TBGLightningFP7TObjectP3Vecf
-  - __ct__12TBoss3VoloptFPv
+  - __ct__12TBoss3VoloptFP14EnemyPlacement
   - __ct__12TChCrEffWallFP7TObject
   - __ct__12TChCrLoadAfsFP7TObjectUlUl
   - __ct__12TChCrLoadReqFP7TObjectPC24CharacterPreviewLoadArgs
@@ -2003,7 +2003,7 @@ force_active:
   - __ct__13TQuestManagerFP7TObjectPCcl
   - __ct__13TQuestManagerFP7TObjectPvl
   - __ct__13TOpeningMovieFv
-  - __ct__22TBoss8DragonLeaderPartFP7TObjectPv
+  - __ct__22TBoss8DragonLeaderPartFP7TObjectP14EnemyPlacement
   - __ct__16TItemToolAddSlotFP7TObjectPUc
   - __ct__19TItemToolRandomItemFP7TObjectPUc
   - __ct__17TItemQuestBgmTaskFP7TObjectUl
@@ -2035,13 +2035,13 @@ force_active:
   - __ct__14TORockCaveSS02FP13ObjectSetData
   - __ct__14TOTrapChainSawFP7TObjectP13ObjectSetData
   - __ct__14TObjBgmColCtrlFP7TObject
-  - __ct__14TObjEneDolmOlmFP7TObjectPv
-  - __ct__14TObjEneIllGillFP7TObjectPv
+  - __ct__14TObjEneDolmOlmFP7TObjectP14EnemyPlacement
+  - __ct__14TObjEneIllGillFP7TObjectP14EnemyPlacement
   - __ct__14TObjWarpStringFP7TObjectPcUs
   - __ct__15TAdDrawLineCtrlFP7TObjectP13DrawLineGroupf
   - __ct__15TAdDrawLineTaskFP7TObjectPC14DrawLineRecordP15TAdDrawLineCtrl
-  - __ct__15TBoss3VoloptP01FP7TObjectPv
-  - __ct__15TBoss3VoloptP02FP7TObjectPv
+  - __ct__15TBoss3VoloptP01FP7TObjectP14EnemyPlacement
+  - __ct__15TBoss3VoloptP02FP7TObjectP14EnemyPlacement
   - __ct__15TBoss6CrushRockFv
   - __ct__15TBoss6SwordWaveFP11TBoss6Type2PC3Vecllf
   - __ct__15TItemEffBringerFPvPC3VecPC3Vecf
@@ -2058,14 +2058,14 @@ force_active:
   - __ct__15TODoorVS2Door01FP7TObjectP13ObjectSetData
   - __ct__15TORainbowCave01FP7TObjectP13ObjectSetData
   - __ct__15TObjDeadListWinFP7TObject
-  - __ct__15TObjEneDelDepthFP7TObjectPv
+  - __ct__15TObjEneDelDepthFP7TObjectP14EnemyPlacement
   - __ct__15TObjNewFloorWinFP7TObjectl
   - __ct__15TObjSoloPlayWinFP7TObject
   - __ct__15TObjSuisouLobbyFP7TObjectP13ObjectSetData
   - __ct__15TRecvGenerateIDFRC15TRecvGenerateID
   - __ct__16TAdChrSelASlotGCFP7TObjectl
   - __ct__16TAdGuideButtonGCFP7TObject
-  - __ct__16TBoss3VoloptCoreFP7TObjectPv
+  - __ct__16TBoss3VoloptCoreFP7TObjectP14EnemyPlacement
   - __ct__16TGenGuildCardTagFRC16TGenGuildCardTag
   - __ct__16TLobbyEventThemeFv
   - __ct__16TOCakeshopCave01FP13ObjectSetData
@@ -2076,8 +2076,8 @@ force_active:
   - __ct__16TORevlightCave01FP7TObjectP13ObjectSetData
   - __ct__16TORockCaveSimpleFv
   - __ct__16TObjCurtainLobbyFP7TObjectP13ObjectSetData
-  - __ct__16TObjEneDellBiterFP7TObjectPv
-  - __ct__16TObjEneNanoDragoFP7TObjectPv
+  - __ct__16TObjEneDellBiterFP7TObjectP14EnemyPlacement
+  - __ct__16TObjEneNanoDragoFP7TObjectP14EnemyPlacement
   - __ct__16TObjHashiVersus1FP7TObjectP13ObjectSetData
   - __ct__16TObjHashiVersus2FP7TObjectP13ObjectSetData
   - __ct__16TObjItemOKWindowFP7TObject
@@ -2095,7 +2095,7 @@ force_active:
   - __ct__17TOSensorAncient01FP7TObjectP13ObjectSetData
   - __ct__17TOSensorGeneral01FP7TObjectP13ObjectSetData
   - __ct__17TOSymbolchatColliFP7TObjectP13ObjectSetData
-  - __ct__17TObjEneDf2BringerFP7TObjectPv
+  - __ct__17TObjEneDf2BringerFP7TObjectP14EnemyPlacement
   - __ct__17TObjItemNameEntryFP7TObject
   - __ct__17TObjParticleLobbyFP7TObjectP13ObjectSetData
   - __ct__17TQuestThreadBoardFP13TQuestManagerl
@@ -2111,13 +2111,13 @@ force_active:
   - __ct__18TOCapsuleMachine01FP13ObjectSetData
   - __ct__18TOExplosiveMachineFv
   - __ct__18TOMonitorMachine01FP13ObjectSetData
-  - __ct__18TObjEneEpsilonBodyFP7TObjectPv
+  - __ct__18TObjEneEpsilonBodyFP7TObjectP14EnemyPlacement
   - __ct__18TObjItemNameSelectFP7TObject
   - __ct__18TObjSeabedSuiso_CHFP7TObjectP13ObjectSetData
   - __ct__18TObjTailsTailsMoveFP10TObjPlayer
   - __ct__18TPlayerLobbyMarkerFP7TObjectUsUc
   - __ct__18TWindowEffectLightFPvsUl
-  - __ct__19TBoss3VoloptMonitorFP7TObjectPv
+  - __ct__19TBoss3VoloptMonitorFP7TObjectP14EnemyPlacement
   - __ct__19TOChatSensorCaptureFP7TObject
   - __ct__19TOComputerMachine01FP13ObjectSetData
   - __ct__19TOMonumentAncient01FP7TObjectP13ObjectSetData
@@ -2126,7 +2126,7 @@ force_active:
   - __ct__19TObjEneDelDepthBombFP15TObjEneDelDepthP9TObjCharaPC3Vecl
   - __ct__19TObjStendGlassLobbyFP7TObjectP13ObjectSetData
   - __ct__20TAdLoadQuestPrtTxtGCFP7TObjectl
-  - __ct__20TBoss3VoloptHiraisinFP7TObjectPv
+  - __ct__20TBoss3VoloptHiraisinFP7TObjectP14EnemyPlacement
   - __ct__20TEffStarLight2D_BaseFP7TObjectP13ObjectSetData
   - __ct__20TItemReverseTechCtrlFP7TObject
   - __ct__20TODragonflyMachine01FP13ObjectSetData
@@ -5417,8 +5417,8 @@ force_active:
   - create__19TItemTrapVisionTaskFP7TObjectP10TObjPlayer
   - create__13TWindowSubMagFv
   - create__14TChCrTagPlBackFl
-  - create__15TObjEneSlimeOneFP12TObjEneSlimePv
-  - create__15TObjEneSlimeOneFP12TObjEneSlimePvPC3Vec
+  - create__15TObjEneSlimeOneFP12TObjEneSlimeP14EnemyPlacement
+  - create__15TObjEneSlimeOneFP12TObjEneSlimeP14EnemyPlacementPC3Vec
   - create__16TItemReverseTechFv
   - create__17TChCrTagPlGraphicFl
   - create__17TObjWarpBossMultiFP13ObjectSetData
@@ -6936,13 +6936,13 @@ force_active:
   - init_6x72_resume_packet__FP26G_DoneLoadingIntoGame_6x72
   - __ct__15PartnerCountersFv
   - init__12TQuestListVMFv
-  - __ct__13TObjEneMe1GeeFP7TObjectPvl
+  - __ct__13TObjEneMe1GeeFP7TObjectP14EnemyPlacementl
   - init__13TObjEneRe4BitFPv
   - __ct__12TMotionModelFv
   - init__15PSOV3EncryptionFUl
   - init__15TObjEneDelDepthFv
   - init__15TObjEneMe1GiGueFv
-  - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimePv
+  - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimeP14EnemyPlacement
   - init__16TAdChrSelASlotGCFl
   - __ct__17GuildCardSlotBaseFv
   - init__18TChallenge4PResultFv

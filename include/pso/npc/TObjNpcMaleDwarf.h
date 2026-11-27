@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcMaleDwarf : public TObjNpcMale {
-    TObjNpcMaleDwarf(TObject *parent, void *set_data);
+    TObjNpcMaleDwarf(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcMaleDwarf();
     static void unload_static_data();
     static void load_shared_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static BmlResource *shared_model_resource;
 };

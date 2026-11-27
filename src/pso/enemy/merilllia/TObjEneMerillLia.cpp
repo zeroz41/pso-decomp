@@ -137,7 +137,7 @@ void TObjEneMerillLia::select_model_record(s32 i) {
     texlist = merill_lia_bml_resource->models[i].texlist;
 }
 
-TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TObjEneBeastBase(parent) {
+TObjEneMerillLia::TObjEneMerillLia(TObject *parent, EnemyPlacement *setData) : TObjEneBeastBase(parent) {
     m_name = merill_lia_class_name;
     apply_set_data(setData);
     init_behavior_params();
@@ -249,7 +249,7 @@ void TObjEneMerillLia::free_resources() {
     }
 }
 
-void *TObjEneMerillLia::create(void *setData) {
+void *TObjEneMerillLia::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneMerillLia(parent, setData);
 }

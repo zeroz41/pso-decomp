@@ -115,7 +115,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     static void load_resources();
     static void free_resources();
     // The enemy factory entry: builds the real Sinow Zoa for a set entry.
-    static void *create_real(void *set_data);
+    static void *create_real(EnemyPlacement *set_data);
     // Ground effects on motion frames 12 and 28 (state_chase_target, state_sword).
     void spawn_footstep_effects();
     void spawn_ground_effect_on_frame_23();

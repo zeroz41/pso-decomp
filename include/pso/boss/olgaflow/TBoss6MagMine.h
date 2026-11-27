@@ -4,21 +4,16 @@
 #include "types.h"
 #include <dolphin/mtx.h>
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/EnemyPlacement.h"
 
 struct BmlResource;
 class TParticleCtrl;
 struct TObjPlayer;
 
-// What spawn_mag_mine_at hands create: the mag mine's 0x40-byte object set entry (copied by
-// copy_set_entry) followed by where the mine starts and where it lands.
+// What spawn_mag_mine_at hands create: the mag mine's placement (copied by copy_set_entry)
+// followed by where the mine starts and where it lands.
 struct Boss6MagMineSetData {
-    s16 set_index;  // TBoss6PlotFalz::get_next_point writes its set_index + counter here
-    u8 pad_02[0x4];
-    s16 entity_id;  // ...and its entity_id + counter here
-    s16 flags;
-    u8 pad_0A[0x6];
-    Vec position;
-    u8 pad_1C[0x24];
+    EnemyPlacement placement;
     Vec origin;
     Vec destination;
 };

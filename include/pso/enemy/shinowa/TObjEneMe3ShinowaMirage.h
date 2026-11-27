@@ -38,7 +38,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     static void set_slot_min_clamped_value(s32 slot, f32 speed);
     static void free_shared_resources();
     // The enemy factory entry: builds the real Shinowa for a set entry.
-    static void *create_real(void *set_data);
+    static void *create_real(EnemyPlacement *set_data);
     u16 owner_id;
     NJS_ARGB fade_color;
 

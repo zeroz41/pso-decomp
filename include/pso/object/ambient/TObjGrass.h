@@ -12,7 +12,7 @@ struct NJS_OBJECT;
 struct NJS_OBJECT;
 
 struct TObjGrass : public TObjEnemy {
-    TObjGrass(TObject *parent, void *set_data);
+    TObjGrass(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjGrass();
     virtual void refresh_target();
     virtual s32 is_target_in_attack_range();
@@ -49,7 +49,7 @@ struct TObjGrass : public TObjEnemy {
     void update_ai();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void destroy_all();
     static void load_resources();
     void init_from_table_entry(s32 i);

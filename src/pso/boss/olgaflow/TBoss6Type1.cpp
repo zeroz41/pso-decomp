@@ -214,7 +214,7 @@ void OlgaFlowActionMsg::send() {
 
 void OlgaFlowActionMsg::swap_entity_id() { header.bswap(); }
 int TBoss6PlotFalz::is_idle() { return not_floor_leader == 0; }
-TBoss6PlotFalzSetEntry *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
+EnemyPlacement *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
 void TBoss6Type1::clear_harmful_statuses() {  }
 void TBoss6Type1::apply_shock_status() {  }
 void TBoss6Type1::apply_movement_ailment(CollisionBody *) {  }
@@ -1384,12 +1384,12 @@ void TBoss6Type1::spawn_mines() {
     s32 seed = random_factor;
     TBoss6MineSetData set;
     reset_fields_4e0();
-    copy_set_entry(&set, plot_falz->get_set_entry());
+    copy_set_entry(&set.placement, plot_falz->get_set_entry());
     set.owner = this;
     VecCopy(&set.origin, &node_points[0]);
     VecCopy(&set.offset, &boss6_type1_zero_offset);
-    set.room = 0;
-    VecCopy(&set.position, &set.origin);
+    set.placement.room = 0;
+    VecCopy(&set.placement.position, &set.origin);
     s32 heading = 0;
     s32 count = TBoss6PlotFalz::get_phase() == 0 ? 18 : 36;
     s32 total = 1;
@@ -1451,7 +1451,7 @@ void TBoss6Type1::spawn_mines() {
         set.heading = heading;
         seed = next_random_seed(seed);
         set.seed = seed;
-        if (((TBoss6PlotFalz *)plot_falz)->get_next_point(&set.set_index, &set.entity_id) == 0) {
+        if (((TBoss6PlotFalz *)plot_falz)->get_next_point(&set.placement.enemy_index, &set.placement.id) == 0) {
             break;
         }
         if (TBoss6Mine::create(&set) == NULL) {

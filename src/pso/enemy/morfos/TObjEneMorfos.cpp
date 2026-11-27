@@ -174,8 +174,8 @@ void TObjEneMorfos::load_static_data() {
     }
 }
 
-void *TObjEneMorfos::create(void *set_data) {
-    return new TObjEneMorfos((TObject *)tl_04, static_cast<EnemyPlacement *>(set_data));
+void *TObjEneMorfos::create(EnemyPlacement *set_data) {
+    return new TObjEneMorfos((TObject *)tl_04, set_data);
 }
 
 void TObjEneMorfos::unload_static_data() {

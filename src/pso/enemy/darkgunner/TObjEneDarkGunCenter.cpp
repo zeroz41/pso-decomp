@@ -153,7 +153,7 @@ void TObjEneDarkGunCenter::render() {  }
 
 #pragma defer_codegen on
 
-TObjEneDarkGunCenter::TObjEneDarkGunCenter(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TObjEneDarkGunCenter::TObjEneDarkGunCenter(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     s32 i;
     m_name = dark_gun_center_name;
     apply_set_data(set_data);
@@ -176,7 +176,7 @@ void TObjEneDarkGunCenter::load_resources() {  }
 
 void TObjEneDarkGunCenter::free_resources() {  }
 
-void *TObjEneDarkGunCenter::create(void *set_data) {
+void *TObjEneDarkGunCenter::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDarkGunCenter(control, set_data);
 }

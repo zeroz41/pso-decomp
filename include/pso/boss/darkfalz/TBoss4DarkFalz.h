@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/EnemyPlacement.h"
 
 class TBoss4Fade;
 struct TBoss4Type1;
@@ -10,16 +11,15 @@ class TBoss4Type2;
 struct G_DarkFalzActions_6x19;
 struct TBoss4Type3;
 struct TObjDFUsoTower;
-struct TBoss4DarkFalzSetEntry;
 struct BmlResource;
 
 struct TBoss4DarkFalz : public TObjEnemy {
-    TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data);
+    TBoss4DarkFalz(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss4DarkFalz();
     void run_state_leader_update();
     void run_state_update();
     void reset_child_ids();
-    s32 alloc_child_ids(s16 *set_index_out, s16 *entity_id_out);
+    s32 alloc_child_ids(s16 *set_index_out, u16 *entity_id_out);
     virtual void run_death_reaction();
     s32 roar_timer;          // frames to the next roar sound, 300..600 (update_roar_sound_timer)
     s32 not_floor_leader;    // 0 on the floor leader's client (update_visible_flag)
@@ -37,7 +37,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     virtual void run_task();
     static void cleanup_global();
     static void load_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static TBoss4Type1 *get_instance();
     static TBoss4Type3 *get_type3_instance();
     static TBoss4Type2 *get_type2_instance();
@@ -149,33 +149,17 @@ LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, u
 extern TBoss4DarkFalzState dark_falz_state_table[16];
 extern "C" TBoss4DarkFalz *dark_falz_controller_instance;
 
-/* The 0x40-byte enemy set entry the constructor was given (kind 0x200), kept with kind
- * cleared; the spawners copy it (copy_set_entry) and renumber it with
- * alloc_child_ids. TObjEnemy::apply_set_data reads set_index, entity_id, room, wave and
- * position (field names from there). */
-struct TBoss4DarkFalzSetEntry {
-    s16 set_index;
-    s16 kind;
-    u8 pad_04[0x2];
-    u16 entity_id;
-    s16 room;
-    s16 wave;
-    u8 pad_0C[0x4];
-    Vec position;
-    u8 pad_1C[0x24];
-};
-
-LAYOUT_ASSERT(TBoss4DarkFalzSetEntry_size, sizeof(TBoss4DarkFalzSetEntry) == 0x40);
-
 /* What TBoss4Type1/2/3::create hand their constructors: the Dark Falz that spawns the
  * form, then a copy of its set entry renumbered past its own ids (0x1FE..0x200) with the
  * form's room (1 for the first two forms, 2 for the third). */
 struct TBoss4FormSetData {
     TBoss4DarkFalz *owner;
-    TBoss4DarkFalzSetEntry entry;
+    EnemyPlacement entry;
 };
 
-extern TBoss4DarkFalzSetEntry dark_falz_set_entry;
+// The placement the constructor was given (child_count 0x200), kept with child_count cleared;
+// the spawners copy it (copy_set_entry) and renumber it with alloc_child_ids.
+extern EnemyPlacement dark_falz_set_entry;
 // Which Dark Falz form the fight is in (2 from the third form on).
 extern s32 dark_falz_form_index;
 // Handler of subcommand 6x19 (TGameProtocol's table).

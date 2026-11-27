@@ -45,7 +45,7 @@ struct TObjEneSaver : public TObjEnemy {
     virtual void run_move_action();
     virtual void run_attack_action();
     virtual void run_hit_reaction();
-    TObjEneSaver(TObject *parent, void *set_data);
+    TObjEneSaver(TObject *parent, EnemyPlacement *set_data);
     virtual void refresh_target();
     u32 state_flags;
     s32 parameter_mask;

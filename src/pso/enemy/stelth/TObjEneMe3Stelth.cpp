@@ -275,7 +275,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
                                                   me3_stelth_bml_resource->models->texlist, &b, 8.0f, 0.0f);
     }
 }
-void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }
+void *TObjEneMe3Stelth::create_real(EnemyPlacement *set_data) { return TObjEneMe3StelthReal::create(set_data); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (me3_stelth_trail_buffer != NULL) {
         delete me3_stelth_trail_buffer;
@@ -2055,10 +2055,10 @@ f32 TObjEneMe3Stelth::receive_direct_attack(TObjBase *source, DirectAttackPayloa
     }
     return TObjChara::receive_direct_attack(source, payload, collider, -1, -1);
 }
-void *TObjEneMe3StelthReal::create(void *set_data) {
+void *TObjEneMe3StelthReal::create(EnemyPlacement *set_data) {
     return new TObjEneMe3StelthReal(tl_04, set_data);
 }
-TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, void *set_data) : TObjEneMe3Stelth(parent) {
+TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, EnemyPlacement *set_data) : TObjEneMe3Stelth(parent) {
     m_name = me3_stelth_real_class_name;
     invoke_initialization_hook(set_data);
     setup_move_bounds();

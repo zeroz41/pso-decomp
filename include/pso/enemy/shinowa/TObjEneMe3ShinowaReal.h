@@ -7,7 +7,7 @@
 struct TObjEneMe3ShinowaMirage;
 
 struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
-    TObjEneMe3ShinowaReal(TObject *parent, void *set_data);
+    TObjEneMe3ShinowaReal(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneMe3ShinowaReal();
     virtual void state_split_mirages(s32);
     virtual void state_toggle_cloak(s32);
@@ -19,7 +19,7 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     void spawn_mirages();
     TObjEneMe3ShinowaMirage *get_or_create_mirage(s32 index);
     void try_spawn_mirages();
-    static TObjEneMe3ShinowaReal *create(void *set_data);
+    static TObjEneMe3ShinowaReal *create(EnemyPlacement *set_data);
     u16 mirage_ids[4];
     u16 get_target_id();
 };

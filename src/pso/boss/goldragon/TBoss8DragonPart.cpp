@@ -91,7 +91,7 @@ void TBoss8DragonPart::run_task() {
 
 TBoss8DragonPart::~TBoss8DragonPart() {}
 
-TBoss8DragonPart::TBoss8DragonPart(TObject *parent, void *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
+TBoss8DragonPart::TBoss8DragonPart(TObject *parent, EnemyPlacement *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
     this->flags |= 0x40;
     this->finalHpThreshold = -1;
     this->hp = hp;

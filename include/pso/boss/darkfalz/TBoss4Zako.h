@@ -3,6 +3,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/EnemyPlacement.h"
 
 struct BmlResource;
 struct CollisionBody;
@@ -10,18 +11,11 @@ class TParticleCtrl;
 struct TBoss4DarkFalz;
 
 // What create hands the constructor: the Dark Falz that spawned the minion, then the
-// enemy set entry (from set_index on) passed to apply_set_data. The spawners fill it
-// from a template with copy_set_entry and number it with
-// TBoss4DarkFalz::alloc_child_ids; the entry has TBoss6MineSetData's layout.
+// placement passed to apply_set_data. The spawners fill it from a template with
+// copy_set_entry and number it with TBoss4DarkFalz::alloc_child_ids.
 struct TBoss4ZakoSetData {
     TBoss4DarkFalz *owner;
-    s16 set_index;
-    u8 pad_06[0x4];
-    s16 entity_id;
-    s16 unk_0C;
-    u8 pad_0E[0x6];
-    Vec position;
-    u8 pad_20[0x28];
+    EnemyPlacement entry;
 };
 
 // Dark Falz's first-form minion. TBoss4Uro and TBoss4Bishi derive from it and keep
@@ -63,8 +57,7 @@ struct TBoss4Zako : public TObjEnemy {
     s32 bob_angle_step;
     static const char *name;
 };
-LAYOUT_ASSERT(TBoss4ZakoSetData_position, offsetof(TBoss4ZakoSetData, position) == 0x14);
-LAYOUT_ASSERT(TBoss4ZakoSetData_size, sizeof(TBoss4ZakoSetData) == 0x48);
+LAYOUT_ASSERT(TBoss4ZakoSetData_entry, offsetof(TBoss4ZakoSetData, entry) == 0x4);
 LAYOUT_ASSERT(TBoss4Zako_state, offsetof(TBoss4Zako, state) == 0x374);
 LAYOUT_ASSERT(TBoss4Zako_velocity, offsetof(TBoss4Zako, velocity) == 0x38C);
 LAYOUT_ASSERT(TBoss4Zako_emitter, offsetof(TBoss4Zako, emitter) == 0x3B4);

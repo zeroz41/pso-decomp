@@ -7,7 +7,7 @@
 class TFontSmallTask;
 
 struct TOCtrlDubchik : public TObjEnemy {
-    TOCtrlDubchik(TObject *parent, void *set_data);
+    TOCtrlDubchik(TObject *parent, EnemyPlacement *set_data);
     virtual ~TOCtrlDubchik();
     virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     // The handlers run_task picks by mode.
@@ -37,7 +37,7 @@ struct TOCtrlDubchik : public TObjEnemy {
     void decay_timer_and_clear_flag();
     void decay_timer_and_finish();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void destroy_instance();
     static void load_shared_resource();
     static TFontSmallTask *create_font(Vec *pos, s32 color, s32 life, const char *text);

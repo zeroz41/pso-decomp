@@ -179,8 +179,8 @@ void TBoss4DarkFalz::update_demo_warp3() {
         set_data.owner = this;
         copy_set_entry(&set_data.entry, &dark_falz_set_entry);
         set_data.entry.room = 2;
-        set_data.entry.set_index = set_index + 0x1FE;
-        set_data.entry.entity_id = entity_id + 0x1FE;
+        set_data.entry.enemy_index = set_index + 0x1FE;
+        set_data.entry.id = entity_id + 0x1FE;
         TBoss4DarkFalz::type3_instance = TBoss4Type3::create(&set_data);
         change_state(0xD);
     }
@@ -312,8 +312,8 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         set_data.owner = this;
         copy_set_entry(&set_data.entry, &dark_falz_set_entry);
         set_data.entry.room = 1;
-        set_data.entry.set_index = set_index + 0x1FF;
-        set_data.entry.entity_id = entity_id + 0x1FF;
+        set_data.entry.enemy_index = set_index + 0x1FF;
+        set_data.entry.id = entity_id + 0x1FF;
         TBoss4DarkFalz::type2_instance = TBoss4Type2::create(&set_data);
         set_story_flag_or_send_quest_flag(0x34);
         change_state(8);
@@ -355,8 +355,8 @@ void TBoss4DarkFalz::spawn_type1() {
     set_data.owner = this;
     copy_set_entry(&set_data.entry, &dark_falz_set_entry);
     set_data.entry.room = 1;
-    set_data.entry.set_index = set_index + 0x200;
-    set_data.entry.entity_id = entity_id + 0x200;
+    set_data.entry.enemy_index = set_index + 0x200;
+    set_data.entry.id = entity_id + 0x200;
     TBoss4DarkFalz::type1_instance = TBoss4Type1::create(&set_data);
     state_timer = 0;
     end_player_camera_pans();

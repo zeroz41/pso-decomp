@@ -27,7 +27,7 @@ CollisionBody TObjNpcBringer::collision_body_parts[2] = {
     {{0.0f, 20.0f, -5.0f}, 7.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-TObjNpcBringer::TObjNpcBringer(TObject *parent, void *set_data) : TObjNpcBase(parent) {
+TObjNpcBringer::TObjNpcBringer(TObject *parent, EnemyPlacement *set_data) : TObjNpcBase(parent) {
     m_name = name;
     apply_set_data(set_data);
     init_position_vectors();
@@ -45,7 +45,7 @@ TObjNpcBringer::TObjNpcBringer(TObject *parent, void *set_data) : TObjNpcBase(pa
 
 TObjNpcBringer::~TObjNpcBringer() {}
 
-void *TObjNpcBringer::create(void *set_data) {
+void *TObjNpcBringer::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcBringer(control, set_data);
 }

@@ -1435,17 +1435,17 @@ void TBoss6Type2::create_mags(f32) {
     VecCopy(&params.origin, &position);
     params.origin.y += 150.0f;
     params.rotation_y = rotation.y;
-    copy_set_entry(&params, plot_falz->get_set_entry());
-    params.active = 1;
-    VecCopy(&params.pos, &params.origin);
+    copy_set_entry(&params.placement, plot_falz->get_set_entry());
+    params.placement.room = 1;
+    VecCopy(&params.placement.position, &params.origin);
     params.flags = target_attribute_mask;
-    x = params.x;
-    z = params.z;
+    x = params.placement.enemy_index;
+    z = params.placement.id;
     params.variant = variant;
     for (i = 0; i < 2; i++) {
         params.index = i;
-        params.x = x + boss6_type2_mag_spawn_offsets[i];
-        params.z = z + boss6_type2_mag_spawn_offsets[i];
+        params.placement.enemy_index = x + boss6_type2_mag_spawn_offsets[i];
+        params.placement.id = z + boss6_type2_mag_spawn_offsets[i];
         mags[i] = TBoss6Type2::create_mag(&params);
     }
     if (mags[0] == 0 || mags[1] == 0) {

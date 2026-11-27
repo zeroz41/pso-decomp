@@ -5,9 +5,10 @@
 
 class TObject;
 class TBoss8DragonLeaderPart;
+struct EnemyPlacement;
 
 // The leader's constructor makes boss8_dragon_leader_part; TLobby's floor callbacks clear and release it.
-TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, void *set_data);
+TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, EnemyPlacement *set_data);
 void release_boss8_dragon_leader_part(void);
 void clear_boss8_dragon_leader_part(void);
 

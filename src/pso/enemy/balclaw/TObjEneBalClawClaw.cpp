@@ -125,9 +125,9 @@ TObjEneBalClawClaw::~TObjEneBalClawClaw() {
     free_collision_body_parts(this);
 }
 
-void *TObjEneBalClawClaw::create(void *set_data) {
+void *TObjEneBalClawClaw::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneBalClawClaw(control, static_cast<EnemyPlacement *>(set_data));
+    return new TObjEneBalClawClaw(control, set_data);
 }
 
 TObjEneBalClawClaw *TObjEneBalClawClaw::create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp) {

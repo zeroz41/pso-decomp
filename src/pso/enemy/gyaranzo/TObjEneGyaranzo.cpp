@@ -245,9 +245,9 @@ void TObjEneGyaranzo::free_static_instances() {
     }
 }
 
-void *TObjEneGyaranzo::create(void *set) {
+void *TObjEneGyaranzo::create(EnemyPlacement *set) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
-    return new TObjEneGyaranzo(control, static_cast<EnemyPlacement *>(set));
+    return new TObjEneGyaranzo(control, set);
 }
 
 void TObjEneGyaranzo::run_task() {

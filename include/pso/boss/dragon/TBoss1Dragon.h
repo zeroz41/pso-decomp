@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 struct DragonEffectResource { saddr particle_ids[8]; };
 
 struct TBoss1Dragon : public TObjEneDD_ST {
-    TBoss1Dragon(TObject *parent, void *set_data);
+    TBoss1Dragon(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss1Dragon();
     static void load_resources();
     void request_state_change(u32 state);
@@ -196,7 +196,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void check_death();
     void choose_next_action();
     static void free_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static TBoss1Dragon *get_instance();
     static void select_fireball_particle_table();
     void draw();

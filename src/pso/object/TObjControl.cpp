@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/enemy/BattleParameters.h"
 #pragma defer_codegen on
@@ -547,21 +548,20 @@ TObjChara *get_enemy_entity(u16 entity_id) {
     return 0;
 }
 
-void TObjEnemy::apply_set_data(void *set_data) {
-    EnemySetData *data = (EnemySetData *)set_data;
+void TObjEnemy::apply_set_data(EnemyPlacement *data) {
     s32 i;
-    entity_id = data->entity_id;
+    entity_id = data->id;
     VecCopy(&home_position, &data->position);
     VecCopy(&position, &home_position);
-    copy_xyz(&rotation, &data->rotation);
+    copy_xyz(&rotation, data->rotation);
     for (i = 0; i < 5; i++) {
         parameters[i] = data->parameters[i];
     }
     variant = data->variant;
     state36C = data->state;
     room = data->room;
-    set_group = data->group;
-    set_index = data->set_index;
+    set_group = data->wave;
+    set_index = data->enemy_index;
     rng.set_seed(entity_id + area_random_seed);
 }
 

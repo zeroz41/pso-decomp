@@ -56,7 +56,7 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     void update_replenish();
     void copy_pos();
     static void free_fly();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void init_vertex_table();
 

@@ -91,7 +91,7 @@ s32 TBoss3VoloptCore::is_target_in_attack_range() {
     return 0;
 }
 
-TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     apply_set_data(set_data);
     init_params();
 }
@@ -144,7 +144,7 @@ TBoss3VoloptCore::~TBoss3VoloptCore() {
     TBoss3Volopt::set_camera_focus(NULL);
 }
 
-void *TBoss3VoloptCore::create(void *set_data) {
+void *TBoss3VoloptCore::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptCore(tl_04, set_data);
 }
 

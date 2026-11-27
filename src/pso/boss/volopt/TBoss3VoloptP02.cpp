@@ -174,7 +174,7 @@ s32 TBoss3VoloptP02::get_int_param(s32 index) {
     return volopt_p02_params->int_params[index];
 }
 
-TBoss3VoloptP02::TBoss3VoloptP02(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptP02::TBoss3VoloptP02(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     apply_set_data(set_data);
     init_params();
 }
@@ -237,7 +237,7 @@ TBoss3VoloptP02::~TBoss3VoloptP02() {
     destroy_sub_objects();
 }
 
-void *TBoss3VoloptP02::create(void *set_data) {
+void *TBoss3VoloptP02::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptP02(tl_04, set_data);
 }
 

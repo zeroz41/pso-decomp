@@ -92,7 +92,7 @@ struct TObjEneGibbles : public TObjEnemy {
     void init_state();
     void clamp_angle(s32 angle);
     void init_params();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     static void free_static();
     static void load_resources();
     void turn_toward_target();

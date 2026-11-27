@@ -39,7 +39,7 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     void update_attack_distance_state();
     void update_state();
     void update_wait();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();  // registers the bcbody model for the NPC model registry
     static void free_resources();
     f32 target_distance_sq;  // xz distance squared to the target

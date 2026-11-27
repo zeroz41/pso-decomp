@@ -30,9 +30,9 @@ struct DelbiterMovementParameters {
 };
 
 struct TObjEneDellBiter : public TObjEneDD_ST {
-    TObjEneDellBiter(TObject *parent, void *set_data);
+    TObjEneDellBiter(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneDellBiter();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void retarget_attacker();
     s32 render_model_if_visible();
     virtual void update_body_colliders();

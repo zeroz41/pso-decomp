@@ -485,7 +485,7 @@ void load_boss5_gryphon_resources(void) {
     TBoss5GryphonLightningEff::load_texture();
 }
 
-void *TBoss5Gryphon::create(void *data) {
+void *TBoss5Gryphon::create(EnemyPlacement *data) {
     return new TBoss5Gryphon(tl_04, data);
 }
 
@@ -509,7 +509,7 @@ void TBoss5Gryphon::cleanup() {
     }
 }
 
-TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
+TBoss5Gryphon::TBoss5Gryphon(TObject *parent, EnemyPlacement *data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
     u32 flags[4];
     s32 i;
 

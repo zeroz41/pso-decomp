@@ -17,7 +17,7 @@ struct TObjEneDD : public TObjEnemy {
     static void set_part_position(TObjCollidable *actor, Vec *v, int i);
     void transition_enemy_state(s32);
     void save_mode();
-    void invoke_initialization_hook(void *set_data);
+    void invoke_initialization_hook(EnemyPlacement *set_data);
     void reset_state_fields();
     void init_common_from(TObjBase *source);
     void noop();

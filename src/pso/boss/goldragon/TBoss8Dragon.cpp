@@ -431,7 +431,7 @@ void TBoss8Dragon::load_resources() {
     TBoss8DragonEffTail::load_resources();
 }
 
-void *TBoss8Dragon::create(void *set_data) {
+void *TBoss8Dragon::create(EnemyPlacement *set_data) {
     return new TBoss8Dragon(tl_04, set_data);
 }
 
@@ -448,7 +448,7 @@ void TBoss8Dragon::free_static() {
 
 void TBoss8Dragon::clear_player_control() { boss8_dragon_player_control = 0; }
 
-TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
+TBoss8Dragon::TBoss8Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
     u32 record[4];
     s32 i;
     s32 j;

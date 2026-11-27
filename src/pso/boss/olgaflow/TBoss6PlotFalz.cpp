@@ -92,7 +92,7 @@ s32 TBoss6PlotFalz::is_flag_set() {
     return (u8)((u8) (TBoss6PlotFalz::instance != 0));
 }
 
-s32 TBoss6PlotFalz::get_next_point(s16 *set_index_out, s16 *entity_id_out) {
+s32 TBoss6PlotFalz::get_next_point(s16 *set_index_out, u16 *entity_id_out) {
     if (count_free_child_ids() < 1) {
         return 0;
     }
@@ -607,8 +607,8 @@ void TBoss6PlotFalz::spawn_type2() {
         params.variant = spawn_variant;
         copy_set_entry(&params.set_entry, &set_entry);
         params.set_entry.room = 1;
-        params.set_entry.set_index = set_index + 0x1FF;
-        params.set_entry.entity_id = entity_id + 0x1FF;
+        params.set_entry.enemy_index = set_index + 0x1FF;
+        params.set_entry.id = entity_id + 0x1FF;
         TBoss6PlotFalz::type2_instance = TBoss6Type2::create(&params);
     }
 }
@@ -619,8 +619,8 @@ void TBoss6PlotFalz::spawn_type1() {
         params.owner = this;
         params.variant = spawn_variant;
         copy_set_entry(&params.set_entry, &set_entry);
-        params.set_entry.set_index = set_index + 0x200;
-        params.set_entry.entity_id = entity_id + 0x200;
+        params.set_entry.enemy_index = set_index + 0x200;
+        params.set_entry.id = entity_id + 0x200;
         TBoss6PlotFalz::type1_instance = TBoss6Type1::create(&params);
     }
 }
@@ -980,7 +980,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     EnemyStateRecord record;
     player_stats *base_params;
     AttackParams *attack_params;
@@ -991,7 +991,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     TBoss6PlotFalz::instance = this;
     apply_set_data(set_data);
     copy_set_entry(&set_entry, set_data);
-    set_entry.kind = 0;
+    set_entry.child_count = 0;
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.damage = 0;
@@ -1042,7 +1042,7 @@ void TBoss6PlotFalz::load_resources() {
     }
 }
 
-void *TBoss6PlotFalz::create(void *set_data) {
+void *TBoss6PlotFalz::create(EnemyPlacement *set_data) {
     return new TBoss6PlotFalz(new TObjControl(tl_04), set_data);
 }
 

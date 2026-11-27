@@ -64,12 +64,12 @@ struct TBoss3VoloptPositionPacket {
 };
 
 struct TBoss3Volopt : public TObjEnemyCustom {
-    TBoss3Volopt(void *set_data);
+    TBoss3Volopt(EnemyPlacement *set_data);
     virtual ~TBoss3Volopt();
     virtual void render();
     virtual void run_task();
 
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void free_parts();
     static void load_resources();
 

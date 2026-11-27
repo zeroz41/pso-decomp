@@ -1973,7 +1973,7 @@ void TObjEneBm5GibonU::load_resources() {
     TObjNpcEnemy::register_animated_chunk(0xF, bm5_gibon_u_model_archive->models[1].model, bm5_gibon_u_model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
-void *TObjEneBm5GibonU::create(void *set_data) {
+void *TObjEneBm5GibonU::create(EnemyPlacement *set_data) {
     return new TObjEneBm5GibonU(tl_04, set_data);
 }
 
@@ -2011,7 +2011,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU::find_pack_leader(s32 id) {
     return 0;
 }
 
-TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 i;
     s32 b;
     this->m_name = bm5_gibon_u_class_name;

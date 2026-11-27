@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/EnemyPlacement.h"
 struct TObjPlayer;
 
 // Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
@@ -20,23 +21,13 @@ struct TBoss6Type2;
 
 class TBoss6Demo15_TYPE2_WAIT;
 
-// The 0x40-byte enemy set entry the constructor was given, kept with kind cleared; spawn_type1/2
-// copy it (copy_set_entry) and renumber it for the bodies (TBoss4DarkFalzSetEntry layout).
-struct TBoss6PlotFalzSetEntry {
-    s16 set_index;
-    s16 kind;
-    u8 pad_04[0x2];
-    u16 entity_id;
-    s16 room;
-    u8 pad_0A[0x36];
-};
 
 struct TBoss6PlotFalz;
 
 // The plot owner, copied set entry and variant passed to both body factories.
 struct Boss6BodySpawnParams {
     TBoss6PlotFalz *owner;
-    TBoss6PlotFalzSetEntry set_entry;
+    EnemyPlacement set_entry;
     u8 variant;
 };
 
@@ -44,7 +35,7 @@ LAYOUT_ASSERT(Boss6BodySpawnParamsSetEntryOffset, offsetof(Boss6BodySpawnParams,
 LAYOUT_ASSERT(Boss6BodySpawnParamsVariantOffset, offsetof(Boss6BodySpawnParams, variant) == 0x44);
 
 struct TBoss6PlotFalz : public TObjEnemy {
-    TBoss6PlotFalz(TObject *parent, void *set_data);
+    TBoss6PlotFalz(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss6PlotFalz();
     void ensure_tube();
     void set_visible_flag();
@@ -59,7 +50,9 @@ struct TBoss6PlotFalz : public TObjEnemy {
     u8 pad_37D[0x3];
     TBoss4Fade *fade;
     TBoss6Tube *tube;  // the warp tube; ensure_tube creates it
-    TBoss6PlotFalzSetEntry set_entry;
+    // The placement the constructor was given, kept with child_count cleared; spawn_type1/2
+    // copy it (copy_set_entry) and renumber it for the bodies.
+    EnemyPlacement set_entry;
     s32 next_child_index;  // added to set_index / entity_id by get_next_point
     s32 state_timer;  // frames in the current plot state
     s32 shake_active;
@@ -73,7 +66,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static u16 get_sorted_player(s32 i);  // i-th client id of sort_active_players' order
     static u16 pick_random_active_player();
     int is_idle();
-    TBoss6PlotFalzSetEntry *get_set_entry();
+    EnemyPlacement *get_set_entry();
     static s32 is_active(TObjPlayer *player);
     static s32 is_state_1f(TObjPlayer *player);
     // Puts the player at pos (position and previous position).
@@ -115,7 +108,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void send_6xA3_action(s8 phase);
     static void free_all();
     static void load_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static s32 is_phase_reached();
     void reset_ending_state();
     void update_plot_timer();
@@ -135,7 +128,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void advance_phase_if_ready();
     void update_cutscene_fade();
     static s32 is_flag_set();
-    s32 get_next_point(s16 *set_index_out, s16 *entity_id_out);
+    s32 get_next_point(s16 *set_index_out, u16 *entity_id_out);
     void run_phase_action();
     void update_random_shake();
     // Horizontal distance of pos from the arena centre.

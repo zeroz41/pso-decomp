@@ -245,8 +245,8 @@ void push_material_fade(f32 alpha) {
 
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
-void *TObjEneSlime::create(void *set_data) {
-    return new TObjEneSlime(new TObjControl(tl_04), (u8 *)set_data);
+void *TObjEneSlime::create(EnemyPlacement *set_data) {
+    return new TObjEneSlime(new TObjControl(tl_04), set_data);
 }
 
 void TObjEneSlime::spawn_pair() {
@@ -265,13 +265,13 @@ void TObjEneSlime::free_instance() {
     }
 }
 
-TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
+TObjEneSlime::TObjEneSlime(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = slime_name;
     apply_set_data(set_data);
     clear_lobby_object_state();
     register_by_id();
     copy_set_entry(&spawn_template, set_data);
-    child_limit = ((EnemyPlacement *)set_data)->child_count;
+    child_limit = set_data->child_count;
     if (child_limit < 1) {
         if (check_demo_mode() != 0) {
             child_limit = 3;
@@ -378,9 +378,9 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
     }
     t = origin->spawn_template;
     n = index + 1;
-    t.entry.set_index = origin->spawn_template.entry.set_index + n;
+    t.entry.enemy_index = origin->spawn_template.entry.enemy_index + n;
     t.entry.child_count = 0;
-    t.entry.entity_id = origin->spawn_template.entry.entity_id + n;
+    t.entry.id = origin->spawn_template.entry.id + n;
     if (position == NULL) {
         VecCopy(&t.entry.position, &origin->position);
     } else {
@@ -388,9 +388,9 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
     }
     slot = &origin->child_slots[index];
     if (velocity == 0) {
-        slot->slime = TObjEneSlimeOne::create(origin, &t);
+        slot->slime = TObjEneSlimeOne::create(origin, &t.entry);
     } else {
-        slot->slime = TObjEneSlimeOne::create(origin, &t, velocity);
+        slot->slime = TObjEneSlimeOne::create(origin, &t.entry, velocity);
     }
     if (slot->slime == NULL) {
         return 0;
@@ -439,14 +439,14 @@ s32 TObjEneSlime::try_spawn_child(Vec *position) {
 }
 
 #pragma push
-TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data) {
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, EnemyPlacement *set_data) {
     return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data);
 }
 #pragma pop
 
 #pragma push
 
-TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data, const Vec *velocity) {
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, EnemyPlacement *set_data, const Vec *velocity) {
     return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data, velocity);
 }
 #pragma pop
@@ -454,7 +454,7 @@ TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data, co
 #pragma push
 
 #pragma opt_common_subs off
-TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data)
+TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, EnemyPlacement *set_data)
     : TObjEnemy(parent) {
     EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
@@ -475,7 +475,7 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set
 #pragma push
 
 #pragma opt_common_subs off
-TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data, const Vec *velocity)
+TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, EnemyPlacement *set_data, const Vec *velocity)
     : TObjEnemy(parent) {
     EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;

@@ -92,7 +92,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     rotation.y = params->rotation_y;
     index = params->index;
     TBoss6Mag::instance_slots[index] = this;
-    apply_set_data(params);
+    apply_set_data(&params->placement);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.damage = 0;

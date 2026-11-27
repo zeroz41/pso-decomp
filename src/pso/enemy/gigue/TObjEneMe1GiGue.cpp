@@ -149,14 +149,14 @@ void TObjEneMe1GiGue::run_attack_action() {  }
 
 void TObjEneMe1GiGue::run_idle_action() {  }
 
-TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = me1_gi_gue_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = gigue_resource->motions;
     variant = 0;
     add_flags_2e4(0x11);
-    state36C = ((EnemyPlacement *)set_data)->state;
+    state36C = set_data->state;
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
     set_action_table(action_table);
@@ -247,7 +247,7 @@ void TObjEneMe1GiGue::delete_barrier() {
     }
 }
 
-void *TObjEneMe1GiGue::create(void *set_data) {
+void *TObjEneMe1GiGue::create(EnemyPlacement *set_data) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneMe1GiGue(parent, set_data);
 }

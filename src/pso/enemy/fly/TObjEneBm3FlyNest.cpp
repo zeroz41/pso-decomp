@@ -252,8 +252,8 @@ void TObjEneBm3FlyNest::load_resources() {
     }
 }
 
-void *TObjEneBm3FlyNest::create(void *set_data) {
-    return new TObjEneBm3FlyNest((TObject *)tl_04, static_cast<EnemyPlacement *>(set_data));
+void *TObjEneBm3FlyNest::create(EnemyPlacement *set_data) {
+    return new TObjEneBm3FlyNest((TObject *)tl_04, set_data);
 }
 
 void TObjEneBm3FlyNest::free_fly() {

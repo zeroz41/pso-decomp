@@ -14,7 +14,7 @@ BmlResourceDescriptor bm_n_ecm_i_body_resource_descriptor = { "bm_n_ecm_i_body.b
 const char *TObjNpcMaleChild::name = "TObjNpcMaleChild";
 BmlResource *TObjNpcMaleChild::shared_model_resource;
 
-void *TObjNpcMaleChild::create(void *set_data) {
+void *TObjNpcMaleChild::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcMaleChild(control, set_data);
 }
@@ -33,7 +33,7 @@ void TObjNpcMaleChild::load_shared_resource() {
 
 TObjNpcMaleChild::~TObjNpcMaleChild() {}
 
-TObjNpcMaleChild::TObjNpcMaleChild(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcMaleChild::TObjNpcMaleChild(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

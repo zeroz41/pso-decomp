@@ -46,7 +46,7 @@ struct TObjEnePanarms : public TObjEnemy {
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     static void spawn_npc_pair();
     static TObjEnePanBARA *create_bara(EnemyPlacement *setData, s32 index);
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     int get_state_flag();
     // State table (enter, update), named after the action each state plays (panarms_motion_param_table):
     // 0 idle (demo), 1 wait hidden under the ground, 2 rise out of it, 3 move (walkl / walkr),

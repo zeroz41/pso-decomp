@@ -1,6 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/render/psoLoadTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -881,7 +882,7 @@ void TObjEneLappy::run_task() {
 
 
 
-void *TObjEneLappy::create(void *set) {
+void *TObjEneLappy::create(EnemyPlacement *set) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneLappy(control, set);
 }
@@ -1041,8 +1042,7 @@ int TObjEneLappy::test_flag_256() { return 0; }
 
 #define CLAMP(x, lo, hi) ((x) < (lo) ? (lo) : ((x) < (hi) ? (x) : (hi)))
 
-TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    LappySetData *set = (LappySetData *)set_data;
+TObjEneLappy::TObjEneLappy(TObject *parent, EnemyPlacement *set) : TObjEnemy(parent) {
     s32 i;
     f32 scale;
 

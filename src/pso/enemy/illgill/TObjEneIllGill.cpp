@@ -145,7 +145,7 @@ void TObjEneIllGill::free_effect() {
     illGillResource = NULL;
 }
 
-TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(parent) {
+TObjEneIllGill::TObjEneIllGill(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     m_name = TObjEneIllGill_class_name;
     this->set_param(0x52);
     this->apply_set_data(setData);
@@ -213,7 +213,7 @@ TObjEneIllGill::~TObjEneIllGill() {
     free_collision_body_parts(this);
 }
 
-void *TObjEneIllGill::create(void *setData) {
+void *TObjEneIllGill::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneIllGill(parent, setData);
 }

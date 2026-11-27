@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct player_stats;
+struct EnemyPlacement;
 
 // The movement row an enemy keeps in TObjEnemy::movementParameters: the radius it looks for a
 // target in (find_nearest_visible_player), its walking speed and its largest turn per frame.
@@ -44,7 +45,7 @@ struct TObjEnemy : public TObjChara {
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
     virtual void apply_enemy_state(s32 *);
     virtual void apply_hit_message_flags(void *);
-    virtual void apply_set_data(void *);
+    virtual void apply_set_data(EnemyPlacement *set_data);
     virtual void clear_lobby_object_state();
     virtual s32 sync_enemy_state(s32 status);
     s32 exchange_object_state(void *record, s16 mode);

@@ -31,7 +31,7 @@ struct TObjEneBm9MericarolParams {
 };
 
 struct TObjEneBm9Mericarol : public TObjEneDD_ST {
-    TObjEneBm9Mericarol(TObject *parent, void *set_data);
+    TObjEneBm9Mericarol(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBm9Mericarol();
     virtual void run_task();
     virtual void render();
@@ -51,7 +51,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     void sync_center_position();
     static void load_resources();
     static void free_shared_instances();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void update_particle_effect(NJS_OBJECT *);
     // inferred: footstep sound plus splash or dust on frames 5, 15 and 25 of a rush step (Dell Biter's
     // play_step_effect shape).

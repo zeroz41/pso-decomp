@@ -619,7 +619,7 @@ void TBoss1Dragon::load_resources() {
 }
 
 #pragma pop
-void *TBoss1Dragon::create(void *set_data) {
+void *TBoss1Dragon::create(EnemyPlacement *set_data) {
     set_story_flag_or_send_quest_flag(0x16);
     return new TBoss1Dragon(tl_04, set_data);
 }
@@ -653,7 +653,7 @@ void TBoss1Dragon::clearControlOverride() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TBoss1Dragon::TBoss1Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     u32 state[3];
     s32 i;
     s32 j;

@@ -187,7 +187,7 @@ void TObjEneBm9Mericarol::load_resources() {
     }
 }
 
-void *TObjEneBm9Mericarol::create(void *set_data) {
+void *TObjEneBm9Mericarol::create(EnemyPlacement *set_data) {
     return new TObjEneBm9Mericarol(tl_04, set_data);
 }
 
@@ -207,7 +207,7 @@ void TObjEneBm9Mericarol::free_shared_instances() {
     }
 }
 
-TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 ph;
     s32 i;
 

@@ -10,7 +10,7 @@
 
 struct TBoss3VoloptMonitor : public TObjEnemyCustom {
     TBoss3VoloptMonitor(TObjBase *parent, u16 id, s32 index, s32 slot_index, s32 start_timer);
-    TBoss3VoloptMonitor(TObject *parent, void *set_data);
+    TBoss3VoloptMonitor(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss3VoloptMonitor();
     virtual void run_task();
     virtual void render();
@@ -26,7 +26,7 @@ struct TBoss3VoloptMonitor : public TObjEnemyCustom {
     void dispatch_state();
     static void release();
     static void load_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void init_params();
     void set_model(s32 index);
 

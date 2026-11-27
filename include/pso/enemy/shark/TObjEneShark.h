@@ -10,9 +10,9 @@ class TAttackTraceStrip;
 
 class TObjEneShark : public TObjEneBeastBase {
 public:
-    TObjEneShark(TObject *parent, void *setData);
+    TObjEneShark(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneShark();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     static void load_resources();
     static void free_resources();
     virtual void render();

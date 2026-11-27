@@ -11,7 +11,7 @@ class TObject;
 class TAttackTraceStrip;
 
 struct TObjEneDimedian : public TObjEneBeastBase {
-    TObjEneDimedian(TObject *parent, void *set_data);
+    TObjEneDimedian(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneDimedian();
     virtual void render();
     void load_dimedian_param_entry(s32);
@@ -29,7 +29,7 @@ struct TObjEneDimedian : public TObjEneBeastBase {
     MaterialShadeFade body_fade;  // raised while appearing, decayed by beast_retire_corpse
     TAttackTraceStrip *attack_trails[2];  // fed by update_attack_trail from the claw samples
     RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void free_boss_objects();
 };

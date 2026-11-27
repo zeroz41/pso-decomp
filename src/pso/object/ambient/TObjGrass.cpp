@@ -133,7 +133,7 @@ void TObjGrass::clear_hit_targets() {
     }
 }
 
-TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TObjGrass::TObjGrass(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = grass_class_name;
     apply_set_data(set_data);
     init_position_vectors();
@@ -240,7 +240,7 @@ void TObjGrass::destroy_all() {
     }
 }
 
-void *TObjGrass::create(void *set_data) {
+void *TObjGrass::create(EnemyPlacement *set_data) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjGrass(parent, set_data);
 }

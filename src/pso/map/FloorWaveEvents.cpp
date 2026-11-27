@@ -173,7 +173,7 @@ void bswap_enemy_set_row(void *row_ptr) {
 
 void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->child_count);
-    bswap_16((u16 *)&placement->unknown04[0]);
+    bswap_16((u16 *)&placement->unknown04);
     bswap_16((u16 *)&placement->unknown0c[0]);
     bswap_16((u16 *)&placement->room);
     bswap_16((u16 *)&placement->wave);

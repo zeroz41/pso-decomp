@@ -39,7 +39,7 @@ struct TObjEneBm5GibonUList {
 };
 
 struct TObjEneBm5GibonU : public TObjEneDD_ST {
-    TObjEneBm5GibonU(TObject *parent, void *set_data);
+    TObjEneBm5GibonU(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBm5GibonU();
     virtual void run_task();
     virtual void render();
@@ -98,7 +98,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void remove_from_pack_member_list();
     void add_to_pack_member_list();
     static void release_static_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void register_global_objects();
     s32 get_clamped_level();

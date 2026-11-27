@@ -137,7 +137,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     model = dolm_olm_resource_bundle->models[i].model;
     texlist = dolm_olm_resource_bundle->models[i].texlist;
 }
-TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
+TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, EnemyPlacement *set_data) : TObjEneBeastBase(parent) {
     u32 col;
     m_name = obj_ene_dolm_olm_class_name;
     apply_set_data(set_data);
@@ -269,7 +269,7 @@ void TObjEneDolmOlm::free_shared_resources() {
         dolm_olm_resource_bundle = NULL;
     }
 }
-void *TObjEneDolmOlm::create(void *set_data) {
+void *TObjEneDolmOlm::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
     return new TObjEneDolmOlm(control, set_data);
 }

@@ -50,7 +50,7 @@ struct Boss5GryphonLightningWork {
 };
 
 struct TBoss5Gryphon : public TObjEneDD_ST {
-    TBoss5Gryphon(TObject *parent, void *data);
+    TBoss5Gryphon(TObject *parent, EnemyPlacement *data);
     virtual ~TBoss5Gryphon();
     int get_flag_bit6();
     static TBoss5Gryphon *get_instance();  // the gryphon of the running fight, NULL without one
@@ -182,7 +182,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void play_se(s32 se_id);
     void shift_position_history();
     static void cleanup();
-    static void *create(void *data);
+    static void *create(EnemyPlacement *data);
     void set_random_param(Boss5GryphonMotionEntry *motion);  // the seed of the next lightning or dive
     void calc_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the circle view
     void calc_product_and_ratio(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the flight turn and speed

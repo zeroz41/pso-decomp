@@ -46,7 +46,7 @@ enum {
 };
 
 struct TObjEneRe7Berura : public TObjEneDD_ST {
-    TObjEneRe7Berura(TObject *parent, void *set_data);
+    TObjEneRe7Berura(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneRe7Berura();
     virtual void update_body_colliders();
     virtual void run_demo_task();
@@ -92,7 +92,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void update_collision_center();
     void init_enemy();
     static void destroy_children();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_static_resources();
     static void advance_state(NJS_OBJECT *);
     static void demo_frame_callback(NJS_OBJECT *);

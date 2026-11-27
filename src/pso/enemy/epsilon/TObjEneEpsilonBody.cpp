@@ -96,7 +96,7 @@ void TObjEneEpsilonBody::set_guard_part_colors(NJS_ARGB *color) {
     }
 }
 
-TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEneEpsilon(parent) {
+TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, EnemyPlacement *set_data) : TObjEneEpsilon(parent) {
     s32 i;
     m_name = epsilon_body_class_name;
     invoke_initialization_hook(set_data);
@@ -174,7 +174,7 @@ TObjEneEpsilonBody::~TObjEneEpsilonBody() {
     }
 }
 
-void *create_TObjEneEpsilonBody(void *set_data) {
+void *create_TObjEneEpsilonBody(EnemyPlacement *set_data) {
     return new TObjEneEpsilonBody(tl_04, set_data);
 }
 

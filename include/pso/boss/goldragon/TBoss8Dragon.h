@@ -22,7 +22,7 @@ class TBoss8DragonColli;
 class TBoss8Dragon : public TObjEneDD_ST
 {
 public:
-    TBoss8Dragon(TObject *parent, void *set_data);
+    TBoss8Dragon(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss8Dragon();
     virtual void run_task();
     virtual void render();
@@ -224,7 +224,7 @@ public:
     // Hands the dragon back from the debug player control (boss8_dragon_player_control).
     static void clear_player_control();
     static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static s32 is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared);
     static f32 calc_sq_offset(const DragonAttackParams *params, f32 padding);
     static void place_parts_in_ring(s32 n, s32 hp, s32 seed);

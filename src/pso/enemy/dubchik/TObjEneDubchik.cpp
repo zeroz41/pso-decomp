@@ -207,15 +207,14 @@ void TObjEneDubchik::run_move_action() {  }
 
 void TObjEneDubchik::run_idle_action() {  }
 
-TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
-    EnemyPlacement *set_data_enemyplacement = (EnemyPlacement *)set_data;
+TObjEneDubchik::TObjEneDubchik(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     s32 i;
     m_name = dubchik_class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;
-    variant = set_data_enemyplacement->variant ? 1 : 0;
-    state36C = set_data_enemyplacement->state;
+    variant = set_data->variant ? 1 : 0;
+    state36C = set_data->state;
     init_level_stats(variant);
     action_table = dubchik_action_table;
     set_action_table(action_table);
@@ -244,7 +243,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
         set_param(24);
     }
     saver = TAttackTraceStrip::create(0x00FFFFFF, 0xA0707070);
-    if (set_data_enemyplacement->wave != 0) {
+    if (set_data->wave != 0) {
         start_appear();
     }
     effect = NULL;
@@ -372,7 +371,7 @@ void TObjEneDubchik::free_resources() {
     }
 }
 
-void *TObjEneDubchik::create(void *set_data) {
+void *TObjEneDubchik::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDubchik(control, set_data);
 }

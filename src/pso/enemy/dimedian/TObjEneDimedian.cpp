@@ -365,7 +365,7 @@ CollisionBody dimedian_collision_body_table[3] = {
     {{0.0f, 15.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *TObjEneDimedian::create(void *set_data) {
+void *TObjEneDimedian::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDimedian(control, set_data);
 }
@@ -469,7 +469,7 @@ void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     texlist = dimedian_resource_ptr->models[i].texlist;
 }
 
-TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
+TObjEneDimedian::TObjEneDimedian(TObject *parent, EnemyPlacement *set_data) : TObjEneBeastBase(parent) {
     s32 color;
     s32 i;
     m_name = TObjEneDimedian_name_ref;

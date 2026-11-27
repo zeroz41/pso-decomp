@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcExpertBase : public TObjNpcMale {
-    TObjNpcExpertBase(TObject *parent, void *set_data);
+    TObjNpcExpertBase(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcExpertBase();
     static void free_shared_data();
     static void load_shared_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static BmlResource *shared_resource;
 };

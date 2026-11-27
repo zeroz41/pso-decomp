@@ -278,7 +278,7 @@ void TObjEneDarkGunner::refresh_target() {  }
 }
 
 extern "C" {
-TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     s32 i;
 
     m_name = dark_gunner_class_name;
@@ -287,7 +287,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     variant = 0;
     set_param(0x22);
     add_flags_2e4(8);
-    state36C = ((EnemyPlacement *)set_data)->state;
+    state36C = set_data->state;
     resetTimer = 0xF;
     timer = resetTimer;
     VecCopy(&prev_position, &position);
@@ -380,7 +380,7 @@ void TObjEneDarkGunner::cleanup_effects() {
     TEneEffHamon::free_fish_effects();
 }
 
-void *TObjEneDarkGunner::create(void *set_data) {
+void *TObjEneDarkGunner::create(EnemyPlacement *set_data) {
     return new TObjEneDarkGunner(tl_04, set_data);
 }
 

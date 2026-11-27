@@ -6,7 +6,7 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 
 struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
-    TObjEneMe1CanadinLeader(TObject *parent, void *set_data);
+    TObjEneMe1CanadinLeader(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneMe1CanadinLeader();
     virtual void run_task();
     virtual void select_next_attack_state();
@@ -25,7 +25,7 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     TObjEneMe1Canadin *members[8];
     s32 formation_state;
     void update_formation_state();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static TObjEneMe1Canadin *create_canadin(TObjEneMe1Canadin *leader, Vec *position, s32 id, s32 index);
 };
 

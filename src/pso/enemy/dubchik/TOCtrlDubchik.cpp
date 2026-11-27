@@ -74,7 +74,7 @@ s32 TOCtrlDubchik::select_melee_contact_body(TObjChara *source, f32 factor) {
     return 0;
 }
 
-TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TOCtrlDubchik::TOCtrlDubchik(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = ctrl_dubchik_name;
     apply_set_data(set_data);
     init_position_vectors();
@@ -114,7 +114,7 @@ void TOCtrlDubchik::destroy_instance() {
     }
 }
 
-void *TOCtrlDubchik::create(void *set_data) {
+void *TOCtrlDubchik::create(EnemyPlacement *set_data) {
     return new TOCtrlDubchik(tl_05, set_data);
 }
 

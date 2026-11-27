@@ -360,7 +360,7 @@ TBoss7Crawfish::~TBoss7Crawfish() {
     free_child();
 }
 
-TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
+TBoss7Crawfish::TBoss7Crawfish(TObject *parent, EnemyPlacement *set) : TObjEnemy(parent) {
     Vec still;
     m_name = TBoss7Crawfish::class_name;
     texlist = get_bml_texlist(TBoss7Crawfish::shared_resource, 0);

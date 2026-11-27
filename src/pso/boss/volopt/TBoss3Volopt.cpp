@@ -354,7 +354,7 @@ void TObjEnemy::register_by_id() {
     this->register_object_by_id();
 }
 
-TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
+TBoss3Volopt::TBoss3Volopt(EnemyPlacement *set_data) : TObjEnemyCustom(tl_04) {
     m_name = TBoss3Volopt_name;
     apply_set_data(set_data);
     register_by_id();
@@ -430,7 +430,7 @@ void TBoss3Volopt::free_parts() {
     TBoss3VoloptMonitor::release();
 }
 
-void *TBoss3Volopt::create(void *set_data) {
+void *TBoss3Volopt::create(EnemyPlacement *set_data) {
     return new TBoss3Volopt(set_data);
 }
 

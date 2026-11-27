@@ -63,7 +63,7 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     s32 target_count;
     TObjEnemyColorFade appear_fade;
     RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void free_static_instances();
 };

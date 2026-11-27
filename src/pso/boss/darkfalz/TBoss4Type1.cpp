@@ -1040,11 +1040,11 @@ void TBoss4Type1::update_spawn_uro() {
     s = &node_positions[turn][1];
     t = state_timer;
     if (t < 0x106 && (t & 0x1F) == 0 && uro_count < uro_limit) {
-        copy_set_entry(&p.set_index, &dark_falz_set_entry);
-        if (owner->alloc_child_ids(&p.set_index, &p.entity_id) != 0) {
+        copy_set_entry(&p.entry, &dark_falz_set_entry);
+        if (owner->alloc_child_ids(&p.entry.enemy_index, &p.entry.id) != 0) {
             p.owner = owner;
-            p.unk_0C = 1;
-            VecCopy(&p.position, s);
+            p.entry.room = 1;
+            VecCopy(&p.entry.position, s);
             if (TBoss4Uro::create(&p) != NULL) {
                 spawn_particle_effect(s, 0x7D);
                 play_sound_effect(0x4003A810, s, 0, 1);

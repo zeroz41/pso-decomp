@@ -14,7 +14,7 @@ struct NanoDragoBehaviorParams {
 };
 
 struct TObjEneNanoDrago : public TObjEnemyCustom {
-    TObjEneNanoDrago(TObject *parent, void *setData);
+    TObjEneNanoDrago(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneNanoDrago();
     virtual void run_task();
     virtual void render();
@@ -55,7 +55,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void update_circling_state();
     static void load_resources();
     static void free_resources();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
 
     s16 growth_count;
     Vec moveDestination;

@@ -209,7 +209,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjNpcEnemy::register_animated_chunk((s16)0x2A, sorcerer_bml_resource->models->model, sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
 }
 
-void *TObjEneRe4Sorcerer::create(void *set_data) {
+void *TObjEneRe4Sorcerer::create(EnemyPlacement *set_data) {
     return new TObjEneRe4Sorcerer((TObject *)tl_04, set_data);
 }
 
@@ -225,7 +225,7 @@ void TObjEneRe4Sorcerer::free_bits() {
     }
 }
 
-TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     m_name = re4_sorcerer_name;
     invoke_initialization_hook(set_data);
     apply_parameters();

@@ -36,7 +36,7 @@ struct VoloptP02Params {
 
 class TBoss3VoloptP02 : public TObjEnemyCustom {
 public:
-    TBoss3VoloptP02(TObject *parent, void *set_data);
+    TBoss3VoloptP02(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss3VoloptP02();
     virtual void run_task();
     virtual void render();
@@ -90,7 +90,7 @@ public:
     void run_state();
     static void free_resources();
     static void load_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void init_params();
     void load_params_from_table(s32 index);
     static f32 get_float_param(s32 index);

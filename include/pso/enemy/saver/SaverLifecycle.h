@@ -6,7 +6,7 @@
 // Points fake_tec_texlist at the technique ring-wave textures and picks its first texture.
 void init_fake_tec_texlist();
 
-void *create_ene_saver(void *set_data);
+void *create_ene_saver(EnemyPlacement *set_data);
 void initialize_saver_resources(void);
 
 // Where render's node callback last placed the particle node (node 0x1A), in world space. 16 bytes in the

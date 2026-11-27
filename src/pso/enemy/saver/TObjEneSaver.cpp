@@ -627,7 +627,7 @@ void TObjEneSaver::select_model_record(s32 i) {
 
 Vec *TObjEneSaver::get_center() { return &body_center; }
 
-TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TObjEneSaver::TObjEneSaver(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     s16 guard;
     m_name = saver_class_name;
     apply_set_data(set_data);
@@ -750,7 +750,7 @@ void TObjEneSaver::free_resources() {
     }
 }
 
-void *create_ene_saver(void *set_data) {
+void *create_ene_saver(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneSaver(control, set_data);
 }

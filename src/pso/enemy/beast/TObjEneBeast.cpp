@@ -291,7 +291,7 @@ CollisionBody beast_collision_body_table[3] = {
     {{0.0f, 15.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *TObjEneBeast::create(void *set_data) {
+void *TObjEneBeast::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneBeast(control, set_data);
 }
@@ -402,7 +402,7 @@ void TObjChara::init_position_vectors() {
 void TObjEneBeastBase::request_stand_action() { this->requested_action = 0; }
 int TObjEneBeastBase::test_flag_256() { return 0; }
 void TObjEneBeastBase::select_post_attack_mode() {  }
-TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
+TObjEneBeast::TObjEneBeast(TObject *parent, EnemyPlacement *set_data) : TObjEneBeastBase(parent) {
     s32 i;
 
     m_name = beast_class_name;

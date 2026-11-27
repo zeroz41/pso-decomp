@@ -252,7 +252,7 @@ void load_shinowa_mirage_resources() {
     }
 }
 
-void *TObjEneMe3ShinowaMirage::create_real(void *set_data) { return TObjEneMe3ShinowaReal::create(set_data); }
+void *TObjEneMe3ShinowaMirage::create_real(EnemyPlacement *set_data) { return TObjEneMe3ShinowaReal::create(set_data); }
 
 void TObjEneMe3ShinowaMirage::free_shared_resources() {
     if (TObjEneMe3ShinowaMirage::sword_trail_b != 0) {
@@ -1636,11 +1636,11 @@ void TObjEneMe3Shinowa::render_demo() {
     }
 }
 #pragma pop
-TObjEneMe3ShinowaReal *TObjEneMe3ShinowaReal::create(void *set_data) {
+TObjEneMe3ShinowaReal *TObjEneMe3ShinowaReal::create(EnemyPlacement *set_data) {
     return new TObjEneMe3ShinowaReal(tl_04, set_data);
 }
 
-TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, void *set_data) : TObjEneMe3Shinowa(parent) {
+TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, EnemyPlacement *set_data) : TObjEneMe3Shinowa(parent) {
     s32 i;
     m_name = TObjEneMe3ShinowaReal_class_name;
     invoke_initialization_hook(set_data);

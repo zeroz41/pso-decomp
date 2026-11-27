@@ -11,7 +11,7 @@ struct BmlResource;
 struct TObjEneRecon;
 
 struct TObjEneRecobox : public TObjEneDD_ST {
-    TObjEneRecobox(TObject *parent, void *set_data);
+    TObjEneRecobox(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneRecobox();
     virtual void run_task();
     virtual void render();
@@ -50,7 +50,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     static void release_static_instance();
     static void load_resources();
     Vec *get_position_ptr();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static BmlResource *get_bml_resource();
     static EnemyMoveParams movement;
     f32 get_recon_rotate_rad();

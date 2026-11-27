@@ -248,7 +248,7 @@ void TObjEneRe7Berura::load_static_resources() {
     }
 }
 
-void *TObjEneRe7Berura::create(void *set_data) {
+void *TObjEneRe7Berura::create(EnemyPlacement *set_data) {
     return new TObjEneRe7Berura(tl_04, set_data);
 }
 
@@ -271,7 +271,7 @@ void TObjEneRe7Berura::destroy_children() {
     }
 }
 
-TObjEneRe7Berura::TObjEneRe7Berura(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneRe7Berura::TObjEneRe7Berura(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     m_name = re7_berura_name;
     invoke_initialization_hook(set_data);
     apply_parameters();

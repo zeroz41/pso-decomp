@@ -233,7 +233,7 @@ static f32 actor_rand_float(saddr actor, s32 range) {
     return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
 
-void *TObjEneBm5Wolf::create(void *set_data) {
+void *TObjEneBm5Wolf::create(EnemyPlacement *set_data) {
     return new TObjEneBm5Wolf(tl_04, set_data);
 }
 
@@ -272,7 +272,7 @@ TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
 }
 #pragma push
 #pragma bool off
-TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 n;
     m_name = bm5_wolf_class_name;
     invoke_initialization_hook(set_data);

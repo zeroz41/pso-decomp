@@ -175,7 +175,7 @@ void TObjEneDellBiter::load_resources() {
     }
 }
 
-void *TObjEneDellBiter::create(void *set_data) {
+void *TObjEneDellBiter::create(EnemyPlacement *set_data) {
     return new TObjEneDellBiter(tl_04, set_data);
 }
 
@@ -193,7 +193,7 @@ void TObjEneDellBiter::set_min_clamped_entry_value(s32 index, f32 speed) {
     dell_biter_param_table[index].speed = speed;
 }
 
-TObjEneDellBiter::TObjEneDellBiter(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneDellBiter::TObjEneDellBiter(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     m_name = dell_biter_class_name;
     invoke_initialization_hook(set_data);
     init_target_offsets();

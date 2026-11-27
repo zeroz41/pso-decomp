@@ -233,7 +233,7 @@ void TObjEneDD::apply_enemy_state(s32 *state) {
     this->mode = mode;
 }
 
-void TObjEneDD::invoke_initialization_hook(void *set_data) {
+void TObjEneDD::invoke_initialization_hook(EnemyPlacement *set_data) {
     apply_set_data(set_data);
 }
 

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/FloatRound.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -181,7 +182,7 @@ void TObjEneRecobox::load_resources() {
     }
 }
 
-void *TObjEneRecobox::create(void *set_data) {
+void *TObjEneRecobox::create(EnemyPlacement *set_data) {
     return new TObjEneRecobox(tl_04, set_data);
 }
 
@@ -215,7 +216,7 @@ u32 TObjEneRecobox::remap_area_sound_id(u32 id) {
     return ret;
 }
 
-TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneRecobox::TObjEneRecobox(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 i;
     s32 n;
     m_name = TObjEneRecobox_name_ref;
@@ -237,7 +238,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     initialize_enemy_state(0x43);
     wall_reach = 10.0f;
     apply_set_parameters();
-    n = ((s16 *)set_data)[1];
+    n = set_data->child_count;
     if (n <= 1) {
         recon_total = 0;
     } else if (recon_total >= n) {

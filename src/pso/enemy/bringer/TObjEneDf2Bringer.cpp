@@ -256,7 +256,7 @@ void TObjEneDf2Bringer::load_resources() {
 }
 
 #pragma pop
-void *TObjEneDf2Bringer::create(void *set_data) {
+void *TObjEneDf2Bringer::create(EnemyPlacement *set_data) {
     void *o = new TObjEneDf2Bringer(tl_04, set_data);
     return o;
 }
@@ -284,7 +284,7 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 index, f32 speed) {
   }
   bringer_motion_actions[index].speed = speed;
 }
-TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     m_name = df2_bringer_name;
     invoke_initialization_hook(set_data);
     apply_parameters();
