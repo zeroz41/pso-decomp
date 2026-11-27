@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/map/MapSetArchive.h"
 #include <stddef.h>
 #include "pso/map/FloorPopulation.h"
@@ -1017,9 +1018,6 @@ s32 enemy_condition_count;
 
 void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
-extern "C" {
-s32 is_battle_mode_running();
-}
 void apply_room_transform(Vec *position, s32 *angles, SceneMaterialSection *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq);

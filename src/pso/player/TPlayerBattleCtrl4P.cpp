@@ -1123,7 +1123,7 @@ BattleRanking *get_split_screen_battle_rankings(void) {
     return split_screen_battle_rankings;
 }
 
-u8 TPlayerBattleCtrl4P::is_battle_mode_active() {
+s32 TPlayerBattleCtrl4P::is_battle_mode_active() {
     TPlayerBattleCtrl4P *ctrl = instance;
     if (ctrl != 0) {
         return ctrl->phase == 1 || ctrl->phase == 2;

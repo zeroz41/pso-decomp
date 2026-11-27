@@ -90,9 +90,6 @@ f32 battle_meseta_score;
 
 
 void play_duel_result_stream(const char *file, saddr duration);
-extern "C" {
-u8 is_battle_mode_running(void);
-}
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
 f32 battle_player_give_damage_score = 0.05f;
@@ -1332,7 +1329,7 @@ s32 get_ranked_battle_ctrl_value(void) {
     return battle_ctrl_default_value;
 }
 
-u8 is_battle_mode_running(void) {
+s32 is_battle_mode_running(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return TPlayerBattleCtrl4P::is_battle_mode_active();
     }

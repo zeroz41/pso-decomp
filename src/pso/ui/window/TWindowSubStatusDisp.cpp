@@ -1,3 +1,4 @@
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/player/TPlyDispData.h"
@@ -181,9 +182,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x3,
 };
 
-extern "C" {
-s32 is_battle_mode_running();
-}
 extern "C" {
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }

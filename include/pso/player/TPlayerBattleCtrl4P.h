@@ -94,7 +94,7 @@ public:
     s32 close_windows_on_button();
     void close_player_windows();
     void create_result_windows();
-    static u8 is_battle_mode_active();
+    static s32 is_battle_mode_active();
     static void reset_ctrl_to_default();
     static void init();
     // Plays the result jingle and shows the duel result window for duration frames.

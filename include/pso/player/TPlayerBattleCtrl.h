@@ -82,9 +82,7 @@ LAYOUT_ASSERT(TPlayerBattleCtrl_timed_event_state_offset, offsetof(TPlayerBattle
 LAYOUT_ASSERT(TPlayerBattleCtrl_size, sizeof(TPlayerBattleCtrl) == 0x278);
 
 
-extern "C" {
-u8 is_battle_mode_running(void);
-}
+s32 is_battle_mode_running(void);
 s32 get_ranked_battle_ctrl_value(void);
 s32 is_duel_ranking_empty(void);
 // Fade-in callback: sends the controller back to its first state for the next round.
