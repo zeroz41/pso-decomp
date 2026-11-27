@@ -8,7 +8,7 @@ s32 validate_attack_target_list(s32 *list) {
         return 0;
     }
     for (i = 0; i < *list; i++) {
-        if (validate_attack_target_entry((u8 *)list + 4 + i * 4) == 0) {
+        if (validate_attack_target_entry(list + 1 + i) == 0) {
             return 0;
         }
     }

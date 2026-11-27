@@ -6,17 +6,17 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 
 void update_menu_cursor() {
-    void *global_state;
+    SystemSaveData *global_state;
 
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state == NULL) {
         current_language = (language) TLanguage::get_default_language();
         return;
     }
-    if ((s8) *(u8 *)((s8 *)global_state + 7) >= 5) {
-        *(u8 *)((s8 *)global_state + 7) = 1U;
+    if (global_state->language >= 5) {
+        global_state->language = 1;
     }
-    current_language = (language) (s8) *(u8 *)((s8 *)global_state + 7);
+    current_language = (language) global_state->language;
 }
 const char *get_localized_text_entry(s32 group, s32 id) {
     return text_language_group_table[group][id];

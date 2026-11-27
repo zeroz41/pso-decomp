@@ -276,8 +276,8 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(TObject *paren
     if (field < 0 || field >= 4) {
         return NULL;
     }
-    KeyboardModes sp8 = serial_keyboard_mode_table;
-    kb = new TKeyBoardControl(parent, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
+    KeyboardModes modes = serial_keyboard_mode_table;
+    kb = new TKeyBoardControl(parent, serial_keyboard_field_width_table[field], 0, modes.b[field], local_client_id);
     if (kb == NULL) {
         return NULL;
     }

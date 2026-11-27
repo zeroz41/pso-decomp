@@ -132,8 +132,6 @@ struct TargetCandidate {
 extern TargetCandidate enemy_target_candidate_table[4];
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
-u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range);
-u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
 s32 is_player_entity_id(u16 id);
 // 1 for an enemy's entity id (0x1000-0x3FFF).
 int is_enemy_entity_id(u16 id);
@@ -150,7 +148,6 @@ void enemy_death_stub(void *self);
 void set_collider_contact_high(CollisionBody *body);
 void set_collider_contact_low(CollisionBody *body);
 void update_collider_contact_by_height(CollisionBody *body, f32 height);
-u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range);
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit);
 
 // The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
@@ -164,7 +161,6 @@ class TObjChara;
 struct BmlResource;
 struct BmlResourceDescriptor;
 
-u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
 
 #endif

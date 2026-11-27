@@ -545,16 +545,16 @@ int TItemData::isValidGroundDrop() {
 }
 
 void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group) {
-    s8 sp8[10];
+    s8 custom_name[10];
     item_data->init();
     if ((name != NULL) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
         item_data->data1.data_u8[0] = 0;
         item_data->data1.data_u8[1] = group;
         item_data->data1.data_u8[2] = 0;
-        memset(sp8, 0, 0xA);
-        sp8[0] = 0x41;
-        strncpy((char *)&sp8[1], name, 8);
-        item_data->pack_three_colors((u8 *)sp8);
+        memset(custom_name, 0, 0xA);
+        custom_name[0] = 0x41;
+        strncpy((char *)&custom_name[1], name, 8);
+        item_data->pack_three_colors((u8 *)custom_name);
     }
 }
 
@@ -694,12 +694,12 @@ void TItemData::set_dfp_bonus(s16 dfp_bonus) {
 }
 
 s16 TItemData::get_technique_level() {
-    void *tech_params;
+    TechniqueParams *tech_params;
 
     if (((u8) this->data1.data_u8[0] == 3) && ((u8) this->data1.data_u8[1] == 2)) {
         tech_params = calc_technique_parameters(this->data1.data_u8[4], this->data1.data_u8[2], 0xFFFF);
         if (tech_params != NULL) {
-            return *(s16 *)((s8 *)tech_params + 0x14);
+            return tech_params->mental;
         }
     }
     return 0;
@@ -1650,24 +1650,23 @@ int TItemData::calc_display_grade() {
 }
 
 s32 TItemData::get_base_rarity() {
-    u8 *item = (u8 *)this;
     ItemToolPmt *p;
-    switch (item[0]) {
+    switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        p = (ItemToolPmt *)lookup_item_pmt_record(item);
+        p = (ItemToolPmt *)lookup_item_pmt_record((u8 *)this);
         if (p != NULL) {
             return get_item_star_count(p->id);
         }
         break;
     case 3:
-        p = (ItemToolPmt *)lookup_item_pmt_record(item);
+        p = (ItemToolPmt *)lookup_item_pmt_record((u8 *)this);
         if (p != NULL && (p->flags & 0x80)) {
             return 0xC;
         }
         break;
     case 2:
-        if (item[1] >= 0x28) {
+        if (data1.data_u8[1] >= 0x28) {
             return 0xC;
         }
         break;

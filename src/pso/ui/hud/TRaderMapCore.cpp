@@ -242,8 +242,8 @@ void TRaderMapCore::load_map_resources() {
 
 void TRaderMapCore::unload_floor_map() {
     NJS_TEXLIST *texlist;
-    u8 *map_data;
-    map_data = (u8 *)TRaderMapCore::floor_map_resource;
+    RadarPieceMap *map_data;
+    map_data = (RadarPieceMap *)TRaderMapCore::floor_map_resource;
     if (map_data != NULL) {
         save_floor_discovery(get_current_floor(), map_data);
     }
@@ -1252,8 +1252,7 @@ s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map) {
     return 1;
 }
 
-s32 TRaderMapCore::save_floor_discovery(int floor, void *map_data) {
-    RadarPieceMap *map = (RadarPieceMap *)map_data;
+s32 TRaderMapCore::save_floor_discovery(int floor, RadarPieceMap *map) {
     s16* saved = ((s16* *)&TRaderMapCore::floor_discovery_table)[floor];
     s16* p;
     RadarPiece* piece;

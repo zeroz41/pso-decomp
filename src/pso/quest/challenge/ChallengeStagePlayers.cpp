@@ -103,7 +103,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
                     TObjPlayer::set_technique_level_clamped(p, e->level, e->technique);
                 }
             }
-            *(s32 *)((u8 *)p + 0xd58) = 0;
+            p->base_stats.meseta = 0;
         }
     }
 }

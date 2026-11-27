@@ -285,7 +285,7 @@ void TShopArmorListWindow::open_menu_window() {
         this->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         this->choice_menu->add_text_entry(get_shop_text(5), 6, 1);
         choice_menu->calc_window_size();
-        align_menu_entry_positions(this->choice_menu);
+        this->choice_menu->align_menu_entry_positions();
         choice_menu->set_ready_flag();
         scale = get_scale();
         choice_menu->set_position_xy(get_scale(), scale);

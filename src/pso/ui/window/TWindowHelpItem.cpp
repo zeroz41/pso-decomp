@@ -184,11 +184,11 @@ void TWindowHelpItem::run_task() {
     }
     if ((this->help_flags & 1) && (this->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
         if (!(this->help_flags & 4)) {
-            if (handle_list_page_flip_input(this->page_indicator) != 0) {
+            if (this->page_indicator->handle_flip_input() != 0) {
                 this->dispatch_item_help();
             }
         } else {
-            decay_page_arrow_offset(this->page_indicator);
+            this->page_indicator->decay_arrow_offset();
         }
         this->invoke_callback_pmf();
     }
@@ -212,7 +212,7 @@ void TWindowHelpItem::render() {
         context);
     flags = this->help_flags;
     if ((flags & 1) && (flags & 2)) {
-        draw_list_page_indicator(page_indicator, context);
+        page_indicator->draw(context);
     }
 }
 
@@ -245,7 +245,7 @@ void TWindowHelpItem::clear_help_item() {
     m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s8 page) { if (turn_page_indicator(page_indicator, page) != 0) { this->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s8 page) { if (page_indicator->turn_to(page) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(TItemData *item, s32 id) { this->secondary_id = id; this->secondary_item = item; update_cursor_selection(); dispatch_item_help(); }
 

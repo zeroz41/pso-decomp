@@ -8,7 +8,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/unk/TLobby_803360CC.h"
-#include "pso/unk/TUnk_804EE470.h"
+#include "pso/ui/TTitleLogo.h"
 #include "pso/ui/TTitleMenu.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -346,7 +346,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     }
     title_layer = new TTitleBackground(this);
     transition_controller = new TTitleMenu(this);
-    overlay_layer = new TUnk_804EE470(tl_clipout);
+    overlay_layer = new TTitleLogo(tl_clipout);
     m_28 = 0;
     if (transition_controller != NULL) {
         transition_controller->suspend_update();

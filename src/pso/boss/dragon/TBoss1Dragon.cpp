@@ -348,12 +348,10 @@ s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
-extern "C" {
 f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
 
-}
 int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 
 s32 TCameraCtrl::get_camera_mode() {

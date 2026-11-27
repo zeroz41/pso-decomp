@@ -4,6 +4,8 @@
 #include "types.h"
 #include "dolphin/mtx/GeoTypes.h"
 
+struct TItem;
+
 // TObjPlayer::marker_position: the point above the head (calc_marker_position) where the
 // lobby marker is drawn; starts at the origin.
 struct PlayerMarkerPosition : Vec {
@@ -12,14 +14,14 @@ struct PlayerMarkerPosition : Vec {
 
 // TObjPlayer::equipped_items: the item held in each of the 13 equip slots.
 struct EquippedItems {
-    void *items[13];
+    TItem *items[13];
 
     EquippedItems();
     // Empties the 13 equip slots.
     void clear();
 };
 
-void set_equip_slot_entry(void **slots, s32 slot, void *item);
+void set_equip_slot_entry(TItem **slots, s32 slot, TItem *item);
 
 Vec *get_marker_position(Vec *position);
 s32 is_count_positive(s32 *count);

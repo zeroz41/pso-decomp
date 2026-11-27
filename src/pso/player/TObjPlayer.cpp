@@ -326,7 +326,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->load_character_state(record);
     this->update_if_active();
     assign_owner_ids();
-    this->setup_fresh_player_state((u8 *)record);
+    this->setup_fresh_player_state(record);
     this->load_pending_actions(record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
@@ -830,7 +830,6 @@ void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 extern "C" {
 s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
-void release_players_from_cutscene(void);
 
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
@@ -1029,7 +1028,7 @@ extern "C" {
 void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record) {}
 }
 
-void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
+void TObjPlayer::setup_fresh_player_state(TPlyCharData *char_data) {
     this->hp = (s16) this->hpmax;
     this->tp = (s16) this->tpmax;
     if ((this->obj_isState2_324() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (TObjPlayer::check_camera_mode() == 0)) {
@@ -1041,7 +1040,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     if (is_alive_and_ready() != 0) {
         refill_traps();
     }
-    this->set_language((int) (*(u8 *)((s8 *)char_data + 3)));
+    this->set_language((int) char_data->m_inventory.m_language);
     scale_state.set_actor_id(this->get_entity_id());
     this->disable_drop_weapon_on_death();
     TPlyCharData *record = reinterpret_cast<TPlyCharData *>(char_data);
@@ -1765,7 +1764,7 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     } else {
         slot = item->get_attach_slot();
     }
-    TItem *current = (TItem *)get_slot_value(equipped_items.items, slot);
+    TItem *current = get_slot_value(equipped_items.items, slot);
     if (current == NULL) {
         set_equip_slot_entry(equipped_items.items, slot, item);
         item->equip();
@@ -1832,7 +1831,7 @@ void TObjPlayer::unequip_all_units() {
 
     i = 9;
     do {
-        slot_value = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
+        slot_value = TObjPlayer::get_slot_value(this->equipped_items.items, i);
         if (slot_value != NULL) {
             set_equip_slot_entry(this->equipped_items.items, i, 0);
             slot_value->unequip();
@@ -1875,7 +1874,7 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
         prev->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
         if (prev->get_item_type() == 1 && prev->get_item_group() == 1) {
             for (slot = 9; slot <= 12; slot++) {
-                TItem *unit = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, slot);
+                TItem *unit = TObjPlayer::get_slot_value(this->equipped_items.items, slot);
                 if (unit != NULL) {
                     unit->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
                 }
@@ -1937,7 +1936,7 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
     owner->subtract_equip_stats(&a, (s16 *)&b, (s16 *)&c);
     if (owner->get_item_type() == 1 && owner->get_item_group() == 1) {
         for (i = 9; i <= 12; i++) {
-            TItem *s = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
+            TItem *s = TObjPlayer::get_slot_value(this->equipped_items.items, i);
             if (s != NULL) {
                 s->subtract_equip_stats(&a, (s16 *)&b, (s16 *)&c);
             }
@@ -1991,7 +1990,7 @@ void TObjPlayer::get_anim_node_position(s32 joint, Vec *out_pos) {
     stack.y = player_zero;
     stack.x = player_zero;
     push_matrix_from(0);
-    copy_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(get_joint_matrix(joint)));
+    copy_matrix(NULL, get_joint_matrix(joint));
     premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
     matrix_mult_vec(NULL, &stack, out_pos);
     pop_matrix();
@@ -3003,7 +3002,7 @@ void TObjPlayer::check_level_up() {
                 PlayerLevelStats gain;
                 j = 0;
                 do {
-                    removed_item = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, j);
+                    removed_item = TObjPlayer::get_slot_value(this->equipped_items.items, j);
                     if ((can_destroy_with_parents((TObject *)removed_item) != 0) && (removed_item->is_equipped() != 0)) {
                         removed_item->remove_equip_stats(1);
                     }
@@ -3014,7 +3013,7 @@ void TObjPlayer::check_level_up() {
                 after.set(this, this->stat_block, this->attack_params, param_block);
                 i = 0;
                 do {
-                    added_item = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
+                    added_item = TObjPlayer::get_slot_value(this->equipped_items.items, i);
                     if ((can_destroy_with_parents((TObject *)added_item) != 0) && (added_item->is_equipped() != 0)) {
                         added_item->add_equip_stats(1);
                     }
@@ -6366,7 +6365,7 @@ void TObjPlayer::init_local_pad_binding() {
 }
 
 s32 TObjPlayer::get_total_deaths() {
-    return ((CharacterSaveRecord *)get_character_save_record(this->get_entity_id()))->death_count;
+    return (get_character_save_record(this->get_entity_id()))->death_count;
 }
 
 s32 TObjPlayer::is_player_valid_target(u16 client_index) {

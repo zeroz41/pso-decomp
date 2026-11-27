@@ -12,7 +12,10 @@ void randomize_offline_maps(void);
 void reset_online_story_select(void);
 void free_forest_rel_work_buffer(void);
 void command_exit_stub(void);
-void set_wave_event_stream(void *a0);
+// Where the wave event action stream is read from: its start and the byte the next read takes.
+struct WaveEventContext { u8* stream; s32 cursor; };
+
+void set_wave_event_stream(const WaveEventContext *context);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void activate_triggered_floor_events(void);
 void bswap_enemy_set_row(void *row_ptr);

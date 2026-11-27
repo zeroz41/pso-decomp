@@ -50,10 +50,4 @@ LAYOUT_ASSERT(TODoorBaseSize, sizeof(TODoorBase) == 0xD4);
 // TLobby::reset_door_state clears it).
 extern s32 switch_doors_force_closed;
 
-// The derived constructors and destructors still written out by hand call
-// these by their symbols.
-extern "C" void *__dt__10TODoorBaseFv(void *self, s16 del);
-
-extern "C" void *__vt__10TODoorBase[];
-
 #endif

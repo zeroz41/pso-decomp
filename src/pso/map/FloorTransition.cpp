@@ -202,23 +202,23 @@ void run_area_scene_cleanup(FloorTransition *transition) {
 }
 
 
-void load_area_scene_and_init(u8 *transition) {
+void load_area_scene_and_init(FloorTransition *transition) {
     FloorMapSelection selection;
     FloorMapSelection *selection_ptr;
     s32 value;
-    u8 *trans;
+    FloorTransition *trans;
     trans = transition;
-    value = *(s32 *)((s8 *)transition + 4);
+    value = transition->current_floor;
     set_current_floor_area((value));
-    value = *(s32 *)((s8 *)trans + 0x10);
+    value = trans->current_map;
     TScene::set_scene(value);
-    value = *(s32 *)((s8 *)trans + 4);
+    value = trans->current_floor;
     selection_ptr = &selection;
     if (lookup_floor_map_selection(value, selection_ptr) != 0) {
         area_initializer_dispatch_table[selection.area].init();
         return;
     }
-    area_initializer_dispatch_table[*(s32 *)((s8 *)trans + 4)].init();
+    area_initializer_dispatch_table[trans->current_floor].init();
 }
 
 void promote_area_floor(FloorTransition *transition) {

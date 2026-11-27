@@ -30,6 +30,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     void handle_cancel();
     void handle_decide();
     void select_next();
+    void draw_selection_leader_line(struct WindowDrawContext *ctx);
     void handle_page_input();
     virtual void run_task();
 };

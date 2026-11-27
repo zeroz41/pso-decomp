@@ -107,7 +107,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
         }
         r->update_layout_height(206.0f);
         r->set_selected_index(a.v[menu]);
-        align_menu_entry_positions(r);
+        r->align_menu_entry_positions();
     }
     return (saddr)r;
     }

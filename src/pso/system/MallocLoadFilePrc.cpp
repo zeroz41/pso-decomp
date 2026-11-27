@@ -81,7 +81,7 @@ u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
 u8 lobby_font_texture_loaded;
 AdxfHandle **pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;
-uaddr pending_file_read_destination;
+void *pending_file_read_destination;
 s32 pending_file_read_flush_requested;
 u32 main_phase_deferred_callback;
 s32 quest_download_server_ready;
@@ -857,15 +857,15 @@ void invoke_callback() {
 void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
 
 void flush_pending() {
-    uaddr destination;
+    void *destination;
     s32 count;
     if (pending_file_read_flush_requested != 0) {
         destination = pending_file_read_destination;
         pending_file_read_flush_requested = 0;
-        if ((destination != 0U)) {
+        if ((destination != NULL)) {
             count = pending_file_read_sector_count;
             if (count != 0) {
-                ADXF_ReadNw(*pending_file_read_handle_ref, count, (void *)destination);
+                ADXF_ReadNw(*pending_file_read_handle_ref, count, destination);
             }
         }
         flush_checked_reads();
@@ -882,7 +882,7 @@ void flush_checked_reads() {
     }
 }
 
-void reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
+void reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = NULL; }
 void clear_player_slot_tables(s32 n) {
     s32 i;
     if (n == -1) {
@@ -908,7 +908,7 @@ void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, void *bu
 
 #pragma push
 
-void set_read_params(AdxfHandle **handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
+void set_read_params(AdxfHandle **handle_ref, int sector_count, void *destination) { pending_file_read_handle_ref = handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
 
 void request_pending_file_read_flush(void) { pending_file_read_flush_requested = 1; }
 

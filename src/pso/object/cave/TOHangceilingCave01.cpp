@@ -4,6 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaTexture.h"
 #include "types.h"
+#include "pso/object/base/ObjectSetData.h"
 #include <string.h>
 #include "pso/object/cave/TOHangceilingCave01.h"
 #include "pso/object/cave/TOHangceilingCave01KeyQuick.h"
@@ -149,7 +150,7 @@ void TOHangceilingCave01::destroy_instance() {
 
 void *TOHangceilingCave01::create(void *set_data) {
     if (set_data != NULL) {
-        switch (*(s32 *)((u8 *)set_data + 0x38)) {
+        switch (((ObjectSetData *)set_data)->set_params[2]) {
         case 0:
             return new TOHangceilingCave01Normal(tl_05, set_data);
         case 1:

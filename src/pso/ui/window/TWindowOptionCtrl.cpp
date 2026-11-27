@@ -394,7 +394,7 @@ saddr TWindowOptionCtrl::create_menu() {
     menu->add_text_entry(get_localized_text_entry(0xF, 6), 6, 0x19);
     menu->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return (saddr)menu;
 }
 
@@ -430,7 +430,7 @@ saddr TWindowOptionCtrl::create_list_window() {
     } while (idx < 0x31);
     list->set_silent_cancel();
     list->set_scroll_target(470.0f, 124.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return (saddr)list;
 }
 
@@ -471,7 +471,7 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1B), 6, 0x14);
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return (saddr)menu;
 }
 
@@ -566,7 +566,7 @@ void TWindowOptionCtrl::apply_selection_change() {
 void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain) {
     SystemSaveData *save;
 
-    save = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
+    save = TAdSinglePlyChrSelectGC::get_global_state();
     if (save != NULL) {
         save->music_stream_gain = music_gain;
         save->cue_stream_gain = sound_effect_gain;
@@ -574,9 +574,9 @@ void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain)
 }
 
 s32 TWindowOptionCtrl::get_udp_option() {
-    return ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option;
+    return TAdSinglePlyChrSelectGC::get_global_state()->udp_option;
 }
 
 void TWindowOptionCtrl::set_udp_option(s32 unused, s16 option) {
-    ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option = option;
+    TAdSinglePlyChrSelectGC::get_global_state()->udp_option = option;
 }

@@ -37,6 +37,7 @@ struct TTecPlayerInfluence : public TEffect {
     TObjCollidable *target;
     virtual void render();
     virtual void run_task();
+    TechniqueContactList *find_support_technique_contact(TObjCollidable *target, CollisionBody *body, void *player);
 };
 
 LAYOUT_ASSERT(TTecPlayerInfluence_size, sizeof(TTecPlayerInfluence) == 0xE0);

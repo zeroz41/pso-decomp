@@ -70,7 +70,7 @@ TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(NJS_POINT2 *pos) {
         menu->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     }
     menu->calc_window_size();
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 

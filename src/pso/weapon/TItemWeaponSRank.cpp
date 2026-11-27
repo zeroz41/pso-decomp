@@ -97,7 +97,6 @@ void TItemWeaponSRank::emit_marker_effects() {
   Vec gun_point;
   s32 weapon_kind;
   s32 attack_flags;
-  s32 new_var;
   (this->start_attack_effect());
   attack_flags = (this->get_attack_flags());
   if (attack_flags & 1)
@@ -124,7 +123,7 @@ void TItemWeaponSRank::emit_marker_effects() {
     this->update_active_game_effect();
     return;
   }
-  if ((new_var = attack_flags) & 2)
+  if (attack_flags & 2)
   {
     this->get_gun_point(&gun_point);
     (this->launch_shot(&gun_point, (0), (0), (1)));

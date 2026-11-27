@@ -136,7 +136,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
         choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         choice_menu->calc_window_size();
-        align_menu_entry_positions(choice_menu);
+        choice_menu->align_menu_entry_positions();
         choice_menu->set_ready_flag();
         choice_menu->set_position_xy(get_scale(), get_scale());
     }

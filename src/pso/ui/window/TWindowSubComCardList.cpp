@@ -113,13 +113,13 @@ void TWindowSubComCardList::render() {
         this->heading->render(ctx);
     }
     if (this->storage != 0) {
-        draw_list_page_indicator(this->storage, ctx);
+        this->storage->draw(ctx);
     }
 }
 
 void TWindowSubComCardList::run_task() {
     TWindowMenu::run_task();
-    if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
+    if ((is_decided() == 0) && (this->storage->handle_flip_input() != 0)) {
         set_selected_index(0);
         refresh_page();
     }

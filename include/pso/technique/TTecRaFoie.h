@@ -15,7 +15,7 @@ struct TTecRaFoie : public TTecCircle {
     TTecRaFoie(TObjBase *source, Vec *origin, Vec *pos, s32 level);
     TTecRaFoie(TObjBase *source, Vec *origin, TargetCursorList *list, s32 level);
     TargetCursorList m_targets;  // the targets the list constructor copies
-    s32 m_148;              // 1: bursts where it was cast (the Vec constructor), 0: on its first target
+    s32 bursts_in_place;              // 1: bursts where it was cast (the Vec constructor), 0: on its first target
     void calc_area_parameters();
     virtual void render();
     void update_detonation(Vec *pos);

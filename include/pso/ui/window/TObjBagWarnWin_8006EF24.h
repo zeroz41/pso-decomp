@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 const char *get_message_text(s32 text);
-}
 
 #endif

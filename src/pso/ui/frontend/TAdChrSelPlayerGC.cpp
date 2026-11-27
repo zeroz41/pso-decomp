@@ -297,12 +297,12 @@ void TAdChrSelPlayerGC::update_chara_making() {
     rotate_matrix_y(0, rotation_y);
     set_texture_list(preview_data->get_status_sub());
     draw_model_with_arg((NJS_OBJECT *)preview_data->get_body_model());
-    push_matrix_from((void *)get_joint_matrix(0x3A));
+    push_matrix_from(get_joint_matrix(0x3A));
     set_texture_list(preview_data->get_status_data());
     TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
     pop_matrix();
     if (preview_data->get_head_model() != 0U) {
-        push_matrix_from((void *)get_joint_matrix(0x3B));
+        push_matrix_from(get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
         TObjPlayer::play_phase_transition_sound(preview_data->get_head_model());
@@ -310,7 +310,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
         pop_matrix();
     }
     if (preview_data->get_hair_model() != 0U) {
-        push_matrix_from((void *)get_joint_matrix(0x3B));
+        push_matrix_from(get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
         draw_model_tinted_opaque(this, preview_data->get_hair_model(), &visual_record);

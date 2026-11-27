@@ -11,7 +11,7 @@ struct AdxfHandle;
 // the dtor closes it.
 class TGStream {
 public:
-    TGStream(void *name, s32 direct_read_mode);
+    TGStream(const char *name, s32 direct_read_mode);
     ~TGStream();
 
     static s32 get_resource_file_size(const char *filename);
@@ -39,7 +39,7 @@ void async_file_read_stub(void);
 void load_area_gsl(void);
 void free_chr_select_stub(void);
 s32 get_gstream_buffered_bytes(void);
-s32 refill_gstream_buffer(saddr adxf_handle);
+s32 refill_gstream_buffer(AdxfHandle *adxf_handle);
 void reset_gstream_globals(void);
 extern u8 gstream_sector_buffer[0x2000];
 

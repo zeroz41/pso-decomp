@@ -374,7 +374,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     }
     window->set_flag70_bit10();
     window->update_layout_height((172.0f));
-    align_menu_entry_positions(window);
+    window->align_menu_entry_positions();
     return window;
 }
 

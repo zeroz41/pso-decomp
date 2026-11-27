@@ -310,7 +310,7 @@ void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
         update_state();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
+        set_texture_list(TObjSeabedSuisoBrakable::get_texlist(0));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

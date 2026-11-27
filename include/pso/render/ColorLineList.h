@@ -30,6 +30,6 @@ struct FadeStrip : public ColorLineList {
     u32 col[4];
 };
 
-extern "C" void draw_color_lines(ColorLineList *lines, s32 count, s32 flags, f32 scale);
+void draw_color_lines(ColorLineList *lines, s32 count, s32 flags, f32 scale);
 
 #endif

@@ -5,6 +5,7 @@
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/player/GuildCardEntry.h"
+#include "pso/player/GuildCardSaveData.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
@@ -60,8 +61,8 @@ GuildCardSlot *TWindowSubComCard::get_card_entry(s32 index) {
     if (index >= 0xD2) {
         return NULL;
     }
-    saddr base = TAdSinglePlyChrSelectGC::get_state() + 0xC4;
-    return reinterpret_cast<GuildCardSlot *>(base) + index;
+    GuildCardSlot *base = TAdSinglePlyChrSelectGC::get_state()->list.entries;
+    return base + index;
 }
 
 
@@ -374,7 +375,7 @@ void TObjPlayer::set_com_card_window(s32 client) {
     CharacterSaveRecord *record;
 
     own_guild_card = NULL;
-    record = (CharacterSaveRecord *)get_character_save_record((u32)client);
+    record = get_character_save_record((u32)client);
     if (record != NULL) {
         card = (GuildCardEntry *)record->guild_card;
         if (card != NULL) {

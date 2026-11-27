@@ -21,6 +21,7 @@ template <size_t size> struct TPlyText;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
 struct G_ClientIDHeader;
+struct AdxfHandle;
 struct extended_game_command_header;
 struct FloorObjectSetRow;
 class GameListEntry;
@@ -175,7 +176,7 @@ struct TLobby : public TObject {
     void handle_quest_download_chunk();
     static void close_trade_request();
     static void reset_trade_state();
-    static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
+    static void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination);
     static void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
     static void send_challenge_records(TChallenge *challenge);
     static void init_fadeout_state(void (*callback)());

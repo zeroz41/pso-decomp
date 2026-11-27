@@ -368,7 +368,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
             menu_window->add_text_entry(message_table[1], 6, 1);
             menu_window->add_text_entry(message_table[3], 6, 3);
             menu_window->calc_window_size();
-            align_menu_entry_positions(menu_window);
+            menu_window->align_menu_entry_positions();
             menu_window->set_ready_flag();
         }
         if (menu_window != NULL) {
@@ -997,7 +997,7 @@ void TPlayerBattleCtrl4P::record_results() {
     do {
         entry = (BattleRanking *)((u8 *)rankings + off);
         if (get_player_by_client_id(entry->client_id) != NULL) {
-            record = (CharacterSaveRecord *)get_character_save_record(entry->client_id);
+            record = get_character_save_record(entry->client_id);
             if (record != NULL) {
                 s16 place = entry->place;
                 if (are_split_screen_battle_players_tied() == 0) {

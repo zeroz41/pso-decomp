@@ -269,9 +269,11 @@ public:
     s16 hp;
     s16 tp;
     u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent
+    u16 enemy_nearest_visible_player_sq(f32 range);
+    u16 enemy_find_nearest_player_in_range(f32 range);
+    u16 enemy_nearest_visible_enemy_sq(f32 range);
+    u16 enemy_nearest_visible_enemy(f32 range);
 };
-
-extern "C" void *__dt__9TObjCharaFv(void *, s16);
 
 LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
 LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);

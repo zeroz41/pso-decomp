@@ -124,7 +124,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
             menu_window->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
         menu_window->calc_window_size();
-        align_menu_entry_positions(menu_window);
+        menu_window->align_menu_entry_positions();
         menu_window->set_flag70_bit10();
         menu_window->set_loss_flag();
         request_active_window_close();

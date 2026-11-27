@@ -119,6 +119,7 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 free_flags);
 void queue_destruction__7TObjectFv(void *task);
 }
 void lobby_debug_printf_stub(const char *fmt, ...);
@@ -339,7 +340,7 @@ void TLobby::send_game_character() {
     TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
     TAdSinglePlyChrSelectGC::init();
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &choice_search_config);
@@ -1430,7 +1431,7 @@ void TLobby::open_lobby_warp_menu() {
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x47), 6, 3);
     }
     TLobby_warp_menu_window->calc_window_size();
-    align_menu_entry_positions(TLobby_warp_menu_window);
+    TLobby_warp_menu_window->align_menu_entry_positions();
     TLobby_warp_menu_window->set_ready_flag();
     TLobby::init_player_window_effect();
     lobby_state = 3;
@@ -1497,7 +1498,7 @@ void TLobby::create_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x39), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3A), 6, 1);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 4;
 }
@@ -1524,7 +1525,7 @@ void TLobby::open_menu_window() {
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x45), 6, 0);
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x46), 6, 1);
     lobby_make_team_menu_window->calc_window_size();
-    align_menu_entry_positions(lobby_make_team_menu_window);
+    lobby_make_team_menu_window->align_menu_entry_positions();
     lobby_make_team_menu_window->set_ready_flag();
     lobby_make_team_menu_window->set_selected_index(0);
     lobby_state = 0x18;
@@ -1542,7 +1543,7 @@ void TLobby::open_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3E), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3F), 6, 1);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 5;
 }
@@ -1608,7 +1609,7 @@ void TLobby::open_keyboard_window() {
         lobby_keyboard_prompt_window->add_text_entry(TLobby::get_seq_phase(0x44), 2, 0);
         lobby_keyboard_prompt_window->add_text_entry(blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
-        align_menu_entry_positions(lobby_keyboard_prompt_window);
+        lobby_keyboard_prompt_window->align_menu_entry_positions();
         lobby_keyboard_prompt_window->disable_input();
     }
     lobby_keyboard_controller = new TKeyBoardControl(join_lobby_controller, 0x10, 0, 0, local_client_id);
@@ -1638,7 +1639,7 @@ void TLobby::open_city_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4A), 6, 3);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4B), 6, 4);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 0x19;
 }
@@ -1945,7 +1946,7 @@ void TLobby::send_selected_character() {
     TPlyChallenge challenge;
     TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &choice_search_config);

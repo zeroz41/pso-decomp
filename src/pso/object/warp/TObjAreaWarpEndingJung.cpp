@@ -308,7 +308,7 @@ void TObjMapWarp::open_confirm_window(s32 client_id) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         playerPopups[client_id]->calc_window_size();
-        align_menu_entry_positions(playerPopups[client_id]);
+        playerPopups[client_id]->align_menu_entry_positions();
         playerPopups[client_id]->set_flag70_bit10();
         playerPopups[client_id]->disable_input();
     }
@@ -492,7 +492,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
             this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }
         this->menu_window->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        this->menu_window->align_menu_entry_positions();
         this->menu_window->set_flag70_bit10();
         this->menu_window->disable_input();
         this->user_client_id = client_id;
@@ -913,7 +913,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
             this->menu_window->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
         this->menu_window->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        this->menu_window->align_menu_entry_positions();
         this->menu_window->set_flag70_bit10();
         this->menu_window->disable_input();
         user_client_id = client_id;

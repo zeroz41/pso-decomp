@@ -676,7 +676,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         prompt_menu->add_text_entry(get_message_text(0x47), 0x81, 0);
     }
     prompt_menu->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions(prompt_menu);
+    prompt_menu->align_menu_entry_positions();
     TQuestThread::set_status_flag_80(prompt_menu);
 }
 
@@ -777,7 +777,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     confirm_menu = init_shop_judgment_window(get_window_layout_position(0x57));
     if (confirm_menu != NULL) {
         confirm_menu->set_scroll_target(104.0f, 74.0f);
-        align_menu_entry_positions(confirm_menu);
+        confirm_menu->align_menu_entry_positions();
     }
     name_menu = create_window_menu_default(get_window_layout_position(0x56), 1);
     if (name_menu != NULL) {
@@ -791,7 +791,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         name_menu->add_text_entry(m_text, 0x81, 0);
     }
     name_menu->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions(name_menu);
+    name_menu->align_menu_entry_positions();
     TQuestThread::set_status_flag_80(name_menu);
     pos.x = 332.0f;
     pos.y = 80.0f;

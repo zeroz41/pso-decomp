@@ -11,9 +11,6 @@ struct TObjLight;
 struct PointLight;
 struct LightEntry;
 
-extern "C" {
-void *__dt__15TLobbyIdleTimerFv(void *object, s16 free_flags);
-}
 void init_light_stub(void *light);
 void init_area_lights(void);
 void init_map_lights(LightEntry *entry);

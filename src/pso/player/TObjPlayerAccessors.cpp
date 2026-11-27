@@ -368,13 +368,13 @@ Vec *get_marker_position(Vec *position) { return position; }
 
 void EquippedItems::clear() {
     s32 i;
-    void **slot = items;
+    TItem **slot = items;
     for (i = 0; i < 13; i++) {
         *slot++ = 0;
     }
 }
 
-void set_equip_slot_entry(void **slots, s32 slot, void *item) {
+void set_equip_slot_entry(TItem **slots, s32 slot, TItem *item) {
     slots[slot] = item;
 }
 

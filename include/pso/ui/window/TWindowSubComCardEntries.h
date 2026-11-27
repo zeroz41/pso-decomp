@@ -21,10 +21,10 @@ int clear(void *p);
 void remove_first_received_card(void);
 GuildCardEntry *get_received_guild_card_tags(void);
 void clear_received_guild_cards(void *p);
-extern "C" {
-void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src);
 void free_received_guild_cards(void *p);
 void init_received_guild_cards(void *p);
+extern "C" {
+void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src);
 }
 
 extern GuildCardEntry *own_guild_card;

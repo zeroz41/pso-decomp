@@ -97,9 +97,7 @@ void handle_6x7E(void);
 void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
 void handle_6x7F_battle_scores(G_BattleScores_6x7F *cmd);
 void record_local_battle_placement(void *battle_ctrl);
-extern "C" {
 void send_6x7D_set_battle_mode_data(void *battle_ctrl);
-}
 // Battle-mode setup run outside any battle controller.
 void init_char_slots(void);
 void init_battle_ctrl(s32 config, saddr src);

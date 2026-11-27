@@ -326,14 +326,14 @@ void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, const NJS_P
     const NJS_POINT2 *pos = position;
     s32 i;
     s16 cur;
-    s16 *order = (s16 *)(get_character_save_record(client_id) + 0x22C4);
+    s16 *order = get_character_save_record(client_id)->short_list_order;
     cur = ((TWindowMenu *)tech_window)->get_cursor_pos();
     ((TWindowMenu *)tech_window)->reset_entries();
     for (i = 0; i < 0x13; i++) {
         TWindowSubTechnique::draw_technique_row(order[i], client_id, tech_window);
     }
     ((TWindowMenu *)tech_window)->set_scroll_target(pos->x, pos->y);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(tech_window));
+    (reinterpret_cast<TWindowMenu *>(tech_window))->align_menu_entry_positions();
     ((TWindowMenu *)tech_window)->set_selected_index(cur);
 }
 
@@ -407,7 +407,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
 }
 
 void TWindowShortListCtrl::swap_card_entries(s32 index_a, s32 index_b) {
-    s16 *p = (s16 *)(get_character_save_record(client_id) + 0x22C4);
+    s16 *p = get_character_save_record(client_id)->short_list_order;
     s16 t = p[index_a];
     p[index_a] = p[index_b];
     p[index_b] = t;

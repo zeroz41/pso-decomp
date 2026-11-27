@@ -838,7 +838,7 @@ void TAdTimeSetGC::open_message_choice(const char *text, s32 sel, const char *fi
         menu_window->add_text_entry(entry_text, 5, 1);
     }
     menu_window->update_layout_height(time_set_menu_width);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+    (reinterpret_cast<TWindowMenu *>(menu_window))->align_menu_entry_positions();
     if (sel == -2) {
         menu_window->set_selected_index(0);
     } else {
@@ -873,7 +873,7 @@ void TAdTimeSetGC::close_and_next(s32 entry, s32 sel, s32 first_entry, s32 secon
 }
 
 void TAdTimeSetGC::apply_settings() {
-    SystemSaveData *state = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *state = TAdSinglePlyChrSelectGC::get_global_state();
 
     if (state == NULL) {
         change_state(1);

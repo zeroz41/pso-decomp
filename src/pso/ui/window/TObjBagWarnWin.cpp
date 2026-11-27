@@ -220,7 +220,7 @@ s32 TObjBagWarnWin4P::check_can_open() {
     i = 0;
     j = 0;
     do {
-        if ((get_player_by_client_id(j) != NULL) && ((record = (CharacterSaveRecord *)get_character_save_record(j)) != 0U) && (record->is_bank_full() != 0)) {
+        if ((get_player_by_client_id(j) != NULL) && ((record = get_character_save_record(j)) != 0U) && (record->is_bank_full() != 0)) {
             i = 1;
         }
         j += 1;

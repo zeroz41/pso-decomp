@@ -173,7 +173,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         bml_archive_header = reinterpret_cast<BmlArchiveHeader *>(bml_load_buffer);
         bml_header_record_ptr = bml_archive_header->recs;
         ADXF_ReadNw(lobby_bml_file_handle, n, bml_load_buffer);
-        set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(bml_archive_header));
+        set_read_params(&lobby_bml_file_handle, (int)n, bml_archive_header);
         bml->load_state = 1;
     case 1:
         if (bml->flags & 0x200) {
@@ -204,7 +204,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 0:
             case 1:
                 ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                set_read_params(&lobby_bml_file_handle, (int)n, lobby_bml_read_buffer);
                 break;
             default:
                 file_debug_printf("TBinModel: Illegal File Format");
@@ -253,7 +253,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 0:
             case 1:
                 ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                set_read_params(&lobby_bml_file_handle, (int)n, lobby_bml_read_buffer);
                 break;
             default:
                 file_debug_printf("TBinModel: Illegal File Format");
@@ -313,7 +313,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
                     bml_header_record_ptr++;
                 } else {
                     ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                    set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                    set_read_params(&lobby_bml_file_handle, (int)n, lobby_bml_read_buffer);
                 }
             } else {
                 bml->models[bml_load_entry_index].flags |= 2;
@@ -613,7 +613,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         pump_frames();
         lbl_805D4AD0 = 1;
         {
-            TGStream st((void *)descriptor->archive_filename, 0);
+            TGStream st(descriptor->archive_filename, 0);
             if (st.get_file_size() <= 0) {
                 file_debug_printf("TBinModel: %s not found.", descriptor->archive_filename);
                 model_count = motion_count = 0;

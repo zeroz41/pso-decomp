@@ -588,14 +588,14 @@ void TCMCharacter::draw_creation_figure() {
         rotate_matrix_y(0, creation_figure_rotation_y);
         set_texture_list(&char_select_current_entry->body_textures.textures.list);
         this->draw_player_model();
-        push_matrix_from((void *)get_joint_matrix(0x3A));
+        push_matrix_from(get_joint_matrix(0x3A));
         set_texture_list(&char_select_current_entry->head_textures.textures.list);
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[char_select_current_entry->head].model);
         pop_matrix();
         v = creation_cap_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)get_joint_matrix(0x3B));
+            push_matrix_from(get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
@@ -604,7 +604,7 @@ void TCMCharacter::draw_creation_figure() {
         v = creation_hair_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)get_joint_matrix(0x3B));
+            push_matrix_from(get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();

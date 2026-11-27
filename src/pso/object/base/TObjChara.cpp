@@ -226,7 +226,7 @@ s32 PlayerPkState::is_enabled() { return enabled; }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_equipped_weapon(TObjPlayer *player) { return (TItem *)get_slot_value(player->equipped_items.items, 6); }
+TItem *TObjPlayer::get_equipped_weapon(TObjPlayer *player) { return get_slot_value(player->equipped_items.items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -919,7 +919,6 @@ void move_with_wall_slide(TObjChara *actor) {
 }
 
 #pragma pop
-extern "C" {
 f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
     if (enemy->is_actor_cadence_frame(0x1E) != 0) {
         if (select_enemy_destination(enemy, dest, flags) != 0) {
@@ -930,6 +929,7 @@ f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
     move_with_wall_slide(enemy);
     return horizontal_distance_squared(&dest, &enemy->position);
 }
+extern "C" {
 
 f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) {
     Vec v;
@@ -2870,7 +2870,6 @@ s32 TObjChara::is_actor_cadence_frame(s32 x) {
     }
     return 0;
 }
-extern "C" {
 u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) {
     f32 best = range * range;
     u16 result = 0xFFFF;
@@ -2898,7 +2897,6 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) 
     return result;
 }
 
-}
 u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
     Vec pos;
     f32 best;

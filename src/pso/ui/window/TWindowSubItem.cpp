@@ -450,7 +450,7 @@ TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 1));
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
-    align_menu_entry_positions(titled_window_menu);
+    titled_window_menu->align_menu_entry_positions();
     return titled_window_menu;
 }
 
@@ -462,7 +462,7 @@ TWindowMenu *TWindowSubItem::create_menu_window() {
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 2));
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
-    align_menu_entry_positions(titled_window_menu);
+    titled_window_menu->align_menu_entry_positions();
     return titled_window_menu;
 }
 
@@ -497,7 +497,7 @@ void TWindowSubItem::draw_slot(TWindowMenu *titled_window_menu, s32 item_id) {
 }
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id) {
-  s32 sp8;
+  s32 requirement;
   TItem *item;
   TObjPlayer *player;
   item = find_item_by_id((saddr)((void *) item_id));
@@ -533,7 +533,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         player = get_player_by_client_id(window_sub_item->client_id);
         if (player != NULL)
         {
-          if (((item->check_equip_requirements(player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((item->check_equip_requirements(player, (s16 *)&requirement) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
             list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x62), 6, 1);
           }
@@ -601,7 +601,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
             this->state = 0x16;
             break;
         case 1: {
-            TItem *held = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot());
+            TItem *held = TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
                 player->send_6x26_unequip_item(t);
@@ -655,7 +655,7 @@ void TWindowSubItem::use_selected_item() {
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     TItemData d;
     TObjPlayer *pl;
-    uaddr armor;
+    TItem *armor;
     pl = get_player_by_client_id(window_sub_item->client_id);
     if (pl == NULL) {
         return 0;
@@ -667,10 +667,10 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
         return 1;
     }
     armor = TObjPlayer::get_slot_value(pl->equipped_items.items, 2);
-    if (armor == 0) {
+    if (armor == NULL) {
         return 0;
     }
-    ((TItem *)armor)->copy_to_item_data(&d);
+    armor->copy_to_item_data(&d);
     return d.data1.data_u8[5] != 0 ? 1 : 0;
 }
 

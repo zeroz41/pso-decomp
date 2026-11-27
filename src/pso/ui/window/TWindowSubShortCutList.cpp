@@ -74,13 +74,13 @@ void TWindowSubShortCutList::render() {
         status_display->render(context);
     }
     if (storage != NULL) {
-        draw_list_page_indicator(storage, context);
+        storage->draw(context);
     }
 }
 
 void TWindowSubShortCutList::run_task() {
     TWindowMenuIconLine::run_task();
-    if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
+    if ((is_decided() == 0) && (this->storage->handle_flip_input() != 0)) {
         refresh_entries();
     }
 }

@@ -255,7 +255,7 @@ s32 TAdSinglePlyChrSelectGC::is_ready() {
 u16 TAdSinglePlyChrSelectGC::get_split_fourth_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->split_screen_battle.place_counts[3];
     }
@@ -265,7 +265,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_fourth_place_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_split_third_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->split_screen_battle.place_counts[2];
     }
@@ -276,7 +276,7 @@ extern "C" {
 u16 TAdSinglePlyChrSelectGC::get_split_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->split_screen_battle.place_counts[1];
     }
@@ -286,7 +286,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_second_place_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_split_first_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->split_screen_battle.place_counts[0];
     }
@@ -296,7 +296,7 @@ u16 TAdSinglePlyChrSelectGC::get_split_first_place_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_online_disconnect_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->online_battle.disconnect_count;
     }
@@ -306,7 +306,7 @@ u16 TAdSinglePlyChrSelectGC::get_online_disconnect_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_online_fourth_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->online_battle.place_counts[3];
     }
@@ -316,7 +316,7 @@ u16 TAdSinglePlyChrSelectGC::get_online_fourth_place_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_online_third_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->online_battle.place_counts[2];
     }
@@ -326,7 +326,7 @@ u16 TAdSinglePlyChrSelectGC::get_online_third_place_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_online_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->online_battle.place_counts[1];
     }
@@ -336,7 +336,7 @@ u16 TAdSinglePlyChrSelectGC::get_online_second_place_count(int client) {
 u16 TAdSinglePlyChrSelectGC::get_online_first_place_count(int client) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
+    character_save_record = get_character_save_record((u16)client);
     if (character_save_record != NULL) {
         return character_save_record->online_battle.place_counts[0];
     }
@@ -666,7 +666,7 @@ s32 save_active_character_to_card(void) {
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
             file->get_selected_record(),
-            (CharacterSaveRecord *)get_character_save_record(0xFFFF),
+            get_character_save_record(0xFFFF),
             file,
             TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
@@ -792,7 +792,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
             file->get_selected_record(),
-            (CharacterSaveRecord *)get_character_save_record(0xFFFF),
+            get_character_save_record(0xFFFF),
             file,
             TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
@@ -1739,7 +1739,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
       {
         char_data->capture_client_player((u16) i);
       }
-      character_save_record = (CharacterSaveRecord *) get_character_save_record(i);
+      character_save_record = get_character_save_record(i);
       if (character_save_record != 0)
       {
         TAdSinglePlyChrSelectGC::update_elapsed_time(character_save_record);
@@ -1836,7 +1836,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             memset(file, 0, 0x1156C);
             memcpy(file, buf + 0x2048, 0x1156C);
             TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-            ret = TAdSinglePlyChrSelectGC::compare_save_headers(file->get_selected_record(), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
+            ret = TAdSinglePlyChrSelectGC::compare_save_headers(file->get_selected_record(), get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
                 if (buf != 0) {
                     safe_free(buf);
@@ -2359,7 +2359,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         memset(file, 0, 0x1156C);
         memcpy(file, buf + 0x2048, 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-        if (TAdSinglePlyChrSelectGC::compare_save_headers(file->get_selected_record(), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
+        if (TAdSinglePlyChrSelectGC::compare_save_headers(file->get_selected_record(), get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {
                 safe_free(buf);
             }
@@ -2520,7 +2520,7 @@ void TAdSinglePlyChrSelectGC::reset_save_header() {
   system_save_payload->language = TLanguage::get_default_language();
   system_save_payload->clock_offset_frames = default_clock_offset_frames();
   system_save_payload->udp_option = 0;
-  system_save_payload->field_e = 0;
+  system_save_payload->surround_sound = 0;
   TAdPlayerLoadGC::reset_load_state(0, &serial_number);
   memmove(&system_save_payload->serial_number, &serial_number, sizeof(serial_number));
   getDateStamp((DateStamp *)(&now));
@@ -2533,7 +2533,7 @@ void init_fresh_character_card(void) {
     s32 i;
     stop_pad_rumble();
     chr = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(chr, 0, 0x41C);
     reset_char_appearance_callback();
     TObjPlayer::begin_action_from_char_select();
@@ -3130,14 +3130,14 @@ s32 TAdEnterSerialAccessGC::get_serial_seed() {
     return system_save_payload->serial_seed;
 }
 
-saddr get_character_save_record(u32 client) {
+CharacterSaveRecord *get_character_save_record(u32 client) {
     if (is_split_screen() != 0) {
         if (client == 0xFFFF) {
-            return (saddr)get_split_screen_character_save_record(0U);
+            return get_split_screen_character_save_record(0U);
         }
-        return (saddr)get_split_screen_character_save_record(client);
+        return get_split_screen_character_save_record(client);
     }
-    return (saddr)active_character_save_record;
+    return active_character_save_record;
 }
 
 TPlyCharData *TAdSinglePlyChrSelectGC::get_char_index(unsigned int index) {

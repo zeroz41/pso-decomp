@@ -86,7 +86,7 @@ public:
     // Makes the action's motion current.
     void set_action_motion(s32 action);
     // The matrix draw_saving_joints stored for the node (joint_matrices[joint]).
-    saddr get_joint_matrix(s32 joint);
+    MtxP get_joint_matrix(s32 joint);
     void set_motion_interpolation_flag();
     // Sets both tables and starts the action.
     void init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action);

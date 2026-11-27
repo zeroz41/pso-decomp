@@ -437,7 +437,7 @@ TWindowMenu *TWindowSubShortMail::create_menu(void) {
     }
     list->set_flag70_bit10();
     list->update_layout_height(179.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -457,7 +457,7 @@ TWindowMenu *TWindowSubShortMail::build_menu(void) {
     list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 

@@ -33,8 +33,4 @@ public:
 
 LAYOUT_ASSERT(TObjMapObjectSize, sizeof(TObjMapObject) == 0xC8);
 
-// The derived destructors still written out by hand call the base one by
-// its symbol.
-extern "C" void *__dt__13TObjMapObjectFv(void *self, s16 del);
-
 #endif

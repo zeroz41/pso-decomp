@@ -455,7 +455,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
             if (((TWindowSubComCardList *)menu_window)->target_size[1] > 160.0f) {
                 ((TWindowMenu *)menu_window)->set_scroll_target(288.0f, 160.0f);
             }
-            align_menu_entry_positions(menu_window);
+            menu_window->align_menu_entry_positions();
         }
     }
     request_active_window_close();
@@ -547,7 +547,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
         menu_window->set_flag70_bit10();
         menu_window->disable_input();
         menu_window->calc_window_size();
-        align_menu_entry_positions(menu_window);
+        menu_window->align_menu_entry_positions();
         user_client_id = client_id;
     }
 }
@@ -607,7 +607,7 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
         ((TWindowMenu *)playerPopups[client_id])->disable_input();
         ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
+        (reinterpret_cast<TWindowMenu *>(playerPopups[client_id]))->align_menu_entry_positions();
     }
 }
 
@@ -704,7 +704,7 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
         ((TWindowMenu *)playerPopups[client_id])->disable_input();
         ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
+        (reinterpret_cast<TWindowMenu *>(playerPopups[client_id]))->align_menu_entry_positions();
     }
 }
 

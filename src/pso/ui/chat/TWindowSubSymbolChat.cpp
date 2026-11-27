@@ -805,7 +805,7 @@ TWindowMenu *TWindowSubSymbolChat::create_symbol_list_card() {
     }
     card->set_flag70_bit10();
     card->set_scroll_target(2.2e+02f, 188.0f);
-    align_menu_entry_positions(card);
+    card->align_menu_entry_positions();
     card->set_selected_index(selected_list_index);
     return card;
 }
@@ -826,7 +826,7 @@ TWindowMenu *TWindowSubSymbolChat::open_main_menu() {
     menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xAD), 6, 0x28);
     menu->set_flag70_bit10();
     menu->update_layout_height(193.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 
@@ -847,7 +847,7 @@ TWindowMenu *TWindowSubSymbolChat::open_edit_menu() {
     }
     list->set_flag70_bit10();
     list->set_scroll_target(193.0f, 128.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 #pragma pop
@@ -872,7 +872,7 @@ void TWindowSubSymbolChat::open_menu(TWindowMenu *menu) {
     list->add_text_entry(TWindowSubStatusDisp::get_message_10(0xAF), 6, 0x10);
     list->set_flag70_bit10();
     list->set_scroll_target(193.0f, 127.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
 }
 
 TWindowSubSymbolChatParts *TWindowSubSymbolChat::create_parts() {
@@ -905,7 +905,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu(TWindowSubSymbolChat *window_sub_
     }
     list->set_flag70_bit10();
     list->set_scroll_target(193.0f, 128.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -924,7 +924,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu() {
     menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xBE), 0x26, 8);
     menu->set_flag70_bit10();
     menu->set_scroll_target(193.0f, 128.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 

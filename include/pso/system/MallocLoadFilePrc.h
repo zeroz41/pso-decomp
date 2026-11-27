@@ -55,7 +55,7 @@ void *create_named_object(const char *name);
 void invoke_callback();
 void reset_read_state();
 void clear_player_slot_tables(s32 n);
-void set_read_params(AdxfHandle **handle_ref, int sector_count, int destination);
+void set_read_params(AdxfHandle **handle_ref, int sector_count, void *destination);
 void draw_fullscreen_texture_quad(s32 texture);
 void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, void *buffer);
 void release_menu_font();

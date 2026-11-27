@@ -219,12 +219,12 @@ void TWindowSubStatusDisp::run_task() {
   {
     this->open_tick = 0x01000000;
   }
-  if ((handle_list_page_flip_input(this->page_indicator) != 0) || ((this->page) != (this->requested_page)))
+  if ((this->page_indicator->handle_flip_input() != 0) || ((this->page) != (this->requested_page)))
   {
     if ((this->page) != (this->requested_page))
     {
       this->page = this->requested_page;
-      reset_page_indicator(this->page_indicator, status_page_list_kinds[this->page]);
+      this->page_indicator->reset(status_page_list_kinds[this->page]);
     }
     this->entry_list.destroy_all_items();
     this->dispatch_page_init();
@@ -244,7 +244,7 @@ void TWindowSubStatusDisp::render() {
             this,
             &this->entry_list,
             context);
-        draw_list_page_indicator(page_indicator, context);
+        page_indicator->draw(context);
     }
 }
 

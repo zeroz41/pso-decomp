@@ -89,6 +89,7 @@ struct TWindowMenu : public TWindowAddition {
     void set_flag70_bit100();
     void set_silent_cancel();
     void clear_cancelled();
+    void align_menu_entry_positions();
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

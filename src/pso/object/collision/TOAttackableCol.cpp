@@ -3,6 +3,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/object/collision/TOAttackableCol.h"
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/base/TObjMotion.h"
@@ -130,15 +131,15 @@ extern "C" {
 void TOAttackableCol::send_state_change(u16 state) {
     G_UpdateAttackableColState_6x91 msg;
     s16 id;
-    u8 *parent;
+    FloorObjectSetRow *parent;
     id = this->mode;
     access_object_saved_state(&id, 0);
-    parent = *(u8 * *)&this->set_entry;
+    parent = (FloorObjectSetRow *)this->set_entry;
     if (parent != NULL) {
         init_6x91_subcommand(&msg);
         msg.header.entity_id = this->entity_id;
         msg.flags = id;
-        msg.object_index = *(s16 *)(parent + 4);
+        msg.object_index = parent->placement.set_index;
         msg.is_destroyed = state;
         msg.remaining_hits = this->hits_left;
         if (this->label == 0 && this->done_switch >= 0 && state == 1) {

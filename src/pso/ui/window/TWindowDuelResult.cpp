@@ -212,14 +212,14 @@ void TWindowDuelResult::render() {
     WindowDrawContext *context = setup_window_draw_context(&scale_x);
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
-    draw_list_page_indicator(page_indicator, context);
+    page_indicator->draw(context);
 }
 
 void TWindowDuelResult::run_task() {
     if (!(window_flags & 2)) {
         open_tick = 0x01000000;
     }
-    if (handle_list_page_flip_input(page_indicator) != 0) {
+    if (page_indicator->handle_flip_input() != 0) {
         build_page();
     }
     update_page();

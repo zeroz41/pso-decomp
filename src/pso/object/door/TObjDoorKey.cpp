@@ -65,7 +65,7 @@ const char *door_key_class_name = "TObjDoorKey";
 NJS_OBJECT *door_key_ginja_model_table[4];
 BmlResource *door_key_resource_handle;
 NJS_TEXLIST *door_key_texture_handle;
-s16 door_key_id_counter;
+u16 door_key_id_counter;
 s32 beam_uv_scroll_last_tick;
 
 TObjDoorKey *find_door_key_by_id(u16 id) {
@@ -223,7 +223,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
     unk_EC = 0x14;
     unk_F4 = 0;
     particle = NULL;
-    this->m_id = (*(u16 *)&door_key_id_counter)++;
+    this->m_id = door_key_id_counter++;
     if (this->set_params[2] < 0) {
         this->set_params[2] = 0;
     }

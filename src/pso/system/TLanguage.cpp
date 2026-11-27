@@ -167,7 +167,7 @@ __declspec(section ".rodata") extern const char TextSpanish[] = "TextSpanish";
 __declspec(section ".rodata") extern const char TextEnglish[] = "TextEnglish";
 
 s32 TLanguage::set_language(s8 language) {
-    u8 *save_payload;
+    SystemSaveData *save_payload;
 
     if ((s32) current_language == language) {
         return 0;
@@ -178,7 +178,7 @@ s32 TLanguage::set_language(s8 language) {
 
     save_payload = TAdSinglePlyChrSelectGC::get_global_state();
     if (save_payload != NULL) {
-        *(s8 *)((s8 *)save_payload + 7) = language;
+        save_payload->language = language;
     }
 
     current_language = (enum language)(s8) language;

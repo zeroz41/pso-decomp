@@ -87,7 +87,7 @@ void TObjWarpLobby::open_lobby_menu() {
         this->menu_window->add_text_entry(warp_lobby_directory_label_table[i], 6, i);
     }
     this->menu_window->calc_window_size();
-    align_menu_entry_positions(this->menu_window);
+    this->menu_window->align_menu_entry_positions();
     this->menu_window->set_flag70_bit10();
     request_active_window_close();
 }

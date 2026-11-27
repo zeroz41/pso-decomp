@@ -192,7 +192,7 @@ struct TObjPlayer : public TObjChara {
     void create_lockon_cursor();
     void update_lock_on_cursor();
     void clear_lock_on_cursor(void *data);
-    void setup_fresh_player_state(u8 *);
+    void setup_fresh_player_state(TPlyCharData *);
     void init_class_flags(PlayerSyncRecord *record);
     void load_pending_actions_from_sync_record(u8 *record);
     void load_pending_actions(TPlyCharData *record);  // restores pending_actions (and record_flags_hi) from a save record; apply_pending_action is the inverse
@@ -413,7 +413,7 @@ struct TObjPlayer : public TObjChara {
     TItem *get_equipped_item(s32 slot);
     s32 is_flag_20000_set();
     s32 is_body_collision_inactive();
-    static saddr get_slot_value(void *slots, int slot);
+    static TItem *get_slot_value(TItem **slots, int slot);
     void play_sound_if_on_floor(s32 sound_id);
     u32 pickup_item(TItem *item);
     s32 can_pickup_item_by_id(TItem *item);

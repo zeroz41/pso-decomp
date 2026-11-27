@@ -32,7 +32,7 @@ TWindowMenu *TAdYesNoBaseGC::create_menu_window() {
     NJS_POINT2 pos = {85.0f, 384.0f};
     TWindowMenu *menu = init_shop_judgment_window(&pos);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     menu->set_selected_index((s16)owner->default_selection);
     return menu;
 }

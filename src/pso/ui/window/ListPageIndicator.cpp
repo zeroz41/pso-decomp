@@ -53,28 +53,28 @@ void draw_page_arrow_right(WindowDrawContext *context, f32 x, f32 y, f32 depth, 
 }
 
 
-s32 reset_page_indicator(PageIndicator *indicator, s8 count) {
-    indicator->page = 0;
-    indicator->count = count;
+s32 PageIndicator::reset(s8 new_count) {
+    page = 0;
+    count = new_count;
     return 1;
 }
 
-s32 turn_page_indicator(PageIndicator *indicator, s8 page) {
-    if (page == indicator->page) {
+s32 PageIndicator::turn_to(s8 new_page) {
+    if (new_page == page) {
         return 0;
     }
-    if (page > indicator->page) {
-        indicator->arrow_offset = 1e+01f;
+    if (new_page > page) {
+        arrow_offset = 1e+01f;
     } else {
-        indicator->arrow_offset = -1e+01f;
+        arrow_offset = -1e+01f;
     }
-    indicator->page = page;
+    page = new_page;
     return 1;
 }
 #pragma push
 #pragma fp_contract on
 #pragma readonly_strings on
-void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
+void PageIndicator::draw(WindowDrawContext *r) {
     NJS_POINT2 pos;
     f32 scale;
     if (r->open_tick < 0) {
@@ -86,34 +86,34 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    draw_page_arrow_right(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
-    draw_page_arrow_left(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    draw_page_arrow_right(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)arrow_offset);
+    draw_page_arrow_left(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)arrow_offset);
     end_screen_draw();
     set_text_draw_params(r, 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
-    text_builder_append_int(self->page + 1);
+    text_builder_append_int(page + 1);
     pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));
     u8 advance = get_font_char_advance(map_char_to_font_code('/'));
     pos.x -= 0.5f * (f32)advance;
     text_builder_append("/");
-    text_builder_append_int(self->count);
+    text_builder_append_int(count);
     draw_window_text((f32 *)&pos, get_shared_text_buffer(), -1, 0, (f32)1e+05f);
 }
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void decay_page_arrow_offset(PageIndicator *o) {
-    o->arrow_offset -= 0.15f * o->arrow_offset;
+void PageIndicator::decay_arrow_offset() {
+    arrow_offset -= 0.15f * arrow_offset;
 }
 #pragma pop
 
 
-s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
+s32 PageIndicator::handle_flip_input() {
     void *pad;
     s8 cur;
-    decay_page_arrow_offset(page_indicator);
-    cur = page_indicator->page;
-    pad = &controller_input_state.controllers[is_player_input_active(page_indicator->input_port)];
+    decay_arrow_offset();
+    cur = page;
+    pad = &controller_input_state.controllers[is_player_input_active(input_port)];
     if (test_pressed_buttons_packed(pad, 0x30000) == 0) {
         return 0;
     }
@@ -125,19 +125,19 @@ s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
         cur--;
     }
     if (cur < 0) {
-        cur = page_indicator->count - 1;
+        cur = count - 1;
     }
-    if (cur >= page_indicator->count) {
+    if (cur >= count) {
         cur = 0;
     }
-    if (cur == page_indicator->page) {
+    if (cur == page) {
         return 0;
     }
-    page_indicator->page = cur;
+    page = cur;
     if (test_pressed_buttons_packed(pad, 0x10000) != 0) {
-        page_indicator->arrow_offset = 1e+01f;
+        arrow_offset = 1e+01f;
     } else {
-        page_indicator->arrow_offset = (-1e+01f);
+        arrow_offset = (-1e+01f);
     }
     return 1;
 }

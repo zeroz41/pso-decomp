@@ -38,6 +38,7 @@ public:
     CollisionBody *contact;  // the body of the target being hit
     CollisionBody collisionBody;
     TObjCollidable *collidable;
+    TechniqueContactList *find_area_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player);
 };
 LAYOUT_ASSERT(TTecCircleSize, sizeof(TTecCircle) == 0xEC);
 

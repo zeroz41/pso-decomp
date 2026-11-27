@@ -53,13 +53,11 @@ void TWindowUserSort::run_task() { update_window(); update_fade(); update_window
 
 TWindowUserSort::~TWindowUserSort() {}
 
-#define self ((u8 *)this)
 TWindowUserSort::TWindowUserSort(saddr position, GuildCardRecord *record) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)position) {
     m_name = TWindowUserSort::class_name;
     this->record = record;
-    ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(record);
+    ((TWindowSubStatusDisp *)&entry_list)->fill_card_text_entries(record);
 }
-#undef self
 
 void TWindowMainMenu1P::on_submenu_closed() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }
 

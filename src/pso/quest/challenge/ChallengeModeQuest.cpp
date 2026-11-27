@@ -233,12 +233,12 @@ s32 award_challenge_item(TItemData *item) {
     if ((challenge_mode_state.result_rank < 0) || (challenge_mode_state.result_rank > 2)) {
         return 0;
     }
-    if ((CharacterSaveRecord *)get_character_save_record(0xFFFF) == NULL) {
+    if (get_character_save_record(0xFFFF) == NULL) {
         return 0;
     }
     if (TAdSinglePlyChrSelectGC::forward_to_global_instance(item) != 0) {
         threshold = &challenge_mode_state.rank_thresholds[challenge_mode_state.result_rank];
-        record = &((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
+        record = &(get_character_save_record(0xFFFF))->challenge;
         rank = challenge_set_rank(record, RECORD_SET_CURRENT);
         rank->award_flags |= threshold->award_flags;
         return 1;
@@ -250,7 +250,7 @@ s32 check_challenge_rank_time(s32 clear_time) {
     s32 rank;
 
     if ((is_challenge_mode() == 0) || (challenge_mode_state.stage == -1) ||
-        ((CharacterSaveRecord *)get_character_save_record(0xFFFF) == NULL)) {
+        (get_character_save_record(0xFFFF) == NULL)) {
         challenge_mode_state.result_rank = -4;
         return -4;
     }
@@ -313,7 +313,7 @@ char active_challenge_title[0xC];
 char *decode_active_challenge_title() {
     CharacterSaveRecord *record;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     decode_obfuscated_string(active_challenge_title, record->challenge.rank_title, 0xC);
     return active_challenge_title;
 }

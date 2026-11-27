@@ -421,7 +421,7 @@ ItemCreateFunction item_tool_factory_table[24] = {
     TItemObject::create,
     TItemObject::create,
     TItemObject::create,
-    TUnk_804F112C::create,
+    TItemToolUseEffect::create,
     TItemToolRandomItem::create,
     TItemToolQuestBgm::create,
     TItemToolKillCounter::create,
@@ -896,9 +896,8 @@ ItemCreateFunction item_create_fn_table[5] = {
 };
 void send_6x60_standard_drop_item_request(TObjEnemy *self);
 }
-extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
-  void *player_alias;
+  TObjPlayer *player_alias;
   s32 flags;
   PlayerRequirementStats st;
   u32 k;
@@ -914,7 +913,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     return 0;
   }
   player = self;
-  if ((((TObjChara *)player)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(player_alias = player) != 0))
+  if ((((TObjChara *)player)->obj_isState3_324() != 0) || ((player_alias = (TObjPlayer *)player)->is_script_controlled() != 0))
   {
     if (out != 0)
     {
@@ -1293,10 +1292,10 @@ s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
 }
 
-TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_items.items, 1); }
+TItem *TObjPlayer::get_equipped_mag() { return get_slot_value(equipped_items.items, 1); }
 
-TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items.items, 3); }
-TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items.items, 2); }
+TItem *TObjPlayer::get_equipped_shield() { return get_slot_value(equipped_items.items, 3); }
+TItem *TObjPlayer::get_equipped_armor() { return get_slot_value(equipped_items.items, 2); }
 
 MagStats *MagStats::init() { clear(); return this; }
 

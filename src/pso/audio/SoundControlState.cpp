@@ -976,7 +976,7 @@ s32 SoundControlState::init_sound_aux_effects() {
         AdxfHandle *handle = ADXF_OpenAfs(0, sound_bank_file_indices[i][2]);
         if (handle != NULL) {
             ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
-            set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
+            set_read_params(&handle, (s32)size / 2048, musyx_sdir_buffers[i]);
             do {
                 draw_loading_compass();
                 run_disk_error_check();

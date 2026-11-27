@@ -272,7 +272,7 @@ f32 RenderMaterialState::get_alpha() { return fade_color.a; }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
-TItem *TObjPlayer::get_equipped_item(s32 slot) { return (TItem *)get_slot_value(equipped_items.items, slot); }
+TItem *TObjPlayer::get_equipped_item(s32 slot) { return get_slot_value(equipped_items.items, slot); }
 
 s32 TObjPlayer::get_hp_bonus() { return hp_bonus; }
 
