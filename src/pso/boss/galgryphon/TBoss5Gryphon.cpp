@@ -366,7 +366,6 @@ void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLI
     }
 }
 
-extern "C" void load_boss5_gryphon_resources(void);
 void TObjMotion::disable_motion_blend() {
     motion_flags &= ~MOTION_BLENDING;
     motion_flags |= MOTION_NO_BLEND;

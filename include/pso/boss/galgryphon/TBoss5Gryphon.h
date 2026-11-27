@@ -248,4 +248,6 @@ LAYOUT_ASSERT(TBoss5Gryphon_action_scripts, offsetof(TBoss5Gryphon, action_scrip
 LAYOUT_ASSERT(TBoss5Gryphon_fade, offsetof(TBoss5Gryphon, renderFadeStates) == 0x580);
 LAYOUT_ASSERT(TBoss5Gryphon_work, offsetof(TBoss5Gryphon, work) == 0x6DC);
 LAYOUT_ASSERT(TBoss5Gryphon_particles, offsetof(TBoss5Gryphon, particles) == 0x724);
+
+extern "C" void load_boss5_gryphon_resources(void);
 #endif

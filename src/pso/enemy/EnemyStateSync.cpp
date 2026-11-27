@@ -201,8 +201,6 @@ s32 load_current_floor_resources(void) {
 }
 extern "C" {
 
-void load_boss5_gryphon_resources();
-
 
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },

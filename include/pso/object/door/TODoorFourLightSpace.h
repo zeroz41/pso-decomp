@@ -20,4 +20,8 @@ struct TODoorFourLightSpace : public TODoorBase {
 };
 
 LAYOUT_ASSERT(TODoorFourLightSpace_size, sizeof(TODoorFourLightSpace) == 0xF8);
+
+// Empty hooks the Gal Gryphon pillar demo cleanup calls.
+extern "C" void cleanup_pillar_demo_stub_a(void);
+extern "C" void cleanup_pillar_demo_stub_b(void);
 #endif

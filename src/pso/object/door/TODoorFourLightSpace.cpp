@@ -40,11 +40,6 @@ BmlResourceDescriptor bm_obj_door_space_resource_descriptor = {"bm_obj_door_spac
 
 CollisionBody door_four_light_collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-extern "C" {
-void cleanup_pillar_demo_stub_a(void);
-void cleanup_pillar_demo_stub_b(void);
-}
-
 const char *door_four_light_ruins_class_name = "TODoorFourLightRuins";
 const FourLightNodeTable door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
 const char *door_four_light_space_class_name = "TODoorFourLightSpace";
