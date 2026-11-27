@@ -159,6 +159,7 @@ LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 extern u16 short_mail_flags;
 
 void close_window_if_active(s32 client);
+s32 is_com_card_window_open(void);
 void update_timer_window(TWindowCtrl *ctrl);
 void complete_actor_speech_balloons(u16 id);
 s32 is_actor_speech_balloon_done(u16 id);

@@ -51,9 +51,6 @@ void TWindowCtrl::set_flag_active() {
     }
 }
 
-// Compared as a signed word here (cmpwi) while TWindowCtrl.cpp defines it as bool.
-s32 is_com_card_window_open();
-
 // The class name TObject::m_name points at.
 const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
 

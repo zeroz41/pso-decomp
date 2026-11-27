@@ -13,7 +13,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/TWindowFukidasi.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/WindowCtrlCallback.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjChara.h"
@@ -1254,11 +1253,11 @@ void TWindowCtrl::start_client_countdown(s32 client_id) {
 
 
 
-bool is_com_card_window_open(void) {
+s32 is_com_card_window_open(void) {
     if (TWindowCtrl::instance == NULL) {
-        return 0;
+        return FALSE;
     }
-    return TWindowCtrl::instance->com_card_window != 0;
+    return TWindowCtrl::instance->com_card_window != NULL ? TRUE : FALSE;
 }
 
 

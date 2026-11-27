@@ -14,7 +14,6 @@
 #include "pso/ui/window/TWindowMessageInfomation.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/effect/particle/TParticleCtrl.h"
