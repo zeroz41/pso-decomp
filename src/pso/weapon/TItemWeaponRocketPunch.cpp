@@ -29,7 +29,7 @@ extern "C" {
 TargetEntityManager *find_entity_by_id(u32);
 }
 
-void rocket_punch_target_impact(void *self, u32 weapon, u32 target, s32 extra) {
+void rocket_punch_target_impact(s32 layer, u32 weapon, u32 target, s32 extra) {
     TargetEntityManager *m;
     rocket_punch_return_timer(weapon);
     m = find_entity_by_id(target);

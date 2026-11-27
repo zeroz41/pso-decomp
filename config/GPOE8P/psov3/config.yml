@@ -14599,7 +14599,7 @@ force_active:
   - rock_jungle_vec3_table
   - rocket_punch_create_shot__FP11TItemWeaponPC3VecPC3Vecf
   - rocket_punch_return_timer__FUl
-  - rocket_punch_target_impact__FPvUlUll
+  - rocket_punch_target_impact__FlUlUll
   - rocket_punch_wall_impact__FUlUlUlUl
   - roll_armor_bonuses__9TItemDropFv
   - roll_item_channel_below__FUll
