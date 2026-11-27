@@ -1710,7 +1710,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
         buf[k] = j;
         avail_tbl[j] = 0;
     }
-    send_subordinate_actions_group0((saddr)buf, cnt, force);
+    send_subordinate_actions_group0(buf, cnt, force);
     mem_free(buf);
     play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }

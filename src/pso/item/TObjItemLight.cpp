@@ -46,9 +46,9 @@ TObjItemLight::~TObjItemLight() {
 
 const char *TObjItemLight::class_name = "TObjItemLight";
 
-TObjItemLight::TObjItemLight(TObject *parent, saddr set_data) : TObjBase(parent) {
+TObjItemLight::TObjItemLight(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjItemLight::class_name;
-    apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     m_particle = 0;
     m_radius = (f32) scale.x;
     if (m_radius < 0.0f) {

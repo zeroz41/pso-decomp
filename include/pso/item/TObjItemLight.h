@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjItemLight : public TObjBase {
-    TObjItemLight(TObject *parent, saddr set_data);
+    TObjItemLight(TObject *parent, void *set_data);
     virtual ~TObjItemLight();
     void run_task();
     f32 m_radius;

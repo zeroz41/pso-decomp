@@ -134,7 +134,7 @@ void TFontSmallHelp::run_task() {
 
 TFontSmallHelp::~TFontSmallHelp() {}
 
-TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr text_id)
+TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, const char *text)
     : TObject((TObject *)TWindowCtrlMain::get_instance()) {
     m_name = font_small_help_class_name;
     HelpTextPlayerState *owner = (HelpTextPlayerState *)get_player_by_client_id(player);
@@ -149,5 +149,5 @@ TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr t
     set_color(text_color);
     age_ticks = 0;
     lifetime_ticks = lifetime;
-    set_help_text((const char *)text_id);
+    set_help_text(text);
 }

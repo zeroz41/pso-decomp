@@ -299,8 +299,8 @@ struct TBoss6Type2 : public TObjEnemy
     static TBoss6Mag *create_mag(TBoss6MagSpawnParams *params);
     void on_mag_dead();
     void get_shoulder_point(s32 index, Vec *pos, s32 *rotation_y);
-    static void send_6xAD_grid_positions(s32 index, saddr points, s32 count);
-    static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
+    static void send_6xAD_grid_positions(s32 index, Vec *points, s32 count);
+    static void send_subordinate_actions(s32 kind, const s32 *ids, s32 n, s32 force);
     static TBoss6EffFlowSoul *create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration);
     s32 get_state();
     s32 get_variant();

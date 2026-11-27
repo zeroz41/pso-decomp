@@ -65,8 +65,8 @@ void TPlayerFootStamp::free_instance() {
     }
 }
 
-void *TPlayerFootStamp::create(void *player, void *side) {
-    return new TPlayerFootStamp((TObjPlayer *)player, (saddr)side);
+TPlayerFootStamp *TPlayerFootStamp::create(TObjPlayer *player, s32 side) {
+    return new TPlayerFootStamp(player, side);
 }
 
 TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07) {

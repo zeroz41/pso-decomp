@@ -3113,7 +3113,7 @@ void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
 
 void TObjPlayer::spawn_level_change_feedback(const char *message) {
     notify_volopt_if_ready();
-    new TFontSmallHelp(get_entity_id(), -1, 0x3C, (uaddr)message);
+    new TFontSmallHelp(get_entity_id(), -1, 0x3C, message);
     new_child_object(get_entity_id());
     scratch_vec.x = player_zero;
     scratch_vec.y = player_feedback_light_dir_y;

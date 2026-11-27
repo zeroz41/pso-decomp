@@ -664,7 +664,7 @@ void TBoss6Mag::spawn_falling_rocks() {
         p->z = r * cos_table_lookup(ang) + p->z;
         TBoss6Rock::push_out_of_rocks(p, 10.0f);
     }
-    TBoss6Type2::send_6xAD_grid_positions(index, (saddr)pts, 3);
+    TBoss6Type2::send_6xAD_grid_positions(index, pts, 3);
 }
 #pragma pop
 

@@ -18,7 +18,7 @@ struct ShopService {
 };
 
 struct TShopGenerator : public TObjBase {
-    TShopGenerator(saddr);
+    TShopGenerator(void *set_data);
     virtual ~TShopGenerator();
     BOOL is_player_in_service_range(TObjBase *player, f32 range);
     virtual void run_task();

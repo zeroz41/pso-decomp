@@ -36,7 +36,7 @@ void *TObjBgmCol::create(void *set) {
 }
 
 void *TObjItemLight::create(void *set_data) {
-    return new TObjItemLight(tl_05, (saddr)set_data);
+    return new TObjItemLight(tl_05, set_data);
 }
 
 void *TObjCityMainWarpChallenge::create(void *set_data) {
