@@ -83,7 +83,7 @@ Vec *TObjBase::set_position_from(const Vec *pos) {
 }
 
 void G_DarkFalzActions_6x19::send() { bswap(); send_subcommand(this); }
-void G_DarkFalzActions_6x19::bswap() { header.bswap(); bswap_16((u16 *)&state); bswap_16(&unknown_a3); bswap_32((u32 *)&form_action); bswap_32(&unused); }
+void G_DarkFalzActions_6x19::bswap() { header.bswap(); bswap_16((u16 *)&state); bswap_16(&pad_06); bswap_32((u32 *)&form_action); bswap_32(&unused); }
 void G_DarkFalzActions_6x19::init() { header.subcommand = 0x19; header.size = 4; }
 
 void TBoss4DarkFalz::update_ol_ending() {

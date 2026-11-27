@@ -337,7 +337,7 @@ LAYOUT_ASSERT(G_CreateLobbyChair_6xABSize, sizeof(G_CreateLobbyChair_6xAB) == 0x
 struct G_DarkFalzActions_6x19 {
  struct G_ClientIDHeader header;
  s16 state;       // dark_falz_state_table index to change to, -1 for none
- u16 unknown_a3;
+ u16 pad_06;
  s32 form_action; // handed to the active form (Type1/2/3), -1 for none
  u32 unused;
  void init();
