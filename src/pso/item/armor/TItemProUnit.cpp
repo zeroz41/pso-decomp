@@ -61,7 +61,7 @@ TItemProUnit::TItemProUnit(TObject *parent, u8 *item) : TItemEquipBase(parent, i
         effect_amount = 0;
         modifier_limit = 0;
     }
-    modifier = TItemData::get_field6_bswap(item);
+    modifier = TItemData::get_unit_modifier(item);
     if ((modifier <= -10) || (modifier >= 10)) {
         modifier = 0;
     }

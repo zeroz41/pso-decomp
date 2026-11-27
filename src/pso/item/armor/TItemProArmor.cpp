@@ -59,8 +59,8 @@ TItemProArmor::TItemProArmor(TObject *parent, u8 *item) : TItemEquipBase(parent,
     set_attach_slot(2);
     armor_flags = 0;
     slot_count = item[5];
-    dfp_bonus = TItemData::getS16_06(item);
-    evp_bonus = TItemData::get_bswap16_field8(item);
+    dfp_bonus = TItemData::get_dfp_bonus(item);
+    evp_bonus = TItemData::get_evp_bonus(item);
     pmt = (ArmorPmtEntry *)lookup_item_pmt_record(item);
     dfp_range = pmt->dfp_range;
     evp_range = pmt->evp_range;

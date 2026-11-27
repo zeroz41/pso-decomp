@@ -228,7 +228,7 @@ void TItemData::apply_unit_stat_bonus(TObjPlayer *player, AttackParams *attack, 
     parm = (UnitPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != NULL && stats != NULL && params != NULL) {
     kind = parm->stat;
-    amount = parm->stat_amount + get_field6_bswap(data1.data_u8);
+    amount = parm->stat_amount + get_unit_modifier(data1.data_u8);
     switch (kind) {
     case 0:
         stats->atp += amount;
@@ -302,8 +302,8 @@ void TItemData::add_shield_stat_contribution(TObjPlayer *player, AttackParams *a
     f32 add = calc_clock_bonus(player);
     parm = (ShieldPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
-        b06 = ((s32 (*)(void *))TItemData::getS16_06)(this);
-        s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(this);
+        b06 = ((s32 (*)(void *))TItemData::get_dfp_bonus)(this);
+        s32 b08 = ((s32 (*)(void *))TItemData::get_evp_bonus)(this);
         s32 v = (s32)(parm->evp * mult + add);
         if (params != 0) {
             params->add_evp((s16)(v + b08));
@@ -328,8 +328,8 @@ void TItemData::add_armor_stat_contribution(TObjPlayer *player, AttackParams *at
     f32 add = calc_clock_bonus(player);
     parm = (ArmorPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
-        dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(this);
-        s16 evpBonus = get_bswap16_field8(data1.data_u8);
+        dfpBonus = ((s32 (*)(void *))TItemData::get_dfp_bonus)(this);
+        s16 evpBonus = get_evp_bonus(data1.data_u8);
         s32 dfp = (s32)(parm->dfp * mult + add);
         if (params != 0) {
             params->add_evp((s16)(parm->evp + evpBonus));
@@ -660,7 +660,7 @@ extern "C" {
 s32 TItemData::lookup_item_def() {
     return is_item_stackable(data1.data_u8[0], data1.data_u8[1]);
 }
-s16 TItemData::get_field6_bswap(void *data) {
+s16 TItemData::get_unit_modifier(void *data) {
     s16 value = *(s16 *)((u8 *)data + 6);
     bswap_16((u16 *)&value);
     return value;
@@ -671,7 +671,7 @@ void TItemData::set_unit_modifier(s16 modifier) {
     bswap_16(&this->data1.data_u16[3]);
 }
 
-s16 TItemData::get_bswap16_field8(void *data) {
+s16 TItemData::get_evp_bonus(void *data) {
     s16 value = *(s16 *)((u8 *)data + 8);
     bswap_16((u16 *)&value);
     return value;
@@ -682,7 +682,7 @@ void TItemData::set_evp_bonus(s16 evp_bonus) {
     bswap_16(&this->data1.data_u16[4]);
 }
 
-s16 TItemData::getS16_06(void *data) {
+s16 TItemData::get_dfp_bonus(void *data) {
     s16 value = *(s16 *)((u8 *)data + 6);
     bswap_16((u16 *)&value);
     return value;
@@ -722,12 +722,12 @@ s32 TItemData::has_bonus_stats() {
                 return 1;
             }
         case 2:
-            if (getS16_06(this) > 0 || get_bswap16_field8(this) > 0) {
+            if (get_dfp_bonus(this) > 0 || get_evp_bonus(this) > 0) {
                 return 1;
             }
             break;
         case 3:
-            if (get_field6_bswap(this) > 0) {
+            if (get_unit_modifier(this) > 0) {
                 return 1;
             }
             break;
@@ -1337,8 +1337,8 @@ s32 TItemData::calc_price() {
       armor = (ArmorPmtEntry *) lookup_item_pmt_record(data1.data_u8);
       if ((0.0f != coef) && (armor != 0))
       {
-        s32 a = TItemData::getS16_06(this);
-        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_bswap16_field8(this));
+        s32 a = TItemData::get_dfp_bonus(this);
+        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_evp_bonus(this));
         {
           s32 dv = (s32) ((atp * atp) / coef);
           f32 sl = 70.0f * ((f32)(data1.data_u8[5] + 1));
@@ -1447,7 +1447,7 @@ const char *format_item_description(TItemData *item) {
             } else if (item->data1.data_u8[0] == 1 && item->data1.data_u8[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
-                        sprintf(out, (char *)get_item_description_text(name), p->stat_amount + TItemData::get_field6_bswap(item));
+                        sprintf(out, (char *)get_item_description_text(name), p->stat_amount + TItemData::get_unit_modifier(item));
                         return out;
                     }
                 } else {
@@ -1561,7 +1561,7 @@ void TItemData::format_item_name(char *buf) {
         pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
         if (pmt != NULL) {
             lim = *(s16 *)((u8 *)pmt + 0xC);
-            v = get_field6_bswap(this);
+            v = get_unit_modifier(this);
             if (v < -lim) {
                 sign[0] = '-';
                 sign[1] = '-';
@@ -1634,7 +1634,7 @@ int TItemData::calc_display_grade() {
         break;
     case 1:
         if ((u8) this->data1.data_u8[1] == 3) {
-            rarity_modifier = TItemData::get_field6_bswap(this);
+            rarity_modifier = TItemData::get_unit_modifier(this);
             if (rarity_modifier < 0) {
                 base_rarity -= 1;
             } else if (rarity_modifier > 0) {
