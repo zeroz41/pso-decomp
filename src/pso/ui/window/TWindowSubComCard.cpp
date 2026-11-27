@@ -84,7 +84,7 @@ void TKeyBoardControl::set_soft_flag60_bit1() {
     }
 }
 char *GuildCardRecord::get_sub_obj() { return name; }
-char *GuildCardRecord::get_name() { return s19; }
+char *GuildCardRecord::get_ship_name() { return ship_name; }
 char *get_guild_card_s2a(GuildCardRecord *entry) { return entry->s2A; }
 
 char *GuildCardRecord::get_card_data_ptr() { return s3B; }
@@ -1542,7 +1542,7 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         guild_card_record = get_selected_guild_card_record();
         text_builder_reset();
         text_builder_append(result->info);
-        text_builder_append(guild_card_record->get_name());
+        text_builder_append(guild_card_record->get_ship_name());
         text_builder_append("\n");
         text_builder_append(get_guild_card_s2a(guild_card_record));
         text_builder_append("\n");

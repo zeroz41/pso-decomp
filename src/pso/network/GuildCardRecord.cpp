@@ -81,7 +81,7 @@ void load_selected_guild_card_record(Src_8024220C *src) {
   list = src->list;
   list = build_text_from_comma_list(list);
   cursor = list;
-  cursor = parse_csv_token(cursor, selected_guild_card_record.s19);
+  cursor = parse_csv_token(cursor, selected_guild_card_record.ship_name);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   parse_csv_token(cursor, selected_guild_card_record.s3B);
@@ -171,7 +171,7 @@ char *build_text_from_comma_list(char *list) {
 void jump_to_guild_card_owner(GuildCardRecord *entry) {
     if (TLobby::protocol_instance != NULL) {
         memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, entry->s19, 0x10);
+        strncpy(lobby_ship_name, entry->ship_name, 0x10);
         lobby_ship_name[0x10] = 0;
         TLobby::protocol_instance->seq_jump(entry->recv_port, entry->ext);
     }
@@ -197,7 +197,7 @@ void init_player_entry(GuildCardRecord *entry, u8 *response) {
     }
     entry->name[0x10] = 0;
     p = build_text_from_comma_list((char *)(response + 0x1C));
-    p = parse_csv_token(p, entry->s19);
+    p = parse_csv_token(p, entry->ship_name);
     p = parse_csv_token(p, entry->s2A);
     p = parse_csv_token(p, entry->s2A);
     parse_csv_token(p, entry->s3B);

@@ -65,7 +65,7 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     set_text_entry_string(entry_1, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");
-    text_builder_append(record->get_name());
+    text_builder_append(record->get_ship_name());
     set_text_entry_string(entry_3, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");

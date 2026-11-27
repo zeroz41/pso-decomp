@@ -11,7 +11,7 @@ struct GuildCardRecord {
     s32 id;
     s32 serial;
     char name[0x11];
-    char s19[0x11];
+    char ship_name[0x11];
     char s2A[0x11];
     char s3B[0x11];
     TRecvPort recv_port;
@@ -21,7 +21,7 @@ struct GuildCardRecord {
     s32 get_serial() const;
     s32 get_id();
     char *get_sub_obj();
-    char *get_name();
+    char *get_ship_name();
     char *get_card_data_ptr();
     char *get_sub_disp_ptr();
     GuildCardRecord *copy_com_card_entry(GuildCardRecord *src);
