@@ -111,7 +111,6 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, Vec *pos);
 #define RADAR_MODEL_REGION_MAP ((RadarModelRegionMap *) TRaderMapCore::floor_map_resource)
 
 
-#define SHOW(t) ((s32 (*)(void *))TRaderMapCore::should_show_map)(t)
 
 RadarBackdropColor radar_map_backdrop_color = { 1.0f, 0.3f, 0.3f, 0.3f };
 RadarViewportRect radar_map_view_rect_table[3] = {
@@ -850,7 +849,7 @@ void TRaderMapCore::gather_player_markers() {
             me->rot_y = p->rotation.y;
             me->id = local_client_id;
             follow_marker = 0;
-            if (SHOW(this) != 0) {
+            if (should_show_map() != 0) {
                 if (team == 1) {
                     copy_argb(&me->color, (NJS_ARGB *)&radar_player_slot_color_table[0]);
                 } else if (team == 2) {
@@ -872,7 +871,7 @@ void TRaderMapCore::gather_player_markers() {
         if (i == local_client_id) {
             continue;
         }
-        if (SHOW(this) == 0) {
+        if (should_show_map() == 0) {
             p = get_player_by_client_id(i);
             if (p != NULL && floor == p->get_floor() &&
                 p->is_body_collision_inactive() == 0) {

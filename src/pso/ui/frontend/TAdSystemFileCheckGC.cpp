@@ -445,7 +445,7 @@ void TAdSystemFileCheckGC::set_state(s32 new_state) {
     }
 }
 
-s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
+s32 TAdSystemFileCheckGC::check_system_file_status() {
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         return 1;
     }
@@ -468,7 +468,7 @@ void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_sele
 void TAdSystemFileCheckGC::enter_state_0() { close_window_30(); open_message_window(4); }
 
 void TAdSystemFileCheckGC::run_task() {
-    this->status = TAdSinglePlyChrSelectGC::check_system_file_status();
+    this->status = check_system_file_status();
     if (this->status & 1) {
         set_state(9);
     }
@@ -492,7 +492,7 @@ TAdSystemFileCheckGC::TAdSystemFileCheckGC(TObject *object) : TObject(object) {
     menu_window = 0;
     back = 0;
     back_text = 0;
-    this->status = ((s32 (*)(void *))TAdSinglePlyChrSelectGC::check_system_file_status)(this);
+    this->status = check_system_file_status();
     if (this->status & 1) {
         set_state(0);
     } else {

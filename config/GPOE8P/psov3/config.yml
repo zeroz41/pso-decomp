@@ -5011,7 +5011,7 @@ force_active:
   - check_shield__18TObjEneRe4SorcererFlPv
   - check_slot_swap_allowed__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - check_stage_advance__17TObjEneDf2BringerFv
-  - check_system_file_status__23TAdSinglePlyChrSelectGCFv
+  - check_system_file_status__20TAdSystemFileCheckGCFv
   - check_target__17TObjEneMe1CanadinFv
   - check_target_collision__16TBoss3VoloptCoreFv
   - check_team_balance__17TPlayerBattleCtrlFl
