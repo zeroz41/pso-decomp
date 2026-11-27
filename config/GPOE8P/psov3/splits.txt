@@ -2760,7 +2760,7 @@ pso/object/ambient/TObjLight_80133568.cpp:
 	.sdata2     start:0x805DB088 end:0x805DB0A8
 
 pso/network/TLobby.cpp:
-	.text       start:0x801349C8 end:0x8013A2DC
+	.text       start:0x801349C8 end:0x8013AE18
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130
@@ -2771,9 +2771,6 @@ pso/network/TLobby.cpp:
 
 pso/network/TPlyJoinLobbySdata2.cpp:
 	.sdata2     start:0x805DB0C0 end:0x805DB0C8
-
-pso/network/LobbyHelpers.cpp:
-	.text       start:0x8013A2DC end:0x8013AE18
 
 pso/ui/hud/TMainCursor.cpp:
 	.text       start:0x8013AE18 end:0x8013F264
@@ -5530,13 +5527,10 @@ pso/audio/SoundRequestVoice.cpp:
 	.sdata2     start:0x805DC9E0 end:0x805DCA00
 
 pso/network/GuildCardRecord.cpp:
-	.text       start:0x802421A4 end:0x802428F8
+	.text       start:0x802421A4 end:0x80242938
 	.ctors      start:0x80433FB8 end:0x80433FBC
 	.bss        start:0x80517EE0 end:0x8051857C
 	.sbss       start:0x805D63D8 end:0x805D63E0
-
-pso/network/ComCardAccess.cpp:
-	.text       start:0x802428F8 end:0x80242938
 
 pso/system/PadRumble.cpp:
 	.text       start:0x80242938 end:0x80243218

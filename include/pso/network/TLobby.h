@@ -111,6 +111,7 @@ struct TLobby : public TObject {
     static void *create_tl05_object(TObjPlayer *player);
     s32 get_id();
     static void clear_flag_bit2();
+    static int get_com_card_data();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
     static void free_chr_select_slots();
@@ -198,6 +199,7 @@ struct TLobby : public TObject {
     // Members other code calls by their mangled names.
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
+    static void bswap_and_handle_packet(void *packet, int size);
     static void bswap_header_fields(extended_game_command_header *header);
     static void bswap_player_data(PlayerSyncRecord *record);
     static void close_all_windows(void *);
@@ -207,6 +209,7 @@ struct TLobby : public TObject {
     static void close_and_set_state_13(int msg);
     static void close_com_card_window();
     static void close_menu_windows();
+    static void construct_global_arrays();
     static void copy_all_data(int, int);
     static void *copy_member_record(void *, void *);
     static void *copy_symbol_chat_entry(void *, void *);
@@ -214,6 +217,7 @@ struct TLobby : public TObject {
     static void create_warp_menu();
     static void destroy_all_objects();
     static void destroy_child_recursive(TObject *task, TObject *object);
+    static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(const char *mesg);
     static s32 get_progress_info(void *, void *, void *, void *);
@@ -319,6 +323,7 @@ struct TLobby : public TObject {
     static s32 connection_lost;
     static s32 lobby_entered_flag;
     static s32 lobby_block_high;  // high byte of the 0x67 lobby join packet's block number; never read
+    static u32 join_entries_dtor_registration[3];
 };
 
 void call_funcs_reverse(void *table, unsigned int size);

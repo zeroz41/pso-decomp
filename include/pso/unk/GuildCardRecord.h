@@ -17,7 +17,7 @@ struct GuildCardRecord {
     TRecvPort recv_port;
     TPlyMeetUserExtension ext;
 
-    GuildCardRecord() {}
+    GuildCardRecord();
     s32 get_serial() const;
     s32 get_id();
     char *get_sub_obj();
@@ -29,9 +29,6 @@ struct GuildCardRecord {
 
 // The com-card record picked in the com-card or choice-search windows (load_selected_guild_card_record).
 extern GuildCardRecord selected_guild_card_record;
-// How many com_card_entries records are live.
-extern int com_card_entry_count;
-int get_com_card_data();
 
 struct ChoiceSearchResult;
 // Fills selected_guild_card_record from a choice-search result.

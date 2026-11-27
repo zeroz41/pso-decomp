@@ -687,7 +687,6 @@ pso/map/FloorTransition.cpp
 pso/system/TTokenListParse.cpp
 pso/ui/hud/TLoadingCur.cpp
 pso/network/TLobby.cpp
-pso/network/LobbyHelpers.cpp
 pso/unk/TLobbyEventTheme.cpp
 pso/unk/TLobbyAutoReply.cpp
 pso/enemy/BattleParamTables.cpp
@@ -738,7 +737,6 @@ pso/player/PlayerStatusRefresh.cpp
 pso/audio/SoundControlState.cpp
 pso/audio/SoundRequestVoice.cpp
 pso/network/GuildCardRecord.cpp
-pso/network/ComCardAccess.cpp
 pso/ui/charcreate/CreationResourceFree.cpp
 pso/quest/challenge/TChallenge4P.cpp
 pso/map/area/Dragon2Scene.cpp
