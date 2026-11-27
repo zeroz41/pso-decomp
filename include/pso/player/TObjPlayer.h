@@ -761,7 +761,6 @@ struct TObjPlayer : public TObjChara {
     static void warn_if_gauge_low();
     static void set_model_fade_alpha(f32 alpha);
     static void copy_gauge_warn_vec();
-    static void free_global_805D6FB8();
     static void alloc_and_init_object_b4();
     static void draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, f32 frame, f32 alpha);
     static void draw_player_model_by_id(s32 client_id, f32 alpha);

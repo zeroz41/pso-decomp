@@ -2716,7 +2716,7 @@ s32 TObjPlayer::try_equip_item(s16 tech) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void tail_801CCD38(TObjPlayer *p, s32 t, s8 lvl) {
+inline void launch_cast_technique(TObjPlayer *p, s32 t, s8 lvl) {
     switch (t) {
     case 10:
     case 11:
@@ -2773,7 +2773,7 @@ void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command) 
     ul = lvl;
     p->technique_state.set_level(ul);
     TObjPlayer::set_technique_level_clamped(p, ul, tech);
-    tail_801CCD38(p, tech, lvl);
+    launch_cast_technique(p, tech, lvl);
 }
 #pragma pop
 

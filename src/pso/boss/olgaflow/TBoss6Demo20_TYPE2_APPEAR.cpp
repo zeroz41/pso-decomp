@@ -313,7 +313,7 @@ void initialize_boss6_type2_appear_particle_origin(void) {
     boss6_type2_appear_offset_particle_origin.z = boss6_type2_appear_origin.z;
 }
 extern "C" {
-__declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = (void *)initialize_boss6_type2_appear_particle_origin;
+__declspec(section ".ctors") static void *const initialize_boss6_type2_appear_particle_origin_ref = (void *)initialize_boss6_type2_appear_particle_origin;
 
 }
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
