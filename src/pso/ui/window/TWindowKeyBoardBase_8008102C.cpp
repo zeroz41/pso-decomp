@@ -14,9 +14,6 @@
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 
-extern "C" {
-u32 __cvt_fp2unsigned(f32);
-}
 
 void KeyboardTextBuffer::init(u32 width, u32 lines) {
     if (buffer != NULL) {
@@ -25,7 +22,7 @@ void KeyboardTextBuffer::init(u32 width, u32 lines) {
     if (lines == 0) {
         capacity = width;
     } else {
-        capacity = __cvt_fp2unsigned((f32) lines * round_away_from_zero((f32) (width / 6U)));
+        capacity = (u32)((f32) lines * round_away_from_zero((f32) (width / 6U)));
     }
     if (capacity != 0) {
         buffer = (u16 *)mem_alloc((capacity + 1) * 2);

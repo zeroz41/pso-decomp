@@ -41,9 +41,6 @@ s32 TItemDrop::section_id;
 s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
 
-extern "C" {
-s32 __cvt_fp2unsigned(f32);
-}
 
 extern const f32 item_drop_u16_scale;
 extern const f32 item_drop_u32_scale;
@@ -877,8 +874,8 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
     section_id = section;
     rngs = (SubtractiveRng **)mem_alloc(0x44);
     for (i = 0; i != 0x11; i++) {
-        a = __cvt_fp2unsigned(item_drop_u32_scale * (item_drop_rand_reciprocal * (f32)rand()));
-        b = __cvt_fp2unsigned(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));
+        a = (u32)(item_drop_u32_scale * (item_drop_rand_reciprocal * (f32)rand()));
+        b = (u32)(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));
         rngs[i] = new SubtractiveRng(a | b);
     }
     second_relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
@@ -904,7 +901,7 @@ s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)((LobbyRuleSettings *)this)->g
 u8 default_rule_value_stub(void *) { return 0; }
 
 s32 item_drop_rng_below(SubtractiveRng *rng, u32 count) {
-    return __cvt_fp2unsigned((f32) (((f32) count * (f32) rng->next()) / item_drop_u32_scale));
+    return (u32)((f32) (((f32) count * (f32) rng->next()) / item_drop_u32_scale));
 }
 
 __declspec(section ".sdata2") extern const f32 item_drop_u16_scale = 65536.0f;

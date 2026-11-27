@@ -37,9 +37,6 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
-extern "C" {
-s32 __cvt_fp2unsigned(f32);
-}
 
 saddr TObjPlayer::get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
@@ -132,12 +129,11 @@ f32 TObjPlayer::get_drop_random_float(u32 channel) {
     return 3.0517578e-05f * (f32) rand();
 }
 
-void roll_item_channel_below(u32 count, s32 channel) {
+u32 roll_item_channel_below(u32 count, s32 channel) {
     if (item_mgr != NULL) {
-        item_mgr->roll_channel_below(count, channel);
-        return;
+        return item_mgr->roll_channel_below(count, channel);
     }
-    __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(channel));
+    return (u32)((f32) count * TObjPlayer::get_drop_random_float(channel));
 }
 
 void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {

@@ -23,17 +23,12 @@
 
 const char *TWindowEffectLight::class_name = "TWindowEffectLight";
 
-extern "C" {
-s32 __cvt_fp2unsigned(f32);
-
 
 #pragma fp_contract on
 /* Built with deferred code generation: functions are emitted in reverse source order, and the vtable precedes render's switch table in .data. */
 #pragma defer_codegen on
 void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id) {
     return new TWindowEffectLight(position, effect_kind, player_id);
-}
-
 }
 
 TWindowEffectLight::TWindowEffectLight(void *position, s16 kind, u32 id) : TObject(tl_window) {
@@ -162,7 +157,7 @@ void TWindowEffectLight::draw_capped_bar(f32 width) {
 
 u32 TWindowEffectLight::calc_alpha() {
     s16 frame = this->age;
-    return (u32)__cvt_fp2unsigned(4278190080.0f * (-1.0f * (f32)frame / 8.0f + 1.0f));
+    return (u32)(4278190080.0f * (-1.0f * (f32)frame / 8.0f + 1.0f));
 }
 
 f32 TWindowEffectLight::calc_scale() {

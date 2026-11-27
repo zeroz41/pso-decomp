@@ -52,7 +52,7 @@ saddr get_mag_feed_result(s32 feed_table, s32 food_id);
 u8 get_technique_learn_limit(u8 char_class, u8 technique);
 void get_weapon_special_type_amount(u8 x, s16 *a, s16 *b);
 s32 is_unsealable_item(u8 *id);
-void roll_item_channel_below(u32 count, s32 channel);
+u32 roll_item_channel_below(u32 count, s32 channel);
 
 void *get_armor_pmt_record(int type, int id);
 
