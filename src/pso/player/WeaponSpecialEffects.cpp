@@ -34,12 +34,6 @@ static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
 static const Angle3 inward_orbit_particle_dir = {0, 0, 0x4000};
 
 
-struct WeaponSpecialStrike {
-    Vec pos;
-    Vec dir;
-    f32 len;
-};
-
 
 extern "C" {
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);

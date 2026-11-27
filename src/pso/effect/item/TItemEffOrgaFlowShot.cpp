@@ -27,7 +27,6 @@
 #pragma readonly_strings on
 
 
-struct Send6xADOlgaFlowSubordinateBossActionsB { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
 
 const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
 
@@ -36,12 +35,12 @@ int olga_flow_subordinate_actions_enabled;
 }
 
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *actions) {
-    Send6xADOlgaFlowSubordinateBossActionsB b;
+    G_OlgaFlowSubordinateBossActions_6xAD b;
     s32 i;
     if (is_local_client_floor_leader() != 0) {
         build_6xAD_olga_flow_subordinate_boss_actions(&b);
         for (i = 0; i < 0x40; i++) {
-            b.d[i] = actions[i];
+            b.actions[i] = actions[i];
         }
         ((TItemEffOrgaFlowShot *)(&b))->bswap_6xAD_subordinate_action();
     }
@@ -56,7 +55,6 @@ void clear_6xAD_action_buffer(s8 *buf) {
     }
 }
 
-struct Send6xADOlgaFlowSubordinateBossActionsB;
 void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossActions_6xAD *command) {
     Vec v[3];
     s8 boss;
