@@ -25,8 +25,6 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/chat/ChatLogLines.h"
-#include "pso/ui/chat/ChatLogHeap.h"
 
 char *chat_log_lines[30];
 

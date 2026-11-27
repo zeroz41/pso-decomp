@@ -40,6 +40,8 @@ void post_chat_log_message(u16 id, const char *text);
 s32 find_free_chat_log_slot();
 void clear_message_log_window(void);
 void set_message_log_window(TWindowMessageLog *window_message_log);
+void free_chat_log_lines(void);
+void init_chat_log_heap(void);
 
 void cache_last_chat_line(const char *text);
 void chat_log_add_line(const char *text);

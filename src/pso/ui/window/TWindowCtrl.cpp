@@ -49,14 +49,11 @@
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/chat/ChatLogLines.h"
-#include "pso/ui/chat/ChatLogHeap.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/network/TradeProposalCmd.h"
 
 TWindowCtrl *TWindowCtrl::instance;
