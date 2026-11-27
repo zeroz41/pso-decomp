@@ -244,7 +244,7 @@ u8 *alloc_floor_event_set(s32 floor, s32 size) {
 
 #pragma fp_contract on
 
-s32 add_floor_event_set(s32 floor, saddr data, s32 size) {
+s32 add_floor_event_set(s32 floor, const void *data, s32 size) {
     u8 *set;
 
     if (floor > 0x11) {
@@ -255,7 +255,7 @@ s32 add_floor_event_set(s32 floor, saddr data, s32 size) {
     }
     set = (u8 *)area_event_set_heap->heap_alloc(size);
     if (set != NULL) {
-        move_data(set, (const void *)data, size);
+        move_data(set, data, size);
         floor_event_sets[floor] = (FloorEventSet *)set;
         bswap_floor_event_set(floor);
         return 1;

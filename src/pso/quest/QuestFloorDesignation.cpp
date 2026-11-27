@@ -211,7 +211,7 @@ bool load_quest_encounter_section(s32 floor) {
             bswap_32((u32 *)&record_floor);
             bswap_32((u32 *)&size);
             if ((type == 3) && (record_floor == floor)) {
-                return add_floor_event_set(record_floor, (saddr)(record + 1), size) != 0;
+                return add_floor_event_set(record_floor, record + 1, size) != 0;
             }
             if (type == 0) {
                 break;
