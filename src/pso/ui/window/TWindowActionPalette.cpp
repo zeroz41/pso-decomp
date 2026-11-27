@@ -77,7 +77,7 @@ PaletteIconUV action_palette_photon_blast_icon_uvs[6] = {
     {200.0f, 172.0f}, {150.0f, 129.0f}, {150.0f, 172.0f}, {200.0f, 129.0f},
     {100.0f, 172.0f}, {100.0f, 129.0f},
 };
-PaletteIconUV lbl_804CDDF8[3] = {
+PaletteIconUV action_palette_attack_icon_uvs[3] = {
     {200.0f, 43.0f}, {200.0f, 0.0f}, {200.0f, 86.0f},
 };
 PaletteIconUV lbl_804CDE10[8] = {
@@ -370,7 +370,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         break;
     case 2:
         icon->kind = 4;
-        row = lbl_804CDDF8;
+        row = action_palette_attack_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
