@@ -1262,7 +1262,7 @@ TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
             }
         }
         if (quiet == 0) {
-            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->floor, drop->room_id, drop->item.data1.data_u8, drop->x, drop->z);
+            ((void (*)(s32, s32, TItemData *, f32, f32))add_item_condition)(drop->floor, drop->room_id, &drop->item, drop->x, drop->z);
         }
     }
     return item;

@@ -256,14 +256,14 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
     spawn_dropped_item_from_msg(&pkt->item, 0);
 }
 
-void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
+void add_item_condition(s16 floor, f32 x, f32 z, s16 room, TItemData *item) {
     FloorItem entry;
     entry.floor = floor;
     entry.x = x;
     entry.z = z;
     entry.room_id = room;
-    ((TItemData *)(&entry.item))->copy_from((TItemData *)(item));
-    observe_item_id(*(s32 *)((s8 *)item + 0xC));
+    entry.item.copy_from(item);
+    observe_item_id(item->id);
     insert_item_condition(&entry);
 }
 

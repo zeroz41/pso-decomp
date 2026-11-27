@@ -338,13 +338,13 @@ s32 check_sound_admission_range(const Vec *pos) {
 void update_sound_request_slots(void) {
     s32 i;
     s32 r;
-    uaddr p;
+    TObjPlayer *p;
     SetSoundPitchRequestSndEnt *e;
     s16 *t;
     if (sound_requests_enabled != 0) {
-        p = (uaddr)get_player_by_client_id((local_client_id));
-        if (p != 0U) {
-            VecCopy((Vec *)sound_listener_position, (const Vec *)(p + 0x38));
+        p = get_player_by_client_id(local_client_id);
+        if (p != NULL) {
+            VecCopy((Vec *)sound_listener_position, &p->position);
         } else if (camera_ctrl_instance != NULL) {
             VecCopy((Vec *)sound_listener_position, &camera_ctrl_instance->pos);
         } else {

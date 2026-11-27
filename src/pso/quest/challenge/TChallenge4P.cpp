@@ -334,7 +334,7 @@ void rebuild_players_for_stage(s32 stage) {
         PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy(&pos, &p->position);
-            copy_player_visual_record(&info, (u8 *)p + 0x85C);
+            copy_player_visual_record(&info, &p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;

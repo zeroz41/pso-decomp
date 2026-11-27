@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+struct TItemData;
 struct G_DestroyFloorItem_6x5C;
 struct G_DropItem_DC_6x5F;
 struct G_StandardDropItemRequest_PC_V3_BB_6x60;
@@ -20,7 +21,7 @@ extern s32 *item_sync_counter_table;
 
 u32 advance_item_id_counter(u16 client);
 // The floor item records ("ItemCondition"): one per item lying on a floor.
-void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item);
+void add_item_condition(s16 floor, f32 x, f32 z, s16 room, TItemData *item);
 void remove_item_condition_at(s16 floor, s32 item_id);
 u32 build_item_id(u16 drop_id_base);
 extern s32 build_item_id_mode;
