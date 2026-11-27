@@ -74,9 +74,6 @@ SampledMotionPoints * TObjEneMe3ShinowaMirage::sword_trail_a;
 SampledMotionPoints * TObjEneMe3ShinowaMirage::sword_trail_b;
 SampledMotionPoints * TObjEneMe3ShinowaMirage::attack_trail;
 
-LAYOUT_ASSERT(ShinowaBattleBaseOffset, offsetof(ShinowaBattleTables, base) == 0xC);
-LAYOUT_ASSERT(ShinowaBattleAttackOffset, offsetof(ShinowaBattleTables, attack) == 0x14);
-LAYOUT_ASSERT(ShinowaBattleResistanceOffset, offsetof(ShinowaBattleTables, resistance) == 0x1C);
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).
@@ -297,7 +294,6 @@ TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
 #pragma push
 #pragma opt_propagation off
 void TObjEneMe3Shinowa::init_enemy() {
-    ShinowaBattleTables *tables = reinterpret_cast<ShinowaBattleTables *>(&TObjEneMe3ShinowaMirage::node_origin);
     init_position_vectors();
     select_gold_or_normal_variant();
     model = TObjEneMe3ShinowaMirage::bml_resource->models->model;
@@ -308,13 +304,8 @@ void TObjEneMe3Shinowa::init_enemy() {
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    {
-        player_stats **base = tables->base;
-        AttackParams **attack = tables->attack;
-        ActorParamBlock **resistance = tables->resistance;
-        s32 i = kind_index;
-        reset_hp(base[i], attack[i], resistance[i]);
-    }
+    reset_hp(TObjEneMe3ShinowaMirage::base_params_by_variant[kind_index], TObjEneMe3ShinowaMirage::attack_params_by_variant[kind_index],
+             TObjEneMe3ShinowaMirage::resistance_params_by_variant[kind_index]);
     set_state_flag_4();
     movementParameters = &TObjEneMe3ShinowaMirage::init_params;
     wall_reach = 10.0f;
