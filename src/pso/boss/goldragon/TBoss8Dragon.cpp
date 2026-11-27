@@ -258,8 +258,8 @@ extern f32 boss8_dragon_fall_accel;
 }
 
 extern "C" {
-f32 lbl_805D6980 = 5.0f * enemy_gravity_accel;
-f32 lbl_805D6984 = 7.0f * enemy_gravity_accel;
+f32 boss8_dragon_dive_accel = 5.0f * enemy_gravity_accel;
+f32 boss8_dragon_gravity = 7.0f * enemy_gravity_accel;
 }
 BmlResource *boss8_dragon_resource;
 s32 boss8_dragon_capture_node;

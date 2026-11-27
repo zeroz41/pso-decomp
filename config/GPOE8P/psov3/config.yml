@@ -8340,13 +8340,13 @@ force_active:
   - effect_uv_scroll_last_tick
   - mericarol_bml
   - mericarol_render_texture_buffer
-  - lbl_805D6910
+  - boss7_breakup_sea_level_y
   - lbl_805D6948
   - TObjBoss7DustCtrl_dust_counter
   - lbl_805D696C
   - lbl_805D6970
-  - lbl_805D6980
-  - lbl_805D6984
+  - boss8_dragon_dive_accel
+  - boss8_dragon_gravity
   - lbl_805D6AB0
   - recobox_attack_params
   - recobox_behavior_params

@@ -312,7 +312,7 @@ void TBoss7BodyBreakUp::render() {
 
 saddr get_multiplay_texture_list() { return (saddr)multiplay_texture_f512_handle; }
 
-f32 lbl_805D6910 = boss7_sea_level_y;
+f32 boss7_breakup_sea_level_y = boss7_sea_level_y;
 
 const f32 boss7_breakup_one = 1.0f;
 const f32 boss7_breakup_zero = 0.0f;
