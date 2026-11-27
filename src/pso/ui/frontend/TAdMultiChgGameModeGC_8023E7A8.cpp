@@ -453,20 +453,20 @@ void init_game_mode_select_scene(void) {
     }
     reset_controller_input_state();
     clear_resource_load_tasks();
-    TLobby::reset_keyboard_state();
+    reset_keyboard_state();
     apply_phase_keyboard_mode();
     run_load_callback_table(game_mode_select_scene_callbacks, sizeof(game_mode_select_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
         invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         return;
     }
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
     if (is_area_transfer_pending() != 0) {
         invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
@@ -520,7 +520,7 @@ void run_game_mode_select_frame(void) {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }
-        if (TQuestVmDownLoadServer::is_ready() != 0) {
+        if (is_ready() != 0) {
             request_main_phase(0);
         }
     }

@@ -928,7 +928,7 @@ void clear_map_set_data(void) {
 }
 
 
-void TLobby::load_set_gsl_files() {
+void load_set_gsl_files() {
     map_set_data_handle_a = 0;
     map_set_data_handle_b = 0;
     map_set_object_id_counter = 0;

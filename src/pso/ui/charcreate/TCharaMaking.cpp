@@ -36,6 +36,7 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -550,25 +551,25 @@ void CharacterTextureLoadSet::build_appearance_texture_names(CharacterAppearance
 
 void request_chara_making_archives(void) {
     s32 i;
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         return;
     }
     for (i = 0; i < 0x13; i++) {
-        if (TQuestVmDownLoadServer::is_ready() != 0) {
+        if (is_ready() != 0) {
             return;
         }
         if (open_afs_file_wait_render(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], player_class_texture_archive_length[i]) != 0) {
-            if (TQuestVmDownLoadServer::is_ready() == 0) {
+            if (is_ready() == 0) {
                 return;
             }
             return;
         }
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         return;
     }
     if (open_afs_file_wait_render(0xDB, "PLZSMPNJ.AFS", chara_making_load_buffer, 0x17A) != 0) {
-        if (TQuestVmDownLoadServer::is_ready() == 0) {
+        if (is_ready() == 0) {
             return;
         }
     }

@@ -37,5 +37,6 @@ void shutdown_keyboard_control();
 void reload_offline_area();
 void rebuild_area_keep_players();
 void teardown_scene();
+void reset_quest_state();
 
 #endif

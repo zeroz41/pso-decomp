@@ -177,7 +177,7 @@ FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
     { start_challenge_mode, NULL },
     { update_drop_item, NULL },
     { clear_floor_population, NULL },
-    { TLobby::load_set_gsl_files, clear_map_set_data },
+    { load_set_gsl_files, clear_map_set_data },
     { load_area_event_sets, (FloorResourceCallback)free_area_event_sets },
     { init_switch_table, clear_switch_table },
     { reset_shop_stock_and_params, clear_all_shop_stock },
@@ -395,7 +395,7 @@ void start_quest_mission(void) {
     }
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
-    TLobby::sync_story_select();
+    sync_story_select();
     select_episode(0);
     TKeyBoardControl::update();
     TLobby::free_objects();
@@ -496,7 +496,7 @@ void change_floor_reload_area(void) {
         new TQuestThread(quest_area_manager, 0);
     }
     if (is_area_transfer_pending() != 0) {
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         TLobby::clear_callback_and_reset_keyboard();
     }
     TLobby::clear_callback_and_reset_keyboard();
@@ -562,7 +562,7 @@ void run_lobby_frame() {
     if ((static_cast<s8>(poll_reset_request()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
         reset_to_chr_select();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         TLobby::send_logout();
         request_main_phase(0);
     }
@@ -627,7 +627,7 @@ void run_main_frame() {
     if ((static_cast<s8>(poll_reset_request()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
         init_chr_select();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         TLobby::send_logout();
         request_main_phase(0);
     }
@@ -657,11 +657,11 @@ void run_online_lobby_scene(void) {
     create_map_csn_ctrl();
     create_quad_sprites();
     TLoadCtrl::poll_default();
-    TLobby::reset_keyboard_state();
+    reset_keyboard_state();
     apply_phase_keyboard_mode();
     run_load_callback_table(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     if (is_area_transfer_pending() != 0) {
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
@@ -704,7 +704,7 @@ void run_online_lobby_scene(void) {
         online_lobby_frame_stub();
         TLobby::reset_state_flags();
         if (online_lobby_check_stub() != 0) {
-            TLobby::load_set_gsl_files();
+            load_set_gsl_files();
             floor_transition_state.init_range(0);
         } else {
             floor_transition_state.init_range(0xF);

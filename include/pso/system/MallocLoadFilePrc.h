@@ -66,5 +66,7 @@ void run_frame();
 s32 run_disk_error_check();
 void flush_pending();
 void flush_checked_reads();
+void reset_keyboard_state();
+s32 is_ready();
 
 #endif

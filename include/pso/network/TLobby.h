@@ -97,7 +97,6 @@ struct TLobby : public TObject {
     static char *init_serial_access();
 
     static s32 is_idle();
-    static void reset_quest_state();
     static void clear_counter();
     static void clear_quest_state();
     static void reset_quest_counter();
@@ -106,15 +105,12 @@ struct TLobby : public TObject {
     static void set_flag_and_update();
     static void free_objects();
     static void reset_counter();
-    static void backup_story_select();
-    static void sync_story_select();
     static void call_funcs_reverse(void* table, unsigned int size);
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
     void bswap_vec3();
     static int rebuild_entry();
     static int init_sub_state();
-    static void load_set_gsl_files();
     static s32 sum_floor_enemy_counts();
     static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
     static void *create_tl05_object(TObjPlayer *player);
@@ -144,7 +140,6 @@ struct TLobby : public TObject {
     static void handle_quest_download_chunk(TRecvDownload &download);
     static void close_trade_request();
     static void send_challenge_records(TChallenge *challenge);
-    static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
     static void reset_item_id_counters();
     static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
@@ -160,7 +155,6 @@ struct TLobby : public TObject {
     static s32 run_lobby_load_tables();
     static s32 check_disconnect_conditions();
     static void reset_and_invoke();
-    static void reset_keyboard_state();
     static void clear_callback_and_reset_keyboard();
     static void set_keyboard_mode(int a0);
     // Empties the com card list on floor load and unload.
@@ -194,7 +188,6 @@ struct TLobby : public TObject {
     static void free_global_buffers();
     static void clear_flag400();
     static void cancel_trade();
-    static const char *show_event_message(s32 client_id, s32 result, s32 item_id);
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
@@ -358,6 +351,8 @@ struct TLobby : public TObject {
     static u32 join_entries_dtor_registration[3];
 };
 
+const char *show_event_message(s32 client_id, s32 result, s32 item_id);
+
 void destroy_global_object();
 
 void destroy_download_server(TObject *fade);
@@ -377,6 +372,8 @@ void send_trade_proposal_modify();
 void release_scene_resources();
 
 void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
+
+void init_fadeout_state(void (*callback)());
 
 LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // The object set entry new ground items take their placement from, and

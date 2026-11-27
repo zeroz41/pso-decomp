@@ -43,5 +43,7 @@ struct TLobbyIds { s32 w[18]; };
 struct GetBossWarpDestinationTable { s32 w[2][18]; };
 
 void reset_story_select_state();
+void backup_story_select();
+void sync_story_select();
 
 #endif

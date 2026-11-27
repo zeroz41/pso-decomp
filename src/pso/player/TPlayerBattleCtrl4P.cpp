@@ -482,7 +482,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
         }
         stop_audio_streams();
         reload_ready = 0;
-        TLobby::init_fadeout_state(TPlayerBattleCtrl4P::init);
+        init_fadeout_state(TPlayerBattleCtrl4P::init);
         set_phase_state(2);
     }
 }

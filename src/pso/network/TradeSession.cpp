@@ -157,7 +157,7 @@ const char *check_trade_items_and_show_error() {
     if (r == 4) {
         flag = 1;
     } else if (r != 0) {
-        return TLobby::show_event_message(local_client_id, r, code);
+        return show_event_message(local_client_id, r, code);
     }
     buf.clear();
     buf.lists[0] = trade_window_state[0].lists[0];
@@ -165,10 +165,10 @@ const char *check_trade_items_and_show_error() {
     r = check_trade_offer_inventory(&buf, &code);
     if (r == 4) {
         if (flag) {
-            return TLobby::show_event_message(trade_partner_client_id, 4, code);
+            return show_event_message(trade_partner_client_id, 4, code);
         }
     } else if (r != 0) {
-        return TLobby::show_event_message(trade_partner_client_id, r, code);
+        return show_event_message(trade_partner_client_id, r, code);
     }
     return 0;
 }
@@ -427,7 +427,7 @@ const char *format_trade_out_of_range_message(s32 client_id) {
     return get_shared_text_buffer();
 }
 
-const char *TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
+const char *show_event_message(s32 client_id, s32 result, s32 item_id) {
     TItem *item;
 
     switch (result) {

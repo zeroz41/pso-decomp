@@ -126,5 +126,6 @@ s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);
 int get_obj_table_entry(int a0);
 void pick_weighted_entry(s32 *key, s32 *slot);
 int get_object_type(int a0);
+void load_set_gsl_files();
 
 #endif

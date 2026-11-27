@@ -107,7 +107,7 @@
 
 
 void reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
-void shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void shutdown_keyboard_control() { clear_controller_reset_request(); reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void offline_scene_init_stub_a(void) {  }
 void offline_scene_init_stub_b(void) {  }
 void offline_scene_init_stub_c(void) {  }
@@ -153,7 +153,7 @@ void apply_char_to_players() {
         create_player_object(0, player_control_role_base, local_record);
     }
 }
-void TLobby::reset_quest_state() {
+void reset_quest_state() {
     TRaderMapCore::free_map_data();
     clear_switch_table();
     TTecLuker::apply_all_players();
@@ -217,7 +217,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_item_system, free_item_system},
     {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
-    {TLobby::load_set_gsl_files, clear_map_set_data},
+    {load_set_gsl_files, clear_map_set_data},
     {load_area_event_sets, (FloorResourceCallback)free_area_event_sets},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
@@ -271,10 +271,10 @@ void reload_offline_area() {
             break;
         }
     }
-    TLobby::reset_quest_state();
+    reset_quest_state();
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
-    TLobby::backup_story_select();
+    backup_story_select();
     TKeyBoardControl::update();
     free_area_event_sets();
     clear_floor_population();
@@ -284,14 +284,14 @@ void reload_offline_area() {
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
     reset_enemy_and_object_ids();
-    TLobby::load_set_gsl_files();
+    load_set_gsl_files();
     load_area_event_sets();
     load_battle_param_entry();
     initialize_floor_transition(&floor_transition_state, 0, 0);
     load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     if (is_area_transfer_pending() != 0) {
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         TLobby::clear_callback_and_reset_keyboard();
     }
     TLobby::clear_callback_and_reset_keyboard();
@@ -330,10 +330,10 @@ void rebuild_area_keep_players() {
     }
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
-    TLobby::sync_story_select();
+    sync_story_select();
     select_episode(0);
     TKeyBoardControl::update();
-    TLobby::reset_quest_state();
+    reset_quest_state();
     free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
@@ -432,7 +432,7 @@ void teardown_scene() {
     TAdSelectGameModeGC::enable_camera();
     stop_audio_streams();
     update_lobby_subsystems();
-    TLobby::reset_quest_state();
+    reset_quest_state();
     main_task.delete_layer_children();
     main_task.resume_layers();
     (tl_su)->delete_children();
@@ -461,7 +461,7 @@ void run_offline_game_frame(void) {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         shutdown_keyboard_control();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     if (get_key_state() != 0) {
@@ -495,7 +495,7 @@ void run_offline_transfer_frame(void) {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         reset_keyboard_input();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     if (get_input() != 0) {
@@ -592,11 +592,11 @@ void init_offline_game_scene(void) {
     set_current_floor_area(0);
     TScene::set_scene(0);
     floor_transition_state.init_range(0);
-    TLobby::reset_keyboard_state();
+    reset_keyboard_state();
     apply_phase_keyboard_mode();
     run_load_callback_table(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();

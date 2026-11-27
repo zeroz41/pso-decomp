@@ -23,6 +23,7 @@
 #include "pso/system/movie/TMovie.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/TCharSaveSequence.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 s32 opening_movie_selector = 1;
@@ -121,7 +122,7 @@ void update_movie_phase(void) {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();

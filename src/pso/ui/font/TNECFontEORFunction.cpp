@@ -334,7 +334,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
 }
 #undef g
 
-s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
+s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
     u8 slot_epoch;
     slot_epoch = ((MenuGlyphEntry *)free_slot)->epoch;
     if (slot_epoch == menu_font_upload_epoch) {
@@ -366,10 +366,10 @@ void *find_cached_glyph(u16 code) {
     if (g[0x80].code == code) {
         return &g[0x80];
     }
-    if (TWindowSubStatusDisp::upload_glyph_if_needed(code, (u8 *)g, &free_slot) != 0) {
+    if (upload_glyph_if_needed(code, (u8 *)g, &free_slot) != 0) {
         return g;
     }
-    if (TWindowSubStatusDisp::upload_glyph_if_needed(code, (u8 *)&g[0x80], &free_slot) != 0) {
+    if (upload_glyph_if_needed(code, (u8 *)&g[0x80], &free_slot) != 0) {
         return &g[0x80];
     }
     p = &menu_font_glyph_table[0x100];
@@ -377,7 +377,7 @@ void *find_cached_glyph(u16 code) {
         if (p->code == code) {
             return p;
         }
-        if (TWindowSubStatusDisp::upload_glyph_if_needed(code, (u8 *)p, &free_slot) != 0) {
+        if (upload_glyph_if_needed(code, (u8 *)p, &free_slot) != 0) {
             return p;
         }
     }
@@ -386,7 +386,7 @@ void *find_cached_glyph(u16 code) {
         if (q->code == code) {
             return q;
         }
-        if (TWindowSubStatusDisp::upload_glyph_if_needed(code, (u8 *)q, &free_slot) != 0) {
+        if (upload_glyph_if_needed(code, (u8 *)q, &free_slot) != 0) {
             return q;
         }
     }
@@ -410,12 +410,12 @@ extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     return entry->width;
 }
 
-void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
+void set_gauge_param(s32 gauge_param) {
     set_texture_list(menu_font_texture_list);
 }
 
 void end_render_forward() { end_screen_draw(); }
-void reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
+void reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;
   TexturedQuad quad;

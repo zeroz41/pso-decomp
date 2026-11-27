@@ -266,7 +266,7 @@ s32 TLobby::check_disconnect_conditions() {
     TLobby::clear_callback_and_reset_keyboard();
     return 0;
 }
-void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
+void TLobby::reset_and_invoke() { reset_keyboard_state(); invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
 
 
 

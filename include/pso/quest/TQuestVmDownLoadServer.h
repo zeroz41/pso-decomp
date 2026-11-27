@@ -81,7 +81,6 @@ public:
     static s32 get_total_blocks();
     static void reset_state_on_format_error(TMCFormatSequence *sequence);
     static void *alloc(u32 size);
-    static s32 is_ready();
     static s32 get_serial_access();
     static s32 poll_serial_access();
     static void reset_download();

@@ -773,7 +773,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
             }
             stop_audio_streams();
             battle_fadeout_done = 0;
-            TLobby::init_fadeout_state(init_and_set_flag);
+            init_fadeout_state(init_and_set_flag);
             ctrl->state_20 = 2;
         }
         break;

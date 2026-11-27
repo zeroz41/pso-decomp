@@ -221,7 +221,7 @@ void TScreenFadeController::step_fade_opacity_decrease() {
 }
 #pragma pop
 
-void TLobby::init_fadeout_state(void (*callback)()) {
+void init_fadeout_state(void (*callback)()) {
     if (screen_fade_controller != NULL) {
         screen_fade_controller->callback = callback;
         screen_fade_controller->alpha = 0.0f;

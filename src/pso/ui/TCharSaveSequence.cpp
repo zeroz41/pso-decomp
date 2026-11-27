@@ -44,6 +44,7 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -365,7 +366,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }
-        if (TQuestVmDownLoadServer::is_ready() != 0) {
+        if (::is_ready() != 0) {
             request_main_phase(0);
         }
     }

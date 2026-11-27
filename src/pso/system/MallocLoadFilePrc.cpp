@@ -804,7 +804,7 @@ NJS_TEXNAME er_mes_texnames[5] = {
 };
 __declspec(section ".data") NJS_TEXLIST er_mes_texlist = { er_mes_texnames, 5 };
 
-void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; clear_controller_reset_request(); }
+void reset_keyboard_state() { area_transfer_pending_flag = 0; clear_controller_reset_request(); }
 
 
 void flag_pending_area_transfer(void) {
@@ -1346,7 +1346,7 @@ TRelDataFile::TRelDataFile(TObject *parent) : TObject(parent) {}
 
 TRelDataFile::TRelDataFile() : TObject(NULL) {}
 
-s32 TQuestVmDownLoadServer::is_ready() {
+s32 is_ready() {
     wait_ready_loop();
     if (memcard_access_active != 0) {
         return 0;
@@ -1410,7 +1410,7 @@ void run_frame() {
     }
     tl_su->debug_render();
     tl_su->debug_update();
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         system_reset();
         lobby_frame_stub();
     }

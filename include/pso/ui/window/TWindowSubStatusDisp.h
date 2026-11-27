@@ -64,8 +64,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void begin_render();
     static const char *get_meseta_unit();
     static u32 calc_text_width(const char *s);
-    static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot);
-    static void set_gauge_param(s32 gauge_param);
     static f32 get_card_window_scale(s32 client_id);
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
@@ -73,6 +71,10 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_entry_display_value(const char *str);
     s32 get_display_mode();
 };
+
+void set_gauge_param(s32 gauge_param);
+
+s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot);
 
 void reset_gauge(void* p);
 

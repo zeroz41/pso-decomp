@@ -24,6 +24,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -56,7 +57,7 @@ void TKeyBoardControl::run_main_frame() {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();

@@ -304,9 +304,9 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
 int selected_episode;
 s32 story_select_pending_state = -1;
 int story_select_current = -1;
-void TLobby::backup_story_select() { selected_episode = story_select_current; }
+void backup_story_select() { selected_episode = story_select_current; }
 
-void TLobby::sync_story_select() { story_select_current = selected_episode; }
+void sync_story_select() { story_select_current = selected_episode; }
 
 s32 get_boss_warp_destination(void) {
     GetBossWarpDestinationTable a = boss_warp_destination_table;

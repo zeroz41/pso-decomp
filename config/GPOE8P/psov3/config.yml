@@ -15410,7 +15410,7 @@ force_active:
   - set_flags_and_apply_damage_color__15RenderFadeStateFv
   - set_flags_and_apply_damage_color__18CameraDistanceFadeFv
   - set_flight_height__13TBoss5GryphonFv
-  - set_gauge_param__20TWindowSubStatusDispFl
+  - set_gauge_param__Fl
   - set_global_flag_100__15TObjBoss2TunnelFv
   - set_grid_pos__11TBoss4Type2FP3Vec
   - set_ground_height__13TBoss5GryphonFv
@@ -17271,7 +17271,7 @@ force_active:
   - remove_from_pack_member_list__14TObjEneBm5WolfFv
   - update_yaw_animation__20TODragonflyMachine01Fv
   - upload_font_glyph__FUsPv
-  - upload_glyph_if_needed__20TWindowSubStatusDispFUsPUcPPv
+  - upload_glyph_if_needed__FUsPUcPPv
   - use_combination_recipe__5TItemFv
   - use_selected_item__14TWindowSubItemFv
   - uses_x__23MagNodeOscillationStateFv
