@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"

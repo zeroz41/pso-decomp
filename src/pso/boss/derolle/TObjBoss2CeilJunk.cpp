@@ -6,7 +6,7 @@
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"

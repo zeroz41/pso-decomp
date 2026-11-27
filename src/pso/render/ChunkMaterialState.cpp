@@ -1,7 +1,6 @@
 #include "types.h"
 #include <string.h>
 #include <dolphin/pad.h>
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/SceneFog.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

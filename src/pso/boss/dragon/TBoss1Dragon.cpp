@@ -78,7 +78,7 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/player/PlayerSlots.h"
 #include "types.h"
 

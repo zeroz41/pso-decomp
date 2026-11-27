@@ -32,7 +32,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
+#include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"

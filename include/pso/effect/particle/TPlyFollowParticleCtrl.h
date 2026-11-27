@@ -3,6 +3,8 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include <dolphin/mtx/GeoTypes.h>
+#include "pso/player/PlayerFollowParticles.h"
 
 struct TPlyFollowParticleCtrl : public TObjCollidable {
     // owner: the actor it follows (its id goes to owner_id, its center is the
@@ -19,5 +21,15 @@ struct TPlyFollowParticleCtrl : public TObjCollidable {
 };
 
 LAYOUT_ASSERT(TPlyFollowParticleCtrl_size, sizeof(TPlyFollowParticleCtrl) == 0xB0);
+
+class TParticleCtrl;
+
+TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 id);
+void emit_idle_water_splash(PlayerHandParticles *owner, const Vec *position);
+TParticleCtrl *emit_player_model_particle(PlayerHandParticles *owner, const Vec *position, s32 id, s32 model);
+TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id);
+void emit_player_sprite_particle(PlayerHandParticles *owner, const Vec *position, s32 id);
+void emit_sand_step_particles(PlayerHandParticles *owner, const Vec *position);
+void emit_water_step_particles(PlayerHandParticles *owner, const Vec *position);
 
 #endif

@@ -8,7 +8,6 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/boss/goldragon/TObjBoss8DemoRoom_8036B654.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"

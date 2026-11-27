@@ -18,7 +18,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"

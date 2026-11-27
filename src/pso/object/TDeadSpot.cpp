@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/ParticleStrip.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"

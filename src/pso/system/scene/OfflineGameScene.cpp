@@ -66,7 +66,7 @@
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"

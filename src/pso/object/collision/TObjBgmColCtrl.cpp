@@ -8,7 +8,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/player/TObjPlayer_8017E4EC.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"

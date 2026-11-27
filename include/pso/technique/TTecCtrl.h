@@ -44,4 +44,6 @@ s32 get_technique_level_tier(s32 level);
 // The flags the technique's caster gets from its boosts and battle values.
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 
+void create_technique_charge_light(u32 kind, void *owner);
+
 #endif

@@ -6,7 +6,6 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/render/render_util.h"

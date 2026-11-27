@@ -69,7 +69,7 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjCharaHelpers.h"

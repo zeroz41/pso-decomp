@@ -132,7 +132,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"

@@ -4,7 +4,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/main_loop.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/player/TObjPlayer.h"

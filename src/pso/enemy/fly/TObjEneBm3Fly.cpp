@@ -35,7 +35,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"

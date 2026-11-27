@@ -56,7 +56,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"

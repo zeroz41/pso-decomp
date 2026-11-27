@@ -27,4 +27,7 @@ struct TObjBgmColCtrl : public TObject {
 LAYOUT_ASSERT(TObjBgmColCtrl_size, sizeof(TObjBgmColCtrl) == 0x20);
 
 int get_quest_bgm_issued_flag(void);
+
+void create_bgm_col_zones(void);
+
 #endif

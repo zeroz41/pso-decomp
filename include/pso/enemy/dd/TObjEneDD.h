@@ -171,4 +171,7 @@ struct BmlResourceDescriptor;
 
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
 
+// Empty in the release build.
+void lappy_render_scale_stub(f32);
+
 #endif

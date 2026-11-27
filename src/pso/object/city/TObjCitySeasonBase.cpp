@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/object/city/CitySeason.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"

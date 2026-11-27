@@ -23,7 +23,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/render/DebugFont.h"

@@ -179,7 +179,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 extern "C" {
 s32 lappy_variant_id;
 }

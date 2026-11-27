@@ -21,7 +21,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/AramPool.h"
 #include "pso/system/BmlResource.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/quest/TQuestListVM.h"
 
 // This TU's .rodata, .sdata and .sbss: each sits between GamePlayerActionProvider's and

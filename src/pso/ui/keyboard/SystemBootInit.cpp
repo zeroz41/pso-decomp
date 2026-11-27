@@ -15,7 +15,6 @@
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/GbaAramCache.h"

@@ -53,7 +53,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"

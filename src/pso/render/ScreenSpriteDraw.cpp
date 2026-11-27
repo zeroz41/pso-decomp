@@ -39,7 +39,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
 #include "pso/render/TextureLoad.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

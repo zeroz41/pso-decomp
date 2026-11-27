@@ -28,7 +28,7 @@
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PhotonBlastResults.h"

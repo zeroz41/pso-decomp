@@ -53,4 +53,7 @@ struct Boss6ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 s32 any_player_has_listed_equipment(void);
 
+// Takes no argument: the body calls check_ship_door() without setting r3.
+s32 is_boss6_ship_door_open(void);
+
 #endif

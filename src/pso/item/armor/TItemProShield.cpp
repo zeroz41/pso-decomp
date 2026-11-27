@@ -1,6 +1,6 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
@@ -24,7 +24,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
-// The item file helpers (TItemDrop_800F93F0.cpp).
+// The item file helpers (MallocLoadFilePrc.cpp).
 // The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
 extern "C" {

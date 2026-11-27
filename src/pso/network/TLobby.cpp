@@ -50,7 +50,7 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyInventory.h"

@@ -59,7 +59,7 @@ struct NJS_OBJECT;
 #include "pso/render/DebugFont.h"
 #include "pso/network/client_id.h"
 
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"

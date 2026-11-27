@@ -68,7 +68,6 @@
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TForceOperate.h"
-#include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/math/ScratchVectors.h"

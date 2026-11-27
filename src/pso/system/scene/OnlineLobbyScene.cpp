@@ -75,7 +75,7 @@
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/area/AreaScene.h"

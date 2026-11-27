@@ -26,7 +26,6 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TRelDataFile.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/TGStream.h"

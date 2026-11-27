@@ -60,8 +60,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
-#include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/render/GinjaView.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
