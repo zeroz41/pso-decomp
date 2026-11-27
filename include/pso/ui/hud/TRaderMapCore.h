@@ -20,12 +20,10 @@ struct RadarViewportParameters
     f32 screen_height;
 };
 
-// One player marker on the radar. draw_player_markers translates it to (x, z), turns it by rot_y,
-// scales it by scale and tints it with color; id -1 marks an empty slot.
+// One player marker on the radar. draw_player_markers translates it to (position.x, position.z),
+// turns it by rot_y, scales it by scale and tints it with color; id -1 marks an empty slot.
 struct RadarPlayerMarker {
-    f32 x;
-    f32 y;
-    f32 z;
+    Vec position;
     s32 rot_y;
     f32 scale;
     s16 unused_14;

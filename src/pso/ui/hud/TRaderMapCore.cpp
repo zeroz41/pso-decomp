@@ -94,7 +94,7 @@ s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
-static const RadarColor4 radar_player_slot_color_table[4] = {
+static const NJS_ARGB radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 0.0f, 0.0f },
     { 1.0f, 0.0f, 1.0f, 0.0f },
     { 1.0f, 1.0f, 1.0f, 0.0f },
@@ -104,7 +104,7 @@ extern "C" {
 NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 
 }
-void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos);
+void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, Vec *pos);
 #define RADAR_REGION_MAP ((struct RadarRegionMap *) TRaderMapCore::floor_map_resource)
 
 
@@ -175,9 +175,9 @@ NJS_OBJECT *TRaderMapCore::init_map_ptr(const s32 *, s32 index) {
 }
 
 void RadarPlayerMarker::reset() {
-    z = 0.0f;
-    y = 0.0f;
-    x = 0.0f;
+    position.z = 0.0f;
+    position.y = 0.0f;
+    position.x = 0.0f;
     rot_y = 0;
     scale = 1.0f;
     unused_14 = 0;
@@ -295,9 +295,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     viewport.center_x = 544.0f;
     viewport.center_y = 140.0f;
     for (j = 0; j < 4; j++) {
-        player_marker_records[j].z = 0.0f;
-        player_marker_records[j].y = 0.0f;
-        player_marker_records[j].x = 0.0f;
+        player_marker_records[j].position.z = 0.0f;
+        player_marker_records[j].position.y = 0.0f;
+        player_marker_records[j].position.x = 0.0f;
         player_marker_records[j].rot_y = 0;
         player_marker_records[j].scale = 22.0f;
         player_marker_records[j].id = -1;
@@ -374,7 +374,7 @@ void TRaderMapCore::run_task() {
                 i += 1;
             } while (i < 4);
         } else {
-            update_radar_auto_discovery(this, 0, &player_marker_records[follow_marker]);
+            update_radar_auto_discovery(this, 0, &player_marker_records[follow_marker].position);
         }
         advance_scroll();
     }
@@ -711,8 +711,8 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
     RadarMapViewState *free_view = view + 1;
     RadarMapViewState *out = view + 2;
     if (this->follow_marker >= 0) {
-        view->camera.px = this->player_marker_records[this->follow_marker].x;
-        view->camera.pz = this->player_marker_records[this->follow_marker].z;
+        view->camera.px = this->player_marker_records[this->follow_marker].position.x;
+        view->camera.pz = this->player_marker_records[this->follow_marker].position.z;
     }
     if (this->view_flags & 1) {
         view->camera.roll = 0x8000 - camera_ctrl_instance->yaw;
@@ -770,7 +770,7 @@ void TRaderMapCore::draw_player_markers() {
     RadarPlayerMarker *marker;
     s32 i;
     saved_model_render_flags = model_render_flags;
-    copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
+    copy_argb(&saved_model_draw_color, &model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= this->radar_render_flags;
@@ -781,7 +781,7 @@ void TRaderMapCore::draw_player_markers() {
         if (marker->id != -1) {
             set_constant_material(&marker->color);
             push_matrix();
-            translate_matrix(0, marker->x, 0.0f, marker->z);
+            translate_matrix(0, marker->position.x, 0.0f, marker->position.z);
             rotate_matrix_y(0, marker->rot_y);
             scale_matrix(0, marker->scale, marker->scale, marker->scale);
             draw_ginja_object(this->player_marker_model);
@@ -793,7 +793,7 @@ void TRaderMapCore::draw_player_markers() {
     } while (i < 4);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
+    copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
 }
 
@@ -801,12 +801,12 @@ void TRaderMapCore::draw_enemy_gate_markers() {
     RadarMarker *g;
     s32 i;
     saved_model_render_flags = model_render_flags;
-    copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
+    copy_argb(&saved_model_draw_color, &model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= this->radar_render_flags;
     set_chunk_material_override_pair(-0xFF01, 0x100);
-    for (i = 0, g = (RadarMarker *)&radar_marker_buffer; i < radar_marker_count; i++, g++) {
+    for (i = 0, g = radar_marker_buffer; i < radar_marker_count; i++, g++) {
         set_radar_marker_color(this, g->color);
         push_matrix();
         translate_matrix(0, g->x, 0.0f, g->z);
@@ -826,7 +826,7 @@ void TRaderMapCore::draw_enemy_gate_markers() {
     set_constant_material(&chunk_material_color_half_alpha_f32);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
+    copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
 }
 
@@ -845,8 +845,8 @@ void TRaderMapCore::gather_player_markers() {
     if (p != NULL) {
         team = p->pk_state.get_team();
         if (p->is_body_collision_inactive() == 0) {
-            VecCopy((Vec *)me, &p->position);
-            me->y = 10.0f;
+            VecCopy(&me->position, &p->position);
+            me->position.y = 10.0f;
             me->rot_y = p->rotation_y;
             me->id = local_client_id;
             follow_marker = 0;
@@ -876,8 +876,8 @@ void TRaderMapCore::gather_player_markers() {
             p = get_player_by_client_id(i);
             if (p != NULL && floor == p->get_floor() &&
                 p->is_body_collision_inactive() == 0) {
-                VecCopy((Vec *)e, &p->position);
-                e->y = 10.0f;
+                VecCopy(&e->position, &p->position);
+                e->position.y = 10.0f;
                 e->rot_y = p->rotation_y;
                 e->id = i;
                 copy_argb(&e->color, (NJS_ARGB *)(&radar_player_slot_color_table[p->get_entity_id()]));
@@ -889,8 +889,8 @@ void TRaderMapCore::gather_player_markers() {
             if (p != NULL && floor == p->get_floor() &&
                 team == p->pk_state.get_team() &&
                 p->is_body_collision_inactive() == 0) {
-                VecCopy((Vec *)e, &p->position);
-                e->y = 10.0f;
+                VecCopy(&e->position, &p->position);
+                e->position.y = 10.0f;
                 e->rot_y = p->rotation_y;
                 e->id = i;
                 if (team == 1) {
@@ -932,7 +932,7 @@ void TRaderMapCore::gather_player_markers() {
 // 15.4f. gather_player_markers lifts a shown player's marker to 10.0f; this reconstruction drops
 // a hidden one below the map. Name inferred.
 void TRaderMapCore::set_marker_shown(s32 slot, s32 shown) {
-    player_marker_records[slot].y = shown ? 10.0f : -10.0f;
+    player_marker_records[slot].position.y = shown ? 10.0f : -10.0f;
 }
 
 // Dead-stripped from the DOL. The target-flag constant is a static const, emitted where its first user is compiled,
@@ -943,7 +943,7 @@ void TRaderMapCore::set_target_flag() {
     view_flags |= radar_view_target_flag;
 }
 
-void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos) {
+void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, Vec *pos) {
     Vec v;
     RadarModelRegion *r;
     s32 i;
@@ -960,7 +960,7 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos) {
                     v.y = r->y + r->model->m->a.y;
                     v.z = r->z + r->model->m->a.z;
                 }
-                if (xz_distance_squared(&v, static_cast<Vec *>(pos)) < r->radius * r->radius) {
+                if (xz_distance_squared(&v, pos) < r->radius * r->radius) {
                     r->flags &= ~1;
                     r->fade = -1.0f;
                 }
@@ -972,8 +972,8 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos) {
 NJS_POINT2 get_follow_marker_position(TRaderMapCore *core) {
     NJS_POINT2 p = { 0.0f, 0.0f };
     if (core->follow_marker >= 0) {
-        p.x = core->player_marker_records[core->follow_marker].x;
-        p.y = core->player_marker_records[core->follow_marker].z;
+        p.x = core->player_marker_records[core->follow_marker].position.x;
+        p.y = core->player_marker_records[core->follow_marker].position.z;
     }
     return p;
 }
