@@ -116,15 +116,22 @@ extern NJS_ARGB color_draw_saved_color;
 extern NJS_ARGB player_feedback_light_color;
 
 void restore_saved_depth_alpha_state(void);
-void *delete_object_if_delete_flag(void *object, s16 del);
-void *clear_first_word(void *object);
+// The 8-byte object __sinit_ZeroedGlobalObject_cpp constructs and registers for destruction; only its first word
+// is ever set.
+class ZeroedGlobalObject {
+public:
+    ZeroedGlobalObject();
+    ~ZeroedGlobalObject();
+    s32 first_word;
+    u8 pad_4[4];
+};
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color);
 void debug_draw_marker(const Vec *pos, f32 size);
 void debug_draw_box(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color);
 extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size);
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color);
-extern "C" void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
+void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 f32 horizontal_distance_squared(const Vec *a, const Vec *b);
 // Normalizes v and returns 1, or returns 0 when v is (nearly) zero.
 s32 normalize_if_nonzero(Vec *v);

@@ -36,7 +36,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
@@ -377,28 +377,26 @@ void reset_floor_items() {
 }
 
 void free_boss_rocks() {
-    mem_free(floor_item_next_sort_keys);
+    delete[] floor_item_next_sort_keys;
     floor_item_next_sort_keys = 0;
-    mem_free(floor_item_free_id_stack);
+    delete[] floor_item_free_id_stack;
     floor_item_free_id_stack = NULL;
     floor_item_free_id_count = 0;
-    mem_free(floor_item_counts_by_floor);
+    delete[] floor_item_counts_by_floor;
     floor_item_counts_by_floor = 0;
-    mem_free(floor_item_row_table);
+    delete[] floor_item_row_table;
     floor_item_row_table = 0;
-    if (floor_item_entry_pool != NULL) {
-        mem_free((char *)floor_item_entry_pool - 0x10);
-    }
+    delete[] floor_item_entry_pool;
     floor_item_entry_pool = NULL;
     floor_items_synced_flag.reset();
 }
 void alloc_objects() {
     floor_item_entry_pool = new FloorItem[0xD80];
-    floor_item_row_table = static_cast<FloorItem **>(mem_alloc(0x48));
-    floor_item_counts_by_floor = static_cast<s32 *>(mem_alloc(0x48));
-    floor_item_free_id_stack = static_cast<u16 *>(mem_alloc(0x40));
+    floor_item_row_table = new FloorItem *[18];
+    floor_item_counts_by_floor = new s32[18];
+    floor_item_free_id_stack = new u16[32];
     floor_item_free_id_count = 0;
-    floor_item_next_sort_keys = static_cast<u16 *>(mem_alloc(0x24));
+    floor_item_next_sort_keys = new u16[18];
     floor_items_synced_flag.reset();
     reset_floor_items();
 }

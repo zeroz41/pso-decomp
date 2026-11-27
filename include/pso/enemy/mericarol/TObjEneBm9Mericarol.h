@@ -7,7 +7,7 @@
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/enemy/TObjEnemyCustom.h"

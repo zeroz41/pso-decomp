@@ -22,7 +22,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/object/TObjCityVerticalModel.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/TObjCityDoorBase.h"
+#include "pso/object/city/TObjCityDoorBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/city/TObjCityDoor_Shop.h"
 #include "pso/object/city/TObjCityDoor_Guild.h"

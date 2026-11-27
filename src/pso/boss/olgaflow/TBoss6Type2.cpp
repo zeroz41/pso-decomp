@@ -1693,7 +1693,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
     if (cnt > avail) {
         cnt = avail;
     }
-    buf = (s32 *)mem_alloc(cnt * 4);
+    buf = new s32[cnt];
     step = (s32)(31.0f * (3.0517578e-05f * (f32)rand()));
     j = 0;
     for (k = 0; k < cnt; k++) {
@@ -1711,7 +1711,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
         avail_tbl[j] = 0;
     }
     send_subordinate_actions_group0(buf, cnt, force);
-    mem_free(buf);
+    delete[] buf;
     play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
 

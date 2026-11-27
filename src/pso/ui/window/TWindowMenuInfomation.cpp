@@ -13,16 +13,16 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/HeadingEntry.h"
 
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
 static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};

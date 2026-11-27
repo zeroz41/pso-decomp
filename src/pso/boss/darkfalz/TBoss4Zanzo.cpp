@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/TObjChara.h"
@@ -17,7 +17,7 @@
 #pragma dont_inline off
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/DarkFalzUtil.h"
@@ -1099,7 +1099,7 @@ void TBoss4Zanzo::render() {
 }
 #pragma pop
 
-Vec *TObjPlayer::get_position_ptr() { return &this->position; }
+Vec *TObjBase::get_position_ptr() { return &this->position; }
 
 // Dark Falz's first form ignores every status ailment.
 void TBoss4Type1::clear_harmful_statuses() {}

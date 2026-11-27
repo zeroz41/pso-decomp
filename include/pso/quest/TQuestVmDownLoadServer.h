@@ -110,6 +110,9 @@ struct QuestDownloadRecord {
     char title[0x24];
     s32 size;
     u8 *data;
+
+    // The file as the 32-bit words the download cipher runs over.
+    u32 *words() const { return (u32 *)data; }
 };
 
 extern QuestDownloadRecord quest_download_file_state; // .dat

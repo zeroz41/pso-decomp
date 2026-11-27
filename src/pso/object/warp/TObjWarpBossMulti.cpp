@@ -43,7 +43,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"

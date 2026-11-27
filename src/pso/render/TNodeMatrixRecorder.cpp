@@ -66,7 +66,7 @@ void TNodeMatrixRecorder::record_pose(NJS_MOTION *new_motion, f32 new_frame) {
 }
 
 TNodeMatrixRecorder::~TNodeMatrixRecorder() {
-    mem_free(node_matrices);
+    delete[] node_matrices;
 }
 
 TNodeMatrixRecorder::TNodeMatrixRecorder(TObject *parent, NJS_OBJECT *model) : TObject(parent) {
@@ -75,7 +75,7 @@ TNodeMatrixRecorder::TNodeMatrixRecorder(TObject *parent, NJS_OBJECT *model) : T
     frame = 0.0f;
     draw_cursor = 0;
     node_count = count_tree_nodes(model);
-    node_matrices = static_cast<GC_Mtx *>(mem_alloc(node_count * sizeof(*node_matrices)));
+    node_matrices = new GC_Mtx[node_count];
     draw_callback = NULL;
     node_callback = 0;
 }

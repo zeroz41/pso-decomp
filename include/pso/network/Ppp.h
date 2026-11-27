@@ -55,7 +55,7 @@ void ipcp_opening(PppFsm *fsm);
 s16 wait_for_connection(PppFsm *c);
 s32 pap_set_secret(u8 *source, u8 *pap_password, PppFsm *ppp_fsm);
 s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout);
-s16 PP_pap_monitor(void *fsm, u32 timeout);
+s16 PP_pap_monitor(PppFsm *fsm, u32 timeout);
 s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
 void setup_auth_after_lcp_negotiation(PppFsm *c);
 s16 vj_remember_uncompressed(PppVjCompressionState *state, PppFrame **spp);

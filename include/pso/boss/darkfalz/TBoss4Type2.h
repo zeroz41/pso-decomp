@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include <stddef.h>
 
 struct BmlResource;

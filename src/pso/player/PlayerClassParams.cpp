@@ -31,7 +31,6 @@
 extern "C" {
 s32 clamp_class_index(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
-s32 get_class_max_exp(TObjPlayer *player);
 }
 // The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
 PlayerLevelTableRow ***ply_level_table;

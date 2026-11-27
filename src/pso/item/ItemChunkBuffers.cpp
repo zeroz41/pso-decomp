@@ -8,6 +8,6 @@ void init_item_chunk_buffers(void) {
     item_buffer_temp_mode = 0;
     item_buff_buffer = NULL;
     for (i = 0; i != 2; i++) {
-        item_nj_chunk_buffer_table[i] = (char *)mem_alloc(0x200);
+        item_nj_chunk_buffer_table[i] = new char[0x200];
     }
 }

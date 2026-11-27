@@ -32,7 +32,7 @@ void TItemLockCountCtrl::lock(s32 index) {
 
 
 TItemLockCountCtrl::~TItemLockCountCtrl() {
-    mem_free(lock_counts);
+    delete[] lock_counts;
 }
 
 const char *item_lock_count_ctrl_name = "TItemLockCountCtrl";
@@ -42,7 +42,7 @@ TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 count, TItemLockCoun
     s32 size = count * 4;
     m_name = item_lock_count_ctrl_name;
     this->count = count;
-    lock_counts = (s32 *)mem_alloc(size);
+    lock_counts = (s32 *)::operator new[](size);
     this->on_first_lock = on_first_lock;
     this->on_last_unlock = on_last_unlock;
     memset(lock_counts, 0, size);

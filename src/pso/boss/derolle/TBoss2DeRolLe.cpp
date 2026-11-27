@@ -604,7 +604,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data) : TObjEn
         part_points[i].y = 0.0f;
         part_points[i].z = 0.0f;
     }
-    tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
+    tentacle_matrices = new GC_Mtx[4];
     for (i = 0; i < 4; i++) {
         set_matrix_identity((u8 *)tentacle_matrices[i]);
         tentacles[i] = new TBoss2Tentacle(&part_group, tentacle_matrices[i], i);
@@ -653,7 +653,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data) : TObjEn
     body_color.r = 1.0f;
     body_color.g = 1.0f;
     body_color.b = 1.0f;
-    node_matrices = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
+    node_matrices = new GC_Mtx[12];
     for (i = 0; i < 12; i++) {
         set_matrix_identity((u8 *)node_matrices[i]);
     }
@@ -718,7 +718,7 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
             splash_ctrls[i] = NULL;
         }
     }
-    mem_free(node_matrices);
+    delete[] node_matrices;
     node_matrices = NULL;
     if (hit_trail != NULL) {
         hit_trail->queue_destruction();
@@ -756,7 +756,7 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
         tentacles[i]->queue_destruction();
         tentacles[i] = NULL;
     }
-    mem_free(tentacle_matrices);
+    delete[] tentacle_matrices;
     free_collision_body_parts(this);
     if (TBoss2DeRolLe::instance == this) {
         TBoss2DeRolLe::instance = NULL;

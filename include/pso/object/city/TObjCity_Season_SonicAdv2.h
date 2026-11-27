@@ -2,7 +2,7 @@
 #define PSO_OBJECT_CITY_TOBJCITY_SEASON_SONICADV2_H
 
 #include "types.h"
-#include "pso/object/TObjCitySeasonBase.h"
+#include "pso/object/city/TObjCitySeasonBase.h"
 
 struct TObjCity_Season_SonicAdv2 : public TObjCitySeasonBase {
     static const char *class_name;

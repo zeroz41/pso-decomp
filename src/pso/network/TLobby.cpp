@@ -2,7 +2,7 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/TradeSession.h"
-#include "pso/unk/GuildCardRecord.h"
+#include "pso/network/GuildCardRecord.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -13,7 +13,7 @@
 #include "pso/system/CxxRuntime.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
-#include "pso/unk/TLobbyIdleTimer.h"
+#include "pso/network/TLobbyIdleTimer.h"
 #include "pso/system/date.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
@@ -32,7 +32,7 @@
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/AreaEventSet.h"
-#include "pso/unk/TLobbyAutoReply.h"
+#include "pso/network/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/network/LegacyEnemyKill.h"
@@ -82,7 +82,7 @@
 #include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TTitleScene.h"
+#include "pso/ui/frontend/TTitleScene.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/PlayerSyncRecord.h"
@@ -490,7 +490,7 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt) {
 void TLobby::send_6x70_player_data(int size) {
     PlayerSyncRecord record;
     PlayerSyncPacket *packet;
-    packet = (PlayerSyncPacket *)mem_alloc(0x494);
+    packet = (PlayerSyncPacket *)::operator new[](0x494);
     if (packet != NULL) {
         get_player_by_client_id(local_client_id)->fill_player_record(&packet->record);
         packet->header.subcommand = 0x70;
@@ -498,7 +498,7 @@ void TLobby::send_6x70_player_data(int size) {
         packet->header.client_id = local_client_id;
         packet->total_size = 0x494;
         bswap_and_send_extended_subcommand(packet, size);
-        mem_free(packet);
+        ::operator delete[](packet);
     }
 }
 
@@ -550,7 +550,7 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
     if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         len = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, pkt->total_size);
-        buf = (G_SyncItemState_6x6D_Decompressed *)mem_alloc(0x8000);
+        buf = (G_SyncItemState_6x6D_Decompressed *)::operator new[](0x8000);
         if (buf != NULL) {
             lz = new Lzss;
             if (lz != NULL) {
@@ -558,7 +558,7 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
                 delete lz;
             }
             buf->apply();
-            mem_free(buf);
+            ::operator delete[](buf);
         }
     }
 }
@@ -621,7 +621,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
     CompressedSyncPacket *buf;
     GameStateSyncScratch *hdr;
     Lzss *lz;
-    buf = (CompressedSyncPacket *)mem_alloc(0x4000);
+    buf = (CompressedSyncPacket *)::operator new[](0x4000);
     if (buf != NULL) {
         memset(buf, 0, 0x4000);
         hdr = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
@@ -647,7 +647,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
         buf->header.unused = 0;
         buf->total_size = ((len + 3) & ~3) + 8;
         bswap_and_send_extended_subcommand(buf, size);
-        mem_free(buf);
+        delete[] buf;
     }
 }
 
@@ -657,10 +657,10 @@ void TLobby::send_6x6D_item_state(s32 client) {
     CompressedSyncPacket *buf;
     G_SyncItemState_6x6D_Decompressed *src;
     Lzss *lz;
-    buf = (CompressedSyncPacket *)mem_alloc(0x8000);
+    buf = (CompressedSyncPacket *)::operator new[](0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
-        src = (G_SyncItemState_6x6D_Decompressed *)mem_alloc(0x8000);
+        src = (G_SyncItemState_6x6D_Decompressed *)::operator new[](0x8000);
         if (src != NULL) {
             memset(src, 0, 0x8000);
             n = src->write();
@@ -669,14 +669,14 @@ void TLobby::send_6x6D_item_state(s32 client) {
                 len = lz->encode(src, n, buf->data);
                 delete lz;
             }
-            mem_free(src);
+            ::operator delete[](src);
         }
         buf->header.subcommand = 0x6D;
         buf->header.size = 0;
         buf->header.unused = 0;
         buf->total_size = ((len + 3) & ~3) + 8;
         bswap_and_send_extended_subcommand(buf, client);
-        mem_free(buf);
+        delete[] buf;
     }
 }
 
@@ -689,7 +689,7 @@ void TLobby::send_compressed_packet_6c(s32 client) {
     u32 n;
     QuestObjectEntry *p;
     u32 i;
-    buf = (CompressedSyncPacket *)mem_alloc(0x8000);
+    buf = (CompressedSyncPacket *)::operator new[](0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
         lz = new Lzss;
@@ -697,13 +697,13 @@ void TLobby::send_compressed_packet_6c(s32 client) {
             src = quest_object_entries;
             size = object_condition_count * 4;
             n = size / 4;
-            p = (QuestObjectEntry *)mem_alloc(size);
+            p = (QuestObjectEntry *)::operator new[](size);
             memcpy(p, src, size);
             for (i = 0; i < n; i++) {
                 p[i].bswap();
             }
             len = lz->encode(p, size, buf->data);
-            mem_free(p);
+            delete[] p;
             delete lz;
             buf->header.subcommand = 0x6C;
             buf->header.size = 0;
@@ -711,7 +711,7 @@ void TLobby::send_compressed_packet_6c(s32 client) {
             buf->total_size = ((len + 3) & ~3) + 8;
             bswap_and_send_extended_subcommand(buf, client);
         }
-        mem_free(buf);
+        delete[] buf;
     }
 }
 
@@ -724,7 +724,7 @@ void TLobby::send_cmd_6B(s32 client) {
     u32 n;
     EnemyStateRecord *p;
     u32 i;
-    buf = (CompressedSyncPacket *)mem_alloc(0x8000);
+    buf = (CompressedSyncPacket *)::operator new[](0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
         lz = new Lzss;
@@ -732,13 +732,13 @@ void TLobby::send_cmd_6B(s32 client) {
             src = enemy_state_records;
             size = enemy_condition_count * sizeof(EnemyStateRecord);
             n = size / sizeof(EnemyStateRecord);
-            p = (EnemyStateRecord *)mem_alloc((s32)(n * sizeof(EnemyStateRecord)));
+            p = new EnemyStateRecord[n];
             memcpy(p, src, size);
             for (i = 0; i < n; i++) {
                 p[i].bswap();
             }
             len = lz->encode(p, size, buf->data);
-            mem_free(p);
+            delete[] p;
             delete lz;
             buf->header.subcommand = 0x6B;
             buf->header.size = 0;
@@ -746,7 +746,7 @@ void TLobby::send_cmd_6B(s32 client) {
             buf->total_size = ((len + 3) & ~3) + 8;
             bswap_and_send_extended_subcommand(buf, client);
         }
-        mem_free(buf);
+        delete[] buf;
     }
 }
 
@@ -1171,7 +1171,7 @@ void TLobby::handle_comcard_window() {
             protocol_instance->send_action(
                 protocol_instance->m_game_entries[lobby_selected_game_list_index],
                 "", text);
-            mem_free(text);
+            delete[] text;
             lobby_keyboard_controller->queue_destruction();
             lobby_keyboard_controller = NULL;
             lobby_keyboard_prompt_window->close();

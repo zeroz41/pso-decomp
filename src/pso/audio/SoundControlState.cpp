@@ -1,4 +1,4 @@
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxUiBridge.h"
 #include "musyx/musyx.h"

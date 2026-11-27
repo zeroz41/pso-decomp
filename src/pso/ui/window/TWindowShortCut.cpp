@@ -21,9 +21,9 @@
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/ItemListRow.h"
 
 const char *TWindowShortCut::class_name = "TWindowShortCut";
 

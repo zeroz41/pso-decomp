@@ -2,7 +2,7 @@
 #define PSO_UI_WINDOW_TGAMELISTROW_H
 
 #include "types.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 // One game of the game list: the lock icon, the game name, its episode, mode and difficulty
 // columns and the player count (case 12 of init_window_layout_entries).

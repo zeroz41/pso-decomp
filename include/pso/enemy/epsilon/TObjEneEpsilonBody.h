@@ -2,7 +2,7 @@
 #define PSO_ENEMY_EPSILON_TOBJENEEPSILONBODY_H
 #include "types.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 

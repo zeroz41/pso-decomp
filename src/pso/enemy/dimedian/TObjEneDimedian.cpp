@@ -2,7 +2,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -26,7 +26,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TextureState.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/network/TLobby.h"
@@ -376,19 +376,19 @@ f32 **dimedian_buffer_ptr;
 
 void TObjEneDimedian::free_boss_objects() {
     if (dimedian_boss_object_buf != NULL) {
-        mem_free(dimedian_boss_object_buf);
+        delete[] dimedian_boss_object_buf;
         dimedian_boss_object_buf = NULL;
     }
     if (dimedian_attack_stat_table != NULL) {
-        mem_free(dimedian_attack_stat_table);
+        delete[] dimedian_attack_stat_table;
         dimedian_attack_stat_table = NULL;
     }
     if (dimedian_boss_objects != NULL) {
-        mem_free(dimedian_boss_objects);
+        delete[] dimedian_boss_objects;
         dimedian_boss_objects = NULL;
     }
     if (dimedian_buffer_ptr != NULL) {
-        mem_free(dimedian_buffer_ptr);
+        delete[] dimedian_buffer_ptr;
         dimedian_buffer_ptr = NULL;
     }
     if (dimedian_attack_right_trail != NULL) {
@@ -425,10 +425,10 @@ void TObjEneDimedian::load_resources() {
     dimedian_attack_right_trail = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     dimedian_attack_left_trail->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[3].motion].motion, 5, 8);
     dimedian_attack_right_trail->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[4].motion].motion, 0xA, 0xD);
-    dimedian_boss_object_buf = static_cast<player_stats **>(mem_alloc(0xC));
-    dimedian_attack_stat_table = static_cast<AttackParams **>(mem_alloc(0xC));
-    dimedian_boss_objects = static_cast<ActorParamBlock **>(mem_alloc(0xC));
-    dimedian_buffer_ptr = (f32 **)mem_alloc(0xC);
+    dimedian_boss_object_buf = new player_stats *[3];
+    dimedian_attack_stat_table = new AttackParams *[3];
+    dimedian_boss_objects = new ActorParamBlock *[3];
+    dimedian_buffer_ptr = new f32 *[3];
     dimedian_boss_object_buf[0] = register_boss(0x53);
     dimedian_boss_object_buf[1] = register_boss(0x54);
     dimedian_boss_object_buf[2] = register_boss(0x55);

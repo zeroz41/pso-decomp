@@ -14,7 +14,7 @@ void TItemBuff::free_all_and_init() {
     i = 0;
     table = item_nj_chunk_buffer_table;
     do {
-        mem_free(table[index]);
+        delete[] table[index];
         i += 1;
         table[index] = NULL;
         index += 1;

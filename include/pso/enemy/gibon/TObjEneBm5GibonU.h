@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "dolphin/mtx.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/system/CxxRuntime.h"
 

@@ -2,7 +2,7 @@
 #define PSO_ENEMY_NANODRAGO_TOBJENENANODRAGO_H
 
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/render/RenderFadeState.h"
 
 struct BmlResource;

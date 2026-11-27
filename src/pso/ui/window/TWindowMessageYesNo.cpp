@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/WindowMenuFactory.h"

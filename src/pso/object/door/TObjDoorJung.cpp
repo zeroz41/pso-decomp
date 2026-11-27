@@ -38,10 +38,10 @@ BmlResourceDescriptor bm_obj_beamdoa_resource_descriptor = {
 CollisionBody door_jung_collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *door_jung_class_name = "TObjDoorJung";
 
-void *door_jung_child_table[4];
+GinjaModel *door_jung_child_table[4];
 BmlResource *door_jung_resource_handle;
 NJS_TEXLIST *door_jung_texlist;
-void *door_jung_child_list;
+GinjaModel *door_jung_child_list;
 s32 door_jung_scroll_tick;
 UvScrollBuffer *door_jung_door_scene_buffer;
 s32 door_jung_signal_red_texture;
@@ -73,11 +73,11 @@ void load_door_jung_resources(void) {
     door_jung_texlist = get_bml_texlist(door_jung_resource_handle, 0);
     model = get_bml_model(door_jung_resource_handle, 1);
     node = model->child;
-    door_jung_child_table[0] = node->model;
-    door_jung_child_table[1] = node->child->model;
-    door_jung_child_table[2] = node->child->child->model;
-    door_jung_child_table[3] = node->child->child->child->model;
-    door_jung_child_list = model->child->sibling->model;
+    door_jung_child_table[0] = node->ginja_model;
+    door_jung_child_table[1] = node->child->ginja_model;
+    door_jung_child_table[2] = node->child->child->ginja_model;
+    door_jung_child_table[3] = node->child->child->child->ginja_model;
+    door_jung_child_list = model->child->sibling->ginja_model;
     door_jung_scroll_tick = 0;
     const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
     door_jung_signal_red_texture = find_texture_entry_by_name(door_jung_texlist, parts[0]);

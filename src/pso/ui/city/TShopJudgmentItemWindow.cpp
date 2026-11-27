@@ -33,7 +33,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"

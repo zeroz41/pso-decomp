@@ -73,8 +73,8 @@ Vec *TPlyPtclObjectLeftHand::get_center() {
     if (player == NULL) {
         return NULL;
     }
-    player->get_anim_node_position(0x23, ((TObjPlayer *)this)->get_position_ptr());
-    return ((TObjPlayer *)this)->get_position_ptr();
+    player->get_anim_node_position(0x23, get_position_ptr());
+    return get_position_ptr();
 }
 
 TPlyPtclObjectRightHand::TPlyPtclObjectRightHand(TObjBase *owner) : TPlyFollowParticleCtrl(owner) {
@@ -89,8 +89,8 @@ Vec *TPlyPtclObjectRightHand::get_center() {
     if (player == NULL) {
         return NULL;
     }
-    player->get_anim_node_position(0x30, ((TObjPlayer *)this)->get_position_ptr());
-    return ((TObjPlayer *)this)->get_position_ptr();
+    player->get_anim_node_position(0x30, get_position_ptr());
+    return get_position_ptr();
 }
 
 TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id) { return spawn_particle_effect(position, id); }

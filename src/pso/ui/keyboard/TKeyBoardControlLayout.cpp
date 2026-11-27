@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/network/TLobby.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 
 void TKeyBoardControl::hide() {
     u16 cur_flags;
@@ -85,7 +85,7 @@ void TKeyBoardControl::set_text(const char *s) {
 char *TKeyBoardControl::realloc_buffer() {
     char *out;
 
-    out = (char *)mem_alloc(m_base->measure_text_overflow());
+    out = new char[m_base->measure_text_overflow()];
     m_base->export_text(out);
     return out;
 }

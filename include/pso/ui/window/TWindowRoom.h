@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <stddef.h>
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct TWindowRoom : public TWindowBase {
     f32 tabParameter;

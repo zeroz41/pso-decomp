@@ -159,9 +159,9 @@ void StripBufferPair::scroll_uvs(s16 scroll_u, s16 scroll_v) {
 }
 
 StripBufferPair::~StripBufferPair() {
-    mem_free(uvs);
+    delete[] uvs;
     uvs = NULL;
-    mem_free(strips);
+    delete[] strips;
     strips = NULL;
 }
 
@@ -172,8 +172,8 @@ StripBufferPair::StripBufferPair(NJS_OBJECT *model, s32 texture_filter) {
     uv_count = 0;
     plist_texture_matches_filter = 0;
     count_model_strips_by_texture(model, texture_filter);
-    strips = (StripUvRef *)mem_alloc(strip_count * 8);
-    uvs = (s16 *)mem_alloc(uv_count * 4);
+    strips = new StripUvRef[strip_count];
+    uvs = new s16[uv_count * 2];
     plist_strip_write_ptr = strips;
     plist_strip_uv_write_ptr = uvs;
     plist_texture_matches_filter = 0;

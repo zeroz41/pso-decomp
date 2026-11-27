@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowDD.h"
 
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -318,7 +318,7 @@ void TWindowMessage::run_task() {
 }
 
 TWindowMessage::~TWindowMessage() {
-    if (this->lines != NULL) { mem_free(this->lines); }
+    if (this->lines != NULL) { delete[] this->lines; }
 }
 TWindowMessage::TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)position) {
     u32 i;
@@ -331,7 +331,7 @@ TWindowMessage::TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client)
     line_display_ticks = 0xB4;
     target_scroll_y = 0.0f;
     next_line_y = 0.0f;
-    lines = static_cast<TWindowMessageLine *>(mem_alloc(rows * sizeof(*lines)));
+    lines = new TWindowMessageLine[rows];
     line = lines;
     for (i = 0; i < rows; i++) {
         line->flags = 0;

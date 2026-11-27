@@ -18,7 +18,7 @@
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ProjectedStripDraw.h"
-#include "pso/boss/TBoss3VoloptParticleSpray.h"
+#include "pso/boss/volopt/TBoss3VoloptParticleSpray.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixReflect.h"

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowDD_WordSelect.h"
 
 #pragma readonly_strings on
@@ -25,27 +25,27 @@ extern const f32 window_dd_quad_scales[8] = {16.0f, 16.0f, 16.0f, 16.0f, 20.0f, 
 
 const char *TWindowDD_WS_ScrollBar::class_name = "TWindowDD_WS_ScrollBar";
 
-f32 scroll_track_cap_offset;
-f32 scroll_track_inset;
-f32 scroll_texel_scale;
-f32 scroll_arrow_v0;
-f32 scroll_arrow_v1;
-f32 scroll_up_arrow_u0;
-f32 scroll_up_arrow_u1;
-f32 scroll_down_arrow_u0;
-f32 scroll_down_arrow_u1;
-f32 scroll_track_u0;
-f32 scroll_track_u1;
-f32 scroll_track_top_v0;
-f32 scroll_track_top_v1;
-f32 scroll_track_bottom_v0;
-f32 scroll_track_bottom_v1;
-f32 scroll_thumb_v0;
-f32 scroll_thumb_v1;
+// The bar's texture coordinates and layout, from the scroll_bar_* layout constants.
+f32 scroll_track_cap_offset = 17.0f + scroll_arrow_margin;
+f32 scroll_track_inset = 14.0f + (17.0f + scroll_arrow_margin);
+f32 scroll_texel_scale = window_dd_texel_scale;
+f32 scroll_arrow_v0 = scroll_arrow_v * scroll_texel_scale;
+f32 scroll_arrow_v1 = scroll_texel_scale * (scroll_arrow_v + scroll_arrow_texture_height);
+f32 scroll_up_arrow_u0 = scroll_arrow_up_u * scroll_texel_scale;
+f32 scroll_up_arrow_u1 = scroll_texel_scale * (scroll_arrow_up_u + scroll_arrow_size);
+f32 scroll_down_arrow_u0 = scroll_arrow_down_u * scroll_texel_scale;
+f32 scroll_down_arrow_u1 = scroll_texel_scale * (scroll_arrow_down_u + scroll_arrow_size);
+f32 scroll_track_u0 = 224.0f * scroll_texel_scale;
+f32 scroll_track_u1 = 238.0f * scroll_texel_scale;
+f32 scroll_track_top_v0 = 58.0f * scroll_texel_scale;
+f32 scroll_track_top_v1 = 72.0f * scroll_texel_scale;
+f32 scroll_track_bottom_v0 = 86.0f * scroll_texel_scale;
+f32 scroll_track_bottom_v1 = 100.0f * scroll_texel_scale;
+f32 scroll_thumb_v0 = 72.0f * scroll_texel_scale;
+f32 scroll_thumb_v1 = 86.0f * scroll_texel_scale;
 
-// Filled in by the static initialiser from the scroll_bar_* layout constants.
-__declspec(section ".data") NJS_POINT2 scroll_bar_position = {0.0f, 0.0f};
-WindowDescriptor scroll_bar_descriptor = {{0.0f, 0.0f}, 0.0f, 0, 3};
+__declspec(section ".data") NJS_POINT2 scroll_bar_position = {scroll_bar_x, scroll_bar_y};
+WindowDescriptor scroll_bar_descriptor = {{scroll_bar_width, scroll_bar_height}, scroll_bar_depth, 0, 3};
 
 #pragma push
 #pragma dont_inline off
@@ -179,34 +179,6 @@ void TWindowDD_WS_ScrollBar::render() {
 // Defer the remaining functions to preserve the original vtable and constructor layout.
 #pragma defer_codegen on
 
-// Fills in the bar's texture coordinates and layout, spelled out because the original's static initializer precedes
-// this file's deferred functions.
-void __sinit_TWindowDD_WS_ScrollBar_cpp() {
-    scroll_track_cap_offset = 17.0f + scroll_arrow_margin;
-    scroll_track_inset = 14.0f + (17.0f + scroll_arrow_margin);
-    scroll_texel_scale = window_dd_texel_scale;
-    scroll_arrow_v0 = scroll_arrow_v * scroll_texel_scale;
-    scroll_arrow_v1 = scroll_texel_scale * (scroll_arrow_v + scroll_arrow_texture_height);
-    scroll_up_arrow_u0 = scroll_arrow_up_u * scroll_texel_scale;
-    scroll_up_arrow_u1 = scroll_texel_scale * (scroll_arrow_up_u + scroll_arrow_size);
-    scroll_down_arrow_u0 = scroll_arrow_down_u * scroll_texel_scale;
-    scroll_down_arrow_u1 = scroll_texel_scale * (scroll_arrow_down_u + scroll_arrow_size);
-    scroll_track_u0 = 224.0f * scroll_texel_scale;
-    scroll_track_u1 = 238.0f * scroll_texel_scale;
-    scroll_track_top_v0 = 58.0f * scroll_texel_scale;
-    scroll_track_top_v1 = 72.0f * scroll_texel_scale;
-    scroll_track_bottom_v0 = 86.0f * scroll_texel_scale;
-    scroll_track_bottom_v1 = 100.0f * scroll_texel_scale;
-    scroll_thumb_v0 = 72.0f * scroll_texel_scale;
-    scroll_thumb_v1 = 86.0f * scroll_texel_scale;
-    scroll_bar_position.x = scroll_bar_x;
-    scroll_bar_position.y = scroll_bar_y;
-    scroll_bar_descriptor.size[0] = scroll_bar_width;
-    scroll_bar_descriptor.size[1] = scroll_bar_height;
-    scroll_bar_descriptor.sort_depth = scroll_bar_depth;
-}
-
-__declspec(section ".ctors") static void *const scroll_bar_global_initializer = (void *)__sinit_TWindowDD_WS_ScrollBar_cpp;
 
 TWindowDD_WS_ScrollBar *TWindowDD_WS_ScrollBar::create() { return new TWindowDD_WS_ScrollBar; }
 

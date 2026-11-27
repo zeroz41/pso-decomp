@@ -377,7 +377,6 @@ struct TObjPlayer : public TObjChara {
     // Set while a menu window holds the player's input, with the action buttons masked.
     s32 is_controls_locked();
     s32 is_drop_weapon_on_death_disabled();
-    Vec *get_position_ptr();
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
     static void set_com_card_window(s32 client);
@@ -493,7 +492,6 @@ struct TObjPlayer : public TObjChara {
     void set_evade_materials_used(u8 v);
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
-    int get_action_motion_type();
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();

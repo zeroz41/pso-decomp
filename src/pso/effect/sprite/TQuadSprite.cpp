@@ -21,9 +21,9 @@ void TQuadSprite::quad_sprite_reset_entries() {
 }
 
 TQuadSprite::~TQuadSprite() {
-    mem_free(tails);
+    delete[] tails;
     tails = NULL;
-    mem_free(lists);
+    delete[] lists;
     lists = NULL;
 }
 
@@ -32,7 +32,7 @@ TQuadSprite::TQuadSprite(TObject *parent, ParticleDefinition *sprite_definition)
 
     definition = sprite_definition;
     count = definition->uv_count;
-    lists = (QuadSpriteNode *)mem_alloc(count * sizeof(QuadSpriteNode));
-    tails = (QuadSpriteNode **)mem_alloc(count * sizeof(QuadSpriteNode *));
+    lists = new QuadSpriteNode[count];
+    tails = new QuadSpriteNode *[count];
     quad_sprite_reset_entries();
 }

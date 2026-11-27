@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 
 
 extern const char file_extension_dot = '.';

@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"

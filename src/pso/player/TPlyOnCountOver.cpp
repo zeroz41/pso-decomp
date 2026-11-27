@@ -7,7 +7,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/network/TPlyOnCountOver.h"
+#include "pso/player/TPlyOnCountOver.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"

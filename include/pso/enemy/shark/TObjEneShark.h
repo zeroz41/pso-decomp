@@ -2,8 +2,8 @@
 #define PSO_ENEMY_SHARK_TOBJENESHARK_H
 
 #include "types.h"
-#include "pso/enemy/TObjEneBeastBase.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/render/RenderFadeState.h"
 
 class TAttackTraceStrip;

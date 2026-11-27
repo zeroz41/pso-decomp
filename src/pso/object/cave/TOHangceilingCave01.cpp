@@ -10,7 +10,7 @@
 #include "pso/object/cave/TOHangceilingCave01KeyQuick.h"
 #include "pso/object/cave/TOHangceilingCave01Key.h"
 #include "pso/object/cave/TOHangceilingCave01Normal.h"
-#include "pso/unk/TOHangceilingCaveBase.h"
+#include "pso/object/cave/TOHangceilingCaveBase.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -111,7 +111,7 @@ void load_turiten_singo_resources(void) {
     case AREA_VR_TEMPLE_BETA:
         p = new BmlResource(5, &turiten_singo_resource_descriptor, 0, 0, NULL);
         hangceiling_cave01_model_archive = p;
-        turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
+        turiten_singo_texture_lists = new NJS_TEXLIST *[3];
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
         turiten_singo_texture_lists[2] = get_bml_texlist(hangceiling_cave01_model_archive, 0);
@@ -123,7 +123,7 @@ void load_turiten_singo_resources(void) {
     default:
         p = new BmlResource(5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, NULL);
         hangceiling_cave01_model_archive = p;
-        turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
+        turiten_singo_texture_lists = new NJS_TEXLIST *[3];
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
         turiten_singo_texture_lists[2] = get_bml_texlist(hangceiling_cave01_model_archive, 1);
@@ -139,7 +139,7 @@ void TOHangceilingCave01::destroy_instance() {
         free_if_valid(turiten_singo_texture_lists[1]);
         free_if_valid(turiten_singo_texture_lists[0]);
         if (turiten_singo_texture_lists != NULL) {
-            mem_free(turiten_singo_texture_lists);
+            delete[] turiten_singo_texture_lists;
             turiten_singo_texture_lists = NULL;
         }
     }

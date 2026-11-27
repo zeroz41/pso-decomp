@@ -399,7 +399,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     default:
         return screen;
     }
-    set_ginja_model_texture_slot(model->model, static_cast<u16>(slot));
+    set_ginja_model_texture_slot(model->ginja_model, static_cast<u16>(slot));
     push_matrix();
     ::draw_ginja_model(model->model);
     return pop_matrix();

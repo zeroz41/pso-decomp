@@ -19,7 +19,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/player/LocalClientId.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -625,7 +625,7 @@ void qst_op_scroll_text() {
     s32 frame_mode = qst_args[4].i;
     f32 timer = qst_args[5].f;
     s32 msg = qst_args[6].i;
-    s32 arg = qst_args[7].i;
+    const char *text = qst_args[7].str;
     TWindowMessageScroll *win;
 
     if (qst_message_window != NULL) {
@@ -637,7 +637,7 @@ void qst_op_scroll_text() {
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     win = open_message_scroll_window(&pos, &size, &qst_registers[msg].i);
     win->set_frame_mode(frame_mode);
-    dispatch_message_window_text(win, (const char *)arg, 0x13);
+    dispatch_message_window_text(win, text, 0x13);
     win->set_scroll_speed(timer);
     qst_message_window = win;
 }
@@ -719,7 +719,7 @@ void qst_op_chat_box() {
     s32 cols = qst_args[2].i;
     s32 rows = qst_args[3].i;
     s32 frame_mode = qst_args[4].i;
-    s32 arg = qst_args[5].i;
+    const char *text = qst_args[5].str;
 
     if (qst_message_window != NULL) {
         qst_message_window->close();
@@ -730,7 +730,7 @@ void qst_op_chat_box() {
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     qst_message_window = create_quest_message_window_at(&pos, &size);
     qst_message_window->set_frame_mode(frame_mode);
-    dispatch_message_window_text(qst_message_window, (const char *)arg, 3);
+    dispatch_message_window_text(qst_message_window, text, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
     close_window_if_active(local_client_id);
@@ -2817,7 +2817,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u8 *record;
     record = qst_label_address(label);
     if (record != NULL) {
-        copy_player_visual_record((PlayerVisualRecord *)&quest_npc_visual_record, (PlayerVisualRecord *)record);
+        copy_player_visual_record(&quest_npc_visual_record, (disp_data_part2 *)record);
     }
 }
 
@@ -4452,18 +4452,18 @@ void qst_op_mesend(void) {
 }
 
 void qst_op_add_msg(void) {
-    s32 x = qst_args[0].i;
+    char *text = qst_args[0].str;
     if (qst_message_window != NULL) {
-        dispatch_message_window_text(qst_message_window, (const char *)x, 3);
+        dispatch_message_window_text(qst_message_window, text, 3);
         qst_suspend_reason = QST_WAIT_MESSAGE;
         return;
     }
     if (qst_message_window_qb != 0) {
-        qst_message_window_qb->append_line((const char *)x, 3);
+        qst_message_window_qb->append_line(text, 3);
         qst_suspend_reason = QST_WAIT_MESSAGE_QB;
         return;
     }
-    qst_args[1].i = x;
+    qst_args[1].str = text;
     qst_args[0].i = qst_message_speaker;
     qst_op_message();
 }
@@ -4476,28 +4476,28 @@ void qst_op_close_msg_qb(void) {
 }
 
 void qst_op_disp_msg_qb(void) {
-    s32 t = qst_args[0].i;
+    const char *text = qst_args[0].str;
     NJS_POINT2 size = qb_message_window_size[0];
     if (qst_message_window_qb != 0) {
         qst_message_window_qb->close();
         qst_message_window_qb = 0;
     }
     qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), &size);
-    (qst_message_window_qb)->append_line((const char *)t, 3);
+    qst_message_window_qb->append_line(text, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
 }
 
 void qst_op_window_msg(void) {
-    s32 text;
+    const char *text;
     TWindowMessageQuest *window;
-    text = qst_args[0].i;
+    text = qst_args[0].str;
     if (qst_message_window != NULL) {
         qst_message_window->close();
     }
     window = create_quest_message_window();
     qst_message_window = window;
-    dispatch_message_window_text(window, (const char *)text, 3);
+    dispatch_message_window_text(window, text, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
     close_window_if_active(local_client_id);

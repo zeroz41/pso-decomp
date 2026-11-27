@@ -293,7 +293,7 @@ void TScene::tick_material_fmt2() {
                 if (object->cycle->timer < 0) {
                     object->cycle->index++;
                     load_texture_sequence_frame(this, object->cycle);
-                    set_ginja_model_texture_slot(node->model, object->cycle->texture);
+                    set_ginja_model_texture_slot(node->ginja_model, object->cycle->texture);
                     if (object->flags & 0x20) {
                         object->uv->texture = object->cycle->texture;
                     }
@@ -327,7 +327,7 @@ void TScene::tick_material_fmt2() {
                 if (anim->cycle->timer < 0) {
                     anim->cycle->index++;
                     load_texture_sequence_frame(this, anim->cycle);
-                    set_ginja_model_texture_slot(node->model, anim->cycle->texture);
+                    set_ginja_model_texture_slot(node->ginja_model, anim->cycle->texture);
                 }
             }
             anim->flags |= 0x20000;
@@ -391,7 +391,7 @@ void TScene::tick_material_fmt1() {
                 if (object->cycle->timer < 0) {
                     object->cycle->index++;
                     load_texture_sequence_frame(this, object->cycle);
-                    set_ginja_model_texture_slot(node->model, object->cycle->texture);
+                    set_ginja_model_texture_slot(node->ginja_model, object->cycle->texture);
                     if (object->flags & 0x20) {
                         object->uv->texture = object->cycle->texture;
                     }
@@ -424,7 +424,7 @@ void TScene::tick_material_fmt1() {
                 if (anim->cycle->timer < 0) {
                     anim->cycle->index++;
                     load_texture_sequence_frame(this, anim->cycle);
-                    set_ginja_model_texture_slot(node->model, anim->cycle->texture);
+                    set_ginja_model_texture_slot(node->ginja_model, anim->cycle->texture);
                 }
             }
             anim->flags |= 0x20000;

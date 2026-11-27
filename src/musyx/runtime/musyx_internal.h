@@ -609,8 +609,6 @@ void dataInitStack(void);
 void InsertData(u16 id, void *data, u8 dataType, u32 remove);
 void ScanIDList(u16 *p, void *data, u8 dataType, u32 remove);
 void ScanIDListReverse(u16 *start, void *data, u8 dataType, u32 remove);
-u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
-u32 sndPopGroup(void);
 u32 seqPlaySong(u16 sgid, u16 sid, void *arrfile, SynthPlayPara *para, u8 irq_call, s32 studio);
 u32 sndSeqPlayEx(u16 sgid, u16 sid, void *arrfile, SynthPlayPara *para, s32 studio);
 

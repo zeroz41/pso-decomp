@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 
 class ModelNodePositionCapture;
 

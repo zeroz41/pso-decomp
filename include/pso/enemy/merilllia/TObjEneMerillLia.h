@@ -2,8 +2,8 @@
 #define PSO_ENEMY_MERILLLIA_TOBJENEMERILLLIA_H
 
 #include "types.h"
-#include "pso/enemy/TObjEneBeastBase.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 // The row of merill_lia_behavior_params a Merill Lia's subtype picks (what
 // dispatch_shared_handler_a(74 + subtype) returns).

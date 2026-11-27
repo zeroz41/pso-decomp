@@ -1,7 +1,7 @@
 #pragma defer_codegen on
 #include "pso/system/MatrixStack.h"
 #include "types.h"
-#include "pso/ui/TAdChrSelPlayerGC.h"
+#include "pso/ui/frontend/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/BmlResource.h"
@@ -58,7 +58,7 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
     this->status_index = 0;
     layout_mode = window_offset_index;
     preview_data = NULL;
-    this->joint_matrices = static_cast<Mtx34 *>(mem_alloc(0xC00));
+    this->joint_matrices = new Mtx34[64];
     TAdPlyStatusGC::get_instance(this, window_offset_index);
     place_model_for_mode(layout_mode);
 }
@@ -147,7 +147,7 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
         multi_chr_select_player_slot_table[slot] = NULL;
     }
     if (joint_matrices != NULL) {
-        mem_free(joint_matrices);
+        delete[] joint_matrices;
         joint_matrices = NULL;
     }
     if (preview_data != NULL) {
@@ -187,19 +187,19 @@ void TAdChrSelPlayerGC::run_task() {
         }
         switch (layout_mode) {
         case 0:
-            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            copy_player_visual_record((disp_data_part2 *)&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation.y = 0xF3D5;
             break;
         case 1:
-            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
+            copy_player_visual_record((disp_data_part2 *)&visual_record, &TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation.y = 0xF3D5;
             break;
         case 2:
-            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            copy_player_visual_record((disp_data_part2 *)&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation.y = 0xF3D5;
@@ -207,7 +207,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 3:
         case 4:
         case 5:
-            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
+            copy_player_visual_record((disp_data_part2 *)&visual_record, &TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, slot);
             preview_data = p;
             break;

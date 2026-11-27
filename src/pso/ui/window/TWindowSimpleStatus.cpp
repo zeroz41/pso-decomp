@@ -17,14 +17,14 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TWindowStatusGaugeFeedback.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowStatusGaugeFeedback.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowDD.h"
 
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"

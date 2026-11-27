@@ -9,7 +9,7 @@
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/TAdChrSelPlayerGC.h"
+#include "pso/ui/frontend/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"

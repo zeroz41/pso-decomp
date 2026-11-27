@@ -79,7 +79,7 @@ TWindowFukidasi::~TWindowFukidasi() {
         TWindowCtrl::release_slot((s8 *)&this->slot);
     }
     if ((uaddr)this->name != 0U) {
-        mem_free(this->name);
+        delete[] this->name;
         this->name = 0;
     }
 }
@@ -420,7 +420,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32
     this->client_index = client;
     if (str != NULL) {
         len = bounded_strlen(str, (u32)0x18);
-        this->name = (char *)mem_alloc(len + 1);
+        this->name = new char[len + 1];
         strncpy(this->name, str, len + 1);
     } else {
         this->name = 0;

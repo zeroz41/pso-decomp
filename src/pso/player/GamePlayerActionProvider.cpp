@@ -2697,7 +2697,7 @@ int GamePlayerActionProvider::load_motion_set(s32 set, s32 body_type, s32 motion
 
 int GamePlayerActionProvider::load_motions(s32 set) {
     s32 body_type = get_body_type();
-    s32 motion_type = ((TObjPlayer *)this)->get_action_motion_type();
+    s32 motion_type = get_motion_type();
     s32 loaded = load_action_motion_pairs(set, body_type, motion_type);
     if (loaded != 0) {
         mark_attack_motions();
@@ -2707,12 +2707,12 @@ int GamePlayerActionProvider::load_motions(s32 set) {
 
 void free_game_action_motion_buffer() {
     if (game_action_motion_buffer != NULL) {
-        mem_free(game_action_motion_buffer);
+        delete[] game_action_motion_buffer;
         game_action_motion_buffer = NULL;
     }
 }
 void alloc_game_action_motion_buffer() {
-    game_action_motion_buffer = (u8 *)mem_alloc(0x100000);
+    game_action_motion_buffer = new u8[0x100000];
 }
 void release_game_player_actions() { free_game_action_motion_buffer(); set_player_action_provider_selector(0); }
 void init_game_player_actions() { set_player_action_provider_selector(1); alloc_game_action_motion_buffer(); }

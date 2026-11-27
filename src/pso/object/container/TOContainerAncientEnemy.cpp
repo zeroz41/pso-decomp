@@ -171,7 +171,7 @@ void load_ancient_container_resources(void) {
         (area == AREA_BATTLE1 || area == AREA_VR_SPACESHIP_ALPHA || area == AREA_VR_SPACESHIP_BETA || area == AREA_GOL_DRAGON)) {
         p = new BmlResource(1, reinterpret_cast<BmlResourceDescriptor *>(table + 2 * stride + descriptor_offset), 0, 0, NULL);
         ancient_container_resource_bundle = p;
-        ancient_container_fragment_texture_lists = static_cast<NJS_TEXLIST **>(mem_alloc(3 * sizeof(NJS_TEXLIST *)));
+        ancient_container_fragment_texture_lists = new NJS_TEXLIST *[3];
         ancient_container_fragment_texture_lists[0] = LoadPvmFileTls(fs_obj_ex_box2_texture);
         ancient_container_fragment_texture_lists[1] = LoadPvmFileTls(fe_obj_ex_box2_hahen01_texture);
         ancient_container_fragment_texture_lists[2] = LoadPvmFileTls(fe_obj_ex_box2_hahen02_texture);
@@ -179,14 +179,14 @@ void load_ancient_container_resources(void) {
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = new BmlResource(1, reinterpret_cast<BmlResourceDescriptor *>(table + stride + descriptor_offset), 0, 0, NULL);
         ancient_container_resource_bundle = p;
-        ancient_container_fragment_texture_lists = static_cast<NJS_TEXLIST **>(mem_alloc(3 * sizeof(NJS_TEXLIST *)));
+        ancient_container_fragment_texture_lists = new NJS_TEXLIST *[3];
         ancient_container_fragment_texture_lists[0] = LoadPvmFileTls(fs_obj_o_vs2container_r_texture);
         ancient_container_fragment_texture_lists[1] = LoadPvmFileTls(fe_obj_o_vs2cont_hahen1_r_texture);
         ancient_container_fragment_texture_lists[2] = LoadPvmFileTls(fe_obj_o_vs2cont_hahen2_r_texture);
     } else {
         p = new BmlResource(1, reinterpret_cast<BmlResourceDescriptor *>(table + descriptor_offset), 0, 0, NULL);
         ancient_container_resource_bundle = p;
-        ancient_container_fragment_texture_lists = static_cast<NJS_TEXLIST **>(mem_alloc(3 * sizeof(NJS_TEXLIST *)));
+        ancient_container_fragment_texture_lists = new NJS_TEXLIST *[3];
         ancient_container_fragment_texture_lists[0] = LoadPvmFileTls(fe_obj_o_container_r_texture);
         ancient_container_fragment_texture_lists[1] = LoadPvmFileTls(fe_obj_o_container_hahen01r_texture);
         ancient_container_fragment_texture_lists[2] = LoadPvmFileTls(fe_obj_o_container_hahen02r_texture);
@@ -207,7 +207,7 @@ void free_ancient_container_resources(void) {
         } while (i < 3);
         p = ancient_container_fragment_texture_lists;
         if (p != NULL) {
-            mem_free(p);
+            ::operator delete[](p);
             ancient_container_fragment_texture_lists = NULL;
         }
     }

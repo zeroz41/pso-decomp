@@ -22,13 +22,12 @@ s32 find_texture_entry_by_name(const NJS_TEXLIST *list, const char *name) {
     return -1;
 }
 
-void set_ginja_model_texture_slot(void *model, u32 slot) {
-    GinjaModel *mesh = static_cast<GinjaModel *>(model);
-    if (mesh->primary != NULL) {
-        set_material_texture_slot(mesh->primary, slot);
+void set_ginja_model_texture_slot(GinjaModel *model, u32 slot) {
+    if (model->primary != NULL) {
+        set_material_texture_slot(model->primary, slot);
     }
-    if (mesh->secondary != NULL) {
-        set_material_texture_slot(mesh->secondary, slot);
+    if (model->secondary != NULL) {
+        set_material_texture_slot(model->secondary, slot);
     }
 }
 

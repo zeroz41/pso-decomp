@@ -291,7 +291,7 @@ void TItemShootGun::hook() {
 void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
-            set_ginja_model_texture_slot(model->model, texture_id & 0xFFFF);
+            set_ginja_model_texture_slot(model->ginja_model, texture_id & 0xFFFF);
             set_texlist(texture_list);
             begin_effect_render();
             push_matrix();

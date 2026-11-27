@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 
-#include "pso/enemy/TObjEnePanBARA.h"
+#include "pso/enemy/panarms/TObjEnePanBARA.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"

@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowLockOn.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"

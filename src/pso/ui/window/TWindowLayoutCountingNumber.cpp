@@ -1,6 +1,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "types.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

@@ -25,7 +25,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobbyEventTheme.h"
+#include "pso/object/lobby/TLobbyEventTheme.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"

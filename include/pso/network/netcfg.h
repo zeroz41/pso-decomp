@@ -89,7 +89,7 @@ void init_net_recv_desc(struct LoopbackState *cfg);
 u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end);
 s32 calc_work_area_size(NetTransportParams *h);
 void free_buffer_slot(u32 key);
-s32 alloc_buffer_slot(s32 size);
+saddr alloc_buffer_slot(s32 size);
 
 #ifdef __cplusplus
 }

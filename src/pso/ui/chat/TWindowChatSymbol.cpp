@@ -10,7 +10,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"

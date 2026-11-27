@@ -71,7 +71,7 @@ void load_battle_param_entry(void) {
       name = "BattleParamEntry_lab_on.dat";
     }
   }
-  file = (BattleParameterFile *) mem_alloc(sizeof(BattleParameterFile));
+  file = (BattleParameterFile *)::operator new[](sizeof(BattleParameterFile));
   if (file != 0)
   {
     read_disc_file(name, file);
@@ -127,7 +127,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    mem_free(file);
+    ::operator delete[](file);
  ;
   }
 }
@@ -306,7 +306,7 @@ void update_battle_params() {
 
 void free_battle_param_tables() {
     if (battle_parameter_buffer != NULL) {
-        mem_free(battle_parameter_buffer);
+        ::operator delete[](battle_parameter_buffer);
         battle_parameter_buffer = NULL;
     }
     battle_param_stats = NULL;
@@ -316,7 +316,7 @@ void free_battle_param_tables() {
 }
 
 void alloc_battle_param_tables(void) {
-    u8 *buf = (u8 *)mem_alloc(sizeof(BattleParameterBank));
+    u8 *buf = new u8[sizeof(BattleParameterBank)];
     s32 i;
     for (i = 0; i < sizeof(BattleParameterBank); i++) {
         buf[i] = 0;

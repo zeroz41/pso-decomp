@@ -260,7 +260,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     set_motion_list(creation_menu_main_obj->motions);
     requested_action = creation_motion_group(creation_player_character);
     set_animation(requested_action);
-    joint_matrices = static_cast<Mtx34 *>(mem_alloc(0xC00));
+    joint_matrices = new Mtx34[64];
     position.z = 0.0f;
     position.y = 0.0f;
     position.x = 0.0f;
@@ -287,7 +287,7 @@ TCMCharacter::~TCMCharacter() {
     chara_select_hair_node_b = 0;
     chara_select_hair_node_a = 0;
     model = 0;
-    mem_free(joint_matrices);
+    delete[] joint_matrices;
     creation_resource_ready_state = 0;
     creation_figure_object = 0;
     memcard_access_active = 0;
@@ -1040,7 +1040,7 @@ s32 select_unused_appearance_part(CharacterAppearanceFields *appearance, s32 par
     }
     return 0;
 ok:
-    copy_player_visual_record((PlayerVisualRecord *)appearance, (PlayerVisualRecord *)&c);
+    copy_player_visual_record((disp_data_part2 *)appearance, (disp_data_part2 *)&c);
     return 1;
 }
 

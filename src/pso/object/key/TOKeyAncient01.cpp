@@ -72,7 +72,7 @@ void TOKeyAncient01::free_shared_resources() {
             free_if_valid(key_ancient01_texture_lists[i]);
         }
         if (key_ancient01_texture_lists != NULL) {
-            mem_free(key_ancient01_texture_lists);
+            delete[] key_ancient01_texture_lists;
             key_ancient01_texture_lists = NULL;
         }
     }
@@ -85,7 +85,7 @@ void TOKeyAncient01::free_shared_resources() {
 void TOKeyAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_switch_resource_descriptor, 0, 0, NULL);
     key_ancient01_shared_resource_object = resource;
-    key_ancient01_texture_lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(*key_ancient01_texture_lists));
+    key_ancient01_texture_lists = new NJS_TEXLIST *[4];
     key_ancient01_texture_lists[0] = key_ancient01_shared_resource_object->models[0].texlist;
     key_ancient01_texture_lists[1] = LoadPvmFileTls("o_key_ancient01b.gvm");
     key_ancient01_texture_lists[2] = LoadPvmFileTls("o_key_ancient01g.gvm");

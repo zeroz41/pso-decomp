@@ -10,7 +10,7 @@
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 
 #include "pso/object/TObjControl.h"
 
@@ -114,7 +114,7 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
 TObjEnemy::~TObjEnemy() {
     u16 entity_id;
     this->apply_player_54a00();
-    if ((u32) (u32)this->set_entry != 0U) {
+    if (this->set_entry != NULL) {
         entity_id = this->entity_id;
         if ((entity_id >= 0x1000U) && (entity_id < 0x4000U)) {
             this->mask_sub_flags(-3);

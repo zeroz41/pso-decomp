@@ -2539,14 +2539,14 @@ void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *verti
 }
 
 void copy_window_point_table(WindowVertex *vertices, s32 idx) {
-    WindowVertex *self = vertices;
+    WindowVertex *dst = vertices;
     s32 i;
-    const NJS_POINT2 *s = word_select_quad_points[idx];
+    const NJS_POINT2 *src = word_select_quad_points[idx];
     for (i = 0; i < 8; i++) {
-        self->u = s->x;
-        self->v = s->y;
-        s++;
-        self++;
+        dst->u = src->x;
+        dst->v = src->y;
+        src++;
+        dst++;
     }
 }
 

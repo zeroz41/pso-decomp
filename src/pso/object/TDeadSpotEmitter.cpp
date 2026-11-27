@@ -2,8 +2,8 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
-#include "pso/unk/TDeadSpotEmitter.h"
-#include "pso/unk/TDeadSpotGroundEmitter.h"
+#include "pso/object/TDeadSpotEmitter.h"
+#include "pso/object/TDeadSpotGroundEmitter.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/AngleLookup.h"

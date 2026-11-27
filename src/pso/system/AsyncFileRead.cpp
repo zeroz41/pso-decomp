@@ -3,7 +3,7 @@
 #include "pso/system/THeap.h"
 #include "pso/system/AsyncFileRead.h"
 #include <string.h>
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/system/memory.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/TGStream.h"

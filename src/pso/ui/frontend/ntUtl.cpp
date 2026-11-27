@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/unk/SharedMemory.h"
-#include "pso/unk/ResetConnectParam.h"
+#include "pso/system/SharedMemory.h"
+#include "pso/ui/frontend/ResetConnectParam.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/network/eth.h"
 #include <stdio.h>

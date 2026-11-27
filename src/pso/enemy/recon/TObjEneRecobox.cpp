@@ -59,7 +59,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 

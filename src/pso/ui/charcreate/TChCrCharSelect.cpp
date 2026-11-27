@@ -60,7 +60,7 @@ void TChCrCharSelect::tick_and_apply_selection() {
     apply_delay = delay;
     if (delay <= 0) {
         character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
-        copy_player_visual_record((PlayerVisualRecord *)character_appearance_fields, (PlayerVisualRecord *)get_class_appearance_preset(get_char_select_class_id(TChCrCharSelect::selected_slot_index)));
+        copy_player_visual_record((disp_data_part2 *)character_appearance_fields, (disp_data_part2 *)get_class_appearance_preset(get_char_select_class_id(TChCrCharSelect::selected_slot_index)));
         character_appearance_fields->section = -1;
         character_appearance_fields->name[0] = 0;
         TCharaMaking::create(tl_03, character_appearance_fields);

@@ -23,7 +23,7 @@
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"

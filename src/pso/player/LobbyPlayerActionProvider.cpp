@@ -282,13 +282,13 @@ int LobbyPlayerActionProvider::load_motions(s32) {
 
 void free_lobby_action_motion_buffer() {
     if (lobby_action_motion_buffer != NULL) {
-        mem_free(lobby_action_motion_buffer);
+        delete[] lobby_action_motion_buffer;
         lobby_action_motion_buffer = NULL;
     }
 }
 
 u8 *alloc_lobby_action_motion_buffer() {
-    return lobby_action_motion_buffer = (u8 *)mem_alloc(0x1C0000);
+    return lobby_action_motion_buffer = new u8[0x1C0000];
 }
 
 void release_lobby_player_actions() {

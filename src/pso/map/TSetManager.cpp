@@ -1209,12 +1209,12 @@ void TSetManager::create() {
 
 void free_floor_decorations() {
     if (floor_decoration_rows != NULL) {
-        mem_free(floor_decoration_rows);
+        delete[] floor_decoration_rows;
         floor_decoration_rows = NULL;
         floor_decoration_row_count = 0;
     }
     if (floor_decoration_rows_b != NULL) {
-        mem_free(floor_decoration_rows_b);
+        ::operator delete[](floor_decoration_rows_b);
         floor_decoration_rows_b = NULL;
         floor_decoration_row_count_b = 0;
     }
@@ -1242,7 +1242,7 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     floor_decoration_row_count = (u32)size / sizeof(FloorObjectSetRow);
-    if ((floor_decoration_rows = static_cast<FloorObjectSetRow *>(mem_alloc(floor_decoration_row_count * sizeof(FloorObjectSetRow)))) == 0) {
+    if ((floor_decoration_rows = new FloorObjectSetRow[floor_decoration_row_count]) == 0) {
         return 0;
     }
     read_disc_file(path, floor_decoration_rows);

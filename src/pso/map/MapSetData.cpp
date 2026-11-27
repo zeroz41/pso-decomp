@@ -34,7 +34,7 @@
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
-        mem_free(table->entries);
+        delete[] table->entries;
         ::operator delete(table->rngState);
         table->cursor = 0;
         table->count = 0;
@@ -62,7 +62,7 @@ s32 challenge_event_source_size;
 
 EventShuffleTable *construct_event_shuffle_table(EventShuffleTable *table, s32 capacity) {
     table->rngState = new SubtractiveRng;
-    table->entries = static_cast<s32 *>(mem_alloc(capacity * sizeof(*table->entries)));
+    table->entries = new s32[capacity];
     table->cursor = 0;
     table->count = capacity;
     table->capacity = capacity;
@@ -479,6 +479,10 @@ s32 map_set_enemy_id_counter;
 u8 *map_set_file_buffer;
 s32 map_set_file_buffer_size;
 
+static inline FloorObjectSetRow *object_set_rows() {
+    return (FloorObjectSetRow *)map_set_file_buffer;
+}
+
 void init_item_drop_rng(void) {
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
@@ -654,7 +658,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
 s32 load_object_set_file(s32 idx, const char *filename) {
     LoadObjectSetFileName name;
     s32 size;
-    LoadObjectSetFileEntry *p;
+    FloorObjectSetRow *p;
     s32 n;
     s32 i;
     saddr floor;
@@ -666,14 +670,14 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (LoadObjectSetFileEntry *)map_set_file_buffer;
-    n = size / sizeof(LoadObjectSetFileEntry);
+    p = object_set_rows();
+    n = size / sizeof(FloorObjectSetRow);
     for (i = 0; i < n; i++, p++) {
         swap_object_row_endian(p);
-        p->b = 0;
+        p->flags = 0;
     }
     floor = get_floor_area(idx);
-    assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, floor);
+    assign_object_ids(object_set_rows(), n, floor);
     TLobby::load_object_set_entries(idx, map_set_file_buffer, size);
     return 1;
 }
@@ -805,7 +809,7 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     MapSetEntry *items;
     const char *filename;
     s32 len;
-    LoadAreaObjectSetRecord *r;
+    FloorObjectSetRow *r;
     s32 n;
     s32 i;
     subs = map_set_areas[lobby].variants;
@@ -841,13 +845,13 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     if (len > map_set_file_buffer_size) {
         return 0;
     }
-    r = (LoadAreaObjectSetRecord *)map_set_file_buffer;
-    n = len / sizeof(LoadAreaObjectSetRecord);
+    r = object_set_rows();
+    n = len / sizeof(FloorObjectSetRow);
     for (i = 0; i < n; i++, r++) {
         swap_object_row_endian(r);
-        r->f2 = 0;
+        r->flags = 0;
     }
-    assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, lobby);
+    assign_object_ids(object_set_rows(), n, lobby);
     TLobby::load_object_set_entries(floor, map_set_file_buffer, len);
     return 1;
 }

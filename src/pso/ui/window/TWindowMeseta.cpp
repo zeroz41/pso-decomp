@@ -4,7 +4,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMeseta.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyDispData.h"
@@ -13,7 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 void TWindowMeseta::set_value(s32 value) {
     meseta = value;
     static_cast<TWindowLayoutCountingNumber *>(get_array_entry(1))->set_all_values((int)meseta);

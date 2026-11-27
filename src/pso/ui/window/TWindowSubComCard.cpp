@@ -31,7 +31,7 @@
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/network/TProtocol.h"
-#include "pso/unk/GuildCardRecord.h"
+#include "pso/network/GuildCardRecord.h"
 
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
@@ -316,7 +316,7 @@ void TWindowSubComCard::run_task() {
             mask_profanity_words(text, get_shared_text_buffer());
             own_card = TWindowSubComCard::get_own_guild_card();
             own_card->set_text(get_shared_text_buffer());
-            mem_free(text);
+            delete[] text;
             this->state = 1U;
             return;
         }
@@ -442,7 +442,7 @@ void TWindowSubComCard::run_task() {
             text = this->keyboard->realloc_buffer();
             mask_profanity_words(text, get_shared_text_buffer());
             ((TWindowSubComCard *)(this->selected_card))->set_card_text((saddr) (get_shared_text_buffer()));
-            mem_free(text);
+            delete[] text;
             this->state = 1U;
             return;
         }
@@ -1566,7 +1566,7 @@ void TWindowSubComCard::send_short_mail() {
   buffer = (u8 *)get_shared_text_buffer();
   message = buffer;
   TLobby::send_simple_mail(record->get_id(), message);
-  mem_free(text);
+  delete[] text;
 }
 #pragma pop
 void TWindowSubComCard::send_find_user_for_selected_card() {

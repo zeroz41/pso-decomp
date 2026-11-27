@@ -99,7 +99,7 @@ void TOSensorGeneral01::free_assets() {
     if (sensor_general01_texture_lists != NULL) {
         free_if_valid(sensor_general01_texture_lists[0]);
         if (sensor_general01_texture_lists != NULL) {
-            mem_free(sensor_general01_texture_lists);
+            delete[] sensor_general01_texture_lists;
             sensor_general01_texture_lists = NULL;
         }
     }
@@ -112,7 +112,7 @@ void TOSensorGeneral01::free_assets() {
 void TOSensorGeneral01::load_assets() {
     BmlResource *resource = new BmlResource(1, &sensor_general01_resource_descriptor, 0, 0, NULL);
     sensor_general_shared_bml_archive = resource;
-    sensor_general01_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*sensor_general01_texture_lists));
+    sensor_general01_texture_lists = new NJS_TEXLIST *[2];
     sensor_general01_texture_lists[1] = sensor_general_shared_bml_archive->models[0].texlist;
     sensor_general01_texture_lists[0] = LoadPvmFileTls("fs_obj_sensor_r.gvm");
 }

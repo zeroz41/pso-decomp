@@ -9,7 +9,7 @@
 #include <stddef.h>
 #include "pso/render/TextureState.h"
 #include "types.h"
-#include "pso/unk/TDeferredRenderQueue.h"
+#include "pso/render/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/map/CsnQuery.h"
@@ -35,7 +35,7 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/animation/MotionContext.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -49,7 +49,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/system/scene/TScene.h"
@@ -77,7 +77,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
-#include "pso/unk/TDeferredRenderQueue.h"
+#include "pso/render/TDeferredRenderQueue.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -191,7 +191,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     src = me3_stelth_bml_resource->models->texlist;
     n = src->nbTexture;
     me3_stelth_alternate_texture_list.nbTexture = n;
-    me3_stelth_alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
+    me3_stelth_alternate_texture_list.textures = new NJS_TEXNAME[n];
     for (i = 0; i < n; i++) {
         copy_ginja_texture_entry(&me3_stelth_alternate_texture_list.textures[i], &src->textures[i]);
     }
@@ -282,7 +282,7 @@ void TObjEneMe3Stelth::free_shared_resources() {
         me3_stelth_breakup_model = NULL;
     }
     if (me3_stelth_alternate_texture_list.textures != NULL) {
-        mem_free(me3_stelth_alternate_texture_list.textures);
+        delete[] me3_stelth_alternate_texture_list.textures;
         me3_stelth_alternate_texture_list.textures = NULL;
     }
     if (me3_stelth_bml_resource != NULL) {

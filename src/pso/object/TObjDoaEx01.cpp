@@ -170,8 +170,8 @@ void TObjDoaEx01::try_open() {
 
     bml_model = get_bml_model(doa_ex01_resource_bundle, 0);
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        set_ginja_model_texture_slot(doa_ex01_alpha_model_node->model, 1);
-        set_ginja_model_texture_slot(doa_ex01_alpha_model_sibling->model, 1);
+        set_ginja_model_texture_slot(doa_ex01_alpha_model_node->ginja_model, 1);
+        set_ginja_model_texture_slot(doa_ex01_alpha_model_sibling->ginja_model, 1);
         set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
@@ -184,8 +184,8 @@ void TObjDoaEx01::draw_model() {
     f32 animation_frame;
     NJS_OBJECT *model;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        set_ginja_model_texture_slot(doa_ex01_alpha_model_node->model, 0);
-        set_ginja_model_texture_slot(doa_ex01_alpha_model_sibling->model, 0);
+        set_ginja_model_texture_slot(doa_ex01_alpha_model_node->ginja_model, 0);
+        set_ginja_model_texture_slot(doa_ex01_alpha_model_sibling->ginja_model, 0);
         model = get_bml_model(doa_ex01_resource_bundle, 0);
         set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();

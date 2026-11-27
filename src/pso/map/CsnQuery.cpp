@@ -804,12 +804,12 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
 
 void free_wall_query_buffer(void) {
     if (wall_query_scene_buffer != NULL) {
-        mem_free(wall_query_scene_buffer);
+        delete[] wall_query_scene_buffer;
         wall_query_scene_buffer = NULL;
     }
 }
 
-void alloc_wall_query_buffer(void) { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
+void alloc_wall_query_buffer(void) { wall_query_scene_buffer = new WallPolygon[0x200]; }
 
 // Builds the query buffers, spelled out because the original's static initializer precedes this file's inline
 // copies.

@@ -122,7 +122,7 @@ void TTecGiBarta::create_particles() {
     angles.x = this->angles[0];
     angles.y = 0;
     angles.z = this->angles[2];
-    emitters = static_cast<TParticleCtrl **>(mem_alloc(gibarta_emitter_bands[band].count * sizeof(*emitters)));
+    emitters = new TParticleCtrl *[gibarta_emitter_bands[band].count];
     for (i = 0; i < gibarta_emitter_bands[band].count; i++) {
 #ifdef __MWERKS__
         __memcpy(&pos, &position, sizeof(pos));
@@ -240,7 +240,7 @@ TTecGiBarta::~TTecGiBarta() {
             emitters[i]->queue_destruction();
         }
     }
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecGiBarta::run_task() {

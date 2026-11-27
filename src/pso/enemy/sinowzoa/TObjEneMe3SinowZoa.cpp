@@ -34,7 +34,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjChara.h"
@@ -166,7 +166,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     src = me3_sinow_zoa_bml_resource->models->texlist;
     count = src->nbTexture;
     me3_sinow_zoa_alternate_texture_list.nbTexture = count;
-    me3_sinow_zoa_alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(count * sizeof(NJS_TEXNAME));
+    me3_sinow_zoa_alternate_texture_list.textures = new NJS_TEXNAME[count];
     for (i = 0; i < count; i++) {
         copy_ginja_texture_entry(&me3_sinow_zoa_alternate_texture_list.textures[i], &src->textures[i]);
     }
@@ -236,7 +236,7 @@ void TObjEneMe3SinowZoa::free_resources() {
         me3_sinow_zoa_breakup_model = NULL;
     }
     if (me3_sinow_zoa_alternate_texture_list.textures != NULL) {
-        mem_free(me3_sinow_zoa_alternate_texture_list.textures);
+        delete[] me3_sinow_zoa_alternate_texture_list.textures;
         me3_sinow_zoa_alternate_texture_list.textures = NULL;
     }
     if (me3_sinow_zoa_bml_resource != 0) {

@@ -1,12 +1,12 @@
 #pragma defer_codegen on
 
 #include "types.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TWindowStatusGauge.h"
+#include "pso/ui/window/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"

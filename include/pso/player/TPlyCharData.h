@@ -80,28 +80,8 @@ LAYOUT_ASSERT(PlyCharDataInventoryOffset, offsetof(TPlyCharData, m_inventory) ==
 LAYOUT_ASSERT(PlyCharDataStatsOffset, offsetof(TPlyCharData, m_stats) == 0x34C);
 LAYOUT_ASSERT(PlyCharDataAppearanceOffset, offsetof(TPlyCharData, m_disp_part2) == 0x370);
 
-// disp_data_part2 as the visual-record copy sees it: the name, the reserved
-// words, the appearance and the proportions move as 8-byte blocks.
-struct VisualRecordBlock { u8 bytes[8]; };
-
-struct PlayerVisualRecord {
-    VisualRecordBlock name[2];
-    VisualRecordBlock reserved;
-    s32 name_colour;
-    u8 extra_model;
-    char padding[15];
-    s32 name_colour_checksum;
-    u8 section_id;
-    u8 char_class;
-    u8 v2_flags;
-    u8 version;
-    s32 v1_flags;
-    VisualRecordBlock appearance[2];
-    VisualRecordBlock proportions;
-};
-
-// Copies one 0x50-byte visual record (disp_data_part2 or CharacterAppearanceFields) over another; returns dst.
-PlayerVisualRecord *copy_player_visual_record(PlayerVisualRecord *dst, PlayerVisualRecord *src);
+// Copies one 0x50-byte player visual record over another; returns dst.
+disp_data_part2 *copy_player_visual_record(disp_data_part2 *dst, disp_data_part2 *src);
 
 // TPlyCharData's constructor and destructor by symbol, for the static initializers that build and register a
 // global TPlyCharData (C++ cannot take a constructor's or destructor's address).

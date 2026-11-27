@@ -1,7 +1,7 @@
 #include <string.h>
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/NinjaChunk.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
@@ -555,11 +555,11 @@ BmlResource::~BmlResource() {
             free_if_not_in_arena(models[i].texlist);
         }
     }
-    mem_free(models);
+    delete[] models;
     for (i = 0; i < motion_count; i++) {
         free_if_not_in_arena(motions[i].motion);
     }
-    mem_free(motions);
+    ::operator delete[](motions);
 }
 
 void BmlResource::reset() {
@@ -595,7 +595,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
     model_count = descriptor->model_count;
     motion_count = descriptor->motion_count;
     if (model_count > 0) {
-        models = (BmlModelEntry *)mem_alloc(model_count * sizeof(BmlModelEntry));
+        models = new BmlModelEntry[model_count];
         for (s32 i = 0; i < model_count; i++) {
             models[i].flags = 0;
             models[i].model = NULL;
@@ -603,7 +603,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         }
     }
     if (motion_count > 0) {
-        motions = (BmlMotionEntry *)mem_alloc(motion_count * sizeof(BmlMotionEntry));
+        motions = (BmlMotionEntry *)::operator new[](motion_count * sizeof(BmlMotionEntry));
         for (s32 i = 0; i < motion_count; i++) {
             motions[i].motion = NULL;
         }
@@ -787,7 +787,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
         resource->model_count++;
     }
     if (resource->model_count > 0) {
-        resource->models = static_cast<BmlModelEntry *>(mem_alloc(resource->model_count * sizeof(BmlModelEntry)));
+        resource->models = new BmlModelEntry[resource->model_count];
         for (s32 i = 0; i < resource->model_count; i++) {
             resource->models[i].flags = 0;
             resource->models[i].model = NULL;
@@ -798,7 +798,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
         resource->motion_count++;
     }
     if (resource->motion_count > 0) {
-        resource->motions = static_cast<BmlMotionEntry *>(mem_alloc(resource->motion_count * sizeof(BmlMotionEntry)));
+        resource->motions = static_cast<BmlMotionEntry *>(::operator new[](resource->motion_count * sizeof(BmlMotionEntry)));
         for (s32 i = 0; i < resource->motion_count; i++) {
             resource->motions[i].motion = NULL;
         }

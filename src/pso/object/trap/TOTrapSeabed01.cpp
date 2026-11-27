@@ -22,7 +22,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/TDeferredRenderQueue.h"
+#include "pso/render/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/render/DebugFont.h"

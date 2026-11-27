@@ -215,7 +215,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     character->set_luck_materials_used(get_luck_materials_used());
     character->m_stats = *get_stats();
     clamp_stats(&character->m_stats, get_class_stat_entry());
-    copy_player_visual_record((PlayerVisualRecord *)&character->m_disp_part2, (PlayerVisualRecord *)&appearance);
+    copy_player_visual_record(&character->m_disp_part2, (disp_data_part2 *)&appearance);
     copy_disp_config(&character->m_config, &action_palettes);
     for (j = 0; j < 0x13; j++) {
         overflow = character->technique_level_overflow(j);
@@ -289,7 +289,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     record->set_def_materials_used(get_def_materials_used());
     record->set_luck_materials_used(get_luck_materials_used());
     clamp_stats(&record->m_stats, get_class_stat_entry());
-    copy_player_visual_record((PlayerVisualRecord *)&record->m_disp_part2, (PlayerVisualRecord *)&appearance);
+    copy_player_visual_record(&record->m_disp_part2, (disp_data_part2 *)&appearance);
     copy_disp_config(&record->m_config, &action_palettes);
     for (k = 0; k < 19; k++) {
         overflow = record->technique_level_overflow(k);
@@ -352,7 +352,7 @@ void TPlyCharData::copy_from_player(TObjPlayer *player) {
     u8 *overflow;
     s32 i;
     player->set_flag_80000();
-    copy_player_visual_record((PlayerVisualRecord *)&m_disp_part2, (PlayerVisualRecord *)&player->appearance);
+    copy_player_visual_record(&m_disp_part2, (disp_data_part2 *)&player->appearance);
     m_inventory.m_num_items = player->query_state_if_present(m_inventory.get_items());
     player->inventory_objects->set_flag_and_update(player);
     player->clamp_stats(&m_stats, player->get_class_stat_entry());

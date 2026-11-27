@@ -5,10 +5,10 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowLayout.h"
 
 #pragma push

@@ -2,7 +2,7 @@
 #include "pso/system/memory.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -27,6 +27,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecMegid.h"
@@ -72,9 +73,6 @@ s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid(saddr chara, saddr pos);
 }
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
-extern "C" {
-s32 minimap_render_dot(void *, int, int, int, f32);
-}
 
 // The Moja's models and motions, and the archive that holds them; the second
 // set is the one Ultimate loads.
@@ -237,10 +235,10 @@ void TObjEneMoja::load_resources() {
     second.z = 0.0f;
     points->sample_node_offsets(moja_bml_resource->models[1].model,
         (NJS_MOTION *)moja_bml_resource->motions[moja_motion_actions[3].motion].motion, 38, &first, &second);
-    moja_boss_stats_handles = static_cast<player_stats **>(mem_alloc(2 * sizeof(*moja_boss_stats_handles)));
-    moja_attack_params = static_cast<AttackParams **>(mem_alloc(6 * sizeof(*moja_attack_params)));
-    moja_object_handles = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*moja_object_handles)));
-    moja_behavior_params = static_cast<BattleMovementParams **>(mem_alloc(2 * sizeof(*moja_behavior_params)));
+    moja_boss_stats_handles = new player_stats *[2];
+    moja_attack_params = new AttackParams *[6];
+    moja_object_handles = new ActorParamBlock *[2];
+    moja_behavior_params = new BattleMovementParams *[2];
     moja_boss_stats_handles[0] = register_boss(0x49);
     moja_boss_stats_handles[1] = register_boss(0x4A);
     moja_attack_params[0] = dispatch_shared_handler_b(0x48);
@@ -263,19 +261,19 @@ void TObjEneMoja::load_resources() {
 
 void TObjEneMoja::free_resources() {
     if (moja_boss_stats_handles != NULL) {
-        mem_free(moja_boss_stats_handles);
+        delete[] moja_boss_stats_handles;
         moja_boss_stats_handles = NULL;
     }
     if (moja_attack_params != NULL) {
-        mem_free(moja_attack_params);
+        delete[] moja_attack_params;
         moja_attack_params = NULL;
     }
     if (moja_object_handles != NULL) {
-        mem_free(moja_object_handles);
+        delete[] moja_object_handles;
         moja_object_handles = NULL;
     }
     if (moja_behavior_params != NULL) {
-        mem_free(moja_behavior_params);
+        delete[] moja_behavior_params;
         moja_behavior_params = NULL;
     }
     if (moja_punch_points != NULL) {
@@ -362,7 +360,8 @@ void TObjEneMoja::run_task() {
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
         this->target = NULL;
     }
-    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0, this->frame_timer++);
+    this->frame_timer++;
+    minimap_render_dot(&this->position, -0x5DB4, 1, 0);
 }
 
 void TObjEneMoja::render() {

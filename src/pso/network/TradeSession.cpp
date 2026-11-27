@@ -2,7 +2,7 @@
 #include "pso/player/PlayerStatusRefresh.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

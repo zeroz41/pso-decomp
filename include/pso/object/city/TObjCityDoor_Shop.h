@@ -2,7 +2,7 @@
 #define PSO_OBJECT_CITY_TOBJCITYDOOR_SHOP_H
 
 #include "types.h"
-#include "pso/object/TObjCityDoorBase.h"
+#include "pso/object/city/TObjCityDoorBase.h"
 
 struct TObjCityDoor_Shop : public TObjCityDoorBase {
     static const char *class_name;

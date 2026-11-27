@@ -86,8 +86,8 @@ TOBoss4Bird::TOBoss4Bird(ObjectSetData *set_data) {
     } else if (count > 6) {
         count = 6;
     }
-    offsets = (Vec *)mem_alloc(count * 0xC);
-    angles = (s32 *)mem_alloc(count * 4);
+    offsets = new Vec[count];
+    angles = new s32[count];
     {
         TOBoss4BirdFormation formation = boss4_bird_vec_table;
         for (i = 0; i < count; i++) {
@@ -106,10 +106,10 @@ TOBoss4Bird::TOBoss4Bird(ObjectSetData *set_data) {
 
 TOBoss4Bird::~TOBoss4Bird() {
     if (offsets != NULL) {
-        mem_free(offsets);
+        delete[] offsets;
     }
     if (angles != NULL) {
-        mem_free(angles);
+        delete[] angles;
     }
 }
 
@@ -222,12 +222,12 @@ TOBoss4Rock::TOBoss4Rock(ObjectSetData *set_data) {
     } else if (count > 8) {
         count = 8;
     }
-    models = static_cast<NJS_OBJECT **>(mem_alloc(count * sizeof(*models)));
-    texlists = static_cast<NJS_TEXLIST **>(mem_alloc(count * sizeof(*texlists)));
-    positions = (Vec *)mem_alloc(count * 0xC);
-    speeds = (f32 *)mem_alloc(count * 4);
-    rotations = (Angle3 *)mem_alloc(count * 0xC);
-    rotation_speeds = (Angle3 *)mem_alloc(count * 0xC);
+    models = new NJS_OBJECT *[count];
+    texlists = new NJS_TEXLIST *[count];
+    positions = new Vec[count];
+    speeds = new f32[count];
+    rotations = new Angle3[count];
+    rotation_speeds = new Angle3[count];
     for (i = 0; i < count; i++) {
         model = 4.0f * ((1.0f / 32768.0f) * (f32)rand());
         models[i] = get_bml_model(model_resource, model);
@@ -248,22 +248,22 @@ TOBoss4Rock::TOBoss4Rock(ObjectSetData *set_data) {
 
 TOBoss4Rock::~TOBoss4Rock() {
     if (models != NULL) {
-        mem_free(models);
+        delete[] models;
     }
     if (texlists != NULL) {
-        mem_free(texlists);
+        delete[] texlists;
     }
     if (positions != NULL) {
-        mem_free(positions);
+        delete[] positions;
     }
     if (speeds != NULL) {
-        mem_free(speeds);
+        delete[] speeds;
     }
     if (rotations != NULL) {
-        mem_free(rotations);
+        delete[] rotations;
     }
     if (rotation_speeds != NULL) {
-        mem_free(rotation_speeds);
+        delete[] rotation_speeds;
     }
 }
 

@@ -837,7 +837,7 @@ s16 TObjMotion::get_requested_action() { return requested_action; }
 BmlMotionEntry *PlayerActionProvider::get_motion_list(s32) { return 0; }
 int PlayerActionProvider::is_male() { return 0; }
 int PlayerActionProvider::load_motions(s32) { return 0; }
-int TObjPlayer::get_action_motion_type() { return ((PlayerMotionKey *)this)->get_motion_type(); }
+s32 PlayerActionProvider::get_motion_type() { return key.get_motion_type(); }
 s32 PlayerActionProvider::get_body_type() { return key.get_body_type(); }
 
 // Data-only unit split off the shared player model buffers.
@@ -895,7 +895,7 @@ PlayerTechniqueState::PlayerTechniqueState() {
     reset_tech_state();
 }
 
-void bswap_g_client_id_header(void *header) { ((G_ClientIDHeader *)header)->bswap(); }
+void bswap_g_client_id_header(G_ClientIDHeader *header) { header->bswap(); }
 
 G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAllTechniques_6x9B &src) {
     copy_subcommand_header(this, &src);

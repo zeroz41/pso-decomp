@@ -39,7 +39,7 @@ TBoss5GryphonColli_C::TBoss5GryphonColli_C(TObject *parent, s32 count, const Vec
     entity_id = alloc_object_ids(0);
     VecCopy(&local_position, pos);
     body_count = count;
-    bodies = (CollisionBody *)mem_alloc(body_count * sizeof(CollisionBody));
+    bodies = new CollisionBody[body_count];
     step = 2.0f * len;
     body = bodies;
     zero = 0.0f;

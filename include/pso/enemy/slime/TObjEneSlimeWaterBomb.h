@@ -24,6 +24,9 @@ struct TObjEneSlimeWaterBomb : public TObjEnemy {
     TObjEneSlimeOne *owner;
     f32 attack_power;
     s32 elapsed_frames;
+
+    // The slime that spits the bomb is its parent task.
+    TObjEneSlimeOne *parent_slime() const { return (TObjEneSlimeOne *)m_up; }
 };
 
 LAYOUT_ASSERT(SlimeWaterBombMovementOffset, offsetof(TObjEneSlimeWaterBomb, movement) == 0x374);

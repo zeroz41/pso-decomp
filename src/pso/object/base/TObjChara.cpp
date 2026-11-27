@@ -118,7 +118,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TObjFreezeShell.h"
+#include "pso/effect/TObjFreezeShell.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/system/task/TMainTask.h"

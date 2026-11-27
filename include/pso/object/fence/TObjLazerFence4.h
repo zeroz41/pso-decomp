@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct NJS_OBJECT;
+struct GinjaModel;
 
 struct TObjLazerFence4 : public TObjCollidable {
     TObjLazerFence4(TObject *parent, ObjectSetData *set_data);
@@ -27,7 +28,7 @@ struct TObjLazerFence4 : public TObjCollidable {
     NJS_OBJECT *beam_model;  // drawn posed by motion
     NJS_OBJECT *post_model;  // the posts, drawn alone when open
     NJS_MOTION *motion;
-    void *beam_nodes[12];    // the beam model's pieces, recoloured by color_slot
+    GinjaModel *beam_nodes[12];    // the beam model's pieces, recoloured by color_slot
 };
 
 LAYOUT_ASSERT(TObjLazerFence4_size, sizeof(TObjLazerFence4) == 0xF8);

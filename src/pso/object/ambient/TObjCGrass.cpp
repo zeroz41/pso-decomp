@@ -126,7 +126,7 @@ void TObjCGrass::load_resources() {
 
 }
 TObjCGrass::~TObjCGrass() {
-    if (fragments != NULL) { mem_free(fragments); }
+    if (fragments != NULL) { delete[] fragments; }
 }
 
 #pragma push
@@ -149,7 +149,7 @@ TObjCGrass::TObjCGrass(Vec origin, s32 count, s32 lifetime) : TObjMotion(tl_06) 
     last_animation_frame = frame_count - 1.0f;
     fragment_count = count;
     if (count != 0) {
-        fragments = (CGrassFragment *)mem_alloc(fragment_count * sizeof(CGrassFragment));
+        fragments = new CGrassFragment[fragment_count];
     } else {
         fragments = NULL;
     }

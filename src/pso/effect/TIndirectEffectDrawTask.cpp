@@ -149,7 +149,7 @@ static TIndirectEffectDrawTask *indirect_draw_task;
 
 TIndirectEffectDrawTask::~TIndirectEffectDrawTask() {
     if (this->entries != NULL) {
-        mem_free(this->entries);
+        ::operator delete[](this->entries);
     }
     indirect_draw_task = 0;
 }
@@ -158,7 +158,7 @@ TIndirectEffectDrawTask::~TIndirectEffectDrawTask() {
 TIndirectEffectDrawTask::TIndirectEffectDrawTask(TObject *parent) : TObject(parent) {
     s32 i;
     entry_count = 0;
-    entries = (IndirectDrawRecord *)mem_alloc(0x240);
+    entries = (IndirectDrawRecord *)::operator new[](16 * sizeof(IndirectDrawRecord));
     if (entries != NULL) {
         for (i = 0; i < 0x10; i++) {
             clear_draw_record(&entries[i]);

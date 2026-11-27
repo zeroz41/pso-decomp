@@ -2,7 +2,7 @@
 #define PSO_OBJECT_CAVE_TOHANGCEILINGCAVE01KEY_H
 
 #include "types.h"
-#include "pso/unk/TOHangceilingCaveBase.h"
+#include "pso/object/cave/TOHangceilingCaveBase.h"
 
 class TOHangceilingCave01Key : public TOHangceilingCaveBase {
 public:

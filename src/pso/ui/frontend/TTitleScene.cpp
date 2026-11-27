@@ -8,7 +8,7 @@
 #include "pso/camera/CameraViewParams.h"
 #include "pso/ui/TTitleLogo.h"
 #include "pso/ui/TTitleMenu.h"
-#include "pso/unk/TTitleScene.h"
+#include "pso/ui/frontend/TTitleScene.h"
 #include "pso/player/PrsTextureLoad.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/OpeningMovie.h"

@@ -35,7 +35,7 @@
 ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
 };
-ChallengeModeState challenge4p_mode_state = {0};
+ChallengeModeState challenge4p_mode_state = challenge_default_settings;
 __declspec(section ".data") char the_best_text[] = "theBest";
 
 
@@ -313,7 +313,7 @@ s32 try_set_split_screen(s32 difficulty) {
     return 1;
 }
 void rebuild_players_for_stage(s32 stage) {
-    RebuildPlayersForStageInfo info;
+    disp_data_part2 info;
     Vec pos;
     s32 i;
     TObjPlayer *p;
@@ -328,11 +328,11 @@ void rebuild_players_for_stage(s32 stage) {
         PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy(&pos, &p->position);
-            copy_player_visual_record((PlayerVisualRecord *)&info, (PlayerVisualRecord *)&p->appearance);
+            copy_player_visual_record(&info, (disp_data_part2 *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
-            switch (info.flags & 0xE0) {
+            switch (info.v1_flags & 0xE0) {
             case 0x20:
                 tbl = get_challenge_stage_start(0, stage);
                 break;
@@ -348,9 +348,9 @@ void rebuild_players_for_stage(s32 stage) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&info);
+                copy_player_visual_record(&cd.m_disp_part2, &info);
                 TObjPlayer::begin_action_state(&cd);
-                TNpcPlayer::send_command(info.cls, tbl->item_count, tbl->items, tbl->level, &cd);
+                TNpcPlayer::send_command(info.char_class, tbl->item_count, tbl->items, tbl->level, &cd);
                 p = create_player_object(i, map, &cd);
                 if (p == NULL) {
                     return;
@@ -850,11 +850,6 @@ void TChallenge4P::run_task() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_max_size(16)
-// Copies the default settings into challenge4p_mode_state, spelled out because the original's static initializer
-// precedes this file's deferred constructor and destructor.
-void __sinit_TChallenge4P_cpp() {
-    __memcpy(&challenge4p_mode_state, &challenge_default_settings, sizeof(ChallengeModeState));
-}
 
 TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
     m_name = challenge4p_class_name;
@@ -871,5 +866,3 @@ TChallenge4P::~TChallenge4P() {
     challenge4p_mode_state = challenge_default_settings;
     challenge_retry_object = NULL;
 }
-
-__declspec(section ".ctors") static void *const challenge4p_global_initializer = (void *)__sinit_TChallenge4P_cpp;

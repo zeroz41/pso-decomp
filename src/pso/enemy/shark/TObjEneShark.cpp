@@ -3,7 +3,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -16,7 +16,7 @@
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjChara.h"
@@ -420,19 +420,19 @@ void *TObjEneShark::create(EnemyPlacement *setData) {
 
 void TObjEneShark::free_resources() {
     if (shark_resource_node != NULL) {
-        mem_free(shark_resource_node);
+        delete[] shark_resource_node;
         shark_resource_node = NULL;
     }
     if (shark_resource_buf != NULL) {
-        mem_free(shark_resource_buf);
+        delete[] shark_resource_buf;
         shark_resource_buf = NULL;
     }
     if (shark_resource_data != NULL) {
-        mem_free(shark_resource_data);
+        delete[] shark_resource_data;
         shark_resource_data = NULL;
     }
     if (shark_resource_buffer != NULL) {
-        mem_free(shark_resource_buffer);
+        delete[] shark_resource_buffer;
         shark_resource_buffer = NULL;
     }
     if (shark_attack4_trail_buffer != NULL) {
@@ -460,10 +460,10 @@ void TObjEneShark::load_resources() {
     shark_attack4_trail_buffer = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     shark_attack_motion_3_trail->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[shark_action_table[3].motion].motion, 5, 8);
     shark_attack4_trail_buffer->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[shark_action_table[4].motion].motion, 0xA, 0xD);
-    shark_resource_node = static_cast<player_stats **>(mem_alloc(3 * sizeof(*shark_resource_node)));
-    shark_resource_buf = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*shark_resource_buf)));
-    shark_resource_data = static_cast<ActorParamBlock **>(mem_alloc(3 * sizeof(*shark_resource_data)));
-    shark_resource_buffer = static_cast<BattleMovementParams **>(mem_alloc(3 * sizeof(*shark_resource_buffer)));
+    shark_resource_node = new player_stats *[3];
+    shark_resource_buf = new AttackParams *[3];
+    shark_resource_data = new ActorParamBlock *[3];
+    shark_resource_buffer = new BattleMovementParams *[3];
     shark_resource_node[0] = register_boss(0x4F);
     shark_resource_node[1] = register_boss(0x50);
     shark_resource_node[2] = register_boss(0x51);

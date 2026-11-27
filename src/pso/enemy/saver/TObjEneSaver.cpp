@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
@@ -714,7 +714,7 @@ void initialize_saver_resources(void) {
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
     saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, &pos, &dir);
-    player_object_ptr_array = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*player_object_ptr_array)));
+    player_object_ptr_array = new AttackParams *[3];
     saver_boss_stat_handle = register_boss(0x52);
     player_object_ptr_array[0] = dispatch_shared_handler_b(0x57);
     player_object_ptr_array[2] = dispatch_shared_handler_b(0x58);
@@ -728,7 +728,7 @@ void initialize_saver_resources(void) {
 
 void TObjEneSaver::free_resources() {
     if (player_object_ptr_array != NULL) {
-        mem_free(player_object_ptr_array);
+        delete[] player_object_ptr_array;
         player_object_ptr_array = NULL;
     }
     if (saver_attack_trail_points != NULL) {

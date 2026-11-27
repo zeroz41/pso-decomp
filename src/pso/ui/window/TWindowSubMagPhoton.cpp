@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

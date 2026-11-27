@@ -1,6 +1,6 @@
 #include <string.h>
 #include "pso/render/GvmTextureArchive.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/player/PrsTextureLoad.h"
@@ -110,7 +110,7 @@ void TItemTexLoad::run_task() {
 
 TItemTexLoad::~TItemTexLoad() {
     unload_texture();
-    mem_free(m_archive_buffer);
+    ::operator delete[](m_archive_buffer);
     m_archive_buffer = nullptr;
 }
 
@@ -121,7 +121,7 @@ TItemTexLoad::TItemTexLoad(TObject* parent) : TObject(parent) {
     m_texture_list.nbTexture = 1;
     m_texture_index = -1;
     m_state = 0;
-    m_archive_buffer = mem_alloc(0x4800);
+    m_archive_buffer = ::operator new[](0x4800);
 }
 
 TItemTexLoad* TItemTexLoad::create(TObject* parent) {
@@ -129,15 +129,15 @@ TItemTexLoad* TItemTexLoad::create(TObject* parent) {
 }
 
 void TItemTexLoad::free_textures() {
-    mem_free(item_texture_filename_buffer);
+    delete[] item_texture_filename_buffer;
     item_texture_filename_buffer = 0;
-    mem_free(item_texture_afs_work_buffer);
+    ::operator delete[](item_texture_afs_work_buffer);
     item_texture_afs_work_buffer = 0;
 }
 
 void load_item_kt_afs(void) {
-    item_texture_afs_work_buffer = mem_alloc(0x40C);
-    item_texture_filename_buffer = (char*)mem_alloc(0x1C);
+    item_texture_afs_work_buffer = ::operator new[](0x40C);
+    item_texture_filename_buffer = new char[0x1C];
     strncpy(item_texture_filename_buffer, item_kt_archive_filename, 0x1C);
     open_afs_file_wait_render(0xB8, item_kt_archive_filename, item_texture_afs_work_buffer, 0);
 }

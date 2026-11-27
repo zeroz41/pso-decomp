@@ -30,7 +30,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/vector.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -216,7 +216,7 @@ void TObjEneGibbles::load_resources() {
     }
     gibbles_render_node_index = 0;
     gibbles_render_rotation_x = 0;
-    gibbles_combat_stat_entries = (AttackParams **)mem_alloc(0xC);
+    gibbles_combat_stat_entries = new AttackParams *[3];
     gibbles_boss_stat_handle = register_boss(0x3D);
     gibbles_combat_stat_entries[0] = dispatch_shared_handler_b(0x3D);
     gibbles_combat_stat_entries[2] = dispatch_shared_handler_b(0x3E);
@@ -230,7 +230,7 @@ void TObjEneGibbles::load_resources() {
 
 void TObjEneGibbles::free_static() {
     if (gibbles_combat_stat_entries != NULL) {
-        mem_free(gibbles_combat_stat_entries);
+        delete[] gibbles_combat_stat_entries;
         gibbles_combat_stat_entries = NULL;
     }
     if (gibbles_resource_bundle != NULL) {

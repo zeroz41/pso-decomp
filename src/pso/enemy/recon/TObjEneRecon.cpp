@@ -38,7 +38,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

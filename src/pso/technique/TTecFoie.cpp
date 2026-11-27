@@ -77,7 +77,7 @@ void TTecFoie::create_particle_emitters() {
   fwd.y = 0;
   fwd.z = angles[2];
   spawn_directional_particle(&position, &fwd, 0x18);
-  emitters = (void **) mem_alloc(TTecFoie::emitter_bands[band].count * 4);
+  emitters = new void *[TTecFoie::emitter_bands[band].count];
   for (i = 0; i < TTecFoie::emitter_bands[band].count; i++)
   {
     const TechniqueEmitterSourceRow *b = &TTecFoie::emitter_bands[band].rows[i];
@@ -149,7 +149,7 @@ TTecFoie::~TTecFoie() {
     for (u32 i = 0; i < TTecFoie::emitter_bands[band].count; ++i) {
         ((TObject *)emitters[i])->queue_destruction();
     }
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecFoie::render() {  }

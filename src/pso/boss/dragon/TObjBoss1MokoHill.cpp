@@ -129,8 +129,8 @@ ChunkStripGrid::ChunkStripGrid(s32 width, s32 strips, s32 materialWords, s16 *ma
     this->strips = strips;
     this->materialWords = materialWords;
     this->stripWords = this->width * 6 + 1;
-    this->polygons = (s16 *)mem_alloc((this->materialWords + 5 + this->stripWords * this->strips) * 2);
-    this->vertices = (u32 *)mem_alloc((this->width * (this->strips + 1) * 6 + 3) * 4);
+    this->polygons = new s16[this->materialWords + 5 + this->stripWords * this->strips];
+    this->vertices = new u32[this->width * (this->strips + 1) * 6 + 3];
     p = this->polygons;
     for (i = 0; i < this->materialWords; i++) {
         *p++ = *material++;
@@ -191,9 +191,9 @@ ChunkStripGrid::ChunkStripGrid(s32 width, s32 strips, s32 materialWords, s16 *ma
 }
 
 ChunkStripGrid::~ChunkStripGrid() {
-    mem_free(vertices);
+    delete[] vertices;
     vertices = NULL;
-    mem_free(polygons);
+    delete[] polygons;
     polygons = NULL;
     model.vertex_list = NULL;
     model.polygon_list = NULL;
@@ -343,7 +343,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
             if (n < 0) n = -n;
             total += n;
         }
-        dragon_trail_uvs = (TrailUV *)mem_alloc(total * sizeof(TrailUV));
+        dragon_trail_uvs = new TrailUV[total];
         uv = dragon_trail_uvs;
         uv_strip = start;
         for (uv_strip_index = 0; uv_strip_index < strip_count; uv_strip_index++) {
@@ -365,7 +365,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     for (count_index = 0; count_index < vertex_count; count_index++, vtx += 6) {
         if (vtx[1] > 15.0f) dragon_trail_raised_count++;
     }
-    dragon_trail_raised_vertices = (TrailRaisedVertex *)mem_alloc(dragon_trail_raised_count * sizeof(TrailRaisedVertex));
+    dragon_trail_raised_vertices = new TrailRaisedVertex[dragon_trail_raised_count];
     e = dragon_trail_raised_vertices;
     vtx = vstart;
     for (entry_index = 0; entry_index < vertex_count; vtx += 6, entry_index++) {
@@ -381,9 +381,9 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
 
 #pragma pop
 void TObjBoss1MokoHill_SoloM::free_resources() {
-    mem_free(dragon_trail_raised_vertices);
+    delete[] dragon_trail_raised_vertices;
     dragon_trail_raised_vertices = NULL;
-    mem_free(dragon_trail_uvs);
+    delete[] dragon_trail_uvs;
     dragon_trail_uvs = NULL;
     delete dragon_trail_strip;
     dragon_trail_strip = NULL;

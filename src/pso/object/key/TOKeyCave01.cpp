@@ -218,7 +218,7 @@ void TOKeyCave01::free_objects() {
     if (key_cave01_texture_lists != NULL) {
         free_if_valid(key_cave01_texture_lists[0]);
         if (key_cave01_texture_lists != NULL) {
-            mem_free(key_cave01_texture_lists);
+            delete[] key_cave01_texture_lists;
             key_cave01_texture_lists = NULL;
         }
     }
@@ -235,7 +235,7 @@ void TOKeyCave01::load_resources() {
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         resource = new BmlResource(1, &fs_obj_key_jungle_resource_descriptor, 0, 0, NULL);
         key_cave01_resource_bundle = resource;
-        key_cave01_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_cave01_texture_lists));
+        key_cave01_texture_lists = new NJS_TEXLIST *[2];
         key_cave01_texture_lists[0] = LoadPvmFileTls("fs_obj_key_jungle_red.gvm");
         key_cave01_texture_lists[1] = key_cave01_resource_bundle->models[0].texlist;
         key_cave_render_state = 1;
@@ -243,7 +243,7 @@ void TOKeyCave01::load_resources() {
     }
     resource = new BmlResource(1, &bm_fs_obj_do_doa_panel_resource_descriptor, 0, 0, NULL);
     key_cave01_resource_bundle = resource;
-    key_cave01_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_cave01_texture_lists));
+    key_cave01_texture_lists = new NJS_TEXLIST *[2];
     key_cave01_texture_lists[0] = LoadPvmFileTls("fs_obj_do_doa_panelr.gvm");
     key_cave01_texture_lists[1] = key_cave01_resource_bundle->models[0].texlist;
     key_cave_render_state = 0;

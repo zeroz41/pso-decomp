@@ -140,7 +140,7 @@ TTecGrantsEffect::TTecGrantsEffect(TObjBase *src, s32 level, TObject *parent) : 
         this->level = 0x1E;
     }
     tier = get_technique_level_tier(this->level);
-    emitters = (TParticleCtrl **)mem_alloc(grants_effect_emitter_table[tier].count * sizeof(TParticleCtrl *));
+    emitters = new TParticleCtrl *[grants_effect_emitter_table[tier].count];
     for (i = 0; i < grants_effect_emitter_table[tier].count; i++) {
         emitters[i] = spawn_continuous_particle_effect_with_flags(&position, grants_effect_emitter_table[tier].parts[i].id, 0x10);
         if (emitters[i] != NULL) {
@@ -188,7 +188,7 @@ TTecGrantsEffect::~TTecGrantsEffect() {
         }
     }
     stop_sound_request(sound);
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecGrantsEffect::run_task() {

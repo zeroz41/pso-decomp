@@ -16,7 +16,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/prs.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/ScreenSpriteDraw.h"
 
@@ -100,7 +100,7 @@ void TItemLoad::init_resources() {
     bml_resource = resource;
     completed_model_load_task_root = new TObject(NULL);
     model_load_task_root = new TObject(NULL);
-    slots = (s32 *)mem_alloc(0x30);
+    slots = new s32[12];
     model_slot_in_use = slots;
     item_load_resource_handle = 0;
     if (slots != NULL) {
@@ -111,7 +111,7 @@ void TItemLoad::init_resources() {
 }
 
 void TItemLoad::free_all() {
-    mem_free(model_slot_in_use);
+    delete[] model_slot_in_use;
     delete model_load_task_root;
     delete completed_model_load_task_root;
     delete bml_resource;
@@ -247,7 +247,7 @@ s32 TItemLoad::has_resource_id(s32 id) {
 }
 
 AfsPartition::AfsPartition(const char *path, s32 id, s32 nfiles) {
-    partition_info = mem_alloc((((nfiles + 1) * 2) + 0x116) & ~3);
+    partition_info = ::operator new[]((((nfiles + 1) * 2) + 0x116) & ~3);
     partition_id = id;
     handle = NULL;
     size_sectors = 0;
@@ -257,7 +257,7 @@ AfsPartition::AfsPartition(const char *path, s32 id, s32 nfiles) {
 
 AfsPartition::~AfsPartition() {
     close();
-    mem_free(partition_info);
+    ::operator delete[](partition_info);
 }
 
 AdxfHandle *AfsPartition::open(s32 index) {
@@ -290,7 +290,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
     buffer = NULL;
     root = NULL;
     if ((size != 0) && (path != NULL)) {
-        buffer = mem_alloc(size);
+        buffer = ::operator new[](size);
         item_buff = create_item_buff(size);
         if ((item_buff != NULL) && (buffer != NULL) && (read_disc_file(path, item_buff) > 0)) {
             decompressed_size = prs_decompress_alloc(item_buff, buffer, size);
@@ -304,16 +304,16 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
 }
 
 RelocatedFile::~RelocatedFile() {
-    mem_free(buffer);
+    ::operator delete[](buffer);
 }
 
 void TItemLoad::alloc_work_buffer() {
-    item_load_compressed_work_buffer = (u8 *)mem_alloc(0x6000);
+    item_load_compressed_work_buffer = new u8[0x6000];
     item_load_work_buffer_busy = 0;
 }
 
 void TItemLoad::free_work_buffer() {
-    mem_free(item_load_compressed_work_buffer);
+    delete[] item_load_compressed_work_buffer;
     item_load_compressed_work_buffer = NULL;
 }
 
@@ -513,11 +513,11 @@ void ItemModelChunkLoader::start_load_with_id(u8 *dst, s32 index) {
 void TItemLoad::alloc_all_models() {
     item_texture_archive_loader = new ItemTextureArchiveLoader(item_texture_archive_path, 0xB5, 0x144);
     item_model_chunk_loader = new ItemModelChunkLoader(item_model_archive_path, 0xB4, 0x12F);
-    item_load_model_buffer = (u8 *)mem_alloc(0x21000);
+    item_load_model_buffer = new u8[0x21000];
 }
 
 void TItemLoad::free_all_models() {
-    mem_free(item_load_model_buffer);
+    delete[] item_load_model_buffer;
     delete item_model_chunk_loader;
     delete item_texture_archive_loader;
     item_texture_archive_loader = NULL;

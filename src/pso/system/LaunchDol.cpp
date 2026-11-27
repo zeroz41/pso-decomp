@@ -1,6 +1,6 @@
 #include "types.h"
 #include <string.h>
-#include "pso/unk/SharedMemory.h"
+#include "pso/system/SharedMemory.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os/OSCache.h>
 #include <dolphin/os/OSReset.h>

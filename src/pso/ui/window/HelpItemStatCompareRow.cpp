@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/HelpItemStatCompareRow.h"
@@ -7,7 +7,7 @@
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TWindowStatusGauge.h"
+#include "pso/ui/window/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
@@ -76,11 +76,11 @@ void HelpItemStatCompareRow::set_value(s32 value) {
 void HelpItemStatCompareRow::set_help_text(uaddr str) {
     s32 len;
 
-    mem_free(label);
+    delete[] label;
     label = NULL;
     if (str != 0U) {
         len = (s32)measure_string_len((const char *)str);
-        label = (char *)mem_alloc(len + 1);
+        label = new char[len + 1];
         strncpy(label, (const char *)str, (u32)len + 1);
     }
 }
@@ -131,7 +131,7 @@ void HelpItemStatCompareRow::update() {
 }
 
 HelpItemStatCompareRow::~HelpItemStatCompareRow() {
-    mem_free(label);
+    delete[] label;
 }
 
 HelpItemStatCompareRow::HelpItemStatCompareRow(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {

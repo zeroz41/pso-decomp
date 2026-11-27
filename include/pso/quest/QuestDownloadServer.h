@@ -5,6 +5,8 @@
 
 #include "types.h"
 #include <string.h>
+#include <dolphin/os/OSCache.h>
+#include <dolphin/os/OSTime.h>
 #include "pso/quest/QuestDownloadRecords.h"
 #include "pso/quest/QuestDownloadText.h"
 #include "pso/quest/QuestDownloadWorkspace.h"
@@ -125,8 +127,6 @@ extern QuestDownloadTextNode *quest_page_node_head;
 extern s32 lbl_805D78E8;
 extern saddr quest_text_cursor_pos;
 extern "C" {
-void DCInvalidateRange(void *, u32);
-u32 OSGetTick(void);
 u32 __OSBusClock AT_ADDRESS(0x800000F8);
 void OSReport(const char *, ...);
 }

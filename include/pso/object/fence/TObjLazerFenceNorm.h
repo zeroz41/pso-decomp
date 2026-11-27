@@ -7,6 +7,7 @@
 struct BmlResource;
 struct NJS_MOTION;
 struct NJS_OBJECT;
+struct GinjaModel;
 struct NJS_TEXLIST;
 
 struct TObjLazerFenceNorm : public TObjCollidable {
@@ -27,7 +28,7 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     NJS_OBJECT *base_model;      // the fence size's "_moto" model, drawn without motion
     NJS_OBJECT *beam_model;      // the model beam_motion animates
     NJS_MOTION *beam_motion;
-    void *beam_part_models[4];   // models of the beam's child nodes, retextured for scale_level
+    GinjaModel *beam_part_models[4];   // models of the beam's child nodes, retextured for scale_level
     void select_models();
     static void *create(ObjectSetData *set_data);
 };

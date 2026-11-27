@@ -5,8 +5,4 @@
 
 int get_boss_asset_variant(void);
 
-// --- C functions defined in BossAssetVariant.cpp ---
-int get_boss_asset_variant(void);
-// --- end of C functions
-
 #endif

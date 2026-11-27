@@ -139,12 +139,12 @@ void *TOSymbolchatColli::create(ObjectSetData *set_data) {
     return new TOSymbolchatColli(tl_05, set_data);
 }
 
-void TOSymbolchatColli::free_rock() { mem_free(symbol_chat_colli_entries); symbol_chat_colli_entries = NULL; }
+void TOSymbolchatColli::free_rock() { delete[] symbol_chat_colli_entries; symbol_chat_colli_entries = NULL; }
 
 void TOSymbolchatColli::load_symbol_chat_data() {
     void *h;
     s32 i;
-    symbol_chat_colli_entries = (SymbolChatPreset *)mem_alloc(0x840);
+    symbol_chat_colli_entries = new SymbolChatPreset[24];
     h = load_disc_file(symbolchatcolli_prs);
     if (h != NULL) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);

@@ -270,8 +270,8 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
-            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_state.data, quest_download_file_state.size);
-            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_slot.data, quest_download_file_slot.size);
+            TQuestVmDownLoadServer::encrypt_download_data(quest_download_file_state.words(), quest_download_file_state.size);
+            TQuestVmDownLoadServer::encrypt_download_data(quest_download_file_slot.words(), quest_download_file_slot.size);
             TQuestVmDownLoadServer::create();
         }
         break;
@@ -288,8 +288,8 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
-            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_state.data, quest_download_file_state.size);
-            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_slot.data, quest_download_file_slot.size);
+            TQuestVmDownLoadServer::encrypt_download_data(quest_download_file_state.words(), quest_download_file_state.size);
+            TQuestVmDownLoadServer::encrypt_download_data(quest_download_file_slot.words(), quest_download_file_slot.size);
             TQuestVmDownLoadServer::create();
         }
         break;

@@ -6,7 +6,7 @@ struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/WeaponAttribute.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include <stddef.h>
 
 struct PageIndicator;

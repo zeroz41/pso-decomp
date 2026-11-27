@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TDelayedAreaMusic.h"
+#include "pso/player/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -31,13 +31,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TBattleProximitySound.h"
+#include "pso/player/TBattleProximitySound.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/TBattleMusicGainTask.h"
+#include "pso/player/TBattleMusicGainTask.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/network/LegacyEnemyKill.h"
 #include <string.h>
@@ -724,7 +724,7 @@ void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     battle_frame_rate = get_video_standard() == 1 ? 0x19 : 0x1E;
     // The runtime stores a 0x10-byte array cookie before the 12 slots.
-    lobby_char_slot_array = (PlayerCharDataEntry *)__construct_new_array(mem_alloc(0x10 + 12 * sizeof(PlayerCharDataEntry)),
+    lobby_char_slot_array = (PlayerCharDataEntry *)__construct_new_array(::operator new[](0x10 + 12 * sizeof(PlayerCharDataEntry)),
         __ct__19PlayerCharDataEntryFv, __dt__19PlayerCharDataEntryFv, sizeof(PlayerCharDataEntry), 12);
     TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();

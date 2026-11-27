@@ -5,6 +5,7 @@
 
 class TPacket;
 struct CharacterSaveRecord;
+union packet;
 
 // Test or rewrite a client's card window flags in its character save record.
 s32 test_card_flag(s32 client, s32 mask);
@@ -18,5 +19,7 @@ void set_default_card_window_flags(CharacterSaveRecord *record);
 void free_deferred_packet_buffer();
 
 void buffer_reset(void);
+
+void copy_packet(packet *pkt);
 
 #endif

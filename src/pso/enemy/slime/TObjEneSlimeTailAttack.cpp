@@ -1251,8 +1251,8 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     f32 c;
     m_name = slime_water_bomb_name;
     this->owner = owner;
-    this->rotation.y = ((TObjEneSlimeOne *)m_up)->rotation.y;
-    VecCopy(&position, &((TObjEneSlimeOne *)m_up)->position);
+    this->rotation.y = parent_slime()->rotation.y;
+    VecCopy(&position, &parent_slime()->position);
     s = sin_table_lookup(this->rotation.y);
     c = cos_table_lookup(this->rotation.y);
     position.x += 15.0f * s;

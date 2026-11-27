@@ -3,7 +3,7 @@
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/effect/TEF_PvrWave.h"
-#include "pso/unk/TTextureWave.h"
+#include "pso/render/TTextureWave.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixVector.h"

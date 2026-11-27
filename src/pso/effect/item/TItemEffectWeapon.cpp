@@ -171,15 +171,15 @@ TItemEffectWeapon::TrailVertex* TItemEffectWeapon::allocate_trail_buffer() {
 }
 
 void TItemEffectWeapon::free_static_effects() {
-    mem_free(weapon_trail_slot_bitmap);
-    mem_free(item_weapon_trail_vertex_buffer);
+    delete[] weapon_trail_slot_bitmap;
+    delete[] item_weapon_trail_vertex_buffer;
     weapon_trail_slot_bitmap = NULL;
     item_weapon_trail_vertex_buffer = NULL;
 }
 
 void TItemEffectWeapon::initialize_static_effects() {
-    item_weapon_trail_vertex_buffer = (TrailVertex*)mem_alloc(16 * 32 * sizeof(TrailVertex));
-    weapon_trail_slot_bitmap = (s32*)mem_alloc(16 * sizeof(s32));
+    item_weapon_trail_vertex_buffer = new TrailVertex[16 * 32];
+    weapon_trail_slot_bitmap = new s32[16];
     for (s32 i = 0; i < 16; i++) {
         weapon_trail_slot_bitmap[i] = 0;
     }

@@ -6,11 +6,6 @@
 struct NJS_OBJECT;
 struct GinjaTextureList;
 
-struct ExplosiveMachineModel {
-    u8 pad_00[0x14];
-    f32 radius;
-};
-
 struct TOExplosiveMachine : public TObjBase {
     TOExplosiveMachine();
     virtual ~TOExplosiveMachine();

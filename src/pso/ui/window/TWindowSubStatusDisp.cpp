@@ -1,6 +1,6 @@
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/PageIndicator.h"

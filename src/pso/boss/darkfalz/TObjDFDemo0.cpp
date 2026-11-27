@@ -6,7 +6,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

@@ -103,7 +103,7 @@ void TTecMegid::spawn_particle_emitters() {
   dir.x = angles[0];
   dir.y = 0;
   dir.z = angles[2];
-  emitters = static_cast<void **>(mem_alloc(megid_emitter_bands[band].count * sizeof(*emitters)));
+  emitters = new void *[megid_emitter_bands[band].count];
   for (i = 0; i < megid_emitter_bands[this->band].count; i++)
   {
     mode = 0;
@@ -196,7 +196,7 @@ TTecMegid::~TTecMegid() {
             ((TObject *)emitters[i])->queue_destruction();
         }
     }
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecMegid::run_task() {

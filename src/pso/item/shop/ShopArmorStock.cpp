@@ -343,7 +343,7 @@ void free_armor_random_table(void) {
     do {
         TItemData *buffer = buffers[index];
         if (buffer != NULL) {
-            mem_free(buffer);
+            delete[] buffer;
             buffers[index] = none;
         }
         i -= 1;
@@ -373,10 +373,10 @@ void load_armor_random_table(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            shop_armor_stock_buffers[i] = static_cast<TItemData *>(mem_alloc(21 * sizeof(TItemData)));
+            shop_armor_stock_buffers[i] = new TItemData[21];
         }
     } else {
-        shop_armor_stock_buffers[0] = static_cast<TItemData *>(mem_alloc(21 * sizeof(TItemData)));
+        shop_armor_stock_buffers[0] = new TItemData[21];
     }
     shop_armor_stock_level = 0;
 }

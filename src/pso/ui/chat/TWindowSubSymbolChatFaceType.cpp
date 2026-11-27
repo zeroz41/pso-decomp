@@ -14,7 +14,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/player/LocalClientId.h"

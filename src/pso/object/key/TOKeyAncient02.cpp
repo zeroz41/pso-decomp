@@ -127,7 +127,7 @@ void TOKeyAncient02::free_static() {
     if (key_ancient02_texture_lists != NULL) {
         free_if_valid(key_ancient02_texture_lists[1]);
         if (key_ancient02_texture_lists != NULL) {
-            mem_free(key_ancient02_texture_lists);
+            delete[] key_ancient02_texture_lists;
             key_ancient02_texture_lists = NULL;
         }
     }
@@ -141,7 +141,7 @@ void TOKeyAncient02::free_static() {
 void TOKeyAncient02::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, NULL);
     key_ancient02_model_archive = resource;
-    key_ancient02_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_ancient02_texture_lists));
+    key_ancient02_texture_lists = new NJS_TEXLIST *[2];
     key_ancient02_texture_lists[0] = get_bml_texlist(key_ancient02_model_archive, 0);
     key_ancient02_texture_lists[1] = LoadPvmFileTls("o_key_ancient02.gvm");
     key_ancient02_glass_model = get_bml_model(key_ancient02_model_archive, 0);

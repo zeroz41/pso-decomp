@@ -50,13 +50,13 @@ void TSymbolChatCapture::run_task() {
 }
 
 TSymbolChatCapture::~TSymbolChatCapture() {
-    mem_free(entries);
+    delete[] entries;
     slot_entity_dispatcher_instance = NULL;
 }
 
 TSymbolChatCapture::TSymbolChatCapture(TObject *parent) : TObject(parent) {
     s32 i;
-    entries = (SymbolChatPayload *)mem_alloc(4 * sizeof(SymbolChatPayload));
+    entries = new SymbolChatPayload[4];
     if (entries != NULL) {
         for (i = 0; i != 4; i++) {
             entries[i].clear();

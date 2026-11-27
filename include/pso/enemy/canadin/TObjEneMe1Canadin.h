@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.h"
 #include "pso/system/NinjaTypes.h"
 

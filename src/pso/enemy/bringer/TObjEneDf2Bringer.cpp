@@ -37,7 +37,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/ActorCollision.h"
 
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 
 
 #include "pso/math/FloatRounding.h"

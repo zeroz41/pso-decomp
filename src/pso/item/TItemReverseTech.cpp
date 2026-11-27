@@ -156,9 +156,9 @@ void TItemReverseTech::load_textures() {
     NJS_TEXLIST *list;
     void *file;
     void *buf;
-    name_buffer = (char *)mem_alloc(0x1C);
+    name_buffer = new char[0x1C];
     strncpy(name_buffer, name, 0x1B);
-    e = (NJS_TEXNAME *)mem_alloc(17 * sizeof(NJS_TEXNAME));
+    e = new NJS_TEXNAME[17];
     texnames = e;
     for (i = 0; i < 17; i++, e++) {
         e->filename = name_buffer;
@@ -170,11 +170,11 @@ void TItemReverseTech::load_textures() {
     list->textures = texnames;
     file = load_disc_file(name);
     if (file != NULL) {
-        buf = mem_alloc(0x200000);
+        buf = ::operator new[](0x200000);
         if (buf != NULL && prs_decompress_alloc(file, buf, 0x200000) > 0) {
             load_gvm_texture_archive(buf, texture_list);
         }
-        mem_free(buf);
+        ::operator delete[](buf);
     }
     safe_free(file);
 }
@@ -182,9 +182,9 @@ void TItemReverseTech::load_textures() {
 
 void TItemReverseTech::free() {
     free_texture_if_valid(texture_list);
-    mem_free(name_buffer);
+    delete[] name_buffer;
     name_buffer = NULL;
-    mem_free(texnames);
+    delete[] texnames;
     texnames = NULL;
     delete texture_list;
     texture_list = NULL;

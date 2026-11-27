@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -13,12 +13,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/unk/TBattleMusicGainTask.h"
+#include "pso/player/TBattleMusicGainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 
 
 #pragma readonly_strings on

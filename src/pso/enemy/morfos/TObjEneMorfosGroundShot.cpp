@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/enemy/TObjEneMorfosGroundShot.h"
+#include "pso/enemy/morfos/TObjEneMorfosGroundShot.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"

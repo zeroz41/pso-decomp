@@ -65,7 +65,7 @@ TBoss1DragonColli_C::TBoss1DragonColli_C(TObject *parent, s32 count, Vec *pos, f
     VecCopy(&this->local_position, pos);
     this->entity_id = alloc_object_ids(0);
     this->body_count = count;
-    this->bodies = (CollisionBody *)mem_alloc(this->body_count * sizeof(CollisionBody));
+    this->bodies = new CollisionBody[this->body_count];
     step = 2.0f * scale;
     e = this->bodies;
     zero = 0.0f;

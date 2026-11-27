@@ -47,8 +47,8 @@ struct G_ClientIDHeader {
  void bswap();
 };
 
-// Header helpers every 6x packet's send and operator= call with the packet itself.
-void bswap_g_client_id_header(void *header);
+// Header helpers of the 6x packets: send swaps the header, operator= copies it.
+void bswap_g_client_id_header(G_ClientIDHeader *header);
 void assign_subcommand_header(void *dst, void *src);
 void *copy_subcommand_header(void *dst, const void *src);
 

@@ -24,7 +24,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/PadRumble.h"
-#include "pso/unk/TAdDialingSelectGC.h"
+#include "pso/ui/frontend/TAdDialingSelectGC.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/DeferredPackets.h"
 

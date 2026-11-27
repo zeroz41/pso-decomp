@@ -2,7 +2,7 @@
 #define PSO_ENEMY_DUBCHIK_TOBJENEDUBCHIK_H
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 class TParticleCtrl;
 class TAttackTraceStrip;

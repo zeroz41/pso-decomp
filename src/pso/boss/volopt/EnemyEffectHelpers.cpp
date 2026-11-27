@@ -11,7 +11,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
-#include "pso/unk/TDeadSpotGroundEmitter.h"
+#include "pso/object/TDeadSpotGroundEmitter.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"

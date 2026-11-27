@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -253,6 +253,6 @@ TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoa
     return new TChCrLoadAfsTextureReq(parent, args);
 }
 
-float logf(float x) {
+extern "C" float logf(float x) {
     return (float)log(x);
 }

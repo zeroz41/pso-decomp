@@ -43,9 +43,9 @@ extern "C" {
 s32 release_texture_state(GinjaTextureState *texture);
 // Releases every loaded texture in `texlist`; -1 if one failed, else 1.
 s32 release_texture_list(NJS_TEXLIST *texlist);
-s32 find_texture_entry_by_name(const NJS_TEXLIST *texlist, const char *name);
 #ifdef __cplusplus
 }
 #endif
+s32 find_texture_entry_by_name(const NJS_TEXLIST *texlist, const char *name);
 
 #endif

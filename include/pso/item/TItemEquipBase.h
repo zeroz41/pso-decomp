@@ -29,7 +29,7 @@ struct TItemEquipBase : public TItem {
     virtual void add_equip_stats(s32 apply);
     virtual void remove_equip_stats(s32 apply);
     virtual void subtract_item_stat_bonus(AttackParams *attack, ActorParamBlock *params, s16 *stats);
-    virtual void subtract_equip_stats(void *atp, s16 *stats, s16 *stats2);
+    virtual void subtract_equip_stats(AttackParams *attack, ActorParamBlock *params, player_stats *stats);
     virtual void destroy();
     virtual s8 get_attach_slot();
     // The last step of equip() / of unequip() (armor and units start and

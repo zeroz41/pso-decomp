@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/DeferredPackets.h"
 
 const char *TWindowKeyBoardHard::class_name = "TWindowKeyBoardHard";

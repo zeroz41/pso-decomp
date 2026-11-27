@@ -50,7 +50,7 @@ void TTecRaBarta::spawn_effects(Vec *pos) {
     u32 i;
     Vec point;
     const TechniqueEmitter *binding;
-    emitters = (TParticleCtrl **)mem_alloc(rabarta_band_emitter_table[band].count * sizeof(TParticleCtrl *));
+    emitters = new TParticleCtrl *[rabarta_band_emitter_table[band].count];
     for (i = 0; i < rabarta_band_emitter_table[band].count; i++) {
         VecCopy(&point, &source->position);
         if (pos != NULL) {
@@ -181,7 +181,7 @@ TTecRaBarta::~TTecRaBarta() {
         }
     }
     stop_sound_request(sound);
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecRaBarta::render() {  }

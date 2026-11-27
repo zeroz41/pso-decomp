@@ -44,7 +44,7 @@ public:
     static void clear_instance_on_floor_free();
     static void clear_instance_on_floor_load();
 
-    IndirectDrawRecord *entries;  // 16 records, mem_alloc(0x240) by the constructor
+    IndirectDrawRecord *entries;  // 16 records, allocated by the constructor
     s32 entry_count;
 };
 LAYOUT_ASSERT(TIndirectEffectDrawTask_size, sizeof(TIndirectEffectDrawTask) == 0x24);

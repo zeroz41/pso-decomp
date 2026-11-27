@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
-#include "pso/object/TObjEneGyaranzoMine.h"
+#include "pso/enemy/gyaranzo/TObjEneGyaranzoMine.h"
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"

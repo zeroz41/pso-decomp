@@ -15,7 +15,7 @@
 #include "pso/math/BoxCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TAttackCollider.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
@@ -1029,15 +1029,12 @@ void *TObjCollidable::set_collision_body(CollisionBody *body) {
 }
 
 void free_collision_body_parts(TObjCollidable *actor) {
-    FlagWord *flags = actor->body_flags;
-    if (flags != NULL) {
-        if (flags != NULL) {
-            mem_free((u8 *)flags - 0x10);
-        }
+    if (actor->body_flags != NULL) {
+        delete[] actor->body_flags;
         actor->body_flags = NULL;
     }
     if (actor->bodies != NULL) {
-        mem_free(actor->bodies);
+        delete[] actor->bodies;
         actor->bodies = NULL;
     }
 }
@@ -1047,7 +1044,7 @@ CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionB
     s32 i;
     if (actor->bodies == NULL) {
         actor->body_count = count;
-        actor->bodies = (CollisionBody *)mem_alloc(actor->body_count * sizeof(CollisionBody));
+        actor->bodies = new CollisionBody[actor->body_count];
         for (i = 0; i < actor->body_count; i++) {
             copy_collision_body(&actor->bodies[i], bodies++);
         }

@@ -13,7 +13,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/unk/TLobbyEventTheme.h"
+#include "pso/object/lobby/TLobbyEventTheme.h"
 #include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on

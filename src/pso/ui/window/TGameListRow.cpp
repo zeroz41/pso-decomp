@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/ItemListRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TGameListRow.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -17,7 +17,7 @@ void TGameListRow::fill(s32 locked, const char *name, s8 player_count, s8 max_pl
         this->icon = 0x33;
     }
     len = measure_string_len(name);
-    this->text = (char *)mem_alloc(len + 1);
+    this->text = new char[len + 1];
     strncpy(this->text, name, len);
     *((s8 *)len + (saddr)this->text) = 0;
     this->episode = episode;
@@ -95,7 +95,7 @@ void TGameListRow::update() {}
 
 TGameListRow::~TGameListRow() {
     if (this->text != NULL) {
-        mem_free(this->text);
+        delete[] this->text;
         this->text = NULL;
     }
 }

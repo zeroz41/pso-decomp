@@ -591,7 +591,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObj
         part_points[i].y = 0.0f;
         part_points[i].z = 0.0f;
     }
-    tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
+    tentacle_matrices = new GC_Mtx[4];
     for (s32 i = 0; i < 4; i++) {
         set_matrix_identity((u8 *)tentacle_matrices[i]);
         tentacles[i] = new TBoss7Tentacle(&part_group, tentacle_matrices[i], i);
@@ -630,7 +630,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObj
         VecCopy(&sound_origins[i], &position);
     }
     loop_sound_frames = 0;
-    node_matrices = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
+    node_matrices = new GC_Mtx[12];
     for (s32 i = 0; i < 12; i++) {
         set_matrix_identity((u8 *)node_matrices[i]);
     }
@@ -708,7 +708,7 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
             splash_ctrls[i] = NULL;
         }
     }
-    mem_free(node_matrices);
+    delete[] node_matrices;
     node_matrices = NULL;
     if (hit_trail != NULL) {
         hit_trail->queue_destruction();
@@ -730,7 +730,7 @@ TBoss7DeRolLeC::~TBoss7DeRolLeC() {
         ((TObject *)tentacles[i])->queue_destruction();
         tentacles[i] = NULL;
     }
-    mem_free(tentacle_matrices);
+    delete[] tentacle_matrices;
     clear_collision_bodies();
     if (boss7_joint_state == this) {
         boss7_joint_state = NULL;

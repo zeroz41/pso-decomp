@@ -33,7 +33,7 @@ CharacterPreview::~CharacterPreview() {
 
 CharacterPreview::CharacterPreview(TObject *parent, void *visual, s32 load_slot) {
     CharacterPreviewLoadArgs args;
-    copy_player_visual_record((PlayerVisualRecord *)&appearance, (PlayerVisualRecord *)visual);
+    copy_player_visual_record((disp_data_part2 *)&appearance, (disp_data_part2 *)visual);
     completion_flags = 0xFF;
     bind_appearance_texture_lists(&head_textures, &other_textures, &body_textures, &appearance);
     args.appearance = &appearance;

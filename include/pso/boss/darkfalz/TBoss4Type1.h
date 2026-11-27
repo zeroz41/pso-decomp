@@ -6,7 +6,7 @@
 struct BmlResource;
 struct TBoss4FormSetData;
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include <stddef.h>
 
 class ModelNodePositionCapture;

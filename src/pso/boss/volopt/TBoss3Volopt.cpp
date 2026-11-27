@@ -22,7 +22,7 @@
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss3VoloptMusicTrigger.h"
-#include "pso/boss/TBoss3VoloptFadeIn.h"
+#include "pso/boss/volopt/TBoss3VoloptFadeIn.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"

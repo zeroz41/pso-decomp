@@ -53,7 +53,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
                 continue;
             }
             VecCopy(&pos, &p->position);
-            copy_player_visual_record((PlayerVisualRecord *)&chr, (PlayerVisualRecord *)&p->appearance);
+            copy_player_visual_record(&chr, (disp_data_part2 *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             delete p;
             switch (chr.v1_flags & 0xe0) {
@@ -72,7 +72,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&chr);
+                copy_player_visual_record(&cd.m_disp_part2, &chr);
                 TObjPlayer::begin_action_state(&cd);
                 TNpcPlayer::send_command(chr.char_class, t->item_count, (const TPlyInventoryItem *)t->items, t->level, &cd);
                 if (i == local_client_id) {

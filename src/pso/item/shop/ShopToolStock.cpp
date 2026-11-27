@@ -360,7 +360,7 @@ void free_tool_random_rel(void) {
     do {
         TItemData *buffer = buffers[index];
         if (buffer != NULL) {
-            mem_free(buffer);
+            delete[] buffer;
             buffers[index] = none;
         }
         i -= 1;
@@ -380,10 +380,10 @@ void load_tool_random_rel(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            shop_tool_stock_buffers[i] = static_cast<TItemData *>(mem_alloc(18 * sizeof(TItemData)));
+            shop_tool_stock_buffers[i] = new TItemData[18];
         }
     } else {
-        shop_tool_stock_buffers[0] = static_cast<TItemData *>(mem_alloc(18 * sizeof(TItemData)));
+        shop_tool_stock_buffers[0] = new TItemData[18];
     }
     shop_tool_stock_level = 0;
 }

@@ -68,7 +68,7 @@ TODoorAncient04::~TODoorAncient04() {
 void TODoorAncient04::load_resources() {
     BmlResource *archive = new BmlResource(1, &bm_fe_obj_o_door04l_resource_descriptor, 0, 0, NULL);
     door_ancient04_archive = archive;
-    NJS_TEXLIST **texlists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    NJS_TEXLIST **texlists = new NJS_TEXLIST *[2];
     door_ancient04_texlists = texlists;
     texlists[0] = door_ancient04_archive->models[0].texlist;
     door_ancient04_texlists[1] = LoadPvmFileTls("fe_obj_o_door04g.gvm");
@@ -78,7 +78,7 @@ void TODoorAncient04::free_resources() {
     if (door_ancient04_texlists != NULL) {
         free_if_valid(door_ancient04_texlists[1]);
         if (door_ancient04_texlists != NULL) {
-            mem_free(door_ancient04_texlists);
+            delete[] door_ancient04_texlists;
             door_ancient04_texlists = NULL;
         }
     }

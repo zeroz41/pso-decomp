@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/audio/AdxfInternal.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/audio/AdxCacheControl.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/network/TLobby.h"

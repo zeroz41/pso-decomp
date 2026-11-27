@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include <stddef.h>
 
 // Per-kind parameter block from dispatch_shared_handler_a, one for each of

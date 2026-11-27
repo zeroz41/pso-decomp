@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/vector.h"
 
 #pragma readonly_strings on

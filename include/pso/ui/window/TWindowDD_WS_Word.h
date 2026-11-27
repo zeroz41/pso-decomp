@@ -2,7 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWDD_WS_WORD_H
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct NJS_POINT2;
 

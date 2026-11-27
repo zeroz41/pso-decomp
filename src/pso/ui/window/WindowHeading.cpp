@@ -3,7 +3,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/GuildCardRecord.h"
+#include "pso/network/GuildCardRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <string.h>

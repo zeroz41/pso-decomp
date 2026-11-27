@@ -7,7 +7,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobbyEventTheme.h"
+#include "pso/object/lobby/TLobbyEventTheme.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"

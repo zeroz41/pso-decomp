@@ -4,7 +4,7 @@
 #include "pso/ui/TitleTextureResources.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/TTitleLogo.h"
-#include "pso/unk/TTitleScene.h"
+#include "pso/ui/frontend/TTitleScene.h"
 
 #include "pso/ui/TTitleMenu.h"
 #include "pso/ui/window/ScreenQuadDraw.h"

@@ -8,7 +8,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/player/TObjPlayer.h"

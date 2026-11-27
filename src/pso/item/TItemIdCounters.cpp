@@ -288,15 +288,15 @@ void reset_item_id_counters() {
 
 
 TItemIdCounters::~TItemIdCounters() {
-    mem_free(item_sync_counter_table);
+    delete[] item_sync_counter_table;
     item_sync_counter_table = NULL;
-    mem_free(item_id_counter_table);
+    delete[] item_id_counter_table;
     item_id_counter_table = NULL;
 }
 
 TItemIdCounters::TItemIdCounters() {
-    item_id_counter_table = static_cast<s32 *>(mem_alloc(12 * sizeof(s32)));
-    item_sync_counter_table = static_cast<s32 *>(mem_alloc(12 * sizeof(s32)));
+    item_id_counter_table = new s32[12];
+    item_sync_counter_table = new s32[12];
     reset_item_id_counters();
     lbl_805D54E0 = 0;
     build_item_id_mode = 0;

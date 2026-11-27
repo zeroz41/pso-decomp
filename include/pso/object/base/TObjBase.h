@@ -37,6 +37,7 @@ public:
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     u16 get_entity_id();
+    Vec *get_position_ptr();
     Vec *set_position_from(const Vec *pos);
     void save_previous_position();
     Angle3 *get_rotation();

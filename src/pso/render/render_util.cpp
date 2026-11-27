@@ -200,17 +200,9 @@ u32 calc_pulse_flash_color(u8 r, u8 g, u8 b, s32 frame, s32 period, s32 start, s
     return 0xFF000000 | (r << 16) | (g << 8) | b;
 }
 
-void *delete_object_if_delete_flag(void *object, s16 del) {
-    if (object != NULL && del > 0) {
-        operator delete(object);
-    }
-    return object;
-}
+ZeroedGlobalObject::~ZeroedGlobalObject() {}
 
-void *clear_first_word(void *object) {
-    *(s32 *)object = 0;
-    return object;
-}
+ZeroedGlobalObject::ZeroedGlobalObject() { first_word = 0; }
 
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color) {}
@@ -226,7 +218,7 @@ extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color,
 }
 
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color) {}
-extern "C" void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
+void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
 
 f32 horizontal_distance_squared(const Vec *a, const Vec *b) {
     f32 dx = b->x - a->x;

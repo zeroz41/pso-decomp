@@ -115,7 +115,7 @@ TBoss7BreakUp::TBoss7BreakUp(TObject *parent) : TObject(parent) {
 }
 
 TBoss7BreakUp::~TBoss7BreakUp() {
-    mem_free(pieces);
+    delete[] pieces;
     delete model;
 }
 
@@ -123,7 +123,7 @@ void TBoss7BreakUp::alloc_breakup_model(NJS_OBJECT *root) {
     this->model = new TBreakUpMdlData(root);
     count = this->model->m_count;
     scale_node_velocities_xz();
-    pieces = (BarbaRayBreakupPiece *)mem_alloc(count * sizeof(BarbaRayBreakupPiece));
+    pieces = new BarbaRayBreakupPiece[count];
 }
 
 void TBoss7JointBreakUp::load_static_resource() {

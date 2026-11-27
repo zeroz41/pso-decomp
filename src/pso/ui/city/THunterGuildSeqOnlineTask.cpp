@@ -81,12 +81,12 @@ void close_windows_and_reset() {
         clear_keyboard_input_flag();
         q = &quest_list_online_bin_download_state;
         if (q->buffer != NULL) {
-            mem_free(q->buffer);
+            delete[] q->buffer;
             q->buffer = NULL;
         }
         q = &quest_list_online_dat_download_state;
         if (q->buffer != NULL) {
-            mem_free(q->buffer);
+            delete[] q->buffer;
             q->buffer = NULL;
         }
         if (online_quest_download_window != NULL) {
@@ -135,12 +135,12 @@ void handle_quest_ready() {
         clear_keyboard_input_flag();
         q = &quest_list_online_bin_download_state;
         if (q->buffer != NULL) {
-            mem_free(q->buffer);
+            delete[] q->buffer;
             q->buffer = NULL;
         }
         q = &quest_list_online_dat_download_state;
         if (q->buffer != NULL) {
-            mem_free(q->buffer);
+            delete[] q->buffer;
             q->buffer = NULL;
         }
         online_quest_bin_download_complete = 0;
@@ -257,7 +257,7 @@ void begin_file_download(TRecvDownloadHead &file) {
         if (s->buffer == NULL) {
             strncpy(s->name, head->filename, 0x10);
             quest_list_online_dat_download_state.size = head->file_size;
-            s->buffer = (u8 *)mem_alloc(head->file_size);
+            s->buffer = new u8[head->file_size];
             memset(s->buffer, 0, head->file_size);
             online_quest_dat_download_complete = 0;
             quest_download_received_bytes += head->file_size;
@@ -267,7 +267,7 @@ void begin_file_download(TRecvDownloadHead &file) {
         if (s->buffer == NULL) {
             strncpy(s->name, head->filename, 0x10);
             quest_list_online_bin_download_state.size = head->file_size;
-            s->buffer = (u8 *)mem_alloc(head->file_size);
+            s->buffer = new u8[head->file_size];
             memset(s->buffer, 0, head->file_size);
             online_quest_bin_download_complete = 0;
             TDLGraph::update_graph(quest_download_graph_current_bytes, quest_download_received_bytes += head->file_size);
@@ -304,11 +304,11 @@ void copy_quest_list_data(OnlineQuestMenu &menu) {
 
 void release_resources() {
     if (quest_list_online_bin_download_state.buffer != NULL) {
-        mem_free(quest_list_online_bin_download_state.buffer);
+        delete[] quest_list_online_bin_download_state.buffer;
         quest_list_online_bin_download_state.buffer = NULL;
     }
     if (quest_list_online_dat_download_state.buffer != NULL) {
-        mem_free(quest_list_online_dat_download_state.buffer);
+        delete[] quest_list_online_dat_download_state.buffer;
         quest_list_online_dat_download_state.buffer = NULL;
     }
     if (quest_list_online_selected_quest_info != NULL) {

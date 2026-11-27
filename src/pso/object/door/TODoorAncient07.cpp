@@ -88,14 +88,14 @@ void *TODoorAncient07::create(ObjectSetData *set_data) {
 
 void TODoorAncient07::destroy() {
     if (model_nodes != NULL) {
-        mem_free(model_nodes);
+        delete[] model_nodes;
         model_nodes = NULL;
     }
     if (texture_lists != NULL) {
         free_if_valid(texture_lists[1]);
         free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
-            mem_free(texture_lists);
+            delete[] texture_lists;
             texture_lists = NULL;
         }
     }
@@ -108,10 +108,10 @@ void TODoorAncient07::destroy() {
 void TODoorAncient07::load_resources() {
     BmlResource *resource = new BmlResource(1, &door_ancient_567_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
-    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists = new NJS_TEXLIST *[2];
     texture_lists[0] = LoadPvmFileTls("fs_obj_door07_m_03_r.gvm");
     texture_lists[1] = LoadPvmFileTls("fs_obj_door07_m_03_g.gvm");
-    model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
+    model_nodes = new NJS_OBJECT[3];
     if (bml_resource != NULL && model_nodes != NULL) {
         copy_model_node(&model_nodes[0], bml_resource->models[0].model);
         model_nodes[0].child = NULL;

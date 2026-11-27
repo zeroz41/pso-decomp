@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/TGameListRow.h"
 #include "pso/ui/window/WindowLayout.h"
 

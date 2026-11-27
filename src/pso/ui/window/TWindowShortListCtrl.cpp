@@ -24,7 +24,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
-#include "pso/unk/TBattleProximitySound.h"
+#include "pso/player/TBattleProximitySound.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"

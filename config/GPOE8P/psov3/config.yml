@@ -1770,7 +1770,7 @@ force_active:
   - class_name__14TWindowCtrlSub
   - update_countdown__17TWindowCtrlPlayerFv
   - set_return_city_open__11TWindowCtrlFv
-  - __sinit_TWindowDD_WS_ScrollBar_cpp__Fv
+  - __sinit_TWindowDD_WS_ScrollBar_cpp
   - __ct__19TWindowDD_WS_StringFPfPfPCcl
   - __sinit_TWindowDD_WS_String_cpp
   - __ct__17TWindowDD_WS_WordFll
@@ -5303,7 +5303,7 @@ force_active:
   - controller_default_pad_state
   - controller_device_id_table
   - is_side_obstructed__13TCameraFollowFl
-  - convert_quest_object_rows__FP33ConvertQuestObjectRowsQuestObjRowUl
+  - convert_quest_object_rows__FP17FloorObjectSetRowUl
   - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi
   - copy_4word_struct
@@ -5338,7 +5338,7 @@ force_active:
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
   - set_parameters__15TEffStarLight2DFP19StarLightParameters
   - pop_fade_color__23TEquippedWeaponDrawTaskFv
-  - __sinit_TChallenge4P_cpp__Fv
+  - __sinit_TChallenge4P_cpp
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFP18TPlyJoinLobbyEntryP18TPlyJoinLobbyEntry
@@ -6335,7 +6335,7 @@ force_active:
   - set_bank__18TPlyDispConfigSmthFv
   - decrement_state__19PhotonBlastDonationFv
   - initialize_battle__17TPlayerBattleCtrlFv
-  - __sinit_ZeroedGlobalObject_cpp__Fv
+  - __sinit_ZeroedGlobalObject_cpp
   - fn_801D371C
   - fn_801D6AB4
   - copy_arrow_color_entry__FP16TArrowColorEntryP16TArrowColorEntry
@@ -7171,7 +7171,7 @@ force_active:
   - __ct__13TBoss7BreakUpFP7TObject
   - __ct__16TItemWeaponRifleFP7TObjectPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
-  - __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp__Fv
+  - __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp
   - __ct__24TItemWeaponTheSighOfAGodFP7TObjectPUc
   - initialize_fmt1_materials__6TSceneFv
   - initialize_fmt2_materials__6TSceneFv
@@ -8137,7 +8137,6 @@ force_active:
   - lbl_8050BED0
   - npc_player_visual_record
   - npc_player_char_data
-  - lbl_80511DD8
   - memcard_file_status
   - memcard_work_areas
   - card_slot_summary
@@ -14600,7 +14599,7 @@ force_active:
   - rock_jungle_vec3_table
   - rocket_punch_create_shot__FP11TItemWeaponPC3VecPC3Vecf
   - rocket_punch_return_timer__FUl
-  - rocket_punch_target_impact__FPvUlUll
+  - rocket_punch_target_impact__FlUlUll
   - rocket_punch_wall_impact__FUlUlUlUl
   - roll_armor_bonuses__9TItemDropFv
   - roll_item_channel_below__FUll

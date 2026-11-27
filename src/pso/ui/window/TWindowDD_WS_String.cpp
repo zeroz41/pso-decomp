@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowDrawContext.h"
 

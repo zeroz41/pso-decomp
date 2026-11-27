@@ -150,7 +150,7 @@ void TWindowSubInformationBoard::run_task() {
             info_text = this->keyboard->realloc_buffer();
             set_info_board_text(info_text);
             flush_pending_send();
-            mem_free(info_text);
+            delete[] info_text;
             this->state = 0xBU;
             break;
         }

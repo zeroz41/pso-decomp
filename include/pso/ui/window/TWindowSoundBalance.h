@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 
 struct TWindowSoundBalance : public TWindowBase {

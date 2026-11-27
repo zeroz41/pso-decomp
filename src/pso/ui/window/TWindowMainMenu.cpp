@@ -2,7 +2,7 @@
 
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TradeSession.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
@@ -28,7 +28,7 @@ struct TWindowSubItem;
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/unk/TWindowStatusCategoryMenu.h"
+#include "pso/ui/window/TWindowStatusCategoryMenu.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/player/TObjPlayer.h"
@@ -40,7 +40,7 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowMainMenu4P.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/camera/TCameraCtrl.h"
 
 const char *TWindowMainMenu::class_name = "TWindowMainMenu";
@@ -60,7 +60,7 @@ extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/window/TWindowSubInformationBoard.h"
-#include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
+#include "pso/ui/frontend/TAdMultiPlyChrSelectTransitionGC.h"
 
 
 int test_keyboard_card_flag4(s32 client_id) { return test_card_flag(client_id, 4); }

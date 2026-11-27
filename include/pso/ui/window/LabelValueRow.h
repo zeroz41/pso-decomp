@@ -2,7 +2,7 @@
 #define PSO_UI_WINDOW_LABELVALUEROW_H
 
 #include "types.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 struct WindowDrawContext;
 

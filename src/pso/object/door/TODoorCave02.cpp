@@ -132,7 +132,7 @@ void TODoorCave02::destroy() {
     if (texture_lists != NULL) {
         free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
-            mem_free(texture_lists);
+            delete[] texture_lists;
             texture_lists = NULL;
         }
     }
@@ -144,7 +144,7 @@ void TODoorCave02::destroy() {
 
 void TODoorCave02::load_resources() {
     BmlResource *resource;
-    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists = new NJS_TEXLIST *[2];
     if (enable_v2_features == 1 && is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave02_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;

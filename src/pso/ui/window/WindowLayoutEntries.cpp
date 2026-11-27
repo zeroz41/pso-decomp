@@ -1,12 +1,12 @@
 #include "types.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TWindowStatusGauge.h"
-#include "pso/unk/TWindowStatusGaugeFeedback.h"
-#include "pso/unk/TWindowLayoutRect.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowStatusGauge.h"
+#include "pso/ui/window/TWindowStatusGaugeFeedback.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/ui/window/TGameListRow.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -21,8 +21,8 @@
 #include "pso/item/TItem.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/ItemListRow.h"
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/ItemListRow.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/LabelValueRow.h"
 #include "pso/ui/window/HelpItemStatCompareRow.h"
@@ -66,7 +66,7 @@ void WindowLayoutEntries::destroy_all_items() {
             delete static_cast<TWindowLayoutEntry *>(*reinterpret_cast<void **>(address));
             address -= sizeof(*items);
         }
-        mem_free(items);
+        delete[] items;
         count = 0;
         items = NULL;
     }
@@ -91,7 +91,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
         entries->items = NULL;
         return;
     }
-    entries->items = (void **)mem_alloc(entries->count * 4);
+    entries->items = new void *[entries->count];
     out = entries->items;
     while (rows-- != 0) {
         cols = desc->cols;

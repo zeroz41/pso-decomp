@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/WindowControlState.h"
+#include "pso/ui/window/WindowControlState.h"
 
 extern f32 window_depth_order_cursor;
 

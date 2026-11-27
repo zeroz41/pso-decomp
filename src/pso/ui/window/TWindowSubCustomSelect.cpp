@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubCustomSelect.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"

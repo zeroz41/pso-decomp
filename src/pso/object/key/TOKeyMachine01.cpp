@@ -207,7 +207,7 @@ void TOKeyMachine01::free_statics() {
         free_if_valid(key_machine01_texture_lists[0]);
         key_machine01_texture_lists[0] = 0;
         if (key_machine01_texture_lists != NULL) {
-            mem_free(key_machine01_texture_lists);
+            delete[] key_machine01_texture_lists;
             key_machine01_texture_lists = NULL;
         }
     }
@@ -220,7 +220,7 @@ void TOKeyMachine01::free_statics() {
 void TOKeyMachine01::load_assets() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_ki_doa_panel_resource_descriptor, 0, 0, NULL);
     key_machine01_resource_bundle = resource;
-    key_machine01_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_machine01_texture_lists));
+    key_machine01_texture_lists = new NJS_TEXLIST *[2];
     key_machine01_texture_lists[0] = LoadPvmFileTls("fs_obj_ki_doa_panel_r.gvm");
     key_machine01_texture_lists[1] = key_machine01_resource_bundle->models[0].texlist;
 }

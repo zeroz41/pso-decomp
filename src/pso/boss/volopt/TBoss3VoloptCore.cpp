@@ -4,7 +4,7 @@
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/TBoss3VoloptParticleSpray.h"
+#include "pso/boss/volopt/TBoss3VoloptParticleSpray.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"

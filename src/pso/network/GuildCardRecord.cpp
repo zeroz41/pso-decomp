@@ -6,7 +6,7 @@
 #include <string.h>
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
-#include "pso/unk/GuildCardRecord.h"
+#include "pso/network/GuildCardRecord.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/audio/SoundControlState.h"

@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct TWindowChallengeResult : public TWindowBase {
     static const char *class_name;

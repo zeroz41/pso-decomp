@@ -88,11 +88,7 @@ void reserve_enemy_set_actor_ids(u8 *source, s32 count, s32 floor);
 
 struct LoadEnemySetFileName { char s[0x20]; };
 
-struct LoadObjectSetFileEntry { s16 a; s16 b; u8 pad[0x44 - 4]; };
-
 struct LoadObjectSetFileName { char s[0x20]; };
-
-struct LoadAreaObjectSetRecord { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 s32 load_enemy_set_file(s32 idx, const char *filename);
 void load_map_set_data(s32 idx, const char *filename);

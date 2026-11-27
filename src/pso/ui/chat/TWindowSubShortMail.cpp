@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobbyAutoReply.h"
+#include "pso/network/TLobbyAutoReply.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -349,7 +349,7 @@ void TWindowSubShortMail::run_task() {
             if (confirm_window->get_selected_value() == 0) {
                 void *b = keyboard->realloc_buffer();
                 set_short_mail_text((char *)b);
-                mem_free(b);
+                ::operator delete[](b);
                 state = 1;
             } else {
                 state = 0x18;
@@ -567,7 +567,7 @@ void TWindowSubShortMail::close() {
     src = this->keyboard->realloc_buffer();
     mask_profanity_words(src, get_shared_text_buffer());
     TLobby::send_simple_mail(this->target_card_id, (get_shared_text_buffer()));
-    mem_free(src);
+    delete[] src;
     short_mail_ctrl = TLobby::get_short_mail_ctrl();
     for (i = 0; i < short_mail_ctrl; i += 1) {
         mail = get_short_mail_entry(i);

@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -16,7 +16,7 @@
 #include <stddef.h>
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/network/TLobby.h"
@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/HeadingEntry.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 #pragma readonly_strings on
 
@@ -666,7 +666,7 @@ void TWindowMenu::run_task() {
 TWindowMenu::~TWindowMenu() {
     delete scroll_bar;
     delete heading;
-    mem_free(rows);
+    delete[] rows;
 }
 
 TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&menu_window_descriptor, (s16)client, (u8 *)position) {
@@ -680,7 +680,7 @@ TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TW
     menu_flags = 0;
     client_index = client;
     reset_selection();
-    rows = (TWindowMenuRow *)mem_alloc(count * 8);
+    rows = new TWindowMenuRow[count];
     p = rows;
     for (i = 0; i < count; i++) {
         p->flags = 0;

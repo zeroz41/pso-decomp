@@ -17,7 +17,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/unk/FloorMapNames.h"
+#include "pso/map/FloorMapNames.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -191,8 +191,7 @@ void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->state);
 }
 
-void swap_object_row_endian(void *row_ptr) {
-    FloorObjectSetRow *row = (FloorObjectSetRow *)row_ptr;
+void swap_object_row_endian(FloorObjectSetRow *row) {
     bswap_16((u16 *)&row->type);
     bswap_object_row_fields(&row->placement);
 }

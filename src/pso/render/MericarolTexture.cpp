@@ -18,13 +18,13 @@ void release_mericarol_render_texture(void) {
         release_texture_list(texlist);
     }
     if (mericarol_render_texture_buffer != NULL) {
-        mem_free(mericarol_render_texture_buffer);
+        ::operator delete[](mericarol_render_texture_buffer);
         mericarol_render_texture_buffer = NULL;
     }
 }
 
 void create_mericarol_render_texture(void) {
-    mericarol_render_target.set_render_rect(mericarol_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
+    mericarol_render_target.set_render_rect(mericarol_render_texture_buffer = ::operator new[](0x800), 0x902, 0x20, 0x20);
     set_texture_name(&mericarol_render_texture_name, &mericarol_render_target, 0x18696, 0x40800000);
     mericarol_render_texlist[0].textures = &mericarol_render_texture_name;
     mericarol_render_texlist[0].nbTexture = 1;

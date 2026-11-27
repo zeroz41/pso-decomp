@@ -2,7 +2,7 @@
 #include "pso/audio/AdxCacheControl.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/audio/AdxError.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include <string.h>
 
 #include "types.h"

@@ -49,7 +49,7 @@ void load_creation_visual_record(CharacterAppearanceFields *record) {
         invalidate_creation_visual_record();
         return;
     }
-    copy_player_visual_record((PlayerVisualRecord *)&character_creation_visual_record, (PlayerVisualRecord *)record);
+    copy_player_visual_record((disp_data_part2 *)&character_creation_visual_record, (disp_data_part2 *)record);
 }
 
 void invalidate_creation_visual_record(void) {
@@ -114,7 +114,7 @@ s32 get_current_char_flag() {
 void reset_current_char_appearance(void) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
-    copy_player_visual_record((PlayerVisualRecord *)character_appearance_fields, (PlayerVisualRecord *)get_class_appearance_preset(0));
+    copy_player_visual_record((disp_data_part2 *)character_appearance_fields, (disp_data_part2 *)get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int char_select_check_stub(void) { return 1; }

@@ -140,12 +140,12 @@ void TBoss6Zanzo::run_task() {
 TBoss6Zanzo::~TBoss6Zanzo() {
     Boss6TrailFrame *p;
     Boss6TrailFrame *end;
-    mem_free(current->points);
+    delete[] current->points;
     ::operator delete(current);
     for (p = frames, end = p + frame_count; p < end; p++) {
-        mem_free(p->points);
+        delete[] p->points;
     }
-    mem_free(frames);
+    delete[] frames;
 }
 
 TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 points, s32 trail_length) : TObject(object) {
@@ -156,14 +156,14 @@ TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 points, s32 trail_length) : TObjec
     if (point_count < 2) point_count = 2;
     frame_count = trail_length;
     if (frame_count < 2) frame_count = 2;
-    frames = (Boss6TrailFrame *)mem_alloc(frame_count * sizeof(Boss6TrailFrame));
+    frames = new Boss6TrailFrame[frame_count];
     for (p = frames, end = p + frame_count; p < end; p++) {
         p->active = 0;
-        p->points = (Boss6TrailPoint *)mem_alloc(point_count * sizeof(Boss6TrailPoint));
+        p->points = new Boss6TrailPoint[point_count];
     }
     current = (Boss6TrailFrame *)::operator new(sizeof(Boss6TrailFrame));
     current->active = 0;
-    current->points = (Boss6TrailPoint *)mem_alloc(point_count * sizeof(Boss6TrailPoint));
+    current->points = new Boss6TrailPoint[point_count];
 }
 
 TBoss6Zanzo *TBoss6Zanzo::create(TObject *parent, s32 points, s32 frames) {

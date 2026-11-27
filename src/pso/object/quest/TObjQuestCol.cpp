@@ -1,7 +1,7 @@
 // The quest collision triggers (TObjQuestColBase and its subclasses) and TQuestColCtrl, the task that owns them.
 // One TU: the class names in .rodata/.sdata run ColBase..Col2 in this source order, while the text runs Col2..ColBase
 // and the vtables Col2..ColBase (reverse key-function order): built -inline off,deferred (configure.py).
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -37,8 +37,8 @@
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
-extern "C" {
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
+extern "C" {
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);

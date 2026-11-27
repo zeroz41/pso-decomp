@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct TWindowStatus : public TWindowSimpleStatus {
     TWindowStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor);

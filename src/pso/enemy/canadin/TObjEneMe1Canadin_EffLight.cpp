@@ -9,7 +9,7 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffDischarge.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLine.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade.h"
-#include "pso/boss/TBoss3VoloptSweepLine.h"
+#include "pso/boss/volopt/TBoss3VoloptSweepLine.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/math/MatrixTransforms.h"
@@ -162,8 +162,8 @@ TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 coun
     capacity = count;
     head = 0;
     tail = 0;
-    vertices = (TrailStripVertex *)mem_alloc(capacity << 5);
-    points = (TObjEneMe1Canadin_EffLightPoint *)mem_alloc(capacity * 0x14);
+    vertices = new TrailStripVertex[capacity * 2];
+    points = new TObjEneMe1Canadin_EffLightPoint[capacity];
     for (i = 0; i < capacity; i++) {
         points[i].width = 0.0f;
         points[i].color = 0;
@@ -176,9 +176,9 @@ TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 coun
 }
 
 TObjEneMe1Canadin_EffLight::~TObjEneMe1Canadin_EffLight() {
-    mem_free(points);
+    delete[] points;
     points = NULL;
-    mem_free(vertices);
+    delete[] vertices;
     vertices = NULL;
 }
 

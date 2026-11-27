@@ -64,7 +64,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
     buf = password_entry_keyboard_control->realloc_buffer();
     if ((text_length == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
         (text_length == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-        mem_free(buf);
+        delete[] buf;
         TAdEnterPPPPassGC::set_password("");
         pending_dispatch_state = 2;
         password_entry_dispatch_state = 4;
@@ -114,7 +114,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         password_entry_dispatch_state = 4;
     }
     text_length = strlen(buf);
-    mem_free(buf);
+    delete[] buf;
 }
 
 void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {

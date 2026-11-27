@@ -20,10 +20,10 @@ const char *bm_tec_regurar_model_names[4] = {"eff_f_foie.gj", "eff_sinowahamon.g
 BmlResourceDescriptor particle_regular_bml_descriptor = {"bm_tec_regurar.bml", bm_tec_regurar_model_names, bm_tec_regurar_motion_names, 3, 0};
 const char *particle_entry_path = "particleentry.dat";
 
-void free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
+void free_system() { delete[] particle_global_entry_table; particle_global_entry_table = 0; }
 
 void TParticleCtrl::free_all() {
-    mem_free(particle_area_entry_table);
+    delete[] particle_area_entry_table;
     particle_area_entry_table = 0;
     if (TParticleCtrl::regular_bml_resource != NULL) {
         delete TParticleCtrl::regular_bml_resource;
@@ -38,7 +38,7 @@ void TParticleCtrl::free_all() {
 
 void init_particle_buffer() {
     s32 size;
-    particle_global_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x13000));
+    particle_global_entry_table = new ParticleParam[512];
     size = read_disc_file(particle_entry_path, particle_global_entry_table);
     particle_pool_limit = 0;
     if (size >= 0) {
@@ -73,7 +73,7 @@ void load_particle_entry_resources(void) {
     } else {
         sprintf(name, particle_area_entry_file_format, area);
     }
-    particle_area_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x2600));
+    particle_area_entry_table = new ParticleParam[64];
     read_disc_file(name, particle_area_entry_table);
     TParticleCtrl::regular_bml_resource =
         new BmlResource(1, &particle_regular_bml_descriptor, 0, 0, NULL);

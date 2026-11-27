@@ -2,7 +2,7 @@
 #define PSO_OBJECT_WARP_TOBJCITYDOOR_WARP_H
 
 #include "types.h"
-#include "pso/object/TObjCityDoorBase.h"
+#include "pso/object/city/TObjCityDoorBase.h"
 
 struct TObjCityDoor_Warp : public TObjCityDoorBase {
     static const char *class_name;

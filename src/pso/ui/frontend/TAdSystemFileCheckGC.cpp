@@ -8,7 +8,7 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/TAdSystemFileCheckGC.h"
+#include "pso/ui/frontend/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 

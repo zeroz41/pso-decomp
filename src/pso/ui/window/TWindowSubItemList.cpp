@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/HeadingEntry.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 #include "pso/player/LocalClientId.h"
 #pragma readonly_strings on
 
