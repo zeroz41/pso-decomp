@@ -13,15 +13,13 @@
 const char *trade_collision_name = "TObjTradeCollision";
 
 
-extern "C" s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(TObjTradeCollision *object, u32 client);
-
 void TObjTradeCollision::render() {  }
 
 void TObjTradeCollision::run_task() {
     s32 i;
     i = 0;
     do {
-        if (is_player_outside_trade_radius__18TObjTradeCollisionFUl(this, i) != 0) {
+        if (is_player_outside_trade_radius(i) != 0) {
             set_trade_range_bit(i);
         } else {
             clear_trade_range_bit(i);
