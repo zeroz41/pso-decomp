@@ -293,6 +293,8 @@ void sample_shape_node_vertices(void **src, void **dst) {
 
 #pragma push
 #pragma use_lmw_stmw off
+#pragma dont_inline off
+#pragma inline_depth(4)
 void draw_chunk_color_tex_strips(s16 *list, ChunkCachedVertex *verts, u32 flags, s32 big) {
     s32 draw;
     u32 count;
@@ -342,13 +344,10 @@ void draw_chunk_color_tex_strips(s16 *list, ChunkCachedVertex *verts, u32 flags,
                 z = v->pos.z;
                 y = v->pos.y;
                 x = v->pos.x;
-                GXWGFifo.f32 = x;
-                GXWGFifo.f32 = y;
-                GXWGFifo.f32 = z;
+                GXPosition3f32(x, y, z);
                 c = v->color;
-                GXWGFifo.u32 = ((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24);
-                GXWGFifo.s16 = s;
-                GXWGFifo.s16 = t;
+                GXColor1u32(((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24));
+                GXTexCoord2s16(s, t);
             }
             list += extra;
         } while (--n != 0);
