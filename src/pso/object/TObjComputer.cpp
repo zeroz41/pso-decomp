@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResourceLoad.h"

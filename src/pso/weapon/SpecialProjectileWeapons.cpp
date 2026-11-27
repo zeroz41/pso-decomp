@@ -1,6 +1,5 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/item/TItemMenuCtrl.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "pso/technique/TTecMegid.h"

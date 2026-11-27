@@ -1,6 +1,5 @@
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"

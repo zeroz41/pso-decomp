@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/BeruraData.h"
 #include "pso/system/memory.h"
 #include "pso/render/StripBufferPair.h"

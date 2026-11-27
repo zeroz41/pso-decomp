@@ -1,10 +1,8 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"

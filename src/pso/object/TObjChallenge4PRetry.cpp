@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/quest/challenge/TChallenge4P.h"

@@ -1,7 +1,6 @@
 #pragma defer_codegen on
 #pragma readonly_strings on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/Draw2D.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/MenuText.h"

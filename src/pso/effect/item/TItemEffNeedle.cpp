@@ -1,7 +1,6 @@
 // The needle effects a weapon leaves where it hits. Built with deferred code
 // generation, so its functions come out in reverse source order.
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffNeedle.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"

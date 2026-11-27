@@ -1,6 +1,5 @@
 // The fixed camera (mode 9), the conversation camera that drives it, and the
 // quest cam_pan camera.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraFixed.h"

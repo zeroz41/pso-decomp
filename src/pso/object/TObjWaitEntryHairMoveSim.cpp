@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/object/T_OWEHMS_Exp.h"

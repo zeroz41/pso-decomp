@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"

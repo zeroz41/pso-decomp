@@ -1,5 +1,4 @@
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/vector.h"

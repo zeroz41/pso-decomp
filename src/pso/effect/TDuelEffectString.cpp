@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowBase.h"
 #include <math.h>
 #include "types.h"

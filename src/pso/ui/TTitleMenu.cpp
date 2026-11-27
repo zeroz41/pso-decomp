@@ -7,7 +7,6 @@
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"

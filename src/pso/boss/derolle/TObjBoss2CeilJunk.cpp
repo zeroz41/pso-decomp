@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"

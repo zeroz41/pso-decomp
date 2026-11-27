@@ -1,7 +1,6 @@
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/memory.h"
 #include "pso/math/CurvePathPoint.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/boss/DragonAttackParams.h"

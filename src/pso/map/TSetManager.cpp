@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/map/MapSetArchive.h"
 #include <stddef.h>

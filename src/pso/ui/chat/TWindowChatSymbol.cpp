@@ -1,6 +1,5 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"

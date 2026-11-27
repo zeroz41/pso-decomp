@@ -2,7 +2,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"

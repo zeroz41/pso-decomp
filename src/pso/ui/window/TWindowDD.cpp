@@ -1,7 +1,6 @@
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowWordSelectMode.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"

@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill.h"

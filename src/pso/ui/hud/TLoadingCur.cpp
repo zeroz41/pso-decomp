@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixStack.h"

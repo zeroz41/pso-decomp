@@ -1,7 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
 #undef PSO_SDK_COMPACT_MATH
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "types.h"
 #include "pso/effect/particle/TTelepipeMarker.h"

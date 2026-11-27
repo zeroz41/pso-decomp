@@ -3,7 +3,6 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTextureEntryCopy.h"
 #include "pso/effect/GroundContactSound.h"

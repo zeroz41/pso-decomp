@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/TBattleMusicGainTask.h"

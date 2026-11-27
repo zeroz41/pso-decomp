@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/switch/TSwitch.h"
 #include "types.h"
 #include "pso/object/collision/TObjRaderCol.h"

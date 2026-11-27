@@ -1,5 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
-
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"

@@ -1,7 +1,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/network/FloorEventCommand.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"

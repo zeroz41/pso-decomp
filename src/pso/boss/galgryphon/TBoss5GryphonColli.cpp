@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"

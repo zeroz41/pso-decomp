@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

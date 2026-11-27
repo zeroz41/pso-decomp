@@ -7,7 +7,6 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/render/ChunkMaterialState.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/TPlyOnCountOver.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/hud/TRaderMapCore.h"

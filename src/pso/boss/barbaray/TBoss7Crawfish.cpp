@@ -1,7 +1,6 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include <dolphin/mtx.h>
 #include "pso/render/ChunkModelDraw.h"

@@ -1,5 +1,4 @@
 #include "pso/render/GinjaTextureInput.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
 #include "pso/system/vector.h"

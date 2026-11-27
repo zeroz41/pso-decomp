@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"

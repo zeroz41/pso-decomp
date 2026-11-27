@@ -5,7 +5,6 @@
 #include <dolphin/os/OSTime.h>
 #include <dolphin/os/OSSerial.h>
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/GbaAramCache.h"

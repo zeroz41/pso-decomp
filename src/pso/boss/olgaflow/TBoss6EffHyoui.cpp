@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/effect/particle/TParticleCtrl.h"

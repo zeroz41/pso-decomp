@@ -31,7 +31,6 @@
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.h"

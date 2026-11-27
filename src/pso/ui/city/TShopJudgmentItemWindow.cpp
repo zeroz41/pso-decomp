@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlyDispData.h"
 #include "pso/item/item_create.h"
 #include "pso/ui/window/WindowMenuFactory.h"

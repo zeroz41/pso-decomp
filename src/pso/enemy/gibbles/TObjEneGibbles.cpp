@@ -2,7 +2,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"

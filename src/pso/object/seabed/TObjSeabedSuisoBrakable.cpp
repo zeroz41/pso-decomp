@@ -4,7 +4,6 @@
 // The seabed tanks' shared resources: the archive and texture loader, the
 // scrolled-texture and model-node tables TObjSeabedSuiso_CH and
 // TObjSeabedSuisoBrakable read.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"

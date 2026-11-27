@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TradeSession.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"

@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TQuestManager.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"

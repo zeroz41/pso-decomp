@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowVertexBufferAbi.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/technique/TTecZondeEff.h"

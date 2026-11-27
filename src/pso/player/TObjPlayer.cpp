@@ -13,7 +13,6 @@
 #include "pso/system/SoundEffect.h"
 // Built with -inline off,deferred (configure.py): CodeWarrior emits deferred functions
 // last to first, so they are defined here from the highest address down.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"
 #include "pso/player/LocalClientId.h"

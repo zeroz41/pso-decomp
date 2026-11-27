@@ -4,7 +4,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/Boss6ScrollStrips.h"

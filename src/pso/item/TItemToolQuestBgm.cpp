@@ -1,7 +1,6 @@
 #pragma readonly_strings on
 // Written from the last function back (deferred code generation), which
 // also emits TItemQuestBgmTask's vtable before TItemToolQuestBgm's.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include "pso/system/task/TObject.h"

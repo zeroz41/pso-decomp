@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/unk/TQuestManager.h"
 #include "types.h"

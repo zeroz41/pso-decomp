@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/math/MatrixTransforms.h"

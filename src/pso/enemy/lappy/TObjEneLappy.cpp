@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/render/psoLoadTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/TObjCharaHelpers.h"

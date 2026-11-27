@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
 #include "pso/render/TextureState.h"

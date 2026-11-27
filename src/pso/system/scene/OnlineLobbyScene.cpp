@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ControllerInput.h"
 #include "pso/network/NetworkConnect.h"
 #include <string.h>

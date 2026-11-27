@@ -1,7 +1,6 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMag.h"
 
 #include <stdlib.h>

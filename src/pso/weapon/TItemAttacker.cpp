@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/vector.h"

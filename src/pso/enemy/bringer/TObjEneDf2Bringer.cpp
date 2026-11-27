@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/render/GinjaMaterialState.h"

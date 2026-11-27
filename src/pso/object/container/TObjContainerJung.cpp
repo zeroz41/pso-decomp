@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"

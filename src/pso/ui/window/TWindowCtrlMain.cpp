@@ -1,7 +1,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/ColorLineList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/Draw2D.h"

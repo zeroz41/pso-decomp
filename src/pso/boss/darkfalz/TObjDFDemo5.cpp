@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ModelNodePositionCapture.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"

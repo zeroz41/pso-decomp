@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlResourceLoader.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 // Compiled -inline off,deferred: the functions are written from the last
 // (load_resources) back to the first, so CodeWarrior

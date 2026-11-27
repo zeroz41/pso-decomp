@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/object/TObjControl.h"
 #include "pso/unk/SampledMotionPoints.h"

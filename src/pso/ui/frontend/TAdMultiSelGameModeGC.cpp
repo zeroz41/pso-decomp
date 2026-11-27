@@ -44,7 +44,6 @@ void apply_multi_sel_rule(void) {
 }
 
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"

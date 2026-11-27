@@ -1,5 +1,4 @@
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"

@@ -1,7 +1,6 @@
 #include "pso/system/TLanguage.h"
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubComCard_CardSlots.h"

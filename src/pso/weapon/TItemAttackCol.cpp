@@ -1,7 +1,6 @@
 #pragma readonly_strings on
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"

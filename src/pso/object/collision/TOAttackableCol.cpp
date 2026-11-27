@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TQuestManager.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/TGameProtocol.h"

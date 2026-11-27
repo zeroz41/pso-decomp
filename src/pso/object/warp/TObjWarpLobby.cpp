@@ -2,7 +2,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/BmlResourceLoad.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"

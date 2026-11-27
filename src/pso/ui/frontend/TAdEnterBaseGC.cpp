@@ -1,6 +1,5 @@
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include "pso/ui/frontend/TAdEndText.h"
@@ -351,4 +350,3 @@ void draw_masked_password_field(saddr context) {
     }
 }
 
-#undef TOBJECT_OUT_OF_LINE_HELPERS

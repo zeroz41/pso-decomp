@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol_types.h"

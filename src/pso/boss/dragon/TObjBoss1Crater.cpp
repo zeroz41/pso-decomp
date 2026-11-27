@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"

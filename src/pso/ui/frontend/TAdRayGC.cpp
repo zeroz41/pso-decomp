@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaTexture.h"
 #pragma readonly_strings on
 #include "pso/ui/frontend/TAdRayGC.h"

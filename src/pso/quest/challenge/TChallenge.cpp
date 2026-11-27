@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/quest/TObjTagChallenge.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjCHTimeWin.h"

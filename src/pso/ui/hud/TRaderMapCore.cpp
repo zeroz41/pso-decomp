@@ -5,7 +5,6 @@
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/NinjaTypes.h"

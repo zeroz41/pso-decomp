@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"

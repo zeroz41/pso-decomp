@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/object/TObjControl.h"

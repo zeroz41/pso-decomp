@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/system/SoundEffect.h"

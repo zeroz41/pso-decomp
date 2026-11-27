@@ -1,6 +1,5 @@
 #pragma readonly_strings on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/armor/TItemProArmorParticle.h"
 #include "pso/effect/item/TItemEffArmorParticle.h"

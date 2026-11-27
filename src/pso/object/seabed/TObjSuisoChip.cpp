@@ -5,7 +5,6 @@
 //
 // Built -inline off,deferred: the functions come out last to first, so the
 // file is written from the end of the unit's .text back.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"

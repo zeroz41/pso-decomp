@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/object/base/TObjCharaHelpers.h"

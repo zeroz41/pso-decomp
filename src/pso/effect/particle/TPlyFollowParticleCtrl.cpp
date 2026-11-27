@@ -2,7 +2,6 @@
 // in reverse source order: bodies here run from the highest address down.
 
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/memory.h"

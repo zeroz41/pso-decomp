@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/challenge/ChallengeStageLoadouts.h"
 #include "pso/object/quest/TObjTagChallenge.h"
 #include <string.h>

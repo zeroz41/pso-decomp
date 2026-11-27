@@ -1,5 +1,4 @@
 #include "pso/object/city/CityTraffic.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TWindowBase.h"

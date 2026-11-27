@@ -1,5 +1,3 @@
-// TWindowDD calls TObject::queue_destruction out of line (bl to the TAdADXlogo copy).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "types.h"

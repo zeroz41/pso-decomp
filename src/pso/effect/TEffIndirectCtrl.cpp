@@ -1,5 +1,4 @@
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 
 #include "types.h"

@@ -1,6 +1,5 @@
 #include "pso/math/ClampedStep.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"

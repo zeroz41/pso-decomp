@@ -1,6 +1,5 @@
 #include "pso/math/ClampedStep.h"
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/network/TGameProtocol.h"

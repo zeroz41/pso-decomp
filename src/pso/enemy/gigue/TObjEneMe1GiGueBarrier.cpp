@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/system/MatrixStack.h"

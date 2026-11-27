@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
 

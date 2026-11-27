@@ -3,7 +3,6 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/ColorLineList.h"
 #include <stdlib.h>
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"

@@ -1,6 +1,5 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/boss/olgaflow/TBoss6MagMine.h"
 #include "pso/system/vector.h"

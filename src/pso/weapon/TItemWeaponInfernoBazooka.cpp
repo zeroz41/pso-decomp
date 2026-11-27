@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"

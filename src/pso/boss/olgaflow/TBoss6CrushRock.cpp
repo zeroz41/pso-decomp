@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6CrushRock.h"
 #include "pso/system/BmlResource.h"
 #include "pso/boss/olgaflow/TBoss6CrushPtcl.h"

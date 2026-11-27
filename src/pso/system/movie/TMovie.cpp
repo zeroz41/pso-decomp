@@ -1,6 +1,5 @@
 #include "pso/system/RelModuleBuffer.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/gjSystem.h"
 #include "pso/render/GinjaView.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/item/item_create.h"
 #include "pso/item/InventoryEntryCopy.h"

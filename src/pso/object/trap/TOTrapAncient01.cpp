@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

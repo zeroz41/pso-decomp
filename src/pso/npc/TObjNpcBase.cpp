@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/unk/TQuestManager.h"

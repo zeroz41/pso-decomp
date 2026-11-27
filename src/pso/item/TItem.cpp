@@ -10,7 +10,6 @@
 // emitted before the vtable; the static initializer is followed by this
 // file's copies of header inlines.
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include <dolphin/mtx.h>

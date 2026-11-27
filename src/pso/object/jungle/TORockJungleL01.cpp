@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include "pso/object/jungle/TORockJungleL01.h"

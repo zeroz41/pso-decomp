@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/TGameProtocol.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/npc/TNpcPlayer.h"

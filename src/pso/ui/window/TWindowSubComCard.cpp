@@ -1,5 +1,4 @@
 #include "pso/player/GuildCardEntry.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowMenuFactory.h"

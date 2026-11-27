@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecCtrl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/TEffClitical.h"

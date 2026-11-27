@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/render/render_util.h"

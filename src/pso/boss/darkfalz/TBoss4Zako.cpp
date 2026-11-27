@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/BattleParameters.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Zako.h"

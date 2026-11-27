@@ -1,7 +1,6 @@
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/window/WindowLayoutEntries.h"

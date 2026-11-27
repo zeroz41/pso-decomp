@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8DragonPart.h"

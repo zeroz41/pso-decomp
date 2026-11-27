@@ -1,5 +1,4 @@
 #include "pso/map/CsnQuery.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "types.h"
 #include "pso/system/vector.h"

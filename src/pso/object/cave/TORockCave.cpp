@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include <stddef.h>
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"

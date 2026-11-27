@@ -2,7 +2,6 @@
 // select, character select, multi-play setup...), the scene's load/release hook tables and its frame
 // loop. One TU: the hook tables open its .data, the frame loop's state (.sbss) and the mode state
 // (.sdata) are read and written by every part.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
 #include "pso/boss/barbaray/TBoss7PhotonPad.h"
 #include "pso/boss/barbaray/TBoss7BreakUp.h"

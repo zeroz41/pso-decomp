@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "types.h"

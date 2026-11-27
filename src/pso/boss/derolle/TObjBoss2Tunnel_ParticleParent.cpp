@@ -2,7 +2,6 @@
 // detach_children and release_children re-parent the particles to. Its own TU (twin: TObjBoss7Tunnel_ParticleParent.cpp for
 // Boss7): its .sbss (particle_parent and pad) sits between TObjBoss2DustCtrl's and
 // TObjBoss2Tunnel's 8-aligned .sbss, and TObjBoss2Tunnel's .sdata2 pool starts with render.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TMainTask.h"

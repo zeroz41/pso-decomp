@@ -4,7 +4,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/SoundEffect.h"

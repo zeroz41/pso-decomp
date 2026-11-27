@@ -1,7 +1,6 @@
 #include "pso/player/GuildCardEntry.h"
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

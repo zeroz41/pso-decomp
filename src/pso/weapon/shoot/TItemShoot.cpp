@@ -7,7 +7,6 @@
 // The vtables come out RotZ, Gun, Particle, Model, Shoot (the .text order), so
 // the file is built with deferred code generation and written from its last
 // function back (configure.py).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/weapon/shoot/TItemShoot.h"

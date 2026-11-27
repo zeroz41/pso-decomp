@@ -1,5 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
-
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>

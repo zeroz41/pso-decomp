@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "types.h"

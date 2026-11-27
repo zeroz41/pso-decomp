@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/technique/TechniqueBandSound.h"

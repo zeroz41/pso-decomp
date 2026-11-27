@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleParam.h"

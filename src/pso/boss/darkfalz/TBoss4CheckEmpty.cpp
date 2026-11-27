@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4CheckEmpty.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/audio/MusicControl.h"

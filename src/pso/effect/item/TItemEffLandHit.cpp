@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/item/TItem.h"

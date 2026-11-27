@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"

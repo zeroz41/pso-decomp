@@ -1,6 +1,5 @@
 #include "pso/enemy/BattleParameters.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"

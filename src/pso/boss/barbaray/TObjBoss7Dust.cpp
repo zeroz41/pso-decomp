@@ -1,6 +1,5 @@
 #include "pso/system/TrailStrip.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/hud/TLoadingCur.h"

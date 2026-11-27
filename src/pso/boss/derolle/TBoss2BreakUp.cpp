@@ -2,7 +2,6 @@
 // TBoss2Joint spawns), their base TBoss2BreakUp and the breakup models they start from.
 // Built -inline off,deferred: the functions below are written last to first (the vtables
 // and TBoss2JointBreakUp::render's .rodata templates before TBoss2BodyBreakUp::render's only come out in that order).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"

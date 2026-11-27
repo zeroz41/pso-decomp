@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/boss/olgaflow/TBoss6Kakusan.h"

@@ -1,7 +1,6 @@
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"

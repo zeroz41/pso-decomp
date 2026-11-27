@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"

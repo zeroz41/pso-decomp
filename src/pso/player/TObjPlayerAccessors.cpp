@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/player/PlayerState.h"

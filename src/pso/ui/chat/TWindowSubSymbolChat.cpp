@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"

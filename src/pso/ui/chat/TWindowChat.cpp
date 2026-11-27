@@ -1,7 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/ControllerInput.h"

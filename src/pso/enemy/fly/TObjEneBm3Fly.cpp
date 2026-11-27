@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
 #include "pso/npc/TObjNpcEnemy.h"

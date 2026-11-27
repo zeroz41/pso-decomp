@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEneDarkGunnerShot.h"
 
 #include "types.h"

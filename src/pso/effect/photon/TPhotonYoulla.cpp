@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/TPhotonYoulla.h"

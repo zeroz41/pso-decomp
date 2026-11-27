@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemTimer.h"
 #include "pso/system/task/TObject.h"
 

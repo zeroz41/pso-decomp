@@ -1,5 +1,4 @@
 #pragma defer_codegen on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/system/vector.h"

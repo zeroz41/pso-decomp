@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_Rush.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.h"

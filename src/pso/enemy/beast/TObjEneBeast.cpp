@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/system/memory.h"

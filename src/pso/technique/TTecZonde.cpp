@@ -1,5 +1,4 @@
 #include "pso/player/TargetCursorList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/math/MatrixVector.h"
 #include "types.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/weapon/TItemWeaponTwinBlaze.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/camera/TCameraCtrl.h"

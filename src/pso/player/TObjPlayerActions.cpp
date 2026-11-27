@@ -1,6 +1,5 @@
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"

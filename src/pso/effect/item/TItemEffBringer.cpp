@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/item/TItemEffBringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"

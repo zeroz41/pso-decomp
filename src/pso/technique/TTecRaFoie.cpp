@@ -2,7 +2,6 @@
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCircle.h"

@@ -1,5 +1,4 @@
 #include "pso/player/TargetCursorList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecZarua.h"

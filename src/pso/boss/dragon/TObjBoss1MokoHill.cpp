@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
 #pragma readonly_strings on
 

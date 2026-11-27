@@ -1,6 +1,5 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"

@@ -1,6 +1,5 @@
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/bringer/BringerEffects.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"

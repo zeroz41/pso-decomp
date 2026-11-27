@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/flower/TObjEneRe2FlowerShared.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/player/PlayerAttackParams.h"

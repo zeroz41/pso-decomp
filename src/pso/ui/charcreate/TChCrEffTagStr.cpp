@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrEffTagStr.h"
 #include "pso/render/render_util.h"
 

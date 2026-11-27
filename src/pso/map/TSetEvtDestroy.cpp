@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TEnemyTaskList.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/item/drop/TItemDrop.h"

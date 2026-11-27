@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/object/ending/TObjOnlineEndingHexMove.h"

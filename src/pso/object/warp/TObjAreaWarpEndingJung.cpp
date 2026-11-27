@@ -5,7 +5,6 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include <string.h>

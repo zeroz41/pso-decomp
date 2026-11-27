@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TFireExplosion.h"
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"

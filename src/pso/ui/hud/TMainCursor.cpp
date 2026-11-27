@@ -1,7 +1,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/base/TObjChara.h"

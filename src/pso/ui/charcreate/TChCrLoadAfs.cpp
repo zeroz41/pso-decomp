@@ -1,7 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/Adxf.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
 #include "types.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"

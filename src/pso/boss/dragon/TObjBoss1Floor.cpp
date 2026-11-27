@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"

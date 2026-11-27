@@ -120,7 +120,6 @@ void reset_current_char_appearance(void) {
 int char_select_check_stub(void) { return 1; }
 int reset_char_appearance_callback(void) { reset_current_char_appearance(); return 1; }
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};

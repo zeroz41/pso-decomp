@@ -1,7 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/city/CitySeasonResources.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"

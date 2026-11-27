@@ -1,6 +1,5 @@
 #include "pso/math/ClampedStep.h"
 #include "pso/technique/TFireExplosion.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/object/base/TObjCollidable.h"

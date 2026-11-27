@@ -1,9 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-// TObject's helpers are out-of-line functions for this TU (run_task calls
-// TObject::queue_destruction, defined elsewhere).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdlib.h>
 #include "pso/object/TObjTombstone.h"
 #include "pso/system/vector.h"

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/UISprite.h"

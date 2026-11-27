@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"

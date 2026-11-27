@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"

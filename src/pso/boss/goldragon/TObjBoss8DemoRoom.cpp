@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
 #include "pso/render/GinjaUvScroll.h"

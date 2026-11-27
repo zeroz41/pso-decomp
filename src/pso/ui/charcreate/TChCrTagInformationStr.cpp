@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrTagInformationStr.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/AngleLookup.h"
