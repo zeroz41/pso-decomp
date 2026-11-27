@@ -39,8 +39,6 @@
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/task/TMainTask.h"
 
-extern const f32 lbl_805D9FBC; // 5.0
-
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -113,7 +111,7 @@ void load_re2_flower_resources(void) {
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    TObjNpcEnemy::register_animated_chunk(0x37, models->model, models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
+    TObjNpcEnemy::register_animated_chunk(0x37, models->model, models->texlist, &binding, re2_flower_five, re2_flower_zero);
 }
 
 void *TObjEneRe2Flower::create(EnemyPlacement *setData) {
@@ -178,18 +176,18 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, EnemyPlacement *setData) : T
     } else {
         initialize_enemy_state(13);
     }
-    wall_reach = lbl_805D9FBC;
+    wall_reach = re2_flower_five;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     base_yaw = rotation.y;
-    draw_offset_y = lbl_805D9FAC;
+    draw_offset_y = re2_flower_zero;
     pad_3cc = 0;
     retarget_counter = 0;
     hit_cooldown = 0;
     blink_level = 0;
     for (s32 i = 0; i < 2; i++) {
         VecCopy(&node_points[i], &position);
-        node_points[i].y += lbl_805D9FD8;
+        node_points[i].y += re2_flower_fifteen;
     }
     appear_fade.reset_obstruction_fade();
     state_step = 0;
@@ -197,7 +195,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, EnemyPlacement *setData) : T
     swing_count = 0;
     pad_41c = 0;
     target_angle = 0;
-    sink_depth = lbl_805D9FAC;
+    sink_depth = re2_flower_zero;
     charge_effect = NULL;
     sync_center_offset();
     update_body_colliders();
@@ -573,15 +571,15 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             }
         }
         if (charge_effect != NULL) {
-            if (frame < lbl_805D9FD8) {
+            if (frame < re2_flower_fifteen) {
                 charge_effect->set_position(&node_points[1]);
             } else {
                 charge_effect->enable();
             }
         }
-        if (is_passing_frame(lbl_805D9FDC) != 0) {
+        if (is_passing_frame(re2_flower_twelve) != 0) {
             VecCopy(&pos, &node_points[0]);
-            pos.y = lbl_805D9FDC + position.y;
+            pos.y = re2_flower_twelve + position.y;
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
                 TTecMegid::create_ex(this, &pos, rotation.y, TObjEneDD::clamp_frame_index(re2_flower_movement_params->values.integers[0]));
             } else {
@@ -625,17 +623,17 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
         enemy_validate_retained_target();
         switch (state_timer) {
         case 0:
-            if (is_passing_frame((frame_count - lbl_805D9FC0) - play_speed) != 0) {
+            if (is_passing_frame((frame_count - re2_flower_one) - play_speed) != 0) {
                 swing_count++;
-                if ((f32)swing_count >= lbl_805D9FD4) {
+                if ((f32)swing_count >= re2_flower_three) {
                     state_timer = 1;
-                    play_speed = lbl_805D9FAC;
+                    play_speed = re2_flower_zero;
                 }
-            } else if (is_passing_frame(lbl_805D9FC4) != 0) {
+            } else if (is_passing_frame(re2_flower_ten) != 0) {
                 if (enemy_check_target_valid() != 0) {
-                    if (current_target->select_melee_contact_body(this, lbl_805D9FC0) != 0) {
-                        current_target->receive_physical_attack(this, lbl_805D9FC0);
-                        current_target->apply_knockback_from_attacker(this, lbl_805D9FD4);
+                    if (current_target->select_melee_contact_body(this, re2_flower_one) != 0) {
+                        current_target->receive_physical_attack(this, re2_flower_one);
+                        current_target->apply_knockback_from_attacker(this, re2_flower_three);
                     }
                 }
                 play_sound_effect(remap_sound_for_variant(0x4003A814), &position, 0, 0);

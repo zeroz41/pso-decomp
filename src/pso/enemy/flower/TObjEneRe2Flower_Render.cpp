@@ -113,15 +113,15 @@ void TObjEneRe2Flower::render() {
         saved_model_render_flags = model_render_flags;
         set_alpha_ref_override(0);
         TObjEneDD::clear_global_flag_400();
-        translate_matrix(0, lbl_805D9FAC, draw_offset_y, lbl_805D9FAC);
+        translate_matrix(0, re2_flower_zero, draw_offset_y, re2_flower_zero);
         re2_flower_node_yaw = rotation.y - base_yaw;
         re2_flower_node_points = &node_points[0];
-        node_points[0].x = lbl_805D9FAC;
+        node_points[0].x = re2_flower_zero;
         node_points[0].y = re2_flower_node_point0_y;
-        node_points[0].z = lbl_805D9FAC;
-        node_points[1].x = lbl_805D9FAC;
+        node_points[0].z = re2_flower_zero;
+        node_points[1].x = re2_flower_zero;
         node_points[1].y = re2_flower_node_point1_y;
-        node_points[1].z = lbl_805D9FAC;
+        node_points[1].z = re2_flower_zero;
         scale_matrix(0, re2_flower_draw_scale, re2_flower_draw_scale, re2_flower_draw_scale);
         set_chunk_model_node_callback(update_effect_sequence);
         if (mode == 8) {
@@ -213,7 +213,7 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
             actorFlags |= 0x800;
             transition_enemy_state(0xA);
             VecCopy(&v, &position);
-            v.y += lbl_805D9FBC;
+            v.y += re2_flower_five;
             spawn_particle_effect_with_flags(&v, 0xD3, 0x40);
             {
                 DragonAttackParams prm = re2_flower_tower_attack_params;
@@ -290,7 +290,7 @@ void TObjEneRe2Flower::state_laugh(s32 reason) {
         play_effect_if_v2(-0x200);
         return;
     case 3:
-        if (is_passing_frame(frame_count - lbl_805D9FC0) != 0) {
+        if (is_passing_frame(frame_count - re2_flower_one) != 0) {
             transition_enemy_state(3);
         }
         update_ground_contact();
@@ -308,12 +308,12 @@ void TObjEneRe2Flower::state_laugh(s32 reason) {
     }
 }
 
-// Literals of the flower file that the units split from it (TObjEneRe2FlowerStates.cpp, TObjEneRe2Flower.cpp)
-// share; they follow this unit's own literals in .sdata2.
-__declspec(section ".sdata2") extern const f32 lbl_805D9FAC = 0.0f;
+// Flower constants that TObjEneRe2FlowerStates.cpp and TObjEneRe2Flower.cpp read too; they follow this unit's
+// own literals in .sdata2.
+__declspec(section ".sdata2") extern const f32 re2_flower_zero = 0.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_node_point0_y = 2.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_node_point1_y = 7.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_draw_scale = 1.3f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FBC = 5.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FC0 = 1.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FC4 = 10.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_five = 5.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_one = 1.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_ten = 10.0f;

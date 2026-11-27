@@ -45,7 +45,7 @@ void TObjEneRe2Flower::state_die(s32 reason) {
         refresh_and_send_entity_flags();
         debug_effect_hook(0xF2);
         state_step = 0;
-        sink_depth = lbl_805D9FAC;
+        sink_depth = re2_flower_zero;
         play_sound_effect(remap_sound_for_variant(0x4003A812), &position, 0, 0);
         play_effect_if_v2(-0x200);
         return;
@@ -61,10 +61,10 @@ void TObjEneRe2Flower::state_die(s32 reason) {
             advance_animation();
             if (get_flag_b4() != 0) {
                 state_step = 1;
-                x = lbl_805D9FC4 * sin_table_lookup(rotation.y);
-                effect_pos.y = lbl_805D9FAC;
+                x = re2_flower_ten * sin_table_lookup(rotation.y);
+                effect_pos.y = re2_flower_zero;
                 effect_pos.x = x;
-                effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation.y);
+                effect_pos.z = re2_flower_ten * cos_table_lookup(rotation.y);
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
                     spawn_dead_spot_kind0_scale7_5(&effect_pos, 0x32);
@@ -188,9 +188,9 @@ void TObjEneRe2Flower::state_curse(s32 reason) {
     }
 }
 
-__declspec(section ".sdata2") extern const f32 lbl_805D9FD4 = 3.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FD8 = 15.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FDC = 12.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_three = 3.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_fifteen = 15.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_twelve = 12.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_lose_target_distance = 300.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_attack_distance = 50.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_track_timeout = 100.0f;

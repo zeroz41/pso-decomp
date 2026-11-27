@@ -3,13 +3,13 @@
 
 #include "types.h"
 
-// Flower literals the split parts share (TObjEneRe2Flower_Render.cpp and TObjEneRe2FlowerStates.cpp define them).
-extern const f32 lbl_805D9FAC;
-extern const f32 lbl_805D9FBC;
-extern const f32 lbl_805D9FC0;
-extern const f32 lbl_805D9FC4;
-extern const f32 lbl_805D9FD4;
-extern const f32 lbl_805D9FD8;
-extern const f32 lbl_805D9FDC;
+// Flower constants the flower files share (TObjEneRe2Flower_Render.cpp and TObjEneRe2FlowerStates.cpp define them).
+extern const f32 re2_flower_zero;
+extern const f32 re2_flower_five;
+extern const f32 re2_flower_one;
+extern const f32 re2_flower_ten;
+extern const f32 re2_flower_three;
+extern const f32 re2_flower_fifteen;
+extern const f32 re2_flower_twelve;
 
 #endif
