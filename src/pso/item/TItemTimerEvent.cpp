@@ -24,7 +24,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/item/TItemTimerEventTypes.h"
 
 const char TItemTimerEvent::class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent::class_name = TItemTimerEvent::class_name_string;
