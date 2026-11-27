@@ -542,7 +542,7 @@ void TObjPlayer::init_player_data(player_stats *src) {
 
 void TObjPlayer::release_char_data() {}
 
-int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable(this); }
+int TObjPlayer::can_cast_technique() { return check_technique_castable(); }
 
 void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
     set_hp_bonus(record->hp_material_bonus);
@@ -5954,11 +5954,11 @@ s32 TObjPlayer::is_key_machine_ready(void) {
     return (u8) result;
 }
 
-s32 TObjPlayer::check_technique_castable(TObjPlayer *player) {
+s32 TObjPlayer::check_technique_castable() {
     s32 area;
 
     if ((is_technique_ready() != 0) || (TObjPlayer::is_camera_mode_active() != 0) || (is_boss_area() != 0)) {
-        player->set_flag_4096();
+        set_flag_4096();
         return 0;
     }
     area = get_current_floor_area();
@@ -5966,10 +5966,10 @@ s32 TObjPlayer::check_technique_castable(TObjPlayer *player) {
     case AREA_PIONEER2_EP1:
     case AREA_LOBBY:
     case AREA_PIONEER2_EP2:
-        player->set_flag_4096();
+        set_flag_4096();
         return 0;
     default:
-        player->clear_flag_4096();
+        clear_flag_4096();
         return 1;
     }
 }

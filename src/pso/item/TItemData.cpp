@@ -722,12 +722,12 @@ s32 TItemData::has_bonus_stats() {
                 return 1;
             }
         case 2:
-            if (get_dfp_bonus(this) > 0 || get_evp_bonus(this) > 0) {
+            if (get_dfp_bonus(data1.data_u8) > 0 || get_evp_bonus(data1.data_u8) > 0) {
                 return 1;
             }
             break;
         case 3:
-            if (get_unit_modifier(this) > 0) {
+            if (get_unit_modifier(data1.data_u8) > 0) {
                 return 1;
             }
             break;
@@ -1337,8 +1337,8 @@ s32 TItemData::calc_price() {
       armor = (ArmorPmtEntry *) lookup_item_pmt_record(data1.data_u8);
       if ((0.0f != coef) && (armor != 0))
       {
-        s32 a = TItemData::get_dfp_bonus(this);
-        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_evp_bonus(this));
+        s32 a = get_dfp_bonus(data1.data_u8);
+        atp = (f32) (((armor->dfp + armor->evp) + a) + get_evp_bonus(data1.data_u8));
         {
           s32 dv = (s32) ((atp * atp) / coef);
           f32 sl = 70.0f * ((f32)(data1.data_u8[5] + 1));
@@ -1634,7 +1634,7 @@ int TItemData::calc_display_grade() {
         break;
     case 1:
         if ((u8) this->data1.data_u8[1] == 3) {
-            rarity_modifier = TItemData::get_unit_modifier(this);
+            rarity_modifier = get_unit_modifier(data1.data_u8);
             if (rarity_modifier < 0) {
                 base_rarity -= 1;
             } else if (rarity_modifier > 0) {
