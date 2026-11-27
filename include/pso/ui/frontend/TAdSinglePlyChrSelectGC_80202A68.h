@@ -11,6 +11,7 @@
 // The save record of a PSO3_CHARACTER slot: the CharacterSaveRecord layout with four bank rows.
 struct Pso3CharacterSaveRecord {
     Pso3CharacterSaveRecord();
+    Pso3CharacterSaveRecord &operator=(Pso3CharacterSaveRecord &source);
 
     s32 flags;
     s32 creation_seconds;
@@ -66,6 +67,7 @@ struct Tail_80202C68 { Pair_80202C68 p0, p1, p2, p3, p4, p5, p6; };
 struct Pso3CharacterFile {
     Pso3CharacterFile();
     ~Pso3CharacterFile();
+    Pso3CharacterFile &operator=(Pso3CharacterFile &from);
     // The seed of the cipher over the file, kept in its last word.
     s32 get_cipher_seed();
 
@@ -81,7 +83,7 @@ LAYOUT_ASSERT(Pso3CharacterFileSlot_record_offset, offsetof(Pso3CharacterFileSlo
 LAYOUT_ASSERT(Pso3CharacterFileSlot_size, sizeof(Pso3CharacterFileSlot) == 0x39B4);
 LAYOUT_ASSERT(Pso3CharacterFile_size, sizeof(Pso3CharacterFile) == 0x194B0);
 
-void *copy_character_file_slot(void *a0, void *a1);
+Pso3CharacterFileSlot *copy_character_file_slot(Pso3CharacterFileSlot *to, Pso3CharacterFileSlot *from);
 
 struct BattleRecordBlock { u32 w[7]; };
 

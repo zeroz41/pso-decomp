@@ -74,7 +74,6 @@ struct TWindowSubSymbolChat : public TObject {
     virtual void run_task();
     static void set_flag_bit1(s32 *flags);
     s32 commit(s32 *src);
-    void init_layout_entries(saddr player);
     // The "New Parts" menu.
     TWindowMenu *create_new_parts_menu();
 };

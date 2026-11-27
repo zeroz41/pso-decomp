@@ -12,7 +12,6 @@ struct OSContext;
 class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
-struct Pso3CharacterFile;
 struct CharacterFile;
 struct CharacterSaveRecord;
 struct TItemData;
@@ -67,7 +66,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
     static s32 check_slot_flags(s32 slot, u32 mask);
-    static Pso3CharacterFile *copy_save_data(Pso3CharacterFile *to, Pso3CharacterFile *from);
     void cleanup();
     virtual void run_task();
     static s32 get_chr_select_state();
@@ -140,8 +138,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdFadeGC *fade_task;                  // 0x54
     s32 last_cursor_index;                 // 0x58
     s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
-    s32 load_and_verify_character_save(char *desc);
-    u8 *copy_character_data(u8 *source);
     static void reset_quest_id();
     static void set_quest_download_server(int quest_download_server);
     static void run_frame();
@@ -267,5 +263,8 @@ struct NJS_POINT2;
 void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 
 s32 get_guild_card_file_block_count(void);
+// Loads and decrypts the slot A character file: copies its serial into serial and its access key into desc;
+// 1 when the file's CRC32 holds.
+s32 load_and_verify_character_save(char *serial, char *desc);
 
 #endif

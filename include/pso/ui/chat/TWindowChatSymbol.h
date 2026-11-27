@@ -9,7 +9,6 @@ struct NJS_POINT2;
 
 struct SymbolChatPreset;
 struct SymbolChatPart;
-struct WindowLayoutEntries;
 
 struct TWindowChatSymbol : public TWindowBase {
     static const char *class_name;
@@ -40,5 +39,7 @@ struct SymbolChatSpriteLayout {
 };
 
 void apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index);
+// Lays a balloon's entries out as the symbol chat's sprite grid.
+void init_symbol_chat_layout_entries(WindowLayoutEntries *entries, saddr player);
 
 #endif

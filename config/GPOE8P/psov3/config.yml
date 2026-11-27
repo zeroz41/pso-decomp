@@ -239,7 +239,7 @@ force_active:
   - decrypt_guild_card_payload__FP17GuildCardSaveData
   - encrypt_guild_card_payload__FP17GuildCardSaveDataPv
   - decrypt_secondary_card_buffer__Fv
-  - copy_character_file_slot__FPvPv
+  - copy_character_file_slot__FP21Pso3CharacterFileSlotP21Pso3CharacterFileSlot
   - __ct__21Pso3CharacterFileSlotFv
   - __ct__23Pso3CharacterSaveRecordFv
   - item_type_greater__FP14BankItemRecordP14BankItemRecord
@@ -5323,7 +5323,7 @@ force_active:
   - copy_bone_positions__13TBoss5GryphonFv
   - copy_challenge_result_record__FP21ChallengeResultRecordPC21ChallengeResultRecord
   - __as__17CharacterFileSlotFR17CharacterFileSlot
-  - copy_character_data__23TAdSinglePlyChrSelectGCFPUc
+  - __as__23Pso3CharacterSaveRecordFR23Pso3CharacterSaveRecord
   - copy_character_to_slot__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - copy_chat_entry__20TWindowSubSymbolChatFPl
   - copy_data__18TCheckRoomSequenceFP14BankItemRecordP9TItemData

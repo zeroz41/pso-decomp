@@ -93,11 +93,11 @@ void decrypt_character_save(Pso3CharacterFile *save_data) {
     Pso3CharacterFile *unshuffled;
     plain = new Pso3CharacterFile;
     unshuffled = new Pso3CharacterFile;
-    TAdSinglePlyChrSelectGC::copy_save_data(plain, save_data);
+    *plain = *save_data;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
     chr_select_rng_state.make_shuffle();
     chr_select_rng_state.unshuffle((const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
-    TAdSinglePlyChrSelectGC::copy_save_data(save_data, unshuffled);
+    *save_data = *unshuffled;
     delete unshuffled;
     delete plain;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
@@ -106,7 +106,7 @@ void decrypt_character_save(Pso3CharacterFile *save_data) {
     chr_select_rng_state.xor_buffer((u32 *)save_data, 0x194AC);
 }
 
-s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
+s32 load_and_verify_character_save(char *serial, char *desc) {
     s32 sum;
     u8 *buf;
     s32 res;
@@ -139,7 +139,7 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     saved = *(s32 *)data;
     *(s32 *)data = 0;
     res = calc_crc32_bitwise(data, 0x194B0);
-    strncpy(((char *)this), (char *)(data + 0x193F0), 0x10);
+    strncpy(serial, (char *)(data + 0x193F0), 0x10);
     strncpy(desc, (char *)(data + 0x19400), 0x10);
     safe_free(data);
     safe_free(buf);

@@ -535,7 +535,7 @@ void TWindowFukidasi::open(u32 *symbol, s32 flags) {
     if (content_kind != 1) {
         content_kind = 1U;
         entry_list.destroy_all_items();
-        ((TWindowSubSymbolChat *)&entry_list)->init_layout_entries(client_index);
+        init_symbol_chat_layout_entries(&entry_list, client_index);
         if (state != 0) {
             restart = 1;
         }

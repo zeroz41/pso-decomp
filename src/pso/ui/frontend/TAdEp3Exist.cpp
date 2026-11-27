@@ -110,7 +110,7 @@ TAdEp3Exist::~TAdEp3Exist() {
 }
 
 TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
-    s8 flag[16];
+    char flag[16];
     u8 save[16];
     s32 res;
     bool ok;
@@ -123,7 +123,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     state = 0;
     next_state = 0;
     flag[0] = 0;
-    res = ((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)save);
+    res = load_and_verify_character_save(flag, (char *)save);
     ok = false;
     if (res != 0) {
         if (flag[0] != 0) {

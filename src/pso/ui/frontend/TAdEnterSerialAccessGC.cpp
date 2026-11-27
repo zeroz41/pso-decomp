@@ -88,7 +88,7 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
         return;
     }
     serial[0] = 0;
-    if (((TAdSinglePlyChrSelectGC *)serial)->load_and_verify_character_save(access_key) != 0 && serial[0] != 0) {
+    if (load_and_verify_character_save(serial, access_key) != 0 && serial[0] != 0) {
         initialize_serial_input(serial);
         set_access_key(access_key);
         set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 1);

@@ -22,7 +22,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct S_801FE010;
 struct B8_801FDFB8 { u32 w[2]; };
 
 struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 copy_stamp; s32 f2794; };
@@ -99,38 +98,38 @@ void CharacterSelectionRequest::reset_slot_lists() {
         player_ids[i] = -1;
     }
 }
-Pso3CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(Pso3CharacterFile *to, Pso3CharacterFile *from) {
+Pso3CharacterFile &Pso3CharacterFile::operator=(Pso3CharacterFile &from) {
     Pso3CharacterFileSlot *d;
     Pso3CharacterFileSlot *s;
-    to->checksum = from->checksum;
-    d = to->slots;
-    s = from->slots;
+    checksum = from.checksum;
+    d = slots;
+    s = from.slots;
     do {
         copy_character_file_slot(d, s);
         d++;
         s++;
-    } while (d < &to->slots[7]);
-    to->tail = from->tail;
-    to->blk = from->blk;
-    to->cipher_seed = from->cipher_seed;
-    return to;
+    } while (d < &slots[7]);
+    tail = from.tail;
+    blk = from.blk;
+    cipher_seed = from.cipher_seed;
+    return *this;
 }
 
-#define dst ((P_801FDFB8 *)a0)
-#define src ((P_801FDFB8 *)a1)
-void *copy_character_file_slot(void *a0, void *a1) {
+#define dst ((P_801FDFB8 *)to)
+#define src ((P_801FDFB8 *)from)
+Pso3CharacterFileSlot *copy_character_file_slot(Pso3CharacterFileSlot *to, Pso3CharacterFileSlot *from) {
     dst->char_data = src->char_data;
-    ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
+    to->record = from->record;
     dst->copy_stamp = src->copy_stamp;
     dst->f2794 = src->f2794;
-    return a0;
+    return to;
 }
 #undef dst
 #undef src
 
-u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
+Pso3CharacterSaveRecord &Pso3CharacterSaveRecord::operator=(Pso3CharacterSaveRecord &source) {
     Pso3SaveRecordView *d = (Pso3SaveRecordView *)this;
-    Pso3SaveRecordView *s = (Pso3SaveRecordView *)source;
+    Pso3SaveRecordView *s = (Pso3SaveRecordView *)&source;
     ChatShortcut *p;
     ChatShortcut *q;
     d->flags = s->flags;
@@ -167,7 +166,7 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     d->settings = s->settings;
     d->split_screen_battle = s->split_screen_battle;
     d->tail = s->tail;
-    return ((u8 *)this);
+    return *this;
 }
 
 BankItemRecord &BankItemRecord::operator=(BankItemRecord &src) {

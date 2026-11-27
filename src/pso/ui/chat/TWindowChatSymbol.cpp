@@ -252,12 +252,8 @@ void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data) {
     } while (j < 0xC);
 }
 
-void TWindowSubSymbolChat::init_layout_entries(saddr player) {
-    saddr window_addr = (saddr)this;
-    init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(window_addr),
-        &symbol_chat_layout_sprite_records,
-        player);
+void init_symbol_chat_layout_entries(WindowLayoutEntries *entries, saddr player) {
+    init_window_layout_entries(entries, &symbol_chat_layout_sprite_records, player);
 }
 
 void TWindowChatSymbol::update_visibility() {
