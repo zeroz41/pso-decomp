@@ -311,12 +311,12 @@ void TWindowMenu::set_selected_index(s16 index) {
 
 #pragma push
 #pragma fp_contract on
-void align_menu_entry_positions(TWindowMenu *self) {
-    f32 left = self->target_size[0] - 8.0f;
-    f32 right = 0.5f * self->target_size[0] - 4.0f;
+void align_menu_entry_positions(TWindowMenu *menu) {
+    f32 left = menu->target_size[0] - 8.0f;
+    f32 right = 0.5f * menu->target_size[0] - 4.0f;
     u32 i;
-    for (i = 0; i < self->row_count; i++) {
-        WindowTextEntry *e = static_cast<WindowTextEntry *>(self->get_array_entry(i));
+    for (i = 0; i < menu->row_count; i++) {
+        WindowTextEntry *e = static_cast<WindowTextEntry *>(menu->get_array_entry(i));
         if (e->get_text() != 0) {
             e->measure_text(left);
             if (e->height > 18.0f) {

@@ -4604,9 +4604,9 @@ void TObjPlayer::recover_player_full(TObjPlayer *player) { player->recover_full(
 #pragma push
 #pragma scheduling off
 #pragma scheduling on
-s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirementStats *player_requirement_stats) {
-    player_requirement_stats->set(self, self->get_stats(), get_class_attack_template(self),
-                                  get_class_defense_template(self));
+s32 build_player_equipment_requirement_stats(TObjPlayer *player, PlayerRequirementStats *player_requirement_stats) {
+    player_requirement_stats->set(player, player->get_stats(), get_class_attack_template(player),
+                                  get_class_defense_template(player));
     return 1;
 }
 #pragma pop
