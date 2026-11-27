@@ -23,6 +23,7 @@ LAYOUT_ASSERT(CardSaveHeader_crc_offset, offsetof(CardSaveHeader, crc) == 0x2044
 void free_banner_buffers(void);
 s32 get_memcard_free_files(s32 chan);
 s32 mount_memcard(saddr chan);
+s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks);
 s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
 s32 start_memcard_write(s32 chan, const char *name, void *buffer, s32 blocks, CardWriteDate *date, u32 flags);
 s32 init_memcard(s32, s32 chan, u8 *workArea, s32);

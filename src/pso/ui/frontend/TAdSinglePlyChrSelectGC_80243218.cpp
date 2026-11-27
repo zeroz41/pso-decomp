@@ -6,7 +6,6 @@
 
 extern "C" {
 
-s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks);
 
 s32 TAdSinglePlyChrSelectGC::draw_window_bg(s32 chan, const char *filename, void *buf, s32 blocks) {
     CardWriteDate date;

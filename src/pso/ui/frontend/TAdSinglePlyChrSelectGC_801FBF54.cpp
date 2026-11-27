@@ -117,7 +117,6 @@ static const NJS_POINT2 chr_select_save_message_window_size = { 548.0f, 220.0f }
 static const char card_disk_game_code[] = "GPSE";
 
 void __construct_array(void*, void*, void*, int, int);
-s32 start_memcard_read(s32, char *, void *, s32);
 }
 
 

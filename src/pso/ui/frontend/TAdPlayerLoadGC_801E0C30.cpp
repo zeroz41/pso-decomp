@@ -431,7 +431,6 @@ s32 TAdPlayerLoadGC::build_save_file_image(void *image, CardSaveDescriptor *file
     ::operator delete(h);
     return size / 8192 + 3;
 }
-extern "C" {
 
 s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     u32 size;
@@ -492,8 +491,6 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     }
     card_result_code = -0xF9;
     return -0xF9;
-}
-
 }
 
 s32 poll_memcard_result(s32 chan) {

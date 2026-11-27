@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/network/ModemRuntime.h"
+#include <dolphin/exi.h>
 
 // ntUtl library banner; init_shared_memory publishes it in shared_memory_version.
 // inferred: name from the string.
@@ -172,14 +173,10 @@ s32 set_disc_error_message(s32 index, const char *message) {
     return ret;
 }
 #pragma pop
-extern "C" {
-
-s32 EXIGetType(int, int, void *);
-}
 u32 cached_adapter_type;
 
 s32 get_network_adapter_type(s32 *out_type) {
-    s32 adapter_type;
+    u32 adapter_type;
     if (cached_adapter_type == 2U) {
         *out_type = 2;
     } else if (cached_adapter_type == 5U) {

@@ -38,7 +38,6 @@
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
-extern CharacterAppearanceFields character_creation_visual_record;
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 

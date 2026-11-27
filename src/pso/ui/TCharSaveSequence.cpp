@@ -43,6 +43,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -64,7 +65,6 @@ s32 char_save_message_flags;
 extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
-s32 start_memcard_read(s32, void *, u32, s32);
 }
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -270,7 +270,7 @@ void TCharSaveSequence::start_character_read() {
     switch (TAdPlayerLoadGC::get_card_file_info(chr_select_state, pso_character_card_filename.filename, 0)) {
     case 0:
         if (download_buffer != 0) {
-            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, (uaddr)download_buffer, flag_count)) {
+            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, download_buffer, flag_count)) {
             case 0:
                 state = 3;
                 break;

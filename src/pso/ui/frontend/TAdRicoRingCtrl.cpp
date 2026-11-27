@@ -15,10 +15,8 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/task/TMainTask.h"
 
-extern "C" {
-extern TObject *tl_04;
-}
 BmlResource *TAdRicoRing::resource_bundle;
 extern "C" {
 f32 rico_ring_quad_x_min;
@@ -34,7 +32,6 @@ s8 rico_ring_quad_z_near_ready;
 f32 rico_ring_quad_z_far;
 s8 rico_ring_quad_z_far_ready;
 s8 rico_ring_quad_vertices_ready;
-u32 __cvt_fp2unsigned(f32);
 }
 
 const char *rico_ring_model_names[2] = { "rico_ring.nj", NULL };
@@ -300,7 +297,7 @@ void TAdRicoRingCtrl::render() {
     t = fade;
     if (t > 0.0f) {
         NJS_POINT2COL args = { rico_ring_fade_positions, rico_ring_fade_colors, NULL, 4 };
-        u32 cnt = __cvt_fp2unsigned(255.0f * t);
+        u32 cnt = (u32)(255.0f * t);
         s32 i;
         for (i = 0; i < 4; i++) {
             rico_ring_fade_colors[i].color = cnt;

@@ -127,5 +127,7 @@ void init_creation_menu_scene(void);
 extern char character_creation_name_buffer[0x18];
 // Set while character creation runs as the dressing room.
 extern int creation_dressing_room_mode_flag;
+// The appearance being edited (get_creation_visual_record).
+extern CharacterAppearanceFields character_creation_visual_record;
 
 #endif
