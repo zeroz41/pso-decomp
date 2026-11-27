@@ -65,7 +65,7 @@ public:
     // Kind of the menu_entries row the cursor is on.
     s32 get_selected_menu_entry_kind();
     s32 is_state_3();
-    static void *create_fade(void *duration, void *mode);
+    static void *create_fade(s32 duration, s32 mode);
     static s32 try_pay_fee();
     void confirm_selection();
     void open_name_menu();

@@ -313,7 +313,7 @@ TWindowBase *TAdEnterSerialAccessGC::open_message_window(s32 text_index) {
 }
 
 TWindowCallBack *TAdEnterSerialAccessGC::create_draw_callback() {
-    return create_callback((void *)&serial_draw_window_position, (void *)&serial_draw_window_size, draw_screen);
+    return create_callback(&serial_draw_window_position, &serial_draw_window_size, draw_screen);
 }
 
 char *TAdEnterSerialAccessGC::hex_to_decimal_string(const char *serial) {

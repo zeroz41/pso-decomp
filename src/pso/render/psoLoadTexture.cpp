@@ -220,7 +220,7 @@ void TTextureWave::distort_image() {
     u16 *out;
     s32 x;
     y = 0;
-    out = reinterpret_cast<GvrTexture *>(output)->texels;
+    out = output->texels;
     dx = reinterpret_cast<u8 *>(displacement);
     image = image_data->texels;
     dy = dx + height * width;
@@ -251,5 +251,5 @@ void TTextureWave::distort_image() {
             out[calc_gx_tile_index(x, y, width)] = color;
         }
     }
-    reload_texture_num(0, output + 0x20, NJD_TEXATTR_TYPE_MEMORY, 0);
+    reload_texture_num(0, (saddr)output->texels, NJD_TEXATTR_TYPE_MEMORY, 0);
 }

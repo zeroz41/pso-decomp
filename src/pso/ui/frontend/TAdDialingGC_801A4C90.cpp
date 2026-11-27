@@ -12,16 +12,16 @@ TAdDialingGC *TAdDialingGC::get_instance(void) {
 void TAdDialingSelectGC::update_dial_image() {
     switch (this->selection) {
     case 0:
-        TAdDialingGC::select_dial_image((void *)1, 0);
+        TAdDialingGC::select_dial_image(1, 0);
         return;
     case 1:
-        TAdDialingGC::select_dial_image((void *)0, 0);
+        TAdDialingGC::select_dial_image(0, 0);
         return;
     case 2:
-        TAdDialingGC::select_dial_image((void *)1, 1);
+        TAdDialingGC::select_dial_image(1, 1);
         return;
     case 3:
-        TAdDialingGC::select_dial_image((void *)0, 1);
+        TAdDialingGC::select_dial_image(0, 1);
     case 4:
         return;
     }

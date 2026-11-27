@@ -28,11 +28,11 @@
 const f32 ep3_exist_cursor_pos[2] = { 89.0f, 394.0f };
 const f32 ep3_exist_cursor_size[2] = { 462.0f, 18.0f };
 const char *TAdEp3Exist::name = "TAdEp3Exist";
-const f32 serial_access_window_pos[2] = { 85.0f, 384.0f };
-const f32 serial_access_window_size[2] = { 470.0f, 32.0f };
+const NJS_POINT2 serial_access_window_pos = { 85.0f, 384.0f };
+const NJS_POINT2 serial_access_window_size = { 470.0f, 32.0f };
 
 void *TAdEp3Exist::create_callback_window() {
-    return TAdEnterSerialAccessGC::create_callback((void *)serial_access_window_pos, (void *)serial_access_window_size, draw_message_window);
+    return TAdEnterSerialAccessGC::create_callback(&serial_access_window_pos, &serial_access_window_size, draw_message_window);
 }
 
 extern "C" {

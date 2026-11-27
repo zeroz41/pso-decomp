@@ -50,7 +50,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
 void TAdAgreementBaseGC::on_cancel() { state = 4; }
 
 void *TAdAgreementBaseGC::create_agreement_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)&agreement_text_window_pos, (void *)&agreement_text_window_size, TAdAgreementBaseGC::draw_agreement_text);
+    return TAdEnterSerialAccessGC::create_callback(&agreement_text_window_pos, &agreement_text_window_size, TAdAgreementBaseGC::draw_agreement_text);
 }
 
 void TAdAgreementBaseGC::update_state() {

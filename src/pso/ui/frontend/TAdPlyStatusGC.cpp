@@ -179,7 +179,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
 
 TWindowBase *TAdPlyStatusGC::create_status_window(const NJS_POINT2 *position) {
     TWindowBase *status_window = TAdEnterSerialAccessGC::create_callback(
-        (void *)position, (void *)&ply_status_window_position, draw_status_window);
+        position, &ply_status_window_position, draw_status_window);
     status_window->set_depth(60000.0f);
     return status_window;
 }

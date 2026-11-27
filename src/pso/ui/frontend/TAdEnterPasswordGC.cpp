@@ -65,12 +65,12 @@ void TAdEnterPasswordGC::open_sn_ak_pass_confirm(void *arg) { TAdMultiChgGameMod
 void TAdEnterPasswordGC::request_transition(void *arg) { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 
 void TAdEnterPasswordGC::update_password_input(void *arg) {
-  saddr buf = (saddr)password_entry_keyboard_control->realloc_buffer();
+  char *buf = password_entry_keyboard_control->realloc_buffer();
   s32 prev;
   int cur;
   if (((len == 0) && (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0)) || ((len == 0) && (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)))
   {
-    mem_free((void *)buf);
+    mem_free(buf);
     memset(&TAdEnterPasswordGC::input_buffer.value, 0, 9);
     pending_dispatch_state = 2;
     password_entry_dispatch_state = 4;
@@ -91,7 +91,7 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
         }
       }
       else
-        if (TAdEnterSerialAccessGC::forward_input(this, 2, (const char *)buf) == 0)
+        if (TAdEnterSerialAccessGC::forward_input(this, 2, buf) == 0)
       {
         password_entry_keyboard_control->clear_keyboard_flag60_bit1();
         play_sound_effect(0x53F06, 0, 0, 0);
@@ -135,13 +135,13 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
   }
   if ((select_cursor->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
   {
-    strncpy((char *)&TAdEnterPasswordGC::input_buffer.value, (const char *)buf, 9);
+    strncpy((char *)&TAdEnterPasswordGC::input_buffer.value, buf, 9);
     TAdEnterSerialAccessGC::set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 2);
     pending_dispatch_state = 3;
     password_entry_dispatch_state = 4;
   }
-  len = strlen((const char *)buf);
-  mem_free((void *)buf);
+  len = strlen(buf);
+  mem_free(buf);
 }
 
 void TAdEnterPasswordGC::open_keyboard_window(void *arg) {

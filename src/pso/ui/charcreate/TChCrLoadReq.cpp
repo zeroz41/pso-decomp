@@ -294,7 +294,7 @@ void TChCrLoadReq::start_preview_loads() {
 void TChCrLoadReq::load_preview_models() {
     u32 len;
     u32 tag;
-    uaddr bufs[6];
+    NJS_OBJECT *bufs[6];
     CharacterPreviewModels models;
     s32 i;
     s32 j;
@@ -304,13 +304,13 @@ void TChCrLoadReq::load_preview_models() {
         p = (uaddr)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
         safe_free(reinterpret_cast<void *>(p));
-        bufs[i] = (uaddr)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
+        bufs[i] = (NJS_OBJECT *)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
-            for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
+            for (i = 0; i < 6; i++) safe_free(bufs[i]);
             return;
         }
-        if (is_node_tree_valid(reinterpret_cast<NJS_OBJECT *>(bufs[i])) == 0) {
-            for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
+        if (is_node_tree_valid(bufs[i]) == 0) {
+            for (i = 0; i < 6; i++) safe_free(bufs[i]);
             return;
         }
     }
@@ -319,12 +319,12 @@ void TChCrLoadReq::load_preview_models() {
     models.body = reinterpret_cast<NJS_OBJECT *>(*inputs.body_model);
     for (i = 0; i < 3; i++) {
         models.sample_indices[i] = sample_indices[i];
-        models.head_samples[i] = reinterpret_cast<NJS_OBJECT *>(bufs[i]);
-        models.body_samples[i] = reinterpret_cast<NJS_OBJECT *>(bufs[i + 3]);
+        models.head_samples[i] = bufs[i];
+        models.body_samples[i] = bufs[i + 3];
     }
     bind_character_preview_models(&models);
     blend_creation_proportion_shapes(&inputs.appearance->width);
-    for (j = 0; j < 6; j++) safe_free(reinterpret_cast<void *>(bufs[j]));
+    for (j = 0; j < 6; j++) safe_free(bufs[j]);
 }
 
 s32 TChCrLoadReq::are_preview_load_flags_clear() {

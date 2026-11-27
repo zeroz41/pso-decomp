@@ -24,7 +24,7 @@ const char *trial_modem_check_urls[] = {sonic_index_url, sonic_config_url, sonic
 // Three slots, NULL-ended: the 12-byte table sits in .data (an 8-byte one would go to .sdata).
 const char *dial_image_urls[] = {sonic_config_url, sonic_license_url, NULL};
 
-void TAdDialingGC::select_dial_image(void *self, s32 x) {
+void TAdDialingGC::select_dial_image(s32, s32 x) {
     launch_switcher_dol(dial_image_urls[x ? 1 : 0]);
 }
 

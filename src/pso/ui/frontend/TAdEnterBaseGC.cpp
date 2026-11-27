@@ -52,9 +52,9 @@ const f32 enter_base_message_window_position[2] = {46.0f, 110.0f};
 const f32 enter_base_message_window_size[2] = {548.0f, 120.0f};
 
 // create_default_callback: the two rects passed to TAdEnterSerialAccessGC::create_callback.
-const f32 enter_base_callback_position[2] = {73.0f, 220.0f};
+const NJS_POINT2 enter_base_callback_position = {73.0f, 220.0f};
 
-const f32 enter_base_callback_size[2] = {494.0f, 60.0f};
+const NJS_POINT2 enter_base_callback_size = {494.0f, 60.0f};
 
 // create_parts: TAdSelectCurGC rects; entry mode 3 starts at the third position and the second size.
 const TAdEnterBaseGC::Position enter_base_cursor_positions[4] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
@@ -266,7 +266,7 @@ TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, s32 messag
 }
 
 TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)enter_base_callback_position, (void *)enter_base_callback_size, render_entry_window);
+    return TAdEnterSerialAccessGC::create_callback(&enter_base_callback_position, &enter_base_callback_size, render_entry_window);
 }
 
 TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, s32 field) {
