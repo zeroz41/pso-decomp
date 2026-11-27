@@ -23,6 +23,8 @@ public:
     void draw_overlay();
     static void set_fish_global_param();
     void init_float_table();
+    // Binds the wall texture list destroy_instance releases.
+    static void bind_ending_wall_textures();
     static void destroy_instance();
 
     s32 elapsed_ticks;

@@ -52,7 +52,7 @@ void (*ending_scene_callbacks[26])(void) = {
     set_ending_callback, free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
     register_texture_ed_512kabe_c, TEndingC::release_lobby,
-    TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,
+    TEndingAB::bind_ending_wall_textures, TEndingAB::destroy_instance,
     alloc_quest_download_buffer, free_chr_select_singleton,
     init_item_system, free_item_system,
     create_player_ending_motion, free_player_ending_motion,

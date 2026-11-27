@@ -337,7 +337,7 @@ void TEndingAB::destroy_instance() {
         ending_ab_wall_texture_list = NULL;
     }
 }
-void TScene::bind_ending_wall_textures() {
+void TEndingAB::bind_ending_wall_textures() {
     EndingWallTextureSet *base = ending_wall_texture_sets;
     NJS_TEXLIST *t;
     if (get_ending_scene_active() != 0) {

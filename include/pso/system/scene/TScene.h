@@ -95,7 +95,6 @@ public:
 public:
     static const char *class_name;
 
-    static void bind_ending_wall_textures();
     static void set_scene(int scene);
     static void apply_single_screen_state();
     static void set_ready();
