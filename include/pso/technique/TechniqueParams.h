@@ -47,9 +47,7 @@ extern TechniqueLinearPower tech_high_level_linear_power_table[];
 extern TechniqueParams calculated_technique_params;
 extern TechniqueCostScale technique_scale_table[];
 
-extern "C" {
-TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client);
-}
+TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client);
 
 s32 clamp_nonnegative_int(s32 x);
 

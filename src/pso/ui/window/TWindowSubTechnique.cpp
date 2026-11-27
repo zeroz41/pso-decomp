@@ -25,6 +25,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/technique/TechniqueParams.h"
 
 s32 TWindowSubTechnique::category_changed() {
     if (category_menu == NULL) {
@@ -145,7 +146,6 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
 
 extern "C" {
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
-u8 *calc_technique_parameters(s16, u8, s32);
 s32 get_cast_technique_level(void *, int);
 }
 
@@ -200,7 +200,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
         text_builder_append_int((((u8) cast_technique_level) + 1));
       }
       text_builder_append(get_help_text_string(0x2E));
-      text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
+      text_builder_append_int(calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)->tp_cost);
       text_builder_append((const char *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
       help_window->append_line(get_shared_text_buffer(), 0x82);
     }

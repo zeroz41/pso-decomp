@@ -224,7 +224,7 @@ inline s32 lowered_charge_speed(s32 level) {
     return clamp_nonnegative_int(calculated_technique_params.charge_speed - clamp_nonnegative_int(level - 4));
 }
 
-TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client) {
+TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client) {
     s32 capped = 15;
     if (level < 15) {
         capped = level;
