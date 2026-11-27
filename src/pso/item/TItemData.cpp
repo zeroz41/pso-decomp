@@ -41,7 +41,6 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/enemy/BattleParamTables.h"
 
-
 extern "C" {
 u8 get_cast_technique_level(void *, int);
 }
@@ -1704,4 +1703,14 @@ s32 TItemData::get_stack_count() {
         }
     }
     return 1;
+}
+
+void TItemData::set_stack_count(u8 count) {
+    if (lookup_item_def() != 0) {
+        data1.data_u8[5] = count;
+        return;
+    }
+    if (data1.data_u8[0] == 3) {
+        data1.data_u8[5] = 0;
+    }
 }

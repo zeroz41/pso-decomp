@@ -978,7 +978,6 @@ pso/ui/city/TShopArmorListWindow.cpp
 pso/ui/city/TShopDeleteItemWindow.cpp
 pso/ui/city/TShopEquipmentGearSequence.cpp
 pso/ui/city/TShopEquipmentListWindow.cpp
-pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
 pso/ui/city/TShopEquipmentSequence.cpp
