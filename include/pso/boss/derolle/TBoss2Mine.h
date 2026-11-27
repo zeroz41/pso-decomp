@@ -80,10 +80,4 @@ struct TBoss2Mine : public TObjEneDD {
 };
 LAYOUT_ASSERT(TBoss2Mine_size, sizeof(TBoss2Mine) == 0x3F0);
 
-// The mine's attack template: state_explode copies it, sets the power from the boss and
-// hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
-struct TBoss2MineCollisionWords {
-    s32 w[5];
-};
-
 #endif

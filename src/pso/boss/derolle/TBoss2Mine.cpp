@@ -25,6 +25,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/BattleParamTables.h"
 
+// The mine's attack template: state_explode copies it, sets the power from the boss and
+// hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
 const char *TBoss2Mine::name = "TBoss2Mine";
@@ -319,8 +321,7 @@ void TBoss2Mine::state_explode(s32 reason) {
     case 0:
         step++;
         if (step > 30) {
-            *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
-                *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
+            __memcpy(&hit, &boss2_mine_collision_desc, sizeof(hit));
             hit.attack.power = TBoss2DeRolLe::get_mine_power();
             setup_attack_at_owner(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
