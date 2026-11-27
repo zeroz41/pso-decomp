@@ -33,11 +33,11 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     virtual void attack_and_unequip();
     virtual s32 check_target_in_range();
     virtual void select_next_attack_state();
-    virtual void vfunc_108();
+    virtual void update_player_state_default();
     virtual s32 check_active_flag();
     virtual s32 check_flag();
     virtual void on_target_lost();
-    virtual void vfunc_112();
+    virtual void apply_effect_pair();
     // State 0 (the ctor enters it, state_vanish ends in it): back at home_position, intangible,
     // then fade_in or ambush after 5 steps (fade_in_start).
     virtual void state_reset(s32);

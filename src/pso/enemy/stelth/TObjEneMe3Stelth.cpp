@@ -502,7 +502,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
     }
     play_sound_effect(0x3AA37, reinterpret_cast<const Vec *>((u8 *)&position), 0, 0);
 }
-void TObjEneMe3Stelth::vfunc_108() {  }
+void TObjEneMe3Stelth::update_player_state_default() {  }
 s32 TObjEneMe3Stelth::check_target_in_range() {
     f32 distance;
     u8 in_range;
@@ -534,7 +534,7 @@ s32 TObjEneMe3Stelth::check_flag() {
 void TObjEneMe3Stelth::on_target_lost() {  }
 void TObjEneMe3Stelth::set_intangible() { TObjEneDD::set_intangible(); add_immunity_flags(38); }
 void TObjEneMe3Stelth::clear_intangible() { TObjEneDD::clear_intangible(); remove_immunity_flags(38); }
-void TObjEneMe3Stelth::vfunc_112() {  }
+void TObjEneMe3Stelth::apply_effect_pair() {  }
 void TObjEneMe3Stelth::update_distance_state() {
     if (body_y - position.y > 30.0f) {
         set_colliders_contact_high();
@@ -1141,7 +1141,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
                 this->destination_direction.x = sin_table_lookup(this->rotation.y);
                 this->destination_direction.z = cos_table_lookup(this->rotation.y);
             }
-            this->vfunc_112();
+            this->apply_effect_pair();
             spawn_footstep_effects();
             cur_frame = this->frame;
             if ((cur_frame >= 0.0f) && (cur_frame <= 5.0f)) {
@@ -1594,7 +1594,7 @@ void TObjEneMe3Stelth::render() {
         return;
     }
     if (mode != 0) {
-        vfunc_108();
+        update_player_state_default();
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();

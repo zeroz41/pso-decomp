@@ -515,7 +515,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
     }
 }
 
-void TObjEneMe3SinowZoa::vfunc_108() {  }
+void TObjEneMe3SinowZoa::update_player_state_default() {  }
 
 s32 TObjEneMe3SinowZoa::is_target_in_range() {
     f32 distance;
@@ -551,7 +551,7 @@ s32 TObjEneMe3SinowZoa::try_run_effect_m7() {
 
 void TObjEneMe3SinowZoa::on_target_lost() {  }
 
-void TObjEneMe3SinowZoa::vfunc_112() {  }
+void TObjEneMe3SinowZoa::apply_effect_pair() {  }
 
 void TObjEneMe3SinowZoa::update_distance_state() {
     f32 thr = 30.0f;
@@ -1212,7 +1212,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
                 this->destination_direction.x = sin_table_lookup(this->rotation.y);
                 this->destination_direction.z = cos_table_lookup(this->rotation.y);
             }
-            this->vfunc_112();
+            this->apply_effect_pair();
             spawn_footstep_effects();
             cur_frame = this->frame;
             if (cur_frame >= 0.0f && cur_frame <= 5.0f) {
@@ -1706,7 +1706,7 @@ void TObjEneMe3SinowZoa::render() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
         if (!(this->floor_flags & 0x4000)) {
-            this->vfunc_108();
+            this->update_player_state_default();
             TObjEneDD::clear_global_flag_400();
         }
         toggle_particle_effect();

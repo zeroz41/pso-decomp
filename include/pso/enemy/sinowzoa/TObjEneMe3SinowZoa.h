@@ -46,11 +46,11 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void attack_and_unequip();
     virtual s32 is_target_in_range();
     virtual void select_next_attack_state();
-    virtual void vfunc_108();
+    virtual void update_player_state_default();
     virtual s32 try_run_effect_m6();
     virtual s32 try_run_effect_m7();
     virtual void on_target_lost();
-    virtual void vfunc_112();
+    virtual void apply_effect_pair();
     // State 0 (the ctor enters it, state_vanish ends in it): back at home_position, intangible,
     // then fade_in or ambush after 5 steps (fade_in_start).
     virtual void state_reset(s32 mode);
