@@ -815,9 +815,6 @@ void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 extern "C" {
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
-
-
-s32 get_class_max_exp(void *, void *);
 }
 
 extern const f32 player_front_distance;
@@ -5468,7 +5465,7 @@ s32 TObjPlayer::add_actor_exp(s32 amount) {
     }
     stat_block = this->stat_block;
     exp = stat_block->exp;
-    max_exp = get_class_max_exp(this, stat_block);
+    max_exp = get_class_max_exp(this);
     exp = exp + amount;
     if (exp > max_exp) {
         exp = max_exp;

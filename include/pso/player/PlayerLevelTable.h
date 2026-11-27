@@ -6,6 +6,7 @@
 
 struct stats;
 struct player_stats;
+class TObjPlayer;
 
 // One level of a class's growth table: stat gains and the experience the level needs.
 struct PlayerLevelTableRow {
@@ -28,6 +29,8 @@ LAYOUT_ASSERT(PlayerLevelTableExperienceOffset, offsetof(PlayerLevelTableRow, ex
 PlayerLevelTableRow *get_ply_level_table_row(s32 class_index, s32 level);
 void load_ply_level_tbl(void);
 void free_ply_level_tbl(void);
+// The experience the player's class needs for the top level.
+s32 get_class_max_exp(TObjPlayer *player);
 
 stats *get_class_base_stats(s32 class_index);
 const player_stats *get_class_stat_caps(s32 class_index);
