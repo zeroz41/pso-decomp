@@ -13,10 +13,7 @@ struct AdxStreamFile {
     s8 stat;  // 1 preparing, 2 reading, 3 read end, 4 error (ADXSTM stat values)
     s8 read_pending;
     s8 retry;
-    union {
-        saddr arg;
-        SjRingBuffer *buffer;
-    };
+    SjRingBuffer *buffer; // the ring buffer the file's sectors are read into
     CvFsHandle *handle;
     s32 start_position;
     s32 base_offset;  // where the file starts in the archive it is read from

@@ -254,7 +254,7 @@ void adxstm_close(AdxStreamFile *file) {
     }
 }
 
-inline AdxStreamFile *adxstm_alloc_ex_file(saddr arg, CvFsHandle *h, s32 base_offset, s32 size) {
+inline AdxStreamFile *adxstm_alloc_ex_file(SjRingBuffer *sj, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
@@ -268,7 +268,7 @@ inline AdxStreamFile *adxstm_alloc_ex_file(saddr arg, CvFsHandle *h, s32 base_of
     }
     p->stat = 1;
     p->read_pending = 0;
-    p->arg = arg;
+    p->buffer = sj;
     p->handle = h;
     p->start_position = 0;
     p->base_offset = base_offset;
@@ -278,7 +278,7 @@ inline AdxStreamFile *adxstm_alloc_ex_file(saddr arg, CvFsHandle *h, s32 base_of
     p->used = 1;
     return p;
 }
-AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
+AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, SjRingBuffer *sj) {
     s32 size;
     CvFsHandle *h;
     AdxStreamFile *p;
@@ -288,7 +288,7 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
         adxerr_report_pair(adxstm_open_fname_ex_error, name);
         return NULL;
     }
-    p = adxstm_alloc_ex_file(arg, h, 0, size);
+    p = adxstm_alloc_ex_file(sj, h, 0, size);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
@@ -296,7 +296,7 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
     return p;
 }
 
-inline AdxStreamFile *adxstm_alloc_file(s32 arg, CvFsHandle *h, s32 base_offset, s32 size) {
+inline AdxStreamFile *adxstm_alloc_file(SjRingBuffer *sj, CvFsHandle *h, s32 base_offset, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_fname_slot_count; i++) {
@@ -310,7 +310,7 @@ inline AdxStreamFile *adxstm_alloc_file(s32 arg, CvFsHandle *h, s32 base_offset,
     }
     p->stat = 1;
     p->read_pending = 0;
-    p->arg = arg;
+    p->buffer = sj;
     p->handle = h;
     p->start_position = 0;
     p->base_offset = base_offset;
@@ -320,7 +320,7 @@ inline AdxStreamFile *adxstm_alloc_file(s32 arg, CvFsHandle *h, s32 base_offset,
     p->used = 1;
     return p;
 }
-AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
+AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, SjRingBuffer *sj) {
     s32 size;
     CvFsHandle *h;
     AdxStreamFile *p;
@@ -334,7 +334,7 @@ AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
         adxerr_report_pair(adxstm_open_fname_ex_error, name);
         return NULL;
     }
-    p = adxstm_alloc_file(arg, h, 0, size);
+    p = adxstm_alloc_file(sj, h, 0, size);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
@@ -342,7 +342,7 @@ AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
     return p;
 }
 
-AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, saddr arg) {
+AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, SjRingBuffer *sj) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
@@ -350,7 +350,7 @@ AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s3
         adxerr_report_pair(adxstm_open_fname_range_ex_rt_error, name);
         return NULL;
     }
-    p = adxstm_alloc_ex_file(arg, h, off, nsect << 11);
+    p = adxstm_alloc_ex_file(sj, h, off, nsect << 11);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);
@@ -358,7 +358,7 @@ AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s3
     return p;
 }
 
-AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
+AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, SjRingBuffer *sj) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
@@ -366,7 +366,7 @@ AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 ns
         adxerr_report_pair(adxstm_open_fname_rang_error, name);
         return NULL;
     }
-    p = adxstm_alloc_file(arg, h, off, nsect << 11);
+    p = adxstm_alloc_file(sj, h, off, nsect << 11);
     if (p != NULL) {
         cvFsSeek(p->handle, p->base_offset, 0);
         cvFsTell(p->handle);

@@ -18,10 +18,10 @@ struct AdxDecoderChannel;
 
 // Defined in AdxStream.cpp.
 extern "C" {
-AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
-AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
-AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
-AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
+AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, SjRingBuffer *sj);
+AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, SjRingBuffer *sj);
+AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, SjRingBuffer *sj);
+AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, SjRingBuffer *sj);
 }
 void update_active_stream_reads(void);
 
