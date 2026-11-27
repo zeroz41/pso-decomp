@@ -286,7 +286,7 @@ void TQuestListOnline::handle_quest_confirm() {
     if (this->confirm_window != NULL && this->confirm_window->is_decided() != 0) {
         v = this->confirm_window->get_selected_value();
         if (v == 0) {
-            if (THunterGuildSeqOffline::check_party_gathered() == 1) {
+            if (check_party_gathered() == 1) {
                 if (this->sequence != NULL) {
                     sequence->display_guild_message(0x14, 1);
                 }

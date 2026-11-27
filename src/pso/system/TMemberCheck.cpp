@@ -52,7 +52,7 @@ s32 is_near_designated_player(void) {
     return (u32)__cntlzw((u32)((xz_distance_squared(&player->position, &designated_player->position) > 625.0f))) >> 5;
 }
 
-s32 THunterGuildSeqOffline::check_party_gathered() {
+s32 check_party_gathered() {
     s32 i;
     s32 result;
     s32 j;

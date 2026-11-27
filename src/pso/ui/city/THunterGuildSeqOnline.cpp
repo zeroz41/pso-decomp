@@ -151,7 +151,7 @@ void THunterGuildSeqOnline_Server::handle_party_check() {
                     check_step = 2;
                     return;
                 }
-                switch (THunterGuildSeqOffline::check_party_gathered()) {
+                switch (check_party_gathered()) {
                 case 1:
                     check_step = 2;
                     return;
@@ -166,7 +166,7 @@ void THunterGuildSeqOnline_Server::handle_party_check() {
                 }
                 break;
             case 1:
-                if (THunterGuildSeqOffline::check_party_gathered() == 1) {
+                if (check_party_gathered() == 1) {
                     check_step = 2;
                 }
                 if (is_cancel_pressed() != 0) {
