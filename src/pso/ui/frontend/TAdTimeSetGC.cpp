@@ -88,7 +88,7 @@ static const NJS_POINT2 time_set_menu_pos = {
     10.0f + (time_set_message_pos[1] + time_set_message_size[1]),
 };
 static const f32 time_set_menu_width = time_set_message_size[0] - 40.0f;
-static const f32 time_set_calendar_pos[2] = {
+static f32 time_set_calendar_pos[2] = {
     time_set_message_pos[0] + 0.5f * time_set_message_size[0],
     (time_set_message_pos[1] + time_set_message_size[1]) - 85.0f,
 };
@@ -1027,7 +1027,7 @@ T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {
 T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
     m_name = T_ATS_DrawCalendar::name;
     visible = 0;
-    copy_vec2(&pos, (void *)time_set_calendar_pos);
+    copy_vec2(&pos, time_set_calendar_pos);
 }
 
 T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {

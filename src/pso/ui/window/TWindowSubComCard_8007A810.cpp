@@ -161,13 +161,13 @@ void TWindowSubComCard::start_player_data_load(GuildCardEntry *card) {
     }
 }
 void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
-    GuildCardEntry *card;
+    GuildCardSlotBase *card;
     cmd->bswap();
-    card = &cmd->card;
+    card = static_cast<GuildCardSlotBase *>(&cmd->card);
     if ((is_guild_card_invalid(card) == 0) && (card->update_in_card_file() == 0)) {
         set_guild_card_receive_active();
-        if (update_matching_card_slot((GuildCardSlotBase *)card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4) == 0) {
-            replace_matching_card((GuildCardSlotBase *)card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4);
+        if (update_matching_card_slot(card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4) == 0) {
+            replace_matching_card(card, (GuildCardSlotBase *)TWindowGetComCard::received_guild_card_tags, 4);
         }
     }
 }
@@ -314,7 +314,7 @@ s32 fill_guild_card_from_player(GuildCardEntry *card, u32 client) {
     return 0;
   }
   card->flags |= 3;
-  strncpy(card->name, (const char *)((TPlyPhotonChair *)(player))->get_name(), 0x17);
+  strncpy(card->name, player->get_name(), 0x17);
   card->name[0x17] = 0;
   card->char_class = player->appearance.classId;
   card->section_id = player->get_section_id();

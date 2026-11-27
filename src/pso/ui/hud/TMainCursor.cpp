@@ -1770,12 +1770,12 @@ ActionListBase::ActionListBase() { count = 0; entries = NULL; }
 
 void ActionListBase::set_count(s32 v) { count = v; }
 
-void ActionListBase::set_entries(s32 v) { *(s32 *)&entries = v; }
+void ActionListBase::set_entries(ActionPriorityEntry *v) { entries = v; }
 
 
 ActionPriorityList::ActionPriorityList() {
     set_count(4);
-    set_entries((saddr)slots);
+    set_entries(slots);
 }
 
 LockOnTasks::LockOnTasks() { start_task = NULL; end_task = NULL; list_clear_task = NULL; }

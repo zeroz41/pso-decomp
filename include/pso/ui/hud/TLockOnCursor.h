@@ -36,7 +36,7 @@ public:
     s32 get_count();
     ActionPriorityEntry *get_entries();
     void set_count(s32 v);
-    void set_entries(s32 v);
+    void set_entries(ActionPriorityEntry *v);
 };
 
 // TLockOnCursor +0x24.

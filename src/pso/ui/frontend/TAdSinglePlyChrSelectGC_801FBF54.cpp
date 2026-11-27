@@ -141,9 +141,10 @@ void decrypt_character_save(Pso3CharacterFile *save_data) {
     delete unshuffled;
     delete plain;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)save_data, 0x194B0);
+    u32 *words = (u32 *)save_data;
+    chr_select_rng_state.apply_rng_cipher(words, 0x194B0);
     chr_select_rng_state.set_seed(save_data->get_cipher_seed());
-    chr_select_rng_state.xor_buffer((u32 *)save_data, 0x194AC);
+    chr_select_rng_state.xor_buffer(words, 0x194AC);
 }
 
 s32 load_and_verify_character_save(char *serial_number, char *access_key) {
