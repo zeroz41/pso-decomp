@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TObjResultWin.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TObjNewFloorWin.h"
 #include "pso/quest/TQuestListVM.h"

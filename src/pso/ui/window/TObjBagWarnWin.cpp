@@ -32,7 +32,6 @@ const char *TObjBagWarnWin::class_name = "TObjBagWarnWin";
 
 const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 #include "pso/quest/challenge/ChallengeMode.h"
 

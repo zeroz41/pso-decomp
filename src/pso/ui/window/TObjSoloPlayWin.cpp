@@ -9,7 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"

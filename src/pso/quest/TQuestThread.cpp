@@ -37,7 +37,7 @@
 #include "pso/quest/QuestScriptFormat.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "stdio.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"

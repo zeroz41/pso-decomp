@@ -41,7 +41,7 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/system/TLanguage.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);

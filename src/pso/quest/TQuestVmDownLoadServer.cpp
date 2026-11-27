@@ -24,7 +24,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 

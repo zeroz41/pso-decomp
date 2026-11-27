@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"

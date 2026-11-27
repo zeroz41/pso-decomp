@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

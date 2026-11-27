@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"

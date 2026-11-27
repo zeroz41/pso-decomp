@@ -19,7 +19,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/map/FloorArea.h"

@@ -41,7 +41,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 
 extern "C" {

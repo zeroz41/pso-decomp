@@ -14,7 +14,7 @@
 #include "pso/quest/OnlineQuestDownloadState.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/window/TWindowAddition.h"

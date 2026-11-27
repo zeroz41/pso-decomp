@@ -42,7 +42,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"

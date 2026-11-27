@@ -24,7 +24,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/BmlResource.h"
 #include "pso/quest/QuestOpcodeHandlers.h"

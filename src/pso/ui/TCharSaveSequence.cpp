@@ -23,7 +23,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/PadRumble.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/audio/MusicControl.h"
