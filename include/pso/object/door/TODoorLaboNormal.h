@@ -10,7 +10,7 @@ struct TODoorLaboNormal : public TODoorFourLightBase {
     static void *create(void *set_data);
     virtual s32 get_unlit_textures();
     virtual s32 get_lit_textures();
-    void init_field_d4();
+    void load_model();
 };
 
 LAYOUT_ASSERT(TODoorLaboNormal_size, sizeof(TODoorLaboNormal) == 0xFC);

@@ -543,7 +543,7 @@ TODoorLaboNormal::TODoorLaboNormal(TObject *parent, void *set_data) : TODoorFour
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    init_field_d4();
+    load_model();
     motion = (NJS_MOTION *)get_bml_motion(door_labo_model_archive, 0);
     animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
@@ -572,5 +572,5 @@ s32 TODoorLaboNormal::get_lit_textures() {
     return (saddr)door_labo_normal_green_texture_list;
 }
 
-void TODoorLaboNormal::init_field_d4() { model = get_bml_model(door_labo_model_archive, 0); }
+void TODoorLaboNormal::load_model() { model = get_bml_model(door_labo_model_archive, 0); }
 
