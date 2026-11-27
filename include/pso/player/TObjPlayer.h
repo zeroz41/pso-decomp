@@ -500,7 +500,7 @@ struct TObjPlayer : public TObjChara {
     void set_return_hunter();
     s32 get_return_destination();
     int test_hold_flag();
-    void clear_flag_0x2();
+    void clear_action_active();
     int unregister_sub();
     void set_control_role(s32 v);
     s32 get_control_role();

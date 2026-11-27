@@ -3916,7 +3916,7 @@ void TObjPlayer::apply_material_color_override() {
 
 void TObjPlayer::clear_action_flag() {
     if ((is_count_positive(&this->inventory_objects->list.count) == 0) && (this->is_action_active() != 0U)) {
-        this->clear_flag_0x2();
+        this->clear_action_active();
         send_release_hold(this);
     }
 }
