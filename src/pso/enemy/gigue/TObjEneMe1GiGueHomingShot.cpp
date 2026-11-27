@@ -35,7 +35,7 @@ TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, 
     this->src_id = src_id;
     this->double_hit = double_hit;
     this->start = start;
-    m_e8 = 0.0f;
+    pad_e8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
         Vec v = {0.0f, 0.0f, gigue_shot_speed};

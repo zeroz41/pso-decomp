@@ -18,7 +18,7 @@ public:
     Vec prev;
     Vec vel;
     u8 pad_D0[0x18];
-    f32 m_e8;
+    f32 pad_e8;
     s32 timer;
     Vec *start;
     f32 speed;
