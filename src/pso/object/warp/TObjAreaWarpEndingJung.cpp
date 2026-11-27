@@ -644,7 +644,7 @@ void TObjAreaWarpForest::render() {
         n = beam_model->child;
         while (n != NULL) {
             if (n->model != 0) {
-                set_ginja_model_texture_slot(n->model, cols[this->set_params[2]]);
+                set_ginja_model_texture_slot(n->ginja_model, cols[this->set_params[2]]);
             }
             n = n->child;
         }
@@ -732,7 +732,7 @@ void TObjAreaWarpQuest::render() {
         n = beam_model->child;
         while (n != NULL) {
             if (n->model != 0) {
-                set_ginja_model_texture_slot(n->model, cols[set_params[2]]);
+                set_ginja_model_texture_slot(n->ginja_model, cols[set_params[2]]);
             }
             n = n->child;
         }
@@ -846,7 +846,7 @@ void TObjAreaWarpEnding::render() {
     u16 ids[2] = {3, 2};
     for (node = beam_model->child; node != 0; node = node->child) {
         if (node->model != 0) {
-            set_ginja_model_texture_slot(node->model, ids[set_params[2]]);
+            set_ginja_model_texture_slot(node->ginja_model, ids[set_params[2]]);
         }
     }
     root = warp_model;

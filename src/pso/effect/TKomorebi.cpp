@@ -107,10 +107,10 @@ void TObjLazerFenceExtra::init_models() {
     count = 0;
     node = beam_model->child;
     if (node != NULL) {
-        beam_part_models[count++] = node->model;
+        beam_part_models[count++] = node->ginja_model;
         node = node->sibling;
         while (node != NULL && count < 4) {
-            beam_part_models[count++] = node->model;
+            beam_part_models[count++] = node->ginja_model;
             node = node->sibling;
         }
     }

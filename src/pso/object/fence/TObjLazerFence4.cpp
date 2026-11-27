@@ -91,7 +91,7 @@ void TObjLazerFence4::init_models() {
     node = beam_model->child;
     if (node != 0) {
         while (node != 0 && i < 12) {
-            beam_nodes[i++] = node->model;
+            beam_nodes[i++] = node->ginja_model;
             node = node->sibling;
         }
     }

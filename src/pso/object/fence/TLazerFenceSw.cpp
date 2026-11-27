@@ -59,7 +59,7 @@ extern "C" {
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
 __declspec(section ".data") NJS_MOTION *lazer_fence_beam_motions[2];
 // The models of the first three children of switch model 0 (the beams).
-__declspec(section ".data") void *lazer_fence_beam_node_table[3];
+__declspec(section ".data") GinjaModel *lazer_fence_beam_node_table[3];
 }
 
 __declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
@@ -244,11 +244,11 @@ void TLazerFenceSw::load_resources() {
     i = 0;
     n = lazer_fence_sw_ginja_model_table[0]->child;
     if (n != NULL) {
-        lazer_fence_beam_node_table[i] = n->model;
+        lazer_fence_beam_node_table[i] = n->ginja_model;
         i++;
         n = n->sibling;
         while (n != NULL && i < 3) {
-            lazer_fence_beam_node_table[i] = n->model;
+            lazer_fence_beam_node_table[i] = n->ginja_model;
             i++;
             n = n->sibling;
         }

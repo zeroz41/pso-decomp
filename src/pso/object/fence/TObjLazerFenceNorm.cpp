@@ -239,10 +239,10 @@ void TObjLazerFenceNorm::select_models() {
     i = 0;
     node = beam_model->child;
     if (node != 0) {
-        beam_part_models[i++] = node->model;
+        beam_part_models[i++] = node->ginja_model;
         node = node->sibling;
         while (node != 0 && i < 4) {
-            beam_part_models[i++] = node->model;
+            beam_part_models[i++] = node->ginja_model;
             node = node->sibling;
         }
     }
