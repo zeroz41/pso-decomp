@@ -3,7 +3,7 @@
 #include "pso/ui/TitleTextures.h"
 #include "pso/ui/TitleTextureResources.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TUnk_804EE470.h"
+#include "pso/ui/TTitleLogo.h"
 #include "pso/unk/TTitleScene.h"
 
 #include "pso/ui/TTitleMenu.h"
@@ -19,7 +19,7 @@
 #include "pso/ui/frontend/TitleSceneTables.h"
 #include "pso/ui/window/WindowDrawContext.h"
 
-void TUnk_804EE470::render() {
+void TTitleLogo::render() {
   TexturedQuad quad;
   TParticleCtrl::begin_effect_render();
   TCameraCtrl::restore_full_screen_view();
@@ -44,12 +44,12 @@ void TUnk_804EE470::render() {
   TParticleCtrl::end_effect_render();
 }
 
-void TUnk_804EE470::run_task() {  }
-TUnk_804EE470::~TUnk_804EE470() {
+void TTitleLogo::run_task() {  }
+TTitleLogo::~TTitleLogo() {
 
 }
-TUnk_804EE470::TUnk_804EE470(TObject *parent) : TObject(parent) {
-    *(void * *)&this->unk_1C = parent;
+TTitleLogo::TTitleLogo(TObject *parent) : TObject(parent) {
+    owner = parent;
 }
 
 void free_title_texture_resources() {}
