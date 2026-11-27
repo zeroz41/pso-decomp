@@ -94,11 +94,12 @@ void TTecSifta::run_task() {
         queue_destruction();
         return;
     }
+    TObjPlayer *caster = (TObjPlayer *)source;
     if (use_targets != 0) {
         if (level <= 1) {
-            apply_to_player((TObjPlayer *)source);
+            apply_to_player(caster);
         } else {
-            apply_to_player((TObjPlayer *)source);
+            apply_to_player(caster);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
                     member = find_entity_by_id(targets.records[i].id);
@@ -109,7 +110,7 @@ void TTecSifta::run_task() {
             }
         }
     } else if (level <= 1) {
-        apply_to_player((TObjPlayer *)source);
+        apply_to_player(caster);
     } else {
         deliver_technique_to_party_targets();
     }
