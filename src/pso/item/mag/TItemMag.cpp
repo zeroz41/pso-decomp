@@ -430,7 +430,7 @@ void TItemMag::load_data_files() {
         axis = motion->translation;
         for (j = 0; j < 3; j++, axis++) {
             bswap_32((u32 *)&axis->amplitude);
-            bswap_32((u32 *)&axis->unknown04);
+            bswap_32((u32 *)&axis->pad_04);
             bswap_32((u32 *)&axis->phase_offset);
             bswap_32((u32 *)&axis->phase_velocity);
         }

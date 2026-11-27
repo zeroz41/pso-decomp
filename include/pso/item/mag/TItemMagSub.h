@@ -35,13 +35,13 @@ struct MagNodeOscillationState {
 };
 struct MagAxisOscillationParameters {
     f32 amplitude;
-    u32 unknown04;
+    u32 pad_04;
     s32 phase_offset;
     s32 phase_velocity;
 };
 struct MagFollowParameters {
     s32 joint_index;
-    u8 unknown04;
+    u8 pad_04;
     s8 rotation_offset[3];
     f32 follow_scale;
     u8 moving_pitch;
@@ -71,7 +71,7 @@ public:
     s32 node_ids[3];
     f32 transition_frame;
     f32 animation_frame, animation_length;
-    u8 unknown88[12];
+    u8 pad_88[12];
     f32 drift_offset[3];
     Vec follow_anchor;
     f32 translation_offset[3];
