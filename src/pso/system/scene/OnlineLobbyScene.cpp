@@ -102,11 +102,11 @@
 #include "pso/map/FloorMapSelection.h"
 
 
+void clear_keyboard_input_flag(void);
+void clear_keyboard_key_state(void);
 extern "C" {
-int clear_keyboard_input_flag(void);
 // The run_*_frame callers test this as an int, while SystemBootInit defines it bool.
 s32 is_keyboard_active();
-s32 clear_keyboard_key_state();
 }
 void set_fallback_main_phase(s32 phase);
 void request_main_phase(s32 phase);

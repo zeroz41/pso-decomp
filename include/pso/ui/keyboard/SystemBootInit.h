@@ -12,18 +12,14 @@ void set_fallback_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 s32 switch_to_fallback_main_phase(void);
 void set_keyboard_input_flag(void);
-extern "C" {
 void clear_keyboard_input_flag(void);
-}
 void request_main_phase(s32 phase);
 void reset_main_phase_state(void);
 // Calls TFogCtrl::clear_split_screen_fog().
 void forward_clear_split_screen_fog(void);
 void poll_input_devices_frame(void);
 void activate_keyboard(void);
-extern "C" {
 void clear_keyboard_key_state(void);
-}
 void deactivate_keyboard(void);
 s32 get_main_phase(void);
 void init_game_systems(void);
