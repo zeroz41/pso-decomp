@@ -2872,25 +2872,10 @@ void qst_op_shrink(s32 slot_reg) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs on
-#pragma opt_propagation on
-#pragma opt_dead_assignments off
 void qst_op_read_switch_flag_on_floor(s32 reg) {
-    s32 reg_offset;
-    saddr switch_value;
-    u8 *id;
-    reg_offset = (reg * 4) & 0x3FC;
-    switch_value = ((saddr)qst_registers);
-    id = (u8 *)(switch_value + reg_offset);
-    id = (u8 *)(*(u8 **)((s8 *)id + 4));
-    switch_value = (s32) (s16) *(s32 *)((s8 *)switch_value + reg_offset);
-    id = (u8 *)((void *)(uaddr) (u16)(uaddr)(void *) id);
-    switch_value = (s32) is_floor_switch_set((uaddr)id, (switch_value));
-    id = (u8 *)(((saddr)qst_registers) + reg_offset);
-    *(s32 *)((s8 *)id + 8) = switch_value;
+    qst_registers[(u8)reg + 2].i =
+        is_floor_switch_set((u16)qst_registers[(u8)reg + 1].i, (s16)qst_registers[(u8)reg].i);
 }
-#pragma pop
 
 void qst_op_read_switch_flag(s32 reg) {
     qst_registers[(u8)reg + 1].i = is_current_floor_switch_set((u16)qst_registers[(u8)reg].i);
