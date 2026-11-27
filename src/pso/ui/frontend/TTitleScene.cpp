@@ -322,7 +322,7 @@ TTitleScene::~TTitleScene() {
 TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
 
     title_scene_instance = this;
-    m_30 = 0;
+    pad_30 = 0;
     attract_tick = 0;
     auxiliary_window = NULL;
     transition_flags = 0;
@@ -339,7 +339,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     title_layer = new TTitleBackground(this);
     transition_controller = new TTitleMenu(this);
     overlay_layer = new TTitleLogo(tl_clipout);
-    m_28 = 0;
+    pad_28 = 0;
     if (transition_controller != NULL) {
         transition_controller->suspend_update();
     }

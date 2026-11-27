@@ -28,9 +28,9 @@ public:
     TTitleBackground *title_layer;
     TTitleLogo *overlay_layer;
     TTitleMenu *transition_controller;
-    s32 m_28;
+    s32 pad_28;
     TObject *auxiliary_window;
-    s32 m_30;
+    s32 pad_30;
     s32 attract_tick;
     s32 attract_timeout;
     u32 transition_flags;
