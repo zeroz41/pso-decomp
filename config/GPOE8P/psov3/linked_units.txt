@@ -1570,7 +1570,6 @@ pso/object/door/DoorProximity.cpp
 pso/object/DoorWarpFactories.cpp
 pso/object/ObjectCreators.cpp
 pso/unk/TAdDialingSelectGC.cpp
-pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/render/GvplPaletteFile.cpp
 pso/unk/text_801D34E0.cpp
 pso/player/CastTechniqueLevel.cpp

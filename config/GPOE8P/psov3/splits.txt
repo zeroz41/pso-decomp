@@ -4370,14 +4370,10 @@ pso/system/scene/OfflineGameScene.cpp:
 	.sbss       start:0x805D5CE0 end:0x805D5CE8
 
 pso/system/scene/OnlineLobbyScene.cpp:
-	.text       start:0x801A3C48 end:0x801A4C90
+	.text       start:0x801A3C48 end:0x801A4D30
 	.rodata     start:0x80446918 end:0x80446940
-	.data       start:0x804C20E8 end:0x804C2298
+	.data       start:0x804C20E8 end:0x804C22B0
 	.sbss       start:0x805D5CE8 end:0x805D5CF8
-
-pso/ui/frontend/TAdDialingGC_801A4C90.cpp:
-	.text       start:0x801A4C90 end:0x801A4D30
-	.data       start:0x804C2298 end:0x804C22B0
 
 pso/unk/TAdDialingSelectGC.cpp:
 	.text       start:0x801A4D30 end:0x801A529C
