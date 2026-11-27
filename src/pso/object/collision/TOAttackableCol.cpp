@@ -268,7 +268,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *set_data) {
     void *o;
-    o = (void *)new TOAttackableCol((saddr)set_data);
+    o = (void *)new TOAttackableCol(set_data);
     return o;
 }
 
@@ -279,9 +279,9 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
+TOAttackableCol::TOAttackableCol(void *set_data) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = attackable_col_name;
-    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     ((TObjChara *)this)->calc_attach_pos();
     set_actor_flags(0x60000000);
     init_collision_body_parts(this, &attackable_col_collision_parts, 1);

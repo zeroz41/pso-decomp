@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjTradeCollision : public TObjCollidable {
-    TObjTradeCollision(TObject *, saddr);
+    TObjTradeCollision(TObject *parent, void *set_data);
     virtual ~TObjTradeCollision();
     bool is_player_outside_trade_radius(u32);
     virtual void run_task();

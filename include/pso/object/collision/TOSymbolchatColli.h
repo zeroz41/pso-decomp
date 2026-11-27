@@ -6,7 +6,7 @@
 #include "pso/player/PlayerStats.h"
 
 struct TOSymbolchatColli : public TObjChara {
-    TOSymbolchatColli(TObject *parent, saddr set_data);
+    TOSymbolchatColli(TObject *parent, void *set_data);
     virtual ~TOSymbolchatColli();
     virtual void run_task();
     void open_balloon_chat(s32 state, u16 player);  // opens the state's balloon chat over the player

@@ -2094,7 +2094,7 @@ force_active:
   - __ct__17TOHangerMachine01FPv
   - __ct__17TOSensorAncient01FP7TObjectPv
   - __ct__17TOSensorGeneral01FP7TObjectPv
-  - __ct__17TOSymbolchatColliFP7TObjectl
+  - __ct__17TOSymbolchatColliFP7TObjectPv
   - __ct__17TObjEneDf2BringerFP7TObjectPv
   - __ct__17TObjItemNameEntryFP7TObject
   - __ct__17TObjParticleLobbyFP7TObjectPv

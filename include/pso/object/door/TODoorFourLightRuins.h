@@ -6,7 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TODoorFourLightRuins : public TODoorBase {
-    TODoorFourLightRuins(saddr, saddr);
+    TODoorFourLightRuins(TObject *parent, void *set_data);
     virtual ~TODoorFourLightRuins();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();
