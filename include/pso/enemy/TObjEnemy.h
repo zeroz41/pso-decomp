@@ -24,7 +24,7 @@ struct TObjEnemy : public TObjChara {
     void draw_motion_model();
     s32 calc_joint_matrices(f32);
     s32 enemy_turn_toward_dest(s32);
-    void send_6x0A_enemy_state(void *);
+    void send_6x0A_enemy_state(EnemyStateRecord *state_in);
     s32 bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
     void set_param(s32);
     s32 get_rt_index();

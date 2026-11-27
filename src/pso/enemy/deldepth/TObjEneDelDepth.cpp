@@ -931,7 +931,7 @@ void TObjEneDelDepth::init_move() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneDelDepth::update_death_fade() {
-    s32 record;
+    EnemyStateRecord record;
     switch (this->actionPhase) {
     case 0:
         if (--this->timer <= 0) {
@@ -950,10 +950,10 @@ void TObjEneDelDepth::update_death_fade() {
         break;
     case 2:
     default:
-        record = 0x800;
+        record.flags = 0x800;
         this->send_6x0A_enemy_state(&record);
         this->exchange_object_state(&record, 0);
-        apply_enemy_state(&record);
+        apply_enemy_state(&record.flags);
         this->send_entity_set_flags();
         spawn_dead_spot_kind0_scale7_5(&position, 0);
         this->queue_destruction();

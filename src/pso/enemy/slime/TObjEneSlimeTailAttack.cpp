@@ -290,13 +290,13 @@ TObjEneSlime::~TObjEneSlime() {
 void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 
 void TObjEneSlime::run_task() {
-    s32 enemy_state;
+    EnemyStateRecord enemy_state;
 
     if ((check_demo_mode() == 0) && (has_no_active_slot() != 0)) {
-        enemy_state = 0x800;
+        enemy_state.flags = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
-        this->apply_enemy_state(&enemy_state);
+        this->apply_enemy_state(&enemy_state.flags);
         send_entity_set_flags();
         queue_destruction();
     }
