@@ -697,7 +697,7 @@ void TObjEneMe3Stelth::state_fade_in(s32 reason) {
         if (stealthed == 0) {
             play_appear_effects(&v);
         } else {
-            create_timed_particle_emitter((u8 *)&position, 0x79, 0, 0xF);
+            create_timed_particle_emitter(&position, 0x79, 0, 0xF);
         }
         break;
     case 3:

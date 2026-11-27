@@ -91,7 +91,7 @@ void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos) {
         VecCopy(&info.position, &pos);
         info.hits = 10;
         new TExplosionCollider(tl_05, &info);
-        create_timed_particle_emitter(&info, 0x17F, 0, 10);
+        create_timed_particle_emitter(&info.position, 0x17F, 0, 10);
     } else {
         Vec v = pos;
         create_timed_particle_emitter(&v, 0x17E, 0, 10);

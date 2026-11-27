@@ -196,7 +196,7 @@ void TTecBarta::run_task() {
         }
     }
     if (this->band == 5) {
-        TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
+        TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position, 0x18A, 0x14, 1);
         if (e != NULL) {
             attach_particle_model(reinterpret_cast<TParticleCtrl *>(e), get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
         }

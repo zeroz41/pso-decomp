@@ -118,7 +118,7 @@ void load_particle_entry_resources(void);
 // under the emitter instead of tl_07. spawn_particle_effect and spawn_particle_effect_with_flags (oneshot) are
 // declared in ParticleFactory.h.
 TParticleCtrl *create_timed_particle_emitter_with_flags(const Vec *pos, s32 id, s32 delay, s32 duration, u16 flags);
-TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
+TParticleCtrl *create_timed_particle_emitter(const Vec *pos, s32 id, s32 delay, s32 duration);
 TParticleCtrl *create_timed_particle_emitter_with_angles(const Vec *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags);
 TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 delay, s32 duration);
 TParticleCtrl *create_oneshot_particle_emitter(const Vec *pos, void *dir, s32 id, u16 flags);

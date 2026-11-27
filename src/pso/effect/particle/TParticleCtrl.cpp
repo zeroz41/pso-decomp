@@ -41,13 +41,13 @@ TParticleCtrl *create_timed_particle_emitter_with_flags(const Vec *pos, s32 id, 
     return 0;
 }
 
-TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration) {
+TParticleCtrl *create_timed_particle_emitter(const Vec *pos, s32 id, s32 delay, s32 duration) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, delay, duration, 0);
+        return new TParticleCtrl(pos, &particle_global_entry_table[id], 0, delay, duration, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, delay, duration, 0);
+        return new TParticleCtrl(pos, &particle_area_entry_table[idx], 0, delay, duration, 0);
     }
     return 0;
 }
