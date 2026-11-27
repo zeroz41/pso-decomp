@@ -134,21 +134,6 @@ void dispatch_weapon_special_effect(void *, void *, void *, s32);
 s32 calc_freeze_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 base_chance);
 s32 calc_shock_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 power);
 
-
-
-
-
-struct CharaResetView {
-    u8 pad0[0x104];
-    Vec v104;
-    u8 pad110[0x320 - 0x110];
-    s32 f320;
-    u8 pad324[6];
-    s16 f32a;
-};
-
-
-
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
@@ -535,8 +520,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
 TObjChara::~TObjChara() {}
 
 void TObjChara::reset_motion_fields() {
-    CharaResetView *self = (CharaResetView *)this;
-    self->v104.x = self->v104.y = self->v104.z = (0.0f);
+    pad_104.x = pad_104.y = pad_104.z = (0.0f);
     move_origin.x = move_origin.y = move_origin.z = (0.0f);
     move_destination.x = move_destination.y = move_destination.z = (0.0f);
     this->ground_normal.x = this->ground_normal.z = (0.0f);

@@ -220,7 +220,7 @@ public:
             u8 pad_FC[0x8];
         } credit_slot_bytes;
     };
-    u8 pad_104[0xC];
+    Vec pad_104;
     WeaponAttribute attack_attributes[3];  // the equipped weapon's special attributes
     s16 special_kind;  // the special attack it hits with (set_model_id); Epsilon is immune to one kind
     s16 special_power;  // that attack's strength (set_model_param)
