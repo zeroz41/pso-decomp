@@ -226,11 +226,11 @@ void clear_serial_buffer() {
     }
 }
 
-s32 TAdEnterSerialAccessGC::has_serial_input(s32 parent, s32 field) {
+s32 TAdEnterSerialAccessGC::has_serial_input(TObject *parent, s32 field) {
     return (s8)*get_serial_text(parent, field) ? 1 : 0;
 }
 
-u8 *TAdEnterSerialAccessGC::get_serial_text(s32 owner, s32 field) {
+u8 *TAdEnterSerialAccessGC::get_serial_text(TObject *owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
@@ -269,13 +269,13 @@ TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback(&enter_base_callback_position, &enter_base_callback_size, render_entry_window);
 }
 
-TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, s32 field) {
+TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(TObject *parent, s32 field) {
     TKeyBoardControl *kb;
     if (field < 0 || field >= 4) {
         return NULL;
     }
     KeyboardModes sp8 = serial_keyboard_mode_table;
-    kb = new TKeyBoardControl((TObject *)parent, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
+    kb = new TKeyBoardControl(parent, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
     if (kb == NULL) {
         return NULL;
     }

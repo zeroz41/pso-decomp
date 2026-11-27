@@ -152,7 +152,7 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
         select_cursor->append_entry(enter_password_item_rect_table[0]);
         select_cursor->lock_navigation();
     }
-    password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 2);
+    password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control(this, 2);
     password_entry_dispatch_state = 1;
 }
 

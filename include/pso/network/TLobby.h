@@ -8,6 +8,7 @@ struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
+struct TChallenge;
 struct LobbyPlayerEntry;
 class TLobbyIdleTimer;
 class TEnemyTaskList;
@@ -159,8 +160,8 @@ struct TLobby : public TObject {
     static void close_trade_request();
     static void reset_trade_state();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
-    static void send_challenge_with_value(s32 challenge, s32 window_mode);
-    static void send_challenge_records(u32 _w0);
+    static void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
+    static void send_challenge_records(TChallenge *challenge);
     static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();

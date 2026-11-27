@@ -133,7 +133,7 @@ void TAdEnterSerialAccessGC::run_task() {
             cursor->append_entry(&selection_positions[0]);
             cursor->lock_navigation();
         }
-        keyboard_control = create_keyboard_control((saddr)this, 0);
+        keyboard_control = create_keyboard_control(this, 0);
         input_state = 2;
         break;
     case 2:
@@ -149,7 +149,7 @@ void TAdEnterSerialAccessGC::run_task() {
         title = new TAdTitleGC(this, 0xB);
         message_window = open_message_window(1);
         draw_window = create_draw_callback();
-        keyboard_control = create_keyboard_control((saddr)this, 1);
+        keyboard_control = create_keyboard_control(this, 1);
         input_state = 4;
         break;
     case 4:

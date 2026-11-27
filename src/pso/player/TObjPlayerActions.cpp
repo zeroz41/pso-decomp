@@ -1790,7 +1790,7 @@ void TObjPlayer::begin_fall_reaction() {
     if (test_actor_flags(0x800) != 0) {
         drop_items_on_death();
     }
-    TObjPlayer::spawn_effect((saddr)this);
+    spawn_effect();
     if ((this == NULL) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
@@ -2138,11 +2138,10 @@ s32 TObjPlayer::can_guard() {
 
 void TObjPlayer::set_flag_0x100000() { clear_velocity(); set_actor_flags(0x100000); }
 
-void TObjPlayer::apply_velocity_if_free(saddr owner) {
-    TObjPlayer *p = (TObjPlayer *)owner;
-    p->damp_planar_velocity();
-    if (p->resolve_move_collision() == 0U) {
-        p->apply_velocity();
+void TObjPlayer::apply_velocity_if_free() {
+    damp_planar_velocity();
+    if (resolve_move_collision() == 0U) {
+        apply_velocity();
     }
 }
 
@@ -2246,7 +2245,7 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         this->start_use_item_action();
         return;
       case 1:
-        TObjPlayer::apply_velocity_if_free((saddr)this);
+        apply_velocity_if_free();
         return;
       case 6:
         set_flag_0x100000();

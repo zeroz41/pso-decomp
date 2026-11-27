@@ -636,7 +636,7 @@ TChallenge::TChallenge(TObject *parent) : TObject(parent) {
     m_name = class_name;
     challenge_mode_state = challenge_settings_defaults;
     restore_challenge_from_save();
-    TLobby::send_challenge_records((uaddr)this);
+    TLobby::send_challenge_records(this);
     frame_count = 0;
     missing_records_timer = 0;
     records_save_pending = 1;
@@ -846,7 +846,7 @@ void TChallenge::update_quest_challenge_state() {
             quest_send_timer = 30;
         }
         if ((quest_send_timer <= 0 || n != 0) && n != challenge_mode_state.record_window_mode) {
-            TLobby::send_challenge_with_value((saddr)this, n);
+            TLobby::send_challenge_with_value(this, n);
         }
     }
 }

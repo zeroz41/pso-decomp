@@ -616,7 +616,7 @@ struct TObjPlayer : public TObjChara {
     void send_6x50_switch_interaction();
     void update_if_flag_set();
     void set_flag_0x100000();
-    static void apply_velocity_if_free(saddr player);
+    void apply_velocity_if_free();
     static void apply_velocity_if_free(TObjPlayer *player);
     void complete_guard_reaction();
     void select_hit_action();
@@ -770,7 +770,7 @@ struct TObjPlayer : public TObjChara {
     // A weapon shot callback: news the shoot model that draws the shot.
     static TItemShoot *create_item_shoot_model(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames);
     static void spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle);
-    static void launch_weapon_casing(TObject *parent, uaddr item, s32 joint, Vec *velocity, s32 *angle);
+    static void launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 joint, Vec *velocity, s32 *angle);
     static void clear_photon_blast_slots();
     void place_on_area_entry();
     void release_child_object();
@@ -821,7 +821,7 @@ struct TObjPlayer : public TObjChara {
     void deactivate_body_collision();
     void send_field_state();
     void play_photon_blast_feedback();
-    static void spawn_effect(saddr player);
+    void spawn_effect();
     void draw();
     void set_state_flag_604B();
     static void send_disable_pk_mode(TObjPlayer *player);

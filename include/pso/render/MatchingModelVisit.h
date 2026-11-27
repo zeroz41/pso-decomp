@@ -4,7 +4,8 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+class UvScrollBuffer;
 
-void visit_matching_models(saddr buffer, NJS_OBJECT *root, s32 texture_id);
+void visit_matching_models(UvScrollBuffer *buffer, NJS_OBJECT *root, s32 texture_id);
 
 #endif
