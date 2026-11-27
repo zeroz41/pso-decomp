@@ -59,8 +59,10 @@ struct DestroyEventShuffleTableEntry {
     void bswap();
 };
 
-struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
-void pick_random_entry(PickRandomEntryOut *out);
+struct EnemySetRecord;
+
+// Fills a challenge enemy's position and rotation from the next entry of the room's shuffle table.
+void pick_random_entry(EnemySetRecord *out);
 
 // The head of item_data_table_buffer: where its AppendRecord table (sorted by h[2], searched by
 // lookup_item_data_record) and its PickWeightedEntryEntry table (pick_weighted_entry) start, and their counts.
@@ -73,15 +75,6 @@ struct ItemDataTableHeader {
 
 struct AppendRecord { f32 f[5]; s16 h[6]; };
 
-struct AppendOut {
-    u8 pad0[6];
-    s16 f6;
-    u8 pad8[0x2C - 8];
-    f32 f[5];
-    s16 f40;
-    s16 f42;
-};
-
 // slot_index indexes lobby_random_slot_id_table, record_key is the lookup_item_data_record key.
 struct PickWeightedEntryEntry { u8 slot_index; u8 record_key; u8 weight; u8 pad; };
 
@@ -89,19 +82,9 @@ struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
 
 struct EventShuffleTableIndexEntry { s16 id; s16 count; s32 offset; };
 
-struct DestroyEventShuffleTableSpawnRecord {
-    s16 type;
-    u16 flags;
-    s16 index;
-    s16 children;
-    u16 reserved;
-    s16 actor_id;
-    s16 room;
-    s16 wave;
-    u8 placement[0x48 - 0x10];
-};
-
-void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *slots, s32 count, s32 floor);
+// Gives each EnemySetRecord row of a set-file buffer its actor id and set index, reserving the ids of
+// its child enemies as well.
+void reserve_enemy_set_actor_ids(u8 *source, s32 count, s32 floor);
 
 struct LoadEnemySetFileName { char s[0x20]; };
 
@@ -122,7 +105,7 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities);
 void clear_map_set_data(void);
 void append_swapped_u32(s32 *value);
 void *bsearch_record(void *records, int n, int key);
-s32 pick_random_slot(s16 *slot);
+s32 pick_random_slot(EnemySetRecord *record);
 void init_sub_objects();
 s32 set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags);
 s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);

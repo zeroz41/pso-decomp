@@ -44,7 +44,6 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
 }
 
 struct DestroyEventShuffleTableEntry;
-struct DestroyEventShuffleTableSpawnRecord;
 
 SubtractiveRng *item_drop_rng;
 EventShuffleTable *challenge_event_shuffle;
@@ -166,16 +165,16 @@ void select_event_shuffle_table(s16 id) {
     }
 }
 
-void pick_random_entry(PickRandomEntryOut *out) {
+void pick_random_entry(EnemySetRecord *out) {
     s32 i = next_event_shuffle_entry(challenge_event_shuffle);
     DestroyEventShuffleTableEntry e = destroy_event_entries[i];
     e.bswap();
-    out->a = e.a;
-    out->b = e.b;
-    out->c = e.c;
-    out->d = e.d;
-    out->e = e.e;
-    out->f = e.f;
+    out->placement.position.x = e.a;
+    out->placement.position.y = e.b;
+    out->placement.position.z = e.c;
+    out->placement.rotation[0] = e.d;
+    out->placement.rotation[1] = e.e;
+    out->placement.rotation[2] = e.f;
 }
 
 void *bsearch_record(void *records, int n, int key) {
@@ -206,7 +205,7 @@ void *bsearch_record(void *records, int n, int key) {
     return NULL;
 }
 
-void lookup_item_data_record(AppendOut *out, s32 key) {
+void lookup_item_data_record(EnemySetRecord *out, s32 key) {
     ItemDataTableHeader hdr = *(ItemDataTableHeader *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
@@ -214,14 +213,14 @@ void lookup_item_data_record(AppendOut *out, s32 key) {
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);
-        out->f[0] = r.f[0];
-        out->f[1] = r.f[1];
-        out->f[2] = r.f[2];
-        out->f[3] = r.f[3];
-        out->f[4] = r.f[4];
-        out->f40 = r.h[1];
-        out->f42 = r.h[0];
-        out->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
+        out->placement.parameters[0] = r.f[0];
+        out->placement.parameters[1] = r.f[1];
+        out->placement.parameters[2] = r.f[2];
+        out->placement.parameters[3] = r.f[3];
+        out->placement.parameters[4] = r.f[4];
+        out->placement.variant = r.h[1];
+        out->placement.state = r.h[0];
+        out->placement.child_count = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
 }
 void pick_weighted_entry(s32 *key, s32 *slot) {
@@ -260,15 +259,15 @@ extern const s32 lobby_random_slot_id_table[42] = {
     214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 224, 225, 0,
 };
 
-s32 pick_random_slot(s16 *slot) {
+s32 pick_random_slot(EnemySetRecord *record) {
     s32 key;
     s32 entry;
 
     pick_weighted_entry(&key, &entry);
     if ((key != -1) && (entry != -1)) {
-        *slot = (s16) lobby_random_slot_id_table[entry];
-        lookup_item_data_record((AppendOut *)slot, key);
-        pick_random_entry((PickRandomEntryOut *)slot);
+        record->type = (s16) lobby_random_slot_id_table[entry];
+        lookup_item_data_record(record, key);
+        pick_random_entry(record);
         return 0;
     }
     return 1;
@@ -315,9 +314,6 @@ u32 TLobby::clamp_min_drop(u32 min, u32 max) {
 LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
 LAYOUT_ASSERT(ChallengeRandomEventSize, sizeof(ChallengeRandomEvent) == 0x18);
 LAYOUT_ASSERT(ChallengeFixedEventSize, sizeof(ChallengeFixedEvent) == 0x14);
-LAYOUT_ASSERT(ChallengeEnemyPlacementSize, sizeof(DestroyEventShuffleTableSpawnRecord) == 0x48);
-LAYOUT_ASSERT(ChallengeEnemyRoomOffset, offsetof(DestroyEventShuffleTableSpawnRecord, room) == 0x0C);
-LAYOUT_ASSERT(ChallengeEnemyWaveOffset, offsetof(DestroyEventShuffleTableSpawnRecord, wave) == 0x0E);
 
 void build_challenge_enemy_set(s32 floor) {
     s32 enemyOffset;
@@ -358,11 +354,11 @@ void build_challenge_enemy_set(s32 floor) {
             select_event_shuffle_table(event.room);
             while (enemies-- > 0) {
                 u8 *placement = challenge_enemy_buffer + enemyOffset;
-                if (pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
-                    reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
-                    reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
+                if (pick_random_slot(reinterpret_cast<EnemySetRecord *>(placement)) == 0) {
+                    reinterpret_cast<EnemySetRecord *>(challenge_enemy_buffer + enemyOffset)->placement.wave = wave;
+                    reinterpret_cast<EnemySetRecord *>(challenge_enemy_buffer + enemyOffset)->placement.room = event.room;
                     ++enemyCount;
-                    enemyOffset += sizeof(DestroyEventShuffleTableSpawnRecord);
+                    enemyOffset += sizeof(EnemySetRecord);
                 }
             }
 
@@ -406,9 +402,8 @@ void build_challenge_enemy_set(s32 floor) {
 
     if (enemyCount > 0) {
         area = get_floor_area(floor);
-        reserve_enemy_set_actor_ids(
-            reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer), enemyCount, area);
-        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(DestroyEventShuffleTableSpawnRecord));
+        reserve_enemy_set_actor_ids(challenge_enemy_buffer, enemyCount, area);
+        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(EnemySetRecord));
     }
 
     if (challenge_event_count > 0) {
@@ -650,7 +645,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
         p->flags = 0;
     }
     floor = get_floor_area(idx);
-    reserve_enemy_set_actor_ids((struct DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, n, floor);
+    reserve_enemy_set_actor_ids(map_set_file_buffer, n, floor);
     TLobby::init_floor_enemy_count(idx, map_set_file_buffer, size);
     return 1;
 }
@@ -704,23 +699,24 @@ void load_map_set_data(s32 idx, const char *filename) {
     copy_name("..");
 }
 
-void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32 count, s32 floor) {
-    DestroyEventShuffleTableSpawnRecord *r;
+void reserve_enemy_set_actor_ids(u8 *source, s32 count, s32 floor) {
+    EnemySetRecord *records = (EnemySetRecord *)source;
+    EnemySetRecord *r;
     s32 i;
     s32 n;
     for (i = 0; i < count; i++) {
-        r = &lobby[i];
-        r->actor_id = map_set_enemy_id_counter++ + 0x1000;
-        r->index = next_enemy_set_actor_id++;
-        if (r->children > 0) {
-            next_enemy_set_actor_id += r->children;
-            map_set_enemy_id_counter += r->children;
+        r = &records[i];
+        r->placement.id = map_set_enemy_id_counter++ + 0x1000;
+        r->placement.enemy_index = next_enemy_set_actor_id++;
+        if (r->placement.child_count > 0) {
+            next_enemy_set_actor_id += r->placement.child_count;
+            map_set_enemy_id_counter += r->placement.child_count;
         } else {
             n = get_enemy_factory_child_count(floor, &r->type);
             if (n > 0) {
                 next_enemy_set_actor_id += n;
                 map_set_enemy_id_counter += n;
-                r->children = n;
+                r->placement.child_count = n;
             }
         }
     }
@@ -790,7 +786,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
         bswap_enemy_set_row(p);
         p->flags = 0;
     }
-    reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
+    reserve_enemy_set_actor_ids(map_set_file_buffer, count, area);
     TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);
     return 1;
 }

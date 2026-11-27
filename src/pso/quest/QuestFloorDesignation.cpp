@@ -243,7 +243,7 @@ s32 TLobby::handle_msg_type2(s32 floor) {
             if ((type == 2) && (record_floor == floor)) {
                 lobby = (u8 *)(record + 1);
                 ((TLobby *)lobby)->bswap_enemy_set_rows(size);
-                reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)lobby, (u32) size / 72U, get_floor_area(record_floor));
+                reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
                 TLobby::init_floor_enemy_count(record_floor, lobby, size);
                 return 1;
             }

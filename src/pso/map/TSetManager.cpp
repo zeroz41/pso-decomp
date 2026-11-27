@@ -815,7 +815,7 @@ s32 find_enemy_factory_entry(const volatile EnemySetRecord *row, EnemyFactoryEnt
 void copy_enemy_factory_entry(EnemyFactoryEntry *out, EnemyFactoryEntry *entry) {
     out->type = entry->type;
     out->create = entry->create;
-    out->field_08 = entry->field_08;
+    out->creation_distance_squared = entry->creation_distance_squared;
     out->child_count = entry->child_count;
 }
 
