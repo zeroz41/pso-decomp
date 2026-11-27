@@ -29,7 +29,7 @@ void cleanup_dragon_area_scene(void) {
     refresh_render_state();
     stop_audio_streams();
     stop_cue_stream();
-    TLobby::call_funcs_reverse(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
+    call_funcs_reverse(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
     update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();

@@ -117,7 +117,7 @@ void TLogo::run_frame() {
 
 void TLogo::exit_logo_scene() {
     main_task.delete_layer_children();
-    TLobby::call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
+    call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
     render_tick();
 }
 

@@ -99,7 +99,7 @@ static const Vec game_mode_scene_camera_target = {0.0f, 0.0f, -100.0f};
 
 // Load and release hooks of the scene, in pairs: init_game_mode_select_scene runs each load
 // front to back (run_load_callback_table), release_scene_resources each release back
-// to front (TLobby::call_funcs_reverse).
+// to front (call_funcs_reverse).
 FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
@@ -423,7 +423,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
 
 
 void unload_lobby_scene_resources(void) {
-    TLobby::call_funcs_reverse(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
+    call_funcs_reverse(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
 }
 void load_lobby_scene_resources(void) {
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
@@ -437,8 +437,8 @@ void release_scene_resources() {
         game_mode_scene_instance = NULL;
     }
     main_task.delete_layer_children();
-    TLobby::call_funcs_reverse(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
-    TLobby::call_funcs_reverse(game_mode_select_scene_callbacks, sizeof(game_mode_select_scene_callbacks));
+    call_funcs_reverse(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
+    call_funcs_reverse(game_mode_select_scene_callbacks, sizeof(game_mode_select_scene_callbacks));
     TParticleCtrl::free_heap();
     clear_resource_load_tasks();
     render_tick();

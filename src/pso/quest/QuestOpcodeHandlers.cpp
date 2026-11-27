@@ -252,10 +252,10 @@ const QuestCommandTable message_substitution_handlers = { {
     { "award item", append_entered_item_name_pair },
     { "challenge title", append_challenge_title },
     { "pl_name", append_player_name },
-    { "pl_job", TLobby::append_default_string },
-    { "last_word", TLobby::append_card_window_text },
+    { "pl_job", append_default_string },
+    { "last_word", append_card_window_text },
     { "team_name", append_team_name },
-    { "last_chat", TLobby::append_unit_list_name },
+    { "last_chat", append_unit_list_name },
     { "name hero", append_hero_name },
     { "name job", append_hero_class_name },
 } };
@@ -272,7 +272,7 @@ char *expand_message_substitutions(u8 *source, char *result) {
         s8 c = TLobby::read_byte_advance();
         switch (c) {
         case 0x3C:
-            TLobby::parse_message_tag();
+            parse_message_tag();
             break;
         case 0x3E:
             while (1) {
@@ -287,7 +287,7 @@ char *expand_message_substitutions(u8 *source, char *result) {
     return result;
 }
 
-void TLobby::parse_message_tag() {
+void parse_message_tag() {
     char buf[64];
     QuestCommandTable tbl = message_substitution_handlers;
     u32 i;
@@ -323,7 +323,7 @@ void TLobby::parse_message_tag() {
     }
 }
 
-void TLobby::append_unit_list_name() {
+void append_unit_list_name() {
     char *s;
     s = get_chat_last_line();
     if (strcmp(s, "") == 0) {
@@ -346,7 +346,7 @@ void append_team_name(void) {
 
 // The grave message of the character save record: qst_op_is_there_grave_message tests it and the
 // "last_word" tag prints it.
-void TLobby::append_card_window_text() {
+void append_card_window_text() {
     CharacterSaveRecord *record;
 
     record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
@@ -357,7 +357,7 @@ void TLobby::append_card_window_text() {
     append_string("Error");
 }
 
-void TLobby::append_default_string() {
+void append_default_string() {
     append_string(quest_player_class_name_buffer);
 }
 

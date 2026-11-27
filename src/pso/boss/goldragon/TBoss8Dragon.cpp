@@ -389,7 +389,7 @@ void TBoss8Dragon::load_resources() {
 
     boss8_dragon_resource = load_enemy_bml_resource(&boss8_dragon_bml_descriptor);
     boss8_dragon_model_node_count = count_tree_nodes(boss8_dragon_resource->models->model);
-    boss8_dragon_capture_model = (NJS_OBJECT *)TQuestVmDownLoadServer::alloc(boss8_dragon_model_node_count * 0x50);
+    boss8_dragon_capture_model = (NJS_OBJECT *)alloc(boss8_dragon_model_node_count * 0x50);
     boss8_dragon_capture_chunk_model.vertex_list = NULL;
     boss8_dragon_capture_chunk_model.polygon_list = NULL;
     boss8_dragon_capture_chunk_model.center[0] = 0.0f;

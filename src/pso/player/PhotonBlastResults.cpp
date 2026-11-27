@@ -784,7 +784,7 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
 
 void release_photon_blast_resources(void) {
     s32 i;
-    TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
+    call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != NULL) {
         delete photon_blast_shared_resource;
         photon_blast_shared_resource = NULL;

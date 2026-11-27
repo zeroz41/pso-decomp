@@ -37,7 +37,7 @@ void TTextureWave::init_image_buffer(u8 *image, s32 displacement) {
     header = this->image_data;
     this->texture_id = (s32)header->global_index[0];
     this->texture_id = (s32)(this->texture_id | (header->global_index[1] << 0x10));
-    this->output = (GvrTexture *)TQuestVmDownLoadServer::alloc((this->height * (this->width * 2)) + 0x20);
+    this->output = (GvrTexture *)alloc((this->height * (this->width * 2)) + 0x20);
     this->texture_list->textures = &this->texture_name;
     this->texture_list->nbTexture = 1;
     this->texture_input.set_render_rect(this->output->texels, 5, (int)this->width, (int)this->height);

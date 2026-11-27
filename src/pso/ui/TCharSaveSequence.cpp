@@ -93,7 +93,7 @@ void TCharSaveSequence::clear_buffer() {
 void TCharSaveSequence::alloc_download_buffer() {
     if (download_buffer == NULL) {
         download_buffer_size = 0x16000;
-        download_buffer = (void *)TQuestVmDownLoadServer::alloc(download_buffer_size);
+        download_buffer = (void *)alloc(download_buffer_size);
     }
 }
 void TCharSaveSequence::report_missing_file() {
@@ -342,7 +342,7 @@ void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
     stop_audio_streams();
     set_and_notify(0);
-    TLobby::call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
+    call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
 

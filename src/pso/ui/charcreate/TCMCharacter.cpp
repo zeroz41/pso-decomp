@@ -461,7 +461,7 @@ void bind_character_preview_models(const CharacterPreviewModels *models) {
 }
 void load_creation_shape_rel(TCMCharacter *character) {
     s32 rc;
-    character->shape_rel = TQuestVmDownLoadServer::alloc(0x44000);
+    character->shape_rel = alloc(0x44000);
     rc = request_file_read(
         chara_select_creation_shape_rel_files[character_display_index(creation_player_character)],
         character->shape_rel, &character->shape_rel_ready, NULL);

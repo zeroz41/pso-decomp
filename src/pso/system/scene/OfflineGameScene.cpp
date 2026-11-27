@@ -192,7 +192,7 @@ s32 TCameraCtrl::get_camera_no() {
 
 // Load and release hooks of the offline game scene, in pairs: init_offline_game_scene runs
 // each load front to back (run_load_callback_table), teardown_scene each release
-// back to front (TLobby::call_funcs_reverse).
+// back to front (call_funcs_reverse).
 FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
@@ -439,7 +439,7 @@ void teardown_scene() {
     main_task.resume_layers();
     (tl_su)->delete_children();
     run_area_scene_cleanup(&floor_transition_state);
-    TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
+    call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();
     TKeyBoardControl::update();
     render_tick();

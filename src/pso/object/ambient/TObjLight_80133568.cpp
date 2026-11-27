@@ -279,7 +279,7 @@ void load_light_entry_file(void) {
     light_entry_data = NULL;
     light_entry_file_size = get_resource_file_size(light_entry_file_name);
     if (light_entry_file_size > 0) {
-        light_entry_data = (LightEntry *)TQuestVmDownLoadServer::alloc(light_entry_file_size);
+        light_entry_data = (LightEntry *)alloc(light_entry_file_size);
         if (light_entry_data) {
             read_disc_file(light_entry_file_name, light_entry_data);
         }

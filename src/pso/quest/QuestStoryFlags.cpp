@@ -113,7 +113,7 @@ void set_story_flag_in_bank(s32 bank, s32 flag) {
 
 void set_story_flag_in_bank_or_send_quest_flag(s32 bank, s32 flag) {
     if (get_main_phase() == 0xF) {
-        TLobby::send_6x75_quest_flag(flag, 0, bank);
+        send_6x75_quest_flag(flag, 0, bank);
         return;
     }
     set_story_flag_in_bank(bank, flag);
@@ -137,7 +137,7 @@ void set_story_flag(s32 flag) {
 
 void set_story_flag_or_send_quest_flag(s32 flag) {
     if (get_main_phase() == 0xF) {
-        TLobby::send_6x75_quest_flag_cur_difficulty(flag, 0);
+        send_6x75_quest_flag_cur_difficulty(flag, 0);
         return;
     }
     set_story_flag(flag);

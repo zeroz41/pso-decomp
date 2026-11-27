@@ -126,7 +126,7 @@ void TChCrLoadAfsTextureReq::start_read() {
         stop_count = 0;
         read_frames = 0;
         n = ADXF_GetFsizeSct(load_handle);
-        buf = TQuestVmDownLoadServer::alloc(n << 11);
+        buf = alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {
             ADXF_ReadNw(load_handle, n, buffers[index]);

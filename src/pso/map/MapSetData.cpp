@@ -451,10 +451,10 @@ void TLobby::init_buffers(int id, u8 *quest) {
     items = find_type5_header(chunks, id);
     item_data_table_buffer = (u8 *)items;
     if (challenge_event_source != NULL && destroy_event_data != NULL && items != NULL) {
-        challenge_enemy_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeEnemyBufferSize));
-        challenge_event_buffer = static_cast<ChallengeFixedEvent *>(TQuestVmDownLoadServer::alloc(ChallengeEventBufferSize));
+        challenge_enemy_buffer = static_cast<u8 *>(alloc(ChallengeEnemyBufferSize));
+        challenge_event_buffer = static_cast<ChallengeFixedEvent *>(alloc(ChallengeEventBufferSize));
         challenge_event_count = 0;
-        challenge_action_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeCommandBufferSize));
+        challenge_action_buffer = static_cast<u8 *>(alloc(ChallengeCommandBufferSize));
         challenge_action_size = 0;
         build_challenge_enemy_set(id);
         safe_free(challenge_action_buffer);
@@ -904,7 +904,7 @@ void free_data_60F0() {
 }
 
 s32 init_handle(s32 size) {
-    u8 *buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+    u8 *buffer = static_cast<u8 *>(alloc(size));
     map_set_file_buffer = buffer;
     if (buffer != NULL) {
         map_set_file_buffer_size = size;

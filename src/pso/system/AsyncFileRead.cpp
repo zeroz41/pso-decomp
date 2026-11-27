@@ -290,7 +290,7 @@ void destroy_game_heap() { process_pending_resources(); safe_free(async_file_rea
 
 void init_download_state() {
     init_download_buffers();
-    async_file_read_sector_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x800));
+    async_file_read_sector_buffer = static_cast<u8 *>(alloc(0x800));
     lobby_stack_entry_list_tail = NULL;
     async_file_read_current_request = NULL;
     lobby_download_state_ptr = 0;

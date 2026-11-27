@@ -129,8 +129,8 @@ void load_now_loading_texture() {
     void *archive;
     void *packed;
     if (!(lobby_request_flags & 2)) {
-        archive = TQuestVmDownLoadServer::alloc(0x11000);
-        packed = TQuestVmDownLoadServer::alloc(0x2000);
+        archive = alloc(0x11000);
+        packed = alloc(0x2000);
         read_disc_file_sectors("NowLoading.prs", packed);
         prs_decompress_buffer(packed, archive);
         load_gvm_texture_archive(archive, &loading_texture_list);

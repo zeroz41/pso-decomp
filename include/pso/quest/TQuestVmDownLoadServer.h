@@ -80,7 +80,6 @@ public:
     static void create();
     static s32 get_total_blocks();
     static void reset_state_on_format_error(TMCFormatSequence *sequence);
-    static void *alloc(u32 size);
     static s32 get_serial_access();
     static s32 poll_serial_access();
     static void reset_download();
@@ -92,6 +91,8 @@ public:
 LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A8);
 
 extern TQuestVmDownLoadServer *quest_vm_download_server_instance;
+
+void *alloc(u32 size);
 
 // The two seeds of the download cipher; a quest saved to a memory card is
 // encrypted with the console's serial number in both.

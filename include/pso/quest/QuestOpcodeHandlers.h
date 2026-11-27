@@ -97,4 +97,9 @@ struct RunToCoordMove {
     u8 pad[4];
 };
 
+void parse_message_tag();
+void append_unit_list_name();
+void append_card_window_text();
+void append_default_string();
+
 #endif

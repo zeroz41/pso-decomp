@@ -78,7 +78,7 @@ void load_memcard_file(void) {
     if (r != 0) {
         return;
     }
-    buf = TQuestVmDownLoadServer::alloc(stat.blocks << 13);
+    buf = alloc(stat.blocks << 13);
     if (buf == 0) {
         return;
     }
@@ -110,7 +110,7 @@ void free_global_buffer() {
 void clear_signboard_texture_buffer_pointer(void) { sin_board_texture_buffer = 0; }
 
 void load_sin_board_image(const void *image, u32 size) {
-    void *buffer = TQuestVmDownLoadServer::alloc(size);
+    void *buffer = alloc(size);
     sin_board_texture_buffer = buffer;
     if (buffer != NULL) {
         move_data(buffer, image, size);

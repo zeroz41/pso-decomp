@@ -172,7 +172,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
     }
     floor_set_archives[idx].enemies = floor_set_archive_pool->alloc(sz);
     if ((uaddr)src & 0x1F) {
-        buf = TQuestVmDownLoadServer::alloc(sz);
+        buf = alloc(sz);
         memcpy(buf, src, sz);
         if (floor_set_archives[idx].enemies != NULL) {
             floor_set_archive_pool->transfer(buf, floor_set_archives[idx].enemies, sz, 0);
@@ -224,7 +224,7 @@ s32 TLobby::load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 
     }
     floor_set_archives[idx].objects = floor_set_archive_pool->alloc(sz);
     if ((uaddr)src & 0x1F) {
-        buf = TQuestVmDownLoadServer::alloc(sz);
+        buf = alloc(sz);
         memcpy(buf, src, sz);
         if (floor_set_archives[idx].objects != NULL) {
             floor_set_archive_pool->transfer(buf, floor_set_archives[idx].objects, sz, 0);
@@ -1449,7 +1449,7 @@ void arrive_floor_population() {
     bytes = floor->object_count * 0x44;
     if (bytes > 0) {
         bytes = (bytes + 0x1F) & ~0x1F;
-        current_floor_object_set_rows = (FloorObjectSetRow *)TQuestVmDownLoadServer::alloc(bytes);
+        current_floor_object_set_rows = (FloorObjectSetRow *)alloc(bytes);
     }
     if (current_floor_object_set_rows != NULL) {
         floor_set_archive_pool->transfer(floor_set_archives[index].objects, current_floor_object_set_rows, bytes, 1);
@@ -1466,7 +1466,7 @@ void arrive_floor_population() {
     bytes = floor->enemy_count * 0x48;
     if (bytes > 0) {
         bytes = (bytes + 0x1F) & ~0x1F;
-        current_floor_enemy_set_rows = (EnemySetRecord *)TQuestVmDownLoadServer::alloc(bytes);
+        current_floor_enemy_set_rows = (EnemySetRecord *)alloc(bytes);
     }
     if (current_floor_enemy_set_rows != NULL) {
         floor_set_archive_pool->transfer(floor_set_archives[index].enemies, current_floor_enemy_set_rows, bytes, 1);

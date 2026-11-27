@@ -214,9 +214,9 @@ void TLobby::clear_session_buffers() {
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        TLobby::call_funcs_reverse(field_resource_callbacks, 0x20);
+        call_funcs_reverse(field_resource_callbacks, 0x20);
     }
-    TLobby::call_funcs_reverse(session_resource_callbacks, 0xE8);
+    call_funcs_reverse(session_resource_callbacks, 0xE8);
 }
 
 s32 TLobby::run_lobby_load_tables() {

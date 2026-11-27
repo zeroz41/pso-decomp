@@ -33,7 +33,7 @@ void refresh_quest_list(const char *path) {
 
     size = get_resource_file_size(path);
     if (size >= 0) {
-        quest = (u8 *)TQuestVmDownLoadServer::alloc(size);
+        quest = (u8 *)alloc(size);
         if (quest != NULL) {
             read_disc_file(path, quest);
             TLobby::rebuild_all(quest);
@@ -338,7 +338,7 @@ void open_session(const char *path) {
 
     size = get_resource_file_size(path);
     if (size >= 0) {
-        quest = (quest_dat_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size));
+        quest = (quest_dat_buffer = (u8 *)alloc(size));
         if (quest != NULL) {
             read_disc_file(path, quest);
             populate_quest_floor_sets();

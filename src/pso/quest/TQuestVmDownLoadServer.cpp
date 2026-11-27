@@ -189,7 +189,7 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
             strncpy(quest_download_file_state.title, download_head.path, 0x22);
             s = &quest_download_file_state;
             s->size = (s32)download_head.file_size + 8;
-            s->data = (u8 *)TQuestVmDownLoadServer::alloc(s->size);
+            s->data = (u8 *)alloc(s->size);
             memset(s->data, 0, s->size);
             quest_dat_download_complete = 0;
             quest_total_download_bytes += (s32)download_head.file_size;
@@ -198,7 +198,7 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
             strncpy(quest_download_file_slot.title, download_head.path, 0x22);
             s = &quest_download_file_slot;
             s->size = (s32)download_head.file_size + 8;
-            s->data = (u8 *)TQuestVmDownLoadServer::alloc(s->size);
+            s->data = (u8 *)alloc(s->size);
             memset(s->data, 0, s->size);
             quest_bin_download_complete = 0;
             quest_total_download_bytes += (s32)download_head.file_size;
@@ -209,7 +209,7 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
             strncpy(quest_download_file_info.name, download_head.filename, 0x10);
             strncpy(quest_download_file_info.title, download_head.path, 0x22);
             quest_download_file_info.size = (s32)download_head.file_size;
-            quest_download_file_info.data = (u8 *)TQuestVmDownLoadServer::alloc(quest_download_file_info.size);
+            quest_download_file_info.data = (u8 *)alloc(quest_download_file_info.size);
             memset(quest_download_file_info.data, 0, (s32)download_head.file_size);
             quest_pvr_download_complete = 0;
             quest_total_download_bytes += (s32)download_head.file_size;
@@ -220,7 +220,7 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
             strncpy(quest_download_file_header.name, download_head.filename, 0x10);
             strncpy(quest_download_file_header.title, download_head.path, 0x22);
             quest_download_file_header.size = (s32)download_head.file_size;
-            quest_download_file_header.data = (u8 *)TQuestVmDownLoadServer::alloc(quest_download_file_header.size);
+            quest_download_file_header.data = (u8 *)alloc(quest_download_file_header.size);
             quest_gba_download_complete = 0;
             quest_total_download_bytes += (s32)download_head.file_size;
             TDLGraph::update_graph(quest_received_file_bytes, quest_total_download_bytes);
@@ -315,8 +315,8 @@ void TQuestVmDownLoadServer::encrypt_download_data(u32 *data, s32 size) {
     quest_download_cipher_state.xor_buffer(body, (s32)((size - 4) & ~3));
     quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
     quest_download_cipher_state.apply_rng_cipher(data, size & ~3);
-    src = TQuestVmDownLoadServer::alloc(size);
-    dst = TQuestVmDownLoadServer::alloc(size);
+    src = alloc(size);
+    dst = alloc(size);
     move_data(src, data, size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
@@ -329,8 +329,8 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *src;
     void *dst;
     u32 *words;
-    src = TQuestVmDownLoadServer::alloc(size);
-    dst = TQuestVmDownLoadServer::alloc(size);
+    src = alloc(size);
+    dst = alloc(size);
     move_data((src), data, size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
@@ -364,7 +364,7 @@ s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
   s32 crc;
   void *copy;
   s32 stored;
-  copy = TQuestVmDownLoadServer::alloc(size);
+  copy = alloc(size);
   if (copy == 0)
   {
     return 0;
@@ -772,7 +772,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
                 safe_free(this->save_image);
                 this->save_image = NULL;
             }
-            this->save_image = TQuestVmDownLoadServer::alloc(this->slot_file_blocks << 13);
+            this->save_image = alloc(this->slot_file_blocks << 13);
             if (this->save_image != NULL) {
                 memset(&req, 0, sizeof(req));
                 strncpy(req.filename, quest_card_file_name, 0x12);
@@ -841,7 +841,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
                 safe_free(this->save_image);
                 this->save_image = NULL;
             }
-            this->save_image = TQuestVmDownLoadServer::alloc(this->state_file_blocks << 13);
+            this->save_image = alloc(this->state_file_blocks << 13);
             if (this->save_image != NULL) {
                 memset(&req, 0, sizeof(req));
                 strncpy(req.filename, quest_card_file_name, 0x12);
@@ -918,7 +918,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
                     safe_free(this->save_image);
                     this->save_image = NULL;
                 }
-                this->save_image = TQuestVmDownLoadServer::alloc(this->info_file_blocks << 13);
+                this->save_image = alloc(this->info_file_blocks << 13);
                 if (this->save_image != NULL) {
                     memset(&req, 0, sizeof(req));
                     strncpy(req.filename, quest_card_file_name, 0x12);

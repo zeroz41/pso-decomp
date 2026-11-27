@@ -45,7 +45,7 @@ void safe_free(void *allocation) {
 
 u8 *alloc_zeroed_array(s32 count, s32 size) { return (u8 *)xcalloc(count, size); }
 
-void *TQuestVmDownLoadServer::alloc(u32 size) { return xmalloc(size); }
+void *alloc(u32 size) { return xmalloc(size); }
 
 // The unit's global TUnk_8048DF58: __sinit constructs it and registers its destructor.
 TUnk_8048DF58 lbl_805005A4;

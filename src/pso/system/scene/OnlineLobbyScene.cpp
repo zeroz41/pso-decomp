@@ -117,7 +117,7 @@ s32 reset_story_select__6TLobbyFPv();
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
 // each load front to back (run_load_callback_table), cleanup_online_lobby_scene each release
-// back to front (TLobby::call_funcs_reverse).
+// back to front (call_funcs_reverse).
 FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
@@ -515,8 +515,8 @@ void cleanup_online_lobby_scene(void) {
     }
     free_single_player_chr_select();
     release_lobby_player_actions();
-    TLobby::call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
-    TLobby::call_funcs_reverse(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
+    call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
+    call_funcs_reverse(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     local_client_id = 0;
     lobby_state_flags = 0;
     clear_resource_load_tasks();

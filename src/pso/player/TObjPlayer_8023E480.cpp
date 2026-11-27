@@ -43,7 +43,7 @@ s32 load_streamed_prs_texture(const char *name, NJS_TEXLIST *texlist) {
         safe_free(h);
         return 0;
     }
-    buf = TQuestVmDownLoadServer::alloc(0x100000);
+    buf = alloc(0x100000);
     prs_decompress_buffer(h, buf);
     load_gvm_texture_archive(buf, texlist);
     safe_free(buf);

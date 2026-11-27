@@ -33,7 +33,7 @@ void cleanup_gryphon_area(void) {
     refresh_render_state();
     stop_audio_streams();
     stop_cue_stream();
-    TLobby::call_funcs_reverse(gryphon_area_cleanup_callbacks, sizeof(gryphon_area_cleanup_callbacks));
+    call_funcs_reverse(gryphon_area_cleanup_callbacks, sizeof(gryphon_area_cleanup_callbacks));
     TParticleCtrl::free_heap();
     update_current_floor();
     unload_current_floor_resources();

@@ -340,8 +340,8 @@ void release_resources() {
 }
 
 void TQuestListOnline::init_download_buffers() {
-    quest_list_online_quest_list_buffer = (OnlineQuestMenu *)TQuestVmDownLoadServer::alloc(sizeof(OnlineQuestMenu));
-    quest_list_online_selected_quest_info = (OnlineQuestInfo *)TQuestVmDownLoadServer::alloc(sizeof(OnlineQuestInfo));
+    quest_list_online_quest_list_buffer = (OnlineQuestMenu *)alloc(sizeof(OnlineQuestMenu));
+    quest_list_online_selected_quest_info = (OnlineQuestInfo *)alloc(sizeof(OnlineQuestInfo));
     online_quest_download_window = NULL;
     online_quest_info_window = NULL;
     online_quest_download_barrier_window = NULL;

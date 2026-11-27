@@ -112,7 +112,7 @@ s32 load_and_verify_character_save(char *serial, char *desc) {
     s32 res;
     u8 *data;
     s32 saved;
-    buf = (u8 *)TQuestVmDownLoadServer::alloc(0x214B0);
+    buf = (u8 *)alloc(0x214B0);
     res = TAdPlayerLoadGC::find_card_file(0, memory_card_character_dir_name);
     if (res == 0) {
         memcard_access_active = 1;
@@ -133,7 +133,7 @@ s32 load_and_verify_character_save(char *serial, char *desc) {
     }
     memcard_access_active = 0;
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
-    data = (u8 *)TQuestVmDownLoadServer::alloc(0x194B0);
+    data = (u8 *)alloc(0x194B0);
     memcpy(data, buf + 0x2048, 0x194B0);
     decrypt_character_save((Pso3CharacterFile *)data);
     saved = *(s32 *)data;

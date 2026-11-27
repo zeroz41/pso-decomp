@@ -129,7 +129,7 @@ u8 *TGStream::load_file(const char *name) {
         return 0;
     }
     sectors = (size + 0x7FF) / 2048;
-    buf = (u8 *)TQuestVmDownLoadServer::alloc(sectors << 0xB);
+    buf = (u8 *)alloc(sectors << 0xB);
     if (buf == 0) {
         return 0;
     }
@@ -169,7 +169,7 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
     }
     sectors = (size + 0x7FF) / 2048;
     if (stream.archive_entry != NULL && stream.archive_entry->decoded_size != 0) {
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(((stream.archive_entry->decoded_size + 0x7FF) / 2048) << 11);
+        buf = (u8 *)alloc(((stream.archive_entry->decoded_size + 0x7FF) / 2048) << 11);
         if (buf == 0) {
             file_debug_printf("TGStream::gsSctLoadFile Malloc Failed.");
         }

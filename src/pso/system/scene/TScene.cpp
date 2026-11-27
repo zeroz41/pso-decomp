@@ -500,7 +500,7 @@ void TScene::load_scene_data(saddr name) {
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x10000U)) {
-            lobby_buffer = TQuestVmDownLoadServer::alloc(0x10000);
+            lobby_buffer = alloc(0x10000);
             collision_file_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
                 scene_collision_data = (CsnGroup **)load_relocatable_file(filename, lobby_buffer);
@@ -508,7 +508,7 @@ void TScene::load_scene_data(saddr name) {
             }
         }
     } else if (size > 0) {
-        buffer = TQuestVmDownLoadServer::alloc(size);
+        buffer = alloc(size);
         collision_file_buffer = buffer;
         if (buffer != NULL) {
             scene_collision_data = (CsnGroup **)load_relocatable_file(filename, buffer);
@@ -543,14 +543,14 @@ void TScene::load_scene_rel_file(saddr ent) {
     }
     if (area == AREA_LOBBY) {
         if (size > 0 && (u32)size <= 0x80000U) {
-            map_rel_load_buffer = TQuestVmDownLoadServer::alloc(0x80000);
+            map_rel_load_buffer = alloc(0x80000);
             if (map_rel_load_buffer != NULL) {
                 scene_material_root = (SceneMaterialRoot *)load_relocatable_file(id, map_rel_load_buffer);
                 map_rel_load_size_limit = 0x80000;
             }
         }
     } else if (size > 0) {
-        map_rel_load_buffer = TQuestVmDownLoadServer::alloc(size);
+        map_rel_load_buffer = alloc(size);
         if (map_rel_load_buffer != NULL) {
             scene_material_root = (SceneMaterialRoot *)load_relocatable_file(id, map_rel_load_buffer);
             map_rel_load_size_limit = size;
@@ -576,7 +576,7 @@ void TScene::load_supplementary_t_rel(saddr name) {
     replace_file_extension(id, (char *)name, "t.rel");
     n = get_resource_file_size(id);
     if (n > 0) {
-        supplementary_rel_buffer = TQuestVmDownLoadServer::alloc(n);
+        supplementary_rel_buffer = alloc(n);
         if (supplementary_rel_buffer != NULL) {
             texture_wave_resource = (TextureWaveEntry **)load_relocatable_file(id, supplementary_rel_buffer);
             loaded_floor_rel_file_index = n;
@@ -605,7 +605,7 @@ void TScene::load_map_texture_archive(saddr name) {
     }
     if (area == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
-            lobby_buffer = TQuestVmDownLoadServer::alloc(0x100);
+            lobby_buffer = alloc(0x100);
             texture_animation_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
                 read_disc_file(filename, lobby_buffer);
@@ -613,7 +613,7 @@ void TScene::load_map_texture_archive(saddr name) {
             }
         }
     } else if (size > 0) {
-        buffer = TQuestVmDownLoadServer::alloc(size);
+        buffer = alloc(size);
         texture_animation_buffer = buffer;
         if (buffer != NULL) {
             read_disc_file(filename, buffer);
@@ -635,14 +635,14 @@ void TScene::load_floor_bin_file(saddr name) {
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if (size > 0 && (u32)size <= 0x100U) {
-            floor_bin_buffer = TQuestVmDownLoadServer::alloc(0x100);
+            floor_bin_buffer = alloc(0x100);
             if (floor_bin_buffer != NULL) {
                 read_disc_file(filename, floor_bin_buffer);
                 floor_bin_file_size = 0x100;
             }
         }
     } else if (size > 0) {
-        floor_bin_buffer = TQuestVmDownLoadServer::alloc(size);
+        floor_bin_buffer = alloc(size);
         if (floor_bin_buffer != NULL) {
             read_disc_file(filename, floor_bin_buffer);
             floor_bin_file_size = size;
@@ -662,7 +662,7 @@ void TScene::load_file_to_buffer(saddr name) {
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
-            lobby_buffer = TQuestVmDownLoadServer::alloc(0x100);
+            lobby_buffer = alloc(0x100);
             material_info_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
                 read_disc_file(filename, lobby_buffer);
@@ -670,7 +670,7 @@ void TScene::load_file_to_buffer(saddr name) {
             }
         }
     } else if (size > 0) {
-        buffer = TQuestVmDownLoadServer::alloc(size);
+        buffer = alloc(size);
         material_info_buffer = buffer;
         if (buffer != NULL) {
             read_disc_file(filename, buffer);

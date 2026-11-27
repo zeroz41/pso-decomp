@@ -31,7 +31,7 @@ void cleanup_lobby_area(void) {
     TQuestVmDownLoadServer::free_download_buffers();
     unload_current_floor_resources();
     update_current_floor();
-    TLobby::call_funcs_reverse(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks));
+    call_funcs_reverse(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks));
     stop_audio_streams();
     refresh_render_state();
     stop_audio_streams();

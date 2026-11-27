@@ -384,7 +384,7 @@ void *read_ninja_chunk(const u8 *file, u32 *offset, u32 *type, void *destination
         goto bad;
     }
     if (destination == NULL) {
-        buf = (void *)TQuestVmDownLoadServer::alloc(size);
+        buf = (void *)alloc(size);
     } else {
         buf = destination;
     }

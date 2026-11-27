@@ -371,7 +371,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
 }
 
 void destroy_global_object() {
-    TLobby::call_funcs_reverse(lobby_load_callback_table, sizeof(lobby_load_callback_table));
+    call_funcs_reverse(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if (lobby_title_texture_list != NULL) {
         release_texture_list(lobby_title_texture_list);
         lobby_title_texture_list = NULL;

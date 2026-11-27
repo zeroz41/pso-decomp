@@ -536,7 +536,7 @@ void TBoss1Dragon::load_resources() {
     }
     source = boss1_dragon_resource->models[0].model;
     boss1_dragon_model_node_count = TBoss1Dragon::countModelNodes(source);
-    boss1_dragon_capture_model = static_cast<NJS_OBJECT *>(TQuestVmDownLoadServer::alloc(boss1_dragon_model_node_count * 0x50));
+    boss1_dragon_capture_model = static_cast<NJS_OBJECT *>(alloc(boss1_dragon_model_node_count * 0x50));
     boss1_dragon_capture_chunk_model.state[0] = 0;
     boss1_dragon_capture_chunk_model.state[1] = 0;
     boss1_dragon_capture_chunk_model.params[0] = (0.0f);

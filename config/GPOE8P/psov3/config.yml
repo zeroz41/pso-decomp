@@ -9266,7 +9266,7 @@ force_active:
   - parse_color_code__6TLobbyFPc
   - parse_f_index__Fl
   - parse_hex_string__FPc
-  - parse_message_tag__6TLobbyFv
+  - parse_message_tag__Fv
   - parse_message_text__24TMessageWindowControllerFPCcPc
   - parse_netinfo__FPcUlP17NetworkInfoConfig
   - parse_network_info_config_decimal__FPcUl

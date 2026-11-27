@@ -156,7 +156,7 @@ s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *out_value) {
     memcard_access_active = 1;
     TAdSinglePlyChrSelectGC::set_card_disk_id(chan);
     ok = 0;
-    buf = (u8 *)TQuestVmDownLoadServer::alloc(0x6000);
+    buf = (u8 *)alloc(0x6000);
     if (TAdSinglePlyChrSelectGC::load_player_slot(chan, memory_card_system_dir_name, buf) == 0 &&
         TAdSinglePlyChrSelectGC::wait_for_card_load(chan) == 1) {
         h = (SystemSaveData *)(buf + 0x2048);
@@ -404,7 +404,7 @@ s32 TAdSinglePlyChrSelectGC::load_save_from_card() {
     s32 g;
     if (TAdPlayerLoadGC::find_card_file(character_save_card_slot, pso_character_card_filename.filename) == 0) {
     size = character_save_file_block_count << 13;
-    buf = (u8 *)TQuestVmDownLoadServer::alloc(size);
+    buf = (u8 *)alloc(size);
     if (buf == NULL) {
         return 0;
     }
@@ -633,7 +633,7 @@ s32 save_active_character_to_card(void) {
             return obj;
         }
         obj = character_save_file_block_count << 13;
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(obj);
+        buf = (u8 *)alloc(obj);
         memset(buf, 0, obj);
         while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
@@ -755,7 +755,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             return obj;
         }
         obj = character_save_file_block_count << 13;
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(obj);
+        buf = (u8 *)alloc(obj);
         memset(buf, 0, obj);
         while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
@@ -1799,7 +1799,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 return card_file;
             }
             size = character_save_file_block_count << 13;
-            buf = (u8 *)TQuestVmDownLoadServer::alloc(size);
+            buf = (u8 *)alloc(size);
             memset(buf, 0, size);
             while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
                 if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
@@ -2328,7 +2328,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
             return 0;
         }
         obj = character_save_file_block_count << 13;
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(obj);
+        buf = (u8 *)alloc(obj);
         memset(buf, 0, obj);
         while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
@@ -2583,7 +2583,7 @@ s32 buffer_init(void) {
 
     if (guild_card_save_file_buffer == NULL) {
         size = guild_card_save_file_block_count << 0xD;
-        guild_card_save_file_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size);
+        guild_card_save_file_buffer = (u8 *)alloc(size);
         memset(guild_card_save_file_buffer, 0, size);
         return 1;
     }
@@ -2596,7 +2596,7 @@ s32 alloc_global_buffer(void) {
 
     if (system_save_file_buffer == NULL) {
         size = system_save_file_block_count << 0xD;
-        system_save_file_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size);
+        system_save_file_buffer = (u8 *)alloc(size);
         memset(system_save_file_buffer, 0, size);
         return 1;
     }
@@ -2617,7 +2617,7 @@ s32 init_buffer(void) {
 
     if (character_save_file_buffer == NULL) {
         size = character_save_file_block_count << 0xD;
-        character_save_file_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size);
+        character_save_file_buffer = (u8 *)alloc(size);
         memset(character_save_file_buffer, 0, size);
         return 1;
     }

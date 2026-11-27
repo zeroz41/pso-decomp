@@ -64,7 +64,7 @@ void (*ending_scene_callbacks[26])(void) = {
 void release_ending_scene(void) {
     stop_audio_streams();
     main_task.delete_layer_children();
-    TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
+    call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
 }
 void run_game_frame(void) {

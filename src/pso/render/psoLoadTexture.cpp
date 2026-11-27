@@ -55,7 +55,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     allocated = 0;
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        buf = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+        buf = static_cast<u8 *>(alloc(size));
         if (buf == 0) {
             return -1;
         }
@@ -126,7 +126,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     }
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        big = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+        big = static_cast<u8 *>(alloc(size));
         buf = big;
     } else {
         buf = tmp_buf_use_req("LoadPvmFileTls");

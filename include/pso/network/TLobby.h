@@ -102,7 +102,6 @@ struct TLobby : public TObject {
     static void set_flag_and_update();
     static void free_objects();
     static void reset_counter();
-    static void call_funcs_reverse(void* table, unsigned int size);
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
     void bswap_vec3();
@@ -134,8 +133,6 @@ struct TLobby : public TObject {
     static void handle_quest_download_chunk(TRecvDownload &download);
     static void send_challenge_records(TChallenge *challenge);
     static void set_fade_params(void (*callback)());
-    static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
-    static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
     void copy_record_entry(saddr src);
 
     void update_alloc_size();
@@ -179,10 +176,6 @@ struct TLobby : public TObject {
     static s32 write_zero_padded_block(void *arg0p);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
-    static void parse_message_tag();
-    static void append_unit_list_name();
-    static void append_card_window_text();
-    static void append_default_string();
     static void append_color_code(s32 color);
     static s32 parse_color_code(char *s);
     void destroy_matching_children();
@@ -332,6 +325,10 @@ struct TLobby : public TObject {
     static s32 lobby_block_high;  // high byte of the 0x67 lobby join packet's block number; never read
     static u32 join_entries_dtor_registration[3];
 };
+
+void call_funcs_reverse(void *table, unsigned int size);
+void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
+void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
 
 void destroy_global_object();
 

@@ -878,8 +878,8 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
         b = (u32)(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));
         rngs[i] = new SubtractiveRng(a | b);
     }
-    second_relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
-    relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
+    second_relocatable_load_buffer = alloc(0xC00);
+    relocatable_load_buffer = alloc(0xC00);
     load_unload_set = create_load_unload_set(item_drop_load_unload_table);
 }
 

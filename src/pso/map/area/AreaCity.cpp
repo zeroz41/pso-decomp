@@ -47,7 +47,7 @@ void cleanup_city_area(void) {
     refresh_render_state();
     stop_audio_streams();
     cleanup_city_area_stub();
-    TLobby::call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
+    call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
     unload_current_floor_resources();
     update_current_floor();
     TLobby::clear_session_buffers();

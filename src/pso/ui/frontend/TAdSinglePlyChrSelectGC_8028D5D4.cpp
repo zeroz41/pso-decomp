@@ -98,7 +98,7 @@ void free_single_player_chr_select() {
 
 void alloc_download_server() {
     if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer == NULL)) {
-        chr_select_load_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x50000));
+        chr_select_load_buffer = static_cast<u8 *>(alloc(0x50000));
         if (chr_select_load_buffer == NULL) {
             return;
         }
@@ -115,7 +115,7 @@ void free_chr_select_singleton() {
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {
-        if ((chr_select_load_buffer_base = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x28000))) == NULL) return;
+        if ((chr_select_load_buffer_base = static_cast<u8 *>(alloc(0x28000))) == NULL) return;
     }
 }
 

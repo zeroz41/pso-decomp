@@ -119,7 +119,7 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(pa
     if (size < 0) {
         queue_destruction();
     } else {
-        script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+        script = static_cast<QuestBinHeader *>(alloc(size + 0x400));
         read_disc_file(filename, script);
         copy_name("..");
         quest_mission_manager = this;
@@ -140,7 +140,7 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+            script = static_cast<QuestBinHeader *>(alloc(size + 0x400));
             read_disc_file(filename, script);
             copy_name("..");
             quest_mission_manager = this;
@@ -154,7 +154,7 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+            script = static_cast<QuestBinHeader *>(alloc(size + 0x400));
             read_disc_file(filename, script);
             quest_area_manager = this;
             init_quest_script_context(script, &ctx);
@@ -172,7 +172,7 @@ TQuestManager::TQuestManager(TObject *parent, void *data, s32 size) : TObject(pa
         queue_destruction();
     } else {
         alloc_size = size + 0x400;
-        script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(alloc_size));
+        script = static_cast<QuestBinHeader *>(alloc(alloc_size));
         memcpy(script, data, alloc_size);
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);

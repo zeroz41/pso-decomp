@@ -248,7 +248,7 @@ void LeaderSelection::find_leader_section_id(s32 client_id) {
     }
 }
 
-void TLobby::call_funcs_reverse(void *table, unsigned int size) {
+void call_funcs_reverse(void *table, unsigned int size) {
     s32 n = size / sizeof(LobbyFrameEntry);
     LobbyFrameEntry *p = (LobbyFrameEntry *)table + n;
     while (n > 0) {

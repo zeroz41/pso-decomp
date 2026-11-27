@@ -1753,8 +1753,8 @@ struct G_UpdateQuestFlag_DC_PC_6x75 {
  u16 action;
 };
 
-// 6x75: Sets or clears a quest flag. Sent by TLobby::send_6x75_quest_flag,
-// TLobby::send_6x75_quest_flag_cur_difficulty, send_and_handle_6x75 and
+// 6x75: Sets or clears a quest flag. Sent by send_6x75_quest_flag,
+// send_6x75_quest_flag_cur_difficulty, send_and_handle_6x75 and
 // build_6x75_update_quest_flag_dc; received by handle_6x75_update_quest_flag_dc. Size checked:
 // build_6x75_update_quest_flag_dc sets the header size to 3 words.
 struct G_UpdateQuestFlag_V3_BB_6x75 {

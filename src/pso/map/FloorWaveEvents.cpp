@@ -292,7 +292,7 @@ void load_item_data() {
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
-    buffer = TQuestVmDownLoadServer::alloc(0x24B8);
+    buffer = alloc(0x24B8);
     forest_rel_work_buffer = buffer;
     if (buffer != NULL) {
         drop_item_mode = get_drop_item_mode();

@@ -537,7 +537,7 @@ void *TBoss7DeRolLeC::create(void *set_data) {
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {
-    TLobby::call_funcs_reverse(boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
+    call_funcs_reverse(boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
     if (boss7_derolle_c_bml_resource != NULL) {
         delete boss7_derolle_c_bml_resource;
         boss7_derolle_c_bml_resource = NULL;

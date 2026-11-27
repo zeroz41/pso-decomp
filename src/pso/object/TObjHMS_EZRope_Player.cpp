@@ -77,7 +77,7 @@ void TObjEZRopeBase::init_ropes(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *
         total += s->count;
         segment_count++;
     }
-    points = (Vec *)TQuestVmDownLoadServer::alloc(total * sizeof(Vec));
+    points = (Vec *)alloc(total * sizeof(Vec));
     s = segments;
     p = ends;
     out = points;
@@ -286,12 +286,12 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObjMotion *parent, TObjHMSRopeSpec
         for (collider = collider_specs; collider->bone >= 0; collider++, collider_count++) {
         }
     }
-    segment_buffer = (TObjEZRopeSegment *)TQuestVmDownLoadServer::alloc((rope_count + 1) * sizeof(TObjEZRopeSegment));
-    end_buffer = (TObjEZRopeEnd *)TQuestVmDownLoadServer::alloc(rope_count * sizeof(TObjEZRopeEnd));
+    segment_buffer = (TObjEZRopeSegment *)alloc((rope_count + 1) * sizeof(TObjEZRopeSegment));
+    end_buffer = (TObjEZRopeEnd *)alloc(rope_count * sizeof(TObjEZRopeEnd));
     if (collider_count == 0) {
         collider_buffer = NULL;
     } else {
-        collider_buffer = (TObjEZRopeCollider *)TQuestVmDownLoadServer::alloc((collider_count + 1) * sizeof(TObjEZRopeCollider));
+        collider_buffer = (TObjEZRopeCollider *)alloc((collider_count + 1) * sizeof(TObjEZRopeCollider));
     }
     {
         TObjHMSRopeSpec *spec;

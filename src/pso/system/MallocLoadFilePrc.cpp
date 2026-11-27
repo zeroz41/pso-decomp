@@ -1191,7 +1191,7 @@ void *QuestDownloadFile::alloc_download_quest(s32 size, s32 *out_size) {
     s32 v4 = seed;
     void *ret;
 
-    ret = TQuestVmDownLoadServer::alloc(v0);
+    ret = alloc(v0);
     if (ret == NULL) {
         return NULL;
     }
@@ -1224,12 +1224,12 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
-        buf = (QuestDownloadFile *)TQuestVmDownLoadServer::alloc(0x800);
+        buf = (QuestDownloadFile *)alloc(0x800);
         st.read_sectors_sync(1, buf);
         archive_size = buf->decompressed_size;
         h = buf->seed;
         safe_free(buf);
-        ret = TQuestVmDownLoadServer::alloc(archive_size);
+        ret = alloc(archive_size);
         buf = (QuestDownloadFile *)load_disc_file(name);
         SubtractiveRng rng;
         rng.set_seed(h);

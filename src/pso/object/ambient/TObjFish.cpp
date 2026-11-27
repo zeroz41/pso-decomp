@@ -350,7 +350,7 @@ s32 TObjFish::init_fish_school(Vec *extent, s32 anim0_count, s32 anim1_count) {
     if ((s32)fish_count < 1) {
         return 0;
     }
-    fish = (TObjFishEntry *)TQuestVmDownLoadServer::alloc((s32)fish_count * sizeof(TObjFishEntry));
+    fish = (TObjFishEntry *)alloc((s32)fish_count * sizeof(TObjFishEntry));
     if (fish == NULL) {
         return 0;
     }
