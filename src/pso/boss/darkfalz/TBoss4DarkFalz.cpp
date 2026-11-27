@@ -483,12 +483,12 @@ void copy_set_entry(void *arg0p, void *arg1p) {
   o->set_index = s->set_index;
   dest_second = (dest_first = o);
   dest_second->kind = s->kind;
-  o->unknown_04 = s->unknown_04;
+  o->pad_04 = s->pad_04;
   dest_first->entity_id = s->entity_id;
   o->room = s->room;
   o->wave = s->wave;
-  dest_first->unknown_0C = s->unknown_0C;
-  o->unknown_0E = s->unknown_0E;
+  dest_first->pad_0C = s->pad_0C;
+  o->pad_0E = s->pad_0E;
   dest_first->position = s->position;
   o->rotation = s->rotation;
   *dc = *sc;

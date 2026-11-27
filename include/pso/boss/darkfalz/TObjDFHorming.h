@@ -56,12 +56,12 @@ struct SetEntryWords5 { u32 w[5]; };
 struct SetEntryCopy {
   s16 set_index;
   s16 kind;
-  s16 unknown_04;
+  s16 pad_04;
   u16 entity_id;
   s16 room;
   s16 wave;
-  s16 unknown_0C;
-  s16 unknown_0E;
+  s16 pad_0C;
+  s16 pad_0E;
   struct SetEntryWords3 position;
   struct SetEntryWords3 rotation;
   struct SetEntryWords5 params;
