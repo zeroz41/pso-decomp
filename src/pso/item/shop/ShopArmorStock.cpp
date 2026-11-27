@@ -9,6 +9,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/system/ByteBlocks.h"
 
 #pragma readonly_strings on
 #pragma inline_depth(1)
@@ -313,7 +314,6 @@ void clear_shop_armor_flags(void) {
     memset(shop_armor_stock_generated_flags, 0, 0x10);
 }
 
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void get_shop_armor_stock_item(TItemData *dst, s32 index, s32 shop) {
     *(ByteBlock_14 *)dst = ((ByteBlock_14 *)shop_armor_stock_buffers[shop])[index];

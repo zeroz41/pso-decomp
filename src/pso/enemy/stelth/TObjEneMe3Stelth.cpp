@@ -12,7 +12,6 @@
 #include "types.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -60,8 +59,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
-#include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/render/GinjaView.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
@@ -1010,7 +1007,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 ang = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1026,7 +1023,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1130,7 +1127,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
         case 0:
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (update_death_check() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1145,7 +1142,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
             spawn_footstep_effects();
             cur_frame = this->frame;
             if ((cur_frame >= 0.0f) && (cur_frame <= 5.0f)) {
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
+                move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
             } else {
                 this->update_ground_contact();
             }

@@ -25,7 +25,7 @@
 #include "pso/ui/window/TWindowCallBack.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"

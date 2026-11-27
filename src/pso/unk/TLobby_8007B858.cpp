@@ -23,6 +23,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/object/quest/TObjQuestCol.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -269,7 +270,6 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); invoke_callbac
 
 
 
-    extern short quest_collision_next_id;
 void reset_quest_collision_ids_on_floor_load(void) { quest_collision_next_id = 0; }
 
 void reset_quest_collision_ids_on_floor_free(void) { quest_collision_next_id = 0; }

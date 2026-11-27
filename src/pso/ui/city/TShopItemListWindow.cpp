@@ -25,7 +25,6 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/item/TItemData.h"

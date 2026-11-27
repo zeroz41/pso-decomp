@@ -22,7 +22,7 @@
 #include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/text_801E3F24.h"
+#include "pso/unk/GxAndLegacyCommandHandlers.h"
 #include "pso/system/debug_print.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/door/TObjDoorKey.h"

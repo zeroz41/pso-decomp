@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/IsComCardWindowOpen.h"
 #include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowTradeRequest.h"

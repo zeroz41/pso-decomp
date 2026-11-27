@@ -294,9 +294,9 @@ void *mfci_open(const char *name, s32 entry, s32 mode) {
     return f;
 }
 
-s32 mfci_parse_file_size(char *s) {
+s32 mfci_parse_file_size(char *name) {
     u32 lo;
-    mfci_get_adr_size(s, &lo);
+    mfci_get_adr_size(name, &lo);
     return lo;
 }
 

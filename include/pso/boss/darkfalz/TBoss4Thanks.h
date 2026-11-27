@@ -61,4 +61,8 @@ LAYOUT_ASSERT(TBoss4Thanks_size, sizeof(TBoss4Thanks) == 0x54);
 struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 s32 any_player_has_listed_item(void);
+
+// Takes no argument: the body calls is_door_0x97_open() without setting r3.
+s32 is_boss4_door_open(void);
+
 #endif

@@ -17,7 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/movie/TMovie.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"

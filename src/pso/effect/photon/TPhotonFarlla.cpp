@@ -15,7 +15,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/map/FloorArea.h"

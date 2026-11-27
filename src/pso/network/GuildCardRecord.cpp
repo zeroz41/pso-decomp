@@ -7,10 +7,10 @@
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
+#include "pso/unk/ShortMailFlag.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/audio/SoundControlState.h"
-#include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "dolphin/mtx.h"
@@ -43,7 +43,7 @@ s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 
 #pragma push
 
-typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
+typedef struct GuildCardTagWords { s32 a; s32 b; } GuildCardTagWords;
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -55,7 +55,7 @@ void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(res
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
-        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)protocol_instance + 0x1900);
+        GuildCardTagWords tag = *(GuildCardTagWords *)((u8 *)protocol_instance + 0x1900);
         protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }

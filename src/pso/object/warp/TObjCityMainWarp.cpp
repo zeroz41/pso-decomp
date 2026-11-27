@@ -16,7 +16,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/city/CityTraffic.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"

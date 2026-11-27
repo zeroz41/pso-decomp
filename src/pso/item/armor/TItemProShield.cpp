@@ -1,6 +1,6 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/item/drop/TItemDrop.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"

@@ -143,13 +143,13 @@ u8 gba_download_update_graph() {
 GbaJoybootState gba_joyboot_states[1];
 
 
-struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
+struct JoybootStampRecord { u32 a; u32 b; u32 c; };
 
 #pragma push
 #pragma fp_contract on
 void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
     u32 secs;
-    Rec_8032C9A8 rec;
+    JoybootStampRecord rec;
     DayMinuteTicks ds;
     u8 *obj;
     SystemSaveData *st;

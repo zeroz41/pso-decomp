@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/network/eth.h"
 #include <stdio.h>
+#include <dolphin/exi.h>
 #include <string.h>
 #include "pso/network/ModemRuntime.h"
 
@@ -172,14 +173,10 @@ s32 set_disc_error_message(s32 index, const char *message) {
     return ret;
 }
 #pragma pop
-extern "C" {
-
-s32 EXIGetType(int, int, void *);
-}
 u32 cached_adapter_type;
 
 s32 get_network_adapter_type(s32 *out_type) {
-    s32 adapter_type;
+    u32 adapter_type;
     if (cached_adapter_type == 2U) {
         *out_type = 2;
     } else if (cached_adapter_type == 5U) {

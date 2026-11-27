@@ -4,7 +4,6 @@
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"

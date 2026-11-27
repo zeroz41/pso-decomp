@@ -8,7 +8,7 @@
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TechniqueEmitter.h"
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/BmlResource.h"
 
 #include "pso/system/task/TObject.h"

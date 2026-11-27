@@ -1,6 +1,5 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -69,7 +68,6 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjCharaHelpers.h"

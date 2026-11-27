@@ -737,7 +737,7 @@ void TObjEneRe4Sorcerer::handle_state(s32 mode) {
 void TObjEneRe4Sorcerer::update_hidden_state(s32 reason) {
     switch (reason) {
     case 4:
-        ((TObjEneDD *)this)->set_next_mode(1);
+        set_next_mode(1);
         VecCopy(&this->position, &this->home_position);
         VecCopy(&this->prev_position, &this->home_position);
         VecCopy(&this->body_center, &this->home_position);
@@ -770,7 +770,7 @@ void TObjEneRe4Sorcerer::update_enter_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 7;
-        ((TObjEneDD *)this)->set_next_mode(3);
+        set_next_mode(3);
         this->behavior_flags |= 0xE;
         this->clear_intangible();
         disable_hits();
@@ -831,7 +831,7 @@ void TObjEneRe4Sorcerer::update_fade_out_state(s32 reason) {
     s32 i;
     switch (reason) {
     case 4:
-        ((TObjEneDD *)this)->set_next_mode(3);
+        set_next_mode(3);
         this->clear_intangible();
         disable_hits();
         this->behavior_flags |= 2;
@@ -922,7 +922,7 @@ void TObjEneRe4Sorcerer::update_attack_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        ((TObjEneDD *)this)->set_next_mode(3);
+        set_next_mode(3);
         this->behavior_flags |= 0xA;
         this->state_timer = 0;
         this->state_step = 0;
@@ -1114,7 +1114,7 @@ void TObjEneRe4Sorcerer::update_cure_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        ((TObjEneDD *)this)->set_next_mode(3);
+        set_next_mode(3);
         this->behavior_flags |= 0xA;
         this->state_timer = 0;
         this->state_step = 0;

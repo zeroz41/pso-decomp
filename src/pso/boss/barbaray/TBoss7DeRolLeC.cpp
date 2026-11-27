@@ -116,7 +116,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 
-#include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 
 #include "pso/enemy/AttackTargetHistory.h"
 

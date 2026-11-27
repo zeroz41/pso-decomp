@@ -177,7 +177,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 // Kept here: the owner headers (TObjCharaHelpers.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.

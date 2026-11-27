@@ -98,34 +98,34 @@ s32 WindowDrawContext::is_point_in_bounds(TexturedQuad *quad) {
 
 #pragma push
 #pragma fp_contract on
-s32 WindowDrawContext::clip_textured_quad(TexturedQuad *b) {
+s32 WindowDrawContext::clip_textured_quad(TexturedQuad *quad) {
     f32 sx;
     f32 sy;
     f32 d;
-    if (is_point_in_bounds(b) == 0) {
+    if (is_point_in_bounds(quad) == 0) {
         return 0;
     }
-    sx = (b->u1 - b->u0) / (b->x1 - b->x0);
-    sy = (b->v1 - b->v0) / (b->y1 - b->y0);
-    d = clip_x0 - b->x0;
+    sx = (quad->u1 - quad->u0) / (quad->x1 - quad->x0);
+    sy = (quad->v1 - quad->v0) / (quad->y1 - quad->y0);
+    d = clip_x0 - quad->x0;
     if (d > 0.0f) {
-        b->x0 = clip_x0;
-        b->u0 = d * sx + b->u0;
+        quad->x0 = clip_x0;
+        quad->u0 = d * sx + quad->u0;
     }
-    d = clip_y0 - b->y0;
+    d = clip_y0 - quad->y0;
     if (d > 0.0f) {
-        b->y0 = clip_y0;
-        b->v0 = d * sy + b->v0;
+        quad->y0 = clip_y0;
+        quad->v0 = d * sy + quad->v0;
     }
-    d = b->x1 - clip_x1;
+    d = quad->x1 - clip_x1;
     if (d > 0.0f) {
-        b->x1 = clip_x1;
-        b->u1 = -(d * sx - b->u1);
+        quad->x1 = clip_x1;
+        quad->u1 = -(d * sx - quad->u1);
     }
-    d = b->y1 - clip_y1;
+    d = quad->y1 - clip_y1;
     if (d > 0.0f) {
-        b->y1 = clip_y1;
-        b->v1 = -(d * sy - b->v1);
+        quad->y1 = clip_y1;
+        quad->v1 = -(d * sy - quad->v1);
     }
     return 1;
 }
@@ -191,14 +191,14 @@ WindowDrawContext *WindowDrawContext::init_layout(f32 *pos, f32 *size, f32 *scal
 }
 #pragma pop
 
-void WindowDrawContext::adjust_pos_for_split_screen(NJS_POINT2 *pos, s32 i) {
+void WindowDrawContext::adjust_pos_for_split_screen(NJS_POINT2 *pos, s32 view) {
     const NJS_POINT2 *p;
-    if (is_split_screen() == 0 || i == 0x64) {
+    if (is_split_screen() == 0 || view == 0x64) {
         return;
     }
-    p = get_viewport_offset(i);
-    pos->x = pos->x + (p->x + TCameraCtrl::get_split_offset_x(i));
-    pos->y = pos->y + (p->y + TCameraCtrl::get_split_offset(i));
+    p = get_viewport_offset(view);
+    pos->x = pos->x + (p->x + TCameraCtrl::get_split_offset_x(view));
+    pos->y = pos->y + (p->y + TCameraCtrl::get_split_offset(view));
     pos->x = pos->x / TCameraCtrl::get_view_scale();
     pos->y = pos->y / TCameraCtrl::get_fov();
 }

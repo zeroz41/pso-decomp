@@ -30,7 +30,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/QuestVm.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
-#include "pso/unk/TLobby_8026B06C.h"
+#include "pso/unk/QuestMessageWindows.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
@@ -39,7 +39,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/item/TItemData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -149,7 +148,7 @@
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -875,13 +874,13 @@ void qst_op_get_player_hp_tp(void) {
 }
 
 void qst_op_get_section_id() {
-  uaddr player;
+  TObjPlayer *player;
   u8 out_reg;
-  player = ((uaddr)get_player_by_client_id((s32)((int) qst_args[0].i)));
+  player = get_player_by_client_id((s32)((int) qst_args[0].i));
   out_reg = (u8) qst_args[1].i;
   if (player != 0U)
   {
-    qst_registers[out_reg].i = (volatile unsigned long)((TObjPlayer *)player)->get_section_id();
+    qst_registers[out_reg].i = (volatile unsigned long)player->get_section_id();
     return;
   }
   qst_registers[out_reg].i = -1;

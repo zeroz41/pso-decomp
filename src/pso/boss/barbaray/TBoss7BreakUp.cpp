@@ -4,7 +4,7 @@
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7JointBreakUp.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/math/MatrixTransforms.h"

@@ -47,7 +47,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/base/TObjBase.h"
@@ -488,11 +488,11 @@ s32 TObjEneRe7Berura::collect_node_matrices(NJS_OBJECT *obj, s32 idx) {
     return idx;
 }
 
-void TObjEneRe7Berura::capture_arm_matrices(NJS_OBJECT *root, TObjEneRe7BeruraPart *e) {
-    re7_berura_node_matrix_cursor = e->node_matrices;
-    berura_attack_node_range_start = e->first_node;
-    berura_attack_node_range_end = e->last_node;
-    berura_attack_node_vec_ptr = &e->launch_offset;
+void TObjEneRe7Berura::capture_arm_matrices(NJS_OBJECT *root, TObjEneRe7BeruraPart *arm) {
+    re7_berura_node_matrix_cursor = arm->node_matrices;
+    berura_attack_node_range_start = arm->first_node;
+    berura_attack_node_range_end = arm->last_node;
+    berura_attack_node_vec_ptr = &arm->launch_offset;
     push_matrix_from(identity_matrix);
     collect_node_matrices(root, 0);
     pop_matrix();

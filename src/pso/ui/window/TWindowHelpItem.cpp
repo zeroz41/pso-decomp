@@ -45,7 +45,6 @@
 #include "pso/item/item_create.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/weapon/TItemWeapon.h"
 

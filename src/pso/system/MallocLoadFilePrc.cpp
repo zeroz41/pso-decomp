@@ -26,7 +26,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TRelDataFile.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/item/drop/TItemDrop.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/TGStream.h"
@@ -1180,7 +1180,7 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)data, size - 8);
+    rng.xor_buffer(data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
@@ -1196,7 +1196,7 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)&this->m_prev, size - 8);
+    rng.xor_buffer(&this->m_prev, size - 8);
     prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
@@ -1232,7 +1232,7 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         buf = load_disc_file(name);
         SubtractiveRng rng;
         rng.set_seed(h);
-        rng.xor_buffer((u32 *)(buf + 8), size - 8);
+        rng.xor_buffer(buf + 8, size - 8);
         prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }

@@ -10,8 +10,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/network/TLobby.h"
@@ -21,7 +21,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 
 #include "types.h"
 

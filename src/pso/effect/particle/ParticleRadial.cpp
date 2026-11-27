@@ -37,7 +37,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 

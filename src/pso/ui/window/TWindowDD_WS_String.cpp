@@ -2,7 +2,6 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"

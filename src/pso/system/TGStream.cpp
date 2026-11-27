@@ -185,10 +185,11 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
 void TGStream::read_sectors_sync(s32 sector_count, void *destination) {
     ADXF_ReadNw(adxf_handle, sector_count, destination);
     set_read_params(&adxf_handle, (int)sector_count, destination);
-loop_1:
-    if (ADXF_GetStat(adxf_handle) != 3) {
+    for (;;) {
+        if (ADXF_GetStat(adxf_handle) == 3) {
+            break;
+        }
         run_frame();
-        goto loop_1;
     }
     reset_read_state();
     gstream_read_offset += sector_count << 0xB;
@@ -275,10 +276,11 @@ void TLobby::read_data_sync(AdxfHandle *handle, s32 sector_count, void *destinat
     handle_addr = handle;
     ADXF_ReadNw(handle_addr, sector_count, destination);
     set_read_params(&handle_addr, (int)sector_count, destination);
-loop_1:
-    if (ADXF_GetStat(handle_addr) != 3) {
+    for (;;) {
+        if (ADXF_GetStat(handle_addr) == 3) {
+            break;
+        }
         run_frame();
-        goto loop_1;
     }
     reset_read_state();
     gstream_read_offset += sector_count << 0xB;

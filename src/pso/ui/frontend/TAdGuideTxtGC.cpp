@@ -3,7 +3,7 @@
 #include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 

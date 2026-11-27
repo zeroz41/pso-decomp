@@ -18,7 +18,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/item/TItemEffNeedle.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -26,7 +26,7 @@
 #include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/system/MatrixStack.h"
 
-struct W_802D5B78 { s32 a; s32 b; s32 c; };
+struct VecWords { s32 a; s32 b; s32 c; };
 
 extern "C" {
 void get_weapon_color__11TItemWeaponFv(void *, void *);
@@ -152,7 +152,7 @@ void get_hit_surface_point(const ActorBodyHit *hit, Vec *out, Vec *direction) {
     s32 a;
     s32 b;
     s32 c;
-    W_802D5B78 w;
+    VecWords w;
     // Copy the input words before normalization so the output may alias it.
     wsrc = (s32 *)direction;
     c = wsrc[0];

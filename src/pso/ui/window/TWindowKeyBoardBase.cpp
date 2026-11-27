@@ -7,7 +7,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include <stddef.h>

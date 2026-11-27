@@ -180,7 +180,7 @@ LAYOUT_ASSERT(Type3Offset_444, (offsetof(TBoss4Type3,node_positions) == 0x444));
 LAYOUT_ASSERT(Type3Offset_51c, (offsetof(TBoss4Type3,trail_samples) == 0x51c));
 LAYOUT_ASSERT(Type3Size, (sizeof(TBoss4Type3)==0x530));
 
-struct Pair_8005A438 { void *p; f32 f; };
-struct Words_8005A438 { void *p; u32 w; };
+struct ModelFadeEntry { void *p; f32 f; };
+struct ModelFadeEntryBits { void *p; u32 w; };
 
 #endif

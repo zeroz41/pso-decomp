@@ -25,7 +25,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/system/ControllerInput.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -50,9 +50,6 @@ const char *TWindowActionPalette::class_name = "TWindowActionPalette";
 void TWindowLayoutEntry::hide() { flags |= 2; }
 void TWindowLayoutEntry::show() { flags &= ~2; }
 
-extern "C" {
-s32 find_inventory_item_id_by_code(void *player, s32 kind, u8 group, u8 index);
-}
 
 const PaletteItemKind action_palette_item_kinds[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},

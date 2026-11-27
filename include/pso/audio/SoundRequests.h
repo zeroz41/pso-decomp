@@ -13,6 +13,7 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration);
 void update_music_stream_gain(s32 user);
 // While set, every music fade update drops the music gain to -999 (silent).
 extern int music_muted;
+extern s32 music_stream_base_gain;
 
 struct SetSoundPitchRequestSndEnt {
     s32 flags;
@@ -33,5 +34,21 @@ void set_and_notify(int a0);
 void init_layout_positions();
 void reset_global();
 int init_sound_mode();
+
+// sound-request flag mask, defined in SoundRequests.cpp and read from memory there
+extern const u32 lbl_805DC748;
+void clear_sound_listener_position(void);
+int enable_sound_requests(s32);
+void turn_on_bgm_p2(void);
+void turn_off_bgm_p2(void);
+// Plays an ADX file on the cue stream.
+void play_cue_stream_file(const char *name);
+void set_cue_stream_gain(s32 gain);
+void init_music_sequencer(s32 program);
+void set_dark_falz_music_request(s32 request);
+void set_music_streams_volume(s32 total);
+void stop_cue_stream(void);
+void update_music_sequencer(void);
+void update_sound_request_slots(void);
 
 #endif

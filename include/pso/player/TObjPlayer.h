@@ -986,7 +986,7 @@ struct TObjPlayer : public TObjChara {
     static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
     static void spawn_fire_explosion_for_item(s32 id, s32 item);
     static void spawn_fire_explosion_at_item(s32 id, saddr context);
-    static void spawn_fire_explosion(uaddr a0, saddr a1);
+    static void spawn_fire_explosion(TItemWeapon *item_weapon, const Vec *pos);
     void push_model_fade_color();
     static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);
     s32 can_use_camera_field();
@@ -1294,5 +1294,11 @@ struct PhotonBlastMotionTiming {
 
 // Buys item for player: 1 when it does not fit, 2 when the meseta is short, 0 on success.
 s32 try_buy_item(TObjPlayer *player, TItemData *item);
+// The inventory id of the item with this kind/group/index code, or -1.
+s32 find_inventory_item_id_by_code(TObjPlayer *player, u8 kind, u8 group, u8 index);
+
+void create_bgm_col_zones(void);
+
+void create_technique_charge_light(u32 kind, void *owner);
 
 #endif

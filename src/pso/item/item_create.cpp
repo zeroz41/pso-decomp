@@ -66,13 +66,7 @@
 #include "pso/weapon/TItemWeaponSRankCard.h"
 #include "pso/weapon/TItemWeaponPhotonLauncher.h"
 #include "pso/weapon/TItemWeaponSRankLauncher.h"
-#include "pso/unk/text_80126A34.h"
-#include "pso/unk/text_80128308.h"
-#include "pso/unk/text_80128440.h"
-#include "pso/unk/text_80129AB0.h"
-#include "pso/unk/text_80129D18.h"
 #include "pso/weapon/TItemWeaponHeavenPunisher.h"
-#include "pso/unk/text_8012C268.h"
 #include "pso/weapon/TItemWeaponDarkMeteor.h"
 #include "pso/weapon/TItemWeaponNug2000Bazooka.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
@@ -894,7 +888,7 @@ ItemCreateFunction item_create_fn_table[5] = {
     create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
-void send_6x60_standard_drop_item_request(TObjEnemy *self);
+void send_6x60_standard_drop_item_request(TObjEnemy *enemy);
 }
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   TObjPlayer *player_alias;
@@ -1174,28 +1168,28 @@ void clear_drop_request_position(Vec *v) {
     v->z = 0.0f;
 }
 
-void send_6x60_standard_drop_item_request(TObjEnemy *self) {
+void send_6x60_standard_drop_item_request(TObjEnemy *enemy) {
     TObjPlayer *p1;
     TObjPlayer *p2;
-    if (self != 0) {
+    if (enemy != 0) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
                 (p1->get_floor() != p2->get_floor() ||
                  designated_client_id == local_client_id)) {
-                if (self->set_index != -1) {
-                    EnemyStateRecord e = enemy_state_records[self->set_index];
+                if (enemy->set_index != -1) {
+                    EnemyStateRecord e = enemy_state_records[enemy->set_index];
                     if (e.drop_id != 0xFFFF) {
                         G_StandardDropItemRequest_PC_V3_BB_6x60 pkt;
                         G_StandardDropItemRequest_DC_6x60 &drop = pkt.__base_G_StandardDropItemRequest_DC_6x60;
                         pkt.init();
                         drop.floor = get_current_floor();
-                        drop.rt_index = self->rt_index;
-                        drop.entity_index = self->set_index;
-                        drop.pos.x = self->position.x;
-                        drop.pos.z = self->position.z;
-                        drop.room = self->room;
+                        drop.rt_index = enemy->rt_index;
+                        drop.entity_index = enemy->set_index;
+                        drop.pos.x = enemy->position.x;
+                        drop.pos.z = enemy->position.z;
+                        drop.room = enemy->room;
                         pkt.effective_area = get_current_floor_area();
                         Vec v;
                         v.x = drop.pos.x;

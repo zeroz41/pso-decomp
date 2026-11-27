@@ -880,18 +880,18 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *p, TItemData *dst) {
-    dst->data1.data_u8[0] = p->item.data1.data_u8[0];
-    dst->data1.data_u8[1] = p->item.data1.data_u8[1];
-    dst->data1.data_u8[2] = p->item.data1.data_u8[2];
-    dst->data1.data_u8[3] = p->item.data1.data_u8[3];
-    dst->data1.data_u8[4] = p->item.data1.data_u8[4];
-    dst->data1.data_u8[5] = p->item.data1.data_u8[5];
-    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&p->item.data1.data_u16[3]);
-    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&p->item.data1.data_u16[4]);
-    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&p->item.data1.data_u16[5]);
-    dst->id = p->item.id;
-    dst->data2.data_u32 = p->item.data2.data_u32;
+void TCheckRoomSequence::copy_data(BankItemRecord *record, TItemData *dst) {
+    dst->data1.data_u8[0] = record->item.data1.data_u8[0];
+    dst->data1.data_u8[1] = record->item.data1.data_u8[1];
+    dst->data1.data_u8[2] = record->item.data1.data_u8[2];
+    dst->data1.data_u8[3] = record->item.data1.data_u8[3];
+    dst->data1.data_u8[4] = record->item.data1.data_u8[4];
+    dst->data1.data_u8[5] = record->item.data1.data_u8[5];
+    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&record->item.data1.data_u16[3]);
+    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&record->item.data1.data_u16[4]);
+    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&record->item.data1.data_u16[5]);
+    dst->id = record->item.id;
+    dst->data2.data_u32 = record->item.data2.data_u32;
 }
 
 #pragma push

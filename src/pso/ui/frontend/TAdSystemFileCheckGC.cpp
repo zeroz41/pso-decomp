@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -25,7 +25,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/audio/MusicControl.h"
 
 // Message text by id: table_a holds the English text, table_b the Japanese.

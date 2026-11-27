@@ -30,7 +30,6 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/HeadingEntry.h"

@@ -52,9 +52,7 @@ void init_fresh_character_slot(s32 slot);
 void init_timestamped_data(void);
 s32 load_and_verify_data(s32 verify_only);
 s32 load_guild_card_save(void);
-extern "C" {
 s32 load_pso_system(void);
-}
 s32 load_system_file(s32 mode);
 void load_tables(int a0);
 s32 pso_system_load_gc(void);

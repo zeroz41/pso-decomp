@@ -36,11 +36,16 @@ struct QuestDownloadDisplayPrefix { u8 text[12]; };
 // These buffers are used synchronously as bytes, character codes, or item IDs.
 struct QuestDownloadScratchWords { u16 values[0x202]; };
 struct QuestDownloadScratchIds { s32 values[0x101]; };
+union QuestDownloadTextBuffer {
+    u8 bytes[0x404];
+    QuestDownloadScratchWords words;
+    QuestDownloadScratchIds ids;
+};
 
 extern "C" {
 extern QuestDownloadWorkspace conversion_workspace;
 extern QuestDownloadDisplayPrefix quest_download_display_prefix;
-extern u8 quest_download_text_buffer[0x404] ATTRIBUTE_ALIGN(4);
+extern QuestDownloadTextBuffer quest_download_text_buffer ATTRIBUTE_ALIGN(4);
 }
 
 LAYOUT_ASSERT(QuestDownloadQueryEntrySize, sizeof(QuestDownloadQueryEntry) == 6);

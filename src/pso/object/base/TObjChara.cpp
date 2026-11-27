@@ -312,8 +312,8 @@ s16 AttackParams::get_ata() { return this->ata; }
 
 s16 TObjChara::get_attack_params_ata() { return this->attack_params->get_ata(); }
 
-s32 TObjChara::add_status_effect_timer(s32 i, s32 v) {
-    return this->status_effects[i].timer += v;
+s32 TObjChara::add_status_effect_timer(s32 i, s32 frames) {
+    return this->status_effects[i].timer += frames;
 }
 
 f32 AttackParams::get_attack_range() { return attack_range; }
@@ -3282,7 +3282,7 @@ void TObjChara::apply_switch_attack() {
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FD, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(((TObjBase *)this)->get_entity_id());
+        particle_effect_with_flags->set_owner_id(get_entity_id());
     }
 }
 
@@ -3294,7 +3294,7 @@ void TObjChara::enemy_spawn_jellen_effect() {
     rotation.z = -0x8000;
     oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(get_entity_id());
     }
 }
 
@@ -3303,7 +3303,7 @@ void TObjChara::trigger_switch_attack() {
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FE, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(((TObjBase *)this)->get_entity_id());
+        particle_effect_with_flags->set_owner_id(get_entity_id());
     }
 }
 
@@ -3315,7 +3315,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
     rotation.z = -0x8000;
     oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(get_entity_id());
     }
 }
 
@@ -3491,7 +3491,7 @@ void TObjChara::spawn_poison_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x25, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xCD0B, &this->position, 0, 0);
@@ -3504,7 +3504,7 @@ void TObjChara::spawn_paralysis_feedback_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x26, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20C, &this->position, 0, 0);
@@ -3517,7 +3517,7 @@ void TObjChara::spawn_slow_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x27, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20D, &this->position, 0, 0);
@@ -3530,7 +3530,7 @@ void TObjChara::spawn_confusion_feedback_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x24, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20E, &this->position, 0, 0);
@@ -3543,7 +3543,7 @@ void TObjChara::play_shock_feedback(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x21, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB210, &this->position, 0, 0);

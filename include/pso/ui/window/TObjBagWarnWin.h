@@ -30,4 +30,6 @@ TObjBagWarnWin4P *create_bag_warn_window_4p(TObject *parent);
 
 s32 is_map_visible();
 
+const char *get_message_text(s32 text);
+
 #endif

@@ -8,7 +8,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/BattleModeDataCmd.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -57,7 +57,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/object/TDeadSpot.h"
@@ -121,9 +120,9 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     }
     this->message_table = p;
     for (i = 0; i < 4; i++) {
-        saddr pl = (saddr)get_player_by_client_id(i);
-        if (pl != 0) {
-            reinterpret_cast<TObjPlayer *>(pl)->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
+        TObjPlayer *pl = get_player_by_client_id(i);
+        if (pl != NULL) {
+            pl->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
         }
     }
     instance = this;

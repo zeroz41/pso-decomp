@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/item/drop/TItemDrop.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"

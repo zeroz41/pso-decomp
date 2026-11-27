@@ -33,7 +33,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/render/ScreenSpriteDraw.h"
-#include "pso/unk/text_801E3F24.h"
+#include "pso/unk/GxAndLegacyCommandHandlers.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <stdlib.h>
@@ -42,8 +42,8 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
@@ -1755,7 +1755,7 @@ void TObjCMProportion::run_task() {
     if (this->active == 0) {
         if ((this->fade += -0.083333336f) <= 0.0f) {
             this->fade = 0.0f;
-            ((TObject *)this)->queue_destruction();
+            queue_destruction();
         }
     } else {
         if ((this->fade += 0.16666667f) > 1.0f) {

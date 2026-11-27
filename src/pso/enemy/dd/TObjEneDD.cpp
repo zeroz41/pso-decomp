@@ -27,7 +27,6 @@ const char *dd_name = "TObjEneDD";
 const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 #include "pso/map/CsnQuery.h"
 
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -36,7 +35,6 @@ const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
-#include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 #include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 
@@ -68,7 +66,6 @@ TAttackCollider *obj_ene_dd_instance;
 
 
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #include "pso/math/MatrixVector.h"
 
@@ -729,7 +726,7 @@ int is_enemy_entity_id(u16 id) {
     return is_enemy;
 }
 
-s32 TObjEneDD::is_valid_target() {
+s32 TObjBase::is_valid_target() {
     int valid;
 
     valid = 0;
@@ -1162,7 +1159,7 @@ block_5:
     return 0;
 }
 
-s32 TObjEneEpsilon::update_death_check() {
+s32 TObjEneDD_ST::update_death_check() {
     if ((this->is_confused() == 0) && (is_player_entity_id(this->target_id) == 0)) {
         this->enemy_clear_target();
         return 0;
@@ -1241,7 +1238,7 @@ s32 TObjEneDD_ST::enemy_check_target_valid() {
         this->enemy_clear_target();
         return 0;
     }
-    return ((TObjEneDD *)current_target)->is_valid_target();
+    return current_target->is_valid_target();
 }
 
 #pragma push

@@ -32,9 +32,9 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowCallBack.h"
 
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 #include "pso/network/TLobby.h"
 
@@ -102,7 +102,7 @@ s32 password_entry_dispatch_state;
 
 s32 TAdEnterBaseGC::entry_mode;
 
-#include "pso/unk/TLobby_8013AD38.h"
+#include "pso/unk/ConnectionInputBuffers.h"
 char serial_access_hex_string_buf[0x40];
 
 

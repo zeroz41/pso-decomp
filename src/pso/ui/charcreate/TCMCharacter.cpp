@@ -29,13 +29,11 @@
 #include "pso/system/DataBlockRelocation.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 
 
 
-extern "C" {
-f32 vector_length(f32 *v);
-}
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -63,7 +61,6 @@ extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
 void reset_invalid_proportions();
 
-void translate_matrix_vec3(u8 *matrix, u8 *vec);
 }
 
 #pragma push
@@ -773,7 +770,7 @@ s32 blend_shape_chunk_vertices(void) {
     s32 count;
     s32 k;
     s32 rest;
-    f32 v[3];
+    Vec v;
     f32 fa;
     f32 fb;
     f32 fc;
@@ -802,18 +799,18 @@ s32 blend_shape_chunk_vertices(void) {
             }
             rest = extra;
             if (rest >= 3) {
-                v[0] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                v.x = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                v[1] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                v.y = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                v[2] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                v.z = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                if (vector_length(v) != 0.0f) {
-                    normalize_vector((Vec *)v);
+                if (vector_length(&v) != 0.0f) {
+                    normalize_vector(&v);
                 }
-                d[0] = f32_bits(v[0]);
-                d[1] = f32_bits(v[1]);
-                d[2] = f32_bits(v[2]);
+                d[0] = f32_bits(v.x);
+                d[1] = f32_bits(v.y);
+                d[2] = f32_bits(v.z);
                 d += 3;
                 rest -= 3;
             }

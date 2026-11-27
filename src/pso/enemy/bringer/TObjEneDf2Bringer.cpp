@@ -132,7 +132,6 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
@@ -576,7 +575,7 @@ void TObjEneDf2Bringer::play_move_sound() {
 
 s32 TObjEneDf2Bringer::acquire_target(f32 range) {
     if (this->is_confused() != 0) {
-        return ((TObjEneDD_ST *)this)->select_and_apply_target(range);
+        return select_and_apply_target(range);
     }
     return select_nearest_target(range);
 }

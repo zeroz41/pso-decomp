@@ -13,7 +13,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TUnk_804A7248.h"
+#include "pso/unk/LockOnPaletteOverride.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/system/GameModeQueries.h"
 
@@ -274,10 +274,10 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
 
 // `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
 // unlike gc_tag::tag0.
-struct Obj_801D8474 { s8 a; u8 b; };
+struct PaletteActionTag { s8 a; u8 b; };
 
 s32 TObjPlayer::can_use_palette_action_for_entry(TObjPlayer *player) {
-    return player->can_use_palette_action(((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
+    return player->can_use_palette_action(((PaletteActionTag *)this)->a, ((PaletteActionTag *)this)->b);
 }
 
 s32 TPlyDispConfigSmth::get_bank() { return bank; }

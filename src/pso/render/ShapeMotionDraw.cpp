@@ -293,7 +293,7 @@ void sample_shape_node_vertices(void **src, void **dst) {
 
 #pragma push
 #pragma use_lmw_stmw off
-void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32 big) {
+void draw_chunk_color_tex_strips(s16 *list, ChunkColorVertex *verts, u32 flags, s32 big) {
     s32 draw;
     u32 count;
     s32 extra;
@@ -322,7 +322,7 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
     GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
     GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
     do {
-        n = *p++;
+        n = *list++;
         if (n < 0) {
             n = -n;
         }
@@ -330,11 +330,11 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
             GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT0, n);
         }
         do {
-            ChunkColorVertex *v = &verts[p[0]];
+            ChunkColorVertex *v = &verts[list[0]];
             u32 c;
-            s16 s = p[1];
-            s16 t = p[2];
-            p += 3;
+            s16 s = list[1];
+            s16 t = list[2];
+            list += 3;
             if (draw) {
                 f32 x;
                 f32 y;
@@ -350,7 +350,7 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
                 GXWGFifo.s16 = s;
                 GXWGFifo.s16 = t;
             }
-            p += extra;
+            list += extra;
         } while (--n != 0);
     } while (--count != 0);
 }

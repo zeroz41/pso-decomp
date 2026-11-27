@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/effect/GroundContactSound.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
@@ -422,12 +422,12 @@ TObjPlayer *TObjEneBm9Mericarol::find_nearby_target() {
     s32 i;
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (((TObjEneDD *)pl)->is_valid_target() != 0 && pl->obj_isState2_324() == 0) {
+        if (pl->is_valid_target() != 0 && pl->obj_isState2_324() == 0) {
             best = pl;
             break;
         }
     }
-    if (((TObjEneDD *)best)->is_valid_target() != 0 && horizontal_distance_squared(&position, &best->position) < 10000.0f) {
+    if (best->is_valid_target() != 0 && horizontal_distance_squared(&position, &best->position) < 10000.0f) {
         return best;
     }
     return NULL;
@@ -586,7 +586,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     enemy_set_target_id(target);
                 }
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (update_death_check() == 0) {
             break;
         }
         enemy_copy_target_destination();

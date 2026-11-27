@@ -107,7 +107,7 @@
 
 extern "C" {
 
-struct Raw_800A10A0 { u8 b[12]; };
+struct VecBits { u8 b[12]; };
 
 
 
@@ -1130,7 +1130,7 @@ void TObjEneDarkGunner::load_params() {
 extern "C" {
 void TObjEneDarkGunner::step_along_ground() {
     Vec pos;
-    Raw_800A10A0 vel;
+    VecBits vel;
     Vec dir;
     Vec v;
     s32 ang;
@@ -1143,7 +1143,7 @@ void TObjEneDarkGunner::step_along_ground() {
 
     VecCopy(&prev_position, &position);
     VecCopy(&pos, &body_center);
-    vel = *(Raw_800A10A0 *)&velocity;
+    vel = *(VecBits *)&velocity;
     vec_set_length((Vec *)&vel, 10.0f + get_float_parameter(0));
     vec3_add_to(&pos, (Vec *)&vel);
     hit = csnVector(&body_center, &pos, -1);

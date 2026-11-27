@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponSRankBlade.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80128308.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 

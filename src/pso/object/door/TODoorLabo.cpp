@@ -218,7 +218,7 @@ void TODoorFourLightBase::update_door_switch_state() {
         s32 found = 0;
         s32 i;
         for (i = 0; i < light_count; i++) {
-            if (((u8 (*)(u16))is_current_floor_switch_set)(this->switch_id + i) == 0) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 0) {
                 found = 1;
             }
         }
@@ -238,7 +238,7 @@ void TODoorFourLightBase::update_door_switch_state() {
         }
         found = 0;
         for (i = 0; i < light_count; i++) {
-            if (((u8 (*)(u16))is_current_floor_switch_set)(this->switch_id + i) == 0) {
+            if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 0) {
                 found = 1;
             }
         }

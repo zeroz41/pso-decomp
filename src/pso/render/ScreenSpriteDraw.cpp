@@ -12,7 +12,7 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/unk/text_801E3F24.h"
+#include "pso/unk/GxAndLegacyCommandHandlers.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -39,7 +39,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
 #include "pso/render/TextureLoad.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -505,15 +504,16 @@ s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
     handle = ADXF_LoadPartitionNw(id, name, 0, buf);
     if (handle >= 0) {
-loop_2:
-        if (ADXF_GetPtStat(id) != 3) {
+        for (;;) {
+            if (ADXF_GetPtStat(id) == 3) {
+                break;
+            }
             run_disk_error_check();
             flush_input();
             update_global_sound_frame();
             read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
             reset_state_byte();
-            goto loop_2;
         }
     }
     return handle;
@@ -523,12 +523,13 @@ s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
     handle = ADXF_LoadPartitionNw(id, name, 0, buf);
     if (handle >= 0) {
-loop_1:
-        if (ADXF_GetPtStat(id) != 3) {
+        for (;;) {
+            if (ADXF_GetPtStat(id) == 3) {
+                break;
+            }
             run_disk_error_check();
             draw_loading_compass();
             run_frame();
-            goto loop_1;
         }
     }
     return handle;

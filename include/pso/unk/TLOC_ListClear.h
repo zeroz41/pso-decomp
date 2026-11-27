@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TLOC_LISTCLEAR_H
 #define PSO_UNK_TLOC_LISTCLEAR_H
 #include "types.h"
-#include "pso/unk/TUnk_804A7260.h"
+#include "pso/unk/LockOnTask.h"
 
 // The table in this class's data is TLOC_ListClear's vtable, but it sits in the TU's user data ahead of the jump
 // tables, where no CW-emitted vtable goes: a real class here (key function in or out of the defer_codegen

@@ -6,7 +6,7 @@
 
 // Its own TU: the u32-to-float bias double and the 1/32768 scale are pooled again here, after
 // TObjDFJisin's copies of both.
-s32 TBoss4Type2::pick_weighted_random(s32 n, f32 *w, s32 *t) {
+s32 TBoss4Type2::pick_weighted_random(s32 n, f32 *w, s32 *values) {
     s32 i;
     f32 acc;
     f32 r;
@@ -14,11 +14,11 @@ s32 TBoss4Type2::pick_weighted_random(s32 n, f32 *w, s32 *t) {
     acc = w[0];
     for (i = 0; i < n - 1; i++) {
         if (r < acc) {
-            return t[i];
+            return values[i];
         }
         acc += w[i];
     }
-    return t[n - 1];
+    return values[n - 1];
 }
 
 void end_alpha_blend() {

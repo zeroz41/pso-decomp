@@ -61,7 +61,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -476,7 +475,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     ret = 0;
     if (!(behavior_flags & 0x10000)) {
         if (destination_distance > 100.0f && destination_distance < 150.0f) {
-            mine = (s32)((TObjBase *)this)->get_room();
+            mine = (s32)get_room();
             theirs = current_target->get_room();
             if (theirs == mine && check_body_collision_at(rotation_y, destination_distance - 20.0f) == 0) {
                 ret = 1;
@@ -928,7 +927,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -944,7 +943,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1047,7 +1046,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
         case 0:
             this->apply_sword_hits();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (update_death_check() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1061,7 +1060,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
             this->apply_effect_pair();
             if (this->frame >= 0.0f && this->frame <= 5.0f) {
                 info = TObjEneMe3ShinowaMirage::mirage_info_table[this->kind_index];
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->dist);
+                move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->dist);
             } else {
                 this->update_ground_contact();
             }

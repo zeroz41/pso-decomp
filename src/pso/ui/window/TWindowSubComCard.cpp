@@ -25,7 +25,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
 class TChCrTagPlBack;
@@ -53,7 +53,6 @@ class TChCrTagPlBack;
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
@@ -67,9 +66,6 @@ static const f32 com_card_mode4_message_size[2] = {206.0f, 122.0f};
 static const f32 com_card_message_size[2] = {206.0f, 82.0f};
 static const saddr com_card_help_message_ids[] = {0x47, 0x48, 0x49, 0x4A, 0x4B, 0xF9, 0};
 
-extern "C" {
-void set_value_by_key(void *, u16, s32);
-}
 
 
 void TWindowMenu::mark_selected_value() {

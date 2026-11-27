@@ -37,7 +37,7 @@
 #include "pso/quest/QuestScriptFormat.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "stdio.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -46,18 +46,17 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/MaterialStats.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestFlagCommand.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
 
-struct ByteBlock_20 { u8 bytes[0x20]; };
 
 extern const char *quest_thread_class_name;
 extern const char *quest_thread_board_class_name;

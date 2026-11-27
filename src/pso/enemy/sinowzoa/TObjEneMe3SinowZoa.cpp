@@ -7,7 +7,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -1056,7 +1055,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         case 1: {
             s32 target;
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 target = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1073,7 +1072,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         }
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1202,7 +1201,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
             this->advance_animation();
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (update_death_check() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));

@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponSRankBazooka.h"
 #include "pso/effect/item/TItemEffFlame.h"
-#include "pso/unk/text_80129D18.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"

@@ -3,7 +3,6 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -59,7 +58,6 @@ struct NJS_OBJECT;
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/render_util.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
@@ -597,7 +595,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                 if (this->check_hit_sphere(ang, 160.0f) == 0) {
                     f32 dx = 2.0f * (60.0f * sin_table_lookup(ang));
                     f32 dz = 2.0f * (60.0f * cos_table_lookup(ang));
-                    if (((TObjEneDD *)this)->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
+                    if (enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
                         Vec v;
                         VecCopy(&v, (const Vec *)&this->body_center);
                         v.x += dx;
@@ -902,7 +900,7 @@ void TObjEneBm5GibonU::repositioning_state(s32 msg) {
             if (!(this->attack_collider->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
-                if (((TObjEneDD *)this)->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
+                if (enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
                     VecCopy(&v, &this->body_center);
                     v.x += dx;
                     v.z += dz;
@@ -982,7 +980,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
     case 0:
         (this->substate)++;
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+        if (update_death_check() != 0) {
             play_walk_footsteps();
             this->target_heading = approach_angle_limited(this->target_heading, this->base_heading, 0x100);
             this->destination.x = 90.0f * sin_table_lookup(this->target_heading) + home->x;
@@ -1177,7 +1175,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
 
     case 0:
       advance_animation();
-      if (((TObjEneEpsilon *)this)->update_death_check() != 0)
+      if (update_death_check() != 0)
     {
       if (random_phase == 0)
       {
@@ -1360,7 +1358,7 @@ void TObjEneBm5GibonU::flanking_state(s32 msg) {
         return;
     case 0:
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (update_death_check() == 0) {
             return;
         }
         if (this->is_passing_frame(13.0f) != 0) {
@@ -1441,7 +1439,7 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
         if ((s16) this->requested_action == 2) {
             play_run_footstep();
         }
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+        if (update_death_check() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->is_passing_frame(18.0f) != 0) {

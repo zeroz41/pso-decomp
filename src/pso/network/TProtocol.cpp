@@ -15,7 +15,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/system/memory.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
 LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);

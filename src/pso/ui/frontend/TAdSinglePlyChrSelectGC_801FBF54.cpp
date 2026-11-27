@@ -2041,9 +2041,9 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
     ::operator delete(b);
     ::operator delete(a);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)data , 0xE28C);
+    chr_select_rng_state.apply_rng_cipher(data, 0xE28C);
     chr_select_rng_state.set_seed(data->cipher_seed);
-    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
+    chr_select_rng_state.xor_buffer(data, 0xE288);
 }
 
 #pragma push
@@ -2055,9 +2055,9 @@ void encrypt_guild_card_payload(GuildCardSaveData *data, void *) {
     data->checksum = 0;
     data->checksum = calc_crc32_bitwise((u8 *)data, 0xE28C);
     chr_select_rng_state.set_seed(data->cipher_seed);
-    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
+    chr_select_rng_state.xor_buffer(data, 0xE288);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
+    chr_select_rng_state.apply_rng_cipher(data, 0xE28C);
     a = new GuildCardSaveData;
     b = new GuildCardSaveData;
     *a = *data;
@@ -2171,9 +2171,9 @@ void TAdSinglePlyChrSelectGC::decrypt_char_data(CharacterFile *file) {
     delete b;
     delete a;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
+    chr_select_rng_state.apply_rng_cipher(file, 0x1156C);
     chr_select_rng_state.set_seed(file->get_cipher_seed());
-    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
+    chr_select_rng_state.xor_buffer(file, 0x11568);
 }
 
 void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
@@ -2183,9 +2183,9 @@ void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
     file->set_checksum(0);
     file->set_checksum((s32)(calc_crc32_bitwise((u8 *)file, 0x1156C)));
     chr_select_rng_state.set_seed(file->get_cipher_seed());
-    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
+    chr_select_rng_state.xor_buffer(file, 0x11568);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
+    chr_select_rng_state.apply_rng_cipher(file, 0x1156C);
     a = new CharacterFile;
     b = new CharacterFile;
     *a = *file;

@@ -1,6 +1,6 @@
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/TObjCharaHelpers.h"

@@ -291,9 +291,9 @@ void mark_floor_enemies_dead(void) {
     p = get_active_floor_enemy_rows(get_current_floor());
     n = get_object_type(get_current_floor());
     for (i = 0; i < n; i++, p++) {
-        u32 r = (uaddr)find_entity_by_id(p->placement.id);
-        if (r != 0) {
-            ((TObjBase *)(saddr)r)->set_actor_flags(0x800);
+        TObjCollidable *r = find_entity_by_id(p->placement.id);
+        if (r != NULL) {
+            r->set_actor_flags(0x800);
         }
     }
 }
@@ -354,7 +354,7 @@ void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
     G_SetEntitySetFlags_6x76 pkt;
     build_6x76_set_entity_set_flags(&pkt);
     pkt.header.entity_id = object->get_entity_id();
-    pkt.floor = ((s16 (*)())get_current_floor)();
+    pkt.floor = (s16)get_current_floor();
     pkt.flags = flags;
     pkt.send();
 }

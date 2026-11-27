@@ -4,7 +4,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/darkfalz/TBoss4CheckEmpty.h"
 #include "pso/effect/particle/TParticleCtrl.h"

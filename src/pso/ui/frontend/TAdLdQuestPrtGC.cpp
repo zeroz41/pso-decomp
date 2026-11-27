@@ -6,10 +6,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"
-
-extern "C" {
-int ansi_fp_abs(int x);
-}
+#include <stdlib.h>
 
 // ARGB tints the button cycles through.
 const u32 particle_tint_colors[6] = {

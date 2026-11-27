@@ -68,7 +68,6 @@
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TForceOperate.h"
-#include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/subcommand_validation.h"
@@ -79,6 +78,7 @@
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/item/item_pmt.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
@@ -89,14 +89,12 @@
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
 #pragma pop
 
 
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma pop
 
 

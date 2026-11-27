@@ -39,7 +39,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/LegacyEnemyKill.h"
 #include <string.h>
 #include "pso/ui/Language.h"
@@ -53,13 +53,12 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -548,7 +547,7 @@ void TPlayerBattleCtrl::end_battle_mode_cleanup() {
         evt2_random_enemies_mode = 0;
         set_keyboard_input_flag();
         lobby_floor_reload_pending = 1;
-        ((TObject *)this)->queue_destruction();
+        queue_destruction();
         break;
     case -1:
         break;
@@ -647,7 +646,7 @@ void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
         }
         lobby_rule_settings.set_section_id(1);
     }
-    if (((u32 (*)(void))get_local_player)() != 0U) {
+    if (get_local_player() != NULL) {
         apply_battle_rules_to_players();
     }
 }
@@ -1168,15 +1167,10 @@ s32 TPlayerBattleCtrl::check_all_players_ready() {
 
     ready_flag = battle_player_ready_flags;
     all_ready = 1;
-    client = 0;
-loop_1:
-    if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
-        all_ready = 0;
-    } else {
-        client += 1;
-        ready_flag += 1;
-        if (client < 4) {
-            goto loop_1;
+    for (client = 0; client < 4; client++, ready_flag++) {
+        if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
+            all_ready = 0;
+            break;
         }
     }
     return all_ready;
@@ -1346,15 +1340,11 @@ s32 TPlayerBattleCtrl::check_all_battle_flags() {
     TObjPlayer *player;
     s32 client;
 
-    client = 0;
-loop_1:
-    player = get_player_by_client_id(client);
-    if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
-        return 0;
+    for (client = 0; client < 4; client++) {
+        player = get_player_by_client_id(client);
+        if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
+            return 0;
+        }
     }
-    client += 1;
-    if (client >= 4) {
-        return 1;
-    }
-    goto loop_1;
+    return 1;
 }

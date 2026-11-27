@@ -32,7 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/charcreate/PaletteCursorAction.h"

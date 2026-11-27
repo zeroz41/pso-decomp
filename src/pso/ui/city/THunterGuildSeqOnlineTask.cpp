@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -31,7 +31,7 @@
 #include <string.h>
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/QuestOpcodeHandlers.h"

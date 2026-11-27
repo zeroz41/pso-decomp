@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/system/GameModeQueries.h"

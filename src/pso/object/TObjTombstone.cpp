@@ -41,7 +41,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 
 u32 calc_text_width(const char *);
@@ -435,17 +435,13 @@ s32 TObjTombstone::check_all_players_active() {
     if (has_window_task_root() == 0) {
         return 0;
     }
-    i = 0;
-loop_3:
-    player = get_player_by_client_id(i);
-    if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
-        return 0;
+    for (i = 0; i < 4; i++) {
+        player = get_player_by_client_id(i);
+        if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
+            return 0;
+        }
     }
-    i += 1;
-    if (i >= 4) {
-        return 1;
-    }
-    goto loop_3;
+    return 1;
 }
 
 void TObjTombstone::update_render_flags() {

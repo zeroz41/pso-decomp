@@ -2,7 +2,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSprite.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/particle/ParticleBallistic.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"

@@ -58,6 +58,7 @@ struct QuestBoardHandler {
     s32 label;
 };
 
+extern TQuestThreadBoard *quest_thread_board;
 extern QuestBoardHandler quest_board_handlers[6];
 
 class TObjItemNameEntry : public TObject {

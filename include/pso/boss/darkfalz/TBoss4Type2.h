@@ -173,4 +173,8 @@ struct TBoss4Type2Action {
 // Where spawn_bishi_around_players puts its three TBoss4Bishi round each player.
 struct BishiSpawnOffset { f32 x, z; };
 
+extern const f32 boss4_float_one;
+extern const f32 boss4_float_half;
+extern const f32 boss4_half_turn_scale;
+
 #endif

@@ -264,6 +264,7 @@ void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
 void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
 
 #include <stddef.h>
+#include "pso/system/ByteBlocks.h"
 #define DRAGON_OFFSET(member, offset) \
     LAYOUT_ASSERT(DragonOffset_##member, offsetof(TBoss1Dragon, member) == offset)
 DRAGON_OFFSET(target_id, 0x38C);
@@ -311,7 +312,6 @@ DRAGON_OFFSET(facingAngle, 0x76C);
 LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 #undef DRAGON_OFFSET
 
-struct ByteBlock_C { u8 bytes[0xC]; };
 struct DragonCaptureVectors { Vec vectors[3]; };
 // The Dragon's block from dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
 // landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.

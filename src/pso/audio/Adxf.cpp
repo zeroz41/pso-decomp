@@ -12,14 +12,9 @@
 #include "pso/audio/SjRingBuffer.h"
 
 
-extern AdxfPartitionInfo *afs_archive_toc_table[];
-extern s32 lobby_adxf_current_file_id;
-extern s32 lobby_afs_toc_entry_index;
 s32 lbl_805D75E8;
 u8 * afs_toc_buffer;
 u8 *adxf_load_partition_buffer;
-extern s32 adxf_log_write_index;
-extern s32 adxf_invalidate_cache_flag;
 
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.

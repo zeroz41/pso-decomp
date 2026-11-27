@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include <stdlib.h>
 
 #pragma readonly_strings on

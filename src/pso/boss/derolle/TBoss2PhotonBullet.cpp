@@ -11,7 +11,7 @@
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 #include "pso/boss/derolle/TBoss2PhotonBullet.h"
 

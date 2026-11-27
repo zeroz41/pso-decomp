@@ -2,7 +2,7 @@
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/LabelValueRow.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

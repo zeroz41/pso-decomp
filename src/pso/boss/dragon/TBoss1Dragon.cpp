@@ -24,7 +24,6 @@ struct NJS_OBJECT;
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/enemy/EnemyStateEvent.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/network/TGameProtocol.h"
@@ -66,7 +65,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/render/TextureState.h"
@@ -78,7 +77,6 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/PlayerSlots.h"
 #include "types.h"
 
@@ -1149,7 +1147,7 @@ s32 TBoss1Dragon::select_air_fire_target(Vec *out) {
     count = 0;
     for (i = 0; i < 12; i++) {
         p = get_player_by_client_id(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
+        if (p->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
             list[count++] = p;
         }
     }

@@ -13,7 +13,7 @@
 #include "pso/render/render_util.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"

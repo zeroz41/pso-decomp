@@ -1,6 +1,6 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/MultiChrSelectSlot.h"

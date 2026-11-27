@@ -53,7 +53,6 @@
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -71,14 +70,11 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/object/TObjControl.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_802268F4.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
@@ -905,7 +901,7 @@ s32 TBoss8Dragon::select_air_fire_target(Vec *out) {
     n = 0;
     for (i = 0; i < 12; i++) {
         p = get_player_by_client_id(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 &&
+        if (p->is_valid_target() != 0 &&
             horizontal_distance_squared(&p->position, &this->position) >= lim) {
             list[n] = p;
             n++;

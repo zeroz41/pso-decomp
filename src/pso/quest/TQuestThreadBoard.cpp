@@ -4,11 +4,9 @@
 #include "pso/system/task/TObject.h"
 
 
-extern uaddr quest_thread_board;
-
 void TQuestThreadBoard::destroy_board() {
-    if ((u32) quest_thread_board != 0U) {
-        ((TObject *)quest_thread_board)->queue_destruction();
+    if (quest_thread_board != NULL) {
+        quest_thread_board->queue_destruction();
     }
 }
 

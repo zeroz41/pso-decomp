@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TUNK_804A7260_H
-#define PSO_UNK_TUNK_804A7260_H
+#ifndef PSO_UNK_LOCKONTASK_H
+#define PSO_UNK_LOCKONTASK_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerRef.h"

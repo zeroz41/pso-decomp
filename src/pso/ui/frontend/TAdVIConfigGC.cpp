@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
 
-struct Name_80307D00 { char s[0x18]; };
+struct PlayerNameText { char s[0x18]; };
 
 // The block init() fills: who of the party stands within radius of a spot (warps; the
 // name WarpPartyCheck is inferred).
@@ -40,7 +40,7 @@ struct WarpPartyCheck {
     s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
     s32 in_range_mask;     // bit per client
     TWindowCheckBox *win;  // the player-name check boxes
-    Name_80307D00 names[4];
+    PlayerNameText names[4];
 };
 
 // Ticks the names of the players on this floor within the radius init() set (in the

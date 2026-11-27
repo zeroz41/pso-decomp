@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"

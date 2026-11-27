@@ -56,7 +56,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"
@@ -1057,7 +1056,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (update_death_check() == 0) {
             break;
         }
         this->enemy_copy_target_destination();
@@ -1191,7 +1190,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (update_death_check() == 0) {
             break;
         }
         switch (this->stage) {
@@ -1375,7 +1374,7 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
                     f32 t;
                     this->enemy_copy_target_destination();
                     this->update_velocity();
-                    t = 8192.0f * ((TObjEneDD *)this)->calc_elapsed_scaled();
+                    t = 8192.0f * calc_elapsed_scaled();
                     if (t >= 0.0f) {
                         t += 12288.0f;
                     } else {
@@ -1536,7 +1535,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
         this->check_collisions();
         break;
     case 5:
-        ((TObjEneDD *)this)->clear_attack_receipts();
+        clear_attack_receipts();
         if (this->move_action == 5) {
             this->requested_action = 1;
         } else {

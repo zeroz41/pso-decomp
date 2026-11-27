@@ -12,7 +12,6 @@
 #include "pso/network/GbaJoybootState.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/audio/SoundControlState.h"
-#include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "dolphin/mtx.h"
 #include "pso/camera/TCameraCtrl.h"

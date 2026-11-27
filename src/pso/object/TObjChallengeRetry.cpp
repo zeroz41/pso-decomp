@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TGameProtocol.h"
 #include "types.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TLobby.h"
@@ -18,7 +18,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/map/FloorArea.h"
@@ -27,7 +27,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 
 
@@ -39,7 +39,6 @@ __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f
 }
 
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
-void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void build_6x9D_packet(u8 *packet);
 void build_6x97_packet(u8 *packet);
 

@@ -63,13 +63,13 @@ TParticleCtrl *create_timed_particle_emitter_with_angles(const Vec *pos, void *d
     return 0;
 }
 
-TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 a, s32 b) {
+TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 delay, s32 duration) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(pos, dir, &particle_global_entry_table[id], 0, a, b, 0);
+        return new TParticleCtrl(pos, dir, &particle_global_entry_table[id], 0, delay, duration, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(pos, dir, &particle_area_entry_table[idx], 0, a, b, 0);
+        return new TParticleCtrl(pos, dir, &particle_area_entry_table[idx], 0, delay, duration, 0);
     }
     return 0;
 }

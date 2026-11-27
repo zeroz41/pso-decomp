@@ -32,7 +32,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
+#include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
@@ -48,7 +48,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/enemy/BattleParamTables.h"

@@ -8,7 +8,8 @@ u8 save_block_shuffle_permutation[256];
 u8 save_block_unshuffle_permutation[256];
 }
 
-void SubtractiveRng::apply_rng_cipher(u32 *data, s32 len) {
+void SubtractiveRng::apply_rng_cipher(void *buffer, s32 len) {
+    u32 *data = (u32 *)buffer;
     s32 i;
     s32 n = (len + 3) / 4;
     for (i = 0; i < n; i++) {
@@ -58,7 +59,8 @@ void SubtractiveRng::crypt_data_be(u32 *data, s32 len) {
     }
 }
 
-void SubtractiveRng::xor_buffer(u32 *data, s32 len) {
+void SubtractiveRng::xor_buffer(void *buffer, s32 len) {
+    u32 *data = (u32 *)buffer;
     s32 i;
     s32 n = (len + 3) / 4;
     for (i = 0; i < n; i++) {

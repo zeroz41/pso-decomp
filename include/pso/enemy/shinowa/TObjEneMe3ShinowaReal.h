@@ -25,4 +25,8 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaReal_size, sizeof(TObjEneMe3ShinowaReal) == 0x434);
+
+// The pad button its owner's card flag 2 picks: 0x20000 when set, else 0x10000.
+s32 get_control_button_mask(s32 client_id);
+
 #endif

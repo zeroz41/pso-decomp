@@ -7,7 +7,7 @@
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/unk/TUnk_804A7248.h"
+#include "pso/unk/LockOnPaletteOverride.h"
 #include "pso/ui/hud/MarkerColor.h"
 
 // A priority and an index into the player's action palette.

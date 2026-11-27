@@ -35,7 +35,6 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
@@ -626,7 +625,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         this->update();
@@ -730,7 +729,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (update_death_check() == 0) {
             this->enemy_clear_target();
         }
         switch (this->step) {
@@ -823,7 +822,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         switch (this->step) {

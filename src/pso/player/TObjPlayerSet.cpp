@@ -32,6 +32,6 @@ TObjPlayerSet::TObjPlayerSet(TObject *parent, void *set_data) : TObjBase(parent)
     if ((s32) set_params[0] < 0) {
         set_params[0] = 0;
     }
-    ((TObject *)this)->disallow_rendering();
+    disallow_rendering();
 }
 #pragma pop

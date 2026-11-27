@@ -50,19 +50,15 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/TLobby_8013A874.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/unk/TLobby_8013AD38.h"
+#include "pso/unk/ConnectionInputBuffers.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -105,17 +101,12 @@
 #include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
 
 typedef char LobbyPlayerName[16];
-struct ByteBlock_8 { u8 bytes[0x8]; };
-struct ByteBlock_10 { u8 bytes[0x10]; };
-struct ByteBlock_24 { u8 bytes[0x24]; };
-struct ByteBlock_50 { u8 bytes[0x50]; };
-struct ByteBlock_348 { u8 bytes[0x348]; };
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();

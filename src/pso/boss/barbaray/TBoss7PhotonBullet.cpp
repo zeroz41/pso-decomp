@@ -4,7 +4,7 @@
 #include "pso/boss/barbaray/TBoss7BreakUp.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjChara.h"

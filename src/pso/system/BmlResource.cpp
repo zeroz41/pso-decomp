@@ -411,7 +411,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
 }
 
 
-void LoadBinModelCallBack(BmlModelLoadRequest *self) {
+void LoadBinModelCallBack(BmlModelLoadRequest *request) {
     char name[0x20];
     BmlTextureLoadRequest params;
     u32 i;
@@ -421,33 +421,33 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
     s32 r;
     NJS_TEXLIST **slot;
     i = 0;
-    while (i < self->size) {
-        data = self->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &i, &tag);
+    while (i < request->size) {
+        data = request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &i, &tag);
         switch (tag) {
         case 0x4E4A544C:
-            slot = self->texture;
+            slot = request->texture;
             *slot = (NJS_TEXLIST *)data;
-            params.resource = self->resource;
-            params.entry = self->entry;
-            change_file_extension(name, (char *)self->name, (char *)"gvm");
+            params.resource = request->resource;
+            params.entry = request->entry;
+            change_file_extension(name, (char *)request->name, (char *)"gvm");
             r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
-                self->resource->add_resource_handle(handle);
-                self->resource->expected_textures++;
-            } else if (!(self->resource->flags & 4)) {
+                request->resource->add_resource_handle(handle);
+                request->resource->expected_textures++;
+            } else if (!(request->resource->flags & 4)) {
                 file_debug_printf("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
             }
             break;
         case 0x4E4A434D:
-            *self->model = (NJS_OBJECT *)data;
-            self->resource->loaded_models++;
+            *request->model = (NJS_OBJECT *)data;
+            request->resource->loaded_models++;
             break;
         default:
             file_debug_printf("LoadBinModelCallBack: Illegal model format.");
             break;
         }
     }
-    check_bin_model_loaded(self->resource);
+    check_bin_model_loaded(request->resource);
 }
 
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {

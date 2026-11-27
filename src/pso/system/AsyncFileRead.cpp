@@ -18,11 +18,12 @@ void free_static_buffer(void *ptr) { game_heap->heap_free(ptr); }
 void *alloc_from_heap(size_t size) { return game_heap->heap_alloc(size); }
 
 void pump_frames() {
-loop_1:
-    if (is_async_file_read_busy() != 0) {
+    for (;;) {
+        if (is_async_file_read_busy() == 0) {
+            break;
+        }
         process_async_file_reads();
         run_frame();
-        goto loop_1;
     }
 }
 

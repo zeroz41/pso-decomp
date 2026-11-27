@@ -2,12 +2,12 @@
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/TProtocol.h"
 #include "pso/network/TTcpSocket.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/system/GbaAramCache.h"
 #include "pso/system/THeap.h"
 #include "pso/system/byteswap.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/unk/TLobby_8013A874.h"
+#include "pso/network/TLobby.h"
 
 // These packet classes were built by an older compiler than TProtocol.cpp. Their copy
 // constructors are the implicit ones, but the game links them as strong definitions from

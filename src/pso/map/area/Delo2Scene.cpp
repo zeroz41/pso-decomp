@@ -9,7 +9,7 @@
 #include "pso/render/FloorReflection.h"
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/object/ambient/SceneLighting.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/map/area/Delo2Scene.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/audio/SoundPlayback.h"

@@ -31,7 +31,7 @@ void TOSymbolchatColli::open_balloon_chat(s32 state, u16 player) {
 }
 
 // switch_ids[i] and preset_ids[i] through one base; the array spellings give sthx per store
-struct HL_8017873C
+struct SymbolChatIdPair
 {
   u8 pad[0x378];
   u16 hi;
@@ -89,7 +89,7 @@ void TOSymbolchatColli::init_collision_params() {
       balloon_chats[i] = symbolchat_colli_param_table[i];
     }
     {
-      HL_8017873C *h = (HL_8017873C *) (((u8 *) this) + (i * 2));
+      SymbolChatIdPair *h = (SymbolChatIdPair *) (((u8 *) this) + (i * 2));
       if (hi < 0x100)
       {
         h->hi = hi;

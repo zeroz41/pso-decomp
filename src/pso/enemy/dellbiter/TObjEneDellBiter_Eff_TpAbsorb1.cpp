@@ -11,7 +11,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/TObjBase.h"
 
 const char *TObjEneDellBiter_Eff_Rush::class_name = "TObjEneDellBiter_Eff_Rush";

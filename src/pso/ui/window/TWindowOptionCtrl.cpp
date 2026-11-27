@@ -24,7 +24,6 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -37,7 +36,6 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/audio/SoundRequests.h"
 
 // The class name opens .rodata, then the menu window positions in this order, ahead of the
@@ -437,8 +435,8 @@ saddr TWindowOptionCtrl::create_list_window() {
 TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     TWindowCheckBox *check_box_window;
 
-    saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &sound_mode_menu_window_size);
+    const NJS_POINT2 *temp_r3_after_cba4 = TWindowOptionCtrl::get_option_entry(0xCF);
+    check_box_window = create_check_box_window_for_local_client(temp_r3_after_cba4, &sound_mode_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);

@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -59,7 +59,7 @@ struct NJS_OBJECT;
 #include "pso/render/DebugFont.h"
 #include "pso/network/client_id.h"
 
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -390,7 +390,7 @@ void TObjEneGibbles::render() {
                     if (vis == 1) {
                         motion->draw();
                     } else {
-                        ((TObjEnemy *)this)->draw_motion_model();
+                        draw_motion_model();
                     }
                 }
                 this->fades[cam].clear_flag_and_notify();
@@ -400,7 +400,7 @@ void TObjEneGibbles::render() {
             } else if (vis == 1) {
                 motion->draw();
             } else {
-                ((TObjEnemy *)this)->draw_motion_model();
+                draw_motion_model();
             }
             break;
         }
@@ -409,7 +409,7 @@ void TObjEneGibbles::render() {
         pop_matrix();
         restore_scene_lighting();
         if (!(this->status_flags & 1)) {
-            ((TObjEnemy *)this)->draw_ground_shadow(0, 0);
+            draw_ground_shadow(0, 0);
         }
     } else {
         this->update_position();

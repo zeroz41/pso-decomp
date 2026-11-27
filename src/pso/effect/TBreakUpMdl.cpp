@@ -8,8 +8,7 @@
 #include <stdlib.h>
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/render/GinjaView.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"

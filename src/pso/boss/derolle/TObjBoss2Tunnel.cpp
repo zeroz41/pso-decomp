@@ -17,7 +17,7 @@
 #include "pso/object/ambient/SceneLighting.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2TunnelSlide.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"

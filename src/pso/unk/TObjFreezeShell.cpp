@@ -7,7 +7,7 @@
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"

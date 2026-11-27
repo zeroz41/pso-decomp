@@ -460,8 +460,8 @@ void TObjEneRe4Bit::update_damage_state(s32 reason) {
         this->state_step = this->state_step + 1;
         VecCopy(&this->body_center, this->anchor);
         this->body_center.y = this->body_center.y + this->lift_height;
-        this->body_center.x = this->body_center.x + ((TObjEneDD *)this)->calc_elapsed_scaled();
-        this->body_center.z = this->body_center.z + ((TObjEneDD *)this)->calc_elapsed_scaled();
+        this->body_center.x = this->body_center.x + calc_elapsed_scaled();
+        this->body_center.z = this->body_center.z + calc_elapsed_scaled();
         this->update_ground_contact();
         return;
     case 5:

@@ -309,27 +309,27 @@ void TAdRicoRingCtrl::render() {
 }
 #pragma pop
 
-void TAdRicoRingCtrl::start_fade_all(f32 x) {
+void TAdRicoRingCtrl::start_fade_all(f32 duration) {
     s32 i;
     for (i = 0; i != 2; i++) {
         if (rings[i] != NULL) {
-            rings[i]->start_fade(x);
+            rings[i]->start_fade(duration);
         }
     }
-    if (0.0f != x) {
-        fade_step = -1.0f / x;
+    if (0.0f != duration) {
+        fade_step = -1.0f / duration;
     }
 }
 
-void TAdRicoRingCtrl::start_rings_anim(f32 x) {
+void TAdRicoRingCtrl::start_rings_anim(f32 duration) {
     s32 i;
     for (i = 0; i != 2; i++) {
         if (rings[i] != NULL) {
-            rings[i]->start_anim(x);
+            rings[i]->start_anim(duration);
             rings[i] = NULL;
         }
     }
-    f32 t = 2.0f + x;
+    f32 t = 2.0f + duration;
     if (0.0f != t) {
         fade_step = 1.0f / t;
     }

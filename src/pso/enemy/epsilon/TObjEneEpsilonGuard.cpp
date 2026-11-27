@@ -450,7 +450,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
     f32 lim;
     s32 i;
     TObjChara *p;
-    uaddr body;
+    TObjEneEpsilonBody *body;
     if (flags & 0x20) {
         switch (effect_step) {
         case 0:
@@ -518,11 +518,11 @@ void TObjEneEpsilonGuard::update_effect_attack() {
                     break;
                 }
                 if (obj_is_hit_receivable(p) != 0) {
-                    body = (uaddr)find_entity_by_id(body_id);
+                    body = (TObjEneEpsilonBody *)find_entity_by_id(body_id);
                     if (body != 0 && p->is_actor_dead() == 0) {
                         DirectAttackPayload attack;
                         f32 damage;
-                        attack.kind = ((TObjEneEpsilonBody *)body)->get_table_value_by_index();
+                        attack.kind = body->get_table_value_by_index();
                         attack.power = epsilon_guard_movement_params->attack_power;
                         damage = p->receive_direct_attack(this, attack, 0, -1, -1);
                         p->apply_knockback_from_attacker(this, damage);

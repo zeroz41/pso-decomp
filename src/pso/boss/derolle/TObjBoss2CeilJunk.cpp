@@ -6,7 +6,7 @@
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
@@ -134,7 +134,7 @@ void TObjBoss2CeilJunk::run_task() {
             rad = (1e+01f) + TObjBoss2CeilJunk::radius_table[kind];
             for (i = 0; i < n; i++) {
                 pl = TObjPlayer::get_player_data(i);
-                if (((TObjEneDD *)pl)->is_valid_target() != 0) {
+                if (pl->is_valid_target() != 0) {
                     h = pl->base_stats.proportions + pl->position.y;
                     if (top > h && bottom < h) {
                         VecCopy(&d, &pl->position);

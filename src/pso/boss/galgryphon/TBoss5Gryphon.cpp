@@ -6,7 +6,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/AttackTargetHistory.h"
@@ -86,7 +85,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
@@ -448,7 +447,6 @@ void TBoss5Gryphon::fill_follow_camera_params(Vec *target_offset, Vec *eye_offse
     }
 }
 
-extern "C" {
 // Inferred: TBoss5Gryphon's resource loader (paired with TBoss5Gryphon::cleanup in the boss resource table).
 void load_boss5_gryphon_resources(void) {
     switch (get_boss_asset_variant()) {
@@ -485,7 +483,6 @@ void load_boss5_gryphon_resources(void) {
     TBoss5GryphonLightningEff::load_texture();
 }
 
-}
 void *TBoss5Gryphon::create(void *data) {
     return new TBoss5Gryphon(tl_04, data);
 }

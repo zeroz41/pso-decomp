@@ -25,7 +25,6 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/LabelValueRow.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 

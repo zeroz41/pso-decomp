@@ -57,7 +57,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_80309D80.h"
+#include "pso/player/PlayerParticleEmitters.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/player/PlayerLevelTable.h"

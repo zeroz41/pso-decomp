@@ -98,7 +98,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/ActorCollision.h"

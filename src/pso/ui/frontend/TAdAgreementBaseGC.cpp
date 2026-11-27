@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TLobby.h"

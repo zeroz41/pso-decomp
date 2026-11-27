@@ -27,7 +27,7 @@
 #include "pso/ui/window/TWindowChallengeResult.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/ChallengeRank.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/math/MatrixReflect.h"

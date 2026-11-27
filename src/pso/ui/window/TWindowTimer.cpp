@@ -5,7 +5,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -15,7 +15,7 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
@@ -66,16 +66,16 @@ void TWindowTimer::ease_window_timer_position() {
 #pragma pop
 
 void TWindowTimer::update_chat_parts() {
-    saddr window_layout_position;
+    const NJS_POINT2 *window_layout_position;
 
     if (this->flags & 1) {
-        window_layout_position = (saddr)get_window_layout_position(0xA9);
+        window_layout_position = get_window_layout_position(0xA9);
     } else if ((TWindowSubShortMail::is_active() != 0) || (is_com_card_active() != 0) || (is_guild_card_receive_active() != 0)) {
-        window_layout_position = (saddr)get_window_layout_position(0xA8);
+        window_layout_position = get_window_layout_position(0xA8);
     } else {
-        window_layout_position = (saddr)get_window_layout_position(0x22);
+        window_layout_position = get_window_layout_position(0x22);
     }
-    copy_vec2(target_position, (void*)window_layout_position);
+    copy_vec2(target_position, (void *)window_layout_position);
 }
 
 void TWindowTimer::draw(s32 minutes, s32 seconds) {

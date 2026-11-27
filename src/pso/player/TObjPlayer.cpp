@@ -29,7 +29,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/PadRumble.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/base/TObjMotion.h"
@@ -129,7 +129,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/math/MatrixVector.h"
@@ -149,7 +149,7 @@
 #include "pso/player/GamePlayerActionProvider.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyDispConfig.h"
-#include "pso/player/TObjPlayer_80309D80.h"
+#include "pso/player/PlayerParticleEmitters.h"
 #include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/player/TObjEndingPlayer.h"
 #include "pso/player/PhotonBlastRequests.h"
@@ -828,7 +828,6 @@ void get_action_palette_mode(TObjPlayer *player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 extern "C" {
-s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 
 
@@ -1392,8 +1391,7 @@ void TObjPlayer::draw_body(s32 detail) {
 void TObjPlayer::draw_head_attachments() {
     s32 special_color;
     if ((u32) this->attachment_model != 0U) {
-        this->get_joint_matrix(0x3A);
-        ((s32 (*)(void))push_matrix_from)();
+        push_matrix_from(this->get_joint_matrix(0x3A));
         set_texture_list(&this->attachment_textures.list);
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
@@ -1403,8 +1401,7 @@ void TObjPlayer::draw_head_attachments() {
         pop_matrix();
     }
     if (this->head_model != NULL) {
-        this->get_joint_matrix(0x3B);
-        ((s32 (*)(void))push_matrix_from)();
+        push_matrix_from(this->get_joint_matrix(0x3B));
         set_texture_list(&this->head_textures.list);
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
@@ -1416,8 +1413,7 @@ void TObjPlayer::draw_head_attachments() {
         pop_matrix();
     }
     if (this->hair_model != NULL) {
-        this->get_joint_matrix(0x3B);
-        ((s32 (*)(void))push_matrix_from)();
+        push_matrix_from(this->get_joint_matrix(0x3B));
         set_texture_list(&this->head_textures.list);
         special_color = 0;
         if (this->m_flags & 0x400) {
@@ -2626,7 +2622,7 @@ void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     }
 }
 
-s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index) {
+s32 find_inventory_item_id_by_code(TObjPlayer *player, u8 kind, u8 group, u8 index) {
     TItemData item;
     item.init();
     item.data1.data_u8[0] = kind;

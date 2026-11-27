@@ -10,7 +10,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowBase.h"

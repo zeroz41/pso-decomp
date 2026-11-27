@@ -7,7 +7,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/RandomAngle.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/system/vector.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"

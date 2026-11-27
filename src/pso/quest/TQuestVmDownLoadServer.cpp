@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -25,7 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 

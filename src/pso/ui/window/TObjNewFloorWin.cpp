@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TObjResultWin.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TObjNewFloorWin.h"
 #include "pso/quest/TQuestListVM.h"
@@ -14,7 +14,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/TLobby.h"
 #include <stdio.h>
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"

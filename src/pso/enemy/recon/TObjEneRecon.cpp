@@ -501,7 +501,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0 || acquire_target(200.0f) != 0) {
+        if (update_death_check() != 0 || acquire_target(200.0f) != 0) {
             switch (state_step) {
             case 0:
                 set_orbit_destination(orbit_angle);
@@ -586,7 +586,7 @@ void TObjEneRecon::state_bomb_attack(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (update_death_check() == 0) {
             enemy_clear_target();
         }
         switch (state_step) {
@@ -656,7 +656,7 @@ void TObjEneRecon::state_attack(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (update_death_check() == 0) {
             enemy_clear_target();
         }
         switch (state_step) {
@@ -742,7 +742,7 @@ void TObjEneRecon::state_search(s32 reason) {
         return;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0 || acquire_target(200.0f) != 0) {
+        if (update_death_check() != 0 || acquire_target(200.0f) != 0) {
             transition_enemy_state(4);
         } else {
             acquire_counter++;
@@ -847,7 +847,7 @@ void TObjEneRecon::state_launch(s32 reason) {
 
 s32 TObjEneRecon::acquire_target(f32 range) {
     if (this->is_confused() != 0) {
-        return ((TObjEneDD_ST *)this)->select_and_apply_target(range);
+        return select_and_apply_target(range);
     }
     return select_nearest_target(range);
 }

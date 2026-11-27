@@ -7,7 +7,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"

@@ -80,7 +80,6 @@ struct TObjEneDD : public TObjEnemy {
     // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
     static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
     static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
-    s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_active_flags();
@@ -128,7 +127,6 @@ struct TargetCandidate {
     f32 dist;
 };
 
-
 extern TargetCandidate enemy_target_candidate_table[4];
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
@@ -162,5 +160,8 @@ struct BmlResource;
 struct BmlResourceDescriptor;
 
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
+
+// Empty in the release build.
+void lappy_render_scale_stub(f32);
 
 #endif

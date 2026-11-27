@@ -255,15 +255,15 @@ s32 mount_memcard(saddr chan) {
     }
 }
 
-void TAdPlayerLoadGC::unmount_card_and_clear_flags(s32 n, s32) {
-    s32 r = CARDUnmount(n);
+void TAdPlayerLoadGC::unmount_card_and_clear_flags(s32 channel, s32) {
+    s32 r = CARDUnmount(channel);
     if (r == 0 || r == -3) {
-        card_slot_state_flags &= ~(4 << n);
-        card_slot_state_flags &= ~(0x10 << n);
-        card_slot_state_flags &= ~(0x40 << n);
-        card_slot_state_flags &= ~(0x100 << n);
-        card_slot_state_flags &= ~(0x400 << n);
-        card_slot_state_flags &= ~(4 << n);
+        card_slot_state_flags &= ~(4 << channel);
+        card_slot_state_flags &= ~(0x10 << channel);
+        card_slot_state_flags &= ~(0x40 << channel);
+        card_slot_state_flags &= ~(0x100 << channel);
+        card_slot_state_flags &= ~(0x400 << channel);
+        card_slot_state_flags &= ~(4 << channel);
     }
 }
 

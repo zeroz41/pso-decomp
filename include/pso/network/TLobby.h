@@ -462,4 +462,7 @@ u8 *get_password_input_buffer(void);
 
 extern TPlyChallenge lobby_player_status_records[];
 extern TObject *lobby_player_construction_window;
+
+u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
+
 #endif

@@ -16,7 +16,6 @@
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/TActorLight.h"
-#include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/hud/TLockOnCursor.h"

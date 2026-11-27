@@ -11,31 +11,25 @@
 #include "pso/network/TLobby.h"
 #include "pso/map/AreaEventSet.h"
 #include "pso/map/TSetManager.h"
-#include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/text_802097B0.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/system/SubtractiveRng.h"
-#include "pso/unk/TLobby_8020A350.h"
-#include "pso/unk/TLobby_8020A568.h"
 #include "pso/system/EventShuffleTable.h"
 #include "string.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_8020A6B0.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_8020B334.h"
 #include "pso/system/MemoryMove.h"
 #include <stdlib.h>
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/FileExtension.h"
+#include "pso/system/ByteBlocks.h"
 
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {

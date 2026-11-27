@@ -5,7 +5,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"

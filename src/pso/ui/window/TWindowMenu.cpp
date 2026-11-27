@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -32,7 +31,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TWindowLayoutRect.h"
 
@@ -364,7 +362,7 @@ void TWindowMenu::set_scroll_target(f32 width, f32 max_height) {
     update_scroll_target_position();
 }
 
-void TWindowMenu::update_layout_height(f32 x) {
+void TWindowMenu::update_layout_height(f32 width) {
     f32 sum = 0.0f;
     u32 i;
     for (i = 0; i < row_count; i++) {
@@ -379,7 +377,7 @@ void TWindowMenu::update_layout_height(f32 x) {
     if (window_flags & 0x40) {
         sum += 6.0f;
     }
-    target_size[0] = x;
+    target_size[0] = width;
     target_size[1] = 20.0f + sum;
     layout_height = sum;
     save_position();

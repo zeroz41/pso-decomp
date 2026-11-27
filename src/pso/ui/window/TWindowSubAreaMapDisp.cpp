@@ -19,7 +19,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"

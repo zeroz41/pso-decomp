@@ -24,12 +24,12 @@ void lsc_notify_queue_empty(void) {
     }
 }
 
-s32 lsc_get_min_buffer_bytes(LscStream *p) {
-    if (p == 0) {
+s32 lsc_get_min_buffer_bytes(LscStream *stream) {
+    if (stream == 0) {
         lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
-    return p->min_buffer_bytes;
+    return stream->min_buffer_bytes;
 }
 
 void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes) {
@@ -110,12 +110,12 @@ s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal) {
     return lsc_stream->entries[(lsc_stream->read_index + ordinal) % 16].stream_id;
 }
 
-s32 lsc_get_queued_stream_count(LscStream *p) {
-    if (p == 0) {
+s32 lsc_get_queued_stream_count(LscStream *stream) {
+    if (stream == 0) {
         lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
-    return p->queued_count;
+    return stream->queued_count;
 }
 
 s32 lsc_get_state(LscStream *lsc_stream) {
@@ -168,44 +168,44 @@ void lsc_stop(LscStream *lsc_stream) {
     }
 }
 
-void lsc_start(LscStream *o) {
+void lsc_start(LscStream *stream) {
     u8 lk0[4];
     u8 lk1[4];
-    if (o == 0) {
+    if (stream == 0) {
         lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
     lsc_interrupt_lock_enter(lk0);
-    if (o->state != 0) {
-        if (o == 0) {
+    if (stream->state != 0) {
+        if (stream == 0) {
             lsc_log_printf("E0003: Illigal parameter lsc=NULL");
-        } else if (o->state != 0) {
+        } else if (stream->state != 0) {
             lsc_interrupt_lock_enter(lk1);
-            o->state = 0;
-            if (o->file_handle != 0) {
-                if ((s32)o->read_started == 1) {
-                    stop_adx_stream(o->file_handle);
-                    o->read_started = 0;
+            stream->state = 0;
+            if (stream->file_handle != 0) {
+                if ((s32)stream->read_started == 1) {
+                    stop_adx_stream(stream->file_handle);
+                    stream->read_started = 0;
                 }
-                adxstm_close(o->file_handle);
-                o->file_handle = 0;
+                adxstm_close(stream->file_handle);
+                stream->file_handle = 0;
             }
-            o->file_sector_count = 0;
-            if (o == 0) {
+            stream->file_sector_count = 0;
+            if (stream == 0) {
                 lsc_log_printf("E0003: Illigal parameter lsc=NULL");
-            } else if (o->state == 0) {
-                o->write_index = 0;
-                o->read_index = 0;
-                o->queued_count = 0;
+            } else if (stream->state == 0) {
+                stream->write_index = 0;
+                stream->read_index = 0;
+                stream->queued_count = 0;
             }
-            o->bytes_transferred = 0;
+            stream->bytes_transferred = 0;
             lsc_interrupt_lock_leave(lk1);
         }
     }
-    if (o->queued_count > 0) {
-        o->state = 2;
+    if (stream->queued_count > 0) {
+        stream->state = 2;
     } else {
-        o->state = 1;
+        stream->state = 1;
     }
     lsc_interrupt_lock_leave(lk0);
 }

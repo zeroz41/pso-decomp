@@ -26,7 +26,7 @@
 #include "pso/ui/frontend/TAdGameStartShineGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
-extern void *ad_game_start_name_ptr[2];
+extern const char *ad_game_start_name_ptr[2];
 
 
 void TAdGameStartGC::bswap_6x92(G_Unknown_6x92 *cmd) {
@@ -134,7 +134,7 @@ TAdGameStartGC::~TAdGameStartGC() {}
 
 TAdGameStartGC::TAdGameStartGC(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = (const char *)ad_game_start_name_ptr[0];
+    m_name = ad_game_start_name_ptr[0];
     m_frame = -1;
     m_active = 0;
     m_shadow = NULL;
@@ -163,4 +163,4 @@ __declspec(section ".rodata") extern const unsigned char multiplay_texture_name[
 __declspec(section ".rodata") extern const char TAdGameStartGC_class_name_string[] = "TAdGameStartGC";
 NJS_TEXNAME texture_f512_multiplay_texnames[1] = {{(char *)multiplay_texture_name, 0, {0}}};
 __declspec(section ".data") NJS_TEXLIST texture_f512_multiplay_descriptor = {texture_f512_multiplay_texnames, 1};
-void *ad_game_start_name_ptr[2] = {(void *)TAdGameStartGC_class_name_string, 0};
+const char *ad_game_start_name_ptr[2] = {TAdGameStartGC_class_name_string, 0};

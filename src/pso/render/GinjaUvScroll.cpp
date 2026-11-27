@@ -41,23 +41,23 @@ void set_ginja_texture_wrap_repeat(GinjaDrawRecord *record) {
     }
 }
 
-void scroll_ginja_mesh_uvs(GinjaModel *self, s32 du, s32 dv, u16 cmd, s32 rewrite) {
+void scroll_ginja_mesh_uvs(GinjaModel *model, s32 du, s32 dv, u16 cmd, s32 rewrite) {
     s32 found = 0;
     GinjaVertexArray *a;
-    if (self->primary != 0 && has_texture_scroll_entry(self->primary, cmd) == 1) {
+    if (model->primary != 0 && has_texture_scroll_entry(model->primary, cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
-            set_ginja_texture_wrap_repeat(self->primary);
+            set_ginja_texture_wrap_repeat(model->primary);
         }
     }
-    if (self->secondary != 0 && has_texture_scroll_entry(self->secondary, cmd) == 1) {
+    if (model->secondary != 0 && has_texture_scroll_entry(model->secondary, cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
-            set_ginja_texture_wrap_repeat(self->secondary);
+            set_ginja_texture_wrap_repeat(model->secondary);
         }
     }
     if (found != 0) {
-        for (a = self->vertices; a != 0 && a->attribute != 0xFF; a++) {
+        for (a = model->vertices; a != 0 && a->attribute != 0xFF; a++) {
             if (a->attribute == 5 || a->attribute == 6) {
                 u16 n = a->count;
                 NJS_TEX *uv = static_cast<NJS_TEX *>(a->data);

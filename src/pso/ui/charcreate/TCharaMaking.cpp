@@ -186,7 +186,7 @@ u8 player_class_texture_buffer_17[0x134];
 u8 player_class_texture_buffer_18[0x134];
 u8 chara_making_load_buffer[0x40C];
 
-void *player_class_texture_buffer_table[19] = {
+u8 *player_class_texture_buffer_table[19] = {
     player_class_texture_buffer_00, player_class_texture_buffer_01, player_class_texture_buffer_02, player_class_texture_buffer_03, player_class_texture_buffer_04,
     player_class_texture_buffer_05, player_class_texture_buffer_06, player_class_texture_buffer_07, player_class_texture_buffer_08, player_class_texture_buffer_09,
     player_class_texture_buffer_10, player_class_texture_buffer_11, player_class_texture_buffer_12, player_class_texture_buffer_13, player_class_texture_buffer_14,

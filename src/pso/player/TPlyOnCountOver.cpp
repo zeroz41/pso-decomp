@@ -57,7 +57,7 @@
 #undef get_player_by_client_id
 
 
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/vector.h"

@@ -46,7 +46,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/client_id.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjBase.h"
@@ -99,12 +99,12 @@ const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 const ParticleAngles boss3_volopt_init_vec = {0, 0, 0x8000};
 
 void close_gogo_ball_timer() { TWindowCtrl::close_timer_window(); }
-void add_gogo_ball_one_point_score(s32 i) {
-    gogo_ball_team_scores[i] += 1;
+void add_gogo_ball_one_point_score(s32 team) {
+    gogo_ball_team_scores[team] += 1;
 }
 
-void add_gogo_ball_three_point_score(s32 i) {
-    gogo_ball_team_scores[i] += 3;
+void add_gogo_ball_three_point_score(s32 team) {
+    gogo_ball_team_scores[team] += 3;
 }
 
 

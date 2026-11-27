@@ -6169,7 +6169,7 @@ force_active:
   - find_open_direction__16TObjEneNanoDragoFP3Vec
   - find_or_alloc_battle_param_slot__FUl
   - find_pack_leader__14TObjEneBm5WolfFi
-  - find_parts_in_range__10TNpcPlayerFPvPvif
+  - find_parts_in_range__13NpcPlayerViewFP3VecUsf
   - find_obstruction__16TPlacementSearchFP16CollisionBodySet
   - find_player_on_floor__12TBoss1DragonFv
   - find_player_texture_name_ordinal__FPUc
@@ -8803,7 +8803,7 @@ force_active:
   - load_params_from_table__20TBoss3VoloptHiraisinFl
   - load_player_by_slot__23TAdSinglePlyChrSelectGCFl
   - load_preview_models__12TChCrLoadReqFv
-  - load_pso_system
+  - load_pso_system__Fv
   - load_pso_system__23TAdSinglePlyChrSelectGCFi
   - load_pso_system_slot__23TAdSinglePlyChrSelectGCFv
   - load_quest_data__22TQuestVmDownLoadServerFv
@@ -16509,7 +16509,7 @@ force_active:
   - try_start_action__19TContainerAncient01FP9TObjCharalf
   - try_start_action__20TContainerAncient01RFP9TObjCharalf
   - try_trigger_action__17TObjEneMe1CanadinFv
-  - try_update_target_flag__10TNpcPlayerFPvi
+  - try_update_target_flag__13NpcPlayerViewFUsf
   - turiten_singo_key_model_index
   - turiten_singo_resource_descriptor
   - turiten_singo_texture_lists

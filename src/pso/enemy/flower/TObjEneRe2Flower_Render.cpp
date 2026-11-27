@@ -37,9 +37,6 @@ extern const f32 re2_flower_node_point0_y;
 extern const f32 re2_flower_node_point1_y;
 extern const f32 re2_flower_draw_scale;
 
-// FlowerRe2Data.cpp
-extern DragonAttackParams enemy_dd_attack_param_block;
-extern DragonAttackParams re2_flower_tower_attack_params;
 extern f32 *const re2_flower_movement_params;
 
 void TObjEneRe2Flower::render_demo() {

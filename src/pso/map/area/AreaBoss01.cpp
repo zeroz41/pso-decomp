@@ -6,7 +6,7 @@
 #include "pso/audio/SoundPlayback.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/object/ambient/SceneLighting.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/map/FloorWaveEvents.h"

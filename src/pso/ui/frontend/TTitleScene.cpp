@@ -7,7 +7,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/camera/CameraViewParams.h"
-#include "pso/unk/TLobby_803360CC.h"
 #include "pso/ui/TTitleLogo.h"
 #include "pso/ui/TTitleMenu.h"
 #include "pso/unk/TTitleScene.h"
