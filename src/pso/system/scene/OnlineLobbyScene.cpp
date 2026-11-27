@@ -281,7 +281,7 @@ void reload_lobby_floor_scene(void) {
 void send_and_handle() { blocking_vsync(); }
 
 void blocking_vsync() {
-    TLoadCtrl::set_field1C(0);
+    TLoadCtrl::set_poll_input(0);
     begin_gx_frame();
     if ((s32) blocking_vsync_render_only != 0) {
         main_task.begin_frame();
@@ -302,7 +302,7 @@ void blocking_vsync() {
         TAdSinglePlyChrSelectGC::run_save_load_sequence();
         TAdSinglePlyChrSelectGC::noop();
     }
-    TLoadCtrl::set_field1C(1);
+    TLoadCtrl::set_poll_input(1);
     render_tick();
 }
 
@@ -674,7 +674,7 @@ void run_online_lobby_scene(void) {
     ((TAdDialingGC *)tl_window)->create();
     online_lobby_scene_handle = init_network_and_connect();
     TAdDialingGC::set_dial_result(online_lobby_scene_handle);
-    TLoadCtrl::set_field1C(0);
+    TLoadCtrl::set_poll_input(0);
     while (TAdDialingGC::get_instance() != 0) {
         begin_gx_frame();
         controller_stuff();
@@ -691,7 +691,7 @@ void run_online_lobby_scene(void) {
         }
         render_tick();
     }
-    TLoadCtrl::set_field1C(1);
+    TLoadCtrl::set_poll_input(1);
     TAdDialingGC::close();
     if (online_lobby_scene_handle != 0) {
         TAdSinglePlyChrSelectGC::init();

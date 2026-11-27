@@ -23,7 +23,7 @@
 
 TLoadCtrl *TLoadCtrl::instance;
 
-void TLoadCtrl::set_field1C(s32 poll_input) {
+void TLoadCtrl::set_poll_input(s32 poll_input) {
     if (instance != NULL) {
         instance->m_poll_input = poll_input;
     }
