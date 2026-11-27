@@ -175,7 +175,7 @@ void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     guild_card_record_serial = serial_no + 1;
     entry->serial = serial_no;
     copy_guild_card_f4c(&entry->recv_port, &response->recv_port);
-    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, &response->extension);
+    entry->ext = response->extension;
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
         strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
