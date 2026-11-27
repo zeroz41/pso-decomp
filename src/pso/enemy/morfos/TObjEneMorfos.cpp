@@ -96,8 +96,6 @@ s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 extern BmlResource *morfos_instance;
 extern s32 morfos_phase;
 extern Vec *morfos_camera_path_cursor;
-extern float morfos_projectile_speed;
-extern float morfos_param_table_speed_copy;
 
 
 EnemyMoveParams morfos_movement_params = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};

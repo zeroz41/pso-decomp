@@ -22,10 +22,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-extern const f32 morfos_projectile_speed;
-extern const f32 morfos_param_table_speed_copy;
-}
 
 void TObjEneMorfosGroundShot::hit_target_in_range(TObjChara *target, TObjCollidable *owner) {
     Vec v = pos;

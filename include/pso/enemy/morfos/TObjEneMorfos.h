@@ -105,6 +105,8 @@ LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, body_fade) == 0x3EC);
 
 extern MorfosParams *morfos_param_table;
+extern f32 morfos_projectile_speed;        // morfos_param_table->projectile_speed
+extern f32 morfos_param_table_speed_copy;  // morfos_param_table->projectile_speed_b
 
 // What TObjEneMorfos::load_static_data fetches from TLobby; reset_hp reads one entry of each.
 extern player_stats *morfos_base_params[1];        // register_boss(0x40)

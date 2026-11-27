@@ -59,7 +59,6 @@
 
 #pragma defer_codegen on
 extern "C" {
-extern TObjEneRe7BeruraPart re7_berura_detached_part_states[];
 player_stats *re7_berura_stat_handle_table[1];
 ActorParamBlock *re7_berura_shared_object_handles[1];
 void * re7_berura_handler_table_a[1];
