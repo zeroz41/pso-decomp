@@ -370,9 +370,9 @@ s32 TWindowCtrlPlayer::is_countdown_done() {
 
 void TWindowCtrlPlayer::start_countdown() { this->countdown = 60; }
 
-void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all(((void*)(0))); }
+void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all(0); }
 
-void TWindowCtrlMain::reset_all(void* _w0) {
+void TWindowCtrlMain::reset_all(s32) {
     s32 i;
     load_hud_palette_textures();
     clear_shared_window_draw_context();

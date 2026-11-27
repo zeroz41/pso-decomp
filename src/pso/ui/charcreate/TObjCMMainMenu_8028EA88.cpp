@@ -48,7 +48,7 @@ void init_creation_menu_scene(void) {
     update_keyboard_menu();
     set_ending_callback();
     load_keyboard_resources();
-    TWindowCtrlMain::reset_all((void*)1);
+    TWindowCtrlMain::reset_all(1);
     new TWindowCtrlMain();
     p = new BmlResource(1, (BmlResourceDescriptor *)&creation_menu_resource_descriptor, 0, 0, NULL);
     creation_menu_main_obj = p;
