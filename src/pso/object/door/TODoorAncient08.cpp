@@ -66,9 +66,9 @@ TODoorAncient08::TODoorAncient08(TObject *parent, ObjectSetData *set_data) : TOD
     extra_switch_ids[1] = set_params[0] + 2;
     extra_switch_ids[2] = set_params[0] + 3;
     all_switches_set = 0;
-    m_e0 = 0;
+    pad_e0 = 0;
     is_open = 0;
-    m_e8 = 0;
+    pad_e8 = 0;
 }
 
 TODoorAncient08::~TODoorAncient08() {

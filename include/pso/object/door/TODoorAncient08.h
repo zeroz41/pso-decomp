@@ -32,9 +32,9 @@ struct TODoorAncient08 : public TODoorBase {
     u16 extra_switch_ids[3];  // switch_id + 1 .. + 3
     u8 pad_da[0x2];
     s32 all_switches_set;  // LOCK_SWITCH: all four switches are set
-    s32 m_e0;              // cleared by the constructor, never read here
+    s32 pad_e0;
     s32 is_open;           // 1 from the time it starts opening until it closes
-    s32 m_e8;              // cleared by the constructor, never read here
+    s32 pad_e8;
 
     static BmlResource *bml_resource;
     static NJS_TEXLIST **texture_lists;  // [0] the bml's own (unlocked), [1] red (locked)
