@@ -15,6 +15,7 @@ template <size_t size> struct TPlyText;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
 struct G_ClientIDHeader;
+struct extended_game_command_header;
 struct FloorObjectSetRow;
 class GameListEntry;
 class QuestListEntry;
@@ -207,7 +208,7 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static void bswap_and_handle_packet(void *packet, int size);
-    static void bswap_header_fields(void *header);
+    static void bswap_header_fields(extended_game_command_header *header);
     static void bswap_player_data(PlayerSyncRecord *record);
     static void close_all_windows(void *);
     static void close_all_windows();
