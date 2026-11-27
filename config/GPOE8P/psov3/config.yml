@@ -4117,7 +4117,7 @@ force_active:
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
   - attach_mine_trap__9TObjCharaFP8TObjBase
-  - attach_model__9TParticleFPvP11NJS_TEXLISTP10NJS_MOTIONlf
+  - attach_model__9TParticleFP10NJS_OBJECTP11NJS_TEXLISTP10NJS_MOTIONlf
   - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FP17AreaAttackHistoryPv

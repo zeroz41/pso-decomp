@@ -88,7 +88,7 @@ public:
     f32 scale_x;                  // 0x40
     f32 scale_y;                  // 0x44
     NJS_COLOR tint;               // 0x48, used when emit_flags & 0x100
-    void *model;                  // 0x4C, given to the children (emit_flags & 0x200)
+    NJS_OBJECT *model;            // 0x4C, given to the children (emit_flags & 0x200)
     NJS_TEXLIST *texlist;    // 0x50
     NJS_MOTION *motion;           // 0x54
     TObject *particle_parent;     // 0x58, task the children are created under

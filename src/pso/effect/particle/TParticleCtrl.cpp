@@ -605,7 +605,7 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, 
 
 void TParticle::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
 
-void TParticle::attach_model(void *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
+void TParticle::attach_model(NJS_OBJECT *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
     this->model = model;
     this->texlist = texlist;
     this->motion = motion;
