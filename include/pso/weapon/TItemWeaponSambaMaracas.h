@@ -3,8 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class with vtable 0x804A5648 (old ctor name enter_state_515), made by
-// TItemWeaponSambaMaracas::create.
+// Weapon class, made by TItemWeaponSambaMaracas::create.
 class TItemWeaponSambaMaracas : public TItemWeapon {
 public:
     virtual ~TItemWeaponSambaMaracas();

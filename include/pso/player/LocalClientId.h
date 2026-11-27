@@ -7,7 +7,7 @@
 // Frames run by the current main phase's update loop (main counts it up).
 extern s32 actor_frame_tick;
 
-// The 0x28-byte global at 0x80515BA0 (address-named: no symbol, string or vtable names its class). Its methods were
+// A 0x28-byte .bss global (no symbol, string or vtable names its class). Its methods were
 // spelled as TLobby members, but TLobby is a 0x1C-byte TObject and init_range writes 0x00-0x20 of this object.
 // Field names are inferred from the area code: promote_area_floor copies current -> previous and next -> current,
 // load_area_scene_and_init hands current_floor to set_current_floor_area and current_map to TScene::set_scene, and

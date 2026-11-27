@@ -6,7 +6,7 @@
 
 #include "pso/player/PlayerRef.h"
 
-// run_task is declared first: it is the key function that places the vtable at 0x804C3F60.
+// run_task is declared first: it is the key function that places the class's vtable.
 struct TForceOperate : public TObject {
     virtual void run_task();
     TForceOperate(TObject *parent, u16 id);

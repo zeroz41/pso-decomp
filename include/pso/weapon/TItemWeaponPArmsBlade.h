@@ -3,8 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class (old ctor name TObjPlayer__sub_8012B0F8), made by
-// TItemWeaponPArmsBlade::create.
+// Weapon class, made by TItemWeaponPArmsBlade::create.
 class TItemWeaponPArmsBlade : public TItemWeapon {
 public:
     virtual ~TItemWeaponPArmsBlade();
