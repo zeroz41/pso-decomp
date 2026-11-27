@@ -6147,14 +6147,11 @@ pso/ui/window/TWindowSubAreaMap.cpp:
 	.sdata2     start:0x805DD478 end:0x805DD480
 
 pso/ui/window/TWindowSubAreaMapDisp.cpp:
-	.text       start:0x802717B8 end:0x80271DFC
+	.text       start:0x802717B8 end:0x80271E48
 	.rodata     start:0x8044F678 end:0x8044F698
 	.data       start:0x804D0FC0 end:0x804D0FEC
 	.sdata      start:0x805D3A08 end:0x805D3A10
 	.sdata2     start:0x805DD480 end:0x805DD4F4
-
-pso/ui/window/TWindowCtrl_80271DFC.cpp:
-	.text       start:0x80271DFC end:0x80271E48
 
 pso/ui/window/TWindowSubComCard.cpp:
 	.text       start:0x80271E48 end:0x802752D8
