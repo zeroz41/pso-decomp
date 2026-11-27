@@ -31,7 +31,7 @@ s32 start_memcard_format(s32 chan, s32, s32, s32, s32);
 
 // Nothing sets the state; TChallenge and TChallenge4P skip their run_task while it is 1.
 int get_card_wait_state(void);
-s32 card_blocks_for_size(void *, s32, u32 size);
+s32 card_blocks_for_size(s32, s32, u32 size);
 
 extern void *banner_buffers[6];
 

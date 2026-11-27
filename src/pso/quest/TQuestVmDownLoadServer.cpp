@@ -362,17 +362,17 @@ s32 calc_download_crc32(void *data, s32 size) {
 }
 s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
   s32 crc;
-  void *copy;
+  u32 *copy;
   s32 stored;
-  copy = alloc(size);
+  copy = (u32 *)alloc(size);
   if (copy == 0)
   {
     return 0;
   }
   move_data(copy, data, size);
   // The word at +4 is the stored checksum: it must be zero while the CRC runs.
-  stored = *(s32 *)(((s8 *)copy) + 4);
-  *(s32 *)(((s8 *)copy) + 4) = 0;
+  stored = copy[1];
+  copy[1] = 0;
   crc = calc_download_crc32(copy, size);
   safe_free(copy);
   return (u32)__cntlzw((u32)(crc - stored)) >> 5;
@@ -528,7 +528,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     this->file_count = 0;
     s = &quest_download_file_state;
     if (s->size > 0) {
-        n = (u32)card_blocks_for_size((void *)1, 0, s->size);
+        n = (u32)card_blocks_for_size(1, 0, s->size);
         if (n != 0xFFFFFF00) {
             this->total_blocks += n;
             this->state_file_blocks = n;
@@ -540,7 +540,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     }
     s = &quest_download_file_slot;
     if (s->size > 0) {
-        n = (u32)card_blocks_for_size((void *)1, 0, s->size);
+        n = (u32)card_blocks_for_size(1, 0, s->size);
         if (n != 0xFFFFFF00) {
             this->total_blocks += n;
             this->slot_file_blocks = n;
@@ -552,7 +552,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     }
     s = &quest_download_file_info;
     if (s->size > 0) {
-        n = (u32)card_blocks_for_size((void *)1, 0, s->size);
+        n = (u32)card_blocks_for_size(1, 0, s->size);
         if (n != 0xFFFFFF00) {
             this->total_blocks += n;
             this->info_file_blocks = n;
