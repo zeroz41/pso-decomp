@@ -124,7 +124,7 @@ public:
     u16 target_player;               // 0xFFFF, or the player TObjDFRecover::create gets
     u8 pad_3c6[0x2];
     s32 anim;                        // row of TBoss4Type2__attack_pattern_table
-    s32 unk_3cc;
+    s32 pad_3cc;
     f32 anim_frame;
     f32 anim_speed;
     s32 anim_looped;

@@ -156,7 +156,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     referenceHp = hp;
     register_by_id();
     set_param(0x2F);
-    unk_3cc = 0;
+    pad_3cc = 0;
     anim = 0;
     anim_looped = 0;
     anim_speed = 0.4f;
