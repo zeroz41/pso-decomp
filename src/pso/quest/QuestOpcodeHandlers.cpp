@@ -783,16 +783,16 @@ void qst_op_get_players_present(u8 out) {
 
 void qst_op_find_bank_item(u8 i, u8 out) {
     TItemData item;
-    saddr card;
+    CharacterSaveRecord *card;
     qst_registers[out].i = -1;
-    card = get_character_save_record(0xFFFF);
-    if (card != 0) {
+    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    if (card != NULL) {
         item.init();
         item.data1.data_u8[0] = qst_registers[i++].i;
         item.data1.data_u8[1] = qst_registers[i++].i;
         item.data1.data_u8[2] = qst_registers[i++].i;
         item.data1.data_u8[4] = qst_registers[i].i;
-        if (((CharacterSaveRecord *)card)->find_bank_item(&item) != 0) {
+        if (card->find_bank_item(&item) != 0) {
             qst_registers[out].i = 1;
         } else {
             qst_registers[out].i = 0;
