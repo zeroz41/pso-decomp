@@ -91,11 +91,11 @@ struct NetworkInfoCipherPoolView { u32 mask; NetworkInfoCipherKey slots[16]; };
 struct NetworkInfoCipherWorkspace {
     u32 capacity_and_used_mask;
     NetworkInfoCipherKey first_key;
-    u8 field_48[0xD8];
+    u8 pad_48[0xD8];
 };
 struct NetworkInfoCipherPoolBinding {
     u32 *pool;
-    u32 field_04;
+    u32 pad_04;
 };
 LAYOUT_ASSERT(NetworkInfoCipherBlockExtent, sizeof(NetworkInfoCipherBlock) == 0x10);
 LAYOUT_ASSERT(NetworkInfoCipherKeyExtent, sizeof(NetworkInfoCipherKey) == 0x44);
