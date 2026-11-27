@@ -31,6 +31,7 @@
 #include "pso/quest/QuestVm.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/npc/TObjNpcBase.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
@@ -678,7 +679,7 @@ void qst_op_delayed_switch_episode(s32 reg) {
 void qst_op_chat_bubble(void) {
     s32 id = qst_args[0].i;
     const char *text = qst_args[1].str;
-    TObjPlayer *player;
+    TObjChara *player;
     s32 start;
     s32 end;
     s32 i;
@@ -696,7 +697,7 @@ void qst_op_chat_bubble(void) {
         if (player != NULL) {
             win = player->get_entity_id();
             if (win < 0x4000) {
-                v = fn_get_field_3ac(player);
+                v = get_npc_object_number(static_cast<TObjNpcBase *>(player));
             } else {
                 v = get_field_d4(player);
             }
@@ -4416,7 +4417,7 @@ void qst_op_winend(void) {
 
 void qst_op_mesend(void) {
     s32 id;
-    TObjPlayer *p;
+    TObjChara *p;
     s32 start;
     s32 end;
     s32 i;
@@ -4437,7 +4438,7 @@ void qst_op_mesend(void) {
         if (p != NULL) {
             f = p->get_entity_id();
             if (f < 0x4000) {
-                v = fn_get_field_3ac(p);
+                v = get_npc_object_number(static_cast<TObjNpcBase *>(p));
             } else {
                 v = get_field_d4(p);
             }
@@ -4548,7 +4549,7 @@ void qst_op_message(void) {
     s32 speaker = qst_args[0].i;
     const char *text = qst_args[1].str;
     s32 first;
-    TObjPlayer *actor;
+    TObjChara *actor;
     s32 end;
     s32 i;
     close_window_if_active(local_client_id);
@@ -4568,7 +4569,7 @@ void qst_op_message(void) {
                 s32 identity = actor->get_entity_id();
                 s32 entity;
                 if (identity < 0x4000) {
-                    entity = fn_get_field_3ac(actor);
+                    entity = get_npc_object_number(static_cast<TObjNpcBase *>(actor));
                 } else {
                     entity = get_field_d4(actor);
                 }
@@ -5283,7 +5284,7 @@ int test_player_action_2(TObjPlayer *p) { return p->test_action_mask(2); }
 void clear_player_flag_4096(TObjPlayer *p) { p->clear_flag_4096(); }
 void set_player_flag_4096(TObjPlayer *p) { p->set_flag_4096(); }
 s32 get_field_d4(void* p) { return *(s32*)((char*)p + 0xd4); }
-s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
+s32 get_npc_object_number(TObjNpcBase *npc) { return npc->object_number; }
 
 void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
