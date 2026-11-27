@@ -375,7 +375,7 @@ void TObjEneRecon::state_damage(s32 reason) {
         recon_flags &= ~1;
         recon_flags |= 2;
         set_next_mode(mode);
-        ((TBoss8Dragon *)this)->noop();
+        this->noop();
         play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003E425), &position, 0, 0);
         state_step = 0;
         break;
@@ -501,7 +501,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0 || acquire_target(200.0f) != 0) {
+        if (this->update_death_check() != 0 || acquire_target(200.0f) != 0) {
             switch (state_step) {
             case 0:
                 set_orbit_destination(orbit_angle);
@@ -586,7 +586,7 @@ void TObjEneRecon::state_bomb_attack(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (this->update_death_check() == 0) {
             enemy_clear_target();
         }
         switch (state_step) {
@@ -656,7 +656,7 @@ void TObjEneRecon::state_attack(s32 reason) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (this->update_death_check() == 0) {
             enemy_clear_target();
         }
         switch (state_step) {
@@ -742,7 +742,7 @@ void TObjEneRecon::state_search(s32 reason) {
         return;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0 || acquire_target(200.0f) != 0) {
+        if (this->update_death_check() != 0 || acquire_target(200.0f) != 0) {
             transition_enemy_state(4);
         } else {
             acquire_counter++;
@@ -1234,7 +1234,7 @@ void TObjEneRecon::run_task() {
     m = mode;
     if (m != 8 && m != 7 && owner->is_anim_6() == 1) {
         hit_flags = (s32)(hit_flags | 4);
-        ((TObjPlayer *)this)->set_hp_clamped(0);
+        set_hp_clamped(0);
         set_actor_flags(0xA00U);
         sync_enemy_state(0);
     }

@@ -322,7 +322,7 @@ void G_DragonBossActions_6x12::init() { action.header.subcommand = 18; action.he
 
 void G_DragonBossActions_6x12::bswap() { ((G_ClientIDHeader *)&action.header)->bswap(); bswap_16((u16 *)&action.state); bswap_16((u16 *)&action.action_index); bswap_32(&action.target_id); }
 
-void G_DragonBossActions_6x12::send() { bswap(); send_subcommand((u8 *)this); }
+void G_DragonBossActions_6x12::send() { bswap(); send_subcommand(this); }
 
 void ProtectionTimer::set_frames(s32 v) { frames = v; }
 

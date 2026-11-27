@@ -276,7 +276,7 @@ void debug_effect_hook_scaled(void *self, s32 id, f32 scale) {  }
 
 void debug_effect_hook(void *self, int id) {  }
 
-void TBoss8Dragon::noop() {  }
+void TObjEneDD::noop() {  }
 
 void TObjEneDD::clear_attack_receipts() {
     s32 i;
@@ -1163,7 +1163,7 @@ block_5:
     return 0;
 }
 
-s32 TObjEneEpsilon::update_death_check() {
+s32 TObjEneDD_ST::update_death_check() {
     if ((this->is_confused() == 0) && (is_player_entity_id(this->target_id) == 0)) {
         this->enemy_clear_target();
         return 0;

@@ -626,7 +626,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (this->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         this->update();
@@ -730,7 +730,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (this->update_death_check() == 0) {
             this->enemy_clear_target();
         }
         switch (this->step) {
@@ -823,7 +823,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (this->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         switch (this->step) {
@@ -930,7 +930,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 msg) {
         this->status_flags &= ~BM3_FLY_HIDDEN;
         this->status_flags |= BM3_FLY_SHADOW;
         this->set_next_mode(this->mode);
-        ((TBoss8Dragon *)this)->noop();
+        this->noop();
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         this->step = 0;
         break;

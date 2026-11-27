@@ -1057,7 +1057,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (this->update_death_check() == 0) {
             break;
         }
         this->enemy_copy_target_destination();
@@ -1191,7 +1191,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (this->update_death_check() == 0) {
             break;
         }
         switch (this->stage) {

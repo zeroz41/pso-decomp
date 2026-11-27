@@ -253,7 +253,7 @@ WallHitPacket *WallHitPacket::init() {
 
 void WallHitPacket::send() {
     byteswap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void WallHitPacket::byteswap() {

@@ -33,6 +33,8 @@ public:
     void enemy_set_target_id(u16 id);
     s32 enemy_bind_or_clear_target(u16 id);
     s32 enemy_validate_retained_target();
+    // 0 and the target cleared unless confused or targeting a player, else enemy_validate_retained_target().
+    s32 update_death_check();
     CsnHit *enemy_turn_and_move_shot_step(s32 iscale, f32 scale);
     CsnHit *enemy_turn_and_move_on_ground(s32 max_step, f32 currentSpeed);
     CsnHit *enemy_turn_and_move_xz_slide(s32 max_step, f32 distance);

@@ -1114,7 +1114,7 @@ s32 TObjChara::update_poison_status() {
             ((s32 (*)(TObjChara *, s32, const s16 *))subtract_actor_hp)(this, dmg + poison_damage_bonus_by_difficulty[game_difficulty_selection], poison_damage_bonus_by_difficulty);
             if (this->clamp_hp() <= 0) {
                 if (this->test_actor_flags(0x800) == 0) {
-                    ((TObjPlayer *)((u8 *)this))->set_hp_clamped(1);
+                    set_hp_clamped(1);
                 }
                 return 0;
             }
@@ -2175,7 +2175,7 @@ f32 TObjChara::receive_direct_attack(TObjBase *att, DirectAttackPayload payload,
                 this->hit_flags |= 4;
                 dmg = (0.01f) * (info.power - (f32)this->element_resist[3]);
                 if (immune == 0 && this->random_ratio() < dmg) {
-                    ((TObjPlayer *)this)->set_hp_clamped(0);
+                    set_hp_clamped(0);
                     set_actor_flags(0xA00);
                 }
             } else {
@@ -2759,7 +2759,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
             if (immune == 0) {
                 this->get_actor_hp();
-                ((TObjPlayer *)this)->set_hp_clamped(0);
+                set_hp_clamped(0);
                 set_actor_flags(0xA00);
                 empty_post_damage_hook(this, att);
             }
@@ -2962,12 +2962,12 @@ s32 add_actor_hp(TObjChara *actor, s16 amount) {
     return 1;
 }
 #pragma pop
-void TObjPlayer::set_hp_clamped(s16 value) {
+void TObjChara::set_hp_clamped(s16 value) {
     this->hp = value;
     clamp_hp_value(&this->hp);
 }
 
-s32 TObjPlayer::clamp_hp_value(s16 *value) {
+s32 TObjChara::clamp_hp_value(s16 *value) {
     s16 hpmax;
     s16 current;
     current = *value;

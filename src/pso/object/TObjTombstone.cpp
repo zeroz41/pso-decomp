@@ -272,7 +272,7 @@ void TObjTombstone::drop_recovery_items() {
                 pos.x += 7.5f * cos_table_lookup(angle);
                 pos.z += 7.5f * sin_table_lookup(angle);
                 pos.y += 10.0f;
-                if (project_actor_to_ground((TObjChara *)this, &pos, 0) != 0) {
+                if (project_actor_to_ground(this, &pos, 0) != 0) {
                     pos.y += 10.0f;
                     item.id = 0xFFFFFFFF;
                     drop_stacked_item(&item, local_client_id, &pos.x);

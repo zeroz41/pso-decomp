@@ -528,7 +528,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
                     enemy_set_target_id(idx);
                 }
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (this->update_death_check() == 0) {
             break;
         }
         enemy_copy_target_destination();

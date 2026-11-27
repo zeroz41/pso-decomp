@@ -49,6 +49,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     static u32 remap_area_sound_id(u32 id);
     static void release_static_instance();
     static void load_resources();
+    Vec *get_position_ptr();
     static void *create(void *set_data);
     static BmlResource *get_bml_resource();
     static EnemyMoveParams movement;

@@ -152,7 +152,7 @@ const NpcAnimationBinding recobox_resource_binding_desc = { NULL, recobox_animat
 
 #pragma dont_inline off
 #pragma inline_depth(4)
-void *TObjEneRecon::get_field_38_ptr() {
+Vec *TObjEneRecobox::get_position_ptr() {
     return &position;
 }
 
@@ -406,7 +406,7 @@ void TObjEneRecobox::update_child_spawn() {
     }
     id = alloc_child_id();
     set_index = this->set_index + (id - entity_id);
-    VecCopy(&pos, (const Vec *)((TObjEneRecon *)this)->get_field_38_ptr());
+    VecCopy(&pos, get_position_ptr());
     if (id == 0xFFFF) {
         spawned_recons = recon_total;
         return;

@@ -285,8 +285,8 @@ TOAttackableCol::TOAttackableCol(void *set_data) : TObjChara(tl_05) {
     ((TObjChara *)this)->calc_attach_pos();
     set_actor_flags(0x60000000);
     init_collision_body_parts(this, &attackable_col_collision_parts, 1);
-    ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
-    ((TObjPlayer *)this)->register_object_by_id();
+    set_indexed_flags(0, 0x718);
+    register_object_by_id();
     this->mode = 0;
     *(f32 *)((s8 *)this + 0x334) = 500.0f;
     this->m_338 = 50.0f;

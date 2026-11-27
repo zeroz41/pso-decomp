@@ -796,7 +796,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
                 this->hp = this->hp / (n + 1);
                 for (j = 0; j < this->child_count; j++) {
                     if ((ent = get_enemy_entity(this->child_ids[j])) != NULL) {
-                        ((TObjPlayer *)ent)->set_hp_clamped(this->hp);
+                        ent->set_hp_clamped(this->hp);
                     }
                 }
             }

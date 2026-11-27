@@ -15,7 +15,6 @@ struct TObjEneEpsilon : public TObjEneDD_ST {
     s32 update_movement_status();
     s32 is_target_in_attack_range();
     RenderFadeState fades[4];  // built and destroyed by TObjEneEpsilon
-    s32 update_death_check();
     static void free_shared_resources();
     static void load_assets();
 };

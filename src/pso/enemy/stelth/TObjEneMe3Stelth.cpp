@@ -1010,7 +1010,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (this->update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 ang = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1026,7 +1026,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (this->update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1130,7 +1130,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
         case 0:
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (this->update_death_check() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));

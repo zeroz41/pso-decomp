@@ -136,7 +136,7 @@ void VoloptPartsMessage::init() {
 
 void VoloptPartsMessage::send() {
     swap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void VoloptPartsMessage::swap() {
@@ -154,7 +154,7 @@ void VoloptPhase2Message::init() {
 
 void VoloptPhase2Message::send() {
     swap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 s32 TObjVoloptCage::get_int_param(s32 index) {

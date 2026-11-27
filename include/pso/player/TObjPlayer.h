@@ -359,8 +359,6 @@ struct TObjPlayer : public TObjChara {
     s32 add_capped_counter_999(s32 amount);
     int get_tp_materials_clamped();
     int get_hp_material_points();
-    s32 clamp_hp_value(s16 *value);
-    void set_hp_clamped(s16 value);
     void spawn_recovery_effect();
     void set_attribute_entry(s32 i, WeaponAttribute *attribute);
     WeaponAttribute *get_attribute_entry(s32 i);

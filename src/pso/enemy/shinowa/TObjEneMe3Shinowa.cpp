@@ -928,7 +928,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (this->update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -944,7 +944,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (this->update_death_check() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1047,7 +1047,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
         case 0:
             this->apply_sword_hits();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (this->update_death_check() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));

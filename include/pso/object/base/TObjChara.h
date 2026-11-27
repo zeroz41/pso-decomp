@@ -121,6 +121,9 @@ public:
     void spawn_confusion_feedback_effect(s32 play_sound);
     void play_shock_feedback(s32 play_sound);
     s16 clamp_hp();
+    // Clamps *value to 0..hpmax; 1 when it was already in range.
+    s32 clamp_hp_value(s16 *value);
+    void set_hp_clamped(s16 value);
     void spawn_freeze_shell_effect(CollisionBody *body, s32 play_sound);
     s32 check_heavy_damage_flag(f32);
     virtual s32 add_actor_exp(s32);

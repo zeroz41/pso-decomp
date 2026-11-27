@@ -20,6 +20,7 @@ struct TObjEneDD : public TObjEnemy {
     void invoke_initialization_hook(void *set_data);
     void reset_state_fields();
     void init_common_from(TObjBase *source);
+    void noop();
     void clear_attack_receipts();
     virtual void apply_enemy_state(s32 *);
     virtual s32 update_status_effects();

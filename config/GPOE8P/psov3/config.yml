@@ -5063,7 +5063,7 @@ force_active:
   - clamp_destination_index__15TObjCityMapWarpFv
   - set_battle_param_difficulty__Fl
   - clamp_flight_height__13TObjEneBm3FlyFv
-  - clamp_hp_value__10TObjPlayerFPs
+  - clamp_hp_value__9TObjCharaFPs
   - clamp_item_list_scroll__19TWindowMenuIconLineFv
   - clamp_menu_choice_scroll__11TWindowMenuFv
   - clamp_min_player_distance__9TBoss4UroFv
