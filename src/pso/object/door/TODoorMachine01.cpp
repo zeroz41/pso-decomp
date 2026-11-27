@@ -254,7 +254,7 @@ TODoorMachine01::TODoorMachine01(TObject *parent, void *set_data) : TODoorBase(p
     model = bml_resource->models[0].model;
     texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
     init_collision_body_parts(this, door_machine01_collision_body, 1);
     refresh_collision_body_centers();

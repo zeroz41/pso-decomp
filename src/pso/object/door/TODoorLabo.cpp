@@ -341,8 +341,8 @@ TODoorFourLightSeabed::TODoorFourLightSeabed(TObject *parent, void *set_data) : 
     refresh_collision_body_centers();
     register_object_by_id();
     model = get_bml_model(door_labo_bml_resource, 0);
-    motion = (AnimationMotion *)get_bml_motion(door_labo_bml_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    motion = (NJS_MOTION *)get_bml_motion(door_labo_bml_resource, 0);
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
     {
         FourLightNodeTable tbl = door_four_light_seabed_index_table;
@@ -411,8 +411,8 @@ TODoorFourLightSeabedU::TODoorFourLightSeabedU(TObject *parent, void *set_data) 
     refresh_collision_body_centers();
     register_object_by_id();
     model = get_bml_model(seabed_four_light_door_bml_resource, 0);
-    motion = (AnimationMotion *)get_bml_motion(seabed_four_light_door_bml_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    motion = (NJS_MOTION *)get_bml_motion(seabed_four_light_door_bml_resource, 0);
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
     {
         FourLightNodeTable tbl = door_four_light_seabed_u_table;
@@ -474,8 +474,8 @@ TODoorLabo::TODoorLabo(TObject *parent, void *set_data) : TODoorFourLightBase(pa
     refresh_collision_body_centers();
     register_object_by_id();
     init_model_by_type();
-    motion = (AnimationMotion *)get_bml_motion(labo_door_bml_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    motion = (NJS_MOTION *)get_bml_motion(labo_door_bml_resource, 0);
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
     tbl = door_labo_link_table;
     for (i = 0; i < 8; i++) {
@@ -544,8 +544,8 @@ TODoorLaboNormal::TODoorLaboNormal(TObject *parent, void *set_data) : TODoorFour
     refresh_collision_body_centers();
     register_object_by_id();
     init_field_d4();
-    motion = (AnimationMotion *)get_bml_motion(door_labo_model_archive, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    motion = (NJS_MOTION *)get_bml_motion(door_labo_model_archive, 0);
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
     {
         FourLightNodeTable t = {{1, -1, -1, -1, 4, -1, -1, -1}};

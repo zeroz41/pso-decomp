@@ -5,7 +5,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct BmlResource;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
@@ -37,7 +37,7 @@ extern s32 lobby_quest_progress_flag;
 // Defined in TObjAreaWarpEndingJung.cpp; the getter names are inferred from their bodies.
 void load_forest_warp_resources(void);
 NJS_OBJECT *get_forest_warp_model(s32 index);                // get_bml_model of fs_obj_warp.bml
-AnimationMotion *get_forest_warp_motion(s32 index);  // get_bml_motion of fs_obj_warp.bml
+NJS_MOTION *get_forest_warp_motion(s32 index);  // get_bml_motion of fs_obj_warp.bml
 NJS_TEXLIST *get_forest_warp_textures();                      // the fs_obj_warp.gvm texture list
 
 #endif

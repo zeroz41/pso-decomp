@@ -2,7 +2,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -21,7 +21,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
@@ -74,7 +73,7 @@ TOBoss4Bird::TOBoss4Bird(void *set_data) {
     model_radius = ((GinjaModelBounds *)model->model)->radius;
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.0f;
     animation_frame = 0.0f;
     speed = 1.0f + scale.x;

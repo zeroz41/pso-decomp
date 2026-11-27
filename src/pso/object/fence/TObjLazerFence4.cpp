@@ -78,11 +78,11 @@ void TObjLazerFence4::init_models() {
     if (set_params[2] % 2 == 0) {
         beam_model = get_bml_model(lazer_fence_norm_bml_resource, 4);
         post_model = get_bml_model(lazer_fence_norm_bml_resource, 5);
-        motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 2);
+        motion = (NJS_MOTION *)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
         beam_model = get_bml_model(lazer_fence_norm_bml_resource, 6);
         post_model = get_bml_model(lazer_fence_norm_bml_resource, 7);
-        motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 3);
+        motion = (NJS_MOTION *)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         beam_nodes[j] = 0;
@@ -135,7 +135,7 @@ void TObjLazerFence4::reset_if_door_closed() {
 
 void TObjLazerFence4::wait_for_switch() {
     animation_frame += 0.9f;
-    if (animation_frame > (f32)(u32)(motion->frameCount - 1)) {
+    if (animation_frame > (f32)(u32)(motion->nbFrame - 1)) {
         animation_frame = 0.0f;
     }
     if (is_current_floor_switch_set(id) == 1) {

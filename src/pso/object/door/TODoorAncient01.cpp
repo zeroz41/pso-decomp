@@ -52,7 +52,7 @@ TODoorAncient01::TODoorAncient01(TObject *parent, void *set_data) : TODoorBase(p
     model = door_ancient01_archive->models[0].model;
     texlist = door_ancient01_texlists[1];
     motion = door_ancient01_archive->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient01_collision_body, 1);
     refresh_collision_body_centers();

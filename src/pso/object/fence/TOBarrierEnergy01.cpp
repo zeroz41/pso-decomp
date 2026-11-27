@@ -60,7 +60,7 @@ TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBa
     model = get_bml_model(barrier_energy_shared_bml_archive, 1);
     texlist = barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 2.0f;
     init_collision_body_parts(this, barrier_energy01_collision_body_parts, 1);
     refresh_collision_body_centers();

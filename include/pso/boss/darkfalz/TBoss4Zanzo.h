@@ -5,7 +5,7 @@
 #include "types.h"
 #include "dolphin/mtx.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -16,7 +16,7 @@ struct TBoss4ZanzoParams {
     s32 rotation_y;
     NJS_TEXLIST *texlist;
     NJS_OBJECT *model;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;       // draw_model_motion's frame argument
     f32 fade_start;  // render's value at age 0, moving to fade_end at lifetime; drawn while above 0.01
     f32 fade_end;

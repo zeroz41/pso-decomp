@@ -4,7 +4,7 @@
 #include "pso/object/TObjPathObj.h"
 
 struct NJS_OBJECT;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 class TObjJungleBird : public TObjPathObj {
 public:
@@ -18,8 +18,8 @@ public:
     virtual void update();
     virtual void draw();
     NJS_OBJECT *model;
-    AnimationMotion *motion;   // the model's own motion
-    AnimationMotion *path;     // the path motion of the profile
+    NJS_MOTION *motion;   // the model's own motion
+    NJS_MOTION *path;     // the path motion of the profile
     f32 path_frame;
     f32 motion_frame;
     Vec path_position;         // the path's root node at path_frame, from position

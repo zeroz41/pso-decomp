@@ -17,7 +17,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 const char *bm_obj_boss8_piller_model_names[5] = {
     "fe_obj_gol_hasira5m.nj", "fe_obj_gol_hasira1m.nj", "fe_obj_gol_hasira5m_m.nj", "fe_obj_gol_hasira1m_m.nj", NULL,
@@ -59,7 +59,7 @@ void TObjBoss8Piller::run_task() {
     if (dragon != NULL) {
         dragon->apply_pillar_attack(&this->position, 25.0f);
     }
-    last_frame = this->motion->frameCount - 1;
+    last_frame = this->motion->nbFrame - 1;
     if (this->frame >= (f32)last_frame) {
         this->frame = (f32)last_frame;
         this->queue_destruction();

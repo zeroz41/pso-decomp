@@ -5,13 +5,13 @@
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/system/NinjaTypes.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 
 struct TOKurage : public TObjMapObject {
     TOKurage(TObject *parent, void *set_data);
     virtual ~TOKurage();
     void update_tilt();
-    AnimationMotion *motion2;    // its second motion, drawn blended with motion
+    NJS_MOTION *motion2;    // its second motion, drawn blended with motion
     Vec bob_base;    // the set position it bobs around (y is the bob's base)
     Vec velocity;    // velocity
     Vec home;    // home, check_player_distance measures from it

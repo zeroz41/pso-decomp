@@ -169,7 +169,7 @@ void TObjMapForceWarp::open_confirm_window(s32) {}
 
 NJS_OBJECT *get_forest_warp_model(s32 index) { return get_bml_model(forest_warp_bml_resource, index); }
 
-AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
+NJS_MOTION *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
 NJS_TEXLIST *get_forest_warp_textures() { return forest_warp_texture_list; }
 
@@ -444,7 +444,7 @@ TObjMapWarpForest::TObjMapWarpForest(TObject *parent, void *set_data) : TObjMapW
 
 void TObjMapWarpForest::run_task() {
     this->frame+=4.0f;
-    if((f32)(u32)(this->motion->frameCount-1)<this->frame)this->frame=0.0f;
+    if((f32)(u32)(this->motion->nbFrame-1)<this->frame)this->frame=0.0f;
     process_player_warps();
 }
 
@@ -631,7 +631,7 @@ TObjAreaWarpForest::~TObjAreaWarpForest() {}
 
 void TObjAreaWarpForest::run_task() {
     beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+    if (static_cast<f32>(beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_rotation += 0x150;
@@ -725,7 +725,7 @@ TObjAreaWarpQuest::~TObjAreaWarpQuest() {}
 
 void TObjAreaWarpQuest::run_task() {
     beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+    if (static_cast<f32>(beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_rotation += 0x150;
@@ -841,7 +841,7 @@ TObjAreaWarpEnding::~TObjAreaWarpEnding() {}
 
 void TObjAreaWarpEnding::run_task() {
     beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+    if (static_cast<f32>(beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_rotation += 0x150;

@@ -57,7 +57,7 @@ extern "C" {
 
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
-__declspec(section ".data") AnimationMotion *lazer_fence_beam_motions[2];
+__declspec(section ".data") NJS_MOTION *lazer_fence_beam_motions[2];
 // The models of the first three children of switch model 0 (the beams).
 __declspec(section ".data") void *lazer_fence_beam_node_table[3];
 }
@@ -172,12 +172,12 @@ void TLazerFenceSw::update_switch_on() {
     u32 beam_end;
     u32 last_frame;
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
-    beam_end = lazer_fence_beam_motions[0]->frameCount - 1;
+    beam_end = lazer_fence_beam_motions[0]->nbFrame - 1;
     if (this->animation_frame > (f32) beam_end) {
         this->animation_frame = (f32) beam_end;
     }
     switch_frame = (f32) (switch_frame + this->animation_step);
-    last_frame = lazer_fence_beam_motions[1]->frameCount - 1;
+    last_frame = lazer_fence_beam_motions[1]->nbFrame - 1;
     if (switch_frame > (f32) last_frame) {
         switch_frame = (f32) last_frame;
     }
@@ -185,7 +185,7 @@ void TLazerFenceSw::update_switch_on() {
 
 void TLazerFenceSw::update_switch_off() {
     this->animation_frame = (f32) (this->animation_frame + this->animation_step);
-    if (this->animation_frame > (f32) (lazer_fence_beam_motions[0]->frameCount - 1)) {
+    if (this->animation_frame > (f32) (lazer_fence_beam_motions[0]->nbFrame - 1)) {
         this->animation_frame = (f32) 0.0f;
     }
     this->submit_cursor_target();

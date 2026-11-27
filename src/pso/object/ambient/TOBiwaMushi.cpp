@@ -44,7 +44,7 @@ TOMekaFish00::TOMekaFish00(void *set_data) {
     model = get_bml_model(model_resource, 0);
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
     model_radius = ((GinjaModelBounds *)model->model)->radius;
@@ -80,7 +80,7 @@ TOMekaFish01::TOMekaFish01(void *set_data) {
     model = get_bml_model(model_resource, 0);
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
     model_radius = ((GinjaModelBounds *)model->model)->radius;
@@ -116,7 +116,7 @@ TOBiwaMushi::TOBiwaMushi(void *set_data) {
     model = get_bml_model(model_resource, 0);
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.1f;
     view_range = 500.0f;
     model_radius = ((GinjaModelBounds *)model->model)->radius;

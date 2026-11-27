@@ -6,7 +6,7 @@
 #include "pso/unk/ModelNodeTables.h"
 
 class TParticleCtrl;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 
 // A particle effect the demo keeps alive from frame `start` until frame `end`.
@@ -33,7 +33,7 @@ public:
     TParticleCtrl *particle_emitters[5];
     NJS_OBJECT *models[6];
     NJS_TEXLIST *texture_lists[6];
-    AnimationMotion *motions[6];
+    NJS_MOTION *motions[6];
     f32 loop_frame;   // motion frame of models 0 and 1, wraps at 30
     f32 motion_frame; // motion frame of the other models, stops at 139
     f32 fade;         // 0 hidden .. 1 opaque

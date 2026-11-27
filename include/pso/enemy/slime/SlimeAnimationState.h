@@ -2,7 +2,6 @@
 #define PSO_ENEMY_SLIMEANIMATIONSTATE_H
 
 #include "types.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 
 struct NJS_TEXLIST;
@@ -35,11 +34,11 @@ struct SlimeAnimationState {
     s32 state;
     NJS_OBJECT *model;
     NJS_TEXLIST *texture_list;
-    AnimationMotion *motion;
-    AnimationMotion *shape_motion;
+    NJS_MOTION *motion;
+    NJS_MOTION *shape_motion;
     NJS_OBJECT *second_model;
     NJS_TEXLIST *second_texture_list;
-    AnimationMotion *second_motion;
+    NJS_MOTION *second_motion;
     u32 pad_24;
     f32 speed;
     f32 frame_count;

@@ -177,7 +177,7 @@ TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
     model = (NJS_OBJECT *)model_resource->models->model;
     texlist = model_resource->models->texlist;
     motion = model_resource->motions->motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.0f;
     view_range = 500.0f;
     model_radius = ((GinjaModelBounds *)model->model)->radius;

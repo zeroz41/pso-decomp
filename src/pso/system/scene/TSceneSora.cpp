@@ -9,7 +9,7 @@
 #include "pso/map/FloorMapSelection.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/render/TextureState.h"
 #include "pso/system/MatrixStack.h"
@@ -57,7 +57,7 @@ void TSceneSora::render() {
 void TSceneSora::run_task() {
     if (sky_motion != NULL) {
         m_a0 += motion_step;
-        if (m_a0 > (sky_motion->frameCount - 1)) {
+        if (m_a0 > (sky_motion->nbFrame - 1)) {
             m_a0 = 0.0f;
         }
     } else {

@@ -40,7 +40,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
 const CollisionBody city_season_collision_template = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -89,7 +89,7 @@ s32 TObjCitySeasonBase::advance_anim_time(s32 motion, f32 step) {
     f32 last_frame;
     resource = get_anim_frame();
     if (resource != NULL) {
-        last_frame = resource->motions[motion].motion->frameCount - 1;
+        last_frame = resource->motions[motion].motion->nbFrame - 1;
         anim_time += step;
         if (anim_time >= last_frame) {
             anim_time -= last_frame;

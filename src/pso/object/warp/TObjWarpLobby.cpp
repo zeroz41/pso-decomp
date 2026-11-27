@@ -1,7 +1,6 @@
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResourceLoad.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -112,7 +111,7 @@ void TObjWarpLobby::render() {
 void TObjWarpLobby::run_task() {
     s32 selected_menu_value;
     beam_frame += 4.0f;
-    if ((f32) (beam_motion->frameCount - 1) < beam_frame) {
+    if ((f32) (beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_phase += 336.0f;

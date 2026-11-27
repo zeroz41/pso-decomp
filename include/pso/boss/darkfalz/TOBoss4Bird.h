@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/boss/darkfalz/TOBoss4.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 // A flock of birds circling its set position, bobbing up and down.
 struct TOBoss4Bird : public TOBoss4 {
@@ -13,7 +13,7 @@ struct TOBoss4Bird : public TOBoss4 {
     virtual void render();
     static void *create(void *set_data);
     static const char *class_name;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 animation_end_frame;
     f32 animation_step;
     f32 animation_frame;

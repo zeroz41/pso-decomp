@@ -10,7 +10,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/TextureState.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
@@ -48,7 +48,7 @@ extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
     return get_bml_model(ancient_warp_shared_resource, index);
 }
 
-AnimationMotion *TObjGoalWarpAncient::register_warp(s32 index) {
+NJS_MOTION *TObjGoalWarpAncient::register_warp(s32 index) {
     return get_bml_motion(ancient_warp_shared_resource, index);
 }
 
@@ -92,7 +92,7 @@ TObjMapWarpAncient::~TObjMapWarpAncient() {}
 void TObjMapWarpAncient::run_task() {
     if ((s32)set_params[1] >= 0) {
         beam_frame += 4.0f;
-        if ((beam_motion->frameCount - 1) < beam_frame) {
+        if ((beam_motion->nbFrame - 1) < beam_frame) {
             beam_frame = 0.0f;
         }
         process_player_warps();
@@ -169,11 +169,11 @@ TObjGoalWarpAncient::~TObjGoalWarpAncient() {}
 
 void TObjGoalWarpAncient::run_task() {
     beam_frame += 4.0f;
-    if ((beam_motion->frameCount - 1) < beam_frame) {
+    if ((beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     naka_frame += 0.25f;
-    if ((naka_motion->frameCount - 1) < naka_frame) {
+    if ((naka_motion->nbFrame - 1) < naka_frame) {
         naka_frame = 0.0f;
     }
     handle_area_selection();

@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_OBJECT;
 struct TObjBoss5PillarSmoke;
 
@@ -27,7 +27,7 @@ struct TObjBoss5Pillar : public TObject {
     s32 timer;  // frames spent in state 2
     Vec position;
     NJS_OBJECT *models[2];
-    AnimationMotion *motions[2];  // played on models[0] and models[1]
+    NJS_MOTION *motions[2];  // played on models[0] and models[1]
     TObjBoss5PillarSmoke *smoke;
 };
 

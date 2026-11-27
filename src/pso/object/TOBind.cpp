@@ -7,7 +7,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -113,7 +113,7 @@ TOBind::TOBind(void *set_data) : TObjCollidable(tl_05) {
     animated_textures = get_bml_texlist(static_model_resource, 1);
     motion = get_bml_motion(static_model_resource, 0);
     motion_frame = 0.0f;
-    motion_end_frame = static_cast<f32>(motion->frameCount) - 1.0f;
+    motion_end_frame = static_cast<f32>(motion->nbFrame) - 1.0f;
     motion_step = 1.0f;
     init_collision_body_parts(this, bind_collision_body_parts, 2);
     refresh_collision_body_centers();

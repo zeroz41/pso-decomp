@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
-struct AnimationMotion;
+struct NJS_MOTION;
 class TParticleCtrl;
 
 // Field and function names shared with its twin TBoss4Thanks (darkfalz) where the bodies line up.
@@ -23,8 +23,8 @@ struct TBoss6Thanks : public TObject {
     NJS_OBJECT *model1;
     NJS_TEXLIST *texture0;
     NJS_TEXLIST *texture1;
-    AnimationMotion *motions[2];
-    AnimationMotion *motion1;
+    NJS_MOTION *motions[2];
+    NJS_MOTION *motion1;
     TParticleCtrl *particle_emitters[4];
     virtual void run_task();
     virtual void render();

@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -108,7 +108,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     model = photon_blast_shared_resource->models[2].model;
     motion = photon_blast_shared_resource->motions[2].motion;
     frame = 0.0f;
-    last_frame = (f32)motion->frameCount - 1.0f;
+    last_frame = (f32)motion->nbFrame - 1.0f;
     frame_step = 0.1f;
     texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
@@ -129,7 +129,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     model = photon_blast_shared_resource->models[2].model;
     motion = photon_blast_shared_resource->motions[2].motion;
     frame = 0.0f;
-    last_frame = (f32)motion->frameCount - 1.0f;
+    last_frame = (f32)motion->nbFrame - 1.0f;
     frame_step = 0.1f;
     texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
@@ -151,7 +151,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, u16 o
     model = photon_blast_shared_resource->models[2].model;
     motion = photon_blast_shared_resource->motions[2].motion;
     frame = 0.0f;
-    last_frame = (f32)motion->frameCount - 1.0f;
+    last_frame = (f32)motion->nbFrame - 1.0f;
     frame_step = 0.1f;
     texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;

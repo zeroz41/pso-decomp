@@ -16,7 +16,7 @@ struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -249,7 +249,7 @@ void TObjEneBm5GibonU::render_debug() {
     Vec v;
     s32 idx;
     f32 frame;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     TObjEneBm5GibonU *other;
     if (this->get_target_info() != 0) {
         debug_printf_at(pack_debug_text_position(0, 2), "GROUP:%2d", group_id);
@@ -288,8 +288,8 @@ void TObjEneBm5GibonU::render_debug() {
         frame = parameters[4];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (motion->frameCount - 1)) {
-            frame = (f32)motion->frameCount;
+        } else if (frame > (motion->nbFrame - 1)) {
+            frame = (f32)motion->nbFrame;
         }
         translate_matrix(0, 0.0f, 0.0f, -10.0f);
         toggle_particle_effect();
@@ -2336,7 +2336,7 @@ void TObjEneBm5GibonU::spawn_recoil_dust(Vec *dir) {
 #pragma pop
 
 f32 TObjEneBm5GibonU::calc_anim_speed(f32 speed) {
-    return 28.0f / ((this->motion_list[this->action_table[7].motion].motion->frameCount - 1) / speed);
+    return 28.0f / ((this->motion_list[this->action_table[7].motion].motion->nbFrame - 1) / speed);
 }
 
 int TObjEneBm5GibonU::is_active() { return this->entity_id & 0x1; }

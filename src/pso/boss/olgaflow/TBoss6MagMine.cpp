@@ -64,7 +64,7 @@ void TBoss6MagMine::copy_pos() {
 
 void TBoss6MagMine::update_linked_state() {
     s32 textures;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     saddr model;
 
     set_motion_packed_rotation();

@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjLobbyMain.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
@@ -18,7 +18,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include <dolphin/base/PPCArch.h>
@@ -183,7 +182,7 @@ void TObjLobbyMain::advance_motion_frame() {
     f32 last;
     s32 motion = lobby_main_model_motions[model_index];
     if (motion != 5) {
-        last = (f32)get_bml_motion(model_resource, motion)->frameCount - 1.0f;
+        last = (f32)get_bml_motion(model_resource, motion)->nbFrame - 1.0f;
         animation_frame += 1.0f;
         if (last < animation_frame) {
             animation_frame -= last;

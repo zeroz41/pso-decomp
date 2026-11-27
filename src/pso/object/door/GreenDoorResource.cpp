@@ -14,7 +14,7 @@
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
-AnimationMotion *get_green_door_motion(s32 index) {
+NJS_MOTION *get_green_door_motion(s32 index) {
     if (green_door_bml_resource != NULL) {
         return get_bml_motion(green_door_bml_resource, index);
     }

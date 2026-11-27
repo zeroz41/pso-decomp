@@ -25,7 +25,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/psoLoadTexture.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_lazer2_4m_model_names[9] = {
@@ -172,7 +172,7 @@ void TObjLazerFenceNorm::reset_by_door() {
 
 void TObjLazerFenceNorm::update_closed() {
     this->frame += 0.9f;
-    if ((f32)(beam_motion->frameCount - 1) < frame) {
+    if ((f32)(beam_motion->nbFrame - 1) < frame) {
         this->frame = lazer_fence_norm_zero[0];
     }
     if (is_current_floor_switch_set((u16)switch_id) == 1) {
@@ -227,11 +227,11 @@ void TObjLazerFenceNorm::select_models() {
     if (this->set_params[2] % 2 == 0) {
         this->base_model = get_bml_model(lazer_fence_norm_bml_resource, 1);
         beam_model = get_bml_model(lazer_fence_norm_bml_resource, 0);
-        this->beam_motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        this->beam_motion = (NJS_MOTION *)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
         this->base_model = get_bml_model(lazer_fence_norm_bml_resource, 3);
         beam_model = get_bml_model(lazer_fence_norm_bml_resource, 2);
-        this->beam_motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        this->beam_motion = (NJS_MOTION *)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         beam_part_models[j] = 0;
@@ -312,7 +312,7 @@ void TObjLazerFenceExtra::reset_by_door() {
 
 void TObjLazerFenceExtra::update_wait_switch() {
     this->frame += 0.9f;
-    if ((f32)(beam_motion->frameCount - 1) < frame) {
+    if ((f32)(beam_motion->nbFrame - 1) < frame) {
         this->frame = lazer_fence_norm_zero[0];
     }
     if (is_current_floor_switch_set((u16)switch_id) == 1) {

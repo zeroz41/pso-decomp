@@ -15,7 +15,7 @@ struct OlgaFlowType2ActionMsg;
 struct Boss6GridBytes;
 struct NJS_OBJECT;
 struct CollisionBody;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct TBoss6Mag;
 struct TBoss6MagSpawnParams;
 class TBoss6DPB;
@@ -34,12 +34,12 @@ struct TBoss6Type2Model {
 
 // One motion track; a change of motion blends from prev_motion over blend.
 struct TBoss6Type2MotionTrack {
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     f32 speed;  // frames per update
     f32 blend;
     f32 blend_step;
-    AnimationMotion *prev_motion;
+    NJS_MOTION *prev_motion;
     f32 prev_frame;
     void copy_from(TBoss6Type2MotionTrack *src);
 };

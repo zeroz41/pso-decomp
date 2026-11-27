@@ -6,11 +6,10 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TMotionModel.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/render_util.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/DebugFont.h"
@@ -424,7 +423,7 @@ void TObjMotion::set_action_motion(s32 action) {
 }
 
 f32 TObjMotion::get_action_frame_count(s16 action) {
-    return (f32)motion_list[action_table[action].motion].motion->frameCount;
+    return (f32)motion_list[action_table[action].motion].motion->nbFrame;
 }
 
 s32 TObjMotion::is_anim_finished() {

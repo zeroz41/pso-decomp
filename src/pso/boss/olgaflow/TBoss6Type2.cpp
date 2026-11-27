@@ -51,7 +51,6 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerCommands.h"
@@ -763,7 +762,7 @@ void TBoss6Type2::init_motion_entries() {
     TBoss6Type2::copy_block((MotionIndexBlock *)&motion_index, &boss6_type2_zero_motion_block);
     for (i = 0; i < get_motion_track_count(); i++) {
         TBoss6Type2MotionTrack *e = &motion_tracks[i];
-        AnimationMotion *motion;
+        NJS_MOTION *motion;
         e->copy_from((TBoss6Type2MotionTrack *)&boss6_type2_motion_entry_transform);
         motion = get_bml_motion(archive, TBoss6Type2::motion_table[0].motion[i]);
         e->prev_motion = motion;
@@ -781,7 +780,7 @@ void TBoss6Type2::update_motion_tracks() {
     for (i = 0; i < get_motion_track_count(); i++) {
         if (i != get_main_motion_track()) {
             e = &motion_tracks[i];
-            n = (f32)e->motion->frameCount;
+            n = (f32)e->motion->nbFrame;
             e->frame += e->speed;
             if (e->frame >= n) {
                 e->frame -= n;
@@ -794,7 +793,7 @@ void TBoss6Type2::update_motion_tracks() {
         }
     }
     e = &motion_tracks[get_main_motion_track()];
-    n = (f32)e->motion->frameCount;
+    n = (f32)e->motion->nbFrame;
     e->frame += e->speed;
     switch (motion_mode) {
     case 0:
@@ -828,7 +827,7 @@ void TBoss6Type2::change_motion(s32 motion) {
         motion_mode = ent->mode;
         for (i = 0; i < get_motion_track_count(); i++) {
             TBoss6Type2MotionTrack *e = &motion_tracks[i];
-            AnimationMotion *next = get_bml_motion(archive, ent->motion[i]);
+            NJS_MOTION *next = get_bml_motion(archive, ent->motion[i]);
             e->blend = e->blend_step;
             e->prev_motion = e->motion;
             e->prev_frame = e->frame;

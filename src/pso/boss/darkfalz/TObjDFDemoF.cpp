@@ -95,7 +95,7 @@ void TObjDFDemoF::render() {
     s32 i = 0;
     do {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures[i]));
-        AnimationMotion *motion = motions[i];
+        NJS_MOTION *motion = motions[i];
         if (motion == NULL) {
             draw_chunk_object(models[i]);
         } else {

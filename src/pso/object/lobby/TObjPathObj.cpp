@@ -1,4 +1,4 @@
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/memory.h"
@@ -147,7 +147,7 @@ void TObjPathObj::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjPathObj::sample_clamped_path_position(NJS_OBJECT *node, AnimationMotion *motion, Vec *pos, f32 frame) {
+s32 TObjPathObj::sample_clamped_path_position(NJS_OBJECT *node, NJS_MOTION *motion, Vec *pos, f32 frame) {
     s32 ang[3];
     f32 scl[3];
     f32 quat[4];
@@ -155,12 +155,12 @@ s32 TObjPathObj::sample_clamped_path_position(NJS_OBJECT *node, AnimationMotion 
     u32 last;
 
     in_range = 1;
-    last = motion->frameCount - 1;
+    last = motion->nbFrame - 1;
     if (frame > (f32)last) {
         in_range = 0;
         frame = (f32)last;
     }
-    bind_motion_context((NJS_MOTION *)motion, frame);
+    bind_motion_context(motion, frame);
     sample_motion_node_transform(node, &pos->x, ang, scl, quat);
     return in_range;
 }
@@ -169,7 +169,7 @@ s32 TObjPathObj::sample_clamped_path_position(NJS_OBJECT *node, AnimationMotion 
 #pragma push
 #pragma fp_contract on
 
-void TObjPathObj::draw_line_strip(NJS_OBJECT *node, AnimationMotion *motion, f32 step) {
+void TObjPathObj::draw_line_strip(NJS_OBJECT *node, NJS_MOTION *motion, f32 step) {
     Vec from;
     Vec to;
     f32 frame;
@@ -228,7 +228,7 @@ void TObjSeabedDolphin::update() {
         this->path_frame = (0.0f);
     }
     this->motion_frame = this->motion_frame + seabed_dolphin_path_profiles[this->profile].motion_speed;
-    if (this->motion_frame > (f32)(this->motion->frameCount - 1)) {
+    if (this->motion_frame > (f32)(this->motion->nbFrame - 1)) {
         this->motion_frame = (0.0f);
     }
 }
@@ -396,7 +396,7 @@ void TObjJungleEbi::update() {
         this->path_frame = (0.0f);
     }
     this->motion_frame = this->motion_frame + jungle_ebi_path_profiles[this->profile].motion_speed;
-    if (this->motion_frame > (f32)(this->motion->frameCount - 1)) {
+    if (this->motion_frame > (f32)(this->motion->nbFrame - 1)) {
         this->motion_frame = (0.0f);
     }
 }
@@ -568,7 +568,7 @@ void TObjJungleBird::update() {
         this->path_frame = (0.0f);
     }
     this->motion_frame = this->motion_frame + lobby_pigeon_path_parameters[this->profile].motion_speed;
-    if (this->motion_frame > (f32)(this->motion->frameCount - 1)) {
+    if (this->motion_frame > (f32)(this->motion->nbFrame - 1)) {
         this->motion_frame = (0.0f);
     }
 }
@@ -721,7 +721,7 @@ void TObjJungleKamome::update() {
         this->path_frame = (0.0f);
     }
     this->motion_frame += jungle_seagull_path_profiles[this->profile].motion_speed;
-    if (this->motion_frame > (f32) (this->motion->frameCount - 1)) {
+    if (this->motion_frame > (f32) (this->motion->nbFrame - 1)) {
         this->motion_frame = (0.0f);
     }
     cry_delay_left = this->cry_delay - 1;
@@ -919,7 +919,7 @@ void TObjLobbyPigeon::update() {
     this->path_frame = (0.0f);
   }
   this->motion_frame += lobby_pigeon_path_profiles[this->profile].motion_speed;
-  if (this->motion_frame > (f32)(u32)(this->motion->frameCount - 1)) {
+  if (this->motion_frame > (f32)(u32)(this->motion->nbFrame - 1)) {
     this->motion_frame = (0.0f);
   }
   if (--this->random_delay < 0) {

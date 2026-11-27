@@ -10,7 +10,7 @@
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -659,7 +659,7 @@ void TBoss6Type1::advance_animations() {
     for (i = 0; i < n; i++) {
         if (i == cur) continue;
         a = &motion_state.part_motions[i];
-        len = a->motion->frameCount;
+        len = a->motion->nbFrame;
         a->frame += a->speed;
         if (a->frame >= len) a->frame -= len;
         if (0.0f != a->blend) {
@@ -667,7 +667,7 @@ void TBoss6Type1::advance_animations() {
         }
     }
     a = &motion_state.part_motions[main_anim_index()];
-    len = a->motion->frameCount;
+    len = a->motion->nbFrame;
     a->frame += a->speed;
     switch (this->motion_state.motion_mode) {
     case 0:
@@ -705,7 +705,7 @@ void TBoss6Type1::set_motion_set(s32 set) {
     this->motion_state.motion_mode = t->mode;
     for (i = 0; i < n; i++) {
         a = &motion_state.part_motions[i];
-        AnimationMotion *motion = get_bml_motion(this->bml_resource, t->ids[i]);
+        NJS_MOTION *motion = get_bml_motion(this->bml_resource, t->ids[i]);
         a->blend = a->blend_step;
         a->prev_motion = a->motion;
         a->prev_frame = a->frame;
@@ -970,7 +970,7 @@ void TBoss6Type1::update_beam_attack() {
     Vec A;
     Vec B;
     f32 t = motion_state.part_motions[1].frame;
-    AnimationMotion *motion = motion_state.part_motions[1].motion;
+    NJS_MOTION *motion = motion_state.part_motions[1].motion;
     s32 n;
     s32 i;
 
@@ -1100,7 +1100,7 @@ void TBoss6Type1::spawn_sword_shots() {
 // swept since the previous frame, between frames 10.5 and 15 of motion set 14.
 void TBoss6Type1::check_sweep_hits() {
     f32 frame = motion_state.part_motions[0].frame;
-    AnimationMotion *motion = motion_state.part_motions[0].motion;
+    NJS_MOTION *motion = motion_state.part_motions[0].motion;
     Vec *tip = (Vec *)&arm_node_positions[6];
     s32 i;
     s32 n;

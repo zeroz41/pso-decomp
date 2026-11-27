@@ -11,7 +11,7 @@
 #include "pso/object/seabed/TObjSeabedSuiso_CH.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/switch/TSwitch.h"

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient01.h"
@@ -13,7 +13,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/math/MatrixReflect.h"
 
 const char *bm_fd_obj_n_switch_model_names[] = {"fd_obj_n_switch.gj", NULL};
@@ -110,7 +109,7 @@ TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) 
     texlist = key_ancient01_texture_lists[set_params[1]];
     model = key_ancient01_shared_resource_object->models[0].model;
     motion = key_ancient01_shared_resource_object->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.99f;
     init_collision_body_parts(this, key_ancient01_collision_body, 1);
     refresh_collision_body_centers();

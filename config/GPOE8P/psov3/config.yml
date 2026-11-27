@@ -5819,7 +5819,7 @@ force_active:
   - draw_light__12TODoorCave02FP10NJS_OBJECT
   - draw_lights__20TODoorFourLightSpaceFv
   - draw_line_ctrl_name
-  - draw_line_strip__11TObjPathObjFP10NJS_OBJECTP15AnimationMotionf
+  - draw_line_strip__11TObjPathObjFP10NJS_OBJECTP10NJS_MOTIONf
   - draw_line_task_data
   - draw_line_task_name
   - draw_line_task_resource
@@ -15157,7 +15157,7 @@ force_active:
   - salGetStartDelay
   - salInitHRTFBuffer
   - salSynthSendMessage
-  - sample_clamped_path_position__11TObjPathObjFP10NJS_OBJECTP15AnimationMotionP3Vecf
+  - sample_clamped_path_position__11TObjPathObjFP10NJS_OBJECTP10NJS_MOTIONP3Vecf
   - sample_root_height__12TBoss1DragonFv
   - saveCurrentDestination__12TBoss1DragonFv
   - saveTargetDestination__12TBoss1DragonFv

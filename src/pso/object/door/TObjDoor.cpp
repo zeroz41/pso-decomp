@@ -5,14 +5,13 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/object/door/TObjDoor.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -59,7 +58,7 @@ NJS_ARGB TObjDoor::label_color_table[10] = {
 };
 const char *TObjDoor::name = "TObjDoor";
 
-AnimationMotion *TObjDoor::motion_table[2];
+NJS_MOTION *TObjDoor::motion_table[2];
 DoorModelSet TObjDoor::model_resource_ptrs;
 
 NJS_TEXLIST *TObjDoor::resource_param;
@@ -172,7 +171,7 @@ void TObjDoor::update_state() {
         }
         if(this->cameraTicks>60) {
             this->accentFrame+=(2.0f);
-            if(this->accentFrame>(motion_table[1]->frameCount-1))this->accentFrame=(0.0f);
+            if(this->accentFrame>(motion_table[1]->nbFrame-1))this->accentFrame=(0.0f);
         }
         return;
     case 2:
@@ -184,8 +183,8 @@ void TObjDoor::update_state() {
     case 4:
         play_persistent_sound(0x49e08, this, &this->position, 0, 0);
         this->frame+=(1.8f);
-        if(this->frame>(motion_table[0]->frameCount-1)) {
-            this->frame=(motion_table[0]->frameCount-1);this->state=5;
+        if(this->frame>(motion_table[0]->nbFrame-1)) {
+            this->frame=(motion_table[0]->nbFrame-1);this->state=5;
         }
         break;
     case 3:
@@ -239,7 +238,7 @@ s32 TObjDoor::is_visible(f32 far_dist, f32 near_dist) {
 
 void TObjDoor::update_locked_pulse() {
     this->accentFrame += 2.0f;
-    if (this->accentFrame > motion_table[1]->frameCount - 1) this->accentFrame = 0.0f;
+    if (this->accentFrame > motion_table[1]->nbFrame - 1) this->accentFrame = 0.0f;
     this->phase += 0x300;
     this->glow = 0.2f * sin_table_lookup(this->phase) + 0.4f;
 }
@@ -253,7 +252,7 @@ void TObjDoor::update_anim() {
 
 void TObjDoor::draw_closed_glow() {
     this->frame += 1.5f;
-    if (this->frame > motion_table[0]->frameCount - 1) this->frame = 0.0f;
+    if (this->frame > motion_table[0]->nbFrame - 1) this->frame = 0.0f;
     this->glow += 0.05f;
     if (this->glow > 0.5f) this->glow = 0.5f;
 }

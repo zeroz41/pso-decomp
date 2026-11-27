@@ -179,7 +179,7 @@ TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor
     }
     model = sensor_ancient01_model_resource->models[0].model;
     motion = sensor_ancient01_model_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.0f;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)model->model)->radius;

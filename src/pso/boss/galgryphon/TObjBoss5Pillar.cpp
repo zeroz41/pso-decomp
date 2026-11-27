@@ -7,7 +7,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -45,7 +45,7 @@ void TObjBoss5Pillar::run_task() {
             this->smoke = create_smoke(this, this->models[0]);
         }
         this->frame += this->frame_step;
-        last = this->motions[0]->frameCount - 1;
+        last = this->motions[0]->nbFrame - 1;
         if ((f32)last <= this->frame) {
             this->frame = (f32)last;
             this->state = 2;

@@ -2,7 +2,7 @@
 #define PSO_ENEMY_DELDEPTH_TOBJENEDELDEPTH_H
 
 #include "types.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/enemy/TObjEnemy.h"
 
 struct BmlResource;
@@ -29,10 +29,10 @@ struct DelDepthMotion {
     s32 motion;
     NJS_OBJECT *model;
     NJS_TEXLIST *texture;
-    AnimationMotion *animation;
+    NJS_MOTION *animation;
     NJS_OBJECT *secondModel;
     NJS_TEXLIST *secondTexture;
-    AnimationMotion *secondAnimation;
+    NJS_MOTION *secondAnimation;
     f32 speed;
     f32 endFrame;
     f32 frame;

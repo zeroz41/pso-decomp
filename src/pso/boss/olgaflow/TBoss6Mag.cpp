@@ -30,7 +30,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -310,7 +310,7 @@ void TBoss6MagMotionTrack::copy_state(TBoss6MagMotionTrack *src) {
 }
 
 void TBoss6Mag::init_motion_state() {
-    AnimationMotion *bml_motion;
+    NJS_MOTION *bml_motion;
     motion_state.copy_from(&boss6_type2_zero_vec3_block);
     motion_state.track.copy_state((TBoss6MagMotionTrack *)&boss6_type2_initial_state);
     bml_motion = get_bml_motion(scene_archive, boss6_type2_motion_table[0].motion);
@@ -323,7 +323,7 @@ void TBoss6Mag::update_motion_playback() {
     f32 n;
     f32 lim;
 
-    n = (f32)motion_state.track.motion->frameCount;
+    n = (f32)motion_state.track.motion->nbFrame;
     motion_state.track.frame += motion_state.track.speed;
     switch (motion_state.mode) {
     case 0:
@@ -352,7 +352,7 @@ void TBoss6Mag::update_motion_playback() {
 #pragma opt_common_subs off
 void TBoss6Mag::change_motion(s32 motion) {
     s32 row;
-    AnimationMotion *bml_motion;
+    NJS_MOTION *bml_motion;
     if ((motion != -1) && (motion != motion_state.index)) {
         motion_state.index = motion;
         row = motion * sizeof(TBoss6MagMotionEntry);

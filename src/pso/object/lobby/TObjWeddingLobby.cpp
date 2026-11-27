@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/render/TextureState.h"
@@ -76,7 +76,7 @@ void TObjWeddingLobby::run_task() {
         }
         break;
     }
-    last = (f32)get_bml_motion(resource_bundle, 0)->frameCount - 1.0f;
+    last = (f32)get_bml_motion(resource_bundle, 0)->nbFrame - 1.0f;
     animation_frame += 2.0f;
     if (last < animation_frame) {
         animation_frame -= last;

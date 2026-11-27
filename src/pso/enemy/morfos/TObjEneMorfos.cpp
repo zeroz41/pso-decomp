@@ -49,7 +49,7 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/network/IPv6.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
@@ -1337,7 +1337,7 @@ static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};
 void TObjEneMorfos::render_demo() {
     s32 idx;
     f32 frame;
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         if (mode != 0xB) {
@@ -1359,8 +1359,8 @@ void TObjEneMorfos::render_demo() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (anim->frameCount - 1)) {
-            frame = (f32)anim->frameCount;
+        } else if (frame > (anim->nbFrame - 1)) {
+            frame = (f32)anim->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(model, anim, frame);

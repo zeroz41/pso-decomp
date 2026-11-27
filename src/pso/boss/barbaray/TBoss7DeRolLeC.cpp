@@ -3662,7 +3662,7 @@ NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(bos
 
 NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return get_bml_model(boss7_derolle_c_bml_resource, index); }
 
-AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
+NJS_MOTION *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
 void TBoss7DeRolLeC::restore_joint_polygons() {
     NJS_OBJECT *model;
     s32 i;

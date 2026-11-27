@@ -3,7 +3,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
 
@@ -24,7 +24,6 @@ struct NJS_OBJECT;
 #include "pso/network/protocol/protocol.h"
 #include "pso/object/TObjControl.h"
 
-#include "pso/system/NinjaTypes.h"
 
 #include "types.h"
 
@@ -3822,7 +3821,7 @@ int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
 
 void TBoss2DeRolLe::render_body() {
     s32 i;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     s32 idx;
     f32 frame;
     f32 max;
@@ -3848,7 +3847,7 @@ void TBoss2DeRolLe::render_body() {
     }
     motion = motion_list[action_table[idx].motion].motion;
     if (test_previous_buttons_packed(&controller_input_state.controllers[2], 4) != 0) {
-        max = motion->frameCount - 1;
+        max = motion->nbFrame - 1;
         this->frame = this->frame + parameters[2];
         while (this->frame < 0.0f) {
             this->frame = this->frame + max;
@@ -3861,8 +3860,8 @@ void TBoss2DeRolLe::render_body() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (motion->frameCount - 1)) {
-            frame = motion->frameCount;
+        } else if (frame > (motion->nbFrame - 1)) {
+            frame = motion->nbFrame;
         }
     }
     derolle_begin_node_capture(this);

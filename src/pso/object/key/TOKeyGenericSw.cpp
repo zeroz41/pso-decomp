@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/render/psoLoadTexture.h"
@@ -158,7 +158,7 @@ TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) 
     init_switch_id();
     model = key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     motion = key_generic_sw_shared_resource_ptrs[1]->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 2.0f;
     texlist = key_generic_sw_texture_lists[1];
     init_collision_body_parts(this, key_generic_sw_collision_body, 1);

@@ -13,7 +13,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ScreenSpriteDraw.h"
@@ -355,10 +355,10 @@ const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
 void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
-                           AnimationMotion *motion, s32 loop, f32 frame) {
+                           NJS_MOTION *motion, s32 loop, f32 frame) {
     particle->model = model;
     particle->texlist = texlist;
-    particle->motion = reinterpret_cast<NJS_MOTION *>(motion);
+    particle->motion = motion;
     particle->emit_flags |= 0x200;
     particle->motion_frame = frame;
     if (loop != 0) {
@@ -3778,7 +3778,7 @@ void TBoss5Gryphon::run_demo_task() { get_target_info(); }
 
 // parameters[0] holds the demo's action and parameters[1] its frame.
 void TBoss5Gryphon::render_demo() {
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     f32 frame;
     s32 action;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
@@ -3802,7 +3802,7 @@ void TBoss5Gryphon::render_demo() {
         if (frame < 0.0f) {
             frame = 0.0f;
         } else {
-            u32 n = anim->frameCount;
+            u32 n = anim->nbFrame;
             if (frame > (n - 1)) {
                 frame = (f32)n;
             }

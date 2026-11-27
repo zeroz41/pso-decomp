@@ -96,7 +96,7 @@ TOFenceAncient03::TOFenceAncient03(TObject *parent, void *set_data) : TOFenceBas
     model = model_resource->models[0].model;
     texlist = texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     init_collision_body_parts(this, fence_ancient03_collision_bodies, 8);
     refresh_collision_body_centers();
     register_object_by_id();

@@ -182,7 +182,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     StelthBehaviorParams *d;
     NJS_OBJECT *m;
     NJS_CNK_MODEL *q;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
 
     me3_stelth_zero_vector[0] = 0.0f;
     me3_stelth_zero_vector[1] = 0.0f;
@@ -242,15 +242,15 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = me3_stelth_bml_resource->motions[me3_stelth_animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        me3_stelth_breakup_model = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        me3_stelth_breakup_model = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, motion, (f32)(motion->nbFrame - 1));
     } else {
-        me3_stelth_breakup_model = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        me3_stelth_breakup_model = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(motion->nbFrame - 1));
     }
     {
         Vec va;
         Vec vb;
         NJS_OBJECT *mdl;
-        AnimationMotion *trail_motion;
+        NJS_MOTION *trail_motion;
         BmlResource *r = me3_stelth_bml_resource;
         s32 idx = me3_stelth_animation_descriptors[6].motion;
         mdl = r->models->model;
@@ -262,7 +262,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
         vb.z = 0.0f;
         trail_motion = r->motions[idx].motion;
         me3_stelth_trail_buffer = new SampledMotionPoints(2, 16.0f, 26.0f, 0.7f);
-        me3_stelth_trail_buffer->sample_node_offsets(mdl, (NJS_MOTION *)trail_motion, 0x22, &va, &vb);
+        me3_stelth_trail_buffer->sample_node_offsets(mdl, trail_motion, 0x22, &va, &vb);
     }
     {
         NpcAnimationBinding a = stelth_attack_binding_desc_a;

@@ -74,7 +74,7 @@ void TBoss6Mine::copy_pos() {
 
 void TBoss6Mine::draw() {
     s32 texlist;
-    AnimationMotion *bml_motion;
+    NJS_MOTION *bml_motion;
     saddr bml_model;
 
     set_motion_packed_rotation();

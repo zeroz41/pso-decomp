@@ -7,7 +7,7 @@
 
 class BmlResource;
 class ModelNodePositionCapture;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct TBoss6Type2;
 struct TParticleCtrl;
 
@@ -30,12 +30,12 @@ struct TBoss6MagSpawnParams {
 };
 
 struct TBoss6MagMotionTrack {
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     f32 speed;
     f32 blend;
     f32 blend_step;
-    AnimationMotion *prev_motion;
+    NJS_MOTION *prev_motion;
     f32 prev_frame;
 
     void copy_state(TBoss6MagMotionTrack *src);
@@ -197,8 +197,8 @@ struct TBoss6MagMotionEntry {
     f32 speed;
 };
 struct TBoss6MagMotionBlend {
-    AnimationMotion *from;
-    AnimationMotion *to;
+    NJS_MOTION *from;
+    NJS_MOTION *to;
     f32 from_frame;
     f32 to_frame;
 };

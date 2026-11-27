@@ -66,7 +66,7 @@ TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, void *set_data) : TO
     this->model_tree = get_green_door_model(0);
     this->texlist = get_green_door_texlist(0);
     motion = get_green_door_motion(0);
-    this->animation_end_frame = (f32)motion->frameCount - 1.0f;
+    this->animation_end_frame = (f32)motion->nbFrame - 1.0f;
     this->animation_step = 0.5f;
     {
         FourLightNodeTable t = door_four_light_ruins_index_table;
@@ -268,7 +268,7 @@ TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, void *set_data) : TO
     this->model_tree = get_green_door_model(0);
     this->texlist = get_green_door_texlist(0);
     motion = get_green_door_motion(0);
-    this->animation_end_frame = (f32)motion->frameCount - 1.0f;
+    this->animation_end_frame = (f32)motion->nbFrame - 1.0f;
     this->animation_step = 0.5f;
     {
         FourLightNodeTable t = door_four_light_space_index_table;

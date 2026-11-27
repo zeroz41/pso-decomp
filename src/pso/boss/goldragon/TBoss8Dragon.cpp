@@ -7,7 +7,7 @@
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/math/FloatRounding.h"
@@ -4761,7 +4761,7 @@ void TBoss8Dragon::render_nodes_flagged() {
 void TBoss8Dragon::draw_motion_model() {
     f32 f;
     s32 idx;
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
@@ -4782,8 +4782,8 @@ void TBoss8Dragon::draw_motion_model() {
         f = this->parameters[1];
         if (f < 0.0f) {
             f = 0.0f;
-        } else if (f > (f32)(anim->frameCount - 1)) {
-            f = anim->frameCount;
+        } else if (f > (f32)(anim->nbFrame - 1)) {
+            f = anim->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(this->model, anim, f);

@@ -32,7 +32,6 @@ struct NJS_OBJECT;
 #include "pso/system/ControllerInputState.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/dragon/TObjBoss1Rock.h"
 #include "pso/system/vector.h"
@@ -5221,7 +5220,7 @@ void TBoss1Dragon::render_shadows() {
 int TBoss1Dragon::run_demo_task() { return this->get_target_info(); }
 
 void TBoss1Dragon::render_low_detail() {
-    AnimationMotion *m;
+    NJS_MOTION *m;
     s32 i;
     f32 frame;
 
@@ -5248,8 +5247,8 @@ void TBoss1Dragon::render_low_detail() {
     if (frame < (0.0f)) {
         frame = (0.0f);
     } else {
-        if (frame > (m->frameCount - 1)) {
-            frame = (f32)m->frameCount;
+        if (frame > (m->nbFrame - 1)) {
+            frame = (f32)m->nbFrame;
         }
     }
     draw_model_motion(this->model, m, frame);

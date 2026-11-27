@@ -10,7 +10,7 @@ struct DragonAttackParams;
 class TObject;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 extern BmlResource *green_door_bml_resource;
 extern NJS_TEXLIST *green_door_texture_handle;
@@ -19,7 +19,7 @@ extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 
 NJS_TEXLIST *get_green_door_textures();
 
-AnimationMotion *get_green_door_motion(s32 index);
+NJS_MOTION *get_green_door_motion(s32 index);
 NJS_TEXLIST *get_green_door_texlist(s32 index);
 NJS_OBJECT *get_green_door_model(s32 index);
 void load_green_door_resources(void);

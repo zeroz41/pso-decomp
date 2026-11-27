@@ -12,7 +12,7 @@
 #include "pso/object/seabed/TObjSeabedSuiso_CH.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/switch/TSwitch.h"
@@ -240,7 +240,7 @@ NJS_TEXLIST *TObjSeabedSuisoBrakable::get_texlist(int index) {
     return texture_list;
 }
 
-AnimationMotion *TObjSeabedSuisoBrakable::get_bml_motion_by_index(s32 index) {
+NJS_MOTION *TObjSeabedSuisoBrakable::get_bml_motion_by_index(s32 index) {
     if (bml_resource != NULL) {
         return get_bml_motion(bml_resource, index);
     }
@@ -281,7 +281,7 @@ void TObjSeabedSuiso_CH::init_kind_params() {
         animation_step = 0.0f;
     }
     if (motion != NULL) {
-        animation_end_frame = (f32)motion->frameCount - 1.0f;
+        animation_end_frame = (f32)motion->nbFrame - 1.0f;
     }
     view_range = seabed_suiso_kind_params[kind].view_range;
     model_radius = seabed_suiso_kind_params[kind].model_radius;

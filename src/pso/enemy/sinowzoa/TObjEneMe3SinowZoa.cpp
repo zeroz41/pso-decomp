@@ -53,7 +53,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/enemy/sinowzoa/SinowZoaData.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
@@ -153,7 +152,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     s32 count;
     NJS_OBJECT *model;
     NJS_CNK_MODEL *chunk;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
@@ -214,7 +213,7 @@ void TObjEneMe3SinowZoa::load_resources() {
         me3_sinow_zoa_material_color_pointers[2] = NULL;
     }
     motion = me3_sinow_zoa_bml_resource->motions[me3_sinow_zoa_animation_descriptors[5].motion].motion;
-    breakup = new TBreakUpMdlData(me3_sinow_zoa_bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    breakup = new TBreakUpMdlData(me3_sinow_zoa_bml_resource->models->model, motion, motion->nbFrame - 1);
     me3_sinow_zoa_breakup_model = breakup;
     {
         NpcAnimationBinding info = sinow_zoa_attack_binding_desc_a;
@@ -1783,7 +1782,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
 void TObjEneMe3SinowZoa::render_demo() {
     s32 save[3];
     s32 flag;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     if (get_target_info() != 0) {
         if (starts_stealthed() != 0) {
@@ -1843,13 +1842,13 @@ void TObjEneMe3SinowZoa::render_demo() {
             frame = parameters[3];
             if (frame < 0.0f) {
                 frame = 0.0f;
-            } else if (frame > (motion->frameCount - 1)) {
-                frame = (motion->frameCount - 1);
+            } else if (frame > (motion->nbFrame - 1)) {
+                frame = (motion->nbFrame - 1);
             }
             set_motion_packed_rotation();
             draw_model_motion(model, motion, frame);
             clear_motion_packed_rotation();
-            current_motion = (NJS_MOTION *)motion;
+            current_motion = motion;
             this->frame = frame;
             frame = get_node_height();
             print_float_padded(pack_debug_text_position(0, 7), 5, frame);

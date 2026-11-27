@@ -5,7 +5,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct G_SetBossWarpFlags_6x6A;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -15,8 +15,8 @@ void load_boss_warp_resources();
 NJS_OBJECT *get_boss_warp_base_model(void);
 NJS_OBJECT *get_boss_warp_confirmation_model(void);
 NJS_OBJECT *get_boss_warp_model(void);
-AnimationMotion *get_boss_warp_motion(void);
-AnimationMotion *get_boss_warp_bml_motion(void);
+NJS_MOTION *get_boss_warp_motion(void);
+NJS_MOTION *get_boss_warp_bml_motion(void);
 NJS_TEXLIST *get_boss_warp_base_textures(void);
 NJS_TEXLIST *get_boss_warp_effect_textures(void);
 
@@ -37,8 +37,8 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     NJS_OBJECT *base_model;                 // get_boss_warp_base_model(), drawn with model_handle's textures
     NJS_OBJECT *confirmation_model;         // get_boss_warp_confirmation_model(), drawn with motion while state == 0
     NJS_OBJECT *warp_model;                 // get_boss_warp_model(), drawn with bml_motion while state == 1
-    AnimationMotion *motion;        // get_boss_warp_motion()
-    AnimationMotion *bml_motion;    // get_boss_warp_bml_motion()
+    NJS_MOTION *motion;        // get_boss_warp_motion()
+    NJS_MOTION *bml_motion;    // get_boss_warp_bml_motion()
     NJS_TEXLIST *model_handle;               // get_boss_warp_base_textures(): textures of base_model
     NJS_TEXLIST *effect_textures;            // get_boss_warp_effect_textures(): textures of the two animated models
     s32 state;                      // 1 once the key_id floor switch is set: the warp is usable

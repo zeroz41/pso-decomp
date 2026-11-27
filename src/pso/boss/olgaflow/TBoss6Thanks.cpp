@@ -32,7 +32,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 
 
@@ -193,7 +192,7 @@ void TBoss6Thanks::run_task() {
       break;
   }
   frame0 += 0.6f;
-  lim = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  lim = ((f32) motions[current_motion]->nbFrame) - 1.0f;
   if (frame0 >= lim)
   {
     frame0 -= lim;
@@ -203,7 +202,7 @@ void TBoss6Thanks::run_task() {
     }
   }
   frame1 += 0.6f;
-  lim = ((f32) motion1->frameCount) - 1.0f;
+  lim = ((f32) motion1->nbFrame) - 1.0f;
   if (frame1 >= lim)
   {
     frame1 -= lim;

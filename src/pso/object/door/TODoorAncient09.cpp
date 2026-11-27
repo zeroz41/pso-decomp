@@ -51,7 +51,7 @@ TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(p
     texlist = texture_lists[0];
     model = bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient09_collision_body, 1);
     refresh_collision_body_centers();

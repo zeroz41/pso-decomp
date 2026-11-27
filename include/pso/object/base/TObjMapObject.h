@@ -2,7 +2,7 @@
 #define PSO_OBJECT_BASE_TOBJMAPOBJECT_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 // The base of the map objects (TOKey, TODoor*, TOSign*, TOAircon* and the
 // other TO* set objects): a collidable that loops one model motion and draws
@@ -26,7 +26,7 @@ public:
     f32 animation_frame;        // the motion frame update_anim_phase advances
     f32 animation_end_frame;    // where animation_frame wraps
     f32 animation_step;         // frames per update
-    AnimationMotion *motion;    // the looped motion, NULL for a static model
+    NJS_MOTION *motion;    // the looped motion, NULL for a static model
     f32 view_range;             // range classify_actor_view_detail is asked with
     f32 model_radius;
 };

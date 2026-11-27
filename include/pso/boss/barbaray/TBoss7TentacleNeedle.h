@@ -6,7 +6,7 @@
 #include "pso/system/vector.h"
 
 struct NJS_OBJECT;
-struct AnimationMotion;
+struct NJS_MOTION;
 class TParticleCtrl;
 
 // A needle Barba Ray drives up through the floor under a player: it waits, rises (motion 0), stings every
@@ -37,12 +37,12 @@ struct TBoss7TentacleNeedle : public TObject {
     TParticleCtrl *particle_emitter; // create_particle_emitter(pos, 0x212) in the ctor
     s32 player_hit[12];        // set once a player has been stung
     f32 frame;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
 };
 
 LAYOUT_ASSERT(TBoss7TentacleNeedle_size, sizeof(TBoss7TentacleNeedle) == 0x7C);
 
 extern NJS_OBJECT *boss7_tentacle_needle_model;
-extern AnimationMotion *boss7_tentacle_needle_motions[4];
+extern NJS_MOTION *boss7_tentacle_needle_motions[4];
 
 #endif
