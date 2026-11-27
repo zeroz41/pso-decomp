@@ -4,6 +4,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/camera/CameraDistanceFade.h"
 
+struct QuestObjectEntry;
+
 // The containers' common base: its constructor stores "TObjContainerBase" in m_name (TObjContainerItem's TU
 // emits its vtable).
 class TObjContainerBase : public TObjChara {
@@ -19,7 +21,7 @@ public:
     virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
     void request_configured_item_drop(TObjContainerBase *container);
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);

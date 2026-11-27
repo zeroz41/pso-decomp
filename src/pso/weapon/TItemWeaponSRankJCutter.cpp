@@ -56,8 +56,7 @@ void enlarge_s_rank_j_cutter_blade(TObjBase *object) {
     }
 }
 
-void init_slicer_launch_state(void *state) {
-    SlicerLaunchState *s = (SlicerLaunchState *)state;
+void init_slicer_launch_state(SlicerLaunchState *s) {
     s->player_id = 0xFFFF;
     s->item_id = -1;
     s->texlist = 0;

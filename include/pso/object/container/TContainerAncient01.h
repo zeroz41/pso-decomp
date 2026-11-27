@@ -5,6 +5,8 @@
 #include <stddef.h>
 #include "pso/object/base/TObjChara.h"
 
+struct QuestObjectEntry;
+
 struct BmlResource;
 
 struct TContainerAncient01 : public TObjChara {
@@ -18,7 +20,7 @@ struct TContainerAncient01 : public TObjChara {
     void open_container();
     void update_spawning();
     void update_blast();  // the open blast (sounds, effects, attack_nearby_players) until active_limit
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);

@@ -747,7 +747,7 @@ s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
                 obj->set_index = set->placement.set_index;
                 obj->set_entry = set;
                 if (obj->set_index != -1) {
-                    obj->apply_saved_state(&quest_object_entries[obj->set_index].flags, 0);
+                    obj->apply_saved_state(&quest_object_entries[obj->set_index], 0);
                 }
                 count++;
             } else {
@@ -786,7 +786,7 @@ s32 spawn_objects_at_pos(s16 room, s16 wave) {
                 set_object->set_entry = row;
                 set_index = set_object->set_index;
                 if (set_index != -1) {
-                    set_object->apply_saved_state(&quest_object_entries[set_index].flags, 0);
+                    set_object->apply_saved_state(&quest_object_entries[set_index], 0);
                 }
                 spawned += 1;
             } else {
@@ -951,7 +951,7 @@ void attach_objects_by_id(s32 floor) {
                 set_object->set_entry = row;
                 set_index = set_object->set_index;
                 if (set_index != -1) {
-                    set_object->apply_saved_state(&quest_object_entries[set_index].flags, 0);
+                    set_object->apply_saved_state(&quest_object_entries[set_index], 0);
                 }
             } else {
                 row->object = NULL;
@@ -981,7 +981,7 @@ void assign_objects_to_slots(FloorObjectSetRow *rows, s32 object_count) {
                 set_object->set_entry = row;
                 set_index = set_object->set_index;
                 if (set_index != -1) {
-                    set_object->apply_saved_state(&quest_object_entries[set_index].flags, 0);
+                    set_object->apply_saved_state(&quest_object_entries[set_index], 0);
                 }
             } else {
                 row->object = NULL;

@@ -240,7 +240,7 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
         object->access_object_saved_state(&state, 1);
         state.flags = packet->flags;
         object->access_object_saved_state(&state, 0);
-        object->apply_saved_state(&state.flags, 1);
+        object->apply_saved_state(&state, 1);
     } else {
         QuestObjectEntry fallback = quest_object_entries[packet->object_index];
         fallback.flags = packet->flags;
@@ -248,8 +248,7 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     }
 }
 
-void TObjCollidable::send_object_state_update(void *saved_state) {
-    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+void TObjCollidable::send_object_state_update(QuestObjectEntry *source) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {
@@ -1128,7 +1127,7 @@ void TObjCollidable::clear_hit_receive_state() { hit_receive_state = 0; }
 
 CursorAction::CursorAction() { kind = CURSOR_ACTION_NONE; }
 
-s32 TObjCollidable::access_object_saved_state(void *saved_state, s16 load) {
+s32 TObjCollidable::access_object_saved_state(QuestObjectEntry *saved_state, s16 load) {
     s16 index;
     FloorObjectSetRow *entry = (FloorObjectSetRow *)set_entry;
     if (entry == NULL) {
@@ -1139,10 +1138,10 @@ s32 TObjCollidable::access_object_saved_state(void *saved_state, s16 load) {
         return 0;
     }
     if (load == 0) {
-        quest_object_entries[index].copy_from((QuestObjectEntry *)saved_state);
+        quest_object_entries[index].copy_from(saved_state);
     }
     if (load == 1) {
-        ((QuestObjectEntry *)saved_state)->copy_from(&quest_object_entries[index]);
+        saved_state->copy_from(&quest_object_entries[index]);
     }
     return 1;
 }

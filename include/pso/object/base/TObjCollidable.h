@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/data/FlagWord.h"
 
+struct QuestObjectEntry;
 struct CsnGroundCandidates;
 
 // One collision body of an actor (TObjCollidable::bodies points at the actor's
@@ -35,7 +36,7 @@ public:
     void clear_player_status_flag(s32, u32);
     // actorFlags & flags.
     s32 test_actor_flags(u32 flags);
-    s32 access_object_saved_state(void *, s16);
+    s32 access_object_saved_state(QuestObjectEntry *saved_state, s16 load);
     void clear_hit_receive_state();
     // 1 when actor is set and obj_is_hit_receivable(actor) holds.
     static s32 is_valid_and_active(const TObjCollidable *actor);
@@ -66,7 +67,7 @@ public:
     // entity table (unregister_object_by_id takes it out).
     void register_object_by_id();
     s32 unregister_object_by_id();
-    void send_object_state_update(void *);
+    void send_object_state_update(QuestObjectEntry *saved_state);
     // A player (client id, 0xFFFF for none) uses the action button on it.
     virtual void interact(u16 client);
     s32 set_flag8();

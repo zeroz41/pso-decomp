@@ -5,6 +5,8 @@
 #include <stddef.h>
 #include "pso/object/base/TObjChara.h"
 
+struct QuestObjectEntry;
+
 struct TContainerAncient01R : public TObjChara {
     TContainerAncient01R(TObject *parent, ObjectSetData *set_data);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
@@ -19,7 +21,7 @@ struct TContainerAncient01R : public TObjChara {
     void update_spawning();
     void update_blast();
     void reset_state();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual void render();

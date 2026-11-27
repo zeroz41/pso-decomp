@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -102,8 +103,8 @@ TOTrapSeabed01::~TOTrapSeabed01() {
     free_collision_body_parts(this);
 }
 
-void TOTrapSeabed01::apply_saved_state(s16 *state, s32 live) {
-    if (*state == 4) {
+void TOTrapSeabed01::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 4) {
         if (live == 1) {
             this->play_sounds();
         }

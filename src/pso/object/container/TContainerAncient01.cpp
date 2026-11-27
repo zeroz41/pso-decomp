@@ -113,6 +113,7 @@ const char *container_ancient01_r_name = "TContainerAncient01R";
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 BmlResource *container_ancient01_bml_resource;
 BmlResource *container_ancient01_r_bml_resource;
@@ -287,12 +288,12 @@ f32 TContainerAncient01::receive_direct_attack(TObjBase *, DirectAttackPayload p
 }
 
 f32 TContainerAncient01::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
 
     if ((u16) this->entity_id >= 0x1000U) {
         reset_state();
         if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
-            saved_state = 1;
+            saved_state.flags = 1;
             access_object_saved_state(&saved_state, 0);
             send_object_state_update(&saved_state);
         }
@@ -313,13 +314,13 @@ void TContainerAncient01::open_container() {
     }
 }
 
-void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
+void TContainerAncient01::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             open_container();
             this->opened = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->opened = 1;
     }
 }
@@ -567,11 +568,11 @@ f32 TContainerAncient01R::receive_direct_attack(TObjBase *, DirectAttackPayload 
 }
 
 f32 TContainerAncient01R::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     if ((u16) this->entity_id >= 0x1000U) {
         this->hit_count = (this->hit_count + 1);
         if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
-            saved_state = this->hit_count;
+            saved_state.flags = this->hit_count;
             access_object_saved_state(&saved_state, 0);
             send_object_state_update(&saved_state);
         }
@@ -592,8 +593,8 @@ void TContainerAncient01R::open_container() {
     }
 }
 
-void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
-    this->hit_count = (s16) *state;
+void TContainerAncient01R::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    this->hit_count = state->flags;
     if (live != 0) {
         if ((this->hp - this->hit_count) <= 0) {
             this->reset_state();

@@ -112,7 +112,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                         break;
                     }
                     saved.flags = col->mode;
-                    col->apply_saved_state(&saved.flags, 0);
+                    col->apply_saved_state(&saved, 0);
                 }
             } else {
                 QuestObjectEntry entry = quest_object_entries[command->object_index];
@@ -130,15 +130,15 @@ extern "C" {
 
 void TOAttackableCol::send_state_change(u16 state) {
     G_UpdateAttackableColState_6x91 msg;
-    s16 id;
+    QuestObjectEntry saved;
     FloorObjectSetRow *entry;
-    id = this->mode;
-    access_object_saved_state(&id, 0);
+    saved.flags = this->mode;
+    access_object_saved_state(&saved, 0);
     entry = static_cast<FloorObjectSetRow *>(this->set_entry);
     if (entry != NULL) {
         init_6x91_subcommand(&msg);
         msg.header.entity_id = this->entity_id;
-        msg.flags = id;
+        msg.flags = saved.flags;
         msg.object_index = entry->placement.set_index;
         msg.is_destroyed = state;
         msg.remaining_hits = this->hits_left;
@@ -154,11 +154,11 @@ void TOAttackableCol::send_state_change(u16 state) {
     }
 }
 
-void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
-    s16 mode;
+void TOAttackableCol::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    QuestObjectEntry saved;
     s32 mode_value;
     if (state != NULL) {
-        this->mode = (s16) *state;
+        this->mode = state->flags;
     }
     mode_value = this->mode;
     if (mode_value != 1) {
@@ -171,8 +171,8 @@ void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
             handle_6x91_update_state();
         }
     }
-    mode = this->mode;
-    access_object_saved_state(&mode, 0);
+    saved.flags = this->mode;
+    access_object_saved_state(&saved, 0);
 }
 
 void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1); }

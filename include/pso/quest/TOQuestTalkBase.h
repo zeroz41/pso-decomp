@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/object/base/TObjMapObject.h"
 
+struct QuestObjectEntry;
+
 class TQuestThread;
 
 // The base of the map objects a player talks to to run a quest label
@@ -15,7 +17,7 @@ public:
     virtual ~TOQuestTalkBase();
     virtual void run_task();
     virtual void render();
-    virtual void apply_saved_state(s16 *state, s32);
+    virtual void apply_saved_state(QuestObjectEntry *state, s32);
     virtual void interact(u16 client);
     // Sets active from the activation rule and returns it.
     virtual s32 update_active_state();

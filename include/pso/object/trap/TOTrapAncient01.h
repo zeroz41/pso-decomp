@@ -5,6 +5,8 @@
 #include "pso/object/trap/TOTrap.h"
 #include "pso/render/RenderFadeState.h"
 
+struct QuestObjectEntry;
+
 struct TOTrapAncient01 : public TOTrap {
     TOTrapAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapAncient01();
@@ -14,7 +16,7 @@ struct TOTrapAncient01 : public TOTrap {
     virtual void play_sounds();
     virtual void run_demo();
     virtual void vfunc_86();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual void render();
     DirectAttackPayload payload; // name inferred: sent to every player in reach by update_holding

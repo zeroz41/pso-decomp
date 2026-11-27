@@ -26,6 +26,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -172,7 +173,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
 }
 
 void TODoorFourLightRuins::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     s32 off;
     s32 i;
     s32 off2;
@@ -213,7 +214,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
             this->door_flags |= 1;
         }
         if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&saved_state, 1) == 1) {
-            saved_state = 1;
+            saved_state.flags = 1;
             this->send_object_state_update(&saved_state);
             this->access_object_saved_state(&saved_state, 0);
         }
@@ -224,8 +225,8 @@ void TODoorFourLightRuins::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightRuins::apply_saved_state(s16 *state, s32) {
-    if ((s16) *state == 1) {
+void TODoorFourLightRuins::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }
@@ -381,7 +382,7 @@ void TODoorFourLightSpace::draw_lights() {
 }
 
 void TODoorFourLightSpace::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     s32 fail;
     s32 i;
     switch (this->lock_mode) {
@@ -421,7 +422,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
             }
             if (bad == 0 && this->set_entry != 0 &&
                 this->access_object_saved_state(&saved_state, 1) == 1) {
-                saved_state = 1;
+                saved_state.flags = 1;
                 this->send_object_state_update(&saved_state);
                 this->access_object_saved_state(&saved_state, 0);
             }
@@ -433,8 +434,8 @@ void TODoorFourLightSpace::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightSpace::apply_saved_state(s16 *state, s32) {
-    if ((s16) *state == 1) {
+void TODoorFourLightSpace::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }

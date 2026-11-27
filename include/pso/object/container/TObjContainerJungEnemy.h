@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/container/TObjContainerBase.h"
 
+struct QuestObjectEntry;
+
 struct NJS_OBJECT;
 
 struct TObjContainerJungEnemy : public TObjContainerBase {
@@ -12,7 +14,7 @@ struct TObjContainerJungEnemy : public TObjContainerBase {
     virtual void spawn_break_effects() const;
     virtual void draw_model();
     virtual void debug_print_item_box_info();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual void update_state();
     virtual f32 receive_physical_attack(TObjChara *, f32);
     NJS_OBJECT *body_model;

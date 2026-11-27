@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/container/TObjContainerBase.h"
 
+struct QuestObjectEntry;
+
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
@@ -13,7 +15,7 @@ struct TObjContainerJung : public TObjContainerBase {
     virtual void spawn_break_effects() const;
     virtual void update_state();
     virtual void draw_model();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     static NJS_OBJECT *get_model_by_index(s32 index);
     static void *create(ObjectSetData *set_data);
     static NJS_TEXLIST *get_textures(s32);

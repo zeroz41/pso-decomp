@@ -131,7 +131,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         o->access_object_saved_state(&saved_state, 1);
         saved_state.flags = o->mode;
         o->access_object_saved_state(&saved_state, 0);
-        o->apply_saved_state(&saved_state.flags, 0);
+        o->apply_saved_state(&saved_state, 0);
     } else {
         QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
         if (entry.flags != 1) {
@@ -142,7 +142,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
 }
 
 void TOVS2Wall01::save_and_send_state(u16 update_reason) {
-    s16 state;
+    QuestObjectEntry state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
@@ -150,12 +150,12 @@ void TOVS2Wall01::save_and_send_state(u16 update_reason) {
         v = 1;
     }
     if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
-        state = v;
+        state.flags = v;
         access_object_saved_state(&state, 0);
         entry = (WallSetEntry *)set_entry;
         pkt.init();
         pkt.header.entity_id = entity_id;
-        pkt.flags = state;
+        pkt.flags = state.flags;
         pkt.object_index = entry->set_index;
         pkt.update_reason = update_reason;
         pkt.remaining_hits = hits_left;
@@ -169,11 +169,11 @@ void TOVS2Wall01::save_and_send_state(u16 update_reason) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TOVS2Wall01::apply_saved_state(s16 *state, s32 live) {
+void TOVS2Wall01::apply_saved_state(QuestObjectEntry *state, s32 live) {
     s32 mode;
 
     if (state != NULL) {
-        this->mode = (s16) *state;
+        this->mode = state->flags;
     }
     mode = this->mode;
     if (mode != 1) {

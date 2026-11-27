@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -410,8 +411,8 @@ void TOTrapAncient01::release_trapped_player() {
     }
 }
 
-void TOTrapAncient01::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 4) {
+void TOTrapAncient01::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 4) {
         if (live == 1) {
             this->play_sounds();
         }

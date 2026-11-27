@@ -59,6 +59,7 @@ struct NJS_MOTION;
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 
@@ -176,7 +177,7 @@ void TODoorJungleMain::run_task() {
 }
 
 void TODoorJungleMain::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     s32 lvl;
     s32 prev;
     s32 i;
@@ -199,7 +200,7 @@ void TODoorJungleMain::update_door_switch_state() {
             door_flags &= ~1;
         }
         if ((door_flags & 1) && access_object_saved_state(&saved_state, 1) == 1) {
-            saved_state = 1;
+            saved_state.flags = 1;
             send_object_state_update(&saved_state);
         }
     }
@@ -282,8 +283,8 @@ s32 is_any_player_near(TObjBase *door) {
 }
 
 
-void TODoorJungleMain::apply_saved_state(s16 *state, s32 live) {
-    if ((state != NULL) && ((s16) *state == 1)) {
+void TODoorJungleMain::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if ((state != NULL) && (state->flags == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
         if (live == 0) {
             this->animation_end_frame = (f32) (this->motion->nbFrame - 1);

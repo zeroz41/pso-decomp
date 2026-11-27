@@ -5,10 +5,12 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/RenderFadeState.h"
 
+struct QuestObjectEntry;
+
 struct TOVS2Wall01 : public TObjChara {
     TOVS2Wall01(ObjectSetData *set_data);
     virtual ~TOVS2Wall01();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     f32 view_range;
     f32 model_radius;
     u32 hits_left;

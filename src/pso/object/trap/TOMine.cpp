@@ -61,6 +61,7 @@ struct game_command_header;
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 
@@ -357,11 +358,11 @@ void TOMine::set_armed() {
     play_effect_sound();
 }
 void TOMine::update_trigger() {
-    s16 mode;
-    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
+    QuestObjectEntry saved;
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved, 1) != 0)) {
         this->mode = 3;
-        mode = this->mode;
-        send_object_state_update(&mode);
+        saved.flags = this->mode;
+        send_object_state_update(&saved);
     }
 }
 f32 TOMine::receive_direct_attack(TObjBase *player, DirectAttackPayload payload, CollisionBody *, s32, s32) {
@@ -406,17 +407,17 @@ f32 TOMine::receive_weapon_special_attack(TObjChara *player, CollisionBody *) {
     return 0.0f;
 }
 f32 TOMine::receive_physical_attack(TObjChara *, f32) {
-    s16 mode;
-    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
+    QuestObjectEntry saved;
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved, 1) != 0)) {
         this->mode = 5;
-        mode = this->mode;
-        send_object_state_update(&mode);
+        saved.flags = this->mode;
+        send_object_state_update(&saved);
     }
     return 0.0f;
 }
-void TOMine::apply_saved_state(s16 *state, s32 live) {
+void TOMine::apply_saved_state(QuestObjectEntry *state, s32 live) {
     s16 mode;
-    mode = *state;
+    mode = state->flags;
     if (mode == 5) {
         if (live == 1) {
             play_trigger_effects();

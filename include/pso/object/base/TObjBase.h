@@ -6,6 +6,8 @@
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+struct QuestObjectEntry;
+
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
@@ -15,7 +17,7 @@ class TObjBase : public TObject {
 public:
     TObjBase(TObject *parent);
     virtual ~TObjBase();
-    virtual void apply_saved_state(s16 *state, s32 live);
+    virtual void apply_saved_state(QuestObjectEntry *state, s32 live);
     virtual void apply_object_set_data(ObjectSetData *set_data);
     virtual void reset_motion_fields();
     virtual Vec *get_center();

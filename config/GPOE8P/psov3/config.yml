@@ -5715,10 +5715,10 @@ force_active:
   - door_ancient07_class_name
   - door_ancient08_class_name
   - door_ancient08_resource_descriptor
-  - door_ancient08_sync_state__15TODoorAncient08FPv
+  - door_ancient08_sync_state__15TODoorAncient08FP16QuestObjectEntry
   - door_ancient09_class_name
   - door_ancient09_resource_descriptor
-  - door_ancient09_sync_state__15TODoorAncient09FPv
+  - door_ancient09_sync_state__15TODoorAncient09FP16QuestObjectEntry
   - door_cave01_a_resource_descriptor
   - door_cave01_class_name
   - door_cave01_resource_descriptor
@@ -17503,29 +17503,29 @@ force_active:
   - apply_to_target__11TTecRaBartaFP9TObjChara
   - apply_to_target__11TTecRaZondeFP9TObjChara
   - on_wall_hit__12TNeedleShootFv
-  - apply_saved_state__12TODoorCave01FPsl
+  - apply_saved_state__12TODoorCave01FP16QuestObjectEntryl
   - display_shop_message__12TQuestListVMFll
   - on_accept__13TAdVIConfigGCFv
   - apply_camera_params__18TCameraWatchPlayerFl
-  - apply_saved_state__14TOTrapSeabed01FPsl
-  - apply_saved_state__15TOAttackableColFPsl
-  - apply_saved_state__15TODoorAncient08FPsl
-  - apply_saved_state__15TODoorAncient09FPsl
+  - apply_saved_state__14TOTrapSeabed01FP16QuestObjectEntryl
+  - apply_saved_state__15TOAttackableColFP16QuestObjectEntryl
+  - apply_saved_state__15TODoorAncient08FP16QuestObjectEntryl
+  - apply_saved_state__15TODoorAncient09FP16QuestObjectEntryl
   - on_accept__16TAdPsoPassSaveGCFv
-  - apply_saved_state__16TODoorJungleMainFPsl
+  - apply_saved_state__16TODoorJungleMainFP16QuestObjectEntryl
   - on_close__17TAdExNetConfirmGCFv
   - on_closing__17TAdLicAgreementGCFv
   - open_main_menu__17TWindowMainMenu4PFv
   - on_closing__18TAdAgreementBaseGCFv
   - on_close__18TAdTrialModemChkGCFv
-  - apply_saved_state__19TContainerAncient01FPsl
-  - apply_saved_state__19TOMonumentAncient02FPsl
+  - apply_saved_state__19TContainerAncient01FP16QuestObjectEntryl
+  - apply_saved_state__19TOMonumentAncient02FP16QuestObjectEntryl
   - on_accept__20TAdSnAkPassConfirmGCFv
-  - apply_saved_state__20TContainerAncient01RFPsl
-  - apply_saved_state__20TODoorFourLightRuinsFPsl
-  - apply_saved_state__20TODoorFourLightSpaceFPsl
+  - apply_saved_state__20TContainerAncient01RFP16QuestObjectEntryl
+  - apply_saved_state__20TODoorFourLightRuinsFP16QuestObjectEntryl
+  - apply_saved_state__20TODoorFourLightSpaceFP16QuestObjectEntryl
   - on_wall_hit__20TObjEneMe1Gee_NEEDLEFv
-  - apply_saved_state__21TObjContainerAbeEnemyFPsl
+  - apply_saved_state__21TObjContainerAbeEnemyFP16QuestObjectEntryl
   - on_wall_hit__22TObjEneMe1GiGueMissileFv
   - apply_to_target__9TTecJelinFP9TObjChara
   - apply_to_target__9TTecZaruaFP9TObjChara

@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/container/TObjContainerBase.h"
 
+struct QuestObjectEntry;
+
 struct TObjContainerAbeEnemy : public TObjContainerBase {
     TObjContainerAbeEnemy(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjContainerAbeEnemy();
@@ -11,7 +13,7 @@ struct TObjContainerAbeEnemy : public TObjContainerBase {
     virtual void draw_model();
     virtual void debug_print_item_box_info();
     virtual void update_state();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
     static void *create(ObjectSetData *set_data);
 };

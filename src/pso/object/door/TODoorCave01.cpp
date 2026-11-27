@@ -75,8 +75,8 @@ void TODoorCave01::send_state(QuestObjectEntry *saved_state) {
     }
 }
 
-void TODoorCave01::apply_saved_state(s16 *state, s32) {
-    if (*state == 1) {
+void TODoorCave01::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         door_flags |= LIGHT_LIT_MASK | 1;
     }
 }

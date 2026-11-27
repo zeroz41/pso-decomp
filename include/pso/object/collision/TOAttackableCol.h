@@ -4,10 +4,12 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+struct QuestObjectEntry;
+
 struct TOAttackableCol : public TObjChara {
     TOAttackableCol(ObjectSetData *set_data);
     virtual ~TOAttackableCol();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);

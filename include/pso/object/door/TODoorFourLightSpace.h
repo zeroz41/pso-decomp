@@ -5,12 +5,14 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/door/TODoorBase.h"
 
+struct QuestObjectEntry;
+
 struct TODoorFourLightSpace : public TODoorBase {
     TODoorFourLightSpace(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorFourLightSpace();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     NJS_OBJECT *model_tree;  // the door model's node tree
     void draw_lights();
     virtual void render();

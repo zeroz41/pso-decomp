@@ -5,6 +5,8 @@
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
+struct QuestObjectEntry;
+
 struct TOContainerAncientEnemy : public TObjContainerBase {
     TOContainerAncientEnemy(ObjectSetData *set_data);
     virtual ~TOContainerAncientEnemy();
@@ -12,7 +14,7 @@ struct TOContainerAncientEnemy : public TObjContainerBase {
     virtual void draw_model();
     virtual void update_state();
     virtual void spawn_break_effects() const;
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
 };
 

@@ -42,6 +42,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 #pragma readonly_strings on
 
@@ -188,9 +189,9 @@ void TObjContainerJung::draw_model() {
     }
 }
 
-void TObjContainerJung::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerJung::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
             this->clear_player_status_flag(0, 1);
@@ -198,7 +199,7 @@ void TObjContainerJung::apply_saved_state(s16 *state, s32 live) {
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();
@@ -319,16 +320,16 @@ void TObjContainerJungEx::draw_model() {
     }
 }
 
-void TObjContainerJungEx::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerJungEx::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->set_flag8();
         this->queue_destruction();
         this->mode = 1;
@@ -467,10 +468,10 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
-        saved_state = 1;
+        saved_state.flags = 1;
         access_object_saved_state(&saved_state, 0);
         send_object_state_update(&saved_state);
         pkt.init();
@@ -522,16 +523,16 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
 }
 #pragma pop
 
-void TObjContainerJungEnemy::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerJungEnemy::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();

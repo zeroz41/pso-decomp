@@ -65,7 +65,7 @@ void TObjBase::apply_object_set_data(ObjectSetData *src) {
     }
 }
 
-void TObjBase::apply_saved_state(s16 *, s32) {  }
+void TObjBase::apply_saved_state(QuestObjectEntry *, s32) {  }
 u16 TObjBase::get_or_assign_entity_id(s32 count) {
 
     if (this->entity_id == 0xFFFF) {

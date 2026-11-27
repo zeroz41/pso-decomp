@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/quest/TOQuestTalkBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -22,8 +23,8 @@
 
 void TOQuestTalkBase::update_demo() {}
 
-void TOQuestTalkBase::apply_saved_state(s16 *state, s32) {
-    object_state = *state;
+void TOQuestTalkBase::apply_saved_state(QuestObjectEntry *state, s32) {
+    object_state = state->flags;
 }
 
 void TOQuestTalkBase::interact(u16 client) {

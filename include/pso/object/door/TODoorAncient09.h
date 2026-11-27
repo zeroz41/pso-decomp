@@ -6,6 +6,7 @@
 
 struct NJS_TEXLIST;
 
+struct QuestObjectEntry;
 struct BmlResource;
 
 // The ancient-area door locked by two floor switches (switch_id and the one
@@ -14,13 +15,13 @@ struct BmlResource;
 struct TODoorAncient09 : public TODoorBase {
     TODoorAncient09(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorAncient09();
-    void door_ancient09_sync_state(void *);
+    void door_ancient09_sync_state(QuestObjectEntry *source);
     virtual void update_demo();
     virtual s32 init_door_switch_binding();
     virtual void update_open();
     virtual void update_closed();
     virtual void update_door_switch_state();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     void play_open_sound();
     void draw_switch_lights();
     virtual void render();

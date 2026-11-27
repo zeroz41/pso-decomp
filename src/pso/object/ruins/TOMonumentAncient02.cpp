@@ -33,6 +33,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 // One monument model per area: Cave 1 (default), Cave 2 and Mine 2.
 const char *bm_fs_obj_o_monument01_model_names[] = {"fs_obj_o_monument01.gj", NULL};
@@ -58,8 +59,8 @@ BmlResource *monument_ancient02_bml_resource;
 
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
-void TOMonumentAncient02::apply_saved_state(s16 *state, s32) {
-    object_state = *state;
+void TOMonumentAncient02::apply_saved_state(QuestObjectEntry *state, s32) {
+    object_state = state->flags;
     switch (object_state) {
     case 2:
         set_story_flag_or_send_quest_flag(story_flag);
@@ -79,7 +80,7 @@ void TOMonumentAncient02::apply_saved_state(s16 *state, s32) {
 }
 
 void TOMonumentAncient02::interact(u16 client) {
-    s16 state;
+    QuestObjectEntry state;
     TObjPlayer *player;
     switch (object_state) {
     case 1:
@@ -88,7 +89,7 @@ void TOMonumentAncient02::interact(u16 client) {
             object_state = 2;
             player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
             if (access_object_saved_state(&state, 1) != 0) {
-                state = object_state;
+                state.flags = object_state;
                 access_object_saved_state(&state, 0);
                 send_object_state_update(&state);
             }

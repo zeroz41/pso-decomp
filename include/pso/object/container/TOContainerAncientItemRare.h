@@ -4,10 +4,12 @@
 #include "types.h"
 #include "pso/object/container/TOContainerAncientItem.h"
 
+struct QuestObjectEntry;
+
 struct TOContainerAncientItemRare : public TOContainerAncientItem {
     TOContainerAncientItemRare(ObjectSetData *set_data);
     virtual ~TOContainerAncientItemRare();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     static void *create(ObjectSetData *set_data);
 };
 

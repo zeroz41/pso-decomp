@@ -48,6 +48,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
@@ -525,7 +526,7 @@ void *TOTrapAncient02R::create(ObjectSetData *set_data) {
 }
 
 f32 TOTrapAncient02R::receive_physical_attack(TObjChara *, f32) {
-    s16 state;
+    QuestObjectEntry state;
     if (entity_id >= 0x4000 && set_entry != NULL) {
         Vec v = position;
         v.y += h344 + h348;
@@ -535,7 +536,7 @@ f32 TOTrapAncient02R::receive_physical_attack(TObjChara *, f32) {
             hits = 0;
             if (access_object_saved_state(&state, 1) != 0) {
                 mode = 4;
-                state = mode;
+                state.flags = mode;
                 send_object_state_update(&state);
                 access_object_saved_state(&state, 0);
                 apply_saved_state(&state, 1);

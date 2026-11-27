@@ -25,7 +25,7 @@ struct TODoorCave01 : public TODoorBase {
     virtual ~TODoorCave01();
     virtual void update_demo();
     void send_state(QuestObjectEntry *);
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 init_door_switch_binding();
     virtual void update_open();
     virtual void update_closed();

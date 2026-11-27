@@ -4,10 +4,12 @@
 #include "types.h"
 #include "pso/object/trap/TOTrap.h"
 
+struct QuestObjectEntry;
+
 struct TOTrapSeabed01 : public TOTrap {
     TOTrapSeabed01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapSeabed01();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual void render();
     virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual int deliver_attack_hits(f32 damage_scale);

@@ -261,7 +261,7 @@ void TODoorAncient08::draw_switch_lights() {
 }
 
 void TODoorAncient08::update_door_switch_state() {
-    s16 state;
+    QuestObjectEntry state;
     switch (lock_mode) {
     case 1:
         play_open_sound();
@@ -284,7 +284,7 @@ void TODoorAncient08::update_door_switch_state() {
             play_open_sound();
             door_flags |= 1;
             if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
-                state = 1;
+                state.flags = 1;
                 door_ancient08_sync_state(&state);
                 access_object_saved_state(&state, 0);
             }
@@ -340,16 +340,15 @@ s32 TODoorAncient08::init_door_switch_binding() {
     return switch_id;
 }
 
-void TODoorAncient08::apply_saved_state(s16 *state, s32) {
-    if (*state == 1) {
+void TODoorAncient08::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         door_flags |= 1;
     }
 }
 
 // Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorAncient08::door_ancient08_sync_state(void *saved_state) {
-    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+void TODoorAncient08::door_ancient08_sync_state(QuestObjectEntry *source) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {

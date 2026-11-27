@@ -31,6 +31,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 struct BmlResource;
 struct NJS_TEXLIST;
@@ -208,7 +209,7 @@ void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
 }
 
 void TODoorFourLightBase::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     switch (this->lock_mode) {
     case 1:
         this->play_door_sound();
@@ -249,7 +250,7 @@ void TODoorFourLightBase::update_door_switch_state() {
             this->door_flags |= 1;
         }
         if (found == 0 && this->set_entry != NULL && this->access_object_saved_state(&saved_state, 1) == 1) {
-            saved_state = 1;
+            saved_state.flags = 1;
             this->send_object_state_update(&saved_state);
             this->access_object_saved_state(&saved_state, 0);
         }
@@ -261,8 +262,8 @@ void TODoorFourLightBase::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightBase::apply_saved_state(s16 *state, s32) {
-    if ((s16) *state == 1) {
+void TODoorFourLightBase::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }

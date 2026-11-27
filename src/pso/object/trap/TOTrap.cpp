@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOTrap.h"
@@ -114,8 +115,8 @@ void TOTrap::play_sounds() {
     spawn_particle_effect(&body_center, 0x46);
 }
 
-void TOTrap::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 4) {
+void TOTrap::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 4) {
         if (live == 1) {
             play_sounds();
         }
@@ -125,14 +126,14 @@ void TOTrap::apply_saved_state(s16 *state, s32 live) {
 }
 
 f32 TOTrap::receive_physical_attack(TObjChara *source, f32) {
-    s16 msg;
+    QuestObjectEntry saved;
     TObjPlayer *pl;
     u16 id;
-    if (this->entity_id >= 0x4000U && this->set_entry != NULL && access_object_saved_state(&msg, 1) != 0) {
+    if (this->entity_id >= 0x4000U && this->set_entry != NULL && access_object_saved_state(&saved, 1) != 0) {
         this->mode = 4;
-        msg = this->mode;
-        access_object_saved_state(&msg, 0);
-        send_object_state_update(&msg);
+        saved.flags = this->mode;
+        access_object_saved_state(&saved, 0);
+        send_object_state_update(&saved);
         if (source != NULL) {
             id = ((TObjBase *)source)->get_entity_id();
             if (id < 0x1000U) {

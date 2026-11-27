@@ -51,6 +51,7 @@
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 static __declspec(section ".rodata") const char ancient_container_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container.gj";
 static __declspec(section ".rodata") const char ancient_container_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen01.gj";
@@ -139,7 +140,7 @@ void G_FloorEvent_6x67::send() {
     send_subcommand(this);
 }
 
-void TObjContainerBase::apply_saved_state(s16 *, s32) {  }
+void TObjContainerBase::apply_saved_state(QuestObjectEntry *, s32) {  }
 
 TObjContainerBase::~TObjContainerBase() {
 }
@@ -324,8 +325,8 @@ void *TOContainerAncientItemCommon::create(ObjectSetData *set_data) {
     return new TOContainerAncientItemCommon(set_data);
 }
 
-void TOContainerAncientItemCommon::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientItemCommon::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
@@ -344,8 +345,8 @@ TOContainerAncientItemRare::TOContainerAncientItemRare(ObjectSetData *set_data) 
 TOContainerAncientItemRare::~TOContainerAncientItemRare() {
 }
 
-void TOContainerAncientItemRare::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientItemRare::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
@@ -367,8 +368,8 @@ void *TOContainerAncientItemNone::create(ObjectSetData *set_data) {
     return new TOContainerAncientItemNone(set_data);
 }
 
-void TOContainerAncientItemNone::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientItemNone::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
         }
@@ -448,10 +449,10 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
 }
 
 f32 TOContainerAncientEnemy::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     G_FloorEvent_6x67 pk;
     if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&saved_state, 1) != 0) {
-        saved_state = 1;
+        saved_state.flags = 1;
         access_object_saved_state(&saved_state, 0);
         send_object_state_update(&saved_state);
         pk.init();
@@ -492,8 +493,8 @@ void TOContainerAncientEnemy::spawn_break_effects() const {
     }
 }
 
-void TOContainerAncientEnemy::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientEnemy::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
         }

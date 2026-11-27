@@ -34,6 +34,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 
@@ -340,12 +341,12 @@ void TOHangceilingCaveBase::play_mode_sound() {
 }
 
 void TOHangceilingCaveBase::set_mode(s32 new_mode) {
-    s16 saved;
+    QuestObjectEntry saved;
 
     if (new_mode != mode) {
         mode = new_mode;
         if (access_object_saved_state(&saved, 1) != 0) {
-            saved = mode;
+            saved.flags = mode;
         }
         switch (mode) {
         case 0:
