@@ -104,9 +104,9 @@ void cancel_dvd_request(void *arg) {
     }
     DVDGetCommandBlockStatus(&r->block.cb);
     DVDGetDriveStatus();
-    dvd_active_request.unknown08 = 1;
+    dvd_active_request.cancelling = 1;
     result = DVDCancel(&r->block.cb);
-    dvd_active_request.unknown08 = 0;
+    dvd_active_request.cancelling = 0;
     if (result < 0) {
         if (fileio_error_callback != NULL) {
             fileio_error_callback(fileio_error_context, "E0092917:DVDCancel failed.", r);
@@ -316,9 +316,9 @@ void close_dvd_request(void *arg) {
         }
         DVDGetCommandBlockStatus(&rr->block.cb);
         DVDGetDriveStatus();
-        dvd_active_request.unknown08 = 1;
+        dvd_active_request.cancelling = 1;
         result = DVDCancel(&rr->block.cb);
-        dvd_active_request.unknown08 = 0;
+        dvd_active_request.cancelling = 0;
         if (result < 0) {
             if (fileio_error_callback != NULL) {
                 fileio_error_callback(fileio_error_context, "E0092917:DVDCancel failed.", rr);

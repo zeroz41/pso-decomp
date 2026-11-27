@@ -321,7 +321,7 @@ TEndingAB::TEndingAB(TObject *parent) : TObject(parent) {
     m_name = ending_ab_class_name;
     elapsed_ticks = -1;
     TEndingAB::fade_sequence_state = 0;
-    field_20 = 255;
+    pad_20 = 255;
     wall_index = 0;
     picture_index = 0;
     init_float_table();

@@ -6,9 +6,9 @@
 
 struct GcciRequest {
     u8 active;
-    u8 unknown01;
+    u8 pad_01;
     s8 state;
-    u8 unknown03[5];
+    u8 pad_03[5];
     void *buf;
     s32 status;
     s32 unit;
@@ -23,8 +23,8 @@ struct GcciRequest {
 struct GcciStatus {
     s32 status;
     s8 state;
-    u8 unknown05[3];
-    s32 unknown08;
+    u8 pad_05[3];
+    s32 cancelling;  // 1 while DVDCancel runs
 };
 LAYOUT_ASSERT(GcciRequestSize, sizeof(GcciRequest) == 0x64);
 LAYOUT_ASSERT(GcciRequestState, offsetof(GcciRequest, state) == 2);

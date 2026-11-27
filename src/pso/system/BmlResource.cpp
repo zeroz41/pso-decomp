@@ -730,7 +730,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         loaded_motions = 0;
         loaded_models = 0;
         load_state = 0;
-        unknown_14 = 0;
+        pad_14 = 0;
         add_named_entry(this, descriptor->archive_filename);
     }
 }

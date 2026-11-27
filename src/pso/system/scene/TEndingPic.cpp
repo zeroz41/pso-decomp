@@ -151,7 +151,7 @@ TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
     m_name = name;
     elapsed_ticks = -1;
     TEndingPic::animation_state = 0;
-    field_20 = 0xFF;
+    pad_20 = 0xFF;
     picture_pair = 0;
     next_picture = 0;
     ending_pic_wall_texture_list = get_ending_ab_wall_texture_list();

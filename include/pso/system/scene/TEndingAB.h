@@ -28,7 +28,7 @@ public:
     static void destroy_instance();
 
     s32 elapsed_ticks;
-    s32 field_20;
+    s32 pad_20;  // set to 255 by the constructor, never read
     s32 picture_index;
     s32 wall_index;
     EndingWallQuad quads[6];

@@ -26,8 +26,8 @@ public:
     heap_node *heap_nodes;
     size_t pad_04;
     size_t align;
-    size_t mbr_0x0C;
-    size_t mbr_0x10;
+    size_t pad_0C;  // pad_0C, pad_10: zeroed by the constructor, never read
+    size_t pad_10;
 
 public:
     THeap(size_t size, int align);

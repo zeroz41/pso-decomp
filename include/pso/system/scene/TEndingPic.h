@@ -25,7 +25,7 @@ public:
     static const char *name;
 
     s32 elapsed_ticks;
-    s32 field_20;
+    s32 pad_20;  // set to 255 by the constructor, never read
     s32 next_picture;
     s32 picture_pair;
     EndingPictureQuad quads[6];
