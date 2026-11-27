@@ -162,7 +162,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
         if (mins > 59) {
             mins = 59;
         }
-        flags = *reinterpret_cast<const s8 *>(&card.v2_flags);
+        flags = card.v2_flags;
         if (flags & 2) {
             sprintf(text[0], ":%s", get_localized_text_entry(0x26, 0));
         } else {
@@ -171,7 +171,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
         if (flags & 1) {
             sprintf(text[1], ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(text[1], ":%s", get_section_id_name(*reinterpret_cast<const s8 *>(&card.section_id)));
+            sprintf(text[1], ":%s", get_section_id_name(card.section_id));
         }
         sprintf(text[2], ":%04d:%02d'", hours, mins);
     }
