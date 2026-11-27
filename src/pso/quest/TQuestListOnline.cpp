@@ -127,7 +127,7 @@ void TQuestListOnline::update_state() {
     }
 }
 
-void TQuestListOnline::request_menu() { TLobby::protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state((saddr)((void*)12)); }
+void TQuestListOnline::request_menu() { TLobby::protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state(12); }
 
 void TQuestListOnline::build_list_window() {
     s32 id;
@@ -276,7 +276,7 @@ void TQuestListOnline::decompress_quest_list_buffers() {
     quest_list_online_decompression_cursor += quest_bin_decompressed_size;
     online_quest_list_decompressed_size = prs_decompress_buffer(quest_list_online_dat_download_state.buffer, quest_list_online_decompression_cursor);
     online_quest_dat_buffer = quest_list_online_decompression_cursor;
-    set_state((saddr)((void *)7));
+    set_state(7);
 }
 #pragma pop
 

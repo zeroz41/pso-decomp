@@ -398,15 +398,15 @@ void clamp_and_store_layout_index(s32 stage) {
 s32 challenge_check_any_player_dead(void) {
     s32 found;
     u32 i;
-    u8 *player;
+    TObjPlayer *player;
     if (challenge_retry_object == NULL) {
         return 0;
     }
     found = 0;
     i = 0;
     do {
-        player = (u8 *)(((saddr)get_player_by_client_id(i)));
-        if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) != 0)) {
+        player = get_player_by_client_id(i);
+        if ((player != NULL) && (((int)player->check_player_state_flag_2()) != 0)) {
             save_challenge_tombstone_spot((s32) i);
             found = 1;
         }
@@ -420,14 +420,14 @@ s32 challenge_check_any_player_dead(void) {
 }
 s32 challenge_check_all_players_dead(void) {
     s32 i;
-    u8 *player;
+    TObjPlayer *player;
     if (challenge_retry_object == NULL) {
         return 0;
     }
     i = 0;
     do {
-        player = (u8 *)(((u8 *)get_player_by_client_id(i)));
-        if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) == 0)) {
+        player = get_player_by_client_id(i);
+        if ((player != NULL) && (((int)player->check_player_state_flag_2()) == 0)) {
             return 0;
         }
         i += 1;

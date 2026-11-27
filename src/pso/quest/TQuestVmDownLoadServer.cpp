@@ -578,7 +578,7 @@ void TQuestVmDownLoadServer::close_window() {
     }
     close_message();
     this->pad_22c = 0;
-    if ((uaddr) this->mc_select != 0U) {
+    if (this->mc_select != NULL) {
         TAdMcSelectGC::update_state();
     }
 }
@@ -625,7 +625,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
     }
 }
 void TQuestVmDownLoadServer::open() {
-    if ((uaddr) this->mc_select == 0U) {
+    if (this->mc_select == NULL) {
         TScene::reset_counter();
         TObject *window = lobby_player_construction_window;
         if (window != NULL) {
@@ -703,11 +703,11 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
 void TQuestVmDownLoadServer::handle_confirm_window() {
     s32 selected_menu_value;
 
-    if ((uaddr) this->status_window != 0U) {
+    if (this->status_window != NULL) {
         if (((TWindowMenu *)(this->status_window))->is_decided() != 0) {
             selected_menu_value = ((TWindowMenu *)(this->status_window))->get_selected_value();
             if (selected_menu_value == 0) {
-                if ((uaddr) this->status_window != 0U) {
+                if (this->status_window != NULL) {
                     ((TWindowBase *)this->status_window)->close();
                     this->status_window = 0U;
                 }
@@ -715,11 +715,11 @@ void TQuestVmDownLoadServer::handle_confirm_window() {
                 return;
             }
             if (selected_menu_value == 1) {
-                if ((uaddr) this->status_window != 0U) {
+                if (this->status_window != NULL) {
                     ((TWindowBase *)this->status_window)->close();
                     this->status_window = 0U;
                 }
-                if ((uaddr) this->icon_menu != 0U) {
+                if (this->icon_menu != NULL) {
                     ((TWindowMenuIconLine *)(this->icon_menu))->clear_decided();
                 }
                 TAdMcSelectGC::update_state();
@@ -729,11 +729,11 @@ void TQuestVmDownLoadServer::handle_confirm_window() {
             }
         }
         if (((TWindowMenu *)(this->status_window))->is_cancelled() != 0) {
-            if ((uaddr) this->status_window != 0U) {
+            if (this->status_window != NULL) {
                 ((TWindowBase *)this->status_window)->close();
                 this->status_window = 0U;
             }
-            if ((uaddr) this->icon_menu != 0U) {
+            if (this->icon_menu != NULL) {
                 ((TWindowMenuIconLine *)(this->icon_menu))->clear_decided();
             }
             TAdMcSelectGC::update_state();
@@ -824,7 +824,7 @@ void TQuestVmDownLoadServer::load_quest_data() {
 void TQuestVmDownLoadServer::abort_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
         TAdSinglePlyChrSelectGC::reset_quest_id();
-        if ((uaddr) this->save_image != 0U) {
+        if (this->save_image != NULL) {
             safe_free(this->save_image);
             this->save_image = 0U;
         }
@@ -892,11 +892,11 @@ void TQuestVmDownLoadServer::write_quest_data_named() {
 void TQuestVmDownLoadServer::finish_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
         TAdSinglePlyChrSelectGC::reset_quest_id();
-        if ((uaddr) this->save_image != 0U) {
+        if (this->save_image != NULL) {
             safe_free(this->save_image);
             this->save_image = 0U;
         }
-        if ((uaddr) this->icon_menu != 0U) {
+        if (this->icon_menu != NULL) {
             ((TWindowMenuIconLine *)(this->icon_menu))->clear_decided();
         }
         this->state = 0xE;
@@ -972,11 +972,11 @@ void TQuestVmDownLoadServer::write_quest_data() {
 void TQuestVmDownLoadServer::close_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
         TAdSinglePlyChrSelectGC::reset_quest_id();
-        if ((uaddr) this->save_image != 0U) {
+        if (this->save_image != NULL) {
             safe_free(this->save_image);
             this->save_image = 0U;
         }
-        if ((uaddr) this->icon_menu != 0U) {
+        if (this->icon_menu != NULL) {
             ((TWindowMenuIconLine *)(this->icon_menu))->clear_decided();
         }
         show_status_message((get_message_text(0x41)), 1);
@@ -993,11 +993,11 @@ void TQuestVmDownLoadServer::destroy() {
     queue_destruction();
 }
 void TQuestVmDownLoadServer::close() {
-    if ((uaddr) this->save_image != 0U) {
+    if (this->save_image != NULL) {
         safe_free(this->save_image);
         this->save_image = 0U;
     }
-    if ((uaddr) this->icon_menu != 0U) {
+    if (this->icon_menu != NULL) {
         ((TWindowMenuIconLine *)(this->icon_menu))->clear_decided();
     }
     TAdMcSelectGC::update_state();
@@ -1016,11 +1016,11 @@ void TQuestVmDownLoadServer::check_client_connections() {
     }
     {
         if (TLobby::connection_lost != 0) {
-            if ((uaddr) this->mc_select != 0U) {
+            if (this->mc_select != NULL) {
                 ((TObject *)(this->mc_select))->suspend_update();
             }
         } else {
-            if ((uaddr) this->mc_select != 0U) {
+            if (this->mc_select != NULL) {
                 ((TObject *)(this->mc_select))->clear_update_suspension();
             }
             chan = 0;

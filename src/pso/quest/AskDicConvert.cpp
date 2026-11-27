@@ -694,7 +694,7 @@ void build_cursor_candidates(void) {
     QuestDownloadTextNode *n;
 
     e = &quest_download_slot_chain_table[quest_text_cursor_pos];
-    if ((uaddr)(o = e->head) == 0xFFFFFFFFU) {
+    if ((o = e->head) == (QuestDownloadEntryNode *)-1) {
         return;
     }
     qh = NULL;
@@ -796,7 +796,7 @@ void build_best_candidate(s32 pos, s32 x) {
     if (e->chain != NULL) {
         return;
     }
-    if ((uaddr)(o = e->head) == 0xFFFFFFFFU) {
+    if ((o = e->head) == (QuestDownloadEntryNode *)-1) {
 def:
         e->chain = new_raw_text_node(x);
         return;

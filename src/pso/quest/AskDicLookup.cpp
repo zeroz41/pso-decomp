@@ -614,7 +614,7 @@ QuestDownloadSegment *find_segments_at(s32 pos, s32 end, u8 a, u8 b) {
     }
     slot = &quest_download_slot_chain_table[pos];
     e = slot->tokens;
-    if ((uaddr)e == 0xFFFFFFFF) {
+    if (e == (const QuestDownloadMatchToken *)-1) {
         return (QuestDownloadSegment *)-1;
     }
     if (e == NULL && is_name_break_char(quest_download_scratch_storage[pos])) {
@@ -659,7 +659,7 @@ QuestDownloadSegment *find_segments_at(s32 pos, s32 end, u8 a, u8 b) {
             QuestDownloadSegment *r;
             n = quest_download_lz_match_strings[sub->off];
             r = find_segments_at(pos + n, end, sub->a, sub->b);
-            if ((uaddr)r == 0xFFFFFFFF) {
+            if (r == (QuestDownloadSegment *)-1) {
                 free_quest_segment_chain(head);
                 return (QuestDownloadSegment *)-1;
             }
@@ -793,7 +793,7 @@ QuestDownloadEntryNode *expand_item_entries(s32 start, s32 end, const QuestDownl
     tail = NULL;
     pos = start + off;
     s = find_segments_at(pos, end, t->a, t->b);
-    if ((uaddr)s == 0xFFFFFFFFU) {
+    if (s == (QuestDownloadSegment *)-1) {
         return (QuestDownloadEntryNode *)-1;
     }
     for (first = s; s != NULL; s = s->next) {
@@ -869,10 +869,10 @@ s32 build_slot_entries(s32 start, s32 end) {
     QuestDownloadEntryNode *list;
     QuestDownloadEntryNode *o;
     e = &quest_download_slot_chain_table[start];
-    if ((uaddr)e->items != 0xFFFFFFFF) {
+    if (e->items != (QuestDownloadItemNode *)-1) {
         for (tok = e->items; tok != NULL; tok = tok->next) {
             list = expand_item_entries(start, end, tok);
-            if ((uaddr)list == 0xFFFFFFFF) {
+            if (list == (QuestDownloadEntryNode *)-1) {
                 if (e->head != NULL) {
                     free_quest_entry_chain(e->head);
                     e->head = NULL;
@@ -885,7 +885,7 @@ s32 build_slot_entries(s32 start, s32 end) {
         }
     }
     list = expand_item_entries(start, end, &quest_download_lz_default_tokens);
-    if ((uaddr)list == 0xFFFFFFFF) {
+    if (list == (QuestDownloadEntryNode *)-1) {
         if (e->head != NULL) {
             free_quest_entry_chain(e->head);
             e->head = NULL;
@@ -1160,7 +1160,7 @@ s32 count_leading_entries(s32 i, s32 end) {
         if (n == 0) {
             return -1;
         }
-        if (e->head != NULL && (uaddr)e->head != 0xFFFFFFFF && e->head->prefix.a != 0x28) {
+        if (e->head != NULL && e->head != (QuestDownloadEntryNode *)-1 && e->head->prefix.a != 0x28) {
             break;
         }
         total += n;
@@ -1338,7 +1338,7 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
                 walk->fixed = 1;
             } else {
                 while (covered < groupLength) {
-                    if ((uaddr)walk->head != 0xFFFFFFFF) {
+                    if (walk->head != (QuestDownloadEntryNode *)-1) {
                         free_quest_entry_chain(walk->head);
                     }
                     walk->head = NULL;
@@ -1347,7 +1347,7 @@ void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) 
                     walk->chain = NULL;
                     covered += (walk = QUEST_WORKSPACE_SLOT(workspaceAddress, groupPos + covered))->length;
                 }
-                if ((uaddr)walk->head != 0xFFFFFFFF) {
+                if (walk->head != (QuestDownloadEntryNode *)-1) {
                     free_quest_entry_chain(walk->head);
                 }
                 walk->head = NULL;
@@ -1379,7 +1379,7 @@ void reset_slot(QuestDownloadSlot *slot, s32 mode) {
     if (mode == 0) {
         slot->tokens = reinterpret_cast<const QuestDownloadMatchToken *>(0xFFFFFFFFU);
         slot->token_length = -1;
-        if ((uaddr)slot->items != 0xFFFFFFFF) {
+        if (slot->items != (QuestDownloadItemNode *)-1) {
             release_node_chain(slot->items);
         }
         slot->items = NULL;
@@ -1387,7 +1387,7 @@ void reset_slot(QuestDownloadSlot *slot, s32 mode) {
         slot->x19 = -1;
         slot->latched_length = 0;
     }
-    if (slot->head != NULL && (uaddr)slot->head != 0xFFFFFFFF) {
+    if (slot->head != NULL && slot->head != (QuestDownloadEntryNode *)-1) {
         free_quest_entry_chain(slot->head);
     }
     slot->head = NULL;
