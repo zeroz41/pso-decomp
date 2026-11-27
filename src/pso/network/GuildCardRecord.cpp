@@ -42,7 +42,6 @@ s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 
 #pragma push
 
-typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -54,8 +53,7 @@ void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(res
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
-        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)protocol_instance + 0x1900);
-        protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
+        protocol_instance->send_find_user(protocol_instance->m_guildcard_tag, gc_num);
     }
 }
 

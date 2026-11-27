@@ -801,7 +801,7 @@ void TProtocol::send_create_game(char *name, char *password, u8 difficulty, u8 b
 	}
 }
 
-void TProtocol::send_find_user(TPlyGuildCardTag &tag, u32 gc_num) {
+void TProtocol::send_find_user(TPlyGuildCardTag tag, u32 gc_num) {
 	if (m_connected) {
 		TFindUser tmp;
 		memset(&tmp, 0, sizeof(tmp));
