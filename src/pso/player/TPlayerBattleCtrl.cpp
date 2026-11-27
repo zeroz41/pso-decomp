@@ -921,7 +921,7 @@ s32 TPlayerBattleCtrl::calc_player_rankings() {
     return 1;
 }
 
-void record_local_battle_placement(void *arg0) {
+void record_local_battle_placement(void *) {
     s32 slot;
     s32 i;
     s32 n;

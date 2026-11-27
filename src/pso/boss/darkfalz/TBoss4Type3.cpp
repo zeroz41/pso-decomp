@@ -483,7 +483,7 @@ void TBoss4Type3::set_anim_state(s32 index) {
 
 #pragma push
 #pragma opt_propagation off
-void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
+void TBoss4Type3::draw_model_set(const s32 *tbl, f32 weight) {
     f32 c;
     s32 i;
     f32 v;
@@ -496,11 +496,11 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     if (v < c || v >= 30.0f) {
         return;
     }
-    if (c == t) {
+    if (c == weight) {
         return;
     }
-    if (t < 1.0f) {
-        begin_alpha_blend(t);
+    if (weight < 1.0f) {
+        begin_alpha_blend(weight);
     } else if (tbl == boss4_type3_model_ids) {
         apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     }
@@ -515,7 +515,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     }
     clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
-    if (t < 1.0f) {
+    if (weight < 1.0f) {
         end_alpha_blend();
         return;
     }

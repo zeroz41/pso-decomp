@@ -88,7 +88,7 @@ struct TMainCursor : public TObject {
     u8 get_palette_slot();
     u8 get_palette_mode();
     void set_client_id(u16 id);
-    void set_palette_slot(u8 v);
+    void set_palette_slot(u8 slot);
     void refresh_target_marker();
     void update_chair();
     void validate_target();

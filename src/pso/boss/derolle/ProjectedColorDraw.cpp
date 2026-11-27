@@ -14,7 +14,7 @@ void end_projected_color_draw() {
 
 #pragma push
 #pragma scheduling off
-void draw_projected_quads(ProjectedVertex *p, s32 n) {
+void draw_projected_quads(ProjectedVertex *vertices, s32 n) {
     s32 i;
     f32 one;
     GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, n);
@@ -24,15 +24,15 @@ void draw_projected_quads(ProjectedVertex *p, s32 n) {
         f32 y;
         f32 w;
         u32 c;
-        w = one / p->z;
-        y = p->y * w;
-        x = p->x * w;
+        w = one / vertices->z;
+        y = vertices->y * w;
+        x = vertices->x * w;
         GXWGFifo.f32 = x;
         GXWGFifo.f32 = y;
         GXWGFifo.f32 = w;
-        c = p->color;
+        c = vertices->color;
         GXWGFifo.u32 = ((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24);
-        p++;
+        vertices++;
     }
 }
 #pragma pop

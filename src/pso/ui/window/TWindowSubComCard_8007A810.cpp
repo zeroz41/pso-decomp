@@ -76,9 +76,9 @@ void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
 }
 
 void clear_entry_active_flag(GuildCardEntry *entry);
-s32 has_inactive_card(GuildCardSlot *cards, s32 n) {
+s32 has_inactive_card(GuildCardSlot *cards, s32 count) {
     s32 i;
-    for (i = 0; i < n; i++, cards++) {
+    for (i = 0; i < count; i++, cards++) {
         if (cards->is_active() == 0) {
             return 1;
         }

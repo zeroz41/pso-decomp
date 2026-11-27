@@ -20,7 +20,7 @@ void clear_received_guild_cards(void);
 void free_received_guild_cards(void);
 void init_received_guild_cards(void);
 extern "C" {
-void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src);
+void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src);
 }
 
 extern GuildCardEntry *own_guild_card;

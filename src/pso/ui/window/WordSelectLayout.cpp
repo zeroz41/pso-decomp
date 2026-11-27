@@ -81,16 +81,16 @@ extern const f32 word_cursor_depth = 50037.0f;
 extern const f32 mode_window_depth = 50040.0f;
 
 
-void reset_window_vertices(WindowVertex *p, f32 depth, s32) {
+void reset_window_vertices(WindowVertex *vertices, f32 depth, s32) {
     s32 i;
     for (i = 0; i < 8; i++) {
-        p->x = 0.0f;
-        p->y = 0.0f;
-        p->depth = depth;
-        p->u = 0.0f;
-        p->v = 0.0f;
-        p->color = -1;
-        p++;
+        vertices->x = 0.0f;
+        vertices->y = 0.0f;
+        vertices->depth = depth;
+        vertices->u = 0.0f;
+        vertices->v = 0.0f;
+        vertices->color = -1;
+        vertices++;
     }
 }
 

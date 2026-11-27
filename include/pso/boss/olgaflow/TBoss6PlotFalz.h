@@ -112,7 +112,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void freeze_all_players();
     void render();
     void run_task();
-    void send_6xA3_action(s8 v);
+    void send_6xA3_action(s8 phase);
     static void free_all();
     static void load_resources();
     static void *create(void *set_data);

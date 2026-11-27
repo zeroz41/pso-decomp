@@ -311,8 +311,8 @@ s16 AttackParams::get_ata() { return this->ata; }
 
 s16 TObjChara::get_attack_params_ata() { return this->attack_params->get_ata(); }
 
-s32 TObjChara::add_status_effect_timer(s32 i, s32 v) {
-    return this->status_effects[i].timer += v;
+s32 TObjChara::add_status_effect_timer(s32 i, s32 frames) {
+    return this->status_effects[i].timer += frames;
 }
 
 f32 AttackParams::get_attack_range() { return attack_range; }

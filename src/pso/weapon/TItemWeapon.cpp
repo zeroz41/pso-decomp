@@ -393,7 +393,7 @@ void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale)
     }
 }
 
-s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
+s32 TItemWeapon::launch_shot(Vec *origin, s32 target, s32 angle, s32 apply) {
     s32 launched;
     DelayedWeaponHit hit;
     WeaponRangeRecord *range_record;
@@ -413,8 +413,8 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
             has_aim_target = 0;
             aim_target = NULL;
             Vec endpoint = *origin;
-            if (i < targets->get_captured_target_count()) {
-                aim_entry = targets->get_captured_target_entry(i);
+            if (target < targets->get_captured_target_count()) {
+                aim_entry = targets->get_captured_target_entry(target);
                 aim_target = ((TObjChara *(*)(u16, s16))resolve_hittable_target)(aim_entry->get_uid(), aim_entry->get_captured_target_collider_index());
                 if (aim_target != NULL) {
                     target_body = &aim_target->bodies[aim_entry->get_captured_target_collider_index()];
@@ -445,7 +445,7 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
             wall_hit = csnVector(&rayOrigin, &endpoint, 0x8100);
             if (wall_hit == NULL) {
                 if (aim_target != NULL) {
-                    last_entry = targets->get_captured_target_entry(i);
+                    last_entry = targets->get_captured_target_entry(target);
                     target_body = &aim_target->bodies[last_entry->get_captured_target_collider_index()];
                     flight_frames = xyz_distance(origin, &target_body->center) / shot_speed;
                     if (apply != 0) {

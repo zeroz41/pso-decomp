@@ -30,7 +30,7 @@ public:
     // Gives it count + 1 consecutive ids from the pool its actorFlags type
     // bits pick, unless it already has one; returns its id.
     u16 get_or_assign_entity_id(s32 count);
-    s32 mask_object_set_row_flags(s32);
+    s32 mask_object_set_row_flags(s32 mask);
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     u16 get_entity_id();

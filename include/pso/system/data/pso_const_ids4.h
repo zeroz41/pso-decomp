@@ -25,7 +25,7 @@ u8 default_setting_01(void *rules);
 // Resets a player's action palettes to the default photon blast slots.
 void assign_default_photon_blast_palette_slots(TPlyDispConfig *palettes);
 // Puts a photon blast into the first free one of slots 1-3 of the palettes.
-void assign_photon_blast_palette_slot(TPlyDispConfig *palettes, s32 arg1);
+void assign_photon_blast_palette_slot(TPlyDispConfig *palettes, s32 slot);
 
 
 #endif

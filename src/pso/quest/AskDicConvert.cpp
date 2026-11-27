@@ -1964,7 +1964,7 @@ const u8 *find_keyword_entry(u16 *start, u16 *end) {
 // Converts the romaji at src (n characters left) to kana in out; *count gets the
 // number of characters written. Returns the number consumed, 0 when more input
 // is needed, -1/-2 on no match (behaviour inferred).
-s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
+s32 convert_romaji_to_kana(u16 *src, s32 count, u16 *out, s32 *written) {
     const u8 *e;
     u16 *p;
     u8 kind;
@@ -1973,7 +1973,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
     u16 mode;
     s32 c;
     kind = romaji_kana_char_class_table[src[0] & 0xFF] & 0xF;
-    *count = 1;
+    *written = 1;
     if (kind <= 9) {
         if (kind <= 5) {
             len = 1;
@@ -2002,7 +2002,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
                 }
             }
         }
-        if (n == 1) {
+        if (count == 1) {
             if (mode != 0) {
                 return -1;
             }
@@ -2061,11 +2061,11 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
                 *out++ = compose_kana_jis_code(*e++, *p);
                 if (*e != 0) {
                     *out = compose_kana_jis_code(*e, *p);
-                    *count = 2;
+                    *written = 2;
                 }
                 return len;
             }
-            if (len++ >= n) {
+            if (len++ >= count) {
                 break;
             }
             p++;

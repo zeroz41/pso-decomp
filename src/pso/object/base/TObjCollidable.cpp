@@ -780,7 +780,7 @@ s32 test_player_body_overlap_at(TObjMapWarp *, TObjCollidable *player, const Vec
     return 0;
 }
 
-CollisionBody *refresh_actor_body_spheres(CollisionBodySet a, CollisionBodySet b) {
+CollisionBody *refresh_actor_body_spheres(CollisionBodySet source_set, CollisionBodySet destination_set) {
     CollisionBox boxAA, boxBB, boxAB, boxBA;
     Vec worldA, worldB, offsetA, offsetB;
     CollisionSphere sphereAB, sphereBA, sphereAA, sphereBB;
@@ -789,34 +789,34 @@ CollisionBody *refresh_actor_body_spheres(CollisionBodySet a, CollisionBodySet b
     s32 facingA, facingB, countA, countB;
     s32 flags;
     s32 i, j;
-    countA = a.count;
-    countB = b.count;
+    countA = source_set.count;
+    countB = destination_set.count;
     for (i = 0; i < countA; ++i) {
-        source = &a.colliders[i];
+        source = &source_set.colliders[i];
         flags = source->flags;
-        VecCopy(&worldA, &a.position);
+        VecCopy(&worldA, &source_set.position);
         VecCopy(&offsetA, &source->offset);
-        facingA = a.facing;
+        facingA = source_set.facing;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, facingA);
         rotate_vector_by_current_matrix(&offsetA, &offsetA);
         pop_matrix();
         vec3_add_to(&worldA, &offsetA);
         VecCopy(&source->center, &worldA);
-        VecCopy(&worldA, &a.position);
+        VecCopy(&worldA, &source_set.position);
         for (j = 0; j < countB; ++j) {
-            destination = &b.colliders[j];
+            destination = &destination_set.colliders[j];
             if (check_body_flags(flags, destination->flags)) {
-                VecCopy(&worldB, &b.position);
+                VecCopy(&worldB, &destination_set.position);
                 VecCopy(&offsetB, &destination->offset);
-                facingB = b.facing;
+                facingB = destination_set.facing;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, facingB);
                 rotate_vector_by_current_matrix(&offsetB, &offsetB);
                 pop_matrix();
                 vec3_add_to(&worldB, &offsetB);
                 VecCopy(&destination->center, &worldB);
-                VecCopy(&worldB, &b.position);
+                VecCopy(&worldB, &destination_set.position);
                 switch (source->shape) {
                 case 1:
                     switch (destination->shape) {

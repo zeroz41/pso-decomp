@@ -1565,14 +1565,14 @@ void handle_6xAE_set_animation_state(G_SetAnimationState_6xAE *command) {
     }
 }
 
-TObjPlayer *get_player_by_client_id(s32 i) {
-    if (i == 0xFFFF) {
+TObjPlayer *get_player_by_client_id(s32 client) {
+    if (client == 0xFFFF) {
         return 0;
     }
-    if (i < 0 || i >= 12) {
+    if (client < 0 || client >= 12) {
         return 0;
     }
-    return player_slot_table[i];
+    return player_slot_table[client];
 }
 
 s32 TObjPlayer::register_player_slot() {

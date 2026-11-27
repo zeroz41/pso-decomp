@@ -12,7 +12,7 @@ struct PointLight;
 struct LightEntry;
 
 extern "C" {
-void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1);
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags);
 }
 void init_light_stub(void *light);
 void init_area_lights(void);

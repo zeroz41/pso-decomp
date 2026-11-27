@@ -521,12 +521,12 @@ s32 TObjBase::set_event_source_flag(s32 event_source_flag) {
     return 0;
 }
 
-s32 TObjBase::mask_object_set_row_flags(s32 arg1) {
+s32 TObjBase::mask_object_set_row_flags(s32 mask) {
     FloorObjectSetRow *set_entry;
 
     set_entry = (FloorObjectSetRow *)this->set_entry;
     if (set_entry != NULL) {
-        set_entry->flags &= arg1;
+        set_entry->flags &= mask;
         return 1;
     }
     return 0;

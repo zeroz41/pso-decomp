@@ -116,7 +116,7 @@ TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC:
 
 s32 TAdMcSelectCursorGC::get_slot_index() { return selected_slot; }
 void TAdMcSelectCursorGC::lock_selection() { selection_locked = 1; }
-void TAdMcSelectCursorGC::set_render_direct(s32 v) { render_direct = v; }
+void TAdMcSelectCursorGC::set_render_direct(s32 mode) { render_direct = mode; }
 void TAdMcSelectMcGC::set_render_direct(s32 v) { render_direct = v; }
 void TAdChrSelSlotGC::set_select_index(s32 v) { enabled = v; }
 void TAdDrawLineCtrl::set_render_mode(s32 mode) { render_mode = mode; }
