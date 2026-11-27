@@ -235,7 +235,7 @@ void TObjChara::set_model_id(s16 v) { this->special_kind = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
-int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
+int TObjPlayer::is_lock_on_flag_set() { return test_actor_flags((uaddr)((void*)1048576)); }
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint) { return player->item_node_matrices[joint]; }
 void PlayerAttackController::set_attack_kind(s16 kind) { attack_kind = kind; }
 

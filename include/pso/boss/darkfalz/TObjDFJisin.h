@@ -2,6 +2,7 @@
 #define PSO_BOSS_DARKFALZ_TOBJDFJISIN_H
 
 #include "types.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
@@ -49,7 +50,7 @@ public:
 
 // Draws a player-like model set (body, two attached parts, hair) at alpha; used by TBoss6Type2.
 // head is the part drawn at node 0x3B (with the hair), part the one at node 0x3A (names inferred).
-void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha);
+void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, NJS_OBJECT *body, void *head, void *hair, uaddr part, CharacterAppearanceFields *appearance, f32 alpha);
 
 // TObjDFYutai's lerp ranges over its fade (t, 0..1): render's height offset, scale and draw weight.
 struct YutaiRange {

@@ -322,7 +322,7 @@ void G_DragonBossActions_6x12::bswap() { ((G_ClientIDHeader *)&action.header)->b
 
 void G_DragonBossActions_6x12::send() { bswap(); send_subcommand((u8 *)this); }
 
-void ProtectionTimer::set_frames(s32 v) { frames = v; }
+void ProtectionTimer::set_frames(s32 frames) { this->frames = frames; }
 
 void ProtectionTimer::reset_type() { frames = 0; }
 
@@ -5038,7 +5038,7 @@ void TBoss1Dragon::draw() {
 #pragma opt_common_subs off
 void TBoss1Dragon::render() {
     s32 view;
-    s32 saved;
+    NJS_OBJECT *saved;
     s32 i;
     RenderFadeState *ch;
     s32 visible;
@@ -5072,14 +5072,14 @@ void TBoss1Dragon::render() {
             rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, this->rotation_z);
             NJS_ARGB color = dragon_boss1_render_color;
-            saved = *(s32 *)&this->model;
+            saved = this->model;
             this->model = boss1_dragon_resource->models[1].model;
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)((&color)));
             TObjMotion::draw();
             model_render_flags = saved_model_render_flags;
-            *(s32 *)&this->model = saved;
+            this->model = saved;
             pop_matrix();
         }
         set_texture_list(this->texlist);

@@ -736,12 +736,9 @@ s32 TObjPlayer::has_active_camera_event() {
         if ((TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0xB) == 0) && (get_story_flag_in_bank(1, 0xB) == 0) && (get_story_flag_in_bank(2, 0xB) == 0) && (get_story_flag_in_bank(3, 0xB) == 0)) {
             return 0;
         }
-        goto block_14;
-    }
-    if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0x5B) == 0) && (get_story_flag_in_bank(1, 0x5B) == 0) && (get_story_flag_in_bank(2, 0x5B) == 0) && (get_story_flag_in_bank(3, 0x5B) == 0)) {
+    } else if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0x5B) == 0) && (get_story_flag_in_bank(1, 0x5B) == 0) && (get_story_flag_in_bank(2, 0x5B) == 0) && (get_story_flag_in_bank(3, 0x5B) == 0)) {
         return 0;
     }
-block_14:
     return 1;
 }
 
@@ -1421,7 +1418,7 @@ void TObjPlayer::draw_head_attachments() {
         }
         TCharaMaking::enable_making();
         f32 alpha = this->render_material_state.get_alpha();
-        draw_colored_hair(alpha, (saddr)this->hair_model,
+        draw_colored_hair(alpha, this->hair_model,
             &this->appearance, special_color);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();
@@ -3907,7 +3904,7 @@ void TObjPlayer::apply_material_color_override() {
 
 void TObjPlayer::clear_action_flag() {
     if ((is_count_positive(&this->inventory_objects->list.count) == 0) && (this->is_action_active() != 0U)) {
-        this->clear_flag_0x2();
+        this->clear_action_active_flag();
         send_release_hold(this);
     }
 }
@@ -3997,7 +3994,7 @@ s32 TObjPlayer::is_target_valid() {
     if (this->lock_on_cursor == NULL) {
         return 0;
     }
-    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (this->lock_on_cursor->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
+    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (this->lock_on_cursor->is_cursor_clear() == 0) || (this->is_hold_flag_set() != 0) || (test_action_mask(0x1E) == 0)) {
         return 0;
     }
     return 1;

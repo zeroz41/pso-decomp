@@ -76,7 +76,6 @@ struct TRaderMapCore : public TObjBase {
     f32 alpha_limit;
 
     void configure_viewport(const RadarViewportParameters* view);
-    void set_map_position(void *arg1);
     s32 is_render_admitted_default();
     static s32 is_active();
     void reset_counter();

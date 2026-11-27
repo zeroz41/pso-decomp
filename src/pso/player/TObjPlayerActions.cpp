@@ -124,7 +124,7 @@ extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 
 const f64 freeze_escape_timer_scale = 0.1;
-const f64 lbl_80447148 = 10430.38043493439;
+const f64 player_radians_to_angle_scale = 10430.38043493439;
 
 }
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
@@ -473,11 +473,8 @@ s16 TObjPlayer::select_idle_action() {
             if (keyboard_is_key_down(0x2D) != 0) {
                 return action_provider->get_key_4_action();
             }
-            goto block_109;
         }
-        goto block_109;
     }
-block_109:
     return get_no_action();
 }
 
@@ -1787,7 +1784,7 @@ void TObjPlayer::begin_fall_reaction() {
     z = this->velocity.z;
     x = this->velocity.x;
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
-        this->rotation_y = (s32) ((s32) (lbl_80447148 * atan2_float(x, z)) + 0x8000);
+        this->rotation_y = (s32) ((s32) (player_radians_to_angle_scale * atan2_float(x, z)) + 0x8000);
     }
     if (test_actor_flags(0x800) != 0) {
         drop_items_on_death();
@@ -1981,7 +1978,7 @@ void TObjPlayer::update_action11_movement() {
     }
 }
 
-void TObjPlayer::begin_action_0xB() {
+void TObjPlayer::begin_action11() {
     this->action_state = 0xB;
     run_action_state_phase(this->mode, 6);
     if (obj_isState2_324() != 0) {
@@ -2032,7 +2029,7 @@ void TObjPlayer::run_action11_phase(s16 phase) {
         this->send_6x51_set_player_angle();
         return;
       case 0:
-        this->begin_action_0xB();
+        this->begin_action11();
         return;
       case 1:
         update_action11_movement();
@@ -2138,7 +2135,7 @@ s32 TObjPlayer::can_guard() {
     return 0;
 }
 
-void TObjPlayer::set_flag_0x100000() { clear_velocity(); set_actor_flags(0x100000); }
+void TObjPlayer::stop_and_set_lock_on_flag() { clear_velocity(); set_actor_flags(0x100000); }
 
 void TObjPlayer::apply_damped_velocity_if_free() {
     damp_planar_velocity();
@@ -2250,7 +2247,7 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         apply_damped_velocity_if_free();
         return;
       case 6:
-        set_flag_0x100000();
+        stop_and_set_lock_on_flag();
         break;
     }
   }
@@ -3548,11 +3545,10 @@ s32 TObjPlayer::check_mode_action(s32 action) {
             if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                 return 0;
             }
-            goto block_5;
+        } else {
+            return 0;
         }
-        return 0;
     }
-block_5:
     return can_perform_physical_action();
 }
 

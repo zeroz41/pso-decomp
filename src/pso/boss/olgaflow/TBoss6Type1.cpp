@@ -1622,7 +1622,7 @@ s32 TBoss6Type1::is_ready() {
 int TBoss6Type1::is_field4b0_delta_reached() {
     return calc_field4b0_delta() >= delta_threshold ? 1 : 0;
 }
-s32 TBoss6Type1::is_field3F8_over_0x20() {
+s32 TBoss6Type1::has_enough_free_child_ids() {
     return this->plot_falz->count_free_child_ids() > 0x20;
 }
 

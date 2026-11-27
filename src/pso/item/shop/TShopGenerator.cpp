@@ -150,10 +150,10 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
+TShopGenerator::TShopGenerator(void *set_data) : TObjBase(tl_05) {
     s32 service_index;
     m_name = class_name;
-    this->apply_object_set_data((void *)set_data);
+    this->apply_object_set_data(set_data);
     this->m_90 = 0;
     this->service_check_delay = 5;
     service_index = this->set_params[0];
@@ -183,8 +183,7 @@ void set_shop_slot_active(u16 client) {
 }
 
 void *TShopGenerator::create(void *set_data) {
-    void *o = (void *)new TShopGenerator((saddr)set_data);
-    return o;
+    return new TShopGenerator(set_data);
 }
 
 void TShopGenerator::run_fn_table_reverse() {

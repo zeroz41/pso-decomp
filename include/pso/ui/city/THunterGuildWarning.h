@@ -36,6 +36,6 @@ s32 get_guild_quest_list_stage(void);
 s32 is_in_hunter_guild(s32 client_id);
 
 void *create_lobby_object_05(TObjPlayer *player);
-s32 handle_main_phase(saddr player);
+s32 handle_main_phase(TObjPlayer *player);
 
 #endif

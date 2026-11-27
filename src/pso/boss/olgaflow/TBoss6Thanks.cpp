@@ -65,13 +65,13 @@ static const Boss6ThanksEmitter boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
 
-s32 TBoss6Thanks::is_story_flag_0x9A_set() {
+s32 TBoss6Thanks::was_thanks_shown() {
     return get_story_flag(0x9A) != 0;
 }
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-void TBoss6Thanks::set_story_flag_0x9A() { set_story_flag_or_send_quest_flag(154); }
+void TBoss6Thanks::mark_thanks_shown() { set_story_flag_or_send_quest_flag(154); }
 void TBoss6Thanks::dispatch_darkfalz_phase() { set_story_flag_or_send_quest_flag(152); }
 
 void TBoss6Thanks::update_particle_emitters() {
@@ -210,7 +210,7 @@ void TBoss6Thanks::run_task() {
 }
 
 TBoss6Thanks::~TBoss6Thanks() {
-    TBoss6Thanks::set_story_flag_0x9A();
+    TBoss6Thanks::mark_thanks_shown();
     destroy_effects();
 }
 
@@ -240,7 +240,7 @@ void *TBoss6Thanks::create() {
 }
 
 s32 TBoss6Thanks::is_ship_door_ready() {
-    if ((check_ship_door() != 0) && (is_story_flag_0x9A_set() == 0)) {
+    if ((check_ship_door() != 0) && (was_thanks_shown() == 0)) {
         return 1;
     }
     return 0;

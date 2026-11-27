@@ -262,7 +262,7 @@ void TObjEneRe4Bit::set_hold_flags() {
     fade.reset_color();
 }
 
-void TObjEneRe4Bit::clear_state_flag_0x10() {
+void TObjEneRe4Bit::clear_flag_and_notify() {
     behavior_flags &= ~0x10;
     if (!(behavior_flags & 0x408)) {
         set_state_flags();

@@ -443,13 +443,13 @@ struct TObjPlayer : public TObjChara {
     s16 is_status_subsystem_ready();
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
-    int test_flag30_bit0x100000();
+    int is_lock_on_flag_set();
     static void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
     s16 get_kill_count();
     void set_kill_count(s16 count);
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
-    int check_flag_0x80();
+    int is_technique_charging();
     static s32 is_final_phase();
     static s32 is_camera_ready();
     static s32 is_camera_mode_active();
@@ -506,8 +506,8 @@ struct TObjPlayer : public TObjChara {
     // Quest opcode set_returnhunter: battle flag 1.
     void set_return_hunter();
     s32 get_return_destination();
-    int check_flag_0x40000000();
-    void clear_flag_0x2();
+    int is_hold_flag_set();
+    void clear_action_active_flag();
     int unregister_sub();
     void set_control_role(s32 v);
     s32 get_control_role();
@@ -587,7 +587,7 @@ struct TObjPlayer : public TObjChara {
     void send_6x4B_hurt_reaction();
     void complete_hurt_reaction();
     void do_action_19_5_if_flag30();
-    void begin_action_0xB();
+    void begin_action11();
     void run_if_flag_10();
     int try_apply_status_action();
     s32 try_status_action();
@@ -621,7 +621,7 @@ struct TObjPlayer : public TObjChara {
     void start_action_c();
     void send_6x50_switch_interaction();
     void update_if_flag_set();
-    void set_flag_0x100000();
+    void stop_and_set_lock_on_flag();
     void apply_damped_velocity_if_free();
     void apply_velocity_if_free();
     void complete_guard_reaction();
@@ -769,7 +769,6 @@ struct TObjPlayer : public TObjChara {
     static void warn_if_gauge_low();
     static void set_model_fade_alpha(f32 alpha);
     static void copy_gauge_warn_vec();
-    static void free_global_805D6FB8();
     static void alloc_and_init_object_b4();
     static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
     static void draw_player_model_by_id(s32 client_id, f32 alpha);

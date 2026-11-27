@@ -182,7 +182,7 @@ void KeyboardTextBuffer::delete_chars(s32 pos, s32 n) {
     u16 *dst;
     u16 c;
 
-    dst = (u16 *)((saddr)buffer + pos * 2);
+    dst = buffer + pos;
     if ((s32) *dst != 0) {
         src = dst + n;
         do {

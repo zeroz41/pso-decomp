@@ -63,7 +63,7 @@ Vec boss7_tunnel_raft_splash_positions[2] = {
 };
 u32 boss2_tunnel_state_flags;
 s32 lbl_805D696C;
-s8 lbl_805D6970;
+s8 boss7_tunnel_initialized;
 // Written last-to-first: the TU was compiled with deferred codegen, which emits functions in reverse
 // order of definition (and the vtables in .text order).
 #pragma defer_codegen on
@@ -119,9 +119,9 @@ TObjBoss7Tunnel::TObjBoss7Tunnel(TObject *parent) : TObject(parent) {
     new TObjBoss7TunnelNode(render_nodes, 0);
     new TObjBoss7TunnelNode(render_nodes, 1);
     new TObjBoss7TunnelNode(render_nodes, 2);
-    if (lbl_805D6970 == 0) {
+    if (boss7_tunnel_initialized == 0) {
         lbl_805D696C = 1;
-        lbl_805D6970 = 1;
+        boss7_tunnel_initialized = 1;
     }
     if (is_room_enemy_set_cleared(get_current_floor(), 1) == 0) {
         spawn_segment_row_b();

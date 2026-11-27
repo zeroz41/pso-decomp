@@ -778,7 +778,7 @@ void TObjEneRe4Sorcerer::update_enter_state(s32 reason) {
         for (i = 0; i < 2; i++) {
             if ((bit = (TObjEneRe4Bit *)find_entity_by_id(this->bit_ids[i])) != NULL) {
                 bit->reset_transform();
-                bit->clear_state_flag_0x10();
+                bit->clear_flag_and_notify();
             }
         }
         this->effect_scale = 0.0f;

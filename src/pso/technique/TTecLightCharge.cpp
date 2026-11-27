@@ -17,7 +17,7 @@ void TTecLightCharge::run_task() {
     if (age % 10 == 0) {
         for (int i = 0; i < 2; ++i) spawn_particle_effect(&position, recovery_technique_charge_particle_ids[i]);
     }
-    if (!actor->check_flag_0x80()) queue_destruction();
+    if (!actor->is_technique_charging()) queue_destruction();
     else if (age >= 180) queue_destruction();
 }
 

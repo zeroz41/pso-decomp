@@ -31,8 +31,8 @@ struct TBoss6Thanks : public TObject {
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 check_ship_door();
     // Story flag 0x9A test next to check_ship_door(); int return for the same reason.
-    static s32 is_story_flag_0x9A_set();
-    static void set_story_flag_0x9A();
+    static s32 was_thanks_shown();
+    static void mark_thanks_shown();
     static void dispatch_darkfalz_phase();
     void update_particle_emitters();
     void destroy_effects();

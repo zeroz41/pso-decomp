@@ -768,14 +768,13 @@ void TObjEneRecobox::render() {
                         }
                         fading_in = 1;
                         this->fade.set_flags_and_apply_damage_color();
-                        goto block_18;
+                    } else {
+                        model_render_flags = saved_model_render_flags;
+                        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                        return;
                     }
-                    model_render_flags = saved_model_render_flags;
-                    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                    return;
                 }
-block_18:
                 camera_fade = &this->fades[camera_mode];
                 camera_fade->update();
                 camera_fading = camera_fade->updateFromCamera(&body_center);

@@ -143,8 +143,6 @@ u8 gba_download_update_graph() {
 GbaJoybootState gba_joyboot_states[1];
 
 
-struct JoybootStampRecord { u32 a; u32 b; u32 c; };
-
 #pragma push
 #pragma fp_contract on
 void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {

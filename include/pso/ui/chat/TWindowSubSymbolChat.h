@@ -72,20 +72,9 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowChatSymbol *create_chat_symbol_window(s32 index);
     virtual void render();
     virtual void run_task();
-    static void set_flag_bit2(s32 *flags);
-    static void clear_flag_bit2(s32 *flags);
-    s32 get_cursor_pos();
-    s32 get_cursor_x();
-    void clear_flag60_bit2();
-    void clear_flag60_bit4();
-    void set_pos_and_flag(s32 arg1, s32 arg2);
     static void set_flag_bit1(s32 *flags);
     s32 commit(s32 *src);
-    void set_flag60_bit1();
-    void set_flag60_bit2();
-    void set_selection_and_refresh(s32 selection);
     void init_layout_entries(saddr player);
-    void set_from_key(s32 arg1);
     // The "New Parts" menu.
     TWindowMenu *create_new_parts_menu();
 };

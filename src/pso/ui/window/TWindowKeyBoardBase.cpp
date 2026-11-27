@@ -159,21 +159,21 @@ void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
             return;
         }
     }
-    ime_request_0x25(out, tmp);
+    ime_request_katakana(out, tmp);
     if (strcmp(text, out) != 0) {
         candidate_index++;
         candidate_count++;
         ime_request_next_candidate(out, tmp);
         return;
     }
-    ime_request_0x26(out, tmp);
+    ime_request_hiragana(out, tmp);
     if (strcmp(text, out) != 0) {
         candidate_index++;
         candidate_count++;
         ime_request_next_candidate(out, tmp);
         return;
     }
-    ime_request_0x28(out, tmp);
+    ime_request_fullwidth_chars(out, tmp);
     if (strcmp(text, out) != 0) {
         candidate_index++;
         candidate_count++;
@@ -193,7 +193,7 @@ void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
             }
         }
     }
-    ime_request_0x27(out, tmp);
+    ime_request_halfwidth_katakana(out, tmp);
     if (strcmp(text, out) != 0) {
         candidate_index++;
         candidate_count++;
@@ -341,7 +341,7 @@ void TWindowKeyBoardBase::set_kanji_mode() {
     char buffers[2][0x100];
 
     if (!(state_flags & 0x10)) {
-        ime_request_0x26(buffers[0], buffers[1]);
+        ime_request_hiragana(buffers[0], buffers[1]);
         candidate_index = 0xF0;
         update_input(buffers[0]);
     }
@@ -351,7 +351,7 @@ void TWindowKeyBoardBase::set_kana_mode() {
     char buffers[2][0x100];
 
     if (!(state_flags & 0x10)) {
-        ime_request_0x25(buffers[0], buffers[1]);
+        ime_request_katakana(buffers[0], buffers[1]);
         candidate_index = 0xF1;
         update_input(buffers[0]);
     }

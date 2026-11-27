@@ -7,6 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
@@ -235,7 +236,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
     u8 group = request->group;
     u8 *target;
     u32 mode;
-    u8 *pos;
+    const Vec *pos;
     u16 type;
     s32 cls;
     s32 i;
@@ -251,13 +252,13 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         pitch[0] = item_pmt_tbl->weapon_sounds[group].target[0].pitch;
         key[1] = item_pmt_tbl->weapon_sounds[group].target[1].key;
         pitch[1] = item_pmt_tbl->weapon_sounds[group].target[1].pitch;
-        pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
+        pos = &((TObjCollidable *)target)->bodies[request->collider].center;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
             cls = ((TObjPlayer *)target)->appearance.classId;
             mode = 1;
         } else if (type < 0x4000) {
-            cls = *(s32 *)(target + 0x370);
+            cls = ((TObjEnemy *)target)->rt_index;
             mode = 3;
         } else {
             mode = 3;
@@ -281,7 +282,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
                 }
             }
             if (k != 0) {
-                s32 handle = play_sound_effect(k, reinterpret_cast<const Vec *>(pos), 0, 0);
+                s32 handle = play_sound_effect(k, pos, 0, 0);
                 if (p != 0) {
                     set_sound_pitch_request(handle, p, 0);
                 }
@@ -405,9 +406,7 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
         if ((flags != 0) && (flags < 0x29U)) {
             return (saddr)get_text_collection(flags + 0x1CB);
         }
-        goto block_6;
     }
-block_6:
     return (saddr)empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {

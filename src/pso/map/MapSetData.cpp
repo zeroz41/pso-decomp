@@ -749,7 +749,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char buf[0x28];
     const char *filename;
     s32 size;
-    u8 *p;
+    LoadEnemySetFileEntry *p;
     s32 count;
     s32 i;
     MapSetVariant *t2;
@@ -787,11 +787,11 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = map_set_file_buffer;
-    count = (u32)size / 0x48;
-    for (i = 0; i < count; i++, p += 0x48) {
+    p = (LoadEnemySetFileEntry *)map_set_file_buffer;
+    count = (u32)size / sizeof(LoadEnemySetFileEntry);
+    for (i = 0; i < count; i++, p++) {
         bswap_enemy_set_row(p);
-        *(s16 *)(p + 2) = 0;
+        p->b = 0;
     }
     reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
     TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);

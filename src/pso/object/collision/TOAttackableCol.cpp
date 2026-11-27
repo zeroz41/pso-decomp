@@ -228,9 +228,7 @@ f32 TOAttackableCol::apply_hit(TObjBase *player) {
     {
       send_state_change((u16)(0));
     }
-    goto block_26;
   }
-  block_26:
   spawn_particle_effect(&this->position, 0x1D0);
   spawn_particle_effect(&this->position, 1);
   return 0.0f;

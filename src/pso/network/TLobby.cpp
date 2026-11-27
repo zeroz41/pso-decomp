@@ -410,7 +410,7 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     __ct__7TObjectFP7TObject(timer, parent);
     *(void ***)((s8 *)timer + 0x18) = lobby_idle_timer_vtable;
     getDateStamp(&date);
-    DateToSeconds(&date, (int *)(timer + 0x1C));
+    DateToSeconds(&date, &t->now);
     t->start = t->now;
     t->limit = get_idle_timeout_limit(local_client_id);
     t->state = 0;

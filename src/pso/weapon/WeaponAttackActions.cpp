@@ -734,7 +734,7 @@ void TItemWeapon::update_equipped() {
         }
         if(stage>=0) self->set_weapon_flags(0x10);
         else clear_weapon_flags(0x10);
-        if(stage>=0 || ((TObjPlayer *)self->owner)->test_flag30_bit0x100000()) self->update_attack();
+        if(stage>=0 || ((TObjPlayer *)self->owner)->is_lock_on_flag_set()) self->update_attack();
         else self->update_idle();
         if(self->model_motion) {
             self->motion_frame+=weapon_float_one;

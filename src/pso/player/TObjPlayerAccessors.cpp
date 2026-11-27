@@ -169,8 +169,8 @@ void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
 void TObjPlayer::set_battle_flag(s32 v) { this->return_destination = v; }
 s32 TObjPlayer::get_return_destination() { return this->return_destination; }
-int TObjPlayer::check_flag_0x40000000() { return (this->state_flags >> 30) & 0x1; }
-void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
+int TObjPlayer::is_hold_flag_set() { return (this->state_flags >> 30) & 0x1; }
+void TObjPlayer::clear_action_active_flag() { this->state_flags &= 0xfffffffd; }
 
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }

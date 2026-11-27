@@ -225,15 +225,15 @@ s32 get_guild_quest_list_stage(void) {
 
 
 
-s32 handle_main_phase(saddr player) {
+s32 handle_main_phase(TObjPlayer *player) {
     if (get_main_phase() == 0xE) {
-        return (saddr)THunterGuildSeqOffline::create((TObjPlayer *)player);
+        return (saddr)THunterGuildSeqOffline::create(player);
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) designated_client_id) {
-            return (saddr)TLobby::create_tl05_object((TObjPlayer *)player);
+            return (saddr)TLobby::create_tl05_object(player);
         }
-        return (saddr)create_lobby_object_05((TObjPlayer *)player);
+        return (saddr)create_lobby_object_05(player);
     }
     return 0;
 }

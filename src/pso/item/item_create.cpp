@@ -216,7 +216,7 @@ s32 get_item_icon_index();
 // This unit's .sbss, in address order.
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
-FlagWord lbl_805D5440;
+FlagWord floor_item_respawn_requested;
 LoadUnloadSet *item_class_load_handle;
 int lobby_drop_flag;
 
@@ -639,7 +639,7 @@ s32 item_identity_matches(u8 *item, u8 *other) {
   s32 result;
   u8 item_type;
   u8 item_group;
-  if (((((item) != 0) && ((other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
+  if (((((item) != 0) && ((other) != 0)) && ((item_type = item[0], (item_type == other[0]) != 0))) && ((item_group = item[1], (item_group == other[1]) != 0)))
   {
     switch ((s32) item_type)
     {
@@ -748,7 +748,7 @@ void TMainTask::cleanup_game_objects() {
     TLobby::clear_object_count();
     respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
-        lbl_805D5440.set(1);
+        floor_item_respawn_requested.set(1);
         if ((main_phase != 0xE) && (main_phase == 0xF)) {
             TItemDrop::refresh_drop_table_if_changed();
         }
@@ -1277,7 +1277,7 @@ void TObjPlayer::init_game_resources() {
     init_item_chunk_buffers();
     TItemLoad::init_resources();
     item_class_load_handle = create_load_unload_set(item_class_load_unload_table);
-    lbl_805D5440.reset();
+    floor_item_respawn_requested.reset();
 }
 
 void set_first_inventory_item_flag(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }

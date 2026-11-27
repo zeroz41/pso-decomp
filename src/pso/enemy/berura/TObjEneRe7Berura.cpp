@@ -1372,8 +1372,8 @@ void TObjEneRe7Berura::render() {
     s32 visible;
     s32 cam;
     s32 i;
-    s32 f1;
-    s32 f2;
+    s32 can_draw;
+    s32 can_draw_body;
     s32 l3;
     s32 l4;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -1436,11 +1436,11 @@ void TObjEneRe7Berura::render() {
                 re7_berura_demo_flag = 0;
                 berura_demo_flag = 0;
                 fade->set_flags_and_apply_damage_color();
-                f1 = 1;
+                can_draw = 1;
                 if (defer_render() != 0) {
-                    f1 = 0;
+                    can_draw = 0;
                 }
-                if (f1 != 0) {
+                if (can_draw != 0) {
                     set_chunk_model_node_callback(TObjEneRe7Berura::demo_frame_callback);
                     draw();
                     set_chunk_model_node_callback(0);
@@ -1461,11 +1461,11 @@ void TObjEneRe7Berura::render() {
             if (status_flags & 2) {
                 if (body_fade.has_visible_opacity() != 0) {
                     body_fade.set_flags_and_apply_damage_color();
-                    f2 = 1;
+                    can_draw_body = 1;
                     if (defer_render() != 0) {
-                        f2 = 0;
+                        can_draw_body = 0;
                     }
-                    if (f2 != 0) {
+                    if (can_draw_body != 0) {
                         set_chunk_model_node_callback(TObjEneRe7Berura::advance_state);
                         draw();
                         set_chunk_model_node_callback(0);

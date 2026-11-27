@@ -596,7 +596,7 @@ TChallenge *challenge_task;
 s32 challenge_task_created;
 s32 lobby_challenge_mode;
 
-typedef void (TChallenge::*Step_80070674)(void);
+typedef void (TChallenge::*ChallengeStepFn)(void);
 
 ChallengeModeState challenge_settings_defaults = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
@@ -656,12 +656,12 @@ void TChallenge::run_task() {
         return;
     }
     request_missing_challenge_records();
-    static Step_80070674 table[3] = {
+    static ChallengeStepFn table[3] = {
         &TChallenge::initialize_windows,
         &TChallenge::wait_for_quest,
         &TChallenge::update_active,
     };
-    Step_80070674 step = table[state];
+    ChallengeStepFn step = table[state];
     if (step) {
         (this->*step)();
     } else {

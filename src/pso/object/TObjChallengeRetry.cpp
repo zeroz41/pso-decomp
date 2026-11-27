@@ -328,52 +328,47 @@ void TObjChallengeRetry::update_state_0() {
   area = get_current_floor_area();
   if (area != AREA_PIONEER2_EP2)
   {
-    if (area < 0x12)
+    if ((area >= 0x12) || (area != AREA_PIONEER2_EP1))
     {
-      if (area != AREA_PIONEER2_EP1)
-      {
-        return;
-      }
-      goto block_4;
+      return;
     }
   }
   else
   {
     first_client = 0;
-    block_4:
-    if (has_window_task_root() != 0)
+  }
+  if (has_window_task_root() != 0)
+  {
+    play_player_default_effect();
+    no_player_flagged = 1;
+    client = first_client;
+    for (;;)
     {
-      play_player_default_effect();
-      no_player_flagged = 1;
-      client = first_client;
-      loop_6:
       player = get_player_by_client_id(client);
       if (player != NULL && player->test_actor_flags(0x02000000) != 0)
       {
         no_player_flagged = 0;
+        break;
       }
-      else
+      client += 1;
+      if (client >= 4)
       {
-        client += 1;
-        if (client < 4)
-        {
-          goto loop_6;
-        }
+        break;
       }
-      if (no_player_flagged != 0)
+    }
+    if (no_player_flagged != 0)
+    {
+      if ((this->is_designated) != 0)
       {
-        if ((this->is_designated) != 0)
-        {
-          send_45_and_close_windows();
-          show_ctrl_and_play_effect();
-          this->state = 2;
-          return;
-        }
         send_45_and_close_windows();
-        play_player_default_effect();
-        open_message();
-        this->state = 3;
+        show_ctrl_and_play_effect();
+        this->state = 2;
+        return;
       }
+      send_45_and_close_windows();
+      play_player_default_effect();
+      open_message();
+      this->state = 3;
     }
   }
 }

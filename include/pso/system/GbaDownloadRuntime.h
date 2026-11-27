@@ -29,4 +29,6 @@ void gba_joyboot_set_send_buffer(u8 *buffer, s32 length);
 
 struct DayMinuteTicks { s32 days; s32 mins; s32 ticks; };
 
+struct JoybootStampRecord { u32 a; u32 b; u32 c; };
+
 #endif

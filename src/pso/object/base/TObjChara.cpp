@@ -1409,7 +1409,7 @@ s32 TObjChara::roll_physical_accuracy(TObjChara *attacker, s32 collider, f32 acc
 
 #pragma pop
 void TObjPlayer::show_miss_for_collider(s32 collider) {
-    this->show_miss_popup((const float*)((*(uaddr *)&this->bodies) + collider*0x2C + 0x1C));
+    this->show_miss_popup(&this->bodies[collider].center.x);
 }
 
 void TObjChara::show_miss_popup(const float *pos) {

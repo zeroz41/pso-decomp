@@ -7,7 +7,7 @@
 struct TItemData;
 
 // Set while floor items are being synchronised.
-extern FlagWord lbl_805D5440;
+extern FlagWord floor_item_respawn_requested;
 
 void set_boss_buf_entry(int value, u16 index);
 int get_sync_counter(u16 index);

@@ -132,7 +132,7 @@ TObjMotionAction mericarol_motion_actions[9] = {
 static const NpcAnimationBinding mericarol_animation_binding = { NULL, mericarol_motion_actions, 3, 1, 9 };
 static const Vec mericarol_shadow_scale = { 2.0f, 1.0f, 2.0f };
 static const Vec mericarol_variant_shadow_scale = { 2.0f, 1.0f, 2.0f };
-static const Vec player_sub_802ce68c_zero_vec = { 0.0f, 0.0f, 0.0f };
+static const Vec mericarol_zero_vec = { 0.0f, 0.0f, 0.0f };
 
 player_stats *bm9_mericarol_phase_hp_table[3];
 AttackParams *bm9_mericarol_phase_attack_table[3];
@@ -1323,7 +1323,7 @@ void TObjEneBm9Mericarol::get_node_position(Vec *out, s32 node) {
     clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[node]);
-    Vec v = player_sub_802ce68c_zero_vec;
+    Vec v = mericarol_zero_vec;
     matrix_mult_vec(0, &v, out);
     pop_matrix();
     clear_motion_packed_rotation();

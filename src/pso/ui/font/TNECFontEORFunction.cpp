@@ -513,7 +513,7 @@ void free_menu_font() {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline void clear_words_80145804(u32 *p, s32 count) {
+static inline void clear_words(u32 *p, s32 count) {
     s32 n;
     for (n = 0; n < count; n++) {
         *p++ = 0;
@@ -541,10 +541,10 @@ void load_menu_font(void) {
     load_texture_list(menu_font_texture_list);
     for (m = 0; m < 2; m++) {
         *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].textures[m].texture->surface->header.pixels;
-        clear_words_80145804(*(menu_font_glyph_pixel_buffers + m), 0x2000);
+        clear_words(*(menu_font_glyph_pixel_buffers + m), 0x2000);
     }
     menu_font_palette = (s16 *)mem_alloc(0x100);
-    clear_words_80145804((u32 *)menu_font_palette, 0x40);
+    clear_words((u32 *)menu_font_palette, 0x40);
     menu_font_palette[0] = 0xFFF;
     menu_font_palette[1] = 0x3FFF;
     menu_font_palette[2] = 0x5FFF;

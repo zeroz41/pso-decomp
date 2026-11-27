@@ -11,7 +11,7 @@ s32 actor_frame_tick;
 // to setup_control_role; name inferred from that use.
 s32 player_control_role_base;
 s32 designated_client_id;
-TObject *lbl_805D53B0;
+TObject *stored_target;
 
 void FloorTransition::init_range(s32 floor) {
     current_floor = floor;
@@ -60,5 +60,5 @@ void TWindowCtrl::set_close_flag() {
 }
 
 s32 is_stored_target(TObject *target) {
-    return lbl_805D53B0 == target ? TRUE : FALSE;
+    return stored_target == target ? TRUE : FALSE;
 }

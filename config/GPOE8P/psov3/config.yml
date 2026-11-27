@@ -411,7 +411,7 @@ force_active:
   - push_out_players__10TBoss6RockFl
   - __ct__15TBoss6SwordShotFP7TObjectPC3Veclf
   - angle_to_bit__16Boss6WaveArcMaskFl
-  - set_story_flag_0x9A__12TBoss6ThanksFv
+  - mark_thanks_shown__12TBoss6ThanksFv
   - clear_particle_emitters__12TBoss6ThanksFv
   - previous_scroll_phase__10TBoss6Tube
   - scroll_delta__10TBoss6Tube
@@ -8344,7 +8344,7 @@ force_active:
   - lbl_805D6948
   - TObjBoss7DustCtrl_dust_counter
   - lbl_805D696C
-  - lbl_805D6970
+  - boss7_tunnel_initialized
   - lbl_805D6980
   - lbl_805D6984
   - lbl_805D6AB0
@@ -15504,7 +15504,7 @@ force_active:
   - set_state3__10TBoss4ZakoFv
   - set_state4_if_ready__14TBoss6PlotFalzFv
   - __ct__22TItemWeaponTwinkleStarFP7TObjectPUc
-  - set_state_0x34__11TBoss6Type2Fv
+  - start_attribute_switch__11TBoss6Type2Fv
   - set_state_2__13TBoss5GryphonFv
   - set_state__15TObjEneSlimeOneFl
   - set_state__16TAdChrSelASlotGCFv
@@ -15890,7 +15890,7 @@ force_active:
   - spawn_faust_explosion__FP11TItemWeaponRC3Vec
   - spawn_faust_hit_explosion__FlP12ActorBodyHit
   - spawn_faust_wall_explosion__FlP3Vec
-  - spawn_fire_explosion__10TObjPlayerFUll
+  - spawn_fire_explosion__10TObjPlayerFP11TItemWeaponPC3Vec
   - spawn_fire_explosion_at_item__10TObjPlayerFll
   - spawn_fire_explosion_for_item__10TObjPlayerFll
   - spawn_freeze_shell_effect__9TObjCharaFUll

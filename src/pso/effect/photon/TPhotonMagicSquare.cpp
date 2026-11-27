@@ -176,4 +176,4 @@ void destroy_magic_square_photon_blast_model(void) {}
 
 void create_magic_square_photon_blast_model(void) {}
 
-int TObjPlayer::check_flag_0x80() { return check_flag(128); }
+int TObjPlayer::is_technique_charging() { return check_flag(128); }

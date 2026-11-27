@@ -48,7 +48,7 @@ typedef struct GuildCardTagWords { s32 a; s32 b; } GuildCardTagWords;
 #pragma inline_depth(1)
 #pragma dont_inline off
 
-s32 lbl_805D63D8;
+s32 guild_card_next_serial;
 int com_card_entry_count;
 
 void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(response); }
@@ -173,8 +173,8 @@ void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     char *p;
 
     entry->id = response->found_guildcard;
-    serial_no = lbl_805D63D8;
-    lbl_805D63D8 = serial_no + 1;
+    serial_no = guild_card_next_serial;
+    guild_card_next_serial = serial_no + 1;
     entry->serial = serial_no;
     ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, &response->recv_port, serial_no);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, &response->extension);

@@ -1560,7 +1560,7 @@ void TItemData::format_item_name(char *buf) {
         memset(sign, 0, 3);
         pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
         if (pmt != NULL) {
-            lim = *(s16 *)((u8 *)pmt + 0xC);
+            lim = ((UnitPmtEntry *)pmt)->modifier_amount;
             v = get_field6_bswap(this);
             if (v < -lim) {
                 sign[0] = '-';
