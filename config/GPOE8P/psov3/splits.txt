@@ -5993,15 +5993,12 @@ pso/ui/chat/ChatLogLastLine.cpp:
 	.text       start:0x8026A328 end:0x8026A360
 
 pso/ui/window/TWindowMessageLog.cpp:
-	.text       start:0x8026A360 end:0x8026AD44
+	.text       start:0x8026A360 end:0x8026AD8C
 	.rodata     start:0x8044F418 end:0x8044F438
 	.data       start:0x804D0760 end:0x804D0778
 	.bss        start:0x805187D8 end:0x80518850
 	.sdata      start:0x805D3990 end:0x805D3998
 	.sdata2     start:0x805DD240 end:0x805DD260
-
-pso/ui/window/TWindowCtrl_8026AD44.cpp:
-	.text       start:0x8026AD44 end:0x8026AD8C
 
 pso/ui/window/TWindowMessagePage.cpp:
 	.text       start:0x8026AD8C end:0x8026B06C

@@ -19,7 +19,6 @@
 #include "pso/ui/chat/ChatLogText.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -339,5 +338,24 @@ void init_chat_log_heap(void) {
     chat_last_line_buffer = NULL;
     for (i = 0; i < 0x1E; i++) {
         chat_log_lines[i] = NULL;
+    }
+}
+
+TWindowMessageLog *TWindowCtrl::get_field44() {
+    if (instance == NULL) {
+        return 0;
+    }
+    return instance->message_log;
+}
+
+void clear_message_log_window(void) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->message_log = NULL;
+    }
+}
+
+void set_message_log_window(TWindowMessageLog *window_message_log) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->message_log = window_message_log;
     }
 }
