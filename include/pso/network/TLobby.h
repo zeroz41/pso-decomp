@@ -110,7 +110,6 @@ struct TLobby : public TObject {
     static void *create_tl05_object(TObjPlayer *player);
     s32 get_id();
     static void clear_flag_bit2();
-    static int get_com_card_data();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
     static void free_chr_select_slots();

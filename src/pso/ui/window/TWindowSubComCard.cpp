@@ -1220,7 +1220,7 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     TLobby::clear_flag_bit2();
     pos = list_window->get_cursor_pos();
     list_window->reset_entries();
-    n = TLobby::get_com_card_data();
+    n = get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
         e = TLobby::get_com_card_entry(i);
         list_window->add_text_entry(e->get_sub_obj(), 7, e->get_serial());

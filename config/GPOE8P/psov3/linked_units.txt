@@ -738,6 +738,7 @@ pso/player/PlayerStatusRefresh.cpp
 pso/audio/SoundControlState.cpp
 pso/audio/SoundRequestVoice.cpp
 pso/network/GuildCardRecord.cpp
+pso/network/ComCardAccess.cpp
 pso/ui/charcreate/CreationResourceFree.cpp
 pso/quest/challenge/TChallenge4P.cpp
 pso/map/area/Dragon2Scene.cpp

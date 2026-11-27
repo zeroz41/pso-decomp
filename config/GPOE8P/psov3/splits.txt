@@ -5528,10 +5528,13 @@ pso/audio/SoundRequestVoice.cpp:
 	.sdata2     start:0x805DC9E0 end:0x805DCA00
 
 pso/network/GuildCardRecord.cpp:
-	.text       start:0x802421A4 end:0x80242938
+	.text       start:0x802421A4 end:0x802428F8
 	.ctors      start:0x80433FB8 end:0x80433FBC
 	.bss        start:0x80517EE0 end:0x8051857C
 	.sbss       start:0x805D63D8 end:0x805D63E0
+
+pso/network/ComCardAccess.cpp:
+	.text       start:0x802428F8 end:0x80242938
 
 pso/system/PadRumble.cpp:
 	.text       start:0x80242938 end:0x80243218

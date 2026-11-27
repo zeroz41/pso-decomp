@@ -27,14 +27,9 @@
 #include "pso/enemy/BattleParamTables.h"
 
 
-// Their constructors run from __sinit_GuildCardRecord_cpp, spelled out below because the
-// original's static initializer precedes this file's inline copies.
-#pragma push
-#pragma suppress_init_code on
 GuildCardRecord selected_guild_card_record;
-// inferred: the com-card list; init_player_entry fills it, com_card_entry_count records are live
+// The com-card list; init_player_entry fills it, com_card_entry_count records are live.
 GuildCardRecord com_card_entries[8];
-#pragma pop
 
 extern "C" {
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
@@ -85,7 +80,7 @@ void copy_guild_card_f4c(void *dst, void *src) {
 void find_and_load_com_card(u32 serial) {
     s32 n;
     s32 i;
-    n = TLobby::get_com_card_data();
+    n = get_com_card_data();
     for (i = 0; i < n; i++) {
         if (serial == TLobby::get_com_card_entry(i)->get_serial()) break;
     }
@@ -211,7 +206,7 @@ void add_found_user_com_card(TUserAns &response) {
 s32 remove_com_card_by_id(u32 id) {
     s32 i;
     s32 n;
-    n = TLobby::get_com_card_data();
+    n = get_com_card_data();
     for (i = 0; i < n; i++) {
         if (id == ((u32)TLobby::get_com_card_entry(i)->get_id())) {
             remove_com_card_entry(i);
@@ -229,36 +224,3 @@ void TLobby::reset_com_card_list() { com_card_entry_count = 0; TLobby::clear_fla
 
 void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void reset_com_card_list_callback(void) { TLobby::reset_com_card_list(); }
-
-
-extern "C" {
-GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
-void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
-static void __sinit_GuildCardRecord_cpp();
-}
-__declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_GuildCardRecord_cpp;
-
-static void __sinit_GuildCardRecord_cpp() {
-    __ct__15GuildCardRecordFv(&selected_guild_card_record);
-    __construct_array(com_card_entries, __ct__15GuildCardRecordFv, NULL, sizeof(GuildCardRecord), 8);
-}
-
-GuildCardRecord::GuildCardRecord() {}
-
-s32 GuildCardRecord::get_serial() const { return serial; }
-
-int TLobby::get_com_card_data() { return com_card_entry_count; }
-
-char *GuildCardRecord::get_sub_disp_ptr() { return ext.player_name; }
-
-s32 GuildCardRecord::get_id() { return id; }
-
-
-
-void set_short_mail_flag_bit2(void) {
-    short_mail_flags |= 4;
-}
-
-void TLobby::clear_flag_bit2() {
-    short_mail_flags &= 0xFFFFFFFB;
-}
