@@ -569,9 +569,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data) : TObjEn
     invoke_initialization_hook(set_data);
     state_flags = 0;
     {
-        // exchange_object_state copies the object's whole 12-byte lobby record
-        u32 flags[3];
-        if (exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+        EnemyStateRecord state;
+        if (exchange_object_state(&state, 1) != 0 && (state.flags & 0x12008) == 0x12008) {
             state_flags |= 0x8000;
         }
     }

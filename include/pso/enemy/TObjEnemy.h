@@ -43,12 +43,12 @@ struct TObjEnemy : public TObjChara {
     void refresh_lobby_state();
     void send_6x9C_enemy_low_game_flags(s32);
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
-    virtual void apply_enemy_state(s32 *);
-    virtual void apply_hit_message_flags(void *);
+    virtual void apply_enemy_state(EnemyStateRecord *);
+    virtual void apply_hit_message_flags(EnemyStateRecord *);
     virtual void apply_set_data(EnemyPlacement *set_data);
     virtual void clear_lobby_object_state();
     virtual s32 sync_enemy_state(s32 status);
-    s32 exchange_object_state(void *record, s16 mode);
+    s32 exchange_object_state(EnemyStateRecord *record, s16 mode);
     virtual const char *get_name();
     TObjEnemy* groupRoot();
     s32 has_group();

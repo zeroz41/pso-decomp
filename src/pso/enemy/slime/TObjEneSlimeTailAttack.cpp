@@ -296,7 +296,7 @@ void TObjEneSlime::run_task() {
         enemy_state.flags = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
-        this->apply_enemy_state(&enemy_state.flags);
+        this->apply_enemy_state(&enemy_state);
         send_entity_set_flags();
         queue_destruction();
     }

@@ -42,7 +42,7 @@ public:
     virtual void render();
     virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual f32 receive_direct_attack(TObjBase *source, DirectAttackPayload payload, CollisionBody *collider, s32 technique, s32 flags);
-    virtual void apply_enemy_state(s32 *);
+    virtual void apply_enemy_state(EnemyStateRecord *);
 
     void clear_flag_08000000();
     void set_flag_08000000();

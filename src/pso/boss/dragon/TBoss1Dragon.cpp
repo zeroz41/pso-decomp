@@ -299,17 +299,17 @@ void EnemyStateRecord::copy_header(const EnemyStateRecord *source) {
     target->defense_status_level = input->defense_status_level;
 }
 
-s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
+s32 TObjEnemy::exchange_object_state(EnemyStateRecord *record, s16 mode) {
     s16 index;
     index = this->set_index;
     if ((index < 0) || (index > 0xB4F)) {
         return 0;
     }
     if (mode == 0) {
-        enemy_state_records[index].copy_header(static_cast<const EnemyStateRecord *>(record));
+        enemy_state_records[index].copy_header(record);
     }
     if (mode == 1) {
-        static_cast<EnemyStateRecord *>(record)->copy_header(&enemy_state_records[index]);
+        record->copy_header(&enemy_state_records[index]);
     }
     return 1;
 }
@@ -654,7 +654,7 @@ void TBoss1Dragon::clearControlOverride() {
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
 TBoss1Dragon::TBoss1Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
-    u32 state[3];
+    EnemyStateRecord state;
     s32 i;
     s32 j;
 
@@ -664,7 +664,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneD
     }
     this->invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(state, 1) != 0 && (state[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&state, 1) != 0 && (state.flags & 0x12008) == 0x12008) {
         this->flags |= 0x40;
     }
     this->init_position_vectors();

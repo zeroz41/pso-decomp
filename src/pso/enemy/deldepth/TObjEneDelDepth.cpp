@@ -953,7 +953,7 @@ void TObjEneDelDepth::update_death_fade() {
         record.flags = 0x800;
         this->send_6x0A_enemy_state(&record);
         this->exchange_object_state(&record, 0);
-        apply_enemy_state(&record.flags);
+        apply_enemy_state(&record);
         this->send_entity_set_flags();
         spawn_dead_spot_kind0_scale7_5(&position, 0);
         this->queue_destruction();

@@ -541,7 +541,7 @@ void TBoss4DarkFalz::handle_defeat() {
         state.flags = 0x800;
         send_6x0A_enemy_state(&state);
         exchange_object_state(&state, 0);
-        apply_enemy_state(&state.flags);
+        apply_enemy_state(&state);
     }
     send_entity_set_flags();
     queue_destruction();

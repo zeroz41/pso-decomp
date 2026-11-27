@@ -17532,7 +17532,7 @@ force_active:
   - on_wall_hit__22TObjEneMe1GiGueMissileFv
   - apply_to_target__9TTecJelinFP9TObjChara
   - apply_to_target__9TTecZaruaFP9TObjChara
-  - apply_enemy_state__15TBoss3VoloptP02FPl
+  - apply_enemy_state__15TBoss3VoloptP02FP16EnemyStateRecord
   - apply_to_player__10TTecDebandFP10TObjPlayer
   - on_cancel__13TAdVIConfigGCFv
   - on_cancel__16TAdPsoPassSaveGCFv

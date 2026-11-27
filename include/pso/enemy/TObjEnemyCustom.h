@@ -26,7 +26,7 @@ struct TObjEnemyCustom : public TObjEnemy {
     // Clears the actorFlags bits set_flags_30 sets (0x04040000).
     void clear_flags_30();
     void set_flags_30();
-    virtual void apply_enemy_state(s32 *);
+    virtual void apply_enemy_state(EnemyStateRecord *);
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual void run_death_reaction();
     virtual void run_hit_reaction();

@@ -225,7 +225,7 @@ BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, co
     return load_enemy_bml_resource(&copy);
 }
 
-void TObjEneDD::apply_enemy_state(s32 *state) {
+void TObjEneDD::apply_enemy_state(EnemyStateRecord *state) {
     s16 mode;
 
     mode = this->mode;

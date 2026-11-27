@@ -449,7 +449,7 @@ void TBoss8Dragon::free_static() {
 void TBoss8Dragon::clear_player_control() { boss8_dragon_player_control = 0; }
 
 TBoss8Dragon::TBoss8Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    u32 record[4];
+    EnemyStateRecord record;
     s32 i;
     s32 j;
     Boss8DragonParams *cfg;
@@ -460,7 +460,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneD
     }
     invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(record, 1) != 0 && (record[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&record, 1) != 0 && (record.flags & 0x12008) == 0x12008) {
         this->flags |= 8;
     }
     this->init_position_vectors();

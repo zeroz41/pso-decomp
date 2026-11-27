@@ -426,7 +426,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     record.flags = 0x800;
     send_6x0A_enemy_state(&record);
     exchange_object_state(&record, 0);
-    apply_enemy_state(&record.flags);
+    apply_enemy_state(&record);
     send_entity_set_flags();
     queue_destruction();
 }

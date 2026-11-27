@@ -22,7 +22,7 @@ struct TObjEneDD : public TObjEnemy {
     void init_common_from(TObjBase *source);
     void noop();
     void clear_attack_receipts();
-    virtual void apply_enemy_state(s32 *);
+    virtual void apply_enemy_state(EnemyStateRecord *);
     virtual s32 update_status_effects();
     virtual s32 update_immobilizing_statuses();
     virtual void update_action_state();

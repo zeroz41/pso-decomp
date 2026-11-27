@@ -287,7 +287,7 @@ void TOCtrlDubchik::complete_and_destroy() {
         state.flags = 1;
         send_6x0A_enemy_state(&state);
         exchange_object_state(&state, 0);
-        apply_enemy_state(&state.flags);
+        apply_enemy_state(&state);
         kill_room_dubchiks();
         set_flag8();
         queue_destruction();

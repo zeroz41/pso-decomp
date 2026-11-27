@@ -545,7 +545,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
 }
 
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
-    u32 state[3];
+    EnemyStateRecord state;
 
     m_name = TBoss7DeRolLeC::class_name;
     if (boss7_joint_state == NULL) {
@@ -555,7 +555,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObj
     boss_params = (TBoss7DeRolLeCParams *)dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     state_flags = 0;
-    if (exchange_object_state(state, 1) && (state[0] & 0x12008) == 0x12008) {
+    if (exchange_object_state(&state, 1) && (state.flags & 0x12008) == 0x12008) {
         state_flags |= 0x8000;
     }
     init_position_vectors();

@@ -510,7 +510,7 @@ void TBoss5Gryphon::cleanup() {
 }
 
 TBoss5Gryphon::TBoss5Gryphon(TObject *parent, EnemyPlacement *data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    u32 flags[4];
+    EnemyStateRecord state;
     s32 i;
 
     this->m_name = boss5_gryphon_type_name_pointer;
@@ -519,7 +519,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, EnemyPlacement *data) : TObjEneDD_
     }
     this->invoke_initialization_hook(data);
     this->flags = 0;
-    if (this->exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&state, 1) != 0 && (state.flags & 0x12008) == 0x12008) {
         this->flags |= 1;
     }
     this->init_position_vectors();

@@ -1351,7 +1351,7 @@ void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
     }
 }
 
-void TBoss3VoloptP02::apply_enemy_state(s32 *) {}
+void TBoss3VoloptP02::apply_enemy_state(EnemyStateRecord *) {}
 
 void TBoss3VoloptP02::push_players_out_of_radius() {
     s32 i;

@@ -559,7 +559,7 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     return candidates[(s32)((f32)found * random_ratio())];
 }
 
-void TObjEnemyCustom::apply_enemy_state(s32 *state) {
+void TObjEnemyCustom::apply_enemy_state(EnemyStateRecord *state) {
     s16 saved_mode = mode;
     TObjEnemy::apply_enemy_state(state);
     mode = saved_mode;

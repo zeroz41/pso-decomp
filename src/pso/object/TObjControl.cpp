@@ -565,12 +565,11 @@ void TObjEnemy::apply_set_data(EnemyPlacement *data) {
     rng.set_seed(entity_id + area_random_seed);
 }
 
-void TObjEnemy::apply_enemy_state(s32 *state) {
+void TObjEnemy::apply_enemy_state(EnemyStateRecord *state) {
     apply_hit_message_flags(state);
 }
 
-void TObjEnemy::apply_hit_message_flags(void *state_data) {
-    EnemyStateRecord *record = (EnemyStateRecord *)state_data;
+void TObjEnemy::apply_hit_message_flags(EnemyStateRecord *record) {
     s32 flags;
     StatStatusReceipt p;
     this->hp = this->hpmax - record->damage;

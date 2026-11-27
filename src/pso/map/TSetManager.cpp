@@ -616,7 +616,7 @@ s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
                 append_wave_member(wave_members, enemy);
                 spawned += 1;
@@ -661,7 +661,7 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
                 obj->set_index = set->placement.enemy_index;
                 obj->set_entry = set;
                 if (obj->set_index != -1) {
-                    obj->apply_enemy_state(&enemy_state_records[obj->set_index].flags);
+                    obj->apply_enemy_state(&enemy_state_records[obj->set_index]);
                 }
                 count++;
             } else {
@@ -703,7 +703,7 @@ s32 link_matching_objects(s16 room, s16 wave) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
                 spawned += 1;
             } else {
@@ -850,7 +850,7 @@ void create_objects(s32 floor) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
             } else {
                 row->enemy = NULL;
@@ -881,7 +881,7 @@ void assign_display_objects(EnemySetRecord *rows, s32 enemy_count) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
             } else {
                 row->enemy = NULL;
