@@ -3,6 +3,8 @@
 #include "pso/ui/window/KeyboardTextBuffer.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/Language.h"
+#include "pso/math/FloatRound.h"
+#include "pso/system/memory.h"
 
 u16 keyboard_dakuten_kana_sjis[20] = {33449, 33451, 33453, 33455, 33457, 33459, 33461, 33463, 33465, 33467, 33469, 33471, 33474, 33476, 33478, 33485, 33488, 33491, 33494, 33497};
 u16 keyboard_handakuten_kana_sjis[6] = {33485, 33488, 33491, 33494, 33497, 0};
@@ -346,3 +348,37 @@ void KeyboardTextBuffer::reset_state() {
         *buffer = 0;
     }
 }
+
+void KeyboardTextBuffer::init(u32 width, u32 lines) {
+    if (buffer != NULL) {
+        mem_free(buffer);
+    }
+    if (lines == 0) {
+        capacity = width;
+    } else {
+        capacity = (u32)((f32) lines * round_away_from_zero((f32) (width / 6U)));
+    }
+    if (capacity != 0) {
+        buffer = (u16 *)mem_alloc((capacity + 1) * 2);
+        *buffer = 0;
+    } else {
+        buffer = NULL;
+    }
+    cursor = 0;
+    length = 0;
+    this->width = width;
+    line_pixels = lines * 0x14;
+}
+
+KeyboardTextBuffer::~KeyboardTextBuffer() {
+    if (buffer != NULL) {
+        mem_free(buffer);
+    }
+}
+
+
+KeyboardTextBuffer::KeyboardTextBuffer() {
+    buffer = NULL;
+    init(0, 0);
+}
+

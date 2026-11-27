@@ -19,6 +19,11 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/network/client_id.h"
 
 __declspec(section ".rodata") extern const char lens_flare_class_name_string[] = "TEF_LensFlare";
 const char *TEF_LensFlare::class_name = lens_flare_class_name_string;
@@ -36,6 +41,20 @@ LensFlareElement lens_flare_reflected_element_descriptors[10] = {
     {6, 1.8f, 1.5f, 0.0f, 0.7f, -10.8f},
     {2, 0.0f, 4.0f, 2.0f, 0.4f, -10.9f},
 };
+
+int TEF_LensFlare::is_player_out_of_range(f32 range_sq) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player == NULL) {
+        return 0;
+    }
+    return (u32) __cntlzw(horizontal_distance_squared(&player->position, &position) < range_sq) >> 5;
+}
+void *TEF_LensFlare::create(void *set_data) {
+    if (is_split_screen() != 0) {
+        return NULL;
+    }
+    return new TEF_LensFlare(tl_05, set_data);
+}
 
 TEF_LensFlare::~TEF_LensFlare() {
 
