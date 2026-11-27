@@ -175,12 +175,22 @@ Pso3CharacterFileSlot::Pso3CharacterFileSlot() {}
 Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
+// CodeWarrior: the original calls GuildCardEntry's generated constructor, which placement new reaches only past a null check.
+#ifdef __MWERKS__
 extern "C" {
 
 // The generated GuildCardEntry constructor (emitted in TWindowSubComCard_CardSlots.cpp).
 void *__ct__14GuildCardEntryFv(void *card);
 }
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
+#else
+#include <new>
+
+void *TAdSinglePlyChrSelectGC::init_guild_card_tag() {
+    new (this) GuildCardEntry;
+    return this;
+}
+#endif
 void TPlyInventoryItem::clear_equipped() { m_flags &= ~8; }
 
 void TPlyInventoryItem::clear() {
