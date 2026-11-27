@@ -21,6 +21,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/memory.h"
+#include "pso/system/CxxRuntime.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyInventory.h"
@@ -888,7 +889,6 @@ u8 get_item_count_max() { return 255; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" void __copy(void *, void *, int);
 
 void PlayerTechniqueState::enable_techniques() { flags.clear(2); }
 
