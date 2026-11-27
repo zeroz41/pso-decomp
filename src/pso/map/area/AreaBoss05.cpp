@@ -16,13 +16,6 @@
 
 #pragma readonly_strings on
 
-struct AreaLightParams {
-    f32 dir[3];
-    f32 pad[3];
-    f32 amb[3];
-    f32 c[4];
-    f32 d[4];
-};
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*gryphon_area_cleanup_callbacks[2])(void) = {

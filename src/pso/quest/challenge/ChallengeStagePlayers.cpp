@@ -61,8 +61,8 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             if (p == NULL) {
                 continue;
             }
-            VecCopy(&pos, (const Vec *)((u8 *)p + 0x38));
-            copy_player_visual_record((PlayerVisualRecord *)&chr, (PlayerVisualRecord *)((u8 *)p + 0x85c));
+            VecCopy(&pos, &p->position);
+            copy_player_visual_record((PlayerVisualRecord *)&chr, (PlayerVisualRecord *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             delete p;
             switch (chr.f34 & 0xe0) {

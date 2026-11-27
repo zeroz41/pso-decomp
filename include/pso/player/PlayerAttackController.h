@@ -43,6 +43,10 @@ struct PlayerAttackController {
     f32 get_attack_accuracy_scale();
     f32 calc_attack_stage_multiplier(s32 kind);
 
+    // The burst shots counted so far (a swing starts a burst of 2 when the count is 0).
+    s32 get_burst_count();
+    void increment_burst_count();
+
     void set_evp(f32 scale);
     f32 get_evp();
 

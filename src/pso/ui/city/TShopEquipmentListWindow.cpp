@@ -294,7 +294,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 item = find_item_by_id(it.id);
                 if (item != NULL && (equipped = player->get_equipped_item(item->get_attach_slot())) != NULL) {
-                    TObjPlayer::send_6x26_unequip_item(player, equipped->get_item_id());
+                    player->send_6x26_unequip_item(equipped->get_item_id());
                 }
                 send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), it.id, 0);
                 update_list(&stock[i]);

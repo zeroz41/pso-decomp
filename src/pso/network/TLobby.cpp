@@ -109,13 +109,6 @@
 
 #pragma readonly_strings on
 
-struct LobbyPlayerEntry {
-    u8 tag[8];
-    u32 ip_addr;
-    saddr client_id;
-    char name[16];
-    u8 char_data[0x41C];
-};
 typedef char LobbyPlayerName[16];
 struct ByteBlock_8 { u8 bytes[0x8]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };

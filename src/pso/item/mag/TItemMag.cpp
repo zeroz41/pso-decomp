@@ -833,7 +833,7 @@ s32 TItemMag::apply_feed(MagStats *change) {
             if (owner->obj_isState2_324() == 0) {
                 weapon = (TItem *)TObjPlayer::get_equipped_weapon(owner);
                 if (weapon != NULL && weapon->check_equip_requirements(owner, NULL) == 0) {
-                    TObjPlayer::send_6x26_unequip_item(owner, weapon->get_item_id());
+                    owner->send_6x26_unequip_item(weapon->get_item_id());
                 }
             }
         }

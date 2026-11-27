@@ -48,7 +48,7 @@ TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(
     this->effectAngle = 0;
     this->effectScaleJoint = -1;
     this->effectFrame = 0;
-    switch ((s32) (*(u8 *)((s8 *)item + 2))) {
+    switch ((s32) item[2]) {
     case 6:
         break;
     case 5:
@@ -58,7 +58,7 @@ TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(
         this->effectJoint = 2;
         break;
     }
-    if ((u8) *(u8 *)((s8 *)item + 2) >= 5U) {
+    if ((u8) item[2] >= 5U) {
         set_color_node(-1);
     }
 }

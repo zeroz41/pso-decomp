@@ -54,6 +54,8 @@ struct CharacterSaveRecord {
     s32 find_bank_item(TItemData *item);
     // Puts item in the first free bank row; 0 when the bank is full.
     s32 register_in_free_room_slot(TItemData *item);
+    // Marks the slot as holding a character and empties its bank.
+    s32 init_char_slot_record();
 
     s32 flags;              // set_global_flags / clear_flags / check_flag
     s32 creation_seconds;   // when the character was made; tells two records of one slot apart

@@ -408,7 +408,7 @@ void TWindowSubStatusDisp::vt12() {
             e->value = q->stats.lck;
         }
     }
-    if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
+    if (pl->build_player_equipment_requirement_stats(&cur) != 0) {
         build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
         e = (TWindowLayoutNumber *)get_array_entry(idx); \

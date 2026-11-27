@@ -152,11 +152,11 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
     warp_range = 15.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -213,11 +213,11 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     }
     warp_range = 15.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }

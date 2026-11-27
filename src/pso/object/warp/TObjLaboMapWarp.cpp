@@ -350,7 +350,7 @@ void unlock_main_warp_destination(s32 id) {
 TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     s32 i;
     s32 j;
-    void *p;
+    TAdVIConfigGC *p;
     m_name = class_name;
     warp_range = 25.0f;
     frame = 0.0f;
@@ -361,11 +361,11 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
         lobby_menu_destinations[j] = 0;
     }
     if (is_split_screen() == 1) {
-        p = ::operator new(0x88);
+        p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 25.0f);
+            p = p->init(&position, 25.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }

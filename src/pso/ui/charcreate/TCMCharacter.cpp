@@ -965,14 +965,14 @@ void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appe
     index = character_display_index(appearance);
     slot = &hair_textures;
     if (slot->textures.present != 0) {
-        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
+        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, index);
     }
     slot = &head_textures;
     if (slot->textures.present != 0) {
-        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
+        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, index);
     }
     slot = &body_textures;
-    slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
+    slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, index);
     in_use = 1;
     copy_slot_data(appearance);
 }

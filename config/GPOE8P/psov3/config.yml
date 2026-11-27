@@ -6886,7 +6886,7 @@ force_active:
   - has_no_active_slot__12TObjEneSlimeFv
   - has_photon_blast__8MagStatsFUc
   - has_serial_input__22TAdEnterSerialAccessGCFP7TObjectl
-  - has_valid_slot__23TAdSinglePlyChrSelectGCFv
+  - has_valid_slot__13CharacterFileFv
   - has_visible_opacity__17MaterialShadeFadeFv
   - has_visible_opacity__18TObjEnemyColorFadeFv
   - hashi_collision_bodies
@@ -6977,7 +6977,7 @@ force_active:
   - __ct__18TPlyJoinLobbyEntryFv
   - __ct__19CharacterSaveRecordFv
   - init_char_select__FP7TObject
-  - init_char_slot_record__23TAdSinglePlyChrSelectGCFv
+  - init_char_slot_record__19CharacterSaveRecordFv
   - init_charge__11TBoss6Type1Fv
   - init_charge_attack__11TBoss6Type1Fv
   - init_check__18TCheckRoomSequenceFP15TShopWindowBase

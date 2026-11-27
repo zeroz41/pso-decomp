@@ -446,15 +446,13 @@ s32 TWindowSubMag::count_slots() {
     stats.init();
     mag->deserialize_mag(&stats);
     slot = 0;
-loop_1:
-    if (stats.get_photon_blast(slot) == -1) {
-        return slot;
-    }
-    slot += 1;
-    if (slot >= 3) {
-        return slot;
-    }
-    goto loop_1;
+    do {
+        if (stats.get_photon_blast(slot) == -1) {
+            return slot;
+        }
+        slot += 1;
+    } while (slot < 3);
+    return slot;
 }
 
 void TWindowSubMag::update_displayed_item() {

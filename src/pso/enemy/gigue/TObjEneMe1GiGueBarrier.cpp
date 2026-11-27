@@ -114,8 +114,8 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
 
 void TObjEneMe1GiGueBarrier::free_global() {}
 
-void *TObjEneMe1GiGueBarrier::create(void *parent, void *owner) {
-    return new TObjEneMe1GiGueBarrier((TObject *)parent, owner);
+void *TObjEneMe1GiGueBarrier::create(TObject *parent, void *owner) {
+    return new TObjEneMe1GiGueBarrier(parent, owner);
 }
 
 void TObjEneMe1GiGueBarrier::init_global() {

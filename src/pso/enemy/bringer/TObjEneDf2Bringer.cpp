@@ -463,7 +463,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                         if (player->is_locally_controlled() != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
-                                TObjPlayer::send_6x26_unequip_item(player, item->get_item_id());
+                                player->send_6x26_unequip_item(item->get_item_id());
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {

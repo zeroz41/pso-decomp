@@ -9,7 +9,5 @@ struct TObjPlayer;
 TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
 void *drill_launcher_ct(void *weapon, s32 client, void *item);
 void drill_launcher_return_timer(void *weapon);
-s32 get_burst_counter(void *p);
-void increment_burst_counter(u8 *counter);
 
 #endif

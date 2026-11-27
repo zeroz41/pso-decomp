@@ -796,9 +796,11 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     CsnHit *hit;
     csn_debug_hook_query_begin();
     hit = &csn_hit_storage;
-    if (query_collision_segment_groups((Vec *)from, (Vec *)to, mask) == NULL) {
+    Vec *from_vec = (Vec *)from;
+    Vec *to_vec = (Vec *)to;
+    if (query_collision_segment_groups(from_vec, to_vec, mask) == NULL) {
         hit = NULL;
-    } else if (query_segment_wall_meshes((Vec *)from, (Vec *)to, mask, csn_query_groups) == 0) {
+    } else if (query_segment_wall_meshes(from_vec, to_vec, mask, csn_query_groups) == 0) {
         hit = NULL;
     }
     csn_debug_hook_query_name("csnVector()");

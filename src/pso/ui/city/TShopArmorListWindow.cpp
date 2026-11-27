@@ -308,7 +308,7 @@ void TShopArmorListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 item = find_item_by_id(it.id);
                 if (item != NULL && (e = player->get_equipped_item(item->get_attach_slot())) != NULL) {
-                    TObjPlayer::send_6x26_unequip_item(player, e->get_item_id());
+                    player->send_6x26_unequip_item(e->get_item_id());
                 }
                 send_6x25_equip_item(player, it.id, 0);
                 update_selection(&stock[i]);

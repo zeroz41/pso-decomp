@@ -8,12 +8,12 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponTwinPsychogun::emit_marker_effects() {
-    u8 *counter;
+    PlayerAttackController *counter;
     s32 i;
     if (is_mode_two_and_ready() != 0) {
-        counter = (u8 *)owner + 0x7CC;
+        counter = &owner->attack_state;
         for (i = 0; i != 2; i++) {
-            increment_burst_counter(counter);
+            counter->increment_burst_count();
         }
         shot_callback = create_shoot_model_rot_z;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;

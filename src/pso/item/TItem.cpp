@@ -463,7 +463,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     owner_client_id = 0xFFFF;
     if (quiet == 0) {
         copy_to_item_data(&data);
-        add_item_condition(floor, position.x, position.z, room, (u8 *)&data);
+        add_item_condition(floor, position.x, position.z, room, &data);
     }
     if (is_local_player_off_current_floor() == 1 || floor != get_current_floor()) {
         destroy();

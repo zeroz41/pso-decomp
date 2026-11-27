@@ -16,7 +16,7 @@ struct TObjEneMe1GiGueBarrier : public TObjMotion {
     s32 timer;
     virtual void render();
     virtual void run_task();
-    static void *create(void *parent, void *owner);
+    static void *create(TObject *parent, void *owner);
     static void init_global();
     static void free_global();
 };

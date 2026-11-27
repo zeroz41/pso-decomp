@@ -76,7 +76,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_game_mode();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
-    s32 init_char_slot_record();
     static s32 is_ready();
     // Battle results of the client's character record (CharacterSaveRecord::split_screen_battle
     // and online_battle), shown in the status window.
@@ -94,7 +93,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_save_from_card();
     static s32 verify_card_player_data();
     static s32 poll_memcard_status();
-    s32 has_valid_slot();
     static int get_selection();
     static void set_global_flags(s32 flags);
     static CharacterFile *get_instance();
@@ -184,7 +182,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 free_buffer();
     static void free_callbacks();
     static s32 free_data();
-    static s32 get_checksum(CharacterFile *file);
     static void increment_counter();
     static void increment_counters();
     static s32 init_and_register(CharacterFile *source);
@@ -203,7 +200,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void render_frame();
     static void reset_save_header();
     static void save_character_file(int use_primary);
-    static void set_checksum(CharacterFile *file, s32 value);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
     static void update_pair(TCMCharacter *character);
@@ -221,7 +217,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_char_data_slots(CharacterBufferTable *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
-    static s32 is_entry_valid(CharacterFile *self, int i);
     static s32 is_same_slot_entry(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int slot);
     static s32 load_character_and_wait();

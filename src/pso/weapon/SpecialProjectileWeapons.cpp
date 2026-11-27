@@ -117,7 +117,7 @@ void TItemWeaponEvilCurst::draw_held_model() {
             model_render_flags &= 0xFFFFFFEF;
             TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
             post_translate_matrix(&joint_position.x);
-            rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
+            rotate_matrix_y(0, this->owner->rotation_y);
             effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);
             TParticleCtrl::begin_effect_render();

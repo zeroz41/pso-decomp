@@ -150,8 +150,8 @@ TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(t
     mode = unused;
 }
 
-void *TObjCMMainMenu::create_fade(void *duration, void *mode) {
-    return new TChCrEffFade(-1, (saddr)duration, (saddr)mode);
+void *TObjCMMainMenu::create_fade(saddr duration, saddr mode) {
+    return new TChCrEffFade(-1, duration, mode);
 }
 
 void *create_fade_effect(s32 duration, s32 mode) {

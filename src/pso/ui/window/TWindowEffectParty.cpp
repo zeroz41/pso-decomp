@@ -174,7 +174,8 @@ s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {
   if (((scr * scr) + (y * y)) < 25.0f)
   {
     pos_x = to_x;
- do { pos_y = to_y; return 1; } while (0);
+    pos_y = to_y;
+    return 1;
   }
   angle = (s32) (party_marker_angle_scale * atan2_float((f64) y, (f64) scr));
   pos_x = (f32) ((5.0f * cos_table_lookup(angle)) + pos_x);

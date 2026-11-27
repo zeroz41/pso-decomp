@@ -166,18 +166,18 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     }
 }
 
-void send_nearby_player_ids(TObjPlayer *self, f32 range) {
+void TObjPlayer::send_nearby_player_ids(f32 range) {
     G_UseStarAtomizer_6x66 cmd;
     s32 j;
     u16 i;
     TObjPlayer *player;
-    if (self != NULL && self->is_local_or_split_screen() != 0) {
+    if (this != NULL && this->is_local_or_split_screen() != 0) {
         cmd.init_header();
         j = 0;
         for (i = 0; i != 4; i++) {
             player = get_player_by_client_id(i);
             if (player != NULL) {
-                if (horizontal_distance_squared(&self->position, &player->position) < range) {
+                if (horizontal_distance_squared(&this->position, &player->position) < range) {
                     cmd.target_client_ids[j++] = player->get_entity_id();
                 } else {
                     cmd.target_client_ids[j++] = -1;
@@ -205,9 +205,9 @@ void handle_6x66_use_star_atomizer(G_UseStarAtomizer_6x66 *packet) {
                     target->set_hp_clamped(target->get_hpmax());
                     if (is_current_area_item_enabled() != 0) {
                         if (i == 0) {
-                            spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0x19);
+                            spawn_particle_effect(&target->body_center, 0x19);
                         }
-                        spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0xC2);
+                        spawn_particle_effect(&target->body_center, 0xC2);
                     }
                 }
             }

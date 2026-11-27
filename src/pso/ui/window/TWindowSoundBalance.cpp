@@ -133,16 +133,15 @@ void TWindowSoundBalance::handle_lr_input() {
 #pragma push
 #pragma opt_common_subs off
 void TWindowSoundBalance::render() {
-    TWindowSoundBalance *self = this;
-    WindowDrawContext *entry = self->draw_default_entry();
-    self->draw_window_frame(entry);
+    WindowDrawContext *entry = draw_default_entry();
+    draw_window_frame(entry);
     draw_visible_window_entries(
-        self,
-        &self->entry_list,
+        this,
+        &entry_list,
         entry);
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
-    self->apply_balance(entry);
+    apply_balance(entry);
 }
 #pragma pop
 

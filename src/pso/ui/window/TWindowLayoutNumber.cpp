@@ -72,7 +72,6 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
   {
     case 0:
       TWindowSubStatusDisp::reset_gauge(0);
-      context = context;
       break;
     case 1:
       begin_screen_draw(1);

@@ -541,7 +541,7 @@ void TObjPlayer::init_player_data(player_stats *src) {
 
 void TObjPlayer::release_char_data() {}
 
-int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable(this); }
+int TObjPlayer::can_cast_technique() { return check_technique_castable(); }
 
 void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
     set_hp_bonus(record->hp_material_bonus);
@@ -1779,14 +1779,14 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     }
 }
 
-void TObjPlayer::send_6x26_unequip_item(TObjPlayer *target, u32 item_id) {
-    if (target == NULL || static_cast<TObjChara *>(target)->obj_isState2_324() == 0) {
+void TObjPlayer::send_6x26_unequip_item(u32 item_id) {
+    if (this == NULL || static_cast<TObjChara *>(this)->obj_isState2_324() == 0) {
         G_UnequipItem_6x26 packet;
         packet.init();
-        packet.header.client_id = target->get_entity_id();
+        packet.header.client_id = this->get_entity_id();
         packet.item_id = item_id;
         packet.send();
-        target->send_unequip_held_item();
+        this->send_unequip_held_item();
     }
 }
 
@@ -2390,7 +2390,7 @@ void TObjPlayer::drop_items_on_death() {
     } else {
         equipped = get_equipped_weapon(this);
         if (equipped!=NULL) {
-            TObjPlayer::send_6x26_unequip_item(this, equipped->get_item_id());
+            this->send_6x26_unequip_item(equipped->get_item_id());
         }
     }
     if (count>0) {
@@ -4623,9 +4623,9 @@ void TObjPlayer::recover_player_full(TObjPlayer *player) { player->recover_full(
 #pragma push
 #pragma scheduling off
 #pragma scheduling on
-s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirementStats *player_requirement_stats) {
-    player_requirement_stats->set(self, self->get_stats(), get_class_attack_template(self),
-                                  get_class_defense_template(self));
+s32 TObjPlayer::build_player_equipment_requirement_stats(PlayerRequirementStats *player_requirement_stats) {
+    player_requirement_stats->set(this, this->get_stats(), get_class_attack_template(this),
+                                  get_class_defense_template(this));
     return 1;
 }
 #pragma pop
@@ -5963,11 +5963,11 @@ s32 TObjPlayer::is_key_machine_ready(void) {
     return (u8) result;
 }
 
-s32 TObjPlayer::check_technique_castable(TObjPlayer *player) {
+s32 TObjPlayer::check_technique_castable() {
     s32 area;
 
     if ((TTecCtrl::is_technique_ready() != 0) || (TObjPlayer::is_camera_mode_active() != 0) || (is_boss_area() != 0)) {
-        player->set_flag_4096();
+        this->set_flag_4096();
         return 0;
     }
     area = get_current_floor_area();
@@ -5975,10 +5975,10 @@ s32 TObjPlayer::check_technique_castable(TObjPlayer *player) {
     case AREA_PIONEER2_EP1:
     case AREA_LOBBY:
     case AREA_PIONEER2_EP2:
-        player->set_flag_4096();
+        this->set_flag_4096();
         return 0;
     default:
-        player->clear_flag_4096();
+        this->clear_flag_4096();
         return 1;
     }
 }

@@ -49,7 +49,7 @@ void TUnk_804F112C::restore_tp() {
 
 // The Star Atomizer's effect (see send_nearby_player_ids).
 void TUnk_804F112C::send_nearby_players() {
-    send_nearby_player_ids(owner, 10000.0f);
+    owner->send_nearby_player_ids(10000.0f);
 }
 
 void TUnk_804F112C::no_effect() {}

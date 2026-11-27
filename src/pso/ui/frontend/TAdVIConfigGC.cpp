@@ -154,7 +154,7 @@ void *destroy__13TAdVIConfigGCFPvs(void *config, s16 delete_flag) {
 
 extern "C" {
 
-u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
+TAdVIConfigGC *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     u8 *base = (u8 *)this;
     VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (radius * radius);
@@ -165,7 +165,7 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     *(s32 *)((s8 *)base + 0x18) = 0;
     ((TAdVIConfigGC *)base)->open_player_names_window();
     this->state = 0;
-    return base;
+    return (TAdVIConfigGC *)base;
 }
 
 }

@@ -88,4 +88,12 @@ extern void *lbl_805D555C;
 extern TObjLight *current_scene_light;
 extern TSceneAmbientLight *ambient_light_instance;
 
+struct AreaLightParams {
+    f32 dir[3];
+    f32 pad[3];
+    f32 amb[3];
+    f32 c[4];
+    f32 d[4];
+};
+
 #endif

@@ -23,17 +23,15 @@ TObjPlayerSet::~TObjPlayerSet() {
 
 #pragma push
 #pragma opt_common_subs off
-#define player_set this
 TObjPlayerSet::TObjPlayerSet(TObject *parent, void *set_data) : TObjBase(parent) {
-    player_set->m_name = class_name;
-    ((TObjPlayerSet *)(player_set))->apply_object_set_data(set_data);
-    if (player_set->scale.x < 0.0f) {
-        player_set->scale.x = 0.0f;
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    if (scale.x < 0.0f) {
+        scale.x = 0.0f;
     }
-    if ((s32) player_set->set_params[0] < 0) {
-        player_set->set_params[0] = 0;
+    if ((s32) set_params[0] < 0) {
+        set_params[0] = 0;
     }
-    ((TObject *)player_set)->disallow_rendering();
+    ((TObject *)this)->disallow_rendering();
 }
-#undef player_set
 #pragma pop

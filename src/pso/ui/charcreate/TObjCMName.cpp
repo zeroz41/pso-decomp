@@ -318,7 +318,7 @@ void TObjCMMainMenu::update_confirmation() {
             play_sound_effect(0x52D01, 0, 0, 0);
             this->delay = 7;
             state = 5;
-            TObjCMMainMenu::create_fade((void *)7, (void *)1);
+            TObjCMMainMenu::create_fade(7, 1);
         }
     } else {
         fv = this->progress;

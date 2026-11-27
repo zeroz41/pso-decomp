@@ -15,8 +15,6 @@ struct SubtractiveRng;
 extern SubtractiveRng chr_select_rng_state;
 extern char memory_card_character_dir_name[0x20];
 
-CharacterFileSlot *get_selected_character_slot(CharacterFile *file);
-CharacterSaveRecord *get_selected_save_record(CharacterFile *file);
 struct GuildCardSaveData;
 
 // What the card slot summary lookups report about a character slot of a card file.
@@ -40,8 +38,6 @@ void decrypt_secondary_card_buffer(void);
 s32 save_active_character_to_card(void);
 int start_system_file_write(s32 chan);
 s32 begin_character_card_save(void);
-void set_character_file_seed(CharacterFile *file, s32 value);
-s32 get_character_file_seed(CharacterFile *file);
 s32 start_character_file_write(void);
 void decrypt_guild_card_payload(GuildCardSaveData *data);
 void encrypt_guild_card_payload(GuildCardSaveData *data, void *);

@@ -58,8 +58,7 @@ WindowDescriptor scroll_bar_descriptor = {{0.0f, 0.0f}, 0.0f, 0, 3};
 static inline f32 span_start(f32 center, f32 half_extent) { return center - half_extent; }
 static inline f32 span_end(f32 center, f32 half_extent) { return center + half_extent; }
 void TWindowDD_WS_ScrollBar::render() {
-    TWindowDD_WS_ScrollBar *self = this;
-    WindowDrawContext *rect = self->draw_default_entry();
+    WindowDrawContext *rect = draw_default_entry();
     WindowVertex verts[8];
     f32 quad[8];
     s32 tex;
@@ -81,9 +80,9 @@ void TWindowDD_WS_ScrollBar::render() {
     f32 range;
     f32 len;
 
-    self->calc_inner_rect(rect);
+    calc_inner_rect(rect);
     tex = TWindowDD::get_draw_count(hud_texlist);
-    reset_window_vertices(verts, word_select_inverse_depth(self->draw_depth, 0.0f), -1);
+    reset_window_vertices(verts, word_select_inverse_depth(draw_depth, 0.0f), -1);
     uv = word_select_quad_points[6];
     s = rect->scale[1];
     v = verts;
@@ -94,9 +93,9 @@ void TWindowDD_WS_ScrollBar::render() {
         v++;
     }
 
-    half = 0.5f * self->frame_size[1];
+    half = 0.5f * frame_size[1];
     t = half * s;
-    c = self->frame_position[1] + half;
+    c = frame_position[1] + half;
     lo = c - t;
     hi = c + t;
     if (t < scroll_bar_tile_height) {
@@ -109,8 +108,8 @@ void TWindowDD_WS_ScrollBar::render() {
     verts[4].y = verts[5].y = hi - d;
     verts[6].y = verts[7].y = hi;
 
-    half = 0.5f * self->frame_size[0];
-    c = self->frame_position[0] + half;
+    half = 0.5f * frame_size[0];
+    c = frame_position[0] + half;
     step = scroll_bar_tile_width * rect->scale[0];
     t = half * rect->scale[0];
     x0 = span_start(c, t);
@@ -125,7 +124,7 @@ void TWindowDD_WS_ScrollBar::render() {
     quad[2] = span_end(c, half);
     draw_window_vertices(verts, 8, tex, 1);
 
-    z = word_select_inverse_depth(self->draw_depth, 0.1f);
+    z = word_select_inverse_depth(draw_depth, 0.1f);
     set_texture_list(hud_texlist);
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);
@@ -162,16 +161,16 @@ void TWindowDD_WS_ScrollBar::render() {
     bot = hi - scroll_track_inset * s;
     quad[5] = scroll_thumb_v0;
     quad[7] = scroll_thumb_v1;
-    if (self->count <= self->visible_count) {
+    if (count <= visible_count) {
         quad[1] = top;
         quad[3] = bot;
     } else {
-        range = self->inverse_count * (bot - top);
-        len = range * self->visible_count;
+        range = inverse_count * (bot - top);
+        len = range * visible_count;
         if (len < 2.0f) {
             len = 2.0f;
         }
-        quad[1] = range * self->first_index + top;
+        quad[1] = range * first_index + top;
         quad[3] = quad[1] + len;
     }
     draw_textured_quad_at_depth(quad, z);

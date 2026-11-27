@@ -13,7 +13,7 @@ public:
     s32 m_countdown;
     TParticleCtrl *particle_emitter;  // create_particle_emitter(&position, 0x134)
 
-    TDPBShower(TObject *parent, void *position);
+    TDPBShower(TObject *parent, const Vec *position);
     virtual ~TDPBShower();
     virtual void run_task();
     static const char *class_name;
@@ -25,6 +25,6 @@ LAYOUT_ASSERT(TDPBShowerPositionOffset, offsetof(TDPBShower, position) == 0x1C);
 LAYOUT_ASSERT(TDPBShowerCountdownOffset, offsetof(TDPBShower, m_countdown) == 0x28);
 LAYOUT_ASSERT(TDPBShowerEffectOffset, offsetof(TDPBShower, particle_emitter) == 0x2C);
 
-void *create_TDPBShower(TObject *parent, void* position);
+void *create_TDPBShower(TObject *parent, const Vec *position);
 
 #endif

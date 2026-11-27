@@ -331,7 +331,7 @@ struct TObjPlayer : public TObjChara {
     s32 get_photon_blast_charge();
     int is_frozen();
     void unequip_item(TItem *item);
-    static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
+    void send_6x26_unequip_item(u32 item_id);
     player_class_type get_class_type();
     static void render_tree(NJS_OBJECT *model);
     s32 get_entrance_id();
@@ -817,7 +817,7 @@ struct TObjPlayer : public TObjChara {
     s32 record_death(TObject *killer, s32 count);
     s16 get_handle_value();
     s32 get_class_flags();
-    static s32 check_technique_castable(TObjPlayer *player);
+    s32 check_technique_castable();
     void sync_current_floor();
     void sync_current_area();
     static int get_key_machine_global_state(void* p);
@@ -1204,6 +1204,8 @@ struct TObjPlayer : public TObjChara {
     void init_session_technique_caps(PlayerSyncRecord *record);
     void init_saved_technique_caps(TPlyCharData *record);
     void init_session_area_sync(void *record);
+    void send_nearby_player_ids(f32 range);
+    s32 build_player_equipment_requirement_stats(PlayerRequirementStats *player_requirement_stats);
 };
 
 u8 get_item_count_max();

@@ -604,14 +604,14 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
             TItem *held = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
-                TObjPlayer::send_6x26_unequip_item(player, t);
+                player->send_6x26_unequip_item(t);
             }
             send_6x25_equip_item(player, item_id, 0);
             this->state = 0x16;
             break;
         }
         case 2:
-            TObjPlayer::send_6x26_unequip_item(player, item_id);
+            player->send_6x26_unequip_item(item_id);
             this->state = 0x16;
             break;
         }

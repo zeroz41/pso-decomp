@@ -14,7 +14,7 @@ public:
     virtual void run_task();
     virtual ~TOChatSensorCapture();
     TOChatSensorCapture(TObject *parent);
-    static void create_instance(void *parent);
+    static void create_instance(TObject *parent);
 };
 
 LAYOUT_ASSERT(ChatCaptureSize, sizeof(TOChatSensorCapture) == 0x3C);

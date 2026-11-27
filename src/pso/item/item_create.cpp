@@ -553,7 +553,7 @@ void handle_player_event(s32 client, s32 slot) {
             break;
         }
         if (item != NULL) {
-            TObjPlayer::send_6x26_unequip_item(player, item->get_item_id());
+            player->send_6x26_unequip_item(item->get_item_id());
         }
     }
 }
@@ -973,7 +973,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
         flags |= 1;
       }
       st.clear_fields();
-      build_player_equipment_requirement_stats((TObjPlayer *) player_alias, &st);
+      ((TObjPlayer *) player_alias)->build_player_equipment_requirement_stats(&st);
       if (st.atp < weapon->atp_required)
       {
         flags |= 2;
@@ -1272,7 +1272,7 @@ TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
             }
         }
         if (quiet == 0) {
-            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->floor, drop->room_id, drop->item.data1.data_u8, drop->x, drop->z);
+            ((void (*)(s32, s32, TItemData *, f32, f32))add_item_condition)(drop->floor, drop->room_id, &drop->item, drop->x, drop->z);
         }
     }
     return item;

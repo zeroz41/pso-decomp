@@ -488,7 +488,7 @@ void TObjTombstone::draw_name_labels() {
     if (0.0f == this->label_fade) return;
     VecCopy(&pos, &this->position);
     pos.y += 14.0f;
-    if (TObjTombstone::project_to_screen(this, &screen, &pos) == 0) return;
+    if (project_to_screen(&screen, &pos) == 0) return;
     m = 0.0f;
     for (s32 i = 0; i < 6; i++) {
         f32 w = calc_text_width(this->labels[i]);
@@ -545,7 +545,7 @@ void TObjTombstone::update_fade_by_distance() {
     }
 }
 
-s32 TObjTombstone::project_to_screen(const TObjTombstone *, NJS_POINT2 *screen, const Vec *point) {
+s32 TObjTombstone::project_to_screen(NJS_POINT2 *screen, const Vec *point) const {
     Vec d;
     Vec v = { 0.0f, 0.0f, -1.0f };
     push_matrix_from(identity_matrix);

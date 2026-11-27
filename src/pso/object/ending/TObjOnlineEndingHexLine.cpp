@@ -43,8 +43,8 @@ void reset_hex_line_params(void) {
         TObjOnlineEndingHexMove::copy_move_params(&online_ending_hex_line_param, &online_ending_hex_line_defaults));
 }
 
-void *TObjOnlineEndingHexMove::create(void *parent) {
-    return new TObjOnlineEndingHexMove(static_cast<TObject *>(parent));
+void *TObjOnlineEndingHexMove::create(TObject *parent) {
+    return new TObjOnlineEndingHexMove(parent);
 }
 
 #pragma push
@@ -279,8 +279,8 @@ void handle_6x92(u8 *packet) {
     }
 }
 
-void *TObjOnlineEndingHexLine::create(void *parent, void *start) {
-    return new TObjOnlineEndingHexLine(static_cast<TObject *>(parent), static_cast<EndingHexPoint *>(start));
+void *TObjOnlineEndingHexLine::create(TObject *parent, EndingHexPoint *start) {
+    return new TObjOnlineEndingHexLine(parent, start);
 }
 
 TObjOnlineEndingHexLine::TObjOnlineEndingHexLine(TObject *parent, EndingHexPoint *start) : TObject(parent) {
