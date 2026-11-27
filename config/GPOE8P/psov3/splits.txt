@@ -7025,23 +7025,8 @@ pso/ui/frontend/TAdStorySelectGC.cpp:
 	.sdata2     start:0x805DE528 end:0x805DE52C
 
 pso/player/TObjPlayer_802C367C.cpp:
-	.text       start:0x802C367C end:0x802C39F8
+	.text       start:0x802C367C end:0x802C4748
 	.sdata2     start:0x805DE530 end:0x805DE534
-
-pso/player/InventoryItemCopy.cpp:
-	.text       start:0x802C39F8 end:0x802C3AC0
-
-pso/player/StartingInventory.cpp:
-	.text       start:0x802C3AC0 end:0x802C3B14
-
-pso/player/TObjPlayer_802C3B14.cpp:
-	.text       start:0x802C3B14 end:0x802C3CD0
-
-pso/npc/TNpcPlayer_802C3CD0.cpp:
-	.text       start:0x802C3CD0 end:0x802C422C
-
-pso/player/TObjPlayer_802C422C.cpp:
-	.text       start:0x802C422C end:0x802C4748
 
 pso/ui/frontend/TAdSelectGameModeGC.cpp:
 	.text       start:0x802C4748 end:0x802C4B64

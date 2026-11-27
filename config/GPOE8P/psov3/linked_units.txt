@@ -819,7 +819,6 @@ pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp
 pso/npc/TNpcPlayer_800D87A8.cpp
 pso/npc/TNpcTalkTrigger.cpp
-pso/npc/TNpcPlayer_802C3CD0.cpp
 pso/npc/NpcPartnerControl.cpp
 pso/object/cave/TOAirconCave01.cpp
 pso/object/cave/TOAirconCave02.cpp
@@ -1378,8 +1377,6 @@ pso/player/TObjPlayer_8023E480.cpp
 pso/player/GinjaRenderTarget.cpp
 pso/player/TObjPlayer_802A1440.cpp
 pso/player/TObjPlayer_802C367C.cpp
-pso/player/TObjPlayer_802C3B14.cpp
-pso/player/TObjPlayer_802C422C.cpp
 pso/weapon/TItemWeaponCard.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp
 pso/ui/frontend/EndingSequence.cpp
@@ -1623,8 +1620,6 @@ pso/ui/UISprite.cpp
 pso/ui/frontend/MultiChrSelectSlot.cpp
 pso/ui/frontend/TitleMenuText.cpp
 pso/ui/frontend/OpeningMovie.cpp
-pso/player/InventoryItemCopy.cpp
-pso/player/StartingInventory.cpp
 pso/render/MericarolTexture.cpp
 pso/boss/barbaray/Boss7CommonResource.cpp
 pso/object/warp/Boss7TunnelAreaWarp.cpp

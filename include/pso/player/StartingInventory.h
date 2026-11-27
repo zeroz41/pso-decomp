@@ -5,7 +5,7 @@
 
 void init_class_starting_inventory(TPlyCharData *character);
 
-// --- C functions defined in StartingInventory.cpp ---
+// --- C functions defined in TObjPlayer_802C367C.cpp ---
 void init_class_starting_inventory(TPlyCharData *character);
 // --- end of C functions
 
