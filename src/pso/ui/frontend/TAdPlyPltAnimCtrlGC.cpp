@@ -15,16 +15,13 @@ const u32 ply_plt_anim_time_threshold_table[5] = { 0, 2, 4, 6, 12 };
 
 const char *TAdPlyPltAnimCtrlGC::class_name = "TAdPlyPltAnimCtrlGC";
 
-u32 plyplt_anim_ctrl_instance;
+TAdPlyPltAnimCtrlGC *plyplt_anim_ctrl_instance;
 
 TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int index) { return TAdPlyPltAnimGC::instances[index]; }
 
-u32 TAdPlyPltAnimCtrlGC::get_instance(saddr parent) {
-    uaddr ad_ply_plt_anim_ctrl_gc;
-
-    if (plyplt_anim_ctrl_instance == 0U) {
-        ad_ply_plt_anim_ctrl_gc = (uaddr)new TAdPlyPltAnimCtrlGC((TObject *)parent);
-        plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
+TAdPlyPltAnimCtrlGC *TAdPlyPltAnimCtrlGC::get_instance(TObject *parent) {
+    if (plyplt_anim_ctrl_instance == NULL) {
+        plyplt_anim_ctrl_instance = new TAdPlyPltAnimCtrlGC(parent);
     }
     return plyplt_anim_ctrl_instance;
 }
@@ -42,8 +39,8 @@ TAdPlyPltAnimCtrlGC::TAdPlyPltAnimCtrlGC(TObject *parent) : TObject(parent) {
 }
 
 TAdPlyPltAnimCtrlGC::~TAdPlyPltAnimCtrlGC() {
-    if (plyplt_anim_ctrl_instance != 0U) {
-        plyplt_anim_ctrl_instance = 0U;
+    if (plyplt_anim_ctrl_instance != NULL) {
+        plyplt_anim_ctrl_instance = NULL;
     }
 }
 
@@ -121,15 +118,12 @@ void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl) {
         i += 1;
     } while (i < 5);
 }
-extern "C" {
-
-s32 is_plate_animation_running(TAdPlyPltAnimCtrlGC *self) {
+s32 TAdPlyPltAnimCtrlGC::is_plate_animation_running() {
     s32 r = 1;
-    if ((s32)self->state == 7 || (s32)self->state == 0) {
+    if ((s32)state == 7 || (s32)state == 0) {
         r = 0;
     }
     return r;
-}
 }
 
 void TAdPlyPltAnimCtrlGC::render() {

@@ -14,6 +14,7 @@ class TAdFadeGC;
 class TAdGuideTxtGC;
 class TAdGameStartGC;
 struct TAdChrSelPlyPlateGC;
+struct TAdPlyPltAnimCtrlGC;
 struct TAdChrMoveEffectGC;
 class TAdFadeGC;
 
@@ -74,7 +75,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 get_current_state();
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
-    static saddr get_selected_slot();
+    static TAdPlyPltAnimCtrlGC *get_selected_slot();
     static void render(void *self);
     TWindowMessageYesNo *create_confirm_window(s32 slot);
     TWindowMenu *create_choice_menu();

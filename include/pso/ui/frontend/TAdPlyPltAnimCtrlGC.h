@@ -22,13 +22,14 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
     static void render(void *self);
     void init(void* a1);
     virtual void run_task();
-    static u32 get_instance(saddr parent);
+    static TAdPlyPltAnimCtrlGC *get_instance(TObject *parent);
+    s32 is_plate_animation_running();
     static TAdPlyPltAnimGC *get_table_value(int index);
 };
 
 LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
-extern u32 plyplt_anim_ctrl_instance;
+extern TAdPlyPltAnimCtrlGC *plyplt_anim_ctrl_instance;
 
 void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl);
 

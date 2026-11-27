@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
@@ -95,9 +96,6 @@ void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
 u8 player_number_text_buffer[0x80];
 
-extern "C" {
-s32 is_plate_animation_running();
-}
 
 static const ChrSelPlateLayout multi_chr_select_plate_layout = {180.0f, 38.0f, {0xDD, 0x90, 0x48, 0x00}, 0};
 static const NJS_POINT2 multi_chr_select_character_slot_positions[4] = {
@@ -1440,9 +1438,10 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
 
 void TAdMultiPlyChrSelectGC::update_idle_timer() {
     s32 frames;
+    TAdPlyPltAnimCtrlGC *plates;
     frames = this->state_frames + 1;
     this->state_frames = frames;
-    if (((f32) frames > 4.5f) && (TAdMultiPlyChrSelectGC::get_selected_slot() != 0U) && (is_plate_animation_running() == 0)) {
+    if (((f32) frames > 4.5f) && (plates = TAdMultiPlyChrSelectGC::get_selected_slot()) != NULL && plates->is_plate_animation_running() == 0) {
         this->state = this->next_state;
     }
 }
