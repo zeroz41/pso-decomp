@@ -28,10 +28,10 @@ struct AdxtPlayer {
     SjRingBuffer *input_ring;      /* 0x10 */
     SjRingBuffer *input_sj;        /* 0x14 */
     SjRingBuffer *output_rings[2]; /* 0x18 */
-    saddr input_buf_addr;          /* 0x20 */
+    u8 *input_buf;                 /* 0x20 */
     s32 input_buf_size;            /* 0x24 */
     s32 input_extra_size;          /* 0x28 */
-    saddr output_buf_addr;         /* 0x2C */
+    u8 *output_buf;                /* 0x2C */
     s32 output_buf_size;           /* 0x30 */
     s32 output_stride;             /* 0x34 */
     s32 server_freq;               /* 0x38 */
