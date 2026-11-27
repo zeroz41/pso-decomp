@@ -464,13 +464,13 @@ s32 TWindowMainMenu::close_active_submenu() {
 }
 
 void TWindowMainMenu::try_open_battle_menu(s16 key) {
-    s32 spC;
+    s32 enabled;
     s16 id;
     TObjPlayer *player;
 
     id = key;
     player = get_player_by_client_id(this->client_index);
-    if ((player != 0) && !(menu_flags & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
+    if ((player != 0) && !(menu_flags & 1) && (filter_menu_entry(&id, &enabled) != 0) && (enabled != 0)) {
         menu_flags = (s32) (menu_flags | 1);
         active_entries = 0;
         open_menu_with_entry(id);

@@ -496,7 +496,7 @@ void TWindowSubItem::draw_slot(TWindowMenu *titled_window_menu, s32 item_id) {
 }
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id) {
-  s32 sp8;
+  s16 requirement;
   TItem *item;
   TObjPlayer *player;
   item = find_item_by_id((saddr)((void *) item_id));
@@ -532,7 +532,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         player = get_player_by_client_id(window_sub_item->client_id);
         if (player != NULL)
         {
-          if (((item->check_equip_requirements(player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((item->check_equip_requirements(player, &requirement) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
             list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x62), 6, 1);
           }

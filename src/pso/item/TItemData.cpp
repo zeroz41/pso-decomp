@@ -545,16 +545,16 @@ int TItemData::isValidGroundDrop() {
 }
 
 void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group) {
-    s8 sp8[10];
+    s8 name_buffer[10];
     item_data->init();
     if ((name != NULL) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
         item_data->data1.data_u8[0] = 0;
         item_data->data1.data_u8[1] = group;
         item_data->data1.data_u8[2] = 0;
-        memset(sp8, 0, 0xA);
-        sp8[0] = 0x41;
-        strncpy((char *)&sp8[1], name, 8);
-        item_data->pack_three_colors((u8 *)sp8);
+        memset(name_buffer, 0, 0xA);
+        name_buffer[0] = 0x41;
+        strncpy((char *)&name_buffer[1], name, 8);
+        item_data->pack_three_colors((u8 *)name_buffer);
     }
 }
 
