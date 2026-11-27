@@ -181,6 +181,8 @@ public:
 public:
     void bswap();
 };
+// The character follows the 0x20-byte join record: guild card tag, ip, client id, name.
+LAYOUT_ASSERT(TPlyJoinLobbyEntryCharDataOffset, offsetof(TPlyJoinLobbyEntry, char_data) == 0x20);
 
 // The guild card tag the server hands out with 80.
 class TGenGuildCardTag {
