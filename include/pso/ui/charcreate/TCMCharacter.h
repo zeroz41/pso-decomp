@@ -20,7 +20,7 @@ public:
     void *shape_rel;
     s32 shape_rel_size;
     s32 shape_rel_ready;
-    u32 unknown108;
+    u32 pad_108;
 };
 LAYOUT_ASSERT(TCMCharacterSize, sizeof(TCMCharacter)==0x10C);
 LAYOUT_ASSERT(CreationShapeRelOffset, offsetof(TCMCharacter,shape_rel)==0xFC);

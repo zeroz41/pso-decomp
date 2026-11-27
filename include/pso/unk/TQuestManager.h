@@ -8,7 +8,7 @@ struct QuestBinHeader;
 
 class TQuestManager : public TObject {
 public:
-    u8 unk_1C[0x24 - 0x1C];
+    u8 pad_1C[0x24 - 0x1C];
     QuestVmContext ctx;
     QuestBinHeader *script;
     u8 pad_19C[4];

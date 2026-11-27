@@ -28,7 +28,7 @@ public:
     s32 angular_acceleration;
     NJS_OBJECT *model;
     NJS_TEXLIST *textures;
-    u32 unknown_54;
+    u32 pad_54;
     Vec position;
     s32 angles[3];
 };

@@ -22,7 +22,7 @@ struct TAdDialingGC : public TObject {
     s16 selection;
     u8 _pad32[0x36];
     s16 prev_selection;
-    u8 unk_6A[0x32];
+    u8 pad_6A[0x32];
     s32 status_code;
     u32 wait_frames;
     u32 dial_flags;
