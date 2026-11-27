@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/unk/TUnk_804A7260.h"
 
-// The table at 0x804A71C4 is TLOC_ListClear's vtable, but it sits in the TU's user data ahead of the jump
+// The table in this class's data is TLOC_ListClear's vtable, but it sits in the TU's user data ahead of the jump
 // tables, where no CW-emitted vtable goes: a real class here (key function in or out of the defer_codegen
 // off stretch, class defined in the .cpp, inline virtuals) always gets its vtable written after the jump
 // tables with the other vtables. So the original spelled the table out, and the ctor (init_lockon) and dtor

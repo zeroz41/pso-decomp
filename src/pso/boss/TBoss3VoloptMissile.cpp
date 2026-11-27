@@ -57,7 +57,7 @@ void TBoss3VoloptMissile::explode_and_destroy() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
+            if (obj_is_hit_receivable(target) != 0) {
                 target->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
             }
         }

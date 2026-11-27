@@ -962,7 +962,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
     case 3:
         switch (step) {
         case 0:
-            if ((check_confused() == 0) && ((void *) this->current_target == NULL)) {
+            if ((check_confused() == 0) && (this->current_target == NULL)) {
                 this->transition_enemy_state((s32)7);
             }
             break;
@@ -1160,7 +1160,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &part_fades[idx];
     part->update();
     vis = part->updateFromCamera(&body_center);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
@@ -1237,7 +1237,7 @@ void TObjEneMorfos::render() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_point) != 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1345,7 +1345,7 @@ void TObjEneMorfos::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

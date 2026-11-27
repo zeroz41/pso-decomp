@@ -454,7 +454,7 @@ void TObjEneDelDepth::update_surface() {
         this->opacity = 2.0f * this->progress;
     }
     if ((this->progress += 0.033333335f) > 1.0f) {
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), NULL, 200.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 200.0f) != 0xFFFF) {
             this->set_action_state(3);
             play_sound_effect(0x4003A822, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         } else {
@@ -625,7 +625,7 @@ void TObjEneDelDepth::update_movement() {
     }
     if (this->progress <= 0.0f && 0.0f == this->movementSpeed) {
         Vec q;
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
+        if (find_nearest_visible_player(this, &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
             this->set_action_state(4);
         } else {
             this->set_action_state(3);

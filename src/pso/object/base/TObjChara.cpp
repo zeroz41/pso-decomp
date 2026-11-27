@@ -594,7 +594,7 @@ CsnHit *TObjChara::update_actor_ground_y_at(Vec *pos) {
 #pragma push
 #pragma fp_contract on
 void TObjChara::calc_attach_pos() {
-    if ((void *) this->stat_block != NULL) {
+    if (this->stat_block != NULL) {
         this->body_center.x = (f32) this->position.x;
         this->body_center.y = (f32) (((0.5f) * this->stat_block->proportions) + this->position.y);
         this->body_center.z = (f32) this->position.z;
@@ -1056,7 +1056,7 @@ s32 TObjChara::is_target_in_attack_range() {
                     }
                 }
             } else {
-                dist = calc_xz_distance_sq(this, reinterpret_cast<const TObjBase *>(t), &out);
+                dist = calc_xz_distance_sq(this, t, &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(angle_units_per_radian * atan2_float(out.x, out.z))));
                 if (target->bodies != NULL) {
                     prod = (target->bodies->radius + get_attack_range()) * (target->bodies->radius + get_attack_range());

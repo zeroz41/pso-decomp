@@ -3762,7 +3762,7 @@ void TBoss2DeRolLe::render() {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
@@ -3866,7 +3866,7 @@ void TBoss2DeRolLe::render_body() {
     }
     derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     current_scene_light->debug_scene_light_hook();

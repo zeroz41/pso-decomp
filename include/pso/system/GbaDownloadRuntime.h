@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct GbaJoybootState;
+
 extern u8 *gba_download_data_buffer;
 extern u32 gba_download_data_size;
 extern s32 gba_download_state;
@@ -13,7 +15,7 @@ void gba_init(void);
 void stamp_joyboot_image(s32 unused, s32 stamp_enabled);
 void probe_gba_device(void);
 void gba_clear_identifiers(void);
-void reset_joyboot_state(void *p);
+void reset_joyboot_state(GbaJoybootState *state);
 
 void gba_download_destroy_graph();
 void gba_download_create_graph();

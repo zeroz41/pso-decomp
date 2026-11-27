@@ -119,13 +119,13 @@ void TObjMapWarpAncient::render() {
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
         if ((s32)set_params[1] >= 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
+            set_texture_list(beam_textures);
             draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(ksita_textures));
+        set_texture_list(ksita_textures);
         draw_ginja_object(ksita_model);
         TParticleCtrl::end_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(nsita_textures));
+        set_texture_list(nsita_textures);
         draw_ginja_object(nsita_model);
         pop_matrix();
     }
@@ -198,12 +198,12 @@ void TObjGoalWarpAncient::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
+        set_texture_list(beam_textures);
         draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(naka_textures));
+        set_texture_list(naka_textures);
         draw_ginja_model_with_motion(naka_model, naka_motion, naka_frame);
         TParticleCtrl::end_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(gawa_textures));
+        set_texture_list(gawa_textures);
         draw_ginja_object(gawa_model);
         pop_matrix();
     }

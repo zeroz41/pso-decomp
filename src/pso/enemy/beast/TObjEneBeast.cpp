@@ -206,7 +206,7 @@ void TObjEneBeast::render() {
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);

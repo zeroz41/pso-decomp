@@ -73,7 +73,7 @@ void TOBind::render() {
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->triggered != 1) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(animated_textures));
+            set_texture_list(animated_textures);
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();

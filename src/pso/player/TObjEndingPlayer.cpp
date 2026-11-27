@@ -30,8 +30,6 @@
 #include "pso/object/base/TObjBase.h"
 
 
-extern "C" {
-}
 
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
 void TObjEndingPlayer::set_animation_from_data(s32 picture) {

@@ -190,8 +190,8 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
         object->queue_destruction();
         return;
     }
-    scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(online_ending_resource, 0));
-    scene_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(online_ending_resource, 0));
+    scene_model = get_bml_model(online_ending_resource, 0);
+    scene_textures = get_bml_texlist(online_ending_resource, 0);
     scene_motion = get_bml_motion(online_ending_resource, 0x18);
     player_count = 0;
     for (i = 0; i < 4; i++) {

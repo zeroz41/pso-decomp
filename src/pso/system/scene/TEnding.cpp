@@ -123,8 +123,6 @@ int get_ending_c_start_seconds(void) { return 140; }
 u32 ending_frame_counter;
 s32 ending_scene_active;
 
-extern "C" {
-}
 const char *TEnding::class_name = TEnding::class_name_string;
 
 void TEnding::run_task() {

@@ -44,7 +44,7 @@ TObjTradeCollision::TObjTradeCollision(TObject *parent, void *set_data) : TObjCo
 }
 
 void *TObjTradeCollision::create(void *set_data) {
-    void *o = (void *)new TObjTradeCollision(tl_05, set_data);
+    void *o = new TObjTradeCollision(tl_05, set_data);
     return o;
 }
 

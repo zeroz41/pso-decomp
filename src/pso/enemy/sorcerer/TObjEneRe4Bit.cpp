@@ -536,7 +536,7 @@ void TObjEneRe4Bit::render() {
     textures = texlist->textures;
     saved = textures[3].texaddr;
     textures[3].texaddr = textures[texture_index].texaddr;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect();

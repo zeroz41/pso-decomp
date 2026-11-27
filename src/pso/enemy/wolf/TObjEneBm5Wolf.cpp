@@ -126,7 +126,7 @@ void __register_global_object(void *obj, void (*dtor)(), void *chain);
 void __dt__18TObjEneBm5WolfListFv();
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = (void *)TObjEneBm5Wolf::register_global_objects;
+__declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = TObjEneBm5Wolf::register_global_objects;
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
@@ -1861,7 +1861,7 @@ void TObjEneBm5Wolf::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1923,7 +1923,7 @@ void TObjEneBm5Wolf::render_debug() {
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

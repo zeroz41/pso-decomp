@@ -38,8 +38,6 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
-extern "C" {
-}
 
 saddr TObjPlayer::get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;

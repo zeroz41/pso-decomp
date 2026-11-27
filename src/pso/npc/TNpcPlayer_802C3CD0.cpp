@@ -11,8 +11,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 
-extern "C" {
-}
 
 s32 TNpcPlayer::send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character) {
     character->m_inventory.m_num_items = count;

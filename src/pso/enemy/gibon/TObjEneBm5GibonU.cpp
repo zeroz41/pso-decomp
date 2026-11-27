@@ -269,7 +269,7 @@ void TObjEneBm5GibonU::render_debug() {
     }
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -369,7 +369,7 @@ void TObjEneBm5GibonU::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             if (this->mode == 1 || this->mode == 2) {
                 appear_fade.set_flags_and_apply_damage_color();
@@ -2466,4 +2466,4 @@ void TObjEneBm5GibonU::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjEneBm5GibonU_cpp_ref = (void *)TObjEneBm5GibonU::register_global_objects;
+__declspec(section ".ctors") static void *const __sinit_TObjEneBm5GibonU_cpp_ref = TObjEneBm5GibonU::register_global_objects;

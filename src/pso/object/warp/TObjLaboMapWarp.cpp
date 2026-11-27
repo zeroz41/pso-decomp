@@ -501,7 +501,7 @@ void TObjCityMainWarp::run_task() {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -566,7 +566,7 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -639,7 +639,7 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);

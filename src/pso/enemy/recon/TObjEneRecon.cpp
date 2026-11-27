@@ -98,7 +98,7 @@ void TObjEneRecon::render_shadows() {
 void TObjEneRecon::render_demo() {
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -114,7 +114,7 @@ void TObjEneRecon::render_demo() {
 s32 TObjEneRecon::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
             rotate_matrix_y(0, (int) (this->rotation_y));
@@ -165,7 +165,7 @@ void TObjEneRecon::render() {
                         draw_ground_shadow(&v, 0);
                     }
                     update_secondary_light();
-                    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                    set_texture_list(texlist);
                     push_matrix();
                     translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
                     rotate_matrix_y(0, (int) (rotation_y));

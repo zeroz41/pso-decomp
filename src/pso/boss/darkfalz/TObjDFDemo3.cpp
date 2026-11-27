@@ -154,7 +154,7 @@ void TObjDFDemo3::render() {
     set_motion_packed_rotation();
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(part.texlist));
+    set_texture_list(part.texlist);
     node_list->install();
     set_chunk_render_flags(1);
     draw_model_motion(part.model, part.motion, frame);

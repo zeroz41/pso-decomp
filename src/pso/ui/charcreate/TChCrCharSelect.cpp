@@ -50,8 +50,6 @@ void TChCrCharSelect::clamp_slot_index_to_range() {
     }
 }
 
-extern "C" {
-}
 
 
 void TChCrCharSelect::tick_and_apply_selection() {

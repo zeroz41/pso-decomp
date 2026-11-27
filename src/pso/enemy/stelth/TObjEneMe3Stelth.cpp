@@ -269,10 +269,10 @@ void TObjEneMe3Stelth::load_shared_resources() {
         a.motions = me3_stelth_bml_resource->motions;
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = me3_stelth_bml_resource->motions;
-        TObjNpcEnemy::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &a, 8.0f, 0.0f);
-        TObjNpcEnemy::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &b, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2B, me3_stelth_bml_resource->models->model,
+                                                  me3_stelth_bml_resource->models->texlist, &a, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2D, me3_stelth_bml_resource->models->model,
+                                                  me3_stelth_bml_resource->models->texlist, &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }

@@ -112,7 +112,7 @@ void load_turiten_singo_resources(void) {
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist(hangceiling_cave01_model_archive, 0);
+        turiten_singo_texture_lists[2] = get_bml_texlist(hangceiling_cave01_model_archive, 0);
         lbl_805D59D8 = 0;
         hangceiling_cave01_model_root = NULL;
         turiten_singo_key_model_index = 0;
@@ -124,7 +124,7 @@ void load_turiten_singo_resources(void) {
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist(hangceiling_cave01_model_archive, 1);
+        turiten_singo_texture_lists[2] = get_bml_texlist(hangceiling_cave01_model_archive, 1);
         hangceiling_cave01_model_root = get_bml_model(hangceiling_cave01_model_archive, 2);
         turiten_singo_key_model_index = 1;
         hanging_ceiling_motion_index = 0;

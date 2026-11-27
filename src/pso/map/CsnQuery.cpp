@@ -827,7 +827,7 @@ void __sinit_CsnQuery_cpp(void) {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;
+__declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = __sinit_CsnQuery_cpp;
 
 
 CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }

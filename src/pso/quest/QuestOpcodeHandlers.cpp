@@ -605,8 +605,6 @@ void qst_op_va_call(s32 label) {
   qst_call_stack_push(qst_pc);
   qst_pc = qst_function_table[(u16)label];
 }
-extern "C" {
-}
 
 int quest_active_flag;
 int evt2_random_enemies_mode;

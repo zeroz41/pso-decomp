@@ -190,7 +190,7 @@ void TPhotonFarlla::render() {
     if (visible != 0) {
         farlla_photon_blast_model_buffers->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);

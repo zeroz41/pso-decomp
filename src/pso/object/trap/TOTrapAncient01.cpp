@@ -272,7 +272,7 @@ void TOTrapAncient01::update_holding() {
             if (obj_is_hit_receivable(p) == 0) {
                 break;
             }
-            if (reinterpret_cast<TObject *>(p)->check_value_equals(TObjPlayer_name) == 0) {
+            if (p->check_value_equals(TObjPlayer_name) == 0) {
                 break;
             }
             p->receive_direct_attack(this, payload, NULL, -1, -1);

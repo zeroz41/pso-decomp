@@ -880,7 +880,7 @@ void TObjEneDarkGunner::render() {
                 set_constant_material(&color);
                 set_texture_list(dark_gunner_effect_resource);
             } else {
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(texlist);
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {

@@ -388,7 +388,7 @@ void TObjEneGyaranzo::render() {
                 }
             }
             hide_broken_parts();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(texlist);
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

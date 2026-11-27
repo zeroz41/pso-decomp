@@ -27,7 +27,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     scale_current_matrix(&scale.x);
     NJS_ARGB saved = color;
     if ((age % flash_period) == 0) {

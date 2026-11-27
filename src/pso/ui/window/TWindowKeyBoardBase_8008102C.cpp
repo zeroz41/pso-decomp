@@ -15,8 +15,6 @@
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 
-extern "C" {
-}
 
 void KeyboardTextBuffer::init(u32 width, u32 lines) {
     if (buffer != NULL) {

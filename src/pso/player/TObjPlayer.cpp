@@ -5368,9 +5368,9 @@ void TObjPlayer::draw(f32 at_frame) {
     pop_matrix();
 }
 
-void TObjPlayer::spawn_effect(saddr player) {
-    if (((TObjChara *)player)->is_locally_controlled() != 0) {
-        start_pad_rumble_client(0xC0, 0xF, ((TObjBase *)(player))->get_entity_id());
+void TObjPlayer::spawn_effect() {
+    if (is_locally_controlled() != 0) {
+        start_pad_rumble_client(0xC0, 0xF, get_entity_id());
     }
 }
 

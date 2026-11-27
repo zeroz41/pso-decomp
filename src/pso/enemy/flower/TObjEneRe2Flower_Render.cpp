@@ -56,7 +56,7 @@ void TObjEneRe2Flower::render_demo() {
         texlist->textures[0].texaddr = texlist->textures[2].texaddr;
         texlist->textures[1].texaddr = texlist->textures[3].texaddr;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -107,7 +107,7 @@ void TObjEneRe2Flower::render() {
             texlist->textures[0].texaddr = texlist->textures[2].texaddr;
             texlist->textures[1].texaddr = texlist->textures[3].texaddr;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, base_yaw);

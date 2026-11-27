@@ -66,7 +66,7 @@ void TObjBoss2CeilJunk::render() {
     set_chunk_blend(0x2500);
   }
   push_matrix();
-  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
+  set_texture_list(boss2_common_texture_list);
   post_translate_matrix(&position.x);
   rotate_matrix_y(0, this->rotation_y);
   rotate_matrix_x(0, this->rotation_x);

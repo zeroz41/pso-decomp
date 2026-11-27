@@ -224,7 +224,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
         SlimeShapeMotion *entry = slime_one_motion_state_table + state - 7;
         u32 id = slime_one_attack_target_id_table[owner->get_attack_target()];
         model = get_bml_model(resource, id);
-        texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, id));
+        texture_list = get_bml_texlist(resource, id);
         motion = (NJS_MOTION *)get_bml_motion(resource, entry->motion);
         shape_motion = (NJS_MOTION *)get_bml_motion(resource, entry->shape_motion);
         frame_count = motion->nbFrame;
@@ -236,10 +236,10 @@ void SlimeAnimationState::set_state(s32 next_state) {
     BmlResource *resource = TObjEneSlimeOne::get_instance();
     SlimePairedMotion *entry = &slime_one_paired_motion_table[owner->get_attack_target()][index];
     model = get_bml_model(resource, entry->model);
-    texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, entry->model));
+    texture_list = get_bml_texlist(resource, entry->model);
     motion = (NJS_MOTION *)get_bml_motion(resource, entry->motion);
     second_model = get_bml_model(resource, entry->second_model);
-    second_texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, entry->second_model));
+    second_texture_list = get_bml_texlist(resource, entry->second_model);
     second_motion = (NJS_MOTION *)get_bml_motion(resource, entry->second_motion);
     frame_count = second_motion->nbFrame;
     speed = entry->speed;

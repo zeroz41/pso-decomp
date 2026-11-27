@@ -1102,7 +1102,7 @@ void TObjEneBm3Fly::render() {
             this->draw_ground_shadow(&v, 0);
         }
         this->update_secondary_light();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         translate_matrix(0, this->position.x, this->flightY, this->position.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -1124,7 +1124,7 @@ void TObjEneBm3Fly::render() {
 void TObjEneBm3Fly::render_demo() {
     if (update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

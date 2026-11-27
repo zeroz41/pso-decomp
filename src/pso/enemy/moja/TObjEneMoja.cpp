@@ -381,7 +381,7 @@ void TObjEneMoja::render() {
         return;
     }
     select_actor_lighting(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     id = model_render_flags;
     fade = &camera_fades[cam];
     saved_model_render_flags = id;

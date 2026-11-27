@@ -291,6 +291,6 @@ void TItemWeaponGuardianna::emit_marker_effects() {
 }
 void TItemWeaponGuardianna::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x176;
-    desc->hit_effect = (void *)TObjPlayer::start_guardianna_hit_card;
-    desc->wall_effect = (void *)start_guardianna_wall_card;
+    desc->hit_effect = TObjPlayer::start_guardianna_hit_card;
+    desc->wall_effect = start_guardianna_wall_card;
 }

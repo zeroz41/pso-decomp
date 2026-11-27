@@ -431,7 +431,7 @@ void TObjBoss7TunnelSegment::run_task() {
 void TObjBoss7TunnelSegment::draw_opaque_model() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(1);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(boss7_common_texture_list);
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[0]].model);
@@ -443,7 +443,7 @@ void TObjBoss7TunnelSegment::draw_opaque_model() {
 void TObjBoss7TunnelSegment::draw_translucent_models() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(2);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(boss7_common_texture_list);
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[1]].model);
@@ -460,7 +460,7 @@ void TObjBoss7TunnelSegment::draw_tunnel_segment() {
     if (is_in_camera_range() != 0) {
         model_index = model_indices[model_count - 1];
         set_draw_list_mask(2);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(boss7_common_texture_list);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));

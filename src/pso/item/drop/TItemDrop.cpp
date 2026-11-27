@@ -42,8 +42,6 @@ s32 TItemDrop::section_id;
 s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
 
-extern "C" {
-}
 
 extern const f32 item_drop_u16_scale;
 extern const f32 item_drop_u32_scale;

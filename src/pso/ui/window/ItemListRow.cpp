@@ -522,8 +522,6 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
 
 
 
-extern "C" {
-}
 
 void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     s32 item_data;

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/player/TPlyGuildCardTag.h"
 
-// Vtable 0x804A7248 {0, 0, dtor}. TLockOnCursor builds one at +0x520.
+// Vtable {0, 0, dtor}. TLockOnCursor builds one at +0x520.
 class LockOnPaletteOverride : public gc_tag {
 public:
     s32 active; // is_channel_active() as of the lock-on cursor's last run_task

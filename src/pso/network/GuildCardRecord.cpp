@@ -168,16 +168,16 @@ void jump_to_guild_card_owner(GuildCardRecord *entry) {
 #pragma pop
 
 
-void init_player_entry(GuildCardRecord *entry, u8 *response) {
+void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     s32 serial_no;
     char *p;
 
-    entry->id = *(s32 *)((s8 *)response + 0xC);
+    entry->id = response->found_guildcard;
     serial_no = lbl_805D63D8;
     lbl_805D63D8 = serial_no + 1;
     entry->serial = serial_no;
-    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, response + 0x10, serial_no);
-    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
+    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, &response->recv_port, serial_no);
+    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, &response->extension);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
         strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
@@ -185,7 +185,7 @@ void init_player_entry(GuildCardRecord *entry, u8 *response) {
         strncpy(entry->name, card->get_name(), 0x10);
     }
     entry->name[0x10] = 0;
-    p = build_text_from_comma_list((char *)(response + 0x1C));
+    p = build_text_from_comma_list(response->location);
     p = parse_csv_token(p, entry->s19);
     p = parse_csv_token(p, entry->s2A);
     p = parse_csv_token(p, entry->s2A);
@@ -206,7 +206,7 @@ void add_found_user_com_card(TUserAns &response) {
     s32 slot = remove_com_card_by_id(response.found_guildcard);
     entry = com_card_entries;
     entry += slot;
-    init_player_entry(entry, reinterpret_cast<u8 *>(&response));
+    init_player_entry(entry, &response);
     com_card_entry_count++;
     set_short_mail_flag_bit2();
 }

@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// Character-code tables of the quest text converter, .rodata 0x8047E698-0x8047EA28, defined by
+// Character-code tables of the quest text converter, defined by
 // QuestDownloadCharTables.c (interim data-only unit). Read by TQuestVmDownLoadServer_803E6970.
 
 // JIS symbol code and the single-byte code it maps to.

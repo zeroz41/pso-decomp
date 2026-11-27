@@ -36,7 +36,7 @@ void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 dept
     if (sprite->tlist == NULL) {
         return;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
+    set_texture_list(sprite->tlist);
     NJS_TEXANIM *frame = &sprite->tanim[frame_index];
     f32 left = -frame->cx;
     f32 top = -frame->cy;

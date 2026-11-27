@@ -137,13 +137,13 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture0));
+    set_texture_list(texture0);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model0, motions[current_motion], frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture1));
+    set_texture_list(texture1);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model1, motion1, frame1);
     pop_matrix();
@@ -290,5 +290,5 @@ void TItemWeaponRubyBullet::init_weapon_effect_descriptor(WeaponEffectDescriptor
     get_weapon_color__11TItemWeaponFv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
-    desc->wall_effect = (void *)spawn_wall_hit_particles;
+    desc->wall_effect = spawn_wall_hit_particles;
 }

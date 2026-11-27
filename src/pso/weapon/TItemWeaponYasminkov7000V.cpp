@@ -48,7 +48,7 @@ void TItemWeaponYasminkov7000V::update_weapon() {
         casing_angles[0] = 0x4000;
         casing_angles[1] = this->owner->rotation_y;
         casing_angles[2] = 0;
-        TObjPlayer::launch_weapon_casing(tl_05, (uaddr) this, 2, &casing_velocity, &casing_angles[0]);
+        TObjPlayer::launch_weapon_casing(tl_05, this, 2, &casing_velocity, &casing_angles[0]);
         break;
     }
 }

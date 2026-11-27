@@ -759,7 +759,7 @@ void TObjEneSlimeOne::update_shrink() {
 void TObjEneSlimeOne::enter_slide() {
     s32 angle;
     this->move_speed = (f32) 0.0f;
-    if (find_nearest_visible_player(static_cast<TObjChara *>(this), &movement_direction, 200.0f) == 0xFFFF) {
+    if (find_nearest_visible_player(this, &movement_direction, 200.0f) == 0xFFFF) {
         this->set_state(2);
         return;
     }
@@ -1546,7 +1546,7 @@ void TObjEneSlimeTailAttack::draw_body() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, (int) (this->rotation_y));
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     if (active != 0) {
         reset_slime_tail_node_index();
         set_chunk_model_node_callback(capture_slime_tail_node);
@@ -1591,7 +1591,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(Vec *from, Vec *to, f32 t) {
         f32 r = 1.0f - t;
         scale_matrix(0, 1.0f, 0.5f, r * len / 10.0f);
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     push_material_fade(0.10000001f * t + 0.05f);
     saved = this->frame;
     this->frame = 7.0f;

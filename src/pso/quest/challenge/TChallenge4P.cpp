@@ -295,10 +295,6 @@ void update_challenge_timer(s32 time) {
 
 
 
-extern "C" {
-
-
-}
 s32 set_camera_height_if_valid(f32 multiplier) {
     if (is_challenge_mode_active() == 0) {
         return 0;

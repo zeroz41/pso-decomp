@@ -4,8 +4,6 @@
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-extern "C" {
-}
 
 CharacterPreview::~CharacterPreview() {
     if (request != NULL && is_unloaded() == 0) {

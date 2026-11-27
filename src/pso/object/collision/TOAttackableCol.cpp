@@ -89,7 +89,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
         if (command->header.entity_id != 0xFFFF && command->header.entity_id >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
-                if (reinterpret_cast<TObject *>(col)->check_value_equals(attackable_col_name) != 0) {
+                if (col->check_value_equals(attackable_col_name) != 0) {
                     QuestObjectEntry saved;
                     switch (command->is_destroyed) {
                     case 0:
@@ -268,7 +268,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *set_data) {
     void *o;
-    o = (void *)new TOAttackableCol(set_data);
+    o = new TOAttackableCol(set_data);
     return o;
 }
 

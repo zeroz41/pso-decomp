@@ -140,7 +140,7 @@ extern PanarmsState panarms_state_table[14];
 extern "C" {
 static void __sinit_TObjEnePanarms_cpp();
 }
-__declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
+__declspec(section ".ctors") static void *const panarms_body_global_initializer = __sinit_TObjEnePanarms_cpp;
 
 
 
@@ -385,7 +385,7 @@ void TObjEnePanarms::draw() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     node_capture->install();
     TObjMotion::draw();
     node_capture->clear();

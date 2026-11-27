@@ -16,8 +16,6 @@
 
 const char *TChCrEffFade::class_name = "TChCrEffFade";
 
-extern "C" {
-}
 
 void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from

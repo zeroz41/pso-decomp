@@ -37,7 +37,7 @@ void gba_download_destroy_graph() {
         ((TObject *)gba_download_graph)->queue_destruction();
         gba_download_graph = 0U;
     }
-    *(s8 *)((s8 *)gba_joyboot_states + 7) = 0;
+    gba_joyboot_states[0].device_present = 0;
 }
 
 void gba_download_create_graph() {
@@ -268,4 +268,10 @@ void gba_joyboot_set_send_buffer(u8 *buffer, s32 length) {
 
 void gba_clear_identifiers(void) { gba_identifier_value = 0; gba_identifier_slot_plus_1 = 0; }
 
-void reset_joyboot_state(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s16*)((char*)p + 0x4) = 0; *(u8*)((char*)p + 0x6) = 0; *(u8*)((char*)p + 0x7) = 0; }
+void reset_joyboot_state(GbaJoybootState *state) {
+    state->probe_counter = 0;
+    state->reserved_02 = 0;
+    state->timeout_counter = 0;
+    state->phase = 0;
+    state->device_present = 0;
+}

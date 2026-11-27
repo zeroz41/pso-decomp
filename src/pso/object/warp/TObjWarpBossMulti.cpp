@@ -868,10 +868,10 @@ void TObjWarpBossMulti::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model_handle));
+    set_texture_list(model_handle);
     draw_ginja_object(base_model);
     TParticleCtrl::begin_effect_render();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
+    set_texture_list(effect_textures);
     switch (state) {
     case 0:
         draw_ginja_model_with_motion(confirmation_model, motion, frame);

@@ -121,7 +121,7 @@ void TBoss4Thanks::render() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss4_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+    set_texture_list(texture_list);
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -193,8 +193,8 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
     m_name = TBoss4Thanks::class_name;
     archive = TBoss4Uro::get_instance_count();
-    this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
-    this->texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(archive, 1));
+    this->model = get_bml_model(archive, 1);
+    this->texture_list = get_bml_texlist(archive, 1);
     motions[0] = get_bml_motion(archive, 0x46);
     motions[1] = get_bml_motion(archive, 0x47);
     clear_particle_emitters();
@@ -209,7 +209,7 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
 
 
 void *TBoss4Thanks::create() {
-    void *o = (void *)new TBoss4Thanks(tl_02);
+    void *o = new TBoss4Thanks(tl_02);
     return o;
 }
 

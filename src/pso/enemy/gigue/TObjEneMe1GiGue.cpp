@@ -369,7 +369,7 @@ void TObjEneMe1GiGue::render() {
             return;
         }
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     select_actor_lighting(this);
     toggle_particle_effect();
     ok = 1;
@@ -1149,7 +1149,7 @@ void TObjEneMe1GiGue::init() {
 
 void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
     int angle;
-    if (this->targetCount < 12 && target != NULL && (void *)target != (void *)this && !(target->actorFlags & 0x06000800)) {
+    if (this->targetCount < 12 && target != NULL && target != this && !(target->actorFlags & 0x06000800)) {
         Vec v = target->position;
         subtract_vector(&v, &this->position);
         if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {

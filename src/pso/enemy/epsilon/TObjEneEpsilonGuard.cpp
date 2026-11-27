@@ -142,7 +142,7 @@ void TObjEneEpsilonGuard::render_guard_effect() {
     f32 scale;
 
     if ((flags & 0x20) && ((s32)main_task.get_task_flags() & 0x200)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -190,7 +190,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
         return;
     }
     this->update_secondary_light();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     push_matrix();
     post_translate_matrix(&this->position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);

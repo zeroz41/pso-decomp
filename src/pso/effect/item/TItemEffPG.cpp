@@ -194,7 +194,7 @@ void TItemEffPGModel::render() {
         model_render_flags |= 0x20;
         set_constant_material(&color);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         push_matrix();

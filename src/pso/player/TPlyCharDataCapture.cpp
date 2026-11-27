@@ -14,8 +14,6 @@
 
 #include "pso/network/client_id.h"
 
-extern "C" {
-}
 
 // Saves the local player into `record`. With no local player yet it asks for one and returns 0.
 s32 capture_local_player_state(TPlyCharData *record) {

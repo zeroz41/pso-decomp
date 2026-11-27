@@ -98,7 +98,7 @@ void TObjLazerFence4::init_models() {
 }
 
 void TObjLazerFence4::draw() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
+    set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -115,7 +115,7 @@ void TObjLazerFence4::draw_model() {
     i += 1;
   }
   while (i < 0xC);
-  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
+  set_texture_list(lazer_fence_norm_texture_list);
   push_matrix();
   post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);

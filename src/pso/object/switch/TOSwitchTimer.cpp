@@ -153,7 +153,7 @@ void TOSwitchTimer::run_task() {
 
 
 void *TOSwitchTimer::create(void *set_data) {
-    void *o = (void *)new TOSwitchTimer(tl_05, set_data);
+    void *o = new TOSwitchTimer(tl_05, set_data);
     return o;
 }
 

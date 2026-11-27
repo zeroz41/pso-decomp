@@ -45,7 +45,7 @@ const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
 void *TObjFogCollision::create(void *set) {
-    void *o = (void *)new TObjFogCollision(tl_05, set);
+    void *o = new TObjFogCollision(tl_05, set);
     return o;
 }
 TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {

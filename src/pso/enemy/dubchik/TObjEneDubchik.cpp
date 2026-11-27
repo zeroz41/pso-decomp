@@ -428,9 +428,9 @@ void TObjEneDubchik::render() {
             select_actor_lighting(this);
             toggle_particle_effect();
             if (collapsed != 0) {
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
+                set_texture_list(dubchik_texlist);
             } else {
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(texlist);
             }
             drew = 1;
             push_matrix();

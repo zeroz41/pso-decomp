@@ -19,8 +19,6 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/ProjectedStripDraw.h"
 
-extern "C" {
-}
 BmlResource *TAdRicoRing::resource_bundle;
 extern "C" {
 f32 rico_ring_quad_x_min;

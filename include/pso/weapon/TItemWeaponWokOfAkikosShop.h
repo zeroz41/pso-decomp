@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class (old ctor name TObjPlayer__sub_80123904): draw_held_model also
+// Weapon class: draw_held_model also
 // draws the second model at joint 0x23. Made by TItemWeaponWokOfAkikosShop::create.
 class TItemWeaponWokOfAkikosShop : public TItemWeapon {
 public:
