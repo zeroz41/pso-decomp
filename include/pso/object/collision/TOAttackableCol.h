@@ -19,7 +19,7 @@ struct TOAttackableCol : public TObjChara {
     virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
     virtual s32 select_melee_contact_body(TObjChara *, f32);
     u8 pad_334[0x4];
-    f32 m_338;
+    f32 pad_338;
     u32 hits_left;  // hits it can still take; 0 once destroyed
     void init_params();
     void send_state_change(u16 state);

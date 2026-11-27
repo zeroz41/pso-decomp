@@ -288,7 +288,7 @@ TOAttackableCol::TOAttackableCol(ObjectSetData *set_data) : TObjChara(tl_05) {
     register_object_by_id();
     this->mode = 0;
     *(f32 *)((s8 *)this + 0x334) = 500.0f;
-    this->m_338 = 50.0f;
+    this->pad_338 = 50.0f;
     this->init_params();
 }
 
