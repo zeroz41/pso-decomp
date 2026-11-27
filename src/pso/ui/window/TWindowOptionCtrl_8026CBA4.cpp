@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowQuantity.h"
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
@@ -94,6 +93,3 @@ void TWindowBase::resort_window_order() {
 }
 
 f32 TWindowBase::get_scale() { return sort_depth; }
-void TWindowQuantity::set_quantity(s32 quantity) {
-    *(s32 *)((s8 *)(get_array_entry(1)) + 0x20) = quantity;
-}

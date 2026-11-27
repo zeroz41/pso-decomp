@@ -5997,14 +5997,11 @@ pso/ui/window/TWindowLockOn_8026CB80.cpp:
 	.text       start:0x8026CB80 end:0x8026CBA4
 
 pso/ui/window/TWindowOptionCtrl_8026CBA4.cpp:
-	.text       start:0x8026CBA4 end:0x8026CE78
+	.text       start:0x8026CBA4 end:0x8026CE44
 	.sdata2     start:0x805DD2C8 end:0x805DD2D0
 
-pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp:
-	.text       start:0x8026CE78 end:0x8026CEEC
-
 pso/ui/window/TWindowQuantity.cpp:
-	.text       start:0x8026CEEC end:0x8026D18C
+	.text       start:0x8026CE44 end:0x8026D18C
 	.rodata     start:0x8044F4E0 end:0x8044F4F8
 	.data       start:0x804D0830 end:0x804D089C
 	.sdata      start:0x805D39B0 end:0x805D39B8
