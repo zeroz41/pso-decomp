@@ -6002,8 +6002,8 @@ force_active:
   - enemy_factories_floors_23_24_25_26_27
   - enemy_factories_floors_28_29
   - enemy_freeze_ice_resource_descriptor
-  - enemy_nearest_visible_enemy_sq__FP9TObjCharaf
-  - enemy_nearest_visible_player_sq__FP9TObjCharaf
+  - enemy_nearest_visible_enemy_sq__9TObjEneDDFf
+  - enemy_nearest_visible_player_sq__9TObjEneDDFf
   - enemy_tick_target_acquisition__12TObjEneDD_STFPllf
   - enlarge_flight_cutter_slicer__FP8TObjBase
   - enlarge_s_rank_j_cutter_blade__FP8TObjBase
@@ -6145,7 +6145,7 @@ force_active:
   - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__FP7SjChunkPCcPCcP7SjChunk
-  - find_area_technique_contact__FP10TTecCircleP14TObjCollidableP13CollisionBodyP8TObjBase
+  - find_area_technique_contact__10TTecCircleFP14TObjCollidableP13CollisionBodyP8TObjBase
   - find_attack_target__13TObjEneMe1GeeFPff
   - find_cached_glyph__20TWindowSubStatusDispFUs
   - find_chain_targets__11TTecGiZondeFv
@@ -6175,7 +6175,7 @@ force_active:
   - find_player_texture_name_ordinal__FPUc
   - find_random_player__12TBoss3VoloptFv
   - find_strongest_player__12TBoss3VoloptFv
-  - find_support_technique_contact__FP19TTecPlayerInfluenceP14TObjCollidableP13CollisionBodyPv
+  - find_support_technique_contact__19TTecPlayerInfluenceFP14TObjCollidableP13CollisionBodyP8TObjBase
   - find_table_entry_id
   - find_target_player__16TOTrapAncient02RFv
   - find_target_player__6TOMineFv
@@ -6597,8 +6597,8 @@ force_active:
   - get_floor_surface_type__10TObjPlayerFv
   - get_floor_switch_flag__FUls
   - get_function_key_menu__FPv
-  - get_gigue_float_parameter__FP15TObjEneMe1GiGuel
-  - get_gigue_int_parameter__FP15TObjEneMe1GiGuel
+  - get_gigue_float_parameter__15TObjEneMe1GiGueFl
+  - get_gigue_int_parameter__15TObjEneMe1GiGueFl
   - get_group_id__14TObjEneBm5WolfFPv
   - get_gstream_buffered_bytes__Fv
   - get_handle_6x78_entry__FUs
@@ -6883,7 +6883,7 @@ force_active:
   - has_armor_with_unit_slot__FP14TWindowSubItemi
   - has_at_most_one_player__15TObjSoloPlayWinFv
   - has_inactive_card__FP13GuildCardSlotl
-  - has_no_active_slot__FP12TObjEneSlime
+  - has_no_active_slot__12TObjEneSlimeFv
   - has_photon_blast__8MagStatsFUc
   - has_serial_input__22TAdEnterSerialAccessGCFll
   - has_valid_slot__23TAdSinglePlyChrSelectGCFv
@@ -13773,7 +13773,7 @@ force_active:
   - process_trade_target__10TObjPlayerFP9TItemData
   - profanity_word_table
   - project_step_to_ground__14TObjEneIllGillFl
-  - project_to_screen__13TObjTombstoneFPC13TObjTombstoneP10NJS_POINT2PC3Vec
+  - project_to_screen__13TObjTombstoneCFP10NJS_POINT2PC3Vec
   - prs_read_control_bit__9PrsReaderFv
   - prune_weapon_attributes__9TItemDropFPvPv
   - __ct__21TItemWeaponPsychoWandFP7TObjectPUc

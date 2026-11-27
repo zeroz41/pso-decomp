@@ -1665,7 +1665,7 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     switch (event) {
     case 4:
         this->clear_intangible();
-        debug_effect_hook(this, 0xF1);
+        debug_effect_hook(0xF1);
         this->state_timer = 0;
         this->target_heading = 0;
         this->requested_action = 6;
@@ -1741,7 +1741,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         } else {
             this->requested_action = 0xE;
         }
-        debug_effect_hook(this, 0xF1);
+        debug_effect_hook(0xF1);
         this->substate = 0;
         this->stopping_distance = calc_death_slide_speed(this->action_table[9].speed);
         this->wall_reach = this->sink_depth = 0.0f;

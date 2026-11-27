@@ -796,7 +796,7 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
     case 4:
         clear_intangible();
         this->noop();
-        debug_effect_hook(this, 0xF1);
+        debug_effect_hook(0xF1);
         play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
         if (fallen != 0) {
             requested_action = 6;

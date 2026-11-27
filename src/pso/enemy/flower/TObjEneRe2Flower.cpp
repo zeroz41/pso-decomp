@@ -338,7 +338,7 @@ s32 TObjEneRe2Flower::check_hit_flag() {
 
 void TObjEneRe2Flower::start_hit_cooldown() {
     if (hit_cooldown == 0) {
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         hit_cooldown = 20;
     }
 }
@@ -519,10 +519,10 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > re2_flower_retarget_margin) {
                 if (is_confused() != 0) {
-                    idx = enemy_nearest_visible_enemy(this, destination_distance - re2_flower_retarget_margin);
+                    idx = enemy_nearest_visible_enemy(destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx == 0xFFFF) {
-                    idx = enemy_find_nearest_player_in_range(this, destination_distance - re2_flower_retarget_margin);
+                    idx = enemy_find_nearest_player_in_range(destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx != 0xFFFF) {
                     enemy_set_target_id(idx);

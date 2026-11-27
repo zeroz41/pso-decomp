@@ -324,7 +324,6 @@ void TObjEneGibbles::run_task() {
 }
 
 void TObjEneGibbles::render() {
-    TObjMotion *motion = (TObjMotion *)this;
     Vec v;
     s32 fade;
     s32 vis;
@@ -372,7 +371,7 @@ void TObjEneGibbles::render() {
                 model_render_flags |= 1;
                 this->fade.set_flags_and_apply_damage_color();
                 if (defer_render() == 0) {
-                    motion->draw();
+                    draw();
                 }
                 this->fade.clear_flag_and_notify();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -388,7 +387,7 @@ void TObjEneGibbles::render() {
                 this->fades[cam].set_flags_and_apply_damage_color();
                 if (defer_render() == 0) {
                     if (vis == 1) {
-                        motion->draw();
+                        draw();
                     } else {
                         ((TObjEnemy *)this)->draw_motion_model();
                     }
@@ -398,7 +397,7 @@ void TObjEneGibbles::render() {
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
             } else if (vis == 1) {
-                motion->draw();
+                draw();
             } else {
                 ((TObjEnemy *)this)->draw_motion_model();
             }

@@ -577,10 +577,10 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
         if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > 30.0f) {
                 if (is_confused() != 0) {
-                    target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);
+                    target = enemy_nearest_visible_enemy(destination_distance - 30.0f);
                 }
                 if (target == 0xFFFF) {
-                    target = enemy_find_nearest_player_in_range(this, (f32)(destination_distance - 30.0f));
+                    target = enemy_find_nearest_player_in_range((f32)(destination_distance - 30.0f));
                 }
                 if (target != 0xFFFF) {
                     enemy_set_target_id(target);
@@ -927,7 +927,7 @@ void TObjEneBm9Mericarol::state_damaged(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~0x28;
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         play_sound_effect(remap_sound_for_area(0x3AA0C), &position, 0, 0);
         return;
     case 3:
@@ -969,7 +969,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
         clear_child_flags();
         flags &= ~0x28;
         refresh_and_send_entity_flags();
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         state_step = 0;
         slide_speed = 0.0f;
         play_sound_effect(remap_sound_for_area(0x3AA0B), &position, 0, 0);

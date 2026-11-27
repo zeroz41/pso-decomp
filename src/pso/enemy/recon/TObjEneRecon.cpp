@@ -300,8 +300,8 @@ void TObjEneRecon::state_death(s32 reason) {
         recon_flags &= ~3;
         set_entry = 0;
         refresh_lobby_state();
-        enemy_death_stub(this);
-        debug_effect_hook_scaled(this, 0xF1, 1.0f);
+        enemy_death_stub();
+        debug_effect_hook_scaled(0xF1, 1.0f);
         state_step = 0;
         rise_speed = 0.0f;
         velocity.x = TObjChara::velocity.x;

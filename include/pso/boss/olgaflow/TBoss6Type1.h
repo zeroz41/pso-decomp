@@ -27,6 +27,7 @@ struct Boss6PartMotion {
     void copy_from(Boss6PartMotion *src);
 };
 struct TBoss6GravBall;
+struct TBoss6Kakusan;
 struct Boss6Type1MotionState {
     s32 motion_set;
     s32 motion_mode;
@@ -141,7 +142,7 @@ struct TBoss6Type1 : public TObjEnemy {
     Boss6ScrollStrips scroll_strips_u; // scroll_strips_uv(8, 0) every frame
     Boss6ScrollStrips scroll_strips_v; // scroll_strips_uv(0, 0x22) every frame
     TObject *map_csn;
-    static u8 *create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
+    TBoss6Kakusan *create_kakusan(Vec *pos, Vec *dir, u16 target_client, f32 speed);
     void clear_slot_array();
     void release_effect_slot(s32 slot);
     void spawn_effect_slot(s32 slot);
@@ -246,7 +247,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void render();
     void release_map_csn();
     void spawn_map_csn();
-    static TBoss6GravBall *create_grav_ball(TBoss6Type1 *owner, const Vec *position);
+    TBoss6GravBall *create_grav_ball(const Vec *position);
     s32 get_gravity_attack_state();
     void spawn_grav_ball();
     void damage_players_in_range();

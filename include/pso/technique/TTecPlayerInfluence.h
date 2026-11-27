@@ -22,6 +22,7 @@ struct TTecPlayerInfluence : public TEffect {
     // Applies the technique to every player in range (apply_to_player).
     void deliver_technique_to_party_targets();
     void spawn_support_tec_range_effect();
+    TechniqueContactList *find_support_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player);
     TechniqueContactList *find_support_technique_contact_for_target(TObjBase *player);
     TechniqueContactList *gather_player_contacts(TObjCollidable *target, CollisionBody *body, void *player);
     TechniqueContactList *gather_contacts_for_self(TObjBase *player);

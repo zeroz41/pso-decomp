@@ -338,11 +338,11 @@ void *gryphon_particle_position_vec[3] = {
 };
 #define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
 #define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
-inline s32 angle_to_move_target(TBoss5Gryphon *self) {
-    Boss5GryphonMoveArgs *move = &self->motion->args.move;
+inline s32 TBoss5Gryphon::angle_to_move_target() {
+    Boss5GryphonMoveArgs *move = &motion->args.move;
     f32 initial_dx = move->x;
-    f32 initial_dz = move->z - self->position.z;
-    initial_dx -= self->position.x;
+    f32 initial_dz = move->z - position.z;
+    initial_dx -= position.x;
     return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
@@ -1770,7 +1770,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
         this->clear_intangible();
         enter_flight_mode();
         this->set_flight_height();
-        this->work.target_angle = angle_to_move_target(this);
+        this->work.target_angle = angle_to_move_target();
         break;
     case ENEMY_STATE_UPDATE:
         this->advance_animation();

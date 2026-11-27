@@ -34,6 +34,8 @@ struct TObjEneSlime : public TObjEnemy {
     s32 try_spawn_child(Vec *position);
     void release_child_slot(s32 id);
     void release_split_slimes();
+    // 1 when no child slot holds a live slime (state 1).
+    s32 has_no_active_slot();
     virtual void render();
     virtual void run_task();
     static void free_instance();

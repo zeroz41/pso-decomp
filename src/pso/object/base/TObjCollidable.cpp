@@ -719,22 +719,22 @@ s32 check_body_flags(s32 flags, s32 other_flags) {
     return 1;
 }
 
-s32 test_player_overlap_with_players(TObjCollidable *, TObjCollidable *self, Vec *pos, CollisionBody *out) {
+s32 test_player_overlap_with_players(TObjCollidable *, TObjCollidable *source, Vec *pos, CollisionBody *out) {
     CollisionBodySet a;
     CollisionBodySet b;
     s32 i;
     TObjCollidable *other;
     CollisionBody *hit;
 
-    if (self != NULL && self->bodies != NULL) {
-        a.colliders = self->bodies;
-        a.count = self->body_count;
+    if (source != NULL && source->bodies != NULL) {
+        a.colliders = source->bodies;
+        a.count = source->body_count;
         VecCopy(&a.position, pos);
-        a.facing = self->rotation_y;
+        a.facing = source->rotation_y;
         for (i = registered_player_count; i < entity_table_count; i++) {
             other = TObjPlayer::get_player_data(i);
-            if (other != NULL && other != self && other->test_actor_flags(0x80000800) == 0 && other->bodies != NULL &&
-                horizontal_distance_squared(&self->position, &other->position) < 10000.0f) {
+            if (other != NULL && other != source && other->test_actor_flags(0x80000800) == 0 && other->bodies != NULL &&
+                horizontal_distance_squared(&source->position, &other->position) < 10000.0f) {
                 b.colliders = other->bodies;
                 b.count = other->body_count;
                 VecCopy(&b.position, &other->position);
@@ -752,21 +752,21 @@ s32 test_player_overlap_with_players(TObjCollidable *, TObjCollidable *self, Vec
     return 0;
 }
 
-s32 test_player_body_overlap_at(TObjMapWarp *, TObjCollidable *self, const Vec *pos) {
+s32 test_player_body_overlap_at(TObjMapWarp *, TObjCollidable *player, const Vec *pos) {
     CollisionBodySet source;
     CollisionBodySet destination;
     s32 i;
     TObjCollidable *other;
     CollisionBody *body;
 
-    if (self != NULL && (body = self->bodies) != NULL) {
+    if (player != NULL && (body = player->bodies) != NULL) {
         source.colliders = body;
-        source.count = self->body_count;
+        source.count = player->body_count;
         VecCopy(&source.position, pos);
-        source.facing = self->rotation_y;
+        source.facing = player->rotation_y;
         for (i = 0; i < entity_table_count; i++) {
             other = TObjPlayer::get_player_data(i);
-            if (other != NULL && other != self && (body = other->bodies) != NULL) {
+            if (other != NULL && other != player && (body = other->bodies) != NULL) {
                 destination.colliders = body;
                 destination.count = other->body_count;
                 VecCopy(&destination.position, &other->position);

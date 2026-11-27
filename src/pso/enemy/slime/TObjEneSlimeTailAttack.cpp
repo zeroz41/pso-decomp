@@ -197,7 +197,6 @@ const char *slime_tail_attack_name = slime_tail_attack_class_name_string;
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
 
 
-s32 has_no_active_slot(TObjEneSlime *self);
 s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity);
 
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
@@ -293,7 +292,7 @@ void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 void TObjEneSlime::run_task() {
     s32 enemy_state;
 
-    if ((TObjPlayer::check_demo_mode() == 0) && (has_no_active_slot(this) != 0)) {
+    if ((TObjPlayer::check_demo_mode() == 0) && (has_no_active_slot() != 0)) {
         enemy_state = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
@@ -360,10 +359,10 @@ void TObjEneSlime::release_split_slimes() {
     }
 }
 
-s32 has_no_active_slot(TObjEneSlime *self) {
+s32 TObjEneSlime::has_no_active_slot() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->child_slots[i].state == 1) {
+        if (child_slots[i].state == 1) {
             return 0;
         }
     }

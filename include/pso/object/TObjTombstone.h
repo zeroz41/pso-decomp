@@ -47,7 +47,7 @@ struct TObjTombstone : public TObjCollidable {
     static void reset_matrix();
     s32 check_owner();
     s32 is_other_tombstone_closer();
-    static s32 project_to_screen(const TObjTombstone *tombstone, NJS_POINT2 *screen, const Vec *point);
+    s32 project_to_screen(NJS_POINT2 *screen, const Vec *point) const;
     void update_fade_by_distance();
     void drop_recovery_items();  // once: a chance-rolled set of Monomate/Monofluid family items
     void draw_name_labels();

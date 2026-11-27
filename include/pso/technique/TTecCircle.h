@@ -19,6 +19,7 @@ public:
     virtual void tick_lifetime();
     virtual void spawn_effects(Vec *pos);
     virtual void play_cast_sound();
+    TechniqueContactList *find_area_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player);
     TechniqueContactList *find_area_contact(TObjBase *player);
     TechniqueContactList *collect_body_contacts(TObjCollidable *target, CollisionBody *body, TObjBase *player);
     TechniqueContactList *collect_body_contacts_for_target(TObjBase *player);

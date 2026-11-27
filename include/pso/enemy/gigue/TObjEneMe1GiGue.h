@@ -75,6 +75,8 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     static void delete_barrier();
     static void load_resources();
     void load_params_from_table(s32 i);
+    f32 get_gigue_float_parameter(s32 i);
+    s32 get_gigue_int_parameter(s32 i);
     static BmlResource *get_resource();
     void apply_hit_shake(TObjChara *player);
     s32 check_vector_bit(Vec *pos);

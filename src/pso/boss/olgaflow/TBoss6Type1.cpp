@@ -1339,9 +1339,9 @@ void TBoss6Type1::fire_kakusan_shots() {
         dir.y *= scale;
         dir.z *= scale;
         if (is_normal_difficulty()) {
-            TBoss6Type1::create_kakusan(this, &pos, &dir, 0xFFFF, 7.5f);
+            create_kakusan(&pos, &dir, 0xFFFF, 7.5f);
         } else {
-            TBoss6Type1::create_kakusan(this, &pos, &dir, target, 7.5f);
+            create_kakusan(&pos, &dir, target, 7.5f);
         }
         target = (target + 1) & 3;
         side += 46.25f;
@@ -1373,7 +1373,7 @@ void TBoss6Type1::spawn_grav_ball() {
         v.x += r * sin_table_lookup(ang);
         v.z += r * cos_table_lookup(ang);
     }
-    TBoss6Type1::create_grav_ball(this, &v);
+    create_grav_ball(&v);
 }
 
 

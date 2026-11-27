@@ -198,6 +198,6 @@ TBoss6Kakusan::TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_cli
 }
 #pragma pop
 
-u8 *TBoss6Type1::create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
-    return (u8 *)new TBoss6Kakusan(parent, pos, dir, target_client, speed);
+TBoss6Kakusan *TBoss6Type1::create_kakusan(Vec *pos, Vec *dir, u16 target_client, f32 speed) {
+    return new TBoss6Kakusan(this, pos, dir, target_client, speed);
 }

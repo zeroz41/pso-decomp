@@ -159,10 +159,7 @@ TechniqueContactList technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
-TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, TObjCollidable *target, CollisionBody *body, void *player);
-TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, TObjBase *player);
-
-TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, TObjCollidable *target, CollisionBody *body, void *player) {
+TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player) {
     Vec pos;
     f32 range;
     s32 i;
@@ -173,7 +170,7 @@ TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, 
     } else {
         range = 1e+04f;
     }
-    VecCopy(&pos, &self->position);
+    VecCopy(&pos, &position);
     resetTechniqueContactQuery();
     if (target == NULL) {
         return &technique_contact_query_results;
@@ -224,7 +221,7 @@ TechniqueContactList *TTecPlayerInfluence::gather_player_contacts(TObjCollidable
     return &technique_contact_query_results;
 }
 
-TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, TObjBase *player) {
+TechniqueContactList *TTecCircle::find_area_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player) {
     Vec pos;
     f32 range;
     TObjPlayer *pd;
@@ -235,7 +232,7 @@ TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidab
     } else {
         range = 6.25e+04f;
     }
-    VecCopy(&pos, &self->position);
+    VecCopy(&pos, &position);
     resetTechniqueContactQuery();
     if (target == NULL) {
         return &technique_contact_query_results;
@@ -319,7 +316,7 @@ TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, 
 }
 
 TechniqueContactList *TTecCircle::find_area_contact(TObjBase *player) {
-    return find_area_technique_contact(this, collidable, &collisionBody, player);
+    return find_area_technique_contact(collidable, &collisionBody, player);
 }
 
 TechniqueContactList *TTecCircle::collect_body_contacts_for_target(TObjBase *player) {
@@ -327,7 +324,7 @@ TechniqueContactList *TTecCircle::collect_body_contacts_for_target(TObjBase *pla
 }
 
 TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact_for_target(TObjBase *player) {
-    return find_support_technique_contact(this, target, &collisionBody, player);
+    return find_support_technique_contact(target, &collisionBody, player);
 }
 
 TechniqueContactList *TTecPlayerInfluence::gather_contacts_for_self(TObjBase *player) {

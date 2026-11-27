@@ -119,6 +119,10 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     // Ground effects on motion frames 12 and 28 (state_chase_target, state_sword).
     void spawn_footstep_effects();
     void spawn_ground_effect_on_frame_23();
+    // Turns toward destination from the raised body center; returns the turn step.
+    s32 approach_destination();
+    // Moves toward a reachable destination, else turns toward it (diff gets the direction).
+    s32 seek_destination(Vec *diff);
     void state_cast_barta(s32 mode);
     void state_stealth_off(s32 mode);
     void state_stealth_on(s32 mode);
