@@ -24,9 +24,10 @@
 // the effects traversal and the deferred-object pass (see TMainTask::render).
 u32 render_pass = 1;
 
-// The original's static initializer sits before the weak copies of the
-// TObject inlines this unit emits, which no compiler-generated __sinit
-// reproduces, so the destructor chain and __sinit are spelled out.
+// On CodeWarrior the original's static initializer sits before the weak
+// copies of the TObject inlines this unit emits, which no compiler-generated
+// __sinit reproduces, so the destructor chain and __sinit are spelled out;
+// other compilers construct and destroy these globals themselves.
 #pragma suppress_init_code on
 #pragma no_static_dtors on
 DestructorChain main_task_dtor_chain;
@@ -57,8 +58,10 @@ u32 old_render_flags;
 u32 render_shadow_flags;
 u32 old_render_shadow_flags;
 
+#ifdef __MWERKS__
 void __sinit_TObject_cpp();
 __declspec(section ".ctors") static void *const object_global_initializer = (void *)__sinit_TObject_cpp;
+#endif
 
 #pragma defer_codegen on
 u32 TObject::is_render_deferred() { return m_flags & DEFER_RENDER; }
@@ -69,6 +72,7 @@ void TObject::clear_render_deferred() { m_flags &= ~DEFER_RENDER; }
 
 void TObject::allow_rendering_shadows() { m_flags &= ~DISALLOW_RENDER_SHADOWS; }
 
+#ifdef __MWERKS__
 void __sinit_TObject_cpp() {
     __register_global_object(__ct__9TMainTaskFv(&main_task),
         __dt__9TMainTaskFv, &main_task_dtor_chain);
@@ -77,6 +81,7 @@ void __sinit_TObject_cpp() {
     __register_global_object(__ct__7TObjectFP7TObject(&keyboard_task_object, NULL),
         __dt__7TObjectFv, &keyboard_task_object_dtor_chain);
 }
+#endif
 
 TObject::TObject(TObject *parent) {
     m_flags = NONE;
