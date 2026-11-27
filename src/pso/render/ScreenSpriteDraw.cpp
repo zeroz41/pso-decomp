@@ -105,7 +105,7 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
 
 extern "C" {
 int current_line_width = 12;
-s32 lbl_805D3584 = 1;
+s32 debug_text_render_enabled = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
 }
@@ -491,7 +491,7 @@ void render_tick(void) {
     GXSetZMode(GX_TRUE, GX_ALWAYS, GX_FALSE);
     TCameraCtrl::restore_full_screen_view();
     set_cull_none();
-    render_debug_text(lbl_805D3584);
+    render_debug_text(debug_text_render_enabled);
     GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GXSetViewport((0.0f), (0.0f), (6.4e+02f), (4.8e+02f), (0.0f), (1.0f));
     set_cull_none();

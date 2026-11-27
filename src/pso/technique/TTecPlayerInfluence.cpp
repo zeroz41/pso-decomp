@@ -119,7 +119,6 @@ void TTecPlayerInfluence::deliver_technique_to_party_targets() {
 }
 
 const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
-const SupportEffectParticles lbl_8044D908 = {{NULL, NULL, NULL}};
 void TTecPlayerInfluence::spawn_support_tec_range_effect() {
     s16 kind;
     Vec pos;
@@ -158,7 +157,7 @@ void TTecPlayerInfluence::spawn_support_tec_range_effect() {
         }
         distanceBand = TTecCtrl::classify_distance_band(kind, level, sourceId);
         {
-            SupportEffectParticles fx = lbl_8044D908;
+            SupportEffectParticles fx = {{NULL, NULL, NULL}};
             fx.w[0] = spawn_particle_effect(&pos, support_tec_range_effect_id_table[distanceBand]);
             if (distanceBand == 3) {
                 fx.w[1] = spawn_particle_effect(&pos, 0x1F2);

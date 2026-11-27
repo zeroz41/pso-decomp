@@ -79,7 +79,7 @@ static const s32 telepipe_owner_tint_table[12] = {
 };
 }
 const char *TTecLuker::name = "TTecLuker";
-static const Vec lbl_8044D72C = { 0.0f, 0.0f, 0.2f };
+static const Vec telepipe_placement_offset = { 0.0f, 0.0f, 0.2f };
 static const Vec telepipe_town_position_table[4] = {
     { -312.0f, 0.0f, -113.0f },
     { -306.0f, 0.0f, -135.0f },
@@ -177,7 +177,7 @@ TTecLuker::TTecLuker(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecC
         } else {
             placement = new PositionPlacementQueue;
             if (placement != NULL) {
-                Vec v = lbl_8044D72C;
+                Vec v = telepipe_placement_offset;
                 TObjBase *owner;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, this->source->rotation_y);

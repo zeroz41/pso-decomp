@@ -34,7 +34,7 @@
 s32 lbl_805D3710 = -140;
 s32 area_music_fade_frame_count = 60;
 f32 music_fade_full_scale = 200.0f;
-s16 lbl_805D371C = -1;
+s16 music_playing_slot_number = -1;
 char *lobby_current_slot_entry = "";
 
 extern "C" {
@@ -51,8 +51,8 @@ s32 music_fade_slot_index;
 u32 lbl_805D62EC;
 s32 music_next_cue;
 s32 music_cue_threshold;
-s32 lbl_805D62F8;
-s32 lbl_805D62FC;
+s32 bgm_stream_buffer_total_size;
+s32 se_stream_buffer_size;
 s32 music_program_index;
 TLoadCtrlProgram *music_program;
 s32 music_sequencer_passage_index;
@@ -138,7 +138,7 @@ extern TLoadCtrlProgram *music_programs[];
 
 void init_music_sequencer(s32 program) {
     unlock_sequencer_flag(program);
-    lbl_805D371C = 0;
+    music_playing_slot_number = 0;
     release_bgm_resource();
     music_program_index = program;
     music_program = music_programs[program];
@@ -500,7 +500,7 @@ void play_area_music(char *name) {
     if (flag) {
         music_fade_slot_index = 0;
     }
-    lbl_805D371C = music_fade_slot_index + 1;
+    music_playing_slot_number = music_fade_slot_index + 1;
     ADXT_StartFname(adxt_players[music_fade_slot_index], name);
     adxt_pause(adxt_players[music_fade_slot_index], 0);
     close_option_window();
@@ -599,8 +599,8 @@ void init_adx_audio_system(void) {
             file_debug_printf("can't create ADXT-SE #%d", i);
         }
     }
-    lbl_805D62F8 = 0x5A3C8;
-    lbl_805D62FC = 0xA924;
+    bgm_stream_buffer_total_size = 0x5A3C8;
+    se_stream_buffer_size = 0xA924;
     music_active = 0;
     music_state = 0;
     lbl_805D62EC = 0;

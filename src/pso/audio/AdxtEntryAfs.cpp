@@ -61,7 +61,7 @@ s32 get_stream_queued_count(AdxtPlayer *player) {
     return lsc_get_queued_stream_count(player->lsc_stream);
 }
 
-s32 lbl_805D7548;
+s32 adxt_entry_count;
 
 void adxt_start_seamless(AdxtPlayer *player) {
     LscStream *lsc;
@@ -96,11 +96,11 @@ void ADXT_EntryAfs(AdxtPlayer *player, s32 partition_id, s32 file_id) {
 
 
 void adxt_entry_count_decrement(void) {
-    lbl_805D7548 -= 1;
+    adxt_entry_count -= 1;
 }
 
 void adxt_entry_count_increment(void) {
-    lbl_805D7548 += 1;
+    adxt_entry_count += 1;
 }
 
 
