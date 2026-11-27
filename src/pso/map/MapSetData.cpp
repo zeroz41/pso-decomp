@@ -182,7 +182,7 @@ void pick_random_entry(PickRandomEntryOut *out) {
 void *bsearch_record(void *records, int n, int key) {
     u8 *arr = (u8 *)records;
     u8 *e;
-    BsearchRecordTmp t;
+    AppendRecord t;
     s32 lo;
     s32 hi;
     s32 mid;
@@ -192,7 +192,7 @@ void *bsearch_record(void *records, int n, int key) {
         mid = (lo + hi) / 2;
         ((TLobby *)(&t))->copy_record_entry((saddr)(arr + mid * 32));
         bswap_item_data_record(&t);
-        if (t.v < key) {
+        if (t.h[2] < key) {
             lo = mid + 1;
         } else {
             hi = mid;
@@ -201,17 +201,17 @@ void *bsearch_record(void *records, int n, int key) {
     e = arr + lo * 32;
     ((TLobby *)(&t))->copy_record_entry((saddr)e);
     bswap_item_data_record(&t);
-    if (t.v == key) {
+    if (t.h[2] == key) {
         return (AppendRecord *)e;
     }
     return NULL;
 }
 
 void lookup_item_data_record(AppendOut *out, s32 key) {
-    TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
+    ItemDataTableHeader hdr = *(ItemDataTableHeader *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
-    p = (AppendRecord *)bsearch_record((item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (AppendRecord *)bsearch_record((item_data_table_buffer + hdr.record_offset), hdr.record_count, key);
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);
@@ -226,15 +226,15 @@ void lookup_item_data_record(AppendOut *out, s32 key) {
     }
 }
 void pick_weighted_entry(s32 *key, s32 *slot) {
-    PickWeightedEntryHdr hdr = *(PickWeightedEntryHdr *)item_data_table_buffer;
+    ItemDataTableHeader hdr = *(ItemDataTableHeader *)item_data_table_buffer;
     PickWeightedEntryEntry *tbl;
     u32 total;
     u32 r;
     s32 i;
     s32 n;
     bswap_table_header(&hdr);
-    tbl = (PickWeightedEntryEntry *)(item_data_table_buffer + hdr.table);
-    n = hdr.count;
+    tbl = (PickWeightedEntryEntry *)(item_data_table_buffer + hdr.weighted_offset);
+    n = hdr.weighted_count;
     total = 0;
     for (i = 0; i < n; i++) {
         total += tbl[i].weight;
@@ -536,8 +536,7 @@ void DestroyEventShuffleTableEntry::bswap() {
     bswap_16(&h);
 }
 
-void bswap_item_data_record(void* p) {
-    AppendRecord *record = (AppendRecord *)p;
+void bswap_item_data_record(AppendRecord *record) {
     bswap_32((u32 *)&record->f[0]);
     bswap_32((u32 *)&record->f[1]);
     bswap_32((u32 *)&record->f[2]);
@@ -567,12 +566,11 @@ void TLobby::copy_record_entry(saddr src) {
     dst->h[5] = from->h[5];
 }
 
-void bswap_table_header(void* p) {
-    TLobbyHdr *header = (TLobbyHdr *)p;
-    bswap_32((u32 *)&header->table);
-    bswap_32((u32 *)&header->b);
-    bswap_32((u32 *)&header->count);
-    bswap_32((u32 *)&header->d);
+void bswap_table_header(ItemDataTableHeader *header) {
+    bswap_32((u32 *)&header->record_offset);
+    bswap_32((u32 *)&header->weighted_offset);
+    bswap_32((u32 *)&header->record_count);
+    bswap_32((u32 *)&header->weighted_count);
 }
 
 void ChallengeRandomEvent::swap_endian() {

@@ -4,6 +4,8 @@
 #include "types.h"
 
 struct EventShuffleTableIndexEntry;
+struct AppendRecord;
+struct ItemDataTableHeader;
 struct EventShuffleTable;
 struct FloorObjectSetRow;
 
@@ -36,8 +38,8 @@ void select_event_shuffle_table(s16 id);
 void init_item_drop_rng(void);
 void bswap_event_table_entry(EventShuffleTableIndexEntry *entry);
 void copy_event_table_entry(void *dst, void *src);
-void bswap_item_data_record(void *p);
-void bswap_table_header(void *p);
+void bswap_item_data_record(AppendRecord *record);
+void bswap_table_header(ItemDataTableHeader *header);
 void copy_challenge_random_event(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);
 void load_floor_object_set(s32 player);
 s32 get_total_object_set_count(void);
@@ -60,7 +62,14 @@ struct DestroyEventShuffleTableEntry {
 struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
 void pick_random_entry(PickRandomEntryOut *out);
 
-struct TLobbyHdr { s32 table; s32 b; s32 count; s32 d; };
+// The head of item_data_table_buffer: where its AppendRecord table (sorted by h[2], searched by
+// lookup_item_data_record) and its PickWeightedEntryEntry table (pick_weighted_entry) start, and their counts.
+struct ItemDataTableHeader {
+    s32 record_offset;
+    s32 weighted_offset;
+    s32 record_count;
+    s32 weighted_count;
+};
 
 struct AppendRecord { f32 f[5]; s16 h[6]; };
 
@@ -73,12 +82,8 @@ struct AppendOut {
     s16 f42;
 };
 
-struct PickWeightedEntryHdr { s32 a; s32 table; s32 c; s32 count; };
-
 // slot_index indexes lobby_random_slot_id_table, record_key is the lookup_item_data_record key.
 struct PickWeightedEntryEntry { u8 slot_index; u8 record_key; u8 weight; u8 pad; };
-
-struct BsearchRecordTmp { u8 pad[0x18]; s16 v; u8 pad2[2]; };
 
 struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
 
