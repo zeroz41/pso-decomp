@@ -601,7 +601,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
             return;
         }
         if (this->message_window == 0) {
-            switch (this->pad_2a4) {
+            switch (this->status_message_index) {
             case 0:
                 show_status_message((get_localized_text_entry(0x29, 0)), 1);
                 return;

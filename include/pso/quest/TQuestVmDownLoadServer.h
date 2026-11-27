@@ -39,7 +39,7 @@ public:
     s32 file_count;            // files to save, checked against get_memcard_free_files
     TObject *mc_select;        // TAdMcSelectGC::create
     s32 state;
-    s32 pad_2a4; // picks update_mc_select's status message; nothing in this TU writes it
+    s32 status_message_index; // picks the status message update_mc_select shows (0-5)
 
     TQuestVmDownLoadServer(TObject *parent);
     virtual ~TQuestVmDownLoadServer();
