@@ -62,7 +62,7 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq::name;
     inputs.appearance = &player->appearance;
-    inputs.completion_flags = (u32 *)&player->model_load_flags;
+    inputs.completion_flags = &player->model_load_flags;
     inputs.load_slot = player->get_entity_id();
     inputs.body_model = (s32 *)&player->model;
     inputs.part_models = (s32 *)&player->hair_model;
@@ -248,7 +248,7 @@ void TChCrLoadReq::request_texture_loads() {
 
     body.textures = inputs.body_textures;
     body.completion_mask = 4;
-    body.completion_flags = (s32 *)inputs.completion_flags;
+    body.completion_flags = inputs.completion_flags;
     body.display_index = display;
     if (TChCrLoadAfsTextureReq::create(this, &body) == NULL) {
         return;
@@ -256,7 +256,7 @@ void TChCrLoadReq::request_texture_loads() {
     if (class_appearance->hairModels != NULL || class_appearance->capModels != NULL) {
         head.textures = inputs.head_textures;
         head.completion_mask = 1;
-        head.completion_flags = (s32 *)inputs.completion_flags;
+        head.completion_flags = inputs.completion_flags;
         head.display_index = display;
         if (TChCrLoadAfsTextureReq::create(this, &head) == NULL) {
             return;
@@ -266,7 +266,7 @@ void TChCrLoadReq::request_texture_loads() {
     }
     other.textures = inputs.other_textures;
     other.completion_mask = 2;
-    other.completion_flags = (s32 *)inputs.completion_flags;
+    other.completion_flags = inputs.completion_flags;
     other.display_index = display;
     if (TChCrLoadAfsTextureReq::create(this, &other) == NULL) {
         return;

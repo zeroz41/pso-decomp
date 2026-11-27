@@ -34,7 +34,7 @@ public:
     CharacterTextureLoadSet body_textures;
     s32 part_models[3];  // hair, head, attachment (TChCrLoadReq fills them)
     s32 body_model;
-    u32 completion_flags;
+    s32 completion_flags;
 };
 
 LAYOUT_ASSERT(CharacterPreview_head_textures, offsetof(CharacterPreview, head_textures) == 0x54);

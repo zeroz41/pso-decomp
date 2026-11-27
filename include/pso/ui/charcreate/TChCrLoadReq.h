@@ -13,7 +13,7 @@ class TChCrLoadAfs;
 
 struct CharacterPreviewLoadArgs {
     CharacterAppearanceFields *appearance;
-    u32 *completion_flags;
+    s32 *completion_flags;
     s32 load_slot;
     s32 *body_model;
     s32 *part_models;
