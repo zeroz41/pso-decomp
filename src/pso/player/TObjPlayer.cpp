@@ -2405,8 +2405,6 @@ void TObjPlayer::drop_items_on_death() {
         set_action_flag_2();
     }
 }
-extern "C" {
-
 s32 try_buy_item(TObjPlayer *player, TItemData *item) {
     if (player->can_pickup_item(item) == 0) {
         return 1;
@@ -2416,7 +2414,6 @@ s32 try_buy_item(TObjPlayer *player, TItemData *item) {
         return 0;
     }
     return 2;
-}
 }
 
 #pragma push

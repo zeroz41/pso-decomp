@@ -1256,6 +1256,9 @@ extern TObjPlayer *player_slot_table[12];
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
 void rebuild_player_inventory(TObjPlayer *player);
+// Buys item for the player: 0 once bought, 1 when it does not fit the inventory, 2 when the
+// player cannot pay for it.
+s32 try_buy_item(TObjPlayer *player, TItemData *item);
 
 // Clears the player's control-lock flag (0x200); run on every player slot.
 void release_control_lock(TObjPlayer *player);

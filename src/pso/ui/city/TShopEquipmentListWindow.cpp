@@ -48,7 +48,6 @@
 const char *shop_equipment_list_window_class_name = "TShopEquipmentListWindow";
 
 extern "C" {
-s32 try_buy_item(TObjPlayer *player, TItemData *item);
 extern const s32 local_client_id;
 }
 
