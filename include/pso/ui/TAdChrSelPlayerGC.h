@@ -27,6 +27,9 @@ public:
     virtual void render();
     void update_chara_making();
     void draw_model_with_arg(NJS_OBJECT *model);
+    // Draws a part model tinted with the appearance's colour at the given alpha.
+    void draw_model_tinted(NJS_OBJECT *model, CharacterAppearanceFields *appearance, f32 alpha);
+    void draw_model_tinted_opaque(NJS_OBJECT *model, CharacterAppearanceFields *appearance);
     void init_selection_model(s32);
     s32 state;  // run_task switches on it; render draws in state 3
     s32 pending_state;  // zero for no request, otherwise the state plus one
@@ -56,6 +59,4 @@ void load_multi_ply_chr_select_resources(void);
 void free_multi_ply_chr_select_resources(void);
 void reset_animation_ticks(TAdChrSelPlayerGC *player);
 void enable_spin_model(TAdChrSelPlayerGC *player);
-void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f32 alpha);
-void draw_model_tinted_opaque(void *_w0, int _w1, void *_w2);
 #endif

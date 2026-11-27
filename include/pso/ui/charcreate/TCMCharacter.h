@@ -15,7 +15,7 @@ public:
     void apply_character_appearance();
     void update_chara_preview();
     void reset_model_parts();
-    s32 bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
+    s32 bind_model_parts(NJS_OBJECT **selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
     void load_model_parts();
     void *shape_rel;
     s32 shape_rel_size;

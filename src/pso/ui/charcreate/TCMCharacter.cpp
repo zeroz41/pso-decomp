@@ -38,9 +38,9 @@ int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
 TCMCharacter *creation_figure_object;
 CreationTextureCacheEntry *char_select_current_entry;
-uaddr chara_select_hair_node_a;
-uaddr chara_select_hair_node_b;
-uaddr chara_select_head_node;
+NJS_OBJECT *chara_select_hair_node_a;
+NJS_OBJECT *chara_select_hair_node_b;
+NJS_OBJECT *chara_select_head_node;
 void ***char_creation_data_block;
 saddr chara_select_preview_resource;
 #pragma common off
@@ -320,7 +320,7 @@ void TCMCharacter::load_model_parts() {
     character_display_index(appearance);
 }
 
-s32 TCMCharacter::bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts,
+s32 TCMCharacter::bind_model_parts(NJS_OBJECT **selected, const char **names, CreationModelPart *parts,
                                  s32 part, s32 model_index) {
     *selected = 0;
     if (names == NULL) {
@@ -338,7 +338,7 @@ s32 TCMCharacter::bind_model_parts(uaddr *selected, const char **names, Creation
             parts->model = 0;
         } else {
             parts->present = 1;
-            parts->model = (saddr)get_bml_model((BmlResource *)chara_select_preview_resource, model_index++);
+            parts->model = get_bml_model((BmlResource *)chara_select_preview_resource, model_index++);
         }
         i++;
         names++;
@@ -439,9 +439,9 @@ void bind_body_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *mo
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }
 }
-void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_head_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *model) {
     reset_creation_head_shapes();
-    make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_head_shape_destination);
+    make_node_flag_table(model, (NodeFlagEntry *)&creation_head_shape_destination);
     s32 head = appearance->head + 1;
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[head][i], (NodeFlagEntry *)&creation_head_shape_samples[i]);
@@ -527,7 +527,7 @@ void TCMCharacter::apply_character_appearance() {
     }
     char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
     bind_body_shape_nodes(app, this->model);
-    bind_head_shape_nodes(app, (void *)chara_select_head_node);
+    bind_head_shape_nodes(app, chara_select_head_node);
     blend_creation_proportion_shapes(&creation_player_character->width);
     memcard_access_active = 0;
     char_select_active_flag = 1;
@@ -540,13 +540,13 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            bind_head_shape_nodes(creation_player_character, ((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
+            bind_head_shape_nodes(creation_player_character, chara_select_head_node = creation_head_model_parts[creation_player_character->head].model);
         }
         break;
     case 4: {
         s32 hair = creation_player_character->hair;
-        uaddr a = creation_hair_model_parts[hair].model;
-        uaddr b = creation_cap_model_parts[hair].model;
+        NJS_OBJECT *a = creation_hair_model_parts[hair].model;
+        NJS_OBJECT *b = creation_cap_model_parts[hair].model;
         chara_select_hair_node_a = a;
         chara_select_hair_node_b = b;
         break;
@@ -570,7 +570,7 @@ void TCMCharacter::render() {
     }
 }
 void TCMCharacter::draw_creation_figure() {
-    u32 v;
+    NJS_OBJECT *v;
     TParticleCtrl::begin_effect_render();
     if (scan_creation_resources(this) == 0) {
         char_creation_figure_draw_flag = 0;

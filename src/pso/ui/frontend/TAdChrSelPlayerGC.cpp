@@ -301,12 +301,12 @@ void TAdChrSelPlayerGC::update_chara_making() {
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     set_texture_list(preview_data->get_status_sub());
-    draw_model_with_arg((NJS_OBJECT *)preview_data->get_body_model());
+    draw_model_with_arg(preview_data->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));
     set_texture_list(preview_data->get_status_data());
     TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
     pop_matrix();
-    if (preview_data->get_head_model() != 0U) {
+    if (preview_data->get_head_model() != NULL) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
@@ -314,11 +314,11 @@ void TAdChrSelPlayerGC::update_chara_making() {
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
-    if (preview_data->get_hair_model() != 0U) {
+    if (preview_data->get_hair_model() != NULL) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        draw_model_tinted_opaque(this, preview_data->get_hair_model(), &visual_record);
+        draw_model_tinted_opaque(preview_data->get_hair_model(), &visual_record);
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
@@ -331,11 +331,11 @@ void TAdChrSelPlayerGC::draw_model_with_arg(NJS_OBJECT *model) {
     draw_saving_joints_checked();
 }
 
-void draw_model_tinted_opaque(void * _w0, int _w1, void * _w2) {
-    ((s32 (*)(f32))draw_model_tinted)(1.0f);
+void TAdChrSelPlayerGC::draw_model_tinted_opaque(NJS_OBJECT *model, CharacterAppearanceFields *appearance) {
+    draw_model_tinted(model, appearance, 1.0f);
 }
 
-void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f32 alpha) {
+void TAdChrSelPlayerGC::draw_model_tinted(NJS_OBJECT *model, CharacterAppearanceFields *appearance, f32 alpha) {
   NJS_ARGB color;
   int one;
   saved_model_render_flags = model_render_flags;
@@ -352,7 +352,7 @@ void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f
   color.g = 0.003921569f * ((f32) appearance->green);
   color.b = 0.003921569f * ((f32) appearance->blue);
   set_constant_material(&color);
-  TObjPlayer::play_phase_transition_sound(child);
+  TObjPlayer::play_phase_transition_sound(model);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;

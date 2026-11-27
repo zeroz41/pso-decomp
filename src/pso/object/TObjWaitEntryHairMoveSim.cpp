@@ -526,7 +526,7 @@ void TObjWaitEntryHairMoveSim::create_hair_effects() {
             } else if (player->appearance.hair == e->hair_model_hair) {
                 model = player->hair_model;
             } else if (player->appearance.head == e->attachment_model_head) {
-                model = (NJS_OBJECT *)player->attachment_model;
+                model = player->attachment_model;
             } else {
                 continue;
             }

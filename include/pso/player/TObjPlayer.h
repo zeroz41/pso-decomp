@@ -309,7 +309,7 @@ struct TObjPlayer : public TObjChara {
     // the hair and head hang from node 0x3B, the attachment from node 0x3A.
     NJS_OBJECT *hair_model;
     NJS_OBJECT *head_model;
-    uaddr attachment_model;
+    NJS_OBJECT *attachment_model;
     // Texture sets TChCrLoadReq fills for the head/hair, the attachment and the body.
     CharacterTextureLoadSet head_textures;
     CharacterTextureLoadSet attachment_textures;
@@ -834,7 +834,7 @@ struct TObjPlayer : public TObjChara {
     void send_disable_drop_weapon_on_death();
     void send_level_up_all_techniques(u8 num_levels);
     int is_pk_enabled();
-    static void play_phase_transition_sound(saddr child);
+    static void play_phase_transition_sound(NJS_OBJECT *model);
     int check_flag_40000();
     s32 is_in_tl03_state();
     void sync_status_effect_flags();

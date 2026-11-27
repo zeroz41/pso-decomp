@@ -1581,8 +1581,8 @@ force_active:
   - __ct__13TObjJungleEbiFP7TObjectPv
   - __ct__17TObjSeabedDolphinFP7TObjectPv
   - set_save_time__12TPlyCharDataFUl
-  - draw_model_tinted__FxP25CharacterAppearanceFieldsf
-  - draw_model_tinted_opaque__FPviPv
+  - draw_model_tinted__17TAdChrSelPlayerGCFP10NJS_OBJECTP25CharacterAppearanceFieldsf
+  - draw_model_tinted_opaque__17TAdChrSelPlayerGCFP10NJS_OBJECTP25CharacterAppearanceFields
   - TObjPlayer__sub_802E75B8
   - TObjPlayer__sub_802E7640
   - TObjPlayer__sub_802E76C8

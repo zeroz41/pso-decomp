@@ -15,8 +15,8 @@ struct CharacterPreviewLoadArgs {
     CharacterAppearanceFields *appearance;
     s32 *completion_flags;
     s32 load_slot;
-    s32 *body_model;
-    s32 *part_models;
+    NJS_OBJECT **body_model;
+    NJS_OBJECT **part_models;
     NJS_TEXLIST *body_textures;
     NJS_TEXLIST *other_textures;
     NJS_TEXLIST *head_textures;
@@ -43,7 +43,7 @@ public:
 public:
     u8 pad_1C[0x38 - 0x1C];
     CharacterPreviewLoadArgs inputs;
-    s32 *head_model_slot;  // the slot of part_models that receives the head model
+    NJS_OBJECT **head_model_slot;  // the slot of part_models that receives the head model
     CharacterClassAppearance *class_appearance;
     s32 state;
     s32 timer;

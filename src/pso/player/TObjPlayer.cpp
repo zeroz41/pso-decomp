@@ -1396,7 +1396,7 @@ void TObjPlayer::draw_body(s32 detail) {
 
 void TObjPlayer::draw_head_attachments() {
     s32 special_color;
-    if ((u32) this->attachment_model != 0U) {
+    if (this->attachment_model != NULL) {
         this->get_joint_matrix(0x3A);
         ((s32 (*)(void))push_matrix_from)();
         set_texture_list(&this->attachment_textures.list);
@@ -1430,7 +1430,7 @@ void TObjPlayer::draw_head_attachments() {
         }
         TCharaMaking::enable_making();
         f32 alpha = this->render_material_state.get_alpha();
-        draw_colored_hair(alpha, (saddr)this->hair_model,
+        draw_colored_hair(alpha, this->hair_model,
             &this->appearance, special_color);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();
@@ -5198,8 +5198,7 @@ void TObjPlayer::foreach_player(void (*callback)(TObjPlayer *)) {
 
 s32 TObjPlayer::reset_volopt_state() { return is_item_area_enabled(this->get_area()); }
 
-void TObjPlayer::play_phase_transition_sound(saddr child) {
-    NJS_OBJECT *model = (NJS_OBJECT *)child;
+void TObjPlayer::play_phase_transition_sound(NJS_OBJECT *model) {
     if (((get_main_phase() == 0xE) || (get_main_phase() == 0xF)) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
         draw_chunk_object(model);
         return;

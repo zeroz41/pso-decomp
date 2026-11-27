@@ -2030,7 +2030,7 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
         return 0;
     }
     possessed_client = client_id;
-    grab_appearance = player->appearance.name;
+    grab_appearance = &player->appearance;
     copy_texlist(&saved_look.body_textures, &player->body_textures.list);
     copy_texlist(&saved_look.head_textures, &player->head_textures.list);
     copy_texlist(&saved_look.attachment_textures, &player->attachment_textures.list);
@@ -2043,7 +2043,7 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     player->model = grab_models[0];
     player->head_model = NULL;
     player->hair_model = NULL;
-    player->attachment_model = (uaddr)grab_models[1];
+    player->attachment_model = grab_models[1];
     return 1;
 }
 
@@ -2074,7 +2074,7 @@ void TBoss6Type2::reset_fish_fields() {
     saved_look.model = NULL;
     saved_look.head_model = NULL;
     saved_look.hair_model = NULL;
-    saved_look.attachment_model = 0;
+    saved_look.attachment_model = NULL;
 }
 
 #pragma push
@@ -2326,8 +2326,8 @@ void TBoss6Type2::draw() {
         post_translate_matrix((const f32 *)&this->node_positions[11]);
         rotate_matrix_y(NULL, this->rotation_y);
         boss6type2_draw_models(&saved_look.body_textures, &saved_look.head_textures, &saved_look.attachment_textures,
-                               saved_look.model, saved_look.head_model, (uaddr)saved_look.hair_model,
-                               saved_look.attachment_model, (saddr)grab_appearance, 1.0f);
+                               saved_look.model, saved_look.head_model, saved_look.hair_model,
+                               saved_look.attachment_model, grab_appearance, 1.0f);
         pop_matrix();
     }
 }

@@ -14,6 +14,7 @@ class ModelNodePositionCapture;
 struct OlgaFlowType2ActionMsg;
 struct Boss6GridBytes;
 struct NJS_OBJECT;
+struct CharacterAppearanceFields;
 struct CollisionBody;
 struct NJS_MOTION;
 struct TBoss6Mag;
@@ -69,7 +70,7 @@ struct Boss6PlayerLook {
     NJS_OBJECT *model;
     NJS_OBJECT *head_model;
     NJS_OBJECT *hair_model;
-    u32 attachment_model;
+    NJS_OBJECT *attachment_model;
 };
 
 void copy_texlist(NJS_TEXLIST *dst, NJS_TEXLIST *src);
@@ -182,7 +183,7 @@ struct TBoss6Type2 : public TObjEnemy
     // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
     NJS_TEXLIST *grab_texlists[2];
     NJS_OBJECT *grab_models[2];
-    char *grab_appearance;  // the possessed player's name block, the appearance boss6type2_draw_models takes
+    CharacterAppearanceFields *grab_appearance;  // the possessed player's appearance, drawn by boss6type2_draw_models
     Boss6PlayerLook saved_look;
     Vec node_positions[19];       // body node positions, captured each draw
     Vec prev_node_positions[19];  // last update's node_positions

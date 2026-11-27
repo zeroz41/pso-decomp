@@ -251,7 +251,7 @@ static const s32 hair_render_flags[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
+void draw_colored_hair(f32 alpha, NJS_OBJECT *model, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
     NJS_ARGB color;
     s32 flags_masked;
     s32 second;
@@ -278,14 +278,14 @@ void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *charac
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
-    draw_chunk_object((NJS_OBJECT *)child);
+    draw_chunk_object(model);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
 }
 #pragma pop
 
-void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appearance) {
+void TCharaMaking::setup_from_data(NJS_OBJECT *model, CharacterAppearanceFields *appearance) {
     draw_colored_hair(1.0f, model, appearance, 0);
 }
 
