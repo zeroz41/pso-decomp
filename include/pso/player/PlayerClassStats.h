@@ -17,9 +17,9 @@ struct PlayerAnimTableEntry {
 };
 
 struct PlayerCastMotionRecord {
-    f32 unk0;
-    f32 unk4;
-    f32 unk8;
+    f32 pad_0;
+    f32 pad_4;
+    f32 pad_8;
     f32 cast_frame;  // motion frame on which the technique is released
     s32 hand_joint;  // joint the technique leaves from (get_hand_joint_position)
 };
