@@ -32,14 +32,12 @@ struct NJS_OBJECT;
 // literal pool (400.0, 25.0, 600.0) repeats values the Lappy
 // pool before it already holds, so they are not part of the Lappy file.
 extern Vec re2_flower_demo_shadow_scale[];
-extern Vec re2_flower_shadow_scale[];
 extern const f32 re2_flower_node_point0_y;
 extern const f32 re2_flower_node_point1_y;
 extern const f32 re2_flower_draw_scale;
 
 // FlowerRe2Data.cpp
 extern DragonAttackParams enemy_dd_attack_param_block;
-extern DragonAttackParams re2_flower_tower_attack_params;
 extern f32 *const re2_flower_movement_params;
 
 void TObjEneRe2Flower::render_demo() {

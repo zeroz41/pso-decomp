@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TObjEnemyColorFade.h"
+#include "pso/boss/DragonAttackParams.h"
 
 class TParticleCtrl;
 class TObjPlayer;
@@ -102,6 +103,9 @@ extern const f32 re2_flower_lose_target_distance;
 extern const f32 re2_flower_attack_distance;
 extern const f32 re2_flower_track_timeout;
 extern const f32 re2_flower_retarget_margin;
+// The tower variant's self-destruct blast and the draw_ground_shadow scale of render.
+extern const DragonAttackParams re2_flower_tower_attack_params;
+extern const Vec re2_flower_shadow_scale[];
 extern const f32 re2_flower_acquire_range;
 extern const f32 re2_flower_player_range_sq;
 extern const f32 re2_flower_body_center_height;
