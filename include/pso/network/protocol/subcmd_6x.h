@@ -915,30 +915,8 @@ struct G_NPCControl_6x69 {
 };
 LAYOUT_ASSERT(G_NPCControl_6x69Size, sizeof(G_NPCControl_6x69) == 0xC);
 
-// 6xA3: Olga Flow's action state. Received by handle_6xA3_olga_flow_boss_actions. Layout from
-// newserv. Size checked: OlgaFlowPlotActionMsg::initialize sets the header size to 5 words.
-struct G_OlgaFlowBossActions_6xA3 {
- struct G_EntityIDHeader header;
- u8 unknown_a1;
- u8 unknown_a2;
- u8 unknown_a3[0x0E];
-};
-LAYOUT_ASSERT(G_OlgaFlowBossActions_6xA3Size, sizeof(G_OlgaFlowBossActions_6xA3) == 0x14);
-
-// 6xA4/6xA5: Olga Flow's action state with its parameters. Received by
-// handle_6xA4_olga_flow_boss_actions and handle_6xA5_olga_flow_boss_actions. Layout from newserv.
-// Size checked: OlgaFlowActionMsg::initialize (6xA4) and OlgaFlowType2ActionMsg::initialize (6xA5)
-// set the header size to 5 words.
-struct G_OlgaFlowBossActions_6xA4_6xA5 {
- struct G_EntityIDHeader header;
- u8 what;
- u8 pos_bytes[3];
- u8 state_bytes[3];
- u8 unused1;
- u8 ext_state_bytes[4];
- u8 unused2[4];
-};
-LAYOUT_ASSERT(G_OlgaFlowBossActions_6xA4_6xA5Size, sizeof(G_OlgaFlowBossActions_6xA4_6xA5) == 0x14);
+// 6xA3, 6xA4 and 6xA5 (Olga Flow's actions) are OlgaFlowPlotActionMsg, OlgaFlowActionMsg and
+// OlgaFlowType2ActionMsg in pso/boss/olgaflow/OlgaFlowActions.h.
 
 // 6xAD: The actions of Olga Flow's subordinate parts. Received by
 // handle_6xAD_olga_flow_subordinate_boss_actions. Used by our code; size not checked against a
@@ -1685,16 +1663,7 @@ struct G_UnequipItem_6x26 {
 };
 LAYOUT_ASSERT(G_UnequipItem_6x26Size, sizeof(G_UnequipItem_6x26) == 0xC);
 
-// 6x02/6x03: Ignored: handle_6x02 and handle_6x03 are empty. Layout from newserv, not used by our
-// code yet.
-struct G_Unknown_6x02_6x03 {
- struct G_ClientIDHeader header;
- u16 unknown_a1;
- u16 unknown_a2;
- u32 unknown_a3;
- f32 unknown_a4;
- f32 unknown_a5;
-};
+// 6x02/6x03: Ignored: handle_6x02 and handle_6x03 are empty and the client never sends them.
 
 // 6x36: Ignored: handle_6x36 is empty. Layout from newserv, not used by our code yet.
 struct G_Unknown_6x36 {
