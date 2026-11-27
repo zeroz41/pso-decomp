@@ -111,7 +111,7 @@ void TObjLazerFence4::draw_model() {
   i = 0;
   do
   {
-    set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_nodes[i]), color_slot);
+    set_ginja_model_texture_slot(beam_nodes[i], color_slot);
     i += 1;
   }
   while (i < 0xC);

@@ -207,7 +207,7 @@ void TObjLazerFenceNorm::draw_model() {
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lazer_fence_texture_slots[scale_level]));
+        set_ginja_model_texture_slot(beam_part_models[i], (lazer_fence_texture_slots[scale_level]));
     }
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
@@ -346,7 +346,7 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
 void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lazer_fence_texture_slots[this->scale_level]);
+        set_ginja_model_texture_slot(beam_part_models[i], lazer_fence_texture_slots[this->scale_level]);
     }
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
