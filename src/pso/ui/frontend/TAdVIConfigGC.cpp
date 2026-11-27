@@ -27,8 +27,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
 
-struct Name_80307D00 { char s[0x18]; };
-
 // The block init() fills: who of the party stands within radius of a spot (warps; the
 // name WarpPartyCheck is inferred).
 struct WarpPartyCheck {
@@ -40,7 +38,7 @@ struct WarpPartyCheck {
     s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
     s32 in_range_mask;     // bit per client
     TWindowCheckBox *win;  // the player-name check boxes
-    Name_80307D00 names[4];
+    char names[4][0x18];
 };
 
 // Ticks the names of the players on this floor within the radius init() set (in the
@@ -102,12 +100,12 @@ void TAdVIConfigGC::open_player_names_window() {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != NULL) {
-                strncpy(((WarpPartyCheck *)this)->names[i].s, p->appearance.name, 0x17);
-                ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
+                strncpy(((WarpPartyCheck *)this)->names[i], p->appearance.name, 0x17);
+                ((WarpPartyCheck *)this)->names[i][0x17] = 0;
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i]), i);
             } else {
-                ((WarpPartyCheck *)this)->names[i].s[0] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
+                ((WarpPartyCheck *)this)->names[i][0] = 0;
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i]), i);
             }
         }
     }
