@@ -118,9 +118,9 @@ extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 }
 extern "C" {
-void __register_global_object(int, void *, void *);
-void __construct_array(void *, void *, void *, int, int);
-void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
+void *__register_global_object(void *object, void (*destructor)(), void *registration);
+void __construct_array(void *block, void *(*ctor)(void *), void *(*dtor)(void *, s16), u32 size, u32 n);
+void __destroy_arr(void *block, void *(*dtor)(void *, s16), u32 size, u32 n);
 }
 void set_area_random_seed(int a0);
 
