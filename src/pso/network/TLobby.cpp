@@ -28,6 +28,10 @@
 #include "pso/ui/frontend/TAdDialingMessageWindow.h"
 #include <stddef.h>
 #include <string.h>
+// Placement new, for the idle timer off CodeWarrior.
+#ifndef __MWERKS__
+#include <new>
+#endif
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
@@ -116,7 +120,10 @@ void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
+// TObject::render_shadows(), for CodeWarrior's hand-built idle timer vtable below.
+#ifdef __MWERKS__
 void render_shadows__7TObjectFv();
+#endif
 }
 void set_area_random_seed(int a0);
 
@@ -169,7 +176,6 @@ const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
-void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
 // On CodeWarrior lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out
 // below because the original's static initializer precedes this file's inline copies; other compilers build them.
@@ -197,6 +203,10 @@ char player_joined_message[0x80];
 char lobby_idle_timeout_text_buffer[0x100];
 u8 lobby_scroll_text_buffer[0x1000];
 
+// CodeWarrior: the original's idle timer vtable is built by hand, ahead of this file's jump tables.
+#ifdef __MWERKS__
+void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
+
 extern "C" {
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
@@ -209,6 +219,11 @@ void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     return object;
 }
 }
+#else
+TLobbyIdleTimer::~TLobbyIdleTimer() {}
+void TLobbyIdleTimer::run_task() { TLobby::update_idle_timeout(this); }
+void TLobbyIdleTimer::render() { render_idle_timeout(); }
+#endif
 
 TQuestThread *create_quest_stats_thread(s32 label) { return TQuestThread::create_in_root(label); }
 
@@ -403,8 +418,13 @@ void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
+    // CodeWarrior: the base constructor by its linker name, then the hand-built vtable.
+#ifdef __MWERKS__
     __ct__7TObjectFP7TObject(timer, parent);
     *(void ***)((s8 *)timer + 0x18) = lobby_idle_timer_vtable;
+#else
+    ::new (timer) TLobbyIdleTimer(parent);
+#endif
     getDateStamp(&date);
     DateToSeconds(&date, &t->now);
     t->start = t->now;
