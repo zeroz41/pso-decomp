@@ -192,10 +192,7 @@ void TWindowMenuInfomation::render() {
 
     draw_context = get_draw_context();
     this->draw_window_frame(draw_context);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>((this)),
-        &entry_list,
-        draw_context);
+    draw_visible_window_entries(this, &entry_list, draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
         this->heading->render(draw_context);

@@ -475,10 +475,7 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
   {
     content_kind = 0U;
     entry_list.destroy_all_items();
-    init_window_layout_entries(
-        &entry_list,
-        reinterpret_cast<const void *>(&window_fukidasi_layout_entries.value),
-        client_index);
+    init_window_layout_entries(&entry_list, &window_fukidasi_layout_entries.value, client_index);
   }
   entry = (WindowTextEntry *)get_array_entry(0);
   if (flags & 1)
