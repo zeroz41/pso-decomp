@@ -193,7 +193,7 @@ TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {
         window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x66));
         window->dispatch_without_flags(TWindowSubStatusDisp::get_message_10(0x6F), 0);
         window->dispatch_without_flags(TWindowSubStatusDisp::get_message_10(0x70), 1);
-        value = TWindowKeyBoardHard::is_card_flag_set(client_id);
+        value = is_card_flag_set(client_id);
         break;
     case 1:
         window->ensure_status_display(TWindowSubStatusDisp::get_message_10(0x67));

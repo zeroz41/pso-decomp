@@ -31,7 +31,6 @@ struct TWindowKeyBoardHard : public TWindowBase {
     static s32 test_card_flag(s32 client, s32 mask);
     static s32 test_card_flag_2(s32 client_id);
     static void set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask);
-    static s32 is_card_flag_set(s32 client_id);
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();
     static void set_bits_shift7(saddr client_id, s32 value);
@@ -61,6 +60,8 @@ int test_keyboard_card_flag_128(s32 client);
 int test_keyboard_card_flag_64(s32 client);
 int test_keyboard_card_flag_32(s32 client);
 int test_keyboard_card_flag_16(s32 client);
+// Bit 1 of the same flags (TRaderMapCore::update_target, TWindowSubQuestBoard).
+s32 is_card_flag_set(s32 client_id);
 
 LAYOUT_ASSERT(TWindowKeyBoardHard_size, sizeof(TWindowKeyBoardHard) == 0x74);
 #endif

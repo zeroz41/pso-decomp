@@ -385,7 +385,7 @@ void TRaderMapCore::advance_scroll() {
 }
 #pragma fp_contract reset
 
-// The view_flags bit update_target sets while TWindowKeyBoardHard::is_card_flag_set holds for the
+// The view_flags bit update_target sets while is_card_flag_set holds for the
 // target's entity id. A const object, not a literal: update_target and set_target_flag load it (lwz).
 static const u32 radar_view_target_flag = 1;
 
@@ -395,7 +395,7 @@ void TRaderMapCore::update_target() {
         target_player = player;
     }
     if (target_player != NULL) {
-        if (TWindowKeyBoardHard::is_card_flag_set(target_player->get_entity_id()) != 0) {
+        if (is_card_flag_set(target_player->get_entity_id()) != 0) {
             this->view_flags |= radar_view_target_flag;
             return;
         }
