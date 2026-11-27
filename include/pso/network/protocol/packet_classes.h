@@ -208,6 +208,9 @@ public:
 };
 LAYOUT_ASSERT(TRecvGenerateIDSize, sizeof(TRecvGenerateID) == 0x10);
 
+// The lobby's 80 handler; it ignores the packet.
+void handle_generate_id(TRecvGenerateID gen_id);
+
 // 81: simple mail. TProtocol::send_simple_mail sends it (0x220 bytes); TProtocol::recv_chat_message passes
 // it to receive_short_mail.
 class TChatMessage {
