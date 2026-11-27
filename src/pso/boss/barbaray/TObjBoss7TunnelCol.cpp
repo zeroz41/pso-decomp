@@ -4,7 +4,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TObjBoss7TunnelSegment.h"
+#include "pso/boss/barbaray/TObjBoss7TunnelSegment.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/barbaray/TObjBoss7TunnelCol.h"
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"

@@ -17,7 +17,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/unk/FloorMapNames.h"
+#include "pso/map/FloorMapNames.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

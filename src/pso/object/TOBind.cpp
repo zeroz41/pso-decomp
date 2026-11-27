@@ -20,7 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/quest/TQuestThread.h"
 
 

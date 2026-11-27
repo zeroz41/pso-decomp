@@ -42,7 +42,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/MenuText.h"

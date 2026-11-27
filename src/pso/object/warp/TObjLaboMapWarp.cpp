@@ -39,7 +39,7 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 
 #include "pso/npc/TObjNpcEnemy.h"
 

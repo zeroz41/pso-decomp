@@ -55,7 +55,7 @@
 #include "pso/map/FloorMapSelection.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"

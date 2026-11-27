@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
-#include "pso/unk/SharedMemory.h"
+#include "pso/system/SharedMemory.h"
 
 struct TAdTrialModemChkGC : public TAdWarningBaseGC {
     static const char *name;

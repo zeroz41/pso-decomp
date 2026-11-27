@@ -1,6 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/render/GvmTextureArchive.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"

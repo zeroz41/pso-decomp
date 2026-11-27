@@ -2,7 +2,7 @@
 #define PSO_OBJECT_CITY_TOBJCITY_SEASON_21_21_H
 
 #include "types.h"
-#include "pso/object/TObjCitySeasonBase.h"
+#include "pso/object/city/TObjCitySeasonBase.h"
 
 class TParticleCtrl;
 

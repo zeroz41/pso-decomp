@@ -15,7 +15,7 @@
 #include "pso/math/BoxCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TAttackCollider.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"

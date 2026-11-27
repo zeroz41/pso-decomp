@@ -36,7 +36,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"

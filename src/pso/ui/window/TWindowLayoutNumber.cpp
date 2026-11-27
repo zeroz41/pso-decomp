@@ -1,7 +1,7 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"

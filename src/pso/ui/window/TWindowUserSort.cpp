@@ -11,7 +11,7 @@ struct TCameraCtrl;
 #include "pso/ui/window/TWindowMainMenu1P.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/player/PlayerSlots.h"
 
 #pragma push

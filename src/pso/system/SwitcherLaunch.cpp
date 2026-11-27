@@ -7,7 +7,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/SharedMemory.h"
+#include "pso/system/SharedMemory.h"
 #include "pso/network/NetworkSettings.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"

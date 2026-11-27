@@ -39,7 +39,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/vector.h"
-#include "pso/object/TObjEneGyaranzoMine.h"
+#include "pso/enemy/gyaranzo/TObjEneGyaranzoMine.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

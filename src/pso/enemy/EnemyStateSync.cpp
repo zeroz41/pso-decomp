@@ -6,7 +6,7 @@
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
-#include "pso/boss/TBoss8DragonLeaderPart.h"
+#include "pso/boss/goldragon/TBoss8DragonLeaderPart.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/enemy/saver/TObjEneSaver.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"

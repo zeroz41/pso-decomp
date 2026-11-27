@@ -1,7 +1,7 @@
 #ifndef PSO_AUDIO_ADXFINTERNAL_H
 #define PSO_AUDIO_ADXFINTERNAL_H
 
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include <stddef.h>
 
 struct AdxStreamFile;

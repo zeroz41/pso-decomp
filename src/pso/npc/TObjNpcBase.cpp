@@ -1,6 +1,6 @@
 #pragma readonly_strings on
 #include "pso/enemy/EnemyMovement.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"

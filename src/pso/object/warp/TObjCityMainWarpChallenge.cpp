@@ -10,7 +10,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"

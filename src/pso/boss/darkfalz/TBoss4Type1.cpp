@@ -11,7 +11,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/TObjControl.h"

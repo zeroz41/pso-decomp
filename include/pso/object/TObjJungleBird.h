@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TOBJJUNGLEBIRD_H
 #define PSO_OBJECT_TOBJJUNGLEBIRD_H
 #include "types.h"
-#include "pso/object/TObjPathObj.h"
+#include "pso/object/lobby/TObjPathObj.h"
 
 struct NJS_OBJECT;
 struct NJS_MOTION;

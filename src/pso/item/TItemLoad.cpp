@@ -16,7 +16,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/prs.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/ScreenSpriteDraw.h"
 

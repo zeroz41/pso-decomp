@@ -15,7 +15,7 @@
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/ListPageIndicator.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/TextureState.h"

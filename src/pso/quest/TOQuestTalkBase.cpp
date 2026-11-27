@@ -6,7 +6,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/network/client_id.h"
 #include "pso/object/CursorAction.h"
 #include "pso/render/TextureState.h"

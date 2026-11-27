@@ -2,8 +2,8 @@
 #define PSO_UI_WINDOW_HELPITEMSTATCOMPAREROW_H
 
 #include "types.h"
-#include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 // A stat line of the help item window: its label, ":", the value and, once a compare value is
 // set, an arrow and the value the item on show would give (case 11 of init_window_layout_entries).

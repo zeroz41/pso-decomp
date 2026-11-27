@@ -9,11 +9,11 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowQuantity.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/font/MenuFontGlyphs.h"

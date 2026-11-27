@@ -15,7 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/TObjEnePanBARA.h"
+#include "pso/enemy/panarms/TObjEnePanBARA.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "dolphin/mtx.h"
 #include <stddef.h>

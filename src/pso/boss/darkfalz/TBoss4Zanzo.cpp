@@ -17,7 +17,7 @@
 #pragma dont_inline off
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/DarkFalzUtil.h"

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/ItemListRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TGameListRow.h"
 #include "pso/enemy/BattleParamTables.h"

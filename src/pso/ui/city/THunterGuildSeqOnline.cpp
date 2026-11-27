@@ -1,5 +1,5 @@
 #include "pso/system/TScreenFadeOut.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"

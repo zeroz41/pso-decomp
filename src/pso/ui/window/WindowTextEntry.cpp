@@ -12,7 +12,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/ui/window/BoundedStrlen.h"

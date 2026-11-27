@@ -19,7 +19,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

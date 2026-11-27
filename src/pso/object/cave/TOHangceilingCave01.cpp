@@ -10,7 +10,7 @@
 #include "pso/object/cave/TOHangceilingCave01KeyQuick.h"
 #include "pso/object/cave/TOHangceilingCave01Key.h"
 #include "pso/object/cave/TOHangceilingCave01Normal.h"
-#include "pso/unk/TOHangceilingCaveBase.h"
+#include "pso/object/cave/TOHangceilingCaveBase.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"

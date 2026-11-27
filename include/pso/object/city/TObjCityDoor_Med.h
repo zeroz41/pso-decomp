@@ -2,7 +2,7 @@
 #define PSO_OBJECT_CITY_TOBJCITYDOOR_MED_H
 
 #include "types.h"
-#include "pso/object/TObjCityDoorBase.h"
+#include "pso/object/city/TObjCityDoorBase.h"
 
 struct TObjCityDoor_Med : public TObjCityDoorBase {
     static const char *class_name;

@@ -26,7 +26,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TextureState.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/network/TLobby.h"

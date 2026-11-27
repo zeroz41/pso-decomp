@@ -2,7 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWDD_WS_STRING_H
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 class TWindowDD_WS_String : public TWindowBase {
 public:

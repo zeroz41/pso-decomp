@@ -10,7 +10,7 @@
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 
 #include "pso/object/TObjControl.h"
 

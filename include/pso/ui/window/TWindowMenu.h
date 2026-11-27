@@ -5,7 +5,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 
 struct NJS_POINT2;

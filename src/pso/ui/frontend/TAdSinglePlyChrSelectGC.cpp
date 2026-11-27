@@ -21,7 +21,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/ui/TAdChrSelPlayerGC.h"
+#include "pso/ui/frontend/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"

@@ -23,7 +23,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/TSymbolChatMenu.h"
+#include "pso/ui/chat/TSymbolChatMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"

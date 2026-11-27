@@ -2,7 +2,7 @@
 #define PSO_ENEMY_BEAST_TOBJENEBEAST_H
 
 #include "types.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/render/RenderFadeState.h"
 
 class TObject;

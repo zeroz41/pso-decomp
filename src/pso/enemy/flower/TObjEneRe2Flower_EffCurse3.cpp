@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/object/base/TAttackCollider.h"

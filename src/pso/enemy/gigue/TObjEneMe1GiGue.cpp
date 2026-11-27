@@ -36,7 +36,7 @@
 #include "pso/technique/TTecJelin.h"
 #include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
-#include "pso/enemy/TObjEneMe1GiGueHomingShot.h"
+#include "pso/enemy/gigue/TObjEneMe1GiGueHomingShot.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

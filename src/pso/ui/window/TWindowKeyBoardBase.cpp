@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/memory.h"
 #include "pso/system/AramPool.h"
 #include <string.h>

@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
+#include "pso/ui/frontend/TAdMultiPlyChrSelectTransitionGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

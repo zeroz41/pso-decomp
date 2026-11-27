@@ -9,7 +9,7 @@
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjMemoryBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/system/CvFs.h"
 
 

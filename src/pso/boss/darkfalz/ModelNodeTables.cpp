@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/NinjaUtil.h"

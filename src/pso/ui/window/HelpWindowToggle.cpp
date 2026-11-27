@@ -2,7 +2,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl.h"

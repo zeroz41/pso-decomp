@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TDelayedAreaMusic.h"
+#include "pso/player/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/subcmd_6x.h"

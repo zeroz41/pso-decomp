@@ -19,7 +19,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/player/LocalClientId.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/network/protocol/protocol_types.h"

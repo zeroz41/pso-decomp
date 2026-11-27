@@ -8,7 +8,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/enemy/beast/TObjEneBeast.h"

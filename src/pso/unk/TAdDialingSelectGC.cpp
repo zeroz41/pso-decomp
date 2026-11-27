@@ -19,7 +19,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobbyIdleTimer.h"
+#include "pso/network/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/audio/MusicControl.h"

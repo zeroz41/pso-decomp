@@ -24,7 +24,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"

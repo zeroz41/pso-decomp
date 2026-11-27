@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowDD_WordSelect.h"
 
 #pragma readonly_strings on

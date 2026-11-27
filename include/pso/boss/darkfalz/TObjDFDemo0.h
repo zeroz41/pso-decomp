@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 
 class TParticleCtrl;
 struct NJS_MOTION;

@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"

@@ -2,7 +2,7 @@
 #define PSO_ENEMY_DIMEDIAN_TOBJENEDIMEDIAN_H
 
 #include "types.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/MaterialShadeFade.h"
 #include <dolphin/mtx.h>

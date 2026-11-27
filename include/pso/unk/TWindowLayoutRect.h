@@ -2,7 +2,7 @@
 #define PSO_UNK_TWINDOWLAYOUTRECT_H
 
 #include "types.h"
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 
 struct WindowLayoutRectRecord {
     s32 type;

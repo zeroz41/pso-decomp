@@ -8,7 +8,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/unk/ModelNodeTables.h"
+#include "pso/boss/darkfalz/ModelNodeTables.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"

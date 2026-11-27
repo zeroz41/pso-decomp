@@ -16,7 +16,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/TObjPathObj.h"
+#include "pso/object/lobby/TObjPathObj.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjSeabedDolphin.h"

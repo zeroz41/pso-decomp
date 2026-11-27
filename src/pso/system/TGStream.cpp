@@ -1,5 +1,5 @@
 #include <string.h>
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "pso/system/MallocLoadFilePrc.h"

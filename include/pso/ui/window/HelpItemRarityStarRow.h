@@ -2,8 +2,8 @@
 #define PSO_UI_WINDOW_HELPITEMRARITYSTARROW_H
 
 #include "types.h"
-#include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 // A row of at least ten star slots with the first `stars` lit (case 10 of
 // init_window_layout_entries).

@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct TWindowPartyStatus : public TWindowSimpleStatus {
     TWindowPartyStatus(s32 slot, u8 *descriptor);

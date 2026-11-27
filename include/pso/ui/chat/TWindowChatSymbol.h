@@ -5,7 +5,7 @@
 
 struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct SymbolChatPreset;
 struct SymbolChatPart;

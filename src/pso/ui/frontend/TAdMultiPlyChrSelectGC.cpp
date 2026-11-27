@@ -39,7 +39,7 @@
 #include <string.h>
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
-#include "pso/ui/TAdChrSelPlayerGC.h"
+#include "pso/ui/frontend/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 s32 TAdSinglePlyChrSelectGC::check_slot_flags(s32 slot, u32 mask) {

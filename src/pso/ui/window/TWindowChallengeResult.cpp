@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowChallengeResult.h"
-#include "pso/unk/TWindowLayoutNumber.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowLayoutNumber.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"

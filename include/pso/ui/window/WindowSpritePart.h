@@ -5,7 +5,7 @@
 
 struct NJS_TEXLIST;
 
-#include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/TWindowLayoutEntry.h"
 #include <stddef.h>
 
 struct SpritePartLayoutRecord;

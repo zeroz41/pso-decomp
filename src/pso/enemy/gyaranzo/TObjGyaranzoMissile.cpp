@@ -7,7 +7,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TObjEneGyaranzoMine.h"
+#include "pso/enemy/gyaranzo/TObjEneGyaranzoMine.h"
 #include "pso/render/TextureState.h"
 
 #include "pso/player/TObjPlayer.h"

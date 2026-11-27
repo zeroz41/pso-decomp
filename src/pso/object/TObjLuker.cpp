@@ -25,7 +25,7 @@
 #include "pso/technique/TTelepipeEffect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/map/FloorMapSelection.h"

@@ -6,7 +6,7 @@ struct GuildCardRecord;
 #include "types.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct PageIndicator;
 struct MenuGlyphEntry;

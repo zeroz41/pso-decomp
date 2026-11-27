@@ -2,7 +2,7 @@
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/math/MatrixVector.h"
 #include "types.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include <stdlib.h>
 #include "pso/technique/TechniqueParams.h"
 #include "pso/player/TObjPlayer.h"

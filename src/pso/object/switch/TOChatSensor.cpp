@@ -1,7 +1,7 @@
 #pragma defer_codegen on
 #pragma readonly_strings on
 
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
 
 #include "pso/ui/Language.h"

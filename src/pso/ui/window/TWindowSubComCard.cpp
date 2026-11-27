@@ -31,7 +31,7 @@
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/network/TProtocol.h"
-#include "pso/unk/GuildCardRecord.h"
+#include "pso/network/GuildCardRecord.h"
 
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"

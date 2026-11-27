@@ -24,7 +24,7 @@ const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 
 TWindowDD_WS_WordLayout word_select_page_layout = {

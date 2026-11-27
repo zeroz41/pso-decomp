@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 #include "pso/system/task/TMainTask.h"
 
 void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {

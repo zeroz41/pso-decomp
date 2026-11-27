@@ -1,0 +1,36 @@
+#ifndef PSO_UI_WINDOW_TWINDOW_STATUS_GAUGE_H
+#define PSO_UI_WINDOW_TWINDOW_STATUS_GAUGE_H
+#include "types.h"
+#include <stddef.h>
+#include "pso/ui/window/TWindowLayoutEntry.h"
+
+struct NJS_POINT2;
+
+struct StatusGaugeLayout;
+
+// A layout entry that renders a gauge and moves its displayed width toward a target.
+class TWindowStatusGauge : public TWindowLayoutEntry {
+public:
+    virtual ~TWindowStatusGauge();
+    virtual void update();
+    virtual void render(WindowDrawContext *context);
+    virtual void calc_bar_width();
+
+    f32 depth;
+    f32 x;
+    f32 y;
+    f32 length;   // full bar width: the bar shows target * length / maximum
+    u32 color;
+    f32 width;
+    f32 maximum;
+    f32 target;
+
+    TWindowStatusGauge(StatusGaugeLayout *source, s32 client);
+    void draw_status_gauge_bar(WindowDrawContext *context, NJS_POINT2 *position, f32 depth, f32 length);
+    void draw_gauge_frame(WindowDrawContext *context, NJS_POINT2 *position, f32 depth);
+};
+
+LAYOUT_ASSERT(TWindowStatusGauge_size, sizeof(TWindowStatusGauge) == 0x28);
+LAYOUT_ASSERT(TWindowStatusGauge_target_offset, offsetof(TWindowStatusGauge, target) == 0x24);
+
+#endif

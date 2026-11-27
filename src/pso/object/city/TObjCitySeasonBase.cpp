@@ -18,7 +18,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TObjCitySeasonBase.h"
+#include "pso/object/city/TObjCitySeasonBase.h"
 #include "pso/object/city/TObjCity_Season_XmasWreath.h"
 #include "pso/object/city/TObjCity_Season_EasterEgg.h"
 #include "pso/object/city/TObjCity_Season_ValentineHeart.h"

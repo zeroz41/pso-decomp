@@ -28,7 +28,7 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"

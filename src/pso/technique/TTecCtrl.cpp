@@ -48,7 +48,7 @@
 #include "pso/technique/TTecThunderCharge.h"
 #include "pso/technique/TTecLightCharge.h"
 #include "pso/technique/TTecSupportCharge.h"
-#include "pso/object/TTecMegidCharge.h"
+#include "pso/technique/TTecMegidCharge.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjBase.h"

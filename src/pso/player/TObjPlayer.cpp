@@ -17,7 +17,7 @@
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"
 #include "pso/player/LocalClientId.h"
-#include "pso/network/TPlyOnCountOver.h"
+#include "pso/player/TPlyOnCountOver.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ChunkMaterialState.h"
 

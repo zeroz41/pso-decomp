@@ -5,7 +5,7 @@
 
 class WindowHeading;
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct TWindowSubStatusDisp;
 

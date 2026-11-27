@@ -6,7 +6,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>

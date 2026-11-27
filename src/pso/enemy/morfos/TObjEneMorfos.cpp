@@ -26,7 +26,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/TObjEneMorfosGroundShot.h"
+#include "pso/enemy/morfos/TObjEneMorfosGroundShot.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/render/TObjEnemyColorFade.h"

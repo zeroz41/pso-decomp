@@ -1,7 +1,7 @@
 #include <string.h>
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/NinjaChunk.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"

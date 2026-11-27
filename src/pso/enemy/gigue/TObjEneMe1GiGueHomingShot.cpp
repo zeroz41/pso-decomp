@@ -1,7 +1,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/enemy/TObjEneMe1GiGueHomingShot.h"
+#include "pso/enemy/gigue/TObjEneMe1GiGueHomingShot.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjMotion.h"

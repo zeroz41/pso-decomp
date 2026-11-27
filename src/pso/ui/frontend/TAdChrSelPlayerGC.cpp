@@ -1,7 +1,7 @@
 #pragma defer_codegen on
 #include "pso/system/MatrixStack.h"
 #include "types.h"
-#include "pso/ui/TAdChrSelPlayerGC.h"
+#include "pso/ui/frontend/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/BmlResource.h"

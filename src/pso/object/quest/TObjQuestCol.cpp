@@ -1,7 +1,7 @@
 // The quest collision triggers (TObjQuestColBase and its subclasses) and TQuestColCtrl, the task that owns them.
 // One TU: the class names in .rodata/.sdata run ColBase..Col2 in this source order, while the text runs Col2..ColBase
 // and the vtables Col2..ColBase (reverse key-function order): built -inline off,deferred (configure.py).
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"

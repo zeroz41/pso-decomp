@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowLayoutRecord.h"
 
 struct TWindowDeposit : public TWindowBase {
     TWindowDeposit(s16 client);

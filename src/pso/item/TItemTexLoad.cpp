@@ -1,6 +1,6 @@
 #include <string.h>
 #include "pso/render/GvmTextureArchive.h"
-#include "pso/system/Adxf.h"
+#include "pso/audio/Adxf.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/player/PrsTextureLoad.h"

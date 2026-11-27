@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/TBoss8DragonLeaderPart.h"
+#include "pso/boss/goldragon/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"

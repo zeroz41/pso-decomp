@@ -33,7 +33,7 @@
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMain.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

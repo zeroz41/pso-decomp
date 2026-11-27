@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TWindowStatusGauge.h"
+#include "pso/ui/window/TWindowStatusGauge.h"
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -20,7 +20,7 @@
 #include "pso/item/TItem.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/ItemListRow.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/item/item_create.h"
 #include "pso/ui/window/ScreenQuadDraw.h"

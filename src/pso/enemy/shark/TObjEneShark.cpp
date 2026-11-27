@@ -16,7 +16,7 @@
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/enemy/beast/TObjEneBeastBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjChara.h"

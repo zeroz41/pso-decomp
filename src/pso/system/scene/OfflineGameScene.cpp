@@ -1,5 +1,5 @@
 #include "pso/system/scene/OfflineGameScene.h"
-#include "pso/unk/TQuestManager.h"
+#include "pso/quest/TQuestManager.h"
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/player/LocalClientId.h"
