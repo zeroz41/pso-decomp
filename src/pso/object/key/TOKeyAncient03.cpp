@@ -167,7 +167,7 @@ void TOKeyAncient03::cleanup_refs() {
     if (key_ancient03_texture_variants != NULL) {
         free_if_valid(key_ancient03_texture_variants[1]);
         if (key_ancient03_texture_variants != NULL) {
-            mem_free(key_ancient03_texture_variants);
+            delete[] key_ancient03_texture_variants;
             key_ancient03_texture_variants = NULL;
         }
     }
@@ -181,7 +181,7 @@ void TOKeyAncient03::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, NULL);
     NJS_TEXLIST **textures;
     key_ancient03_model_archive = resource;
-    textures = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*textures));
+    textures = new NJS_TEXLIST *[2];
     key_ancient03_texture_variants = textures;
     textures[0] = key_ancient03_model_archive->models[0].texlist;
     key_ancient03_texture_variants[1] = LoadPvmFileTls("fs_obj_o_doorpanelg.gvm");

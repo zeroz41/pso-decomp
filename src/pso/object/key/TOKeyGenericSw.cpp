@@ -108,7 +108,7 @@ void TOKeyGenericSw::free_shared_resources() {
     if (key_generic_sw_texture_lists != NULL) {
         free_if_valid(key_generic_sw_texture_lists[2]);
         if (key_generic_sw_texture_lists != NULL) {
-            mem_free(key_generic_sw_texture_lists);
+            delete[] key_generic_sw_texture_lists;
             key_generic_sw_texture_lists = NULL;
         }
     }
@@ -131,7 +131,7 @@ void TOKeyGenericSw::load_resources() {
         key_generic_sw_shared_resource_ptrs[0] = resource;
         resource = new BmlResource(1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, NULL);
         key_generic_sw_shared_resource_ptrs[1] = resource;
-        key_generic_sw_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*key_generic_sw_texture_lists));
+        key_generic_sw_texture_lists = new NJS_TEXLIST *[3];
         key_generic_sw_texture_lists[0] = key_generic_sw_shared_resource_ptrs[0]->models[0].texlist;
         key_generic_sw_texture_lists[1] = key_generic_sw_shared_resource_ptrs[1]->models[0].texlist;
         key_generic_sw_texture_lists[2] = LoadPvmFileTls("fs_obj_hanyousu_light_ao_j.GVM");
@@ -140,7 +140,7 @@ void TOKeyGenericSw::load_resources() {
         key_generic_sw_shared_resource_ptrs[0] = resource;
         resource = new BmlResource(1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, NULL);
         key_generic_sw_shared_resource_ptrs[1] = resource;
-        key_generic_sw_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*key_generic_sw_texture_lists));
+        key_generic_sw_texture_lists = new NJS_TEXLIST *[3];
         key_generic_sw_texture_lists[0] = key_generic_sw_shared_resource_ptrs[0]->models[0].texlist;
         key_generic_sw_texture_lists[1] = key_generic_sw_shared_resource_ptrs[1]->models[0].texlist;
         key_generic_sw_texture_lists[2] = LoadPvmFileTls("fs_obj_hanyousu_light_ao.GVM");

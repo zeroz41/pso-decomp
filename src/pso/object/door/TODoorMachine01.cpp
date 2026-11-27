@@ -218,7 +218,7 @@ void TODoorMachine01::destroy() {
     if (texture_lists != NULL) {
         free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
-            mem_free(texture_lists);
+            delete[] texture_lists;
             texture_lists = NULL;
         }
     }
@@ -230,7 +230,7 @@ void TODoorMachine01::destroy() {
 
 void TODoorMachine01::load_resources() {
     BmlResource *resource;
-    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists = new NJS_TEXLIST *[2];
     if (enable_v2_features == 1 && is_online_ready() != 0) {
         resource = new BmlResource(1, &door_machine01_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;

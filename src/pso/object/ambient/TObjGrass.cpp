@@ -206,7 +206,7 @@ void TObjGrass::load_resources() {
         (NJS_MOTION *)grass_resource_bundle->motions[grass_grass_type_param_table[2].motion].motion, 0x46, 0x48);
     grass_right_attack_points->sample_two_nodes((NJS_OBJECT *)grass_resource_bundle->models[0].model,
         (NJS_MOTION *)grass_resource_bundle->motions[grass_grass_type_param_table[3].motion].motion, 0x3C, 0x3E);
-    grass_attack_params = (AttackParams **)mem_alloc(0xC);
+    grass_attack_params = new AttackParams *[3];
     grass_base_stats = register_boss(0x4E);
     grass_attack_params[0] = (AttackParams *)dispatch_shared_handler_b(0x51);
     grass_attack_params[2] = (AttackParams *)dispatch_shared_handler_b(0x52);
@@ -223,7 +223,7 @@ void TObjGrass::load_resources() {
 
 void TObjGrass::destroy_all() {
     if (grass_attack_params != NULL) {
-        mem_free(grass_attack_params);
+        delete[] grass_attack_params;
         grass_attack_params = NULL;
     }
     if (grass_right_attack_points != NULL) {

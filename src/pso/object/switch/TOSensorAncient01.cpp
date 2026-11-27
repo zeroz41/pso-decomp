@@ -142,7 +142,7 @@ void TOSensorAncient01::destroy() {
         free_if_valid(ancient_sensor_resource_pair_table[1].plain);
         free_if_valid(ancient_sensor_resource_pair_table[1].red);
         if (ancient_sensor_resource_pair_table != NULL) {
-            mem_free(ancient_sensor_resource_pair_table);
+            delete[] ancient_sensor_resource_pair_table;
             ancient_sensor_resource_pair_table = NULL;
         }
     }
@@ -155,7 +155,7 @@ void TOSensorAncient01::destroy() {
 void TOSensorAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &sensor_ancient01_resource_descriptor, 0, 0, NULL);
     sensor_ancient01_model_resource = resource;
-    ancient_sensor_resource_pair_table = (TOSensorAncient01Textures *)mem_alloc(2 * sizeof(*ancient_sensor_resource_pair_table));
+    ancient_sensor_resource_pair_table = new TOSensorAncient01Textures[2];
     ancient_sensor_resource_pair_table[0].plain = sensor_ancient01_model_resource->models[0].texlist;
     ancient_sensor_resource_pair_table[0].red = LoadPvmFileTls("fs_obj_o_sensor01r.gvm");
     ancient_sensor_resource_pair_table[1].plain = LoadPvmFileTls("fs_obj_o_sensor02.gvm");

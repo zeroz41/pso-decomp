@@ -58,7 +58,7 @@ void TOFenceAncient04::unload_resources() {
         free_if_valid(texlists[2]);
         free_if_valid(texlists[3]);
         if (texlists != NULL) {
-            mem_free(texlists);
+            delete[] texlists;
             texlists = NULL;
         }
     }
@@ -71,7 +71,7 @@ void TOFenceAncient04::unload_resources() {
 void TOFenceAncient04::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_saku_6x4_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
-    NJS_TEXLIST **lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(NJS_TEXLIST *));
+    NJS_TEXLIST **lists = new NJS_TEXLIST *[4];
     texlists = lists;
     lists[0] = model_resource->models[0].texlist;
     texlists[1] = LoadPvmFileTls(texture_file_b);

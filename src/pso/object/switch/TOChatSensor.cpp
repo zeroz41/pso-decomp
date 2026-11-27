@@ -273,7 +273,7 @@ TOChatSensorCapture::TOChatSensorCapture(TObject *parent) : TObject(parent) {
     s32 i = 0;
     do {
         lifetime[i] = 0;
-        messages[i] = (char *)mem_alloc(0x100);
+        messages[i] = new char[0x100];
         memset(messages[i], 0, 4);
         i += 1;
     } while (i != 4);
@@ -282,7 +282,7 @@ TOChatSensorCapture::TOChatSensorCapture(TObject *parent) : TObject(parent) {
 
 #pragma pop
 TOChatSensorCapture::~TOChatSensorCapture() {
-    for (int i = 0; i != 4; i++) mem_free(messages[i]);
+    for (int i = 0; i != 4; i++) delete[] messages[i];
     chat_sensor_capture_instance = 0;
 }
 

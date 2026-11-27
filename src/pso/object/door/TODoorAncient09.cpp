@@ -77,7 +77,7 @@ TODoorAncient09::~TODoorAncient09() {
 void TODoorAncient09::load_resources() {
     BmlResource *resource = new BmlResource(1, &door_ancient09_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
-    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists = new NJS_TEXLIST *[2];
     texture_lists[0] = bml_resource->models[0].texlist;
     texture_lists[1] = LoadPvmFileTls("fs_obj_o_door05l_g.gvm");
 }
@@ -86,7 +86,7 @@ void TODoorAncient09::destroy() {
     if (texture_lists != NULL) {
         free_if_valid(texture_lists[1]);
         if (texture_lists != NULL) {
-            mem_free(texture_lists);
+            delete[] texture_lists;
             texture_lists = NULL;
         }
     }
