@@ -833,7 +833,6 @@ void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 extern "C" {
 s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
-void release_players_from_cutscene(void);
 
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
