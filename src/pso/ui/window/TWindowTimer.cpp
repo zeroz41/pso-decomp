@@ -34,24 +34,24 @@ const char *TWindowTimer::class_name = "TWindowTimer";
 
 #pragma push
 #pragma fp_contract on
-void init_timer_window_layout(TWindowTimer *self) {
+void TWindowTimer::init_timer_window_layout() {
     f32 width;
     WindowTextEntry *entry;
-    self->flags |= 1;
+    flags |= 1;
     width = (f32)calc_text_width("000:000");
-    entry = (WindowTextEntry *)self->get_array_entry(0);
+    entry = (WindowTextEntry *)get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void init_timer_window_layout_alt(TWindowTimer *self) {
+void TWindowTimer::init_timer_window_layout_alt() {
     f32 width;
     WindowTextEntry *entry;
-    self->flags &= ~1;
+    flags &= ~1;
     width = (f32)calc_text_width("0'00\"00");
-    entry = (WindowTextEntry *)self->get_array_entry(0);
+    entry = (WindowTextEntry *)get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
@@ -119,13 +119,13 @@ void TWindowTimer::draw_tab(WindowDrawContext *context) {
 
 TWindowTimer *TWindowTimer::create() {
     TWindowTimer *window_timer = new TWindowTimer();
-    init_timer_window_layout(window_timer);
+    window_timer->init_timer_window_layout();
     return window_timer;
 }
 
 TWindowTimer *TWindowTimer::create_alt() {
     TWindowTimer *window_timer = new TWindowTimer();
-    init_timer_window_layout_alt(window_timer);
+    window_timer->init_timer_window_layout_alt();
     return window_timer;
 }
 
