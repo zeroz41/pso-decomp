@@ -52,12 +52,10 @@ struct Pso3CharacterFileSlot {
     TPlyCharData chardata;
     Pso3CharacterSaveRecord record;
     CharacterCopyStamp copy_stamp;
-    u8 pad_39B0[0x39B4 - 0x39B0];
+    s32 pad_39B0;
 };
 
-struct Words_80202C68 { u32 w[32]; };
-
-struct Blk_80202C68 { u32 a; Words_80202C68 b; };
+struct Blk_80202C68 { u32 a; u32 b[32]; };
 
 struct Pair_80202C68 { u32 a; u32 b; };
 

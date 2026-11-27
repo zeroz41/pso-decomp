@@ -22,10 +22,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct B8_801FDFB8 { u32 w[2]; };
-
-struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 copy_stamp; s32 f2794; };
-
 
 s32 Pso3CharacterFile::get_cipher_seed() {
     return cipher_seed;
@@ -115,17 +111,13 @@ Pso3CharacterFile &Pso3CharacterFile::operator=(Pso3CharacterFile &from) {
     return *this;
 }
 
-#define dst ((P_801FDFB8 *)to)
-#define src ((P_801FDFB8 *)from)
 Pso3CharacterFileSlot *copy_character_file_slot(Pso3CharacterFileSlot *to, Pso3CharacterFileSlot *from) {
-    dst->char_data = src->char_data;
+    to->chardata = from->chardata;
     to->record = from->record;
-    dst->copy_stamp = src->copy_stamp;
-    dst->f2794 = src->f2794;
+    __memcpy(&to->copy_stamp, &from->copy_stamp, sizeof(to->copy_stamp));
+    to->pad_39B0 = from->pad_39B0;
     return to;
 }
-#undef dst
-#undef src
 
 Pso3CharacterSaveRecord &Pso3CharacterSaveRecord::operator=(Pso3CharacterSaveRecord &source) {
     Pso3SaveRecordView *d = (Pso3SaveRecordView *)this;
