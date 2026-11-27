@@ -18,7 +18,7 @@ struct TechniqueContactProjectile;
 struct TechniqueContactVtable {
     u8 beforeWall[0x18];
     void (*wall)(TechniqueContactProjectile*);
-    u32 unknown1c;
+    u32 pad_1c;
     void (*hit)(TechniqueContactProjectile*, TechniqueContactActor*);
 };
 struct TechniqueContactProjectile {
