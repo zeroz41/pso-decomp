@@ -34,7 +34,7 @@ void bind_item_texture(TWindowLoadItemTexture *window) {
 
 #pragma push
 #pragma fp_contract on
-TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client) {
+TWindowLoadItemTexture *create_load_item_texture_window(const NJS_POINT2 *position, const f32 *extent, s32 client) {
     TWindowLoadItemTexture *window;
     WindowSpritePart *sprite;
 
@@ -70,7 +70,7 @@ const char *TWindowLoadItemTexture::class_name = "TWindowLoadItemTexture";
 
 extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };
 
-TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 client) {
+TWindowLoadItemTexture *TWindowLoadItemTexture::create(const NJS_POINT2 *position, s32 client) {
     TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)load_item_texture_window_extent, client);
     reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0))->set_sprite_uv_bounds(0.0f, 0.0f, 0.625f, 0.46875f);
     return window;
@@ -101,7 +101,7 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
     texture_loader->queue_destruction();
 }
 
-TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 client)
+TWindowLoadItemTexture::TWindowLoadItemTexture(const NJS_POINT2 *position, f32 *extent, s32 client)
     : TWindowBase((u8 *)&TWindowLoadItemTexture::window_descriptor, (s16)client, (u8 *)position) {
     m_name = TWindowLoadItemTexture::class_name;
     switch (TCameraCtrl::get_camera_id()) {

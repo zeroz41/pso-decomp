@@ -72,7 +72,7 @@ void TWindowChoiceSetting::shrink_to_selected_entry() {
 TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
     const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows) {
     set_popup_size(extent, rows);
-    return new TWindowChoiceSetting(const_cast<NJS_POINT2 *>(position), rows);
+    return new TWindowChoiceSetting(position, rows);
 }
 
 void TWindowChoiceSetting::set_popup_size(const NJS_POINT2 *extent, s32 rows) {
@@ -146,7 +146,7 @@ void TWindowChoiceSetting::run_task() {
 TWindowChoiceSetting::~TWindowChoiceSetting() {
 }
 
-TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenuInfomation(parent, rows) {
+TWindowChoiceSetting::TWindowChoiceSetting(const NJS_POINT2 *position, s32 rows) : TWindowMenuInfomation(position, rows) {
     m_name = TWindowChoiceSetting::class_name;
     choice_flags = 0;
 }

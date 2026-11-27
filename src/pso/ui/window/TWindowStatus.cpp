@@ -167,13 +167,13 @@ TWindowStatus::~TWindowStatus() {
 
 
 
-TWindowStatus::TWindowStatus(void *position, s32 client, u8 *descriptor)
+TWindowStatus::TWindowStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor)
     : TWindowSimpleStatus(position, client, descriptor) {
     m_name = TWindowStatus::class_name;
 }
 
 TWindowSimpleStatus *create_status_window(saddr client) {
-    void *position = (void *)get_window_layout_position(0x1C);
+    const NJS_POINT2 *position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
         return TWindowSimpleStatus::create(position, (s32)client);
     }

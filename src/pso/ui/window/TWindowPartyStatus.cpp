@@ -86,7 +86,7 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 }
 
 TWindowPartyStatus::TWindowPartyStatus(s32 slot, u8 *descriptor)
-    : TWindowSimpleStatus((void *)get_window_layout_position(0xAB), local_client_id, descriptor) {
+    : TWindowSimpleStatus(get_window_layout_position(0xAB), local_client_id, descriptor) {
     m_name = TWindowPartyStatus::class_name;
     client_index = (s16)slot;
 }

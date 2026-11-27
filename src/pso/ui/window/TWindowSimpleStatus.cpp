@@ -464,7 +464,7 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
     }
 }
 
-TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descriptor)
+TWindowSimpleStatus::TWindowSimpleStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor)
     : TWindowBase(descriptor, (s16)client, (u8 *)position) {
     m_name = TWindowSimpleStatus::class_name;
     client_index = (s16)client;
@@ -475,6 +475,6 @@ TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descrip
     }
 }
 
-TWindowSimpleStatus *TWindowSimpleStatus::create(void *position, s32 client) {
+TWindowSimpleStatus *TWindowSimpleStatus::create(const NJS_POINT2 *position, s32 client) {
     return new TWindowSimpleStatus(position, client, (u8 *)&simple_status_window_layout);
 }

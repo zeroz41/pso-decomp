@@ -1801,7 +1801,7 @@ force_active:
   - can_fit_candidate__19TWindowKeyBoardBaseFPv
   - candidate_fits__19TWindowKeyBoardBaseFPcPc
   - text_resource__9TLanguage
-  - __ct__22TWindowLoadItemTextureFPvPfl
+  - __ct__22TWindowLoadItemTextureFPC10NJS_POINT2Pfl
   - __ct__13TWindowLockOnFlUs
   - TWindowLockOn__update_for_enemy
   - TWindowLockOn__update_for_item
@@ -1813,7 +1813,7 @@ force_active:
   - class_name__18TWindowPartyStatus
   - __ct__15TWindowQuantityFl
   - client_scan_index__17TWindowReturnCity
-  - __ct__13TWindowStatusFPvlPUc
+  - __ct__13TWindowStatusFPC10NJS_POINT2lPUc
   - class_name__21TWindowSubComCardList
   - update_matching_card
   - draw_window_scanline__FP11TWindowBaselP17WindowDrawContextf
