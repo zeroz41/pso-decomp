@@ -40,7 +40,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowPartyStatus.h"
 #include "pso/ui/window/TWindowBreakIn.h"

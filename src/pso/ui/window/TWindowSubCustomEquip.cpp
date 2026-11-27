@@ -22,7 +22,7 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"

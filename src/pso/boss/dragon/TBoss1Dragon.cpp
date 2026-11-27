@@ -25,7 +25,6 @@ struct NJS_OBJECT;
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/enemy/EnemyStateEvent.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/network/TGameProtocol.h"
