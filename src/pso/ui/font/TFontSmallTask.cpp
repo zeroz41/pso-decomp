@@ -185,10 +185,10 @@ void create_boss_health_font(Vec *pos, s32 color, s32 life, const char *label, s
     create_font_small_task(pos, color, life, 0, label, value, 0xFFFF);
 }
 
-s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {
+TFontSmallTask *TObjEneEpsilonGuard::create_damage_font(const Vec *pos, s32 color, s32 life, s32 damage) {
     text_builder_reset();
     text_builder_append_int(damage);
-    return (saddr)new TFontSmallTask((Vec *)(saddr)pos, color, life, 0, get_shared_text_buffer(), 0xFFFF);
+    return new TFontSmallTask((Vec *)pos, color, life, 0, get_shared_text_buffer(), 0xFFFF);
 }
 
 TFontSmallTask *TOCtrlDubchik::create_font(Vec *pos, s32 color, s32 life, const char *text) {

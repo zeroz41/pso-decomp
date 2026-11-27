@@ -53,6 +53,7 @@
 
 
 #include "pso/enemy/lappy/TObjEneLappy.h"
+#include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 
 #include "pso/player/DamageBookkeeping.h"
 #include "pso/object/base/TObjCharaData.h"
@@ -136,7 +137,6 @@ s32 calc_shock_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f3
 
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
-s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
@@ -1400,7 +1400,12 @@ void TObjChara::show_miss_popup(Vec *pos) {
 
 void TObjChara::try_apply_damage(const Vec *pos, s32 damage) {
     if ((this->test_actor_flags(0x02000000) == 0) && (this->is_locally_controlled() == 0) && (pos != NULL) && ((s16) damage >= 0) && ((TObjPlayer::get_player_count() == 0) || ((u16) this->entity_id >= 0x1000U))) {
-        create_damage_font__19TObjEneEpsilonGuardFllll((uaddr)pos, -1, 0x14, (s16) damage);
+        // CodeWarrior: the original moves pos into place before extending damage; a plain (s16) cast reverses that.
+#ifdef __MWERKS__
+        TObjEneEpsilonGuard::create_damage_font(pos, -1, 0x14, (s16)(s64)damage);
+#else
+        TObjEneEpsilonGuard::create_damage_font(pos, -1, 0x14, (s16)damage);
+#endif
     }
 }
 
