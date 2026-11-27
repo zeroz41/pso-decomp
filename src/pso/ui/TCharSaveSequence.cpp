@@ -226,13 +226,13 @@ void TCharSaveSequence::update_select_state() {
 void TCharSaveSequence::handle_load_result() {
     s32 r;
     CharacterFile *obj;
-    saddr src;
+    u8 *src;
     switch (poll_memcard_result(chr_select_state)) {
     case 0:
         seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
-        src = (saddr)download_buffer;
+        src = (u8 *)download_buffer;
         obj = new CharacterFile;
-        memcpy(obj, (void *)(src + 0x2048), 0x1156C);
+        memcpy(obj, src + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(obj);
         if (TAdSinglePlyChrSelectGC::init_and_register(obj) == 0) {
             char_save_message_flags &= ~1;

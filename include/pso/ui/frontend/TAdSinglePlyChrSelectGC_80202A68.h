@@ -61,7 +61,12 @@ struct Blk_80202C68 { u32 a; Words_80202C68 b; };
 
 struct Pair_80202C68 { u32 a; u32 b; };
 
-struct Tail_80202C68 { Pair_80202C68 p0, p1, p2, p3, p4, p5, p6; };
+// load_and_verify_character_save hands both strings to the serial-number and access-key entry.
+struct Tail_80202C68 {
+    char serial_number[0x10];
+    char access_key[0x10];
+    Pair_80202C68 p4, p5, p6;
+};
 
 // The PSO3_CHARACTER memory card file: seven character slots behind a CRC32.
 struct Pso3CharacterFile {

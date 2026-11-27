@@ -159,7 +159,7 @@ s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *out_value) {
     buf = (u8 *)alloc(0x6000);
     if (TAdSinglePlyChrSelectGC::load_player_slot(chan, memory_card_system_dir_name, buf) == 0 &&
         TAdSinglePlyChrSelectGC::wait_for_card_load(chan) == 1) {
-        h = (SystemSaveData *)(buf + 0x2048);
+        h = (SystemSaveData *)(buf + sizeof(CardSaveHeader));
         v = h->serial_seed;
         ok = 1;
         *out_value = v;
@@ -429,7 +429,7 @@ s32 TAdSinglePlyChrSelectGC::load_save_from_card() {
         return 0;
     }
     memset(p, 0, 0x1156C);
-    memcpy(p, buf + 0x2048, 0x1156C);
+    memcpy(p, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
     TAdSinglePlyChrSelectGC::decrypt_char_data(p);
     if (card_character_save_buffer->save_count != p->save_count) {
         delete p;
@@ -660,7 +660,7 @@ s32 save_active_character_to_card(void) {
         chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = TAdEnterSerialAccessGC::get_serial_seed();
         file = new CharacterFile;
         memset(file, 0, 0x1156C);
-        memcpy(file, buf + 0x2048, 0x1156C);
+        memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
             get_selected_save_record(file),
@@ -786,7 +786,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = TAdEnterSerialAccessGC::get_serial_seed();
         file = new CharacterFile;
         memset(file, 0, 0x1156C);
-        memcpy(file, buf + 0x2048, 0x1156C);
+        memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
             get_selected_save_record(file),
@@ -1832,7 +1832,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             chr_select_serial_seeds[0] = t;
             file = new CharacterFile;
             memset(file, 0, 0x1156C);
-            memcpy(file, buf + 0x2048, 0x1156C);
+            memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
             TAdSinglePlyChrSelectGC::decrypt_char_data(file);
             ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
@@ -2359,7 +2359,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = TAdEnterSerialAccessGC::get_serial_seed();
         file = new CharacterFile;
         memset(file, 0, 0x1156C);
-        memcpy(file, buf + 0x2048, 0x1156C);
+        memcpy(file, buf + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {

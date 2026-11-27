@@ -263,6 +263,6 @@ void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, cons
 s32 get_guild_card_file_block_count(void);
 // Loads and decrypts the slot A character file: copies its serial into serial and its access key into desc;
 // 1 when the file's CRC32 holds.
-s32 load_and_verify_character_save(char *serial, char *desc);
+s32 load_and_verify_character_save(char *serial_number, char *access_key);
 
 #endif

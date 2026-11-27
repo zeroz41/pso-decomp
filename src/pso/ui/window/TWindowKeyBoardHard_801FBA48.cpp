@@ -106,11 +106,11 @@ void decrypt_character_save(Pso3CharacterFile *save_data) {
     chr_select_rng_state.xor_buffer((u32 *)save_data, 0x194AC);
 }
 
-s32 load_and_verify_character_save(char *serial, char *desc) {
+s32 load_and_verify_character_save(char *serial_number, char *access_key) {
     s32 sum;
     u8 *buf;
     s32 res;
-    u8 *data;
+    Pso3CharacterFile *data;
     s32 saved;
     buf = (u8 *)alloc(0x214B0);
     res = TAdPlayerLoadGC::find_card_file(0, memory_card_character_dir_name);
@@ -133,14 +133,14 @@ s32 load_and_verify_character_save(char *serial, char *desc) {
     }
     memcard_access_active = 0;
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
-    data = (u8 *)alloc(0x194B0);
-    memcpy(data, buf + 0x2048, 0x194B0);
-    decrypt_character_save((Pso3CharacterFile *)data);
-    saved = *(s32 *)data;
-    *(s32 *)data = 0;
-    res = calc_crc32_bitwise(data, 0x194B0);
-    strncpy(serial, (char *)(data + 0x193F0), 0x10);
-    strncpy(desc, (char *)(data + 0x19400), 0x10);
+    data = (Pso3CharacterFile *)alloc(sizeof(Pso3CharacterFile));
+    memcpy(data, buf + sizeof(CardSaveHeader), sizeof(Pso3CharacterFile));
+    decrypt_character_save(data);
+    saved = data->checksum;
+    data->checksum = 0;
+    res = calc_crc32_bitwise((u8 *)data, sizeof(Pso3CharacterFile));
+    strncpy(serial_number, data->tail.serial_number, sizeof(data->tail.serial_number));
+    strncpy(access_key, data->tail.access_key, sizeof(data->tail.access_key));
     safe_free(data);
     safe_free(buf);
     return (u8)(saved == res);
