@@ -15531,7 +15531,7 @@ force_active:
   - set_tev_stage_mode__Fl
   - set_gogo_ball_score__Fll
   - set_triggers__8TItemMagFPCUcPCUc
-  - set_model__14TDrawableModelFPv
+  - set_model__14TDrawableModelFP10NJS_OBJECT
   - set_owner_id__21PlayerFollowParticlesFUs
   - init__24G_DragonBossActions_6x12Fv
   - set_next_floor_index__15FloorTransitionFl

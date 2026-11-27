@@ -172,7 +172,7 @@ void TMotionModel::set_frame_count_from_motion() {
 }
 
 void TMotionModel::set_motion(NJS_MOTION *motion) { this->motion = motion; }
-void TDrawableModel::set_model(void *model) { this->model = model; }
+void TDrawableModel::set_model(NJS_OBJECT *model) { this->model = model; }
 
 TMotionModel::TMotionModel() {
     reset();

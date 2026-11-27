@@ -43,7 +43,7 @@ void TMotionModel::stop() {
     state = 1;
 }
 
-void *TDrawableModel::get_model() {
+NJS_OBJECT *TDrawableModel::get_model() {
     return model;
 }
 
