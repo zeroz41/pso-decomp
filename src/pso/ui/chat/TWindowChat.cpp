@@ -407,7 +407,7 @@ TWindowChat::~TWindowChat() {
         composer = NULL;
     }
 }
-TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
+TWindowChat::TWindowChat(TObject *object, ChatShortcut *result) : TObject(object) {
     m_name = class_name;
     this->inputMode = 0;
     this->flags = 2;
@@ -418,7 +418,7 @@ TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
     auxiliaryWindow = NULL;
     wordSelectWindow = NULL;
     symbolChatWindow = NULL;
-    this->result = static_cast<ChatShortcut *>(result);
+    this->result = result;
     this->open_next_input_window();
 }
 

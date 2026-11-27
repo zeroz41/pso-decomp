@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/ui/chat/ChatShortcut.h"
 #include "pso/ui/window/WindowCtrlCallback.h"
 
 struct NJS_POINT2;
@@ -47,7 +48,7 @@ struct TWindowCtrl : public TObject {
     TWindowCtrlPlayer *players[12];
     TWindowSimpleStatus *simple_status[3];
     TWindowFukidasi *balloons[4];
-    void *submission;
+    ChatShortcut submission;
     virtual void run_task();
     virtual void render();
     static s32 get_flag_bit3();
@@ -141,7 +142,6 @@ struct TWindowCtrl : public TObject {
     static void clear_flag_8();
     static void set_flag_bit0();
     static void clear_active_flag();
-    u8 pad_98[0x50];
     static void set_flag_bit2();
     static void clear_flag_bit2();
     s32 is_flag_bit2_set();

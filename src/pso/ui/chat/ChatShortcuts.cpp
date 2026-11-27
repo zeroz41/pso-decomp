@@ -47,16 +47,16 @@ void chat_dispatch_accepted_result(ChatShortcut *submission) {
         return;
     }
 }
-s32 chat_accept_submission(saddr submission) {
+s32 chat_accept_submission(ChatShortcut *submission) {
     if (TWindowCtrl::is_submit_cooldown_clear() == 0) {
         return 0;
     }
     TWindowCtrl::start_submit_cooldown();
-    chat_dispatch_accepted_result((ChatShortcut *)submission);
+    chat_dispatch_accepted_result(submission);
     return 1;
 }
 
-void send_chat_shortcut(s32 index) { chat_accept_submission((saddr)get_chat_shortcut(index)); }
+void send_chat_shortcut(s32 index) { chat_accept_submission(get_chat_shortcut(index)); }
 
 #pragma inline_depth(1)
 #pragma auto_inline on

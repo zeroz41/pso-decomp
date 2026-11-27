@@ -7,7 +7,7 @@
 #include "pso/ui/city/BankItemRecord.h"
 #include "pso/system/ChoiceSearchSelection.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#include "pso/ui/window/WordSelectMessage.h"
+#include "pso/ui/chat/ChatShortcut.h"
 
 // A character's battle mode results: wins in each place (first to fourth) and battles left early.
 // The client keeps the remaining counts and values only to send them on.
@@ -21,29 +21,6 @@ struct BattleRecord {
 
 LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x1C);
 
-// What a chat shortcut sends: 0 none, 1 chat text, 2 word select message, 3 symbol chat.
-struct ChatShortcutKind {
-    u32 value;
-
-    ChatShortcutKind &operator=(const ChatShortcutKind &src);
-};
-
-// What a chat shortcut sends, by its kind.
-union ChatShortcutBody {
-    char text[0x50];            // 1: chat text
-    WordSelectMessage message;  // 2: word select message
-    s32 symbol_chat_preset;     // 3: index of the symbol chat preset
-};
-
-// One chat shortcut of the character's save record: the kind and the text, message or symbol chat it sends.
-struct ChatShortcut {
-    ChatShortcutKind kind;
-    ChatShortcutBody body;
-
-    ChatShortcut &operator=(const ChatShortcut &src);
-};
-
-LAYOUT_ASSERT(ChatShortcut_size, sizeof(ChatShortcut) == 0x54);
 
 // The parts of a character's save record that are read by name.
 struct CharacterSaveRecord {

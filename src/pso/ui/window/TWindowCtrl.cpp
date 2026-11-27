@@ -427,7 +427,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         chat_window->open_input();
-        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->submission) != 0)) {
+        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission(&this->submission) != 0)) {
             consume_active_flag(chat_window);
         }
         if (chat_window->is_visible() != 0) {

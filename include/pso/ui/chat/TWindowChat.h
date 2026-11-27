@@ -12,7 +12,7 @@ class TWindowChat : public TObject {
 public:
     static const char *class_name;
     virtual void render();
-    TWindowChat(TObject *object, void *result);
+    TWindowChat(TObject *object, ChatShortcut *result);
     virtual ~TWindowChat();
     // Flags 0x40 or 0x200: the chat closes once a message is sent.
     s32 closes_after_send();

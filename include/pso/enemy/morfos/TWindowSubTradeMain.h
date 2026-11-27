@@ -9,6 +9,7 @@ class TWindowMenuIconLine;
 struct TWindowMenu;
 class TWindowHelpItem;
 #include "pso/system/task/TObject.h"
+#include "pso/ui/chat/ChatShortcut.h"
 
 struct TWindowMainMenu;
 struct TWindowMenu;
@@ -46,7 +47,7 @@ struct TWindowSubTradeMain : public TObject {
     TWindowInputNumber *input_number;
     TWindowHelpItem *help_item;
     TWindowChat *chat;
-    void *submission;
+    ChatShortcut submission;
     static int get_warp_state();
     void finish();
     static void draw_offer(u32 item_id, s32 amount);
@@ -62,7 +63,6 @@ struct TWindowSubTradeMain : public TObject {
     TWindowMenu *build_trade_menu();
     virtual void render();
     virtual void run_task();
-    u8 pad_58[0x50];
     void forward_to_child(s32 trade_state);
     void notify_child_if_present(s32 trade_state);
     void draw_item_slot();
