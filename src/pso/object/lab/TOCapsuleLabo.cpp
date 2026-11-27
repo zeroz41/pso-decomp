@@ -75,10 +75,10 @@ void TOCapsuleLabo::render() {
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(lid->model);
         light = lid->child;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         post_translate_matrix(light->pos);
         draw_ginja_object(light);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }

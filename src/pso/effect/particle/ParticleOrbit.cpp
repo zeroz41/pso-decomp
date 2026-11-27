@@ -45,7 +45,7 @@ TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, Angle3 *di
     return new TParticleOrbit(entry, position, direction, parent, flags, target_id);
 }
 
-TParticle *TParticleCtrl::alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent) {
+TParticle *alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent) {
     return new TParticleOrbit(param, pos, dir, parent);
 }
 
@@ -231,14 +231,14 @@ void TParticleOrbit::render() {
                 rotate_matrix_y(0, rot_y);
                 saved_model_render_flags = model_render_flags;
                 if (flags & 0x400) {
-                    TParticleCtrl::begin_effect_render();
+                    begin_effect_render();
                     load_projected_texture_matrix(1.33f);
                 }
                 rotate_matrix_y(0, sprite.angle);
                 if ((flags & 0x1000) && (camera_ctrl_instance != NULL)) {
                     rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 }
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 if (flags & 0x400) {
                     setup_particle_tev(0);
                 } else {
@@ -262,7 +262,7 @@ void TParticleOrbit::render() {
                     reset_particle_tev();
                 }
                 model_render_flags = saved_model_render_flags;
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 pop_matrix();
             }
         } else {

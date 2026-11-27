@@ -54,12 +54,12 @@ void TBGLightning::render() {
         dir.x = sin_table_lookup(angle);
         dir.y = -1.0f;
         dir.z = cos_table_lookup(angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_additive_blend();
         draw_flash(&dir);
         draw_bolt(&dir);
         set_default_alpha_blend();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

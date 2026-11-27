@@ -408,7 +408,7 @@ void TObjEneMe1GiGue::render() {
     }
     pop_matrix();
     restore_scene_lighting();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (!(actorFlags & 0x800) && ok != 0) {
         Vec v;
         v.x = v.y = v.z = (1.0f - 0.01f * flightHeight) * (5.0f * scale.x);

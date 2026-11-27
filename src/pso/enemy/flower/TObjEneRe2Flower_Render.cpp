@@ -63,7 +63,7 @@ void TObjEneRe2Flower::render_demo() {
     set_alpha_ref_override(0);
     draw_chunk_object(model);
     restore_alpha_ref();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     if (is_tower_variant() == 0 && is_rare_variant() != 0) {
         texlist->textures[0].texaddr = save8;
@@ -128,7 +128,7 @@ void TObjEneRe2Flower::render() {
             re2_flower_node_index = -1;
             toggle_particle_effect();
             draw_with_alt_model(c);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
             re2_flower_node_index = 0;
             toggle_particle_effect();
@@ -145,7 +145,7 @@ void TObjEneRe2Flower::render() {
             } else {
                 draw_motion_model();
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         set_chunk_model_node_callback(0);
         restore_alpha_ref();

@@ -179,7 +179,7 @@ void TPhotonGolla::run_task() {
 void TPhotonGolla::render() {
     if (visible != 0) {
         golla_photon_blast_buffer_pair->scroll_uvs(uv_scroll, 0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
@@ -201,7 +201,7 @@ void TPhotonGolla::render() {
         model_render_flags = saved_model_render_flags;
         clear_photon_blast_joint_callback();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

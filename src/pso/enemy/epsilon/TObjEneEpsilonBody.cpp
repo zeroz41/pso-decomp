@@ -1023,7 +1023,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
             draw_motion_model();
         }
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (flags & 2) {
         set_chunk_model_node_callback(NULL);
     }
@@ -1049,7 +1049,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

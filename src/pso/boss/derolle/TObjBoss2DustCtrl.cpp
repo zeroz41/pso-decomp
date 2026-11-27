@@ -121,7 +121,7 @@ s32 TObjBoss2DustCtrl::next_strip_slot() {
 }
 
 void boss2_dust_draw_at(const Vec *position, s32 slot) {
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     push_matrix();
     post_translate_matrix(&position->x);
     draw_trail_strip(&boss2_dust_output_table[slot * 6], 6, 0);

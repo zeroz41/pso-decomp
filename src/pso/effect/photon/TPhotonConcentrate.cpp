@@ -18,8 +18,8 @@
 const char *TPhotonConcentrate::class_name = "TPhotonConcentrate";
 
 void TPhotonConcentrate::render() {
-    TParticleCtrl::begin_effect_render();
-    TParticleCtrl::end_effect_render();
+    begin_effect_render();
+    end_effect_render();
 }
 
 void TPhotonConcentrate::run_task() {

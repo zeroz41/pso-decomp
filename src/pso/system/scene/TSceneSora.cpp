@@ -40,7 +40,7 @@ s32 TSceneSora::has_sky_motion;
 
 void TSceneSora::render() {
     if ((s32) TSceneSora::sky_active_flag != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(get_bml_texlist(sky_bml_resource, 0));
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
@@ -50,7 +50,7 @@ void TSceneSora::render() {
             draw_ginja_object(sky_model);
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

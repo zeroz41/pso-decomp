@@ -331,7 +331,7 @@ void TObjEneSlime::render() {
             clear_chunk_render_flags();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -592,7 +592,7 @@ void TObjEneSlimeOne::render() {
         scale_matrix_vec3(0, (u8 *)&this->draw_scale);
         this->animation->draw(deferred);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (this->alpha < 1.0f) {
             TObjPlayer::init_render_globals();
         }

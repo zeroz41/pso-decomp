@@ -867,7 +867,7 @@ void TObjEneSaver::render() {
             }
             break;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_chunk_model_node_callback(NULL);
         VecCopy(&particle_position, &saver_particle_node_position.pos);
         pop_matrix();

@@ -469,7 +469,7 @@ void TObjEneDubchik::render() {
             model_render_flags = saved_model_render_flags;
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             if (!(actorFlags & 0x800) && (drew != 0)) {
                 Vec v = {1.5f, 1.5f, 1.5f};
                 draw_ground_shadow(&v, 0);

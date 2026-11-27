@@ -142,9 +142,9 @@ void TObjLaboDesignBase::draw_node_tree(NJS_OBJECT *node) {
     do {
         flags = node->evalflags;
         if (flags & 0x100000) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
         } else {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         push_matrix();
         if (!(flags & 1)) {
@@ -177,7 +177,7 @@ void TObjLaboDesignBase::render_model() {
     rotate_matrix_y(0, rotation_y);
     draw_node_tree(get_bml_model(model_resource, 0));
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 typedef void (TObjLaboDesignBase::*RenderAction)();

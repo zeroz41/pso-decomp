@@ -308,7 +308,7 @@ TObjSeabedSuiso_CH::~TObjSeabedSuiso_CH() {
 
 void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         update_state();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
         push_matrix();
@@ -407,10 +407,10 @@ void *TObjSeabedSuiso_CH::create(void *set_data) {
 
 void TObjSeabedSuisoBrakable::notify_break(NJS_OBJECT *node) {
     if (get_model12_node(0) == node || get_model12_node(1) == node || get_model12_node(2) == node) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         return;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 

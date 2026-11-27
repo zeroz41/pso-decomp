@@ -239,7 +239,7 @@ void TODoorAncient08::draw_switch_lights() {
     rotate_matrix_y(NULL, rotation_y);
     draw_ginja_model(root->model);
     draw_ginja_model(root->child->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     for (i = 0; i < 4; i++) {
         if (on[i] != 0) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
@@ -256,7 +256,7 @@ void TODoorAncient08::draw_switch_lights() {
         draw_ginja_model(pair[1]->model);
         pop_matrix();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

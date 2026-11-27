@@ -66,7 +66,7 @@ void TOSensorGeneral01::render() {
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[0]));
         draw_ginja_model(object->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         object = object->child;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 1]));
@@ -79,7 +79,7 @@ void TOSensorGeneral01::render() {
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 3]));
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         object = object->sibling;
         push_matrix();
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);

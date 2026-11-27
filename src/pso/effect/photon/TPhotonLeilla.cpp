@@ -54,7 +54,7 @@ void TPhotonLeilla::reset_material_color(u8 count) {
 void TPhotonLeilla::render() {
     if (visible != 0) {
         leilla_photon_buffer_pair->scroll_uvs(uv_scroll, 0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
@@ -76,7 +76,7 @@ void TPhotonLeilla::render() {
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

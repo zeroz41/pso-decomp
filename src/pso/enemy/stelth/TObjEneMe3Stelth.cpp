@@ -1656,7 +1656,7 @@ void TObjEneMe3Stelth::render() {
         } else {
             s32 i;
             if (stealthed != 0) {
-                TParticleCtrl::begin_effect_render();
+                begin_effect_render();
                 if (behavior_flags & 8) {
                     setup_capture_blend_tev();
                     model_render_flags |= 0x8021;
@@ -1708,11 +1708,11 @@ void TObjEneMe3Stelth::render() {
         copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 void TObjEneMe3Stelth::setup_move() {
     if (get_target_info() != 0) {
@@ -1806,7 +1806,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
                 textures[i].texaddr = save[i];
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 void TObjEneMe3Stelth::state_stealth_on(s32 mode) {

@@ -45,7 +45,7 @@ void TQuadSpriteSclCol::render() {
     cx = screen_projection.center_x;
     cy = screen_projection.center_y;
     sh = sw * (480.0f / (480.0f * screen_projection.width));
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     begin_screen_draw(1);
     set_texture_list(definition->texlist);
     set_draw_texture_and_color(definition->texture, definition->color);
@@ -99,7 +99,7 @@ void TQuadSpriteSclCol::render() {
         }
         end_screen_draw();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     quad_sprite_reset_entries();
     set_default_alpha_blend();
 }

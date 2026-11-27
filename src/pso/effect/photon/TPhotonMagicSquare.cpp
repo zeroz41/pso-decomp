@@ -23,7 +23,7 @@
 const char *photon_magic_square_class_name = "TPhotonMagicSquare";
 
 void TPhotonMagicSquare::render() {
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
@@ -48,7 +48,7 @@ void TPhotonMagicSquare::render() {
     model_render_flags = saved_model_render_flags;
     copy_argb(&color, &saved);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 #pragma push

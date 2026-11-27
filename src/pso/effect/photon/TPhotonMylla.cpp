@@ -52,7 +52,7 @@ void TPhotonMylla::reset_material_color(u8 count) {
 #pragma opt_common_subs off
 void TPhotonMylla::render() {
     if (visible != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
@@ -76,7 +76,7 @@ void TPhotonMylla::render() {
         model_render_flags = saved_model_render_flags;
         clear_photon_blast_joint_callback();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

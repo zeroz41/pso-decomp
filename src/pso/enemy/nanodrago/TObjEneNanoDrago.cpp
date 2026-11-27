@@ -399,7 +399,7 @@ void TObjEneNanoDrago::render() {
         }
         pop_matrix();
         restore_scene_lighting();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (!(actorFlags & 0x800) && (rendered != 0)) {
             shadowRadius = -(0.01f * flightHeight - 1.0f) * (5.0f * scale.x);
             shadowScale.z = shadowRadius;

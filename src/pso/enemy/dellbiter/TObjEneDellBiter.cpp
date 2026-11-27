@@ -1516,7 +1516,7 @@ void TObjEneDellBiter::render() {
         } else if (cam != 0) {
             camera_fade->clear_flag_and_notify();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
     } else if (is_split_screen() == 0) {
@@ -1555,7 +1555,7 @@ void TObjEneDellBiter::render_demo() {
         draw_chunk_object(model);
         clear_motion_packed_rotation();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pool_data reset

@@ -207,7 +207,7 @@ void TBoss3VoloptHiraisin::render() {
         }
         pop_matrix();
         restore_scene_lighting();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         if (position.y < 50.0f) {
             push_matrix();

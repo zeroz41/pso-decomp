@@ -809,7 +809,7 @@ void TObjEneRecobox::render() {
             } else {
                 draw_motion_model();
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             update_primary_light();
             if (fading_in != 0) {
@@ -862,7 +862,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         draw_chunk_object(this->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     push_matrix();

@@ -286,7 +286,7 @@ void TObjOnlineEnding::render() {
         online_ending_scene_origin.z = -100.0f + online_ending_scene_z_offset;
         online_ending_scene_translation_initialized = 1;
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     post_translate_matrix(&online_ending_scene_origin.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
@@ -319,7 +319,7 @@ void TObjOnlineEnding::render() {
             pop_matrix();
         }
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TObjOnlineEnding::create_result_window() {

@@ -612,7 +612,7 @@ void TRaderMapCore::begin_map_view(int mode) {
     Vec dir = { 0.0f, -1.0f, 0.0f };
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
     set_light(&dir, &color, 1.0f);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
 }
 #pragma pop
 
@@ -622,7 +622,7 @@ void TRaderMapCore::setup_view(s32 mode) {
     camera_ctrl_instance->setup_default_view(0);
     set_view_scissor(0, &radar_map_view_scissor_table[mode]);
     TObjLight::apply_distant_light();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TRaderMapCore::draw_backdrop(TRaderMapCore *unused, s32 mode) {
@@ -653,9 +653,9 @@ void TRaderMapCore::draw_backdrop(TRaderMapCore *unused, s32 mode) {
     colors[2].color = color;
     colors[3].color = color;
     set_default_alpha_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_polygon_2d(&desc, 4, 0x16, -10.0f);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TRaderMapCore::draw_compass(s32 mode) {
@@ -673,7 +673,7 @@ void TRaderMapCore::draw_compass(s32 mode) {
         sprite.tlist = radar_frame_texlist;
         sprite.tanim = radar_sprite_texanims;
         color = 0xFFFFFFFF;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         compass_xy = &radar_compass_positions[mode][0];
         marker_xy = compass_xy + 2;
         sprite.p.x = marker_xy[0] + radar_sprite_texanims[1].cx;
@@ -686,7 +686,7 @@ void TRaderMapCore::draw_compass(s32 mode) {
         sprite.ang = map_angle;
         set_additive_blend();
         draw_compass_sprite(&sprite, 0, -1, 0x21, 0.8f);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

@@ -75,7 +75,6 @@ struct TWindowDD : public TObject
     s32 pad_104;
     static s32 apply_both_choices(void *unused, saddr buttons);
     static s32 check_all_ready(s32 floor);
-    void update_com_card();
     void enter_state_19();
     void enter_state_18();
     void enter_state_9();

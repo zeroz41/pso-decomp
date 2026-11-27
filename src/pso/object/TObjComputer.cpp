@@ -170,9 +170,9 @@ void TObjComputer::draw_model() {
         rotate_matrix_by_node_angles(screen_model->ang, screen_model->evalflags & NJD_EVAL_ZXY_ANG);
         draw_ginja_object(screen_model);
         if (screen_model->child != NULL) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_object(screen_model->child);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     } else {
         draw_ginja_object(screen_model);

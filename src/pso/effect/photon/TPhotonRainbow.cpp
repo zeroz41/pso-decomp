@@ -18,7 +18,7 @@ void TPhotonRainbow::render() {
         position.x = camera_ctrl_instance->pos.x;
         position.z = camera_ctrl_instance->pos.z;
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     texlist = ring_texlist[0];
     post_translate_matrix(&position.x);
@@ -33,7 +33,7 @@ void TPhotonRainbow::render() {
     set_texture_list(texlist);
     draw_chunk_object(ring_model[1]);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TPhotonRainbow::run_task() {

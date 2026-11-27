@@ -243,7 +243,7 @@ void TOTrapAncient02::draw_effect_chain() {
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
     draw_ginja_model(n->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
@@ -255,7 +255,7 @@ void TOTrapAncient02::draw_effect_chain() {
     rotate_matrix_y(0, spin_angle);
     draw_ginja_model(n->model);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     pop_matrix();
 }
@@ -280,7 +280,7 @@ void TOTrapAncient02::render_particle_chain() {
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
@@ -300,7 +300,7 @@ void TOTrapAncient02::render_particle_chain() {
     draw_ginja_model(n->model);
     reset_particle_tev();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     pop_matrix();
 }

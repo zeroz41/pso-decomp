@@ -24,8 +24,8 @@
 const char *TPhotonLaser::class_name = "TPhotonLaser";
 
 void TPhotonLaser::render() {
-    TParticleCtrl::begin_effect_render();
-    TParticleCtrl::end_effect_render();
+    begin_effect_render();
+    end_effect_render();
 }
 
 void TPhotonLaser::run_task() {

@@ -106,7 +106,7 @@ void TODoorCave03::render() {
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x10;
         set_constant_material(&light_color);
@@ -122,7 +122,7 @@ void TODoorCave03::render() {
         draw_ginja_model(node->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

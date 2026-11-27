@@ -126,9 +126,9 @@ void TObjCityMainWarpChallenge::render() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_object(city_common_model_archive->models[12].model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, (f32)frame);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

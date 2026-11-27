@@ -269,7 +269,7 @@ void TItemMagSub::render() {
         pop_matrix();
         drawing = NULL;
         if (test_flags(0x20)) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             copy_argb(&model_material_color, &saved_model_draw_color);
             model_render_flags = saved_model_render_flags;
             clear_flags(0x20);
@@ -307,7 +307,7 @@ void TItemMagSub::render_shadows() {
         pop_matrix();
         drawing = NULL;
         if (test_flags(0x20)) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             copy_argb(&model_material_color, &saved_model_draw_color);
             model_render_flags = saved_model_render_flags;
             clear_flags(0x20);
@@ -402,14 +402,14 @@ void TItemMagSub::apply_node_oscillation(void *node) {
         if (test_flags(0x20) == 0) {
             model_render_flags |= 0x10;
             set_constant_material((const NJS_ARGB *)material_parameters);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             set_flags(0x20);
         }
         if (selected_node != 2) {
             selected_node++;
         }
     } else if (test_flags(0x20) != 0) {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         clear_flags(0x20);

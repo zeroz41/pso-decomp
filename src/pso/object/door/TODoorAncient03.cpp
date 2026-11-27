@@ -107,7 +107,7 @@ void TODoorAncient03::render() {
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             pop_matrix();
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
@@ -118,7 +118,7 @@ void TODoorAncient03::render() {
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }

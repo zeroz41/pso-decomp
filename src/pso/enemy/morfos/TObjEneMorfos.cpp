@@ -1192,7 +1192,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     set_chunk_model_node_callback(NULL);
     pop_matrix();
     update_primary_light();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 // inferred name: the draw_ground_shadow scale in render.
@@ -1366,7 +1366,7 @@ void TObjEneMorfos::render_demo() {
         draw_model_motion(model, anim, frame);
         clear_motion_packed_rotation();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

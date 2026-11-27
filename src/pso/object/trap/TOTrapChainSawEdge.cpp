@@ -598,13 +598,13 @@ void TOTrapChainSawKey::draw_model() {
     draw_ginja_motion(saw_model, (NJS_MOTION *)motion, animation_end_frame);
     set_model_node_callback(NULL);
     if (switch_on == 1) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(light_model, light_motion, light_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TOTrapChainSawKey::check_player_contact() {
@@ -619,17 +619,17 @@ void TOTrapChainSawKey::draw_node_callback(NJS_OBJECT *object) {
     s32 i;
     for (i = 0; i < 5; i++) {
         if (object == chain_saw_sekigai2m_light_nodes[i]) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             return;
         }
     }
     for (i = 0; i < 5; i++) {
         if (object == chain_saw_sekigai4m_light_nodes[i]) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             return;
         }
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 

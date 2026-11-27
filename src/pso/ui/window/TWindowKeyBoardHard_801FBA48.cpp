@@ -40,9 +40,9 @@ void draw_ginja_box_tree(NJS_OBJECT *node) {
             scale_current_matrix(node->scl);
         }
         if (!(flags & 0x100000)) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
         }
         if (!(flags & 8)) {
             draw_ginja_model(node->model);

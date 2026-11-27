@@ -415,7 +415,7 @@ void TObjEneGyaranzo::render() {
             }
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             if (!(actorFlags & 0x800) && (draw_shadow != 0)) {
                 Vec shadow_scale = {3.0f, 3.0f, 3.0f};
                 TObjEnemy::draw_ground_shadow(&shadow_scale, 0);

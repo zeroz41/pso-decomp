@@ -277,7 +277,7 @@ void TObjDoor::draw_locked() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_object(model_resource_ptrs.body);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(model_resource_ptrs.laser, motion_table[1], this->accentFrame);
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
@@ -294,7 +294,7 @@ void TObjDoor::draw_locked() {
     set_ginja_model_texture_slot(g2->signal_back->model, 0xB);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -312,7 +312,7 @@ void TObjDoor::draw_closed() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_object(model_resource_ptrs.body);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     NJS_ARGB color = label_color_table[this->label];
@@ -328,7 +328,7 @@ void TObjDoor::draw_closed() {
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -338,14 +338,14 @@ void TObjDoor::draw_closing() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g1->signal_front->model, 0xA);
     DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -355,7 +355,7 @@ void TObjDoor::draw_opening() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     NJS_ARGB color = label_color_table[this->label];
@@ -371,7 +371,7 @@ void TObjDoor::draw_opening() {
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -381,14 +381,14 @@ void TObjDoor::draw_model() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g1->signal_front->model, 0xA);
     DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

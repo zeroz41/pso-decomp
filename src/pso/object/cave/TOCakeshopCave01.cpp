@@ -70,7 +70,7 @@ void TOCakeshopCave01::render() {
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         node = node->child;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         for (i = 0; i < 8; i++) {
             if (blink_fade[i] < 0.0f) {
                 push_matrix();
@@ -81,7 +81,7 @@ void TOCakeshopCave01::render() {
             }
             node = node->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

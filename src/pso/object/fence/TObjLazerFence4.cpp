@@ -120,9 +120,9 @@ void TObjLazerFence4::draw_model() {
   post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);
   draw_ginja_object(this->post_model);
-  TParticleCtrl::begin_effect_render();
+  begin_effect_render();
   draw_ginja_model_with_motion(this->beam_model, motion, animation_frame);
-  TParticleCtrl::end_effect_render();
+  end_effect_render();
   pop_matrix();
 }
 

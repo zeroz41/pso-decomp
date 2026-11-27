@@ -139,9 +139,9 @@ void TObjDoorJung::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object(get_bml_model(door_jung_resource_handle, 0));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(get_bml_model(door_jung_resource_handle, 1));
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

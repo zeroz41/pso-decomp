@@ -1078,14 +1078,14 @@ void TItem::end_material_color() {
 
 void TItem::begin_effect_render() {
     if (item_render_state.test_flags_any(ITEM_RENDER_EFFECT) == 0) {
-        TParticleCtrl::begin_effect_render();
+        ::begin_effect_render();
         item_render_state.set(ITEM_RENDER_EFFECT);
     }
 }
 
 void TItem::end_effect_render() {
     if (item_render_state.test_flags_any(ITEM_RENDER_EFFECT) != 0) {
-        TParticleCtrl::end_effect_render();
+        ::end_effect_render();
         item_render_state.clear(ITEM_RENDER_EFFECT);
     }
 }
@@ -1481,14 +1481,14 @@ void TItem::render_model() {
     TItemLoad::get_drop_model(drop_model, &model, &texture);
     if (model != NULL) {
         set_draw_list_mask(3);
-        TParticleCtrl::begin_effect_render();
+        ::begin_effect_render();
         set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        ::end_effect_render();
         set_default_alpha_blend();
         restore_draw_list_mask();
     }
@@ -1507,7 +1507,7 @@ void TItem::render_present_box() {
         copy_argb(&saved_model_draw_color, &model_material_color);
         model_render_flags |= 0x10;
         set_draw_list_mask(3);
-        TParticleCtrl::begin_effect_render();
+        ::begin_effect_render();
         set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -1517,7 +1517,7 @@ void TItem::render_present_box() {
         set_constant_material(&item_box_secondary_colors[box_color]);
         draw_ginja_model(box->child->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        ::end_effect_render();
         set_default_alpha_blend();
         restore_draw_list_mask();
         copy_argb(&model_material_color, &saved_model_draw_color);

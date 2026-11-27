@@ -1485,7 +1485,7 @@ void TObjEneRe7Berura::render() {
                 re7_berura_detached_part_states[arm].show();
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         return;
     }
@@ -1531,6 +1531,6 @@ void TObjEneRe7Berura::render_demo() {
         draw_model_motion(model, mot, frame);
         clear_motion_packed_rotation();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }

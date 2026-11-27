@@ -77,7 +77,7 @@ void TODoorVoShip::render() {
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
         set_constant_material(&light_color);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         node = light_model;
         push_matrix();
         post_translate_matrix(node->pos);
@@ -103,7 +103,7 @@ void TODoorVoShip::render() {
             pop_matrix();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();

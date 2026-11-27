@@ -399,7 +399,7 @@ void TBoss3VoloptP02::render() {
         }
         pop_matrix();
         restore_scene_lighting();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         fade.clear_flag_and_notify();
     }
 }

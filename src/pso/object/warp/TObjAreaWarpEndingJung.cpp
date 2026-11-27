@@ -454,9 +454,9 @@ void TObjMapWarpForest::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object(baseModel);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(beamModel, motion, frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -660,7 +660,7 @@ void TObjAreaWarpForest::render() {
         push_matrix();
         post_translate_matrix(m->pos);
         draw_ginja_model(m->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         m = m->child;
         while (m != NULL) {
             push_matrix();
@@ -671,11 +671,11 @@ void TObjAreaWarpForest::render() {
             pop_matrix();
             m = m->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -752,7 +752,7 @@ void TObjAreaWarpQuest::render() {
         push_matrix();
         post_translate_matrix(m->pos);
         draw_ginja_model(m->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         m = m->child;
         while (m != NULL) {
             push_matrix();
@@ -763,11 +763,11 @@ void TObjAreaWarpQuest::render() {
             pop_matrix();
             m = m->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -869,7 +869,7 @@ void TObjAreaWarpEnding::render() {
     push_matrix();
     post_translate_matrix(root->pos);
     draw_ginja_model(root->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     for (root = root->child; root != 0; root = root->sibling) {
         push_matrix();
         post_translate_matrix(root->pos);
@@ -878,11 +878,11 @@ void TObjAreaWarpEnding::render() {
         draw_ginja_model(root->model);
         pop_matrix();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -1087,9 +1087,9 @@ void TObjWarpString::render() {
     draw_menu_text(pos.xy.x, yb, text, color);
     draw_menu_text(xr, yb, text, color);
     color = ((u8)alpha << 24) | 0xFFFFFF;
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_menu_text(pos.xy.x, y, text, color);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 #pragma pop
 
@@ -1156,9 +1156,9 @@ void TObjAreaWarpEndingJung::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjWarpJung::render_warp(0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TObjWarpJung::render_warp_effect(1, (s32) this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

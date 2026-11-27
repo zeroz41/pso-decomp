@@ -1038,7 +1038,7 @@ void TObjEneBm3FlyNest::render() {
                 } else {
                     draw_motion_model();
                 }
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 set_chunk_model_node_callback(NULL);
                 pop_matrix();
             }
@@ -1102,7 +1102,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, motion_frame);
         clear_motion_packed_rotation();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     push_matrix();

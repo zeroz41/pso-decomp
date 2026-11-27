@@ -5169,7 +5169,7 @@ void TBoss1Dragon::render() {
             set_chunk_model_node_callback(dragon_capture_node_points);
             toggle_particle_effect();
             TObjMotion::draw();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             set_chunk_model_node_callback(NULL);
             current_scene_light->debug_scene_light_hook();
             pop_matrix();

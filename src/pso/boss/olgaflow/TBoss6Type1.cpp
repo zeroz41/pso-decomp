@@ -2138,5 +2138,5 @@ void TBoss6Type1::draw_model() {
     draw_part_motions();
     TBoss6PlotFalz::update_camera_target();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }

@@ -33,7 +33,7 @@ void draw_blob_shadow(s32 force_draw) {
         set_depth_buffer_settings_1();
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_shadow_quad(&sprite, 0, 0x20);
         sprite.p.x = 0.0f;
         sprite.p.y = 0.0f;
@@ -44,7 +44,7 @@ void draw_blob_shadow(s32 force_draw) {
         sprite.p.x = 0.0f;
         sprite.p.y = -4.9910388f;
         draw_shadow_quad(&sprite, 0, 0x2C);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_saved_depth_alpha_state();
     }
 }

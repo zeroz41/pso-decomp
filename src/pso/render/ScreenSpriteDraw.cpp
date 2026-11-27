@@ -487,7 +487,7 @@ void TObjPlayer::render_tree(void *model) {
 
 void render_tick(void) {
     run_tasks();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     GXSetZMode(GX_TRUE, GX_ALWAYS, GX_FALSE);
     TCameraCtrl::restore_full_screen_view();
     set_cull_none();
@@ -495,7 +495,7 @@ void render_tick(void) {
     GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GXSetViewport((0.0f), (0.0f), (6.4e+02f), (4.8e+02f), (0.0f), (1.0f));
     set_cull_none();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     copy_efb_to_framebuffer();
     present_frame();
     run_end_of_render_tasks();

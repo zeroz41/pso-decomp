@@ -131,7 +131,7 @@ void TODummyKeyCave01::render() {
             model_render_flags = id | 0x10;
             set_constant_material(&color);
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         node = node->child;
         if (spins != 0) {
             rotate_matrix_y(0, key_angle);
@@ -147,7 +147,7 @@ void TODummyKeyCave01::render() {
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

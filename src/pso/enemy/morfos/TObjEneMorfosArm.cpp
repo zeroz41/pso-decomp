@@ -39,7 +39,7 @@ void TObjEneMorfosArm::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     toggle_particle_effect();
     draw();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

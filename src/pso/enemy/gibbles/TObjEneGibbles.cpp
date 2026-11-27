@@ -403,7 +403,7 @@ void TObjEneGibbles::render() {
             }
             break;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_chunk_model_node_callback(NULL);
         pop_matrix();
         restore_scene_lighting();

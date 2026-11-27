@@ -229,7 +229,7 @@ void TObjEneBeast::render() {
                 draw_motion_model();
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (fade != 0) {
             camera_fades[cam].clear_flag_and_notify();
         }

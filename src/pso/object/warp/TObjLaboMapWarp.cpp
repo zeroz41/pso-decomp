@@ -505,9 +505,9 @@ void TObjCityMainWarp::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
         draw_ginja_object(city_common_model_archive->models[12].model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -569,9 +569,9 @@ void TObjCityAreaWarp::do_warp() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -644,13 +644,13 @@ void TObjCityMapWarp::render() {
         rotate_matrix_y(NULL, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(city_common_model_archive->models[13].model);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, this->animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }
@@ -741,13 +741,13 @@ void TObjLaboMapWarp::render() {
         rotate_matrix_y(NULL, this->rotation_y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }

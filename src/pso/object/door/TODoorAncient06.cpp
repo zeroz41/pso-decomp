@@ -40,9 +40,9 @@ void TODoorAncient06::render() {
         } else {
             draw_ginja_object(&model_nodes[0]);
             draw_ginja_object(&model_nodes[1]);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_object(&model_nodes[2]);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }

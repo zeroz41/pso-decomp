@@ -71,7 +71,7 @@ void TObjEneMe1GiGueMissile::render() {
         return;
     }
     push_matrix();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
@@ -79,7 +79,7 @@ void TObjEneMe1GiGueMissile::render() {
     set_motion_packed_rotation();
     draw_model_motion(get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
     clear_motion_packed_rotation();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

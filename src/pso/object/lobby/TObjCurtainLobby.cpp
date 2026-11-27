@@ -37,7 +37,7 @@ void TObjCurtainLobby::demo_step() {}
 
 void TObjCurtainLobby::render() {
     if (state != 0 && texlist != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -47,7 +47,7 @@ void TObjCurtainLobby::render() {
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

@@ -63,7 +63,7 @@ void TOKeyGenericSw::render() {
     set_texture_list(texlist);
     draw_ginja_object(model);
     pop_matrix();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     switch (is_on) {
     case 0:
@@ -79,7 +79,7 @@ void TOKeyGenericSw::render() {
     set_texture_list(texlist);
     draw_ginja_model_with_motion(model, motion, animation_frame);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TOKeyGenericSw::update_switch_off() {

@@ -47,7 +47,7 @@ void TPhotonYoulla::reset_material_color(u8 count) {
 
 void TPhotonYoulla::render() {
     if (visible != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
@@ -71,7 +71,7 @@ void TPhotonYoulla::render() {
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

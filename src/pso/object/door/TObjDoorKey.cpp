@@ -123,7 +123,7 @@ void TObjDoorKey::draw_active_beam() {
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     draw_ginja_object(door_key_ginja_model_table[0]);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
@@ -134,7 +134,7 @@ void TObjDoorKey::draw_active_beam() {
     draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -144,7 +144,7 @@ void TObjDoorKey::draw_inactive_badge() {
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     draw_ginja_object(door_key_ginja_model_table[0]);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
@@ -153,7 +153,7 @@ void TObjDoorKey::draw_inactive_badge() {
     draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

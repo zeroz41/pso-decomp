@@ -475,15 +475,15 @@ TWindowCtrlMain::~TWindowCtrlMain() {
     }
 }
 
-void TWindowCtrlMain::run_task() { { (void)(((TWindowDD *)this)->update_com_card()); return; } }
+void TWindowCtrlMain::run_task() { update_com_card(); }
 
 void TWindowCtrlMain::render() {
     set_default_alpha_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     get_main_window_root()->render_nodes();
     TCameraCtrl::restore_saved_view();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void draw_viewport_fill(s32 viewport_index) {
@@ -752,14 +752,14 @@ void TWindowCtrlScreen::render() {
     if (is_window_display_enabled() != 0) {
         viewport_index = (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         set_default_alpha_blend();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TWindowCtrlMain::instance->render_nodes();
         draw_viewport_fill(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
         get_viewport_window_root(viewport_index)->render_nodes();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -788,11 +788,11 @@ TWindowCtrlClipOut::~TWindowCtrlClipOut() {
 void TWindowCtrlClipOut::render() {
     if (is_window_display_enabled() != 0) {
         set_default_alpha_blend();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         get_clip_out_window_root()->render_nodes();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

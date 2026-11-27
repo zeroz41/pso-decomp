@@ -97,6 +97,8 @@ void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context);
 void end_window_sweep_draw(s32 texture);
 void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
+void update_window_scanline(void);
+void update_com_card();
 
 struct NJS_TEXLIST;
 // The HUD palette and glyph texture list loaded for the window system.

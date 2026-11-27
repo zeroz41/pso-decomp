@@ -74,7 +74,7 @@ void TOSensorAncient01::render() {
         object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         object = object->child;
         if ((f32)lamp_timer < 30.0f) {
@@ -99,14 +99,14 @@ void TOSensorAncient01::render() {
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         object = object->sibling;
         post_translate_matrix(object->pos);
         rotate_matrix_y(NULL, spin_angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         object = object->child;
         translate_matrix(0, object->pos[0] + pulse_offset, object->pos[1], object->pos[2]);

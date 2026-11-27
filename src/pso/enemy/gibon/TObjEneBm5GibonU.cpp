@@ -296,7 +296,7 @@ void TObjEneBm5GibonU::render_debug() {
         set_motion_packed_rotation();
         draw_model_motion(model, motion, frame);
         clear_motion_packed_rotation();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     other = TObjEneBm5GibonU::find_pack_leader(group_id);
@@ -411,7 +411,7 @@ void TObjEneBm5GibonU::render() {
             pop_matrix();
             this->update_primary_light();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

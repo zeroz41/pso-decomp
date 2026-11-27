@@ -12,12 +12,12 @@
 void TItemShootPlantainHugeFan::render() {
     if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
         rotate_matrix_by_node_angles(&rot.x, 1);
         draw_ginja_object(model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

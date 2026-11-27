@@ -107,7 +107,7 @@ void TLightGlare::render() {
         v = alpha - 3.0f;
         alpha = v < limit ? limit : (v < 255.0f ? v : 255.0f);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     if (facing > 0.0f) {
         project_world_to_screen(0, &position, screen_position);
         if (screen_position[0] > 650.0f) {
@@ -164,7 +164,7 @@ void TLightGlare::render() {
     set_constant_material_color(color.color);
     draw_textured_quad_at_depth(&quad.x0, 0.1f);
     end_screen_draw();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void *TLightGlare::create(void *set_data) {

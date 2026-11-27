@@ -270,9 +270,9 @@ void TOContainerAncientItem::draw_model() {
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model(sibling->model);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             pop_matrix();
             pop_matrix();
@@ -429,9 +429,9 @@ void TOContainerAncientEnemy::draw_model() {
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model(sibling->model);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             pop_matrix();
             pop_matrix();

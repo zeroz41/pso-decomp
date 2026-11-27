@@ -144,14 +144,14 @@ void TObjDoaEx01::draw_object_tree(NJS_OBJECT *obj) {
     }
     if (!(flags & 8) && obj->model != 0) {
         if (obj == doa_ex01_alpha_model_node || obj == doa_ex01_alpha_model_sibling) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
             set_constant_material(&glow_color);
             draw_ginja_model(obj->model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
             draw_ginja_model(obj->model);
         }

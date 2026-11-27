@@ -13,4 +13,6 @@ struct Vec;
 TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                      TObject *parent, u16 flags, u16 target_id);
 
+TParticle *alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent);
+
 #endif

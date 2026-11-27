@@ -96,7 +96,7 @@ void draw_loading_compass(void) {
         alpha = 0.5f + (1.0f + cos_table_lookup(loading_compass_sprite.ang)) / 4.0f;
         set_perspective_projection_from_fov(0x3555, 1.1333334f, 1.0f, 21000.0f);
         set_depth_buffer_settings_2();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
         set_texture_list(&loading_texture_list);
@@ -112,7 +112,7 @@ void draw_loading_compass(void) {
         draw_compass_sprite(&loading_compass_sprite, 2, ((u32)(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_saved_depth_alpha_state();
     }
 }
@@ -168,7 +168,7 @@ void draw_loading_overlay(void) {
     LobbyOverlayVertices *overlay = reinterpret_cast<LobbyOverlayVertices *>(loading_texture_names);
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     setup_projected_color_draw(1);
     draw_projected_quads(overlay->title, 4);
     end_projected_color_draw();
@@ -192,7 +192,7 @@ void draw_loading_overlay(void) {
     }
     set_default_alpha_blend();
     TCameraCtrl::restore_saved_view();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 #pragma pop
 

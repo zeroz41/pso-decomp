@@ -387,7 +387,7 @@ void TObjEneDolmOlm::render() {
             draw_motion_model();
         }
         set_chunk_model_node_callback(NULL);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         switch (mode) {
         case 0:
         case 1:
@@ -438,10 +438,10 @@ void TObjEneDolmOlm::toggle_effect_render(NJS_OBJECT *) {
     case 0x15:
     case 0x1d:
     case 0x49:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     default:
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         break;
     }
     dolm_olm_effect_render_state += 1;

@@ -154,14 +154,14 @@ void TOMonumentAncient02::render() {
             node = node->child;
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x20;
             set_constant_material(&light_color);
             draw_ginja_model(node->model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
         }
         pop_matrix();

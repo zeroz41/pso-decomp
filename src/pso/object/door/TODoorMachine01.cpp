@@ -148,7 +148,7 @@ void TODoorMachine01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
         model_render_flags = flags | 0x10;
         set_constant_material(&light_color);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model(node->model);
@@ -158,7 +158,7 @@ void TODoorMachine01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     draw_ginja_model(child->model);
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (lit != 1) {
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;

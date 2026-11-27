@@ -29,7 +29,7 @@ void TObjWeddingLobby::demo_step() {}
 
 void TObjWeddingLobby::render() {
     if (fade_state != 0 && lobby_texlist != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         push_matrix();
         post_translate_matrix(&position.x);
@@ -40,7 +40,7 @@ void TObjWeddingLobby::render() {
         draw_ginja_object(get_bml_model(resource_bundle, 0));
         draw_ginja_model_with_motion(get_bml_model(resource_bundle, 1), get_bml_motion(resource_bundle, 0), (f32)animation_frame);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

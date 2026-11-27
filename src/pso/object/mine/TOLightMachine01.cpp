@@ -54,10 +54,10 @@ void TOLightMachine01::render() {
         translate_matrix(0, 0.0f, this->bob_offset, 0.0f);
         rotate_matrix_y(0, this->spin_angle);
         draw_ginja_model(model->child->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(light_machine_ginja_param);
         draw_ginja_object(light_machine_ginja_model_handle);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }

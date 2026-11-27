@@ -149,14 +149,14 @@ void TOCtrlDubchik::render() {
         post_translate_matrix(node->pos);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         node = node->child;
         post_translate_matrix(node->pos);
         scale_matrix(NULL, effect_scale, 1.0f, effect_scale);
         draw_ginja_model(node->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }

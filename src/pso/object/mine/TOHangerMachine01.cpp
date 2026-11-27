@@ -57,9 +57,9 @@ void TOHangerMachine01::render() {
         rotate_matrix_z(NULL, node->ang[2]);
         rotate_matrix_x(NULL, node->ang[0]);
         rotate_matrix_y(NULL, node->ang[1] + fan_angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(node->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         node = model->child->sibling->sibling->sibling;
         post_translate_matrix(node->pos);
@@ -70,9 +70,9 @@ void TOHangerMachine01::render() {
         rotate_matrix_z(NULL, node->ang[2]);
         rotate_matrix_x(NULL, node->ang[0]);
         rotate_matrix_y(NULL, node->ang[1] + fan_angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(node->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         node = model->child->sibling->sibling->sibling->sibling;
         if (0.0f < scale.x) {

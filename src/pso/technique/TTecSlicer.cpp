@@ -60,7 +60,7 @@ void TSlicerHistory::render() {
         }
         if (texlist != 0 && model != NULL) {
             set_texlist(texlist);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix((f32 *)&position);
             rotate_matrix_y(0, rotation_y);
@@ -70,7 +70,7 @@ void TSlicerHistory::render() {
             set_constant_material(&col);
             draw_ginja_object(model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
         model_render_flags = saved_model_render_flags;
@@ -233,7 +233,7 @@ void TTecSlicer::render() {
     }
     if (texlist != 0U && model != NULL) {
         set_texlist(texlist);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         post_translate_matrix((f32 *)&position);
         rotate_matrix_y(0, rotation_y);
@@ -242,7 +242,7 @@ void TTecSlicer::render() {
         scale_current_matrix((f32 *)&scale);
         draw_ginja_object(model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
     pop_matrix();
     model_render_flags = saved_model_render_flags;

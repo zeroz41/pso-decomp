@@ -939,7 +939,7 @@ s32 take_snapshot(void) {
                     pos[1] = 144.0f;
                     size[0] = 256.0f;
                     size[1] = 192.0f;
-                    TParticleCtrl::begin_effect_render();
+                    begin_effect_render();
                     draw_textured_screen_quad(-1, pos, size, 1);
                     if (graph != NULL) {
                         TDLGraph::update_graph((s32)t, (s32)limit);
@@ -948,7 +948,7 @@ s32 take_snapshot(void) {
                     }
                     update_pulse_colors(1);
                     draw_loading_overlay();
-                    TParticleCtrl::end_effect_render();
+                    end_effect_render();
                     render_tick();
                 } while (poll_memcard_result(1) == 0xFFFFFFFF);
                 if (TAdPlayerLoadGC::get_load_result(1) == 0xFFFFFF81) {
@@ -960,7 +960,7 @@ s32 take_snapshot(void) {
                 if (get_main_phase() == 0xF) {
                     TLobby::process_deferred_player_setup();
                 }
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
             } else {
                 TObjBoss2Tunnel::show_message_and_wait(-2);
             }
@@ -1303,14 +1303,14 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         if (graph != NULL) {
             TDLGraph::update_graph(frames, 0x78);
             graph->run_task();
             graph->render();
         }
         win->render();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (frames >= 6.0) {
             if (test_pressed_buttons_packed(pad, 2) != 0 || frames >= 0x78) {
                 result = 0;

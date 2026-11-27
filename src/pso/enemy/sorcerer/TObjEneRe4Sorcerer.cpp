@@ -1285,7 +1285,7 @@ void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
         re4_sorcerer_saved_render_flags = t;
         model_render_flags = t & 0xFFFF7FFF;
         scale_matrix(0, k, k, k);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     }
     case 0x37:
@@ -1376,7 +1376,7 @@ void TObjEneRe4Sorcerer::render() {
         }
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 }
@@ -1404,7 +1404,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         set_texture_scroll(0.0f, texture_scroll);
         toggle_particle_effect();
         draw_chunk_object(model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags &= 0xFFFDFFFF;
         pop_matrix();
     }

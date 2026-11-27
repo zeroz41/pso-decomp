@@ -75,7 +75,7 @@ void TOSparkMachine01::render() {
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(texlist);
         n = model->child;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         for (i = 0; i < 4; i++) {
             switch (spark_on[i]) {
             case 1:
@@ -87,7 +87,7 @@ void TOSparkMachine01::render() {
             }
             n = n->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

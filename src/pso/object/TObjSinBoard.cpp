@@ -145,7 +145,7 @@ void TObjSinBoard::render() {
         set_default_alpha_blend();
         set_texture_list(&signboard_texture_list);
         set_texture_num(0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_z(0, rotation_z);
@@ -154,7 +154,7 @@ void TObjSinBoard::render() {
         scale_matrix(0, scale.x, scale.y, scale.z);
         draw_tri_fan_3d(&fan, 4, 0xE);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

@@ -392,7 +392,7 @@ void TItemAttackCol::render() {
             if (texlist != 0U) {
                 set_texlist(texlist);
             }
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             attack_collider_render_owner = this;
             attack_collider_active_count = 0;
             push_matrix();
@@ -403,7 +403,7 @@ void TItemAttackCol::render() {
             draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemAttackCol::add_to_active_list);
             pop_matrix();
             attack_collider_render_owner = 0;
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }

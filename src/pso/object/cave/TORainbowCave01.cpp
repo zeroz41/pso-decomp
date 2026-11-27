@@ -45,7 +45,7 @@ void TORainbowCave01::render() {
     NJS_ARGB color;
     u32 flags;
     if (update_object_view_visibility(view_range, model_radius) != 0 && -1.0f < fade) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         flags = model_render_flags;
         saved_model_render_flags = flags;
@@ -65,7 +65,7 @@ void TORainbowCave01::render() {
         pop_matrix();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

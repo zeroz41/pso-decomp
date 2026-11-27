@@ -28,10 +28,10 @@ s32 player_particle_effect_enabled;
 
 void toggle_particle_effect() {
     if (player_particle_effect_enabled != 0) {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         return;
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
 }
 
 void disable_player_particle_effect(void) { player_particle_effect_enabled = 0; }

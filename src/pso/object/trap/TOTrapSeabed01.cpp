@@ -215,14 +215,14 @@ void TOTrapSeabed01::draw() {
     if (TRaderMapCore::is_not_split_screen() != 1 || projected == 0) {
         set_depth_buffer_settings_3();
         set_draw_list_mask(1);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(trap_seabed01_texture_file);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         draw_object_tree(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_draw_list_mask();
         restore_saved_depth_alpha_state();
     }
@@ -279,13 +279,13 @@ void TOTrapSeabed01::render_effect_layers() {
     draw_ginja_model_with_motion(model, current_motion, frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_depth_buffer_settings_1();
     set_draw_list_mask(2);
     draw_ginja_model_with_motion(model, current_motion, frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     set_model_node_callback(NULL);
 }
@@ -294,9 +294,9 @@ void TOTrapSeabed01::render_effect_layers() {
 // with the effect render state.
 void TOTrapSeabed01::trigger_by_id(NJS_OBJECT *node) {
     if (node == trap_seabed01_ginja_model) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
     } else {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

@@ -162,7 +162,7 @@ void TItemEffOrgaFlowShot::update_position_from_velocity() {
 #pragma pop
 
 void TItemEffOrgaFlowShot::render() {
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();
     set_additive_blend();
@@ -172,7 +172,7 @@ void TItemEffOrgaFlowShot::render() {
     set_default_alpha_blend();
     restore_saved_depth_alpha_state();
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TItemEffOrgaFlowShot::run_task() {

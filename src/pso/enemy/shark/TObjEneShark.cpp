@@ -186,10 +186,10 @@ void update_particle_by_phase(NJS_OBJECT *) {
     case 0x10:
     case 0x1A:
     case 0x20:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     default:
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         break;
     }
     shark_render_node_index += 1;
@@ -320,7 +320,7 @@ void TObjEneShark::render() {
       }
     }
     set_chunk_model_node_callback(0);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (in_group == 0)
     {
       ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[2] = v26;

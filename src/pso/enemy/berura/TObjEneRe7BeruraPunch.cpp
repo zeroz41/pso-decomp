@@ -64,7 +64,7 @@ void TObjEneRe7BeruraPunch::render() {
         if (this->state == 2) {
             this->fade.clear_flag_and_notify();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
     }
 }

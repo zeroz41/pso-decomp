@@ -3635,7 +3635,7 @@ void TBoss7DeRolLeC::render() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
         TObjEneDD::clear_global_flag_400();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         if (this->node_recorder != 0) {
             if (this->state_flags & 0x40) {
@@ -3647,7 +3647,7 @@ void TBoss7DeRolLeC::render() {
             this->node_recorder->draw_recorded_pose();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

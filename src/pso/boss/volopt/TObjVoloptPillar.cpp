@@ -76,7 +76,7 @@ void TObjVoloptPillar::render() {
         draw_chunk_object(volopt_pillar_base_model);
         pop_matrix();
         restore_scene_lighting();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         scale = 0.011111111f * (90.0f - position.y) + 1.0f;
         push_matrix();
         translate_matrix(0, position.x, 0.3f, position.z);

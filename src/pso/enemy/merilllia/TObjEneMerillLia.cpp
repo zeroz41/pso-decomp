@@ -381,7 +381,7 @@ void TObjEneMerillLia::render() {
                     clear_motion_packed_rotation();
                 }
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             if (fading != 0) {
                 fade.clear_flag_and_notify();
             }

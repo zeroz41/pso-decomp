@@ -3742,7 +3742,7 @@ void TBoss2DeRolLe::render() {
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     TObjEneDD::clear_global_flag_400();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, height_offset, 0.0f);
@@ -3785,7 +3785,7 @@ void TBoss2DeRolLe::render() {
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     {
     Vec v;
     out = joint_positions;

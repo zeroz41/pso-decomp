@@ -322,7 +322,7 @@ void TParticleBallistic::render() {
         if (flags & 0x400) {
             load_projected_texture_matrix(1.33f);
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         if (flags & 0x400) {
             setup_particle_tev(0);
         } else {
@@ -348,7 +348,7 @@ void TParticleBallistic::render() {
             model_render_flags = saved_model_render_flags;
         }
         restore_draw_list_mask();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     } else if (draw_flags & 0x2000) {
         draw_particle_refraction_quad();

@@ -188,12 +188,12 @@ void TItemProShield::draw_at_joint(s32 joint) {
         model_render_flags &= ~0x10;
         TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
-            TParticleCtrl::begin_effect_render();
+            ::begin_effect_render();
         }
         set_texlist(texlist);
         draw_ginja_object(item_model);
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
-            TParticleCtrl::end_effect_render();
+            ::end_effect_render();
         }
         TEquippedWeaponDrawTask::end_fade();
         TEquippedWeaponDrawTask::restore_model_render_state();

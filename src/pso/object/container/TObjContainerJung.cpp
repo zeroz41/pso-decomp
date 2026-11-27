@@ -177,9 +177,9 @@ void TObjContainerJung::draw_model() {
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
             draw_ginja_object(get_bml_model(jungle_container_archive, 0));
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_object(get_bml_model(jungle_container_archive, 3));
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             break;
         case 1:
@@ -310,9 +310,9 @@ void TObjContainerJungEx::draw_model() {
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(TObjContainerJungEx::get_model(0));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(TObjContainerJungEx::get_model(3));
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     case 1:
         return;
@@ -449,9 +449,9 @@ void TObjContainerJungEnemy::draw_model() {
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(this->body_model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(this->light_model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     case 1:
         return;

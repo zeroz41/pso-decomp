@@ -48,7 +48,7 @@ void draw_network_wait_icon(void) {
     s32 uv_angle;
     uv_angle = (-network_wait_icon_frame << 16) / 30;
     set_additive_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     begin_screen_draw(1);
     set_texture_list(hud_texlist);

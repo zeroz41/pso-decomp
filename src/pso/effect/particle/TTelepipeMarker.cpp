@@ -125,7 +125,7 @@ void TTelepipeMarker::render() {
         v[3].u = 1.0f;
         v[3].v = 1.0f;
         v[3].color = 0xFFFF0000;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, camera_ctrl_instance->yaw);
@@ -149,6 +149,6 @@ void TTelepipeMarker::render() {
         reset_particle_tev();
         indirect->disable_indirect_tev();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }

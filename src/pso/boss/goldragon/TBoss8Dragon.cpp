@@ -4687,7 +4687,7 @@ void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
         }
         this->TObjMotion::draw();
         init_tev_swap();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         current_scene_light->debug_scene_light_hook();
         pop_matrix();
         set_chunk_material_override_pair(0xFF00, 0);

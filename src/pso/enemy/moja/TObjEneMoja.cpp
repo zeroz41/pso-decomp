@@ -413,7 +413,7 @@ void TObjEneMoja::render() {
             } else {
                 draw_motion_model();
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
         clear_motion_packed_rotation();

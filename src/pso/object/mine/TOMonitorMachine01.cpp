@@ -86,7 +86,7 @@ void TOMonitorMachine01::render() {
         translate_matrix(0, -slide, 0.0f, 0.0f);
         draw_ginja_model(n->model);
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         n = n->sibling;
         if (set_params[0] == 2) {
             push_matrix();
@@ -101,13 +101,13 @@ void TOMonitorMachine01::render() {
             draw_ginja_model(n->model);
             pop_matrix();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         n = n->sibling;
         push_matrix();
         translate_matrix(0, slide, 0.0f, 0.0f);
         draw_ginja_model(n->model);
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         n = n->sibling;
         if (set_params[0] == 0) {
             push_matrix();
@@ -122,7 +122,7 @@ void TOMonitorMachine01::render() {
             draw_ginja_model(n->model);
             pop_matrix();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

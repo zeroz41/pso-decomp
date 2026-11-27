@@ -456,7 +456,7 @@ void TBoss4Type1::render_effects() {
     rotate_matrix_y(0, rotation_y);
     draw_parts();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 #pragma push

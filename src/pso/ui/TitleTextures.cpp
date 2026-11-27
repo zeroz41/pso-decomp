@@ -21,7 +21,7 @@
 
 void TTitleLogo::render() {
   TexturedQuad quad;
-  TParticleCtrl::begin_effect_render();
+  begin_effect_render();
   TCameraCtrl::restore_full_screen_view();
   begin_screen_draw(1);
   bind_title_texture_list();
@@ -41,7 +41,7 @@ void TTitleLogo::render() {
   draw_textured_quad_at_depth((&quad.x0), 0.1f);
   end_screen_draw();
   TCameraCtrl::restore_saved_view();
-  TParticleCtrl::end_effect_render();
+  end_effect_render();
 }
 
 void TTitleLogo::run_task() {  }

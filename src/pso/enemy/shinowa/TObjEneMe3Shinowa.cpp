@@ -1560,7 +1560,7 @@ void TObjEneMe3Shinowa::render() {
     } else if ((get_main_phase() == 0xF) || (is_split_screen() == 0)) {
         VecCopy(&body_center, &position);
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { demo_stub(); select_gold_or_normal_variant(); } }
@@ -1641,7 +1641,7 @@ void TObjEneMe3Shinowa::render_demo() {
                 textures[i + 3].texture = saved_texaddr[i];
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pop

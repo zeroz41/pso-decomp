@@ -179,9 +179,9 @@ void TOTrapAncient01::render() {
         n = n->child;
         push_matrix();
         post_translate_matrix(n->pos);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(n->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
         pop_matrix();

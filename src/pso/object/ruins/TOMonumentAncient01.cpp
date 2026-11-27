@@ -33,10 +33,10 @@ void TOMonumentAncient01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         draw_ginja_object(get_bml_model(model_resource, 2));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(get_bml_model(model_resource, 1));
         draw_ginja_object(get_bml_model(model_resource, 0));
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

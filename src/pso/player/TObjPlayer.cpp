@@ -1264,7 +1264,7 @@ void TObjPlayer::render_shadows() {
 
     if (is_in_shadow_range(&position, player_shadow_range) != 0) {
         set_shadow_flag();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         if (test_actor_flags(0x02000000) == 0 && is_inactive() != 0 &&
             (check_flag_4() == 0 || (check_flag_4() != 0 && phase == 0))) {
             f = classify_actor_view_detail(player_view_detail_near, player_view_detail_far, player_front_distance);
@@ -1275,14 +1275,14 @@ void TObjPlayer::render_shadows() {
             draw_body_overlay();
             render_material_state.restore();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         clear_shadow_flag();
     }
 }
 
 void TObjPlayer::render_body_pass(f32 f) {
     clear_actor_flags((u32)0x08000000);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     select_actor_lighting(this);
     if (check_flag_800000() != 0 && obj_isState2_324() != 0) {
         draw(get_frame());
@@ -1313,7 +1313,7 @@ void TObjPlayer::render() {
                 }
             } else {
                 clear_actor_flags((u32)0x08000000);
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 select_actor_lighting(this);
                 if (check_flag_800000() != 0 && obj_isState2_324() != 0) {
                     draw(get_frame());

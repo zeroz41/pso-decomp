@@ -324,7 +324,7 @@ void TLockOnCursor::renderSecondaryCursor(CollisionBody *body, s16 type, s32 act
                 offset_point_toward_camera(&body->center, (Vec *)&offset, y);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&offset);
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
-                TParticleCtrl::begin_effect_render();
+                begin_effect_render();
                 push_matrix();
                 translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
                 save_model_draw_state(&marker);
@@ -334,7 +334,7 @@ void TLockOnCursor::renderSecondaryCursor(CollisionBody *body, s16 type, s32 act
                 draw_chunk_object(get_target_cursor_model());
                 restore_model_draw_state(&marker);
                 pop_matrix();
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 pop_matrix();
             }
         }
@@ -1239,7 +1239,7 @@ void render_marker(TMainCursor *main_cursor) {
     s32 offset;
     f32 y;
 
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     y = main_cursor->height;
     push_matrix();
     offset_point_toward_camera(&main_cursor->position, (Vec *)&offset, main_cursor->size);
@@ -1264,7 +1264,7 @@ void render_marker(TMainCursor *main_cursor) {
     main_cursor->update_chair();
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 

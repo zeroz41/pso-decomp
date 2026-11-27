@@ -1115,7 +1115,7 @@ void TObjEneBm3Fly::render() {
             this->draw_motion_model();
         }
         restore_alpha_ref();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         this->update_primary_light();
     }
@@ -1131,7 +1131,7 @@ void TObjEneBm3Fly::render_demo() {
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         draw_chunk_object(model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

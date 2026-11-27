@@ -145,7 +145,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     draw_ginja_model(body->model);
     draw_ginja_model(body->child->model);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     for (s32 i = 0; i < 4; i++) {
         if (lit[i] == 1) {
             set_texture_list(get_green_door_textures());
@@ -167,7 +167,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
         lamp++;
         glow++;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -352,7 +352,7 @@ void TODoorFourLightSpace::draw_lights() {
     draw_ginja_model(mdl->child->sibling->model);
     post_translate_matrix(mdl->child->sibling->child->pos);
     draw_ginja_model(mdl->child->sibling->child->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     i = 0;
     do {
         if (flags[i] == 1) {
@@ -376,7 +376,7 @@ void TODoorFourLightSpace::draw_lights() {
         pa++;
         pb++;
     } while (i < 4);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

@@ -54,7 +54,7 @@ void TOComputerMachine01::render() {
         set_texture_list(texlist);
         body = model;
         draw_ginja_model(body->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         screen = body->child;
         draw_ginja_model(screen->model);
         screen = screen->sibling;
@@ -62,7 +62,7 @@ void TOComputerMachine01::render() {
         screen = screen->sibling;
         draw_ginja_model(screen->model);
         draw_ginja_model(screen->sibling->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

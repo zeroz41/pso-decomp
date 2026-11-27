@@ -828,7 +828,7 @@ void TWindowBase::update_open_close() {
 }
 
 
-void TWindowDD::update_com_card() { update_window_scanline(); }
+void update_com_card() { update_window_scanline(); }
 void TWindowBase::update_window() { update_open_close(); }
 void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }

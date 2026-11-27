@@ -163,7 +163,7 @@ void TODoorFourLightBase::render_lights() {
     rotate_matrix_y(0, rotation_y);
     draw_node_tree((u8 *)model);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
@@ -179,9 +179,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
         if (cur->evalflags & 0x200000) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
         } else {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         push_matrix();
         if (!(eval_flags & 1)) {

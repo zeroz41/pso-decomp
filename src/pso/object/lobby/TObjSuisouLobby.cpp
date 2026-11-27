@@ -31,7 +31,7 @@ void TObjSuisouLobby::demo_step() {}
 
 void TObjSuisouLobby::render() {
     if (fade_state != 0 && texlist != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -41,7 +41,7 @@ void TObjSuisouLobby::render() {
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

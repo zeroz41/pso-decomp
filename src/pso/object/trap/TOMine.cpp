@@ -187,7 +187,7 @@ void TOMine::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, facing);
         draw_body();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         t = model_render_flags;
         saved_model_render_flags = t;
         model_render_flags = t | 0x20;
@@ -195,7 +195,7 @@ void TOMine::render() {
         draw_light();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -1055,7 +1055,7 @@ void TOMineDisp::render() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     mine->draw_body();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     render_flags = model_render_flags;
     saved_model_render_flags = render_flags;
     model_render_flags = render_flags | 0x20;
@@ -1063,7 +1063,7 @@ void TOMineDisp::render() {
     mine->draw_light();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

@@ -287,7 +287,7 @@ void TObjEneDelDepth::render() {
     scale_matrix_vec3(0, (u8 *)&this->drawScale);
     this->motionController->draw_model_part();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (this->opacity < 1.0f) {
         TObjEneDelDepth::reset_globals();
     }

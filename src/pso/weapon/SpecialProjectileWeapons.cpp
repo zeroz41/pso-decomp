@@ -120,9 +120,9 @@ void TItemWeaponEvilCurst::draw_held_model() {
             rotate_matrix_y(0, this->owner->rotation_y);
             effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);
-            TParticleCtrl::begin_effect_render();
+            ::begin_effect_render();
             draw_ginja_object(effect_model->child);
-            TParticleCtrl::end_effect_render();
+            ::end_effect_render();
             effect_model->evalflags &= ~0x11;
             TEquippedWeaponDrawTask::end_fade();
             pop_matrix();

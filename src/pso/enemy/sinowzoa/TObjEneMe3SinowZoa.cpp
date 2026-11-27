@@ -1753,7 +1753,7 @@ void TObjEneMe3SinowZoa::render() {
         model_render_flags = saved_model_render_flags;
         this->update_primary_light();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 }
@@ -1863,7 +1863,7 @@ void TObjEneMe3SinowZoa::render_demo() {
                 parts[i].texaddr = save[i];
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

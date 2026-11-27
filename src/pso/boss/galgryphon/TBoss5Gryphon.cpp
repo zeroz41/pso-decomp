@@ -3624,7 +3624,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
     toggle_particle_effect();
     draw();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     current_scene_light->debug_scene_light_hook();
     pop_matrix();
     set_chunk_material_override_pair(0xFF00, 0);

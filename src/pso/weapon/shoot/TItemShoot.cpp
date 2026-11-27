@@ -186,14 +186,14 @@ void TItemShootModel::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
             set_texlist(texture_list);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
             rotate_matrix_by_node_angles(&rot.x, 1);
             rotate_matrix_by_node_angles(&ang, 1);
             draw_ginja_object(model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }
@@ -295,13 +295,13 @@ void TItemShootGun::render() {
         if (model != NULL) {
             set_ginja_model_texture_slot(model->model, texture_id & 0xFFFF);
             set_texlist(texture_list);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
             rotate_matrix_by_node_angles(&rot.x, 1);
             draw_ginja_object(model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }
@@ -327,13 +327,13 @@ void TItemShootModelRotZ::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
             set_texlist(texture_list);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
             rotate_matrix_by_node_angles(&rot.x, 1);
             draw_ginja_object(model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }

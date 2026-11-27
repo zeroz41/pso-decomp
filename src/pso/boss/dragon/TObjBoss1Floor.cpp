@@ -47,7 +47,7 @@ void TObjBoss1Floor::render() {
         saved_flags = model_render_flags;
         saved_model_render_flags = saved_flags;
         model_render_flags = saved_flags | 0x400;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         model_render_flags = 1;
         set_draw_list_mask(3);

@@ -48,10 +48,6 @@ public:
     static NJS_TEXLIST *get_instance();
     uaddr validate_ctrl();
     void destroy_particle();
-    static void begin_effect_render();
-    static void end_effect_render();
-public:
-    static TParticle *alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent);
     void enable();
     static void free_all();
     static ParticleParam *get_particle_by_index(s32 particle_index);
@@ -87,6 +83,10 @@ public:
     Vec position;                 // 0x60
     Angle3 direction;     // 0x6C
 };
+
+// Effect draws run with the scene fog off: begin switches it off, end back on.
+void begin_effect_render();
+void end_effect_render();
 
 void create_quad_sprites();
 

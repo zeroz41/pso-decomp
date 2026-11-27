@@ -276,7 +276,7 @@ void TObjEneDimedian::render() {
                 camera_fades[camera].clear_flag_and_notify();
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         switch (mode) {
         case 0:
         case 1:

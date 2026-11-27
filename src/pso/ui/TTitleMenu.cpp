@@ -85,7 +85,7 @@ void TTitleMenu::render() {
     s32 cursor;
     s32 i;
     if (TMainTask::get_render_pass() != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
@@ -120,7 +120,7 @@ void TTitleMenu::render() {
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

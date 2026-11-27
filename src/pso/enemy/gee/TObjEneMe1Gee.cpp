@@ -1808,7 +1808,7 @@ void TObjEneMe1Gee::render() {
             this->fade.clear_flag_and_notify();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         this->update_primary_light();
         return;
@@ -1853,7 +1853,7 @@ void TObjEneMe1Gee::render_demo() {
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object(this->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pop

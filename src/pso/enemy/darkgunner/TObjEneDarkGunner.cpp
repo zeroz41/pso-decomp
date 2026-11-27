@@ -914,7 +914,7 @@ void TObjEneDarkGunner::render() {
             pop_matrix();
             render_shadow();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             cancel = view == 1 && (behavior_flags & 0x200000) && test_actor_flags(0x22) == 0;
             for (i = 0; i < 4; i++) {
                 if (children[i] != NULL) {

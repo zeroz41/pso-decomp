@@ -52,7 +52,7 @@ void TWindowEffectLight::run_task() {
 void TWindowEffectLight::render() {
   if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || ((s32)this->player_id == (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no()))))
   {
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
@@ -86,7 +86,7 @@ void TWindowEffectLight::render() {
     end_screen_draw();
     set_default_alpha_blend();
     TCameraCtrl::restore_saved_view();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
   }
 }
 

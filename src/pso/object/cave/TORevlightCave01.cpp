@@ -41,9 +41,9 @@ void TORevlightCave01::render() {
         draw_ginja_model(model->model);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(model->child->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(model->child->child->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

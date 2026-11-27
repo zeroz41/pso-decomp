@@ -416,7 +416,7 @@ void TObjEnePanBARA::render() {
         this->draw();
     }
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     this->update_linked_effect();
 }
 

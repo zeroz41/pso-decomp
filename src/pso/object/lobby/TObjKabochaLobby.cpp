@@ -23,7 +23,7 @@ NJS_TEXLIST *TObjKabochaLobby::lobby_texlist;
 
 void TObjKabochaLobby::render() {
     if (state != 0 && lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -33,7 +33,7 @@ void TObjKabochaLobby::render() {
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

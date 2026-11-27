@@ -1144,10 +1144,10 @@ void TObjEneBm9Mericarol::update_particle_effect(NJS_OBJECT *) {
     case 0x21:
     case 0x2B:
     case 0x64:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     default:
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         break;
     }
     mericarol_node_counter += 1;
@@ -1257,7 +1257,7 @@ void TObjEneBm9Mericarol::render() {
         set_chunk_model_node_callback(NULL);
         ((NJS_CNK_MODEL *)model->child->sibling->sibling->model)->polygon_list[5] = saved;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     restore_alpha_ref();
     pop_matrix();
     model_render_flags = saved_model_render_flags;
@@ -1303,7 +1303,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         set_alpha_ref_override(0);
         draw_chunk_object(model);
         restore_alpha_ref();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         if (variant == 1 || variant == 2) {
             texlist->textures[0].texture = s0;

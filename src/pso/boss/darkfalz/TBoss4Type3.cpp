@@ -434,7 +434,7 @@ void TBoss4Type3::draw() {
     rotate_matrix_y(0, rotation_y);
     TObjPlayer::draw_player_model_by_id(captured_player, captured_fade);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 #pragma push

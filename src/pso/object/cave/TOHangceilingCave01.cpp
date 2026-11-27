@@ -204,7 +204,7 @@ void TOHangceilingCaveBase::render() {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
         if (hangceiling_cave01_model_root != NULL) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             if (display_mode == 0) {
                 level = wait_timer;
                 step = wait_interval;
@@ -239,7 +239,7 @@ void TOHangceilingCaveBase::render() {
                 }
                 draw_ginja_object(hangceiling_cave01_model_root);
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }

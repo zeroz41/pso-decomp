@@ -1366,7 +1366,7 @@ void TObjEneDf2Bringer::render() {
         } else if (fading != 0) {
             fade->clear_flag_and_notify();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
         texlist->textures[1].texture = saved_texture;
@@ -1411,6 +1411,6 @@ void TObjEneDf2Bringer::render_demo() {
         draw_model_motion(model, mot, frame);
         clear_motion_packed_rotation();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }

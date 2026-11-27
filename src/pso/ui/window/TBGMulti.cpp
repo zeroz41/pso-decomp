@@ -147,14 +147,14 @@ void draw_split_screen_hud() {
     if (bg_multi_textures != NULL) {
         set_depth_buffer_settings_2();
         set_default_alpha_blend();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         draw_bottom_bar();
         draw_scanline_sweep();
         draw_tiled_background();
         draw_split_screen_dividers();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_saved_depth_alpha_state();
         frame = split_screen_hud_animation_frame;
         split_screen_hud_animation_frame = frame + 1;

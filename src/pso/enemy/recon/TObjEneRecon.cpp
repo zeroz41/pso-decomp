@@ -105,7 +105,7 @@ void TObjEneRecon::render_demo() {
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         draw_chunk_object(this->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -184,7 +184,7 @@ void TObjEneRecon::render() {
                         draw_motion_model();
                     }
                     model_render_flags &= 0xFEFFFFFF;
-                    TParticleCtrl::end_effect_render();
+                    end_effect_render();
                     set_chunk_model_node_callback(NULL);
                     pop_matrix();
                     update_primary_light();
@@ -211,7 +211,7 @@ void TObjEneRecon::advance_intro_stage(NJS_OBJECT *) {
         pop_matrix();
         break;
     case 10:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     }
     recon_intro_stage += 1;

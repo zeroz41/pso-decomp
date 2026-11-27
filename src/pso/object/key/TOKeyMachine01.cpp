@@ -177,7 +177,7 @@ void TOKeyMachine01::render() {
             model_render_flags = flags | 0x10;
             set_constant_material(&glow_color);
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         object = object->child;
         push_matrix();
         post_translate_matrix(&scale.x);
@@ -189,7 +189,7 @@ void TOKeyMachine01::render() {
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (is_on != 1) {
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;

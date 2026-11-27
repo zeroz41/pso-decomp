@@ -553,7 +553,7 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     col.g = 1.0f;
     col.b = 1.0f;
     set_constant_material(&col);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_shadow_quad(&sprite, 0, 0x22);
     sprite.p.x = 0.0f;
     sprite.p.y = 0.0f;
@@ -564,7 +564,7 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     sprite.p.x = 0.0f;
     sprite.p.y = -5.0f;
     draw_shadow_quad(&sprite, 0, 0x2E);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     pop_matrix();
 }

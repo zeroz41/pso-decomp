@@ -146,9 +146,9 @@ void TOKeyAncient03::render() {
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
         if (is_on != 1) {

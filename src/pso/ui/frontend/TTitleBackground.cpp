@@ -125,14 +125,14 @@ void TTitleBackground::draw_title_rings(f32 depth, s32 frame) {
 
 void TTitleBackground::render() {
     if (TMainTask::get_render_pass() != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         render_logo_with_default(get_title_texture_list(), 0xD, -1, -150.0f);
         draw_title_background_pulse(-140.0f, frame);
         draw_title_background_layer(get_title_texture_list(), 3, -1, -130.0f);
         draw_title_rings(-120.0f, frame);
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

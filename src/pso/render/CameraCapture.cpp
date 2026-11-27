@@ -647,9 +647,9 @@ void TCameraCapturePass::render() {
         if (flags & 1) {
             if (is_capture_overlay_ready() == 1) {
                 TCameraCtrl::restore_full_screen_view();
-                TParticleCtrl::begin_effect_render();
+                begin_effect_render();
                 draw_screen_quad(camera_capture_overlay_alpha << 24, 0, 0.0f);
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 TCameraCtrl::restore_saved_view();
                 disable_camera_capture_overlay();
             }

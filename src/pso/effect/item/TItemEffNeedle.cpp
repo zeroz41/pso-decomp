@@ -70,13 +70,13 @@ void TItemEffNeedleBase::render() {
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material(&material_color);
         set_texlist(texlist);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_by_node_angles(rotation, 1);
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
     }

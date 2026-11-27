@@ -67,7 +67,7 @@ void TEF_LensFlare::render() {
                 return;
             }
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         Vec dir;
         dir.x = position.x - camera_ctrl_instance->pos.x;
         dir.y = position.y - camera_ctrl_instance->pos.y;
@@ -229,7 +229,7 @@ void TEF_LensFlare::render() {
             }
             restore_saved_depth_alpha_state();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pop

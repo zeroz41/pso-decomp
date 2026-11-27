@@ -558,7 +558,7 @@ void TObjEneRe4Bit::render() {
     }
     fade.clear_flag_and_notify();
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     update_primary_light();
     texlist->textures[3].texaddr = saved;
 }

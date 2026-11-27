@@ -1883,7 +1883,7 @@ void TObjEneBm5Wolf::render() {
             pop_matrix();
             this->update_primary_light();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -1948,7 +1948,7 @@ void TObjEneBm5Wolf::render_debug() {
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, frame);
         clear_motion_packed_rotation();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     leader = TObjEneBm5Wolf::find_pack_leader(this->group_id);

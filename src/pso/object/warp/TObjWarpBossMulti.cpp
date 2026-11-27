@@ -257,10 +257,10 @@ void TObjWarpBoss::render() {
     set_texture_list(boss_warp_base_textures);
     draw_ginja_object(boss_warp_base_model);
     if (model != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(boss_warp_effect_textures);
         draw_ginja_model_with_motion(model, motion, frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
     pop_matrix();
 }
@@ -869,7 +869,7 @@ void TObjWarpBossMulti::render() {
     rotate_matrix_y(NULL, rotation_y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model_handle));
     draw_ginja_object(base_model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
     switch (state) {
     case 0:
@@ -879,7 +879,7 @@ void TObjWarpBossMulti::render() {
         draw_ginja_model_with_motion(warp_model, bml_motion, frame);
         break;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

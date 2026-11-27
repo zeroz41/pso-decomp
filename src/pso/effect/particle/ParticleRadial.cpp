@@ -212,7 +212,7 @@ void TParticleRadial::render() {
             if ((flags & 0x1000) && (camera_ctrl_instance != NULL)) {
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
             }
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             if (flags & 0x400) {
                 load_projected_texture_matrix(1.33f);
             }
@@ -241,7 +241,7 @@ void TParticleRadial::render() {
             } else {
                 model_render_flags = saved_model_render_flags;
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
         }
     } else {

@@ -166,7 +166,7 @@ void TFireExplosion::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x200010;
@@ -202,7 +202,7 @@ void TFireExplosion::render() {
     if (indirect_effect != 0) {
         disable_indirect_tev(indirect_effect, 0);
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TFireExplosion::run_task() {

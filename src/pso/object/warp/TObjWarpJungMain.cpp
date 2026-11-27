@@ -93,9 +93,9 @@ void TObjWarpJungMain::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, 0));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -182,9 +182,9 @@ void TObjWarpJung::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjWarpJung::render_warp(0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TObjWarpJung::render_warp_effect(1, (s32)beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

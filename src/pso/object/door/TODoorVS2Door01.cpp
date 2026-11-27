@@ -90,7 +90,7 @@ void TODoorVS2Door01::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
@@ -123,7 +123,7 @@ void TODoorVS2Door01::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

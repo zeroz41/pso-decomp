@@ -109,9 +109,9 @@ void TOBarrierEnergy01::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         set_texture_list(texlist);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(model, motion, animation_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(barrier_energy_texlists[2]));
         draw_ginja_object(barrier_energy_model);
         pop_matrix();

@@ -334,7 +334,7 @@ void TObjEneLappy::render() {
             }
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             if (!(this->actorFlags & 0x800) && (test_actor_flags(0x800000) != 0)) {
                 this->TObjEnemy::draw_ground_shadow(0, 0);
             }

@@ -96,10 +96,10 @@ void TOKeyJungleMain::render() {
             rotate_matrix_y(0, rotation_y);
             draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 1),
                                          get_bml_motion(key_jungle_main_static_model_resource, 1), switch_frame);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 0),
                                          get_bml_motion(key_jungle_main_static_model_resource, 0), sw_naka_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             break;
         }

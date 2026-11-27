@@ -51,9 +51,9 @@ void TOKeyAncient02::render() {
         push_matrix();
         post_translate_matrix(object->pos);
         scale_matrix_vec3(NULL, (u8 *)&scale);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         object = object->sibling;
         push_matrix();
@@ -62,7 +62,7 @@ void TOKeyAncient02::render() {
         pop_matrix();
         pop_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_ancient02_texture_lists[is_on]));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         object = key_ancient02_glass_model;
         push_matrix();
         post_translate_matrix(object->pos);
@@ -74,7 +74,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

@@ -571,7 +571,7 @@ void TCMCharacter::render() {
 }
 void TCMCharacter::draw_creation_figure() {
     NJS_OBJECT *v;
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     if (scan_creation_resources(this) == 0) {
         char_creation_figure_draw_flag = 0;
         return;
@@ -606,7 +606,7 @@ void TCMCharacter::draw_creation_figure() {
             TCharaMaking::clear_flag_bit0();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 s32 scan_creation_resources(void *context) {

@@ -208,7 +208,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     } else {
         this->draw_motion_model();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_chunk_model_node_callback(NULL);
     pop_matrix();
     this->update_primary_light();

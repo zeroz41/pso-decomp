@@ -1248,7 +1248,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             continue;
         }
         if (e->flags & 1) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
         }
         if (e->flags & 2) {
             model_render_flags |= 1;
@@ -1333,7 +1333,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             model_render_flags &= ~1;
         }
         if (e->flags & 1) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         if (active_scene_callback != NULL) {
             active_scene_callback(e->flags);
@@ -1369,7 +1369,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
     if (e->flags & 1)
     {
-      TParticleCtrl::begin_effect_render();
+      begin_effect_render();
     }
     if (e->flags & 2)
     {
@@ -1441,7 +1441,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
     if (e->flags & 1)
     {
-      TParticleCtrl::end_effect_render();
+      end_effect_render();
     }
     if (active_scene_callback != 0)
     {

@@ -39,13 +39,13 @@ void TObjBoss7Tunnel::create_parent_object() {
 void TObjBoss7TunnelNode::draw_particle_effect() {
     set_draw_list_mask(3);
 
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
     set_motion_packed_rotation();
 
     draw_ginja_model_with_motion(model, motion, frame);
 
     clear_motion_packed_rotation();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     restore_draw_list_mask();
 }
