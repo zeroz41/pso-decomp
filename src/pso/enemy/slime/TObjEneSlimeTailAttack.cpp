@@ -388,9 +388,9 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
     }
     slot = &origin->child_slots[index];
     if (velocity == 0) {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t);
+        slot->slime = TObjEneSlimeOne::create(origin, &t);
     } else {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t, (saddr)velocity);
+        slot->slime = TObjEneSlimeOne::create(origin, &t, velocity);
     }
     if (slot->slime == NULL) {
         return 0;
@@ -439,15 +439,15 @@ s32 TObjEneSlime::try_spawn_child(Vec *position) {
 }
 
 #pragma push
-saddr TObjEneSlimeOne::create(saddr owner, saddr set_data) {
-    return (saddr)new TObjEneSlimeOne(new TObjControl(tl_04), (TObjEneSlime *)owner, (void *)set_data);
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data) {
+    return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data);
 }
 #pragma pop
 
 #pragma push
 
-saddr TObjEneSlimeOne::create(saddr owner, saddr set_data, saddr velocity) {
-    return (saddr)new TObjEneSlimeOne(new TObjControl(tl_04), (TObjEneSlime *)owner, (void *)set_data, (const Vec *)velocity);
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data, const Vec *velocity) {
+    return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data, velocity);
 }
 #pragma pop
 
@@ -1054,7 +1054,7 @@ void TObjEneSlimeOne::start_tail_attack() {
     this->state_timer = 0x5A;
     animation->set_state(0);
     play_sound_effect(0x4003A318, &this->attack_position, 0, 0);
-    TObjEneSlimeTailAttack::create((saddr)this, &this->attack_position, this->rotation.y, this);
+    TObjEneSlimeTailAttack::create(this, &this->attack_position, this->rotation.y, this);
     set_display_mode(2);
 }
 
@@ -1429,7 +1429,7 @@ TObjEneSlimeTailAttack::~TObjEneSlimeTailAttack() {}
 
 #pragma push
 
-TObjEneSlimeTailAttack *TObjEneSlimeTailAttack::create(saddr, const Vec *position, s32 angle, TObjEneSlimeOne *owner) {
+TObjEneSlimeTailAttack *TObjEneSlimeTailAttack::create(TObjEneSlimeOne *, const Vec *position, s32 angle, TObjEneSlimeOne *owner) {
     return new TObjEneSlimeTailAttack(new TObjControl(tl_04), position, angle, owner);
 }
 #pragma pop

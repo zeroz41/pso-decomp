@@ -18,7 +18,7 @@ struct SlimeTailPose {
 struct TObjEneSlimeTailAttack : public TObjEnemy {
     TObjEneSlimeTailAttack(TObject *parent, const Vec *position, s32 angle, TObjEneSlimeOne *owner);
     virtual ~TObjEneSlimeTailAttack();
-    static TObjEneSlimeTailAttack *create(saddr, const Vec *, s32, TObjEneSlimeOne *);
+    static TObjEneSlimeTailAttack *create(TObjEneSlimeOne *, const Vec *position, s32 angle, TObjEneSlimeOne *owner);
     void draw_blob_shadows();
     // Hits the players and flagged enemies near body_center during frames 17..30; 1 on a hit.
     s32 apply_tail_hits();

@@ -44,11 +44,12 @@ extern const f32 lbl_805D9FBC; // 5.0
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/audio/SoundRequests.h"
 
 const char *re2_flower_class_name = re2_flower_class_name_string;
 // The variant's movement block (dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
-void *re2_flower_movement_params;
+BattleMovementParams *re2_flower_movement_params;
 BmlResource *re2_flower_bml_resource;
 // State of the chunk node callback TObjPlayer::update_effect_sequence: the node counter, the head yaw
 // applied at node 1 and the two points transformed at node 14.
@@ -582,7 +583,7 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             VecCopy(&pos, &node_points[0]);
             pos.y = lbl_805D9FDC + position.y;
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
-                TTecMegid::create_ex(this, &pos, rotation.y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
+                TTecMegid::create_ex(this, &pos, rotation.y, TObjEneDD::clamp_frame_index(re2_flower_movement_params->values.integers[0]));
             } else {
                 new TObjEneRe2Flower_Bomb(this, &pos, rotation.y);
             }

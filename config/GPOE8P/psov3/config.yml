@@ -5417,8 +5417,8 @@ force_active:
   - create__19TItemTrapVisionTaskFP7TObjectP10TObjPlayer
   - create__13TWindowSubMagFv
   - create__14TChCrTagPlBackFl
-  - create__15TObjEneSlimeOneFll
-  - create__15TObjEneSlimeOneFlll
+  - create__15TObjEneSlimeOneFP12TObjEneSlimePv
+  - create__15TObjEneSlimeOneFP12TObjEneSlimePvPC3Vec
   - create__16TItemReverseTechFv
   - create__17TChCrTagPlGraphicFl
   - create__17TObjWarpBossMultiFPv
@@ -5427,7 +5427,7 @@ force_active:
   - create__19TChCrTagInformationFl
   - create__19TObjEneDelDepthBombFP15TObjEneDelDepthP9TObjCharaPC3Vecl
   - create__21TObjEneSlimeWaterBombFP15TObjEneSlimeOneP15TObjEneSlimeOne
-  - create__22TObjEneSlimeTailAttackFlPC3VeclP15TObjEneSlimeOne
+  - create__22TObjEneSlimeTailAttackFP15TObjEneSlimeOnePC3VeclP15TObjEneSlimeOne
   - create__22TQuestVmDownLoadServerFv
   - create__18T_ATS_DrawCalendarFv
   - create__23TObjOnlineEndingHexLineFP7TObjectP14EndingHexPoint

@@ -295,7 +295,7 @@ void TTecGrantsFlash::render() {
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x10;
-    ((void (*)(NJS_ARGB *, s32))set_constant_material)(&color, id);
+    set_constant_material(&color);
     set_draw_list_mask(3);
     begin_effect_render();
     push_matrix();

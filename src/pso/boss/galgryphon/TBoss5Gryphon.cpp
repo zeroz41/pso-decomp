@@ -797,8 +797,7 @@ void TBoss5Gryphon::update_linked_ground_position() {
 }
 
 void TBoss5Gryphon::play_se(s32 se_id) {
-    s32 self = (saddr)this;
-    ((s32 (*)(s32, s32, s32, s32))play_sound_effect)(se_id, self + 0x560, 0, 0);
+    play_sound_effect(se_id, &sound_origin, 0, 0);
 }
 
 void TBoss5Gryphon::spawn_ancient_trap(s32 id) {

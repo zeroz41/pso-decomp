@@ -41,7 +41,7 @@ TItemAttackCol *attack_collider_render_owner;
 int attack_collider_active_count;
 
 
-extern "C" void apply_extra_node_transform(TItemAttackCol *col, void *node);
+extern "C" void apply_extra_node_transform(TItemAttackCol *col, NJS_OBJECT *node);
 
 
 const char *TItemAttackCol::name = "TItemAttackCol";
@@ -269,7 +269,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
     velocity.z *= params->speed;
     rotation_y = rotation[1];
     range_sq = params->range * params->range;
-    model = (uaddr)params->model;
+    model = params->model;
     texlist = params->texlist;
     scale.x = params->scale;
     scale.y = params->scale;
@@ -388,7 +388,7 @@ void TItemAttackCol::render() {
         return;
     }
     {
-        if (model != 0U) {
+        if (model != NULL) {
             if (texlist != 0U) {
                 set_texlist(texlist);
             }
@@ -400,7 +400,7 @@ void TItemAttackCol::render() {
             rotate_matrix_by_node_angles(rotation, 1);
             rotate_matrix_by_node_angles(spin, 1);
             scale_current_matrix(&scale.x);
-            draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemAttackCol::add_to_active_list);
+            draw_node_tree_with_callback(model, TItemAttackCol::add_to_active_list);
             pop_matrix();
             attack_collider_render_owner = 0;
             end_effect_render();
@@ -459,11 +459,11 @@ void TItemAttackCol::shift_collision_bounds() {
     extra_rotation[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* node) { apply_extra_node_transform(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(NJS_OBJECT *node) { apply_extra_node_transform(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
 
 // Called for each node of the model before add_to_active_list counts it:
 // with flag 8 the second node drawn gets the collider's extra rotation and scale.
-void apply_extra_node_transform(TItemAttackCol *col, void *node) {
+void apply_extra_node_transform(TItemAttackCol *col, NJS_OBJECT *node) {
     if ((col->flags & 8) && attack_collider_active_count == 1) {
         rotate_matrix_by_node_angles(col->extra_rotation, 1);
         scale_current_matrix(col->extra_scale);

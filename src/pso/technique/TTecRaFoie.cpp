@@ -170,7 +170,7 @@ void TFireExplosion::render() {
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x200010;
-    ((void (*)(void *, s32))set_constant_material)(&color, id);
+    set_constant_material(&color);
     if (indirect_effect != 0) {
         enable_indirect_tev(indirect_effect, 2, 0, 0);
     }
