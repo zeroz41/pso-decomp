@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowChoiceSetting_80249610.h"
+#include "pso/ui/window/ChatBalloonOverlap.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowFukidasi.h"

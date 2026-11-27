@@ -5696,7 +5696,7 @@ pso/ui/window/TWindowChoiceSetting.cpp:
 	.sdata      start:0x805D38B8 end:0x805D38C0
 	.sdata2     start:0x805DCBB0 end:0x805DCBC4
 
-pso/ui/window/TWindowChoiceSetting_80249610.cpp:
+pso/ui/window/ChatBalloonOverlap.cpp:
 	.text       start:0x8024961C end:0x802497A8
 
 pso/ui/window/TWindowComCard.cpp:

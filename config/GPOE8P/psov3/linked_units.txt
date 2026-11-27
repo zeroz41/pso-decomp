@@ -1029,7 +1029,7 @@ pso/ui/chat/TWindowChatSymbol.cpp
 pso/ui/chat/TSymbolChatMenu.cpp
 pso/ui/window/TWindowCheckBox.cpp
 pso/ui/window/TWindowMenuInfomation.cpp
-pso/ui/window/TWindowChoiceSetting_80249610.cpp
+pso/ui/window/ChatBalloonOverlap.cpp
 pso/ui/window/TWindowComCard.cpp
 pso/ui/window/TWindowComCardFollower.cpp
 pso/ui/window/TWindowCost.cpp

@@ -20,7 +20,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowChoiceSetting_80249610.h"
+#include "pso/ui/window/ChatBalloonOverlap.h"
 #include "pso/unk/WindowControlState.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
