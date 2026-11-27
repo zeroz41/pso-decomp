@@ -187,7 +187,7 @@ s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset) {
 
 SymbolChatPreset *get_symbol_chat_preset(s32 i) {
     u8 *save = reinterpret_cast<u8 *>(get_character_save_record(0xFFFF));
-    return reinterpret_cast<SymbolChatPreset *>(save + offsetof(SavedSymbolChatPresets, entries)) + i;
+    return reinterpret_cast<SymbolChatPreset *>(save + offsetof(CharacterSaveRecord, symbol_chat_presets)) + i;
 }
 
 
@@ -212,12 +212,12 @@ void SymbolChatPreset::clear_entries() {
     }
 }
 
-void SavedSymbolChatPresets::load_symbol_chat_data() {
+void CharacterSaveRecord::load_symbol_chat_data() {
     s32 i;
     SymbolChatPreset *preset;
     u8 *data;
     SymbolChatPreset *e;
-    e = entries;
+    e = symbol_chat_presets;
     data = load_disc_file("symbolchat.dat");
     move_data(e, data, 0x420);
     safe_free(data);

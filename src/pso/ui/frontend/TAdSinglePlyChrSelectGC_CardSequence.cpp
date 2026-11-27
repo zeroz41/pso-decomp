@@ -735,8 +735,8 @@ void TAdSinglePlyChrSelectGC::render_frame() {
 
 
 s32 TAdSinglePlyChrSelectGC::forward_to_global_instance(TItemData *item) {
-    if ((void *) selected_character_data != NULL) {
-        ((TPlyInventory *)selected_character_data)->append_item(item);
+    if (selected_character_data != NULL) {
+        selected_character_data->m_inventory.append_item(item);
         return 1;
     }
     return 0;
@@ -2407,8 +2407,8 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
     s32 i;
     TPlyInventoryItem *result;
 
-    if ((void *) selected_character_data != NULL) {
-        result = reinterpret_cast<TPlyCharData *>(card_character_save_buffer->get_selected_character_slot())->m_inventory.get_items();
+    if (selected_character_data != NULL) {
+        result = card_character_save_buffer->get_selected_character_slot()->chardata.m_inventory.get_items();
         i = 0;
         do {
             result->clear();
@@ -2420,7 +2420,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
         TPlyCharData *character = selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
         selected_character_data->reset_technique_levels();
-        ((TObjPlayer *)selected_character_data)->return_city_window = 0;
+        selected_character_data->m_stats.meseta = 0;
     }
     if (active_character_save_record != NULL) {
         memset(active_character_save_record->bank_items, 0, 0x12C0);
@@ -2694,7 +2694,7 @@ void init_fresh_character_card(void) {
     for (i = 0; i < 200; i++) {
         card->bank_items[i].init();
     }
-    ((SavedSymbolChatPresets *)card)->load_symbol_chat_data();
+    card->load_symbol_chat_data();
     set_default_card_window_flags(card);
     init_default_short_list_order(card->short_list_order);
 }

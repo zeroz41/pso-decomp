@@ -39,16 +39,6 @@ LAYOUT_ASSERT(SymbolChatPresetSize, sizeof(SymbolChatPreset) == 0x58);
 LAYOUT_ASSERT(SymbolChatPresetNameOffset, offsetof(SymbolChatPreset, name) == 0x4);
 LAYOUT_ASSERT(SymbolChatPresetPayloadOffset, offsetof(SymbolChatPreset, payload) == 0x1C);
 
-// Preset bank within the character save record.
-struct SavedSymbolChatPresets {
-    u8 save_header[0x15A0];
-    SymbolChatPreset entries[12];
-
-    void load_symbol_chat_data();
-};
-
-LAYOUT_ASSERT(SavedSymbolChatPresetsEntriesOffset, offsetof(SavedSymbolChatPresets, entries) == 0x15A0);
-
 SymbolChatPreset *get_symbol_chat_preset(s32 index);
 s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset);
 int is_preset_flag_bit9_set(const SymbolChatPreset *preset);

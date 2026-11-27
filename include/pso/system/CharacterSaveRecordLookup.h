@@ -33,6 +33,8 @@ struct CharacterSaveRecord {
     s32 register_in_free_room_slot(TItemData *item);
     // Marks the record as holding a character and empties its bank; 0 for a NULL record.
     s32 init_char_slot_record();
+    // Fills symbol_chat_presets from symbolchat.dat: six named presets, the rest cleared.
+    void load_symbol_chat_data();
 
     s32 flags;              // set_global_flags / clear_flags / check_flag
     s32 creation_seconds;   // when the character was made; tells two records of one slot apart
@@ -72,6 +74,7 @@ LAYOUT_ASSERT(CharacterSaveRecord_online_battle, offsetof(CharacterSaveRecord, o
 LAYOUT_ASSERT(CharacterSaveRecord_challenge, offsetof(CharacterSaveRecord, challenge) == 0x21C4);
 LAYOUT_ASSERT(CharacterSaveRecord_choice_search, offsetof(CharacterSaveRecord, choice_search) == 0x22EC);
 LAYOUT_ASSERT(CharacterSaveRecord_quest_counters, offsetof(CharacterSaveRecord, quest_counters) == 0x2314);
+LAYOUT_ASSERT(CharacterSaveRecord_symbol_chat_presets, offsetof(CharacterSaveRecord, symbol_chat_presets) == 0x15A0);
 LAYOUT_ASSERT(CharacterSaveRecord_chat_shortcuts, offsetof(CharacterSaveRecord, chat_shortcuts) == 0x19C0);
 LAYOUT_ASSERT(CharacterSaveRecord_split_screen_battle, offsetof(CharacterSaveRecord, split_screen_battle) == 0x2354);
 LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
