@@ -6335,7 +6335,7 @@ force_active:
   - set_bank__18TPlyDispConfigSmthFv
   - decrement_state__19PhotonBlastDonationFv
   - initialize_battle__17TPlayerBattleCtrlFv
-  - __sinit_ZeroedGlobalObject_cpp__Fv
+  - __sinit_ZeroedGlobalObject_cpp
   - fn_801D371C
   - fn_801D6AB4
   - copy_arrow_color_entry__FP16TArrowColorEntryP16TArrowColorEntry
