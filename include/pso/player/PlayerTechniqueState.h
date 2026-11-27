@@ -59,7 +59,7 @@ public:
 
     static s32 technique_count();
     PhotonBlastTarget *get_target(s32 slot);
-    void set_target(s32 slot, s32 entity_id, s16 index);
+    void set_target(s32 slot, u16 entity_id, s16 index);
     u8 clamp_to_max(u8 level, u8 max);
     u8 get_effective_technique_level(s16 technique);
     u8 get_cast_technique_level(s16 technique);

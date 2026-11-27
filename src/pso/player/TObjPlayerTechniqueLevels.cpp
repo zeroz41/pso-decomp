@@ -56,7 +56,7 @@ s32 PlayerTechniqueState::check_technique_level(s16 technique, u8 level) {
     return level <= get_effective_technique_level(technique) ? 1 : 0;
 }
 
-void PlayerTechniqueState::set_target(s32 slot, s32 entity_id, s16 index) {
+void PlayerTechniqueState::set_target(s32 slot, u16 entity_id, s16 index) {
     PhotonBlastTarget *target = get_target(slot);
     target->set_entity_id(entity_id);
     target->set_index(index);

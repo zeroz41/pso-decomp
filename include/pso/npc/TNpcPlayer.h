@@ -81,7 +81,7 @@ struct NpcPlayerView {
     s32 probe_obstacles();
     s32 get_target_collider();
     u32 get_target_id();
-    u16 get_client_id();
+    s32 get_client_id();
     u32 get_prev_target_id();
     u32 get_condition();
     void copy_target(NpcPlayerViewTarget *src, NpcPlayerViewTarget *dst);

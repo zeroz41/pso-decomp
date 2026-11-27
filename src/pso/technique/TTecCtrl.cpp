@@ -64,10 +64,6 @@ TechniqueParams calculated_technique_params;
 TechniqueBoostTable technique_boost_tables[4];
 TechniqueBoostTable lbl_8051607C[4];
 
-extern "C" {
-void set_target__20PlayerTechniqueStateFlls(void *, int, u16, s16);
-}
-
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {
     "eff_f_bartaturara.gj",
@@ -138,7 +134,7 @@ NJS_TEXLIST *technique_texture_list;
 
 #define ONE_SLOT()                                                                       \
     if (c->target_records.get_record(0)->get_entity_id() != 0xFFFF) { \
-        set_target__20PlayerTechniqueStateFlls(slots, 0,                                                \
+        slots->set_target(0,                                                \
             c->target_records.get_record(0)->get_entity_id(),           \
             c->target_records.get_record(0)->get_part());           \
         slots->set_tech_level(1);                                      \
@@ -618,7 +614,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         int i;
         for (i = 0; i < c->target_records.get_count(); i++) {
             if (c->target_records.get_record(n)->get_entity_id() != 0xFFFF) {
-                set_target__20PlayerTechniqueStateFlls(slots, n,
+                slots->set_target(n,
                     c->target_records.get_record(n)->get_entity_id(),
                     c->target_records.get_record(n)->get_part());
                 n++;
@@ -639,7 +635,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         int i;
         int n = 0;
         for (i = 0; i < c->target_records.get_count(); i++) {
-            set_target__20PlayerTechniqueStateFlls(slots, n,
+            slots->set_target(n,
                 c->target_records.get_record(n)->get_entity_id(),
                 c->target_records.get_record(n)->get_part());
             n++;

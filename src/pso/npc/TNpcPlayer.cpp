@@ -797,7 +797,7 @@ void PhotonBlastTarget::reset() {
 
 PhotonBlastTarget::PhotonBlastTarget() { reset(); }
 
-void PhotonBlastTarget::set_entity_id(s32 id) { entity_id = id; }
+void PhotonBlastTarget::set_entity_id(u16 id) { entity_id = id; }
 
 void PhotonBlastTarget::set_index(s16 part) { index = part; }
 
@@ -990,7 +990,7 @@ s32 PartnerCounters::reset_if_reached(s32 index, s32 limit) {
 
 s16 PartnerCounters::get(s32 index) { return count[index]; }
 
-u16 NpcPlayerView::get_client_id() { return client_id; }
+s32 NpcPlayerView::get_client_id() { return client_id; }
 
 u32 NpcPlayerView::get_target_id() { return target_id; }
 
@@ -1217,7 +1217,7 @@ TNpcPlayer::~TNpcPlayer() {
     }
     partner = self_view;
     if (partner != NULL) {
-        player = get_player_by_client_id(partner->get_client_id());
+        player = get_player_by_client_id((u16)partner->get_client_id());
         if (player != NULL) {
             TObjPlayer::send_disable_pk_mode(player);
         }
@@ -1819,7 +1819,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
             cmd.targets[0].set_index(0);
         } else {
             cmd.params.level = player->technique_state.get_cast_technique_level(kind);
-            cmd.targets[0].set_entity_id((u16)self_view->get_target_id());
+            cmd.targets[0].set_entity_id(self_view->get_target_id());
             cmd.targets[0].set_index(self_view->get_target_collider());
         }
         cmd.send();
@@ -1872,7 +1872,7 @@ void TNpcPlayer::partner_observe_surroundings() {
     leader = leader_view->player;
     leader_distance_sq = horizontal_distance_squared(&leader->position, &self_view->player->position);
     if (escort_leader != 0) {
-        self_view->try_update_target_flag((u16)leader_view->get_client_id(), ai_params.enemy_lock_on_range);
+        self_view->try_update_target_flag(leader_view->get_client_id(), ai_params.enemy_lock_on_range);
     } else {
         self_view->scan_targets(ai_params.enemy_lock_on_range);
     }
