@@ -89,8 +89,6 @@ void alloc_work_buffer(void) {
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }
 
-extern "C" {
-
 // Sends what the packet's send buffer holds, padded to a multiple of 4 bytes
 // (TGameProtocol::run_task clears the buffer afterwards).
 void flush_packet_send_buffer(TPacket *packet) {
@@ -115,6 +113,4 @@ void append_command_to_batch_buffer(TPacket *batch, u8 *cmd) {
     for (i = 0; i < n; i++) {
         batch->m_send_buffer[batch->m_send_size++] = *cmd++;
     }
-}
-
 }

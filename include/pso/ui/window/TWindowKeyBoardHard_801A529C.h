@@ -6,10 +6,8 @@
 class TPacket;
 struct CharacterSaveRecord;
 
-extern "C" {
 void flush_packet_send_buffer(TPacket *packet);
 void append_command_to_batch_buffer(TPacket *batch, u8 *cmd);
-}
 void alloc_work_buffer(void);
 // The card window flags a new character starts with.
 void set_default_card_window_flags(CharacterSaveRecord *record);
