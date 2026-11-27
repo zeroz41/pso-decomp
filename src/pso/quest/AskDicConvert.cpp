@@ -58,10 +58,10 @@ inline s32 get_text_run_length(QuestDownloadTextNode *p) {
     }
     n = (quest_text_entry_len - p->len) * 2;
     while (p->flags & 1) {
-        n += strlen(reinterpret_cast<const char *>(p) + 1);
+        n += strlen(reinterpret_cast<const char *>(p->text));
         p = p->next;
     }
-    return n + strlen(reinterpret_cast<const char *>(p) + 1);
+    return n + strlen(reinterpret_cast<const char *>(p->text));
 }
 inline QuestDownloadTextNode *next_text_group(QuestDownloadTextNode *p) {
     while (p->flags & 1) {
@@ -215,7 +215,7 @@ s32 count_fitting_entries(QuestDownloadTextNode *head) {
 inline s32 group_name_text(QuestDownloadTextNode *p, u16 *buf) {
     s32 n = 0;
     for (;;) {
-        n += convert_quest_text_u8_to_u16(buf + n, reinterpret_cast<u8 *>(p) + 1, 6);
+        n += convert_quest_text_u8_to_u16(buf + n, p->text, 6);
         if (!(p->flags & 1)) {
             break;
         }
@@ -332,10 +332,10 @@ s32 measure_entry_group_len(QuestDownloadTextNode *node) {
     }
     n = (quest_text_entry_len - node->len) * 2;
     while (node->flags & 1) {
-        n += strlen(reinterpret_cast<const char *>(node) + 1);
+        n += strlen(reinterpret_cast<const char *>(node->text));
         node = node->next;
     }
-    return n + strlen(reinterpret_cast<const char *>(node) + 1);
+    return n + strlen(reinterpret_cast<const char *>(node->text));
 }
 
 extern "C" s32 count_quest_text_entries(const QuestDownloadTextNode *chain) {
@@ -382,7 +382,7 @@ inline s32 render_group_text(s32 start, s32 count, QuestDownloadTextNode *node, 
     p = node;
     n = 0;
     for (;;) {
-        n += convert_quest_text_u8_to_u16(b + n, reinterpret_cast<u8 *>(p) + 1, 6);
+        n += convert_quest_text_u8_to_u16(b + n, p->text, 6);
         if (!(p->flags & 1)) {
             break;
         }
@@ -457,7 +457,7 @@ inline s32 render_packed_group_text(s32 start, s32 count, QuestDownloadTextNode 
     p = node;
     n = 0;
     for (;;) {
-        n += convert_quest_text_u8_to_u16(b + n, reinterpret_cast<u8 *>(p) + 1, 6);
+        n += convert_quest_text_u8_to_u16(b + n, p->text, 6);
         if (!(p->flags & 1)) {
             break;
         }
@@ -542,7 +542,7 @@ inline QuestDownloadTextNode *new_raw_text_node(s32 x) {
     QuestDownloadTextNode *n = alloc_quest_text_node();
     if (n != NULL) {
         n->flags = 0x80;
-        n->data[0] = 0;
+        n->text[0] = 0;
         n->len = x;
         n->extra = 0;
         n->source = NULL;
@@ -588,7 +588,7 @@ QuestDownloadTextNode *build_text_node_chain(
         return NULL;
     }
     n->flags = 0;
-    c = copy_sjis_text(n->data, text, 4);
+    c = copy_sjis_text(n->text, text, 4);
     rem -= c;
     n->len = length;
     text += c;
@@ -606,7 +606,7 @@ QuestDownloadTextNode *build_text_node_chain(
         }
         n->flags |= 1;
         m->flags = 2;
-        c = copy_sjis_text(reinterpret_cast<u8 *>(m) + 1, text, 14);
+        c = copy_sjis_text(m->text, text, 14);
         rem -= c;
         text += c;
         m->next = NULL;

@@ -25,7 +25,9 @@ LAYOUT_ASSERT(QuestDownloadSegmentNext, offsetof(QuestDownloadSegment, next) == 
 // fragment to this entry. The other fields are used by headed fragments.
 struct QuestDownloadTextNode {
     u8 flags;
-    u8 data[5];
+    // Up to 4 text bytes in a headed fragment; a continuation fragment (flags 2)
+    // runs its 14 bytes on over the fields below.
+    u8 text[5];
     u8 len;
     u8 extra; // the text record's extra byte
     const QuestDownloadItemNode *source;
@@ -94,7 +96,7 @@ struct QuestDownloadSlot {
 };
 
 LAYOUT_ASSERT(QuestDownloadTextNodeSize, sizeof(QuestDownloadTextNode) == 0x14);
-LAYOUT_ASSERT(QuestDownloadTextNodeDataOffset, offsetof(QuestDownloadTextNode, data) == 1);
+LAYOUT_ASSERT(QuestDownloadTextNodeTextOffset, offsetof(QuestDownloadTextNode, text) == 1);
 LAYOUT_ASSERT(QuestDownloadTextNodeSourceOffset, offsetof(QuestDownloadTextNode, source) == 8);
 LAYOUT_ASSERT(QuestDownloadTextNodeNextOffset, offsetof(QuestDownloadTextNode, next) == 0x10);
 LAYOUT_ASSERT(QuestDownloadItemNodeSize, sizeof(QuestDownloadItemNode) == 0x10);
