@@ -28,11 +28,12 @@ enum quest_suspend_reason {
     QST_WAIT_ITEM_CHOICE       = 12, // item id to a register, -1 on cancel
 };
 
-// One quest VM cell: opcodes read it as an integer, a float or an address.
+// One quest VM cell: opcodes read it as an integer, a float, an address or the address of a string.
 union QuestValue {
     s32 i;
     f32 f;
     void *p;
+    char *str;
 };
 
 struct QuestVmContext {

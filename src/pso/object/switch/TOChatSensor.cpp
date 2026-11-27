@@ -221,10 +221,10 @@ void TOChatSensor::handle_chat_message(char *message) {
     }
 }
 
-void TOChatSensor::set_trigger_text(void *trigger_text) {
+void TOChatSensor::set_trigger_text(const char *trigger_text) {
     s32 i;
-    if (trigger_text != 0) {
-        strncpy(this->trigger_text, (const char *)trigger_text, 0x1F);
+    if (trigger_text != NULL) {
+        strncpy(this->trigger_text, trigger_text, 0x1F);
         this->trigger_text[0x1F] = 0;
         for (i = 0; i < 0x20; i++) {
             if (this->trigger_text[i] == 0xA) {

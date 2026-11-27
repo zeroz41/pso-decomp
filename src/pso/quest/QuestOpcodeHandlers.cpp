@@ -545,7 +545,7 @@ void qst_op_get_guildcard_num(void) {
 void qst_op_check_for_keyword(void) {
     u8 idx;
     idx = (u8) qst_args[0].i;
-    if (TOChatSensorCapture::check_keyword((u16) qst_args[1].i, (const char *) qst_args[2].i) != 0) {
+    if (TOChatSensorCapture::check_keyword((u16) qst_args[1].i, qst_args[2].str) != 0) {
         qst_registers[idx].i = 1;
         return;
     }
@@ -680,7 +680,7 @@ void qst_op_delayed_switch_episode(s32 reg) {
 
 void qst_op_chat_bubble(void) {
     s32 id = qst_args[0].i;
-    const char *text = (const char *)qst_args[1].i;
+    const char *text = qst_args[1].str;
     TObjPlayer *player;
     s32 start;
     s32 end;
@@ -1594,7 +1594,7 @@ void qst_op_get_dl_status(s32 reg) {
 }
 
 void qst_op_file_dl_req(void) {
-    TLobby::protocol_instance->send_download_head(qst_args[0].i, (const char *)qst_args[1].i);
+    TLobby::protocol_instance->send_download_head(qst_args[0].i, qst_args[1].str);
     clear_lobby_count();
     reset_warning_aram_cache();
 }
@@ -2019,7 +2019,7 @@ void qst_op_set_override_enemy_bp_index() {
 void qst_op_set_chat_callback() {
     ObjectSetData s;
     u8 i = (u32)qst_args[0].i;
-    saddr arg = qst_args[1].i;
+    const char *text = qst_args[1].str;
     TOChatSensor *sensor;
     init_object_set_data(&s);
     s.position.x = qst_registers[i++].i;
@@ -2029,7 +2029,7 @@ void qst_op_set_chat_callback() {
     s.set_params[0] = qst_registers[i].i;
     sensor = static_cast<TOChatSensor *>(TOChatSensor::create(&s));
     if (sensor != NULL) {
-        sensor->set_trigger_text((void *)arg);
+        sensor->set_trigger_text(text);
     }
 }
 
@@ -2102,7 +2102,7 @@ void qst_op_get_game_version(s32 reg) {
 
 void qst_op_send_mail(void) {
     u8 i = (u32)qst_args[0].i;
-    char *src = ((char *)qst_args[1].p);
+    char *src = qst_args[1].str;
     TChatMessage mail;
     char buf[0x400];
     TTokenList *fields;
@@ -2401,7 +2401,7 @@ void qst_op_set_cmode_rank_override(void) {
     char buf[0x200];
     TTokenList *fields;
     s32 arg = (u32)qst_args[0].i;
-    char *src = ((char *)qst_args[1].p);
+    char *src = qst_args[1].str;
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, src, 0x1FF);
     trim_whitespace(buf);
@@ -2561,7 +2561,7 @@ void qst_op_set_cmode_rank_result(void) {
     s32 color;
     const char *title;
     color = qst_args[0].i;
-    title = ((const char *)qst_args[1].p);
+    title = qst_args[1].str;
     if (is_split_screen() == 1) {
         set_challenge4p_rank_result(title, color);
         return;
@@ -2659,7 +2659,7 @@ int qst_op_ba_show_self_traps(void) { return TOMineTrap::set_instance(1); }
 void qst_op_set_area_title() {
     const char *title;
 
-    title = (const char *)qst_args[0].i;
+    title = qst_args[0].str;
     if (is_split_screen() == 1) {
         set_area_title(title);
         return;
@@ -3736,13 +3736,13 @@ void qst_op_load_midi() { TLobby::free_luker_object(); load_midi_stub(); TLobby:
 void qst_op_load_pvr() { TLobby::free_luker_object(); load_memcard_file(); TLobby::clear_quest_vm_flag(); }
 
 void qst_op_npc_text() {
-    set_partner_common_remark((qst_args[0].i), (const char *)(qst_args[1].i));
+    set_partner_common_remark((qst_args[0].i), qst_args[1].str);
 }
 
 void qst_op_nop_A0_debug(void) {
     char buf[0x200];
     TTokenList *fields;
-    const char *s = ((const char *)qst_args[1].p);
+    const char *s = qst_args[1].str;
     fields = new TTokenList(NULL, 0, 0);
     buf[0x1FF] = 0;
     strncpy(buf, s, 0x1FF);
@@ -4525,7 +4525,7 @@ void qst_op_list(void) {
     s32 i;
     char buf[0x200];
     idx = (u32)qst_args[0].i;
-    text = ((char *)qst_args[1].p);
+    text = qst_args[1].str;
     list = new TTokenList(NULL, 0, 0);
     strncpy(buf, text, 0x1FF);
     trim_whitespace(buf);
@@ -4549,7 +4549,7 @@ void qst_op_list(void) {
 
 void qst_op_message(void) {
     s32 speaker = qst_args[0].i;
-    const char *text = (const char *)qst_args[1].i;
+    const char *text = qst_args[1].str;
     s32 first;
     TObjPlayer *actor;
     s32 end;
