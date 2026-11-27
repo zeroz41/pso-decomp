@@ -378,7 +378,7 @@ struct TObjPlayer : public TObjChara {
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
     static void set_com_card_window(s32 client);
-    static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
+    static TItem *get_equipped_weapon(TObjPlayer *player);  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
     s32 test_action_mask(s32 bits);
@@ -400,7 +400,7 @@ struct TObjPlayer : public TObjChara {
     TItem *get_equipped_item(s32 slot);
     s32 is_flag_20000_set();
     s32 is_body_collision_inactive();
-    static saddr get_slot_value(void *slots, int slot);
+    static TItem *get_slot_value(TItem **slots, int slot);
     void play_sound_if_on_floor(s32 sound_id);
     u32 pickup_item(TItem *item);
     s32 can_pickup_item_by_id(TItem *item);

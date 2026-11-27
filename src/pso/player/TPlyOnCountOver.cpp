@@ -323,11 +323,11 @@ void PlayerMoveSpeed::update(TObjPlayer *player) { set_speed(calc_speed(player))
 void PlayerMoveSpeed::update(TObjPlayer *player, f32 speed) { set_speed(calc_speed(player, speed)); }
 
 
-saddr TObjPlayer::get_slot_value(void *equipped_items, int slot) {
+TItem *TObjPlayer::get_slot_value(TItem **slots, int slot) {
     if (slot < 0 || slot >= 13) {
         return 0;
     }
-    return ((s32 *)equipped_items)[slot];
+    return slots[slot];
 }
 
 

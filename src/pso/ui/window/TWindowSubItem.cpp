@@ -600,7 +600,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
             this->state = 0x16;
             break;
         case 1: {
-            TItem *held = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot());
+            TItem *held = TObjPlayer::get_slot_value(player->equipped_items.items, item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
                 TObjPlayer::send_6x26_unequip_item(player, t);
@@ -654,7 +654,7 @@ void TWindowSubItem::use_selected_item() {
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     TItemData d;
     TObjPlayer *pl;
-    uaddr armor;
+    TItem *armor;
     pl = get_player_by_client_id(window_sub_item->client_id);
     if (pl == NULL) {
         return 0;
@@ -669,7 +669,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     if (armor == 0) {
         return 0;
     }
-    ((TItem *)armor)->copy_to_item_data(&d);
+    armor->copy_to_item_data(&d);
     return d.data1.data_u8[5] != 0 ? 1 : 0;
 }
 

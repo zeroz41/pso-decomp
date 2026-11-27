@@ -223,7 +223,7 @@ s32 PlayerPkState::is_enabled() { return enabled; }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_equipped_weapon(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items.items, 6); }
+TItem *TObjPlayer::get_equipped_weapon(TObjPlayer *player) { return get_slot_value(player->equipped_items.items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -2404,7 +2404,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     rec.kind = 0;
     rec.power = dmg;
     if (attacker_id < 0x1000) {
-        TItem *item = TObjPlayer::get_equipped_weapon(att);
+        TItem *item = TObjPlayer::get_equipped_weapon((TObjPlayer *)att);
         if (item == NULL) {
             mul = (1.0f);
         } else {

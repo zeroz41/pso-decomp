@@ -1752,7 +1752,7 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     } else {
         slot = item->get_attach_slot();
     }
-    TItem *current = (TItem *)get_slot_value(equipped_items.items, slot);
+    TItem *current = get_slot_value(equipped_items.items, slot);
     if (current == NULL) {
         set_equip_slot_entry(equipped_items.items, slot, item);
         item->equip();
@@ -1819,7 +1819,7 @@ void TObjPlayer::unequip_all_units() {
 
     i = 9;
     do {
-        slot_value = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
+        slot_value = TObjPlayer::get_slot_value(this->equipped_items.items, i);
         if (slot_value != NULL) {
             set_equip_slot_entry(this->equipped_items.items, i, 0);
             slot_value->unequip();
@@ -1862,7 +1862,7 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
         prev->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
         if (prev->get_item_type() == 1 && prev->get_item_group() == 1) {
             for (slot = 9; slot <= 12; slot++) {
-                TItem *unit = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, slot);
+                TItem *unit = TObjPlayer::get_slot_value(this->equipped_items.items, slot);
                 if (unit != NULL) {
                     unit->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
                 }
@@ -1924,7 +1924,7 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
     owner->subtract_equip_stats(&a, (s16 *)&b, (s16 *)&c);
     if (owner->get_item_type() == 1 && owner->get_item_group() == 1) {
         for (i = 9; i <= 12; i++) {
-            TItem *s = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
+            TItem *s = TObjPlayer::get_slot_value(this->equipped_items.items, i);
             if (s != NULL) {
                 s->subtract_equip_stats(&a, (s16 *)&b, (s16 *)&c);
             }
@@ -2984,7 +2984,7 @@ void TObjPlayer::check_level_up() {
                 PlayerLevelStats gain;
                 j = 0;
                 do {
-                    removed_item = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, j);
+                    removed_item = TObjPlayer::get_slot_value(this->equipped_items.items, j);
                     if ((can_destroy_with_parents((TObject *)removed_item) != 0) && (removed_item->is_equipped() != 0)) {
                         removed_item->remove_equip_stats(1);
                     }
@@ -2995,7 +2995,7 @@ void TObjPlayer::check_level_up() {
                 after.set(this, this->stat_block, this->attack_params, param_block);
                 i = 0;
                 do {
-                    added_item = (TItem *)TObjPlayer::get_slot_value(this->equipped_items.items, i);
+                    added_item = TObjPlayer::get_slot_value(this->equipped_items.items, i);
                     if ((can_destroy_with_parents((TObject *)added_item) != 0) && (added_item->is_equipped() != 0)) {
                         added_item->add_equip_stats(1);
                     }

@@ -171,7 +171,7 @@ void TItemList::unequip_invalid_items_recursive() {
         if (TItemList::is_item_valid(n) != 0) {
             o = n->get_owner_if_alive();
             if ((o != NULL) && (o->is_equipped() != 0) && (o->is_unit() == 0) &&
-                (TObjPlayer::get_slot_value(reinterpret_cast<s32 *>(item_reduce_target_player->equipped_items.items), o->get_attach_slot()) != 0U)) {
+                (TObjPlayer::get_slot_value(item_reduce_target_player->equipped_items.items, o->get_attach_slot()) != NULL)) {
                 item_reduce_target_player->unequip_item(o);
             }
         }
