@@ -4,7 +4,7 @@
 #include "types.h"
 
 // sound-request flag mask, defined in SoundRequests.cpp and read from memory there
-extern const u32 lbl_805DC748;
+extern const u32 sound_request_reset_mask;
 void clear_sound_listener_position(void);
 int enable_sound_requests(s32);
 void turn_on_bgm_p2(void);

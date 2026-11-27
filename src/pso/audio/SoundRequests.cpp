@@ -33,16 +33,19 @@ void TObjPlayer::play_effect_if_v2(s32 pitch) {
 
 
 s8 lbl_805D6278;
-s8 lbl_805D6279;
+// Nonzero stops update_sound_request_slots ageing and releasing the slots.
+s8 sound_request_slots_paused;
 s32 music_gain_offset;
 s32 music_user_gain;
 int music_gain_adjust;
 s32 music_stream_base_gain;
 s32 music_stream_gain;
-s32 lbl_805D6290;
+// The cue stream's counterpart of music_gain_offset.
+s32 cue_gain_offset;
 s32 cue_stream_user_gain;
 int lobby_layout_offset_c;
-s32 lbl_805D629C;
+// cue_gain_offset + cue_stream_user_gain + lobby_layout_offset_c, as music_stream_base_gain is for music.
+s32 cue_stream_base_gain;
 s32 lbl_805D62A0;
 s32 lobby_layout_start_position;
 s32 cue_stream_scaled_gain;
@@ -71,7 +74,7 @@ void init_layout_positions() {
     if (init_sound_mode() == 1) {
         music_gain_offset -= 0x32;
     }
-    lbl_805D6290 = -0xA;
+    cue_gain_offset = -0xA;
     close_option_window();
     reset_global();
 }
@@ -80,8 +83,8 @@ int get_lobby_data() {  return music_user_gain; }
 void set_cue_stream_user_gain(s32 gain) {
     set_menu_index_main(gain);
     cue_stream_user_gain = gain;
-    lbl_805D629C = lbl_805D6290 + cue_stream_user_gain + lobby_layout_offset_c;
-    lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;
+    cue_stream_base_gain = cue_gain_offset + cue_stream_user_gain + lobby_layout_offset_c;
+    lbl_805D62A0 = cue_gain_offset + lobby_layout_offset_c;
     cue_stream_scaled_gain = (s32)(2.3622048f * (f32)gain);
     cue_stream_gain = lobby_layout_start_position + cue_stream_scaled_gain;
     set_cue_stream_gain(cue_stream_gain);
@@ -109,13 +112,13 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     }
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
-// Defined here: CodeWarrior emits it in definition order.
-const u32 lbl_805DC748 = 1;
+// The request flags a released or reused slot keeps. Defined here: CodeWarrior emits it in definition order.
+const u32 sound_request_reset_mask = 1;
 
 void stop_sound_request(s32 idx) {
     if (sound_requests_enabled != 0 && idx >= 0 && idx < 0x28) {
         release_sound_with_fade(idx);
-        sound_pitch_requests[idx].flags &= lbl_805DC748;
+        sound_pitch_requests[idx].flags &= sound_request_reset_mask;
         sound_pitch_requests[idx].timer = 0;
         sound_pitch_requests[idx].src = 0;
     }
@@ -172,7 +175,7 @@ void reset_sound_pitch_requests(void) {
         fade_all_voice_channels();
     }
     for (i = 0; i < 0x28; i++) {
-        sound_pitch_requests[i].flags &= lbl_805DC748;
+        sound_pitch_requests[i].flags &= sound_request_reset_mask;
         sound_pitch_requests[i].timer = 0;
         sound_pitch_requests[i].src = 0;
     }
@@ -249,7 +252,7 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 vo
         idx = normalize_sound_request(id, actor, position, volume, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
-            sound_pitch_requests[idx].flags &= lbl_805DC748;
+            sound_pitch_requests[idx].flags &= sound_request_reset_mask;
             if (flags & 1) {
                 sound_pitch_requests[idx].flags |= 0x2000;
             }
@@ -291,7 +294,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
             VecCopy(pos, position);
             set_sound_request_position(idx, pos);
         }
-        sound_pitch_requests[idx].flags &= lbl_805DC748;
+        sound_pitch_requests[idx].flags &= sound_request_reset_mask;
         if (flags & 1) {
             sound_pitch_requests[idx].flags |= 0x2000;
         }
@@ -350,7 +353,7 @@ void update_sound_request_slots(void) {
             sound_listener_position[1] = 0.0f;
             sound_listener_position[0] = 0.0f;
         }
-        if (lbl_805D6279 == 0) {
+        if (sound_request_slots_paused == 0) {
             for (i = 0; i < 0x28; i++) {
                 r = get_sound_voice_state(i);
                 if (r == -1 || r == 1) {
@@ -401,7 +404,7 @@ s32 reset_sound_request_state(void) {
     lbl_805D62CF = 0;
     lbl_805D62D1 = 0;
     sound_requests_enabled = 1;
-    lbl_805D6279 = 0;
+    sound_request_slots_paused = 0;
     music_muted = 0;
     lbl_80514C30[0] = 0;
     music_user_gain = 0;
