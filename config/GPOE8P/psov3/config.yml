@@ -1761,7 +1761,7 @@ force_active:
   - is_status_text_shown__19TWindowKeyBoardHardFv
   - is_cancelled__15TSymbolChatMenuFv
   - class_name__14TWindowComCard
-  - __ct__14TWindowComCardFPC10NJS_POINT2Pv
+  - __ct__14TWindowComCardFPC10NJS_POINT2P14GuildCardEntry
   - __dt__22TWindowComCardFollowerFv
   - com_card_window_descriptor
   - com_card_follower_window_descriptor
