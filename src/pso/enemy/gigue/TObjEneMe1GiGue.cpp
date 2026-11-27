@@ -174,7 +174,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, EnemyPlacement *set_data) : TO
     referenceHp = hp;
     update_prev_position();
     initialize_enemy_photon_effect(this);
-    m_38c = 0;
+    pad_38c = 0;
     scale.x = 1.0f;
     moveSpeed = movementParameters->move_speed * scale.x;
     VecCopy(&home_position, &position);

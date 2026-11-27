@@ -38,7 +38,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual void run_move_action();
     virtual void run_attack_action();
     virtual void run_idle_action();
-    u16 m_38c;
+    u16 pad_38c;
     Vec moveDestination;
     Vec missileOrigin;
     Vec shotOrigin;
