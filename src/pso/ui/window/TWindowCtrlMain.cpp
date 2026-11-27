@@ -138,7 +138,7 @@ void TWindowCtrlPlayer::update_open_sequence() {
 void TWindowCtrlPlayer::run_all_updates() { update_trade_window_visibility(); update_child_window_visibility(); update_target_info_window(); update_main_menu_request(); show_active_window(); update_short_list_request(); update_countdown(); }
 
 void TWindowCtrlPlayer::update_trade_window_visibility() {
-    if ((simple_status != NULL) && (((TWindowCtrl *)(void *)simple_status)->is_flag_2_set() == 0)) {
+    if ((simple_status != NULL) && (simple_status->is_update_suspended() == 0)) {
         if ((get_player_by_client_id(client_id) == NULL) || (is_suppressed() != 0) || (is_status_window_hidden() != 0) || ((is_split_screen() != 0) && (is_main_menu_open() != 0))) {
             simple_status->request_close();
             return;
@@ -149,7 +149,7 @@ void TWindowCtrlPlayer::update_trade_window_visibility() {
 
 void TWindowCtrlPlayer::update_child_window_visibility() {
     TObjPlayer *player;
-    if ((action_palette != NULL) && (((TWindowCtrl *)(void *)action_palette)->is_flag_2_set() == 0)) {
+    if ((action_palette != NULL) && (action_palette->is_update_suspended() == 0)) {
         player = get_player_by_client_id(client_id);
         if ((is_main_menu_open() != 0) || (is_suppressed() != 0) || (is_keyboard_held() != 0) || (player == NULL)) {
             action_palette->request_close();
@@ -255,7 +255,7 @@ void TWindowCtrlPlayer::update_short_list_request() {
     if (short_list != NULL && short_list->all_parents_unqueued_for_destruction() == 0) {
         short_list = NULL;
     }
-    if (action_palette != NULL && ((TWindowCtrl *)(void *)action_palette)->is_flag_2_set() == 0) {
+    if (action_palette != NULL && action_palette->is_update_suspended() == 0) {
         if (get_player_by_client_id(client_id) == NULL) {
             if (short_list != NULL) {
                 short_list->queue_destruction();

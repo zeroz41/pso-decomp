@@ -218,7 +218,7 @@ void TWindowChat::clear_flag1e_bit8() { flags &= 0xfffffff7; }
 
 void TWindowChat::set_flag1e_bit8() { flags |= 0x8; }
 
-int TWindowCtrl::is_flag_2_set() { return this->m_flags & 0x4; }
+int TObject::is_update_suspended() { return m_flags & SUSPEND_UPDATE; }
 
 void TWindowCtrl::close() {
     window_ctrl_close_stub();
@@ -386,7 +386,7 @@ void TWindowCtrl::update_party_status_rows() {
     y = get_window_layout_y(0xAB);
     for (i = 0; i < 3; i++) {
         w = simple_status[i];
-        if (w != NULL && ((TWindowCtrl *)w)->is_flag_2_set() == 0) {
+        if (w != NULL && w->is_update_suspended() == 0) {
             pl = get_player_by_client_id(w->get_width());
             if (pl == NULL || TWindowCtrl::has_player_active_menu(local_client_id) != 0 ||
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||

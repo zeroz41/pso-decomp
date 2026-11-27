@@ -28,7 +28,7 @@ void *TWindowRoom::get_title_entry() {
     return (void *)this->get_array_entry(0);
 }
 
-void TWindowSubStatusDisp::set_entry_display_value(const char *str) {
+void TWindowRoom::set_entry_display_value(const char *str) {
     set_text_entry_string((WindowTextEntry *)(get_array_entry(0)), str, 0x60);
 }
 

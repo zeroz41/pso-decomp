@@ -148,7 +148,6 @@ struct TWindowCtrl : public TObject {
     static void set_window_id(u16 id);
     static u16 get_window_id();
     void update_party_status_rows();
-    int is_flag_2_set();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);

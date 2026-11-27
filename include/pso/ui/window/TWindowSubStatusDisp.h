@@ -18,7 +18,6 @@ struct SummaryPageLayout;
 class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
-    static s32 count_ratio_value;
     static void * window_layout[5];
     static NumberedTimesLayout numbered_times_layout;
     static RankTimeRecordsLayout rank_time_records_layout;
@@ -57,7 +56,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
     void dispatch_page_update();
     void dispatch_page_init();
-    void set_count_ratio_text(s32 count, s32 total);
 
     static const char *get_message_10(s32 index);
     static void render_forward();
@@ -68,7 +66,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
 
-    void set_entry_display_value(const char *str);
     s32 get_display_mode();
 };
 

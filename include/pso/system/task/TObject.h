@@ -132,6 +132,7 @@ public:
     virtual void render_shadows();
     void suspend_update();
     void clear_update_suspension();
+    int is_update_suspended();
 
     void *operator new(size_t size);
     void  operator delete(void *ptr);

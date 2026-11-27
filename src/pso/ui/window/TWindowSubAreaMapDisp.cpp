@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
+#include "pso/ui/window/TWindowArea.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -196,4 +197,4 @@ void TWindowCtrl::clear_active_flag() {
 
 void TRaderMapCore::clear() { TRaderMapCore::view_mode = 0; }
 
-int get_window_count_ratio_value(void) { return TWindowSubStatusDisp::count_ratio_value; }
+int get_window_count_ratio_value(void) { return TWindowArea::count_ratio_value; }
