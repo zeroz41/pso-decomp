@@ -8620,8 +8620,8 @@ force_active:
   - lbl_805DA24C
   - lbl_805DA250
   - lbl_805DA254
-  - lbl_805DA5A8
-  - lbl_805DA5AC
+  - panarms_beam_down_speed
+  - panarms_beam_up_speed
   - slime_type_label_red
   - lbl_805DA788
   - lbl_805DA79C
