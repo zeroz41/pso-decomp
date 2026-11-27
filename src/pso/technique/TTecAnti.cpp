@@ -53,7 +53,7 @@ void TechniqueParams::copy(TechniqueParams *src) {
     tp_cost = src->tp_cost;
     charge_speed = src->charge_speed;
     mental = src->mental;
-    pad_16 = src->pad_16;
+    effect_kind = src->effect_kind;
     angle = src->angle;
     pad_1C = src->pad_1C;
     duration = src->duration;

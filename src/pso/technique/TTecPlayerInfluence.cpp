@@ -139,7 +139,7 @@ void TTecPlayerInfluence::spawn_support_tec_range_effect() {
     }
     {
         VecCopy(&pos, &player->position);
-        switch (params.pad_16) {
+        switch (params.effect_kind) {
         case 8:
             break;
         case 6:
