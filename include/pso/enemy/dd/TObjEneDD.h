@@ -81,7 +81,6 @@ struct TObjEneDD : public TObjEnemy {
     // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
     static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
     static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
-    s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_active_flags();
@@ -123,7 +122,7 @@ struct TObjEneDD : public TObjEnemy {
     void debug_effect_hook_scaled(s32 id, f32 scale);
     void enemy_death_stub();
 
-    s32 previous_mode;         // mode when the last state handler finished; vfunc_86 tests for a change
+    s32 previous_mode;         // mode when the last state handler finished; has_action_state_changed tests for a change
     s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
     f32 wall_reach;            // extra distance the wall probe looks ahead of a move (5.0)
     s32 wall_probe_failures;   // moves the wall probe blocked in a row
@@ -137,7 +136,6 @@ struct TargetCandidate {
     u16 id;
     f32 dist;
 };
-
 
 extern TargetCandidate enemy_target_candidate_table[4];
 void forward_split_screen_view_matrix();

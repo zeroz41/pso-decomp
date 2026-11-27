@@ -13,6 +13,7 @@ class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
 struct CharacterFile;
+class TCMCharacter;
 struct CharacterSaveRecord;
 struct TItemData;
 
@@ -70,7 +71,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     virtual void run_task();
     static s32 get_chr_select_state();
     static SystemSaveData *get_global_state();
-    static int get_state();
+    static GuildCardSaveData *get_state();
     static int get_game_mode();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
@@ -163,7 +164,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 free_buffer();
     static void free_callbacks();
     static s32 free_data();
-    static s32 get_type(CharacterFile *file);
     static void increment_counter();
     static void increment_counters();
     static s32 init_and_register(CharacterFile *source);
@@ -182,7 +182,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void render_frame();
     static void reset_save_header();
     static void save_character_file(int use_primary);
-    static void set_id(CharacterFile *file, int v);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
     static s32 update_play_time();

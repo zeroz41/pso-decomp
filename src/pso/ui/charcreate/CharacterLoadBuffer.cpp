@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"

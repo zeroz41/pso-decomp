@@ -301,7 +301,7 @@ void TObjEneLappy::render() {
         detail = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (detail != 0) {
             set_speed_params(this->variant);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

@@ -220,7 +220,7 @@ void TObjEneGyaranzo::load_resources() {
     }
     gyaranzo_broken_node25 = find_model_node(gyaranzo_bml_resource->models[3].model, 0x19);
     gyaranzo_broken_node13 = find_model_node(gyaranzo_bml_resource->models[3].model, 0xD);
-    gyaranzo_breakup_model_obj = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
+    gyaranzo_breakup_model_obj = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     gyaranzo_boss_stats_handle = register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = dispatch_shared_handler_b(0x1D);
     gyaranzo_object_handle = register_object(0x1D);
@@ -388,7 +388,7 @@ void TObjEneGyaranzo::render() {
                 }
             }
             hide_broken_parts();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(texlist);
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/model_render_state.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
@@ -35,7 +36,6 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/system/MallocLoadFilePrc.h"
 
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
@@ -49,7 +49,7 @@ void load_creation_visual_record(CharacterAppearanceFields *record) {
         invalidate_creation_visual_record();
         return;
     }
-    copy_player_visual_record(&character_creation_visual_record, record);
+    copy_player_visual_record((PlayerVisualRecord *)&character_creation_visual_record, (PlayerVisualRecord *)record);
 }
 
 void invalidate_creation_visual_record(void) {
@@ -114,7 +114,7 @@ s32 get_current_char_flag() {
 void reset_current_char_appearance(void) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
-    copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
+    copy_player_visual_record((PlayerVisualRecord *)character_appearance_fields, (PlayerVisualRecord *)get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int char_select_check_stub(void) { return 1; }
@@ -184,7 +184,7 @@ u8 player_class_texture_buffer_17[0x134];
 u8 player_class_texture_buffer_18[0x134];
 u8 chara_making_load_buffer[0x40C];
 
-void *player_class_texture_buffer_table[19] = {
+u8 *player_class_texture_buffer_table[19] = {
     player_class_texture_buffer_00, player_class_texture_buffer_01, player_class_texture_buffer_02, player_class_texture_buffer_03, player_class_texture_buffer_04,
     player_class_texture_buffer_05, player_class_texture_buffer_06, player_class_texture_buffer_07, player_class_texture_buffer_08, player_class_texture_buffer_09,
     player_class_texture_buffer_10, player_class_texture_buffer_11, player_class_texture_buffer_12, player_class_texture_buffer_13, player_class_texture_buffer_14,

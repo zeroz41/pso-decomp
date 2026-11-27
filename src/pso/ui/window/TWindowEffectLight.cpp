@@ -5,6 +5,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

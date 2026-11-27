@@ -62,6 +62,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
@@ -78,7 +79,6 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/player/PlayerSlots.h"
 #include "types.h"
 
@@ -348,12 +348,10 @@ s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
-extern "C" {
 f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
 
-}
 int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 
 s32 TCameraCtrl::get_camera_mode() {
@@ -664,7 +662,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneD
     }
     this->invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(&state, 1) != 0 && (state.flags & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&state, 1) != 0 && ((u32)state.flags & 0x12008) == 0x12008) {
         this->flags |= 0x40;
     }
     this->init_position_vectors();
@@ -1142,7 +1140,7 @@ s32 TBoss1Dragon::select_air_fire_target(Vec *out) {
     count = 0;
     for (i = 0; i < 12; i++) {
         p = get_player_by_client_id(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
+        if (p->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
             list[count++] = p;
         }
     }
@@ -5076,7 +5074,7 @@ void TBoss1Dragon::render() {
             this->model = saved_model;
             pop_matrix();
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -5217,7 +5215,7 @@ void TBoss1Dragon::render_low_detail() {
     if (this->update_object_view_visibility((400.0f), (20.0f)) == 0) {
         return;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation.y);

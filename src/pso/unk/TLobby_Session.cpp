@@ -1,4 +1,5 @@
 #include "pso/player/GuildCardEntry.h"
+#include "pso/player/GuildCardSaveData.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_Session.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -106,7 +107,7 @@ G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
     header.size = sizeof(G_SendGuildCard_6x06) / 4;
 }
 
-int TAdSinglePlyChrSelectGC::get_state() {  return (int)guild_card_save_payload; }
+GuildCardSaveData *TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }
 
 void TPlyGuildCardTag::bswap() {
     bswap_32(&m_guildcard_number);
@@ -277,7 +278,7 @@ void reset_quest_collision_ids_on_floor_free(void) { quest_collision_next_id = 0
 
 
 saddr TWindowSubComCard::get_card_slot(s32 index) {
-    s32 state;
+    GuildCardSaveData *state;
     s32 slot;
     saddr addr;
     slot = index;
@@ -290,8 +291,7 @@ saddr TWindowSubComCard::get_card_slot(s32 index) {
         return 0;
     }
     state = TAdSinglePlyChrSelectGC::get_state();
-    addr = state + 0x10000;
-    addr = state + 0xD2C4;
+    addr = (saddr)state->tags.entries;
     addr += slot * 0x90;
     return addr;
 }

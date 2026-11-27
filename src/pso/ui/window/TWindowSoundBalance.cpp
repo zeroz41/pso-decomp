@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSoundBalance.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -133,15 +133,15 @@ void TWindowSoundBalance::handle_lr_input() {
 #pragma push
 #pragma opt_common_subs off
 void TWindowSoundBalance::render() {
-    WindowDrawContext *entry = this->draw_default_entry();
-    this->draw_window_frame(entry);
+    WindowDrawContext *entry = draw_default_entry();
+    draw_window_frame(entry);
     draw_visible_window_entries(
         this,
-        &this->entry_list,
+        &entry_list,
         entry);
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
-    this->apply_balance(entry);
+    apply_balance(entry);
 }
 #pragma pop
 

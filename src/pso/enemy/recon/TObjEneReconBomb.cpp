@@ -60,17 +60,17 @@ void TObjEneReconBomb::render() {
     s32 rot_b;
     f32 height;
     NJS_OBJECT *bml_model;
-    s32 texlist;
+    NJS_TEXLIST *texlist;
     if (recon_bomb_bml_resource == NULL) {
         queue_destruction();
         return;
     }
     bml_model = get_bml_model(recon_bomb_bml_resource, 2);
-    texlist = (saddr)get_bml_texlist(recon_bomb_bml_resource, 2);
+    texlist = get_bml_texlist(recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, position.x, 2.0f + position.y, position.z);
     rotate_matrix_zyx(0, rotation.x, rotation.y, rotation.z);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     draw_chunk_object(bml_model);
     pop_matrix();
     push_matrix();

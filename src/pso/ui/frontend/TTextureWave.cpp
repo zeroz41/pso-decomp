@@ -49,7 +49,7 @@ void TTextureWave::init_image_buffer(u8 *image, s32 displacement) {
 TTextureWave::TTextureWave(NJS_TEXLIST *list) {
     phase = 0;
     image_data = 0;
-    output = 0;
+    output = NULL;
     displacement = 0;
     height = 0;
     width = 0;

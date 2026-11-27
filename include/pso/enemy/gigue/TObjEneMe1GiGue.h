@@ -75,8 +75,6 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     static void delete_barrier();
     static void load_resources();
     void load_params_from_table(s32 i);
-    f32 get_gigue_float_parameter(s32 i);
-    s32 get_gigue_int_parameter(s32 i);
     static BmlResource *get_resource();
     void apply_hit_shake(TObjChara *player);
     s32 check_vector_bit(Vec *pos);
@@ -97,6 +95,8 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void update_missile_state();
     void update_circling_state();
     void run_demo_task();
+    s32 get_gigue_int_parameter(s32 i);    // entry i of the boss parameter ints
+    f32 get_gigue_float_parameter(s32 i);  // entry i of the boss parameter floats
     void update_attack();     // mode 2 (run_attack_action's); empty, the attacks are modes 9-11
 };
 

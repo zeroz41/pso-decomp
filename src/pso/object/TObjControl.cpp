@@ -776,7 +776,7 @@ void TObjControl::run_task() {
         }
         enemy->update_attack_stat_status();
         enemy->update_defense_stat_status();
-        if (enemy->update_status_cleanse() == 0) {
+        if (enemy->update_evp_status() == 0) {
             enemy->update_flag30_timer();
             if ((enemy->update_action_hold_status() != 0) || (enemy->update_shock_clock() != 0) || (enemy->update_movement_status() != 0)) {
                 submit_cursor_candidate(enemy, -1);

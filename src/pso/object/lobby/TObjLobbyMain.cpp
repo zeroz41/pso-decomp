@@ -209,7 +209,7 @@ void TObjLobbyMain::render() {
         if (fade_state != 2) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
+        set_texture_list(lobby_texlist);
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {

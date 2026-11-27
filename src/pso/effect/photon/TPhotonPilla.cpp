@@ -187,7 +187,7 @@ void TPhotonPilla::render() {
     if (started != 0) {
         pilla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation.y);
@@ -234,7 +234,7 @@ void TPhotonPilla::apply_photon_blast_effects() {
     if (bodies->flags & 0x100000) {
         index = 0;
         do {
-            TObjCollidable *player = TObjPlayer::get_battle_param(index);
+            TObjChara *player = TObjPlayer::get_battle_param(index);
             if (player != NULL) {
                 queue_photon_blast_hit(player->get_entity_id(), 2, 0, power);
             }

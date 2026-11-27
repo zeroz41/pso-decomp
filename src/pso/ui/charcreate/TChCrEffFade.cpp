@@ -1,6 +1,8 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -9,7 +11,6 @@
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
-#include "pso/system/task/TMainTask.h"
 
 const char *TChCrEffFade::class_name = "TChCrEffFade";
 
@@ -145,10 +146,10 @@ TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(t
     mode = unused;
 }
 
-void *TObjCMMainMenu::create_fade(s32 duration, s32 mode) {
+TChCrEffFade *TObjCMMainMenu::create_fade(s32 duration, s32 mode) {
     return new TChCrEffFade(-1, duration, mode);
 }
 
-void *create_fade_effect(s32 duration, s32 mode) {
+TChCrEffFade *create_fade_effect(s32 duration, s32 mode) {
     return new TChCrEffFade(1, duration, mode);
 }

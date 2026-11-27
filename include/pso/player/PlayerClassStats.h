@@ -20,8 +20,8 @@ struct PlayerCastMotionRecord {
     f32 pad_0;
     f32 pad_4;
     f32 pad_8;
-    f32 cast_frame;  // motion frame on which the technique is released
-    s32 hand_joint;  // joint the technique leaves from (get_hand_joint_position)
+    f32 release_frame;  // the motion frame at which the cast is released (TObjPlayer cast phase 2 -> 3)
+    s32 hand_joint;  // the animation node the cast effect starts from (get_hand_joint_position)
 };
 
 extern const PlayerProfessionStatFactors player_profession_stat_factors[3];

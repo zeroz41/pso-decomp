@@ -385,7 +385,7 @@ void TBoss3VoloptP02::render() {
         if (fade.updateFromCamera(&body_center) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         select_actor_lighting(this);
         toggle_particle_effect();
         push_matrix();

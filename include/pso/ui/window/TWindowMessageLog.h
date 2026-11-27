@@ -45,7 +45,7 @@ void init_chat_log_heap(void);
 
 void cache_last_chat_line(const char *text);
 void chat_log_add_line(const char *text);
-void chat_log_remove_line(saddr index);
+void chat_log_remove_line(s32 index);
 s32 chat_text_lacks_language_tag(const char *text);
 
 #endif

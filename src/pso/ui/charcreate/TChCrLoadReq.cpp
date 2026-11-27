@@ -169,7 +169,7 @@ s32 is_load_slot_free() {
 }
 
 s32 TChCrLoadReq::try_claim_load_slot() {
-    if (((s32) holds_load_slot != 0) || (chr_select_load_slot_count < 0) || (chr_select_load_slot_count > 1)) {
+    if ((holds_load_slot != 0) || (chr_select_load_slot_count < 0) || (chr_select_load_slot_count > 1)) {
         return 0;
     }
     if (chr_select_load_slot_count >= 1) {
@@ -181,7 +181,7 @@ s32 TChCrLoadReq::try_claim_load_slot() {
 }
 
 void TChCrLoadReq::release_load_slot() {
-    if ((chr_select_load_slot_count <= 1) && ((s32) this->holds_load_slot != 0)) {
+    if ((chr_select_load_slot_count <= 1) && (this->holds_load_slot != 0)) {
         this->holds_load_slot = 0;
         if (--chr_select_load_slot_count == 0) {
             return;
@@ -304,7 +304,7 @@ void TChCrLoadReq::load_preview_models() {
         if (p == NULL || tag != 0x4E4A544C) return;
         safe_free(p);
         bufs[i] = (NJS_OBJECT *)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
-        if (bufs[i] == 0 || tag != 0x4E4A434D) {
+        if (bufs[i] == NULL || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) safe_free(bufs[i]);
             return;
         }

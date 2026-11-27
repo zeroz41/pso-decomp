@@ -31,6 +31,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
@@ -108,7 +109,6 @@ s32 bm5_wolf_render_joint_y_rotation;
 }
 #include <stddef.h>
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/audio/SoundRequests.h"
@@ -1123,7 +1123,7 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
         if ((s16) this->requested_action == 2) {
             play_proximity_effect();
         }
-        if (this->update_death_check() != 0) {
+        if (validate_target() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->frame >= 15.0f) {
@@ -1172,7 +1172,7 @@ void TObjEneBm5Wolf::flanking_state(s32 event) {
         break;
     case 0:
         advance_animation();
-        if (this->update_death_check() != 0) {
+        if (validate_target() != 0) {
             if (is_passing_frame(5.0f) != 0) {
                 spawn_particle_effect(&this->position, 0xF3);
             }
@@ -1270,7 +1270,7 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
         break;
     case 0:
         this->advance_animation();
-        if (this->update_death_check() != 0) {
+        if (validate_target() != 0) {
             if (this->random_phase == 0) {
                 Vec fwd;
                 Vec to;
@@ -1533,7 +1533,7 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
     case 0:
         this->substate++;
         this->advance_animation();
-        if (this->update_death_check() != 0) {
+        if (validate_target() != 0) {
             play_footsteps();
             this->target_heading = approach_angle_limited(this->target_heading, this->base_heading, 0x100);
             this->destination.x = 90.0f * sin_table_lookup(this->target_heading) + home->x;
@@ -1862,7 +1862,7 @@ void TObjEneBm5Wolf::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation.y);
@@ -1924,7 +1924,7 @@ void TObjEneBm5Wolf::render_debug() {
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation.y);

@@ -50,7 +50,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type2_appear_origin.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model12.texture));
+    set_texture_list(model12.texture);
     draw_model_motion(model12.model, model12.motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -72,7 +72,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         if (fade < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(fade);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model1.texture));
+        set_texture_list(model1.texture);
         set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix(&effect_positions[4].x);
@@ -109,7 +109,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&boss6_type2_appear_origin.x);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model4.texture));
+        set_texture_list(model4.texture);
         capture->install();
         draw_model_motion(model4.model, model4.motion, frame);
         capture->clear();
@@ -141,7 +141,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         post_translate_matrix(&boss6_type2_appear_origin.x);
         s32 i = 0;
         do {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(opening_parts[i].texture));
+            set_texture_list(opening_parts[i].texture);
             draw_model_motion(opening_parts[i].model, opening_parts[i].motion, frame);
             i++;
         } while (i < 2);

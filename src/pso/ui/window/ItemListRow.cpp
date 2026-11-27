@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
@@ -25,7 +26,6 @@
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 #pragma readonly_strings on
 

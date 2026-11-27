@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/network/eth.h"
 #include <stdio.h>
+#include <dolphin/exi.h>
 #include <string.h>
 #include "pso/network/ModemRuntime.h"
 #include <dolphin/exi.h>
@@ -56,7 +57,7 @@ s32 init_modem_check_params() {
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its strings
-// (0x80480290-0x80480403 of this unit's string pool, between
+// (in this unit's string pool, between
 // init_modem_check_params' and launch_iwanaga_dol's): the ISAO trial service's
 // access number and domain and its file:/isao/caseN pages (no case3). What it
 // did with them is not known, so this body only hands them out in pool order.

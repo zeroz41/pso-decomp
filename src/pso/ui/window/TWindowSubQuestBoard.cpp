@@ -179,7 +179,7 @@ TWindowMenu *TWindowSubOption::create_option_menu_window() {
     }
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(195.0f);
-    align_menu_entry_positions(titled_window_menu);
+    titled_window_menu->align_menu_entry_positions();
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
     return titled_window_menu;
 }

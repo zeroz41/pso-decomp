@@ -44,7 +44,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/render/TextureState.h"
@@ -307,7 +307,7 @@ void TObjMapWarp::open_confirm_window(s32 client_id) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         playerPopups[client_id]->calc_window_size();
-        align_menu_entry_positions(playerPopups[client_id]);
+        playerPopups[client_id]->align_menu_entry_positions();
         playerPopups[client_id]->set_flag70_bit10();
         playerPopups[client_id]->disable_input();
     }
@@ -449,7 +449,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation.y);
@@ -491,7 +491,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
             this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }
         this->menu_window->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        this->menu_window->align_menu_entry_positions();
         this->menu_window->set_flag70_bit10();
         this->menu_window->disable_input();
         this->user_client_id = client_id;
@@ -649,7 +649,7 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation.y);
@@ -737,7 +737,7 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation.y);
@@ -850,7 +850,7 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(textures);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation.y);
@@ -900,7 +900,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
             this->menu_window->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
         this->menu_window->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        this->menu_window->align_menu_entry_positions();
         this->menu_window->set_flag70_bit10();
         this->menu_window->disable_input();
         user_client_id = client_id;

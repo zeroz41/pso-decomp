@@ -39,11 +39,11 @@ s32 TBoss3VoloptCageShot::try_capture_target() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
+            if (obj_is_hit_receivable(target) != 0) {
                 DirectAttackPayload hit = {0, 0.0f};
                 target->receive_direct_attack((TObjBase *)m_up, hit, NULL, -1, -1);
                 owner = m_up;

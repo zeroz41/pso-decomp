@@ -191,7 +191,7 @@ void TPhotonFarlla::render() {
     if (visible != 0) {
         farlla_photon_blast_model_buffers->scroll_uvs(uv_scroll, 0);
         begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation.y);
@@ -223,7 +223,7 @@ void TPhotonFarlla::collect_hit_targets() {
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjChara *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
                 queue_photon_blast_hit(candidate->get_entity_id(), 0, 0, power);
             }

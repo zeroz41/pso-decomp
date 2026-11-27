@@ -10,7 +10,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/MenuText.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 const char *TDLGraph::class_name = "TDLGraph";
 TDLGraph *TDLGraph::graph_object;

@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowSubCustomEquip;
+
 struct TWindowMainMenu;
 struct TWindowSubCustomEquip;
 struct TWindowSubCustomSelect;

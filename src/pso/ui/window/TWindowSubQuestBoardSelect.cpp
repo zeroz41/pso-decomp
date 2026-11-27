@@ -22,7 +22,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/HeadingEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 void TWindowSubQuestBoardSelect::clear_decided() {
     state_flags &= ~1;
@@ -150,10 +150,10 @@ void TWindowSubQuestBoardSelect::draw_selection_leader_line(WindowDrawContext *c
     if (ctx->open_tick < 0) {
         return;
     }
-    if (this->get_slot_flag(this->slot) == 0) {
+    if (get_slot_flag(slot) == 0) {
         return;
     }
-    e = static_cast<WindowTextEntry *>(this->get_array_entry(this->slot + 2));
+    e = static_cast<WindowTextEntry *>(get_array_entry(slot + 2));
     draw_selection_corners(ctx, &e->x, 56.0f, 0.3f);
     x = ctx->inner_x + e->x;
     y = ctx->inner_y + e->y;
@@ -162,7 +162,7 @@ void TWindowSubQuestBoardSelect::draw_selection_leader_line(WindowDrawContext *c
     } else {
         alpha = 0xFF000000;
     }
-    e = static_cast<WindowTextEntry *>(this->get_array_entry(1));
+    e = static_cast<WindowTextEntry *>(get_array_entry(1));
     depth = 0.1794f + ctx->depth;
     d.verts = v;
     d.colors = colors;

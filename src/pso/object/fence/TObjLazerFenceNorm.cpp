@@ -227,11 +227,11 @@ void TObjLazerFenceNorm::select_models() {
     if (this->set_params[2] % 2 == 0) {
         this->base_model = get_bml_model(lazer_fence_norm_bml_resource, 1);
         beam_model = get_bml_model(lazer_fence_norm_bml_resource, 0);
-        this->beam_motion = (NJS_MOTION *)get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        this->beam_motion = get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
         this->base_model = get_bml_model(lazer_fence_norm_bml_resource, 3);
         beam_model = get_bml_model(lazer_fence_norm_bml_resource, 2);
-        this->beam_motion = (NJS_MOTION *)get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        this->beam_motion = get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         beam_part_models[j] = 0;

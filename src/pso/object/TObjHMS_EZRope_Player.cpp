@@ -45,7 +45,7 @@ Vec ez_bone_rot_player_chain_gravity = {0.0f, -0.75f, 0.0f};
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
 MtxP TObjMotion::get_joint_matrix(s32 joint) {
-    return this->joint_matrices[joint];
+    return (MtxP)(this->joint_matrices[joint]);
 }
 
 TObjEZRopeBase::TObjEZRopeBase(TObject *parent) : TObject(parent) {

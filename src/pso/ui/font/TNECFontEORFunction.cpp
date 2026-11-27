@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/render/TextureState.h"
@@ -70,7 +70,7 @@ TNECFontEORFunction::TNECFontEORFunction() : TObject((TObject *)(&end_of_render_
     this->m_name = nec_font_eor_class_name;
 }
 
-// ---- font text helpers (formerly the TWindowSubStatusDisp_80144B14 fragment)
+// ---- font text helpers
 
 
 const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
@@ -295,7 +295,6 @@ void pack_ci4_texels(u8 *dst, u32 pixel) {
     dst[1] = pixel & 3;
     dst[1] |= (pixel * 4) & 0x30;
 }
-#define g ((MenuGlyphEntry *)free_slot)
 
 s32 calc_ci4_tile_offset(u32 x, u32 y) {
     s32 tile = (x * 4) & 0x7FFFFFE0;
@@ -305,7 +304,7 @@ s32 calc_ci4_tile_offset(u32 x, u32 y) {
     return r;
 }
 
-void upload_font_glyph(u16 c, void *free_slot) {
+void upload_font_glyph(u16 c, MenuGlyphEntry *g) {
     u8 *tex;
     u32 i;
     u32 j;
@@ -332,11 +331,9 @@ void upload_font_glyph(u16 c, void *free_slot) {
     DCStoreRange(tex, 0x8000);
     menu_font_upload_flags |= 1;
 }
-#undef g
-
-s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
+s32 upload_glyph_if_needed(u16 code, MenuGlyphEntry *free_slot, MenuGlyphEntry **pending_slot) {
     u8 slot_epoch;
-    slot_epoch = ((MenuGlyphEntry *)free_slot)->epoch;
+    slot_epoch = free_slot->epoch;
     if (slot_epoch == menu_font_upload_epoch) {
         return 0;
     }
@@ -344,14 +341,14 @@ s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
         upload_font_glyph(code, free_slot);
         return 1;
     }
-    if ((void *) *pending_slot == NULL) {
+    if (*pending_slot == NULL) {
         *pending_slot = free_slot;
     }
     return 0;
 }
 
-void *find_cached_glyph(u16 code) {
-    void *free_slot;
+MenuGlyphEntry *find_cached_glyph(u16 code) {
+    MenuGlyphEntry *free_slot;
     MenuGlyphEntry *g;
     MenuGlyphEntry *p;
     MenuGlyphEntry *q;
@@ -366,10 +363,10 @@ void *find_cached_glyph(u16 code) {
     if (g[0x80].code == code) {
         return &g[0x80];
     }
-    if (upload_glyph_if_needed(code, (u8 *)g, &free_slot) != 0) {
+    if (upload_glyph_if_needed(code, g, &free_slot) != 0) {
         return g;
     }
-    if (upload_glyph_if_needed(code, (u8 *)&g[0x80], &free_slot) != 0) {
+    if (upload_glyph_if_needed(code, &g[0x80], &free_slot) != 0) {
         return &g[0x80];
     }
     p = &menu_font_glyph_table[0x100];
@@ -377,7 +374,7 @@ void *find_cached_glyph(u16 code) {
         if (p->code == code) {
             return p;
         }
-        if (upload_glyph_if_needed(code, (u8 *)p, &free_slot) != 0) {
+        if (upload_glyph_if_needed(code, p, &free_slot) != 0) {
             return p;
         }
     }
@@ -386,7 +383,7 @@ void *find_cached_glyph(u16 code) {
         if (q->code == code) {
             return q;
         }
-        if (upload_glyph_if_needed(code, (u8 *)q, &free_slot) != 0) {
+        if (upload_glyph_if_needed(code, q, &free_slot) != 0) {
             return q;
         }
     }
@@ -398,8 +395,8 @@ void *find_cached_glyph(u16 code) {
 }
 
 // Binds the cached glyph's page and color, sets the quad's top-left uv and returns the glyph width.
-extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
-    MenuGlyphEntry *entry = (MenuGlyphEntry *)find_cached_glyph(glyph);
+u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
+    MenuGlyphEntry *entry = find_cached_glyph(glyph);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
     pos->u0 = (f32) ((f32) entry->x / 256.0f);

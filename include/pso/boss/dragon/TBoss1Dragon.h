@@ -264,6 +264,7 @@ void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
 void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
 
 #include <stddef.h>
+#include "pso/system/ByteBlocks.h"
 #define DRAGON_OFFSET(member, offset) \
     LAYOUT_ASSERT(DragonOffset_##member, offsetof(TBoss1Dragon, member) == offset)
 DRAGON_OFFSET(target_id, 0x38C);

@@ -1,6 +1,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/render/gjSystem.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -123,9 +124,6 @@ int get_ending_c_start_seconds(void) { return 140; }
 u32 ending_frame_counter;
 s32 ending_scene_active;
 
-extern "C" {
-u32 __cvt_fp2unsigned(f32);
-}
 const char *TEnding::class_name = TEnding::class_name_string;
 
 void TEnding::run_task() {

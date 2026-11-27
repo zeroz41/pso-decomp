@@ -131,7 +131,7 @@ TObjMotionAction mericarol_motion_actions[9] = {
 static const NpcAnimationBinding mericarol_animation_binding = { NULL, mericarol_motion_actions, 3, 1, 9 };
 static const Vec mericarol_shadow_scale = { 2.0f, 1.0f, 2.0f };
 static const Vec mericarol_variant_shadow_scale = { 2.0f, 1.0f, 2.0f };
-static const Vec mericarol_joint_zero_vec = { 0.0f, 0.0f, 0.0f };
+static const Vec mericarol_zero_vec = { 0.0f, 0.0f, 0.0f };
 
 player_stats *bm9_mericarol_phase_hp_table[3];
 AttackParams *bm9_mericarol_phase_attack_table[3];
@@ -421,12 +421,12 @@ TObjPlayer *TObjEneBm9Mericarol::find_nearby_target() {
     s32 i;
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (((TObjEneDD *)pl)->is_valid_target() != 0 && pl->obj_isState2_324() == 0) {
+        if (pl->is_valid_target() != 0 && pl->obj_isState2_324() == 0) {
             best = pl;
             break;
         }
     }
-    if (((TObjEneDD *)best)->is_valid_target() != 0 && horizontal_distance_squared(&position, &best->position) < 10000.0f) {
+    if (best->is_valid_target() != 0 && horizontal_distance_squared(&position, &best->position) < 10000.0f) {
         return best;
     }
     return NULL;
@@ -585,7 +585,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     enemy_set_target_id(target);
                 }
             }
-        } else if (this->update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         enemy_copy_target_destination();
@@ -691,7 +691,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                     attack_body->check_object_collisions();
                     if (attack_body->bodies->flags & 0x80000) {
                         for (i = 0; i < 0x10; i++) {
-                            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+                            p = TObjPlayer::get_battle_param(i);
                             if (p == NULL) {
                                 break;
                             }
@@ -854,7 +854,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
     if (bodies->flags & 0x80000) {
         ret = 1;
         for (i = 0; i < 16; i++) {
-            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+            p = TObjPlayer::get_battle_param(i);
             if (p == NULL) {
                 break;
             }
@@ -1214,7 +1214,7 @@ void TObjEneBm9Mericarol::render() {
         break;
     }
     saved_model_render_flags = model_render_flags;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation.y);
@@ -1293,7 +1293,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
             texlist->textures[2].texture = texlist->textures[8].texture;
             break;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);
@@ -1322,7 +1322,7 @@ void TObjEneBm9Mericarol::get_node_position(Vec *out, s32 node) {
     clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[node]);
-    Vec v = mericarol_joint_zero_vec;
+    Vec v = mericarol_zero_vec;
     matrix_mult_vec(0, &v, out);
     pop_matrix();
     clear_motion_packed_rotation();

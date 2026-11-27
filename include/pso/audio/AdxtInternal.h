@@ -94,6 +94,7 @@ void set_sync_mode_flag(AdxtPlayer *player, s8 flag);
 s32 get_error_code(AdxtPlayer *player);
 void set_auto_repeat(AdxtPlayer *player, s8 flag);
 s32 adxt_get_sample_rate(AdxtPlayer *player);
+extern AdxtPlayer adx_stream_player_pool[16];
 }
 
 #endif

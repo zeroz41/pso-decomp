@@ -39,7 +39,7 @@ void TTecMegidCharge::run_task() {
     if(m_age%10==0) {
         for(int i=0;i<3;++i)spawn_particle_effect(&m_position,dark_technique_charge_effect_ids[i]);
     }
-    if(!m_actor->is_casting())queue_destruction();
+    if(!m_actor->is_technique_charging())queue_destruction();
     else if(m_age>=180)queue_destruction();
 }
 

@@ -25,4 +25,5 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaReal_size, sizeof(TObjEneMe3ShinowaReal) == 0x434);
+
 #endif

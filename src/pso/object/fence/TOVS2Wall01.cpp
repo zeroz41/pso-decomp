@@ -106,7 +106,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
     }
     o = (TOVS2Wall01 *)find_entity_by_id(id);
     if (o != NULL) {
-        if (reinterpret_cast<TObject *>(o)->check_value_equals(vs2_wall01_class_name) == 0) {
+        if (o->check_value_equals(vs2_wall01_class_name) == 0) {
             return;
         }
         switch (wall_hit_packet->update_reason) {
@@ -296,8 +296,8 @@ void TOVS2Wall01::load_resources() {
   BmlResource *resource;
   resource = new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
   vs2_wall01_bml_resource = resource;
-  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model(vs2_wall01_bml_resource, 5)),
-                        reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, 5)), 10.0f, 0.0f);
+  TObjNpcEnemy::register_ginja(0x3A, get_bml_model(vs2_wall01_bml_resource, 5),
+                        get_bml_texlist(resource, 5), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if (vs2_wall01_bml_resource != NULL) {

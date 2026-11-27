@@ -21,6 +21,7 @@
 
 
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
@@ -66,7 +67,6 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
-#include "pso/system/task/TMainTask.h"
 
 QuestDownloadRecord quest_download_file_state;
 QuestDownloadRecord quest_download_file_slot;
@@ -326,7 +326,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(u32 *data, s32 size) {
     safe_free(dst);
     safe_free(src);
 }
-void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
+void TQuestVmDownLoadServer::unshuffle_and_decrypt(u8 *data, s32 size) {
     void *src;
     void *dst;
     u32 *words;
@@ -361,7 +361,7 @@ s32 calc_download_crc32(void *data, s32 size) {
     }
     return crc ^ 0xFFFFFFFF;
 }
-s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
+s32 TQuestVmDownLoadServer::verify_checksum(const u8 *data, s32 size) {
   s32 crc;
   u32 *copy;
   s32 stored;
@@ -573,7 +573,7 @@ void TQuestVmDownLoadServer::close_window() {
     TWindowBase *window;
     this->state = 2;
     window = this->status_window;
-    if (window != 0U) {
+    if (window != NULL) {
         window->close();
         this->status_window = 0U;
     }

@@ -440,7 +440,7 @@ void TPlayerBattleCtrl::update_duel_result() {
                     window_50->add_text_entry(text[2], 6, 2);
                     window_50->add_text_entry(text[3], 6, 3);
                     window_50->calc_window_size();
-                    align_menu_entry_positions(window_50);
+                    window_50->align_menu_entry_positions();
                     window_50->set_ready_flag();
                 }
                 if (window_50 != NULL) {
@@ -544,7 +544,7 @@ void TPlayerBattleCtrl::end_battle_mode_cleanup() {
         evt2_random_enemies_mode = 0;
         set_keyboard_input_flag();
         lobby_floor_reload_pending = 1;
-        ((TObject *)this)->queue_destruction();
+        queue_destruction();
         break;
     case -1:
         break;
@@ -916,7 +916,7 @@ s32 TPlayerBattleCtrl::calc_player_rankings() {
     return 1;
 }
 
-void record_local_battle_placement(void *) {
+void record_local_battle_placement(void *battle_ctrl) {
     s32 slot;
     s32 i;
     s32 n;

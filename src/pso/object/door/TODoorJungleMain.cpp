@@ -101,7 +101,7 @@ NJS_TEXLIST *door_jungle_main_gvm_texture;
 TODoorJungleMain::TODoorJungleMain(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    motion = (NJS_MOTION *)get_bml_motion(TODoorJungleMain::bml_resource, 0);
+    motion = get_bml_motion(TODoorJungleMain::bml_resource, 0);
     animation_step = 1.0f;
     animation_end_frame = 0.0f;
     init_collision_body_parts(this, TODoorJungleMain_collision_body_parts, 1);

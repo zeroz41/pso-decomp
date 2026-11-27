@@ -74,7 +74,7 @@ void TObjEneMe1GiGueMissile::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(gigue_missile_resource->models[1].texlist));
+    set_texture_list(gigue_missile_resource->models[1].texlist);
     set_motion_packed_rotation();
     draw_model_motion(get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
     clear_motion_packed_rotation();

@@ -64,6 +64,7 @@ class TPlayerLobbyMarker;
 class TPlyInventoryItem;
 struct TechniqueContactList;
 struct EndingPlayerRecord;
+struct PlayerCastMotionRecord;
 struct PlayerSyncRecord;
 struct PlayerCharDataEntry;
 struct TLockOnCursor;
@@ -335,7 +336,7 @@ struct TObjPlayer : public TObjChara {
     s32 get_photon_blast_charge();
     int is_frozen();
     void unequip_item(TItem *item);
-    static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
+    void send_6x26_unequip_item(u32 item_id);
     player_class_type get_class_type();
     static void render_tree(NJS_OBJECT *model);
     s32 get_entrance_id();
@@ -371,7 +372,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_on_current_floor();
     s32 get_area();
     static s32 get_player_count();
-    static TObjCollidable *get_battle_param(int index);
+    static TObjChara *get_battle_param(int index);
     s32 check_player_flag1();
     s32 check_flag(s32 flag);
     // Set while a menu window holds the player's input, with the action buttons masked.
@@ -381,7 +382,7 @@ struct TObjPlayer : public TObjChara {
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
     static void set_com_card_window(s32 client);
-    static TItem *get_equipped_weapon(TObjPlayer *player);  // equipped_items[6]
+    TItem *get_equipped_weapon();  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
     s32 test_action_mask(s32 bits);
@@ -420,12 +421,12 @@ struct TObjPlayer : public TObjChara {
     s16 is_status_subsystem_ready();
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
-    int test_flag30_bit0x100000();
+    int is_lock_on_flag_set();
     s16 get_kill_count();
     void set_kill_count(s16 count);
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
-    int is_casting();
+    int is_technique_charging();
     static s32 is_final_phase();
     static s32 is_camera_ready();
     static s32 is_camera_mode_active();
@@ -478,12 +479,12 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_4000();
     void set_flag_4000();
     s32 is_flag_4000_set();
-    void set_return_destination(s32 v);
-    // Quest opcode set_returnhunter: battle flag 1.
+    void set_return_destination(s32 destination);
+    // Quest opcode set_returnhunter: return destination 1.
     void set_return_hunter();
     s32 get_return_destination();
-    int test_hold_flag();
-    void clear_action_active();
+    int is_hold_flag_set();
+    void clear_action_active_flag();
     int unregister_sub();
     void set_control_role(s32 v);
     s32 get_control_role();
@@ -563,7 +564,7 @@ struct TObjPlayer : public TObjChara {
     void send_6x4B_hurt_reaction();
     void complete_hurt_reaction();
     void do_action_19_5_if_flag30();
-    void begin_action_0xB();
+    void begin_action11();
     void run_if_flag_10();
     int try_apply_status_action();
     s32 try_status_action();
@@ -597,9 +598,9 @@ struct TObjPlayer : public TObjChara {
     void start_action_c();
     void send_6x50_switch_interaction();
     void update_if_flag_set();
-    void set_flag_0x100000();
+    void stop_and_set_lock_on_flag();
+    void apply_damped_velocity_if_free();
     void apply_velocity_if_free();
-    static void apply_velocity_if_free(TObjPlayer *player);
     void complete_guard_reaction();
     void select_hit_action();
     static void create_photon_blast_party_effects(u16 id);
@@ -786,7 +787,7 @@ struct TObjPlayer : public TObjChara {
     void deactivate_body_collision();
     void send_field_state();
     void play_photon_blast_feedback();
-    void spawn_effect();
+    void start_fall_rumble();
     void draw();
     void set_state_flag_604B();
     static void send_disable_pk_mode(TObjPlayer *player);
@@ -826,7 +827,7 @@ struct TObjPlayer : public TObjChara {
     s32 can_use_item(TItem *item);
     s32 dispatch_palette_action(u32 act);
     s32 handle_palette_button_input();
-    s32 execute_palette_action(s32 mode, void *target);
+    s32 execute_palette_action(s32 mode, TObjCollidable *target);
     void hold_battle_music();
     void release_battle_music();
     void start_battle_music();
@@ -1155,6 +1156,7 @@ struct TObjPlayer : public TObjChara {
     void init_session_technique_caps(PlayerSyncRecord *record);
     void init_saved_technique_caps(TPlyCharData *record);
     void init_session_area_sync(void *record);
+    s32 build_player_equipment_requirement_stats(PlayerRequirementStats *player_requirement_stats);
 };
 
 s32 is_valid_technique_slot(u8 slot);
@@ -1256,5 +1258,7 @@ struct PhotonBlastMotionTiming {
 
 s32 count_members();
 s32 is_technique_ready();
+// The inventory id of the item with this kind/group/index code, or -1.
+s32 find_inventory_item_id_by_code(TObjPlayer *player, u8 kind, u8 group, u8 index);
 
 #endif

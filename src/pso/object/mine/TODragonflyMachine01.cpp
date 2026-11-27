@@ -165,8 +165,8 @@ void TODragonflyMachine01::load_resources() {
     node_yaw = 0;
     NpcAnimationBinding setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
-    TObjNpcEnemy::register_animated_ginja(0x38, reinterpret_cast<NJS_OBJECT *>(resource->models->model),
-                                             reinterpret_cast<NJS_TEXLIST *>(resource->models->texlist), &setup, 3.0f, 15.0f);
+    TObjNpcEnemy::register_animated_ginja(0x38, resource->models->model,
+                                             resource->models->texlist, &setup, 3.0f, 15.0f);
 }
 
 TODragonflyMachine01::~TODragonflyMachine01() {}

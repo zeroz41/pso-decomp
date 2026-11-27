@@ -554,7 +554,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObj
     boss_params = (TBoss7DeRolLeCParams *)dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     state_flags = 0;
-    if (exchange_object_state(&state, 1) && (state.flags & 0x12008) == 0x12008) {
+    if (exchange_object_state(&state, 1) && ((u32)state.flags & 0x12008) == 0x12008) {
         state_flags |= 0x8000;
     }
     init_position_vectors();

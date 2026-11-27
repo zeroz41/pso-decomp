@@ -4,6 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaTexture.h"
 #include "types.h"
+#include "pso/object/base/ObjectSetData.h"
 #include <string.h>
 #include "pso/object/cave/TOHangceilingCave01.h"
 #include "pso/object/cave/TOHangceilingCave01KeyQuick.h"
@@ -87,7 +88,7 @@ s32 TOHangceilingCaveBase::select_melee_contact_body(TObjChara *, f32) {
 TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
     model = get_bml_model(hangceiling_cave01_model_archive, turiten_singo_key_model_index);
-    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
+    current_motion = get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     init_collision_body_parts(this, &hangceiling_cave01_collision_body_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -113,7 +114,7 @@ void load_turiten_singo_resources(void) {
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist(hangceiling_cave01_model_archive, 0);
+        turiten_singo_texture_lists[2] = get_bml_texlist(hangceiling_cave01_model_archive, 0);
         lbl_805D59D8 = 0;
         hangceiling_cave01_model_root = NULL;
         turiten_singo_key_model_index = 0;
@@ -125,7 +126,7 @@ void load_turiten_singo_resources(void) {
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist(hangceiling_cave01_model_archive, 1);
+        turiten_singo_texture_lists[2] = get_bml_texlist(hangceiling_cave01_model_archive, 1);
         hangceiling_cave01_model_root = get_bml_model(hangceiling_cave01_model_archive, 2);
         turiten_singo_key_model_index = 1;
         hanging_ceiling_motion_index = 0;
@@ -353,7 +354,7 @@ void TOHangceilingCaveBase::set_mode(s32 new_mode) {
         case 1:
             break;
         case 2:
-            current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
+            current_motion = get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
             frame = 22.0f;
             play_speed = 1.0f;
             frame_count = (f32)current_motion->nbFrame - 1.0f;
@@ -440,7 +441,7 @@ void TOHangceilingCave01Normal::update_state() {
 }
 
 void TOHangceilingCave01Normal::begin_wait() {
-    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
+    current_motion = get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     texlist = turiten_singo_texture_lists[0];
     wait_timer = 4.0f * wait_interval;
     set_mode(0);
@@ -490,7 +491,7 @@ void TOHangceilingCave01Key::update_state() {
 
 void TOHangceilingCave01Key::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
-    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, 1);
+    current_motion = get_bml_motion(hangceiling_cave01_model_archive, 1);
     wait_timer = 0.0f;
     set_mode(3);
     bodies->flags &= ~8;
@@ -559,7 +560,7 @@ void TOHangceilingCave01KeyQuick::update_state() {
 
 void TOHangceilingCave01KeyQuick::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
-    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, 1);
+    current_motion = get_bml_motion(hangceiling_cave01_model_archive, 1);
     wait_timer = 0.0f;
     set_mode(3);
     bodies->flags &= ~8;

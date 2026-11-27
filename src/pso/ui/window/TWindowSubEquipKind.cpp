@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/HeadingEntry.h"
@@ -18,7 +19,6 @@
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 #pragma readonly_strings on
 

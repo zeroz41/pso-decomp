@@ -70,6 +70,9 @@ struct NpcPlayerView {
     s32 update_conditions();
     s32 can_recover(s32 kind, s32 allow_item);
     s32 scan_targets(f32 range);
+    // Marks the enemies-in-range status when the player the id names has a body within range.
+    s32 try_update_target_flag(u16 id, f32 range);
+    s32 find_parts_in_range(Vec *pos, u16 id, f32 range);
     s32 check_moved();
     s32 is_target_line_clear(u32 id);
     s32 scan_nearby_enemies(Vec *pos, f32 range);

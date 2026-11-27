@@ -161,7 +161,7 @@ public:
     virtual s32 update_defense_stat_status();
     // Under a status cleanse (actor flag 0x40) clears every harmful status and
     // returns 1, which skips the other status updates.
-    virtual s32 update_status_cleanse();
+    virtual s32 update_evp_status();
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();

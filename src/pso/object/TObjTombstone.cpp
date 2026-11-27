@@ -39,7 +39,7 @@
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/window/TObjBagWarnWin.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/hud/SplitScreenQuery.h"
 
 

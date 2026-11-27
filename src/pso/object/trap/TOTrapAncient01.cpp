@@ -266,14 +266,14 @@ void TOTrapAncient01::update_holding() {
         clear_battle_param_slots();
         check_object_collisions();
         for (i = 0; i < 16; i++) {
-            p = (TObjChara *)TObjPlayer::get_battle_param(i);
+            p = TObjPlayer::get_battle_param(i);
             if (p == NULL) {
                 break;
             }
             if (obj_is_hit_receivable(p) == 0) {
                 break;
             }
-            if (reinterpret_cast<TObject *>(p)->check_value_equals(TObjPlayer_name) == 0) {
+            if (p->check_value_equals(TObjPlayer_name) == 0) {
                 break;
             }
             p->receive_direct_attack(this, payload, NULL, -1, -1);
@@ -424,4 +424,4 @@ void TOTrapAncient01::apply_saved_state(QuestObjectEntry *state, s32 live) {
 
 void TOTrapAncient01::run_demo() {  }
 
-void TOTrapAncient01::debug_draw_trap() {  }
+void TOTrapAncient01::draw_debug_home_marker() {  }

@@ -449,7 +449,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
             if (((TWindowSubComCardList *)menu_window)->target_size[1] > 160.0f) {
                 ((TWindowMenu *)menu_window)->set_scroll_target(288.0f, 160.0f);
             }
-            align_menu_entry_positions(menu_window);
+            menu_window->align_menu_entry_positions();
         }
     }
     request_active_window_close();
@@ -495,7 +495,7 @@ void TObjCityMainWarp::run_task() {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation.y);
@@ -541,7 +541,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
         menu_window->set_flag70_bit10();
         menu_window->disable_input();
         menu_window->calc_window_size();
-        align_menu_entry_positions(menu_window);
+        menu_window->align_menu_entry_positions();
         user_client_id = client_id;
     }
 }
@@ -560,7 +560,7 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation.y);
@@ -597,11 +597,11 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
-        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TWindowMenu *)playerPopups[client_id])->disable_input();
-        ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
+        playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        playerPopups[client_id]->set_flag70_bit10();
+        playerPopups[client_id]->disable_input();
+        playerPopups[client_id]->calc_window_size();
+        playerPopups[client_id]->align_menu_entry_positions();
     }
 }
 
@@ -633,7 +633,7 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation.y);
@@ -694,11 +694,11 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
-        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TWindowMenu *)playerPopups[client_id])->disable_input();
-        ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
+        playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        playerPopups[client_id]->set_flag70_bit10();
+        playerPopups[client_id]->disable_input();
+        playerPopups[client_id]->calc_window_size();
+        playerPopups[client_id]->align_menu_entry_positions();
     }
 }
 

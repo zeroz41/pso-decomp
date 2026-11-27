@@ -103,11 +103,11 @@ s32 TWindowChat::update_word_select_window() {
 }
 
 s32 TWindowChat::submit_keyboard_input() {
-    uaddr kb = (uaddr)this->composer;
-    if (kb == 0U) {
+    TWindowKeyBoardBase *kb = this->composer;
+    if (kb == NULL) {
         return 0;
     }
-    if (((TWindowKeyBoardBase *)kb)->is_cancelled() != 0) {
+    if (kb->is_cancelled() != 0) {
         composer->reset_input();
         this->set_input_active();
         return 1;

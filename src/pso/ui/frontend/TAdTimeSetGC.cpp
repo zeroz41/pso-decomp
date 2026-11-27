@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
@@ -836,7 +836,7 @@ void TAdTimeSetGC::open_message_choice(const char *text, s32 sel, const char *fi
         menu_window->add_text_entry(entry_text, 5, 1);
     }
     menu_window->update_layout_height(time_set_menu_width);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+    (reinterpret_cast<TWindowMenu *>(menu_window))->align_menu_entry_positions();
     if (sel == -2) {
         menu_window->set_selected_index(0);
     } else {

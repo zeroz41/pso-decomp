@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -42,7 +43,7 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 
 TChallenge4PResult *challenge4p_result_slot_entries[4];
 
-void resume_challenge_result_processing(void *result);
+void resume_challenge_result_processing(TChallenge4PResult *result);
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
 #pragma defer_codegen on
@@ -256,7 +257,7 @@ s32 update_challenge_result_player_locks() {
                 player->disable_palette_slot(1);
                 player->disable_palette_slot(2);
                 player->disable_palette_slot(3);
-                if ((player)->test_hold_flag() == 0) set_player_hold_flag(player);
+                if ((player)->is_hold_flag_set() == 0) set_player_hold_flag(player);
                 TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
@@ -269,7 +270,7 @@ s32 update_challenge_result_player_locks() {
                 send_release_hold(player);
                 obj_clear_flag30_20000(player);
                 player->enable_all_palette_slots();
-                if ((player)->test_hold_flag()) clear_player_hold_flag(player);
+                if ((player)->is_hold_flag_set()) clear_player_hold_flag(player);
                 TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
@@ -294,9 +295,9 @@ void TChallenge4PResult::update_entries(TItemData *item, s32 slot) {
     } while (i < 4);
 }
 
-void resume_challenge_result_processing(void *result) {
+void resume_challenge_result_processing(TChallenge4PResult *result) {
     if (result != NULL) {
-        ((TChallenge4PResult *)result)->state_1c = 1;
+        result->state_1c = 1;
     }
 }
 
@@ -380,7 +381,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
 }
 
 void TChallenge4PItemSelect::close_with_callback() {
-    void (*callback)(void *);
+    void (*callback)(TChallenge4PResult *);
 
     callback = onClosed;
     if (callback != NULL) {

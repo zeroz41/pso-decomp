@@ -15,6 +15,7 @@ extern Vec scratch_vec;
 extern Vec scratch_vec2;
 extern Vec scratch_vec3;
 extern Vec scratch_vec4;
+extern Vec scratch_vec5;
 extern ScratchRotation scratch_rotation;
 
 #endif

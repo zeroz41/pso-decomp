@@ -18,6 +18,7 @@
 #pragma push
 
 #include "types.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -42,7 +43,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/ui/frontend/CardLoadSequenceState.h"
 
@@ -243,7 +243,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(obj->get_selected_save_record(), get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(obj->get_selected_record(), get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 char_save_message_flags &= ~1;

@@ -271,7 +271,7 @@ void TShopEquipmentListWindow::open_menu_window() {
         this->confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
         this->confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
-        align_menu_entry_positions(this->confirm_menu);
+        this->confirm_menu->align_menu_entry_positions();
         confirm_menu->set_ready_flag();
         scale = get_scale();
         confirm_menu->set_position_xy(get_scale(), scale);
@@ -294,7 +294,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 item = find_item_by_id(it.id);
                 if (item != NULL && (equipped = player->get_equipped_item(item->get_attach_slot())) != NULL) {
-                    TObjPlayer::send_6x26_unequip_item(player, equipped->get_item_id());
+                    player->send_6x26_unequip_item(equipped->get_item_id());
                 }
                 send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), it.id, 0);
                 update_list(&stock[i]);

@@ -588,7 +588,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
                     menu_window->add_text_entry(TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     menu_window->disable_input();
                     menu_window->calc_window_size();
-                    align_menu_entry_positions(menu_window);
+                    menu_window->align_menu_entry_positions();
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
@@ -863,10 +863,10 @@ void TObjWarpBossMulti::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation.y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model_handle));
+    set_texture_list(model_handle);
     draw_ginja_object(base_model);
     begin_effect_render();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
+    set_texture_list(effect_textures);
     switch (state) {
     case 0:
         draw_ginja_model_with_motion(confirmation_model, motion, frame);

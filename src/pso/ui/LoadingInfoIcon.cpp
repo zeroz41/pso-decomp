@@ -173,7 +173,7 @@ void draw_loading_overlay(void) {
     setup_projected_color_draw(1);
     draw_projected_quads(overlay->title, 4);
     end_projected_color_draw();
-    if (info_icon_texture != 0) {
+    if (info_icon_texture != NULL) {
         set_texture_list(info_icon_texture);
         if (lobby_request_flags & 4) {
             set_texture_num(1);

@@ -43,6 +43,10 @@ struct PlayerAttackController {
     f32 get_attack_accuracy_scale();
     f32 calc_attack_stage_multiplier(s32 kind);
 
+    // The burst shots counted so far (a swing starts a burst of 2 when the count is 0).
+    s32 get_burst_count();
+    void increment_burst_count();
+
     void set_evp(f32 scale);
     f32 get_evp();
 
@@ -74,8 +78,6 @@ struct PlayerAttackController {
     // Queues the next combo stage from an action channel, up to maximum_stage.
     void queue_physical_attack_input(TObjPlayer *player, s32 channel, s16 maximum_stage);
     s32 tick_burst_recovery();
-    void increment_burst_counter();
-    s32 get_burst_counter();
     s32 tick_recovery_timer();
     void register_strike(TObjPlayer *player);
     void begin(TObjPlayer *player, s32 stage, s32 begun);

@@ -47,7 +47,7 @@ void TKomorebi::render() {
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         post_translate_matrix(&position.x);
         rotate_matrix_yxz(0, rotation.x, rotation.y, rotation.z);
         horizontal_scale = scale.z;

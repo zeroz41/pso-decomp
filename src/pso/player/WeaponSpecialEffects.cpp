@@ -464,7 +464,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)TObjPlayer::get_equipped_weapon(player);
+    weapon = (TItemWeapon *)player->get_equipped_weapon();
     if (weapon == NULL) {
         return;
     }

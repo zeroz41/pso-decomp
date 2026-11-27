@@ -64,6 +64,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/system/ByteBlocks.h"
 
 const char *TBoss6Type2::name = "TBoss6Type2";
 // Inferred name: distance checks (> 390), sound sources and the start position all use it.
@@ -133,7 +134,6 @@ extern "C" {
 void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec);
 
 
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 
 

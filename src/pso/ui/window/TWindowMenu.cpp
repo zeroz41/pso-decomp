@@ -311,12 +311,12 @@ void TWindowMenu::set_selected_index(s16 index) {
 
 #pragma push
 #pragma fp_contract on
-void align_menu_entry_positions(TWindowMenu *menu) {
-    f32 left = menu->target_size[0] - 8.0f;
-    f32 right = 0.5f * menu->target_size[0] - 4.0f;
+void TWindowMenu::align_menu_entry_positions() {
+    f32 left = this->target_size[0] - 8.0f;
+    f32 right = 0.5f * this->target_size[0] - 4.0f;
     u32 i;
-    for (i = 0; i < menu->row_count; i++) {
-        WindowTextEntry *e = static_cast<WindowTextEntry *>(menu->get_array_entry(i));
+    for (i = 0; i < this->row_count; i++) {
+        WindowTextEntry *e = static_cast<WindowTextEntry *>(this->get_array_entry(i));
         if (e->get_text() != 0) {
             e->measure_text(left);
             if (e->height > 18.0f) {
@@ -536,7 +536,7 @@ TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char
   {
     window_menu->update_layout_height(104.0f);
   }
-  align_menu_entry_positions(window_menu);
+  window_menu->align_menu_entry_positions();
   window_menu->set_ready_flag();
   window_menu->set_depth(50030.0f);
   return window_menu;

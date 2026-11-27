@@ -2,10 +2,12 @@
 // the item drop rolls that read it.
 #pragma readonly_strings on
 #include "types.h"
+#include "clib/fp_convert.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
@@ -18,7 +20,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/item/item_create.h"
-#include "pso/enemy/TObjEnemy.h"
 
 void *item_pmt;
 
@@ -32,11 +33,11 @@ const s32 weapon_special_roll_channel_table[4] = {8, 10, 11, 11};
 
 // play_shield_sound_cue's view of the ItemPmt root: armors[1].count and
 // shield_sounds through ItemPmt give the same code with r5/r6 swapped.
-typedef struct Sub_8011C59C { u8 pad[8]; s32 count; } Sub_8011C59C;
+typedef struct ShieldSoundCount { u8 pad[8]; s32 count; } ShieldSoundCount;
 
-typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
+typedef struct ShieldSoundEntry { s32 a; s32 b; } ShieldSoundEntry;
 
-typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
+typedef struct ItemPmtSoundRoot { u8 pad[4]; ShieldSoundCount *sub; u8 pad2[0x34]; ShieldSoundEntry *tbl; } ItemPmtSoundRoot;
 
 
 ItemChoiceList *get_item_pmt_entry(u8 index) {
@@ -208,7 +209,7 @@ s32 get_weapon_special_star_count(u8 special) {
 }
 
 void play_shield_sound_cue(ItemSoundRequest *cue) {
-    Pmt_8011C59C *pmt = (Pmt_8011C59C *)item_pmt_tbl;
+    ItemPmtSoundRoot *pmt = (ItemPmtSoundRoot *)item_pmt_tbl;
     u8 idx = cue->index;
     if (idx < pmt->sub->count) {
         s32 off;

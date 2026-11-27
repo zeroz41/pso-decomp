@@ -392,7 +392,7 @@ void THunterGuildSeqOffline::update_state() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance(2); set_state((saddr)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance(2); set_state(1); }
 
 void THunterGuildSeqOffline::open_greeting() {
     NJS_POINT2 window_size;
@@ -401,7 +401,7 @@ void THunterGuildSeqOffline::open_greeting() {
     this->create_message_window(get_window_layout_position(0x2C), &window_size);
     this->display_guild_message(1, 1);
     counter_camera = set_service_counter_camera(this, 1);
-    this->set_state((saddr)((void*)(2)));
+    this->set_state(2);
 }
 
 void THunterGuildSeqOffline::resolve_active_quest_result() {
@@ -412,7 +412,7 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
                 if (quest_result_callbacks[1] != -1) {
                     this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(quest_result_callbacks[1]));
                 }
-                this->set_state((saddr)((void*)(7)));
+                this->set_state(7);
                 return;
             }
             if (TQuestThread::get_register(quest_mission_manager, 0xFD) == 1) {
@@ -420,15 +420,15 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
                 if (quest_result_callbacks[0] != -1) {
                     this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(quest_result_callbacks[0]));
                 }
-                this->set_state((saddr)((void*)(8)));
+                this->set_state(8);
                 return;
             }
             this->display_guild_message(2, 1);
-            this->set_state((saddr)((void*)(3)));
+            this->set_state(3);
             return;
         }
         this->display_guild_message(4, 1);
-        this->set_state((saddr)((void*)(4)));
+        this->set_state(4);
     }
 }
 
@@ -440,7 +440,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
         this->choice_menu->set_selected_index(1);
         this->choice_menu->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);
-        set_state((saddr)((void*)(6)));
+        set_state(6);
     }
 }
 
@@ -455,6 +455,6 @@ void THunterGuildSeqOffline::handle_select() {
     if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         this->display_guild_message(0xC, 1);
         this->exit_action = 1;
-        set_state((saddr)((void*)(5)));
+        set_state(5);
     }
 }

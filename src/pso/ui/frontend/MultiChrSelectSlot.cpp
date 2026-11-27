@@ -2,6 +2,7 @@
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/charcreate/CreationInput.h"
 
 void copy_creation_input_state(CreationInputState *dst, CreationInputState *src) {
     dst->reserved_0 = src->reserved_0;

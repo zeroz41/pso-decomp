@@ -75,7 +75,7 @@ TObjComputer::TObjComputer(TObject *parent, ObjectSetData *placement) : TObjMesB
         set_params[1] = 1;
     }
     if (computer_model_archive != NULL) {
-        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[set_params[1]]));
+        screen_model = get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[set_params[1]]);
     } else {
         queue_destruction();
         return;
@@ -181,7 +181,7 @@ void TObjComputer::draw_model() {
 void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
     this->set_params[1] = this->set_params[1] % 2;
-    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[this->set_params[1]]));
+    screen_model = get_bml_model(computer_model_archive, TObjComputer::screen_model_indices[this->set_params[1]]);
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
     set_debug_text_color(0xF0F0F0FF);

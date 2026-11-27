@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
@@ -28,9 +29,8 @@
 #include "pso/system/DataBlockRelocation.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TPlyCharData.h"
+#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 
 
 
@@ -958,7 +958,7 @@ CreationTextureCacheEntry *find_free_slot() {
 }
 void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
-    saddr index;
+    s32 index;
     bind_appearance_texture_lists(&hair_textures.textures, &head_textures.textures, &body_textures.textures, appearance);
     index = character_display_index(appearance);
     slot = &hair_textures;
@@ -1040,7 +1040,7 @@ s32 select_unused_appearance_part(CharacterAppearanceFields *appearance, s32 par
     }
     return 0;
 ok:
-    copy_player_visual_record(appearance, &c);
+    copy_player_visual_record((PlayerVisualRecord *)appearance, (PlayerVisualRecord *)&c);
     return 1;
 }
 

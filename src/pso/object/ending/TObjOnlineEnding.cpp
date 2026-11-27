@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowChallengeResult.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/ChallengeRank.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/math/MatrixReflect.h"
@@ -189,8 +189,8 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
         object->queue_destruction();
         return;
     }
-    scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(online_ending_resource, 0));
-    scene_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(online_ending_resource, 0));
+    scene_model = get_bml_model(online_ending_resource, 0);
+    scene_textures = get_bml_texlist(online_ending_resource, 0);
     scene_motion = get_bml_motion(online_ending_resource, 0x18);
     player_count = 0;
     for (i = 0; i < 4; i++) {

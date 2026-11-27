@@ -47,7 +47,7 @@ s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 #pragma inline_depth(1)
 #pragma dont_inline off
 
-s32 guild_card_record_serial;
+s32 guild_card_next_serial;
 int com_card_entry_count;
 
 void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(response); }
@@ -171,8 +171,8 @@ void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     char *p;
 
     entry->id = response->found_guildcard;
-    serial_no = guild_card_record_serial;
-    guild_card_record_serial = serial_no + 1;
+    serial_no = guild_card_next_serial;
+    guild_card_next_serial = serial_no + 1;
     entry->serial = serial_no;
     copy_guild_card_f4c(&entry->recv_port, &response->recv_port);
     entry->ext = response->extension;

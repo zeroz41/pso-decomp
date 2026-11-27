@@ -1,12 +1,13 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
+#include "pso/ui/window/TWindowCallBack.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TLobby.h"
@@ -47,7 +48,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
 
 void TAdAgreementBaseGC::on_cancel() { state = 4; }
 
-void *TAdAgreementBaseGC::create_agreement_callback() {
+TWindowCallBack *TAdAgreementBaseGC::create_agreement_callback() {
     return TAdEnterSerialAccessGC::create_callback(&agreement_text_window_pos, &agreement_text_window_size, TAdAgreementBaseGC::draw_agreement_text);
 }
 
@@ -78,7 +79,7 @@ void TAdAgreementBaseGC::update_state() {
         break;
     case 2:
         if (callback_window != NULL) {
-            ((TWindowBase *)callback_window)->close();
+            callback_window->close();
             callback_window = NULL;
         }
         on_closing();
@@ -104,7 +105,7 @@ void TAdAgreementBaseGC::update_state() {
 }
 
 TAdAgreementBaseGC::~TAdAgreementBaseGC() {
-    if (callback_window != NULL) { ((TObject *)callback_window)->queue_destruction(); callback_window = NULL; }
+    if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
     if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }
 }
 

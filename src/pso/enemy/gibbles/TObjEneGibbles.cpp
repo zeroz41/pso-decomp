@@ -340,7 +340,7 @@ void TObjEneGibbles::render() {
         this->fades[cam].update();
         fade = this->fades[cam].updateFromCamera(&body_center);
         select_actor_lighting(this);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix_from(NULL);
         VecCopy(&v, &position);
         switch (this->mode) {
@@ -388,7 +388,7 @@ void TObjEneGibbles::render() {
                     if (vis == 1) {
                         draw();
                     } else {
-                        ((TObjEnemy *)this)->draw_motion_model();
+                        draw_motion_model();
                     }
                 }
                 this->fades[cam].clear_flag_and_notify();
@@ -398,7 +398,7 @@ void TObjEneGibbles::render() {
             } else if (vis == 1) {
                 draw();
             } else {
-                ((TObjEnemy *)this)->draw_motion_model();
+                draw_motion_model();
             }
             break;
         }
@@ -407,7 +407,7 @@ void TObjEneGibbles::render() {
         pop_matrix();
         restore_scene_lighting();
         if (!(this->status_flags & 1)) {
-            ((TObjEnemy *)this)->draw_ground_shadow(0, 0);
+            draw_ground_shadow(0, 0);
         }
     } else {
         this->update_position();

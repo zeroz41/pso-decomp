@@ -13,7 +13,7 @@ void TItemWeaponTwinPsychogun::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         attack_state = &owner->attack_state;
         for (i = 0; i != 2; i++) {
-            attack_state->increment_burst_counter();
+            attack_state->increment_burst_count();
         }
         shot_callback = create_shoot_model_rot_z;
         impact_callback = spawn_weapon_impact_effect;

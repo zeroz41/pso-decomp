@@ -1088,7 +1088,7 @@ TWindowMenu *TWindowSubComCard::create_menu() {
     }
     list->set_flag70_bit10();
     list->update_layout_height(179.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -1099,7 +1099,7 @@ TWindowMenu *TWindowSubComCard::create_send_action_menu() {
     menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x56)), 6, 9);
     menu->set_flag70_bit10();
     menu->update_layout_height(213.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 
@@ -1117,7 +1117,7 @@ TWindowMenu *TWindowSubComCard::create_contact_menu() {
   }
   list->set_flag70_bit10();
   list->update_layout_height(186.0f);
-  align_menu_entry_positions(list);
+  list->align_menu_entry_positions();
   return list;
 }
 
@@ -1168,7 +1168,7 @@ TWindowMenu *TWindowSubComCard::open_menu() {
     list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x15);
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -1341,7 +1341,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
     }
     win->set_flag70_bit10();
     win->set_scroll_target(405.0f, 124.0f);
-    align_menu_entry_positions(win);
+    win->align_menu_entry_positions();
     return win;
 }
 #pragma pop
@@ -1384,7 +1384,7 @@ TWindowMenu *TWindowSubComCard::create_menu_window() {
   }
   list->set_flag70_bit10();
   list->update_layout_height(206.0f);
-  align_menu_entry_positions(list);
+  list->align_menu_entry_positions();
   return list;
 }
 

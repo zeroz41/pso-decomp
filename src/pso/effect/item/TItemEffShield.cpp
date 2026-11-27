@@ -121,7 +121,7 @@ void TItemEffShieldAura::run_task() {
                 particle = NULL;
             }
         }
-        item = TObjPlayer::get_equipped_weapon(player);
+        item = player->get_equipped_weapon();
         if (particle != NULL) {
             s32 hidden = 0;
             if (item != NULL && item->get_item_group() == 0x1A) {

@@ -62,7 +62,7 @@ Vec boss7_tunnel_raft_splash_positions[2] = {
 };
 u32 boss2_tunnel_state_flags;
 s32 lbl_805D696C;
-s8 lbl_805D6970;
+s8 boss7_tunnel_initialized;
 // Written last-to-first: the TU was compiled with deferred codegen, which emits functions in reverse
 // order of definition (and the vtables in .text order).
 #pragma defer_codegen on
@@ -118,9 +118,9 @@ TObjBoss7Tunnel::TObjBoss7Tunnel(TObject *parent) : TObject(parent) {
     new TObjBoss7TunnelNode(render_nodes, 0);
     new TObjBoss7TunnelNode(render_nodes, 1);
     new TObjBoss7TunnelNode(render_nodes, 2);
-    if (lbl_805D6970 == 0) {
+    if (boss7_tunnel_initialized == 0) {
         lbl_805D696C = 1;
-        lbl_805D6970 = 1;
+        boss7_tunnel_initialized = 1;
     }
     if (is_room_enemy_set_cleared(get_current_floor(), 1) == 0) {
         spawn_segment_row_b();
@@ -430,7 +430,7 @@ void TObjBoss7TunnelSegment::run_task() {
 void TObjBoss7TunnelSegment::draw_opaque_model() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(1);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(boss7_common_texture_list);
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[0]].model);
@@ -442,7 +442,7 @@ void TObjBoss7TunnelSegment::draw_opaque_model() {
 void TObjBoss7TunnelSegment::draw_translucent_models() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(2);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(boss7_common_texture_list);
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[1]].model);
@@ -459,7 +459,7 @@ void TObjBoss7TunnelSegment::draw_tunnel_segment() {
     if (is_in_camera_range() != 0) {
         model_index = model_indices[model_count - 1];
         set_draw_list_mask(2);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+        set_texture_list(boss7_common_texture_list);
         begin_effect_render();
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));

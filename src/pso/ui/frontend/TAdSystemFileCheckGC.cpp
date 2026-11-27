@@ -299,7 +299,7 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
             this->menu_window->set_selected_index(0);
         }
         this->menu_window->update_layout_height(system_file_check_menu_height);
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
+        (reinterpret_cast<TWindowMenu *>(this->menu_window))->align_menu_entry_positions();
     }
 }
 

@@ -59,7 +59,7 @@
 #include "pso/system/GameModeQueries.h"
 #include "pso/quest/QuestFloorDesignation.h"
 
-struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
+struct ItemParamWords { u8 pad[0x30]; s32 data[3]; };
 
 static const char *fe_obj_hako01_hahen02_model_names[4] = {
     "fe_obj_hako01_hahen02.gj", "fs_obj_hako01.gj", "fs_obj_hako01_hahen01.gj", NULL,
@@ -321,7 +321,7 @@ void TObjContainerBase::render() {
 
 #pragma pool_data off
 void TObjContainerBase::debug_print_item_box_info() {
-    Item_80189E3C item;
+    ItemParamWords item;
     if (this->scale.x > container_item_zero) {
         this->random_item = 1;
     } else {

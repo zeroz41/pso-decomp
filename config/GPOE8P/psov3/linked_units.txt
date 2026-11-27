@@ -1254,7 +1254,7 @@ pso/boss/darkfalz/TBoss4DarkFalz.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/object/TObjDoaEx01.cpp
 pso/object/door/TObjDoorJung.cpp
-pso/object/door/GinjaTextureSlot.cpp
+pso/object/door/GinjaTextureSlots.cpp
 pso/object/door/TObjDoorKey.cpp
 pso/object/door/TObjDoor.cpp
 pso/object/TObjEZBoneRotBase.cpp
@@ -1356,13 +1356,13 @@ pso/player/CountdownTimer.cpp
 pso/player/DamageStatSlot.cpp
 pso/player/TObjEndingPlayer.cpp
 pso/player/PlayerClassParams.cpp
-pso/player/PlayerTechniqueQueries.cpp
+pso/player/PlayerTechniqueStateLevels.cpp
 pso/player/TObjPlayerTechniqueLevels.cpp
 pso/player/PlayerTechniqueState.cpp
 pso/render/GinjaMotionDraw.cpp
 pso/player/PrsTextureLoad.cpp
 pso/player/GinjaRenderTarget.cpp
-pso/player/PlayerCharDataInit.cpp
+pso/player/TPlyCharDataInit.cpp
 pso/player/PlayerCharacterRecord.cpp
 pso/weapon/TItemWeaponCard.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp

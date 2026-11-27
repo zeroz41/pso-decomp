@@ -301,17 +301,17 @@ void TObjEneDubchik::load_resources() {
     find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
     breakup_model_ptr = new TBreakUpMdlData(dubchik_resource->models[0].model);
     dubchik_scratch_trail0_points[0] = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
-    dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
+    dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
     dubchik_scratch_trail1_points[0] = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
-    dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
+    dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
     p = new SampledMotionPoints(2, 30.0f, 38.0f, 1.0f);
     t = dubchik_scratch_trail0_points;
     t[1] = p;
-    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
+    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
     p = new SampledMotionPoints(2, 50.0f, 58.0f, 1.0f);
     t = dubchik_scratch_trail1_points;
     t[1] = p;
-    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
+    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
         dubchik_base_params_by_variant[i] = register_boss(i + 0x1B);
         dubchik_attack_params_by_variant[i] = dispatch_shared_handler_b(i + 0x1B);
@@ -428,9 +428,9 @@ void TObjEneDubchik::render() {
             select_actor_lighting(this);
             toggle_particle_effect();
             if (collapsed != 0) {
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
+                set_texture_list(dubchik_texlist);
             } else {
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(texlist);
             }
             drew = 1;
             push_matrix();
@@ -1106,21 +1106,20 @@ void TObjEneDubchik::render_model_and_set_attach_points() {
 }
 
 void TObjEneDubchik::apply_broken_part_visibility() {
-    u8 *g = (u8 *)dubchik_base_params_by_variant;
     if (behavior_flags & 0x20000) {
-        hide_model_nodes((NJS_OBJECT **)(g + 0x68));
+        hide_model_nodes(dubchik_part0_nodes);
     } else {
-        show_model_nodes((NJS_OBJECT **)(g + 0x68));
+        show_model_nodes(dubchik_part0_nodes);
     }
     if (behavior_flags & 0x40000) {
-        hide_model_nodes((NJS_OBJECT **)(g + 0x78));
+        hide_model_nodes(dubchik_part1_nodes);
     } else {
-        show_model_nodes((NJS_OBJECT **)(g + 0x78));
+        show_model_nodes(dubchik_part1_nodes);
     }
     if (behavior_flags & 0x80000) {
-        hide_model_nodes((NJS_OBJECT **)(g + 0xA8));
+        hide_model_nodes(dubchik_part2_nodes);
     } else {
-        show_model_nodes((NJS_OBJECT **)(g + 0xA8));
+        show_model_nodes(dubchik_part2_nodes);
     }
 }
 

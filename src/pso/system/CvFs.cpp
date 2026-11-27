@@ -607,7 +607,7 @@ CvFsHandle *cvFsOpen(const char *name, s32 mode, s32 arg) {
 }
 extern "C" {
 // 1 when the first len characters of s name a device in cvfs_entry_table.
-inline s32 cvfs_is_known_device(char *s, s32 len) {
+inline s32 is_known_device_name(char *s, s32 len) {
     TLobbyEntry *p;
     s32 i;
     for (p = cvfs_entry_table, i = 0; i < 32; i++, p++) {
@@ -639,7 +639,7 @@ void cvFsSetDefDev(char *src) {
             src[j] -= 0x20;
         }
     }
-    if (cvfs_is_known_device(src, len) == 1) {
+    if (is_known_device_name(src, len) == 1) {
         memcpy(fs_default_device_name, src, len + 1);
         return;
     }

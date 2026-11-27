@@ -1,5 +1,6 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
+#include "pso/ui/window/TWindowCallBack.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -19,7 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/MenuText.h"
 
 #pragma readonly_strings on
@@ -30,7 +31,7 @@ const char *TAdEp3Exist::name = "TAdEp3Exist";
 const NJS_POINT2 serial_access_window_pos = { 85.0f, 384.0f };
 const NJS_POINT2 serial_access_window_size = { 470.0f, 32.0f };
 
-void *TAdEp3Exist::create_callback_window() {
+TWindowCallBack *TAdEp3Exist::create_callback_window() {
     return TAdEnterSerialAccessGC::create_callback(&serial_access_window_pos, &serial_access_window_size, draw_message_window);
 }
 
@@ -80,7 +81,7 @@ void TAdEp3Exist::run_task() {
         break;
     case 2:
         if (callback_window != NULL) {
-            ((TWindowBase *)callback_window)->close();
+            callback_window->close();
             callback_window = NULL;
         }
         close_window();
@@ -104,7 +105,7 @@ void TAdEp3Exist::run_task() {
 }
 
 TAdEp3Exist::~TAdEp3Exist() {
-    if (callback_window != NULL) { ((TObject *)callback_window)->queue_destruction(); callback_window = NULL; }
+    if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
     if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }
 }
 

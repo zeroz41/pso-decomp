@@ -112,7 +112,7 @@ void TObjVoloptPillar::run_task() {
             this->check_object_collisions();
             if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {
-                    target = (TObjChara *)TObjPlayer::get_battle_param(i);
+                    target = TObjPlayer::get_battle_param(i);
                     if (target == NULL) {
                         break;
                     }

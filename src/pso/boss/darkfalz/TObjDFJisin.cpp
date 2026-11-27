@@ -152,7 +152,7 @@ void TObjDFUsoTower::render() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
         if (fade_alpha < 1.0f) {

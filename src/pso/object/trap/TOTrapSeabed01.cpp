@@ -87,7 +87,7 @@ TOTrapSeabed01::TOTrapSeabed01(TObject *parent, ObjectSetData *set_data) : TOTra
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(trap_seabed01_bml_resource, 0);
-    current_motion = (NJS_MOTION *)get_bml_motion(trap_seabed01_bml_resource, 0);
+    current_motion = get_bml_motion(trap_seabed01_bml_resource, 0);
     play_speed = 1.0f;
     frame = 0.0f;
     clamp_params_and_init();
@@ -357,7 +357,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     s32 i;
     TObjChara *chara;
     for (i = 0; i < 16; i++) {
-        chara = (TObjChara *)TObjPlayer::get_battle_param(i);
+        chara = TObjPlayer::get_battle_param(i);
         if (TObjCollidable::is_valid_and_active(chara) != 0 &&
             chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);

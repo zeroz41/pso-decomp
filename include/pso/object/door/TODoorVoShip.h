@@ -31,7 +31,7 @@ struct TODoorVoShip : public TObjMapObject {
     u32 light_flags;           // SEAL_LIGHT_* still burning, FADE_RISING
     NJS_MOTION *shape_motion;  // the door's shape motion (fe_obj_fuuin_doa.njs)
     NJS_OBJECT *light_model;   // the signal model the seal lights hang on
-    s32 light_texlist;
+    NJS_TEXLIST *light_texlist;
     NJS_ARGB light_color;      // the seal lights' constant material; a pulses -1..0
 
     static BmlResource *bml_resource;

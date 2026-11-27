@@ -30,10 +30,10 @@ struct TBoss6Thanks : public TObject {
     virtual void render();
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 check_ship_door();
-    // Story flag 154, set by the destructor (set_thanks_shown) once the thanks were shown;
+    // Story flag 154, set by the destructor (mark_thanks_shown) once the thanks were shown;
     // check_ship_door tests flag 152, the earned flag. int return for the same reason.
-    static s32 is_thanks_shown();
-    static void set_thanks_shown();
+    static s32 was_thanks_shown();
+    static void mark_thanks_shown();
     static void dispatch_darkfalz_phase();
     void update_particle_emitters();
     void destroy_effects();

@@ -1292,7 +1292,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 }
                 set_texture_list(scene_material_root->texlist);
                 set_material_alpha_compare_reference(scene_material_root->flags);
-                draw_ginja_object(node);
+                draw_ginja_object((NJS_OBJECT *)node);
                 reset_reflection_tev_stages();
             } else if (e->flags & 0x400) {
                 SceneIndirectRecord *m = e->indirect;
@@ -1306,7 +1306,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                     l.placement.angles.y = node->ang[1] + scene_material_section->angles[1];
                     l.placement.angles.z = node->ang[2] + scene_material_section->angles[2];
                     l.texlist = scene_material_root->texlist;
-                    l.model = node;
+                    l.model = (NJS_OBJECT *)node;
                     l.scene = scene_material_root->flags;
                     l.effect_kind = m->effect_id;
                     TIndirectEffectDrawTask::queue_record(&l);
@@ -1318,14 +1318,14 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                         enable_indirect_tev(tex = m->effect, m->sampler, m->scale, 0);
                         set_texture_list(scene_material_root->texlist);
                         set_material_alpha_compare_reference(scene_material_root->flags);
-                        draw_ginja_object(node);
+                        draw_ginja_object((NJS_OBJECT *)node);
                         disable_indirect_tev(tex, 0);
                     }
                 }
             }
         } else {
             set_material_alpha_compare_reference(scene_material_root->flags);
-            draw_ginja_object(node);
+            draw_ginja_object((NJS_OBJECT *)node);
         }
         if (e->flags & 0x10) {
             TScene::apply_single_screen_state();
@@ -1415,7 +1415,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
           enable_indirect_tev(texture = tex, m->sampler, m->scale, 0);
           set_texture_list(scene_material_root->texlist);
           set_material_alpha_compare_reference(scene_material_root->flags);
-          draw_ginja_model_with_motion(node, e->motion, e->frame);
+          draw_ginja_model_with_motion((NJS_OBJECT *)node, e->motion, e->frame);
           disable_indirect_tev(texture, 0);
         }
 
@@ -1425,12 +1425,12 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       if (is_not_split_screen() == 1)
     {
       set_material_alpha_compare_reference(scene_material_root->flags);
-      draw_ginja_object(node);
+      draw_ginja_object((NJS_OBJECT *)node);
     }
     else
     {
       set_material_alpha_compare_reference(scene_material_root->flags);
-      draw_ginja_model_with_motion(node, e->motion, e->frame);
+      draw_ginja_model_with_motion((NJS_OBJECT *)node, e->motion, e->frame);
     }
     if (e->flags & 0x10)
     {

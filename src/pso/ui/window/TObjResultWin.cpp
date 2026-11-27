@@ -115,7 +115,7 @@ void TObjResultWin::build_result_text() {
 }
 void TObjResultWin::run_task() {
     s32 countdown;
-    if ((u32) m_window == 0U) {
+    if (m_window == NULL) {
         if (has_window_task_root() != 0) {
             create_window();
         }
@@ -127,7 +127,7 @@ void TObjResultWin::run_task() {
         }
         if ((s32) m_close_requested != 0) {
             if ((s32) m_countdown == 0) {
-                ((TWindowBase *)m_window)->close();
+                m_window->close();
                 queue_destruction();
             }
         } else if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
@@ -136,13 +136,13 @@ void TObjResultWin::run_task() {
     }
 }
 void TObjResultWin::create_window() {
-    m_window = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x41)), (const f32 *)challenge_result_window_extent, 1);
-    if ((u32) m_window != 0U) {
+    m_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x41)), (const f32 *)challenge_result_window_extent, 1);
+    if (m_window != NULL) {
         if (TCameraCtrl::get_camera_id() == 4) {
-            ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);
+            m_window->set_position_xy(0.75f, 0.75f);
         }
-        ((TWindowMessage *)m_window)->append_line(m_text, (int)0);
-        ((TWindowBase *)m_window)->set_depth(36999.0f);
+        m_window->append_line(m_text, (int)0);
+        m_window->set_depth(36999.0f);
     }
 }
 TObjResultWin::~TObjResultWin() {}

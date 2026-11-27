@@ -16,6 +16,7 @@ extern Vec weapon_light_direction[];
 extern NJS_ARGB weapon_light_color[];
 extern s16 weapon_node_ids[];
 extern s16 weapon_node_material_index;
+class TItemWeapon;
 extern TItemWeapon *weapon_render_callback_object;
 extern u8 weapon_unidentified_flag;
 struct WeaponColorDescriptor { s32 mode; NJS_ARGB first, second; };

@@ -11,6 +11,8 @@ void submit_chunk_material_color(s32 chunkType, s16 *packedMaterial);
 // Sets the material colour the constant-material draw uses, each channel
 // clamped to [-1, 1] (njSetConstantMaterial).
 void set_constant_material(const NJS_ARGB *color);
+void init_light_globals(s32, s32);
+void set_model_render_flags(u32 flags);
 extern "C" {
 f32 clampMaterialChannel(f32 value, f32 lower, f32 upper);
 void set_chunk_material_override_pair(s32 first, s32 second);
@@ -59,8 +61,5 @@ s32 map_pad_buttons(u16 button_bits);
 s16 scale_axis_value(s16 x);
 // Clamps the main stick of one pad status to +-89 on both axes.
 void clamp_pad_axes(PADStatus *pad);
-void init_light_globals(s32, s32);
-
-void set_model_render_flags(u32 flags);
 
 #endif

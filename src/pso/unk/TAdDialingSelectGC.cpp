@@ -143,7 +143,7 @@ s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
     if (record == NULL) {
         return 0;
     }
-    return (record->card_window_flags >> 0x10) & 3;
+    return ((u32)record->card_window_flags >> 0x10) & 3;
 }
 
 // Bits 13-15 of the client's character save record word at +0x10.
@@ -152,7 +152,7 @@ s32 get_card_status_bits(s32 client_id) {
     if (record == NULL) {
         return 0;
     }
-    return (record->card_window_flags >> 0xD) & 7;
+    return ((u32)record->card_window_flags >> 0xD) & 7;
 }
 
 // Card window scale for each of the four card window flag values.
@@ -171,7 +171,7 @@ s32 get_idle_timeout_setting(u32 client) {
     if (record == NULL) {
         return 0;
     }
-    return (record->card_window_flags >> 0xA) & 7;
+    return ((u32)record->card_window_flags >> 0xA) & 7;
 }
 
 f32 TWindowSubStatusDisp::get_card_window_scale(s32 client_id) {
@@ -187,5 +187,5 @@ s32 TWindowSubStatusDisp::get_card_window_flags(s32 client_id) {
     if (record == NULL) {
         return 1;
     }
-    return (record->card_window_flags >> 8) & 3;
+    return ((u32)record->card_window_flags >> 8) & 3;
 }

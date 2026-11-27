@@ -25,6 +25,7 @@ struct NJS_OBJECT;
 
 
 #include "types.h"
+#include "clib/fp_convert.h"
 
 #include "pso/camera/CameraPlayback.h"
 
@@ -568,8 +569,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data) : TObjEn
     invoke_initialization_hook(set_data);
     state_flags = 0;
     {
-        EnemyStateRecord state;
-        if (exchange_object_state(&state, 1) != 0 && (state.flags & 0x12008) == 0x12008) {
+        EnemyStateRecord record;
+        if (exchange_object_state(&record, 1) != 0 && (record.flags & 0x12008) == 0x12008) {
             state_flags |= 0x8000;
         }
     }
@@ -1630,8 +1631,6 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 #define SWAP_COLOR_HALVES(x) ((((x) & 0xFF00) << 16) | ((x) >> 16) | (((x) & 0xFF) << 16))
 
 // SWAP_COLOR_HALVES swaps the two halfwords of a packed colour (0xAARRGGBB -> 0xGGBBAARR)
-// The runtime's float to unsigned conversion, called directly here.
-extern "C" u32 __cvt_fp2unsigned(f32);
 
 void TBoss2DeRolLe::update_pulsing_colors() {
     s32 i;
@@ -3761,7 +3760,7 @@ void TBoss2DeRolLe::render() {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
@@ -3865,7 +3864,7 @@ void TBoss2DeRolLe::render_body() {
     }
     derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     current_scene_light->debug_scene_light_hook();

@@ -452,7 +452,7 @@ void TObjEneDelDepth::update_surface() {
         this->opacity = 2.0f * this->progress;
     }
     if ((this->progress += 0.033333335f) > 1.0f) {
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), NULL, 200.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 200.0f) != 0xFFFF) {
             this->set_action_state(3);
             play_sound_effect(0x4003A822, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         } else {
@@ -515,7 +515,7 @@ void TObjEneDelDepth::start_move_toward_player() {
     this->progress = ((30.0f * random_ratio()) + 70.0f);
     this->opacity = 1.0f;
     this->motionController->set_motion(7);
-    this->set_draw_mode((saddr)((void *)3));
+    this->set_draw_mode(3);
 }
 #pragma pop
 
@@ -533,7 +533,7 @@ void TObjEneDelDepth::update_movement() {
         clear_battle_param_slots();
         this->check_object_collisions();
         for (i = 0; i < 16; i++) {
-            pl = (TObjChara *)TObjPlayer::get_battle_param(i);
+            pl = TObjPlayer::get_battle_param(i);
             if (pl == 0) {
                 break;
             }
@@ -622,7 +622,7 @@ void TObjEneDelDepth::update_movement() {
     }
     if (this->progress <= 0.0f && 0.0f == this->movementSpeed) {
         Vec q;
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
+        if (find_nearest_visible_player(this, &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
             this->set_action_state(4);
         } else {
             this->set_action_state(3);
@@ -701,7 +701,7 @@ void TObjEneDelDepth::update_look_around() {
     }
     this->angle -= 0x600;
     if (this->angle <= 0) {
-        u32 n = ((NJS_MOTION *)get_bml_motion(shared_resource, 0xB))->nbFrame;
+        u32 n = get_bml_motion(shared_resource, 0xB)->nbFrame;
         lim = (s32)((f32)n / 0.5f);
         this->angle = 0;
         if (this->targetPlayer != 0xFFFF) {

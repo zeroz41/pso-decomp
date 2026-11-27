@@ -11,7 +11,7 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"

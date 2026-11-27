@@ -83,6 +83,6 @@ struct CustomEquipLayout {
     SpritePartLayoutRecord rec_17;
 };
 
-int is_custom_equip_cancelled(TWindowSubCustomEquip *window);
+int is_custom_equip_cancelled(TWindowSubCustomEquip *custom_equip);
 
 #endif

@@ -42,7 +42,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/scene/TScene.h"
@@ -498,10 +497,10 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                 current_target->apply_knockback_from_attacker(this, 3.0f);
                 if (d > 0.0f) {
                     if (is_alternate_variant() != 0) {
-                        pl = static_cast<TObjPlayer *>(current_target);
+                        pl = (TObjPlayer *)current_target;
                         TItem *held;
-                        if (pl->is_locally_controlled() != 0 && (held = TObjPlayer::get_equipped_weapon(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
+                        if (pl->is_locally_controlled() != 0 && (held = pl->get_equipped_weapon()) != 0) {
+                            pl->send_6x26_unequip_item(held->get_item_id());
                             pl->get_hand_joint_position(&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
@@ -1055,7 +1054,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         case 1: {
             s32 target;
             this->advance_animation();
-            if (this->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 target = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1072,7 +1071,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         }
         case 2:
             this->advance_animation();
-            if (this->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1201,7 +1200,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
             this->advance_animation();
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (this->update_death_check() != 0) {
+                if (validate_target() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1710,7 +1709,7 @@ void TObjEneMe3SinowZoa::render() {
             TObjEneDD::clear_global_flag_400();
         }
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         for (i = 0; i < 3; i++) {
             if (me3_sinow_zoa_material_color_pointers[i] != NULL) {
                 *me3_sinow_zoa_material_color_pointers[i] = this->material_color;
@@ -1765,7 +1764,7 @@ extern "C" {
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&this->floor_point) != 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
             translate_matrix(0, 0.0f, this->body_offset_y, 0.0f);
@@ -1935,20 +1934,20 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
 }
 
 inline s32 TObjEneMe3SinowZoa::approach_destination() {
-    copy_position_if_valid(this, body_center);
-    body_center.y += 5.0f;
-    return enemy_turn_toward_dest(movementParameters->turn_speed);
+    copy_position_if_valid(this, this->body_center);
+    this->body_center.y += 5.0f;
+    return enemy_turn_toward_dest(this->movementParameters->turn_speed);
 }
 inline s32 TObjEneMe3SinowZoa::seek_destination(Vec *diff) {
     s32 angle;
-    if (select_enemy_destination(this, destination, 1) != 0) {
+    if (select_enemy_destination(this, this->destination, 1) != 0) {
         angle = approach_destination();
-        enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
+        enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation.y);
         move_with_wall_slide(this);
     } else {
-        VecCopy(diff, &destination);
-        subtract_vector(diff, &body_center);
-        angle = turn_toward_direction(movementParameters->turn_speed, diff);
+        VecCopy(diff, &this->destination);
+        subtract_vector(diff, &this->body_center);
+        angle = this->turn_toward_direction(this->movementParameters->turn_speed, diff);
     }
     return angle;
 }

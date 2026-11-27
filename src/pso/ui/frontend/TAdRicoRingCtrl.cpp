@@ -1,3 +1,5 @@
+#include "clib/fp_convert.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
@@ -14,7 +16,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/ProjectedStripDraw.h"
-#include "pso/system/task/TMainTask.h"
 
 BmlResource *TAdRicoRing::resource_bundle;
 f32 rico_ring_quad_x_min;

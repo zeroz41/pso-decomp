@@ -16,7 +16,7 @@ void TTecIceCharge::run_task() {
             spawn_particle_effect(&m_position, ice_technique_charge_particle_ids[i]);
         }
     }
-    if (!m_actor->is_casting()) {
+    if (!m_actor->is_technique_charging()) {
         queue_destruction();
     } else if (m_age >= 180) {
         queue_destruction();

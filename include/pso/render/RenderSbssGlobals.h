@@ -17,6 +17,8 @@ extern GinjaSceneState *current_render_context;
 // they are.
 extern u32 ginja_draw_flags;
 
+// The chunk lists cached by NJD_CB_CP and not yet drawn by NJD_CB_DP (the first word).
+extern u32 chunk_polygon_cache_pending[2];
 // The heap in the locked cache that texture pixels are allocated from.
 extern u32 locked_cache_heap_handle;
 // The locked-cache heap's size in bytes.

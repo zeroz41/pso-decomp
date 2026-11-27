@@ -210,7 +210,7 @@ TWindowMenu *TWindowSubShortCut::open_menu() {
     }
     list->set_flag70_bit10();
     list->update_layout_height(205.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 

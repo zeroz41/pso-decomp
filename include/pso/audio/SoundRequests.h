@@ -13,6 +13,7 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration);
 void update_music_stream_gain(s32 user);
 // While set, every music fade update drops the music gain to -999 (silent).
 extern int music_muted;
+extern s32 music_stream_base_gain;
 
 struct SetSoundPitchRequestSndEnt {
     s32 flags;
@@ -34,13 +35,11 @@ void init_layout_positions();
 void reset_global();
 int init_sound_mode();
 
-// sound-request flag mask, read from memory by the request updates
-extern const u32 sound_request_reset_mask;
+// The flag bits a sound pitch request keeps when it is cleared (bit 0)
+extern const u32 sound_pitch_request_keep_mask;
 void clear_sound_listener_position(void);
 int enable_sound_requests(s32);
 void update_sound_request_slots(void);
-
-extern s32 music_stream_base_gain;
 
 void play_effect_if_v2(s32 pitch);
 

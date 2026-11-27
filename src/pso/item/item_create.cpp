@@ -212,7 +212,7 @@
 // This unit's .sbss, in address order.
 ObjectSetData *item_object_set_data;
 s32 item_ground_placement_enabled;
-FlagWord pioneer2_item_respawn_flags;
+FlagWord floor_item_respawn_requested;
 LoadUnloadSet *item_class_load_handle;
 int lobby_drop_flag;
 
@@ -522,7 +522,7 @@ void handle_player_event(s32 client, s32 slot) {
         item = NULL;
         switch (slot) {
         case 0:
-            item = TObjPlayer::get_equipped_weapon(player);
+            item = player->get_equipped_weapon();
             break;
         case 1:
             item = player->get_equipped_armor();
@@ -543,7 +543,7 @@ void handle_player_event(s32 client, s32 slot) {
             break;
         }
         if (item != NULL) {
-            TObjPlayer::send_6x26_unequip_item(player, item->get_item_id());
+            player->send_6x26_unequip_item(item->get_item_id());
         }
     }
 }
@@ -744,7 +744,7 @@ void cleanup_game_objects() {
     clear_object_count();
     respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
-        pioneer2_item_respawn_flags.set(1);
+        floor_item_respawn_requested.set(1);
         if ((main_phase != 0xE) && (main_phase == 0xF)) {
             TItemDrop::refresh_drop_table_if_changed();
         }
@@ -885,9 +885,8 @@ ItemCreateFunction item_create_fn_table[5] = {
     TItemMoney::create,
 };
 }
-extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
-  void *player_alias;
+  TObjPlayer *player_alias;
   s32 flags;
   PlayerRequirementStats st;
   u32 k;
@@ -903,7 +902,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     return 0;
   }
   player = self;
-  if ((((TObjChara *)player)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(player_alias = player) != 0))
+  if ((((TObjChara *)player)->obj_isState3_324() != 0) || ((player_alias = (TObjPlayer *)player)->is_script_controlled() != 0))
   {
     if (out != 0)
     {
@@ -962,7 +961,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
         flags |= 1;
       }
       st.clear_fields();
-      build_player_equipment_requirement_stats((TObjPlayer *) player_alias, &st);
+      player_alias->build_player_equipment_requirement_stats(&st);
       if (st.atp < weapon->atp_required)
       {
         flags |= 2;
@@ -989,11 +988,11 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       ArmorPmtEntry *armor;
       if ((saddr) (armor = (ArmorPmtEntry *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) armor->class_flags) == ((0, 0)))
+        if (check_class_equip_permission(player_alias, (s16) armor->class_flags) == ((0, 0)))
         {
           flags |= 1;
         }
-        r = ((TObjChara *) player_alias)->get_actor_level_index();
+        r = player_alias->get_actor_level_index();
         if (r < armor->required_level)
         {
           flags |= 0x10;
@@ -1041,7 +1040,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       MagPmtRecord *mag;
       if ((mag = (MagPmtRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) mag->class_flags) == 0)
+      if (check_class_equip_permission(player_alias, (s16) mag->class_flags) == 0)
       {
         flags |= 1;
       }
@@ -1271,7 +1270,7 @@ void init_game_resources() {
     init_item_chunk_buffers();
     TItemLoad::init_resources();
     item_class_load_handle = create_load_unload_set(item_class_load_unload_table);
-    pioneer2_item_respawn_flags.reset();
+    floor_item_respawn_requested.reset();
 }
 
 void set_first_inventory_item_flag(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }

@@ -42,7 +42,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(const AreaAttackContact
     }
     if (this->bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
-            obj = static_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
+            obj = TObjPlayer::get_battle_param(i);
             if (obj == 0) {
                 break;
             }

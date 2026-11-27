@@ -50,7 +50,7 @@ s32 *floor_item_counts_by_floor;
 u16 *floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
-FlagWord floor_items_synced_flags;
+FlagWord floor_items_synced_flag;
 }
 extern "C" {
 void set_floor_items_synced_flag(void);
@@ -141,7 +141,7 @@ void G_SyncItemState_6x6D_Decompressed::apply() {
             p->item.decode_from_network();
         }
     }
-    if (pioneer2_item_respawn_flags.test_flags_any(1) != 0) {
+    if (floor_item_respawn_requested.test_flags_any(1) != 0) {
         respawn_missing_floor_items(0);
     }
     set_floor_items_synced_flag();
@@ -390,7 +390,7 @@ void free_boss_rocks() {
         mem_free((char *)floor_item_entry_pool - 0x10);
     }
     floor_item_entry_pool = NULL;
-    floor_items_synced_flags.reset();
+    floor_items_synced_flag.reset();
 }
 void alloc_objects() {
     floor_item_entry_pool = new FloorItem[0xD80];
@@ -399,7 +399,7 @@ void alloc_objects() {
     floor_item_free_id_stack = static_cast<u16 *>(mem_alloc(0x40));
     floor_item_free_id_count = 0;
     floor_item_next_sort_keys = static_cast<u16 *>(mem_alloc(0x24));
-    floor_items_synced_flags.reset();
+    floor_items_synced_flag.reset();
     reset_floor_items();
 }
 int TLobby::get_lobby_flag() {  return entity_table_count; }
@@ -420,7 +420,7 @@ void build_6x63_packet(G_DestroyFloorItem_6x63 *destroy) {
     destroy->header.size = sizeof(G_DestroyFloorItem_6x63) / 4;
 }
 void set_floor_items_synced_flag(void) {
-    floor_items_synced_flags.set(1);
+    floor_items_synced_flag.set(1);
 }
 void bswap_item(FloorItem *item) {
     bswap_16(reinterpret_cast<u16 *>(&item->entity_index));

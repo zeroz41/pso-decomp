@@ -237,7 +237,7 @@ void TObjCityDoor_Shop::run_task() {
 
 void TObjCityDoor_Shop::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);
@@ -265,7 +265,7 @@ void TObjCityDoor_Guild::run_task() {
 
 void TObjCityDoor_Guild::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);
@@ -316,7 +316,7 @@ void TObjCityDoor_Warp::run_task() {
 
 void TObjCityDoor_Warp::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);
@@ -361,7 +361,7 @@ void TObjCityDoor_Med::run_task() {
 
 void TObjCityDoor_Med::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);
@@ -488,7 +488,7 @@ void TObjCityDoor_Lobby::run_task() {
 
 void TObjCityDoor_Lobby::process_lobby_action_14() {
     if (update_object_view_visibility(400.0f, 70.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);

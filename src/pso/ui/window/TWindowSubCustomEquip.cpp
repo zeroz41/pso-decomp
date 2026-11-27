@@ -80,7 +80,7 @@ WindowDescriptor custom_equip_window_descriptor = {
 
 
 int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
-int is_custom_equip_cancelled(TWindowSubCustomEquip *window) { return window->state_flags & 0x2; }
+int is_custom_equip_cancelled(TWindowSubCustomEquip *custom_equip) { return custom_equip->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
     this->state_flags &= ~1;
     status_disp->set_state(1);

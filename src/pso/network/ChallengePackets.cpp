@@ -55,12 +55,12 @@ void send_challenge_retry_cmd(s32 choice) {
     }
 }
 
-void handle_6x97_select_challenge_mode_failure_option(G_SelectChallengeModeFailureOption_6x97 *cmd) {
+void handle_6x97_select_challenge_mode_failure_option(G_SelectChallengeModeFailureOption_6x97 *packet) {
     s32 choice;
 
     if (is_challenge_mode() != 0) {
-        bswap_client_id_packet(cmd);
-        choice = cmd->is_retry;
+        bswap_client_id_packet(packet);
+        choice = packet->is_retry;
         if ((choice < 0) || (choice > 1)) {
             choice = 0;
         }
@@ -151,7 +151,7 @@ void send_own_challenge_records(void) {
     if (is_challenge_mode() != 0) {
         own = &challenge_mode_state.client_records[local_client_id];
         if (get_character_save_record(0xFFFF) != NULL) {
-            own->records = (get_character_save_record(0xFFFF))->challenge;
+            own->records = get_character_save_record(0xFFFF)->challenge;
             if (challenge_task != NULL) {
                 TLobby::send_challenge_records(challenge_task);
             }
@@ -162,6 +162,6 @@ void send_own_challenge_records(void) {
 void TLobby::send_challenge_records(TChallenge *challenge) {
     G_SetChallengeRecords_V3_6x7C packet;
     packet.__base_G_SetChallengeRecordsBase_6x7C.client_id = (s16) local_client_id;
-    packet.records = (get_character_save_record(0xFFFF))->challenge;
+    packet.records = get_character_save_record(0xFFFF)->challenge;
     packet.send();
 }

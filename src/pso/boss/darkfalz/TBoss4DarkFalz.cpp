@@ -537,11 +537,11 @@ void TBoss4DarkFalz::handle_defeat() {
         }
     }
     {
-        EnemyStateRecord state;
-        state.flags = 0x800;
-        send_6x0A_enemy_state(&state);
-        exchange_object_state(&state, 0);
-        apply_enemy_state(&state);
+        EnemyStateRecord record;
+        record.flags = 0x800;
+        send_6x0A_enemy_state(&record);
+        exchange_object_state(&record, 0);
+        apply_enemy_state(&record);
     }
     send_entity_set_flags();
     queue_destruction();

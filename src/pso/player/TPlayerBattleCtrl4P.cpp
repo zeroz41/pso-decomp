@@ -119,9 +119,9 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     }
     this->message_table = p;
     for (i = 0; i < 4; i++) {
-        saddr pl = (saddr)get_player_by_client_id(i);
-        if (pl != 0) {
-            reinterpret_cast<TObjPlayer *>(pl)->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
+        TObjPlayer *pl = get_player_by_client_id(i);
+        if (pl != NULL) {
+            pl->export_character_data(TAdSinglePlyChrSelectGC::get_char_index((u32)i));
         }
     }
     instance = this;
@@ -366,7 +366,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
             menu_window->add_text_entry(message_table[1], 6, 1);
             menu_window->add_text_entry(message_table[3], 6, 3);
             menu_window->calc_window_size();
-            align_menu_entry_positions(menu_window);
+            menu_window->align_menu_entry_positions();
             menu_window->set_ready_flag();
         }
         if (menu_window != NULL) {

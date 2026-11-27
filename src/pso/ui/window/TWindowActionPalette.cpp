@@ -50,9 +50,6 @@ const char *TWindowActionPalette::class_name = "TWindowActionPalette";
 void TWindowLayoutEntry::hide() { flags |= 2; }
 void TWindowLayoutEntry::show() { flags &= ~2; }
 
-extern "C" {
-s32 find_inventory_item_id_by_code(void *player, s32 kind, u8 group, u8 index);
-}
 
 const PaletteItemKind action_palette_item_kinds[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},
@@ -80,7 +77,7 @@ PaletteIconUV action_palette_photon_blast_icon_uvs[6] = {
 PaletteIconUV action_palette_attack_icon_uvs[3] = {
     {200.0f, 43.0f}, {200.0f, 0.0f}, {200.0f, 86.0f},
 };
-PaletteIconUV lbl_804CDE10[8] = {
+PaletteIconUV action_palette_group7_icon_uvs[8] = {
     {0.0f, 0.0f}, {100.0f, 129.0f}, {100.0f, 172.0f}, {200.0f, 129.0f},
     {200.0f, 172.0f}, {100.0f, 86.0f}, {100.0f, 86.0f}, {50.0f, 0.0f},
 };
@@ -197,22 +194,21 @@ void TWindowActionPalette::run_task() {
 }
 
 void TWindowActionPalette::render() {
-    saddr context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
+    WindowDrawContext *context = setup_window_draw_context((f32 *)&scale);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     draw_frame(context);
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowActionPalette::draw_frame(saddr context) {
+void TWindowActionPalette::draw_frame(WindowDrawContext *ctx) {
     TexturedQuad corner;
     TexturedQuad top_row;
     TexturedQuad frame;
     TexturedQuad bottom_row;
-    WindowDrawContext *ctx = (WindowDrawContext *)context;
     f32 scale;
     f32 depth;
     scale = get_transition_progress();
@@ -402,7 +398,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         } else {
             icon->kind = 4;
         }
-        row = lbl_804CDE10;
+        row = action_palette_group7_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;

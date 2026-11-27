@@ -4,6 +4,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/TShopDeleteItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -28,7 +29,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/player/TObjPlayer.h"
 
 const char *shop_delete_item_window_name = "TShopDeleteItemWindow";
 TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {

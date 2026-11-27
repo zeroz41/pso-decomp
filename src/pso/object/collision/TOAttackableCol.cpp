@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/object/collision/TOAttackableCol.h"
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/base/TObjMotion.h"
@@ -24,7 +25,6 @@
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/map/FloorPopulation.h"
 
 
 #pragma readonly_strings on
@@ -89,7 +89,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
         if (command->header.entity_id != 0xFFFF && command->header.entity_id >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
-                if (reinterpret_cast<TObject *>(col)->check_value_equals(attackable_col_name) != 0) {
+                if (col->check_value_equals(attackable_col_name) != 0) {
                     QuestObjectEntry saved;
                     switch (command->is_destroyed) {
                     case 0:
@@ -266,7 +266,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(ObjectSetData *set_data) {
     void *o;
-    o = (void *)new TOAttackableCol(set_data);
+    o = new TOAttackableCol(set_data);
     return o;
 }
 
@@ -278,9 +278,9 @@ TOAttackableCol::~TOAttackableCol() {
 
 
 TOAttackableCol::TOAttackableCol(ObjectSetData *set_data) : TObjChara(tl_05) {
-    ((TObject *)this)->m_name = attackable_col_name;
+    m_name = attackable_col_name;
     apply_object_set_data(set_data);
-    ((TObjChara *)this)->calc_attach_pos();
+    calc_attach_pos();
     set_actor_flags(0x60000000);
     init_collision_body_parts(this, &attackable_col_collision_parts, 1);
     set_indexed_flags(0, 0x718);

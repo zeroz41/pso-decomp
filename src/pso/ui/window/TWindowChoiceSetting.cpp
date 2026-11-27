@@ -1,5 +1,6 @@
 #include "pso/ui/window/WindowScrollBar.h"
 #include "types.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -27,11 +28,11 @@ const char *TWindowChoiceSetting::class_name = "TWindowChoiceSetting";
 void TWindowChoiceSetting::update_scroll_tween() {
     f32 target;
     uaddr steps;
-    TWindowLayoutRect *selected;
+    TWindowLayoutRect *row;
 
     if (this->choice_flags & 1) {
-        selected = static_cast<TWindowLayoutRect *>(this->get_array_entry(this->get_index()));
-        target = selected->y;
+        row = static_cast<TWindowLayoutRect *>(this->get_array_entry(this->get_index()));
+        target = row->y;
     } else {
         target = 0.0f;
     }

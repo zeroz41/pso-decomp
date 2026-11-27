@@ -70,6 +70,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -872,13 +873,13 @@ void qst_op_get_player_hp_tp(void) {
 }
 
 void qst_op_get_section_id() {
-  uaddr player;
+  TObjPlayer *player;
   u8 out_reg;
-  player = ((uaddr)get_player_by_client_id((s32)((int) qst_args[0].i)));
+  player = get_player_by_client_id((s32)((int) qst_args[0].i));
   out_reg = (u8) qst_args[1].i;
   if (player != 0U)
   {
-    qst_registers[out_reg].i = (volatile unsigned long)((TObjPlayer *)player)->get_section_id();
+    qst_registers[out_reg].i = (volatile unsigned long)player->get_section_id();
     return;
   }
   qst_registers[out_reg].i = -1;
@@ -1617,7 +1618,7 @@ void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
     s32 creation_time;
     GuildCardSaveData *save;
 
-    save = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::get_state();
+    save = TAdSinglePlyChrSelectGC::get_state();
     if (save != NULL) {
         creation_time = save->timestamp_seconds;
     } else {
@@ -2296,7 +2297,7 @@ void qst_op_kill_player(s32 slot_reg) {
 
 void qst_op_get_guild_card_file_creation_time(s32 reg) {
     GuildCardSaveData *save;
-    save = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::get_state();
+    save = TAdSinglePlyChrSelectGC::get_state();
     if (save != NULL) {
         qst_registers[(u8)reg].i = save->timestamp_seconds;
         return;
@@ -2816,7 +2817,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u8 *record;
     record = qst_label_address(label);
     if (record != NULL) {
-        copy_player_visual_record(&quest_npc_visual_record, record);
+        copy_player_visual_record((PlayerVisualRecord *)&quest_npc_visual_record, (PlayerVisualRecord *)record);
     }
 }
 
@@ -4533,7 +4534,7 @@ void qst_op_list(void) {
         qst_list_window->add_text_entry(list->tokens[i], 7, i);
     }
     qst_list_window->calc_window_size();
-    align_menu_entry_positions(qst_list_window);
+    qst_list_window->align_menu_entry_positions();
     qst_list_window->set_ready_flag();
     qst_list_window->set_depth(39000.0f);
     qst_registers[idx].i = 0;

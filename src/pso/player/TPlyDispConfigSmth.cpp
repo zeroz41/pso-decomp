@@ -134,7 +134,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
             return 0;
         }
         if (sub == 2) {
-            TItem *weapon = get_equipped_weapon(this);
+            TItem *weapon = get_equipped_weapon();
             if (weapon != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                     return 0;
@@ -209,7 +209,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
         return 1;
     case 2:
         if (arg == 2) {
-            w = get_equipped_weapon(this);
+            w = get_equipped_weapon();
             if (w != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)w) == 0) {
                     return 0;

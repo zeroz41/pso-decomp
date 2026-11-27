@@ -1,7 +1,7 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include <string.h>
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/chat/ChatLogText.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"

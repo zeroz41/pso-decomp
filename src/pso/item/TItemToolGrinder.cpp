@@ -8,7 +8,7 @@
 void TItemToolGrinder::apply_use_effect() {
     TItemWeapon *weapon;
 
-    weapon = static_cast<TItemWeapon *>(TObjPlayer::get_equipped_weapon(this->owner));
+    weapon = static_cast<TItemWeapon *>(this->owner->get_equipped_weapon());
     if (weapon != NULL) {
         add_weapon_grind(weapon, get_pmt_amount());
     }

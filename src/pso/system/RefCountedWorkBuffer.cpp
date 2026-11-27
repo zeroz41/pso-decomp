@@ -2,6 +2,7 @@
 #include <string.h>
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
+#include "pso/system/ByteBlocks.h"
 
 u8 ref_counted_load_buffer[0xC00];
 s32 lobby_buffer_refcount;

@@ -324,15 +324,16 @@ static inline ScriptAction *script_step_actions() {
 extern "C" {
 Vec gryphon_particle_enable_pos = {0.0f, -10000.0f, 0.0f};
 Vec gryphon_particle_position_vec = {0.0f, -10000.0f, 0.0f};
+}
+
 inline s32 TBoss5Gryphon::angle_to_move_target() {
-    Boss5GryphonMoveArgs *move = &motion->args.move;
+    Boss5GryphonMoveArgs *move = &this->motion->args.move;
     f32 initial_dx = move->x;
-    f32 initial_dz = move->z - position.z;
-    initial_dx -= position.x;
+    f32 initial_dz = move->z - this->position.z;
+    initial_dx -= this->position.x;
     return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
-}
 extern "C" {
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
@@ -509,7 +510,7 @@ void TBoss5Gryphon::cleanup() {
 }
 
 TBoss5Gryphon::TBoss5Gryphon(TObject *parent, EnemyPlacement *data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    EnemyStateRecord state;
+    EnemyStateRecord record;
     s32 i;
 
     this->m_name = boss5_gryphon_type_name_pointer;
@@ -518,7 +519,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, EnemyPlacement *data) : TObjEneDD_
     }
     this->invoke_initialization_hook(data);
     this->flags = 0;
-    if (this->exchange_object_state(&state, 1) != 0 && (state.flags & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&record, 1) != 0 && (record.flags & 0x12008) == 0x12008) {
         this->flags |= 1;
     }
     this->init_position_vectors();
@@ -3601,7 +3602,7 @@ void TBoss5Gryphon::render_model() {
 
 void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     RenderFadeState *fade;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     TObjEneDD::clear_global_flag_400();
     saved_model_render_flags = model_render_flags;
     set_material_alpha_compare_reference(0);
@@ -3764,7 +3765,7 @@ void TBoss5Gryphon::render_demo() {
     f32 frame;
     s32 action;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation.y);

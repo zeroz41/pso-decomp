@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/DebugFont.h"
 #include "pso/object/TObjChip.h"
+#include "pso/system/ByteBlocks.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

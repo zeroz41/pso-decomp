@@ -285,7 +285,7 @@ void TShopArmorListWindow::open_menu_window() {
         this->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         this->choice_menu->add_text_entry(get_shop_text(5), 6, 1);
         choice_menu->calc_window_size();
-        align_menu_entry_positions(this->choice_menu);
+        this->choice_menu->align_menu_entry_positions();
         choice_menu->set_ready_flag();
         scale = get_scale();
         choice_menu->set_position_xy(get_scale(), scale);
@@ -308,7 +308,7 @@ void TShopArmorListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 item = find_item_by_id(it.id);
                 if (item != NULL && (e = player->get_equipped_item(item->get_attach_slot())) != NULL) {
-                    TObjPlayer::send_6x26_unequip_item(player, e->get_item_id());
+                    player->send_6x26_unequip_item(e->get_item_id());
                 }
                 send_6x25_equip_item(player, it.id, 0);
                 update_selection(&stock[i]);

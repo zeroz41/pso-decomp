@@ -225,7 +225,7 @@ void TObjEneShark::render() {
   }
   select_actor_lighting(this);
   model_render_flags |= 1;
-  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+  set_texture_list(texlist);
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);

@@ -7,7 +7,7 @@
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.h"
 #include "pso/enemy/TObjEneDf2BringerTpDrainPoint.h"
 #include "pso/enemy/TObjEneDf2BringerRing.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/FloatRounding.h"
@@ -21,7 +21,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/TObjBase.h"
 
 // Written last-to-first: the unit is built with -inline off,deferred, which emits the functions

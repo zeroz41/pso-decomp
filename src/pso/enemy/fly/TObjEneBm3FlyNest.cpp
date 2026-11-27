@@ -31,6 +31,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
@@ -41,7 +42,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
@@ -208,7 +208,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(bm3_fly_nest_bml->models[0].texlist));
+    set_texture_list(bm3_fly_nest_bml->models[0].texlist);
     push_matrix();
     if (state == 0) {
         post_translate_matrix(&origin->x);
@@ -1017,7 +1017,7 @@ void TObjEneBm3FlyNest::render() {
             }
             if (visible != 0) {
                 update_secondary_light();
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(texlist);
                 push_matrix();
                 bm3_fly_nest_node_index = 0;
                 TObjEneBm3FlyNest_attachment_point_ptr = &attachment_points[0];
@@ -1092,7 +1092,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
         draw_ground_shadow(&v, 1);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);

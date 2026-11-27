@@ -568,10 +568,6 @@ void set_chunk_blend_depth_mode(s32 header, s32 textured) {
     }
 }
 
-extern "C" {
-extern s32 chunk_polygon_cache_pending;  // lists cached by NJD_CB_CP and not yet drawn by NJD_CB_DP
-}
-
 #pragma push
 #pragma bool off
 #pragma opt_propagation off
@@ -595,11 +591,11 @@ void dispatch_chunk_polygon_list(s16 *list, ChunkCachedVertex *vertex_buffer) {
                 break;
             case NJD_CB_CP:
                 chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)] = list;
-                chunk_polygon_cache_pending++;
+                chunk_polygon_cache_pending[0]++;
                 return;
             case NJD_CB_DP:
                 dispatch_chunk_polygon_list(chunk_polygon_list_cache[(s16)((state.header >> 8) & 0xFF)], vertex_buffer);
-                chunk_polygon_cache_pending--;
+                chunk_polygon_cache_pending[0]--;
                 break;
             }
         } else if (type < NJD_MATOFF) {
@@ -682,7 +678,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, ChunkCachedVertex *buffer) {
         list += 2;
         job.count = (info & 0xFFFF0000) >> 16;
         job.src = (u8 *)list;
-        job.dst = (u8 *)&buffer[info & 0xFFFF];
+        job.dst = (u8 *)(buffer + (info & 0xFFFF));
         total += job.count;
         if ((type & 0xFF) == 0x29) {
             transform_chunk_vertices_pos_normal(&job, (ChunkPairedMatrix *)current_matrix);

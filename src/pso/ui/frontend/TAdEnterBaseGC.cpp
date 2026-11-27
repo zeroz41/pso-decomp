@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 
@@ -31,7 +32,7 @@
 
 #include "pso/ui/window/TWindowMenu.h"
 
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 #include "pso/network/TLobby.h"
 
@@ -43,7 +44,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"
-#include "pso/system/task/TMainTask.h"
 
 
 // show_message_window: position and size of the message window it opens.

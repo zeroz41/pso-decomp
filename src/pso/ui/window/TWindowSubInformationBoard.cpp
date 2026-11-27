@@ -183,7 +183,7 @@ TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
   list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
   list->set_flag70_bit10();
   list->update_layout_height(179.0f);
-  align_menu_entry_positions(list);
+  list->align_menu_entry_positions();
   return list;
 }
 

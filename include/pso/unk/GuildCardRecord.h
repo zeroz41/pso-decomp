@@ -35,6 +35,8 @@ void *__ct__15GuildCardRecordFv(void *object);
 
 // The com-card record picked in the com-card or choice-search windows (load_selected_guild_card_record).
 extern GuildCardRecord selected_guild_card_record;
+struct ChoiceSearchResult;
+void load_selected_guild_card_record(ChoiceSearchResult *result);
 
 struct ChoiceSearchResult;
 // Fills selected_guild_card_record from a choice-search result.

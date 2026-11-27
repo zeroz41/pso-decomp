@@ -32,6 +32,6 @@ public:
     s32 m_close_timer;
 };
 
-
 LAYOUT_ASSERT(TAdScrollWinGC_size, sizeof(TAdScrollWinGC) == 0x54);
+
 #endif

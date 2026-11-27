@@ -42,7 +42,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
@@ -131,7 +131,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     m_name = class_name;
     character = creation_player_character;
     if (!(character->flags & 0xA) && character->classId == get_creation_visual_record()->classId) {
-        copy_player_visual_record(character, get_creation_visual_record());
+        copy_player_visual_record((PlayerVisualRecord *)character, (PlayerVisualRecord *)get_creation_visual_record());
     }
     strncpy(character->name, (const char *)get_name_buffer(), 0xC);
     character->name[0xC] = 0;
@@ -1754,7 +1754,7 @@ void TObjCMProportion::run_task() {
     if (this->active == 0) {
         if ((this->fade += -0.083333336f) <= 0.0f) {
             this->fade = 0.0f;
-            ((TObject *)this)->queue_destruction();
+            queue_destruction();
         }
     } else {
         if ((this->fade += 0.16666667f) > 1.0f) {

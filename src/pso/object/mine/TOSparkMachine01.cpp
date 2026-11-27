@@ -115,16 +115,16 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 TOSparkMachine01::TOSparkMachine01(ObjectSetData *set_data) : TObjBase(tl_05) {
     s32 i;
-    this->m_name = spark_machine01_name;
-    this->apply_object_set_data(set_data);
-    this->model = spark_machine01_static_resource->models[0].model;
-    this->texlist = spark_machine01_static_resource->models[0].texlist;
-    this->view_range = 500.0f;
-    this->model_radius = 40.0f;
-    this->actorFlags |= 0x40000000;
+    m_name = spark_machine01_name;
+    apply_object_set_data(set_data);
+    model = spark_machine01_static_resource->models[0].model;
+    texlist = spark_machine01_static_resource->models[0].texlist;
+    view_range = 500.0f;
+    model_radius = 40.0f;
+    actorFlags |= 0x40000000;
     for (i = 0; i < 4; i++) {
-        this->spark_timer[i] = 0.0f;
-        this->spark_on[i] = 0;
+        spark_timer[i] = 0.0f;
+        spark_on[i] = 0;
     }
-    this->spark_speed = -0.98f + this->scale.x;
+    spark_speed = -0.98f + scale.x;
 }

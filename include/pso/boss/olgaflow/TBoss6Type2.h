@@ -3,6 +3,7 @@
 
 #include "pso/boss/Boss6ScrollStrips.h"
 #include "types.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 struct TBoss6Zanzo;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"

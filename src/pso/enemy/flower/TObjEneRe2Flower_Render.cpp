@@ -37,8 +37,6 @@ extern const f32 re2_flower_node_point0_y;
 extern const f32 re2_flower_node_point1_y;
 extern const f32 re2_flower_draw_scale;
 
-// FlowerRe2Data.cpp
-extern DragonAttackParams enemy_dd_attack_param_block;
 extern f32 *const re2_flower_movement_params;
 
 void TObjEneRe2Flower::render_demo() {
@@ -55,7 +53,7 @@ void TObjEneRe2Flower::render_demo() {
         texlist->textures[0].texaddr = texlist->textures[2].texaddr;
         texlist->textures[1].texaddr = texlist->textures[3].texaddr;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation.y);
@@ -106,7 +104,7 @@ void TObjEneRe2Flower::render() {
             texlist->textures[0].texaddr = texlist->textures[2].texaddr;
             texlist->textures[1].texaddr = texlist->textures[3].texaddr;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, base_yaw);

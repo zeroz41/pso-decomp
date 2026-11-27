@@ -1,6 +1,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -29,7 +30,6 @@
 #include "pso/network/client_id.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/frontend/CardLoadSequenceState.h"
@@ -178,8 +178,7 @@ void set_shop_slot_active(u16 client) {
 }
 
 void *TShopGenerator::create(ObjectSetData *set_data) {
-    void *o = new TShopGenerator(set_data);
-    return o;
+    return new TShopGenerator(set_data);
 }
 
 void TShopGenerator::run_fn_table_reverse() {

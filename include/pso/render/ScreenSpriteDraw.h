@@ -31,7 +31,6 @@ void start_duel_stub_a(s32);
 void start_duel_stub_b(void);
 void set_texture_scroll(f32, f32);
 void draw_2d_stub(void);
-
 u32 *copy_u32(u32 *p, const u32 *q);
 void gx_write_u32(s32 value);
 void gx_write_f32x3(f32 x, f32 y, f32 z);

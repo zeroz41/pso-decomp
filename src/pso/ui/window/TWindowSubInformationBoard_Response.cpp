@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/InfoBoardState.h"
 #include "pso/ui/window/TWindowSubInformationBoard.h"
 #include "pso/network/InfoBoardState.h"
 

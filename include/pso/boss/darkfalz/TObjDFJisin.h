@@ -2,6 +2,7 @@
 #define PSO_BOSS_DARKFALZ_TOBJDFJISIN_H
 
 #include "types.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 

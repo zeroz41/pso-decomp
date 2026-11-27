@@ -63,7 +63,7 @@ void TObjButterflyLobby::init_params() {
 
 void TObjButterflyLobby::render() {
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && ((s32) this->appear_state != 0)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->model_textures));
+        set_texture_list(this->model_textures);
         draw_butterfly();
     }
 }

@@ -7,7 +7,7 @@ struct EnemyPlacement;
 struct EnemySetRecord;
 struct ObjectSetData;
 
-// Where run_wave_event_actions reads its action stream from.
+// Where the wave event action stream is read from: its start and the byte the next read takes.
 struct WaveEventContext { u8* stream; s32 cursor; };
 
 void copy_game_variations(u32 *variations, s32 size);
@@ -18,7 +18,7 @@ void reset_reload_story_select(void);
 void reset_online_story_select(void);
 void free_forest_rel_work_buffer(void);
 void command_exit_stub(void);
-void set_wave_event_stream(WaveEventContext *context);
+void set_wave_event_stream(const WaveEventContext *context);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void activate_triggered_floor_events(void);
 void bswap_enemy_set_row(EnemySetRecord *row);

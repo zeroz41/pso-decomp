@@ -38,7 +38,7 @@ s32 TObjEneDarkGunnerShot::check_player_hits(u16 id) {
     owner->bodies->flags |= 1;
     if (bodies->flags & 0x180000) {
         for (i = 0; i < 16; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }

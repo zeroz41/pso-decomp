@@ -78,7 +78,7 @@ static const s32 telepipe_owner_tint_table[12] = {
 };
 }
 const char *TTecLuker::name = "TTecLuker";
-static const Vec telepipe_placement_offset = { 0.0f, 0.0f, 0.2f };
+static const Vec luker_placement_offset = { 0.0f, 0.0f, 0.2f };
 static const Vec telepipe_town_position_table[4] = {
     { -312.0f, 0.0f, -113.0f },
     { -306.0f, 0.0f, -135.0f },
@@ -92,9 +92,6 @@ static const Vec telepipe_town_position_table_b[4] = {
     { 360.0f, -30.0f, -185.0f },
 };
 static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
-extern "C" {
-s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
-}
 s32 PlacementSlot::is_placed() { return (u8)(state == 2); }
 
 s32 PlacementQueue::is_first_slot_placed() { return slots[0].is_placed(); }
@@ -174,7 +171,7 @@ TTecLuker::TTecLuker(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecC
         } else {
             placement = new PositionPlacementQueue;
             if (placement != NULL) {
-                Vec v = telepipe_placement_offset;
+                Vec v = luker_placement_offset;
                 TObjBase *owner;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, this->source->rotation.y);

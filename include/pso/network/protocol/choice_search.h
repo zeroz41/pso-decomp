@@ -114,6 +114,9 @@ s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choic
 // Copies the saved choice search selections into the search request.
 void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config);
 
+// Sets the option picked in the category `key`.
+void set_value_by_key(ChoiceSearchSelection *selections, u16 key, s32 val);
+
 void clear_choice_search_selections(ChoiceSearchSelection *arr);
 
 #endif

@@ -305,7 +305,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
 void TWindowMainMenu1P::create_char_select_slot() {
     destroy_submenu();
     reset_depth_base();
-    submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
+    this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
 }
 
 void TWindowMainMenu::destroy_submenu() { if (submenu != NULL) { submenu->queue_destruction(); submenu = NULL; } }

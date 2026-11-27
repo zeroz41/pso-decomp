@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/chat/ChatShortcut.h"
 #include "pso/ui/window/WindowCtrlCallback.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
 
 struct NJS_POINT2;
 struct PlayerLevelStats;

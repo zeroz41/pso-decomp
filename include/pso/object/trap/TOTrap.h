@@ -17,7 +17,7 @@ struct TOTrap : public TObjChara {
     virtual s32 is_any_player_matching_stat();
     virtual void update_effects();
     virtual void play_sounds();
-    virtual void debug_draw_trap();
+    virtual void draw_debug_home_marker();
     virtual f32 scale_by_table_value(f32 table_value);
     virtual void run_demo();
     virtual void vfunc_89();

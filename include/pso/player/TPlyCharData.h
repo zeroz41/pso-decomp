@@ -101,7 +101,7 @@ struct PlayerVisualRecord {
 };
 
 // Copies one 0x50-byte visual record (disp_data_part2 or CharacterAppearanceFields) over another; returns dst.
-void *copy_player_visual_record(void *dst, void *src);
+PlayerVisualRecord *copy_player_visual_record(PlayerVisualRecord *dst, PlayerVisualRecord *src);
 
 // TPlyCharData's constructor and destructor by symbol, for the static initializers that build and register a
 // global TPlyCharData (C++ cannot take a constructor's or destructor's address).

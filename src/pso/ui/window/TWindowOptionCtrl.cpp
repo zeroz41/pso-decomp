@@ -392,7 +392,7 @@ TWindowMenu *TWindowOptionCtrl::create_menu() {
     menu->add_text_entry(get_localized_text_entry(0xF, 6), 6, 0x19);
     menu->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 
@@ -428,15 +428,15 @@ TWindowMenu *TWindowOptionCtrl::create_list_window() {
     } while (idx < 0x31);
     list->set_silent_cancel();
     list->set_scroll_target(470.0f, 124.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
 TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     TWindowCheckBox *check_box_window;
 
-    saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &sound_mode_menu_window_size);
+    const NJS_POINT2 *option_position = TWindowOptionCtrl::get_option_entry(0xCF);
+    check_box_window = create_check_box_window_for_local_client(option_position, &sound_mode_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);
@@ -469,7 +469,7 @@ TWindowMenu *TWindowOptionCtrl::create_sub_menu_window() {
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1B), 6, 0x14);
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 

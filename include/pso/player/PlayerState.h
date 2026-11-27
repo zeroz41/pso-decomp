@@ -4,6 +4,8 @@
 #include "types.h"
 #include "dolphin/mtx/GeoTypes.h"
 
+struct TItem;
+
 // TObjPlayer::marker_position: the point above the head (calc_marker_position) where the
 // lobby marker is drawn; starts at the origin.
 struct PlayerMarkerPosition : Vec {

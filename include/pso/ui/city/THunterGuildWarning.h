@@ -7,6 +7,7 @@
 struct TObjPlayer;
 
 struct TWindowMessage;
+class TObjPlayer;
 
 class THunterGuildWarning : public TObject {
 public:

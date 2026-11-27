@@ -169,7 +169,7 @@ TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact(TObjCo
     } else {
         range = 1e+04f;
     }
-    VecCopy(&pos, &position);
+    VecCopy(&pos, &this->position);
     resetTechniqueContactQuery();
     if (target == NULL) {
         return &technique_contact_query_results;
@@ -231,7 +231,7 @@ TechniqueContactList *TTecCircle::find_area_technique_contact(TObjCollidable *ta
     } else {
         range = 6.25e+04f;
     }
-    VecCopy(&pos, &position);
+    VecCopy(&pos, &this->position);
     resetTechniqueContactQuery();
     if (target == NULL) {
         return &technique_contact_query_results;

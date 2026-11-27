@@ -9,6 +9,7 @@ struct GuildCardRecord;
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct PageIndicator;
+struct MenuGlyphEntry;
 struct NumberedTimesLayout;
 struct RankTimeRecordsLayout;
 struct RecordSummaryLayout;
@@ -71,13 +72,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
 void set_gauge_param(s32 gauge_param);
 
-s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot);
-
 void reset_gauge(void* p);
 
 void end_render_forward();
-
-void *find_cached_glyph(u16 code);
 
 s32 is_alpha_char(u16 code);
 
@@ -245,7 +242,6 @@ struct NumberedTimesLayout {
     TextLayoutRecord rec_8;
     TextLayoutRecord rec_9;
 };
-
 
 void release_bg_multi_textures();
 

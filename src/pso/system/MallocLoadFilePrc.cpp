@@ -1176,7 +1176,7 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)data, size - 8);
+    rng.xor_buffer(data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
@@ -1192,7 +1192,7 @@ void *QuestDownloadFile::alloc_download_quest(s32 size, s32 *out_size) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)data, size - 8);
+    rng.xor_buffer(data, size - 8);
     prs_decompress_buffer(data, ret);
     if (out_size != NULL) {
         *out_size = v0;

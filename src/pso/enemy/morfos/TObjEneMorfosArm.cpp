@@ -35,7 +35,7 @@ void TObjEneMorfosArm::render() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation.y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     toggle_particle_effect();
     draw();
     end_effect_render();

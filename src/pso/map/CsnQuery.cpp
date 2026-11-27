@@ -1,6 +1,7 @@
 #include "pso/system/memory.h"
 #include "libc/ctype.h"
 #include "types.h"
+#include "pso/map/MapCollisionSetup.h"
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/map/TObjMapCsn.h"
@@ -12,7 +13,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/render/DebugFont.h"
-#include "pso/map/MapCollisionSetup.h"
 #include "pso/system/CxxRuntime.h"
 
 #pragma inline_depth(1)
@@ -30,7 +30,6 @@ CsnContact csn_query_contacts[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit csn_hit_storage;
 WallRayResult csn_query_map_object;
-extern Vec scratch_vec5;
 
 void csn_debug_hook_under_query(void) {  }
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color) {  }
@@ -792,9 +791,11 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     CsnHit *hit;
     csn_debug_hook_query_begin();
     hit = &csn_hit_storage;
-    if (query_collision_segment_groups((Vec *)from, (Vec *)to, mask) == NULL) {
+    Vec *from_vec = (Vec *)from;
+    Vec *to_vec = (Vec *)to;
+    if (query_collision_segment_groups(from_vec, to_vec, mask) == NULL) {
         hit = NULL;
-    } else if (query_segment_wall_meshes((Vec *)from, (Vec *)to, mask, csn_query_groups) == 0) {
+    } else if (query_segment_wall_meshes(from_vec, to_vec, mask, csn_query_groups) == 0) {
         hit = NULL;
     }
     csn_debug_hook_query_name("csnVector()");

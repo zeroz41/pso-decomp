@@ -151,7 +151,7 @@ void TObjCityMainWarpChallenge::render() {
     } else if (update_object_view_visibility(400.0f, 40.0f) == 0) {
         return;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+    set_texture_list(city_common_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation.y);
@@ -471,7 +471,7 @@ void TObjCityMainWarpChallenge::update_warp_window() {
                     menu_window->add_text_entry(TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     menu_window->disable_input();
                     menu_window->calc_window_size();
-                    align_menu_entry_positions(menu_window);
+                    menu_window->align_menu_entry_positions();
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();

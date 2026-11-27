@@ -2,6 +2,7 @@
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/window/TWindowMessage.h"

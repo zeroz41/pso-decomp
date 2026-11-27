@@ -50,7 +50,7 @@ void TAdWarningBaseGC::update_state() {
     prev_state = state;
     switch (state) {
     case 0:
-        message_window = (TWindowBase *)create_message_window();
+        message_window = create_message_window();
         state = 1;
         break;
     case 1:
@@ -84,9 +84,9 @@ void TAdWarningBaseGC::update_state() {
     }
 }
 
-saddr TAdWarningBaseGC::create_message_window() {
-    saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)warning_window_position, (NJS_POINT2 *)warning_window_size);
-    ((TWindowMessage *)r)->append_line(get_message_text(), 3);
+TWindowMessage *TAdWarningBaseGC::create_message_window() {
+    TWindowMessage *r = create_message_window_for_size((NJS_POINT2 *)warning_window_position, (NJS_POINT2 *)warning_window_size);
+    r->append_line(get_message_text(), 3);
     return r;
 }
 

@@ -6,6 +6,8 @@
 
 class TFontSmallTask;
 
+struct TFontSmallTask;
+
 struct TOCtrlDubchik : public TObjEnemy {
     TOCtrlDubchik(TObject *parent, EnemyPlacement *set_data);
     virtual ~TOCtrlDubchik();

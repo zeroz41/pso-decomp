@@ -133,7 +133,7 @@ void TBoss6Type1::update_state() {
             send_ret_rnd();
             return;
         }
-        if (has_spare_child_ids() != 0) {
+        if (has_enough_free_child_ids() != 0) {
             send_flow_action_if_idle(this, 0x25);
             return;
         }

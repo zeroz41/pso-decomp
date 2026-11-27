@@ -17,8 +17,8 @@ static NJS_POINT3COL volopt_line = {
 };
 
 void TBoss3VoloptLine::render() {
-    VecCopy(&volopt_line_points[0], (Vec *)from);
-    VecCopy(&volopt_line_points[1], (Vec *)to);
+    VecCopy(&volopt_line_points[0], from);
+    VecCopy(&volopt_line_points[1], to);
     set_additive_blend();
     draw_line_list(&volopt_line, 1, 5);
     set_default_alpha_blend();
@@ -28,7 +28,7 @@ void TBoss3VoloptLine::run_task() {}
 
 TBoss3VoloptLine::~TBoss3VoloptLine() {}
 
-TBoss3VoloptLine::TBoss3VoloptLine(void *from, void *to) : TObject(tl_05) {
+TBoss3VoloptLine::TBoss3VoloptLine(Vec *from, Vec *to) : TObject(tl_05) {
     this->from = from;
     this->to = to;
 }

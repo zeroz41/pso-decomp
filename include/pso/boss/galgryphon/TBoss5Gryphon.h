@@ -240,8 +240,8 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void emit_run_body_attack();  // hit between bone_positions[0] and [11] while running
     void emit_flight_body_attacks();  // hits at bone_positions[11] and [0] in low flight
     void emit_wing_attacks();  // hits along bone_positions[3..10] in low flight
+    s32 angle_to_move_target();  // heading from position to the move target, in Ninja angles
     void send_target_update();  // sends entity_id, target_id and destination to the other clients
-    s32 angle_to_move_target();  // heading from position to the move args' target
 };
 
 LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);

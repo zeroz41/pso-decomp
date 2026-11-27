@@ -2,6 +2,7 @@
 #include "pso/item/MagStats.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/system/memory.h"

@@ -15,7 +15,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/system/memory.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
@@ -264,9 +263,9 @@ void TProtocol::handle_cmd_C5(packet &pkt) {
     }
 }
 
-s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
+s32 TProtocol::send_login_9e_extended(const char *player_name, int udp_disabled) {
     memset(m_player_name, 0, 0x10);
-    strncpy(m_player_name, (const char *)player_name, 0x10);
+    strncpy(m_player_name, player_name, 0x10);
     m_udp_disabled = udp_disabled;
     TSendLogin pkt;
     memset(&pkt, 0, sizeof(pkt));
@@ -579,7 +578,6 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 
 // ---- pso/network/TProtocol_801DB684
 
-#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include <stddef.h>
 
 LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);

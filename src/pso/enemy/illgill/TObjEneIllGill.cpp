@@ -269,7 +269,7 @@ void TObjEneIllGill::render() {
     this->viewDetail = classify_actor_view_detail(250.0f, 500.0f, 40.0f);
     if (this->viewDetail != 0) {
         select_actor_lighting(this);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation.y);
@@ -1125,7 +1125,7 @@ void TObjEneIllGill::update_shadow_attack() {
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);
                 if (this->action_flags != 4 && ((TObjCollidable *)target)->test_actor_flags(0x04000000) == 0) {
-                    void *m = (void *)new TObjIllGillKage(tl_05, (uaddr)this->target);
+                    new TObjIllGillKage(tl_05, this->target);
                 }
             } else {
                 this->action_flags &= ~4;
@@ -1297,7 +1297,7 @@ void TObjEneIllGill::update_charge_attack() {
                 if (p->get_entity_id() >= 0x1000) {
                     break;
                 }
-                if (this->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(p), 10000.0f) != 0 &&
+                if (this->find_actor_body_contact(p, 10000.0f) != 0 &&
                     p->select_melee_contact_body(this, 1.0f) != 0) {
                     f32 dmg = p->receive_physical_attack(this, 1.0f);
                     p->set_actor_flags(0x400);
@@ -1369,12 +1369,11 @@ void TObjEneIllGill::update_charge_attack() {
 }
 
 #pragma pop
-TObjIllGillKage::TObjIllGillKage(TObject *parent, uaddr target) : TObjBase(parent) {
-    TObjBase *target_tobjbase = (TObjBase *)target;
+TObjIllGillKage::TObjIllGillKage(TObject *parent, TObjBase *target) : TObjBase(parent) {
     m_name = ill_gill_kage_class_name;
-    if (target != 0U) {
-        VecCopy(&position, &target_tobjbase->position);
-        this->target_id = target_tobjbase->get_entity_id();
+    if (target != NULL) {
+        VecCopy(&position, &target->position);
+        this->target_id = target->get_entity_id();
         this->timer = 0xB4;
         this->state = 0;
     } else {

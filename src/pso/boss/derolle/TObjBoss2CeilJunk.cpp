@@ -65,7 +65,7 @@ void TObjBoss2CeilJunk::render() {
     set_chunk_blend(0x2500);
   }
   push_matrix();
-  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
+  set_texture_list(boss2_common_texture_list);
   post_translate_matrix(&position.x);
   rotate_matrix_y(0, this->rotation.y);
   rotate_matrix_x(0, this->rotation.x);
@@ -133,7 +133,7 @@ void TObjBoss2CeilJunk::run_task() {
             rad = (1e+01f) + TObjBoss2CeilJunk::radius_table[kind];
             for (i = 0; i < n; i++) {
                 pl = TObjPlayer::get_player_data(i);
-                if (((TObjEneDD *)pl)->is_valid_target() != 0) {
+                if (pl->is_valid_target() != 0) {
                     h = pl->base_stats.proportions + pl->position.y;
                     if (top > h && bottom < h) {
                         VecCopy(&d, &pl->position);

@@ -221,7 +221,7 @@ TMovie::~TMovie() {
 
 void TMovie::render_until_finished() {
     for (;;) {
-        if (DVDCheckDisk() != 0 || run_disk_error_check() != 0) {
+        if ((DVDCheckDisk() != 0) || (run_disk_error_check() != 0)) {
             break;
         }
         render_tick();

@@ -5,6 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 
 struct NJS_TEXLIST;

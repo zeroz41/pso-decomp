@@ -278,7 +278,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
         confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
         confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
-        align_menu_entry_positions(confirm_menu);
+        confirm_menu->align_menu_entry_positions();
         confirm_menu->set_ready_flag();
         f32 scale = get_scale();
         confirm_menu->set_position_xy(get_scale(), scale);
@@ -301,7 +301,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                 confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
                 confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
                 confirm_menu->calc_window_size();
-                align_menu_entry_positions(confirm_menu);
+                confirm_menu->align_menu_entry_positions();
                 confirm_menu->set_ready_flag();
                 f32 scale = get_scale();
                 confirm_menu->set_position_xy(get_scale(), scale);

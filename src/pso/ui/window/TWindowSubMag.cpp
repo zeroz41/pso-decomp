@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -372,7 +372,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     }
     window->set_flag70_bit10();
     window->update_layout_height((172.0f));
-    align_menu_entry_positions(window);
+    window->align_menu_entry_positions();
     return window;
 }
 

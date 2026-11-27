@@ -10,13 +10,13 @@ struct TWindowMessage;
 // Task that keeps checking the memory card in slot A and shows a message window while a check fails.
 struct TCheckMemoryCard : public TObject {
     static const char *class_name;
-    TCheckMemoryCard(TObject *parent, void *arg2, s32 main_ctrl, s32 system_only);
+    TCheckMemoryCard(TObject *parent, void *context, s32 main_ctrl, s32 system_only);
     virtual ~TCheckMemoryCard();
     virtual void render();
     virtual void run_task();
 
-    static TCheckMemoryCard *create_system_file_check(TObject *parent, void *arg2, s32 main_ctrl);
-    static TCheckMemoryCard *create(TObject *parent, void *arg2, s32 main_ctrl);
+    static TCheckMemoryCard *create_system_file_check(TObject *parent, void *context, s32 main_ctrl);
+    static TCheckMemoryCard *create(TObject *parent, void *context, s32 main_ctrl);
 
     s32 prompt_was_accepted();
     void enable_prompt();

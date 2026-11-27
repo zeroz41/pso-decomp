@@ -1,6 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/door/GreenDoorResource.h"
+#include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTexture.h"

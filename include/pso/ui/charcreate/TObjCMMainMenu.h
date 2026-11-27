@@ -7,8 +7,11 @@
 // The id of the entry selected in the character creation main menu.
 extern s32 creation_menu_selected_entry;
 u32 get_character_creation_selected_entry_id();
+// The appearance being built in character creation.
+extern CharacterAppearanceFields character_creation_visual_record;
 
 class TObjCMMainMenu;
+class TChCrEffFade;
 
 // The action and optional assign-menu kind for one character creation choice.
 struct CreationMenuEntry {
@@ -65,7 +68,7 @@ public:
     // Kind of the menu_entries row the cursor is on.
     s32 get_selected_menu_entry_kind();
     s32 is_state_3();
-    static void *create_fade(s32 duration, s32 mode);
+    static TChCrEffFade *create_fade(s32 duration, s32 mode);
     static s32 try_pay_fee();
     void confirm_selection();
     void open_name_menu();
@@ -115,7 +118,6 @@ LAYOUT_ASSERT(CreationMainMenu_nodes_offset, offsetof(TObjCMMainMenu,nodes)==0x5
 LAYOUT_ASSERT(CreationMainMenu_preview_offset, offsetof(TObjCMMainMenu,preview)==0x54);
 
 
-class TObjCMMainMenu;
 struct BmlResource;
 
 extern BmlResource *creation_menu_main_obj;
@@ -127,7 +129,5 @@ void init_creation_menu_scene(void);
 extern char character_creation_name_buffer[0x18];
 // Set while character creation runs as the dressing room.
 extern int creation_dressing_room_mode_flag;
-// The appearance being edited (get_creation_visual_record).
-extern CharacterAppearanceFields character_creation_visual_record;
 
 #endif

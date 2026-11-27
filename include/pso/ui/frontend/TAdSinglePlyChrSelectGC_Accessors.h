@@ -55,15 +55,15 @@ struct Pso3CharacterFileSlot {
     s32 pad_39B0;
 };
 
-struct Blk_80202C68 { u32 a; u32 b[32]; };
+struct CardWordBlock { u32 a; u32 b[32]; };
 
-struct Pair_80202C68 { u32 a; u32 b; };
+struct CardWordPair { u32 a; u32 b; };
 
 // load_and_verify_character_save hands both strings to the serial-number and access-key entry.
-struct Tail_80202C68 {
+struct CardTailPairs {
     char serial_number[0x10];
     char access_key[0x10];
-    Pair_80202C68 p4, p5, p6;
+    CardWordPair p4, p5, p6;
 };
 
 // The PSO3_CHARACTER memory card file: seven character slots behind a CRC32.
@@ -76,8 +76,8 @@ struct Pso3CharacterFile {
 
     s32 checksum;
     Pso3CharacterFileSlot slots[7];
-    Tail_80202C68 tail;
-    Blk_80202C68 blk;
+    CardTailPairs tail;
+    CardWordBlock blk;
     // Seeds the cipher over everything before it.
     s32 cipher_seed;
 };

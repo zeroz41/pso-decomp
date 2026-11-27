@@ -9,6 +9,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/system/ByteBlocks.h"
 
 #pragma readonly_strings on
 #pragma inline_depth(1)

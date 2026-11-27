@@ -27,13 +27,19 @@ struct CharacterFileSlot {
 struct CharacterFile {
     CharacterFile();
     ~CharacterFile();
-    // 1 if slot i holds a character (its record has a creation time).
-    s32 is_entry_valid(int i);
     // 1 if a slot's record carries a magic that is neither empty nor a character's.
     s32 has_valid_slot();
+    // The seed of the cipher over the file, kept in cipher_seed.
+    void set_cipher_seed(s32 value);
+    s32 get_cipher_seed();
+    // The file's CRC32 (checksum).
+    void set_checksum(s32 value);
+    s32 get_checksum();
+    // 1 if slot i holds a character (its record has a creation time).
+    s32 is_entry_valid(int i);
     // The slot TAdSinglePlyChrSelectGC::get_selection() picks, and its save record.
-    CharacterFileSlot *get_selected_character_slot();
-    CharacterSaveRecord *get_selected_save_record();
+    CharacterFileSlot *get_selected_slot();
+    CharacterSaveRecord *get_selected_record();
 
     u32 checksum;    // CRC32 of the file, written by encrypt_save_data
     CharacterFileSlot slots[7];

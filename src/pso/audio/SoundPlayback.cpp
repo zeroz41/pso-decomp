@@ -6,12 +6,12 @@
 #include "types.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/audio/SoundPlayback.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/audio/SoundControlState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/audio/SoundRequests.h"
 
 int get_music_base_gain(void) {  return music_stream_base_gain; }
 void update_voice_stream_mix(AdxtPlayer *tracks) {
@@ -23,7 +23,6 @@ void update_voice_stream_mix(AdxtPlayer *tracks) {
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/audio/MusicControl.h"

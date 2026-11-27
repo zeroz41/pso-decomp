@@ -72,7 +72,7 @@ void TODoorVoShip::render() {
         rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, (f32)animation_frame);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_texlist));
+        set_texture_list(light_texlist);
         u32 flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
@@ -141,7 +141,7 @@ TODoorVoShip::TODoorVoShip(TObject *parent, ObjectSetData *set_data) : TObjMapOb
     animation_step = 1.0f;
     shape_motion = get_bml_motion(bml_resource, 1);
     light_model = get_bml_model(bml_resource, 0);
-    light_texlist = (saddr)get_bml_texlist(bml_resource, 0);
+    light_texlist = get_bml_texlist(bml_resource, 0);
     init_collision_body_parts(this, door_vo_ship_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

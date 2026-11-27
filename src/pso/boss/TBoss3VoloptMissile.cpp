@@ -53,11 +53,11 @@ void TBoss3VoloptMissile::explode_and_destroy() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
+            if (obj_is_hit_receivable(target) != 0) {
                 target->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
             }
         }
@@ -67,7 +67,7 @@ void TBoss3VoloptMissile::explode_and_destroy() {
 }
 
 void TBoss3VoloptMissile::render() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(textures);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_x(0, rotation.x);
@@ -148,7 +148,7 @@ TBoss3VoloptMissile::TBoss3VoloptMissile(TObject *parent, Vec *pos, s32 angle, s
     matrix_mult_vec(0, &velocity, &velocity);
     pop_matrix();
     model = boss3_volopt_resources->models[0x16].model;
-    textures = (saddr)boss3_volopt_resources->models[0x16].texlist;
+    textures = boss3_volopt_resources->models[0x16].texlist;
     age = 0;
     trail_rotation.z = 0;
     trail_rotation.y = 0;

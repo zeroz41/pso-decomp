@@ -46,7 +46,6 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -485,10 +484,10 @@ void TObjEneMe3Stelth::attack_and_unequip() {
         current_target->apply_knockback_from_attacker(this, 3.0f);
         if (d > 0.0f) {
             if (is_alternate_variant() != 0) {
-                TObjPlayer *t = static_cast<TObjPlayer *>(current_target);
+                TObjPlayer *t = (TObjPlayer *)current_target;
                 TItem *held;
-                if (t->is_locally_controlled() != 0 && (held = TObjPlayer::get_equipped_weapon(t)) != 0) {
-                    TObjPlayer::send_6x26_unequip_item(t, held->get_item_id());
+                if (t->is_locally_controlled() != 0 && (held = t->get_equipped_weapon()) != 0) {
+                    t->send_6x26_unequip_item(held->get_item_id());
                     t->get_hand_joint_position(&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
                 }
@@ -1007,7 +1006,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (this->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 ang = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1023,7 +1022,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (this->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1127,7 +1126,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
         case 0:
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (this->update_death_check() != 0) {
+                if (validate_target() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1142,7 +1141,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
             spawn_footstep_effects();
             cur_frame = this->frame;
             if ((cur_frame >= 0.0f) && (cur_frame <= 5.0f)) {
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
+                move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
             } else {
                 this->update_ground_contact();
             }

@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/BoundedStrlen.h"
 
 char * text_builder_write_cursor;

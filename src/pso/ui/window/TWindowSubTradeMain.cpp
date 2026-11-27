@@ -539,7 +539,7 @@ TWindowMenu *TWindowSubTradeMain::build_trade_menu() {
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDD), 6, 0x14, (int) 0xFFEE946E);
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   titled_window_menu->update_layout_height(282.0f);
-  align_menu_entry_positions(titled_window_menu);
+  titled_window_menu->align_menu_entry_positions();
   return titled_window_menu;
 }
 
@@ -551,7 +551,7 @@ TWindowMenu *TWindowSubTradeMain::create_trade_menu() {
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   titled_window_menu->update_layout_height(282.0f);
-  align_menu_entry_positions(titled_window_menu);
+  titled_window_menu->align_menu_entry_positions();
   return titled_window_menu;
 }
 

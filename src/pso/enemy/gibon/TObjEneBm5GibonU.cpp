@@ -39,8 +39,8 @@ struct NJS_OBJECT;
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -57,7 +57,6 @@ struct NJS_OBJECT;
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/render/render_util.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
@@ -267,7 +266,7 @@ void TObjEneBm5GibonU::render_debug() {
     }
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);
@@ -367,7 +366,7 @@ void TObjEneBm5GibonU::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             if (this->mode == 1 || this->mode == 2) {
                 appear_fade.set_flags_and_apply_damage_color();
@@ -595,7 +594,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                 if (this->check_hit_sphere(ang, 160.0f) == 0) {
                     f32 dx = 2.0f * (60.0f * sin_table_lookup(ang));
                     f32 dz = 2.0f * (60.0f * cos_table_lookup(ang));
-                    if (((TObjEneDD *)this)->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
+                    if (enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
                         Vec v;
                         VecCopy(&v, (const Vec *)&this->body_center);
                         v.x += dx;
@@ -900,7 +899,7 @@ void TObjEneBm5GibonU::repositioning_state(s32 msg) {
             if (!(this->attack_collider->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
-                if (((TObjEneDD *)this)->enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
+                if (enemy_probe_wall_ahead(dx, dz, 1.0f) == NULL) {
                     VecCopy(&v, &this->body_center);
                     v.x += dx;
                     v.z += dz;
@@ -980,7 +979,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
     case 0:
         (this->substate)++;
         this->advance_animation();
-        if (this->update_death_check() != 0) {
+        if (validate_target() != 0) {
             play_walk_footsteps();
             this->target_heading = approach_angle_limited(this->target_heading, this->base_heading, 0x100);
             this->destination.x = 90.0f * sin_table_lookup(this->target_heading) + home->x;
@@ -1175,7 +1174,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
 
     case 0:
       advance_animation();
-      if (this->update_death_check() != 0)
+      if (validate_target() != 0)
     {
       if (random_phase == 0)
       {
@@ -1358,7 +1357,7 @@ void TObjEneBm5GibonU::flanking_state(s32 msg) {
         return;
     case 0:
         this->advance_animation();
-        if (this->update_death_check() == 0) {
+        if (validate_target() == 0) {
             return;
         }
         if (this->is_passing_frame(13.0f) != 0) {
@@ -1439,7 +1438,7 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
         if ((s16) this->requested_action == 2) {
             play_run_footstep();
         }
-        if (this->update_death_check() != 0) {
+        if (validate_target() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->is_passing_frame(18.0f) != 0) {

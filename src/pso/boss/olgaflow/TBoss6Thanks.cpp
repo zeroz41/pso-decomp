@@ -63,13 +63,13 @@ static const Boss6ThanksEmitter boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
 
-s32 TBoss6Thanks::is_thanks_shown() {
+s32 TBoss6Thanks::was_thanks_shown() {
     return get_story_flag(0x9A) != 0;
 }
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-void TBoss6Thanks::set_thanks_shown() { set_story_flag_or_send_quest_flag(154); }
+void TBoss6Thanks::mark_thanks_shown() { set_story_flag_or_send_quest_flag(154); }
 void TBoss6Thanks::dispatch_darkfalz_phase() { set_story_flag_or_send_quest_flag(152); }
 
 void TBoss6Thanks::update_particle_emitters() {
@@ -134,13 +134,13 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture0));
+    set_texture_list(texture0);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model0, motions[current_motion], frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture1));
+    set_texture_list(texture1);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model1, motion1, frame1);
     pop_matrix();
@@ -208,7 +208,7 @@ void TBoss6Thanks::run_task() {
 }
 
 TBoss6Thanks::~TBoss6Thanks() {
-    TBoss6Thanks::set_thanks_shown();
+    TBoss6Thanks::mark_thanks_shown();
     destroy_effects();
 }
 
@@ -238,7 +238,7 @@ void *TBoss6Thanks::create() {
 }
 
 s32 TBoss6Thanks::is_ship_door_ready() {
-    if ((check_ship_door() != 0) && (is_thanks_shown() == 0)) {
+    if ((check_ship_door() != 0) && (was_thanks_shown() == 0)) {
         return 1;
     }
     return 0;

@@ -2,12 +2,13 @@
 #define PSO_ITEM_ITEM_CREATE_H
 
 #include "types.h"
+#include "pso/system/data/FlagWord.h"
 
 struct TItemData;
 struct FlagWord;
 
 // Bit 0 is set on entering Pioneer 2; apply_sync_item_state then respawns floor 0's missing items.
-extern FlagWord pioneer2_item_respawn_flags;
+extern FlagWord floor_item_respawn_requested;
 
 void set_boss_buf_entry(int value, u16 index);
 int get_sync_counter(u16 index);

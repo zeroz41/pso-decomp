@@ -47,7 +47,7 @@ void TPhotonYoulla::reset_material_color(u8 count) {
 void TPhotonYoulla::render() {
     if (visible != 0) {
         begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);

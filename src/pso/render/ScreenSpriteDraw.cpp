@@ -12,7 +12,6 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -29,6 +28,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/Draw2D.h"
@@ -39,7 +39,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
 #include "pso/render/TextureLoad.h"
-#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

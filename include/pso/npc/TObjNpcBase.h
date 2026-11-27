@@ -2,6 +2,8 @@
 #define PSO_NPC_TOBJNPCBASE_H
 
 #include "types.h"
+
+struct BmlMotionEntry;
 #include "pso/enemy/TObjEnemy.h"
 
 class TQuestThread;

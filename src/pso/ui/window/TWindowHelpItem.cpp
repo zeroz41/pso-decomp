@@ -182,11 +182,11 @@ void TWindowHelpItem::run_task() {
     }
     if ((this->help_flags & 1) && (this->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
         if (!(this->help_flags & 4)) {
-            if (handle_list_page_flip_input(this->page_indicator) != 0) {
+            if (this->page_indicator->handle_flip_input() != 0) {
                 this->dispatch_item_help();
             }
         } else {
-            decay_page_arrow_offset(this->page_indicator);
+            this->page_indicator->decay_arrow_offset();
         }
         this->invoke_callback_pmf();
     }
@@ -210,7 +210,7 @@ void TWindowHelpItem::render() {
         context);
     flags = this->help_flags;
     if ((flags & 1) && (flags & 2)) {
-        page_indicator->draw_list_page_indicator(context);
+        page_indicator->draw(context);
     }
 }
 
@@ -243,7 +243,7 @@ void TWindowHelpItem::clear_help_item() {
     m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s8 page) { if (turn_page_indicator(page_indicator, page) != 0) { this->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s8 page) { if (page_indicator->turn_to(page) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(TItemData *item, s32 id) { this->secondary_id = id; this->secondary_item = item; update_cursor_selection(); dispatch_item_help(); }
 
@@ -558,15 +558,15 @@ void TWindowHelpItem::update_requirements() {
         return;
     }
     if (pmt->atp_required != 0) {
-        if (build_player_equipment_requirement_stats(pl, &st) != 0) {
+        if (pl->build_player_equipment_requirement_stats(&st) != 0) {
             entry->value = st.atp;
         }
     } else if (pmt->mst_required != 0) {
-        if (build_player_equipment_requirement_stats(pl, &st) != 0) {
+        if (pl->build_player_equipment_requirement_stats(&st) != 0) {
             entry->value = st.mst;
         }
     } else if (pmt->ata_required != 0) {
-        if (build_player_equipment_requirement_stats(pl, &st) != 0) {
+        if (pl->build_player_equipment_requirement_stats(&st) != 0) {
             entry->value = st.ata;
         }
     }
@@ -1188,7 +1188,7 @@ void TWindowHelpItem::update_tech_disk_stats() {
         appearance = &player->appearance;
         if (appearance != NULL) {
             mst_entry = (TWindowLayoutNumber *)get_array_entry(5);
-            if (!(appearance->classFlags & 0x10) && (build_player_equipment_requirement_stats(player, &stats) != 0)) {
+            if (!(appearance->classFlags & 0x10) && (player->build_player_equipment_requirement_stats(&stats) != 0)) {
                 mst_entry->value = stats.mst;
             }
         }

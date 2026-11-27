@@ -5,6 +5,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct NJS_MOTION;
+struct Vec;
 struct BmlResource;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;

@@ -29,6 +29,7 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/FileExtension.h"
 #include "pso/ui/hud/SplitScreenQuery.h"
+#include "pso/system/ByteBlocks.h"
 
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {

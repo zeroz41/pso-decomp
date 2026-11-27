@@ -2,6 +2,7 @@
 #define PSO_RENDER_GINJAMATERIAL_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 struct GinjaVertexArray;
 struct NJS_OBJECT;

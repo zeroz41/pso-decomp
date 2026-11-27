@@ -42,7 +42,7 @@ void TObjBoss8Piller::render() {
         } else {
             model = TObjBoss8Piller::shared_resource->models[0].model;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller::shared_resource->models[0].texlist));
+        set_texture_list(TObjBoss8Piller::shared_resource->models[0].texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);

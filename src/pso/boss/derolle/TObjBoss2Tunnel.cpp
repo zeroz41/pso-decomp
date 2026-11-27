@@ -558,7 +558,7 @@ void TObjBoss2Tunnel::render() {
         saved = entries->texture;
         entries->texture = entries[current_texture_index()].texture;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
+    set_texture_list(boss2_common_texture_list);
     if (state == 0 || state == 1) {
         push_matrix();
         translate_matrix(0, 0.0f, 0.0f, -start_offset);

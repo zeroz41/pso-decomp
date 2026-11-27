@@ -272,7 +272,7 @@ void TObjEneMorfos::run_task() {
 
 void TObjEneMorfos::refresh_target() {  }
 
-void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state((saddr)((void*)11)); } }
+void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state(11); } }
 
 f32 TObjEneMorfos::receive_physical_attack(TObjChara *attacker, f32 scale) {
     Vec v;
@@ -323,7 +323,7 @@ void TObjEneMorfos::run_hit_reaction() {
     } else if (morfos_flags & 4) {
         clear_attack_receipts();
     } else {
-        transition_enemy_state((saddr)((void *)0xA));
+        transition_enemy_state(0xA);
     }
 }
 
@@ -339,7 +339,7 @@ s32 TObjEneMorfos::check_low_hp_trigger() {
 
 s32 TObjEneMorfos::try_enter_low_hp_state() {
     if (((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (this->random_ratio() <= burst_chance)) {
-        this->transition_enemy_state((saddr)((void*)(9)));
+        this->transition_enemy_state(9);
         return 1;
     }
     return 0;
@@ -960,7 +960,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
     case 3:
         switch (step) {
         case 0:
-            if ((check_confused() == 0) && ((void *) this->current_target == NULL)) {
+            if ((check_confused() == 0) && (this->current_target == NULL)) {
                 this->transition_enemy_state((s32)7);
             }
             break;
@@ -1158,7 +1158,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &part_fades[idx];
     part->update();
     vis = part->updateFromCamera(&body_center);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
@@ -1235,7 +1235,7 @@ void TObjEneMorfos::render() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_point) != 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation.y);
@@ -1343,7 +1343,7 @@ void TObjEneMorfos::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation.y);

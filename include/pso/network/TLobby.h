@@ -15,6 +15,7 @@ template <size_t size> struct TPlyText;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
 struct G_ClientIDHeader;
+struct AdxfHandle;
 struct extended_game_command_header;
 struct FloorObjectSetRow;
 struct ObjectSetData;
@@ -28,6 +29,8 @@ struct player_stats;
 struct AttackParams;
 struct SymbolChatPayload;
 struct TAdDialingMessageWindow;
+struct ObjectSetData;
+struct TObjQuestColApcINW;
 struct ActorParamBlock;
 union BattleMovementParams;
 #include "pso/audio/AdxCallbacks.h"
@@ -130,7 +133,6 @@ struct TLobby : public TObject {
     static void make_players();
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
-    // Takes one 13 download chunk of the quest .dat/.bin being downloaded.
     static void send_challenge_records(TChallenge *challenge);
     static void set_fade_params(void (*callback)());
     void copy_record_entry(saddr src);
@@ -209,9 +211,8 @@ struct TLobby : public TObject {
     static void close_com_card_window();
     static void close_menu_windows();
     static void copy_all_data(int, int);
-    static void *copy_member_record(void *, void *);
+    static TPlyJoinLobbyEntry *copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src);
     static SymbolChatPayload *copy_symbol_chat_entry(SymbolChatPayload *dst, SymbolChatPayload *src);
-    static void *create_quest_col_apc_inw(void *, void *);
     static void create_warp_menu();
     static void destroy_all_objects();
     static void destroy_child_recursive(TObject *task, TObject *object);
@@ -402,6 +403,8 @@ u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
 const char *get_connection_message_text(s32 id);
 u8 *get_access_key_input_buffer(void);
 u8 *get_raw_serial_input_buffer(void);
+void set_quest_list_online_state(s32 state);
+void set_item_drop_server_seed(int seed);
 
 extern TObject *lobby_player_construction_window;
 

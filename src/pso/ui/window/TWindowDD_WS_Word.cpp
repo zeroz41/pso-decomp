@@ -66,11 +66,11 @@ TWindowDD_WS_Word::~TWindowDD_WS_Word() {
 }
 
 s32 TWindowDD_WS_Word::can_accept_input() {
-    return !(this->state_flags & 1);
+    return !(state_flags & 1);
 }
 
 s32 TWindowDD_WS_Word::is_input_enabled() {
-    return !(this->state_flags & 1);
+    return !(state_flags & 1);
 }
 
 void TWindowDD_WS_Word::add_scroll_offset(int offset) {
@@ -344,18 +344,18 @@ void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
     if (rect->open_tick < 0) {
         return;
     }
-    c = 0.5f * this->frame_size[1] + this->frame_position[1];
-    f32 depth = word_select_inverse_depth(this->draw_depth, 0.0f);
+    c = 0.5f * frame_size[1] + frame_position[1];
+    f32 depth = word_select_inverse_depth(draw_depth, 0.0f);
     reset_window_vertices(verts, depth, -1);
-    copy_window_point_table(verts, this->strip_point_index);
+    copy_window_point_table(verts, strip_point_index);
     set_frame_column_vertices_x(rect, verts);
     s = rect->scale[1];
-    count = this->visible_row_count;
-    top = -(0.5f * this->frame_size[1]);
+    count = visible_row_count;
+    top = -(0.5f * frame_size[1]);
     y0 = top * s + c;
     bottom = top + window_dd_row_height;
     y1 = bottom * s + c;
-    if (this->strip_point_index == 0) {
+    if (strip_point_index == 0) {
         v0 = word_row_strip_v;
         v1 = v0 + window_dd_row_height;
     } else {
@@ -364,9 +364,9 @@ void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
     }
     v0 *= window_dd_texel_scale;
     v1 *= window_dd_texel_scale;
-    frac = window_dd_row_height * fractional_part(-this->scroll_offset / window_dd_row_height);
+    frac = window_dd_row_height * fractional_part(-scroll_offset / window_dd_row_height);
     if (0.0f != frac) {
-        count = this->visible_row_count - 1;
+        count = visible_row_count - 1;
         if (frac < 0.0f) {
             part = frac + window_dd_row_height;
         } else {
@@ -406,7 +406,7 @@ void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
         }
     }
     if (0.0f != frac) {
-        yb = 0.5f * this->frame_size[1] * s + c;
+        yb = 0.5f * frame_size[1] * s + c;
         v = verts;
         for (s32 i = 0; i < 4; i++) {
             v[0].y = y1;
@@ -417,13 +417,13 @@ void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
         }
         draw_window_vertices(verts, 8, tex, 1);
     }
-    if (this->token_count > 0 && this->is_input_enabled() != 0) {
-        depth = word_select_inverse_depth(this->draw_depth, 0.1f);
+    if (token_count > 0 && is_input_enabled() != 0) {
+        depth = word_select_inverse_depth(draw_depth, 0.1f);
         reset_window_vertices(verts, depth, -1);
         copy_window_point_table(verts, 1);
         set_frame_column_vertices_x(rect, verts);
-        f32 row = (f32)this->selected_row;
-        f32 first_y = -(0.5f * this->frame_size[1]);
+        f32 row = (f32)selected_row;
+        f32 first_y = -(0.5f * frame_size[1]);
         y0 = row * window_dd_row_height + first_y;
         s = rect->scale[1];
         bottom = y0 + window_dd_row_height;

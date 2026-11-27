@@ -78,7 +78,7 @@ void TObjLuker::update_floor_name_windows() {
             }
             ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
             ((TWindowMenu *)(windows[i]))->calc_window_size();
-            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
+            (reinterpret_cast<TWindowMenu *>(windows[i]))->align_menu_entry_positions();
         }
     }
 }
@@ -111,7 +111,7 @@ void TObjLuker::open_destination_windows() {
                 ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
                 ((TWindowMenu *)(windows[i]))->disable_input();
                 ((TWindowMenu *)(windows[i]))->calc_window_size();
-                align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
+                (reinterpret_cast<TWindowMenu *>(windows[i]))->align_menu_entry_positions();
                 windows[i]->suspend_update();
                 windows[i]->disallow_rendering();
             }

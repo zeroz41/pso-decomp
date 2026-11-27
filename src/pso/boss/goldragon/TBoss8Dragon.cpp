@@ -27,6 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
@@ -51,6 +52,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -70,13 +72,11 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/TObjControl.h"
-#include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/render_util.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
@@ -457,7 +457,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneD
     }
     invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(&record, 1) != 0 && (record.flags & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
         this->flags |= 8;
     }
     this->init_position_vectors();
@@ -903,7 +903,7 @@ s32 TBoss8Dragon::select_air_fire_target(Vec *out) {
     n = 0;
     for (i = 0; i < 12; i++) {
         p = get_player_by_client_id(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 &&
+        if (p->is_valid_target() != 0 &&
             horizontal_distance_squared(&p->position, &this->position) >= lim) {
             list[n] = p;
             n++;
@@ -4654,7 +4654,7 @@ void TBoss8Dragon::draw() {
 void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
     RenderFadeState *fade;
     if (!(this->position.y <= -400.0f)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -4760,7 +4760,7 @@ void TBoss8Dragon::draw_motion_model() {
     s32 idx;
     NJS_MOTION *anim;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation.y);

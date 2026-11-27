@@ -278,7 +278,7 @@ void TCheckRoomSequence::handle_withdraw_choice() {
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
-            align_menu_entry_positions(choice_menu);
+            choice_menu->align_menu_entry_positions();
             choice_menu->set_ready_flag();
             choice_menu->set_position_xy(get_scale(), get_scale());
         }
@@ -320,7 +320,7 @@ void TCheckRoomSequence::handle_deposit_choice() {
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
-            align_menu_entry_positions(choice_menu);
+            choice_menu->align_menu_entry_positions();
             choice_menu->set_ready_flag();
             choice_menu->set_position_xy(get_scale(), get_scale());
         }
@@ -364,7 +364,7 @@ void TCheckRoomSequence::handle_root_choice() {
                 choice_menu->add_text_entry(get_shop_text(8), 6, 0);
                 choice_menu->add_text_entry(get_shop_text(9), 6, 1);
                 choice_menu->calc_window_size();
-                align_menu_entry_positions(choice_menu);
+                choice_menu->align_menu_entry_positions();
                 choice_menu->set_ready_flag();
                 choice_menu->set_position_xy(get_scale(), get_scale());
             }
@@ -402,7 +402,7 @@ void TCheckRoomSequence::handle_root_choice() {
                 choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 choice_menu->add_text_entry(get_shop_text(0xA), 6, 1);
                 choice_menu->calc_window_size();
-                align_menu_entry_positions(choice_menu);
+                choice_menu->align_menu_entry_positions();
                 choice_menu->set_ready_flag();
                 choice_menu->set_position_xy(get_scale(), get_scale());
             }
@@ -874,18 +874,18 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *record, TItemData *item) {
-    item->data1.data_u8[0] = record->item.data1.data_u8[0];
-    item->data1.data_u8[1] = record->item.data1.data_u8[1];
-    item->data1.data_u8[2] = record->item.data1.data_u8[2];
-    item->data1.data_u8[3] = record->item.data1.data_u8[3];
-    item->data1.data_u8[4] = record->item.data1.data_u8[4];
-    item->data1.data_u8[5] = record->item.data1.data_u8[5];
-    ((WeaponAttribute *)&item->data1.data_u16[3])->copy((WeaponAttribute *)&record->item.data1.data_u16[3]);
-    ((WeaponAttribute *)&item->data1.data_u16[4])->copy((WeaponAttribute *)&record->item.data1.data_u16[4]);
-    ((WeaponAttribute *)&item->data1.data_u16[5])->copy((WeaponAttribute *)&record->item.data1.data_u16[5]);
-    item->id = record->item.id;
-    item->data2.data_u32 = record->item.data2.data_u32;
+void TCheckRoomSequence::copy_data(BankItemRecord *record, TItemData *dst) {
+    dst->data1.data_u8[0] = record->item.data1.data_u8[0];
+    dst->data1.data_u8[1] = record->item.data1.data_u8[1];
+    dst->data1.data_u8[2] = record->item.data1.data_u8[2];
+    dst->data1.data_u8[3] = record->item.data1.data_u8[3];
+    dst->data1.data_u8[4] = record->item.data1.data_u8[4];
+    dst->data1.data_u8[5] = record->item.data1.data_u8[5];
+    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&record->item.data1.data_u16[3]);
+    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&record->item.data1.data_u16[4]);
+    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&record->item.data1.data_u16[5]);
+    dst->id = record->item.id;
+    dst->data2.data_u32 = record->item.data2.data_u32;
 }
 
 #pragma push

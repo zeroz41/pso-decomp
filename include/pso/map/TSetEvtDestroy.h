@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "types.h"
+#include "pso/map/FloorWaveEvents.h"
 
 struct SetDestroyEventRecord {
     s32 id;          // matched by activate_first_floor_event and set_floor_event_flags (name inferred)

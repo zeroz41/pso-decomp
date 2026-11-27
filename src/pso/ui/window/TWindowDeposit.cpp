@@ -1,7 +1,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TObjBagWarnWin.h"

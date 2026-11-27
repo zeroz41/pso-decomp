@@ -7,7 +7,7 @@
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 const WindowTabUV window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 
@@ -16,9 +16,9 @@ f32 get_heading_frame_width(HeadingEntry *heading) {
 }
 
 void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
-    TexturedQuad right;
+    TexturedQuad right_cap;
     TexturedQuad middle;
-    TexturedQuad left;
+    TexturedQuad left_cap;
     f32 scale;
     f32 w;
     scale = -1.0f / (0.0299f + context->depth);
@@ -27,16 +27,16 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(1, context->color);
-    left.x0 = pos[0];
-    left.y0 = pos[1];
-    left.x1 = 40.0f + pos[0];
-    left.y1 = 27.0f + pos[1];
-    left.u0 = window_tab_uv_table[idx].u / 256.0f;
-    left.v0 = window_tab_uv_table[idx].v / 256.0f;
-    left.u1 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
-    left.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    context->transform_quad(&left);
-    draw_textured_quad_at_depth(&left.x0, scale);
+    left_cap.x0 = pos[0];
+    left_cap.y0 = pos[1];
+    left_cap.x1 = 40.0f + pos[0];
+    left_cap.y1 = 27.0f + pos[1];
+    left_cap.u0 = window_tab_uv_table[idx].u / 256.0f;
+    left_cap.v0 = window_tab_uv_table[idx].v / 256.0f;
+    left_cap.u1 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
+    left_cap.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
+    context->transform_quad(&left_cap);
+    draw_textured_quad_at_depth(&left_cap.x0, scale);
     middle.x0 = 40.0f + pos[0];
     middle.y0 = pos[1];
     middle.x1 = middle.x0 + w;
@@ -47,16 +47,16 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, f32 width, u8 idx) {
     middle.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
     context->transform_quad(&middle);
     draw_textured_quad_at_depth(&middle.x0, scale);
-    right.x0 = 40.0f + (pos[0] + w);
-    right.y0 = pos[1];
-    right.x1 = 40.0f + right.x0;
-    right.y1 = 27.0f + pos[1];
-    right.u0 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
-    right.v0 = window_tab_uv_table[idx].v / 256.0f;
-    right.u1 = (80.0f + window_tab_uv_table[idx].u) / 256.0f;
-    right.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
-    context->transform_quad(&right);
-    draw_textured_quad_at_depth(&right.x0, scale);
+    right_cap.x0 = 40.0f + (pos[0] + w);
+    right_cap.y0 = pos[1];
+    right_cap.x1 = 40.0f + right_cap.x0;
+    right_cap.y1 = 27.0f + pos[1];
+    right_cap.u0 = (40.0f + window_tab_uv_table[idx].u) / 256.0f;
+    right_cap.v0 = window_tab_uv_table[idx].v / 256.0f;
+    right_cap.u1 = (80.0f + window_tab_uv_table[idx].u) / 256.0f;
+    right_cap.v1 = (27.0f + window_tab_uv_table[idx].v) / 256.0f;
+    context->transform_quad(&right_cap);
+    draw_textured_quad_at_depth(&right_cap.x0, scale);
     end_screen_draw();
 }
 

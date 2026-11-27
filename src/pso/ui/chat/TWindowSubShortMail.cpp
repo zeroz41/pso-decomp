@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/GuildCardEntry.h"
 #pragma defer_codegen on
 
@@ -31,7 +32,6 @@
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/system/task/TMainTask.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -434,7 +434,7 @@ TWindowMenu *TWindowSubShortMail::create_menu(void) {
     }
     list->set_flag70_bit10();
     list->update_layout_height(179.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -454,7 +454,7 @@ TWindowMenu *TWindowSubShortMail::build_menu(void) {
     list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 

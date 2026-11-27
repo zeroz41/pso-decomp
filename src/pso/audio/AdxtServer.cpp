@@ -30,34 +30,34 @@ extern "C" {
 
 void adxt_trap_end_update(void *context);
 
-void adxt_stat_decinfo(AdxtPlayer *player);
+void adxt_stat_decinfo(AdxtPlayer *adxt);
 s32 adxt_end_available;
 s32 adxt_prep_available;
 s32 adxt_prep_channel_count;
 
 // Waits until every output SJ holds data, then starts the RNA.
-inline void adxt_stat_prep(AdxtPlayer *player) {
+inline void adxt_stat_prep(AdxtPlayer *adxt) {
     s32 n;
     s32 i;
-    if (audio_stream_get_state(player->input_state) == 3) {
-        n = player->input_state->get_channels();
+    if (audio_stream_get_state(adxt->input_state) == 3) {
+        n = adxt->input_state->get_channels();
         adxt_prep_channel_count = n;
         for (i = 0; i < n; i++) {
-            adxt_prep_available = player->output_rings[i]->interface->get_available(player->output_rings[i], 1);
+            adxt_prep_available = adxt->output_rings[i]->interface->get_available(adxt->output_rings[i], 1);
             if (adxt_prep_available >= 0x40) {
                 break;
             }
         }
         if (i == n) {
-            gcrna_bridge_set_trans_sw(player->rna_handle, 0);
-            player->stat = 4;
+            gcrna_bridge_set_trans_sw(adxt->rna_handle, 0);
+            adxt->stat = 4;
         }
     }
 }
 // Starts playback once enough is decoded; pads the end with silence.
-inline void adxt_stat_playing(AdxtPlayer *player) {
-    GcrnaStream *rna = player->rna_handle;
-    AudioStreamInputState *sjd = player->input_state;
+inline void adxt_stat_playing(AdxtPlayer *adxt) {
+    GcrnaStream *rna = adxt->rna_handle;
+    AudioStreamInputState *sjd = adxt->input_state;
     s32 i;
     s32 avail;
     s32 nbyte;
@@ -67,23 +67,23 @@ inline void adxt_stat_playing(AdxtPlayer *player) {
     SjChunk ck;
     avail = query_available_size(rna);
     size = gcrna_bridge_get_packet_size(rna);
-    if (avail >= player->reserved_48 * 2 || size <= sjd->get_block_samples() ||
-        audio_stream_get_state(player->input_state) == 3) {
-        if (player->auto_start_flag == 0) {
-            if (player->pause_flag == 0) {
+    if (avail >= adxt->reserved_48 * 2 || size <= sjd->get_block_samples() ||
+        audio_stream_get_state(adxt->input_state) == 3) {
+        if (adxt->auto_start_flag == 0) {
+            if (adxt->pause_flag == 0) {
                 gcrna_bridge_set_play_sw(rna, 1);
-                player->base_time = 0;
-                player->base_vblank = adxt_vblank_count;
+                adxt->base_time = 0;
+                adxt->base_vblank = adxt_vblank_count;
             }
-            player->stat = 3;
+            adxt->stat = 3;
         }
-        player->started_playback = 1;
+        adxt->started_playback = 1;
     }
-    if (audio_stream_get_state(player->input_state) == 3) {
-        nch = adxt_get_num_channels(player);
-        nbyte = player->reserved_48 * nch * 2;
+    if (audio_stream_get_state(adxt->input_state) == 3) {
+        nch = adxt_get_num_channels(adxt);
+        nbyte = adxt->reserved_48 * nch * 2;
         for (i = 0; i < nch; i++) {
-            sj = player->output_rings[i];
+            sj = adxt->output_rings[i];
             sj->interface->get_chunk(sj, 0, nbyte, &ck);
             memset(ck.data, 0, ck.size);
             sj->interface->put_chunk(sj, 1, &ck);
@@ -91,130 +91,130 @@ inline void adxt_stat_playing(AdxtPlayer *player) {
     }
 }
 // Stops the RNA once its queue is empty.
-inline void adxt_stat_playend(AdxtPlayer *player) {
-    adxt_end_available = query_available_size(player->rna_handle);
-    if (query_available_size(player->rna_handle) <= 0) {
-        gcrna_bridge_set_play_sw(player->rna_handle, 0);
-        player->stat = 5;
+inline void adxt_stat_playend(AdxtPlayer *adxt) {
+    adxt_end_available = query_available_size(adxt->rna_handle);
+    if (query_available_size(adxt->rna_handle) <= 0) {
+        gcrna_bridge_set_play_sw(adxt->rna_handle, 0);
+        adxt->stat = 5;
     }
 }
 // One server step of a handle, by its state.
 #pragma push
 #pragma opt_common_subs off
-void adxt_exec_handle(AdxtPlayer *player) {
-    s8 stat = player->stat;
+void adxt_exec_handle(AdxtPlayer *adxt) {
+    s8 stat = adxt->stat;
     if (stat == 3) {
-        adxt_stat_prep(player);
+        adxt_stat_prep(adxt);
     } else if (stat == 1) {
-        adxt_stat_decinfo(player);
+        adxt_stat_decinfo(adxt);
     } else if (stat == 2) {
-        adxt_stat_playing(player);
+        adxt_stat_playing(adxt);
     } else if (stat == 4) {
-        adxt_stat_playend(player);
+        adxt_stat_playend(adxt);
     }
-    if (player->stream_file != NULL && get_adx_stream_status(player->stream_file) == 4) {
-        player->error_code = -1;
-        player->stat = 6;
+    if (adxt->stream_file != NULL && get_adx_stream_status(adxt->stream_file) == 4) {
+        adxt->error_code = -1;
+        adxt->stat = 6;
     }
-    if (player->lsc_stream != NULL && lsc_get_state(player->lsc_stream) == 3) {
-        player->error_code = -1;
-        player->stat = 6;
+    if (adxt->lsc_stream != NULL && lsc_get_state(adxt->lsc_stream) == 3) {
+        adxt->error_code = -1;
+        adxt->stat = 6;
     }
 }
 #pragma pop
 
 
 
-void adxt_stat_decinfo(AdxtPlayer *player) {
-    AudioStreamInputState *input_state = player->input_state;
+void adxt_stat_decinfo(AdxtPlayer *adxt) {
+    AudioStreamInputState *input_state = adxt->input_state;
     s32 k;
     s32 n1;
     char buf[32];
 
     if (audio_stream_get_state(input_state) == 2) {
         s32 v = input_state->get_channels();
-        if (v > player->max_channels) {
-            adxerr_format_id_pair(v, player->max_channels, buf, 0x10);
+        if (v > adxt->max_channels) {
+            adxerr_format_id_pair(v, adxt->max_channels, buf, 0x10);
             adxerr_report_pair("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
-            stop_audio_stream(player);
+            stop_audio_stream(adxt);
             return;
         }
         n1 = input_state->get_rate();
         k = get_stream_loop_type(input_state);
         if (k > 0) {
-            player->reserved_48 = (n1 / player->server_freq) * 3;
+            adxt->reserved_48 = (n1 / adxt->server_freq) * 3;
         } else {
-            player->reserved_48 = ((n1 / player->server_freq) * 3) / 2;
+            adxt->reserved_48 = ((n1 / adxt->server_freq) * 3) / 2;
         }
         {
             s32 a = input_state->get_block_samples() * 2;
-            player->reserved_48 = a * ((player->reserved_48 + a) / a);
+            adxt->reserved_48 = a * ((adxt->reserved_48 + a) / a);
         }
-        input_state->set_max_samples(player->reserved_48);
+        input_state->set_max_samples(adxt->reserved_48);
         if (k > 0) {
-            if ((s32) player->source_type == 2) {
-                player->reserved_50 = 0;
+            if ((s32) adxt->source_type == 2) {
+                adxt->reserved_50 = 0;
             } else {
                 s32 x = get_stream_loop_end_byte(input_state);
                 s32 pages;
-                player->reserved_50 = 0x800 - x % 0x800;
+                adxt->reserved_50 = 0x800 - x % 0x800;
                 pages = (x + 0x7FF) / 0x800;
-                player->reserved_50 = player->reserved_50 % 0x800;
-                player->total_pages = pages;
-                set_adx_stream_end_sector(player->stream_file, pages);
-                set_adx_stream_completion(player->stream_file, adxt_loop_callback, player);
+                adxt->reserved_50 = adxt->reserved_50 % 0x800;
+                adxt->total_pages = pages;
+                set_adx_stream_end_sector(adxt->stream_file, pages);
+                set_adx_stream_completion(adxt->stream_file, adxt_loop_callback, adxt);
             }
             s32 e = input_state->get_loop_end_sample();
-            player->loop_end_sample = e;
+            adxt->loop_end_sample = e;
             input_state->set_notify_sample_count(e);
             input_state->set_notify_bytes(0);
             input_state->set_notify_count(0);
-            audio_stream_set_notify_callback(input_state, adxt_trap_entry_update, player);
+            audio_stream_set_notify_callback(input_state, adxt_trap_entry_update, adxt);
         } else {
-            if (player->stream_file != NULL) {
-                set_adx_stream_end_sector(player->stream_file, 0x7FFFFFFF);
+            if (adxt->stream_file != NULL) {
+                set_adx_stream_end_sector(adxt->stream_file, 0x7FFFFFFF);
             }
             input_state->set_notify_sample_count(input_state->get_total_samples());
             input_state->set_notify_bytes(0);
             input_state->set_notify_count(0);
-            audio_stream_set_notify_callback(input_state, adxt_trap_end_update, player);
+            audio_stream_set_notify_callback(input_state, adxt_trap_end_update, adxt);
         }
         k = input_state->get_rate();
         n1 = input_state->get_channels();
         s32 pid = input_state->get_total_samples();
         s32 p2 = input_state->get_bits_per_sample();
-        gcrna_bridge_set_sample_bits(player->rna_handle, p2);
-        gcrna_bridge_set_frequency(player->rna_handle, k);
-        gcrna_bridge_set_stream_count(player->rna_handle, n1);
-        gcrna_bridge_set_pan_id(player->rna_handle, pid);
-        gcrna_bridge_set_volume(player->rna_handle, player->output_vol);
-        if (player->input_state->get_channels() == 1) {
-            if (player->out_pan[0] == -0x80) {
-                gcrna_bridge_set_channel_pan(player->rna_handle, 0, 0);
+        gcrna_bridge_set_sample_bits(adxt->rna_handle, p2);
+        gcrna_bridge_set_frequency(adxt->rna_handle, k);
+        gcrna_bridge_set_stream_count(adxt->rna_handle, n1);
+        gcrna_bridge_set_pan_id(adxt->rna_handle, pid);
+        gcrna_bridge_set_volume(adxt->rna_handle, adxt->output_vol);
+        if (adxt->input_state->get_channels() == 1) {
+            if (adxt->out_pan[0] == -0x80) {
+                gcrna_bridge_set_channel_pan(adxt->rna_handle, 0, 0);
             } else {
-                gcrna_bridge_set_channel_pan(player->rna_handle, 0, player->out_pan[0]);
+                gcrna_bridge_set_channel_pan(adxt->rna_handle, 0, adxt->out_pan[0]);
             }
         } else {
-            if (player->out_pan[0] == -0x80) {
-                gcrna_bridge_set_channel_pan(player->rna_handle, 0, -0xF);
+            if (adxt->out_pan[0] == -0x80) {
+                gcrna_bridge_set_channel_pan(adxt->rna_handle, 0, -0xF);
             } else {
-                gcrna_bridge_set_channel_pan(player->rna_handle, 0, player->out_pan[0]);
+                gcrna_bridge_set_channel_pan(adxt->rna_handle, 0, adxt->out_pan[0]);
             }
-            if (player->out_pan[1] == -0x80) {
-                gcrna_bridge_set_channel_pan(player->rna_handle, 1, 0xF);
+            if (adxt->out_pan[1] == -0x80) {
+                gcrna_bridge_set_channel_pan(adxt->rna_handle, 1, 0xF);
             } else {
-                gcrna_bridge_set_channel_pan(player->rna_handle, 1, player->out_pan[1]);
+                gcrna_bridge_set_channel_pan(adxt->rna_handle, 1, adxt->out_pan[1]);
             }
         }
-        if (player->amp != NULL) {
-            player->amp->set_packet_flags(k);
+        if (adxt->amp != NULL) {
+            adxt->amp->set_packet_flags(k);
         }
         if (audio_stream_get_format(input_state) == 2) {
             u8 *header = input_state->get_header();
-            run_step_4430(player->rna_handle, header);
+            run_step_4430(adxt->rna_handle, header);
         }
-        gcrna_bridge_set_trans_sw(player->rna_handle, 1);
-        player->stat = 2;
+        gcrna_bridge_set_trans_sw(adxt->rna_handle, 1);
+        adxt->stat = 2;
     }
 }
 

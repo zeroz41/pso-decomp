@@ -15,7 +15,7 @@ struct TOTrapAncient01 : public TOTrap {
     virtual void update_effects();
     virtual void play_sounds();
     virtual void run_demo();
-    virtual void debug_draw_trap();
+    virtual void draw_debug_home_marker();
     virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual void render();

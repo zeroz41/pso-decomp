@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TWindowMessage;
+
 struct ChallengeResultSummary {
     s32 stage_index;
     s32 reserved;
@@ -22,7 +24,7 @@ struct ChallengeResultRecord {
 class TObjResultWin : public TObject {
 public:
     static const char *class_name;
-    uaddr m_window;
+    TWindowMessage *m_window;
     s32 m_close_requested;
     s32 m_countdown;
     char m_text[0x100];

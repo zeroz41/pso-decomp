@@ -1,6 +1,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/network/TradeSession.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -37,6 +38,7 @@
 #include "pso/network/LegacyEnemyKill.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -51,13 +53,11 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -105,7 +105,6 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/DeferredPackets.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
-#include "pso/network/TradeSession.h"
 #include "pso/ui/frontend/CardLoadSequenceState.h"
 
 
@@ -170,7 +169,7 @@ const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
-void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
+void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
 // lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out below because
 // the original's static initializer precedes this file's inline copies.
@@ -198,7 +197,7 @@ u8 lobby_scroll_text_buffer[0x1000];
 extern "C" {
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = (s32 *)lbl_804A7008;
+        *(s32 **)((s8 *)object + 0x18) = (s32 *)lobby_idle_timer_vtable;
         __dt__7TObjectFv(object, 0);
         if (dtor_flags > 0) {
             TObject::operator delete(object);
@@ -402,9 +401,9 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
     __ct__7TObjectFP7TObject(timer, parent);
-    *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
+    *(void ***)((s8 *)timer + 0x18) = lobby_idle_timer_vtable;
     getDateStamp(&date);
-    DateToSeconds(&date, (int *)(timer + 0x1C));
+    DateToSeconds(&date, &t->now);
     t->start = t->now;
     t->limit = get_idle_timeout_limit(local_client_id);
     t->state = 0;
@@ -1416,7 +1415,7 @@ void TLobby::open_lobby_warp_menu() {
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x47), 6, 3);
     }
     TLobby_warp_menu_window->calc_window_size();
-    align_menu_entry_positions(TLobby_warp_menu_window);
+    TLobby_warp_menu_window->align_menu_entry_positions();
     TLobby_warp_menu_window->set_ready_flag();
     TLobby::init_player_window_effect();
     lobby_state = 3;
@@ -1483,7 +1482,7 @@ void TLobby::create_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x39), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3A), 6, 1);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 4;
 }
@@ -1510,7 +1509,7 @@ void TLobby::open_menu_window() {
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x45), 6, 0);
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x46), 6, 1);
     lobby_make_team_menu_window->calc_window_size();
-    align_menu_entry_positions(lobby_make_team_menu_window);
+    lobby_make_team_menu_window->align_menu_entry_positions();
     lobby_make_team_menu_window->set_ready_flag();
     lobby_make_team_menu_window->set_selected_index(0);
     lobby_state = 0x18;
@@ -1528,7 +1527,7 @@ void TLobby::open_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3E), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3F), 6, 1);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 5;
 }
@@ -1594,7 +1593,7 @@ void TLobby::open_keyboard_window() {
         lobby_keyboard_prompt_window->add_text_entry(TLobby::get_seq_phase(0x44), 2, 0);
         lobby_keyboard_prompt_window->add_text_entry(blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
-        align_menu_entry_positions(lobby_keyboard_prompt_window);
+        lobby_keyboard_prompt_window->align_menu_entry_positions();
         lobby_keyboard_prompt_window->disable_input();
     }
     lobby_keyboard_controller = new TKeyBoardControl(join_lobby_controller, 0x10, 0, 0, local_client_id);
@@ -1624,7 +1623,7 @@ void TLobby::open_city_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4A), 6, 3);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4B), 6, 4);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 0x19;
 }
@@ -2325,7 +2324,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         }
     } else {
         game_join_pending_clients[e.client_id] = 1;
-        TLobby::copy_member_record(&lobby_join_entries[e.client_id], &e);
+        TLobby::copy_member_record(&lobby_join_entries[e.client_id], (TPlyJoinLobbyEntry *)&e);
     }
     if (local_client_id == designated_client_id) {
         init_6x72_resume_packet(&pkt);
@@ -2708,9 +2707,7 @@ void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet) {
     packet->header.subcommand = 0x72;
     packet->header.size = sizeof(G_DoneLoadingIntoGame_6x72) / 4;
 }
-void *TLobby::copy_member_record(void *to, void *from) {
-    TPlyJoinLobbyEntry *dst = (TPlyJoinLobbyEntry *)to;
-    TPlyJoinLobbyEntry *src = (TPlyJoinLobbyEntry *)from;
+TPlyJoinLobbyEntry *TLobby::copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src) {
     __memcpy(&dst->tag, &src->tag, sizeof(dst->tag));
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
@@ -2872,7 +2869,7 @@ void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *to, void *from) {
     dst->m_tag2 = src->m_tag2;
     dst->m_guildcard_number = src->m_guildcard_number;
 }
-void set_item_drop_server_seed(int a0) { item_drop_server_seed = a0; }
+void set_item_drop_server_seed(int seed) { item_drop_server_seed = seed; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
 
 void set_quest_list_online_state(s32 state) {

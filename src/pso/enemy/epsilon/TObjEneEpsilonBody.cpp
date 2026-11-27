@@ -998,7 +998,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
         return;
     }
     update_secondary_light();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -1046,7 +1046,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
         rotate_matrix_y(0, rotation.y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
         end_effect_render();

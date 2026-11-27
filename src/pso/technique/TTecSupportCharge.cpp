@@ -17,7 +17,7 @@ void TTecSupportCharge::run_task() {
     if(age%10==0) {
         for(int i=0;i<2;++i)spawn_particle_effect(&position,support_charge_effect_ids[i]);
     }
-    if(!actor->is_casting())queue_destruction();
+    if(!actor->is_technique_charging())queue_destruction();
     else if(age>=180)queue_destruction();
 }
 

@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/BattleParamTables.h"

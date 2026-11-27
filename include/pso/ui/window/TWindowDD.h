@@ -193,6 +193,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(WindowTextEntry *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void load_word_select_data(void);
+void clear_window_dd_nodes(void);
 void ws_data_load(void);
 
 extern char *window_dd_buffer_a;
@@ -260,7 +261,6 @@ void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *verti
 f32 word_select_inverse_depth(f32 depth, f32 offset);
 const char *get_word_select_token_text(s16 id);
 void handle_6x74_word_select(G_WordSelect_6x74 *cmd);
-void clear_window_dd_nodes(void);
 
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
 struct WsRecentState {

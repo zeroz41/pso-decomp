@@ -34,17 +34,17 @@ void *TODoorLaboNormal::create(ObjectSetData *set_data) {
 }
 
 void *TODoorFourLightRuins::create(ObjectSetData *set_data) {
-    void *o = (void *)new TODoorFourLightRuins(tl_05, set_data);
+    void *o = new TODoorFourLightRuins(tl_05, set_data);
     return o;
 }
 
 void *TODoorFourLightSpace::create(ObjectSetData *set_data) {
-    void *o = (void *)new TODoorFourLightSpace(tl_05, set_data);
+    void *o = new TODoorFourLightSpace(tl_05, set_data);
     return o;
 }
 
 void *TObjInfoCol::create(ObjectSetData *set_data) {
-    void *o = (void *)new TObjInfoCol(tl_05, set_data);
+    void *o = new TObjInfoCol(tl_05, set_data);
     return o;
 }
 

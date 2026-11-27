@@ -101,7 +101,7 @@ void TTecRaFoie::play_cast_sound() {
 void TTecRaFoie::spawn_effects(Vec *) {
     TParticleCtrl *emitter;
     TObjChara *chara;
-    if (bursts_at_cast_point == 1) {
+    if (bursts_in_place == 1) {
         if (is_split_screen() != 0) {
             spawn_particle_effect(&target, 0x39);
         } else {
@@ -304,7 +304,7 @@ void TTecRaFoie::run_task() {
         queue_destruction();
         return;
     }
-    if (bursts_at_cast_point == 1) {
+    if (bursts_in_place == 1) {
         update_detonation(&target);
         return;
     }
@@ -379,7 +379,7 @@ TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, Vec *pos, s32 level) : TTe
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     clear_target_cursor_list(&m_targets);
-    bursts_at_cast_point = 1;
+    bursts_in_place = 1;
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;
     }
@@ -394,7 +394,7 @@ TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, Vec *pos, s32 level) : TTe
 TTecRaFoie::TTecRaFoie(TObjBase *source, Vec *origin, TargetCursorList *list, s32 level) : TTecCircle(source, origin, origin, level) {
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
-    bursts_at_cast_point = 0;
+    bursts_in_place = 0;
     copy_technique_target_list(&m_targets, list);
     if (this->source != NULL) {
         sourceId = this->source->get_entity_id();

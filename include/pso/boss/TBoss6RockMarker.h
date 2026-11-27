@@ -5,6 +5,9 @@
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 
+struct NJS_OBJECT;
+struct NJS_TEXLIST;
+
 // The second object of a TBoss6Rock (TBoss6Rock::marker, made by
 // TBoss6Rock::create()): it draws the rock's model at the falling rock's
 // position while the rock is airborne (inferred: the rock's falling shadow).

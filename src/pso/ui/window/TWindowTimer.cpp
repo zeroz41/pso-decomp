@@ -15,7 +15,7 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -37,9 +37,9 @@ const char *TWindowTimer::class_name = "TWindowTimer";
 void TWindowTimer::init_timer_window_layout() {
     f32 width;
     WindowTextEntry *entry;
-    flags |= 1;
+    this->flags |= 1;
     width = (f32)calc_text_width("000:000");
-    entry = (WindowTextEntry *)get_array_entry(0);
+    entry = (WindowTextEntry *)this->get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
@@ -49,9 +49,9 @@ void TWindowTimer::init_timer_window_layout() {
 void TWindowTimer::init_timer_window_layout_alt() {
     f32 width;
     WindowTextEntry *entry;
-    flags &= ~1;
+    this->flags &= ~1;
     width = (f32)calc_text_width("0'00\"00");
-    entry = (WindowTextEntry *)get_array_entry(0);
+    entry = (WindowTextEntry *)this->get_array_entry(0);
     entry->x = 48.0f - 0.5f * width;
 }
 #pragma pop
@@ -65,16 +65,16 @@ void TWindowTimer::ease_window_timer_position() {
 #pragma pop
 
 void TWindowTimer::update_chat_parts() {
-    saddr window_layout_position;
+    const NJS_POINT2 *window_layout_position;
 
     if (this->flags & 1) {
-        window_layout_position = (saddr)get_window_layout_position(0xA9);
+        window_layout_position = get_window_layout_position(0xA9);
     } else if ((TWindowSubShortMail::is_active() != 0) || (is_com_card_active() != 0) || (is_guild_card_receive_active() != 0)) {
-        window_layout_position = (saddr)get_window_layout_position(0xA8);
+        window_layout_position = get_window_layout_position(0xA8);
     } else {
-        window_layout_position = (saddr)get_window_layout_position(0x22);
+        window_layout_position = get_window_layout_position(0x22);
     }
-    copy_vec2(target_position, (void*)window_layout_position);
+    copy_vec2(target_position, (void *)window_layout_position);
 }
 
 void TWindowTimer::draw(s32 minutes, s32 seconds) {

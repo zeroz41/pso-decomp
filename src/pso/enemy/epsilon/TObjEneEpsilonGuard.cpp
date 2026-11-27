@@ -141,7 +141,7 @@ void TObjEneEpsilonGuard::render_guard_effect() {
     f32 scale;
 
     if ((flags & 0x20) && ((s32)main_task.get_task_flags() & 0x200)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -189,7 +189,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
         return;
     }
     this->update_secondary_light();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     push_matrix();
     post_translate_matrix(&this->position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -449,7 +449,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
     f32 lim;
     s32 i;
     TObjChara *p;
-    uaddr body;
+    TObjEneEpsilonBody *body;
     if (flags & 0x20) {
         switch (effect_step) {
         case 0:
@@ -512,16 +512,16 @@ void TObjEneEpsilonGuard::update_effect_attack() {
         collider->check_object_collisions();
         if (collider->bodies->flags & 0x80000) {
             for (i = 0; i < 16; i++) {
-                p = (TObjChara *)TObjPlayer::get_battle_param(i);
+                p = TObjPlayer::get_battle_param(i);
                 if (p == NULL) {
                     break;
                 }
                 if (obj_is_hit_receivable(p) != 0) {
-                    body = (uaddr)find_entity_by_id(body_id);
+                    body = (TObjEneEpsilonBody *)find_entity_by_id(body_id);
                     if (body != 0 && p->is_actor_dead() == 0) {
                         DirectAttackPayload attack;
                         f32 damage;
-                        attack.kind = ((TObjEneEpsilonBody *)body)->get_table_value_by_index();
+                        attack.kind = body->get_table_value_by_index();
                         attack.power = epsilon_guard_movement_params->attack_power;
                         damage = p->receive_direct_attack(this, attack, 0, -1, -1);
                         p->apply_knockback_from_attacker(this, damage);
@@ -700,7 +700,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     flags |= 0x10;
     set_intangible();
     effect_model = get_bml_model(epsilon_bml_resource, 3);
-    effect_motion = (NJS_MOTION *)get_bml_motion(epsilon_bml_resource, 3);
+    effect_motion = get_bml_motion(epsilon_bml_resource, 3);
     effect_frame = 0.0f;
     effect_timer = 0;
     state_step = 0;

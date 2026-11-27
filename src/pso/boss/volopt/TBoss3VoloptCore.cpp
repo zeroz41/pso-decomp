@@ -74,8 +74,8 @@ void TObjEnemyCustom::update_if_active(s32 action) {
     }
 }
 
-TObjCollidable *TObjPlayer::get_battle_param(int index) {
-    return player_battle_param_table[index];
+TObjChara *TObjPlayer::get_battle_param(int index) {
+    return (TObjChara *)player_battle_param_table[index];
 }
 
 void TBoss3VoloptCore::load_entry_params_volopt(s32 index) {
@@ -232,7 +232,7 @@ void TBoss3VoloptCore::run_demo_task() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
@@ -397,7 +397,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
-            object = (TObjChara *)TObjPlayer::get_battle_param(i);
+            object = TObjPlayer::get_battle_param(i);
             if (object == NULL) {
                 break;
             }

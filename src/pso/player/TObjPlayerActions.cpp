@@ -1,3 +1,4 @@
+#include "pso/player/PlayerClassStats.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TPlayerReadyCallback.h"
@@ -24,7 +25,6 @@
 #include "pso/technique/TTecReverserEff.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/PlayerClassStats.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayerActions.h"
@@ -76,6 +76,7 @@
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/item/item_pmt.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
@@ -91,7 +92,7 @@ extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 
 const f64 freeze_escape_timer_scale = 0.1;
-const f64 player_radians_to_angle = 10430.38043493439;
+const f64 player_radians_to_angle_scale = 10430.38043493439;
 
 }
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
@@ -1094,11 +1095,10 @@ s32 TObjPlayer::try_change_action() {
 
 void TObjPlayer::clear_flag() { clear_actor_flags((uaddr)((void*)((void*)65536))); clear_velocity(); }
 
-void TObjPlayer::apply_velocity_if_free(TObjPlayer *player) {
-    TObjPlayer *p = player;
-    void *x = (void *)p->resolve_move_collision();
+void TObjPlayer::apply_velocity_if_free() {
+    void *x = (void *)resolve_move_collision();
     if (x == NULL) {
-        p->apply_velocity();
+        apply_velocity();
     }
 }
 
@@ -1197,7 +1197,7 @@ void TObjPlayer::run_service_hold_state_phase(s16 phase) {
         this->enter_service_hold_action();
         return;
       case 1:
-        apply_velocity_if_free(this);
+        apply_velocity_if_free();
         return;
       case 6:
         this->clear_flag();
@@ -1752,12 +1752,12 @@ void TObjPlayer::begin_fall_reaction() {
     z = this->velocity.z;
     x = this->velocity.x;
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
-        this->rotation.y = (s32) ((s32) (player_radians_to_angle * atan2_float(x, z)) + 0x8000);
+        this->rotation.y = (s32) ((s32) (player_radians_to_angle_scale * atan2_float(x, z)) + 0x8000);
     }
     if (test_actor_flags(0x800) != 0) {
         drop_items_on_death();
     }
-    spawn_effect();
+    start_fall_rumble();
     if ((this == NULL) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
@@ -1946,7 +1946,7 @@ void TObjPlayer::update_action11_movement() {
     }
 }
 
-void TObjPlayer::begin_action_0xB() {
+void TObjPlayer::begin_action11() {
     this->action_state = 0xB;
     run_action_state_phase(this->mode, 6);
     if (obj_isState2_324() != 0) {
@@ -1997,7 +1997,7 @@ void TObjPlayer::run_action11_phase(s16 phase) {
         this->send_6x51_set_player_angle();
         return;
       case 0:
-        this->begin_action_0xB();
+        this->begin_action11();
         return;
       case 1:
         update_action11_movement();
@@ -2103,9 +2103,9 @@ s32 TObjPlayer::can_guard() {
     return 0;
 }
 
-void TObjPlayer::set_flag_0x100000() { clear_velocity(); set_actor_flags(0x100000); }
+void TObjPlayer::stop_and_set_lock_on_flag() { clear_velocity(); set_actor_flags(0x100000); }
 
-void TObjPlayer::apply_velocity_if_free() {
+void TObjPlayer::apply_damped_velocity_if_free() {
     damp_planar_velocity();
     if (resolve_move_collision() == 0U) {
         apply_velocity();
@@ -2212,10 +2212,10 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         this->start_use_item_action();
         return;
       case 1:
-        apply_velocity_if_free();
+        apply_damped_velocity_if_free();
         return;
       case 6:
-        set_flag_0x100000();
+        stop_and_set_lock_on_flag();
         break;
     }
   }
@@ -2679,7 +2679,7 @@ s32 TObjPlayer::try_equip_item(s16 tech) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void launch_cast_technique(TObjPlayer *p, s32 t, s8 lvl) {
+inline void start_technique_cast_from_packet(TObjPlayer *p, s32 t, s8 lvl) {
     switch (t) {
     case 10:
     case 11:
@@ -2736,7 +2736,7 @@ void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command) 
     ul = lvl;
     p->technique_state.set_level(ul);
     TObjPlayer::set_technique_level_clamped(p, ul, tech);
-    launch_cast_technique(p, tech, lvl);
+    start_technique_cast_from_packet(p, tech, lvl);
 }
 #pragma pop
 
@@ -2839,7 +2839,7 @@ void TObjPlayer::update_technique_cast() {
         }
         break;
     case 2:
-        if (this->is_passing_frame(cast_record->cast_frame) != 0) {
+        if (this->is_passing_frame(cast_record->release_frame) != 0) {
             this->phase = 3;
             this->clear_state_flags(0x80);
             pause_motion();
@@ -3372,8 +3372,8 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         f32 accuracy;
-        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon(this) != NULL &&
-            get_equipped_weapon(this)->is_identified() == 0) {
+        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon() != NULL &&
+            get_equipped_weapon()->is_identified() == 0) {
             if ((f32)get_ata() < 0.0f) {
                 accuracy = 0.0f;
             } else {
@@ -3405,7 +3405,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             hit = 1;
             ItemSoundRequest sound;
             sound.clear();
-            TItem *item = get_equipped_weapon(this);
+            TItem *item = get_equipped_weapon();
             if (item != NULL) {
                 sound.group = item->get_item_group();
                 sound.index = item->get_item_index();
@@ -3435,7 +3435,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         hit = 1;
                         ItemSoundRequest sound;
                         sound.clear();
-                        TItem *item = get_equipped_weapon(this);
+                        TItem *item = get_equipped_weapon();
                         if (item != NULL) {
                             sound.group = item->get_item_group();
                         }
@@ -3469,7 +3469,7 @@ void handle_6x46_attack_finished(G_AttackFinished_6x46 *command) {
     if (validate_6x46_attack_finished(&packet) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
             pl->attack_state.set_lockon_targets(&packet.targets);
-            it = TObjPlayer::get_equipped_weapon(pl);
+            it = pl->get_equipped_weapon();
             if (it != NULL) {
                 it->perform_action();
                 return;
@@ -3508,7 +3508,7 @@ s32 TObjPlayer::select_attack_palette_slot() {
 
 s32 TObjPlayer::check_mode_action(s32 action) {
     if (action == 2) {
-        TItem *weapon = get_equipped_weapon(this);
+        TItem *weapon = get_equipped_weapon();
         if (weapon != NULL) {
             if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                 return 0;
@@ -3564,7 +3564,7 @@ void TObjPlayer::apply_movement_if_ready() {
 }
 
 void TObjPlayer::update_anim_action() {
-    get_equipped_weapon(this);
+    get_equipped_weapon();
     if (this->get_handle_value() != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
             send_attack_target_packet();
@@ -3575,8 +3575,8 @@ void TObjPlayer::update_anim_action() {
         if (this->attack_state.get_flags()->test_flags_any(8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
-                attack_state.increment_burst_counter();
-                if (attack_state.get_burst_counter() >= 3) {
+                this->attack_state.increment_burst_count();
+                if (this->attack_state.get_burst_count() >= 3) {
                     this->attack_state.get_flags()->set(8);
                     this->attack_state.register_strike(this);
                     pause_motion();

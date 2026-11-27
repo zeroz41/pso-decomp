@@ -35,7 +35,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
@@ -48,7 +48,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
@@ -1103,7 +1102,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (this->update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         this->enemy_copy_target_destination();
@@ -1241,7 +1240,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (this->update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         switch (this->stage) {
@@ -1762,7 +1761,7 @@ void TObjEneMe1Gee::render() {
             this->draw_ground_shadow(0, 0);
         }
         this->update_secondary_light();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
@@ -1844,7 +1843,7 @@ void TObjEneMe1Gee::render_demo() {
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation.y);

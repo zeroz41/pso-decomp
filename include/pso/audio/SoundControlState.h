@@ -11,7 +11,7 @@ struct Vec;
 #include <stddef.h>
 
 // One sound group's bank files, as sndPushGroup takes them.
-struct SoundGroupFiles {
+struct SoundBankGroup {
     void *file_data[4];
     s32 file_index[4];
     s32 pad20;
@@ -72,7 +72,7 @@ public:
     u32 elapsed;
     u32 ms;
     u8 pad_30C[4];
-    SoundGroupFiles ents[(0xC14 - 0x310) / 0x24];
+    SoundBankGroup ents[(0xC14 - 0x310) / 0x24];
     u8 padC10[4];
     AdxfHandle *bank_file_handles[4];
     s32 bank_file_sizes[4];

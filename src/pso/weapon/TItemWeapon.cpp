@@ -730,7 +730,7 @@ void TItemWeapon::update_equipped() {
         }
         if(stage>=0) this->set_weapon_flags(0x10);
         else clear_weapon_flags(0x10);
-        if(stage>=0 || ((TObjPlayer *)this->owner)->test_flag30_bit0x100000()) this->update_attack();
+        if(stage>=0 || this->owner->is_lock_on_flag_set()) this->update_attack();
         else this->update_idle();
         if(this->model_motion) {
             this->motion_frame+=1.0f;
@@ -989,7 +989,7 @@ void TItemWeapon::draw_weapon_model() {
             visible = this->update_object_view_visibility(400.0f, 20.0f);
         }
         set_texlist((this->texlist));
-        push_matrix_from(((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
+        push_matrix_from(this->owner->get_joint_matrix((s8)get_attach_joint()));
         if ((visible != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = this;
             weapon_node_material_index = color_node;
@@ -1178,7 +1178,7 @@ void TObjChara::set_model_id(s16 v) { this->special_kind = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
-int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
+int TObjPlayer::is_lock_on_flag_set() { return test_actor_flags(0x100000); }
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint) { return player->item_node_matrices[joint]; }
 void PlayerAttackController::set_attack_kind(s16 kind) { attack_kind = kind; }
 

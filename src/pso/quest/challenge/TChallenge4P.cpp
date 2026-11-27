@@ -328,7 +328,7 @@ void rebuild_players_for_stage(s32 stage) {
         PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy(&pos, &p->position);
-            copy_player_visual_record(&info, &p->appearance);
+            copy_player_visual_record((PlayerVisualRecord *)&info, (PlayerVisualRecord *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
@@ -348,7 +348,7 @@ void rebuild_players_for_stage(s32 stage) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record(&cd.m_disp_part2, &info);
+                copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&info);
                 TObjPlayer::begin_action_state(&cd);
                 TNpcPlayer::send_command(info.cls, tbl->item_count, tbl->items, tbl->level, &cd);
                 p = create_player_object(i, map, &cd);
@@ -445,7 +445,7 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     if (total < lo || total > hi) {
         return -4;
     }
-    record = &(get_character_save_record(card))->challenge;
+    record = &get_character_save_record(card)->challenge;
     rank = challenge_set_rank(record, slot);
     e = &challenge4p_mode_state.rank_thresholds[2];
     for (i = 2; i >= 0; i--, e--) {
@@ -551,7 +551,7 @@ s32 record_challenge_stage_clear(s32 seed, u16 card) {
     record_challenge_stage_time(seed, card, id);
     total = get_challenge_set_time(card, id);
     if (total != 0) {
-        record = &(get_character_save_record(card))->challenge;
+        record = &get_character_save_record(card)->challenge;
         total -= decode_challenge_time(challenge_set_stage_times(record, id)[challenge4p_mode_state.stage]);
         total += seed;
         result = get_challenge_award_rank(total, card, id);
@@ -712,7 +712,7 @@ void save_challenge_tombstone_spot(s32 client) {
             spot->layout = challenge4p_mode_state.stage;
             spot->floor = challenge4p_mode_state.current_floor;
             VecCopy(&spot->position, &p->position);
-            TObjTombstoneSpot *saved = &(get_character_save_record(client))->challenge.tombstone_spot;
+            TObjTombstoneSpot *saved = &get_character_save_record(client)->challenge.tombstone_spot;
             copy_tombstone_spot(saved, spot);
         }
     }
@@ -809,7 +809,7 @@ void TChallenge4P::restore_challenge_from_save() {
         if (get_player_by_client_id(i) != NULL && get_character_save_record(i) != NULL) {
             ChallengeClientRecords *r = &challenge4p_mode_state.client_records[i];
             r->present = 1;
-            r->records = (get_character_save_record(i))->challenge;
+            r->records = get_character_save_record(i)->challenge;
         }
     }
 }

@@ -124,7 +124,7 @@ void TObjDFDemo2::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     for (i = 0; i < 2; i++) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(parts[i].texlist));
+        set_texture_list(parts[i].texlist);
         draw_model_motion(parts[i].model, parts[i].motion, frame);
     }
     clear_motion_packed_rotation();
