@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/text_801D34E0.h"
 #include "pso/render/render_util.h"
 #include "pso/system/CxxRuntime.h"
 

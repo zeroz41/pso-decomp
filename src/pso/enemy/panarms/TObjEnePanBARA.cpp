@@ -118,8 +118,7 @@ const s32 panbara_retreat_angle_offset[2] = {0x800, -0x800};
 // spawn_npc_pair's NPC descriptors (local initialisers; their templates end the TU's .rodata). spawn_npc_pair fills
 // in the bml's motion table before TLobby::spawn_npc_enemy.
 
-
-
+// The unit's static initializer fills panarms_state_fn_table; spelled out because it precedes the functions after it.
 void __sinit_TObjEnePanBARA_cpp();
 __declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanBARA_cpp;
 // Indexed by the half's state: set_state runs enter, run_task runs update.
