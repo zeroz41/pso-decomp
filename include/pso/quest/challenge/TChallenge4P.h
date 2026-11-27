@@ -55,7 +55,6 @@ void setup_split_screen(void);
 
 struct RebuildPlayersForStageHdr { u32 w[2]; };
 
-struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
 
 s32 calc_min_challenge_progress();
 s32 check_ready_status();

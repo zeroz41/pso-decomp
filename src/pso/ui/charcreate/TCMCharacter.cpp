@@ -1040,7 +1040,7 @@ s32 select_unused_appearance_part(CharacterAppearanceFields *appearance, s32 par
     }
     return 0;
 ok:
-    copy_player_visual_record((PlayerVisualRecord *)appearance, (PlayerVisualRecord *)&c);
+    copy_player_visual_record((disp_data_part2 *)appearance, (disp_data_part2 *)&c);
     return 1;
 }
 

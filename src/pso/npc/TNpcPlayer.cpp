@@ -1018,9 +1018,9 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
 
     if (quest_npc_visual_pending != 0) {
         quest_npc_visual_pending = 0;
-        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&quest_npc_visual_record);
+        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&npc_player_char_data_buffer[index]);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
     npc_player_visual_record.bswap();
     delete[] npc_player_char_data_buffer;
@@ -1056,7 +1056,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
         TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, &npc_player_char_data);
         break;
     }
-    copy_player_visual_record((PlayerVisualRecord *)&npc_player_char_data.m_disp_part2, (PlayerVisualRecord *)&npc_player_visual_record);
+    copy_player_visual_record(&npc_player_char_data.m_disp_part2, &npc_player_visual_record);
     return &npc_player_char_data;
 }
 
@@ -1072,10 +1072,10 @@ TPlyCharData *load_npc_player_template(s32 index) {
     npc_player_char_data_buffer = new disp_data_part2[64];
     if (quest_npc_visual_pending != 0) {
         quest_npc_visual_pending = 0;
-        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&quest_npc_visual_record);
+        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
         read_disc_file(npc_player_char_file_name, npc_player_char_data_buffer);
-        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&npc_player_char_data_buffer[index]);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
     npc_player_visual_record.bswap();
     delete[] npc_player_char_data_buffer;
@@ -1111,7 +1111,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
         TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, &npc_player_char_data);
         break;
     }
-    copy_player_visual_record((PlayerVisualRecord *)&npc_player_char_data.m_disp_part2, (PlayerVisualRecord *)&npc_player_visual_record);
+    copy_player_visual_record(&npc_player_char_data.m_disp_part2, &npc_player_visual_record);
     return &npc_player_char_data;
 }
 

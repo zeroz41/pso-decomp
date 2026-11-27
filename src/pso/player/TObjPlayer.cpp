@@ -376,7 +376,7 @@ TObjPlayer::~TObjPlayer() {
     unregister();
 }
 
-void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((PlayerVisualRecord *)&appearance, (PlayerVisualRecord *)visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }
+void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((disp_data_part2 *)&appearance, (disp_data_part2 *)visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }
 
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); free_loaded_buffers(); }
 
@@ -3818,7 +3818,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->floor = get_floor();
     record->player_flags = state_flags;
     record->language = get_language();
-    copy_player_visual_record((PlayerVisualRecord *)&record->visual, (PlayerVisualRecord *)&appearance);
+    copy_player_visual_record(&record->visual, (disp_data_part2 *)&appearance);
     record->inventory.count = inventory_objects->run_state_query(record->inventory.items);
     saved_hp = get_actor_hp();
     saved_tp = get_actor_tp();

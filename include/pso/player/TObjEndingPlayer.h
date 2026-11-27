@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerTaskEffects.h"
+#include "pso/player/TPlyDispData.h"
 
 class TPlyCharData;
 
@@ -25,7 +26,7 @@ struct EndingMotionStart {
 };
 
 struct EndingPlayerRecord {
-    u8 visual[0x50];                 // copy_player_visual_record
+    disp_data_part2 visual;
     EquippedWeaponAndMag equipment;
     player_stats stats;              // copied from the TPlyCharData
     ArrivalOverride pose;            // position and angle

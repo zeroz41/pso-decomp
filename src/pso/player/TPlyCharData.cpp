@@ -28,7 +28,7 @@ void PlayerGuildCardTag::copy_from(PlayerGuildCardTag *src) {
 #pragma dont_inline off
 
 
-PlayerVisualRecord *copy_player_visual_record(PlayerVisualRecord *dst, PlayerVisualRecord *src) {
+disp_data_part2 *copy_player_visual_record(disp_data_part2 *dst, disp_data_part2 *src) {
     *dst = *src;
     return dst;
 }

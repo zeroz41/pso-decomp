@@ -313,7 +313,7 @@ s32 try_set_split_screen(s32 difficulty) {
     return 1;
 }
 void rebuild_players_for_stage(s32 stage) {
-    RebuildPlayersForStageInfo info;
+    disp_data_part2 info;
     Vec pos;
     s32 i;
     TObjPlayer *p;
@@ -328,11 +328,11 @@ void rebuild_players_for_stage(s32 stage) {
         PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy(&pos, &p->position);
-            copy_player_visual_record((PlayerVisualRecord *)&info, (PlayerVisualRecord *)&p->appearance);
+            copy_player_visual_record(&info, (disp_data_part2 *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
-            switch (info.flags & 0xE0) {
+            switch (info.v1_flags & 0xE0) {
             case 0x20:
                 tbl = get_challenge_stage_start(0, stage);
                 break;
@@ -348,9 +348,9 @@ void rebuild_players_for_stage(s32 stage) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&info);
+                copy_player_visual_record(&cd.m_disp_part2, &info);
                 TObjPlayer::begin_action_state(&cd);
-                TNpcPlayer::send_command(info.cls, tbl->item_count, tbl->items, tbl->level, &cd);
+                TNpcPlayer::send_command(info.char_class, tbl->item_count, tbl->items, tbl->level, &cd);
                 p = create_player_object(i, map, &cd);
                 if (p == NULL) {
                     return;

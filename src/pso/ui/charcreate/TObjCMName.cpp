@@ -131,7 +131,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     m_name = class_name;
     character = creation_player_character;
     if (!(character->flags & 0xA) && character->classId == get_creation_visual_record()->classId) {
-        copy_player_visual_record((PlayerVisualRecord *)character, (PlayerVisualRecord *)get_creation_visual_record());
+        copy_player_visual_record((disp_data_part2 *)character, (disp_data_part2 *)get_creation_visual_record());
     }
     strncpy(character->name, (const char *)get_name_buffer(), 0xC);
     character->name[0xC] = 0;

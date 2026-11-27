@@ -2817,7 +2817,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u8 *record;
     record = qst_label_address(label);
     if (record != NULL) {
-        copy_player_visual_record((PlayerVisualRecord *)&quest_npc_visual_record, (PlayerVisualRecord *)record);
+        copy_player_visual_record(&quest_npc_visual_record, (disp_data_part2 *)record);
     }
 }
 
