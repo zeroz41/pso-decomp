@@ -9,10 +9,10 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaModelQueue.h"
+#include "pso/system/MatrixStack.h"
 extern "C" {
 // Called with the whole format word, as Ginja's C callers do without a prototype; the callee reads the low byte.
 s32 is_palette_texture_format(int format);
-s32 init_texture_from_gvr_desc(GinjaTextureState *texture, GvrTextureDesc *desc);
 }
 
 s32 set_texture_list(NJS_TEXLIST *texlist) {

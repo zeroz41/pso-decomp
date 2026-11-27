@@ -44,15 +44,13 @@ s32 pop_matrix(void);
 s32 push_matrix_from(void *src);
 // Scales v to unit length in place and returns its original length.
 f32 normalize_vector(Vec *v);
+// Sets up texture's surface image for desc's size and format and allocates its texels: 1, or -1 (texture error 6).
+s32 init_texture_from_gvr_desc(struct GinjaTextureState *texture, struct GvrTextureDesc *desc);
 }
 
 struct ConcatQuaternionRotationQ { f32 x, y, z, w; };
 
 struct ApplyQuatRotationQ { f32 x, y, z, w; };
-
-struct InitTextureFromGvrDescA { u8 pad[0xC]; u8 *p; };
-
-struct InitTextureFromGvrDescB { s32 a; u16 b; u16 c; };
 
 struct Matrix34 { f32 elements[3][4]; };
 

@@ -3,8 +3,11 @@
 
 #include "types.h"
 
+struct GinjaTextureHeader;
+
 extern "C" {
-void init_texture_header_and_alloc(void *p);
+// init_ginja_texture_header, then allocates the texel buffer when that succeeds (returns 0).
+s32 init_texture_header_and_alloc(GinjaTextureHeader *header, u32 width, u32 height, u32 format);
 }
 
 #endif

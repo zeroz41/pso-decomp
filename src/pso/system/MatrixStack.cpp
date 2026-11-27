@@ -10,6 +10,8 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/TextureState.h"
+#include "pso/render/GinjaTextureAlloc.h"
+#include "pso/render/GinjaMaterialState.h"
 #include <dolphin/mtx.h>
 
 
@@ -20,8 +22,6 @@
 
 
 extern "C" {
-s32 init_texture_header_and_alloc(u8 *, s32, s32, s32);
-s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
@@ -189,8 +189,8 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *out_id, u32 *data) {
     return p;
 }
 
-s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc) {
-    if (init_texture_header_and_alloc(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
+s32 init_texture_from_gvr_desc(GinjaTextureState *texture, GvrTextureDesc *desc) {
+    if (init_texture_header_and_alloc(&texture->surface->header, desc->width, desc->height, desc->format) != 0) {
         texture_error.code = 6;
         return -1;
     }
