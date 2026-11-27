@@ -74,7 +74,7 @@ void reset_slot_chain_timers(s32 pos);
 s32 select_best_slot_entry(s32 idx, s32 max, s32 want);
 s32 sum_entry_sizes(s32 start, s32 n);
 const u8 *find_keyword_entry(u16 *start, u16 *end);
-u8 *format_number_text(const u8 *input, s32 length, QuestDownloadTextRecord *out, s32 mode);
+QuestDownloadTextRecord *format_number_text(const u8 *input, s32 length, QuestDownloadTextRecord *out, s32 mode);
 s32 get_download_state();
 QuestDownloadTextRecord *find_insert_position(u8 *buffer, s32 key, s32 n, s32 len);
 s32 read_quest_chunk(u32 id, u8 key, u8 sub_key, u8 *buf, s32 *out);

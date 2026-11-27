@@ -2323,21 +2323,21 @@ s32 build_all_entry_text(void) {
 
 s32 format_number_text_all_modes(const u8 *format, s32 length, QuestDownloadTextRecord *out, s32 *count) {
     s32 i;
-    u8 *r;
+    QuestDownloadTextRecord *r;
     if (quest_download_file_handle == -1) {
         return -3;
     }
     *count = 0;
     r = format_number_text(format, length, out, number_format_mode);
     if (r != 0) {
-        out = reinterpret_cast<QuestDownloadTextRecord *>(r);
+        out = r;
         (*count)++;
     }
     for (i = 0; i < 4; i++) {
         if (i != number_format_mode) {
             r = format_number_text(format, length, out, i);
             if (r != 0) {
-                out = reinterpret_cast<QuestDownloadTextRecord *>(r);
+                out = r;
                 (*count)++;
             }
         }
@@ -2369,7 +2369,7 @@ inline s32 is_digit_1_to_3(s32 d) {
 }
 
 #define n ((s16)num)
-u8 *format_number_text(const u8 *input, s32 num, QuestDownloadTextRecord *o, s32 mode) {
+QuestDownloadTextRecord *format_number_text(const u8 *input, s32 num, QuestDownloadTextRecord *o, s32 mode) {
     const u8 *s = input;
     const FormatNumberTextAllModesTable *t = &quest_download_number_text_table;
     s32 u;
@@ -2437,7 +2437,7 @@ u8 *format_number_text(const u8 *input, s32 num, QuestDownloadTextRecord *o, s32
         return NULL;
     }
     *p = 0;
-    return p + 1;
+    return reinterpret_cast<QuestDownloadTextRecord *>(p + 1);
 }
 #undef n
 #pragma pop
