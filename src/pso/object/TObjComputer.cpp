@@ -37,7 +37,6 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/player/LocalClientId.h"
 
-
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
 BmlResourceDescriptor fe_obj_tanmatu02_resource_descriptor = {
@@ -234,4 +233,8 @@ void TObjGbAdvance::free_shared_data() {
         delete TObjGbAdvance::resource;
         TObjGbAdvance::resource = NULL;
     }
+}
+
+void *TObjGbAdvance::create(void *placement) {
+    return new TObjGbAdvance(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }

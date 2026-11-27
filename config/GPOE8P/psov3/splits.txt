@@ -4021,10 +4021,10 @@ pso/object/warp/TObjCityMainWarpChallenge.cpp:
 	.sdata2     start:0x805DBCA8 end:0x805DBCD8
 
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp:
-	.text       start:0x80187C98 end:0x80187D90
+	.text       start:0x80187C98 end:0x80187D44
 
 pso/object/TObjComputer.cpp:
-	.text       start:0x80187D90 end:0x80188584
+	.text       start:0x80187D44 end:0x80188584
 	.rodata     start:0x80444A70 end:0x80444B90
 	.data       start:0x804B61F8 end:0x804B6334
 	.sdata      start:0x805D32C0 end:0x805D32D8
