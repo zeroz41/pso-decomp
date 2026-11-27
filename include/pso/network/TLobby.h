@@ -210,7 +210,7 @@ struct TLobby : public TObject {
     static void close_menu_windows();
     static void copy_all_data(int, int);
     static void *copy_member_record(void *, void *);
-    static void *copy_symbol_chat_entry(void *, void *);
+    static SymbolChatPayload *copy_symbol_chat_entry(SymbolChatPayload *dst, SymbolChatPayload *src);
     static void *create_quest_col_apc_inw(void *, void *);
     static void create_warp_menu();
     static void destroy_all_objects();

@@ -40,7 +40,7 @@ void handle_6x07_symbol_chat(G_SymbolChat_6x07 *command) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void *TLobby::copy_symbol_chat_entry(void *dst, void *src) {
-    *(CopySymbolChatEntrySym *)dst = *(CopySymbolChatEntrySym *)src;
+SymbolChatPayload *TLobby::copy_symbol_chat_entry(SymbolChatPayload *dst, SymbolChatPayload *src) {
+    *dst = *src;
     return dst;
 }
