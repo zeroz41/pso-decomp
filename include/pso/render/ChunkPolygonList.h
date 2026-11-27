@@ -13,7 +13,8 @@ typedef struct ChunkColorVertex {
 // Saved polygon-list positions, indexed by the chunk cache command's slot.
 extern s16 *chunk_polygon_list_cache[126];
 #ifdef __cplusplus
-void dispatch_chunk_polygon_list(s16 *list, saddr buffer);
+struct ChunkCachedVertex;
+void dispatch_chunk_polygon_list(s16 *list, ChunkCachedVertex *vertex_buffer);
 void draw_chunk_color_tex_strips(s16 *list, ChunkColorVertex *vertices, u32 info, s32 large);
 #endif
 

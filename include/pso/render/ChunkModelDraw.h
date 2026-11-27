@@ -62,7 +62,7 @@ struct NJS_OBJECT;
 struct NJS_MOTION;
 struct NJS_MOTION_LINK;
 
-void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size);
+void init_chunk_draw(ChunkCachedVertex *vertex_buffer, s32 vertex_buffer_size);
 void apply_chunk_texture_command(s32 header, s32 texture_word);
 void draw_chunk_model(void *model);
 extern "C" {

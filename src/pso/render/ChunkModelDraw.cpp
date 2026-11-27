@@ -62,7 +62,7 @@ u32 chunk_blend_header_bits;
 u32 lbl_805D77F4;
 u32 chunk_render_flags;
 s32 chunk_vertex_cache_size;
-saddr chunk_vertex_cache_buffer;
+ChunkCachedVertex *chunk_vertex_cache_buffer;
 
 extern "C" {
 
@@ -370,7 +370,7 @@ void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info) {
     } while (--count != 0);
 }
 }
-s32 dispatch_chunk_vertex_list(u32*, saddr);
+s32 dispatch_chunk_vertex_list(u32*, ChunkCachedVertex*);
 #pragma pop
 
 void submit_chunk_material_color(s32 type, s16* data) {
@@ -577,7 +577,7 @@ extern s32 chunk_polygon_cache_pending;  // lists cached by NJD_CB_CP and not ye
 #pragma push
 #pragma bool off
 #pragma opt_propagation off
-void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
+void dispatch_chunk_polygon_list(s16 *list, ChunkCachedVertex *vertex_buffer) {
     struct CommandState {
         s16 wire;
         int header;
@@ -638,11 +638,11 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                     set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX4, GX_FALSE, GX_PTIDENTITY);
-                    draw_strip_pos_normal(list, (ChunkCachedVertex *) vertex_buffer, strip_info);
+                    draw_strip_pos_normal(list, vertex_buffer, strip_info);
                 } else {
                     set_chunk_blend_depth_mode(state.header, 0);
                     setup_tev_passclr();
-                    draw_strip_list_pos_nrm(list, (ChunkCachedVertex *) vertex_buffer, strip_info);
+                    draw_strip_list_pos_nrm(list, vertex_buffer, strip_info);
                 }
                 break;
             case NJD_CS_UVN:
@@ -651,7 +651,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                 if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX4, GX_FALSE, GX_PTIDENTITY);
-                    draw_triangle_strips(list, (ChunkCachedVertex *) vertex_buffer, strip_info);
+                    draw_triangle_strips(list, vertex_buffer, strip_info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_PTIDENTITY);
@@ -659,7 +659,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_PTIDENTITY);
-                    draw_chunk_textured_strips(list, (ChunkCachedVertex *) vertex_buffer, strip_info, type == NJD_CS_UVH);
+                    draw_chunk_textured_strips(list, vertex_buffer, strip_info, type == NJD_CS_UVH);
                 }
                 break;
             }
@@ -669,7 +669,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
 }
 #pragma pop
 
-s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
+s32 dispatch_chunk_vertex_list(u32 *list, ChunkCachedVertex *buffer) {
     u32 info;
     u32 length;
     s32 total;
@@ -684,7 +684,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
         list += 2;
         job.count = (info & 0xFFFF0000) >> 16;
         job.src = (u8 *)list;
-        job.dst = (u8 *)(buffer + (info & 0xFFFF) * 32);
+        job.dst = (u8 *)&buffer[info & 0xFFFF];
         total += job.count;
         if ((type & 0xFF) == 0x29) {
             transform_chunk_vertices_pos_normal(&job, (ChunkPairedMatrix *)current_matrix);
@@ -746,14 +746,14 @@ void end_chunk_draw() {
 
 s32 draw_chunk_vertices_cached(void* arg) {
     NJS_CNK_MODEL* model = (NJS_CNK_MODEL*)arg;
-    saddr cache;
+    ChunkCachedVertex *cache;
     s32 count = 0;
     if (chunk_render_flags & 4) return 0;
     chunk_has_vertex_colors = 0;
     cache = chunk_vertex_cache_buffer;
     if (chunk_vertex_cache_flags & 4) {
         if (chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes != 0) {
-            memmove((void*)chunk_vertex_cache_buffer, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes);
+            memmove(chunk_vertex_cache_buffer, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes);
         }
         chunk_vertex_cache_state->index++;
     } else if (model->vertex_list != NULL) {
@@ -773,7 +773,7 @@ s32 draw_chunk_vertices_cached(void* arg) {
         }
     } else {
         if (chunk_vertex_cache_flags & 2) {
-            if (count) memmove(chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, (void*)chunk_vertex_cache_buffer, count << 5);
+            if (count) memmove(chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, chunk_vertex_cache_buffer, count << 5);
             chunk_vertex_cache_state->index++;
         }
         if (model->polygon_list) dispatch_chunk_polygon_list(model->polygon_list, cache);
@@ -873,7 +873,7 @@ void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info) {
 }
 #pragma pop
 
-void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size) {
+void init_chunk_draw(ChunkCachedVertex *vertex_buffer, s32 vertex_buffer_size) {
     chunk_vertex_cache_buffer = vertex_buffer;
     chunk_vertex_cache_size = vertex_buffer_size;
     chunk_render_flags = 0;
