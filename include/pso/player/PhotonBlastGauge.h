@@ -124,7 +124,8 @@ LAYOUT_ASSERT(PhotonBlastGaugeSize, sizeof(PhotonBlastGauge) == 0x54);
 
 void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
 
-void handle_6x38_donate_to_photon_blast(saddr src);
+struct G_DonateToPhotonBlast_6x38;
+void handle_6x38_donate_to_photon_blast(G_DonateToPhotonBlast_6x38 *src);
 void handle_6x39_set_photon_blast_ready_flag(saddr src);
 void handle_6x3A_clear_photon_blast_ready_flag(saddr src);
 void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src);

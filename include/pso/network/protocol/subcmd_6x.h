@@ -449,7 +449,7 @@ struct G_DonateToPhotonBlast_6x38 {
  u16 target_client_id;
  s16 unused;
  void bswap_fields();
- void *copy_packet_header_6x38(void *src);
+ void *copy_packet_header_6x38(G_DonateToPhotonBlast_6x38 *src);
  void init_subcommand_6x38();
  void send_state();
 };

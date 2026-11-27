@@ -136,11 +136,11 @@ void PhotonBlastGauge::reset_targets() {
     check_flag_at_40();
 }
 
-void handle_6x38_donate_to_photon_blast(saddr src) {
+void handle_6x38_donate_to_photon_blast(G_DonateToPhotonBlast_6x38 *src) {
     G_DonateToPhotonBlast_6x38 cmd;
     TObjPlayer *player;
     cmd.init_subcommand_6x38();
-    cmd.copy_packet_header_6x38((void *)src);
+    cmd.copy_packet_header_6x38(src);
     cmd.bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
         player = get_player_by_client_id(cmd.header.client_id);
@@ -308,7 +308,12 @@ void G_SetPhotonBlastReadyFlag_6x39::init() { header.subcommand = 57; header.siz
 void G_SetPhotonBlastReadyFlag_6x39::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_DonateToPhotonBlast_6x38::bswap_fields() { header.bswap(); bswap_16(&target_client_id); bswap_16((u16 *)&unused); }
 
-void *G_DonateToPhotonBlast_6x38::copy_packet_header_6x38(void *src) { G_DonateToPhotonBlast_6x38 *s = (G_DonateToPhotonBlast_6x38 *)src; copy_subcommand_header(this, src); target_client_id = s->target_client_id; unused = s->unused; return this; }
+void *G_DonateToPhotonBlast_6x38::copy_packet_header_6x38(G_DonateToPhotonBlast_6x38 *src) {
+    copy_subcommand_header(this, src);
+    target_client_id = src->target_client_id;
+    unused = src->unused;
+    return this;
+}
 
 void G_DonateToPhotonBlast_6x38::init_subcommand_6x38() {
     target_client_id = 0xFFFF;
