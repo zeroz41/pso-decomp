@@ -47,7 +47,7 @@ extern s32 lbl_805D7880;
 extern s32 lbl_805D7884;
 extern s32 quest_download_free_list_ready_flag;
 extern s16 lbl_805D78E0;
-extern s32 lbl_805D78E4;
+extern s32 japanese_punctuation_enabled;
 void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
 extern "C" {
 s32 set_input_text(u32 input_address);

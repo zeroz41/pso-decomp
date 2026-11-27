@@ -35,7 +35,8 @@ u16 *quest_download_buffer_start;
 u16 *quest_vm_download_buffer_end;
 s32 quest_download_match_length_limit;
 s16 lbl_805D78E0;
-s32 lbl_805D78E4;
+// Nonzero: romaji input turns , - . / [ ] into Japanese punctuation (key_symbol_jis) instead of full-width ASCII.
+s32 japanese_punctuation_enabled;
 s32 lbl_805D78E8;
 saddr quest_text_entry_len;
 saddr quest_text_cursor_pos;
@@ -1981,7 +1982,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 count, u16 *out, s32 *written) {
             e = &romaji_kana_rows[0][1];
             goto vowel;
         }
-        if (kind <= 8 || lbl_805D78E4 == 0) {
+        if (kind <= 8 || japanese_punctuation_enabled == 0) {
             out[0] = single_byte_to_kana_jis_code(src[0]);
         } else {
             out[0] = map_key_to_code(src[0]);

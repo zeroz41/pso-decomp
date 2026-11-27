@@ -252,7 +252,7 @@ s32 quest_download_request_open(saddr *args) {
     ask_convert_mode = 0;
     lbl_805D7884 = 1;
     lbl_805D7880 = 0;
-    lbl_805D78E4 = 1;
+    japanese_punctuation_enabled = 1;
     lbl_805D78E0 = 0x4000;
     text_input_mode = 0;
     quest_download_match_length_limit = 0x24;
