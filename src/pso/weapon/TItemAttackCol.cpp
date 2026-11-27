@@ -434,7 +434,7 @@ void TItemAttackCol::on_hit(ActorBodyHit *hit) {
     if (!(flags & 0x80)) {
         if (resolve_attack_col_hit(hit) != 0) {
             if (hit_object != NULL) {
-                hit_object(item_id, (s32 *)hit, &velocity);
+                hit_object(item_id, hit, &velocity);
             }
             if (flags & 0x100) {
                 damage_scale *= 0.75f;
@@ -442,7 +442,7 @@ void TItemAttackCol::on_hit(ActorBodyHit *hit) {
         }
     } else {
         if (hit_object != NULL) {
-            hit_object(item_id, (s32 *)hit, &velocity);
+            hit_object(item_id, hit, &velocity);
         }
         if (flags & 0x200) {
             TItemWeapon *weapon = (TItemWeapon *)find_item_by_id(item_id);
