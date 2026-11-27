@@ -247,62 +247,61 @@ void TWindowInputNumber::render() {
 }
 
 void TWindowInputNumber::run_task() {
-    TWindowInputNumber *self = this;
     s32 port;
     WindowHeading *heading_window;
     ControllerInputContext *input;
     ControllerInputContext *pad;
     ControllerInputContext *context;
 
-    port = is_player_input_active(self->client_index);
-    if (!(self->window_flags & 2)) {
-        self->open_tick = 0x01000000;
+    port = is_player_input_active(this->client_index);
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
-    if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->is_open_and_unblocked() != 0)) {
-        if (self->inputFlags & 0x10) {
+    if ((this->is_confirmed() == 0) && !(this->inputFlags & 0x40) && (this->is_open_and_unblocked() != 0)) {
+        if (this->inputFlags & 0x10) {
             input = &controller_input_state.controllers[port];
-            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
-                self->update_value();
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (this->is_locked(0x10) != 0)) {
+                this->update_value();
             }
-            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
-                self->update();
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (this->is_locked(0x20) != 0)) {
+                this->update();
             }
-            if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
-                self->move_cursor_next();
+            if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (this->is_locked(0x40) != 0)) {
+                this->move_cursor_next();
             }
-            if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
-                self->handle_decrement();
+            if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (this->is_locked(0x80) != 0)) {
+                this->handle_decrement();
             }
         } else {
             pad = &controller_input_state.controllers[port];
-            if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
-                self->update_value();
+            if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (this->is_locked(0x10) != 0)) {
+                this->update_value();
             }
-            if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
-                self->update();
+            if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (this->is_locked(0x20) != 0)) {
+                this->update();
             }
-            if ((test_buttons_press_or_repeat_color(pad, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
-                self->move_cursor_next();
+            if ((test_buttons_press_or_repeat_color(pad, 0x40, 6, 1) != 0) || (this->is_locked(0x40) != 0)) {
+                this->move_cursor_next();
             }
-            if ((test_buttons_press_or_repeat_color(pad, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
-                self->handle_decrement();
+            if ((test_buttons_press_or_repeat_color(pad, 0x80, 6, 1) != 0) || (this->is_locked(0x80) != 0)) {
+                this->handle_decrement();
             }
         }
         context = &controller_input_state.controllers[port];
-        if ((test_pressed_buttons_packed(context, 4) != 0) || (self->test_input_flag(4) != 0)) {
-            self->confirm_input();
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (this->test_input_flag(4) != 0)) {
+            this->confirm_input();
         }
-        if ((test_pressed_buttons_packed(context, 2) != 0) || (self->test_input_flag(2) != 0)) {
-            self->mark_confirmed();
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (this->test_input_flag(2) != 0)) {
+            this->mark_confirmed();
         }
     }
-    heading_window = self->heading;
-    if ((heading_window != NULL) && ((f32) self->open_tick >= 7.5f)) {
+    heading_window = this->heading;
+    if ((heading_window != NULL) && ((f32) this->open_tick >= 7.5f)) {
         heading_window->update();
     }
-    self->update_window();
-    self->update_fade();
-    self->update_window_entry_list(&self->entry_list);
+    this->update_window();
+    this->update_fade();
+    this->update_window_entry_list(&this->entry_list);
 }
 
 TWindowInputNumber::~TWindowInputNumber() {

@@ -720,35 +720,34 @@ void TItemWeapon::render_equipped() {
     }
 }
 void TItemWeapon::update_equipped() {
-    TItemWeapon* self=this;
     s32 stage;
     u32 frames;
     s32 count;
     s32 idle_count;
-    if(self->test_weapon_flags(0x100)==0) {
-        if(self->test_weapon_flags(0x4000)!=0) self->request_particle_indirect_effect();
-        ((TItemEquipBase *)self)->bind_loaded_resources();
-        stage=self->get_attack_stage();
-        if(stage!=self->stage) {
-            self->clear_weapon_flags(0x1000000);
-            self->stage=stage;
+    if(this->test_weapon_flags(0x100)==0) {
+        if(this->test_weapon_flags(0x4000)!=0) this->request_particle_indirect_effect();
+        ((TItemEquipBase *)this)->bind_loaded_resources();
+        stage=this->get_attack_stage();
+        if(stage!=this->stage) {
+            this->clear_weapon_flags(0x1000000);
+            this->stage=stage;
         }
-        if(stage>=0) self->set_weapon_flags(0x10);
+        if(stage>=0) this->set_weapon_flags(0x10);
         else clear_weapon_flags(0x10);
-        if(stage>=0 || ((TObjPlayer *)self->owner)->test_flag30_bit0x100000()) self->update_attack();
-        else self->update_idle();
-        if(self->model_motion) {
-            self->motion_frame+=1.0f;
-            frames=self->model_motion->nbFrame;
-            if((f32)frames<=self->motion_frame) self->motion_frame-=(f32)frames;
+        if(stage>=0 || ((TObjPlayer *)this->owner)->test_flag30_bit0x100000()) this->update_attack();
+        else this->update_idle();
+        if(this->model_motion) {
+            this->motion_frame+=1.0f;
+            frames=this->model_motion->nbFrame;
+            if((f32)frames<=this->motion_frame) this->motion_frame-=(f32)frames;
         }
         register_technique_boosts(technique_boosts);
-        self->update_weapon();
-        if(!((TObjChara *)self->owner)->is_in_fixed_pose()) self->advance_weapon_photon_phase();
-        if(self->is_hidden()) {
+        this->update_weapon();
+        if(!((TObjChara *)this->owner)->is_in_fixed_pose()) this->advance_weapon_photon_phase();
+        if(this->is_hidden()) {
             count=0;
             do {
-                TItemEffectWeapon* trail=self->trails[count];
+                TItemEffectWeapon* trail=this->trails[count];
                 if(trail) trail->update_hidden();
                 count++;
             } while(count!=4);
@@ -756,7 +755,7 @@ void TItemWeapon::update_equipped() {
         }
         idle_count=0;
         do {
-            TItemEffectWeapon* trail=self->trails[idle_count];
+            TItemEffectWeapon* trail=this->trails[idle_count];
             if(trail) trail->update_shown();
             idle_count++;
         } while(idle_count!=4);

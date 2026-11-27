@@ -66,13 +66,11 @@ TWindowDD_WS_Word::~TWindowDD_WS_Word() {
 }
 
 s32 TWindowDD_WS_Word::can_accept_input() {
-    TWindowDD_WS_Word *self = this;
-    return !(self->state_flags & 1);
+    return !(this->state_flags & 1);
 }
 
 s32 TWindowDD_WS_Word::is_input_enabled() {
-    TWindowDD_WS_Word *self = this;
-    return !(self->state_flags & 1);
+    return !(this->state_flags & 1);
 }
 
 void TWindowDD_WS_Word::add_scroll_offset(int offset) {
