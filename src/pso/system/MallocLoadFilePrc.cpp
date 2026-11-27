@@ -84,7 +84,7 @@ AdxfHandle **pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;
 void *pending_file_read_destination;
 s32 pending_file_read_flush_requested;
-u32 main_phase_deferred_callback;
+void (*main_phase_deferred_callback)();
 s32 quest_download_server_ready;
 u8 lobby_state_byte_flag;
 u8 lobby_wait_ready_flag;
@@ -808,7 +808,7 @@ void reset_keyboard_state() { area_transfer_pending_flag = 0; clear_controller_r
 
 
 void flag_pending_area_transfer(void) {
-    if (main_phase_deferred_callback != 0U) {
+    if (main_phase_deferred_callback != NULL) {
         area_transfer_pending_flag = 1;
     }
 }
@@ -817,27 +817,25 @@ s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
 
 void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); clear_controller_reset_request(); }
 
-#define main_phase_deferred_callback (*(s32 (**)())&main_phase_deferred_callback)
-
 void apply_phase_keyboard_mode() {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(init_chr_select));
+            TLobby::set_keyboard_mode(init_chr_select);
         } else {
-            TLobby::set_keyboard_mode((saddr)(reset_to_chr_select));
+            TLobby::set_keyboard_mode(reset_to_chr_select);
         }
         break;
     case 14:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(shutdown_keyboard_control));
+            TLobby::set_keyboard_mode(shutdown_keyboard_control);
         } else {
-            TLobby::set_keyboard_mode((saddr)(reset_keyboard_input));
+            TLobby::set_keyboard_mode(reset_keyboard_input);
         }
         break;
     case 1:
     case 2:
-        TLobby::set_keyboard_mode((saddr)reset_to_fallback_main_phase);
+        TLobby::set_keyboard_mode(reset_to_fallback_main_phase);
         break;
     default:
         TLobby::set_keyboard_mode(0);
@@ -848,14 +846,12 @@ void apply_phase_keyboard_mode() {
 void reset_to_fallback_main_phase(void) { clear_controller_reset_request(); switch_to_fallback_main_phase(); }
 
 void invoke_callback() {
-    if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
+    if (main_phase_deferred_callback != NULL) {
         main_phase_deferred_callback();
     }
 }
 
-#undef main_phase_deferred_callback
-
-void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
+void TLobby::set_keyboard_mode(void (*callback)()) { main_phase_deferred_callback = callback; }
 
 void flush_pending() {
     void *destination;

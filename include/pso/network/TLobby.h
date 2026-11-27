@@ -142,7 +142,8 @@ struct TLobby : public TObject {
     static s32 check_disconnect_conditions();
     static void reset_and_invoke();
     static void clear_callback_and_reset_keyboard();
-    static void set_keyboard_mode(int a0);
+    // Sets the callback invoke_callback runs (main_phase_deferred_callback).
+    static void set_keyboard_mode(void (*callback)());
     // Empties the com card list on floor load and unload.
     static void reset_state();
     static void reset_lobby_state(char *time);
