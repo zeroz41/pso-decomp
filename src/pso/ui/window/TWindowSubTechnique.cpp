@@ -71,11 +71,6 @@ static const s16 technique_menu_category_3[] = { 15, 16, 17, 19 };
 static const s16 technique_menu_category_4[] = { 13, 10, 11, 12, 14, 19 };
 const s16 *technique_menu_category_lists[5] = { technique_menu_category_0, technique_menu_category_1, technique_menu_category_2, technique_menu_category_3, technique_menu_category_4 };
 
-extern "C" {
-s32 add_text_entry__11TWindowMenuFPCclll(saddr, const char *, s32, s16, s32);
-s32 add_text_entry__11TWindowMenuFPCcll(saddr, const char *, s32, s16);
-const char *get_technique_name(s16);
-
 void TWindowSubTechnique::get_current_selection(s16 *tp, s32 *hold_status, s32 client) {
     TWindowSubTechnique::get_selection(tp, hold_status, client);
 }
@@ -102,6 +97,13 @@ s32 TWindowSubTechnique::lookup_technique(s32 technique, s32 client) {
     }
     return player->can_use_palette_action(3, technique);
 }
+// CodeWarrior: the original passes the technique id to these four callees as a short.
+#ifdef __MWERKS__
+extern "C" {
+s32 add_text_entry__11TWindowMenuFPCclll(saddr, const char *, s32, s16, s32);
+s32 add_text_entry__11TWindowMenuFPCcll(saddr, const char *, s32, s16);
+const char *get_technique_name(s16);
+
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
     const char *technique_name;
     void add_gray_text_entry(saddr, const char *, s32, s16);
@@ -117,6 +119,25 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
     }
     add_text_entry__11TWindowMenuFPCcll(list, technique_name, 6, id);
 }
+}
+#else
+#include "pso/ui/chat/SymbolChatCommand.h"
+
+void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
+    const char *technique_name;
+
+    technique_name = get_technique_name(id);
+    if (TWindowSubTechnique::lookup_technique(id, client) == 0) {
+        add_gray_text_entry((TWindowMenu *)list, technique_name, 6, id);
+        return;
+    }
+    if (TWindowSubTechnique::is_technique_available(id, client) == 0) {
+        ((TWindowMenu *)list)->add_text_entry(technique_name, 0x16, id, 0xFFFD3901);
+        return;
+    }
+    ((TWindowMenu *)list)->add_text_entry(technique_name, 6, id);
+}
+#endif
 #pragma fp_contract on
 
 void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
@@ -141,7 +162,6 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
   titled_window_menu->set_flag70_bit100();
   titled_window_menu->set_flag70_bit10();
   return titled_window_menu;
-}
 }
 
 
