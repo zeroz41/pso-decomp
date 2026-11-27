@@ -110,7 +110,7 @@ void transform_chunk_object_tree(void *object, s32 (*draw)(void *model)) {
                 if (flags & 0x1000) {
                     copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
                 } else if (flags & 0x400) {
-                    apply_quat_rotation(node->quat_w, (f32 *)node->ang);
+                    apply_quat_rotation(node->quat_w, node->quat_xyz);
                 } else {
                     rotate_matrix_by_node_angles(node->ang, flags & 0x20);
                 }

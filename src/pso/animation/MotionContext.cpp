@@ -321,9 +321,9 @@ s32 sample_motion_node_transform(NJS_OBJECT *node, f32 *pos, s32 *ang, f32 *scl,
                 kind = (node->evalflags & NJD_EVAL_ZXY_ANG) ? 1 : 0;
             } else if (node->evalflags & NJD_EVAL_QUATERNION) {
                 quat[0] = node->quat_w;
-                quat[1] = ((f32 *)node->ang)[0];
-                quat[2] = ((f32 *)node->ang)[1];
-                quat[3] = ((f32 *)node->ang)[2];
+                quat[1] = node->quat_xyz[0];
+                quat[2] = node->quat_xyz[1];
+                quat[3] = node->quat_xyz[2];
                 kind = 2;
             } else {
                 ang[0] = node->ang[0];
@@ -335,9 +335,9 @@ s32 sample_motion_node_transform(NJS_OBJECT *node, f32 *pos, s32 *ang, f32 *scl,
             kind = 2;
         } else if (node->evalflags & NJD_EVAL_QUATERNION) {
             quat[0] = node->quat_w;
-            quat[1] = ((f32 *)node->ang)[0];
-            quat[2] = ((f32 *)node->ang)[1];
-            quat[3] = ((f32 *)node->ang)[2];
+            quat[1] = node->quat_xyz[0];
+            quat[2] = node->quat_xyz[1];
+            quat[3] = node->quat_xyz[2];
             kind = 2;
         } else {
             ang[0] = node->ang[0];
@@ -360,9 +360,9 @@ s32 sample_motion_node_transform(NJS_OBJECT *node, f32 *pos, s32 *ang, f32 *scl,
         scl[2] = node->scl[2];
         if (node->evalflags & NJD_EVAL_QUATERNION) {
             quat[0] = node->quat_w;
-            quat[1] = ((f32 *)node->ang)[0];
-            quat[2] = ((f32 *)node->ang)[1];
-            quat[3] = ((f32 *)node->ang)[2];
+            quat[1] = node->quat_xyz[0];
+            quat[2] = node->quat_xyz[1];
+            quat[3] = node->quat_xyz[2];
             kind = 2;
         } else {
             ang[0] = node->ang[0];

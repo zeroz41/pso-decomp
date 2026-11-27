@@ -160,11 +160,14 @@ struct NJS_OBJECT {
     u32 evalflags;
     void *model;
     f32 pos[3];
-    s32 ang[3];
+    union {
+        s32 ang[3];
+        f32 quat_xyz[3]; // with evalflags 0x400 the rotation is a quaternion: x, y, z here, w in quat_w
+    };
     f32 scl[3];
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
-    f32 quat_w; // with evalflags 0x400 the rotation is a quaternion: ang holds x, y, z as floats, this w (name inferred)
+    f32 quat_w; // with evalflags 0x400 the rotation is a quaternion: quat_xyz holds x, y, z, this w
 };
 
 LAYOUT_ASSERT(NJS_OBJECT_size, sizeof(NJS_OBJECT) == 0x38);
