@@ -26,7 +26,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include "pso/player/LocalClientId.h"
-#include "pso/network/NetworkConnectTypes.h"
+#include "pso/ui/frontend/TAdEnterPPPPassGC.h"
 #undef PSO_SDK_COMPACT_MATH
 
 s32 lobby_local_ip_addr;
@@ -546,8 +546,6 @@ void teardown_dns() {
 }
 
 
-extern PppPasswordBuffer ppp_password_buffer;
-
 s32 set_dns_servers() {
     NetworkAddress req;
     s16 r1;
@@ -855,5 +853,5 @@ void set_network_lease_time(s32 seconds) { network_lease_time = seconds; }
 
 void clear_network_lease_time(void) { network_lease_time = 0; }
 char *get_ppp_password_buffer(void) {
-    return (char *)&ppp_password_buffer.value;
+    return ppp_password_buffer;
 }
