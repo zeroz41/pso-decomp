@@ -267,7 +267,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjE
     max_hp = hp;
     has_split = 0;
     move_count = 0;
-    pad_470 = ((PanarmsParams *)dispatch_shared_handler_a(49))->unk_0;
+    pad_470 = ((PanarmsParams *)dispatch_shared_handler_a(49))->pad_0;
     search_range = ((PanarmsParams *)dispatch_shared_handler_a(49))->search_range;
     if (search_range < 5) {
         search_range = 5;
