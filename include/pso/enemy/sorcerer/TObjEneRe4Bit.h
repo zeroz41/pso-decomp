@@ -19,9 +19,9 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void call_vt_90_91();
     void invoke_state_callbacks();
     void set_state_flags();
-    void clear_state_flag_0x10();
+    void reappear_with_sorcerer();
     void set_hold_flags();
-    void set_flag_and_notify();
+    void vanish_with_sorcerer();
     void hide();
     void set_attack_flag();
     void set_state_flag_and_mode(s32 kind);

@@ -249,7 +249,7 @@ void TObjEneRe4Bit::set_attack_flag() { behavior_flags |= 0x2; }
 
 void TObjEneRe4Bit::hide() { behavior_flags &= ~0x100; }
 
-void TObjEneRe4Bit::set_flag_and_notify() {
+void TObjEneRe4Bit::vanish_with_sorcerer() {
     behavior_flags |= 0x10;
     if (!(behavior_flags & 0x4)) {
         set_hold_flags();
@@ -262,7 +262,7 @@ void TObjEneRe4Bit::set_hold_flags() {
     fade.reset_color();
 }
 
-void TObjEneRe4Bit::clear_state_flag_0x10() {
+void TObjEneRe4Bit::reappear_with_sorcerer() {
     behavior_flags &= ~0x10;
     if (!(behavior_flags & 0x408)) {
         set_state_flags();

@@ -778,7 +778,7 @@ void TObjEneRe4Sorcerer::update_enter_state(s32 reason) {
         for (i = 0; i < 2; i++) {
             if ((bit = (TObjEneRe4Bit *)find_entity_by_id(this->bit_ids[i])) != NULL) {
                 bit->reset_transform();
-                bit->clear_state_flag_0x10();
+                bit->reappear_with_sorcerer();
             }
         }
         this->effect_scale = 0.0f;
@@ -839,7 +839,7 @@ void TObjEneRe4Sorcerer::update_fade_out_state(s32 reason) {
         for (i = 0; i < 2; i++) {
             TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(this->bit_ids[i]);
             if (bit != NULL) {
-                bit->set_flag_and_notify();
+                bit->vanish_with_sorcerer();
             }
         }
         this->state_timer = 0;
