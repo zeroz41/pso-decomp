@@ -158,7 +158,7 @@ extern const u32 alpha_blend_render_flags;
 extern const f32 alpha_blend_alpha_bias;
 void begin_alpha_blend(f32 alpha);
 void end_alpha_blend();
-// Half a turn in angle units, TBoss4Type3::compute_wave_offset's scale.
+// Half a turn in angle units, compute_wave_offset's scale.
 extern const f32 boss4_half_turn_scale;
 
 // One row of boss4_type2_action_table: the state name and its handlers.

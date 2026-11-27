@@ -383,7 +383,7 @@ void TBoss4Type2::update_orbit_position() {
     radius = 300.0f;
     height = -50.0f;
     if (beam_ratio > 0.0f) {
-        f32 w = TBoss4Type3::compute_wave_offset(beam_ratio);
+        f32 w = ::compute_wave_offset(beam_ratio);
         radius = 30.0f * w + 300.0f;
         height = -45.0f * w + -50.0f;
     }

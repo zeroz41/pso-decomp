@@ -81,7 +81,7 @@ f32 ease_out_pow6(f32 t) {
 }
 #pragma pop
 
-f32 TBoss4Type3::compute_wave_offset(f32 wave) {
+f32 compute_wave_offset(f32 wave) {
     return 0.5f * (1.0f - cos_table_lookup((s32) (boss4_half_turn_scale * wave)));
 }
 
