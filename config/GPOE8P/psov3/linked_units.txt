@@ -628,7 +628,6 @@ pso/render/GinjaPerspective.cpp
 pso/animation/MotionSampling.cpp
 pso/animation/MotionContext.cpp
 pso/ui/charcreate/TObjCMProportion.cpp
-pso/ui/charcreate/TChCrCharSelect_802A207C.cpp
 pso/ui/charcreate/TChCrEffCtrlPl.cpp
 pso/ui/charcreate/TChCrEffFade.cpp
 pso/ui/charcreate/TChCrEffTag.cpp
@@ -665,7 +664,6 @@ pso/render/TFogCtrl.cpp
 pso/ui/font/TFontSmallHelp.cpp
 pso/player/PhotonBlastGauge.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
-pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
 pso/ui/city/THunterGuildSeqOnline.cpp
 pso/ui/city/THunterGuildWarning.cpp
@@ -941,7 +939,6 @@ pso/effect/photon/TPhotonPilla.cpp
 pso/effect/photon/TPhotonRainbow.cpp
 pso/effect/photon/TPhotonYoulla.cpp
 pso/player/TPlayerBattleCtrl4P.cpp
-pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
 pso/player/TPlayerFootStamp.cpp
 pso/player/TPlyCharData.cpp
 pso/player/TPlyDispConfigSmth.cpp
@@ -963,7 +960,6 @@ pso/quest/QuestDownloadRequests.cpp
 pso/quest/AskDicFile.cpp
 pso/quest/QuestDownloadNameCache.cpp
 pso/quest/AskDicConvert.cpp
-pso/ui/hud/TRaderMapCore_801F3710.cpp
 pso/ui/hud/TRaderMapCore.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
 pso/system/save/TSaveChCr.cpp
@@ -1034,7 +1030,6 @@ pso/ui/window/TWindowCost.cpp
 pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
 pso/ui/window/TFontSmallLobby.cpp
-pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/ui/window/TWindowCtrl_801FBA28.cpp
 pso/ui/window/TWindowCtrl_80269FB0.cpp
 pso/ui/window/WordSelectLayout.cpp
@@ -1275,7 +1270,6 @@ pso/object/door/TObjDoorJung.cpp
 pso/object/door/TObjDoorJung_8023DBEC.cpp
 pso/object/door/TObjDoorKey.cpp
 pso/object/door/TObjDoor.cpp
-pso/object/door/TObjDoor_801F3754.cpp
 pso/object/TObjEZBoneRotBase.cpp
 pso/object/ambient/TObjEnvSoundGlobal.cpp
 pso/object/collision/TObjEvtCollision.cpp
@@ -1426,7 +1420,6 @@ pso/quest/StoryQuestProgress.cpp
 pso/quest/TQuestListVM.cpp
 pso/ui/window/TObjNewFloorWin.cpp
 pso/quest/TQuestListVM_8007EAF8.cpp
-pso/quest/TQuestListVM_801F4398.cpp
 pso/quest/TQuestThread.cpp
 pso/render/RenderUtilData.cpp
 pso/render/render_util.cpp
@@ -1506,8 +1499,6 @@ pso/ui/frontend/TAdMultiConfirmGC.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0110.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
@@ -1526,9 +1517,7 @@ pso/ui/frontend/TAdSelectCurGC.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp
 pso/unk/TBattleProximitySound.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp
 pso/ui/frontend/TTextureWave.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp

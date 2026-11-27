@@ -332,7 +332,6 @@ void TLobby::update_and_reset(u8 *quest) {
 
 #include "pso/player/TObjPlayer.h"
 
-
 void TLobby::open_session(const char *path) {
     u8 *quest;
     s32 size;
@@ -365,3 +364,6 @@ void TLobby::init_id_tables() {
     }
 }
 
+u8 *TQuestListVM::get_quest_dat() { return quest_data_output_cursor; }
+
+u8 *TQuestListOnline::get_quest_list_flag() { return online_quest_dat_buffer; }

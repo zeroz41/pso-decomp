@@ -20,6 +20,9 @@ void clear_lobby_count(void);
 void set_ult_map(void);
 void override_warp_dest_floor(void);
 void disable_quest_warp(void);
+// The quest opcode masterkey_on sets door_masterkey_on.
+void enable_door_masterkey(void);
+void force_switch_doors_closed(void);
 int quest_op_F822_stub(s32);
 int quest_op_F821_stub(s32, s32, s32, TItemData *);
 int quest_op_F822_split_screen_stub(s32);

@@ -63,7 +63,6 @@
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/system/TColorOverlayFade.h"
-#include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -160,7 +159,7 @@
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/boss/BossPhaseQuery.h"
 #include "pso/map/MapSetData.h"
-
+#include "pso/object/door/TODoorBase.h"
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
@@ -5376,3 +5375,27 @@ int quest_op_F822_stub(s32) { return -1; }
 int quest_op_F821_stub(s32, s32, s32, TItemData *) { return 0; }
 int quest_op_F822_split_screen_stub(s32) { return -1; }
 int quest_op_F821_split_screen_stub(s32, s32, s32, TItemData *) { return 0; }
+
+void TRaderMapCore::set_mode(int mode) { TRaderMapCore::render_mode = mode; }
+
+void set_quest_exit_callback(s32 quest_exit_callback) {
+    quest_result_callbacks[3] = quest_exit_callback;
+}
+
+void set_quest_cancel_callback(s32 quest_cancel_callback) {
+    quest_result_callbacks[2] = quest_cancel_callback;
+}
+void set_quest_success_callback(s32 quest_success_callback) {
+    quest_result_callbacks[1] = quest_success_callback;
+}
+void set_quest_failure_callback(s32 quest_failure_callback) {
+    quest_result_callbacks[0] = quest_failure_callback;
+}
+
+void enable_door_masterkey(void) {
+    door_masterkey_on = 1;
+}
+
+void force_switch_doors_closed(void) { switch_doors_force_closed = 1; }
+
+void TObjDoor::set_main_warp_id(int main_warp_id) { city_main_warp_destination_id = main_warp_id; }

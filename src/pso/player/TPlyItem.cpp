@@ -39,7 +39,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
 }
@@ -1108,3 +1107,13 @@ PlacementPosition::PlacementPosition() { pos.x = pos.y = pos.z = 0.0f; }
 PlacementQueue::PlacementQueue() { count = 0; }
 
 TItemList::~TItemList() {}
+
+int TAdSinglePlyChrSelectGC::get_game_mode() {  return chr_select_game_mode; }
+
+s32 TItemData::is_frame() {
+    bool result = false;
+    if (data1.data_u8[0] == 1 && data1.data_u8[1] == 1) {
+        result = true;
+    }
+    return result;
+}

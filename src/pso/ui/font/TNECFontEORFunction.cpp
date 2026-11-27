@@ -584,3 +584,10 @@ void load_menu_font(void) {
     menu_font_object = (TObject *)f;
 }
 #pragma pop
+
+s32 TWindowCtrl::get_pulse_color() {
+    if (instance == NULL) {
+        return -0x1600;
+    }
+    return instance->pulse_color;
+}

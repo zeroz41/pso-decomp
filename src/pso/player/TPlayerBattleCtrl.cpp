@@ -69,6 +69,12 @@
 #include "pso/network/BattleModeDataCmd.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/player/PlayerBattleScore.h"
+
+void PlayerSubObjectSlots::set_score(s32 v) { score = v; }
+
+s32 PlayerBattleScore::get_timer() { return timer; }
+
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};

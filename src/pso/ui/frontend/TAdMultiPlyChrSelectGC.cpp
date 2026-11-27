@@ -42,6 +42,56 @@
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+s32 TAdSinglePlyChrSelectGC::check_slot_flags(s32 slot, u32 mask) {
+    u32 flags;
+    if (secondary_card_character_save_buffer != 0) {
+        if (slot >= 7) {
+            return (u8)(0);
+        }
+        flags = *(u32 *)((u8 *)secondary_card_character_save_buffer + slot * 0x2798 + 0x420);
+        return (u8)((flags & mask) != 0);
+    }
+    return (u8)(0);
+}
+
+s32 TAdGameStartGC::is_active() { return m_active; }
+
+int TAdMultiPlyChrSelectGC::get_chr_select_state() { return multi_chr_select_state; }
+
+void TAdSelectCurGC::lock_navigation() { navigation_locked = 1; }
+
+int TAdMultiPlyChrSelectGC::get_select_flag() {  return chg_game_mode_state_synced; }
+
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return chr_move_effect_instance; }
+
+s32 TAdChrSelBSlotGC::is_state_closing() {
+    switch (state) {
+    case 6:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+        return 1;
+    }
+    return 0;
+}
+
+s32 TAdChrSelBSlotGC::get_state() { return state; }
+
+void TAdChrSelBSlotGC::set_state(s32 value) { state = value; }
+
+s32 TAdChrSelPlyPlateGC::is_confirm_pressed() { return confirm_pressed; }
+
+void TAdChrSelPlyPlateGC::capture_card_index() { captured_card_index = get_active_card_slot(); }
+
+void TAdChrSelPlyPlateGC::restore_selection() { TAdMultiPlyChrSelectGC::selected_slot = multi_ply_chr_select_active_player; }
+
+void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
+    unk_4f4 = field_4f4;
+    unk_4f0 = field_4f0;
+}
+
+void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
 u8 player_number_text_buffer[0x80];
 
@@ -1851,4 +1901,3 @@ TWindowMessageYesNo *TAdMultiPlyChrSelectGC::create_delete_prompt() {
 void TAdMultiPlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
 }
-
