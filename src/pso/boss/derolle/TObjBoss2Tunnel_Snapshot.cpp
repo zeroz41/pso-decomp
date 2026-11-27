@@ -904,9 +904,9 @@ s32 take_snapshot(void) {
         strcpy(card.title, snapshot_card_title);
         memcpy(card.key, snapshot_card_icon, 0x10);
         set_card_banner_and_icon(&card, 4);
-        card.field_4c = 1;
-        card.field_4e = 1;
-        card.field_50 = 0;
+        card.pad_4c = 1;
+        card.pad_4e = 1;
+        card.pad_50 = 0;
         card.omit_title_space = 0;
         card.data = (u8 *)snap;
         card.size = sizeof(ScreenSnapshot);
@@ -1129,10 +1129,10 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     strcpy(c.title, snapshot_card_title);
     memcpy(c.key, snapshot_card_icon, 0x10);
     set_card_banner_and_icon(&c, 4);
-    c.field_4c = 1;
+    c.pad_4c = 1;
     checksum = &boss2_tunnel_snapshot_buffer->checksum;
-    c.field_4e = 1;
-    c.field_50 = 0;
+    c.pad_4e = 1;
+    c.pad_50 = 0;
     c.omit_title_space = 0;
     *checksum = 0;
     *checksum = calc_crc32_bitwise(reinterpret_cast<u8 *>(boss2_tunnel_snapshot_buffer), sizeof(ScreenSnapshot));

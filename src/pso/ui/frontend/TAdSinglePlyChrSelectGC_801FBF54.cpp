@@ -2345,9 +2345,9 @@ void TAdSinglePlyChrSelectGC::build_save_file() {
     strcpy(f.title, metadata->guild_card.comment);
     memcpy(f.key, metadata->episode.icon, 0x10);
     set_card_banner_and_icon(&f, 1);
-    f.field_4c = 1;
-    f.field_4e = 1;
-    f.field_50 = 0;
+    f.pad_4c = 1;
+    f.pad_4e = 1;
+    f.pad_50 = 0;
     f.omit_title_space = 0;
     f.data = (u8 *)guild_card_save_payload;
     f.size = 0xE28C;
@@ -2363,9 +2363,9 @@ void TAdSinglePlyChrSelectGC::build_default_save_file() {
     strcpy(f.title, metadata->episode.comment);
     memcpy(f.key, metadata->episode.icon, 0x10);
     set_card_banner_and_icon(&f, 0);
-    f.field_4c = 1;
-    f.field_4e = 1;
-    f.field_50 = 0;
+    f.pad_4c = 1;
+    f.pad_4e = 1;
+    f.pad_50 = 0;
     f.omit_title_space = 0;
     f.data = (u8 *)system_save_payload;
     f.size = 0x11C;
@@ -2381,9 +2381,9 @@ void TAdSinglePlyChrSelectGC::save_character_file(int use_primary) {
     strcpy(f.title, metadata->character.comment);
     memcpy(f.key, metadata->character.icon, 0x10);
     set_card_banner_and_icon(&f, 2);
-    f.field_4c = 1;
-    f.field_4e = 1;
-    f.field_50 = 0;
+    f.pad_4c = 1;
+    f.pad_4e = 1;
+    f.pad_50 = 0;
     f.omit_title_space = 0;
     if (use_primary != 0) {
         f.data = (u8 *)card_character_save_buffer;

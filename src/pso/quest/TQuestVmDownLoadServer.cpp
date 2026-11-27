@@ -780,9 +780,9 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
                 memcpy(req.key, quest_memcard_key, 0x10);
                 req.banner = memcard_default_banner;
                 req.icon = memcard_default_icon;
-                req.field_4c = 1;
-                req.field_4e = 1;
-                req.field_50 = 0;
+                req.pad_4c = 1;
+                req.pad_4e = 1;
+                req.pad_50 = 0;
                 req.omit_title_space = 1;
                 req.data = quest_download_file_slot.data;
                 req.size = quest_download_file_slot.size;
@@ -849,9 +849,9 @@ void TQuestVmDownLoadServer::write_memcard_file() {
                 memcpy(req.key, quest_memcard_key, 0x10);
                 req.banner = memcard_default_banner;
                 req.icon = memcard_default_icon;
-                req.field_4c = 1;
-                req.field_4e = 1;
-                req.field_50 = 0;
+                req.pad_4c = 1;
+                req.pad_4e = 1;
+                req.pad_50 = 0;
                 req.omit_title_space = 1;
                 req.data = quest_download_file_state.data;
                 req.size = quest_download_file_state.size;
@@ -926,9 +926,9 @@ void TQuestVmDownLoadServer::build_file_info_image() {
                     memcpy(req.key, quest_memcard_key, 0x10);
                     req.banner = memcard_default_banner;
                     req.icon = memcard_default_icon;
-                    req.field_4c = 1;
-                    req.field_4e = 1;
-                    req.field_50 = 0;
+                    req.pad_4c = 1;
+                    req.pad_4e = 1;
+                    req.pad_50 = 0;
                     req.omit_title_space = 1;
                     req.data = quest_download_file_info.data;
                     req.size = quest_download_file_info.size;
