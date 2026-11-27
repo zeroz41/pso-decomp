@@ -334,7 +334,7 @@ struct TObjPlayer : public TObjChara {
     void unequip_item(TItem *item);
     static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
     player_class_type get_class_type();
-    static void render_tree(void *model);
+    static void render_tree(NJS_OBJECT *model);
     s32 get_entrance_id();
     void set_entrance_id(s32 id);
     s32 is_action_available();

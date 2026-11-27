@@ -99,7 +99,7 @@ void find_motion_key_interval_u16(const void *keys, u32 stride, u32 count, f32 f
 void find_motion_key_interval(const void *keys, u32 stride, u32 count, f32 frame, void *key0, void *key1, f32 *rate);
 void bind_motion_context(NJS_MOTION *motion, f32 frame);
 void bind_motion_channel_samplers(const NJS_MOTION *motion, f32 frame);
-void compose_motion_node_matrix(void *node);
+void compose_motion_node_matrix(NJS_OBJECT *node);
 s32 sample_motion_node_transform(NJS_OBJECT *node, f32 *pos, s32 *ang, f32 *scl, f32 *quat);
 s32 sample_absent_vector_channel(void *out);
 s32 sample_absent_angle_channel(void *out);

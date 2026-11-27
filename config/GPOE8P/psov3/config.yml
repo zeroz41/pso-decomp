@@ -14460,7 +14460,7 @@ force_active:
   - render_status__18TAdMultiPlayerNoGCFv
   - render__22HelpItemStatCompareRowFP17WindowDrawContext
   - render__15WindowTextEntryFP17WindowDrawContext
-  - render_tree__10TObjPlayerFPv
+  - render_tree__10TObjPlayerFP10NJS_OBJECT
   - render_ui__9TMainTaskFv
   - render_with_fade__13TBoss5GryphonFl
   - render_with_fade__19TObjEneEpsilonGuardFPvi
