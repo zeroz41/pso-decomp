@@ -56,8 +56,6 @@ struct RebuildPlayersForStageHdr { u32 w[2]; };
 
 struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
 
-struct ByteBlock_690 { u8 bytes[0x690]; };
-
 s32 calc_min_challenge_progress();
 s32 check_ready_status();
 void clamp_and_store_layout_index(s32 stage);

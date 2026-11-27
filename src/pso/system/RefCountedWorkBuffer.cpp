@@ -19,8 +19,6 @@ void ref_counted_work_buffer_init(void) {
     lobby_buffer_refcount += 1;
 }
 
-struct ByteBlock_8 { u8 bytes[0x8]; };
-
 u32 hex_digit_values[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -72,7 +70,7 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
 #pragma scheduling off
 extern "C" {
 void sj_split_chunk(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
-    *(ByteBlock_8 *)(prefix) = *(const ByteBlock_8 *)(chunk);
+    __memcpy(prefix, chunk, sizeof(SjChunk));
     remainder->size = prefix->size;
     if (prefix->size > size) {
         prefix->size = size;

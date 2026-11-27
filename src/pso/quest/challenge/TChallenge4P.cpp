@@ -857,7 +857,7 @@ void TChallenge4P::run_task() {
 #pragma dont_inline off
 #pragma inline_max_size(16)
 void copy_global_value_block() {
-    *(ByteBlock_690 *)&challenge4p_mode_state = *(const ByteBlock_690 *)&challenge_default_settings;
+    __memcpy(&challenge4p_mode_state, &challenge_default_settings, sizeof(ChallengeModeState));
 }
 
 TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
