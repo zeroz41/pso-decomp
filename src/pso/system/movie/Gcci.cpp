@@ -17,7 +17,6 @@ extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:
 s32 fileio_error_context;
 CvFsErrorCallback fileio_error_callback;
 volatile s32 gcci_init_guard;
-extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 extern GcciRequest dvd_request_table[40];
 s32 gcci_get_num_transferred(void *context) {
