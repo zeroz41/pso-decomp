@@ -305,6 +305,6 @@ s32 add_actor_tp(TObjChara *actor, s16 amount);
 s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
 
-void obj_copyVec2_0(u8 *d, u8 *s);
+void obj_copyVec2_0(StatStatusReceipt *d, StatStatusReceipt *s);
 
 #endif

@@ -75,7 +75,6 @@ extern const char *lock_on_start_task_name;
 
 extern "C" {
 u8 get_cast_technique_level(void *, s16);
-s16 get_action_palette_mode(TObjPlayer *player, s32 index);
 }
 
 
@@ -440,7 +439,7 @@ void TLockOnCursor::sort_list(s32 index) {
 #pragma push
 #pragma fp_contract on
 
-void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id) {
+void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s16 kind, s16 id) {
     LockOnActionSlot *cur;
     TechniqueCursorParams *tech;
     WeaponRangeRecord *wpn;
@@ -454,7 +453,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
     }
     set_cursor_mode(cur, kind);
     set_cursor_slot(cur, id);
-    switch ((s16)kind) {
+    switch (kind) {
     case 1:
         if (((TObjChara *)player)->obj_isState3_324() == 0) {
             activate_action_channel(cur);
@@ -633,7 +632,7 @@ void TLockOnCursor::set_cursor_color(TObjPlayer *player, LockOnActionSlot *main_
 }
 
 s32 TLockOnCursor::get_action_cursor_priority(TObjPlayer *player, s32 index) {
-    u16 kind;
+    s32 kind;
     s32 sub;
     kind = get_action_palette_mode(player, index);
     sub = player->get_action_palette_entry(index);

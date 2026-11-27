@@ -1234,6 +1234,12 @@ void release_control_lock(TObjPlayer *player);
 // Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
 void on_inventory_item_added(TItem *item, s32 slot);
 
+// The tag mode of palette entry `index`, and the tag setter of the primary or secondary palette.
+u16 get_action_palette_mode(TObjPlayer *player, s32 index);
+void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 row, s32 index, u16 slot);
+// Sends subject's name after the colour code `color` (and, for a player, its battle score) to every message window.
+void draw_player_status(TObjPlayer *player, TObjBase *subject, const char *color);
+
 // Whether any of mask is set in the flags of collision body `body` (name inferred).
 s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);

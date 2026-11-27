@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TObjPlayer;
 struct TWindowMainMenu;
 struct TWindowMessage;
 class TWindowMenuIconLine;
@@ -46,7 +47,7 @@ struct TWindowSubMag : public TObject {
     void *create_action_menu(s32 id);
     saddr create_list();
     saddr setup_list();
-    static void feed_mag(void* p, void* a1, void* a2);
+    static void feed_mag(TObjPlayer *player, s32 mag_id, s32 fed_item_id);
 };
 
 LAYOUT_ASSERT(TWindowSubMag_size, sizeof(TWindowSubMag) == 0x50);

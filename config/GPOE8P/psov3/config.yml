@@ -13908,7 +13908,7 @@ force_active:
   - record_camera_path_point__13TObjEneMorfosFP10NJS_OBJECT
   - record_hit__22TObjFogCollisionPoisonFll
   - record_local_battle_placement__FPv
-  - record_local_damage_if_enabled__FP9TObjCharaPvl
+  - record_local_damage_if_enabled__FP9TObjCharaP8TObjBasel
   - recv_banner__9TProtocolFR6packet
   - recv_banner_head__9TProtocolFR6packet
   - recv_battle_data__9TProtocolFR6packet

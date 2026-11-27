@@ -262,10 +262,6 @@ void PhotonBlastGauge::reset_state() {
 
 
 
-extern "C" {
-f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount);
-s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount);
-}
 
 PhotonBlastGauge::PhotonBlastGauge() {
     donation.init_reset_fields();
@@ -324,7 +320,6 @@ void G_DonateToPhotonBlast_6x38::init_subcommand_6x38() {
 void G_DonateToPhotonBlast_6x38::send_state() { bswap_fields(); send_subcommand(this); }
 G_SetPhotonBlastReadyFlag_6x39 &G_SetPhotonBlastReadyFlag_6x39::operator=(const G_SetPhotonBlastReadyFlag_6x39 &src) { copy_subcommand_header(this, &src); return *this; }
 
-extern "C" {
 PlayerSubObjectSlots::PlayerSubObjectSlots() {
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -334,13 +329,12 @@ PlayerSubObjectSlots::PlayerSubObjectSlots() {
     score = 0;
 }
 
-s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {
+s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *target, s32 amount) {
   f32 value;
   f32 weighted;
-  DamageStatSlot *slot = (DamageStatSlot *)slotp;
   value = (f32) amount;
   slot->accumulated = slot->accumulated + value;
-  value = damage_weight(slot, attacker, amount);
+  value = damage_weight(slot, target, amount);
   weighted = value;
   slot->total = slot->total + weighted;
   return (s32) weighted;
@@ -348,15 +342,13 @@ s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {
 
 // amount weighted by the slot's per-target-kind factor: the bonus weight for
 // enemies flagged 0x10000000 (test_actor_flags), the normal weight otherwise.
-f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount) {
+f32 damage_weight(DamageStatSlot *slot, TObject *target, s32 amount) {
     f32 v;
     f32 k = (f32)amount;
 
     v = slot->normal_weight;
-    if (((TObjCollidable *)attacker)->test_actor_flags(0x10000000) != 0) {
+    if (static_cast<TObjCollidable *>(target)->test_actor_flags(0x10000000) != 0) {
         v = slot->bonus_weight;
     }
     return k * v;
-}
-
 }

@@ -229,7 +229,7 @@ void TWindowSubMag::run_task() {
             state = 5;
         } else if (TWindowSubItem::is_usable(player) != 0) {
             slots = count_slots();
-            TWindowSubMag::feed_mag(player, (void*)(list->get_cursor_value()), (void*)(list2->get_cursor_value()));
+            TWindowSubMag::feed_mag(player, list->get_cursor_value(), list2->get_cursor_value());
             state = 8;
         }
         break;

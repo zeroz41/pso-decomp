@@ -816,15 +816,6 @@ s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s8 clamp_class_index(s8 cls);
 }
 extern "C" {
-void record_damage_stats(uaddr mine_trap, u32 att, s16 damage);
-void draw_player_status(saddr window, void *player, saddr str);
-void show_sub_status_window(void *window, s32 *str, s32 *name);
-void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
-
-}
-extern "C" {
-void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 i, s32 action, s32 param);
-void get_action_palette_mode(TObjPlayer *player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 extern "C" {
@@ -832,7 +823,6 @@ s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 ind
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 
 
-s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s32 get_class_max_exp(void *, void *);
 }
 
@@ -1393,8 +1383,7 @@ void TObjPlayer::draw_body(s32 detail) {
 void TObjPlayer::draw_head_attachments() {
     s32 special_color;
     if (this->attachment_model != NULL) {
-        this->get_joint_matrix(0x3A);
-        ((s32 (*)(void))push_matrix_from)();
+        push_matrix_from(this->get_joint_matrix(0x3A));
         set_texture_list(&this->attachment_textures.list);
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
@@ -1404,8 +1393,7 @@ void TObjPlayer::draw_head_attachments() {
         pop_matrix();
     }
     if (this->head_model != NULL) {
-        this->get_joint_matrix(0x3B);
-        ((s32 (*)(void))push_matrix_from)();
+        push_matrix_from(this->get_joint_matrix(0x3B));
         set_texture_list(&this->head_textures.list);
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
@@ -1417,8 +1405,7 @@ void TObjPlayer::draw_head_attachments() {
         pop_matrix();
     }
     if (this->hair_model != NULL) {
-        this->get_joint_matrix(0x3B);
-        ((s32 (*)(void))push_matrix_from)();
+        push_matrix_from(this->get_joint_matrix(0x3B));
         set_texture_list(&this->head_textures.list);
         special_color = 0;
         if (this->m_flags & 0x400) {
@@ -2582,7 +2569,10 @@ void handle_6x27_use_item(G_UseItem_6x27 *command) {
     }
 }
 
-void TWindowSubMag::feed_mag(void* p, void* a1, void* a2) { ((int (*)(void*))send_6x28_feed_mag)(p); ((int (*)(void*, void*, int))TObjPlayer::send_6x29_delete_item)(p, a2, 1); }
+void TWindowSubMag::feed_mag(TObjPlayer *player, s32 mag_id, s32 fed_item_id) {
+    send_6x28_feed_mag(player, mag_id, fed_item_id);
+    TObjPlayer::send_6x29_delete_item(player, fed_item_id, 1);
+}
 
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id) {
     G_FeedMag_6x28 cmd;
@@ -3470,8 +3460,8 @@ void TObjPlayer::select_contextual_pickup_action() {
         if (type == 0 && (is_action_input_disabled()) != 0) {
             type = 2;
         }
-        ((void (*)(void *, s32, s32, s32, u16))set_selected_palette_tag_slot)(this, 0, 0, 0, type);
-        ((void (*)(void *, s32, s32, s32, u16))set_selected_palette_tag_slot)(this, 0, 1, 0, type);
+        set_selected_palette_tag_slot(this, 0, 0, 0, type);
+        set_selected_palette_tag_slot(this, 0, 1, 0, type);
     }
 }
 
@@ -3494,8 +3484,8 @@ TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
 
 #pragma push
 #pragma fp_contract on
-void get_action_palette_mode(TObjPlayer *player, s32 index) {
-    player->refresh_effect()->get_current_tag_mode(index);
+u16 get_action_palette_mode(TObjPlayer *player, s32 index) {
+    return player->refresh_effect()->get_current_tag_mode(index);
 }
 #pragma pop
 #pragma push
@@ -3514,8 +3504,8 @@ u16 TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 row, s32 inde
 
 #pragma push
 #pragma scheduling off
-void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 i, s32 action, s32 param) {
-    player->select_action_palette(secondary)->set_tag_slot(i, action, param);
+void set_selected_palette_tag_slot(TObjPlayer *player, s32 secondary, s32 row, s32 index, u16 slot) {
+    player->select_action_palette(secondary)->set_tag_slot(row, index, slot);
 }
 #pragma pop
 
@@ -4232,7 +4222,7 @@ void TObjPlayer::stop_battle_music() { battle_music.reset_ring(); }
 s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     s16 kind;
     s16 act;
-    kind = ((s32 (*)(void *, s32))get_action_palette_mode)(this, mode);
+    kind = get_action_palette_mode(this, mode);
     act = get_action_palette_entry(mode);
     action_palette_state.set_mode(kind);
     action_palette_state.set_slot(act);
@@ -4670,7 +4660,7 @@ void TObjPlayer::send_status_effect_add(StatStatusReceipt effect) {
     if ((this == 0) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
-        obj_copyVec2_0((u8 *)&pkt.effect, (u8 *)&effect);
+        obj_copyVec2_0(&pkt.effect, &effect);
         pkt.send();
     }
 }
@@ -4714,7 +4704,7 @@ void TObjPlayer::send_status_effect_remove(StatStatusReceipt effect) {
     if ((this == 0) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
-        obj_copyVec2_0((u8 *)&pkt.effect, (u8 *)&effect);
+        obj_copyVec2_0(&pkt.effect, &effect);
         pkt.send();
     }
 }
@@ -5769,34 +5759,36 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
 int TObjPlayer::get_pk_team() { return pk_state.get_team(); }
 extern "C" {
 
-void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
+void draw_status_line(TObjPlayer *player, const char *color, const char *name, s32 value) {
     text_builder_reset();
-    text_builder_append((const char *)str);
-    text_builder_append((const char *)name);
+    text_builder_append(color);
+    text_builder_append(name);
     text_builder_append(status_line_break);
     text_builder_append_int(value);
     text_builder_append(status_line_break);
     TWindowCtrl::append_message_all(get_shared_text_buffer(), 0x200);
 }
 
-void show_sub_status_window(void *window, s32 *str, s32 *name) {
+void show_sub_status_window(TObjPlayer *player, const char *color, const char *name) {
     text_builder_reset();
-    text_builder_append((const char *)str);
-    text_builder_append((const char *)name);
+    text_builder_append(color);
+    text_builder_append(name);
     text_builder_append(status_line_break);
     TWindowCtrl::append_message_all(get_shared_text_buffer(), 0x200);
 }
 
-void draw_player_status(saddr window, void *player, saddr str) {
-    saddr name;
+}
 
-    name = (saddr)((TObjContainerBase *)player)->get_name();
-    if (name != 0) {
-        if (static_cast<TObject *>(player)->check_value_equals(TObjPlayer_name) != 0) {
-            ((s32 (*)(s32, s32, s32, s32))draw_status_line)(window, str, name, ((TObjPlayer *)player)->calc_battle_score());
+void draw_player_status(TObjPlayer *player, TObjBase *subject, const char *color) {
+    const char *name;
+
+    name = subject->get_name();
+    if (name != NULL) {
+        if (subject->check_value_equals(TObjPlayer_name) != 0) {
+            draw_status_line(player, color, name, static_cast<TObjPlayer *>(subject)->calc_battle_score());
             return;
         }
-        show_sub_status_window((void *)window, (s32 *)str, (s32 *)name);
+        show_sub_status_window(player, color, name);
     }
 }
 
@@ -5814,47 +5806,38 @@ s32 TObjPlayer::record_death(TObject *killer, s32 count) {
     return accumulate_damage_stats(&battle_score.deaths, killer, count);
 }
 
-void record_damage_stats(uaddr mine_trap, u32 att, s16 damage) {
-  G_AddBattleDamageScores_6x8F pkt;
-  u32 player;
-  uaddr obj;
-  if (is_technique_ready() != 0)
-  {
-    obj = att;
-    if ((reinterpret_cast<TObject *>(obj)->check_value_equals(TOMineTrap::class_name) != 0) && (((TOMineTrap *)obj)->get_trap_type() != 0xFFFF))
-    {
-      obj = ((u32 (*)(void))find_entity_by_id)();
-    }
-    if (((TObjCollidable *)obj)->test_actor_flags(0x10000000) == 0)
-    {
-      if (((TObjChara *)mine_trap)->is_locally_controlled() != 0)
-      {
-        ((int (*)(u32, u32, s16)) accumulate_damage_stats)(mine_trap + 0x77C, obj, damage);
-      }
-    }
-    else
-      if ((((TObjChara *)mine_trap)->is_locally_controlled() != 0) && ((mine_trap == 0U) || (((TObjChara *)mine_trap)->obj_isState2_324() == 0)))
-    {
-      ((int (*)(u32, u32, s16)) accumulate_damage_stats)(mine_trap + 0x77C, obj, damage);
-      if (((TObjBase *)(obj))->get_entity_id() != ((TObjBase *)(mine_trap))->get_entity_id())
-      {
-        player = (uaddr)get_player_by_client_id(((TObjBase *)(obj))->get_entity_id());
-        if (player != 0U)
-        {
-          ((int (*)(u32, u32, s16)) accumulate_damage_stats)(player + 0x78C, mine_trap, damage);
+void record_damage_stats(TObjChara *victim, TObjBase *attacker, s32 damage) {
+    G_AddBattleDamageScores_6x8F pkt;
+    TObjPlayer *player;
+    u16 owner;
+    TObjBase *source;
+    if (is_technique_ready() != 0) {
+        source = attacker;
+        if (source->check_value_equals(TOMineTrap::class_name) != 0 &&
+            (owner = static_cast<TOMineTrap *>(source)->get_trap_type()) != 0xFFFF) {
+            source = find_entity_by_id(owner);
         }
-      }
-      if (TObjPlayer::is_final_phase() != 0)
-      {
-        pkt.init();
-        pkt.header.client_id = ((TObjBase *)(obj))->get_entity_id();
-        pkt.target_entity_id = ((TObjBase *)(mine_trap))->get_entity_id();
-        pkt.amount = damage;
-        pkt.send();
-      }
+        if (static_cast<TObjCollidable *>(source)->test_actor_flags(0x10000000) == 0) {
+            if (victim->is_locally_controlled() != 0) {
+                accumulate_damage_stats(&static_cast<TObjPlayer *>(victim)->battle_score.damage_taken, source, damage);
+            }
+        } else if (victim->is_locally_controlled() != 0 && (victim == NULL || victim->obj_isState2_324() == 0)) {
+            accumulate_damage_stats(&static_cast<TObjPlayer *>(victim)->battle_score.damage_taken, source, damage);
+            if (source->get_entity_id() != victim->get_entity_id()) {
+                player = get_player_by_client_id(source->get_entity_id());
+                if (player != NULL) {
+                    accumulate_damage_stats(&player->battle_score.damage_given, victim, damage);
+                }
+            }
+            if (TObjPlayer::is_final_phase() != 0) {
+                pkt.init();
+                pkt.header.client_id = source->get_entity_id();
+                pkt.target_entity_id = victim->get_entity_id();
+                pkt.amount = damage;
+                pkt.send();
+            }
+        }
     }
-  }
-}
 }
 
 void handle_6x8E(void) {  }

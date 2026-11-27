@@ -133,7 +133,6 @@ void dispatch_weapon_special_effect(void *, void *, void *, s32);
 
 s32 calc_freeze_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 base_chance);
 s32 calc_shock_chance(TObjChara *actor, TObjBase *attacker, TObjBase *target, f32 power);
-void obj_copyVec2_0(u8* d, u8* s);
 
 
 
@@ -153,7 +152,6 @@ struct CharaResetView {
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
-s32 record_damage_stats(void *, void *, void *);
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
@@ -354,9 +352,9 @@ s16 TObjChara::get_actor_attack_params_atp_min() { return this->attack_params->g
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-void obj_copyVec2_0(u8* d, u8* s) {
-    *(int*)(d + 0) = *(int*)(s + 0);
-    *(f32*)(d + 4) = *(f32*)(s + 4);
+void obj_copyVec2_0(StatStatusReceipt *d, StatStatusReceipt *s) {
+    d->kind = s->kind;
+    d->power = s->power;
 }
 
 s32 TObjChara::obj_isState3_324() {
@@ -1998,7 +1996,7 @@ f32 TObjChara::receive_direct_attack(TObjBase *att, DirectAttackPayload payload,
     f32 dmg;
     f32 f;
     f32 heal;
-    ((void (*)(StatStatusReceipt *, StatStatusReceipt *))obj_copyVec2_0)(&info, (StatStatusReceipt *)&payload);
+    obj_copyVec2_0(&info, (StatStatusReceipt *)&payload);
     if (info.power < 0.0f) {
         info.power = 0.0f;
     }
@@ -3188,10 +3186,10 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 
 #pragma push
 #pragma opt_pointer_analysis on
-void record_local_damage_if_enabled(TObjChara *mine_trap, void *att, saddr damage) {
-  if ((((lobby_rule_settings.get_rules_active() == 1) && (mine_trap->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
+void record_local_damage_if_enabled(TObjChara *victim, TObjBase *attacker, saddr damage) {
+  if ((((lobby_rule_settings.get_rules_active() == 1) && (victim->is_locally_controlled() != 0)) && (damage > 0)) && (attacker != NULL))
   {
-    record_damage_stats(mine_trap, att, (void *) damage);
+    record_damage_stats(victim, attacker, damage);
   }
 }
 

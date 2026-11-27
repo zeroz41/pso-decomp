@@ -111,8 +111,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 
 
 extern "C" {
-s32 draw_player_status(void *, void *, const char *);
-u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
@@ -3526,14 +3524,14 @@ void TObjPlayer::send_attack_target_packet() {
 
 s32 TObjPlayer::select_attack_palette_slot() {
     s32 r = -1;
-    if (get_action_palette_mode(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
+    if (get_action_palette_mode(this, 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
         r = 1;
     }
-    if (get_action_palette_mode(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
+    if (get_action_palette_mode(this, 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
         is_palettex_activated(this->get_entity_id()) == 0) {
         r = 2;
     }
-    if (get_action_palette_mode(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
+    if (get_action_palette_mode(this, 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
         r = 3;
     }
     return this->check_mode_action((u16)this->get_action_palette_entry(r)) != 0 ? r : -1;

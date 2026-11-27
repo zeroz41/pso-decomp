@@ -1518,7 +1518,7 @@ void TPlyDispConfigSmth::set_tag(s32 row, s32 index, s32 mode, u16 slot) {
     set_action_palette_tag_slot(tag, static_cast<u8>(slot));
 }
 
-void TPlyDispConfigSmth::set_tag_slot(s32 row, s32 index, s32 slot) {
+void TPlyDispConfigSmth::set_tag_slot(s32 row, s32 index, u16 slot) {
     set_action_palette_tag_slot(get_row(row) + index, static_cast<u8>(slot));
 }
 

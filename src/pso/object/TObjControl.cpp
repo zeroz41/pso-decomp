@@ -58,7 +58,6 @@ extern "C" {
 
 int send_6x60_standard_drop_item_request(void*);
 
-s32 draw_player_status(void *, void *, const char *);
 
 }
 
