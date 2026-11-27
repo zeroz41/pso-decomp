@@ -10,10 +10,7 @@
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/system/MatrixStack.h"
-extern "C" {
-// Called with the whole format word, as Ginja's C callers do without a prototype; the callee reads the low byte.
-s32 is_palette_texture_format(int format);
-}
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
 
 s32 set_texture_list(NJS_TEXLIST *texlist) {
     current_render_context->textures = texlist;

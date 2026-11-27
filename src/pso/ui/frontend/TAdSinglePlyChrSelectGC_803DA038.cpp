@@ -23,8 +23,8 @@ void append_extension_if_missing(char *dest, char *name, char *ext) {
     }
 }
 
-s32 is_palette_texture_format(u8 format) {
-    switch (format) {
+s32 is_palette_texture_format(s32 format) {
+    switch ((u8)format) {
     case 8:
     case 9:
     case 10:
