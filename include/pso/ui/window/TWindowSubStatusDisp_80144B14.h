@@ -10,7 +10,7 @@ extern "C" {
 u32 calc_text_width(const char *s);
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);
 void draw_menu_font_string_white(const char *text, f32 x, f32 y);
-u32 get_font_char_advance(u16 arg0);
+u8 get_font_char_advance(u16 c);
 u16 map_char_to_font_code(u16 c);
 }
 void upload_font_glyph(u16 c, void *free_slot);

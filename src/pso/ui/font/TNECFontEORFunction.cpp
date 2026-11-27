@@ -233,14 +233,14 @@ u32 calc_fullwidth_text_width(const char *s) {
     return max;
 }
 
-u32 get_font_char_advance(u16 c) {
+u8 get_font_char_advance(u16 c) {
     if (c < 0x21) {
         return 9;
     }
     if (c > 0xDF) {
         return 0x12;
     }
-    return (u8)menu_font_char_advance_table[(u16)(c - 0x21)];
+    return menu_font_char_advance_table[(u16)(c - 0x21)];
 }
 
 s32 TWindowSubStatusDisp::is_alpha_char(u16 code) {
