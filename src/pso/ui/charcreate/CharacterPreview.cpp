@@ -2,10 +2,8 @@
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/player/PrsTextureLoad.h"
+#include "pso/player/TPlyCharData.h"
 
-extern "C" {
-void copy_player_visual_record(void *, const void *);
-}
 
 CharacterPreview::~CharacterPreview() {
     if (request != NULL && is_unloaded() == 0) {

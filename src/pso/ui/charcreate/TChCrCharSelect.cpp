@@ -49,9 +49,6 @@ void TChCrCharSelect::clamp_slot_index_to_range() {
     }
 }
 
-extern "C" {
-s32 copy_player_visual_record(void *, void *);
-}
 
 
 void TChCrCharSelect::tick_and_apply_selection() {

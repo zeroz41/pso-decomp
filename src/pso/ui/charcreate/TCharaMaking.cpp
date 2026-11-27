@@ -38,9 +38,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MallocLoadFilePrc.h"
 
-extern "C" {
-u8 * copy_player_visual_record(void *, void *);
-}
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 CharacterAppearanceFields *get_creation_visual_record(void) {

@@ -35,7 +35,6 @@ s32 client_cleared_stages(s32 client, s32 slot) {
 }
 
 extern "C" {
-void copy_player_visual_record(void *, void *);
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     Vec pos;
     disp_data_part2 chr;

@@ -30,6 +30,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/player/TPlyCharData.h"
 
 
 
@@ -59,7 +60,6 @@ s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
 void reset_invalid_proportions();
-void copy_player_visual_record(void *, void *);
 
 }
 

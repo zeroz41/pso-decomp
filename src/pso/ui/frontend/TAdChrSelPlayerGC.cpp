@@ -64,11 +64,6 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
 }
 
 
-extern "C" {
-
-void copy_player_visual_record(void *, const void *);
-
-}
 
 TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4] = { NULL };
 

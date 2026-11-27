@@ -163,7 +163,6 @@
 
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
-void copy_player_visual_record(void *dst, void *src);
 void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 }
 

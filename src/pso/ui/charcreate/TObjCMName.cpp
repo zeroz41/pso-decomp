@@ -59,7 +59,6 @@ s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu::state;
 
 
-extern "C" void copy_player_visual_record(void *, void *);
 
 const char *TObjCMMainMenu::class_name = "TObjCMMainMenu";
 

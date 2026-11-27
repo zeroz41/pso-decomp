@@ -30,9 +30,6 @@
 #include "pso/object/base/TObjBase.h"
 
 
-extern "C" {
-s32 copy_player_visual_record(void *, void *);
-}
 
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
 void TObjEndingPlayer::set_animation_from_data(s32 picture) {

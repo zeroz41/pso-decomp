@@ -62,7 +62,6 @@ extern "C" {
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
 
-void copy_player_visual_record(void *, void *);
 }
 
 disp_data_part2 npc_player_visual_record;
