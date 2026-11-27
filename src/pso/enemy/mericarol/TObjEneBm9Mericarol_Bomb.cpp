@@ -73,8 +73,8 @@ void TObjEneBm9Mericarol_Bomb::render() {
 
 void TObjEneBm9Mericarol_Bomb::run_task() {
     Vec v;
-    ParticleAngles r1;
-    ParticleAngles r2;
+    Angle3 r1;
+    Angle3 r2;
     CsnHit *hit;
     f32 d;
     switch (state) {

@@ -40,12 +40,12 @@
 #include "pso/render/model_render_state.h"
 
 
-TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                      TObject *parent, u16 flags, u16 target_id) {
     return new TParticleOrbit(entry, position, direction, parent, flags, target_id);
 }
 
-TParticle *TParticleCtrl::alloc_child_particle(ParticleParam *param, Vec *pos, ParticleAngles *dir, TObject *parent) {
+TParticle *TParticleCtrl::alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent) {
     return new TParticleOrbit(param, pos, dir, parent);
 }
 
@@ -283,7 +283,7 @@ TParticleOrbit::~TParticleOrbit() {}
 
 #pragma push
 #pragma fp_contract on
-TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
+TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent,
                              u16 particle_flags, u16 target)
     : TParticle(entry, parent) {
     s32 life;
@@ -325,11 +325,11 @@ TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngl
 
 #pragma push
 #pragma fp_contract on
-TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent)
+TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent)
     : TParticle(entry, parent) {
     ParticleParam *src = entry;
     Vec *at = position;
-    ParticleAngles *dir = direction;
+    Angle3 *dir = direction;
     s32 life;
     rot_x = dir->x;
     rot_y = dir->y;

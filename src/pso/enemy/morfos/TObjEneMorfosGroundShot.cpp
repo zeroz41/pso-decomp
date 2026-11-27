@@ -91,7 +91,7 @@ TObjEneMorfosGroundShot::~TObjEneMorfosGroundShot() {
 }
 
 TObjEneMorfosGroundShot::TObjEneMorfosGroundShot(const Vec *start, s32 angle, TObjChara *owner) : TObjCollidable(tl_06) {
-    ParticleAngles a;
+    Angle3 a;
     VecCopy(&pos, start);
     distance = 0.0f;
     owner_id = owner->get_entity_id();

@@ -96,7 +96,7 @@ Vec three_point_goal_team1 = {-500.0f, 20.0f, 0.0f};
 NJS_TEXLIST *lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
-const ParticleAngles boss3_volopt_init_vec = {0, 0, 0x8000};
+const Angle3 boss3_volopt_init_vec = {0, 0, 0x8000};
 
 void close_gogo_ball_timer() { TWindowCtrl::close_timer_window(); }
 void add_gogo_ball_one_point_score(s32 team) {
@@ -756,7 +756,7 @@ void TGoGoBallRocket::run_task() {
     }
     if (state != 0) {
         if (effect == NULL) {
-            ParticleAngles init = boss3_volopt_init_vec;
+            Angle3 init = boss3_volopt_init_vec;
             if (gogo_ball_configuration.ball_type != 6) {
                 effect = spawn_particle_effect_with_rotation(&pos, &init, 0xC0, 2);
             }

@@ -38,7 +38,7 @@
 THeap *TParticleCtrl::heap;
 
 TParticle *TParticleCtrl::generate_child_default(ParticleParam *param, Vec *pos, TObject *parent) {
-    ParticleAngles dir = {0, 0, 0};
+    Angle3 dir = {0, 0, 0};
     return alloc_child_particle(param, pos, &dir, parent);
 }
 

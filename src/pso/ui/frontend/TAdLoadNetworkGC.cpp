@@ -12,7 +12,7 @@
 
 void TAdLoadNetworkGC::render() {  }
 
-ParticleAngles TAdLoadNetworkGC::object_offset_table[5] = {
+Angle3 TAdLoadNetworkGC::object_offset_table[5] = {
     {0x4000, 0, 0}, {0x4000, 0, 0}, {0, 0, 0}, {0x4000, 0, 0}, {0x4000, 0, 0},
 };
 

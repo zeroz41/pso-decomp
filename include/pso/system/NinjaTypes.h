@@ -26,6 +26,14 @@ struct NJS_TEXANIM {
 
 typedef Vec NJS_POINT3;
 
+// Ninja x/y/z rotation angles (0x10000 = full turn).
+typedef struct Angle3 Angle3;
+struct Angle3 {
+    s32 x;
+    s32 y;
+    s32 z;
+};
+
 // A Ninja camera: eye position, view direction, roll, view angle (0x10000 a
 // turn) and the near and far clip planes (negative view-space z).
 typedef struct NJS_CAMERA NJS_CAMERA;

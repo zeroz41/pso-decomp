@@ -25,7 +25,7 @@ const Vec floor_load_particle_positions[12] = {
     { 0.0f, -86.2f, 49.8f },
     { 0.0f, -49.8f, 86.2f },
 };
-const ParticleAngles TAdFloorLoadPrtGC::emitter_angles[12] = {
+const Angle3 TAdFloorLoadPrtGC::emitter_angles[12] = {
     { 0x0, 0x0, 0x0 },
     { 0x1555, 0x0, 0x0 },
     { 0x2AAA, 0x0, 0x0 },
@@ -40,7 +40,7 @@ const ParticleAngles TAdFloorLoadPrtGC::emitter_angles[12] = {
     { 0xEAAA, 0x0, 0x0 },
 };
 const Vec origin_particle_position[1] = { { 0.0f, 0.0f, 0.0f } };
-const ParticleAngles origin_particle_angles[1] = { { 0x0, 0x0, 0x4000 } };
+const Angle3 origin_particle_angles[1] = { { 0x0, 0x0, 0x4000 } };
 const char *TAdFloorLoadPrtGC::class_name = "TAdFloorLoadPrtGC";
 
 TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {

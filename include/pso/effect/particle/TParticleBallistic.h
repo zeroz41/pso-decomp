@@ -7,7 +7,7 @@ class TParticleBallistic : public TParticle {
 public:
     virtual ~TParticleBallistic();
     virtual void run_task();
-    TParticleBallistic(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent, u16 particle_flags,
+    TParticleBallistic(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent, u16 particle_flags,
                   u16 target);
     TParticleBallistic(ParticleParam *entry, Vec *position, TObject *parent);
     void retire_ballistic_particle_if_done();

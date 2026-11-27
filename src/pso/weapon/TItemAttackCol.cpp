@@ -47,7 +47,7 @@ extern "C" void apply_extra_node_transform(TItemAttackCol *col, void *node);
 const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
-static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
+static Angle3 particle_direction = {0x4000, 0, 0x4000};
 TItemAttackColBase::TItemAttackColBase(TObject *parent, AttackColParams *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
@@ -313,7 +313,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
             particle = create_particle_emitter(&position, params->particle);
             if (particle != NULL) {
                 s32 yaw = params->rotation_y;
-                ParticleAngles direction = particle_direction;
+                Angle3 direction = particle_direction;
                 direction.x += yaw;
                 particle->set_direction(&direction);
             }

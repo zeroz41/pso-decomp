@@ -196,7 +196,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
     this->frames = 0;
     this->single = single;
     if (this->single != 0) {
-        ParticleAngles r;
+        Angle3 r;
         this->particles = (TParticleCtrl **)mem_alloc(4);
         r.x = 0;
         r.y = 0;
@@ -207,7 +207,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
         s32 i;
         this->particles = (TParticleCtrl **)mem_alloc(gifoie_emitter_bands[this->band].count * 4);
         for (i = 0; i < gifoie_emitter_bands[this->band].count; i++) {
-            ParticleAngles r;
+            Angle3 r;
             const TechniqueEmitterSourceRow *p;
             r.x = 0;
             r.y = 0;

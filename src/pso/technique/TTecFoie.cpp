@@ -70,8 +70,8 @@ const TechniqueEmitterSourceTable TTecFoie::emitter_bands[6] = {
 const char *TTecFoie::name = "TTecFoie";
 
 void TTecFoie::create_particle_emitters() {
-  ParticleAngles fwd;
-  ParticleAngles rev;
+  Angle3 fwd;
+  Angle3 rev;
   u32 i;
   s32 f;
   fwd.x = angles[0];

@@ -113,7 +113,7 @@ s32 PlayerHandParticles::check_hit_by_id(u16 target_id, s32 id) {
 }
 
 TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 id) {
-    ParticleAngles direction;
+    Angle3 direction;
     TObjCollidable *target = find_entity_by_id(target_id);
     if (target == NULL) {
         return NULL;

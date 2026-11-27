@@ -8,7 +8,7 @@
 #include <dolphin/mtx.h>
 
 struct NJS_TEXLIST;
-struct ParticleAngles;
+struct Angle3;
 class TParticleCtrl;
 
 class TParticle : public TObject {
@@ -23,7 +23,7 @@ public:
     // Sets flags 0x2000 and requests indirect effect 0x1F (the refraction quad).
     void mark_active();
     // Sets the model rotation angles.
-    void set_rotation(ParticleAngles *rotation);
+    void set_rotation(Angle3 *rotation);
     // Draws model (texlist, motion) instead of the sprite; loop repeats the motion.
     void attach_model(NJS_OBJECT *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed);
     // Tints the particle by rgba (flags 0x100).

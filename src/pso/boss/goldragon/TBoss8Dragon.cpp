@@ -1886,7 +1886,7 @@ void TBoss8Dragon::update_walking_state(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss8Dragon::state_breath_attack(s32 event) {
-    ParticleAngles rot;
+    Angle3 rot;
     switch (event) {
     case 4:
         this->requested_action = 4;
@@ -3370,7 +3370,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
 #pragma pool_data off
 void TBoss8Dragon::update_death_state(s32 event) {
     CameraPlayback cam;
-    ParticleAngles r;
+    Angle3 r;
     Vec v;
 
     switch (event) {

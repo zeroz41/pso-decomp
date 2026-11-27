@@ -83,7 +83,7 @@ void TObjEneRe2Flower_Bomb::render() {
 }
 void TObjEneRe2Flower_Bomb::run_task() {
     Vec tmp;
-    ParticleAngles rot;
+    Angle3 rot;
     CsnHit *hit;
     f32 d;
 

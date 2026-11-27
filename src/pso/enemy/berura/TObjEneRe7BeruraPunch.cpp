@@ -211,7 +211,7 @@ void TObjEneRe7BeruraPunch::reset() {
 }
 
 void TObjEneRe7BeruraPunch::run_task() {
-    ParticleAngles ang;
+    Angle3 ang;
     Vec v;
     f32 s;
     f32 c;

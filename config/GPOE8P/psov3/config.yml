@@ -1646,7 +1646,7 @@ force_active:
   - delay_before_fade_out__14TObjWarpStringFv
   - TObject_name
   - particle_entry_path
-  - set_rotation__9TParticleFP14ParticleAngles
+  - set_rotation__9TParticleFP6Angle3
   - draw_node_callback__17TOTrapChainSawKeyFP10NJS_OBJECT
   - color_palette__18TPhotonMagicSquare
   - photon_magic_square_class_name

@@ -7,9 +7,9 @@ class TParticleOrbit : public TParticle {
 public:
     virtual ~TParticleOrbit();
     virtual void run_task();
-    TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent, u16 particle_flags,
+    TParticleOrbit(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent, u16 particle_flags,
                   u16 target);
-    TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent);
+    TParticleOrbit(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent);
     void retire_orbit_particle();
     virtual void render();
     f32 orbit_center_x;        // 0xC4

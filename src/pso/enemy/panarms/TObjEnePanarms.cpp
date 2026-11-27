@@ -650,7 +650,7 @@ void TObjEnePanarms::spawn_split_effect(s32 a, s32 b) {
     Vec origin;
     VecCopy(&origin, &body_center);
     origin.y += 10.0f;
-    create_particle_controller_with_rotation(&origin, (ParticleAngles *)&rotation_x, 0x106, a, b);
+    create_particle_controller_with_rotation(&origin, (Angle3 *)&rotation_x, 0x106, a, b);
 }
 
 s32 TObjEnePanarms::check_half_dying() {

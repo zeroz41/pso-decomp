@@ -100,7 +100,7 @@ void TTecMegid::spawn_particle_emitters() {
   u32 i;
   long long model_index;
   s32 mode;
-  ParticleAngles dir;
+  Angle3 dir;
   dir.x = angles[0];
   dir.y = 0;
   dir.z = angles[2];

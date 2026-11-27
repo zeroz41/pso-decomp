@@ -47,7 +47,7 @@ TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, 
     timer = delay;
     target = (Vec *)&((TObjChara *)find_entity_by_id(target_id))->body_center.x;
     {
-    ParticleAngles ang;
+    Angle3 ang;
     ang.x = 0;
     ang.y = (s32)(RADIANS_TO_ANGLE * atan2_float(target->x - start->x, target->z - start->z)) + 0x4000;
     ang.z = 0x4000 - (s32)(RADIANS_TO_ANGLE * atan2_float(target->y - start->y, vec_xz_distance(target, start)));

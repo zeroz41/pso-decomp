@@ -110,7 +110,7 @@ const Vec giBarta_emitter_offset = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
-    ParticleAngles angles;
+    Angle3 angles;
     Vec pos;
     Vec off;
     Vec p2;

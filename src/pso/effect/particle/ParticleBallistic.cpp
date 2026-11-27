@@ -46,9 +46,9 @@
 static const Vec ballistic_camera_yaw_axis = { 0.0f, 0.0f, -1.0f };
 static const Vec ballistic_camera_pitch_axis = { 0.0f, 0.0f, -1.0f };
 static const Vec ballistic_facing_axis = { 0.0f, 0.0f, 1.0f };
-static const ParticleAngles ballistic_zero_angles = { 0, 0, 0 };
+static const Angle3 ballistic_zero_angles = { 0, 0, 0 };
 
-TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                          TObject *parent, u16 flags, u16 target_id) {
     return new TParticleBallistic(entry, position, direction, parent, flags, target_id);
 }
@@ -304,7 +304,7 @@ void TParticleBallistic::render() {
         at.x = sprite.pos.x + sprite.offset.x;
         at.y = sprite.pos.y + sprite.offset.y;
         at.z = sprite.pos.z + sprite.offset.z;
-        ParticleAngles angles = ballistic_zero_angles;
+        Angle3 angles = ballistic_zero_angles;
         direction_to_rotation_xz((u8 *)&velocity, &angles.x, &angles.z);
         push_matrix();
         post_translate_matrix(&at.x);
@@ -373,7 +373,7 @@ TParticleBallistic::~TParticleBallistic() {}
 
 #pragma push
 #pragma fp_contract on
-TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
+TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent,
                              u16 particle_flags, u16 target)
     : TParticle(entry, parent) {
     s32 life;

@@ -24,10 +24,10 @@
 #pragma readonly_strings on
 const char *TLoadingCur::class_name = "TLoadingCur";
 #pragma pop
-extern const ParticleAngles zero_particle_angles = {0, 0, 0};
+extern const Angle3 zero_particle_angles = {0, 0, 0};
 
 void TLoadingCur::update_camera_facing_offset() {
-    ParticleAngles angles;
+    Angle3 angles;
     if (particle != NULL) {
         VecCopy(&pos, &offset);
         angles.x = zero_particle_angles.x;
@@ -175,7 +175,7 @@ TLoadingCur::~TLoadingCur() {
 #pragma push
 #pragma fp_contract on
 TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
-    ParticleAngles angles;
+    Angle3 angles;
     m_name = class_name;
     offset.x = 0.0f;
     offset.y = 0.0f;

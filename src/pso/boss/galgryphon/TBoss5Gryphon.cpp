@@ -3448,7 +3448,7 @@ void TBoss5Gryphon::destroy_parts() {
 #pragma fp_contract on
 void TBoss5Gryphon::update_low_flight_particles() {
     Vec pos;
-    ParticleAngles rot;
+    Angle3 rot;
     pos.x = gryphon_forty * sin_table_lookup(rotation_y) + bone_positions[11].x;
     pos.y = bone_positions[11].y;
     pos.z = gryphon_forty * cos_table_lookup(rotation_y) + bone_positions[11].z;
