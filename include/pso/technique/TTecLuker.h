@@ -36,7 +36,6 @@ struct TTecLuker : public TTecCircle {
 };
 
 // The telepipe arrival spot of player slot (and its heading), taken once; NULL when none is pending.
-struct Vec;
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 // Whether a telepipe record is on another floor or more than 0.2 away (on the ground plane) from p.
 struct TelepipeState;

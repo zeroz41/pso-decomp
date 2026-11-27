@@ -26,6 +26,7 @@
 #include <stddef.h>
 #include "pso/system/ControllerInput.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 

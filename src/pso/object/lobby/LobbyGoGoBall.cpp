@@ -46,7 +46,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/client_id.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjBase.h"

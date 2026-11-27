@@ -47,7 +47,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/base/TObjBase.h"

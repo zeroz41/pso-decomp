@@ -573,7 +573,7 @@ void TQuestVmDownLoadServer::close_window() {
     TWindowBase *window;
     this->state = 2;
     window = this->status_window;
-    if (window != 0U) {
+    if (window != NULL) {
         window->close();
         this->status_window = 0U;
     }
@@ -629,7 +629,7 @@ void TQuestVmDownLoadServer::open() {
     if ((uaddr) this->mc_select == 0U) {
         TScene::reset_counter();
         TObject *window = lobby_player_construction_window;
-        if (window != 0U) {
+        if (window != NULL) {
             window->disallow_rendering();
         }
         this->mc_select = TAdMcSelectGC::create(tl_03);

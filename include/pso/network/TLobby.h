@@ -465,4 +465,7 @@ extern TObject *lobby_player_construction_window;
 
 u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
 
+void set_quest_list_online_state(s32 state);
+void set_item_drop_server_seed(int seed);
+
 #endif

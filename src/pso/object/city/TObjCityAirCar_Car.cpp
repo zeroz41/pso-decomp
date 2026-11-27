@@ -140,7 +140,7 @@ s32 sample_aircar_path_position(s32 lane, Vec *pos, f32 frame) {
     }
     bind_motion_context(m, frame);
     NJS_OBJECT *t = get_city_common_model(city_aircar_model_indices[lane]);
-    sample_motion_node_transform(t, (f32 *)pos, (s32 *)&ang, &scale.x, quat);
+    sample_motion_node_transform(t, &pos->x, (s32 *)&ang, &scale.x, quat);
     return r;
 }
 

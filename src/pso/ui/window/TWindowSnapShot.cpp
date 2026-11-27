@@ -1,5 +1,6 @@
 #include "pso/system/TGStream.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"

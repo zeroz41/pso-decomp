@@ -90,7 +90,7 @@ public:
     void adjust_dfp(int);
     s32 recalc_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats, f32 xscale, f32 yscale);
     s32 set_motion_params(player_stats *base_stats);
-    void show_miss_popup(const float *);
+    void show_miss_popup(Vec *pos);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
     // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.

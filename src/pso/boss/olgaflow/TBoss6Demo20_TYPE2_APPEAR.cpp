@@ -143,7 +143,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         post_translate_matrix(&boss6_type2_appear_origin.x);
         s32 i = 0;
         do {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(opening_parts[i].texture));
+            set_texture_list(opening_parts[i].texture);
             draw_model_motion(opening_parts[i].model, opening_parts[i].motion, frame);
             i++;
         } while (i < 2);

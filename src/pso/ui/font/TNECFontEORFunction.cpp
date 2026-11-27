@@ -70,7 +70,7 @@ TNECFontEORFunction::TNECFontEORFunction() : TObject((TObject *)(&end_of_render_
     this->m_name = nec_font_eor_class_name;
 }
 
-// ---- font text helpers (formerly the TWindowSubStatusDisp_80144B14 fragment)
+// ---- font text helpers
 
 
 const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {

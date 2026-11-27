@@ -45,7 +45,7 @@ s32 TBoss4Thanks::was_thanks_shown() {
 s32 TBoss4Thanks::is_door_open() {
     return get_story_flag(0x97) != 0;
 }
-void TBoss4Thanks::dispatch_main_phase_153() { set_story_flag_or_send_quest_flag(153); }
+void TBoss4Thanks::mark_thanks_shown() { set_story_flag_or_send_quest_flag(153); }
 void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151); }
 
 
@@ -184,7 +184,7 @@ void TBoss4Thanks::run_task() {
 }
 
 TBoss4Thanks::~TBoss4Thanks() {
-    TBoss4Thanks::dispatch_main_phase_153();
+    TBoss4Thanks::mark_thanks_shown();
     destroy_effects();
 }
 

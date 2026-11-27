@@ -7,6 +7,7 @@
 #include "pso/network/TGameProtocol.h"
 #include "types.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TLobby.h"

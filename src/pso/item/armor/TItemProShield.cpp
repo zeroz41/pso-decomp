@@ -1,6 +1,7 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/drop/TItemDrop.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
@@ -24,7 +25,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
-// The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
 extern "C" {
@@ -172,9 +172,9 @@ void TItemProShield::update_owned() {
 }
 
 void TItemProShield::carry_over_stats(TItemData *data, TItem *item) {
-    TItemProShield *item_titemproshield = (TItemProShield *)item;
-    data->set_dfp_bonus(item_titemproshield->dfp_bonus);
-    data->set_evp_bonus(item_titemproshield->evp_bonus);
+    TItemProShield *shield = (TItemProShield *)item;
+    data->set_dfp_bonus(shield->dfp_bonus);
+    data->set_evp_bonus(shield->evp_bonus);
 }
 
 void TItemProShield::on_update_equipped() {}

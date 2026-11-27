@@ -114,7 +114,7 @@ void TItemWeaponRocketPunch::transform_model_node() {
             if (punch_flags.test_flags_any(1)) {
                 model = second_model;
             } else {
-                model = (NJS_OBJECT *)model_data[1];
+                model = model_data[1];
             }
             if (model) {
                 draw_ginja_object(model);
@@ -129,7 +129,7 @@ void TItemWeaponRocketPunch::draw_held_model() {
     punch_flags.set(1);
     draw_weapon_model();
     get_joint_position(1, &shot_origins[0]);
-    item_model = (NJS_OBJECT *)model_data[0];
+    item_model = model_data[0];
     punch_flags.clear(1);
     draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
@@ -171,5 +171,5 @@ NJS_OBJECT *TItemWeaponRocketPunch::get_shot_model() {
     if (punch_flags.test_flags_any(4) != 0) {
         return second_model;
     }
-    return (NJS_OBJECT *)model_data[1];
+    return model_data[1];
 }

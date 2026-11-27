@@ -18,7 +18,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/item/TItemEffNeedle.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"

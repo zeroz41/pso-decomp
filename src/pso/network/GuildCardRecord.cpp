@@ -55,7 +55,7 @@ void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(res
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
-        GuildCardTagWords tag = *(GuildCardTagWords *)((u8 *)protocol_instance + 0x1900);
+        GuildCardTagWords tag = *(GuildCardTagWords *)&protocol_instance->m_guildcard_tag;
         protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }

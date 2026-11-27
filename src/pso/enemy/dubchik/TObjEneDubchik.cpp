@@ -301,17 +301,17 @@ void TObjEneDubchik::load_resources() {
     find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
     breakup_model_ptr = new TBreakUpMdlData(dubchik_resource->models[0].model);
     dubchik_scratch_trail0_points[0] = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
-    dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
+    dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
     dubchik_scratch_trail1_points[0] = new SampledMotionPoints(2, 36.0f, 40.0f, 1.0f);
-    dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
+    dubchik_scratch_trail1_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 6), 0x2E, 0x32);
     p = new SampledMotionPoints(2, 30.0f, 38.0f, 1.0f);
     t = dubchik_scratch_trail0_points;
     t[1] = p;
-    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
+    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 7), 0x1C, 0x24);
     p = new SampledMotionPoints(2, 50.0f, 58.0f, 1.0f);
     t = dubchik_scratch_trail1_points;
     t[1] = p;
-    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
+    t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
         dubchik_base_params_by_variant[i] = register_boss(i + 0x1B);
         dubchik_attack_params_by_variant[i] = dispatch_shared_handler_b(i + 0x1B);

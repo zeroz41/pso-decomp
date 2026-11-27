@@ -35,6 +35,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
@@ -199,9 +200,6 @@ s32 load_current_floor_resources(void) {
     return load_floor_resources(get_current_floor_area());
 }
 extern "C" {
-
-
-
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
     { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },

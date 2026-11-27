@@ -33,15 +33,13 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
-
-// Compared as a signed word here (cmpwi) while TWindowCtrl.cpp defines it as bool.
-s32 is_com_card_window_open();
 
 // The class name TObject::m_name points at.
 const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
@@ -102,6 +100,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
 }
 
 TWindowShortListCtrl::~TWindowShortListCtrl() {
+    s32 is_com_card_window_open();
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL && TWindowCtrl::has_player_active_menu(client_id) == 0 && is_com_card_window_open() == 0) {
         player->init_parts();

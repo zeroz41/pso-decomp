@@ -6,7 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/BmlResource.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecCircle.h"

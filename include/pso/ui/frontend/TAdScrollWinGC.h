@@ -34,9 +34,4 @@ public:
 
 LAYOUT_ASSERT(TAdScrollWinGC_size, sizeof(TAdScrollWinGC) == 0x54);
 
-void cache_last_chat_line(const char *text);
-void chat_log_add_line(const char *text);
-void chat_log_remove_line(saddr index);
-s32 chat_text_lacks_language_tag(const char *text);
-
 #endif

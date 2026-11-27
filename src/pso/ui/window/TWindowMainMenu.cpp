@@ -266,7 +266,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 15:
     case 16:
-        this->submenu = new TWindowSubQuestBoard(this, reinterpret_cast<void *>(static_cast<saddr>(client_index)));
+        this->submenu = new TWindowSubQuestBoard(this, client_index);
         return;
     case 3:
     case 4:

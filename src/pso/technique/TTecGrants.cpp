@@ -27,7 +27,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"

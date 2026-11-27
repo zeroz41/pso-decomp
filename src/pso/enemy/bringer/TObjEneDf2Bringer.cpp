@@ -21,6 +21,7 @@
 #include "pso/enemy/bringer/TObjEneDf2Bringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -460,7 +461,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (player->is_locally_controlled() != 0) {
-                            TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
+                            TItem *item = player->get_equipped_weapon();
                             if (item != NULL) {
                                 player->send_6x26_unequip_item(item->get_item_id());
                             }

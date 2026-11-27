@@ -276,7 +276,7 @@ void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
 void TeneFakeTecThunderEff::clear_counter() { active = 0; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(s32 index) {
+void TObjEneDarkGunner::load_model_and_texlist(s32 index) {
     this->model = get_bml_model(TObjEneDarkGunner::bml_resource, index);
     this->texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, index);
 }
@@ -315,7 +315,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     VecCopy(&home_position, &position);
     VecCopy(&move_origin, &position);
     VecCopy(&move_destination, &position);
-    set_fields_24_34_from_global(1);
+    load_model_and_texlist(1);
     motion_list = TObjEneDarkGunner::bml_resource->motions;
     action_table = dark_gunner_action_table;
     set_action_table(action_table);

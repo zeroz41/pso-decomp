@@ -22,6 +22,7 @@
 #include "pso/system/AramPool.h"
 #include "pso/system/BmlResource.h"
 #include "pso/item/drop/TItemDrop.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/quest/TQuestListVM.h"
 
 // This TU's .rodata, .sdata and .sbss: each sits between GamePlayerActionProvider's and

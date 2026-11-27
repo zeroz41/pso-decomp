@@ -264,7 +264,7 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
+void TObjPlayer::draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, f32 frame, f32 alpha) {
     TObjPlayer *player;
     void *head;
     void *hair;
@@ -295,7 +295,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     }
     set_texture_list(body_textures);
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion(body, (NJS_MOTION *)motion, frame);
+    draw_model_motion(body, motion, frame);
     TObjDFTenchuFuru::unregister_callback();
     if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);

@@ -30,4 +30,10 @@ void send_subcommand_to_leader(void *cmd);
 // Sends a 6x subcommand to every client (queued per client in a game) and runs it here too.
 void broadcast_subcommand(void *cmd);
 
+void handle_6x02(void);
+void handle_6x03(void);
+struct G_LegacyActivateSwitchByToken_6x04;
+void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6x04 *packet);
+void handle_6x9E_player_camera_shutter_sound(void);
+
 #endif

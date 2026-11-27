@@ -957,19 +957,19 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
 }
 void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
-    saddr index;
+    s32 index;
     bind_appearance_texture_lists(&hair_textures.textures, &head_textures.textures, &body_textures.textures, appearance);
     index = character_display_index(appearance);
     slot = &hair_textures;
     if (slot->textures.present != 0) {
-        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, index);
+        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, &slot->complete, index);
     }
     slot = &head_textures;
     if (slot->textures.present != 0) {
-        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, index);
+        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, &slot->complete, index);
     }
     slot = &body_textures;
-    slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, index);
+    slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, &slot->complete, index);
     in_use = 1;
     copy_slot_data(appearance);
 }

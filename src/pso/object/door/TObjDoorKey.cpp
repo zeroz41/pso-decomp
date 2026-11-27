@@ -130,7 +130,7 @@ void TObjDoorKey::draw_active_beam() {
     draw_ginja_object(door_key_ginja_model_table[1]);
     rotate_matrix_y(0, spin_angle);
     NJS_OBJECT **g = door_key_ginja_model_table;
-    set_ginja_model_texture_slot(reinterpret_cast<void *>(g[2]->model), ((u16)set_params[2]));
+    set_ginja_model_texture_slot(g[2]->model, ((u16)set_params[2]));
     draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
@@ -149,7 +149,7 @@ void TObjDoorKey::draw_inactive_badge() {
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
     NJS_OBJECT **g = door_key_ginja_model_table;
-    set_ginja_model_texture_slot(reinterpret_cast<void *>(g[2]->model), ((u16)set_params[2]));
+    set_ginja_model_texture_slot(g[2]->model, ((u16)set_params[2]));
     draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
@@ -241,7 +241,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
 
 
 void *TObjDoorKey::create(void *set_entry) {
-    void *o = new TObjDoorKey((TObject *)tl_05, set_entry);
+    void *o = new TObjDoorKey(tl_05, set_entry);
     return o;
 }
 

@@ -4,7 +4,6 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMessage.h"

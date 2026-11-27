@@ -22,7 +22,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"

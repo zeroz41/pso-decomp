@@ -14,7 +14,7 @@
 #include "pso/player/PlayerParticleEmitters.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"

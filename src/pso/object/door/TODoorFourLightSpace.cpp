@@ -63,9 +63,9 @@ TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, void *set_data) : TO
     init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    this->model_tree = (NJS_OBJECT *)get_green_door_model(0);
+    this->model_tree = get_green_door_model(0);
     this->texlist = get_green_door_texlist(0);
-    motion = (NJS_MOTION *)get_green_door_motion(0);
+    motion = get_green_door_motion(0);
     this->animation_end_frame = (f32)motion->nbFrame - 1.0f;
     this->animation_step = 0.5f;
     {
@@ -265,9 +265,9 @@ TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, void *set_data) : TO
     init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    this->model_tree = (NJS_OBJECT *)get_green_door_model(0);
+    this->model_tree = get_green_door_model(0);
     this->texlist = get_green_door_texlist(0);
-    motion = (NJS_MOTION *)get_green_door_motion(0);
+    motion = get_green_door_motion(0);
     this->animation_end_frame = (f32)motion->nbFrame - 1.0f;
     this->animation_step = 0.5f;
     {

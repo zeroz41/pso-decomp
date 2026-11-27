@@ -1,5 +1,5 @@
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS

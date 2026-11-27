@@ -194,7 +194,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 #include "pso/enemy/BattleParamTables.h"
 
 
-// list type of page_indicator per page: the page-flip list kind passed to reset_page_indicator
+// list type of page_indicator per page: the page-flip list kind passed to PageIndicator::reset
 const u8 status_page_list_kinds[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)

@@ -27,7 +27,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/IsComCardWindowOpen.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";

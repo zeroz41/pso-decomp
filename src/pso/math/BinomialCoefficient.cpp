@@ -19,6 +19,7 @@ s32 calc_binomial_coefficient(s32 n, s32 k) {
 }
 #pragma pop
 
+// The MSL inlines __fpclassifyf and modff, which the game headers do not provide.
 inline int __fpclassifyf(float __value) {
     switch (*(int *)&__value & 0x7f800000) {
     case 0x7f800000:

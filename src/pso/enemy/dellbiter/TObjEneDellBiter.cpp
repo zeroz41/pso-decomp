@@ -37,8 +37,9 @@
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
@@ -1107,7 +1108,7 @@ void TObjEneDellBiter::update_attack_state(s32 reason) {
             }
             update_contact_attacks();
             if (is_passing_frame(10.8f) != 0) {
-                play_sound_effect((int) (this->remap_sound_for_area(0x40039E16)), &position, 0, 0);
+                play_sound_effect(remap_sound_for_area(0x40039E16), &position, 0, 0);
             }
             if (this->get_flag_b4() != 0) {
                 this->requested_action = 0;
@@ -1359,7 +1360,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
         if (get_current_floor_area() == AREA_TOWER) {
             play_sound_effect(0x4003A358, &position, 0, 0);
         } else {
-            play_sound_effect((int)(this->remap_sound_for_area(0x4003A31A)), &position, 0, 0);
+            play_sound_effect(this->remap_sound_for_area(0x4003A31A), &position, 0, 0);
         }
         state_timer = 0;
         return;

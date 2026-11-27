@@ -315,7 +315,7 @@ void TObjOnlineEnding::render() {
             post_translate_matrix(&entry->position->x);
             rotate_matrix_y(0, entry->yaw);
             scale_matrix(0, entry->scale, entry->scale, entry->scale);
-            TObjPlayer::draw_player_model_by_client(entry->id, reinterpret_cast<saddr>(entry->motion), 0.0f, 1.0f);
+            TObjPlayer::draw_player_model_by_client(entry->id, entry->motion, 0.0f, 1.0f);
             pop_matrix();
         }
     }

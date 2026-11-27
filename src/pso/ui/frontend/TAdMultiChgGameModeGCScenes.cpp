@@ -28,6 +28,7 @@
 #include "pso/ui/chat/ChatLogHeap.h"
 #include "pso/ui/chat/ChatLogLines.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

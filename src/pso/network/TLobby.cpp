@@ -36,6 +36,7 @@
 #include "pso/network/LegacyEnemyKill.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -110,7 +111,7 @@ typedef char LobbyPlayerName[16];
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
-void *__dt__15TLobbyIdleTimerFv(void *object, s16 free_flags);
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags);
 void queue_destruction__7TObjectFv(void *task);
 }
 void lobby_debug_printf_stub(const char *fmt, ...);
@@ -2490,7 +2491,7 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
             init_idle_timeout_timer((u8 *)p, parent);
         }
         join_state_flag = 1;
-        win = TLobby::create_dialing_message_window((const char *)get_connection_message_text(7), 1);
+        win = TLobby::create_dialing_message_window(get_connection_message_text(7), 1);
         switch (lobby_server_choice_stub()) {
         case 0:
         case 1:
@@ -2877,7 +2878,7 @@ void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *to, void *from) {
     dst->m_tag2 = src->m_tag2;
     dst->m_guildcard_number = src->m_guildcard_number;
 }
-void set_item_drop_server_seed(int a0) { item_drop_server_seed = a0; }
+void set_item_drop_server_seed(int seed) { item_drop_server_seed = seed; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
 
 void set_quest_list_online_state(s32 state) {
@@ -2906,8 +2907,8 @@ u8 *get_raw_serial_input_buffer(void) {
     return (u8 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
 
-saddr get_connection_message_text(s32 id) {
-    return (saddr)text_language_group_table[12][id];
+const char *get_connection_message_text(s32 id) {
+    return text_language_group_table[12][id];
 }
 
 const char *get_online_message_text(s32 id) {

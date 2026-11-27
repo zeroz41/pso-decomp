@@ -11,6 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/system/debug_print.h"

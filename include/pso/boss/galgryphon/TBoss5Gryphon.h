@@ -252,4 +252,9 @@ LAYOUT_ASSERT(TBoss5Gryphon_particles, offsetof(TBoss5Gryphon, particles) == 0x7
 // Loads the textures, particle ids and effect ids the Gryphon fight uses.
 void load_boss5_gryphon_resources(void);
 
+// Defined in TBoss5Gryphon.cpp.
+const Vec *get_arena_center(void);
+void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                           NJS_MOTION *motion, s32 loop, f32 frame);
+
 #endif

@@ -130,6 +130,7 @@
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/math/MatrixVector.h"
@@ -660,7 +661,7 @@ void TObjPlayer::init_action_provider() {
     set_move_mode(0);
     lobby_animation = -1;
     lobby_animation_frame = player_zero;
-    set_battle_flag(0);
+    set_return_destination(0);
     controller_input = NULL;
     inventory_objects = NULL;
     lock_on_cursor = NULL;
@@ -1039,10 +1040,9 @@ void TObjPlayer::setup_fresh_player_state(TPlyCharData *char_data) {
     this->set_language((int) char_data->m_inventory.m_language);
     scale_state.set_actor_id(this->get_entity_id());
     this->disable_drop_weapon_on_death();
-    TPlyCharData *record = reinterpret_cast<TPlyCharData *>(char_data);
-    this->mag_level = record->get_class_flag_0();
-    this->class_flag_1 = record->get_class_flag_1();
-    this->battle_mode = record->get_class_flag_2();
+    this->mag_level = char_data->get_class_flag_0();
+    this->class_flag_1 = char_data->get_class_flag_1();
+    this->battle_mode = char_data->get_class_flag_2();
 }
 
 void TObjPlayer::restore_state_on_area_entry() {
@@ -1050,7 +1050,7 @@ void TObjPlayer::restore_state_on_area_entry() {
   TItem *equipped_weapon;
   if (is_current_area_item_enabled() != 0)
   {
-    equipped_weapon = get_equipped_weapon(this);
+    equipped_weapon = get_equipped_weapon();
     if (equipped_weapon != 0)
     {
       this->set_action_provider_variant(equipped_weapon->get_motion_type());
@@ -1115,7 +1115,7 @@ void TObjPlayer::load_pending_actions_from_sync_record(u8 *record) {
 }
 
 void TObjPlayer::reset_motion_fields() {
-    s32 anim_id;
+    s32 destination;
     TObjBase::reset_motion_fields();
     this->TObjCollidable::reset_motion_fields();
     this->TObjMotion::reset_motion_fields();
@@ -1144,7 +1144,7 @@ void TObjPlayer::reset_motion_fields() {
             }
             send_6x24_teleport_player(this->get_entity_id(), (const Vec *)this->get_hospital_position(), this->get_hospital_yaw());
             this->set_state_flags(0x800);
-            this->set_battle_flag(0);
+            this->set_return_destination(0);
         }
     }
     if ((this->is_locally_controlled() != 0) && (this->check_flag(0x800) != 0)) {
@@ -1157,8 +1157,8 @@ void TObjPlayer::reset_motion_fields() {
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
         }
-        anim_id = this->get_return_destination();
-        switch (anim_id) {
+        destination = this->get_return_destination();
+        switch (destination) {
         case 2:
             break;
         case 0:
@@ -1171,7 +1171,7 @@ void TObjPlayer::reset_motion_fields() {
             TObjPlayer::set_camera_mode(1);
             break;
         }
-        this->set_battle_flag(0);
+        this->set_return_destination(0);
     }
 }
 
@@ -1772,7 +1772,7 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
 }
 
 void TObjPlayer::send_6x26_unequip_item(u32 item_id) {
-    if (this == NULL || static_cast<TObjChara *>(this)->obj_isState2_324() == 0) {
+    if (this == NULL || obj_isState2_324() == 0) {
         G_UnequipItem_6x26 packet;
         packet.init();
         packet.header.client_id = this->get_entity_id();
@@ -1850,7 +1850,7 @@ s32 TObjPlayer::preview_equip_stats(PlayerRequirementStats *out, u8 *incoming) {
     d = *this->param_block;
     switch (incoming[0]) {
     case 0:
-        prev = TObjPlayer::get_equipped_weapon(this);
+        prev = get_equipped_weapon();
         break;
     case 1:
         if (incoming[1] == 1) {
@@ -1955,7 +1955,7 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
 void TObjPlayer::send_unequip_held_item() {
     G_UnequipItem_6x26 cmd;
     TItem *item;
-    item = get_equipped_weapon(this);
+    item = get_equipped_weapon();
     if ((item != NULL) && (item->check_equip_requirements(this, (s16 *)0) == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         cmd.init();
         cmd.header.client_id = get_entity_id();
@@ -2380,7 +2380,7 @@ void TObjPlayer::drop_items_on_death() {
     } else if (this->is_drop_weapon_on_death_disabled() == 0) {
         count=this->inventory_objects->set_globals_and_notify(this, records);
     } else {
-        equipped = get_equipped_weapon(this);
+        equipped = get_equipped_weapon();
         if (equipped!=NULL) {
             this->send_6x26_unequip_item(equipped->get_item_id());
         }
@@ -4515,7 +4515,7 @@ s32 TObjPlayer::create_return_city_window() {
     return 0;
 }
 
-void TObjPlayer::stop_battle() { this->set_battle_flag(0); }
+void TObjPlayer::stop_battle() { this->set_return_destination(0); }
 
 void complete_deferred_player_death(TDeathTintFade *fade) {
     u8 lvl;
@@ -4579,7 +4579,7 @@ void TObjPlayer::prepare_hospital_return() {
     send_6x21_inter_level_warp(this, 0);
     set_arrival_override_pos(this->get_entity_id(), get_hospital_yaw(), (const Vec *)this->get_hospital_position());
     this->set_state_flags(0x800);
-    this->set_battle_flag(0);
+    this->set_return_destination(0);
     apply_to_players((s32)(floor_transition_state.get_next_floor()), get_npc_lobby_entry_position(), get_npc_lobby_entry_yaw());
 }
 
@@ -4587,7 +4587,7 @@ void handle_6x34(void) {  }
 
 int TObjPlayer::check_player_state_flag_2() { return death_flags.test_flags_any(2); }
 
-void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
+void TObjPlayer::set_return_hunter() { set_return_destination(1); }
 
 #pragma push
 #pragma scheduling off
@@ -4599,7 +4599,7 @@ void TObjPlayer::prepare_guild_return(s32) {
     mark_area_change_pending();
     set_arrival_override_pos(get_entity_id(), get_guild_return_yaw(), get_guild_return_position());
     set_state_flags(0x800);
-    set_battle_flag(1);
+    set_return_destination(1);
     send_6x21_inter_level_warp(this, floor_transition_state.get_next_floor());
     apply_to_players((s32)(floor_transition_state.get_next_floor()), get_party_position(), get_party_yaw());
 }
@@ -5360,7 +5360,7 @@ void TObjPlayer::draw(f32 at_frame) {
     pop_matrix();
 }
 
-void TObjPlayer::spawn_effect() {
+void TObjPlayer::start_fall_rumble() {
     if (is_locally_controlled() != 0) {
         start_pad_rumble_client(0xC0, 0xF, get_entity_id());
     }
@@ -5545,7 +5545,7 @@ void apply_battle_rules_to_players() {
             p->inventory_objects->set_globals_and_update(p, 2);
             break;
         }
-        if ((weapon = TObjPlayer::get_equipped_weapon(p)) != NULL && weapon->check_equip_requirements(p, (s16 *)0) == 0) {
+        if ((weapon = p->get_equipped_weapon()) != NULL && weapon->check_equip_requirements(p, (s16 *)0) == 0) {
             p->unequip_item(weapon);
         }
         switch (q->get_tool_mode()) {
@@ -6358,7 +6358,7 @@ void TObjPlayer::init_local_pad_binding() {
 }
 
 s32 TObjPlayer::get_total_deaths() {
-    return (get_character_save_record(this->get_entity_id()))->death_count;
+    return get_character_save_record(this->get_entity_id())->death_count;
 }
 
 s32 TObjPlayer::is_player_valid_target(u16 client_index) {

@@ -59,8 +59,6 @@ LAYOUT_ASSERT(ItemObjectSize, sizeof(TItemObject) == 0x104);
 // The action palette slot a usable tool goes to (0..12), -1 for none.
 s32 get_tool_palette_index(TItem *item);
 
-// The Star Atomizer's effect: tells the players within range of self.
-
 void handle_6x66_use_star_atomizer(G_UseStarAtomizer_6x66 *packet);
 
 struct TObjPlayer;

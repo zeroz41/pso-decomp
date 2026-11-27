@@ -6,7 +6,7 @@
 
 struct TItemData;
 
-// Set while floor items are being synchronised.
+// Set on entering Pioneer 2; the floor item sync then respawns floor 0's items.
 extern FlagWord floor_item_respawn_requested;
 
 void set_boss_buf_entry(int value, u16 index);

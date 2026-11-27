@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/vector.h"
@@ -1156,7 +1156,7 @@ s32 TObjEneDD_ST::enemy_validate_retained_target() {
     return 0;
 }
 
-s32 TObjEneDD_ST::update_death_check() {
+s32 TObjEneDD_ST::validate_target() {
     if ((this->is_confused() == 0) && (is_player_entity_id(this->target_id) == 0)) {
         this->enemy_clear_target();
         return 0;

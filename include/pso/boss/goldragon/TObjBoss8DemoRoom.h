@@ -21,7 +21,4 @@ public:
     static BmlResourceDescriptor resource_desc;
 };
 
-// --- C functions defined in TObjBoss8DemoRoom_8036B654.cpp ---
-// --- end of C functions
-
 #endif

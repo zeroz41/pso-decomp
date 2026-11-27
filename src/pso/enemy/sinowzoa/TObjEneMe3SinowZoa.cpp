@@ -41,7 +41,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/scene/TScene.h"
@@ -500,7 +500,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                     if (is_alternate_variant() != 0) {
                         pl = (TObjPlayer *)current_target;
                         TItem *held;
-                        if (pl->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
+                        if (pl->is_locally_controlled() != 0 && (held = pl->get_equipped_weapon()) != 0) {
                             pl->send_6x26_unequip_item(held->get_item_id());
                             pl->get_hand_joint_position(&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
@@ -1055,7 +1055,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         case 1: {
             s32 target;
             this->advance_animation();
-            if (update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 target = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1072,7 +1072,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         }
         case 2:
             this->advance_animation();
-            if (update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1201,7 +1201,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
             this->advance_animation();
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (update_death_check() != 0) {
+                if (validate_target() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1937,7 +1937,7 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
 inline s32 TObjEneMe3SinowZoa::approach_destination() {
     copy_position_if_valid(this, this->body_center);
     this->body_center.y += 5.0f;
-    return ((TObjEnemy *)this)->enemy_turn_toward_dest(this->movementParameters->turn_speed);
+    return enemy_turn_toward_dest(this->movementParameters->turn_speed);
 }
 inline s32 TObjEneMe3SinowZoa::seek_destination(Vec *diff) {
     s32 angle;

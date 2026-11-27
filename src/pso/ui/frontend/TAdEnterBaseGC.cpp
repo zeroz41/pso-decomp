@@ -4,7 +4,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <stdio.h>
@@ -46,6 +45,7 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"
+#include "pso/unk/ConnectionInputBuffers.h"
 
 
 // show_message_window: position and size of the message window it opens.
@@ -102,7 +102,6 @@ s32 password_entry_dispatch_state;
 
 s32 TAdEnterBaseGC::entry_mode;
 
-#include "pso/unk/ConnectionInputBuffers.h"
 char serial_access_hex_string_buf[0x40];
 
 

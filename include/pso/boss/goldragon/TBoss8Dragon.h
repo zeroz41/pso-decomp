@@ -341,24 +341,4 @@ u16 get_boss8_dragon_part_entity_id(s32 index);
 // How many live monitor slots stay on: fewer while more parts are alive, -1 in split screen.
 s32 get_boss8_live_monitor_count();
 
-struct Vec;
-struct NJS_OBJECT;
-struct NJS_TEXLIST;
-struct NJS_MOTION;
-class TParticleCtrl;
-
-// --- C functions defined in TBoss8Dragon_80065C90.cpp ---
-const Vec *get_arena_center(void);
-void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
-                           NJS_MOTION *motion, s32 loop, f32 frame);
-// --- end of C functions
-
-class TObject;
-class TBoss8DragonLeaderPart;
-
-// The leader's constructor makes boss8_dragon_leader_part; TLobby's floor callbacks clear and release it.
-TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, void *set_data);
-void release_boss8_dragon_leader_part(void);
-void clear_boss8_dragon_leader_part(void);
-
 #endif

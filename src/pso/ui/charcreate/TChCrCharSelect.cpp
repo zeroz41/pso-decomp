@@ -1,7 +1,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyCharData.h"

@@ -22,6 +22,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
@@ -234,7 +235,7 @@ void TPhotonPilla::apply_photon_blast_effects() {
         index = 0;
         do {
             TObjChara *player = TObjPlayer::get_battle_param(index);
-            if (player != 0U) {
+            if (player != NULL) {
                 queue_photon_blast_hit(player->get_entity_id(), 2, 0, power);
             }
             index += 1;

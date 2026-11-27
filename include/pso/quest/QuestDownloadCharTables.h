@@ -4,7 +4,7 @@
 #include "types.h"
 
 // Character-code tables of the quest text converter, defined by
-// QuestDownloadCharTables.c (interim data-only unit). Read by TQuestVmDownLoadServer_803E6970.
+// QuestDownloadCharTables.c (interim data-only unit). Read by AskDicFile.cpp.
 
 // JIS symbol code and the single-byte code it maps to.
 typedef struct JisSymbolEntry {

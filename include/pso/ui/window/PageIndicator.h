@@ -6,8 +6,7 @@
 
 struct WindowDrawContext;
 
-// Allocated by the status, shortcut and card-list windows. handle_list_page_flip_input
-// and draw share this layout.
+// Allocated by the status, shortcut and card-list windows.
 struct PageIndicator {
     s8 page;
     s8 count;
@@ -30,7 +29,6 @@ struct PageIndicator {
 LAYOUT_ASSERT(PageIndicator_size, sizeof(PageIndicator) == 0xC);
 LAYOUT_ASSERT(PageIndicator_input_port, offsetof(PageIndicator, input_port) == 4);
 LAYOUT_ASSERT(PageIndicator_arrow_offset, offsetof(PageIndicator, arrow_offset) == 8);
-
 
 // Ordinary global-storage release; this known page object has trivial cleanup.
 void *delete_if_allocated(void *storage, s16 release);

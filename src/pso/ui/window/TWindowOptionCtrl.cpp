@@ -29,6 +29,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/math/TMath.h"
 #include "pso/system/ControllerInput.h"
@@ -435,8 +436,8 @@ saddr TWindowOptionCtrl::create_list_window() {
 TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     TWindowCheckBox *check_box_window;
 
-    const NJS_POINT2 *temp_r3_after_cba4 = TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = create_check_box_window_for_local_client(temp_r3_after_cba4, &sound_mode_menu_window_size);
+    const NJS_POINT2 *option_position = TWindowOptionCtrl::get_option_entry(0xCF);
+    check_box_window = create_check_box_window_for_local_client(option_position, &sound_mode_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);

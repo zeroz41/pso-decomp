@@ -130,8 +130,8 @@ extern "C" {
 
 
 BmlResource * lock_on_cursor_bml_resource;
-s32 lock_on_cursor_model;
-s32 TLockOnCursor::target_cursor_model;
+NJS_OBJECT *lock_on_cursor_model;
+NJS_OBJECT *TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
 void reset_target_part_entry(LockOnTargetPart *);
@@ -221,8 +221,8 @@ void load_target_cursor_models(void) {
         resource = new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
         lock_on_cursor_bml_resource = resource;
         if (resource != NULL) {
-            lock_on_cursor_model = (saddr)get_bml_model(resource, 0);
-            TLockOnCursor::target_cursor_model = (saddr)get_bml_model(lock_on_cursor_bml_resource, 0);
+            lock_on_cursor_model = get_bml_model(resource, 0);
+            TLockOnCursor::target_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 0);
             main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
         }
     }
@@ -233,8 +233,8 @@ void TLockOnCursor::free_cursor_resources() {
         delete lock_on_cursor_bml_resource;
         lock_on_cursor_bml_resource = NULL;
     }
-    lock_on_cursor_model = 0;
-    TLockOnCursor::target_cursor_model = 0;
+    lock_on_cursor_model = NULL;
+    TLockOnCursor::target_cursor_model = NULL;
 }
 
 void TLockOnCursor::reset_and_spawn_cursors() {
@@ -497,7 +497,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         }
         break;
     case 2:
-        wpn = get_weapon_range_record(TObjPlayer::get_equipped_weapon(player), id);
+        wpn = get_weapon_range_record(player->get_equipped_weapon(), id);
         activate_action_channel(cur);
         set_cursor_color(player, cur);
         cur->set_body_exclude_mask(0);
@@ -1519,7 +1519,7 @@ void LockOnActionSlot::set_max_targets(s32 v) { max_targets = v; }
 NJS_OBJECT *TMainCursor::get_cursor_model() { return main_cursor_model; }
 
 
-int get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
+NJS_OBJECT *get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
 
 
 TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
@@ -1695,7 +1695,7 @@ void LockOnTargetRecord::clear_excluded() { flags.clear(2); }
 s32 LockOnActionSlot::get_max_targets() { return max_targets; }
 
 
-int get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
+NJS_OBJECT *get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
 
 
 int LockOnTargetRecord::is_primary() { return flags.test_flags_any(1); }

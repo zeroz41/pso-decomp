@@ -1,7 +1,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/model_render_state.h"
 #include "types.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
@@ -38,7 +37,6 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
 
-#include "pso/ui/charcreate/TObjCMMainMenu.h"
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 CharacterAppearanceFields *get_creation_visual_record(void) {

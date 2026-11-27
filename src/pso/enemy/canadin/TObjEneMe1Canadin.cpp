@@ -36,7 +36,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -1056,7 +1056,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         this->enemy_copy_target_destination();
@@ -1190,7 +1190,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         switch (this->stage) {

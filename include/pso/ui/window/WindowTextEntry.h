@@ -41,4 +41,7 @@ extern "C" {
 // builder allocates it and calls the constructor by hand, as it does for TWindowLayoutRect.
 void *__ct__15WindowTextEntryFP16TextLayoutRecordl(void *p, TextLayoutRecord *rec, s32 client);
 }
+
+void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags);
+
 #endif

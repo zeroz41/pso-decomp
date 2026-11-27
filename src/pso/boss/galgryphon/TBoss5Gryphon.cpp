@@ -86,6 +86,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
@@ -323,6 +324,8 @@ static inline ScriptAction *script_step_actions() {
 extern "C" {
 Vec gryphon_particle_enable_pos = {0.0f, -10000.0f, 0.0f};
 Vec gryphon_particle_position_vec = {0.0f, -10000.0f, 0.0f};
+}
+
 inline s32 TBoss5Gryphon::angle_to_move_target() {
     Boss5GryphonMoveArgs *move = &this->motion->args.move;
     f32 initial_dx = move->x;
@@ -331,7 +334,6 @@ inline s32 TBoss5Gryphon::angle_to_move_target() {
     return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
-}
 extern "C" {
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };

@@ -165,17 +165,17 @@ void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) 
     TItem *slot_value;
     TObjPlayer *player;
     saddr item_id;
-    TItem *temp_r3b;
+    TItem *target_item;
 
     player = get_player_by_client_id(client_id);
     if (player != 0) {
         slot_value = TObjPlayer::get_slot_value(player->equipped_items.items, slot);
-        temp_r3b = find_item_by_id(item);
-        if (slot_value == temp_r3b) {
+        target_item = find_item_by_id(item);
+        if (slot_value == target_item) {
             player->send_6x26_unequip_item(item);
             return;
         }
-        if (temp_r3b->test_item_flags(8) != 0U) {
+        if (target_item->test_item_flags(8) != 0U) {
             player->send_6x26_unequip_item(item);
         }
         if (slot_value != NULL) {

@@ -28,6 +28,7 @@ const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"

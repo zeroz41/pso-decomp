@@ -99,6 +99,7 @@ struct NJS_OBJECT;
 #include "pso/render/DebugFont.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/ActorCollision.h"
@@ -569,7 +570,6 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     invoke_initialization_hook(set_data);
     state_flags = 0;
     {
-        // exchange_object_state copies the object's whole 12-byte lobby record
         EnemyStateRecord record;
         if (exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
             state_flags |= 0x8000;
@@ -1632,7 +1632,6 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 #define SWAP_COLOR_HALVES(x) ((((x) & 0xFF00) << 16) | ((x) >> 16) | (((x) & 0xFF) << 16))
 
 // SWAP_COLOR_HALVES swaps the two halfwords of a packed colour (0xAARRGGBB -> 0xGGBBAARR)
-// The runtime's float to unsigned conversion, called directly here.
 
 void TBoss2DeRolLe::update_pulsing_colors() {
     s32 i;

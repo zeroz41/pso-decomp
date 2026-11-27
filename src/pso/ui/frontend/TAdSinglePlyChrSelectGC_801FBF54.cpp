@@ -1297,7 +1297,7 @@ s32 TAdSinglePlyChrSelectGC::is_slot_active(unsigned int slot) {
         return 0;
     }
     result = card_character_save_buffer;
-    if ((result != 0U) && (result->is_entry_valid(i) != 0)) {
+    if ((result != NULL) && (result->is_entry_valid(i) != 0)) {
         return 1;
     }
     return 0;

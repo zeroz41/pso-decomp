@@ -602,11 +602,11 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
-        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TWindowMenu *)playerPopups[client_id])->disable_input();
-        ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        (reinterpret_cast<TWindowMenu *>(playerPopups[client_id]))->align_menu_entry_positions();
+        playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        playerPopups[client_id]->set_flag70_bit10();
+        playerPopups[client_id]->disable_input();
+        playerPopups[client_id]->calc_window_size();
+        playerPopups[client_id]->align_menu_entry_positions();
     }
 }
 
@@ -699,11 +699,11 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
-        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TWindowMenu *)playerPopups[client_id])->disable_input();
-        ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        (reinterpret_cast<TWindowMenu *>(playerPopups[client_id]))->align_menu_entry_positions();
+        playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        playerPopups[client_id]->set_flag70_bit10();
+        playerPopups[client_id]->disable_input();
+        playerPopups[client_id]->calc_window_size();
+        playerPopups[client_id]->align_menu_entry_positions();
     }
 }
 

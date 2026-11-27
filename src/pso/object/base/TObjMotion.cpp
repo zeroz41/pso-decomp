@@ -44,7 +44,7 @@ void TMotionModel::stop() {
     state = 1;
 }
 
-void *TDrawableModel::get_model() {
+NJS_OBJECT *TDrawableModel::get_model() {
     return model;
 }
 
@@ -546,7 +546,7 @@ void TMotionModel::play_backward() {
 }
 
 void TMotionModel::draw_model() {
-    draw_model_motion((NJS_OBJECT *)get_model(), get_motion(), get_frame());
+    draw_model_motion(get_model(), get_motion(), get_frame());
 }
 
 void setup_actor_draw_lighting() {

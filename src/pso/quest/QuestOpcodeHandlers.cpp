@@ -149,6 +149,7 @@
 #include "pso/item/FloorItemSync.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"

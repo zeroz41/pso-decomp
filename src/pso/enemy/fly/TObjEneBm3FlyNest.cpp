@@ -32,6 +32,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
@@ -207,7 +208,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(bm3_fly_nest_bml->models[0].texlist));
+    set_texture_list(bm3_fly_nest_bml->models[0].texlist);
     push_matrix();
     if (state == 0) {
         post_translate_matrix(&origin->x);

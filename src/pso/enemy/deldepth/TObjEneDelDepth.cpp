@@ -701,7 +701,7 @@ void TObjEneDelDepth::update_look_around() {
     }
     this->angle -= 0x600;
     if (this->angle <= 0) {
-        u32 n = ((NJS_MOTION *)get_bml_motion(shared_resource, 0xB))->nbFrame;
+        u32 n = get_bml_motion(shared_resource, 0xB)->nbFrame;
         lim = (s32)((f32)n / 0.5f);
         this->angle = 0;
         if (this->targetPlayer != 0xFFFF) {

@@ -5,6 +5,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/TextureState.h"
 #include <stddef.h>
@@ -625,7 +626,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        if (update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (validate_target() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         this->update();
@@ -729,7 +730,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (update_death_check() == 0) {
+        if (validate_target() == 0) {
             this->enemy_clear_target();
         }
         switch (this->step) {
@@ -822,7 +823,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (validate_target() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         switch (this->step) {

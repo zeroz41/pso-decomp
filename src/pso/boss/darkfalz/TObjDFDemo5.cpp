@@ -9,6 +9,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkModelDraw.h"

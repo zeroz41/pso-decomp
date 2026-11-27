@@ -226,7 +226,7 @@ s32 PlayerPkState::is_enabled() { return enabled; }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_equipped_weapon(TObjPlayer *player) { return get_slot_value(player->equipped_items.items, 6); }
+TItem *TObjPlayer::get_equipped_weapon() { return get_slot_value(equipped_items.items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -1409,13 +1409,13 @@ s32 TObjChara::roll_physical_accuracy(TObjChara *attacker, s32 collider, f32 acc
 
 #pragma pop
 void TObjPlayer::show_miss_for_collider(s32 collider) {
-    this->show_miss_popup(&this->bodies[collider].center.x);
+    this->show_miss_popup(&this->bodies[collider].center);
 }
 
-void TObjChara::show_miss_popup(const float *pos) {
+void TObjChara::show_miss_popup(Vec *pos) {
     if (this->test_actor_flags(0x02000000) == 0 && this->is_locally_controlled() == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
-            TOCtrlDubchik::create_font((Vec *)pos, 0xFFFF0000, 0x14, miss_label_text);
+            TOCtrlDubchik::create_font(pos, 0xFFFF0000, 0x14, miss_label_text);
         }
     }
 }
@@ -1482,7 +1482,7 @@ int TObjChara::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody
         }
         this->actorFlags |= 0x100;
         VecCopy(&delta, &body->center);
-        this->show_miss_popup((const float *)&delta);
+        this->show_miss_popup(&delta);
     }
     return 0;
 }
@@ -2379,7 +2379,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
         case 11:
         case 12:
         case 13:
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             break;
         }
         if (coll != NULL) {
@@ -2407,7 +2407,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     rec.kind = 0;
     rec.power = dmg;
     if (attacker_id < 0x1000) {
-        TItem *item = TObjPlayer::get_equipped_weapon((TObjPlayer *)att);
+        TItem *item = ((TObjPlayer *)att)->get_equipped_weapon();
         if (item == NULL) {
             mul = (1.0f);
         } else {
@@ -2538,7 +2538,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else if (entity_id < 0x1000) {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2591,7 +2591,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             actorFlags |= 0x100;
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2619,7 +2619,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             actorFlags |= 0x100;
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2650,7 +2650,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             actorFlags |= 0x100;
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2672,7 +2672,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
                 receive_physical_attack(att, (0.6f));
             }
         } else {
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2692,7 +2692,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
                 receive_physical_attack(att, (0.6f));
             }
         } else {
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2764,7 +2764,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
                 empty_post_damage_hook(this, att);
             }
         } else {
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2786,13 +2786,13 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     case 13:
         if (is_boss_area() != 0) {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
         } else if (entity_id < 0x1000) {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2815,7 +2815,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }

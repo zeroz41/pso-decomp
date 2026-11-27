@@ -86,8 +86,8 @@ void PageIndicator::draw(WindowDrawContext *r) {
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    draw_page_arrow_right(r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)arrow_offset);
-    draw_page_arrow_left(r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)arrow_offset);
+    draw_page_arrow_right(r, 40.0f + pos.x, 2.0f + pos.y, scale, arrow_offset);
+    draw_page_arrow_left(r, pos.x - 69.0f, 2.0f + pos.y, scale, arrow_offset);
     end_screen_draw();
     set_text_draw_params(r, 0, 1, scale, (f32)1e+05f);
     text_builder_reset();

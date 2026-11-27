@@ -1789,7 +1789,7 @@ void TObjPlayer::begin_fall_reaction() {
     if (test_actor_flags(0x800) != 0) {
         drop_items_on_death();
     }
-    spawn_effect();
+    start_fall_rumble();
     if ((this == NULL) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
@@ -3404,8 +3404,8 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         f32 accuracy;
-        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon(this) != NULL &&
-            get_equipped_weapon(this)->is_identified() == 0) {
+        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon() != NULL &&
+            get_equipped_weapon()->is_identified() == 0) {
             if ((f32)get_ata() < 0.0f) {
                 accuracy = 0.0f;
             } else {
@@ -3437,7 +3437,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             hit = 1;
             ItemSoundRequest sound;
             sound.clear();
-            TItem *item = get_equipped_weapon(this);
+            TItem *item = get_equipped_weapon();
             if (item != NULL) {
                 sound.group = item->get_item_group();
                 sound.index = item->get_item_index();
@@ -3467,7 +3467,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         hit = 1;
                         ItemSoundRequest sound;
                         sound.clear();
-                        TItem *item = get_equipped_weapon(this);
+                        TItem *item = get_equipped_weapon();
                         if (item != NULL) {
                             sound.group = item->get_item_group();
                         }
@@ -3501,7 +3501,7 @@ void handle_6x46_attack_finished(G_AttackFinished_6x46 *command) {
     if (validate_6x46_attack_finished(&packet) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
             pl->attack_state.set_lockon_targets(&packet.targets);
-            it = TObjPlayer::get_equipped_weapon(pl);
+            it = pl->get_equipped_weapon();
             if (it != NULL) {
                 it->perform_action();
                 return;
@@ -3540,7 +3540,7 @@ s32 TObjPlayer::select_attack_palette_slot() {
 
 s32 TObjPlayer::check_mode_action(s32 action) {
     if (action == 2) {
-        TItem *weapon = get_equipped_weapon(this);
+        TItem *weapon = get_equipped_weapon();
         if (weapon != NULL) {
             if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                 return 0;
@@ -3596,7 +3596,7 @@ void TObjPlayer::apply_movement_if_ready() {
 }
 
 void TObjPlayer::update_anim_action() {
-    get_equipped_weapon(this);
+    get_equipped_weapon();
     if (this->get_handle_value() != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
             send_attack_target_packet();

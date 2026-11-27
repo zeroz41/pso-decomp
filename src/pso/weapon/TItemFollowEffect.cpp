@@ -18,11 +18,11 @@ void TItemFollowEffect::run_task() {
     found = 0;
     if (particle != NULL) {
         item = find_item_by_id(item_id);
-        if ((item != 0) && (item->get_mode() == 2)) {
+        if ((item != NULL) && (item->get_mode() == 2)) {
             found = 1;
             if (((TItemWeapon *)item)->get_joint_position(joint, &pos) != 0) {
                 particle->set_position(&pos);
-                if ((item->is_hidden() == 0) || (((TObjCollidable *)item)->test_actor_flags(0x08000000) == 0)) {
+                if ((item->is_hidden() == 0) || (item->test_actor_flags(0x08000000) == 0)) {
                     particle->clear_active_flag();
                 } else {
                     particle->enable();

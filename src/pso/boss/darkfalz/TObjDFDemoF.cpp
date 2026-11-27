@@ -94,7 +94,7 @@ void TObjDFDemoF::render() {
     post_translate_matrix(&three_part_model_translate_offset.x);
     s32 i = 0;
     do {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures[i]));
+        set_texture_list(textures[i]);
         NJS_MOTION *motion = motions[i];
         if (motion == NULL) {
             draw_chunk_object(models[i]);

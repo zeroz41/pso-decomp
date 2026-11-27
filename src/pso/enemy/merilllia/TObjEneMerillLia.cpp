@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 
 #include "pso/system/task/TObject.h"

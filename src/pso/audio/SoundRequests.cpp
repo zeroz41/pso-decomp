@@ -109,12 +109,12 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
 // Defined here: CodeWarrior emits it in definition order.
-const u32 lbl_805DC748 = 1;
+const u32 sound_pitch_request_keep_mask = 1;
 
 void stop_sound_request(s32 idx) {
     if (sound_requests_enabled != 0 && idx >= 0 && idx < 0x28) {
         release_sound_with_fade(idx);
-        sound_pitch_requests[idx].flags &= lbl_805DC748;
+        sound_pitch_requests[idx].flags &= sound_pitch_request_keep_mask;
         sound_pitch_requests[idx].timer = 0;
         sound_pitch_requests[idx].src = 0;
     }
@@ -171,7 +171,7 @@ void reset_sound_pitch_requests(void) {
         fade_all_voice_channels();
     }
     for (i = 0; i < 0x28; i++) {
-        sound_pitch_requests[i].flags &= lbl_805DC748;
+        sound_pitch_requests[i].flags &= sound_pitch_request_keep_mask;
         sound_pitch_requests[i].timer = 0;
         sound_pitch_requests[i].src = 0;
     }
@@ -248,7 +248,7 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 vo
         idx = normalize_sound_request(id, actor, position, volume, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
-            sound_pitch_requests[idx].flags &= lbl_805DC748;
+            sound_pitch_requests[idx].flags &= sound_pitch_request_keep_mask;
             if (flags & 1) {
                 sound_pitch_requests[idx].flags |= 0x2000;
             }
@@ -290,7 +290,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
             VecCopy(pos, position);
             set_sound_request_position(idx, pos);
         }
-        sound_pitch_requests[idx].flags &= lbl_805DC748;
+        sound_pitch_requests[idx].flags &= sound_pitch_request_keep_mask;
         if (flags & 1) {
             sound_pitch_requests[idx].flags |= 0x2000;
         }

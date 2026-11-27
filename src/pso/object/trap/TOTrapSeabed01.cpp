@@ -85,7 +85,7 @@ TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent)
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(trap_seabed01_bml_resource, 0);
-    current_motion = (NJS_MOTION *)get_bml_motion(trap_seabed01_bml_resource, 0);
+    current_motion = get_bml_motion(trap_seabed01_bml_resource, 0);
     play_speed = 1.0f;
     frame = 0.0f;
     clamp_params_and_init();

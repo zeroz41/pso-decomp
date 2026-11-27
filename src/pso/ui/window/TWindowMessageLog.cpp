@@ -156,7 +156,7 @@ s32 find_free_chat_log_slot() {
     return 29;
 }
 
-void chat_log_remove_line(saddr index) {
+void chat_log_remove_line(s32 index) {
     char **destination;
     char *line;
     destination = &chat_log_lines[index];

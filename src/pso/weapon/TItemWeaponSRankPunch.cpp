@@ -113,7 +113,7 @@ void TItemWeaponSRankPunch::transform_model_node() {
             if (flags.test_flags_any(1)) {
                 p = second_model;
             } else {
-                p = (NJS_OBJECT *)model_data[1];
+                p = model_data[1];
             }
             if (p) {
                 draw_ginja_object(p);
@@ -132,7 +132,7 @@ void TItemWeaponSRankPunch::draw_held_model() {
     this->flags.set(1);
     draw_weapon_at_joint(0x30);
     get_joint_position(1, &shot_origins[0]);
-    item_model = (NJS_OBJECT *)model_data[0];
+    item_model = model_data[0];
     this->flags.clear(1);
     draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
@@ -175,7 +175,7 @@ NJS_OBJECT *get_punch_shot_model(u8 *weapon) {
     if (punch->flags.test_flags_any(4) != 0) {
         return punch->second_model;
     }
-    return (NJS_OBJECT *)punch->model_data[1];
+    return punch->model_data[1];
 }
 
 

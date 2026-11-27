@@ -278,7 +278,7 @@ void TOBoss4Rock::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         for (i = 0; i < count; i++) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlists[i]));
+            set_texture_list(texlists[i]);
             push_matrix();
             post_translate_matrix(&positions[i].x);
             rotate_matrix_z(NULL, rotations[i].z);

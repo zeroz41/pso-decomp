@@ -4,6 +4,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/effect/TDuelEffectNumber.h"

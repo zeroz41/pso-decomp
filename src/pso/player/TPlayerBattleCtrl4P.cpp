@@ -122,7 +122,7 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     for (i = 0; i < 4; i++) {
         TObjPlayer *pl = get_player_by_client_id(i);
         if (pl != NULL) {
-            pl->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
+            pl->export_character_data(TAdSinglePlyChrSelectGC::get_char_index((u32)i));
         }
     }
     instance = this;

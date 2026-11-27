@@ -160,7 +160,7 @@ TechniqueContactList technique_contact_query_results;
 void resetTechniqueContactQuery();
 
 
-TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact(TObjCollidable *target, CollisionBody *body, void *player) {
+TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player) {
     Vec pos;
     f32 range;
     s32 i;

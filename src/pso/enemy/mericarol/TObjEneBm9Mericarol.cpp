@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/effect/GroundContactSound.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
@@ -586,7 +586,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     enemy_set_target_id(target);
                 }
             }
-        } else if (update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         enemy_copy_target_destination();

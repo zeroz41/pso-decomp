@@ -259,10 +259,4 @@ void draw_scanline_sweep();
 
 void draw_bottom_bar();
 
-class WindowTextEntry;
-struct TextLayoutRecord;
-
-void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags);
-extern "C" void measure_message_text_width(WindowTextEntry *entry, f32 max_width);
-
 #endif

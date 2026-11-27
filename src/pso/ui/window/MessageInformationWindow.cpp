@@ -12,6 +12,6 @@ TWindowMessageInfomation *create_message_information_window(const NJS_POINT2 *po
   state->flags |= 0x20;
   set_message_window_size(extent, 0x10);
   window = new TWindowMessageInfomation(position, client);
-  state->flags &= 0xFFFFFFDF;
+  state->flags &= ~0x20;
   return window;
 }

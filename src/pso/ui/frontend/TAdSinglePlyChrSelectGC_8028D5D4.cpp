@@ -2,7 +2,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/memory.h"
 #include "types.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"

@@ -205,7 +205,7 @@ s32 challenge_rank_for_total(s32 total) {
     if (total < min_total || total > max_total) {
         return -4;
     }
-    record = &(get_character_save_record(0xFFFF))->challenge;
+    record = &get_character_save_record(0xFFFF)->challenge;
     rank = challenge_set_rank(record, RECORD_SET_CURRENT);
     for (i = 2, threshold = &challenge_mode_state.rank_thresholds[2]; i >= 0; i--, threshold--) {
         if (threshold->time != 0 && threshold->time >= total) {
@@ -308,7 +308,7 @@ s32 show_challenge_result(s32 clear_time) {
     record_challenge_stage_time(clear_time);
     total = get_challenge_set_time(0xFFFF, RECORD_SET_CURRENT);
     if (total != 0) {
-        own = &(get_character_save_record(0xFFFF))->challenge;
+        own = &get_character_save_record(0xFFFF)->challenge;
         total -= decode_challenge_time(challenge_set_stage_times(own, RECORD_SET_CURRENT)[challenge_mode_state.stage]);
         total += clear_time;
         rank = challenge_rank_for_total(total);
@@ -327,7 +327,7 @@ s32 show_challenge_result(s32 clear_time) {
     rec.previous.time = decode_challenge_time(*best_time);
     decode_obfuscated_string(rec.previous.award_name, client->rank_title, 12);
     rec.previous.rank = decode_challenge_count(stage_rank->rank);
-    saved = &(get_character_save_record(0xFFFF))->challenge;
+    saved = &get_character_save_record(0xFFFF)->challenge;
     stage_rank = challenge_set_rank(saved, RECORD_SET_CURRENT);
     rec.current.time = clear_time;
     decode_obfuscated_string(rec.current.award_name, saved->rank_title, 12);

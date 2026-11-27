@@ -199,7 +199,7 @@ void TCheckMemoryCard::create_message_and_menu(const char *text, s32 sel, const 
         menu_window->add_text_entry(entry_text, 5, 1);
     }
     menu_window->update_layout_height(check_memory_card_menu_width);
-    (reinterpret_cast<TWindowMenu *>(menu_window))->align_menu_entry_positions();
+    menu_window->align_menu_entry_positions();
     if (sel != -2) {
         menu_window->set_selected_index(sel);
     } else {

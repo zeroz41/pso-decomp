@@ -8,7 +8,7 @@
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.h"
 #include "pso/enemy/TObjEneDf2BringerTpDrainPoint.h"
 #include "pso/enemy/TObjEneDf2BringerRing.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/FloatRounding.h"

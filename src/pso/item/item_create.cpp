@@ -526,7 +526,7 @@ void handle_player_event(s32 client, s32 slot) {
         item = NULL;
         switch (slot) {
         case 0:
-            item = TObjPlayer::get_equipped_weapon(player);
+            item = player->get_equipped_weapon();
             break;
         case 1:
             item = player->get_equipped_armor();
@@ -966,7 +966,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
         flags |= 1;
       }
       st.clear_fields();
-      ((TObjPlayer *) player_alias)->build_player_equipment_requirement_stats(&st);
+      player_alias->build_player_equipment_requirement_stats(&st);
       if (st.atp < weapon->atp_required)
       {
         flags |= 2;
@@ -993,11 +993,11 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       ArmorPmtEntry *armor;
       if ((saddr) (armor = (ArmorPmtEntry *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) armor->class_flags) == ((0, 0)))
+        if (check_class_equip_permission(player_alias, (s16) armor->class_flags) == ((0, 0)))
         {
           flags |= 1;
         }
-        r = ((TObjChara *) player_alias)->get_actor_level_index();
+        r = player_alias->get_actor_level_index();
         if (r < armor->required_level)
         {
           flags |= 0x10;
@@ -1045,7 +1045,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       MagPmtRecord *mag;
       if ((mag = (MagPmtRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) mag->class_flags) == 0)
+      if (check_class_equip_permission(player_alias, (s16) mag->class_flags) == 0)
       {
         flags |= 1;
       }

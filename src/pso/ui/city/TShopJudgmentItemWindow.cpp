@@ -18,6 +18,7 @@
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"

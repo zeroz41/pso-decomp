@@ -40,8 +40,9 @@ struct NJS_OBJECT;
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -980,7 +981,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
     case 0:
         (this->substate)++;
         this->advance_animation();
-        if (update_death_check() != 0) {
+        if (validate_target() != 0) {
             play_walk_footsteps();
             this->target_heading = approach_angle_limited(this->target_heading, this->base_heading, 0x100);
             this->destination.x = 90.0f * sin_table_lookup(this->target_heading) + home->x;
@@ -1175,7 +1176,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
 
     case 0:
       advance_animation();
-      if (update_death_check() != 0)
+      if (validate_target() != 0)
     {
       if (random_phase == 0)
       {
@@ -1358,7 +1359,7 @@ void TObjEneBm5GibonU::flanking_state(s32 msg) {
         return;
     case 0:
         this->advance_animation();
-        if (update_death_check() == 0) {
+        if (validate_target() == 0) {
             return;
         }
         if (this->is_passing_frame(13.0f) != 0) {
@@ -1439,7 +1440,7 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
         if ((s16) this->requested_action == 2) {
             play_run_footstep();
         }
-        if (update_death_check() != 0) {
+        if (validate_target() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->is_passing_frame(18.0f) != 0) {

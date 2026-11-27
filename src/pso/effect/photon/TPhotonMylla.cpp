@@ -28,6 +28,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/model_render_state.h"

@@ -132,7 +132,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
         break;
     case 2:
         if (ev->slot == 2) {
-            TItem *weapon = TObjPlayer::get_equipped_weapon(pl);
+            TItem *weapon = pl->get_equipped_weapon();
             if (weapon == NULL || weapon_has_extra_attack((TItemWeapon *)weapon) != 1) {
                 break;
             }

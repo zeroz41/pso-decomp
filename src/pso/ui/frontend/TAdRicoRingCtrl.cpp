@@ -1,7 +1,6 @@
 #include "clib/fp_convert.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlAccessors.h"
-#include "pso/system/task/TMainTask.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"

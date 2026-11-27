@@ -440,7 +440,7 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     ChallengeRecord *w;
     lo = challenge_set_min_time(slot);
     hi = challenge_set_max_time(slot);
-    if (reinterpret_cast<const void *>(get_character_save_record(card)) == NULL) {
+    if (get_character_save_record(card) == NULL) {
         return -4;
     }
     if (total < lo || total > hi) {

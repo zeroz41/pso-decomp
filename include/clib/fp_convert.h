@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 // Runtime helper the compiler calls for float to unsigned conversions.
-u32 __cvt_fp2unsigned(f32 x);
+u32 __cvt_fp2unsigned(f64 d);
 
 #ifdef __cplusplus
 }

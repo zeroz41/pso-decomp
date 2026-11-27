@@ -388,7 +388,7 @@ struct TObjPlayer : public TObjChara {
     Vec *get_prev_position_ptr();
     static void set_com_card_window(s32 client);
     static s32 check_demo_mode();
-    static TItem *get_equipped_weapon(TObjPlayer *player);  // equipped_items[6]
+    TItem *get_equipped_weapon();  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
     s32 test_action_mask(s32 bits);
@@ -502,8 +502,8 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_4000();
     void set_flag_4000();
     s32 is_flag_4000_set();
-    void set_battle_flag(s32 v);
-    // Quest opcode set_returnhunter: battle flag 1.
+    void set_return_destination(s32 destination);
+    // Quest opcode set_returnhunter: return destination 1.
     void set_return_hunter();
     s32 get_return_destination();
     int is_hold_flag_set();
@@ -770,7 +770,7 @@ struct TObjPlayer : public TObjChara {
     static void set_model_fade_alpha(f32 alpha);
     static void copy_gauge_warn_vec();
     static void alloc_and_init_object_b4();
-    static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
+    static void draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, f32 frame, f32 alpha);
     static void draw_player_model_by_id(s32 client_id, f32 alpha);
     static void rebuild_players_for_stage(s32 stage);
     static void spawn_appearance_effect(u16 client);
@@ -830,7 +830,7 @@ struct TObjPlayer : public TObjChara {
     void deactivate_body_collision();
     void send_field_state();
     void play_photon_blast_feedback();
-    void spawn_effect();
+    void start_fall_rumble();
     void draw();
     void set_state_flag_604B();
     static void send_disable_pk_mode(TObjPlayer *player);
@@ -1203,6 +1203,7 @@ struct TObjPlayer : public TObjChara {
     void init_session_technique_caps(PlayerSyncRecord *record);
     void init_saved_technique_caps(TPlyCharData *record);
     void init_session_area_sync(void *record);
+    // The Star Atomizer's effect: tells the players within range of this one.
     void send_nearby_player_ids(f32 range);
     s32 build_player_equipment_requirement_stats(PlayerRequirementStats *player_requirement_stats);
 };
@@ -1295,9 +1296,5 @@ struct PhotonBlastMotionTiming {
 s32 try_buy_item(TObjPlayer *player, TItemData *item);
 // The inventory id of the item with this kind/group/index code, or -1.
 s32 find_inventory_item_id_by_code(TObjPlayer *player, u8 kind, u8 group, u8 index);
-
-void create_bgm_col_zones(void);
-
-void create_technique_charge_light(u32 kind, void *owner);
 
 #endif

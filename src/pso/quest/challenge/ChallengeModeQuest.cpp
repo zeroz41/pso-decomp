@@ -238,7 +238,7 @@ s32 award_challenge_item(TItemData *item) {
     }
     if (TAdSinglePlyChrSelectGC::forward_to_global_instance(item) != 0) {
         threshold = &challenge_mode_state.rank_thresholds[challenge_mode_state.result_rank];
-        record = &(get_character_save_record(0xFFFF))->challenge;
+        record = &get_character_save_record(0xFFFF)->challenge;
         rank = challenge_set_rank(record, RECORD_SET_CURRENT);
         rank->award_flags |= threshold->award_flags;
         return 1;

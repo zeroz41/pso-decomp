@@ -14,6 +14,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/drop/TItemDrop.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/mag/TItemMagGrowEff.h"
 #include "pso/item/mag/TItemMagSub.h"
@@ -831,7 +832,7 @@ s32 TItemMag::apply_feed(MagStats *change) {
         if (get_mode() == 2) {
             refresh_owner_stats();
             if (owner->obj_isState2_324() == 0) {
-                weapon = (TItem *)TObjPlayer::get_equipped_weapon(owner);
+                weapon = owner->get_equipped_weapon();
                 if (weapon != NULL && weapon->check_equip_requirements(owner, NULL) == 0) {
                     owner->send_6x26_unequip_item(weapon->get_item_id());
                 }

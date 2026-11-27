@@ -594,7 +594,7 @@ s32 ime_dispatch_request(ImeRequest *request) {
     return keyboard_soft_dispatch_fn_table[i - 1](args);
 }
 
-s32 ime_request_fullwidth_chars(char *text, char *rest) {
+s32 ime_request_0x28(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x28;
     req.text = text;
@@ -602,7 +602,7 @@ s32 ime_request_fullwidth_chars(char *text, char *rest) {
     return ime_dispatch_request(&req);
 }
 
-s32 ime_request_halfwidth_katakana(char *text, char *rest) {
+s32 ime_request_0x27(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x27;
     req.text = text;
@@ -610,7 +610,7 @@ s32 ime_request_halfwidth_katakana(char *text, char *rest) {
     return ime_dispatch_request(&req);
 }
 
-s32 ime_request_hiragana(char *text, char *rest) {
+s32 ime_request_0x26(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x26;
     req.text = text;
@@ -618,7 +618,7 @@ s32 ime_request_hiragana(char *text, char *rest) {
     return ime_dispatch_request(&req);
 }
 
-s32 ime_request_katakana(char *text, char *rest) {
+s32 ime_request_0x25(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x25;
     req.text = text;

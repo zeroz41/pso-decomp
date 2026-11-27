@@ -5,6 +5,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"

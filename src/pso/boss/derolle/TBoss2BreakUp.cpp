@@ -197,7 +197,7 @@ void TBoss2JointBreakUp::render() {
     scale.x = boss2_model_scale;
     scale.y = boss2_model_scale;
     scale.z = boss2_model_scale;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
+    set_texture_list(models[2].texlist);
     for (i = 0; i < 19; i++) {
         push_matrix();
         post_translate_matrix(&p->pos.x);
@@ -301,7 +301,7 @@ void TBoss2BodyBreakUp::render() {
     {
         NJS_ARGB c = {1.0f, 1.0f, 1.0f, 1.0f};
         n = mesh->child;
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
+        set_texture_list(models[2].texlist);
         push_matrix();
         for (i = 0; i < 0x1C; i++, n = n->sibling, p++) {
             push_matrix();

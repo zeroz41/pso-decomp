@@ -202,7 +202,7 @@ public:
 };
 
 struct TLockOnCursor : public TObject {
-    static s32 target_cursor_model;
+    static NJS_OBJECT *target_cursor_model;
     FlagWord flags;
     u16 target_id; // read by get_target_id()
     ActionPriorityList action_list;
