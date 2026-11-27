@@ -258,31 +258,25 @@ s32 TObjEneLappy::advance_flee_step() {
         } else {
             dir = 1;
         }
-        tries = 0;
-        angle = 0;
-loop_7:
-        if (tries == 0) {
-            VecCopy(&step, &velocity);
-        } else {
-            push_matrix_from(&identity_matrix);
-            rotate_matrix_y(0, (int)(dir * angle));
-            rotate_vector_by_matrix(0, &velocity, &step);
-            pop_matrices(1);
+        for (tries = 0, angle = 0; tries < 0xF; tries++, angle += 0x1000) {
+            if (tries == 0) {
+                VecCopy(&step, &velocity);
+            } else {
+                push_matrix_from(&identity_matrix);
+                rotate_matrix_y(0, (int)(dir * angle));
+                rotate_vector_by_matrix(0, &velocity, &step);
+                pop_matrices(1);
+            }
+            VecCopy(&probe, &position);
+            vec3_add_to(&probe, &step);
+            if (project_actor_to_ground(this, &probe, 0) == 1) {
+                VecCopy(&position, &probe);
+                VecCopy(&velocity, &position);
+                subtract_vector(&velocity, &prev_position);
+                return 1;
+            }
         }
-        VecCopy(&probe, &position);
-        vec3_add_to(&probe, &step);
-        if (project_actor_to_ground(this, &probe, 0) == 1) {
-            VecCopy(&position, &probe);
-            VecCopy(&velocity, &position);
-            subtract_vector(&velocity, &prev_position);
-            return 1;
-        }
-        tries += 1;
-        angle += 0x1000;
-        if (tries >= 0xF) {
-            return 0;
-        }
-        goto loop_7;
+        return 0;
     }
     if (project_actor_to_ground(this, &next, 0) == 1) {
         VecCopy(&position, &next);
@@ -576,7 +570,7 @@ void TObjEneLappy::update_moving() {
             }
             turn_toward_direction(movementParameters->turn_speed, &velocity);
             play_walk_sound();
-            goto block_48;
+            break;
         case 1:
             chased = target;
             if (chased != NULL) {
@@ -593,7 +587,7 @@ void TObjEneLappy::update_moving() {
                 move_phase = 0;
             }
             play_walk_sound();
-            goto block_48;
+            break;
         case 2:
             break;
         case 3:
@@ -606,7 +600,7 @@ void TObjEneLappy::update_moving() {
             if (is_passing_frame(30.0f) != 0) {
                 play_sound_effect(remap_area_sound_id(0x3AA11, 5), &position, 0, 0);
             }
-            goto block_48;
+            break;
         case 4:
             if (flags == 1U) {
                 enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation_y);
@@ -635,7 +629,6 @@ void TObjEneLappy::update_moving() {
             return;
         }
     }
-block_48:
     apply_actor_gravity(this, NULL, 0.0f);
     update_collisions();
 }

@@ -1165,15 +1165,10 @@ s32 TPlayerBattleCtrl::check_all_players_ready() {
 
     ready_flag = battle_player_ready_flags;
     all_ready = 1;
-    client = 0;
-loop_1:
-    if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
-        all_ready = 0;
-    } else {
-        client += 1;
-        ready_flag += 1;
-        if (client < 4) {
-            goto loop_1;
+    for (client = 0; client < 4; client++, ready_flag++) {
+        if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
+            all_ready = 0;
+            break;
         }
     }
     return all_ready;
@@ -1343,15 +1338,11 @@ s32 TPlayerBattleCtrl::check_all_battle_flags() {
     TObjPlayer *player;
     s32 client;
 
-    client = 0;
-loop_1:
-    player = get_player_by_client_id(client);
-    if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
-        return 0;
+    for (client = 0; client < 4; client++) {
+        player = get_player_by_client_id(client);
+        if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
+            return 0;
+        }
     }
-    client += 1;
-    if (client >= 4) {
-        return 1;
-    }
-    goto loop_1;
+    return 1;
 }

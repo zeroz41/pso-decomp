@@ -321,62 +321,38 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
 
 
 void TObjChallengeRetry::update_state_0() {
-  s32 area;
-  s32 no_player_flagged;
-  int first_client;
-  s32 client;
-  TObjPlayer *player;
-  area = get_current_floor_area();
-  if (area != AREA_PIONEER2_EP2)
-  {
-    if (area < 0x12)
-    {
-      if (area != AREA_PIONEER2_EP1)
-      {
-        return;
-      }
-      goto block_4;
-    }
-  }
-  else
-  {
-    first_client = 0;
-    block_4:
-    if (has_window_task_root() != 0)
-    {
-      play_player_default_effect();
-      no_player_flagged = 1;
-      client = first_client;
-      loop_6:
-      player = get_player_by_client_id(client);
-      if (player != NULL && player->test_actor_flags(0x02000000) != 0)
-      {
-        no_player_flagged = 0;
-      }
-      else
-      {
-        client += 1;
-        if (client < 4)
-        {
-          goto loop_6;
+    s32 no_player_flagged;
+    s32 client;
+    TObjPlayer *player;
+
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
+    case AREA_PIONEER2_EP2:
+        if (has_window_task_root() != 0) {
+            play_player_default_effect();
+            no_player_flagged = 1;
+            for (client = 0; client < 4; client++) {
+                player = get_player_by_client_id(client);
+                if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
+                    no_player_flagged = 0;
+                    break;
+                }
+            }
+            if (no_player_flagged != 0) {
+                if (this->is_designated != 0) {
+                    send_45_and_close_windows();
+                    show_ctrl_and_play_effect();
+                    this->state = 2;
+                    return;
+                }
+                send_45_and_close_windows();
+                play_player_default_effect();
+                open_message();
+                this->state = 3;
+            }
         }
-      }
-      if (no_player_flagged != 0)
-      {
-        if ((this->is_designated) != 0)
-        {
-          send_45_and_close_windows();
-          show_ctrl_and_play_effect();
-          this->state = 2;
-          return;
-        }
-        send_45_and_close_windows();
-        play_player_default_effect();
-        open_message();
-        this->state = 3;
-      }
+        break;
     }
-  }
 }
 
 void TObjChallengeRetry::run_task() {

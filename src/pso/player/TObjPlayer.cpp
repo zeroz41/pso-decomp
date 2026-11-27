@@ -737,12 +737,9 @@ s32 TObjPlayer::has_active_camera_event() {
         if ((TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0xB) == 0) && (get_story_flag_in_bank(1, 0xB) == 0) && (get_story_flag_in_bank(2, 0xB) == 0) && (get_story_flag_in_bank(3, 0xB) == 0)) {
             return 0;
         }
-        goto block_14;
-    }
-    if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0x5B) == 0) && (get_story_flag_in_bank(1, 0x5B) == 0) && (get_story_flag_in_bank(2, 0x5B) == 0) && (get_story_flag_in_bank(3, 0x5B) == 0)) {
+    } else if ((TLobby::get_instance() == 1) && (TObjPlayer::check_camera_mode() == 0) && (get_story_flag_in_bank(0, 0x5B) == 0) && (get_story_flag_in_bank(1, 0x5B) == 0) && (get_story_flag_in_bank(2, 0x5B) == 0) && (get_story_flag_in_bank(3, 0x5B) == 0)) {
         return 0;
     }
-block_14:
     return 1;
 }
 
@@ -2020,32 +2017,23 @@ s32 TObjPlayer::update_target_lock() {
         if ((target = (TObjPlayer *)find_entity_by_id(lock_target_id)) == NULL) {
             return 0;
         }
-        if (!(lock_target_distance_sq < player_lock_range_sq)) {
-            goto block_17;
+        if (lock_target_distance_sq < player_lock_range_sq && is_target_in_facing_cone(target->get_position_ptr()) != 0) {
+            this->actorFlags = (s32) (this->actorFlags | 0x100000);
+            return 1;
         }
-        if (is_target_in_facing_cone(target->get_position_ptr()) == 0) {
-            goto block_17;
+    } else {
+        if (lock_target_id == 0xFFFF) {
+            this->actorFlags = (s32) (this->actorFlags & 0xFFEFFFFF);
+            return 0;
         }
-        this->actorFlags = (s32) (this->actorFlags | 0x100000);
-        return 1;
+        if ((target = (TObjPlayer *)find_entity_by_id(lock_target_id)) == NULL) {
+            return 0;
+        }
+        if (lock_target_distance_sq > player_lock_release_range_sq || is_target_in_facing_cone(target->get_position_ptr()) == 0) {
+            this->actorFlags = (s32) (this->actorFlags & 0xFFEFFFFF);
+            return 0;
+        }
     }
-    if (lock_target_id == 0xFFFF) {
-        this->actorFlags = (s32) (this->actorFlags & 0xFFEFFFFF);
-        return 0;
-    }
-    if ((target = (TObjPlayer *)find_entity_by_id(lock_target_id)) == NULL) {
-        return 0;
-    }
-    if (lock_target_distance_sq > player_lock_release_range_sq) {
-        goto clear_and_return;
-    }
-    if (is_target_in_facing_cone(target->get_position_ptr()) != 0) {
-        goto block_17;
-    }
-clear_and_return:
-    this->actorFlags = (s32) (this->actorFlags & 0xFFEFFFFF);
-    return 0;
-block_17:
     return 0;
 }
 

@@ -161,28 +161,19 @@ s32 TObjEnemy::bind_enemy_combat_stats(player_stats *base_stats, AttackParams *a
             this->tpmax = (s16) (bound_stats_for_tp->stats.mst + bound_stats_for_tp->level);
             this->tp = (s16) this->tpmax;
         }
-        goto block_6;
-    }
-    if (stat_block == NULL) {
+    } else if (stat_block == NULL) {
         return 0;
     }
-block_6:
     if (attack_stats != NULL) {
         attack_params = attack_stats;
-        goto block_10;
-    }
-    if (attack_params == NULL) {
+    } else if (attack_params == NULL) {
         return 0;
     }
-block_10:
     if (resistance_stats != NULL) {
         param_block = resistance_stats;
-        goto block_14;
-    }
-    if (param_block == NULL) {
+    } else if (param_block == NULL) {
         return 0;
     }
-block_14:
     atp = stat_block->stats.atp;
     this->atp = atp;
     this->base_atp = atp;

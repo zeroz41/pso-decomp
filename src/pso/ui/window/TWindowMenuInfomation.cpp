@@ -48,21 +48,20 @@ void TWindowMenuInfomation::move_next_choice() {
 
     play_sound_effect(0x54100, 0, 0, 0);
     candidate = this->index;
-loop_1:
-    candidate += 1;
-    if (candidate >= entry_capacity) {
-        if (!(this->state_flags & 1)) {
-            candidate = 0;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (candidate != (s16) this->index) {
-            if (is_entry_selectable(candidate) != 0) {
-                this->index = candidate;
-            } else {
-                goto loop_1;
+    for (;;) {
+        candidate += 1;
+        if (candidate >= entry_capacity) {
+            if (this->state_flags & 1) {
+                return;
             }
+            candidate = 0;
+        }
+        if (candidate == (s16) this->index) {
+            return;
+        }
+        if (is_entry_selectable(candidate) != 0) {
+            this->index = candidate;
+            return;
         }
     }
 }
@@ -71,21 +70,20 @@ void TWindowMenuInfomation::move_cursor_prev() {
 
     play_sound_effect(0x54100, 0, 0, 0);
     candidate = this->index;
-loop_1:
-    candidate -= 1;
-    if (candidate < 0) {
-        if (!(this->state_flags & 1)) {
-            candidate = entry_capacity - 1;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (candidate != (s16) this->index) {
-            if (is_entry_selectable(candidate) != 0) {
-                this->index = candidate;
-            } else {
-                goto loop_1;
+    for (;;) {
+        candidate -= 1;
+        if (candidate < 0) {
+            if (this->state_flags & 1) {
+                return;
             }
+            candidate = entry_capacity - 1;
+        }
+        if (candidate == (s16) this->index) {
+            return;
+        }
+        if (is_entry_selectable(candidate) != 0) {
+            this->index = candidate;
+            return;
         }
     }
 }

@@ -206,17 +206,12 @@ TMainMenuEntry *TWindowMenuMainMenu::find_active_item_by_id(int id) {
         icon = 0x1A;
     }
     entry = entries;
-    i = 0;
-loop_3:
-    if ((entry->is_item_active() != 0) && ((s8)entry->icon == icon)) {
-        return entry;
+    for (i = 0; i < 8; i++, entry++) {
+        if ((entry->is_item_active() != 0) && ((s8)entry->icon == icon)) {
+            return entry;
+        }
     }
-    i += 1;
-    entry += 1;
-    if (i >= 8) {
-        return NULL;
-    }
-    goto loop_3;
+    return NULL;
 }
 
 TMainMenuEntry *TWindowMenuMainMenu::find_free_slot() {
@@ -224,17 +219,12 @@ TMainMenuEntry *TWindowMenuMainMenu::find_free_slot() {
     TMainMenuEntry *entry;
 
     entry = entries;
-    counter = 0;
-loop_1:
-    if (entry->is_item_active() == 0) {
-        return entry;
+    for (counter = 0; counter < 8; counter++, entry++) {
+        if (entry->is_item_active() == 0) {
+            return entry;
+        }
     }
-    counter += 1;
-    entry += 1;
-    if (counter >= 8) {
-        return 0;
-    }
-    goto loop_1;
+    return 0;
 }
 
 int TWindowMenuMainMenu::find_free_item_slot() {
@@ -250,17 +240,12 @@ s32 TWindowMenuMainMenu::count_active_items() {
     TMainMenuEntry *entry;
 
     entry = entries;
-    counter = 0;
-loop_1:
-    if (entry->is_item_active() == 0) {
-        return counter;
+    for (counter = 0; counter < 8; counter++, entry++) {
+        if (entry->is_item_active() == 0) {
+            return counter;
+        }
     }
-    counter += 1;
-    entry += 1;
-    if (counter >= 8) {
-        return 8;
-    }
-    goto loop_1;
+    return 8;
 }
 
 void TWindowMenuMainMenu::get_row_position(NJS_POINT2 *row, int index) {
