@@ -4,6 +4,7 @@
 #include <string.h>
 #include "pso/network/TProtocol.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"

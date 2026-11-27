@@ -83,8 +83,6 @@ s32 lsc_enqueue_range(LscStream* stream, const char* filename,
 s32 lsc_enqueue_file(LscStream* stream, const char* filename);
 void lsc_destroy(LscStream* stream);
 LscStream* LSC_Create(SjRingBuffer* sj);
-void lsc_shutdown(void);
-void lsc_init(void);
 void lsc_poll(LscStream* stream);
 void lsc_interrupt_lock_leave(void* lock);
 void lsc_interrupt_lock_enter(void* lock);

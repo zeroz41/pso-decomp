@@ -7,6 +7,7 @@
 #include "pso/audio/AixPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"
+#include "pso/audio/LscInit.h"
 #include "pso/audio/AdxFsServer.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/audio/GcrnaBridge.h"

@@ -35,7 +35,6 @@ extern TPlyMeetUserExtension meet_user_settings;
 extern const char *lobby_server_greeting_text;
 extern const char *port_map_copyright;
 extern u32 game_variations[16][2];
-extern void copy_packet(union packet *pkt);
 void set_lobby_count_value();
 
 // C6: the guild card numbers of the players the client blocks; header.flags is the count

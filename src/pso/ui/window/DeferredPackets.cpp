@@ -4,7 +4,6 @@
 #include "pso/network/TPacket.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/DeferredPackets.h"
-#include "pso/network/packet_copy.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
