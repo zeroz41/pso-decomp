@@ -2217,17 +2217,13 @@ pso/weapon/WeaponAttackActionData.cpp:
 pso/weapon/WeaponSpecialSelection.cpp:
 	.text       start:0x8011E248 end:0x8011E2AC
 
-pso/weapon/WeaponAttackActions.cpp:
-	.text       start:0x8011E2AC end:0x80120908
+pso/weapon/TItemWeapon.cpp:
+	.text       start:0x8011E2AC end:0x80121278
 	.rodata     start:0x8043E858 end:0x8043E868
+	.data       start:0x804A06C8 end:0x804A07C0
 	.bss        start:0x80506248 end:0x80506250
 	.sbss       start:0x805D5510 end:0x805D5518
-	.sdata2     start:0x805DAC88 end:0x805DACA8
-
-pso/weapon/TItemWeapon.cpp:
-	.text       start:0x80120908 end:0x80121278
-	.data       start:0x804A06C8 end:0x804A07C0
-	.sdata2     start:0x805DACA8 end:0x805DACB4
+	.sdata2     start:0x805DAC88 end:0x805DACB4
 
 pso/weapon/TItemWeaponSpecialGun.cpp:
 	.text       start:0x80121278 end:0x80121370

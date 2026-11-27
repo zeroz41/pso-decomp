@@ -579,7 +579,6 @@ pso/item/TItemToolQuestBgm.cpp
 pso/item/TItemToolKillCounter.cpp
 pso/weapon/TItemWeaponSRankLauncher.cpp
 pso/weapon/WeaponAttackActionData.cpp
-pso/weapon/WeaponAttackActions.cpp
 pso/weapon/WeaponSpecialSelection.cpp
 pso/map/FloorLifecycleTables.cpp
 pso/map/AreaEventSet.cpp
