@@ -5326,7 +5326,7 @@ force_active:
   - copy_character_data__23TAdSinglePlyChrSelectGCFPUc
   - copy_character_to_slot__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - copy_chat_entry__20TWindowSubSymbolChatFPl
-  - copy_data__18TCheckRoomSequenceFP14BankItemRecordPv
+  - copy_data__18TCheckRoomSequenceFP14BankItemRecordP9TItemData
   - copy_debris_params__8TObjChipFP14TObjChipParamsPC14TObjChipParams
   - copy_drop_node__FPUcPUc
   - copy_effect_data__18TAdChrMoveEffectGCFPvPv

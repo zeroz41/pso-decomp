@@ -744,7 +744,7 @@ void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) 
 #pragma pop
 
 #pragma optimization_level 1
-s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
+s32 copy_bank_item_with_stack_limit(s32 idx, TItemData *data, s32 *out, s32 slot) {
   BankItemRecord *records = bank_item_records_by_slot[slot];
   s32 max;
   if (idx > 199)
@@ -757,7 +757,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   }
   TCheckRoomSequence::copy_data(&records[idx], data);
   *out = records[idx].amount;
-  max = ((TItemData *)data)->get_max_stack_size();
+  max = data->get_max_stack_size();
   if (max < *out)
   {
     *out = max;
@@ -768,7 +768,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
+s32 TCheckRoomSequence::copy_item_record(int idx, TItemData *data, int slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     if (idx > 199) {
         return 0;
@@ -880,19 +880,18 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) {
-    TItemData *dst = (TItemData *)item;
-    dst->data1.data_u8[0] = p->item.data1.data_u8[0];
-    dst->data1.data_u8[1] = p->item.data1.data_u8[1];
-    dst->data1.data_u8[2] = p->item.data1.data_u8[2];
-    dst->data1.data_u8[3] = p->item.data1.data_u8[3];
-    dst->data1.data_u8[4] = p->item.data1.data_u8[4];
-    dst->data1.data_u8[5] = p->item.data1.data_u8[5];
-    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&p->item.data1.data_u16[3]);
-    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&p->item.data1.data_u16[4]);
-    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&p->item.data1.data_u16[5]);
-    dst->id = p->item.id;
-    dst->data2.data_u32 = p->item.data2.data_u32;
+void TCheckRoomSequence::copy_data(BankItemRecord *p, TItemData *item) {
+    item->data1.data_u8[0] = p->item.data1.data_u8[0];
+    item->data1.data_u8[1] = p->item.data1.data_u8[1];
+    item->data1.data_u8[2] = p->item.data1.data_u8[2];
+    item->data1.data_u8[3] = p->item.data1.data_u8[3];
+    item->data1.data_u8[4] = p->item.data1.data_u8[4];
+    item->data1.data_u8[5] = p->item.data1.data_u8[5];
+    ((WeaponAttribute *)&item->data1.data_u16[3])->copy((WeaponAttribute *)&p->item.data1.data_u16[3]);
+    ((WeaponAttribute *)&item->data1.data_u16[4])->copy((WeaponAttribute *)&p->item.data1.data_u16[4]);
+    ((WeaponAttribute *)&item->data1.data_u16[5])->copy((WeaponAttribute *)&p->item.data1.data_u16[5]);
+    item->id = p->item.id;
+    item->data2.data_u32 = p->item.data2.data_u32;
 }
 
 #pragma push
