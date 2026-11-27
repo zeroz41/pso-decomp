@@ -640,7 +640,7 @@ void set_retry_selection(s32 choice) {
     }
 }
 
-void TLobby::destroy_global() {
+void destroy_global() {
     if (challenge_retry_object != NULL) {
         challenge_retry_object->queue_destruction();
     }

@@ -87,7 +87,6 @@ struct TLobby : public TObject {
     void *alloc_download_quest(s32 size, s32 *out_size);
     // Empty free half of set_ending_callback in the scene load/free tables
     static void clear_object_count();
-    static void reset_floor_items();
     static int get_lobby_flag();
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
@@ -119,7 +118,6 @@ struct TLobby : public TObject {
     static int get_com_card_data();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
-    static void destroy_global();
     static void free_chr_select_slots();
     void set_flag_and_clear_download();
     void open_keyboard();
@@ -138,15 +136,11 @@ struct TLobby : public TObject {
     void add_status_disp_entry(s32 name, s32 id);
     // Takes one 13 download chunk of the quest .dat/.bin being downloaded.
     static void handle_quest_download_chunk(TRecvDownload &download);
-    static void close_trade_request();
     static void send_challenge_records(TChallenge *challenge);
     static void set_fade_params(void (*callback)());
-    static void reset_item_id_counters();
     static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
     static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
     void copy_record_entry(saddr src);
-    static s32 load_all_floor_enemy_sets();
-    static s32 load_all_floor_object_sets();
     static void apply_trade_items();
 
     void update_alloc_size();
@@ -177,17 +171,13 @@ struct TLobby : public TObject {
     static void handle_msg_type1_for_idle_slots();
     static s32 handle_msg_type2(s32 floor);
     static s32 handle_msg_type1(s32 floor);
-    static void setup_quest_list();
     static void init_id_tables();
     static s32 is_scene_ready();
     static void reset_story_select();
     static void reset_story_select(void* p);
     static s32 update_key_machine();
-    static void free_data_60F0();
-    static s32 init_handle(s32 size);
     static void free_global_buffers();
     static void clear_flag400();
-    static void cancel_trade();
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
@@ -314,7 +304,6 @@ struct TLobby : public TObject {
     static void update_ship_select_window();
     static void update_short_list();
     static void update_state();
-    static int close_trade_request(void*);
     static saddr get_object_count(void*);
     static u8 is_ready(void *);
     static void send_modify_trade_proposal(int);
@@ -351,23 +340,11 @@ struct TLobby : public TObject {
     static u32 join_entries_dtor_registration[3];
 };
 
-const char *show_event_message(s32 client_id, s32 result, s32 item_id);
-
 void destroy_global_object();
 
 void destroy_download_server(TObject *fade);
 
 void queue_destruction_and_cleanup(TObject *fade);
-
-void reset_trade_state();
-
-void check_flags_and_proceed();
-
-void handle_reset_choice(s32 choice);
-
-const char *check_trade_items_and_show_error();
-
-void send_trade_proposal_modify();
 
 void release_scene_resources();
 

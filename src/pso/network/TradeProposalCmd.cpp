@@ -11,8 +11,8 @@
 
 
 void update_game_modes() { update_trade_partner(); update_battle_mode(); update_trade_proposal_state(); update_trade_list_send(); }
-void close_trade_request_on_floor_unload() { TLobby::close_trade_request(); }
-void close_trade_request_on_floor_load() { TLobby::close_trade_request(); }
+void close_trade_request_on_floor_unload() { close_trade_request(); }
+void close_trade_request_on_floor_load() { close_trade_request(); }
 void reset_trade_state_on_scene_unload() { reset_trade_state(); }
 void reset_trade_state_on_scene_load() { reset_trade_state(); }
 void G_ModifyTradeProposal_6xA6::bswap() {

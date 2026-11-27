@@ -104,6 +104,8 @@
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/ui/TCharSaveSequence.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/item/TItemIdCounters.h"
 
 
 void reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -157,8 +159,8 @@ void reset_quest_state() {
     TRaderMapCore::free_map_data();
     clear_switch_table();
     TTecLuker::apply_all_players();
-    TLobby::reset_item_id_counters();
-    TLobby::reset_floor_items();
+    reset_item_id_counters();
+    reset_floor_items();
     delete_npc_players();
     if (quest_mission_manager != NULL) {
         quest_mission_manager->queue_destruction();
@@ -265,7 +267,7 @@ void reload_offline_area() {
         case 0:
             break;
         case 1:
-            TLobby::destroy_global();
+            destroy_global();
             break;
         case 2:
             break;
@@ -359,7 +361,7 @@ void rebuild_area_keep_players() {
     }
     set_enemy_mode_flag();
     reset_enemy_and_object_ids();
-    TLobby::setup_quest_list();
+    setup_quest_list();
     TQuestListVM::load_vm();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         load_area_scene_and_init(&floor_transition_state);

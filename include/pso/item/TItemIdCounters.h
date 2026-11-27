@@ -35,5 +35,6 @@ void handle_6x62(void);
 void handle_6xA2_specializable_item_drop_request(G_SpecializableItemDropRequest_6xA2 *request);
 void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int slot, f32 x, f32 z);
 void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
+void reset_item_id_counters();
 
 #endif

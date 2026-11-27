@@ -44,4 +44,6 @@ struct QuestDatRecord {
     s32 size;
 };
 
+void setup_quest_list();
+
 #endif

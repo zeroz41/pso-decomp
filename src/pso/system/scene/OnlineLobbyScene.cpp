@@ -101,6 +101,8 @@
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/ui/TCharSaveSequence.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/item/TItemIdCounters.h"
 
 
 void clear_keyboard_input_flag(void);
@@ -357,7 +359,7 @@ void TLobby::free_objects() {
     TRaderMapCore::free_map_data();
     clear_switch_table();
     TTecLuker::apply_all_players();
-    TLobby::reset_floor_items();
+    reset_floor_items();
     delete_npc_players();
     if (quest_mission_manager != NULL) {
         quest_mission_manager->queue_destruction();
@@ -411,7 +413,7 @@ void start_quest_mission(void) {
         q = new TQuestThread(quest_mission_manager, 0);
         q->run_task();
     }
-    TLobby::setup_quest_list();
+    setup_quest_list();
     set_enemy_mode_flag();
     TQuestListOnline::ensure_online_quests_loaded();
     load_area_scene_and_init(&floor_transition_state);
@@ -467,8 +469,8 @@ void change_floor_reload_area(void) {
         copy_game_variations(game_variations[0], 0x80);
         apply_phase_keyboard_mode();
         run_load_callback_table(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
-        TLobby::reset_item_id_counters();
-        TLobby::reset_floor_items();
+        reset_item_id_counters();
+        reset_floor_items();
     }
     r = load_area_scene_and_init(&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());

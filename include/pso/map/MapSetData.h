@@ -43,7 +43,7 @@ void load_floor_object_set(s32 player);
 s32 get_total_object_set_count(void);
 // --- end of C functions
 
-// Id counters of the map set loaders; TLobby::setup_quest_list resets them.
+// Id counters of the map set loaders; setup_quest_list resets them.
 extern s32 map_set_object_id_counter;
 extern s32 next_enemy_set_actor_id;
 extern s32 map_object_id_counter;
@@ -127,5 +127,9 @@ int get_obj_table_entry(int a0);
 void pick_weighted_entry(s32 *key, s32 *slot);
 int get_object_type(int a0);
 void load_set_gsl_files();
+s32 load_all_floor_enemy_sets();
+s32 load_all_floor_object_sets();
+void free_data_60F0();
+s32 init_handle(s32 size);
 
 #endif

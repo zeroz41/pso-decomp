@@ -275,7 +275,7 @@ u32 advance_item_id_counter(u16 client) {
         return reinterpret_cast<u32 *>(item_id_counter_table)[client]++;
     return reinterpret_cast<u32 *>(item_sync_counter_table)[client]++;
 }
-void TLobby::reset_item_id_counters() {
+void reset_item_id_counters() {
     s32 i;
     if (item_sync_counter_table == NULL || item_id_counter_table == NULL) {
         return;
@@ -297,7 +297,7 @@ TItemIdCounters::~TItemIdCounters() {
 TItemIdCounters::TItemIdCounters() {
     item_id_counter_table = static_cast<s32 *>(mem_alloc(12 * sizeof(s32)));
     item_sync_counter_table = static_cast<s32 *>(mem_alloc(12 * sizeof(s32)));
-    TLobby::reset_item_id_counters();
+    reset_item_id_counters();
     lbl_805D54E0 = 0;
     build_item_id_mode = 0;
 }

@@ -163,7 +163,7 @@ void clear_quest_floor_designations(void) {
 void populate_quest_floor_sets(void) {
     s32 i;
     FloorMapSelection sel;
-    TLobby::init_handle(0x8000);
+    init_handle(0x8000);
     for (i = 0; i < 18; i++) {
         switch (quest_floor_designations[i]) {
         case 0:
@@ -191,7 +191,7 @@ void populate_quest_floor_sets(void) {
     }
     TLobby::init_sub_state();
     TLobby::rebuild_entry();
-    TLobby::free_data_60F0();
+    free_data_60F0();
 }
 
 bool load_quest_encounter_section(s32 floor) {
@@ -292,7 +292,7 @@ s32 TLobby::handle_msg_type1(s32 floor) {
 }
 
 
-void TLobby::setup_quest_list() {
+void setup_quest_list() {
     map_set_object_id_counter = 0;
     next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;

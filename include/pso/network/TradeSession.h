@@ -79,4 +79,15 @@ void update_trade_partner();
 void update_battle_mode();
 void update_trade_proposal_state();
 
+
+// Trade window steps the lobby and the trade windows run.
+void cancel_trade();
+void close_trade_request();
+void reset_trade_state();
+void check_flags_and_proceed();
+void handle_reset_choice(s32 choice);
+const char *check_trade_items_and_show_error();
+void send_trade_proposal_modify();
+const char *show_event_message(s32 client_id, s32 result, s32 item_id);
+
 #endif

@@ -79,5 +79,6 @@ void update_screen();
 void set_split_screen_name(const char *name);
 
 s32 get_challenge_mode_flag();
+void destroy_global();
 
 #endif

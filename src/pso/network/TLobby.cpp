@@ -103,6 +103,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
+#include "pso/network/TradeSession.h"
 
 
 #pragma readonly_strings on

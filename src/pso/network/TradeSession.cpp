@@ -395,10 +395,10 @@ void TLobby::clear_flag400() {
 
 void check_flags_and_proceed() {
     if ((trade_sub_window == NULL) && (trade_main_window == NULL) && (trade_message_controller == NULL)) {
-        TLobby::cancel_trade();
+        cancel_trade();
     }
 }
-void TLobby::cancel_trade() {
+void cancel_trade() {
     s8 s = trade_proposal_state;
     switch (s) {
     case 0:
@@ -409,7 +409,7 @@ void TLobby::cancel_trade() {
         break;
     case 7:
     case 8:
-        protocol_instance->send_cancel_trade();
+        TLobby::protocol_instance->send_cancel_trade();
         break;
     case 9:
         break;
@@ -784,7 +784,7 @@ void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal) {
 void update_battle_mode() {
     if ((s8) trade_proposal_state != 0) {
         if (get_player_by_client_id(local_client_id) == NULL) {
-            TLobby::cancel_trade();
+            cancel_trade();
             return;
         }
         if (is_trade_range_bit_set(local_client_id) == 0) {
@@ -801,7 +801,7 @@ void update_trade_partner() {
         return;
     }
     if (get_player_by_client_id(trade_partner_client_id) == NULL) {
-        TLobby::cancel_trade();
+        cancel_trade();
         return;
     }
     if (is_trade_range_bit_set(trade_partner_client_id) == 0) {
@@ -809,7 +809,7 @@ void update_trade_partner() {
     }
 }
 
-void TLobby::close_trade_request() { trade_protocol_flags = 0; TWindowTradeRequest::close_request_window(); }
+void close_trade_request() { trade_protocol_flags = 0; TWindowTradeRequest::close_request_window(); }
 void reset_trade_state() {
     s32 i;
     trade_partner_client_id = 4;
@@ -822,7 +822,7 @@ void reset_trade_state() {
     for (i = 0; i < 2; i++) {
         trade_window_state[i].clear();
     }
-    TLobby::close_trade_request();
+    close_trade_request();
 }
 
 TradeProposalHandler trade_proposal_state_handlers[10][8] = {

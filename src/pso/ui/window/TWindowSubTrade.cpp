@@ -125,7 +125,7 @@ void TWindowSubTrade::run_task() {
     case 6:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[controller_index], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
-            TLobby::cancel_trade();
+            cancel_trade();
             this->state = 1U;
         }
         break;

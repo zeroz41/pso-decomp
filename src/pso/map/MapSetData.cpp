@@ -694,14 +694,14 @@ void load_map_set_data(s32 idx, const char *filename) {
     map_set_enemy_id_counter = 0;
     copy_name("SET");
     floor_set_flags = 0;
-    if (TLobby::init_handle(0x8000) != 0) {
+    if (init_handle(0x8000) != 0) {
         load_object_set_file(idx, filename);
         load_enemy_set_file(idx, filename);
         advance_object_id_counter((u16) map_object_id_counter);
         object_condition_count = map_set_object_id_counter;
         advance_enemy_id_counter((u16) map_set_enemy_id_counter);
         enemy_condition_count = next_enemy_set_actor_id;
-        TLobby::free_data_60F0();
+        free_data_60F0();
         floor_set_flags |= 1;
     }
     copy_name("..");
@@ -857,7 +857,7 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     return 1;
 }
 
-s32 TLobby::load_all_floor_enemy_sets() {
+s32 load_all_floor_enemy_sets() {
     FloorMapSelection stack;
     s32 floor;
     floor = 0;
@@ -875,7 +875,7 @@ s32 TLobby::load_all_floor_enemy_sets() {
     TLobby::sum_floor_enemy_counts();
     return 1;
 }
-s32 TLobby::load_all_floor_object_sets() {
+s32 load_all_floor_object_sets() {
     FloorMapSelection stack;
     s32 floor;
     floor = 0;
@@ -895,7 +895,7 @@ s32 TLobby::load_all_floor_object_sets() {
 }
 
 
-void TLobby::free_data_60F0() {
+void free_data_60F0() {
     if (map_set_file_buffer != NULL) {
         safe_free(map_set_file_buffer);
         map_set_file_buffer = NULL;
@@ -903,7 +903,7 @@ void TLobby::free_data_60F0() {
     }
 }
 
-s32 TLobby::init_handle(s32 size) {
+s32 init_handle(s32 size) {
     u8 *buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
     map_set_file_buffer = buffer;
     if (buffer != NULL) {
@@ -937,24 +937,24 @@ void load_set_gsl_files() {
     map_set_enemy_id_counter = 0;
     map_set_file_buffer_size = 0;
     floor_set_flags = 0;
-    if (TLobby::init_handle(0x8000) != 0) {
+    if (init_handle(0x8000) != 0) {
         open_gsl_archive("gsl_set_object.gsl");
-        if (TLobby::load_all_floor_object_sets() == 0) {
+        if (load_all_floor_object_sets() == 0) {
             close_gsl_archive();
-            TLobby::free_data_60F0();
+            free_data_60F0();
             floor_set_flags |= 1;
             return;
         }
         close_gsl_archive();
         open_gsl_archive("gsl_set_enemy.gsl");
-        if (TLobby::load_all_floor_enemy_sets() == 0) {
+        if (load_all_floor_enemy_sets() == 0) {
             close_gsl_archive();
-            TLobby::free_data_60F0();
+            free_data_60F0();
             floor_set_flags |= 1;
             return;
         }
         close_gsl_archive();
-        TLobby::free_data_60F0();
+        free_data_60F0();
         floor_set_flags |= 1;
     }
 }

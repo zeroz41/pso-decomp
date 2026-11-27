@@ -15,6 +15,7 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/TradeModeQuery.h"
+#include "pso/network/TradeSession.h"
 
 const char *TWindowTradeRequest::class_name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
