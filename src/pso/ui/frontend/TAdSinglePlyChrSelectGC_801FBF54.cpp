@@ -2039,9 +2039,10 @@ void decrypt_guild_card_payload(GuildCardSaveData *data) {
     ::operator delete(b);
     ::operator delete(a);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)data , 0xE28C);
+    u32 *words = (u32 *)data;
+    chr_select_rng_state.apply_rng_cipher(words, 0xE28C);
     chr_select_rng_state.set_seed(data->cipher_seed);
-    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
+    chr_select_rng_state.xor_buffer(words, 0xE288);
 }
 
 #pragma push
@@ -2053,9 +2054,10 @@ void encrypt_guild_card_payload(GuildCardSaveData *data, void *) {
     data->checksum = 0;
     data->checksum = calc_crc32_bitwise((u8 *)data, 0xE28C);
     chr_select_rng_state.set_seed(data->cipher_seed);
-    chr_select_rng_state.xor_buffer((u32 *)data, 0xE288);
+    u32 *words = (u32 *)data;
+    chr_select_rng_state.xor_buffer(words, 0xE288);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
+    chr_select_rng_state.apply_rng_cipher(words, 0xE28C);
     a = new GuildCardSaveData;
     b = new GuildCardSaveData;
     *a = *data;
@@ -2161,6 +2163,7 @@ s32 TAdSinglePlyChrSelectGC::write_encrypted_save(void) {
 void TAdSinglePlyChrSelectGC::decrypt_char_data(CharacterFile *file) {
     CharacterFile *a = new CharacterFile;
     CharacterFile *b = new CharacterFile;
+    u32 *words = (u32 *)file;
     *a = *file;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
     chr_select_rng_state.make_shuffle();
@@ -2169,9 +2172,9 @@ void TAdSinglePlyChrSelectGC::decrypt_char_data(CharacterFile *file) {
     delete b;
     delete a;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
+    chr_select_rng_state.apply_rng_cipher(words, 0x1156C);
     chr_select_rng_state.set_seed(get_character_file_seed(file));
-    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
+    chr_select_rng_state.xor_buffer(words, 0x11568);
 }
 
 void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
@@ -2181,9 +2184,10 @@ void TAdSinglePlyChrSelectGC::encrypt_save_data(CharacterFile *file) {
     TAdSinglePlyChrSelectGC::set_id(file, 0);
     TAdSinglePlyChrSelectGC::set_id(file, (s32)(calc_crc32_bitwise((u8 *)file, 0x1156C)));
     chr_select_rng_state.set_seed(get_character_file_seed(file));
-    chr_select_rng_state.xor_buffer((u32 *)file, 0x11568);
+    u32 *words = (u32 *)file;
+    chr_select_rng_state.xor_buffer(words, 0x11568);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)file, 0x1156C);
+    chr_select_rng_state.apply_rng_cipher(words, 0x1156C);
     a = new CharacterFile;
     b = new CharacterFile;
     *a = *file;
@@ -2435,14 +2439,14 @@ s32 TAdSinglePlyChrSelectGC::get_player_count() {
 
 
 s32 TAdSinglePlyChrSelectGC::update_elapsed_time(CharacterSaveRecord *record) {
-    s32 date[4];
+    DateStamp date;
     s32 start_seconds;
     s32 end_seconds;
 
     if (record != NULL) {
         DateToSeconds(&char_select_date_stamp.stamp, (int *)(&start_seconds));
-        getDateStamp((DateStamp *)date);
-        DateToSeconds((DateStamp *)(date), (int *)(&end_seconds));
+        getDateStamp(&date);
+        DateToSeconds(&date, (int *)(&end_seconds));
         record->play_time += end_seconds - start_seconds;
         return record->play_time;
     }
@@ -2500,12 +2504,12 @@ u32 calc_crc32_bitwise(u8 *data, u32 size) {
 
 
 void init_timestamped_data(void) {
-    char date[0x18];
+    DateStamp date;
 
     stop_pad_rumble();
     memset(guild_card_save_payload, 0, 0xE28C);
-    getDateStamp((DateStamp *)((s32 *) date));
-    DateToSeconds((DateStamp *)((s32 *)((s32 *) date)), (int *)&guild_card_save_payload->timestamp_seconds);
+    getDateStamp(&date);
+    DateToSeconds(&date, (int *)&guild_card_save_payload->timestamp_seconds);
     TAdSinglePlyChrSelectGC::set_save_slot(0);
 }
 
