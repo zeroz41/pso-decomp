@@ -8137,7 +8137,6 @@ force_active:
   - lbl_8050BED0
   - npc_player_visual_record
   - npc_player_char_data
-  - lbl_80511DD8
   - memcard_file_status
   - memcard_work_areas
   - card_slot_summary
