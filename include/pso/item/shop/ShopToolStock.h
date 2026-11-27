@@ -5,6 +5,9 @@
 
 struct TItemData;
 
+// The item count of each tool shop list.
+extern s32 shop_tool_stock_counts[4];
+
 // A tool's item code bytes (item data1[1] and data1[2]): the kinds ToolRandom.rel lists.
 struct ShopToolCode {
     s32 group;

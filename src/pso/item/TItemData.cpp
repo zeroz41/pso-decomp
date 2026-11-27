@@ -439,8 +439,6 @@ u16 TItemData::get_packed_value() {
     return 0U;
 }
 
-s32 get_item_icon_index(const u8 *q);
-
 s32 TItemData::is_usable() {
     u8 kind;
 
@@ -506,11 +504,13 @@ void TItemData::unpack_from_item(ObjectSetData *set) {
         }
     }
 }
-s32 get_item_icon_index(const u8 *q) {
+}
+
+s32 get_item_icon_index(const TItemData *item) {
     u8 v;
-    if (q[0] == 0) {
+    if (item->data1.data_u8[0] == 0) {
         ItemIconIndexTable t = item_icon_index_by_category_table;
-        if ((v = q[1]) < 0xAA) {
+        if ((v = item->data1.data_u8[1]) < 0xAA) {
             v = get_weapon_class_motion_type(v);
         }
         if (v < 0x13) {
@@ -520,7 +520,6 @@ s32 get_item_icon_index(const u8 *q) {
     return 0;
 }
 
-}
 int TItemData::isValidGroundDrop() {
     u8 category;
     u8 group;

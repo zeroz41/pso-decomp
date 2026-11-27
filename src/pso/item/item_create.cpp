@@ -209,10 +209,6 @@
 
 // ---- TLobby_80104374.cpp
 
-extern "C" {
-s32 get_item_icon_index();
-}
-
 // This unit's .sbss, in address order.
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
@@ -424,9 +420,9 @@ ItemCreateFunction item_tool_factory_table[24] = {
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int get_sync_counter(u16 index) { return item_sync_counter_table[index]; }
-s32 get_item_data(u32 item) {
-    if (item != 0U) {
-        return get_item_icon_index();
+s32 get_item_data(const TItemData *item) {
+    if (item != NULL) {
+        return get_item_icon_index(item);
     }
     return 0;
 }

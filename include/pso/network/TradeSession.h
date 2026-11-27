@@ -4,6 +4,7 @@
 #include "pso/network/TradeItemEntry.h"
 
 struct G_ModifyTradeProposal_6xA6;
+struct TTradeList;
 struct TWindowSubTrade;
 struct TWindowSubTradeMain;
 class TWindowSubTradeMessage;
@@ -58,6 +59,8 @@ const char *build_trade_partner_status_text(void);
 void send_6xA6_modify_trade_proposal(saddr client_id);
 
 void snapshot_trade_inventories(void);
+// Buys the partner's traded items (the D3 list) once the trade reached state 8.
+void handle_trade_received_items(TTradeList *trade_list);
 s32 are_both_trade_offers_confirmed(void);
 void clear_local_trade_final_confirmation(void);
 void clear_local_trade_offer_confirmation(void);

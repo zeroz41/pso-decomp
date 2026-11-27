@@ -59,7 +59,6 @@ void TLobby::send_find_user_self_tag(s32 gc_num) {
     }
 }
 
-extern "C" {
 void load_selected_guild_card_record(ChoiceSearchResult *src) {
   char *list;
   char *cursor;
@@ -77,7 +76,6 @@ void load_selected_guild_card_record(ChoiceSearchResult *src) {
   parse_csv_token(cursor, selected_guild_card_record.s3B);
   copy_guild_card_f4c(&selected_guild_card_record.recv_port, &src->reconnect);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->extension);
-}
 }
 
 void copy_guild_card_f4c(void *dst, void *src) {

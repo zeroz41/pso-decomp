@@ -66,10 +66,6 @@ static const f32 com_card_mode4_message_size[2] = {206.0f, 122.0f};
 static const f32 com_card_message_size[2] = {206.0f, 82.0f};
 static const saddr com_card_help_message_ids[] = {0x47, 0x48, 0x49, 0x4A, 0x4B, 0xF9, 0};
 
-extern "C" {
-void set_value_by_key(void *, u16, s32);
-void load_selected_guild_card_record(ChoiceSearchResult *result);
-}
 
 
 void TWindowMenu::mark_selected_value() {

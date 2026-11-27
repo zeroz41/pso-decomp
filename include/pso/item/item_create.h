@@ -11,7 +11,7 @@ extern FlagWord pioneer2_item_respawn_flags;
 
 void set_boss_buf_entry(int value, u16 index);
 int get_sync_counter(u16 index);
-s32 get_item_data(u32 item);
+s32 get_item_data(const TItemData *item);
 void forward_message(char *buf, TItemData *item);
 void mark_selected();
 int get_drop_flag();

@@ -349,7 +349,7 @@ void TLobby::handle_reset_choice(s32 choice) {
     }
 }
 
-extern "C" void handle_trade_received_items(TTradeList *trade_list) {
+void handle_trade_received_items(TTradeList *trade_list) {
     s32 i;
     TItemData *item;
     if ((s32)trade_proposal_state == 8 && trade_list != 0) {

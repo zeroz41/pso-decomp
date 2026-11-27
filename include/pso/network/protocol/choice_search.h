@@ -105,6 +105,9 @@ ChoiceSearchSelections *copy_choice_search_block(ChoiceSearchSelections *dest, c
 int quest_hack_check_b_stub(void);
 int quest_hack_check_a_stub(void);
 
+// Sets the option of the category `key` among the five selections, if one has it.
+void set_value_by_key(ChoiceSearchSelection *arr, u16 key, s32 val);
+
 // The option picked in the category `parent_choice_id` of the five selections, or 0.
 s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id);
 

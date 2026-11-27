@@ -117,7 +117,6 @@ void reload_lobby_floor_stub(void);
 }
 extern "C" {
 void online_lobby_frame_stub(void);
-int online_lobby_check_stub(void);
 }
 extern "C" {
 s32 reset_story_select__6TLobbyFPv();

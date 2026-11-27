@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/CounterTextLookup.h"
+#include "pso/item/shop/ShopToolStock.h"
 
 s32 TShopItemTecSequence::slot_table[4];
 extern "C" {
@@ -31,11 +32,6 @@ extern const char *shop_item_tec_sequence_class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
-}
-extern "C" {
-
-
-extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on

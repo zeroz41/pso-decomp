@@ -152,6 +152,8 @@ void *lookup_item_pmt_record(u8 *item);
 void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group);
 // The help text of an item: its description, with a unit's modifier or a tool's count filled in.
 const char *format_item_description(TItemData *item);
+// The inventory icon of an item: 1-3 by weapon class for a weapon, 0 otherwise.
+s32 get_item_icon_index(const TItemData *item);
 
 #include <stddef.h>
 LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);

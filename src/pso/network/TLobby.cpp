@@ -95,6 +95,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
+#include "pso/network/TradeSession.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/map/MapSetData.h"
 #include "pso/object/TObjControl.h"
@@ -122,14 +123,12 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
-s32 online_lobby_check_stub();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 }
 extern "C" {
-void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
