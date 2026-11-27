@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/system/save/CardFileChannel.h"
 
 s32 card_file_search_channels[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };

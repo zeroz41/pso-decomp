@@ -9,7 +9,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/TObjLukerNames.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/hud/TRaderMapCore.h"

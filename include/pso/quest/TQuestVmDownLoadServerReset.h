@@ -5,7 +5,7 @@
 
 void reset_download_graph(void);
 
-// --- C functions defined in TQuestVmDownLoadServer_801F9010.cpp ---
+// --- C functions defined in TQuestVmDownLoadServerReset.cpp ---
 void reset_download_graph(void);
 // --- end of C functions
 

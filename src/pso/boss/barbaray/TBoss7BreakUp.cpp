@@ -10,7 +10,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkMaterialState.h"

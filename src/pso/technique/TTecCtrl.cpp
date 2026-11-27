@@ -14,7 +14,7 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/TActorLight.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"

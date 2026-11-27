@@ -1,5 +1,5 @@
-#ifndef PSO_UI_WINDOW_TWINDOWSUBCOMCARD_8007A810_H
-#define PSO_UI_WINDOW_TWINDOWSUBCOMCARD_8007A810_H
+#ifndef PSO_UI_WINDOW_TWINDOWSUBCOMCARDENTRIES_H
+#define PSO_UI_WINDOW_TWINDOWSUBCOMCARDENTRIES_H
 
 #include "types.h"
 #include "pso/player/GuildCardEntry.h"
@@ -22,7 +22,7 @@ void remove_first_received_card(void);
 GuildCardEntry *get_received_guild_card_tags(void);
 void clear_received_guild_cards(void *p);
 extern "C" {
-void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src);
+void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src);
 void free_received_guild_cards(void *p);
 void init_received_guild_cards(void *p);
 }

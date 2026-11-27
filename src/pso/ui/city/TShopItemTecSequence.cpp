@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
+#include "pso/item/shop/ShopToolStock.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -31,11 +32,6 @@ extern const char *shop_item_tec_sequence_class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
-}
-extern "C" {
-
-
-extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on

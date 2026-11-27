@@ -7,7 +7,7 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"

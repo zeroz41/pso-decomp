@@ -1,5 +1,5 @@
-#ifndef PSO_UI_FRONTEND_TADPLAYERLOADGC_801E0C30_H
-#define PSO_UI_FRONTEND_TADPLAYERLOADGC_801E0C30_H
+#ifndef PSO_UI_FRONTEND_TADPLAYERLOADGCMEMCARD_H
+#define PSO_UI_FRONTEND_TADPLAYERLOADGCMEMCARD_H
 
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
@@ -24,6 +24,7 @@ void free_banner_buffers(void);
 s32 get_memcard_free_files(s32 chan);
 s32 mount_memcard(saddr chan);
 s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
+s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks);
 s32 start_memcard_write(s32 chan, const char *name, void *buffer, s32 blocks, CardWriteDate *date, u32 flags);
 s32 init_memcard(s32, s32 chan, u8 *workArea, s32);
 s32 start_memcard_format(s32 chan, s32, s32, s32, s32);

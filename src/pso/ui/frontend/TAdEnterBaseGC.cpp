@@ -1,8 +1,10 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <stdio.h>
@@ -100,18 +102,7 @@ s32 password_entry_dispatch_state;
 
 s32 TAdEnterBaseGC::entry_mode;
 
-extern "C" {
-
-
-extern char serial_access_hex_string_buf[];
-
-u8 *get_access_key_input_buffer();
-
-u8 *get_raw_serial_input_buffer();
-
-
-}
-extern TObject *tl_clipout;
+#include "pso/unk/TLobby_8013AD38.h"
 char serial_access_hex_string_buf[0x40];
 
 

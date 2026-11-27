@@ -125,7 +125,6 @@ s32 classify_id__9TWindowDDFs();
 }
 
 
-void clear_window_dd_nodes(void);
 #pragma push
 #pragma opt_common_subs off
 void load_word_select_data(void) {

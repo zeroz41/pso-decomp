@@ -1,5 +1,7 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/model_render_state.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
@@ -30,15 +32,13 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
 
-extern "C" {
-extern CharacterAppearanceFields character_creation_visual_record;
-}
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 CharacterAppearanceFields *get_creation_visual_record(void) {
@@ -575,7 +575,6 @@ void request_chara_making_archives(void) {
 
 void chara_making_init_stub(void) {  }
 
-extern TObject *tl_03;
 
 void TCharaMaking::update_light_direction() {
     f32 cos_pitch;

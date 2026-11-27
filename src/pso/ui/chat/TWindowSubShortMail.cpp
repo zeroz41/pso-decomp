@@ -1,8 +1,10 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/GuildCardEntry.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -42,7 +44,6 @@ static const NJS_POINT2 short_mail_item_size = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
 
-extern TObject *tl_00;
 
 s8 ShortMailEntry::get_flags() { return flags; }
 

@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/window/TWindowMenu.h"

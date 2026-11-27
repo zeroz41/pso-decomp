@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/PageIndicator.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/ui/window/HelpWindowToggle.h"

@@ -5,7 +5,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharDataNewCharacter.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/network/TLobby.h"

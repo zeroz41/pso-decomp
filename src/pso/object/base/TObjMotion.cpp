@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"

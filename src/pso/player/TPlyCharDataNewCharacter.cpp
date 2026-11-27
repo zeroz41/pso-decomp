@@ -1,10 +1,10 @@
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharDataNewCharacter.h"
 #include "pso/player/StartingInventory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_802C422C.h"
+#include "pso/player/TPlyCharDataCapture.h"
 
 int init_new_character_data(TPlyCharData *record) {
     record->m_inventory.m_num_items = 0;

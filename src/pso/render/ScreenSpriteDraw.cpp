@@ -3,7 +3,7 @@
 #include "pso/system/Adxf.h"
 #include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/animation/MotionContext.h"
 
 #include "pso/audio/SoundPlayback.h"

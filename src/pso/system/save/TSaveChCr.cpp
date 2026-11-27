@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"

@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

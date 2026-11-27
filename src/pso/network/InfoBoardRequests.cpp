@@ -1,5 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
+#include "pso/network/InfoBoardState.h"
 #include "pso/network/InfoBoardRequests.h"
 #include <string.h>
 #include "pso/enemy/BattleParamTables.h"
@@ -9,8 +10,6 @@
 #include "pso/network/TProtocol.h"
 
 
-extern s32 info_board_state_flags;
-extern TRecvInfoBoard *information_board_response_buffer;
 
 
 void request_info_board(TRecvInfoBoard *buffer) {

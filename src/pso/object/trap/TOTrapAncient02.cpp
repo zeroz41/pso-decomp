@@ -484,7 +484,7 @@ void TOTrapAncient02::update_effects() {
 
 void TOTrapAncient02::run_demo() {}
 
-void TOTrapAncient02::vfunc_86() {}
+void TOTrapAncient02::draw_debug_home_marker() {}
 
 TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAncient02(parent, set_data) {
     m_name = trap_ancient02_r_name;
@@ -728,7 +728,7 @@ void TOTrapAncient02R::calc_trap_count() {
 
 void TOTrapAncient02R::run_demo() {}
 
-void TOTrapAncient02R::vfunc_86() {
+void TOTrapAncient02R::draw_debug_home_marker() {
     if (is_current_room(this) == 1) {
         debug_draw_scaled(&home_position, &scratch_vec, &trap_ancient_light_color);
         collision_update_stub();

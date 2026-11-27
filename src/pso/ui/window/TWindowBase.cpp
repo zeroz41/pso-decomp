@@ -27,7 +27,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/ProjectedStripDraw.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
+#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"

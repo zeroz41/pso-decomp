@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/memory.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
@@ -111,7 +113,6 @@ void TLobby::free_chr_select_singleton() {
     }
 }
 
-extern TObject *tl_03;
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {

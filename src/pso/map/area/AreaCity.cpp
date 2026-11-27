@@ -4,7 +4,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/item/shop/ShopArmorStock.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/item/shop/ShopWeaponStock.h"

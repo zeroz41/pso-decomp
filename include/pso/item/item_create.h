@@ -22,7 +22,7 @@ struct ItemCombination;
 
 // Whether the player's class has every class bit perm asks for.
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
-s32 item_identity_matches(u8 *arg0, u8 *arg1);
+s32 item_identity_matches(u8 *item, u8 *other);
 s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 void normalize_drop_area(s32 *p);

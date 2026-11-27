@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/player/GuildCardEntry.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 
 s32 TWindowSubComCard::init_card() {
     return has_free_card_slot(reinterpret_cast<GuildCardEntry *>(TWindowSubComCard::get_card_slot(0)), 0x1C);

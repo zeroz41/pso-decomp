@@ -42,7 +42,7 @@
 #include "pso/network/TradeSession.h"
 #include "pso/object/TObjHashi.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/item/TItemIdCounters.h"

@@ -7,7 +7,7 @@
 #include "pso/object/TSceneDirectionalLight.h"
 #include "pso/object/TSceneAmbientLight.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/render/gjLight.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"

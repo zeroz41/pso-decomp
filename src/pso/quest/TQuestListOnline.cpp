@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/prs.h"
 #include "pso/camera/TCameraCtrl.h"

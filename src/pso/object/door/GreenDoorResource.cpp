@@ -1,6 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/door/GreenDoorResource.h"
+#include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTexture.h"
@@ -48,8 +49,6 @@ void free_green_door_resources() {
     }
 }
 
-extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
-extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 void load_green_door_resources(void) {
     BmlResource *resource;
     green_door_bml_resource = 0;

@@ -47,14 +47,14 @@ class TChCrTagPlBack;
 
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
+#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowSubComCard::class_name = "TWindowSubComCard";

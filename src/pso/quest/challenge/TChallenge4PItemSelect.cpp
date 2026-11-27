@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -43,7 +44,6 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 TChallenge4PResult *challenge4p_result_slot_entries[4];
 
 void resume_challenge_result_processing(TChallenge4PResult *result);
-extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
 #pragma defer_codegen on
@@ -238,7 +238,7 @@ void TChallenge4PResult::clear_slot_entries() {
 }
 void TChallenge4PResult::create(u16 client, s32 result_code) {
     if (get_player_by_client_id(client) != NULL) {
-        new TChallenge4PResult((TObject *)tl_01, client, result_code);
+        new TChallenge4PResult(tl_01, client, result_code);
     }
 }
 

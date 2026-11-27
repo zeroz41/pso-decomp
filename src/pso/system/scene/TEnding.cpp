@@ -12,7 +12,7 @@
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/camera/TCameraCtrl.h"

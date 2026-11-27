@@ -59,7 +59,7 @@
 #include "pso/system/GslArchive.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -69,7 +69,7 @@
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/technique/TTecLuker.h"
 
-// The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
+// The tail of the guild card code: it follows TWindowSubComCardEntries.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
 
 s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }

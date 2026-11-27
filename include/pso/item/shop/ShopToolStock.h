@@ -54,6 +54,9 @@ struct ShopToolRandomTables {
     ShopTechniqueLevelTable *technique_levels;  // by get_tool_pool_table_row
 };
 
+// How many tools each shop stocks.
+extern s32 shop_tool_stock_counts[4];
+
 void load_tool_random_rel(void);
 void free_tool_random_rel(void);
 

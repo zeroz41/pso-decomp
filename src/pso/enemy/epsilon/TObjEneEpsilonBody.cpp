@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/technique/TFireExplosion.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"

@@ -22,11 +22,12 @@
 
 
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 
 // .rodata: window_size {444,84} (the layout position is the other argument), "TQuestVmDownLoadServer",
 // window_size, "TMCFormatSequence", window_size, "%s%02d". The positions interleave with the class names,
@@ -50,7 +51,6 @@ s32 quest_total_download_bytes;
 s32 quest_received_file_bytes;
 TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
-extern TObject *tl_00;
 
 
 #include "pso/render/TDLGraph.h"
@@ -74,7 +74,6 @@ QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 s32 calc_download_crc32(void *data, s32 size);
-extern TObject *tl_03;
 
 
 void TQuestVmDownLoadServer::reset_download_state() {

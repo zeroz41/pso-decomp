@@ -152,7 +152,7 @@ public:
     virtual s32 update_shock_clock();
     virtual s32 update_attack_stat_status();
     virtual s32 update_defense_stat_status();
-    virtual s32 vfunc_43();
+    virtual s32 update_evp_status();
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();

@@ -47,7 +47,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
+#include "pso/boss/olgaflow/TBoss6Type2SubordinateActions.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaDrawUtil.h"

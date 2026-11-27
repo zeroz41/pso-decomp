@@ -7,7 +7,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TTecShot.h"

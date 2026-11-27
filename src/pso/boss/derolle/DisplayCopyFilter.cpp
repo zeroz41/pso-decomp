@@ -2,7 +2,7 @@
 #include "types.h"
 #include <dolphin/gx/GXFrameBuffer.h>
 #undef PSO_SDK_COMPACT_MATH
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
+#include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/gjSystem.h"
 

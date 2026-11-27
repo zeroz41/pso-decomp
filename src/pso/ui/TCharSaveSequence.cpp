@@ -14,12 +14,13 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include <string.h>
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #pragma push
 
 #include "types.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -66,7 +67,6 @@ s32 char_save_message_flags;
 extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
-s32 start_memcard_read(s32, void *, u32, s32);
 }
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -272,7 +272,7 @@ void TCharSaveSequence::start_character_read() {
     switch (TAdPlayerLoadGC::get_card_file_info(chr_select_state, pso_character_card_filename.filename, 0)) {
     case 0:
         if (download_buffer != 0) {
-            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, (uaddr)download_buffer, flag_count)) {
+            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, download_buffer, flag_count)) {
             case 0:
                 state = 3;
                 break;

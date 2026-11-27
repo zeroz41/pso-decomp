@@ -248,7 +248,7 @@ struct TObjPlayer : public TObjChara {
     // (GamePlayerActionProvider or LobbyPlayerActionProvider).
     PlayerActionProvider *action_provider;
     PlayerFollowParticles follow_particles;
-    s32 m_3b4;
+    s32 return_destination;
     TPlayerLobbyMarker *lobby_marker;  // set_lobby_marker creates it on the lobby floor
     s32 language;
     s16 lobby_animation;
@@ -504,7 +504,7 @@ struct TObjPlayer : public TObjChara {
     void set_battle_flag(s32 v);
     // Quest opcode set_returnhunter: battle flag 1.
     void set_return_hunter();
-    s32 get_anim_id();
+    s32 get_return_destination();
     int check_flag_0x40000000();
     void clear_flag_0x2();
     int unregister_sub();
@@ -1288,5 +1288,8 @@ struct PhotonBlastMotionTiming {
     f32 upper_bound;
     f32 complete_threshold;
 };
+
+// Buys item for player: 1 when it does not fit, 2 when the meseta is short, 0 on success.
+s32 try_buy_item(TObjPlayer *player, TItemData *item);
 
 #endif

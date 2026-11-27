@@ -83,7 +83,7 @@ struct TWindowSubSymbolChat : public TObject {
     s32 commit(s32 *src);
     void set_flag60_bit1();
     void set_flag60_bit2();
-    void set_selection_and_refresh(s32 arg1);
+    void set_selection_and_refresh(s32 selection);
     void init_layout_entries(saddr player);
     void set_from_key(s32 arg1);
     // The "New Parts" menu.

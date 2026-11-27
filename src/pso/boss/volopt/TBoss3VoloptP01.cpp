@@ -21,7 +21,7 @@
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"

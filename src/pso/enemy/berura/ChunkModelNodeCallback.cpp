@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 ChunkModelNodeCallback chunk_model_node_callback;
 

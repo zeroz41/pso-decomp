@@ -113,7 +113,7 @@ struct TObjEneDD : public TObjEnemy {
     s32 collect_enemy_target_candidates(TargetCandidate *out, f32 range);
     s32 is_target_unobstructed_from(TObjChara *target);
 
-    s32 previous_mode;         // mode when the last state handler finished; vfunc_86 tests for a change
+    s32 previous_mode;         // mode when the last state handler finished; draw_debug_home_marker tests for a change
     s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
     f32 wall_reach;            // extra distance the wall probe looks ahead of a move (5.0)
     s32 wall_probe_failures;   // moves the wall probe blocked in a row

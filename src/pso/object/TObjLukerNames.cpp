@@ -1,7 +1,7 @@
 #include "pso/system/TLanguage.h"
 #include "types.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/TObjLukerNames.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TLevelSelect.h"
 

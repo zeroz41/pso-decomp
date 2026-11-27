@@ -16,7 +16,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/item/TItemReverseTech.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include <stddef.h>

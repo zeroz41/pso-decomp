@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowMessage.h"

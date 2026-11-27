@@ -194,6 +194,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void load_word_select_data(void);
+void clear_window_dd_nodes(void);
 void ws_data_load(void);
 
 extern char *window_dd_buffer_a;

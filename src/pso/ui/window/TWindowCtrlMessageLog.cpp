@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowCtrl_8026AD44.h"
+#include "pso/ui/window/TWindowCtrlMessageLog.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
 

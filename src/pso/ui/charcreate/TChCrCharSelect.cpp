@@ -1,5 +1,7 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyCharData.h"
@@ -51,7 +53,6 @@ void TChCrCharSelect::clamp_slot_index_to_range() {
 extern "C" {
 }
 
-extern TObject *tl_03;
 
 void TChCrCharSelect::tick_and_apply_selection() {
     s32 delay;

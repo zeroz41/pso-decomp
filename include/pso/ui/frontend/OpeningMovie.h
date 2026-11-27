@@ -7,6 +7,7 @@ struct TMovie;
 
 // Set by verify_game_file_integrity when a disc file's size or CRC differs from file_integrity_table.
 extern s32 game_files_modified_flag;
+extern s32 opening_movie_selector;
 
 s32 verify_game_file_integrity(void);
 

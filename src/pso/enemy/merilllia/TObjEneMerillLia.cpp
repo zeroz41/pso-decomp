@@ -44,7 +44,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/math/ScratchVectors.h"

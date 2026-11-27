@@ -9,7 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjChip.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjChara.h"

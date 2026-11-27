@@ -72,7 +72,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"

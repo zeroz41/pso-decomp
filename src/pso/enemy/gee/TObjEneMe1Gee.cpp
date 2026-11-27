@@ -9,7 +9,7 @@
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"

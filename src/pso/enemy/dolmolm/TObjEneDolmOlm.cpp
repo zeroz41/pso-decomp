@@ -10,7 +10,7 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/DebugFont.h"
 #pragma defer_codegen on
@@ -51,7 +51,7 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #include "pso/system/MatrixOps.h"

@@ -68,7 +68,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -81,7 +81,7 @@
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TTitleScene.h"
@@ -92,7 +92,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/quest/TQuestThread.h"
@@ -192,7 +192,7 @@ const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
-void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
+void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
 u32 TLobby::join_entries_dtor_registration[3];
 #pragma push
@@ -219,7 +219,7 @@ extern "C" {
 void __dt__7TObjectFv(void *, int);
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = (s32 *)lbl_804A7008;
+        *(s32 **)((s8 *)object + 0x18) = (s32 *)lobby_idle_timer_vtable;
         __dt__7TObjectFv(object, 0);
         if (dtor_flags > 0) {
             TObject::operator delete(object);
@@ -423,7 +423,7 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
     __ct__7TObjectFP7TObject(timer, parent);
-    *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
+    *(void ***)((s8 *)timer + 0x18) = lobby_idle_timer_vtable;
     getDateStamp(&date);
     DateToSeconds(&date, (int *)(timer + 0x1C));
     t->start = t->now;
@@ -2911,17 +2911,14 @@ s32 TWindowMakeTeam::get_field_20() { return kind; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
-extern "C" {
-
-s32 *get_access_key_input_buffer(void) {
-    return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;
+u8 *get_access_key_input_buffer(void) {
+    return (u8 *)TAdEnterSerialAccessGC::access_key_input_buffer;
 }
 
 char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decimal_string((const char *)get_raw_serial_input_buffer()); }
 
-s32 *get_raw_serial_input_buffer(void) {
-    return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
-}
+u8 *get_raw_serial_input_buffer(void) {
+    return (u8 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
 
 saddr get_connection_message_text(s32 id) {

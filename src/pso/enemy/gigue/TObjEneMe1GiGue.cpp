@@ -49,7 +49,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"

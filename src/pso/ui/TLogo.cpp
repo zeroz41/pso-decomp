@@ -25,7 +25,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/gjSystem.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

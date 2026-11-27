@@ -124,7 +124,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
@@ -840,7 +840,6 @@ s32 get_class_max_exp(void *, void *);
 }
 
 extern const f32 player_front_distance;
-extern Vec scratch_vec5;
 extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
 extern f32 player_angle_per_degree;
@@ -1165,7 +1164,7 @@ void TObjPlayer::reset_motion_fields() {
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
         }
-        anim_id = this->get_anim_id();
+        anim_id = this->get_return_destination();
         switch (anim_id) {
         case 2:
             break;
@@ -2404,8 +2403,6 @@ void TObjPlayer::drop_items_on_death() {
         set_action_flag_2();
     }
 }
-extern "C" {
-
 s32 try_buy_item(TObjPlayer *player, TItemData *item) {
     if (player->can_pickup_item(item) == 0) {
         return 1;
@@ -2415,7 +2412,6 @@ s32 try_buy_item(TObjPlayer *player, TItemData *item) {
         return 0;
     }
     return 2;
-}
 }
 
 #pragma push
@@ -2969,7 +2965,7 @@ void TObjPlayer::update_status_effects() {
     }
   }
   this->clear_flag_2000000();
-  (this->vfunc_43());
+  (this->update_evp_status());
   (this->update_poison_status());
   (this->update_action_hold_status());
   (this->update_slow_status());
@@ -4571,7 +4567,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     }
     if (get_main_phase() == 0xE) {
         if (TObjPlayer::check_camera_mode() != 0) {
-            if (p->get_anim_id() == 1) {
+            if (p->get_return_destination() == 1) {
                 p->prepare_guild_return(0);
                 return;
             }

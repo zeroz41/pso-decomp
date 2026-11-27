@@ -118,11 +118,11 @@ void shuffle_event_entries(EventShuffleTable *event_shuffle_table) {
     }
 }
 
-void init_event_shuffle_table(EventShuffleTable *event_shuffle_table, s32 arg1) {
+void init_event_shuffle_table(EventShuffleTable *event_shuffle_table, s32 count) {
     s32 off;
     s32 i = 0;
     event_shuffle_table->cursor = off = 0;
-    event_shuffle_table->count = arg1;
+    event_shuffle_table->count = count;
     while (i < event_shuffle_table->count) {
         *(s32 *)((u8 *)event_shuffle_table->entries + off) = i;
         i++;

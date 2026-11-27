@@ -3,7 +3,7 @@
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 
 u8 *player_data_load_buffer;
 u8 *get_player_data_load_buffer() {  return player_data_load_buffer; }

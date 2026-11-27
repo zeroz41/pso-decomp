@@ -64,7 +64,7 @@
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/system/TColorOverlayFade.h"
-#include "pso/object/door/TObjDoor_801F3754.h"
+#include "pso/object/door/TObjDoorGlobalState.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

@@ -1,7 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "clib/fp_convert.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -123,7 +125,6 @@ void TChCrEffFade::run_task() {
     }
 }
 
-extern TObject *tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
 TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(tl_fade) {

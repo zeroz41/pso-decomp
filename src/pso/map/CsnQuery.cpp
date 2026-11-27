@@ -1,6 +1,7 @@
 #include "pso/system/memory.h"
 #include "libc/ctype.h"
 #include "types.h"
+#include "pso/map/MapCollisionSetup.h"
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/map/TObjMapCsn.h"
@@ -28,9 +29,6 @@ CsnContact csn_query_contacts[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit csn_hit_storage;
 WallRayResult csn_query_map_object;
-extern Vec scratch_vec3;
-extern Vec scratch_vec4;
-extern Vec scratch_vec5;
 extern "C" {
 
 s32 get_csn_group_flags(u8 ch) {
@@ -834,7 +832,6 @@ __declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void
 
 CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }
 
-extern TMapCsnCtrl *map_csn_ctrl_instance;
 
 TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
     return map_csn_ctrl_instance;

@@ -25,7 +25,7 @@ public:
     void move_technique_projectile();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_6();
+    virtual void spawn_impact_effect();
     virtual void debug_print_tech_params();
     virtual void apply_to_target(TObjChara *);
     void advance_lifetime_or_destroy();

@@ -7,7 +7,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/system/scene/EndingSceneTables.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TLevelSelect.h"

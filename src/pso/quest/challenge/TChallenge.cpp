@@ -6,7 +6,7 @@
 #include "pso/network/client_id.h"
 #include "pso/quest/challenge/ChallengeModeData.h"
 #include "pso/ui/chat/ChatLogLastLine.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/system/task/TObject.h"
@@ -670,7 +670,7 @@ void TChallenge::run_task() {
     frame_count++;
 }
 
-void *lbl_8048D0B0[22] = {
+void *challenge_mode_label_table[22] = {
     (void *)0x6368616c, (void *)0x6c656e67, (void *)0x65000000, (void *)0x53004300,
     (void *)0x51000000, (void *)&challenge_label_N, (void *)&challenge_label_C, (void *)&challenge_label_0,
     (void *)&challenge_label_1, (void *)&challenge_label_2, (void *)&challenge_label_3, (void *)&challenge_label_4,

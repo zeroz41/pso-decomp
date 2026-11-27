@@ -1,5 +1,5 @@
-#ifndef PSO_OBJECT_AMBIENT_TOBJLIGHT_80133568_H
-#define PSO_OBJECT_AMBIENT_TOBJLIGHT_80133568_H
+#ifndef PSO_OBJECT_AMBIENT_SCENELIGHTING_H
+#define PSO_OBJECT_AMBIENT_SCENELIGHTING_H
 
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
@@ -12,7 +12,7 @@ struct PointLight;
 struct LightEntry;
 
 extern "C" {
-void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1);
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 free_flags);
 }
 void init_light_stub(void *light);
 void init_area_lights(void);

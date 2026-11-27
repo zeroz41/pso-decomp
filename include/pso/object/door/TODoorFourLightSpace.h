@@ -5,6 +5,10 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/door/TODoorBase.h"
 
+struct BmlResourceDescriptor;
+extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
+extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
+
 struct TODoorFourLightSpace : public TODoorBase {
     TODoorFourLightSpace(saddr, saddr);
     virtual ~TODoorFourLightSpace();

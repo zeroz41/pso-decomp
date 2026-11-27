@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CharacterFile.h"
-#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharDataNewCharacter.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/system/ControllerInput.h"
@@ -30,7 +30,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/GuildCardSaveData.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -117,7 +117,6 @@ static const NJS_POINT2 chr_select_save_message_window_size = { 548.0f, 220.0f }
 static const char card_disk_game_code[] = "GPSE";
 
 void __construct_array(void*, void*, void*, int, int);
-s32 start_memcard_read(s32, char *, void *, s32);
 }
 
 

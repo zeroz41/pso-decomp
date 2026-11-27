@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/network/InfoBoardRequests.h"
 
 extern "C" {

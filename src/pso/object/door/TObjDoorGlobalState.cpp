@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/door/TObjDoor_801F3754.h"
+#include "pso/object/door/TObjDoorGlobalState.h"
 #include "pso/object/door/TObjDoor.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/object/warp/TObjCityMainWarp.h"

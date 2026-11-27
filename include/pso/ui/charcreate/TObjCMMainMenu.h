@@ -7,6 +7,8 @@
 // The id of the entry selected in the character creation main menu.
 extern s32 creation_menu_selected_entry;
 u32 get_character_creation_selected_entry_id();
+// The appearance being built in character creation.
+extern CharacterAppearanceFields character_creation_visual_record;
 
 class TObjCMMainMenu;
 

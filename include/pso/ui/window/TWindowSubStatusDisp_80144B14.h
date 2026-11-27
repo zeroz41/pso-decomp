@@ -5,7 +5,7 @@
 
 u32 calc_fullwidth_text_width(const char *s);
 void pack_ci4_texels(u8 *dst, u32 pixel);
-s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
+s32 calc_ci4_tile_offset(u32 x, u32 y);
 struct TexturedQuad;
 
 u32 calc_text_width(const char *s);

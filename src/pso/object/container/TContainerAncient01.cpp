@@ -276,7 +276,7 @@ s32 TContainerAncient01::select_melee_contact_body(TObjChara *target, f32) {
 
 int TContainerAncient01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TContainerAncient01::receive_direct_attack(TObjBase *arg1, DirectAttackPayload payload, CollisionBody *, s32, s32) {
+f32 TContainerAncient01::receive_direct_attack(TObjBase *, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -556,7 +556,7 @@ s32 TContainerAncient01R::select_melee_contact_body(TObjChara *target, f32) {
 
 int TContainerAncient01R::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TContainerAncient01R::receive_direct_attack(TObjBase *arg1, DirectAttackPayload payload, CollisionBody *, s32, s32) {
+f32 TContainerAncient01R::receive_direct_attack(TObjBase *, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;

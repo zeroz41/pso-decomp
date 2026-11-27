@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/quest/TQuestVmDownLoadServer_801F9010.h"
+#include "pso/quest/TQuestVmDownLoadServerReset.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/render/TDLGraph.h"
 

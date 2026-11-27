@@ -124,7 +124,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/render/SceneFog.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/gjLight.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
+#include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"

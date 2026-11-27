@@ -555,7 +555,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/photon/TPhotonMylla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # the TAdStorySelectGC ctor reaches each of its .rodata initialisers with its own lis/addi (no shared base): -pool off.
     "pso/ui/frontend/TAdStorySelectGC.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
-    "pso/object/TObjLuker_801329B0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TObjLukerNames.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -inline off,deferred: the ctor reaches __vt__16TObjOnlineEnding through the unit's .data
     # anchor, so the vtable is pooled before the functions; the source runs from the last function back.
     "pso/object/ending/TObjOnlineEnding.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -592,7 +592,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/cave/TOHangceilingCave01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TSceneAmbientLight, F90, FA8 then FC0 (text order of their key functions): written last to
     # first, deferred.
-    "pso/object/ambient/TObjLight_80133568.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/object/ambient/SceneLighting.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TDeadSpot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/hud/TMainCursor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out StelthReal, then the dispatch_state jump table, then Stelth: written last to first, deferred.
@@ -642,7 +642,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # the Spanish "\xBF"/"\xA1" marks of 0x80345608 in .sdata2, each pooled once).
     "pso/ui/window/TWindowDD.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred")},
     # ws_data_load reaches each .rodata object with its own lis/addi (no shared base): -pool off.
-    "pso/ui/window/TWindowDD_8034435C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/ui/window/TWindowDDWordSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # get_viewport_offset reaches each of its three .rodata viewport tables with its own lis/addi
     # (no shared .rodata base, though the tables precede the unit's pooled double): -pool off.
@@ -776,7 +776,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # Its ctor reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/ui/frontend/TAdMultiChgGameModeGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # -str reuse,readonly: create_mode_scene's "advr.adx" sits in the unit's .rodata.
-    "pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/frontend/TAdMultiChgGameModeGCScenes.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiSelGameModeGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdSystemFileCheckGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str reuse,readonly: the class name string 0x80477DA0 sits in .rodata.
@@ -811,7 +811,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/system/Lzss.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/TProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6EmptyWarp.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/boss/olgaflow/TBoss6PlotFalzStates.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/photon/TPhotonLeilla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonLine.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/door/GreenDoorResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -934,7 +934,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # node-range statics, then the load slot count, then run_task's table: written last to first, deferred.
     "pso/ui/charcreate/TChCrLoadReq.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/beast/TObjEneBeast.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/frontend/TAdPlayerLoadGCMemCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # psoLoadTexturePvmFile reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/render/psoLoadTexture.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/system/scene/OfflineGameScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1360,7 +1360,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-fp_contract on", "-str reuse,readonly")},
     # send_subordinate_actions loads its two flag bytes from .sdata2 ahead of its float literals: constant references
     # inlined at the use (the TBoss6Type2.cpp form), so this unit is built with inlining on.
-    "pso/boss/olgaflow/TBoss6Type2_80356E50.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
+    "pso/boss/olgaflow/TBoss6Type2SubordinateActions.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
     "pso/boss/olgaflow/TBoss6Type2Actions.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6CrushRock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
     # break_rocks_in_wave loads the bitmap length from .sdata2 ahead of run_task's float literals: a constant reference

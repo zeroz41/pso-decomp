@@ -111,7 +111,6 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
     }
     disallow_rendering();
 }
-#undef arg0
 
 void *TObjParticle::create(void *set_data) {
     if (is_split_screen() != 0) {

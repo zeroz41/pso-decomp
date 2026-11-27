@@ -20,7 +20,7 @@ struct NJS_OBJECT;
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"

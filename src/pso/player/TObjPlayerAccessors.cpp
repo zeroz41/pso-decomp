@@ -167,8 +167,8 @@ G_SetPlayerInvisible_6x22 &G_SetPlayerInvisible_6x22::operator=(const G_SetPlaye
 void clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
-void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
-s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
+void TObjPlayer::set_battle_flag(s32 v) { this->return_destination = v; }
+s32 TObjPlayer::get_return_destination() { return this->return_destination; }
 int TObjPlayer::check_flag_0x40000000() { return (this->state_flags >> 30) & 0x1; }
 void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 

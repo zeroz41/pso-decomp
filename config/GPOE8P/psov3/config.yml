@@ -5261,7 +5261,7 @@ force_active:
   - __ct__16TItemWeaponAgitoFP7TObjectPUc
   - __ct__11TTecRaBartaFP8TObjBaseP3Vecl
   - __ct__15TItemWeaponCaneFP7TObjectPUc
-  - __sinit_TWindowSubComCard_8007A810_cpp
+  - __sinit_TWindowSubComCardEntries_cpp
   - __ct__13GuildCardListFv
   - __ct__13GuildCardTagsFv
   - __ct__18TObjCityAirCar_CarFP7TObjectllf
@@ -7627,7 +7627,7 @@ force_active:
   - str_battle_mlt_stg7
   - str_battle_mlt_stg8
   - quest_list_challenge_class_name_string
-  - lbl_80450AB4
+  - quest_list_challenge_window_extent
   - TChCrTagName_class_name_string
   - name_tag_back_scale
   - name_tag_edge_scale
@@ -7716,7 +7716,7 @@ force_active:
   - gryphon_right_horn_lightning_offset
   - camera_controller_factories
   - __vt__11TCameraCtrl
-  - lbl_8048D0B0
+  - challenge_mode_label_table
   - __vt__10TChallenge
   - tombstone_recovery_item_templates
   - dark_gunner_action_table

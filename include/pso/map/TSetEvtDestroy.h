@@ -76,7 +76,7 @@ LAYOUT_ASSERT(SetDestroyBaseParentOffset, offsetof(TObject, m_up) == 0x10);
 LAYOUT_ASSERT(SetDestroyBaseChildOffset, offsetof(TObject, m_down) == 0x14);
 
 struct EventShuffleTable;
-void init_event_shuffle_table(EventShuffleTable *event_shuffle_table, s32 arg1);
+void init_event_shuffle_table(EventShuffleTable *event_shuffle_table, s32 count);
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 
 #endif
