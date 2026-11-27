@@ -129,11 +129,6 @@ void calc_item_count(TObjPlayer *player, s32 *count) {
 
 s16 TWindowMenuIconLine::get_cursor_index() { return cursor; }
 
-extern "C" {
-// Called by its mangled name: a new-expression allocates the entity id in a different register.
-TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, s32, s32, s32, s16);
-}
-
 extern const char *shop_get_item_window_class_name;
 
 const char *shop_get_item_window_class_name = "TShopGetItemWindow";
@@ -287,20 +282,14 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
     if (is_decide_pressed() != 0) {
         if (copy_bank_item_with_stack_limit(item_list->get_cursor_value(), &item, &count, x) != 0) {
             if (item.data1.data_u8[0] == 3 && count > 1) {
-                TWindowInputNumber *obj = (TWindowInputNumber *)TObject::operator new(0x7C);
-                if (obj != NULL) {
-                    sel = (s16)get_player_entity_id();
-                    obj = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(obj, get_window_layout_position(0x2B), 1, count, 1, sel);
-                }
-                number_input = obj;
+                number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
                 if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
                 set_state(2);
                 return;
             }
-            sel = player->get_entity_id();
-            confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), sel, NULL, NULL);
+            confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
             confirm_menu->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), scale);
