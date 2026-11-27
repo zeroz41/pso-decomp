@@ -97,9 +97,10 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
         cols = desc->cols;
         rec = const_cast<u32 *>(desc->recs);
         while (cols-- != 0) {
+            // CodeWarrior: the entry classes are abstract there (their vtables keep calc_bar_width 0),
+            // so each one is allocated and constructed by hand.
             switch (*rec) {
             case 0:
-                // CodeWarrior: TWindowLayoutRect is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x18));
                 if (o != NULL) {
@@ -122,7 +123,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += sizeof(LayoutEntryCopyRecord) / 4;
                 break;
             case 3:
-                // CodeWarrior: WindowTextEntry is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x2C));
                 if (o != NULL) {
@@ -135,7 +135,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0x1C / 4;
                 break;
             case 4:
-                // CodeWarrior: TWindowLayoutNumber is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
@@ -148,7 +147,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0x1C / 4;
                 break;
             case 5:
-                // CodeWarrior: TWindowLayoutCountingNumber is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x30));
                 if (o != NULL) {
@@ -161,7 +159,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0x1C / 4;
                 break;
             case 6:
-                // CodeWarrior: WindowSpritePart is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
@@ -174,7 +171,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += sizeof(SpritePartLayoutRecord) / 4;
                 break;
             case 7:
-                // CodeWarrior: WindowSpritePart is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
@@ -187,7 +183,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += sizeof(DirectSpritePartLayoutRecord) / 4;
                 break;
             case 8:
-                // CodeWarrior: ItemListRow is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x38));
                 if (o != NULL) {
@@ -200,7 +195,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 1;
                 break;
             case 9:
-                // CodeWarrior: LabelValueRow is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x28));
                 if (o != NULL) {
@@ -213,7 +207,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 1;
                 break;
             case 10:
-                // CodeWarrior: HelpItemRarityStarRow is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x14));
                 if (o != NULL) {
@@ -226,7 +219,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0xC / 4;
                 break;
             case 11:
-                // CodeWarrior: HelpItemStatCompareRow is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
@@ -239,7 +231,6 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0xC / 4;
                 break;
             case 12:
-                // CodeWarrior: TGameListRow is abstract there (its vtable keeps calc_bar_width 0), so it is built by hand.
 #ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x28));
                 if (o != NULL) {

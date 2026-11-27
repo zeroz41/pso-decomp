@@ -10,6 +10,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TPlyInventory.h"
+// Placement new, for the guild card constructor off CodeWarrior.
+#ifndef __MWERKS__
+#include <new>
+#endif
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -184,8 +188,6 @@ void *__ct__14GuildCardEntryFv(void *card);
 }
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
 #else
-#include <new>
-
 void *TAdSinglePlyChrSelectGC::init_guild_card_tag() {
     new (this) GuildCardEntry;
     return this;

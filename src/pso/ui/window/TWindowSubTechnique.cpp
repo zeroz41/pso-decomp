@@ -26,6 +26,10 @@
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/technique/TechniqueParams.h"
+// get_technique_name, for draw_technique_row off CodeWarrior (CodeWarrior declares its short-id view below).
+#ifndef __MWERKS__
+#include "pso/ui/chat/SymbolChatCommand.h"
+#endif
 
 s32 TWindowSubTechnique::category_changed() {
     if (category_menu == NULL) {
@@ -121,8 +125,6 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
 }
 }
 #else
-#include "pso/ui/chat/SymbolChatCommand.h"
-
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
     TWindowMenu *menu = (TWindowMenu *)list;
     const char *technique_name;
