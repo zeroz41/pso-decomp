@@ -394,7 +394,7 @@ inline s32 render_group_text(s32 start, s32 count, QuestDownloadTextNode *node, 
 inline s32 is_seen_text(u8 *key, s32 len) {
     s32 l;
     u8 *p;
-    for (p = quest_download_text_buffer; p < quest_download_text_write_ptr; p += l) {
+    for (p = quest_download_text_buffer.bytes; p < quest_download_text_write_ptr; p += l) {
         l = *p++;
         if (l == len && strncmp((const char *)p, (const char *)key, l) == 0) {
             return 1;
@@ -403,7 +403,7 @@ inline s32 is_seen_text(u8 *key, s32 len) {
     return 0;
 }
 inline void add_seen_text(u8 *key, s32 len) {
-    if (quest_download_text_write_ptr + len + 1 <= quest_download_text_buffer + 0x400) {
+    if (quest_download_text_write_ptr + len + 1 <= quest_download_text_buffer.bytes + 0x400) {
         *quest_download_text_write_ptr++ = len;
         strncpy((char *)quest_download_text_write_ptr, (const char *)key, len);
         quest_download_text_write_ptr += len;
@@ -469,7 +469,7 @@ inline s32 render_packed_group_text(s32 start, s32 count, QuestDownloadTextNode 
 void pack_entry_text_chain(s32 start, QuestDownloadTextNode *node) {
     s32 n;
     s32 len;
-    quest_download_text_write_ptr = quest_download_text_buffer;
+    quest_download_text_write_ptr = quest_download_text_buffer.bytes;
     while (node != NULL) {
         n = render_packed_group_text(start, quest_text_entry_len, node, quest_text_page_buffer);
         len = quest_text_u16_to_u8(quest_text_page_buffer, quest_download_text_write_ptr + 1, n);
@@ -520,7 +520,7 @@ QuestDownloadTextNode *get_next_node(QuestDownloadQueueNode *p) {
 inline QuestDownloadTextNode *build_entry_text(s32 idx, s32 len, s32 mode) {
     QuestDownloadTextNode *first;
     QuestDownloadTextNode *tail;
-    QuestDownloadTextRecord *src = (QuestDownloadTextRecord *)quest_download_text_buffer;
+    QuestDownloadTextRecord *src = (QuestDownloadTextRecord *)quest_download_text_buffer.bytes;
     src->key = 0xFFFF;
     src->attribute = 0;
     src->extra = 0;
@@ -2189,8 +2189,7 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
       return;
     }
   }
-  new (quest_download_text_buffer, quest_download_scratch_words_or_ids) QuestDownloadScratchIds;
-  buf = reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values;
+  buf = quest_download_text_buffer.ids;
   if ((list == 0) || (list == ((QuestDownloadEntryNode *) (-1))))
   {
     if (p)
@@ -2226,11 +2225,11 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
     obj->x8 = 0;
     request = obj;
     obj->text = learned_name_text_buffer;
-    store_learned_name(request, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - ((0, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values)));
+    store_learned_name(request, quest_download_text_buffer.ids, buf - ((0, quest_download_text_buffer.ids)));
   }
   else
   {
-    update_entry_frequency(p->x4, cmd->key, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - (reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values));
+    update_entry_frequency(p->x4, cmd->key, quest_download_text_buffer.ids, buf - quest_download_text_buffer.ids);
   }
 }
 #pragma pop

@@ -544,19 +544,18 @@ s32 convert_jis_to_sjis_string(saddr *args) {
     } else {
         flag = 0x4000;
     }
-    new (quest_download_text_buffer, quest_download_scratch_words_or_ids) QuestDownloadScratchWords;
-    p = reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values;
+    p = quest_download_text_buffer.words;
     n = 0;
-    while (*src != 0 && p < reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values + 0x200) {
+    while (*src != 0 && p < quest_download_text_buffer.words + 0x200) {
         *p++ = *src++ | flag;
         n++;
     }
-    p = reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values;
+    p = quest_download_text_buffer.words;
     while (n > 0) {
         r = convert_romaji_to_kana(p, n, buf, &cnt);
         if (r <= 0) {
             if (r != -1) {
-                return (p - reinterpret_cast<QuestDownloadScratchWords *>(quest_download_text_buffer)->values) + 1;
+                return (p - quest_download_text_buffer.words) + 1;
             }
             r = 1;
         }
