@@ -996,7 +996,7 @@ void TPlayerBattleCtrl4P::record_results() {
     do {
         entry = (BattleRanking *)((u8 *)rankings + off);
         if (get_player_by_client_id(entry->client_id) != NULL) {
-            record = (CharacterSaveRecord *)get_character_save_record(entry->client_id);
+            record = get_character_save_record(entry->client_id);
             if (record != NULL) {
                 s16 place = entry->place;
                 if (are_split_screen_battle_players_tied() == 0) {

@@ -371,7 +371,7 @@ void TObjPlayer::set_com_card_window(s32 client) {
     CharacterSaveRecord *record;
 
     own_guild_card = NULL;
-    record = (CharacterSaveRecord *)get_character_save_record((u32)client);
+    record = get_character_save_record((u32)client);
     if (record != NULL) {
         card = (GuildCardEntry *)record->guild_card;
         if (card != NULL) {

@@ -327,7 +327,7 @@ void TLobby::send_game_character() {
     TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
     TAdSinglePlyChrSelectGC::init();
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &choice_search_config);
@@ -1933,7 +1933,7 @@ void TLobby::send_selected_character() {
     TPlyChallenge challenge;
     TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &choice_search_config);

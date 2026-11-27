@@ -333,7 +333,7 @@ void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, const NJS_P
     const NJS_POINT2 *pos = position;
     s32 i;
     s16 cur;
-    s16 *order = ((CharacterSaveRecord *)get_character_save_record(client_id))->short_list_order;
+    s16 *order = (get_character_save_record(client_id))->short_list_order;
     cur = ((TWindowMenu *)tech_window)->get_cursor_pos();
     ((TWindowMenu *)tech_window)->reset_entries();
     for (i = 0; i < 0x13; i++) {
@@ -414,7 +414,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
 }
 
 void TWindowShortListCtrl::swap_card_entries(s32 index_a, s32 index_b) {
-    s16 *p = ((CharacterSaveRecord *)get_character_save_record(client_id))->short_list_order;
+    s16 *p = (get_character_save_record(client_id))->short_list_order;
     s16 t = p[index_a];
     p[index_a] = p[index_b];
     p[index_b] = t;

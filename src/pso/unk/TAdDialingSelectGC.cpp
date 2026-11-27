@@ -139,7 +139,7 @@ int TWindowOptionCtrl::is_finished() { return flags & 0x1; }
 
 // Bits 16-17 of the client's character save record word at +0x10.
 s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client_id);
+    CharacterSaveRecord *record = get_character_save_record(client_id);
     if (record == NULL) {
         return 0;
     }
@@ -148,7 +148,7 @@ s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
 
 // Bits 13-15 of the client's character save record word at +0x10.
 s32 get_card_status_bits(s32 client_id) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client_id);
+    CharacterSaveRecord *record = get_character_save_record(client_id);
     if (record == NULL) {
         return 0;
     }
@@ -167,7 +167,7 @@ s32 get_idle_timeout_limit(u32 client_id) {
 
 // Bits 10-12 of the client's character save record word at +0x10 (the idle timeout setting).
 s32 get_idle_timeout_setting(u32 client) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    CharacterSaveRecord *record = get_character_save_record(client);
     if (record == NULL) {
         return 0;
     }
@@ -183,7 +183,7 @@ s32 TWindowSubStatusDisp::get_card_window_flags(s32 client_id) {
     if (client_id >= 4) {
         client_id = local_client_id;
     }
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client_id);
+    CharacterSaveRecord *record = get_character_save_record(client_id);
     if (record == NULL) {
         return 1;
     }

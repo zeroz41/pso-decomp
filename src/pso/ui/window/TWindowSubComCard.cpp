@@ -652,7 +652,7 @@ void TWindowSubComCard::run_task() {
         if (TWindowSubComCard::get_choice_search_options() != NULL) {
             if (this->search_options == NULL) {
                 this->search_options = TWindowSubComCard::get_choice_search_options();
-                character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+                character_save_record = get_character_save_record(0xFFFF);
                 rebuild_choice_search_selections(&choice_selections, this->search_options);
                 rebuild_choice_search_selections(&character_save_record->choice_search, this->search_options);
             }
@@ -792,7 +792,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x37:
         this->entry_list_window->shrink_to_selected_entry();
-        option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+        option_record = get_character_save_record(0xFFFF);
         this->com_card_menu = this->create_option_list_window(option_record->choice_search.entries, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x38U;
     case 0x38:
@@ -801,7 +801,7 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (this->com_card_menu->is_decided() != 0) {
-            chosen_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+            chosen_record = get_character_save_record(0xFFFF);
             this->set_choice_search_option(chosen_record->choice_search.entries, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x35U;
             return;
@@ -1280,7 +1280,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_entry_list_window() {
     TWindowChoiceSetting *w;
     ChoiceSearchOption *e;
     TRecvChoiceSearchOptions *l;
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     hard = TLobby::open_hard_keyboard(client_id);
     w = TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
     w->create_sub_window(TWindowSubStatusDisp::get_message_10(0x6D));

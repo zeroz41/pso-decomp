@@ -803,7 +803,7 @@ s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot) {
 void copy_bank_to_card_window(s32 slot) {
     CharacterSaveRecord *w;
     if (TAdSinglePlyChrSelectGC::is_ready() != 0) {
-        w = (CharacterSaveRecord *)get_character_save_record(slot);
+        w = get_character_save_record(slot);
         if (w != 0) {
             w->bank_meseta = bank_meseta_by_slot[slot];
             w->bank_item_count = bank_item_count_by_slot[slot];
@@ -816,7 +816,7 @@ void copy_bank_to_card_window(s32 slot) {
 #pragma push
 #pragma optimization_level 1
 void copy_bank_from_card_window(s32 slot) {
-    CharacterSaveRecord *w = (CharacterSaveRecord *)get_character_save_record(slot);
+    CharacterSaveRecord *w = get_character_save_record(slot);
     if (w != 0) {
         bank_meseta_by_slot[slot] = w->bank_meseta;
         bank_item_count_by_slot[slot] = w->bank_item_count;

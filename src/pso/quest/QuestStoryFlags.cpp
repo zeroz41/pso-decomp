@@ -18,7 +18,7 @@ void save_quest_story_flags(void) {
         if (is_quest_active() != 0) {
             THunterGuildSeqOffline::notify_quest_thread();
         }
-        character_save_record = (CharacterSaveRecord *)get_character_save_record(0);
+        character_save_record = get_character_save_record(0);
         if (character_save_record != NULL) {
             memcpy(character_save_record->quest_story_flags, quest_story_flags_by_difficulty, sizeof(character_save_record->quest_story_flags));
         }
@@ -168,7 +168,7 @@ void clear_story_flag_list_and_reload(void) {
 
 void load_quest_story_flags(u16 client) {
     CharacterSaveRecord *character_save_record;
-    character_save_record = (CharacterSaveRecord *)get_character_save_record(client);
+    character_save_record = get_character_save_record(client);
     if (character_save_record != NULL) {
         memcpy(quest_story_flags_by_difficulty, character_save_record->quest_story_flags, sizeof(character_save_record->quest_story_flags));
     }

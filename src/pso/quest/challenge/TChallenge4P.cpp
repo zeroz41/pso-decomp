@@ -198,7 +198,7 @@ s32 challenge_set_rank_override(const char *match, const char *title, s32 color)
 s32 challenge_check_rank_time(s32 seed, s32 card) {
     s32 r;
     if (is_challenge_mode_active() == 0 || challenge4p_mode_state.stage == -1 ||
-        (u32)get_character_save_record((u16)card) == 0) {
+        get_character_save_record((u16)card) == NULL) {
         challenge4p_mode_state.result_rank = -4;
         return -4;
     }
@@ -215,7 +215,7 @@ s32 challenge_check_rank_time(s32 seed, s32 card) {
         challenge4p_mode_state.result_rank = -2;
         return -2;
     }
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record((u16)card);
+    CharacterSaveRecord *record = get_character_save_record((u16)card);
     if (record != 0 && record->is_bank_full() != 0) {
         challenge4p_mode_state.result_rank = -3;
         return -3;
@@ -263,7 +263,7 @@ s32 challenge_create_reward_item(TItemData *item, u16 slot_index) {
     if ((challenge4p_mode_state.result_rank < 0) || (challenge4p_mode_state.result_rank > 2)) {
         return 0;
     }
-    record = (CharacterSaveRecord *)get_character_save_record(slot_index);
+    record = get_character_save_record(slot_index);
     if (record == NULL) {
         return 0;
     }
@@ -445,13 +445,13 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     ChallengeRecord *record;
     lo = challenge_set_min_time(slot);
     hi = challenge_set_max_time(slot);
-    if (reinterpret_cast<const void *>(get_character_save_record(card)) == NULL) {
+    if (get_character_save_record(card) == NULL) {
         return -4;
     }
     if (total < lo || total > hi) {
         return -4;
     }
-    record = &((CharacterSaveRecord *)get_character_save_record(card))->challenge;
+    record = &(get_character_save_record(card))->challenge;
     rank = challenge_set_rank(record, slot);
     e = &challenge4p_mode_state.rank_thresholds[2];
     for (i = 2; i >= 0; i--, e--) {
@@ -471,7 +471,7 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
 }
 
 s32 record_challenge_stage_time(s32 seed, u16 card, s32 id) {
-    CharacterSaveRecord *win = (CharacterSaveRecord *)get_character_save_record(card);
+    CharacterSaveRecord *win = get_character_save_record(card);
     s32 layout = challenge_set_stage_count(id);
     s32 *arr;
     s32 idx;
@@ -503,7 +503,7 @@ s32 record_challenge_stage_time(s32 seed, u16 card, s32 id) {
 }
 
 s32 count_card_layout_entries(s32 client) {
-    CharacterSaveRecord *win = (CharacterSaveRecord *)get_character_save_record(client);
+    CharacterSaveRecord *win = get_character_save_record(client);
     s32 layout;
     s32 id;
     s32 *arr;
@@ -557,7 +557,7 @@ s32 record_challenge_stage_clear(s32 seed, u16 card) {
     record_challenge_stage_time(seed, card, id);
     total = get_challenge_set_time(card, id);
     if (total != 0) {
-        record = &((CharacterSaveRecord *)get_character_save_record(card))->challenge;
+        record = &(get_character_save_record(card))->challenge;
         total -= decode_challenge_time(challenge_set_stage_times(record, id)[challenge4p_mode_state.stage]);
         total += seed;
         result = get_challenge_award_rank(total, card, id);
@@ -718,7 +718,7 @@ void save_challenge_tombstone_spot(s32 client) {
             spot->layout = challenge4p_mode_state.stage;
             spot->floor = challenge4p_mode_state.current_floor;
             VecCopy(&spot->position, &p->position);
-            TObjTombstoneSpot *saved = &((CharacterSaveRecord *)get_character_save_record(client))->challenge.tombstone_spot;
+            TObjTombstoneSpot *saved = &(get_character_save_record(client))->challenge.tombstone_spot;
             copy_tombstone_spot(saved, spot);
         }
     }
@@ -812,10 +812,10 @@ void TChallenge4P::restore_challenge_from_save() {
     s32 i;
     clear_four_slots();
     for (i = 0; i < 4; i++) {
-        if (get_player_by_client_id(i) != NULL && (u8 *)get_character_save_record(i) != NULL) {
+        if (get_player_by_client_id(i) != NULL && get_character_save_record(i) != NULL) {
             ChallengeClientRecords *r = &challenge4p_mode_state.client_records[i];
             r->present = 1;
-            r->records = ((CharacterSaveRecord *)get_character_save_record(i))->challenge;
+            r->records = (get_character_save_record(i))->challenge;
         }
     }
 }

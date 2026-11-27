@@ -15,7 +15,7 @@
 static char active_challenge_title[12];
 
 char *get_active_challenge_title() {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    CharacterSaveRecord *record = get_character_save_record(0xFFFF);
     decode_obfuscated_string(active_challenge_title, record->challenge.rank_title, 12);
     return active_challenge_title;
 }

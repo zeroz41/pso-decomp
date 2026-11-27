@@ -349,7 +349,7 @@ void append_team_name(void) {
 void append_card_window_text() {
     CharacterSaveRecord *record;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     if (record != NULL) {
         append_string(record->challenge.tombstone.unit_name);
         return;
@@ -785,7 +785,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
     TItemData item;
     CharacterSaveRecord *card;
     qst_registers[out].i = -1;
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     if (card != NULL) {
         item.init();
         item.data1.data_u8[0] = qst_registers[i++].i;
@@ -803,7 +803,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
 void qst_op_write_counter() {
     s32 idx = qst_args[0].i;
     s32 val = qst_args[1].i;
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    CharacterSaveRecord *record = get_character_save_record(0xFFFFU);
     if (record != NULL && idx >= 0 && idx < 0x10) {
         record->quest_counters[idx] = val;
     }
@@ -812,7 +812,7 @@ void qst_op_write_counter() {
 void qst_op_read_counter(void) {
     s32 counter_index = qst_args[0].i;
     u8 dest_reg = (u8)qst_args[1].i;
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    CharacterSaveRecord *record = get_character_save_record(0xFFFFU);
     if (record != NULL) {
         if (counter_index >= 0 && counter_index < 0x10) {
             qst_registers[dest_reg].i = record->quest_counters[counter_index];
@@ -910,7 +910,7 @@ void qst_op_get_slot_meseta(u8 i) {
     } else {
         qst_registers[i].i = -1;
     }
-    w = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    w = get_character_save_record(0xFFFF);
     if (w != 0) {
         (&qst_registers[i].i)[1] = w->bank_meseta;
     } else {
@@ -922,7 +922,7 @@ void qst_op_get_guildcard_total(int a0) { qst_registers[(unsigned char)(a0)].i =
 
 void qst_op_get_time_played(s32 reg) {
     CharacterSaveRecord *character_save_record;
-    character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    character_save_record = get_character_save_record(0xFFFFU);
     if (character_save_record != NULL) {
         qst_registers[(u8)reg].i = character_save_record->play_time;
         return;
@@ -1722,14 +1722,14 @@ void qst_op_get_number_of_players2(int a0) { qst_registers[(unsigned char)(a0)].
 void qst_op_get_cmode_prize_rank(s32 reg) {
     CharacterSaveRecord *record;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     if (record != NULL) {
         qst_registers[(u8)reg].i = decode_challenge_count(challenge_set_rank(&record->challenge, RECORD_SET_CURRENT)->rank);
     }
 }
 
 void qst_op_get_ba_record(u8 i) {
-    CharacterSaveRecord *card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    CharacterSaveRecord *card = get_character_save_record(0xFFFF);
     if (card != NULL) {
         qst_registers[i++].i = card->online_battle.place_counts[0];
         qst_registers[i++].i = card->online_battle.place_counts[1];
@@ -1743,7 +1743,7 @@ void qst_op_get_ba_record(u8 i) {
 
 void qst_op_is_there_grave_message(s32 reg) {
     CharacterSaveRecord *record;
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    record = get_character_save_record(0xFFFFU);
     if (record != NULL) {
         if (strncmp(record->challenge.tombstone.unit_name, "", 0x20) == 0) {
             qst_registers[(u8)reg].i = 0;

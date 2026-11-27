@@ -1548,11 +1548,11 @@ void TObjPlayer::enter_death_state() {
     }
     if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (is_technique_ready() == 0)) {
         if (TObjPlayer::is_single_screen() != 0) {
-            character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)(this->get_entity_id()));
+            character_save_record = get_character_save_record((u16)(this->get_entity_id()));
             character_save_record->death_count += 1;
             return;
         }
-        save_record = (CharacterSaveRecord *)get_character_save_record((u16)(0xFFFFU));
+        save_record = get_character_save_record((u16)(0xFFFFU));
         save_record->death_count += 1;
     }
 }

@@ -6340,7 +6340,7 @@ void TObjPlayer::init_local_pad_binding() {
 }
 
 s32 TObjPlayer::get_total_deaths() {
-    return ((CharacterSaveRecord *)get_character_save_record(this->get_entity_id()))->death_count;
+    return (get_character_save_record(this->get_entity_id()))->death_count;
 }
 
 s32 TObjPlayer::is_player_valid_target(u16 client_index) {

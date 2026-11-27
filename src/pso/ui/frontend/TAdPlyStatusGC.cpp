@@ -128,7 +128,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
     switch (TAdPlyStatusGC::window_offset_index) {
     case 0:
     case 2:
-        record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+        record = get_character_save_record(0xFFFF);
         if (record != 0) {
             time = record->play_time;
         }
