@@ -164,7 +164,7 @@ void handle_quest_ready() {
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL) {
-            TObjPlayer::clear_lobby_flag(p);
+            p->clear_lobby_flag();
             p->activate_body_collision();
         }
     }

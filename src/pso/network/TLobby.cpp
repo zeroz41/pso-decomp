@@ -1663,7 +1663,7 @@ void TLobby::init_player_window_effect() {
 void TLobby::update_player_window() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        TObjPlayer::clear_lobby_flag(player);
+        player->clear_lobby_flag();
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
 }

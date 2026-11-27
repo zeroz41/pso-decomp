@@ -837,7 +837,7 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
       }
         break;
       case 7:
-        if (is_flag_clear(player) == 0)
+        if (player->is_flag_clear() == 0)
       {
         result |= 1;
       }

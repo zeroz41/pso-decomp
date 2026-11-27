@@ -1380,7 +1380,7 @@ s32 TObjChara::try_start_action(TObjChara *attacker, s32 collider, f32 accuracy)
     if (roll_physical_accuracy(attacker, collider, accuracy) != 0) {
         return 1;
     }
-    ((TObjPlayer *)this)->show_miss_for_collider(collider);
+    show_miss_for_collider(collider);
     return 0;
 }
 #pragma push
@@ -1405,8 +1405,8 @@ s32 TObjChara::roll_physical_accuracy(TObjChara *attacker, s32 collider, f32 acc
 }
 
 #pragma pop
-void TObjPlayer::show_miss_for_collider(s32 collider) {
-    this->show_miss_popup((const float*)((*(uaddr *)&this->bodies) + collider*0x2C + 0x1C));
+void TObjChara::show_miss_for_collider(s32 collider) {
+    show_miss_popup(&bodies[collider].center.x);
 }
 
 void TObjChara::show_miss_popup(const float *pos) {

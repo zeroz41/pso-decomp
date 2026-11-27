@@ -263,10 +263,10 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
     pl2 = get_player_by_client_id(local_client_id);
     if (pl2 != NULL && pl2->get_floor() == get_current_floor()) {
         if (xz_distance_squared(&pl2->position, &position) <= (25.0f + warp_range) * (25.0f + warp_range)) {
-            if (is_flag_clear(pl2) != 0) {
+            if (pl2->is_flag_clear() != 0) {
                 pl2->set_flag_4096();
             }
-        } else if (is_flag_clear(pl2) == 0) {
+        } else if (pl2->is_flag_clear() == 0) {
             pl2->clear_flag_4096();
         }
     }

@@ -129,15 +129,15 @@ s32 TItemAttackColBase::try_add_hit_target(const ActorBodyHit *hit) {
     if (hit_count >= 8) {
         return 0;
     }
-    if (client_id == ((TObjBase *)hit->target)->get_entity_id()) {
+    if (client_id == hit->target->get_entity_id()) {
         return 0;
     }
     ok = 1;
-    if (is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->test_actor_flags(0x60000000) == 0x20000000
-        && this->room != ((TObjBase *)(hit->target))->get_room()) {
+    if (is_technique_ready() == 0 && hit->target->test_actor_flags(0x60000000) == 0x20000000
+        && this->room != hit->target->get_room()) {
         ok = 0;
     }
-    if (((TObjCollidable *)hit->target)->test_actor_flags(0x04000000) != 0
+    if (hit->target->test_actor_flags(0x04000000) != 0
         || ((flags = hit->target->bodies[hit->body].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;

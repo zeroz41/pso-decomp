@@ -2815,7 +2815,7 @@ s32 TObjPlayer::can_start_technique(s32 tech) {
         this->test_actor_flags(0x20006) != 0 ||
         this->test_actor_flags(0x2000000) != 0 ||
         this->test_action_mask(0x11E) == 0 ||
-        (tech == 0xE && is_flag_clear(this) == 0) ||
+        (tech == 0xE && is_flag_clear() == 0) ||
         (tech == 0x11 && TObjPlayer::is_camera_mode_active() != 0) ||
         TObjPlayer::validate_and_clear_slot(&this->technique_state, tech) != 0 ||
         this->reset_volopt_state() == 0) {
@@ -3453,7 +3453,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             case 9:
             case 10:
             case 13:
-                ((TObjPlayer *)target)->show_miss_for_collider(collider);
+                target->show_miss_for_collider(collider);
                 break;
             default:
                 switch (attack_state.get_validated_attack_kind()) {
@@ -3475,11 +3475,11 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         sound.collider = collider;
                         play_weapon_hit_sound(&sound);
                     } else {
-                        ((TObjPlayer *)target)->show_miss_for_collider(collider);
+                        target->show_miss_for_collider(collider);
                     }
                     break;
                 default:
-                    ((TObjPlayer *)target)->show_miss_for_collider(collider);
+                    target->show_miss_for_collider(collider);
                     break;
                 }
                 break;

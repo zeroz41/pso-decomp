@@ -2911,9 +2911,9 @@ void TObjPlayer::init_effect_5f0() {
     anim_state.set_angle(this->rotation.y);
 }
 
-void TObjPlayer::clear_lobby_flag(void *base) {
+void TObjPlayer::clear_lobby_flag() {
     if (TLobby::connection_lost == 0) {
-        ((TObjBase *)base)->clear_actor_flags((u32)0x10000);
+        clear_actor_flags((u32)0x10000);
     }
 }
 
@@ -4416,7 +4416,7 @@ s32 TObjPlayer::can_use_item(TItem *item) {
             }
             break;
         case 7:
-            if (is_flag_clear(this) == 0) {
+            if (is_flag_clear() == 0) {
                 return 0;
             }
             break;
@@ -4494,7 +4494,7 @@ void TObjPlayer::set_flag_4096() { this->set_state_flags(4096); }
 
 void TObjPlayer::clear_flag_4096() { this->clear_state_flags(4096); }
 
-int is_flag_clear(void* p) { return (((TObjPlayer *)p)->check_flag(4096)) == 0; }
+int TObjPlayer::is_flag_clear() { return check_flag(4096) == 0; }
 
 s32 TObjPlayer::create_return_city_window() {
     if ((this->is_locally_controlled() != 0) && ((u32) this->return_city_window == 0U) && (this->death_fade != NULL)) {

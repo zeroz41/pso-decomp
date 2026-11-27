@@ -276,7 +276,7 @@ void TMedicalCenterMes::run_task() {
         break;
     case 2:
         if (player != NULL) {
-            TObjPlayer::clear_lobby_flag(player);
+            player->clear_lobby_flag();
         }
         close();
         if (player != NULL) {

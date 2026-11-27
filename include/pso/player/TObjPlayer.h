@@ -237,7 +237,6 @@ struct TObjPlayer : public TObjChara {
     TPlyDispConfigSmth *select_action_palette(int secondary);
     s32 add_meseta(s32 amount);
     void request_normal_attack_stage1();
-    void show_miss_for_collider(s32 collider);
     u32 state_flags;
     u8 mag_level;     // class flag 0 of a character record (get_mag_level)
     s8 class_flag_1;
@@ -813,6 +812,7 @@ struct TObjPlayer : public TObjChara {
     s32 create_return_city_window();
     void clear_flag_4096();
     void set_flag_4096();
+    int is_flag_clear();
     void disable_primary_action_input();
     void disable_action_input();
     void enable_action_input();
@@ -882,7 +882,7 @@ struct TObjPlayer : public TObjChara {
     s32 apply_exp_level_growth();
     void update_status_effects();
     void update_position_history();
-    static void clear_lobby_flag(void *base);
+    void clear_lobby_flag();
     void init_effect_5f0();
     void get_hand_joint_position(Vec *out_pos);
     void close_sub_window();
@@ -1257,6 +1257,5 @@ struct PhotonBlastMotionTiming {
 
 s32 count_members();
 s32 is_technique_ready();
-int is_flag_clear(void* p);
 
 #endif

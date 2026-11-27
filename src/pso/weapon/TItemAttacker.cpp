@@ -42,7 +42,7 @@ void TItemAttacker::deliver_delayed_weapon_hit() {
             }
         } else {
             if (horizontal_distance_squared(target_body, &origin) < horizontal_distance_squared(&target_pos, &origin)) {
-                ((TObjPlayer *)target)->show_miss_for_collider(hit.collider);
+                target->show_miss_for_collider(hit.collider);
             }
         }
     }

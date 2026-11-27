@@ -72,7 +72,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
             }
             break;
         case 0xE:
-            if (is_flag_clear(this) == 0) {
+            if (is_flag_clear() == 0) {
                 return 0;
             }
             if (is_technique_ready() != 0 || get_game_play_mode() == 1) {
@@ -94,7 +94,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
         case 10:
             break;
         case 11:
-            if (is_flag_clear(this) == 0) {
+            if (is_flag_clear() == 0) {
                 return 0;
             }
             if (is_technique_ready() != 0) {

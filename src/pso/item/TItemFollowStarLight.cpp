@@ -12,15 +12,15 @@ static const StarLightParameters weapon_star_light_parameters[] = {
 
 void TItemFollowStarLight::run_task() {
     Vec position;
-    saddr item;
+    TItem *item;
     if (item_generation != (u32)get_item_system_generation()) {
         queue_destruction();
         return;
     }
     if (star_light != NULL) {
-        item = ((saddr)find_item_by_id(item_id));
-        if ((item != 0) && (((TItem *)item)->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(joint, &position) != 0)) {
-            if (((TItem *)item)->is_hidden() == 0) {
+        item = find_item_by_id(item_id);
+        if ((item != NULL) && (item->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(joint, &position) != 0)) {
+            if (item->is_hidden() == 0) {
                 star_light->copy_position(&position);
                 return;
             }
@@ -35,7 +35,7 @@ TItemFollowStarLight::~TItemFollowStarLight() {}
 
 TItemFollowStarLight::TItemFollowStarLight(TObject *parent, s32 item_id, s32 joint) : TObject(parent) {
     Vec v;
-    void *p;
+    TItem *p;
     this->item_id = item_id;
     this->joint = joint;
     star_light = NULL;

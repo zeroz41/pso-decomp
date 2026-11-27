@@ -97,7 +97,7 @@ void TShopSequence::close_window() {
                 client += 1;
             } while (client < 4);
         }
-        TObjPlayer::clear_lobby_flag(player);
+        player->clear_lobby_flag();
     }
 }
 void TShopSequence::restore_player_state() {
