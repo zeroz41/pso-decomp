@@ -74,7 +74,7 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraFollow.h"
@@ -91,7 +91,6 @@ typedef TBoss4Type3Handler Type3Handler;
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/render/DebugFont.h"
 #include "pso/enemy/BattleParamTables.h"
 

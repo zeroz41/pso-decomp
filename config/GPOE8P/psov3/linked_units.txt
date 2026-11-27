@@ -1530,7 +1530,7 @@ pso/ui/window/TMessageWindowController.cpp
 pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
-pso/boss/darkfalz/TBoss4Type2_800522CC.cpp
+pso/boss/darkfalz/DarkFalzUtil.cpp
 pso/object/TObjLiveMonitor.cpp
 pso/weapon/TItemWeaponMusashi.cpp
 pso/weapon/TItemWeaponPhotonLauncher.cpp

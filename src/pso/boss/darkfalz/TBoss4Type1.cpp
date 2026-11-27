@@ -42,7 +42,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecRaBarta.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/render/GinjaDrawUtil.h"
 
 #include "pso/object/base/ActorCollision.h"

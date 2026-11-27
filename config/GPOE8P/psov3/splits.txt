@@ -559,7 +559,7 @@ pso/boss/darkfalz/TObjDFJisin.cpp:
 	.sbss       start:0x805D4D78 end:0x805D4D80
 	.sdata2     start:0x805D8A30 end:0x805D8AD8
 
-pso/boss/darkfalz/TBoss4Type2_800522CC.cpp:
+pso/boss/darkfalz/DarkFalzUtil.cpp:
 	.text       start:0x800522CC end:0x800525AC
 	.rodata     start:0x804374F8 end:0x80437500
 	.sdata2     start:0x805D8AD8 end:0x805D8AF4

@@ -5,8 +5,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/boss/darkfalz/DrainPlayerHp.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/math/AngleLookup.h"
 

@@ -45,7 +45,7 @@ struct NJS_OBJECT;
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/boss/darkfalz/TObjDFYutai.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/enemy/dd/TObjEneDD.h"

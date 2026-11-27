@@ -46,7 +46,7 @@
 #include "pso/network/client_id.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/enemy/TObjEnemyCustom.h"
