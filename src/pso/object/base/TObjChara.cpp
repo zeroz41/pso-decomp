@@ -1414,7 +1414,7 @@ void TObjPlayer::show_miss_for_collider(s32 collider) {
 void TObjChara::show_miss_popup(const float *pos) {
     if (this->test_actor_flags(0x02000000) == 0 && this->is_locally_controlled() == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
-            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, miss_label_text);
+            TOCtrlDubchik::create_font((Vec *)pos, 0xFFFF0000, 0x14, miss_label_text);
         }
     }
 }

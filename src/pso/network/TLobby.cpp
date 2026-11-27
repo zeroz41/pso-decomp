@@ -549,7 +549,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
         {
         }
         n += buf->sync_records_size;
-        restore_switch_table((saddr)(&buf->payload[n]), buf->switch_table_size);
+        restore_switch_table(&buf->payload[n], buf->switch_table_size);
         activate_triggered_floor_events();
       }
       ::operator delete((0, buf));
