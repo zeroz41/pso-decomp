@@ -2,10 +2,10 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERIDO_H
 
 #include "types.h"
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/render/RenderFadeState.h"
 
-struct TObjContainerIdo : public TUnk_804B97C0 {
+struct TObjContainerIdo : public TObjContainerIdoBase {
     TObjContainerIdo(TObject *parent, ObjectSetData *set);
     virtual ~TObjContainerIdo();
     virtual s32 update_object_view_visibility(f32 far_depth, f32 radius);

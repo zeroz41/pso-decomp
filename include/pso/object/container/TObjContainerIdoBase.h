@@ -1,12 +1,12 @@
-#ifndef PSO_ITEM_TUNK_804B97C0_H
-#define PSO_ITEM_TUNK_804B97C0_H
+#ifndef PSO_OBJECT_CONTAINER_TOBJCONTAINERIDOBASE_H
+#define PSO_OBJECT_CONTAINER_TOBJCONTAINERIDOBASE_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-class TUnk_804B97C0 : public TObjCollidable {
+class TObjContainerIdoBase : public TObjCollidable {
 public:
-    TUnk_804B97C0(TObject *parent);
-    virtual ~TUnk_804B97C0();
+    TObjContainerIdoBase(TObject *parent);
+    virtual ~TObjContainerIdoBase();
     virtual void update_state();
     virtual void draw_model();
     virtual void render();

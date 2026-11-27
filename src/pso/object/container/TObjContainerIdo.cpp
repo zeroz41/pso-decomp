@@ -14,7 +14,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/container/TObjContainerJungEnemy.h"
 
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
 #include "types.h"
@@ -243,7 +243,7 @@ TObjContainerIdo::~TObjContainerIdo() {
     free_collision_body_parts(this);
 }
 
-TObjContainerIdo::TObjContainerIdo(TObject *parent, ObjectSetData *set) : TUnk_804B97C0(parent) {
+TObjContainerIdo::TObjContainerIdo(TObject *parent, ObjectSetData *set) : TObjContainerIdoBase(parent) {
     s32 i;
     m_name = obj_container_ido_class_name;
     apply_object_set_data(set);

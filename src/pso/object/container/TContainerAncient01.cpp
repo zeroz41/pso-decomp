@@ -109,7 +109,7 @@ const char *container_ancient01_r_name = "TContainerAncient01R";
 
 #include "pso/object/container/TObjContainerIdo.h"
 
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/ModelDrawContext.h"

@@ -3237,7 +3237,7 @@ force_active:
   - __vt__29TObjFogCollisionPoison_Ticker
   - __vt__17TNpcPlayerSpawner
   - __vt__15TNpcTalkTrigger
-  - __vt__13TUnk_804B97C0
+  - __vt__20TObjContainerIdoBase
   - __vt__16TPlacementSearch
   - __vt__11TQuadSprite
   - __vt__13TQuestManager

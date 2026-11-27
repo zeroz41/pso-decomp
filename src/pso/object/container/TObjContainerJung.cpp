@@ -12,7 +12,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/container/TObjContainerJungEnemy.h"
 #include "pso/object/container/TObjContainerIdo.h"
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
 #include "types.h"
