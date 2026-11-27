@@ -127,7 +127,7 @@ void MovieState::init_sfd_player(s32 is_ending, s32 is_normal_ending) {
     } else {
         ply->vt->start_fname(ply, filename);
     }
-    ply->vt->f2C(ply, get_lobby_data());
+    ply->vt->set_output_vol(ply, get_music_user_gain());
 }
 
 s32 MovieState::decode_frame() {

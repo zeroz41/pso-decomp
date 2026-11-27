@@ -79,7 +79,7 @@ void init_layout_positions() {
     reset_global();
 }
 
-int get_lobby_data() {  return music_user_gain; }
+int get_music_user_gain() { return music_user_gain; }
 void set_cue_stream_user_gain(s32 gain) {
     set_menu_index_main(gain);
     cue_stream_user_gain = gain;
