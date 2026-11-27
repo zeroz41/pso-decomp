@@ -8,7 +8,7 @@
 #include "pso/render/GinjaTextureEntryCopy.h"
 #include "pso/effect/GroundContactSound.h"
 #include <stddef.h>
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "types.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
@@ -64,11 +64,11 @@
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/render/GinjaView.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
@@ -84,6 +84,7 @@
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -100,7 +101,7 @@ s32 me3_stelth_render_node_index;
 TBreakUpMdlData *me3_stelth_breakup_model;
 SampledMotionPoints *me3_stelth_trail_buffer;
 s32 stelth_projection_texture_handle;
-f32 lbl_805010E0[3];
+f32 me3_stelth_zero_vector[3];  // zeroed by the resource loader, never read
 __declspec(section ".data") player_stats *me3_stelth_base_params_by_variant[2];
 __declspec(section ".data") AttackParams *me3_stelth_attack_params_by_variant[2];
 __declspec(section ".data") ActorParamBlock *me3_stelth_resistance_params_by_variant[2];
@@ -183,9 +184,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     NJS_CNK_MODEL *q;
     AnimationMotion *motion;
 
-    lbl_805010E0[0] = 0.0f;
-    lbl_805010E0[1] = 0.0f;
-    lbl_805010E0[2] = 0.0f;
+    me3_stelth_zero_vector[0] = 0.0f;
+    me3_stelth_zero_vector[1] = 0.0f;
+    me3_stelth_zero_vector[2] = 0.0f;
     if (is_split_screen() != 0) {
         me3_stelth_bml_resource = load_enemy_bml_resource(&me3_stelth_bml_resource_desc);
     } else {
@@ -202,16 +203,16 @@ void TObjEneMe3Stelth::load_shared_resources() {
         me3_stelth_alternate_texture_list.textures[i].texture = me3_stelth_alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_base_params_by_variant[i] = TLobby::register_boss(stelth_base_stat_ids[i]);
+        me3_stelth_base_params_by_variant[i] = register_boss(stelth_base_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(stelth_attack_stat_ids[i]);
+        me3_stelth_attack_params_by_variant[i] = dispatch_shared_handler_b(stelth_attack_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_resistance_params_by_variant[i] = TLobby::register_object(stelth_resist_stat_ids[i]);
+        me3_stelth_resistance_params_by_variant[i] = register_object(stelth_resist_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_stelth_behavior_params_by_variant[i] = (StelthBehaviorParams *)TLobby::dispatch_shared_handler_a(stelth_param_ids[i]);
+        me3_stelth_behavior_params_by_variant[i] = (StelthBehaviorParams *)dispatch_shared_handler_a(stelth_param_ids[i]);
     }
     d = me3_stelth_behavior_params_by_variant[0];
     TObjEneMe3Stelth::set_slot_min_clamped_value(7, d->sword_motion_speed);

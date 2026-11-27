@@ -2,7 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemToolMaterial.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/item/TItem.h"

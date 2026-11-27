@@ -12,7 +12,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjBase.h"
@@ -88,7 +88,7 @@ void TTecShot::step_ground_technique_projectile() {
         normal.x = contact->normal.x;
         normal.y = contact->normal.y;
         normal.z = contact->normal.z;
-        direction_to_rotation_xy((u8 *)&normal, &yaw, &pitch);
+        direction_to_rotation_xy(&normal, &yaw, &pitch);
         if (angle_difference_abs(0, yaw) >= 0x1555) {
             queue_destruction();
         }

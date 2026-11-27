@@ -1,13 +1,14 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/network/NetworkConnect.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/SwitcherLaunch.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/audio/MusicControl.h"
 
 #pragma readonly_strings on
 
@@ -21,7 +22,7 @@ void TAdTrialModemChkGC::check_modem_result() {
     }
     launch_browser(1);
 }
-void TAdTrialModemChkGC::init_modem_check_phase() { TLobby::stop_audio_streams(); }
+void TAdTrialModemChkGC::init_modem_check_phase() { stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
     render_dialog();

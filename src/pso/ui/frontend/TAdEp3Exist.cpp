@@ -19,7 +19,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/MenuText.h"
 
@@ -52,7 +52,7 @@ void TAdEp3Exist::render() {
 
 void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::open_lic_agreement_scene(); }
 void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::open_time_set_scene(); }
-void open_ppp_pass_scene(TAdEp3Exist *p) { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
+void TAdEp3Exist::request_ppp_pass_scene() { TAdMultiChgGameModeGC::open_enter_ppp_pass_scene(); }
 void TAdEp3Exist::close_window() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdEp3Exist::run_task() {
@@ -91,7 +91,7 @@ void TAdEp3Exist::run_task() {
         }
         break;
     case 3:
-        open_ppp_pass_scene(this);
+        request_ppp_pass_scene();
         break;
     case 4:
         request_scene_change();

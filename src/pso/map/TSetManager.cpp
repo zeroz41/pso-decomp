@@ -2,10 +2,11 @@
 #include "pso/map/MapSetArchive.h"
 #include <stddef.h>
 #include "pso/map/FloorPopulation.h"
+#include "pso/render/gjSystem.h"
 #include "pso/map/ChallengeEnemySet.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/unk/TLobby_80209524.h"
+#include "pso/map/MapSetData.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
@@ -16,18 +17,16 @@
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/EventShuffleTable.h"
 #include "string.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/text_800F8A18.h"
+#include "pso/map/FloorWaveEvents.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_800F8A0C.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include <stdlib.h>
-#include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include <string.h>
 #include "pso/system/THeap.h"
@@ -40,14 +39,14 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
-#include "pso/unk/TLobby_8020E400.h"
+#include "pso/network/EntitySetFlagsCmd.h"
 #include "pso/enemy/EnemyFactoryTables.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <dolphin/ar.h>
 #include "pso/system/scene/TScene.h"
@@ -55,17 +54,17 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/FileExtension.h"
 
 #pragma readonly_strings on
-
 
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
@@ -267,14 +266,14 @@ void TLobby::destroy_child_recursive(TObject *task, TObject *object) {
     }
 }
 
-void init_scene_objects() { TLobby::init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); attach_objects_by_id((s32)get_current_floor()); create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
+void init_scene_objects() { init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); attach_objects_by_id((s32)get_current_floor()); create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
 
 void destroy_current_floor_objects(void) {
     s32 n;
     FloorObjectSetRow *p;
     s32 i;
     p = get_active_floor_object_rows(get_current_floor());
-    n = TLobby::get_obj_table_entry(get_current_floor());
+    n = get_obj_table_entry(get_current_floor());
     for (i = 0; i < n; i++, p++) {
         if (p->object != 0) {
             TLobby::destroy_child_recursive(tl_02, p->object);
@@ -285,21 +284,18 @@ void destroy_current_floor_objects(void) {
         }
     }
 }
-extern "C" {
-
 void mark_floor_enemies_dead(void) {
     EnemySetRecord *p;
     s32 n;
     s32 i;
     p = get_active_floor_enemy_rows(get_current_floor());
-    n = TLobby::get_object_type(get_current_floor());
+    n = get_object_type(get_current_floor());
     for (i = 0; i < n; i++, p++) {
         u32 r = (uaddr)find_entity_by_id(p->placement.id);
         if (r != 0) {
             ((TObjBase *)(saddr)r)->set_actor_flags(0x800);
         }
     }
-}
 }
 void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     FloorSavedSetRow *e;
@@ -308,7 +304,7 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     LobbyFloorRows *a2;
     s32 i;
     u16 id;
-    ((TLobby *)command)->bswap_player_fields();
+    command->bswap();
     id = command->header.entity_id;
     if (id >= 0x1000 && id < 0x4000) {
         a = &floor_enemy_group_table[command->floor];
@@ -353,16 +349,14 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     }
 }
 
-struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
-
 
 void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
-    Send6x76SetEntitySetFlagsPacket pkt;
+    G_SetEntitySetFlags_6x76 pkt;
     build_6x76_set_entity_set_flags(&pkt);
-    pkt.a = object->get_entity_id();
-    pkt.b = ((s16 (*)())get_current_floor)();
-    pkt.c = flags;
-    ((TLobby *)(&pkt))->send_player_update();
+    pkt.header.entity_id = object->get_entity_id();
+    pkt.floor = ((s16 (*)())get_current_floor)();
+    pkt.flags = flags;
+    pkt.send();
 }
 
 void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16) {
@@ -477,7 +471,7 @@ s32 TWindowDD::check_all_ready(s32 floor) {
     EnemySetRecord *active_floor_enemy_rows;
 
     active_floor_enemy_rows = get_active_floor_enemy_rows(floor);
-    object_type = TLobby::get_object_type(floor);
+    object_type = get_object_type(floor);
     if (active_floor_enemy_rows != NULL) {
         for (i = 0; i < object_type; i++) {
             flags = active_floor_enemy_rows->flags;
@@ -491,10 +485,9 @@ s32 TWindowDD::check_all_ready(s32 floor) {
 }
 
 
-
 s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
     EnemySetRecord *rows = get_active_floor_enemy_rows(floor);
-    s32 count = TLobby::get_object_type(floor);
+    s32 count = get_object_type(floor);
     if (rows != NULL) {
         for (; count > 0; count--, rows++) {
             if (rows[0].placement.room == room && !(rows[0].flags & 8) && (rows[0].flags & 2)) {
@@ -583,23 +576,18 @@ s32 TObjEnemy::send_entity_set_flags() {
 }
 
 s32 TObjCollidable::set_flag8() {
-    void *set_entry;
+    FloorObjectSetRow *set_entry;
 
-    set_entry = this->set_entry;
+    set_entry = (FloorObjectSetRow *)this->set_entry;
     if (set_entry != NULL) {
-        ((EnemySetRecord *)set_entry)->flags = (s16) (((EnemySetRecord *)set_entry)->flags | 8);
+        set_entry->flags |= 8;
         return 1;
     }
     return 0;
 }
 
 
-extern "C" {
-
-s32 append_wave_member(s32, void *);
-
-
-s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
+s32 TLobby::spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
     s16 set_index;
     s16 flags;
     s32 row_count;
@@ -613,7 +601,7 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
         return 0;
     }
     row = get_active_floor_enemy_rows(active_set_floor);
-    row_count = TLobby::get_object_type(active_set_floor);
+    row_count = get_object_type(active_set_floor);
     for (row_index = 0; row_index < row_count; row_index += 1, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
@@ -639,8 +627,6 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
     return spawned;
 }
 
-}
-
 s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
     s32 n;
     s32 count;
@@ -654,10 +640,10 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
         local = 1;
     }
     if (local == 0) {
-        return TLobby::set_flags_on_matching_entries(floor, room, wave, 1);
+        return set_flags_on_matching_entries(floor, room, wave, 1);
     }
     set = get_active_floor_enemy_rows(floor);
-    n = TLobby::get_object_type(floor);
+    n = get_object_type(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
@@ -688,7 +674,7 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
     return count;
 }
 
-s32 TLobby::link_matching_objects(s16 room, s16 wave) {
+s32 link_matching_objects(s16 room, s16 wave) {
     s16 set_index;
     s16 flags;
     s32 row_count;
@@ -702,7 +688,7 @@ s32 TLobby::link_matching_objects(s16 room, s16 wave) {
         return 0;
     }
     row = get_active_floor_enemy_rows(active_set_floor);
-    row_count = TLobby::get_object_type(active_set_floor);
+    row_count = get_object_type(active_set_floor);
     for (row_index = 0; row_index < row_count; row_index += 1, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
@@ -740,10 +726,10 @@ s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
         local = 1;
     }
     if (local == 0) {
-        return TLobby::set_room_group_flags(floor, room, group, 1);
+        return set_room_group_flags(floor, room, group, 1);
     }
     set = get_active_floor_object_rows(floor);
-    n = TLobby::get_obj_table_entry(floor);
+    n = get_obj_table_entry(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
@@ -785,7 +771,7 @@ s32 spawn_objects_at_pos(s16 room, s16 wave) {
 
     spawned = 0;
     row = get_active_floor_object_rows(active_set_floor);
-    obj_table_entry = TLobby::get_obj_table_entry(active_set_floor);
+    obj_table_entry = get_obj_table_entry(active_set_floor);
     for (k = 0; k < obj_table_entry; k++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
@@ -849,7 +835,7 @@ void create_objects(s32 floor) {
     TObjEnemy *enemy;
 
     row = get_active_floor_enemy_rows(floor);
-    row_count = TLobby::get_object_type(floor);
+    row_count = get_object_type(floor);
     for (row_index = 0; row_index < row_count; row_index++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 1) || (row->placement.wave == 0))) {
@@ -951,7 +937,7 @@ void attach_objects_by_id(s32 floor) {
     TObjBase *set_object;
 
     row = get_active_floor_object_rows(floor);
-    count = TLobby::get_obj_table_entry(floor);
+    count = get_obj_table_entry(floor);
     for (i = 0; i < count; i++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 0x10) || (flags & 1) || (row->placement.wave == 0))) {
@@ -974,14 +960,14 @@ void attach_objects_by_id(s32 floor) {
     }
 }
 
-void assign_objects_to_slots(u8 *rows, s32 object_count) {
+void assign_objects_to_slots(FloorObjectSetRow *rows, s32 object_count) {
     s16 flags;
     s16 set_index;
     FloorObjectSetRow *row;
     s32 i;
     TObjBase *set_object;
 
-    row = (FloorObjectSetRow *)rows;
+    row = rows;
     for (i = 0; i < object_count; i++, row++) {
         flags = row->flags;
         if (!(flags & 8) && !(flags & 2) && (row->type != -1) && ((flags & 0x10) || (flags & 1) || (row->placement.wave == 0))) {
@@ -1029,26 +1015,7 @@ s32 object_condition_count;
 s32 enemy_condition_count;
 
 
-
-typedef struct SpawnAngles { u32 x, y, z; } SpawnAngles;
-
-typedef struct ApplyRoomTransformToEnemyRowsSpawnRecord {
-    s16 type;
-    u16 flags;
-    u16 index;
-    s16 children;
-    u16 reserved;
-    u16 actor_id;
-    s16 room;
-    s16 wave;
-    u32 secondary_wave;
-    Vec position;
-    SpawnAngles angles;
-    f32 parameters[5];
-    s16 integers[4];
-} ApplyRoomTransformToEnemyRowsSpawnRecord;
-
-void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count);
+void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
 extern "C" {
 s32 is_battle_mode_running();
@@ -1070,19 +1037,19 @@ void apply_room_transform(Vec *position, s32 *angles, SceneMaterialSection *room
     angles[2] = angles[2] + room->angles[2];
 }
 
-void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
-    ApplyRoomTransformToEnemyRowsSpawnRecord *row;
+void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count) {
+    EnemySetRecord *row;
     void *cached_room;
     s16 cached_id = -1;
     s32 i;
     for (i = 0; i < count; i++) {
         row = &rows[i];
-        if (cached_id != row->room) {
-            cached_room = find_scene_room_by_id(row->room);
-            cached_id = row->room;
+        if (cached_id != row->placement.room) {
+            cached_room = find_scene_room_by_id(row->placement.room);
+            cached_id = row->placement.room;
         }
         if (cached_room) {
-            apply_room_transform(&row->position, (s32 *)&row->angles, (SceneMaterialSection *)cached_room);
+            apply_room_transform(&row->placement.position, (s32 *)row->placement.rotation, (SceneMaterialSection *)cached_room);
         }
     }
 }
@@ -1190,11 +1157,11 @@ void TSetManager::apply_floor_set_rows() {
         floor->object_placement |= 2U;
     }
     if (!(floor->enemy_placement & 4)) {
-        apply_room_transform_to_enemy_rows((ApplyRoomTransformToEnemyRowsSpawnRecord *)(current_floor_enemy_set_rows), floor->enemy_count);
+        apply_room_transform_to_enemy_rows(current_floor_enemy_set_rows, floor->enemy_count);
         floor->enemy_placement |= 4U;
     }
     if (floor->object_placement & 2) {
-        assign_objects_to_slots((u8 *)current_floor_object_set_rows, floor->object_count);
+        assign_objects_to_slots(current_floor_object_set_rows, floor->object_count);
     }
     if (floor->enemy_placement & 4) {
         assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);
@@ -1268,10 +1235,10 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
     if (r == NULL || map_set_areas[map].variants[grp].count - 1 < room) {
         return 0;
     }
-    if (TLobby::is_online_ready() != 0) {
-        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
+    if (is_online_ready() != 0) {
+        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
     } else {
-        TLobby::replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
+        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
     }
     size = get_resource_file_size(path);
     if (size < 0) {
@@ -1536,8 +1503,8 @@ void init_item_drop_tables(void) {
     memset(floor_object_set_counts, 0, 0x48);
     memset(floor_enemy_set_counts, 0, 0x48);
     memset(TLobby__data_80513D10, 0, 0x24);
-    quest_object_entries = (QuestObjectEntry *)alloc_zeroed_array(0xBA0, 4);
-    enemy_state_records = (EnemyStateRecord *)alloc_zeroed_array(0xB50, 0xC);
+    quest_object_entries = (QuestObjectEntry *)alloc_zeroed_array(0xBA0, sizeof(QuestObjectEntry));
+    enemy_state_records = (EnemyStateRecord *)alloc_zeroed_array(0xB50, sizeof(EnemyStateRecord));
     k = 0;
     for (i = 0; i < 0xBA0; i++) {
         quest_object_entries[i].drop_id_base = k++ + 0x100;

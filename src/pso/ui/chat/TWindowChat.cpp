@@ -1,4 +1,5 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
@@ -27,14 +28,13 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 
 #pragma push
 #pragma readonly_strings on
-const char *window_chat_type_name_pointer = "TWindowChat";
+const char *TWindowChat::class_name = "TWindowChat";
 #pragma pop
 extern "C" {
-s32 get_control_button_mask(s32 client_id);
 s32 TWindowChat::is_chat_in_use() {
     if (composer->has_text() != 0) {
         return 1;
@@ -58,7 +58,7 @@ s32 TWindowChat::update_symbol_chat_window() {
         return 0;
     }
     this->set_active_flag();
-    preset_index = (s32 *)this->result->body.bytes;
+    preset_index = &this->result->body.symbol_chat_preset;
     *preset_index = this->symbolChatWindow->get_selected_index();
     if (this->flags & 0x80) {
         TWindowChat::open_symbol_chat(preset_index)->update_selected_symbol();
@@ -107,10 +107,10 @@ s32 TWindowChat::submit_keyboard_input() {
     if (composer->get_flag() != 0) {
         *this->result = *get_chat_shortcut((s8)composer->get_input_mode());
         if ((this->result->kind.value == 3U) && (this->is_mode_bit6() == 0)) {
-            TWindowChat::open_symbol_chat((s32 *)this->result->body.bytes)->update_selected_symbol();
+            TWindowChat::open_symbol_chat(&this->result->body.symbol_chat_preset)->update_selected_symbol();
         }
     } else {
-        this->composer->export_text((char *)this->result->body.bytes);
+        this->composer->export_text(this->result->body.text);
     }
     composer->reset_input();
     return 1;
@@ -331,7 +331,7 @@ void TWindowChat::open_next_input_window() {
     case 1: {
         composer->reset_input();
         result->kind.value = 2;
-        wordSelectWindow = new TWindowDD(this, reinterpret_cast<WordSelectMessage *>(result->body.bytes));
+        wordSelectWindow = new TWindowDD(this, &result->body.message);
         hardKeyboard->reset_status_text();
         return;
     }
@@ -395,7 +395,7 @@ TWindowChat::~TWindowChat() {
     }
 }
 TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
-    m_name = window_chat_type_name_pointer;
+    m_name = class_name;
     this->inputMode = 0;
     this->flags = 2;
     this->composer = new TWindowKeyBoardBase;

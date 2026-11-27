@@ -9,7 +9,7 @@ struct WindowDrawContext;
 // A menu information line (case 9 of init_window_layout_entries): a label, ":" unless flag 0x10
 // is set, and a value string, both owned copies. TWindowMenuInfomation finds lines by id.
 // Flag 1: marked, 4: filled, 0x10: centred label without value.
-// inferred: label/value row (class name from what render draws).
+// Label/value row (class name from what render draws).
 class LabelValueRow : public TWindowLayoutRect {
 public:
     s32 id;
@@ -26,7 +26,7 @@ public:
     void set_text(const char *label_text, s32 id);
     s32 get_entry_id();
     int is_flag_4_set();
-    // inferred: LabelValueRow's copy of TWindowLayoutEntry::is_flag80_set (next to get_entry_id).
+    // LabelValueRow's copy of TWindowLayoutEntry::is_flag80_set (next to get_entry_id).
     int is_flag80_set();
 };
 

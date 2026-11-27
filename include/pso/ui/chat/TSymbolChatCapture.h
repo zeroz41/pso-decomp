@@ -13,7 +13,7 @@ public:
     virtual void run_task();
     static void create_singleton(TObject *parent);
     void get_recent_symbol_chat(u16 slot, SymbolChatPayload *buf);
-    void capture_symbol_chat(u16 slot, saddr src);
+    void capture_symbol_chat(u16 slot, SymbolChatPayload *chat);
 
     SymbolChatPayload *entries;
     s32 timers[4];
@@ -26,5 +26,7 @@ void symbol_chat_capture_on_floor_free(void);
 void symbol_chat_capture_on_floor_load(void);
 
 void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf);
+// Keeps the symbol chat client `slot` just sent in the capture, if one exists.
+void capture_slot_symbol_chat(u16 slot, SymbolChatPayload *chat);
 
 #endif

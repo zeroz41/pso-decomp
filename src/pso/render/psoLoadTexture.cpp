@@ -20,10 +20,10 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_803DE778.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/system/MemoryMove.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/render_util.h"
@@ -32,6 +32,8 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/network/TPacket.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/system/FileExtension.h"
 
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
@@ -42,12 +44,12 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     s32 ret;
     pump_frames();
     strncpy(path, name, 0x40);
-    if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
-        TLobby::change_file_extension(0, path, (char *)"gvm");
+    if (compare_file_extension(path, "gvm") != 0) {
+        change_file_extension(0, path, (char *)"gvm");
     }
     size = TGStream::get_resource_file_size(path);
     if (size <= 0) {
-        TLobby::debug_print("psoLoadTexturePvmFile:%s file not found.", name);
+        file_debug_printf("psoLoadTexturePvmFile:%s file not found.", name);
         return -1;
     }
     allocated = 0;
@@ -69,7 +71,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
         tmp_buf_release("LoadTexturePvm");
     }
     if (ret < 0) {
-        TLobby::debug_print("psoLoadTexturePvmFile:%s load error.", name);
+        file_debug_printf("psoLoadTexturePvmFile:%s load error.", name);
     }
     return ret;
 }
@@ -86,10 +88,10 @@ s32 psoLoadTexture(NJS_TEXLIST *texlist) {
         }
         if (r == -1) {
             ret = -1;
-            TLobby::debug_print("psoLoadTexture:%s load error.", texlist->textures->filename);
+            file_debug_printf("psoLoadTexture:%s load error.", texlist->textures->filename);
             break;
         }
-        TLobby::run_frame();
+        run_frame();
     }
     return ret;
 }
@@ -119,7 +121,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     pump_frames();
     size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
-        TLobby::debug_print("LoadPvmFileTls:%s load error.", name);
+        file_debug_printf("LoadPvmFileTls:%s load error.", name);
         return NULL;
     }
     size = ((size + 0x7FF) / 2048) * 2048;
@@ -204,7 +206,7 @@ s32 TLanguage::read_u16_le() {
 
 void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(texture_list);
         advance_wrapped_cursor();
         distort_image();
     }
@@ -220,7 +222,7 @@ void TTextureWave::distort_image() {
     y = 0;
     out = reinterpret_cast<GvrTexture *>(output)->texels;
     dx = reinterpret_cast<u8 *>(displacement);
-    image = reinterpret_cast<GvrTexture *>(image_data)->texels;
+    image = image_data->texels;
     dy = dx + height * width;
     for (; y < height; y++) {
         for (x = 0; x < width; x++) {

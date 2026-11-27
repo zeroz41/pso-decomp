@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -111,8 +111,6 @@ void TWindowInputNumber::set_value(f32 value) {
 }
 
 
-struct UV_802563A0 { f32 u, v; };
-struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 
@@ -184,7 +182,7 @@ void TWindowInputNumber::calc_digit_count() {
 #pragma fp_contract on
 void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber *digit, int confirmed) {
     ArrowUVs uvs = arrow_uvs;
-    UV_802563A0 *uv;
+    ArrowUV *uv;
     TexturedQuad q;
     f32 x;
     f32 y;

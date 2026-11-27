@@ -21,14 +21,13 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemAttackColBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/system/MatrixOps.h"
 
 // Gi Gue bazooka (TItemWeaponGiGueBazooka), TItemWeaponNeisClaw and the fire-explosion spawners: its own
@@ -54,7 +53,7 @@ void TItemWeaponNeisClaw::update_attack() { add_angle_clamped(&spin_angle, 16384
 
 void TItemWeaponNeisClaw::update_idle() { add_angle_clamped(&spin_angle, -8192, -30947); add_angle_clamped(&second_spin_angle, -1820, -7281); }
 
-void TItemWeaponNeisClaw::draw_held_model() { draw_weapon_at_joint(this, 49); update_trail_slot(0); update_trail_slot(1); }
+void TItemWeaponNeisClaw::draw_held_model() { draw_weapon_at_joint(49); update_trail_slot(0); update_trail_slot(1); }
 
 void TItemWeaponNeisClaw::transform_model_node() {
     s32 player_list;

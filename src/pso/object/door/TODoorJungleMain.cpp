@@ -7,7 +7,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 
@@ -38,12 +38,12 @@ struct AnimationMotion;
 #include "pso/system/BmlResourceDescriptor.h"
 
 
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
@@ -51,7 +51,7 @@ struct AnimationMotion;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/render/GinjaMaterial.h"
 
@@ -61,9 +61,6 @@ struct AnimationMotion;
 #include "pso/quest/QuestStoryFlags.h"
 
 
-struct Ids_8029B428 {
-    s32 v[3];
-};
 
 
 const char *bm_o_jungle_doormain_model_names[5] = {
@@ -209,7 +206,7 @@ void TODoorJungleMain::update_door_switch_state() {
 }
 
 void TODoorJungleMain::render() {
-    Ids_8029B428 ids = {{2, 1, 0}};
+    s32 ids[3] = {2, 1, 0};
     s32 i;
     if (update_object_view_visibility(view_range, model_radius) == 1) {
         set_texture_list(door_jungle_main_gvm_texture);
@@ -221,7 +218,7 @@ void TODoorJungleMain::render() {
         } else {
             draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, 3));
             for (i = 0; i < 3 - switch_count; i++) {
-                draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, ids.v[i]));
+                draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, ids[i]));
             }
         }
         pop_matrix();

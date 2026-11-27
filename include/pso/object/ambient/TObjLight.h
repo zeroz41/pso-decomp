@@ -13,7 +13,7 @@ struct TObjLight : public TObjBase {
     virtual ~TObjLight();
     static void *create(void *set_data);
     void *init_from_source(void *, int, int);
-    u32 m_90;
+    u32 light_room;  // the set entry's room
     s32 oscillation;   // 0x94: the swing of a pulsing light, in degrees
     f32 radius;        // 0x98: how far from the light a player picks up its colour
     s32 phase;         // 0x9C: the pulse angle

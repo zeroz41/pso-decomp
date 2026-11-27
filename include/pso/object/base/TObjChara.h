@@ -201,11 +201,12 @@ public:
     void clear_attack_credit_slot(s32 index);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
+    // The union and its byte view are kept: dropping these two anonymous types
+    // renumbers the compiler's local statics in every includer.
     union {
         u16 attack_credit_slots[4];
         struct {
-            u8 pad_FC[0x7];
-            u8 m_103;
+            u8 pad_FC[0x8];
         } credit_slot_bytes;
     };
     u8 pad_104[0xC];
@@ -214,8 +215,7 @@ public:
     s16 special_power;  // that attack's strength (set_model_param)
     s16 kill_count;  // TObjPlayer::get_kill_count, capped at 999
     s16 immunity_flags;  // test_immunity_flags
-    u8 pad_11E[0x1];
-    u8 m_11f;
+    u8 pad_11E[0x2];
     CsnGroundCandidates ground_candidates;  // ground_cache points here
     SubtractiveRng rng;
     Vec ground_normal;
@@ -245,7 +245,7 @@ public:
     s16 lck;  // stat block LCK
     u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
     u16 local_attacker_id;  // the last local player that hit it (record_attack_source, single screen); distribute_experience awards it
-    u16 m_2d8;
+    u16 owner_entity_id;  // entity id of the object that set it (TOMineTrap: the setting player); 0xFFFF none
     u8 pad_2DA[0x2];
     // Bit 1: hit by a ranged attack (calc_distance_accuracy_penalty); bit 2: a
     // Recon whose Recobox died. Cleared with the attack receipts.
@@ -298,5 +298,6 @@ s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
 
 void obj_copyVec2_0(u8 *d, u8 *s);
+s16 obj_getS16_118(u8 *p);
 
 #endif

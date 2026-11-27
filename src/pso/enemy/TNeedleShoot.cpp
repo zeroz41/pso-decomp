@@ -16,7 +16,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 
 #pragma readonly_strings on

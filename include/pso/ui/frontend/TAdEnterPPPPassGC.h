@@ -16,8 +16,6 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
     void forward_chg_game_mode(void *);
     void close_windows_and_advance(void *);
     static void set_password(const char *password);
-    s32 input_valid;
-    s32 prev_input_valid;
     s32 text_length;
 };
 

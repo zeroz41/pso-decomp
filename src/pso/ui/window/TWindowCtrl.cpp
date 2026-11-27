@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlPlayer.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
@@ -48,14 +49,15 @@
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/unk/text_8026AC50.h"
-#include "pso/unk/text_8026ACDC.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatLogLines.h"
+#include "pso/ui/chat/ChatLogHeap.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowMessageLog.h"
+#include "pso/network/TradeProposalCmd.h"
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 short_mail_flags;
@@ -68,12 +70,6 @@ u16 short_mail_flags;
 
 
 
-
-
-extern "C" {
-
-
-}
 
 
 const char *TWindowCtrl::class_name = "TWindowCtrl";
@@ -352,7 +348,7 @@ TWindowCtrl::~TWindowCtrl() {
     }
 }
 
-void TWindowCtrl::run_task() { update_open_sequence(); update(); TLobby::update_game_modes(); }
+void TWindowCtrl::run_task() { update_open_sequence(); update(); update_game_modes(); }
 
 void TWindowCtrl::render() {  }
 
@@ -496,7 +492,7 @@ void prune_destroyed_balloons(TWindowCtrl *ctrl) {
 
 void TWindowCtrl::handle_controller() {
     if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], get_control_button_mask(local_client_id)) != 0)) {
-        TWindowCtrlMain::advance_card_status(local_client_id);
+        advance_card_status(local_client_id);
     }
 }
 
@@ -613,7 +609,7 @@ void TWindowCtrl::append_client_message(s32 client, const char *text, s32 mode) 
 }
 
 
-void TWindowCtrl::create_level_up_window(saddr stats, saddr client) {
+void TWindowCtrl::create_level_up_window(const PlayerLevelStats *stats, saddr client) {
     new TWindowSetLevelUp(tl_07, stats, client);
 }
 
@@ -1106,7 +1102,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
         *height = 0.92f * q->proportions;
     }
     if (obj->obj_isState2_324() != 0 || obj->is_locally_controlled() != 0) {
-        char *p = obj->name;
+        char *p = obj->appearance.name;
         if (p == NULL) {
             *name = 0;
             return;
@@ -1271,14 +1267,14 @@ bool is_com_card_window_open(void) {
 
 
 
-void TLobby::send_card_window_state() {
+void send_card_window_state() {
     TPlyChoiceSearchConfig parameters;
     CharacterSaveRecord *card;
 
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     parameters.disabled = TLobby::open_hard_keyboard(local_client_id) ? 1 : 0;
-    copy_choice_search_selections(card->choice_search, &parameters);
-    protocol_instance->send_choice_search_parameters(parameters);
+    copy_choice_search_selections(card->choice_search.entries, &parameters);
+    TLobby::protocol_instance->send_choice_search_parameters(parameters);
 }
 
 

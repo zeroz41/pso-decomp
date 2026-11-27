@@ -54,7 +54,7 @@ void clear_unread_flags(void) {
   while (i < 8);
 }
 
-ShortMailEntry *TLobby::find_short_mail_by_id(u32 id) {
+ShortMailEntry *find_short_mail_by_id(u32 id) {
     s32 count = ((s32)TLobby::get_short_mail_ctrl());
     s32 i;
     for (i = 0; i < count; i++) {
@@ -75,7 +75,7 @@ ShortMailEntry *get_short_mail_entry(int index) {
     return reinterpret_cast<ShortMailEntry *>(storage + index * sizeof(ShortMailEntry));
 }
 
-s32 TLobby::find_free_slot() {
+s32 find_free_short_mail_slot() {
   s32 slot;
   ShortMailEntry *entry;
   slot = 0;
@@ -89,13 +89,13 @@ s32 TLobby::find_free_slot() {
     slot += 1;
     entry++;
   } while (slot < 8);
-  TLobby::remove_entry_at(0);
+  remove_short_mail_at(0);
   return 7;
 }
 
 
 void store_short_mail(TChatMessage &message) {
-    s32 slot = TLobby::find_free_slot();
+    s32 slot = find_free_short_mail_slot();
     char *storage = reinterpret_cast<char *>(&short_mail_entries);
     storage += slot * sizeof(ShortMailEntry);
     reinterpret_cast<ShortMailEntry *>(storage)->fill_from_packet(message);
@@ -109,13 +109,13 @@ void remove_short_mail_by_id(u32 id) {
     s32 i;
     for (i = 0; i < count; i++) {
         if (id == get_short_mail_entry(i)->get_id()) {
-            TLobby::remove_entry_at(i);
+            remove_short_mail_at(i);
             return;
         }
     }
 }
 
-void TLobby::remove_entry_at(s32 idx) {
+void remove_short_mail_at(s32 idx) {
     if (idx < 7) {
         ShortMailEntry *entry = &short_mail_entries[idx];
         move_words(entry, entry + 1, (7 - idx) * sizeof(ShortMailEntry) / sizeof(u32));
@@ -124,7 +124,7 @@ void TLobby::remove_entry_at(s32 idx) {
     lobby_short_mail_entry_count--;
 }
 
-void TLobby::clear_all_entries() {
+void clear_short_mails() {
     s32 i;
     ShortMailEntry *entry;
     short_mail_next_id = 0;
@@ -161,8 +161,8 @@ void ShortMailEntry::fill_from_packet(TChatMessage &message) {
     body[0xAB] = 0;
 }
 
-void clear_short_mail_on_unload() { TLobby::clear_all_entries(); }
-void clear_short_mail_on_load() { TLobby::clear_all_entries(); }
+void clear_short_mail_on_unload() { clear_short_mails(); }
+void clear_short_mail_on_load() { clear_short_mails(); }
 char *GuildCardEntry::get_name() { return name; }
 void ShortMailEntry::clear_unread() { flags &= ~2; }
 int ShortMailEntry::is_active() { return flags & 1; }

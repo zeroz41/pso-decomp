@@ -32,4 +32,14 @@ struct TOChatSensor : public TObjBase {
 
 LAYOUT_ASSERT(TOChatSensor_size, sizeof(TOChatSensor) == 0xD0);
 
+void chat_sensor_on_floor_free(void);
+void chat_sensor_on_floor_load(void);
+
+void load_chat_sensor();
+// ChatSensor.prs: how many trigger texts there are and the texts (a sensor's text_index picks one, from 1).
+struct ChatSensorTable {
+    s32 count;
+    char **texts;
+};
+
 #endif

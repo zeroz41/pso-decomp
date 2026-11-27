@@ -8,13 +8,13 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/ui/window/ChallengeRank.h"
 #include "pso/quest/TQuestThread.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/quest/TQuestListOnline.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/network/client_id.h"
 #pragma readonly_strings on
 __declspec(section ".rodata") extern const char message_tag_error[];
@@ -180,7 +180,7 @@ void TMessageWindowController::close() {
 }
 TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 flags) {
     f32 scale;
-    if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
+    if (is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
         window = (TWindowMessagePage *)TWindowMessagePage::create(position, extent, 1, flags);
@@ -191,7 +191,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_PO
 }
 TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
     f32 scale;
-    if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
+    if (is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
         window = (TWindowMessagePage *)TWindowMessagePage::set_text(position, extent, 1);

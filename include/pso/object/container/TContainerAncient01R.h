@@ -25,9 +25,9 @@ struct TContainerAncient01R : public TObjChara {
     virtual void render();
     virtual void run_task();
     static void init_table_entries();
-    u8 unk_334[0x4];
+    u8 pad_334[0x4];
     s16 hit_count; // hits taken: it opens when hp runs out
-    u8 unk_33A[0x2];
+    u8 pad_33A[0x2];
     f32 wait_limit;
     f32 active_limit;
     f32 range;
@@ -48,4 +48,8 @@ LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);
 LAYOUT_ASSERT(TContainerAncient01RLowerEffectOffset, offsetof(TContainerAncient01R, lower_effect_position) == 0x348);
 LAYOUT_ASSERT(TContainerAncient01RUpperEffectOffset, offsetof(TContainerAncient01R, upper_effect_position) == 0x354);
 LAYOUT_ASSERT(TContainerAncient01ROpenScaleOffset, offsetof(TContainerAncient01R, open_scale) == 0x364);
+extern const char seabed_container_texture_filename[];
+extern const char forest_box_texture_filename_a[];
+extern const char forest_box_texture_filename_n[];
+
 #endif

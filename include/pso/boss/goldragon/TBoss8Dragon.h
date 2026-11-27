@@ -93,7 +93,7 @@ public:
     Vec node_positions[0x22];  // the model's node positions; update_body_colliders reads seven
     Vec target_vector;  // as TBoss1Dragon::target_vector: calc_target_vector's normalized xz direction
     f32 target_distance;  // its length before normalizing
-    f32 m_5dc;
+    f32 height;  // as TBoss1Dragon::height
     Vec last_flight_direction;  // as TBoss1Dragon::last_flight_direction: destination_direction when the flight state is left
     AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
     AccelerationCurve curve1;
@@ -324,7 +324,7 @@ extern Vec dragon_forward_reference_vec;
 extern Vec boss8_dragon_node_origin;
 extern Vec boss8_dragon_breath_local_points[3];
 
-// A tuning record of TLobby::dispatch_shared_handler_a (ids 0x11-0x13 for the Gol Dragon): six floats,
+// A tuning record of dispatch_shared_handler_a (ids 0x11-0x13 for the Gol Dragon): six floats,
 // then six words, each read per id.
 struct Boss8DragonParams {
     f32 values[6];

@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TLoadingCur.h"
 #include <stddef.h>
@@ -17,7 +17,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/gjSystem.h"
 
 #pragma push
@@ -36,7 +36,7 @@ void TLoadingCur::update_camera_facing_offset() {
         facing.x = -ninja_camera.vx;
         facing.y = -ninja_camera.vy;
         facing.z = -ninja_camera.vz;
-        direction_to_rotation_xy((u8 *)&facing, &angles.x, &angles.y);
+        direction_to_rotation_xy(&facing, &angles.x, &angles.y);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(NULL, angles.y);
         rotate_matrix_x(NULL, angles.x);

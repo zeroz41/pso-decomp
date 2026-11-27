@@ -7,7 +7,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/weapon/TItemWeaponSorcerersCaneTypes.h"
 
 
 const CaneScaleTable cane_node1_scale_steps = {

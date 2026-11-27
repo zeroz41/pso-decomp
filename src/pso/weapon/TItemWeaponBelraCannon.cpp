@@ -12,12 +12,12 @@
 void TItemWeaponBelraCannon::emit_marker_effects() {
     Vec v;
     if (is_mode_two_and_ready() != 0) {
-        shot_callback = (WeaponShotCallback)belra_cannon_create_extra_shot;
+        shot_callback = belra_cannon_create_extra_shot;
         shot_ready = 0;
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)belra_cannon_return_timer, 0x1E);
         launch_rare_weapon_special(0, 1, 1.0f);
     } else {
-        shot_callback = (WeaponShotCallback)belra_cannon_create_shot;
+        shot_callback = belra_cannon_create_shot;
         shot_ready = 0;
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)belra_cannon_return_timer, 0x1E);
         get_joint_position(1, &v);
@@ -40,15 +40,15 @@ void TItemWeaponBelraCannon::update_weapon() {
     }
 }
 
-u32 belra_cannon_create_extra_shot(TItemWeapon *player, s32 pos, s32 dir, f32 life) {
-    uaddr model_shot;
-    uaddr particle_shot;
+TItemShoot *belra_cannon_create_extra_shot(TItemWeapon *player, const Vec *pos, const Vec *dir, f32 life) {
+    TItemShoot *model_shot;
+    TItemShootParticle *particle_shot;
     NJS_OBJECT *model;
     u32 flags;
 
-    model_shot = TObjPlayer::create_shoot_model((uaddr)player, pos, dir, life);
-    particle_shot = (uaddr)TObjPlayer::spawn_shoot_particle((saddr)player, pos, dir, life);
-    if ((model_shot != 0U) && (particle_shot != 0U)) {
+    model_shot = TObjPlayer::create_shoot_model(player, pos, dir, life);
+    particle_shot = TObjPlayer::spawn_shoot_particle(player, pos, dir, life);
+    if ((model_shot != NULL) && (particle_shot != NULL)) {
         model = player->second_model;
         if (model != NULL) {
             flags = model->evalflags;
@@ -58,15 +58,15 @@ u32 belra_cannon_create_extra_shot(TItemWeapon *player, s32 pos, s32 dir, f32 li
                 model->ang[2] = 0x8000;
             }
         }
-        ((TItemShootParticle *)particle_shot)->spawn_slot_emitter(0xDD, 0);
-        ((TObject *)particle_shot)->set_parent((TObject *)model_shot);
+        particle_shot->spawn_slot_emitter(0xDD, 0);
+        particle_shot->set_parent(model_shot);
     }
     return model_shot;
 }
 
-saddr belra_cannon_create_shot(TItemWeapon *owner, s32 pos, s32 dir, f32 life) {
-    uaddr shot = TObjPlayer::create_shoot_model((uaddr)owner, pos, dir, life);
-    if (shot != 0) {
+TItemShoot *belra_cannon_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
+    TItemShoot *shot = TObjPlayer::create_shoot_model(owner, pos, dir, life);
+    if (shot != NULL) {
         NJS_OBJECT *model = owner->second_model;
         if (model != NULL) {
             u32 flags = model->evalflags;

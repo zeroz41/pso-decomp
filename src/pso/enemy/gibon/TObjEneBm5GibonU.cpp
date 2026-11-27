@@ -35,9 +35,9 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -51,7 +51,7 @@ struct NJS_OBJECT;
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/math/AngleLookup.h"
@@ -75,6 +75,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 BmlResource * bm5_gibon_u_model_archive;
@@ -133,7 +134,7 @@ __declspec(section ".data") player_stats *bm5_gibon_u_stat_params[2];
 __declspec(section ".data") AttackParams *gibon_stat_handle_a_table[2];
 __declspec(section ".data") ActorParamBlock *gibon_stat_handle_b_table[2];
 __declspec(section ".data") u8 *gibon_param_table[2];
-__declspec(section ".data") f32 lbl_80500E98[3];
+__declspec(section ".data") f32 bm5_gibon_u_zero_vector[3];  // zeroed by the resource loader, never read
 __declspec(section ".data") u32 lbl_80500EA4[3];
 __declspec(section ".data") u32 bm5_gibon_u_pack_member_list[5];
 __declspec(section ".data") u32 bm5_gibon_u_instance_list[3];
@@ -195,7 +196,7 @@ s32 TObjEneBm5GibonU::check_hit_sphere(int angle, f32 scale) {
     return hit;
 }
 
-void TObjEneBm5GibonU::get_attack_state(void *pos) { spawn_landing_effect((Vec *)pos); }
+void TObjEneBm5GibonU::get_attack_state(Vec *pos) { spawn_landing_effect(pos); }
 
 void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     Vec v;
@@ -1955,15 +1956,15 @@ void TObjEneBm5GibonU::load_resources() {
     ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->clear();
     bm5_gibon_u_render_node_index = 0;
     bm5_gibon_u_render_joint_y_rotation = 0;
-    v = lbl_80500E98;
-    lbl_80500E98[0] = 0.0f;
+    v = bm5_gibon_u_zero_vector;
+    bm5_gibon_u_zero_vector[0] = 0.0f;
     v[1] = 0.0f;
     v[2] = 0.0f;
     for (i = 0; i < 2; i++) {
-        bm5_gibon_u_stat_params[i] = TLobby::register_boss(gibon_base_stat_ids[i]);
-        gibon_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
-        gibon_stat_handle_b_table[i] = TLobby::register_object(gibon_resist_stat_ids[i]);
-        gibon_param_table[i] = (u8 *)TLobby::dispatch_shared_handler_a(gibon_param_ids[i]);
+        bm5_gibon_u_stat_params[i] = register_boss(gibon_base_stat_ids[i]);
+        gibon_stat_handle_a_table[i] = dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
+        gibon_stat_handle_b_table[i] = register_object(gibon_resist_stat_ids[i]);
+        gibon_param_table[i] = (u8 *)dispatch_shared_handler_a(gibon_param_ids[i]);
     }
     NpcAnimationBinding sp = bm5_gibon_u_spawn_params;
     m = bm5_gibon_u_model_archive;

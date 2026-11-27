@@ -2,7 +2,7 @@
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/prs.h"
 #include "pso/system/memory.h"
@@ -12,9 +12,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/AsyncFileRead.h"
+#include "pso/system/FileExtension.h"
 
 #pragma readonly_strings on
 static const char gstream_class_name[] = "TGStream";
@@ -170,7 +171,7 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
     if (stream.archive_entry != NULL && stream.archive_entry->decoded_size != 0) {
         buf = (u8 *)TQuestVmDownLoadServer::alloc(((stream.archive_entry->decoded_size + 0x7FF) / 2048) << 11);
         if (buf == 0) {
-            TLobby::debug_print("TGStream::gsSctLoadFile Malloc Failed.");
+            file_debug_printf("TGStream::gsSctLoadFile Malloc Failed.");
         }
         stream.read_sectors_sync(sectors, buf);
         prs_decompress_buffer(buf, dst);
@@ -183,13 +184,13 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
 
 void TGStream::read_sectors_sync(s32 sector_count, void *destination) {
     ADXF_ReadNw(adxf_handle, sector_count, destination);
-    TLobby::set_read_params(&adxf_handle, (int)sector_count, (saddr)destination);
+    set_read_params(&adxf_handle, (int)sector_count, (saddr)destination);
 loop_1:
     if (ADXF_GetStat(adxf_handle) != 3) {
-        TLobby::run_frame();
+        run_frame();
         goto loop_1;
     }
-    TLobby::reset_read_state();
+    reset_read_state();
     gstream_read_offset += sector_count << 0xB;
 }
 
@@ -227,7 +228,7 @@ void close_gsl_archive(void) {
     } else {
         n = strlen(gsl_archive_path_buffer_ptr);
         if (n > 0) {
-            TLobby::change_file_extension(buf, gsl_archive_filename, (char *)"txt");
+            change_file_extension(buf, gsl_archive_filename, (char *)"txt");
             on_gsl_archive_close(buf, gsl_archive_entries, n);
         }
         gsl_archive_write_started = 0;
@@ -244,14 +245,14 @@ void open_gsl_archive(char *name) {
         if (gsl_adxf_handle != 0) {
             TGStream::reset();
             ADXF_ReadNw(gsl_adxf_handle, 6, gsl_archive_entries);
-            TLobby::set_read_params(&gsl_adxf_handle, 6, (saddr)gsl_archive_entries);
+            set_read_params(&gsl_adxf_handle, 6, (saddr)gsl_archive_entries);
             for (;;) {
                 if (ADXF_GetStat(gsl_adxf_handle) == 3) {
                     break;
                 }
-                TLobby::run_frame();
+                run_frame();
             }
-            TLobby::reset_read_state();
+            reset_read_state();
             gsl_entry_count = 0;
             e = gsl_archive_entries;
             for (i = 0; i < 0xFF; i++, e++) {
@@ -269,17 +270,17 @@ void open_gsl_archive(char *name) {
 }
 
 void TLobby::read_data_sync(saddr handle, s32 sector_count, saddr destination) {
-    saddr handle_addr;
+    AdxfHandle *handle_addr;
 
-    handle_addr = handle;
-    ADXF_ReadNw((AdxfHandle *)handle_addr, sector_count, (void *)destination);
-    TLobby::set_read_params(&handle_addr, (int)sector_count, (int)destination);
+    handle_addr = (AdxfHandle *)handle;
+    ADXF_ReadNw(handle_addr, sector_count, (void *)destination);
+    set_read_params(&handle_addr, (int)sector_count, (int)destination);
 loop_1:
-    if (ADXF_GetStat((AdxfHandle *)handle_addr) != 3) {
-        TLobby::run_frame();
+    if (ADXF_GetStat(handle_addr) != 3) {
+        run_frame();
         goto loop_1;
     }
-    TLobby::reset_read_state();
+    reset_read_state();
     gstream_read_offset += sector_count << 0xB;
 }
 

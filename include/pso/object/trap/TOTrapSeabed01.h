@@ -34,4 +34,13 @@ struct TOTrapSeabed01 : public TOTrap {
 };
 
 LAYOUT_ASSERT(TOTrapSeabed01_size, sizeof(TOTrapSeabed01) == 0x35C);
+
+// One fragment chip play_sounds throws when the trap breaks: model index,
+// position in the trap's frame and the chip's y angle.
+struct SeabedTrapFragmentSpawn {
+    s32 model;
+    Vec pos;
+    s32 angle_y;
+};
+
 #endif

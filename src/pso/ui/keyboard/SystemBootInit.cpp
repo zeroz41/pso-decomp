@@ -55,26 +55,27 @@
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TWindowSnapShot.h"
-#include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/unk/TLobby_80243370.h"
-#include "pso/unk/TLobby_803382E4.h"
+#include "pso/player/PlayerDataLoad.h"
+#include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/unk/text_8023F3F8.h"
-#include "pso/unk/text_80290BEC.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/system/MainFrame.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_800FFE04.h"
+#include "pso/system/GslArchiveStubs.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/audio/MusicControl.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -94,7 +95,7 @@ void poll_input_devices_frame(void) {
     hardware_keyboard_state.disable_disconnected_ports();
     flush_input();
     update_pad_rumble();
-    TLobby::reset_state_byte();
+    reset_state_byte();
 }
 
 void TKeyBoardControl::run_tasks() {
@@ -137,7 +138,7 @@ void shutdown_and_reset_system(void) {
     reset_aram_state();
     destroy_game_heap();
     reset_sound_control_state();
-    TLobby::shutdown_buffers();
+    shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
     free_info_icon_texture();
     reset_display_copy_filter();
@@ -308,16 +309,16 @@ void init_game_systems(void) {
     init_adx_audio_system();
     init_download_state();
     load_menu_font();
-    TLobby::load_now_loading_texture();
+    load_now_loading_texture();
     chara_making_init_stub();
     TAdSinglePlyChrSelectGC::init_char_select_globals();
     reset_sound_request_state();
-    TLobby::wait_for_sound_init();
+    wait_for_sound_init();
     load_info_icon();
     alloc_item_drop_memory_pool();
     alloc_player_motion_aram();
     TAdWarningBaseGC::init_heap();
-    TLobby::load_ask_dictionary();
+    load_ask_dictionary();
     request_chara_making_archives();
     load_effect_resources();
     init_particle_sprite_atlas();
@@ -326,7 +327,7 @@ void init_game_systems(void) {
     init_disc_error_messages();
     init_keyboard_buffer();
     TAdPlayerLoadGC::load_banner_files();
-    TLobby::load_player_data();
+    load_player_data();
     init_account_entries();
     load_ha_u032_kage();
     system_init_stub();
@@ -334,14 +335,14 @@ void init_game_systems(void) {
     gba_init();
     load_ply_level_tbl();
     verify_game_file_integrity();
-    TLobby::handle_flag2_request();
+    handle_flag2_request();
 }
 
 MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
     { TLogo::init_logo_scene, TLogo::run_frame, TLogo::exit_logo_scene },
     { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TKeyBoardControl::update_menu_scene, update_movie_phase, exit_movie_phase },
+    { init_movie_phase, update_movie_phase, exit_movie_phase },
     { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
     { TKeyBoardControl::update_main_menu_scene, run_main_frame, exit_main_menu_scene },
     { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },

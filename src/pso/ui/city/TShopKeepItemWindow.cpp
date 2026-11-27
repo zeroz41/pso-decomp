@@ -11,7 +11,7 @@
 #include "pso/ui/city/TShopKeepItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopSequence.h"
@@ -33,9 +33,10 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/GameModeQueries.h"
 
 
 const char *TShopKeepItemWindow::class_name = "TShopKeepItemWindow";
@@ -135,7 +136,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     }
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
-        if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (this->help_window != NULL && is_camera_ctrl_active() > 2) {
             this->help_window->set_scale(0.75f, 0.75f);
         }
         this->help_window->set_displayed_item_by_id(this->entries[cur].item->get_item_id());
@@ -171,7 +172,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     switch (this->entries[cur].data.data1.data_u8[0]) {
     case 3:
         data = &this->entries[cur].data;
-        if (TItemData::lookup_item_def(data) != 0) {
+        if (data->lookup_item_def() != 0) {
             count = get_bank_deposit_capacity_for_item(data, bank);
             stack = data->get_stack_count();
             count = count < stack ? count : stack;
@@ -200,7 +201,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     }
     if (count > 1 && this->number_window == NULL) {
         this->number_window = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
-        if (this->number_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (this->number_window != NULL && is_camera_ctrl_active() > 2) {
             this->number_window->set_scale(0.75f, 0.75f);
         }
         set_state(4);

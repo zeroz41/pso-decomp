@@ -23,11 +23,6 @@ const char *TAdChrMoveEffectGC::class_name = "TAdChrMoveEffectGC";
 
 struct S_803491F8 { u32 w[8]; };
 
-// A view that starts at the slot offset i * 0x38 of the object: the entry begins 0x24 into it.
-struct ChrMoveEffectSlot {
-    u8 pad_0[0x24];
-    ChrMoveEffectEntry entry;
-};
 
 extern "C" {
 void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source);
@@ -79,7 +74,6 @@ void TAdChrMoveEffectGC::draw_entries() {
 
 TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
-void start_move_effects(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params);
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); draw_entries(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
@@ -112,16 +106,16 @@ void TAdChrMoveEffectGC::setup_move_effect_params(s32 from_index, s32 to_index) 
     copy4(p.start_color, (from_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
     copy4(p.end_color, (to_index < 3 ? &chr_move_effect_color_table[0] : &chr_move_effect_color_table[1]));
     copy_vec2(&p.size, (void *)chr_move_effect_size);
-    start_move_effects(this, &p);
+    start_move_effect(&p);
 }
 
-void start_move_effects(TAdChrMoveEffectGC *effects, ChrMoveEffectParams *params) {
+void TAdChrMoveEffectGC::start_move_effect(ChrMoveEffectParams *params) {
     s32 i;
     for (i = 0; i < 16; i++) {
-        copy_effect_data__18TAdChrMoveEffectGCFPvPv((S_803491F8 *)(&effects->entries[i]), (S_803491F8 *)(params));
+        copy_effect_data__18TAdChrMoveEffectGCFPvPv((S_803491F8 *)(&entries[i]), (S_803491F8 *)(params));
     }
-    effects->reset_effect_entries();
-    effects->active = 1;
+    reset_effect_entries();
+    active = 1;
 }
 
 #pragma push
@@ -206,9 +200,9 @@ TAdChrMoveEffectGC::TAdChrMoveEffectGC(TObject *parent) : TObject(parent) {
 
 #pragma pop
 
-TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_move_effect(saddr ad_chr_move_effect_gc) {
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_move_effect(TObject *ad_chr_move_effect_gc) {
     if (chr_move_effect_instance == NULL) {
-        chr_move_effect_instance = new TAdChrMoveEffectGC((TObject *)ad_chr_move_effect_gc);
+        chr_move_effect_instance = new TAdChrMoveEffectGC(ad_chr_move_effect_gc);
     }
     return chr_move_effect_instance;
 }

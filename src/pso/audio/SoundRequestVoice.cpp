@@ -19,11 +19,12 @@
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
+#include "pso/audio/SoundPlayback.h"
 
 
 void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = owner; }
@@ -746,7 +747,7 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                     dist = newton_sqrtf(dist);
                 }
             } else {
-                if (TLobby::is_camera_state_active()) {
+                if (is_camera_state_active()) {
                     listener.x = camera_ctrl_instance->pos.x;
                     listener.y = 0.0f;
                     listener.z = camera_ctrl_instance->pos.z;
@@ -774,7 +775,7 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                 const Vec *pos = v->position;
                 f64 direction = 10430.38043493439 * atan2_float(pos->z - listener.z, pos->x - listener.x);
                 s32 angle = (s32)direction + camera_ctrl_instance->yaw - 0x4000;
-                surround = (s32)(dist * (cos_table_lookup(angle) * ((TLobby *)(v->owner))->get_field_2a4()));
+                surround = (s32)(dist * (cos_table_lookup(angle) * v->owner->get_surround_scale()));
             }
             if (v->flags & 4) {
                 volume = 0;

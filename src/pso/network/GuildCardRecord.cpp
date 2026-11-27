@@ -12,7 +12,7 @@
 #include "pso/audio/SoundControlState.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "dolphin/mtx.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
@@ -20,12 +20,12 @@
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 typedef struct Src_8024220C
@@ -56,31 +56,9 @@ typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
 
 #pragma inline_depth(1)
 #pragma dont_inline off
-struct Pair_80242380 {
-    u8 c[8];
-};
-
-struct Ext_80242380 {
-    u8 bytes[0x64];
-};
-
-typedef struct Entry_80242380 {
-    s32 id;
-    s32 f4;
-    char name[0x11];
-    char s19[0x11];
-    char s2A[0x11];
-    char s3B[0x11];
-    Pair_80242380 f4C;
-    s32 f54;
-    Ext_80242380 ext;
-} Entry_80242380;
 
 s32 lbl_805D63D8;
 int com_card_entry_count;
-extern "C" {
-void __copy(void *, void *, int);
-}
 
 void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(response); }
 
@@ -108,7 +86,7 @@ void load_selected_guild_card_record(Src_8024220C *src) {
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   parse_csv_token(cursor, selected_guild_card_record.s3B);
-  copy_guild_card_f4c(selected_guild_card_record.f4C, src->f64);
+  copy_guild_card_f4c(&selected_guild_card_record.recv_port, src->f64);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->ext);
 }
 }
@@ -124,29 +102,19 @@ void find_and_load_com_card(u32 serial) {
     s32 i;
     n = TLobby::get_com_card_data();
     for (i = 0; i < n; i++) {
-        if (serial == ((GuildCardRecord *)TLobby::get_com_card_entry(i))->get_serial()) break;
+        if (serial == TLobby::get_com_card_entry(i)->get_serial()) break;
     }
     if (i < n) {
-        TLobby::copy_com_card_entry((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
+        selected_guild_card_record.copy_com_card_entry(TLobby::get_com_card_entry(i));
     }
 }
 
-extern "C" {
-Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src) {
-    dst->id = src->id;
-    dst->f4 = src->f4;
-    __copy(dst->name, src->name, 0x11);
-    __copy(dst->s19, src->s19, 0x11);
-    __copy(dst->s2A, src->s2A, 0x11);
-    __copy(dst->s3B, src->s3B, 0x11);
-    dst->f4C = src->f4C;
-    dst->f54 = src->f54;
-    dst->ext = src->ext;
-    return dst;
-}
+GuildCardRecord *GuildCardRecord::copy_com_card_entry(GuildCardRecord *src) {
+    *this = *src;
+    return this;
 }
 
-void*TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
+GuildCardRecord *TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
 
 char *parse_csv_token(char *src, char *dst) {
     s32 i;
@@ -189,7 +157,7 @@ char *build_text_from_comma_list(char *list) {
         }
     }
     for (i = 0; i < count; i++) {
-        TWindowSubStatusDisp::append_comma();
+        append_comma();
         s = skip_to_comma_field(list, i, count);
         d = buf;
         while (*s != '\0' && *s != ',') {
@@ -206,7 +174,7 @@ void jump_to_guild_card_owner(GuildCardRecord *entry) {
         memset(lobby_ship_name, 0, 0x11);
         strncpy(lobby_ship_name, entry->s19, 0x10);
         lobby_ship_name[0x10] = 0;
-        TLobby::protocol_instance->seq_jump(entry->f4C, entry->ext);
+        TLobby::protocol_instance->seq_jump(entry->recv_port, entry->ext);
     }
 }
 #pragma pop
@@ -220,7 +188,7 @@ void init_player_entry(GuildCardRecord *entry, u8 *response) {
     serial_no = lbl_805D63D8;
     lbl_805D63D8 = serial_no + 1;
     entry->serial = serial_no;
-    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(entry->f4C, response + 0x10, serial_no);
+    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, response + 0x10, serial_no);
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
@@ -260,7 +228,7 @@ s32 remove_com_card_by_id(u32 id) {
     s32 n;
     n = TLobby::get_com_card_data();
     for (i = 0; i < n; i++) {
-        if (id == ((u32)reinterpret_cast<GuildCardRecord *>(TLobby::get_com_card_entry(i))->get_id())) {
+        if (id == ((u32)TLobby::get_com_card_entry(i)->get_id())) {
             remove_com_card_entry(i);
             n -= 1;
         }

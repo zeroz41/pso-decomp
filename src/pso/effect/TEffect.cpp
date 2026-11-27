@@ -5,7 +5,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 static const EffectTextureFile effect_texture_file = {&shared_effect_texture_list, "effect_nt.gvm"};
 const char *TEffect::class_name = "TEffect";

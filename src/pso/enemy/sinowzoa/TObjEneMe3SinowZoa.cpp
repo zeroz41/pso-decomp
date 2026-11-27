@@ -27,11 +27,11 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/technique/TTecGiBarta.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/reflection.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TObjEnemyColorFade.h"
@@ -57,7 +57,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
@@ -80,11 +80,12 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
-// load_resources fills these per kind (0 and 1) from TLobby::register_boss,
-// TLobby::dispatch_shared_handler_b, TLobby::register_object and
-// TLobby::dispatch_shared_handler_a.
-Vec lbl_80542FB0;
+// load_resources fills these per kind (0 and 1) from register_boss,
+// dispatch_shared_handler_b, register_object and
+// dispatch_shared_handler_a.
+Vec me3_sinow_zoa_zero_vector;  // zeroed by the resource loader, never read
 player_stats *me3_sinow_zoa_base_params_by_variant[2];
 AttackParams *me3_sinow_zoa_attack_params_by_variant[2];
 ActorParamBlock *me3_sinow_zoa_resistance_params_by_variant[2];
@@ -156,9 +157,9 @@ void TObjEneMe3SinowZoa::load_resources() {
     TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
-    lbl_80542FB0.x = 0.0f;
-    lbl_80542FB0.y = 0.0f;
-    lbl_80542FB0.z = 0.0f;
+    me3_sinow_zoa_zero_vector.x = 0.0f;
+    me3_sinow_zoa_zero_vector.y = 0.0f;
+    me3_sinow_zoa_zero_vector.z = 0.0f;
     if (is_split_screen()) {
         me3_sinow_zoa_bml_resource = load_enemy_bml_resource(&bm_ene_me3_zoa_low_resource_descriptor);
     } else {
@@ -175,16 +176,16 @@ void TObjEneMe3SinowZoa::load_resources() {
         me3_sinow_zoa_alternate_texture_list.textures[i].texture = me3_sinow_zoa_alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_base_params_by_variant[i] = TLobby::register_boss(sinow_zoa_base_param_ids[i]);
+        me3_sinow_zoa_base_params_by_variant[i] = register_boss(sinow_zoa_base_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(sinow_zoa_attack_param_ids[i]);
+        me3_sinow_zoa_attack_params_by_variant[i] = dispatch_shared_handler_b(sinow_zoa_attack_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_resistance_params_by_variant[i] = TLobby::register_object(sinow_zoa_resistance_param_ids[i]);
+        me3_sinow_zoa_resistance_params_by_variant[i] = register_object(sinow_zoa_resistance_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        me3_sinow_zoa_kind_param_tbls[i] = (TObjEneMe3SinowZoaParams *)TLobby::dispatch_shared_handler_a(sinow_zoa_kind_param_ids[i]);
+        me3_sinow_zoa_kind_param_tbls[i] = (TObjEneMe3SinowZoaParams *)dispatch_shared_handler_a(sinow_zoa_kind_param_ids[i]);
     }
     params = me3_sinow_zoa_kind_param_tbls[0];
     set_entry_value_clamped(7, params->sword_motion_speed);

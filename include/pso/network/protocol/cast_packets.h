@@ -15,6 +15,7 @@ struct G_CastTechniqueParams_6x47 {
     u8 level;
     s8 target_count;
 };
+LAYOUT_ASSERT(G_CastTechniqueParams_6x47Size, sizeof(G_CastTechniqueParams_6x47) == 0x4);
 
 // 6x47: a player casts a technique on up to ten targets.
 struct G_CastTechnique_6x47 {
@@ -46,6 +47,7 @@ struct G_ExecutePhotonBlastParams_6x49 {
     s16 pb_meter_value;
     s16 unused2;
 };
+LAYOUT_ASSERT(G_ExecutePhotonBlastParams_6x49Size, sizeof(G_ExecutePhotonBlastParams_6x49) == 0x8);
 
 // 6x49: a player fires a photon blast at up to ten targets.
 struct G_ExecutePhotonBlast_6x49 {

@@ -2,6 +2,7 @@
 #include "pso/audio/AdxRnaInitBuffer.h"
 #include "pso/audio/CriSvm.h"
 #include "pso/audio/AdxUiBridge.h"
+#include "pso/audio/AdxtInternal.h"
 #include "pso/audio/GcrnaBridgeLoop.h"
 #include "pso/network/TLobby.h"
 
@@ -17,10 +18,10 @@ void gcrna_bridge_init_buffers(void) {
     adx_rna_set_buffer_storage();
 }
 
-void adx_bridge_set_loop_flag(AdxUiBridgeTarget *bridge, s32 enabled) {
-    gcrna_bridge_set_loop_flag(bridge->stream, enabled);
+void adx_bridge_set_loop_flag(AdxtPlayer *player, s32 enabled) {
+    gcrna_bridge_set_loop_flag(player->rna_handle, enabled);
 }
 
-s32 adx_ui_bridge_get_stream_id(AdxUiBridgeTarget *bridge, s32 channel) {
-    return adx_bridge_get_stream_id(bridge->stream, channel);
+s32 adx_ui_bridge_get_stream_id(AdxtPlayer *player, s32 channel) {
+    return adx_bridge_get_stream_id(player->rna_handle, channel);
 }

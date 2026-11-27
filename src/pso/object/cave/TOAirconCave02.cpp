@@ -1,12 +1,12 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/cave/TOAirconCave02.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fe_obj_aircon02_model_names[] = {"fe_obj_aircon02.gj", NULL};
 const char *bm_fe_obj_aircon02_motion_names[] = {NULL};

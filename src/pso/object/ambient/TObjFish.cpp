@@ -13,7 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/system/vector.h"
 #include "pso/ui/TLevelSelect.h"
@@ -27,13 +27,13 @@
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobbyEventTheme.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 
 BmlResource *fish_area_bml_resource;
@@ -335,7 +335,6 @@ void TObjFish::run_task() {
 #pragma pop
 
 
-
 #pragma push
 #pragma fp_contract on
 s32 TObjFish::init_fish_school(Vec *extent, s32 anim0_count, s32 anim1_count) {
@@ -397,15 +396,6 @@ TObjFish::~TObjFish() {
     }
 }
 
-// The placement record passed by object factory 0x220. Only these fields
-// are read by the fish constructor; the leading set metadata stays opaque.
-struct TObjFishSetData {
-    u8 metadata[0xC];
-    Vec position;
-    s32 rotation[3];
-    Vec scale;
-    s32 counts[3];
-};
 
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
@@ -449,11 +439,6 @@ void TObjFish::free_resource() {
         fish_area_bml_resource = NULL;
     }
 }
-struct TObjFishAreaResource {
-    const char *models[4];
-    const char *motions[4];
-    BmlResourceDescriptor descriptor;
-};
 
 TObjFishAreaResource fish_resource_name_table[5] = {
     { { fish_model_name_lobby_suisou_sakana01_yellow_gj, fish_model_name_lobby_suisou_sakana02_red_gj, fish_model_name_lobby_suisou_sakana03_bule_gj, NULL },

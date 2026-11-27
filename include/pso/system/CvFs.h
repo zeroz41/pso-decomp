@@ -37,4 +37,11 @@ s32 find_803CF958(char *s, s32 len);
 
 void cvFsSetDefDev(char *src);
 
+struct TLobbyEntry { CvFsDeviceInterface *device; char name[12]; };
+
+struct CvFsHandle {
+    CvFsDeviceInterface *vtbl;
+    void *fd;
+};
+
 #endif

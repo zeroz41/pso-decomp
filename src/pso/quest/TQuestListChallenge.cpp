@@ -11,11 +11,11 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/quest/QuestFlagSync.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/quest/QuestFlagCommand.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/challenge/TChallenge4P.h"
@@ -24,7 +24,6 @@ extern "C" {
 s32 lbl_805D64A8;
 s32 lbl_805D64AC;
 TQuestListChallenge *quest_list_challenge_active_instance;
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 extern __declspec(section ".rodata") const QuestListStageEntry TQuestListChallenge__stage_table[5];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge_stage_table[9];
@@ -261,7 +260,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
     quest_list_challenge_active_instance = this;
 }
 
-void reset_globals__19TQuestListChallengeFv(void) {
+void TQuestListChallenge::reset_globals() {
     lbl_805D64A8 = 0;
     lbl_805D64AC = 0;
     quest_list_challenge_active_instance = NULL;

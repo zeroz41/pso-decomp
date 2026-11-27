@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/cave/TOAirconCave01.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fs_obj_aircon01_model_names[] = {"fs_obj_aircon01.gj", NULL};
 const char *bm_fs_obj_aircon01_motion_names[] = {NULL};

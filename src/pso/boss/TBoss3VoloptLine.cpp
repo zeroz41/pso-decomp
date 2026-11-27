@@ -3,18 +3,17 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
-extern "C" void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
-
-__declspec(section ".data") static VoloptLineColor volopt_line_colors[2] = {
-    {0x80, 0xFF, 0x40, 0x40},
-    {0x80, 0xFF, 0x40, 0x40},
+__declspec(section ".data") static NJS_COLOR volopt_line_colors[2] = {
+    {0x80FF4040},
+    {0x80FF4040},
 };
 
 static Vec volopt_line_points[2];
 
-static VoloptLineList volopt_line = {
-    volopt_line_points, volopt_line_colors, 0, 4,
+static NJS_POINT3COL volopt_line = {
+    volopt_line_points, &volopt_line_colors[0].color, NULL, 4,
 };
 
 void TBoss3VoloptLine::render() {

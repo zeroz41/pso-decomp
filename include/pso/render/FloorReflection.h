@@ -3,7 +3,7 @@
 #include "types.h"
 #include <dolphin/mtx.h>
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 struct GinjaRenderTarget;
 class TEffIndirectSampler;

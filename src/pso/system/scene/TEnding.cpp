@@ -13,7 +13,7 @@
 #include "pso/audio/MusicControl.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby_800FC3CC.h"
@@ -37,6 +37,8 @@
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 const char TEnding::class_name_string[] = "TEnding";
 
@@ -45,8 +47,8 @@ const char TEnding::class_name_string[] = "TEnding";
 void (*ending_scene_callbacks[26])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
-    TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
-    TLobby::set_ending_callback, TLobby::free_ending_callback,
+    update_keyboard_menu, free_keyboard_soft_resources,
+    set_ending_callback, free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
     register_texture_ed_512kabe_c, TEndingC::release_lobby,
     TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,
@@ -55,11 +57,11 @@ void (*ending_scene_callbacks[26])(void) = {
     create_player_ending_motion, free_player_ending_motion,
     init_game_player_actions, release_game_player_actions,
     TAdEndText::load_ending_font, TAdEndText::free_resources,
-    TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
+    TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_static_resource,
 };
 
 void release_ending_scene(void) {
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
@@ -159,7 +161,7 @@ void TEnding::run_task() {
 
 TEnding::~TEnding() {
     ending_scene_active = 0;
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 TEnding::TEnding() : TObject(tl_window) {

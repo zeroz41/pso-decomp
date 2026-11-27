@@ -119,7 +119,7 @@ struct TBoss3Volopt : public TObjEnemyCustom {
     u8 pad_3AC[0x10];
     u32 m_3bc;
     u8 pad_3C0[0x20];
-    s32 m_3e0;
+    s32 pad_3e0;
     u8 pad_3E4[0xC];
     s16 attack_step;
     s16 attack_delay;

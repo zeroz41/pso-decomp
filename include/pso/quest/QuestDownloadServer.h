@@ -39,18 +39,19 @@ struct QuestDownloadNameCacheImage {
     u8 pages[8][0x400];
 };
 
-extern u8 lbl_8058DC48[0x50];
-extern u8 lbl_8058DC98[0x50];
-extern u8 lbl_8058DCE8[0x50];
+extern u8 name_entry_text_buffer[0x50];
+extern u8 name_entry_name_buffer[0x50];
+extern u8 learned_name_text_buffer[0x50];
 extern u8 quest_request_text_buffer[0x50];
-extern "C" {
 extern s32 lbl_805D7880;
 extern s32 lbl_805D7884;
 extern s32 quest_download_free_list_ready_flag;
 extern s16 lbl_805D78E0;
 extern s32 lbl_805D78E4;
 void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
+extern "C" {
 s32 set_input_text(u32 input_address);
+}
 s32 load_name_cache_image(void);
 void rotate_cache_page(void);
 QuestDownloadTextNode *build_entry_candidates(const QuestDownloadEntryPrefix *entry);
@@ -61,6 +62,7 @@ s32 store_learned_name(QuestDownloadRequest *req, s32 *ids, s32 n);
 s32 remove_record_entry(u8 *rec, QuestDownloadRequest *msg);
 s32 update_entry_frequency(u32 id, u16 key, s32 *ids, s32 n);
 s32 lookup_dictionary_prefix(u8 *name, s16 len, QuestNameLookupResult *out);
+extern "C" {
 extern u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 extern u16 quest_download_buffer_storage[0x64] ATTRIBUTE_ALIGN(4);
 extern s32 quest_download_state;
@@ -98,12 +100,11 @@ QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head
 extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
 QuestDownloadItemNode *alloc_quest_item_node(void);
-extern "C" {
 void reset_slot(QuestDownloadSlot *slot, s32 mode);
+extern "C" {
 s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
 }
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf);
-extern "C" {
 s32 store_name_record(char *, QuestDownloadRequest *, s32);
 extern s32 lbl_805D7900;
 s32 store_name_entry(QuestDownloadRequest *req);
@@ -118,6 +119,7 @@ extern s32 name_cache_page_index;
 extern s32 number_format_mode;
 extern s32 quest_page_text_limit;
 extern saddr quest_text_entry_len;
+extern "C" {
 s32 quest_text_u16_to_u8(u16 *, u8 *, s32);
 }
 extern u16 quest_text_page_buffer[];
@@ -144,34 +146,28 @@ void seek_quest_text_page(s32, s32);
 extern s32 quest_page_node_count;
 s32 measure_entry_group_len(QuestDownloadTextNode *quest_download_text_node);
 void release_node_chain(QuestDownloadItemNode *p);
-extern "C" {
 s32 parse_record_query_entries(u8 *data, QuestDownloadQueryEntry *entries, s32 n, s32 *max);
 s32 query_exact_matches(const char *name, s16 len, QuestDownloadQueryResult *out);
 s32 can_connect_word_class(u8 a, u8 b, u8 c);
-}
-extern "C" {
 s32 query_prefix_matches(const char *name, s16 len, QuestDownloadQueryResult *out);
 QuestDownloadSegment *find_segments_at(s32, s32, u8, u8);
-}
 QuestDownloadEntryNode *alloc_quest_entry_node(void);
-extern "C" {
 QuestDownloadEntryNode *expand_item_entries(s32 start, s32 end, const QuestDownloadItemNode *t);
-}
 QuestDownloadTextNode *alloc_quest_text_node(void);
 QuestDownloadSegment *alloc_quest_segment(void);
 extern QuestDownloadCachePage *file_page_cache_head;
 extern QuestDownloadCachedNameIndex name_cache_index;
-extern "C" {
 s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out);
 void find_best_matching_entry(u8 *data, s32 key, s32 sub_key, s32 *best, u8 *dst, s32 flags);
 extern const char ask_header_signature[];
 void collect_matching_entries(u8 *data, s32 key, s32 sub_key, s32 *cnt, s32 *total, u8 *buf, s32 flags);
 extern u8 *allowed_char_bitmap;
+extern "C" {
 
 LAYOUT_ASSERT(QuestDownloadScratchSize, sizeof(quest_download_scratch_storage) == 0x28);
 LAYOUT_ASSERT(QuestDownloadBufferSize, sizeof(quest_download_buffer_storage) == 0xC8);
+}
 void clear_entry_reference_counts(void);
 void mark_allowed_char(u8 *text, s16 mode);
-}
 
 #endif

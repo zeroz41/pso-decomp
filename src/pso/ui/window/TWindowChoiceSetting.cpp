@@ -1,6 +1,6 @@
 #include "pso/ui/window/WindowScrollBar.h"
-#include "pso/system/SoundEffect.h"
 #include "types.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -8,242 +8,126 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/LabelValueRow.h"
-#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/HeadingEntry.h"
 
-#include "pso/ui/window/WindowTextEntry.h"
-#include "pso/unk/WindowLayoutRecord.h"
-#include "pso/system/NinjaTypes.h"
-#include "pso/system/ControllerInput.h"
-#include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/TWindowLayoutRect.h"
-
-const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
-static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
-
-extern "C" {
-void TWindowMenuInfomation::request_close() {
-    if (!(this->state_flags & 8) && (TWindowMenuInfomation::is_open() == 0)) {
-        play_sound_effect(0x52F16, 0, 0, 0);
-        this->state_flags = (u16) (this->state_flags | 4);
-    }
-}
-void TWindowMenuInfomation::draw() {
-    if (static_cast<LabelValueRow *>(get_array_entry(this->index))->is_flag80_set() == 0) {
-        play_sound_effect(0x52D01, 0, 0, 0);
-        this->state_flags = (u16) (this->state_flags | 2);
-        if (this->heading != 0) {
-            this->heading->set_state(2);
-        }
-    }
-}
-void TWindowMenuInfomation::move_next_choice() {
-    s16 candidate;
-
-    play_sound_effect(0x54100, 0, 0, 0);
-    candidate = this->index;
-loop_1:
-    candidate += 1;
-    if (candidate >= entry_capacity) {
-        if (!(this->state_flags & 1)) {
-            candidate = 0;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (candidate != (s16) this->index) {
-            if (is_entry_selectable(candidate) != 0) {
-                this->index = candidate;
-            } else {
-                goto loop_1;
-            }
-        }
-    }
-}
-void TWindowMenuInfomation::move_cursor_prev() {
-    s16 candidate;
-
-    play_sound_effect(0x54100, 0, 0, 0);
-    candidate = this->index;
-loop_1:
-    candidate -= 1;
-    if (candidate < 0) {
-        if (!(this->state_flags & 1)) {
-            candidate = entry_capacity - 1;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (candidate != (s16) this->index) {
-            if (is_entry_selectable(candidate) != 0) {
-                this->index = candidate;
-            } else {
-                goto loop_1;
-            }
-        }
-    }
-}
-void TWindowMenuInfomation::create_sub_window(const char *title) {
-    WindowHeading *heading;
-
-    if (this->heading == NULL) {
-        heading = new WindowHeading(title, this->client_index);
-        this->heading = heading;
-        this->window_flags |= 0x40;
-    }
-}
-}
-// dead-stripped: only its literals survive. 0.0f, 20.0f and 6.0f (.sdata2 0x805DD1D8-0x805DD1E0) open the pool
-// ahead of update_scroll_offset's 9/0.5/16/10 although their live user clamp_scroll follows it in .text: a function
-// compiled before update_scroll_offset built the same scroll clip. Minimal body after clamp_scroll's clip; name
-// inferred.
-static void get_scroll_clip(TWindowMenuInfomation *window, f32 *clip) {
-    clip[0] = 0.0f;
-    clip[1] = window->frame_size[1] - 20.0f;
-    if (window->heading != 0) {
-        clip[1] -= 6.0f;
-    }
-}
+// One TU: the class-name string comes before
+// update_scroll_tween's u32->f32 double and run_task's s32->f32 double
+// in .rodata, so the name is defined ahead of the functions.
+#pragma push
+#pragma readonly_strings on
+const char *TWindowChoiceSetting::class_name = "TWindowChoiceSetting";
+#pragma pop
 
 #pragma push
 #pragma fp_contract on
+void TWindowChoiceSetting::update_scroll_tween() {
+    f32 target;
+    uaddr steps;
 
-void TWindowMenuInfomation::update_scroll_offset() {
-    f32 v;
-    if (scroll_bar != 0 && tween_ticks == 0) {
-        v = 9.0f + (f32)(index * 20);
-        v -= 0.5f * ((frame_size[1] - 16.0f) - 10.0f);
-        scroll_offset[1] += v - scroll_offset[1];
+    if (this->choice_flags & 1) {
+        steps = reinterpret_cast<uaddr>(this->get_array_entry(this->get_field_74()));
+        target = *(f32 *)(steps + 0xC);
+    } else {
+        target = 0.0f;
     }
+    steps = this->tween_ticks;
+    if (steps == 0) {
+        scroll_offset[1] = target;
+        return;
+    }
+    target += 0.5f * (this->target_size[1] - this->frame_size[1]);
+    scroll_offset[1] += (target - scroll_offset[1]) / (f32)steps;
 }
 #pragma pop
 
-void TWindowMenuInfomation::clamp_scroll() {
-    NJS_POINT2 range;
-    f32 height;
-    if (scroll_bar != NULL) {
-        range.x = 0.0f;
-        height = this->frame_size[1] - 20.0f;
-        range.y = height;
-        if (this->heading != 0) {
-            range.y = height - 6.0f;
-        }
-        scroll_bar->clamp_offset(scroll_offset, &range);
+void TWindowChoiceSetting::begin_scroll(f32 height) {
+    u16 flags = choice_flags;
+    if (flags & 1) {
+        choice_flags = (u16)(flags & 0xFFFE);
+        target_size[1] = height;
+        tween_ticks = 3;
     }
 }
 
-
-void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
-    TWindowLayoutRect *entry;
-
-    entry = (TWindowLayoutRect *)this->get_array_entry(this->index);
-    if (entry->flags & 1) {
-        draw_selection_bar(context, entry, this->is_open());
-    }
-}
-
-void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
-    u32 i;
+void TWindowChoiceSetting::shrink_to_selected_entry() {
+    u16 flags;
     WindowTextEntry *entry;
-    window->m_name = TWindowMenuInfomation::class_name;
-    window->next_entry = 0;
-    window->index = 0;
-    window->entry_capacity = (s16)rows;
-    window->state_flags = 0;
-    window->heading = NULL;
-    window->scroll_bar = NULL;
-    for (i = 0; i < rows; i++) {
-        entry = static_cast<WindowTextEntry *>(window->get_array_entry(i));
-        entry->y = (f32)(i * 0x14);
+    flags = choice_flags;
+    if (!(flags & 1)) {
+        choice_flags = (u16)(flags | 1);
+        entry = (WindowTextEntry *)get_array_entry(get_field_74());
+        target_size[1] = 20.0f + entry->height;
+        if (window_flags & 0x40) {
+            target_size[1] += 6.0f;
+        }
+        tween_ticks = 3;
     }
-    window->set_depth(39000.0f);
 }
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-ChoiceSettingPopupLayout choice_setting_popup_layout_entries = {1, 0, {9}};
-WindowDescriptor choice_setting_popup_window_descriptor = {
-    {0.0f, 0.0f}, 50050.0f, &choice_setting_popup_layout_entries, 3,
-};
-
-TWindowMenuInfomation *create_information_counter_window(s32 rows) {
-    TWindowMenuInfomation *window;
-
-    set_choice_setting_popup_size(&choice_setting_popup_extent, rows);
-    window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
-    window->create_sub_window("Information Counter");
-    return window;
+TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
+    const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows) {
+    set_popup_size(extent, rows);
+    return new TWindowChoiceSetting(const_cast<NJS_POINT2 *>(position), rows);
 }
 
-void set_choice_setting_popup_size(const NJS_POINT2 *extent, s32 rows) {
-    choice_setting_popup_window_descriptor.size[0] = extent->x;
-    choice_setting_popup_window_descriptor.size[1] = extent->y;
-    choice_setting_popup_layout_entries.rows = rows;
+void TWindowChoiceSetting::set_popup_size(const NJS_POINT2 *extent, s32 rows) {
+    set_choice_setting_popup_size(extent, rows);
 }
 
-
-void TWindowMenuInfomation::render() {
-    WindowDrawContext *draw_context;
-
-    draw_context = get_draw_context();
-    this->draw_window_frame(draw_context);
+void TWindowChoiceSetting::render() {
+    WindowDrawContext *context = get_draw_context();
+    draw_window_frame(context);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>((this)),
+        this,
         &entry_list,
-        draw_context);
-    draw_setting(draw_context);
-    if (this->heading != 0) {
-        this->heading->render(draw_context);
+        context);
+    draw_setting(context);
+    if (heading != 0) {
+        heading->render(context);
     }
     if (scroll_bar != NULL) {
-        draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
+        draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }
 
-void TWindowMenuInfomation::run_task() {
-    WindowHeading *heading_window;
+void TWindowChoiceSetting::run_task() {
     WindowScrollBar *scroll;
     ControllerInputContext *input;
     ControllerInputContext *pad;
     ControllerInputContext *context;
-    if ((this->is_selected() == 0) && (this->is_open() == 0)) {
-        if (state_flags & 0x10) {
+    if ((is_selected() == 0) && (is_open() == 0)) {
+        if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                this->move_cursor_prev();
+                move_cursor_prev();
             }
             if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                this->move_next_choice();
+                move_next_choice();
             }
         } else {
             pad = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat_color(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                this->move_cursor_prev();
+                move_cursor_prev();
             }
             if ((test_buttons_press_or_repeat_color(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                this->move_next_choice();
+                move_next_choice();
             }
         }
         context = &controller_input_state.controllers[0];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
-            this->draw();
+            draw();
         }
         if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            this->request_close();
+            request_close();
         }
     }
-    if ((f32) open_tick >= 7.5f) {
-        heading_window = heading;
-        if (heading_window != NULL) {
-            heading_window->update();
+    if ((f32) this->open_tick >= 7.5f) {
+        if (this->heading != 0) {
+            this->heading->update();
         }
         scroll = scroll_bar;
         if (scroll != NULL) {
@@ -251,20 +135,17 @@ void TWindowMenuInfomation::run_task() {
         }
     }
     update_window();
-    this->step_window_tween();
-    this->update_scroll_offset();
-    this->clamp_scroll();
+    update_scroll_tween();
+    step_window_tween();
+    update_scroll_offset();
+    clamp_scroll();
     update_window_entry_list(&entry_list);
 }
 
-TWindowMenuInfomation::~TWindowMenuInfomation() {
-    delete scroll_bar;
-    delete this->heading;
-}
-TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
-    : TWindowAddition((u8 *)&choice_setting_popup_window_descriptor, 4, (u8 *)parent) {
-    TWindowMenuInfomation__ct(this, (u32)rows);
+TWindowChoiceSetting::~TWindowChoiceSetting() {
 }
 
-s32 LabelValueRow::get_entry_id() { return id; }
-int LabelValueRow::is_flag80_set() { return flags & 0x80; }
+TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenuInfomation(parent, rows) {
+    m_name = TWindowChoiceSetting::class_name;
+    choice_flags = 0;
+}

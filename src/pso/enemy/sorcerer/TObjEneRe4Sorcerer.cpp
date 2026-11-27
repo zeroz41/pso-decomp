@@ -34,13 +34,13 @@
 
 #include "pso/system/vector.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/math/AngleLookup.h"
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
@@ -60,7 +60,7 @@
 
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/object/base/TObjBase.h"
@@ -96,17 +96,18 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 
 
 
 
 
-Vec lbl_80501070;
+Vec re4_sorcerer_zero_vector;  // zeroed by the resource loader, never read
 
 
 
@@ -185,18 +186,18 @@ NJS_ARGB *MaterialColorFade::get_color() {
 
 void TObjEneRe4Sorcerer::load_resources() {
     uaddr r;
-    lbl_80501070.x = 0.0f;
-    lbl_80501070.y = 0.0f;
-    lbl_80501070.z = 0.0f;
+    re4_sorcerer_zero_vector.x = 0.0f;
+    re4_sorcerer_zero_vector.y = 0.0f;
+    re4_sorcerer_zero_vector.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_re4_sorcerer_resource_descriptor, "bm_ene_re4_sorcerer_a.bml");
     } else {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource(&bm_ene_re4_sorcerer_resource_descriptor);
     }
-    re4_sorcerer_base_params = TLobby::register_boss(0xA);
-    re4_sorcerer_attack_params = TLobby::dispatch_shared_handler_b(0xA);
-    re4_sorcerer_resistance_params = TLobby::register_object(0xA);
-    sorcerer_behavior_params = (s32 *)TLobby::dispatch_shared_handler_a(0xA);
+    re4_sorcerer_base_params = register_boss(0xA);
+    re4_sorcerer_attack_params = dispatch_shared_handler_b(0xA);
+    re4_sorcerer_resistance_params = register_object(0xA);
+    sorcerer_behavior_params = (s32 *)dispatch_shared_handler_a(0xA);
     re4_sorcerer_render_node_index = 0;
     re4_sorcerer_saved_render_flags = 0;
     re4_sorcerer_effect_render_scale = 0.0f;
@@ -227,7 +228,7 @@ void TObjEneRe4Sorcerer::free_bits() {
 TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = re4_sorcerer_name;
     invoke_initialization_hook(set_data);
-    demo_stub();
+    apply_parameters();
     init_enemy();
 }
 
@@ -277,7 +278,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     attack_cycle = 0;
     warp_count = 0;
     warp_angle = 0;
-    pad_3f4 = evp;
+    initial_evp = evp;
     effect_scale = 1.0f;
     fade.reset_obstruction_fade();
     clear_target_cursor_list(&targets);
@@ -364,7 +365,7 @@ void TObjEneRe4Sorcerer::update_body_colliders() {
     bodies->offset.y = 22.0f;
 }
 
-void TObjEneRe4Sorcerer::demo_stub() {  }
+void TObjEneRe4Sorcerer::apply_parameters() {  }
 
 CsnHit *TObjEneRe4Sorcerer::move_xz_on_ground(const Vec *dest) {
     CsnHit *ground = TObjEneDD::move_xz_on_ground(dest);
@@ -1383,7 +1384,7 @@ void TObjEneRe4Sorcerer::render() {
 extern "C" {
 void TObjEneRe4Sorcerer::run_demo_task() {
     if (get_target_info() != 0) {
-        demo_stub();
+        apply_parameters();
     }
 }
 

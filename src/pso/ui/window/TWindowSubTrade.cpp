@@ -1,14 +1,13 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-// ---- pso/ui/window/TWindowSubTrade_802B1AB4
+#include "pso/ui/window/TextBuilder.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TLobby.h"
@@ -199,4 +198,9 @@ TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     prompt->set_menu_selected_index(1);
     prompt->set_choice_menu_flag70_bit10();
     return prompt;
+}
+
+void TWindowSubTrade::finish() {
+    parent_menu->on_submenu_closed();
+    state = 7;
 }

@@ -4,54 +4,52 @@
 #include "types.h"
 #include <stddef.h>
 
-// Fields are named after their GAMECUBE_NETINFO keys (NAM0=, PN_0=, SA_0=, ...).
+// One record per GAMECUBE_NETINFO section; each field's comment names its key (NAM0=, PN_0=, SA_0=, ...).
 typedef struct NetworkInfoNamedConfig {
     char name[0x20];
     s16 pan, man, sgn, urn;
 } NetworkInfoNamedConfig;
 
 typedef struct NetworkInfoConnectionConfig {
-    char pn[0x20];
-    char li[0x80];
-    char lp[0x20];
-    s32 d1;
-    s32 d2;
-    s32 it;
-    char pxs[0x40];
-    u16 pxp;
-    s16 at;
-    u8 dt;
-    u8 pa;
+    char provider_name[0x20];        // PN
+    char login_user[0x80];           // LI
+    char login_password[0x20];       // LP
+    s32 dns_server1;                 // D1
+    s32 dns_server2;                 // D2
+    s32 it;                          // IT
+    char proxy_server[0x40];         // PXS
+    u16 proxy_port;                  // PXP
+    s16 device_type;                 // AT: 1 modem, 4 broadband
+    u8 dial_type;                    // DT: 0 tone, 1 pulse
+    u8 pa;                           // PA
     u8 pad112[2];
-    char ol[0x10];
-    char od[0x10];
-    char t1[0x20];
-    char t2[0x20];
-    char t3[0x20];
-    s16 rc;
-    s16 ri;
-    char mi[0x20];
-    u8 dy;
-    u8 py;
+    char outside_line_number[0x10];  // OL
+    char od[0x10];                   // OD
+    char phone_numbers[3][0x20];     // T1, T2, T3
+    s16 rc;                          // RC
+    s16 ri;                          // RI
+    char modem_command[0x20];        // MI
+    u8 ip_set_type;                  // DY: 0 DHCP, 1 PPPoE, otherwise a fixed address
+    u8 py;                           // PY
     u8 pad1BA[2];
-    s32 ip;
-    s32 snm;
-    s32 g1;
-    char hn[0x40];
-    s32 mt;
-    s32 mr;
+    s32 ip_address;                  // IP
+    s32 subnet_mask;                 // SNM
+    s32 default_gateway;             // G1
+    char pc_name[0x40];              // HN
+    s32 mt;                          // MT
+    s32 mr;                          // MR
 } NetworkInfoConnectionConfig;
 
 typedef struct NetworkInfoMailConfig {
-    u8 sa;
-    u8 sd;
-    s16 iv;
-    char ma[0x40];
-    char ms[0x40];
-    char ps[0x40];
-    char pi[0x20];
-    char pp[0x20];
-    char mn[0x20];
+    u8 sa;                           // SA
+    u8 sd;                           // SD
+    s16 iv;                          // IV
+    char mail_address[0x40];         // MA
+    char mail_server[0x40];          // MS
+    char pop_server[0x40];           // PS
+    char pop_id[0x20];               // PI
+    char pop_password[0x20];         // PP
+    char mail_name[0x20];            // MN
 } NetworkInfoMailConfig;
 
 typedef struct NetworkInfoCredentialConfig {

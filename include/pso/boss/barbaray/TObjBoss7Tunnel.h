@@ -51,7 +51,7 @@ public:
     static void stop_sway();
     // Bit 0x8000: set when the tunnel reaches its end (phase 2, scroll_speed 0).
     static s32 has_stopped();
-    // Twins of TObjBoss2Tunnel's detach_children/release_children/create_parent_object (TObjBoss7Tunnel_802F190C.cpp).
+    // Twins of TObjBoss2Tunnel's detach_children/release_children/create_parent_object (TObjBoss7Tunnel_ParticleParent.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
     static void create_parent_object();

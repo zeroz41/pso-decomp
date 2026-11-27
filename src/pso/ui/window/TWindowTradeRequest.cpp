@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/network/TLobby.h"
@@ -9,11 +9,12 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/network/TradeModeQuery.h"
 
 const char *TWindowTradeRequest::class_name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
@@ -68,7 +69,7 @@ TWindowTradeRequest::~TWindowTradeRequest() {
 #pragma fp_contract on
 TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     m_name = TWindowTradeRequest::class_name;
-    TObjPlayer *player = get_player_by_client_id(static_cast<s8>(TLobby::get_trade_mode()));
+    TObjPlayer *player = get_player_by_client_id(static_cast<s8>(get_trade_mode()));
     text_builder_reset();
     if (player != NULL) {
         text_builder_append(player->get_name());

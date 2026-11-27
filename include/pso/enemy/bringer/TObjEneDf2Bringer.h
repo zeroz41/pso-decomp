@@ -13,7 +13,7 @@ class TObjEneDf2Bringer_Eff_TpAbsorb1;
 class TAttackTraceStrip;
 class TParticleCtrl;
 
-// The Bringer's tuning row (TLobby::dispatch_shared_handler_a(0xD)).
+// The Bringer's tuning row (dispatch_shared_handler_a(0xD)).
 struct BringerParameters {
     f32 rush_speed;       // the charge's speed, decaying from here once it stops
     f32 walk_speed;       // the approach
@@ -39,7 +39,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void set_effect_pos_above_self();
     void retarget_attacker();
-    void demo_stub();
+    void apply_parameters();
     void run_death_reaction();
     void run_hit_reaction();
     void run_miss_reaction();

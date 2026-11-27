@@ -1,5 +1,5 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/unk/text_803DAFA8.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -7,23 +7,23 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/memory.h"
-#include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 #pragma readonly_strings on
 
@@ -289,11 +289,11 @@ u16 map_char_to_font_code(u16 c) {
     return c;
 }
 
-void TWindowSubStatusDisp::pack_status_flags(u32 pixel) {
-    *(u8 *)&this->m_name = (u8) ((pixel >> 4U) & 3);
-    *(u8 *)&this->m_name = (u8) (*(u8 *)&this->m_name | ((pixel >> 2U) & 0x30));
-    *(u8 *)((s8 *)this + 1) = (u8) (pixel & 3);
-    *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) | ((pixel * 4) & 0x30));
+void pack_ci4_texels(u8 *dst, u32 pixel) {
+    dst[0] = (pixel >> 4) & 3;
+    dst[0] |= (pixel >> 2) & 0x30;
+    dst[1] = pixel & 3;
+    dst[1] |= (pixel * 4) & 0x30;
 }
 #define g ((MenuGlyphEntry *)free_slot)
 
@@ -325,7 +325,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
         for (i = 0; i < 5; i++) {
             u8 b = *src;
             u8 *dst = tex + calc_ci4_tile_offset((u32)(x + i * 4), (u32)(y + j));
-            ((TWindowSubStatusDisp *)dst)->pack_status_flags(b);
+            pack_ci4_texels(dst, b);
             src++;
         }
     }
@@ -537,9 +537,9 @@ void load_menu_font(void) {
     u32 k;
     u32 u;
     u32 v;
-    TLobby::load_font_texture();
+    load_font_texture();
     menu_font_glyph_data = load_disc_file("S18all04.fon");
-    TLobby::release_menu_font();
+    release_menu_font();
     for (i = 0; i < 2; i++) {
         menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);
         set_texture_name(menu_font_texnames + i, menu_font_render_rects + i, i + 0xDCF28, 0x08800000);

@@ -1,4 +1,5 @@
 #include "pso/render/TriangleFan3D.h"
+#include "pso/render/ScreenSpriteDraw.h"
 // Character-creation sprite tables, ruler lines and UI sprite helpers (one TU).
 // One-TU evidence: resolve_creation_sprite_table addresses the three cell tables as offsets
 // from creation_chara_sprite_entries (CW's anchor for objects defined in the same TU), the tables and
@@ -337,13 +338,8 @@ const NJS_POINT3 creation_ruler_line_vertices[32] = {
 };
 
 
-struct RulerLineList { const NJS_POINT3 *verts; u32 *colors; int start; int count; };
-
-extern "C" {
-s32 draw_line_list(void *, int, int);
-}
 void draw_creation_ruler_lines(f32 fade) {
-    RulerLineList d;
+    NJS_POINT3COL d;
     u32 colors[32];
     u32 c;
     s32 i;
@@ -351,10 +347,10 @@ void draw_creation_ruler_lines(f32 fade) {
     for (i = 0; i < 32; i++) {
         colors[i] = c;
     }
-    d.verts = creation_ruler_line_vertices;
-    d.colors = colors;
-    d.start = 0;
-    d.count = 32;
+    d.p = const_cast<NJS_POINT3 *>(creation_ruler_line_vertices);
+    d.col = colors;
+    d.tex = NULL;
+    d.num = 32;
     draw_line_list(&d, 0x10, 5);
     c = (u32)(64.0f * fade) | 0x40400000 | 0x4000;
     creation_ruler_line_colors[0] = creation_ruler_line_colors[1] = c;
@@ -410,7 +406,7 @@ void draw_ui_sprite_tinted(s32 sprite_id, vec2f *position, vec2f *scale, UISprit
         resolve_creation_sprite_table(&sprite.tanim, &sprite_id);
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material((const NJS_ARGB *)tint);
-        TLobby::draw_with_camera(&sprite, sprite_id, 0x22, depth);
+        draw_with_camera(&sprite, sprite_id, 0x22, depth);
         copy_argb(&model_material_color, &saved_model_draw_color);
     }
 }

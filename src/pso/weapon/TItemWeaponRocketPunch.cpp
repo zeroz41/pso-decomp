@@ -3,7 +3,7 @@
 #include "pso/weapon/TItemWeaponRocketPunch.h"
 #include "pso/weapon/shoot/TItemShootRocketPunch.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
@@ -15,9 +15,8 @@
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
@@ -67,31 +66,31 @@ TItemShootRocketPunch::TItemShootRocketPunch(TItemWeaponRocketPunch *owner, cons
     set_render_model(owner->get_shot_model(), (NJS_TEXLIST *)owner->get_texlist());
 }
 
-uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
+TItemShoot *rocket_punch_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootRocketPunch *shot = NULL;
     TItemShootParticle *particle;
 
-    if (owner != 0) {
-        shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, (const Vec *)pos, (const Vec *)dir, life);
-        particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    if (owner != NULL) {
+        shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, pos, dir, life);
+        particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
         if ((shot != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
             particle->set_parent(shot);
         }
     }
-    return (uaddr)shot;
+    return shot;
 }
 
 void TItemWeaponRocketPunch::emit_marker_effects() {
-    saddr burst_counter;
+    PlayerAttackController *attack_state;
     s32 burst_count;
     TObjPlayer *player = owner;
     if (player == NULL) return;
-    burst_counter = (saddr)player + 0x7CC;
-    if (get_burst_counter((void *)burst_counter) == 0) {
+    attack_state = &player->attack_state;
+    if (get_burst_counter(attack_state) == 0) {
         burst_count = 0;
         do {
-            increment_burst_counter((u8 *)burst_counter);
+            increment_burst_counter((u8 *)attack_state);
             burst_count += 1;
         } while (burst_count != 2);
         punch_flags.set(2);
@@ -132,7 +131,7 @@ void TItemWeaponRocketPunch::draw_held_model() {
     get_joint_position(1, &shot_origins[0]);
     item_model = (NJS_OBJECT *)model_data[0];
     punch_flags.clear(1);
-    draw_weapon_at_joint(this, 0x23);
+    draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
     item_model = saved_model;
 }
@@ -146,7 +145,7 @@ TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TIte
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)rocket_punch_wall_impact;
     hit_callback = (WeaponHitCallback)rocket_punch_target_impact;
-    shot_callback = (WeaponShotCallback)rocket_punch_create_shot;
+    shot_callback = rocket_punch_create_shot;
     shot_speed = 8.0f;
     punch_flags.reset();
 }

@@ -26,6 +26,8 @@
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/network/InfoBoardState.h"
+#include "pso/network/InfoBoardRequests.h"
 
 const char *TWindowSubInformationBoard::class_name = "TWindowSubInformationBoard";
 
@@ -94,14 +96,14 @@ void TWindowSubInformationBoard::run_task() {
         }
         break;
     case 3:
-        TLobby::request_info_board(&this->board);
+        request_info_board(&this->board);
         this->state = 4U;
     case 4:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->state = 5U;
         }
-        if (TLobby::get_info_board_ptr() != NULL) {
+        if (get_info_board_ptr() != NULL) {
             this->state = 6U;
             break;
         }
@@ -148,8 +150,8 @@ void TWindowSubInformationBoard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             info_text = this->keyboard->realloc_buffer();
-            TLobby::set_info_board_text(info_text);
-            TLobby::flush_pending_send();
+            set_info_board_text(info_text);
+            flush_pending_send();
             mem_free(info_text);
             this->state = 0xBU;
             break;
@@ -193,7 +195,7 @@ TWindowMenu *TWindowSubInformationBoard::create_board_menu() {
     TWindowMenu *w;
     s32 i;
     s32 n;
-    board = TLobby::get_info_board_ptr();
+    board = get_info_board_ptr();
     if (board == NULL) {
         return NULL;
     }
@@ -253,7 +255,7 @@ void TWindowSubInformationBoard::set_page(s32 page) {
     TRecvInfoBoard *board;
 
     if (((s32) this->shown_index != page) && (page != -1)) {
-        board = TLobby::get_info_board_ptr();
+        board = get_info_board_ptr();
         if (board != NULL) {
             this->shown_index = page;
             this->message_window->append_line(board->entries[page].text, 0x80);

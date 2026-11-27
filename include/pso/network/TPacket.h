@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/network/TUdpSocket.h"
 
+// A UDP socket with a 0x5B4-byte send buffer; dispatch_pso_data_commands walks the subcommands of a
+// received packet.
 class TPacket : public TUdpSocket {
 public:
     s32 m_send_size;

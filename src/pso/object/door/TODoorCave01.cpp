@@ -1,4 +1,4 @@
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/object/door/TODoorCave01.h"
 
@@ -10,13 +10,13 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80160804.h"
+#include "pso/network/ObjectStateSend.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -28,7 +28,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/GameModeQueries.h"
 
 const char *fs_obj_do_doa01_model_names[] = {"fs_obj_do_doa01.gj", NULL};
 const char *fs_obj_do_doa01_motion_names[] = {"fs_obj_do_doa01.njm", NULL};
@@ -55,12 +56,11 @@ void TODoorCave01::update_demo() {}
 
 // Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorCave01::send_state(void *saved_state) {
-    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+void TODoorCave01::send_state(QuestObjectEntry *saved_state) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
-    if (source != NULL) {
-        ((TLobby *)&state)->copy_short_fields(source);
+    if (saved_state != NULL) {
+        state.copy_from(saved_state);
     } else {
         access_object_saved_state(&state, 1);
     }
@@ -260,7 +260,7 @@ void TODoorCave01::destroy() {
 void TODoorCave01::load_resources() {
     BmlResource *resource;
     texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
-    if (enable_v2_features != 0 && TLobby::is_online_ready() != 0) {
+    if (enable_v2_features != 0 && is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave01_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
         texture_lists[0] = LoadPvmFileTls("fs_obj_do_doa01r_a.gvm");

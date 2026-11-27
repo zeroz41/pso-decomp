@@ -2,7 +2,7 @@
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/item/TItemData_8010EDA8.h"
+#include "pso/item/MaterialStats.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -16,6 +16,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
+#include "pso/ui/frontend/TAdFloorLoadCamGC.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -28,16 +29,11 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 
 
-
-extern "C" {
-
-s32 get_challenge_result_slot_index(TChallenge4PResult *);
-
-}
 s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
 Challenge4PItemCode challenge4p_item_select_item_table[8] = {
     { 0, 0x2B, 0 }, { 0, 0x48, 0 }, { 0, 0x64, 0 }, { 0, 0x28, 0 },
@@ -46,15 +42,6 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 
 TChallenge4PResult *challenge4p_result_slot_entries[4];
 
-extern "C" {
-
-
-
-void set_player_hold_flag(TObjPlayer *);
-void request_active_window_close();
-void clear_player_hold_flag(TObjPlayer *);
-
-}
 void resume_challenge_result_processing(void *result);
 extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
@@ -354,7 +341,7 @@ void TChallenge4PItemSelect::open_menu() {
     frames_left = waitFrames - 1;
     waitFrames = frames_left;
     if (frames_left <= 0) {
-        client_id = get_challenge_result_slot_index(result);
+        client_id = result->get_slot_index();
         menu_window = create_window_menu(get_window_layout_position(0x42), 8, client_id);
         if (menu_window != NULL) {
             i = 0;

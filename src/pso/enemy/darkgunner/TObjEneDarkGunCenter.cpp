@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/TObjControl.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

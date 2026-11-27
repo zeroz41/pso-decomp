@@ -12,7 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 #include "pso/system/task/TMainTask.h"
@@ -22,7 +22,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/object/base/TObjCollidable.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 
@@ -116,7 +116,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
             } else {
                 QuestObjectEntry entry = quest_object_entries[command->object_index];
                 entry.flags = command->flags;
-                TLobby::apply_table_entry(command->object_index, &entry);
+                set_quest_object_entry(command->object_index, &entry);
             }
             if (command->should_set == 1 && command->switch_flag_num < 0x100 && command->floor < 18) {
                 set_floor_switch_flag(command->switch_flag_num, command->floor);

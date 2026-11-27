@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
@@ -14,7 +14,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 extern "C" {
 extern TObject *tl_04;
@@ -63,7 +63,7 @@ void TAdRicoRingCtrl::load_static_resource() {
     TAdRicoRing::resource_bundle = new BmlResource(1, &TAdRicoRingCtrl::resource_descriptor, 0, 0, NULL);
 }
 
-void TAdRicoRingCtrl::release_global_805D4A00() {
+void TAdRicoRingCtrl::release_static_resource() {
     if (TAdRicoRing::resource_bundle != NULL) {
         delete TAdRicoRing::resource_bundle;
         TAdRicoRing::resource_bundle = NULL;

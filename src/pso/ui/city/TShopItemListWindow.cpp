@@ -32,7 +32,7 @@
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/text_80222DE8.h"
+#include "pso/item/shop/ShopSinglePurchase.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyItem.h"
@@ -41,7 +41,8 @@
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
+#include "pso/system/GameModeQueries.h"
 
 
 #pragma readonly_strings on
@@ -51,7 +52,7 @@ static const size_t shop_items_offset = offsetof(TShopItemListWindow, shop_items
 static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, data2);
 
 // Favoured grind type per section ID (-1: none), indexed by the player's section ID in
-// roll_shop_weapon_grind and TLobby::is_slot_match.
+// roll_shop_weapon_grind and is_section_favored_weapon.
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
@@ -160,7 +161,7 @@ void TShopItemListWindow::build_item_list() {
     }
     if (help_window == NULL) {
         help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
-        if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (help_window != NULL && is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }
         help_window->set_displayed_item_colored(shop_items);
@@ -190,7 +191,7 @@ s32 TShopItemListWindow::check_purchase_eligibility() {
     if ((s32)shop_items[sel].data2.data_u32 > meseta) {
         return 0;
     }
-    if (player->can_inventory_accept_item(reinterpret_cast<u8 *>(&shop_items[sel])) == 0) {
+    if (player->can_inventory_accept_item(&shop_items[sel]) == 0) {
         return 1;
     }
     return 3;
@@ -262,14 +263,14 @@ void TShopItemListWindow::prepare_tool_purchase() {
 
     if (item_list != NULL) {
         sel = item_list->get_cursor_value();
-        room = player->can_inventory_accept_item(reinterpret_cast<u8 *>(&shop_items[sel]));
+        room = player->can_inventory_accept_item(&shop_items[sel]);
         count = player->get_actor_meseta() / (s32)shop_items[sel].data2.data_u32;
         if (count > room) {
             count = room;
         }
         if (count > 1) {
             quantity_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
-            if (quantity_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+            if (quantity_input != NULL && is_camera_ctrl_active() > 2) {
                 quantity_input->set_scale(0.75f, 0.75f);
             }
             purchase_step = 0;

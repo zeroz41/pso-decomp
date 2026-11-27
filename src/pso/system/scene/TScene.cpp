@@ -7,11 +7,11 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/render/reflection.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/system/scene/TSceneMaterial.h"
@@ -21,11 +21,11 @@
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
-#include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/text_800F8A18.h"
+#include "pso/map/FloorWaveEvents.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/render/DebugFont.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
@@ -37,7 +37,7 @@
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include <string.h>
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/player/PlayerSlots.h"
@@ -52,7 +52,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_800F8A0C.h"
+#include "pso/system/FileExtension.h"
 
 #pragma readonly_strings on
 
@@ -463,11 +463,11 @@ void TScene::load_current_floor() {
     if (scene_material_root != NULL && scene_material_root->texlist != NULL) {
         found = 0;
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            TLobby::replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
+            replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
             found = get_resource_file_size(path);
         }
         if (found <= 0) {
-            TLobby::replace_file_extension(path, tbl[scene_resource_index].name, ".gvm");
+            replace_file_extension(path, tbl[scene_resource_index].name, ".gvm");
         }
         bind_gvm_texture_list(path, scene_material_root->texlist);
     }
@@ -494,7 +494,7 @@ void TScene::load_scene_data(saddr name) {
     scene_collision_data = NULL;
     collision_file_buffer = NULL;
     collision_file_size_limit = 0;
-    TLobby::replace_file_extension(filename, (char *)name, "c.rel");
+    replace_file_extension(filename, (char *)name, "c.rel");
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x10000U)) {
@@ -518,7 +518,7 @@ void TScene::load_scene_data(saddr name) {
         csn->set_groups(*scene_collision_data);
         return;
     }
-    TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
+    file_debug_printf("TScene : CANNOT LOAD COLLISION DATA");
 }
 
 void TScene::load_scene_rel_file(saddr ent) {
@@ -532,11 +532,11 @@ void TScene::load_scene_rel_file(saddr ent) {
     map_rel_load_size_limit = 0;
     scene_format_index = -1;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension(id, (char *)ent, "nm.rel");
+        replace_file_extension(id, (char *)ent, "nm.rel");
         size = get_resource_file_size(id);
     }
     if (size <= 0) {
-        TLobby::replace_file_extension(id, (char *)ent, "n.rel");
+        replace_file_extension(id, (char *)ent, "n.rel");
         size = get_resource_file_size(id);
     }
     if (area == AREA_LOBBY) {
@@ -571,7 +571,7 @@ void TScene::load_supplementary_t_rel(saddr name) {
     texture_wave_resource = NULL;
     supplementary_rel_buffer = NULL;
     loaded_floor_rel_file_index = 0;
-    TLobby::replace_file_extension(id, (char *)name, "t.rel");
+    replace_file_extension(id, (char *)name, "t.rel");
     n = get_resource_file_size(id);
     if (n > 0) {
         supplementary_rel_buffer = TQuestVmDownLoadServer::alloc(n);
@@ -594,11 +594,11 @@ void TScene::load_map_texture_archive(saddr name) {
     size = 0;
     texture_animation_size_limit = 0;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension(filename, (char *)name, "m.tam");
+        replace_file_extension(filename, (char *)name, "m.tam");
         size = get_resource_file_size(filename);
     }
     if (size <= 0) {
-        TLobby::replace_file_extension(filename, (char *)name, ".tam");
+        replace_file_extension(filename, (char *)name, ".tam");
         size = get_resource_file_size(filename);
     }
     if (area == AREA_LOBBY) {
@@ -626,9 +626,9 @@ void TScene::load_floor_bin_file(saddr name) {
     floor_bin_buffer = NULL;
     floor_bin_file_size = 0;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension(filename, (char *)name, "bm.bin");
+        replace_file_extension(filename, (char *)name, "bm.bin");
     } else {
-        TLobby::replace_file_extension(filename, (char *)name, "b.bin");
+        replace_file_extension(filename, (char *)name, "b.bin");
     }
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
@@ -656,7 +656,7 @@ void TScene::load_file_to_buffer(saddr name) {
 
     material_info_buffer = NULL;
     scene_file_buffer_size = 0;
-    TLobby::replace_file_extension(filename, (char *)name, "i.bin");
+    replace_file_extension(filename, (char *)name, "i.bin");
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
@@ -745,11 +745,11 @@ void load_floor_scene(void) {
     if (scene_material_root != NULL && scene_material_root->texlist != NULL) {
         found = 0;
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            TLobby::replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
+            replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
             found = get_resource_file_size(path);
         }
         if (found <= 0) {
-            TLobby::replace_file_extension(path, tbl[scene_resource_index].name, ".gvm");
+            replace_file_extension(path, tbl[scene_resource_index].name, ".gvm");
         }
         bind_gvm_texture_list(path, scene_material_root->texlist);
     }
@@ -768,7 +768,7 @@ void load_floor_scene(void) {
 
 void load_scene_collision_file(saddr name) {
     char filename[0x20];
-    TLobby::replace_file_extension(filename, (char *)name, "c.rel");
+    replace_file_extension(filename, (char *)name, "c.rel");
     if (get_resource_file_size(filename) <= collision_file_size_limit) {
         if (collision_file_buffer != NULL) {
             scene_collision_data = (CsnGroup **)load_relocatable_file(filename, collision_file_buffer);
@@ -777,7 +777,7 @@ void load_scene_collision_file(saddr name) {
                 csn->set_groups(*scene_collision_data);
                 return;
             }
-            TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
+            file_debug_printf("TScene : CANNOT LOAD COLLISION DATA");
             return;
         }
         scene_collision_data = NULL;
@@ -789,7 +789,7 @@ void load_scene_map_file(saddr name) {
     SceneNameIndex *e;
     scene_material_root = NULL;
     scene_format_index = -1;
-    TLobby::replace_file_extension(id, (char *)name, "n.rel");
+    replace_file_extension(id, (char *)name, "n.rel");
     if (get_resource_file_size(id) <= map_rel_load_size_limit && map_rel_load_buffer != NULL) {
         scene_material_root = (SceneMaterialRoot *)load_relocatable_file(id, map_rel_load_buffer);
     }
@@ -805,7 +805,7 @@ void load_scene_map_file(saddr name) {
 
 void TScene::load_tam_file(saddr name) {
     char filename[0x20];
-    TLobby::replace_file_extension(filename, (char *)name, ".tam");
+    replace_file_extension(filename, (char *)name, ".tam");
     if (get_resource_file_size(filename) <= texture_animation_size_limit) {
         if (texture_animation_buffer != NULL) {
             read_disc_file(filename, texture_animation_buffer);
@@ -817,7 +817,7 @@ void TScene::load_tam_file(saddr name) {
 
 void TScene::load_floor_rel_file(saddr name) {
     char id[0x20];
-    TLobby::replace_file_extension(id, (char *)name, "t.rel");
+    replace_file_extension(id, (char *)name, "t.rel");
     if (get_resource_file_size(id) <= loaded_floor_rel_file_index) {
         if (supplementary_rel_buffer != NULL) {
             texture_wave_resource = (TextureWaveEntry **)load_relocatable_file(id, supplementary_rel_buffer);

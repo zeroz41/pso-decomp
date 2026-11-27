@@ -19,7 +19,7 @@
 
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
 #include "pso/render/render_util_tail.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 
 NJS_ARGB chunk_material_color_half_alpha_f32 = {0.5f, 0.0f, 0.0f, 0.0f};
@@ -348,10 +348,9 @@ void get_current_date_stamp(CardWriteDate *out) {
     out->weekday = now.weekday;
 }
 
-void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b) {
-    Vec *v = (Vec *)dir;
-    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(v->z, v->x));
-    *rot_b = RAD_TO_ANGLE * atan2_float(v->y, newton_sqrtf(v->z * v->z + v->x * v->x));
+void direction_to_rotation_yx(Vec *dir, s32 *rot_a, s32 *rot_b) {
+    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(dir->z, dir->x));
+    *rot_b = RAD_TO_ANGLE * atan2_float(dir->y, newton_sqrtf(dir->z * dir->z + dir->x * dir->x));
 }
 
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b) {
@@ -360,10 +359,9 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b) {
     *rot_a = RAD_TO_ANGLE * atan2_float(v->z, newton_sqrtf(v->x * v->x + v->y * v->y));
 }
 
-void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b) {
-    Vec *v = (Vec *)dir;
-    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(v->y, v->z));
-    *rot_b = RAD_TO_ANGLE * atan2_float(v->x, newton_sqrtf(v->y * v->y + v->z * v->z));
+void direction_to_rotation_xy(Vec *dir, s32 *rot_a, s32 *rot_b) {
+    *rot_a = -(s32)(RAD_TO_ANGLE * atan2_float(dir->y, dir->z));
+    *rot_b = RAD_TO_ANGLE * atan2_float(dir->x, newton_sqrtf(dir->y * dir->y + dir->z * dir->z));
 }
 
 s32 approach_angle_adaptive(s32 from, s32 to) {
@@ -405,12 +403,10 @@ void vsub(const Vec *a, const Vec *b, Vec *out) {
     out->z = b->z - a->z;
 }
 
-f32 vec_distance_squared(u8 *a, u8 *b) {
-    Vec *va = (Vec *)a;
-    Vec *vb = (Vec *)b;
-    f32 dx = vb->x - va->x;
-    f32 dz = vb->z - va->z;
-    return dz * dz + (dx * dx + (vb->y - va->y) * (vb->y - va->y));
+f32 vec_distance_squared(Vec *a, Vec *b) {
+    f32 dx = b->x - a->x;
+    f32 dz = b->z - a->z;
+    return dz * dz + (dx * dx + (b->y - a->y) * (b->y - a->y));
 }
 
 // The original pools +1e-5f before -1e-5f although it loads -1e-5f first, which no source

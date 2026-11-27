@@ -1,23 +1,16 @@
 #include "types.h"
+#include "pso/object/base/TObjCharaData.h"
 
-// TObjChara's constants (doubles, MESETA/MISS, angle scale); TObjChara.cpp declares them extern.
+// TObjChara's constants (doubles, MESETA/MISS, angle scale).
 
-__declspec(section ".rodata") extern const u32 accuracy_distance_penalty_scale[2] = {
-    0x3F847AE1, 0x47AE147B,
-};
+__declspec(section ".rodata") const f64 accuracy_distance_penalty_scale = 0.01;
 
-__declspec(section ".rodata") extern const u32 newton_sqrt_half[2] = {
-    0x3FE00000, 0x00000000,
-};
+__declspec(section ".rodata") const f64 newton_sqrt_half = 0.5;
 
-__declspec(section ".rodata") extern const u32 newton_sqrt_three[2] = {
-    0x40080000, 0x00000000,
-};
+__declspec(section ".rodata") const f64 newton_sqrt_three = 3.0;
 
-__declspec(section ".rodata") extern const char meseta_label_text[7] ATTRIBUTE_ALIGN(4) = "MESETA";
+__declspec(section ".rodata") const char meseta_label_text[7] ATTRIBUTE_ALIGN(4) = "MESETA";
 
-__declspec(section ".rodata") extern const char miss_label_text[5] ATTRIBUTE_ALIGN(4) = "MISS";
+__declspec(section ".rodata") const char miss_label_text[5] ATTRIBUTE_ALIGN(4) = "MISS";
 
-__declspec(section ".rodata") extern const u32 angle_units_per_radian[2] = {
-    0x40C45F30, 0xB21788BB,
-};
+__declspec(section ".rodata") const f64 angle_units_per_radian = 10430.38043493439;

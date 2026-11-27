@@ -169,6 +169,7 @@
 #include "pso/object/ambient/TButterfly.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerAbeEnemy.h"
+#include "pso/object/container/TObjContainerAbeItem.h"
 #include "pso/object/TObjTank.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/object/collision/TObjRaderHideCol.h"
@@ -245,7 +246,7 @@
 #include "pso/object/TObjJungleBird.h"
 #include "pso/object/TObjJungleEbi.h"
 #include "pso/object/TObjLobbyPigeon.h"
-#include "pso/unk/text_802F0F04.h"
+#include "pso/object/warp/Boss7TunnelAreaWarp.h"
 #include "pso/object/city/CityVerticalModel.h"
 extern "C" {
 }
@@ -339,7 +340,7 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0089, TObjTank::create, 250000.0f, 0 },
     { 0x008B, create_stage_computer, 250000.0f, 0 },
@@ -404,7 +405,7 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0089, TObjTank::create, 250000.0f, 0 },
     { 0x008B, create_stage_computer, 250000.0f, 0 },
@@ -478,7 +479,7 @@ ObjectFactoryEntry object_factories_floor_03[59] = {
     { 0x0084, TLazerFenceSw::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
     { 0x0095, TObjContainerNoItem::create, 250000.0f, 0 },
@@ -556,7 +557,7 @@ ObjectFactoryEntry object_factories_floor_04[75] = {
     { 0x0084, TLazerFenceSw::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
     { 0x0156, TOMonumentAncient02::create, 250000.0f, 0 },
@@ -629,7 +630,7 @@ ObjectFactoryEntry object_factories_floor_05[69] = {
     { 0x0084, TLazerFenceSw::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
     { 0x0095, TObjContainerNoItem::create, 250000.0f, 0 },
@@ -675,7 +676,7 @@ ObjectFactoryEntry object_factories_floor_06[64] = {
     { 0x02BA, TObjQuestCol2::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
     { 0x0016, TObjItemLight::create, 250000.0f, 0 },
@@ -743,7 +744,7 @@ ObjectFactoryEntry object_factories_floor_07[66] = {
     { 0x02BA, TObjQuestCol2::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
     { 0x0016, TObjItemLight::create, 250000.0f, 0 },
@@ -1021,7 +1022,7 @@ ObjectFactoryEntry object_factories_floors_11_12[18] = {
     { 0x0016, TObjItemLight::create, 250000.0f, 0 },
     { 0x0017, TObjRaderCol::create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
 
@@ -1045,7 +1046,7 @@ ObjectFactoryEntry object_factories_floor_13[24] = {
     { 0x0016, TObjItemLight::create, 250000.0f, 0 },
     { 0x0017, TObjRaderCol::create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0130, TODoorVoShip::create, 250000.0f, 0 },
     { 0x008D, TOCapsuleAncient01::create, 250000.0f, 0 },
     { 0x0160, TObjWarpBoss03::create, 250000.0f, 0 },
@@ -1069,7 +1070,7 @@ ObjectFactoryEntry object_factories_floor_14[22] = {
     { 0x0016, TObjItemLight::create, 250000.0f, 0 },
     { 0x0017, TObjRaderCol::create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0170, TOBoss4Bird::create, 250000.0f, 0 },
     { 0x0171, TOBoss4Tower::create, 250000.0f, 0 },
     { 0x0172, TOBoss4Rock::create, 2250000.0f, 0 },
@@ -1901,7 +1902,7 @@ ObjectFactoryEntry object_factories_floor_28[62] = {
     { 0x0226, TOMekaFish01::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
     { 0x0227, TObjSeabedDolphin::create, 250000.0f, 0 },
@@ -1966,7 +1967,7 @@ ObjectFactoryEntry object_factories_floor_29[62] = {
     { 0x0226, TOMekaFish01::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0091, TObjContainerEnemy::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0093, TObjContainerAbeEnemy::create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
     { 0x0227, TObjSeabedDolphin::create, 250000.0f, 0 },
@@ -2034,7 +2035,7 @@ ObjectFactoryEntry object_factories_floor_31[25] = {
     { 0x0017, TObjRaderCol::create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch::create, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
-    { 0x0092, TObjContainerBase::create, 250000.0f, 0 },
+    { 0x0092, TObjContainerAbeItem::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },

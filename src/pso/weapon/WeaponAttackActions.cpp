@@ -28,7 +28,6 @@ struct NJS_OBJECT;
 #include "pso/map/FloorArea.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/item/mag/TItemMag.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -36,8 +35,8 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
 
@@ -56,14 +55,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
-#include "pso/weapon/WeaponAttackActionsTypes.h"
 
-
-// ---- pso/item/WeaponAttackActions
-
-struct Node_8011EB84 { u8 b[0x2C]; };
-
-struct Skel_8011EB84 { u8 pad[0x1C]; Node_8011EB84 n[1]; };
 
 extern "C" {
 extern const f32 weapon_float_tenth;
@@ -71,13 +63,10 @@ extern Vec weapon_light_direction[];
 extern NJS_ARGB weapon_light_color[];
 
 
-
-
 TObjChara *resolve_hittable_target(s32, s32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
 
-extern const f32 weapon_float_zero;
 
 void TItemWeapon::set_weapon_category_flags() {
     s32 r = this->get_attack_flags();
@@ -398,7 +387,7 @@ void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale)
         n = 0;
     }
     if (shot_callback != NULL && is_model_shown() == 1) {
-        shot_callback(this, origin, &pos.x, (f32)n);
+        shot_callback(this, origin, &pos, (f32)n);
     }
 }
 
@@ -482,7 +471,7 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
             }
             this->spawn_light_task();
             if ((shot_callback != NULL) && (is_model_shown() == 1)) {
-                shot_callback(this, origin, &endpoint.x, flight_frames);
+                shot_callback(this, origin, &endpoint, flight_frames);
             }
         }
     }
@@ -516,8 +505,6 @@ void TItemWeaponWindmill::for_each_target_in_range(f32 range) {
     }
 }
 
-// ---- pso/player/TObjPlayer_8011F578
-
 void TItemWeaponPartisan::apply_scale_if_active(f32 damage_scale) {
 
     if (this->is_active_in_game() != 0) {
@@ -538,7 +525,6 @@ void TItemWeapon::update_active_game_effect() {
     }
 }
 
-// ---- pso/unk/text_8011F63C
 s32 TItemWeapon::get_attack_stage() {
     if (owner != NULL) {
         if (owner->test_action_mask(0x20) != 0) {
@@ -555,8 +541,6 @@ s32 TItemWeapon::get_attack_stage() {
 }
 
 
-// ---- pso/player/TObjPlayer_8011F6C4
-
 s32 TItemWeapon::is_active_in_game() {
     u8 active = 0;
     if (owner != NULL && get_mode() == ITEM_MODE_EQUIPPED) {
@@ -564,8 +548,6 @@ s32 TItemWeapon::is_active_in_game() {
     }
     return active;
 }
-
-// ---- pso/unk/text_8011F710
 
 
 extern "C" {
@@ -676,22 +658,18 @@ void TItemWeapon::perform_action() {
     }
 }
 
-// ---- pso/player/TObjPlayer_8011FBCC
-
 void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
     draw_weapon_model();
     get_gun_point(primary);
-    draw_weapon_at_joint(this, 0x23);
+    draw_weapon_at_joint(0x23);
     get_gun_point(secondary);
 }
 
-// ---- pso/unk/text_8011FC24
-
 void TItemWeapon::update_trails() {
     if (test_weapon_flags(0x400U) != 0U) {
-        draw_weapon_at_joint(this, 0x30);
+        draw_weapon_at_joint(0x30);
         update_trail_slot(0);
-        draw_weapon_at_joint(this, 0x23);
+        draw_weapon_at_joint(0x23);
         update_trail_slot(1);
         return;
     }
@@ -712,8 +690,8 @@ void TItemWeapon::render_equipped_shadow() {
     if (((uaddr) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U) && (test_weapon_flags(0x1000U) == 0U)) {
         this->draw_held_model();
         if (test_weapon_flags(0x400U) != 0U) {
-            draw_weapon_at_joint(this, 0x30);
-            draw_weapon_at_joint(this, 0x23);
+            draw_weapon_at_joint(0x30);
+            draw_weapon_at_joint(0x23);
             return;
         }
         if (test_weapon_flags(1U) == 0U) {
@@ -806,16 +784,11 @@ void TItemWeapon::update_owned() {
 
 void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
-// ---- pso/unk/text_80120150
-
 
 extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;
 __declspec(section ".data") s16 weapon_node_ids[4];
 u8* weapon_render_callback_object;
-extern "C" {
-extern const u8 weapon_unidentified_flag;
-}
 
 void apply_weapon_node_material(NJS_OBJECT *) {
     const s32 node = get_model_node_counter();
@@ -896,7 +869,7 @@ void TItemWeapon::write_item_data(TItemData *data) {
     u8 t;
     s32 ok;
     for (i = 0, off = 0; i != 3; i++, off += 2) {
-        ((TObjPlayer *)(data->data1.data_u8 + 6 + off))->copy_entry_bytes(&attributes[off]);
+        ((WeaponAttribute *)(data->data1.data_u8 + 6 + off))->copy((WeaponAttribute *)&attributes[off]);
     }
     ok = 1;
     data->data1.data_u8[3] = grind;
@@ -914,8 +887,6 @@ void TItemWeapon::write_item_data(TItemData *data) {
     }
 }
 
-// ---- pso/player/TObjPlayer_80120500
-
 void TItemWeapon::remove_owner_bonuses() {
     s32 i;
     WeaponAttribute *attribute_entry;
@@ -930,7 +901,6 @@ void TItemWeapon::remove_owner_bonuses() {
         attribute_entry->percent = 0;
     } while (i != 3);
 }
-
 
 
 extern "C" {
@@ -950,7 +920,7 @@ void TItemWeapon::apply_owner_bonuses() {
     apply_model_params();
     if (!(this->parameters->flags & 8)) {
         for (i = 0; i != 3; i++) {
-            owner->set_attribute_entry(i, &this->attributes[i * 2]);
+            owner->set_attribute_entry(i, (WeaponAttribute *)&this->attributes[i * 2]);
         }
     }
 }
@@ -978,8 +948,6 @@ void TItemWeapon::on_equip() {
     on_equipped();
     clear_weapon_flags(0x03000000);
 }
-
-// ---- pso/player/TObjPlayer_801207E8
 
 
 s32 TItemWeapon::get_joint_position(s32 joint, Vec *out) {

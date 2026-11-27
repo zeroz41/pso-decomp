@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -23,12 +22,10 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/render/GinjaView.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // Built with -inline off,deferred: functions are written last to first.
-
-extern "C" {
-void *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void (*)(TMovie *), s32, s32, s32);
-}
 
 s32 ending_sequence_active;
 s32 ending_movie_active_flag;
@@ -41,8 +38,8 @@ void start_ending_sequence(void) {
     set_queued_main_phase(2);
     set_fallback_main_phase(2);
     TAdEndText::load_ending_font();
-    TLobby::update_keyboard_menu();
-    TLobby::set_ending_callback();
+    update_keyboard_menu();
+    set_ending_callback();
     new TEndingMovie;
     render_tick();
 }
@@ -65,25 +62,18 @@ void TKeyBoardControl::run_main_frame() {
     render_tick();
 }
 
-void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
+void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); free_ending_callback(); free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 
 TEndingMovie::TEndingMovie() : TObject(tl_04) {
-    void *p;
     ending_movie_active_flag = 0;
     switch (game_difficulty_selection) {
     case 0:
     case 1:
     case 2:
-        p = TObject::operator new(0x4C);
-        if (p != 0) {
-            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 1, 0);
-        }
+        new TMovie(tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 1, 0);
         break;
     case 3:
-        p = TObject::operator new(0x4C);
-        if (p != 0) {
-            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(p, tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 0, 0);
-        }
+        new TMovie(tl_00, "ending_normal.sfd", TEndingMovie::finish_movie, 0, 0, 0);
         break;
     }
 }
@@ -154,7 +144,7 @@ void TItemWeaponSBerillsHands::draw_held_model() {
     NJS_OBJECT *model = item_model;
     draw_weapon_model();
     item_model = second_model;
-    draw_weapon_at_joint(this, 0x23);
+    draw_weapon_at_joint(0x23);
     item_model = model;
 }
 

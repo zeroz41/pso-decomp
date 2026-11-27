@@ -10,7 +10,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 
 // Eye offsets from the followed player; update_follow_settings uses the first.

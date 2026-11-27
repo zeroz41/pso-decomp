@@ -1,10 +1,12 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/network/ChallengePackets.h"
+#include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/network/TLobby.h"
+#include "pso/object/TObjChallengeRetry.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
+#include "pso/object/TObjChallengeRetry.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 
@@ -12,18 +14,11 @@
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
-#include "pso/network/ChallengePackets.h"
+#include "pso/quest/challenge/ChallengeCommands.h"
 
 
 
-void build_6x8A_packet(u8 *packet);
-void build_6x95_packet(u8 *packet);
-void build_6x97_packet(u8 *packet);
-void build_6x9D_packet(u8 *packet);
 void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
-extern "C" {
-void bswap_client_id_packet(void *player);
-}
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
     if (is_challenge_mode() == 0) {
@@ -51,13 +46,13 @@ void send_challenge_dead_flag(s32 index) {
     send_challenge_dead_flag_packet((G_SetChallengeDeadFlag_6x9D *)&stack);
 }
 
-void TLobby::send_challenge_retry_cmd(s32 choice) {
+void send_challenge_retry_cmd(s32 choice) {
     G_SelectChallengeModeFailureOption_6x97 packet;
     if (is_challenge_mode() != 0) {
         build_6x97_packet((u8 *)&packet);
         packet.is_retry = choice;
         packet.client_id = local_client_id;
-        ((TLobby *)(&packet))->send_and_handle_60_wrapper();
+        send_and_handle_60_wrapper(&packet);
     }
 }
 
@@ -81,7 +76,7 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
     if (is_challenge_mode() == 0) {
         return;
     }
-    ((TLobby *)command)->byteswap_challenge_time_packet();
+    command->bswap();
     t = command->time;
     idx = command->client_id;
     r = decode_challenge_time(t);
@@ -95,18 +90,18 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
 }
 
 void send_challenge_time(s32 clear_time) {
-    SendChallengeTimeStack stack;
-    build_6x95_packet((u8 *)&stack.header);
-    stack.time = encode_challenge_time(clear_time);
-    stack.client_id = local_client_id;
-    ((TLobby *)(&stack.header))->send_state();
+    G_SetChallengeTime_6x95 packet;
+    build_6x95_packet(&packet);
+    packet.time = encode_challenge_time(clear_time);
+    packet.client_id = local_client_id;
+    packet.send();
 }
 
 void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWindow_6x8A *command) {
     if (is_challenge_mode() == 0) {
         return;
     }
-    ((TLobby *)command)->byteswap_challenge_packet();
+    command->bswap();
     if (command->which < 0 || command->which >= 0x11) {
         return;
     }
@@ -115,9 +110,9 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
 
 void TLobby::send_challenge_with_value(s32 challenge, s32 window_mode) {
     G_ShowChallengeTimeRecordsWindow_6x8A packet;
-    build_6x8A_packet((u8 *)&packet);
+    build_6x8A_packet(&packet);
     packet.which = window_mode;
-    ((TLobby *)(&packet))->send_challenge_packet();
+    packet.send();
 }
 
 void handle_6x7C_set_challenge_records(G_SetChallengeRecords_V3_6x7C *command) {

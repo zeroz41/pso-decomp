@@ -9,7 +9,7 @@ struct TObjPlayer;
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TObjEnemyColorFade.h"
 
-// gibbles_ai_parameters, TLobby::dispatch_shared_handler_a(0x3D) (names inferred)
+// gibbles_ai_parameters, dispatch_shared_handler_a(0x3D) (names inferred)
 struct GibblesAiParams {
     f32 pad_00;
     f32 attack_recovery;  // frames it rests after the three-hit attack

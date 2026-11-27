@@ -20,4 +20,8 @@ struct TTecReverser : public TTecCircle {
 };
 
 LAYOUT_ASSERT(TTecReverser_size, sizeof(TTecReverser) == 0x148);
+
+// A particle emitter of the revival effect: it starts after `delay` frames, `count` times.
+struct RevivalEmitter { s32 delay; s32 count; s32 id; s32 pad; };
+
 #endif

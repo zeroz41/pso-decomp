@@ -1,5 +1,5 @@
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -7,7 +7,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
@@ -28,6 +28,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/network/TLobby.h"
 #include "pso/item/TItem.h"
+#include "pso/enemy/BattleParamTables.h"
 
 Vec epsilon_zero_vector;
 u8 *epsilon_guard_part_color_table[9];
@@ -64,14 +65,14 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_bml_resource = new BmlResource(1, &epsilon_guard_resource_descriptor, 0, 0, NULL);
     epsilon_body_breakup_model = new TBreakUpMdlData(get_bml_model(epsilon_bml_resource, 5));
     epsilon_guard_breakup_model = new TBreakUpMdlData(get_bml_model(epsilon_bml_resource, 6));
-    epsilon_body_boss_stat_handle = TLobby::register_boss(0x23);
-    epsilon_body_shared_handler_b = TLobby::dispatch_shared_handler_b(0x23);
-    epsilon_body_registered_object_handle = TLobby::register_object(0x23);
-    epsilon_body_shared_params = (EpsilonBodySharedParams *)TLobby::dispatch_shared_handler_a(0x23);
-    epsilon_guard_boss_stat_handle = TLobby::register_boss(0x24);
-    epsilon_guard_shared_handler_b = TLobby::dispatch_shared_handler_b(0x24);
-    epsilon_guard_registered_object_handle = TLobby::register_object(0x24);
-    epsilon_guard_movement_params = (TObjEneEpsilonGuardParams *)TLobby::dispatch_shared_handler_a(0x24);
+    epsilon_body_boss_stat_handle = register_boss(0x23);
+    epsilon_body_shared_handler_b = dispatch_shared_handler_b(0x23);
+    epsilon_body_registered_object_handle = register_object(0x23);
+    epsilon_body_shared_params = (EpsilonBodySharedParams *)dispatch_shared_handler_a(0x23);
+    epsilon_guard_boss_stat_handle = register_boss(0x24);
+    epsilon_guard_shared_handler_b = dispatch_shared_handler_b(0x24);
+    epsilon_guard_registered_object_handle = register_object(0x24);
+    epsilon_guard_movement_params = (TObjEneEpsilonGuardParams *)dispatch_shared_handler_a(0x24);
     epsilon_guard_part_color_table[0] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->model)->polygon_list;
     epsilon_guard_part_color_table[1] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->model)->polygon_list;
     epsilon_guard_part_color_table[2] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->child->model)->polygon_list;

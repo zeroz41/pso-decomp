@@ -4,22 +4,18 @@
 #include "pso/player/GuildCardEntry.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 
-extern "C" {
-s32 update_matching_card_slot(s32, s32, s32);
-}
-
 s32 TWindowSubComCard::init_card() {
     return has_free_card_slot(reinterpret_cast<GuildCardEntry *>(TWindowSubComCard::get_card_slot(0)), 0x1C);
 }
 
 void TWindowSubComCard::remove_entry(s32 index) {
     s32 tmp = TWindowSubComCard::get_card_slot(0);
-    TWindowGetComCard::remove_entry(index, reinterpret_cast<GuildCardEntry *>(tmp), 0x1C);
+    remove_guild_card_entry(index, reinterpret_cast<GuildCardEntry *>(tmp), 0x1C);
 }
 
 s32 TWindowSubComCard::scroll_list(s32 ply_guild_card_tag) {
     s32 tmp = TWindowSubComCard::get_card_slot(0);
-    return update_matching_card_slot(ply_guild_card_tag, tmp, 0x1C);
+    return update_matching_card_slot(reinterpret_cast<GuildCardSlotBase *>(ply_guild_card_tag), reinterpret_cast<GuildCardSlotBase *>(tmp), 0x1C);
 }
 
 void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {

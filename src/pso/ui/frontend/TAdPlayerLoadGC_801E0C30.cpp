@@ -17,8 +17,6 @@
 
 #pragma readonly_strings on
 
-// The banner and icon image files of the save, copied whole by load_banner_files.
-struct CardBannerFileNames { const char* p[6]; };
 
 u32 card_slot_state_flags;
 s32 lbl_805D5E34;
@@ -805,7 +803,9 @@ s32 TAdPlayerLoadGC::query_memcard_capacity(s32 channel, s32) {
         return -0xFD;
     }
 }
-s32 start_memcard_format(s32 chan) {
+}
+
+s32 start_memcard_format(s32 chan, s32, s32, s32, s32) {
     if (chan >= 2) {
         card_result_code = -1;
         return -1;
@@ -844,7 +844,6 @@ s32 TAdPlayerLoadGC::delete_memcard_file(s32 chan, const char *name) {
         card_result_code = -1;
         return -1;
     }
-}
 }
 
 s32 init_memcard(s32, s32 chan, u8 *workArea, s32) {

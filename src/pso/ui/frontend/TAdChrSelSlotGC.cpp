@@ -27,9 +27,10 @@ NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 NJS_TEXLIST *chr_sel_slot_texlist_current;
 f32 char_select_slot_quad_width, char_select_slot_quad_height;
@@ -82,9 +83,9 @@ void TAdChrSelSlotGC::hide_slot_entry(s32 i) {
     visible[i + 2] = 0;
 }
 
-void TAdChrSelSlotGC::init_slot_entry(s32 slot, void *position) {
+void TAdChrSelSlotGC::init_slot_entry(s32 slot, const CharacterSlotPosition *position) {
     visible[slot + 2] = 1;
-    copy_vec2(&positions[slot + 2], position);
+    copy_vec2(&positions[slot + 2], (void *)position);
     quads[slot + 2].left = positions[slot + 2].x;
     quads[slot + 2].top = positions[slot + 2].y;
     quads[slot + 2].right = 174.0f + positions[slot + 2].x;
@@ -96,9 +97,9 @@ void TAdChrSelSlotGC::hide_slot(s32 i) {
     visible[i] = 0;
 }
 
-void TAdChrSelSlotGC::init_slot(s32 slot, void *position) {
+void TAdChrSelSlotGC::init_slot(s32 slot, const CharacterSlotPosition *position) {
     visible[slot] = 1;
-    copy_vec2(&positions[slot], position);
+    copy_vec2(&positions[slot], (void *)position);
     quads[slot].left = positions[slot].x;
     quads[slot].top = positions[slot].y;
     quads[slot].right = 174.0f + positions[slot].x;
@@ -175,7 +176,7 @@ void free_chr_sel_slot_texture() {
 struct ByteBlock_14 { saddr v[5]; };
 
 void load_chr_sel_slot_texture() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     ByteBlock_14 a = *(const ByteBlock_14 *)chr_sel_slot_resource_name_table;
     ByteBlock_14 b = *(const ByteBlock_14 *)chr_sel_slot_texlist_table;
     NJS_TEXLIST *list = (NJS_TEXLIST *)b.v[current_language];

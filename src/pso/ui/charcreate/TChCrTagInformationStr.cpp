@@ -5,7 +5,7 @@
 #include "pso/render/render_util.h"
 #include "pso/math/TMath.h"
 #include "pso/ui/MenuText.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/task/TObject.h"
 
 const char *TChCrTagInformationStr::class_name = "TChCrTagInformationStr";

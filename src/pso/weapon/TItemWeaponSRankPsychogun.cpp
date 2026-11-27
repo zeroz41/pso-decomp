@@ -24,7 +24,7 @@ TItemWeaponSRankPsychogun::~TItemWeaponSRankPsychogun() {}
 
 TItemWeaponSRankPsychogun::TItemWeaponSRankPsychogun(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(547);
-    shot_callback = (WeaponShotCallback)create_gun_shot;
+    shot_callback = create_gun_shot;
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 

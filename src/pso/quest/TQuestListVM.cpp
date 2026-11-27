@@ -28,11 +28,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/BmlResource.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-
-// A window's width and height.
-struct WindowSize {
-    f32 dimensions[2];
-};
+#include "pso/quest/QuestActiveFlag.h"
 
 extern const char quest_file_prefix[] = "PSO______0";
 extern const char quest_file_99_name[] = "PSO______099";
@@ -412,7 +408,7 @@ void TQuestListVM::build_download_list() {
         }
         if (description_window == NULL) {
             WindowSize size = description_window_size;
-            description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = TWindowMessage::create(get_window_layout_position(0x2D), size.dimensions, 1);
             description_window->append_line(entries[0].description, 0x80);
             described_entry = 0;
         }
@@ -708,7 +704,7 @@ void TQuestListVM::load_vm() {
 }
 
 void TQuestListVM::set_enemy_mode_3(TObject *) {
-    TLobby::set_enemy_mode_flag();
+    set_enemy_mode_flag();
     evt2_random_enemies_mode = 3;
     set_keyboard_input_flag();
 }

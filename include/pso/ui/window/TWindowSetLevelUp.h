@@ -9,7 +9,7 @@
 // ("HP +n", "TP +n", "<stat> +n") that is above zero.
 class TWindowSetLevelUp : public TObject {
 public:
-    TWindowSetLevelUp(TObject *parent, saddr stats, s32 client);
+    TWindowSetLevelUp(TObject *parent, const PlayerLevelStats *stats, s32 client);
     virtual ~TWindowSetLevelUp();
     void update_stat_messages();
     virtual void run_task();
@@ -26,5 +26,8 @@ public:
 };
 
 LAYOUT_ASSERT(TWindowSetLevelUp_size, sizeof(TWindowSetLevelUp) == 0x40);
+
+// The shown stats copy as one 0x16-byte block, then HP and TP.
+struct ByteBlock_16 { u8 bytes[0x16]; };
 
 #endif

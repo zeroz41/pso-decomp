@@ -1,12 +1,11 @@
 #include "types.h"
-#include "pso/unk/text_803D619C.h"
+#include "pso/math/BinomialCoefficient.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/effect/TDuelEffectString.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/math/CurvePathPoint.h"
 
-extern "C" {
 s32 compute_bezier_curve_point(CurvePathPoint *e, f32 scale, s32 n, s32 step, s32 closed, Vec *out, s32) {
     f32 sum;
     f32 total;
@@ -33,7 +32,6 @@ s32 compute_bezier_curve_point(CurvePathPoint *e, f32 scale, s32 n, s32 step, s3
         return 1;
     }
     return TBoss8Dragon::eval_bezier_curve(e, n, closed, out, ratio);
-}
 }
 
 #pragma push
@@ -86,8 +84,6 @@ s32 TBoss8Dragon::eval_bezier_curve(CurvePathPoint *pts, int count, int closed, 
     return 0;
 }
 #pragma pop
-
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -152,6 +148,5 @@ s32 get_vector_from_path(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 clo
     out->y = d.y * pos + a.y;
     out->z = d.z * pos + a.z;
     return 0;
-}
 }
 #pragma pop

@@ -3,13 +3,13 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/network/client_id.h"
 
 
@@ -20,31 +20,31 @@ const char *TWindowMessagePage::class_name = "TWindowMessagePage";
 
 
 s32 TWindowMessagePage::is_ready() {
-    if ((u32) this->page_text != 0U) {
+    if (this->page_text != NULL) {
         return 0;
     }
     return is_message_window_ready() != 0 ? 1 : 0;
 }
 
 void TWindowMessagePage::update_message() {
-    if ((u32) this->page_text != 0U) {
+    if (this->page_text != NULL) {
         text_builder_reset();
-        this->page_text = (uaddr)((TWindowSubStatusDisp *)this->page_text)->copy_message_page_text();
+        this->page_text = copy_message_page_text(this->page_text);
         append_line(get_shared_text_buffer(), this->line_mode);
     }
 }
 
 void TWindowMessagePage::set_message(void *msg, s32 flags) {
-    while (page_text != 0) {
+    while (page_text != NULL) {
         update_message();
     }
     line_mode = flags | 2;
-    page_text = (uaddr)msg;
+    page_text = (const s8 *)msg;
     update_message();
 }
 
 u8 *TWindowMessagePage::create(const NJS_POINT2 *position, const NJS_POINT2 *extent, saddr rows, s32 client) {
-    set_message_window_size((void *)extent, (u32)rows);
+    set_message_window_size(extent, (u32)rows);
     return (u8 *)new TWindowMessagePage(position, rows, client);
 }
 
@@ -73,5 +73,5 @@ TWindowMessagePage::TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32
     this->m_name = TWindowMessagePage::class_name;
     this->line_mode = 0;
     this->client_index = (s16) client;
-    this->page_text = 0;
+    this->page_text = NULL;
 }

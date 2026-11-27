@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/system/memory.h"
@@ -22,14 +23,16 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "types.h"
+#include "pso/camera/CameraAngles.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/vector.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 
 #include "pso/object/base/TObjMotion.h"
@@ -66,13 +69,14 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -210,9 +214,9 @@ f32 TBoss6PlotFalz::fade_amount = -1.0f;
 // warp_nearby_players carries players within 150 of warp_origin to the same offset from the
 // arena center; place_players_in_warp_circle rings them around warp_circle_center; the default
 // targets are what get_target_pos_b/_a return while Type1/Type2 is gone.
-const Vec boss6_plot_falz_arena_center = { -10000.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") static Vec boss6_plot_falz_arena_center = { -10000.0f, 0.0f, 0.0f };
 const Vec boss6_plot_falz_warp_circle_center = { -10000.0f, 10.0f, 0.0f };
-const Vec boss6_plot_falz_warp_origin = { 0.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") static Vec boss6_plot_falz_warp_origin = { 0.0f, 0.0f, 0.0f };
 const Vec boss6_plot_falz_type1_default_target = { 0.0f, 0.0f, 0.0f };
 const Vec boss6_plot_falz_type2_default_target = { -10000.0f, 0.0f, 0.0f };
 
@@ -418,7 +422,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
             VecCopy(&body_center, &saved);
         }
     }
-    TBoss6PlotFalzStateRecord record;
+    EnemyStateRecord record;
     record.flags = 0x800;
     send_6x0A_enemy_state(&record);
     exchange_object_state(&record, 0);
@@ -576,8 +580,6 @@ void TBoss6PlotFalz::queue_instance_destruction() {
 }
 
 
-extern "C" f32 xyz_distance(const void *, const void *);
-
 void TBoss6PlotFalz::release_object() { if (tube != NULL) { tube->queue_destruction(); tube = NULL; } }
 
 s32 TBoss6PlotFalz::get_target_pos_a(Vec *position) {
@@ -646,18 +648,18 @@ void TBoss6PlotFalz::restore_fade_material_color() {
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
 }
-void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range) {
+void TBoss6PlotFalz::apply_radial_effect_to_players(Vec *pos, s16 amount, s16 kind, f32 range) {
     s32 n;
     s32 i;
-    saddr p;
+    TObjPlayer *p;
     f32 d;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (saddr)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0 && ((TObjChara *)p)->is_locally_controlled() != 0) {
-            d = xyz_distance((void *)(p + 0x38), pos);
+        p = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_state_1f(p) != 0 && p->is_locally_controlled() != 0) {
+            d = xyz_distance(&p->position, pos);
             if (!(d >= range)) {
-                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((TObjBase *)(p))->get_entity_id());
+                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)p->get_entity_id());
             }
         }
     }
@@ -845,7 +847,7 @@ void place_players_in_warp_circle(void) {
             pos.z += 350.0f * cos_table_lookup(ang);
             p->set_position_from(&pos);
             p->save_previous_position();
-            *(s32 *)((u8 *)p->get_rotation() + 4) = ang + 0x8000;
+            p->get_rotation()->yaw = ang + 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -958,7 +960,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
         break;
     }
     if (this->is_ending_or_split_screen() == 0) {
-        TLobby::stop_audio_streams();
+        stop_audio_streams();
         if (state_index == 7) {
             play_area_music("HALL.adx");
         }
@@ -979,7 +981,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 #pragma push
 #pragma opt_common_subs off
 TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    TBoss6PlotFalzStateRecord record;
+    EnemyStateRecord record;
     player_stats *base_params;
     AttackParams *attack_params;
     ActorParamBlock *resistance_params;
@@ -992,7 +994,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     set_entry.kind = 0;
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
@@ -1001,9 +1003,9 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    base_params = TLobby::register_boss(0x2C);
-    attack_params = TLobby::dispatch_shared_handler_b(0x2C);
-    resistance_params = TLobby::register_object(0x2C);
+    base_params = register_boss(0x2C);
+    attack_params = dispatch_shared_handler_b(0x2C);
+    resistance_params = register_object(0x2C);
     bind_enemy_combat_stats(base_params, attack_params, resistance_params);
     register_entity_by_id(this);
     actorFlags = (s32) (actorFlags | 0x02000000);

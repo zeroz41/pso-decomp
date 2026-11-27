@@ -8,7 +8,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -17,14 +17,12 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include <string.h>
 
 extern "C" {
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
-extern SubtractiveRng chr_select_rng_state;
 extern s32 chr_select_serial_seeds[];
-extern char memory_card_character_dir_name[];
-extern s32 memcard_access_active;
 }
 s32 TWindowKeyBoardHard::is_card_flag_set(s32 client_id) { return test_card_flag(client_id, 1); }
 void draw_ginja_box_tree(NJS_OBJECT *node) {

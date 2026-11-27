@@ -11,7 +11,7 @@ __declspec(section ".data") NJS_TEXLIST multi_confirm_texture_descriptor = { mul
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 NJS_TEXLIST *multi_confirm_texture_list;
 

@@ -7,7 +7,7 @@
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -15,7 +15,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -164,8 +164,7 @@ TBoss6Demo10_TYPE1_APPEAR *TBoss6Demo10_TYPE1_APPEAR::create(TBoss6PlotFalz *plo
     return new TBoss6Demo10_TYPE1_APPEAR(plot);
 }
 
-extern const char boss6_type1_appear_class_name[];
-__declspec(section ".rodata") const char boss6_type1_appear_class_name[] ATTRIBUTE_ALIGN(4) = "TBoss6Demo10_TYPE1_APPEAR";
+__declspec(section ".rodata") extern const char boss6_type1_appear_class_name[] ATTRIBUTE_ALIGN(4) = "TBoss6Demo10_TYPE1_APPEAR";
 __declspec(section ".rodata") Vec boss6_type1_appear_origin = {0.0f, 25.0f, 75.0f};
 __declspec(section ".rodata") ModelNodePositionEntry boss6_type1_appear_node_desc[] = {{0}, {-1}};
 __declspec(section ".rodata") Boss6StripDesc boss6_type1_appear_model_node_descriptors[] = {{3, 1, 0}, {6, 1, 0}};

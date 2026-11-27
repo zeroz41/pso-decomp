@@ -25,7 +25,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     virtual void run_task();
     Vec trail_position;
     BmlResource *model_archive;  // get_instance(); its texlist and bml models
-    u32 state;  // index into the {enter, update} state table; set_state
+    s32 state;  // index into the {enter, update} state table; set_state
     SlimeAnimationState *animation;
     CollisionBody *collision_body_parts;  // init_collision_body_parts / free_collision_body_parts
     s32 state_timer;  // set_random_timer, counted down by the states
@@ -109,4 +109,8 @@ LAYOUT_ASSERT(SlimeOneEffectTimerOffset, offsetof(TObjEneSlimeOne, effect_timer)
 LAYOUT_ASSERT(SlimeOneAttackPositionOffset, offsetof(TObjEneSlimeOne, attack_position) == 0x3D0);
 LAYOUT_ASSERT(SlimeOneVariantOffset, offsetof(TObjEneSlimeOne, variant) == 0x3F4);
 LAYOUT_ASSERT(TObjEneSlimeOne_size, sizeof(TObjEneSlimeOne) == 0x3F8);
+
+// State table entry of TObjEneSlimeOne: {enter, update} per state.
+typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
+struct SlimeOneState { SlimeOneStateFn enter; SlimeOneStateFn update; };
 #endif

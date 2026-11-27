@@ -11,8 +11,7 @@ TItemEffLavis::TItemEffLavis(void* owner, const Vec* start,
     m_name = class_name;
 }
 
-TItemEffLavis* create_lavis_shot(void* owner, const Vec* start,
-                              const Vec* endpoint, f32 life) {
+TItemShoot *create_lavis_shot(TItemWeapon *owner, const Vec *start, const Vec *endpoint, f32 life) {
     TItemEffLavis* result = 0;
     if (0.0f != life && owner != 0) {
         result = new TItemEffLavis(owner, start, endpoint, life);

@@ -15,17 +15,18 @@ struct NJS_OBJECT;
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/TBoss3VoloptSweepLine.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
@@ -50,14 +51,10 @@ player_stats *epsilon_body_boss_stat_handle;
 AttackParams *epsilon_body_shared_handler_b;
 ActorParamBlock *epsilon_body_registered_object_handle;
 EpsilonBodySharedParams *epsilon_body_shared_params;
-extern "C" {
-void draw_line_list(VoloptLineList *, s32, u32);
-}
 s32 epsilon_guard_camera_sample_phase;
 s32 *epsilon_guard_angle_sample_write_ptr;
 Vec *epsilon_guard_camera_sample_read_ptr;
 Vec *epsilon_guard_camera_sample_end_ptr;
-s16 obj_getS16_118(u8 *p);
 
 Vec epsilon_body_node_origin;
 Vec epsilon_body_debug_line_points[2];
@@ -75,8 +72,8 @@ CollisionBody epsilon_body_collision_bodies[2] = {
     {{0.0f, 12.0f, 0.0f}, 12.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 12.0f, 0.0f}, 20.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-VoloptLineColor epsilon_body_debug_line_colors[2] = {{0x80, 0xFF, 0x40, 0x40}, {0x80, 0xFF, 0x40, 0x40}};
-VoloptLineList epsilon_guard_debug_line_list = {epsilon_body_debug_line_points, epsilon_body_debug_line_colors, 0, 4};
+NJS_COLOR epsilon_body_debug_line_colors[2] = {{0x80FF4040}, {0x80FF4040}};
+NJS_POINT3COL epsilon_guard_debug_line_list = {epsilon_body_debug_line_points, &epsilon_body_debug_line_colors[0].color, NULL, 4};
 
 const BreakUpParamRow epsilon_guard_destroy_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 // Body colour per color_index, copied into the guard parts.
@@ -386,7 +383,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             }
             if (target_player != 0xFFFF) {
                 TObjPlayer *player = TObjPlayer::get_player_data(target_player);
-                if (TObjPlayer::is_valid_and_active((uaddr)player) != 0) {
+                if (TObjPlayer::is_valid_and_active(player) != 0) {
                     if (check_path_obstructed(this, &player->body_center) == 1) {
                         action_timer = 0;
                         target_player = 0xFFFF;
@@ -412,7 +409,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                 target_slot++;
                 target_player = select_slot_target(target_slot);
                 if (target_player != 0xFFFF) {
-                    if (TObjPlayer::is_valid_and_active((uaddr)TObjPlayer::get_player_data(target_player)) != 0) {
+                    if (TObjPlayer::is_valid_and_active(TObjPlayer::get_player_data(target_player)) != 0) {
                         VecCopy(d, &position);
                         d->y += 10.0f;
                         if (project_actor_to_ground(this, d, 0) != 0) {
@@ -1159,7 +1156,7 @@ u32 TObjEneEpsilonBody::select_slot_target(s32 slot) {
     }
     for (id = 0; id < count; id++) {
         player = TObjPlayer::get_player_data(id);
-        if (TObjPlayer::is_valid_and_active((uaddr)player) == 0) continue;
+        if (TObjPlayer::is_valid_and_active(player) == 0) continue;
         if (player->actorFlags & 0x2000800) continue;
         VecCopy(&d, &player->body_center);
         subtract_vector(&d, &body_center);

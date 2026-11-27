@@ -9,10 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/PlayerAttackController.h"
-
-extern "C" {
-extern s32 knuckle_marker_joint_table[];
-}
+#include "pso/weapon/TItemWeaponFist.h"
 
 void TItemWeaponSRankKnuckle::on_unequipped() {
     owner->attack_state.set_evp(1.0f);

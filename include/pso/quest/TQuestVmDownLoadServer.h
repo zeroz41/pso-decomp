@@ -86,7 +86,7 @@ public:
     static s32 poll_serial_access();
     static void reset_download();
 public:
-    void encrypt_download_data(s32 size);
+    static void encrypt_download_data(u32 *data, s32 size);
     static void unshuffle_and_decrypt(void *data, s32 size);
 public:
 };
@@ -126,5 +126,13 @@ extern s32 quest_download_in_progress;
 // loaded banner/icon buffers; build_save_file_image copies 0x1800 (banner) / 0x800 (icon) bytes from them.
 extern "C" const char memcard_default_banner[];
 extern "C" const char memcard_default_icon[];
+
+struct StatusWindowPos { f32 a; f32 b; };
+
+struct DownloadWindowPos { f32 a, b; };
+
+// TMCFormatSequence: its class name and window position sit in this TU's
+// .sdata/.rodata, so it is the tail of this file (deferred: the source runs backwards from the text).
+struct FormatWindowPos { f32 a; f32 b; };
 
 #endif

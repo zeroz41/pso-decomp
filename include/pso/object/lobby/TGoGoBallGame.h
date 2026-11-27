@@ -11,7 +11,7 @@ public:
     virtual ~TGoGoBallGame();
     virtual void run_task();
     virtual void render();
-    s32 beat; // inferred: TLobby::get_internet_beat() of the last run_task
+    s32 beat; // inferred: get_internet_beat() of the last run_task
 };
 LAYOUT_ASSERT(TGoGoBallGame_size, sizeof(TGoGoBallGame) == 0x20);
 

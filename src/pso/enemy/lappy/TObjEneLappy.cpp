@@ -20,10 +20,10 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -38,7 +38,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjBase.h"
 extern "C" const char rappy_variant_na_name[3] = "NA";
 
@@ -863,7 +863,7 @@ void TObjEneLappy::run_task() {
     update_prev_position();
     VecCopy(&center, &body_center);
     if ((test_actor_flags(0x06000000) == 0) && !(lappy_flags & 4)) {
-        submit_cursor_candidate((u8 *)this, -1);
+        submit_cursor_candidate(this, -1);
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     if (lappy_flags & 0x40) {
@@ -904,6 +904,7 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 __declspec(section ".data") player_stats *lappy_boss_stats_handles[2];
@@ -988,10 +989,10 @@ void TObjEneLappy::load_resources() {
     }
     rappy_visibility_node = find_model_node(rappy_bml_resource->models[0].model, 0x12);
     for (i = 0; i < 2; i++) {
-        lappy_boss_stats_handles[i] = TLobby::register_boss(i + 0x18);
-        lappy_boss_stats_ptrs_b[i] = TLobby::dispatch_shared_handler_b(i + 0x18);
-        lappy_object_handles[i] = TLobby::register_object(i + 0x18);
-        lappy_variant_speed_ptr_table[i] = (f32 *)TLobby::dispatch_shared_handler_a(i + 0x18);
+        lappy_boss_stats_handles[i] = register_boss(i + 0x18);
+        lappy_boss_stats_ptrs_b[i] = dispatch_shared_handler_b(i + 0x18);
+        lappy_object_handles[i] = register_object(i + 0x18);
+        lappy_variant_speed_ptr_table[i] = (f32 *)dispatch_shared_handler_a(i + 0x18);
     }
     {
         BmlResource *res = rappy_bml_resource;

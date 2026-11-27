@@ -9,14 +9,14 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjEneGyaranzoMine.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TObject.h"
@@ -56,7 +56,7 @@ void TObjGyaranzoMissile::explode() {
             if (target == NULL) {
                 break;
             }
-            if (TObjPlayer::is_valid_and_active((uaddr)target) != 0) {
+            if (TObjPlayer::is_valid_and_active(target) != 0) {
                 DirectAttackPayload hit = gyaranzo_missile_explosion_attack[0];
                 hit.power = get_gyaranzo_missile_int_parameter(2);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);
@@ -96,7 +96,7 @@ void TObjGyaranzoMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
         if (csnVector(&prev_position, &position, -1) != NULL) {

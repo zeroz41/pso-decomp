@@ -26,7 +26,7 @@ struct TWindowSubInformationBoard : public TObject {
     TWindowMessage *message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
     TWindowMessageYesNo *dialog_window;
     TKeyBoardControl *keyboard;
-    TRecvInfoBoard board;  // TLobby::request_info_board copies the D8 reply here
+    TRecvInfoBoard board;  // request_info_board copies the D8 reply here
     virtual void render();
     virtual void run_task();
     static void clear_if_current(TRecvInfoBoard *board);

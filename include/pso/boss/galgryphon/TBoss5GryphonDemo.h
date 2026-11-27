@@ -5,7 +5,7 @@
 #include "types.h"
 
 // Sets the alpha of the camera-capture overlay and turns the overlay on.
-extern "C" void set_camera_capture_overlay_alpha(int alpha);
+void set_camera_capture_overlay_alpha(int alpha);
 
 class TBoss5GryphonDemo : public TObject {
 public:

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -32,10 +33,10 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/math/MatrixReflect.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 
@@ -48,7 +49,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/BoxCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
@@ -133,9 +134,10 @@ inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -233,7 +235,7 @@ u8 *copy_boss6_type1_vec(saddr dest, saddr source) {
 #pragma push
 #pragma opt_common_subs off
 TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEnemy(parent) {
-    TBoss6Type1StateRecord record;
+    EnemyStateRecord record;
     s32 i;
 
     m_name = TBoss6Type1::name;
@@ -242,7 +244,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     bml_resource = TBoss6PlotFalz::get_scene_archive();
@@ -257,7 +259,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2B), TLobby::dispatch_shared_handler_b(0x2B), TLobby::register_object(0x2B));
+    bind_enemy_combat_stats(register_boss(0x2B), dispatch_shared_handler_b(0x2B), register_object(0x2B));
     referenceHp = hp;
     register_by_id();
     set_param(0x4E);
@@ -753,7 +755,7 @@ void TBoss6Type1::draw_part_motions() {
 }
 #pragma pop
 void TBoss6Type1::load_params_from_table() {
-    const BattleMovementParams *rec = TLobby::dispatch_shared_handler_a(0x2B);
+    const BattleMovementParams *rec = dispatch_shared_handler_a(0x2B);
     this->beam_damage = (s32)rec->values.floats[0];
     if ((f32) this->beam_damage <= 0.0f) {
         this->beam_damage = (s32) TBoss6Type1::param_table[0];
@@ -798,7 +800,7 @@ void TBoss6Type1::load_params_from_table() {
     if (this->laser_fire_time <= 0) {
         this->laser_fire_time = (s32) TBoss6Type1::param_table[9];
     }
-    this->low_hp_float_time = (s32)TLobby::dispatch_shared_handler_a(0x2F)->values.floats[5];
+    this->low_hp_float_time = (s32)dispatch_shared_handler_a(0x2F)->values.floats[5];
     if ((f32) this->low_hp_float_time <= 0.0f) {
         this->low_hp_float_time = (s32) TBoss6Type1::param_table[11];
     }

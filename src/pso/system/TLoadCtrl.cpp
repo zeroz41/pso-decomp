@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/TLobby_80228154.h"
+#include "pso/player/LocalClientId.h"
+#include "pso/map/FloorTransition.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/system/TLoadCtrl.h"
@@ -106,16 +106,16 @@ void TLoadCtrl::cleanup_scene() {
     }
     switch (loading_mode) {
     case 0:
-        TLobby::release_bgm_resource();
+        release_bgm_resource();
         TNowLoading::cleanup();
         break;
     case 1:
-        TLobby::release_bgm_resource();
+        release_bgm_resource();
         TAdLoadQuestGC::cleanup();
         break;
     case 3:
     case 4:
-        TLobby::release_bgm_resource();
+        release_bgm_resource();
         TAdFloorLoadGC::cleanup();
         break;
     }

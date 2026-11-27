@@ -13,8 +13,8 @@
 #include "pso/item/item_pmt.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/item/TItemData_8010EDA8.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/item/MaterialStats.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/item/item_create.h"
@@ -70,7 +70,7 @@ saddr TObjPlayer::get_shield_pmt_entry(u8 index) {
     return (saddr)&item_pmt_tbl->technique_boosts[index * 0x18];
 }
 
-ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
+ItemCombination *find_item_combination_recipe(u8 *id, TItem *item) {
     ItemCombination *r;
     s32 n;
     ItemCombinationList *t;
@@ -82,9 +82,9 @@ ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
             if ((id[0] == r->use_item[0] || r->use_item[0] == 0xFF) &&
                 (id[1] == r->use_item[1] || r->use_item[1] == 0xFF) &&
                 (id[2] == r->use_item[2] || r->use_item[2] == 0xFF) &&
-                (r->equipped_item[0] == ((TItem *)item)->get_item_type() || r->equipped_item[0] == 0xFF) &&
-                (r->equipped_item[1] == ((TItem *)item)->get_item_group() || r->equipped_item[1] == 0xFF) &&
-                (r->equipped_item[2] == ((TItem *)item)->get_item_index() || r->equipped_item[2] == 0xFF)) {
+                (r->equipped_item[0] == item->get_item_type() || r->equipped_item[0] == 0xFF) &&
+                (r->equipped_item[1] == item->get_item_group() || r->equipped_item[1] == 0xFF) &&
+                (r->equipped_item[2] == item->get_item_index() || r->equipped_item[2] == 0xFF)) {
                 return r;
             }
             r++;
@@ -140,7 +140,7 @@ void roll_item_channel_below(u32 count, s32 channel) {
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(channel));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
+void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -148,10 +148,10 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
         normalize_drop_area(&floor_slot);
         idx = floor_slot - 1;
         floor_slot = idx;
-        item_mgr->select_enemy_drop(area, idx, (TItemData *)item);
+        item_mgr->select_enemy_drop(area, idx, item);
     }
 }
-void TObjPlayer::drop_item(s32 slot, saddr item) {
+void TObjPlayer::drop_item(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 off;
     floor_slot = slot;
@@ -159,10 +159,10 @@ void TObjPlayer::drop_item(s32 slot, saddr item) {
         normalize_drop_area(&floor_slot);
         off = floor_slot - 1;
         floor_slot = off;
-        item_mgr->select_box_item(off, (TItemData *)item);
+        item_mgr->select_box_item(off, item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
+void TObjPlayer::drop_meseta_from_slot(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -170,7 +170,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
         normalize_drop_area(&floor_slot);
         idx = floor_slot - 1;
         floor_slot = idx;
-        item_mgr->generate_drop_item(idx, (TItemData *)item);
+        item_mgr->generate_drop_item(idx, item);
     }
 }
 
@@ -256,7 +256,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
-            cls = ((TObjPlayer *)target)->class_index;
+            cls = ((TObjPlayer *)target)->appearance.classId;
             mode = 1;
         } else if (type < 0x4000) {
             cls = *(s32 *)(target + 0x370);
@@ -410,7 +410,7 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
         goto block_6;
     }
 block_6:
-    return (saddr)lbl_805D2B10;
+    return (saddr)empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
     if (item != 0) {

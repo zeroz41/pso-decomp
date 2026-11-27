@@ -20,12 +20,11 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/technique/TTecReverserTypes.h"
 
 #pragma readonly_strings on
 
 
-const char *lbl_805D3818 = "TTecReverser";
+const char *TTecReverser_class_name = "TTecReverser";
 RevivalEmitter revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
     {0x23, 1, 0x36, 0},
@@ -63,7 +62,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         return;
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active((uaddr) list->actors[i]) != 0) {
+        if (TObjPlayer::is_valid_and_active(list->actors[i]) != 0) {
             TObjChara *p = (TObjChara *) list->actors[i];
             if (p != NULL) {
                 contact = list->bodies[i];
@@ -93,7 +92,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if (TObjPlayer::is_valid_and_active((uaddr) list->actors[0]) != 0) {
+    if (TObjPlayer::is_valid_and_active(list->actors[0]) != 0) {
         TObjChara *p = (TObjChara *) list->actors[0];
         if (p != NULL) {
             contact = list->bodies[0];
@@ -103,7 +102,7 @@ void TTecShot::dispatch_technique_contact(s32) {
 }
 
 TTecReverser::TTecReverser(TObjBase *owner, Vec *origin, TargetCursorList *targets, s32 level) : TTecCircle(owner, origin, level) {
-    this->m_name = lbl_805D3818;
+    this->m_name = TTecReverser_class_name;
     this->params.copy(&technique_param_table[17]);
     this->apply_params(&this->params, level);
     copy_technique_target_list(&this->targets, targets);
@@ -133,7 +132,7 @@ void TTecReverser::run_task() {
         return;
     }
     entity = find_entity_by_id(targets.records[0].id);
-    if ((entity->is_active() == 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
+    if ((entity->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         apply_to_target((TObjChara *)entity);
     }
     queue_destruction();

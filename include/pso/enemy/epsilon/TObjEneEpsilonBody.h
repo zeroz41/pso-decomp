@@ -14,7 +14,7 @@ struct EpsilonGuardSlotValues { s32 v[4]; };
 struct EpsilonGuardSlotValues16 { s16 v[4]; };
 struct EpsilonGuardAttackPatterns { s32 v[20][4]; };
 
-// The shared table TLobby::dispatch_shared_handler_a(0x23) returns for the body.
+// The shared table dispatch_shared_handler_a(0x23) returns for the body.
 struct EpsilonBodySharedParams {
     u8 pad_00[0x4];
     f32 fire_step;            // how far the fire travels per frame toward the target (action 2)

@@ -8,7 +8,7 @@
 #include "pso/render/render_util.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjBase.h"
@@ -174,12 +174,12 @@ void TOTrap::run_task() {
 
 
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/PlayerSlots.h"
 
 

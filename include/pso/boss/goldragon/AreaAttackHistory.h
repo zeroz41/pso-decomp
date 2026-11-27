@@ -8,7 +8,7 @@ class PointerBuffer;
 class TObjChara;
 
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
-int attack_target_history_contains(void *object, void *target);
+int attack_target_history_contains(AreaAttackHistory *object, void *target);
 extern "C" {
 }
 s32 pointer_buffer_has_space(PointerBuffer *buffer);

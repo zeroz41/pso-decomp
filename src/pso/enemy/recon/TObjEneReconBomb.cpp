@@ -13,14 +13,14 @@
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
@@ -145,7 +145,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         for (i = 0; i < entity_table_count; i++) {
             pl = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->is_actor_dead() == 0) {
+            if (TObjPlayer::is_valid_and_active(pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->is_actor_dead() == 0) {
                 if (horizontal_distance_squared(&pl->body_center, &body_center) <= blast_radius * blast_radius) {
                     DirectAttackPayload attack;
                     attack.kind = 0;

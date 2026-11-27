@@ -22,8 +22,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -71,13 +71,6 @@ extern "C" {
 void set_value_by_key(void *, u16, s32);
 void load_selected_guild_card_record(ChoiceSearchResult *result);
 }
-extern "C" {
-s32 rebuild_choice_search_selections(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
-}
-extern "C" {
-
-void clear_choice_search_selections(void *);
-}
 
 
 void TWindowMenu::mark_selected_value() {
@@ -122,7 +115,7 @@ TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(pare
     this->search_options = NULL;
     this->dirty_flags = 0;
     this->selected_card = -1;
-    clear_choice_search_selections(choice_selections);
+    clear_choice_search_selections(choice_selections.entries);
     this->state = 0;
 }
 
@@ -325,7 +318,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             text = this->keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+            mask_profanity_words(text, get_shared_text_buffer());
             own_card = TWindowSubComCard::get_own_guild_card();
             own_card->set_text(get_shared_text_buffer());
             mem_free(text);
@@ -340,7 +333,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->message_window == 0U) {
             this->message_window = this->create();
-            hide_window((u8 *)this->message_window);
+            hide_window(this->message_window);
             this->shown_message = -1;
         }
         if (this->card_list == NULL) {
@@ -452,7 +445,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             text = this->keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+            mask_profanity_words(text, get_shared_text_buffer());
             ((TWindowSubComCard *)(this->selected_card))->set_card_text((saddr) (get_shared_text_buffer()));
             mem_free(text);
             this->state = 1U;
@@ -665,8 +658,8 @@ void TWindowSubComCard::run_task() {
             if (this->search_options == NULL) {
                 this->search_options = TWindowSubComCard::get_choice_search_options();
                 character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-                rebuild_choice_search_selections(choice_selections, this->search_options);
-                rebuild_choice_search_selections(character_save_record->choice_search, this->search_options);
+                rebuild_choice_search_selections(&choice_selections, this->search_options);
+                rebuild_choice_search_selections(&character_save_record->choice_search, this->search_options);
             }
             if ((u8) this->state == 0x28) {
                 this->state = 0x29U;
@@ -703,7 +696,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x2B:
         this->entry_list_window->shrink_to_selected_entry();
-        this->com_card_menu = this->create_option_list_window(choice_selections, (s32)((int) (this->entry_list_window->update_selected_entry())));
+        this->com_card_menu = this->create_option_list_window(choice_selections.entries, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x2CU;
     case 0x2C:
         if (this->com_card_menu->is_cancelled() != 0) {
@@ -711,14 +704,14 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (this->com_card_menu->is_decided() != 0) {
-            this->set_choice_search_option(choice_selections, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
+            this->set_choice_search_option(choice_selections.entries, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x29U;
             return;
         }
         break;
     case 0x2D:
         TWindowSubComCard::release();
-        send_choice_search(choice_selections);
+        send_choice_search(choice_selections.entries);
         this->state = 0x2EU;
     case 0x2E:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
@@ -805,7 +798,7 @@ void TWindowSubComCard::run_task() {
     case 0x37:
         this->entry_list_window->shrink_to_selected_entry();
         option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-        this->com_card_menu = this->create_option_list_window(option_record->choice_search, (s32)((int) (this->entry_list_window->update_selected_entry())));
+        this->com_card_menu = this->create_option_list_window(option_record->choice_search.entries, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x38U;
     case 0x38:
         if (this->com_card_menu->is_cancelled() != 0) {
@@ -814,7 +807,7 @@ void TWindowSubComCard::run_task() {
         }
         if (this->com_card_menu->is_decided() != 0) {
             chosen_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-            this->set_choice_search_option(chosen_record->choice_search, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
+            this->set_choice_search_option(chosen_record->choice_search.entries, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x35U;
             return;
         }
@@ -1143,7 +1136,7 @@ TWindowMenu *TWindowSubComCard::create_player_list_menu() {
     do {
         if (i != local_client_id && (player = get_player_by_client_id(i)) != NULL &&
             player->is_script_controlled() == 0 && player->obj_isState3_324() == 0 &&
-            (name = player->name) != NULL) {
+            (name = player->appearance.name) != NULL) {
             w->add_text_entry(name, 7, i);
         }
         i++;
@@ -1234,7 +1227,7 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     list_window->reset_entries();
     n = TLobby::get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
-        e = (GuildCardRecord *)TLobby::get_com_card_entry(i);
+        e = TLobby::get_com_card_entry(i);
         list_window->add_text_entry(e->get_sub_obj(), 7, e->get_serial());
         if (cur == e->get_serial()) {
             sel = (n - 1) - i;
@@ -1272,7 +1265,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_choice_search_window() {
     e = l->entries;
     for (i = 0; i < count; i++, e++) {
         if (e->choice.parent_choice_id == 0) {
-            w->update_next_entry(e->text, this->find_option_text(choice_selections, idx), e->choice.choice_id);
+            w->update_next_entry(e->text, this->find_option_text(choice_selections.entries, idx), e->choice.choice_id);
             idx++;
         }
     }
@@ -1305,7 +1298,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_entry_list_window() {
         if (e->choice.parent_choice_id == 0) {
             idx++;
             if (e->choice.choice_id >= 500) {
-                w->update_next_entry(e->text, this->find_option_text(card->choice_search, idx), e->choice.choice_id);
+                w->update_next_entry(e->text, this->find_option_text(card->choice_search.entries, idx), e->choice.choice_id);
                 if (hard != 0) {
                     w->disable_entry_by_id(e->choice.choice_id);
                 }
@@ -1574,7 +1567,7 @@ void TWindowSubComCard::send_short_mail() {
   u8 *message;
   text = this->keyboard->realloc_buffer();
   record = get_selected_guild_card_record();
-  TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+  mask_profanity_words(text, get_shared_text_buffer());
   buffer = (u8 *)get_shared_text_buffer();
   message = buffer;
   TLobby::send_simple_mail(record->get_id(), message);
@@ -1646,7 +1639,7 @@ void TWindowSubComCard::set_choice_search_option(ChoiceSearchSelection *selectio
 
 void TWindowSubComCard::send_state_if_dirty() {
     if (this->dirty_flags & 1) {
-        TLobby::send_card_window_state();
+        send_card_window_state();
         this->dirty_flags = (s8) (this->dirty_flags & ~1);
     }
 }

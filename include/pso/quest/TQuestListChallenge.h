@@ -27,6 +27,7 @@ struct TQuestListChallenge : public TShopWindowBase {
     void invoke_callback_and_destroy();
     void destroy();
     void state_stub();
+    static void reset_globals();
 
     void (*on_cancel)(TShopWindowBase *);
     void (*on_accept)(TShopWindowBase *);
@@ -50,11 +51,8 @@ LAYOUT_ASSERT(TQuestListChallenge_callbacks, offsetof(TQuestListChallenge, on_ca
 LAYOUT_ASSERT(TQuestListChallenge_windows, offsetof(TQuestListChallenge, confirmation) == 0x34);
 LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries) == 0x58);
 
-extern "C" {
 const char *get_selected_quest_text(void);
 void reset_globals2(void);
-void reset_globals__19TQuestListChallengeFv(void);
-}
 
 struct ChallengeWindowExtent { f32 dimensions[2]; };
 

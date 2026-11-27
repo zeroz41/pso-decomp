@@ -20,15 +20,14 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemAttackColBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecSlicer.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixOps.h"
 
@@ -113,7 +112,7 @@ TItemWeaponRikasClaw::~TItemWeaponRikasClaw() {}
 
 void TItemWeaponRikasClaw::update_attack() { add_angle_clamped(&spin_angle, -4551, 0); }
 void TItemWeaponRikasClaw::update_idle() { add_angle_clamped(&spin_angle, 1820, 13653); }
-void TItemWeaponRikasClaw::draw_held_model() { draw_weapon_at_joint(this, 49); update_trail_slot(0); update_trail_slot(1); }
+void TItemWeaponRikasClaw::draw_held_model() { draw_weapon_at_joint(49); update_trail_slot(0); update_trail_slot(1); }
 
 void TItemWeaponRikasClaw::transform_model_node() {
     switch (get_model_node_counter()) {

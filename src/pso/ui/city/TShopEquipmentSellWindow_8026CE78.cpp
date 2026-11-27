@@ -1,21 +1,22 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowQuantity.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 
 // Shows how many of the item the player carries (1 for an item that does not stack).
 void TWindowQuantity::set_entry_count(TItem *item) {
     s32 amount;
-    void *entry;
+    TWindowLayoutNumber *entry;
 
-    entry = get_array_entry(1);
+    entry = (TWindowLayoutNumber *)get_array_entry(1);
     if (item == NULL) {
-        *(s32 *)((s8 *)entry + 0x20) = 0;
+        entry->value = 0;
         return;
     }
     amount = item->get_amount();
     if (amount <= 0) {
-        *(s32 *)((s8 *)entry + 0x20) = 1;
+        entry->value = 1;
         return;
     }
-    *(s32 *)((s8 *)entry + 0x20) = amount;
+    entry->value = amount;
 }

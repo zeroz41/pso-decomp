@@ -49,4 +49,11 @@ LAYOUT_ASSERT(TTitleScene_children_offset, offsetof(TTitleScene, transition_chil
 
 s8 lobby_server_choice_stub(void);
 
+// One scene resource: load runs front to back (run_load_callback_table),
+// release back to front (call_funcs_reverse); field names inferred from those.
+struct LobbyLoadCallback {
+    void (*load)(void);
+    void (*release)(void);
+};
+
 #endif

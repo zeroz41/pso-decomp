@@ -1,7 +1,7 @@
 // TWindowDD calls TObject::queue_destruction out of line (bl to the TAdADXlogo copy).
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WordSelectMessage.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TWindowDD.h"
@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowWordSelectMode.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -1484,8 +1484,8 @@ TWindowDDValueList *ws_word_variant_lists;
 TWindowDDValueList *ws_word_form_lists;
 u8 *ws_word_form_index;
 u8 *ws_spanish_prefix_categories;
-// inferred: ws_word_strings and ws_word_string_index are words 0 and 3 of the ws_data archive (id -> string).
-// inferred: the loaded ws_data_<lang>.bin archives ws_data_load keeps per language
+// ws_word_strings and ws_word_string_index are words 0 and 3 of the ws_data archive (id -> string).
+// The loaded ws_data_<lang>.bin archives ws_data_load keeps per language
 void *ws_data_jp;
 void *ws_data_us;
 void *ws_data_es;
@@ -1679,7 +1679,7 @@ void TWindowDD::build_player_word_lists() {
     for (i = 0; i < 12; i++) {
         player = get_player_by_client_id(i);
         if (player != NULL) {
-            strncpy(player_name_buffers[i], player->name, 0x18);
+            strncpy(player_name_buffers[i], player->appearance.name, 0x18);
             if (i != local_client_id) {
                 list[n++] = i + 0x68c;
                 if (n >= 16) {
@@ -1778,7 +1778,7 @@ s32 TWindowDD::get_player_battle_flag_state(u16 client) {
 
     player = get_player_by_client_id(client);
     if (player != NULL) {
-        class_flags = player->class_flags;
+        class_flags = player->appearance.classFlags;
         if (class_flags & CLASS_FLAG_MALE) {
             return 0;
         }
@@ -2615,8 +2615,7 @@ TWindowDDValueList *TWindowDD::get_entry(s32 index) {
     return &TWindowDD::ws_data_table[index];
 }
 
-void handle_6x74_word_select(u8 *window_dd) {
-    G_WordSelect_6x74 *cmd = (G_WordSelect_6x74 *)window_dd;
+void handle_6x74_word_select(G_WordSelect_6x74 *cmd) {
     cmd->bswap_message();
     if (TWindowDD::word_select_lists != NULL) {
         if ((s32) cmd->client_id != (s32) local_client_id) {

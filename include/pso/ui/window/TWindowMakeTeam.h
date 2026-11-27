@@ -23,8 +23,8 @@ struct TWindowMakeTeam : public TObject {
     TWindowMenuInfomation *m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
     TWindowMenu *sub_menu;
     TKeyBoardControl *keyboard;
-    static const char *init_status_disp(s8 index);
-    static const char *draw_entry_0x110(s8 index);
+    static const char *get_value_label(s8 index);
+    static const char *get_mode_label(s8 index);
     s32 is_enabled();
     u8 get_mode();
     const char *get_name();

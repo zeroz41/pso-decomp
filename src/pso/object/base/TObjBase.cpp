@@ -15,12 +15,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/CameraCapture.h"
 
-// A camera-space probe point and where it lands on screen.
-struct ViewProbe {
-    f32 screen[2];
-    Vec point;
-};
-
 
 u16 next_player_id;
 u16 next_enemy_id;

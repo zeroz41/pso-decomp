@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/weapon/shoot/TItemShootWindmill.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -12,11 +12,10 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemMenuCtrl.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponYasminkov9000M.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/audio/SoundRequests.h"
@@ -43,12 +42,12 @@ TItemShootWindmill::TItemShootWindmill(void *owner, const Vec *pos, const Vec *d
     rot_x = 0;
 }
 
-saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life) {
+TItemShoot *create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootWindmill *shot = NULL;
-    if (owner != 0) {
-        shot = new TItemShootWindmill((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+    if (owner != NULL) {
+        shot = new TItemShootWindmill(owner, pos, dir, life);
     }
-    return (saddr)shot;
+    return shot;
 }
 
 void TItemWeaponWindmill::activate_effect(s32) {
@@ -126,7 +125,7 @@ TItemWeaponWindmill::~TItemWeaponWindmill() {}
 
 TItemWeaponWindmill::TItemWeaponWindmill(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(35);
-    shot_callback = (WeaponShotCallback)create_shoot_model;
+    shot_callback = create_shoot_model;
     rotation = 0;
     spin_speed = 3276;
     attack_frames = 0;

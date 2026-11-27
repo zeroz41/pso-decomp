@@ -4,27 +4,26 @@
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/boss/barbaray/TBoss7Tentacle.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
-#include "pso/boss/barbaray/Boss7TentacleData.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -32,6 +31,14 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/derolle/RandomAngle.h"
+
+// TBoss7Tentacle's and TBoss7TentacleNeedle's class names and angle tables, first in the unit's .rodata.
+// The striking tentacle's draw scale (TBoss7Tentacle::render, state 3).
+const f32 boss7_tentacle_draw_scale[3] = { 2.0f, 2.0f, 2.0f };
+const s32 TBoss7Tentacle::target_angle_table[4] = { -0x800, 0x800, -0x1300, 0x1300 };
+const s32 boss7_tentacle_angle_table[4] = { 0x1000, -0x1000, 0x1800, -0x1800 };
+const char *TBoss7Tentacle::name = "TBoss7Tentacle";
+const char *boss7_tentacle_needle_name_ptr = "TBoss7TentacleNeedle";
 
 // Unit-owned .bss banks, defined in memory order: the tentacle's working copy of its model nodes,
 // then segment_offsets and needle_offsets.
@@ -268,6 +275,9 @@ void TBoss7Tentacle::shape_strike_arc(f32 length) {
 }
 #pragma pop
 
+// The original reaches each table here by its own symbol, not off the unit's pooled .rodata base.
+#pragma push
+#pragma pool_data off
 void TBoss7Tentacle::run_task() {
     switch_state();
     switch (state) {
@@ -382,6 +392,7 @@ void TBoss7Tentacle::run_task() {
     }
     update_extend_amount();
 }
+#pragma pop
 
 void TBoss7Tentacle::switch_state() {
     s32 state = next_state;

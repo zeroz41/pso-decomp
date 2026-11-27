@@ -4,7 +4,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
 
 

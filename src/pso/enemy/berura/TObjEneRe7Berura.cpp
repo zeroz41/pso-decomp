@@ -12,11 +12,11 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
@@ -41,7 +41,7 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
@@ -54,6 +54,7 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -143,7 +144,7 @@ const NpcAnimationBinding ene_re7_berura_attack_def = { NULL, re7_berura_animati
 // the scale render hands draw_ground_shadow (name inferred)
 extern const Vec berura_shadow_scale = {2.0f, 1.0f, 2.0f};
 
-f32 lbl_805007C8[3];
+f32 re7_berura_zero_vector[3];  // zeroed by the resource loader, never read
 AttackParams *re7_berura_attack_stat_handles[2];
 TObjEneRe7BeruraPart re7_berura_detached_part_states[2];
 
@@ -171,9 +172,9 @@ void TObjEneRe7Berura::load_static_resources() {
         r = load_enemy_bml_resource(&ene_berura_bml_descriptor);
     }
     re7_berura_shared_resource = r;
-    lbl_805007C8[0] = 0.0f;
-    lbl_805007C8[1] = 0.0f;
-    lbl_805007C8[2] = 0.0f;
+    re7_berura_zero_vector[0] = 0.0f;
+    re7_berura_zero_vector[1] = 0.0f;
+    re7_berura_zero_vector[2] = 0.0f;
     re7_berura_demo_state = 0;
     berura_node_saved_render_flags = 0;
     re7_berura_demo_camera_ptr = 0;
@@ -236,16 +237,16 @@ void TObjEneRe7Berura::load_static_resources() {
     vecs[2].x = 10.0f;
     sampled->sample((NJS_OBJECT *)re7_berura_shared_resource->models->model, (NJS_MOTION *)re7_berura_shared_resource->motions[re7_berura_animation_definitions[2].motion].motion, pair, vecs);
     for (i = 0; i < 1; i++) {
-        re7_berura_stat_handle_table[i] = TLobby::register_boss(berura_base_stat_ids[i]);
+        re7_berura_stat_handle_table[i] = register_boss(berura_base_stat_ids[i]);
     }
     for (s32 j = 0; j < 2; j++) {
-        re7_berura_attack_stat_handles[j] = TLobby::dispatch_shared_handler_b(berura_attack_stat_ids[j]);
+        re7_berura_attack_stat_handles[j] = dispatch_shared_handler_b(berura_attack_stat_ids[j]);
     }
     for (i = 0; i < 1; i++) {
-        re7_berura_shared_object_handles[i] = TLobby::register_object(berura_resist_stat_ids[i]);
+        re7_berura_shared_object_handles[i] = register_object(berura_resist_stat_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        re7_berura_handler_table_a[i] = TLobby::dispatch_shared_handler_a(berura_lobby_param_ids[i]);
+        re7_berura_handler_table_a[i] = dispatch_shared_handler_a(berura_lobby_param_ids[i]);
     }
     {
         NpcAnimationBinding atk = ene_re7_berura_attack_def;
@@ -280,7 +281,7 @@ void TObjEneRe7Berura::destroy_children() {
 TObjEneRe7Berura::TObjEneRe7Berura(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = re7_berura_name;
     invoke_initialization_hook(set_data);
-    demo_stub();
+    apply_parameters();
     init_enemy();
 }
 
@@ -406,7 +407,7 @@ void TObjEneRe7Berura::update_body_colliders() {
     bodies->offset.y = body_center.y - position.y;
 }
 
-void TObjEneRe7Berura::demo_stub() {  }
+void TObjEneRe7Berura::apply_parameters() {  }
 #pragma push
 #pragma fp_contract on
 s32 TObjEneRe7Berura::acquire_target_in_view() {
@@ -1501,7 +1502,7 @@ void TObjEneRe7Berura::render() {
     }
 }
 
-void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { demo_stub(); } }
+void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { apply_parameters(); } }
 
 void TObjEneRe7Berura::render_demo() {
     s32 idx;

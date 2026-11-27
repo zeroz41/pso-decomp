@@ -17,7 +17,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 
 const char *TWindowMenuMainMenu::class_name = "TWindowMenuMainMenu";

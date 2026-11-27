@@ -4,9 +4,6 @@
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/system/CvFs.h"
 #include "pso/network/TLobby.h"
-#include "pso/system/CvFsTypes.h"
-
-
 
 
 extern s8 fs_default_device_name[];

@@ -1,4 +1,4 @@
-// MACHINE02's scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// MACHINE02's scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
@@ -8,13 +8,14 @@
 #include "pso/audio/MusicControl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/map/FloorWaveEvents.h"
 
 #pragma readonly_strings on
 
 void cleanup_machine2_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
-    TLobby::update_current_floor();
+    refresh_render_state();
+    stop_audio_streams();
+    update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();
 }

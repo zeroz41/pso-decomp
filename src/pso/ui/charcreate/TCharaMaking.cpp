@@ -9,13 +9,14 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/ui/charcreate/CharacterCreationTextureCache.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -31,8 +32,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -86,7 +88,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *name) {
         *name = 0;
         return 0;
     }
-    if (TWindowSubComCard::contains_profanity((char *)buf) != 0) {
+    if (contains_profanity((char *)buf) != 0) {
         *name = 0;
         return 0;
     }
@@ -100,7 +102,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *name) {
         p++;
     }
     *q = 0;
-    if (TWindowSubComCard::contains_profanity((char *)out) != 0) {
+    if (contains_profanity((char *)out) != 0) {
         *name = 0;
         return 0;
     }
@@ -111,14 +113,14 @@ s32 get_current_char_flag() {
     s32 x = (s8)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.section_id;
     return (u32) __cntlzw(-1 - x) >> 5;
 }
-void reset_current_char_appearance(s32 _w0) {
+void reset_current_char_appearance(void) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int char_select_check_stub(void) { return 1; }
-int reset_char_appearance_callback(void* p) { reset_current_char_appearance((saddr)p); return 1; }
+int reset_char_appearance_callback(void) { reset_current_char_appearance(); return 1; }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -163,8 +165,6 @@ const s32 player_class_texture_archive_length[19] = {
     16, 17, 14, 14, 14, 14, 14,
 };
 
-// The height of a class at the top and the bottom of the height slider.
-struct CharacterHeightRange { f32 max_height; f32 min_height; };
 
 u8 player_class_texture_buffer_00[0x228];
 u8 player_class_texture_buffer_01[0x384];
@@ -207,9 +207,6 @@ s32 reset_invalid_proportions(f32 *proportions);
 }
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
-extern "C" {
-s32 release_texture_list(void *);
-}
 
 s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {
@@ -302,37 +299,33 @@ CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {
     return &class_appearance_preset_table[index];
 }
 
-void TCharaMaking::free_loaded_buffers() {
-    u8 *base = (u8 *)this;
-    if ((s32) *(s32 *)((s8 *)base + 0x8B8) != 0) {
-        if (!(*(s32 *)((s8 *)base + 0xCFC) & 1)) {
-            release_texture_list(base + 0xA1C);
+void TObjPlayer::free_loaded_buffers() {
+    if (head_textures.present != 0) {
+        if (!(model_load_flags & 1)) {
+            release_texture_list(&head_textures.list);
         }
-        *(s32 *)((s8 *)base + 0x8B8) = 0;
+        head_textures.present = 0;
     }
-    if ((s32) *(s32 *)((s8 *)base + 0xA24) != 0) {
-        if (!(*(s32 *)((s8 *)base + 0xCFC) & 2)) {
-            release_texture_list(base + 0xB88);
+    if (attachment_textures.present != 0) {
+        if (!(model_load_flags & 2)) {
+            release_texture_list(&attachment_textures.list);
         }
-        *(s32 *)((s8 *)base + 0xA24) = 0;
+        attachment_textures.present = 0;
     }
-    if ((s32) *(s32 *)((s8 *)base + 0xB90) != 0) {
-        if (!(*(s32 *)((s8 *)base + 0xCFC) & 4)) {
-            release_texture_list(base + 0xCF4);
+    if (body_textures.present != 0) {
+        if (!(model_load_flags & 4)) {
+            release_texture_list(&body_textures.list);
         }
-        *(s32 *)((s8 *)base + 0xB90) = 0;
+        body_textures.present = 0;
     }
 }
 
-void TCharaMaking::update_body_parts() {
-    u8 *base = (u8 *)this;
-    validate_player_visual_record(base + 0x85C);
-    *(f32 *)((s8 *)base + 0xD48) = calc_character_height((CharacterAppearanceFields *)(base + 0x85C));
-    bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
-        reinterpret_cast<CharacterTextureLoadSet *>(base + 0xA24),
-        reinterpret_cast<CharacterTextureLoadSet *>(base + 0xB90),
-        reinterpret_cast<CharacterAppearanceFields *>(base + 0x85C));
-    TChCrLoadReq::create(base);
+void TObjPlayer::update_body_parts() {
+    validate_player_visual_record(&appearance);
+    base_stats.proportions = calc_character_height(&appearance);
+    bind_appearance_texture_lists(&head_textures, &attachment_textures, &body_textures,
+        &appearance);
+    TChCrLoadReq::create(this);
 }
 
 s32 validate_player_visual_record(void *record) {

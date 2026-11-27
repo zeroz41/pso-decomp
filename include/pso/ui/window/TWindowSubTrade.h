@@ -16,6 +16,8 @@ struct TWindowSubTrade : public TObject {
     static const char *class_name;
     TWindowMessage *open_player_message_window(s32 player, const char *text);
     TWindowMessageYesNo *open_trade_confirm_prompt(s32 player);
+    // Hands control back to the main menu and closes (state 7).
+    void finish();
     u8 state;
     u8 _pad1D[0x3];
     uaddr client_id;

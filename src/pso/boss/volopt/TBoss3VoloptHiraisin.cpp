@@ -7,17 +7,17 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -26,6 +26,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -281,10 +282,10 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_spin_node->evalflags &= ~NJD_EVAL_UNIT_ANG;
     breakup = new TBreakUpMdlData(get_bml_model(volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
-    volopt_hiraisin_stats = TLobby::register_boss(0x24);
-    volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);
-    volopt_hiraisin_object_params = TLobby::register_object(0x24);
-    volopt_hiraisin_stat_table = TLobby::dispatch_shared_handler_a(0x24);
+    volopt_hiraisin_stats = register_boss(0x24);
+    volopt_hiraisin_stats_b = dispatch_shared_handler_b(0x24);
+    volopt_hiraisin_object_params = register_object(0x24);
+    volopt_hiraisin_stat_table = dispatch_shared_handler_a(0x24);
 }
 
 void *TBoss3VoloptHiraisin::create(void *set_data) {

@@ -22,6 +22,16 @@ LAYOUT_ASSERT(NetworkInfoDetailOffset, offsetof(NetworkInfoLoadState, card_detai
 
 extern NetworkInfoLoadState network_info_load_state;
 
+struct NetworkInfoConfig;
+
+// The ntInf version banner open_network_config publishes.
+extern const char *ntinf_version_ref;
+// 1 when open_network_config allocated lobby_net_config_buffer (close_network_config frees it).
+extern s32 lobby_net_config_load_state;
+// The decoded config; with backup mode 1 its card copy follows it at lobby_net_config_card_base.
+extern NetworkInfoConfig *lobby_net_config_buffer;
+extern void *lobby_net_config_card_base;
+
 // The "sega_network_information" card file. The payload is the encrypted NETINFO text.
 struct NetworkInfoCardFile {
     u8 pad_0[0x5840];

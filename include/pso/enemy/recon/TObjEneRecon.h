@@ -9,7 +9,7 @@ class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TObjEnemyColorFade.h"
 
-// The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (recon_behavior_params).
+// The Recon parameter block dispatch_shared_handler_a(0x42) hands out (recon_behavior_params).
 struct ReconParams {
     f32 collide_distance;  // distance update_collide_flag probes ahead with
     f32 bomb_radius;       // TObjEneReconBomb blast radius

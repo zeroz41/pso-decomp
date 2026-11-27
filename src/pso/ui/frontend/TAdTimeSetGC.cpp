@@ -23,22 +23,21 @@
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/unk/text_8023F160.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
+#include "pso/audio/MusicControl.h"
 
 #pragma push
 #pragma defer_codegen off
@@ -59,7 +58,7 @@ void TAdPlyStatusGC::set_status_param(CharacterPreview *preview) { ply_status_pr
 
 TAdPlyStatusGC *TAdPlyStatusGC::get_index() { return ply_status_gc_instance; }
 
-void TAdPlyStatusGC::set_status_index(int a0, int a1) { ply_status_index = a1; }
+void TAdPlyStatusGC::set_status_index(int index) { ply_status_index = index; }
 
 
 void TAdPlyStatusGC::close_window(s32 index) {
@@ -72,16 +71,7 @@ void TAdPlyStatusGC::close_window(s32 index) {
 
 #pragma pop
 
-// Functions and data of other units that have no shared declaration with the signature these calls use.
-extern "C" {
-s32 start_memcard_format(s32, s32, s32, s32, s32);
-}
 
-// One entry per state: enter is called by change_state, run by run_task every frame.
-struct TAdTimeSetGCState {
-    void (TAdTimeSetGC::*enter)();
-    void (TAdTimeSetGC::*run)();
-};
 LAYOUT_ASSERT(TAdTimeSetGCState_size, sizeof(TAdTimeSetGCState) == 24);
 LAYOUT_ASSERT(TAdTimeSetGCState_run_offset, offsetof(TAdTimeSetGCState, run) == 12);
 
@@ -141,7 +131,7 @@ void TAdTimeSetGC::free_scene_resources() {
 TAdTimeSetGC::TAdTimeSetGC(TObject *parent) : TObject(parent) {
     m_name = TAdTimeSetGC_class_name;
     init();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 TAdTimeSetGC::~TAdTimeSetGC() {
@@ -829,7 +819,7 @@ void TAdTimeSetGC::open_message_choice(const char *text, s32 sel, const char *fi
     if (sel == -1) {
         return;
     }
-    menu_window = (TWindowMenu *)(saddr)create_window_menu_default(&time_set_menu_pos, 2);
+    menu_window = create_window_menu_default(&time_set_menu_pos, 2);
     if (message_window == NULL) {
         return;
     }
@@ -892,7 +882,7 @@ void TAdTimeSetGC::apply_settings() {
     TLanguage::set_language(state->language);
     update_music_stream_gain(state->music_stream_gain);
     set_cue_stream_user_gain(state->cue_stream_gain);
-    TLobby::init_sound_mode();
+    init_sound_mode();
     unload_lobby_scene_resources();
     load_lobby_scene_resources();
     TAdMultiChgGameModeGC::open_title_scene();

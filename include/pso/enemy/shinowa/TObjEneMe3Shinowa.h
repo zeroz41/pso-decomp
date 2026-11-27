@@ -15,7 +15,7 @@ struct TObjEneMe3ShinowaParams {
     f32 dist;
     f32 sword_motion_speed; // motion slot 6 (shinowa_sword_motion) speed, at least 0.1
     f32 damage_motion_speed; // motion slot 3 (shinowa_damage_motion) speed
-    u8 unk_14[0x4];
+    u8 pad_14[0x4];
     s32 support_tech_level; // Resta, Shifta and Deband
     s32 cast_duration;      // frames state_cast_support runs
     s32 sword_hold_frames;  // frames state_sword_attack holds frame 25

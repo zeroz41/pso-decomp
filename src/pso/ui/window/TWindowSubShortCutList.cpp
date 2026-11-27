@@ -13,8 +13,8 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/HeadingEntry.h"
 
 const char *TWindowSubShortCutList::class_name = "TWindowSubShortCutList";

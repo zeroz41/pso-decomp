@@ -4,7 +4,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/unk/TLobbyAutoReply.h"
 
 s32 auto_reply_flags;
@@ -27,7 +27,7 @@ const char *get_card_window_area() {
 void set_short_mail_text(char *text) {
     u8 *mail_text;
     mail_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
-    TWindowSubComCard::mask_profanity_words(text, get_shared_text_buffer());
+    mask_profanity_words(text, get_shared_text_buffer());
     strncpy((char *)mail_text, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
     *(s8 *)((s8 *)mail_text + 0xAB) = 0;
     auto_reply_flags |= 4;
@@ -60,9 +60,9 @@ s32 is_active() {
     return *(s8 *)get_card_window_area() == 0 ? 0 : 1;
 }
 
-void reset_auto_reply_flags(s32 _w0) {
+void reset_auto_reply_flags(void *p) {
     auto_reply_flags = 0;
 }
 
-void clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
-void reset_auto_reply_flags_callback(void* p) { reset_auto_reply_flags((saddr)p); }
+void clear_auto_reply_flags(void* p) { reset_auto_reply_flags(p); }
+void reset_auto_reply_flags_callback(void* p) { reset_auto_reply_flags(p); }

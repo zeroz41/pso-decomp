@@ -2,10 +2,8 @@
 #include "pso/item/TItemReverseTech.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/item/TItemReverseTechCtrlTypes.h"
 
 #pragma readonly_strings on
-
 
 
 const char *TItemReverseTechCtrl_name = "TItemReverseTechCtrl";

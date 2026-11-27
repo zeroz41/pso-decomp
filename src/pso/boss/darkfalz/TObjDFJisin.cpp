@@ -22,10 +22,10 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
@@ -37,9 +37,9 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixVector.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaDrawUtil.h"
@@ -47,7 +47,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TObjDFYutai.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -83,6 +83,7 @@ Mtx34 df_captured_matrix_pair[2];
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 // Written last to first: the unit is generated deferred (see configure.py).
@@ -181,12 +182,12 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         return;
     }
     body = player->model;
-    head_textures = (NJS_TEXLIST *)player->head_textures;
+    head_textures = &player->head_textures.list;
     head = player->head_model;
-    attachment_textures = (NJS_TEXLIST *)player->attachment_textures;
+    attachment_textures = &player->attachment_textures.list;
     hair = player->hair_model;
     attachment = player->attachment_model;
-    body_textures = &player->body_textures;
+    body_textures = &player->body_textures.list;
     TObjDFTenchuFuru::draw_node_tree(body);
     if (alpha < 1.0f) {
         begin_alpha_blend(alpha);
@@ -217,24 +218,24 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
         set_texture_list(head_textures);
-        draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
+        draw_colored_hair(alpha, (saddr)hair, &player->appearance, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
 }
 
-void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
+void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
     if (0.0f != alpha) {
         TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
         if (alpha < 1.0f) {
             begin_alpha_blend(alpha);
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(body_texlist));
+        set_texture_list(body_texlist);
         draw_chunk_object((void *)body);
         if (part != 0U) {
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(part_texlist));
+            set_texture_list(part_texlist);
             draw_chunk_object((void *)part);
             pop_matrix();
         }
@@ -242,7 +243,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(head_texlist));
+            set_texture_list(head_texlist);
             draw_chunk_object((void *)head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -254,7 +255,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(head_texlist));
+            set_texture_list(head_texlist);
             draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -282,12 +283,12 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    head_textures = (NJS_TEXLIST *)player->head_textures;
+    head_textures = &player->head_textures.list;
     head = player->head_model;
-    attachment_textures = (NJS_TEXLIST *)player->attachment_textures;
+    attachment_textures = &player->attachment_textures.list;
     hair = player->hair_model;
     attachment = player->attachment_model;
-    body_textures = &player->body_textures;
+    body_textures = &player->body_textures.list;
     body = player->model;
     if (alpha < 1.0f) {
         begin_alpha_blend(alpha);
@@ -317,7 +318,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
         set_texture_list(head_textures);
-        draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
+        draw_colored_hair(alpha, (saddr)hair, &player->appearance, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
@@ -630,7 +631,7 @@ void TObjDFJisin::damage_players_near_point(Vec *point) {
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0 &&
-            !(p->class_flags & CLASS_FLAG_ANDROID) &&
+            !(p->appearance.classFlags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;
             p->receive_direct_attack(TBoss4DarkFalz::get_type2_instance(), h, NULL, -1, -1);
@@ -669,8 +670,8 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     velocity.z = 1.2f * cos_table_lookup(ang) / scale;
     velocity.y = -6.0f / scale;
     speed = 6.0f;
-    damage = TLobby::dispatch_shared_handler_a(0x38)->values.integers[4];
-    homing_rate = TLobby::dispatch_shared_handler_a(0x38)->values.floats[0];
+    damage = dispatch_shared_handler_a(0x38)->values.integers[4];
+    homing_rate = dispatch_shared_handler_a(0x38)->values.floats[0];
     if (homing_rate < 0.0f || homing_rate > 1.0f) {
         homing_rate = 0.5f;
     }

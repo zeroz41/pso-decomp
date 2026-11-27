@@ -4,13 +4,12 @@
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80120908.h"
 
 void TItemWeaponWokOfAkikosShop::draw_held_model() {
     NJS_OBJECT *saved_model = item_model;
     draw_weapon_model();
     item_model = second_model;
-    draw_weapon_at_joint(this, 0x23);
+    draw_weapon_at_joint(0x23);
     item_model = saved_model;
 }
 

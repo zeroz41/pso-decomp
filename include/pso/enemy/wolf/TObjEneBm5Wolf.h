@@ -165,4 +165,12 @@ LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 
 s32 actor_rand_int(TObjChara *actor, s32 range);
 
+struct WolfGlobalObjects {
+    u8 pad[0x2c];
+    u8 chain0[0xc];
+    TObjEneBm5WolfList list0;
+    u8 chain1[0xc];
+    TObjEneBm5WolfList list1;
+};
+
 #endif

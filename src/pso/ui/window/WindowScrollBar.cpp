@@ -4,13 +4,13 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 
 // Scroll-list helpers shared by the window menus: a TU of its own between TWindowRoom and TWindowSetLevelUp.
 // Its .sdata2 pool (0.0f of WindowScrollBar::clamp_offset, then draw_window_scrollbar's floats) starts at the
-// 8-aligned 0x805DD2F8 and is padded to 0x805DD338, where TWindowSetLevelUp's " +" starts the next TU's pool.
+// 8-aligned start and is padded up to TWindowSetLevelUp's " +", which starts the next TU's pool.
 
 
 s32 WindowScrollBar::clamp_offset(f32 *offset, const NJS_POINT2 *visible) const {

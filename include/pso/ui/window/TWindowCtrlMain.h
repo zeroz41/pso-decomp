@@ -5,10 +5,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/WindowControlState.h"
 
+extern f32 window_depth_order_cursor;
+
 struct TWindowCtrlScreen;
 class TWindowCtrlSub;
 
 struct TWindowCtrlMain : public TObject {
+    static const char *class_name;
     // The scene hook tables pair this load hook with free_all_windows.
     static void reset_windows();
     static void disable_display();
@@ -26,7 +29,6 @@ struct TWindowCtrlMain : public TObject {
     static void free_all_windows();
     static void reset_all(void* _w0);
     static saddr get_instance();
-    static void advance_card_status(s32 local_client_id);
     static void free_window();
     static void release_ptr(TObject **ptr);
     static f32 get_scale(s32 viewport);
@@ -52,5 +54,9 @@ TObject *get_viewport_window_root(s32 viewport_index);
 s32 has_window_task_root(void);
 void draw_menu_backdrop_gradients(s32 viewport_index);
 s32 is_window_display_enabled(void);
+
+s16 get_function_key_menu(void *menu);
+
+char *build_status_text(s32 client_id);
 
 #endif

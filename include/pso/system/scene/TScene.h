@@ -160,6 +160,8 @@ extern s32 area_total;
 extern s8 floor_scene_ready_flag;
 extern s32 reflection_pass_active;
 extern f32 visibility_radius_margin;
+// The floor the scene last loaded (TScene stores it; TObjChara::get_current_floor returns it).
+extern s32 current_floor_index;
 
 s32 is_item_area_enabled(s32 area);
 

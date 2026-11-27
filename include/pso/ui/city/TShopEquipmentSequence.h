@@ -35,8 +35,6 @@ LAYOUT_ASSERT(TShopEquipmentSequence_size, sizeof(TShopEquipmentSequence) == 0x3
 LAYOUT_ASSERT(TShopEquipmentSequence_choice_menu_offset, offsetof(TShopEquipmentSequence, choice_menu) == 0x2C);
 
 // --- C functions defined in TShopEquipmentSequence.cpp ---
-extern "C" {
 void equipment_shop_state_stub(void);
-}
 
 #endif

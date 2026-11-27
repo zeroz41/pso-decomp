@@ -26,7 +26,6 @@
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
-#include "pso/unk/TLobby_800F7744.h"
 
 #include "pso/system/ControllerInputState.h"
 
@@ -44,21 +43,14 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_800F795C.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/enemy/EnemyStateSync.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/object/TObjLuker_801329B0.h"
-
-
-// The enemy's row of the floor's set data (what set_entry points at).
-struct EnemySetData {
-    s16 set_index; u8 pad2[4]; u16 entity_id; s16 room; s16 group; u8 padC[4];
-    Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
-};
 
 
 extern "C" {
@@ -71,11 +63,7 @@ s32 draw_player_status(void *, void *, const char *);
 }
 
 
-
-
 s32 area_random_seed;
-
-
 
 
 #define FIND_LIST_TAIL(q) \
@@ -85,7 +73,6 @@ s32 area_random_seed;
         } \
         tail = q; \
     }
-
 
 
 #pragma push
@@ -701,14 +688,14 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     } else {
         msg.game_flags = state.flags;
     }
-    send_6x0A_enemy_state_packet(&msg);
+    msg.send();
 }
 
 void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
     EnemyStateRecord sp;
     u16 idx;
     TObjEnemy *e;
-    ((TLobby *)command)->bswap_enemy_state();
+    command->bswap();
     idx = command->enemy_index;
     sp.copy_header(&enemy_state_records[idx]);
     sp.damage = command->total_damage;
@@ -727,10 +714,10 @@ void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
 
 void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
     G_SetEnemyLowGameFlagsUltimate_6x9C msg;
-    init_6x9C_enemy_low_game_flags_packet((u8 *)&msg);
+    init_6x9C_enemy_low_game_flags_packet(&msg);
     msg.header.entity_id = entity_id;
     msg.status_effect_flags = arg;
-    ((TLobby *)(&msg))->broadcast_state();
+    msg.send();
 }
 
 void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimate_6x9C *command) {
@@ -742,7 +729,7 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimat
     if (game_difficulty_selection != 3) {
         return;
     }
-    ((TLobby *)command)->bswap_field();
+    command->bswap();
     if (command->header.entity_id < 0x1000) {
         return;
     }

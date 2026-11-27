@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
+struct TObjPlayer;
+
 struct TAdFloorLoadCamGC : public TObject {
     TAdFloorLoadCamGC(TObject *parent, s32 mode);
     virtual ~TAdFloorLoadCamGC();
@@ -20,10 +22,7 @@ struct TAdFloorLoadCamGC : public TObject {
 
 LAYOUT_ASSERT(TAdFloorLoadCamGC_size, sizeof(TAdFloorLoadCamGC) == 0x4C);
 
-extern "C" {
-u16 get_challenge_result_slot_index(void *p);
-void clear_player_hold_flag(void *p);
-void set_player_hold_flag(void *p);
-}
+void clear_player_hold_flag(TObjPlayer *player);
+void set_player_hold_flag(TObjPlayer *player);
 
 #endif

@@ -33,4 +33,15 @@ public:
 LAYOUT_ASSERT(TObjCMNameSize, sizeof(TObjCMName) == 0x34);
 LAYOUT_ASSERT(TObjCMNameFadeOffset, offsetof(TObjCMName, fade) == 0x30);
 
+struct CreationMenuModeList {
+    s32 count;
+    s32 *entries;
+};
+
+// RGBA colour of the hair colour bars (inferred: the alpha byte is set from the fade).
+union HairBarColor {
+    u32 rgba;
+    u8 c[4];
+};
+
 #endif

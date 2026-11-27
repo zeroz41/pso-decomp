@@ -61,14 +61,14 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
 
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq::name;
-    inputs.appearance = (CharacterAppearanceFields *)player->name;
+    inputs.appearance = &player->appearance;
     inputs.completion_flags = (u32 *)&player->model_load_flags;
     inputs.load_slot = player->get_entity_id();
     inputs.body_model = (s32 *)&player->model;
     inputs.part_models = (s32 *)&player->hair_model;
-    inputs.body_textures = &player->body_textures;
-    inputs.other_textures = (NJS_TEXLIST *)player->attachment_textures;
-    inputs.head_textures = (NJS_TEXLIST *)player->head_textures;
+    inputs.body_textures = &player->body_textures.list;
+    inputs.other_textures = &player->attachment_textures.list;
+    inputs.head_textures = &player->head_textures.list;
     reset_request();
 }
 

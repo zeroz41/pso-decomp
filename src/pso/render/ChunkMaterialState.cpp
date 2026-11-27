@@ -9,10 +9,10 @@
 #include "pso/network/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/system/MatrixOps.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXLighting.h>
@@ -24,8 +24,6 @@ extern PADStatus prev_pad_status[4];
 extern s32 pad_slot_state_buffer[0x78];
 
 u32 keyboard_pad_button_count = 12;
-
-extern "C" {
 
 #pragma push
 #pragma scheduling off
@@ -118,7 +116,6 @@ PadSlot *get_pad_slot(u32 device) {
         break;
     }
     return &keyboard_control_pad_slots[slot];
-}
 }
 #pragma pop
 

@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/cave/TORainbowCave01.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
@@ -17,7 +17,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *abeniji_fe_obj001_niji_model_names[] = {"abeniji_fe_obj001_niji.gj", NULL};
 const char *abeniji_fe_obj001_niji_motion_names[] = {NULL};

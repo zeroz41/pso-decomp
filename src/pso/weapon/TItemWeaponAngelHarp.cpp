@@ -8,7 +8,7 @@
 TItemWeaponAngelHarp::~TItemWeaponAngelHarp() {}
 
 TItemWeaponAngelHarp::TItemWeaponAngelHarp(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    shot_callback = (WeaponShotCallback)TItemShootGun::create;
+    shot_callback = TItemShootGun::create;
 }
 
 TItem *TItemWeaponAngelHarp::create(u8 *item) {

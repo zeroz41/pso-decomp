@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdGameStartLineGC.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TMainTask.h"

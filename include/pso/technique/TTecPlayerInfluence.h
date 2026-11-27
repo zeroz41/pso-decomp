@@ -8,6 +8,7 @@
 #include "pso/technique/TechniqueContact.h"
 
 class TObjPlayer;
+class TParticleCtrl;
 
 struct TTecPlayerInfluence : public TEffect {
     TTecPlayerInfluence(TObjBase *owner, Vec *pos, s32 level);
@@ -39,5 +40,7 @@ struct TTecPlayerInfluence : public TEffect {
 };
 
 LAYOUT_ASSERT(TTecPlayerInfluence_size, sizeof(TTecPlayerInfluence) == 0xE0);
+
+struct SupportEffectParticles { TParticleCtrl *w[3]; };
 
 #endif

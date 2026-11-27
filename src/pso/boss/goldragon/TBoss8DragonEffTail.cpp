@@ -12,7 +12,7 @@
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"

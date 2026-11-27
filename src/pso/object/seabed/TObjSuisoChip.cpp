@@ -18,7 +18,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -32,32 +32,10 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/LocalClientId.h"
 
 
-// One kind of TObjSeabedSuiso_CH.
-struct SeabedSuisoKind {
-    s32 model;         // model index in the tank archive
-    s32 motion;        // motion index, -1 for none
-    f32 motion_speed;  // frames per update
-    s32 particle;      // particle effect id, -1 for none
-    f32 view_range;
-    f32 model_radius;
-};
-
-// One piece of a broken tank: its model and where it sits on the tank.
-struct SeabedSuisoPiece {
-    s32 model;  // model index in the tank archive, -1 ends the set
-    Vec pos;
-};
-
-// The whole tank of one TObjSeabedSuisoBrakable kind and the chips it
-// breaks into.
-struct SeabedSuisoBreakSet {
-    SeabedSuisoPiece whole;
-    SeabedSuisoPiece chips[17];
-};
 #pragma push
 #pragma readonly_strings on
 // The tank archives of the lower (bm_obj_seabed_suiso) and the upper

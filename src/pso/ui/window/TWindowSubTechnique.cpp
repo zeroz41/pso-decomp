@@ -9,7 +9,6 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubTechnique_80286BD4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -19,14 +18,13 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_801D84A8.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TWindowSubTechnique::category_changed() {
@@ -178,7 +176,7 @@ void TWindowSubTechnique::update_selected_help(s32 technique) {
   s32 tech;
   s32 cast_technique_level;
   tech = technique;
-  toggle_help_window_on_button((uaddr)help_window, playerIndex);
+  toggle_help_window_on_button(help_window, playerIndex);
   player = get_player_by_client_id(this->playerIndex);
   if (player != NULL)
   {
@@ -250,7 +248,7 @@ void TWindowSubTechnique::run_task() {
     case 3:
         help_window = TWindowMessage::create(get_window_layout_position(0x14), technique_help_window_size, 1, (s32)playerIndex);
         help_window->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
-        call_if_split_screen((uaddr)help_window, playerIndex);
+        call_if_split_screen(help_window, playerIndex);
         technique_menu->enable_input();
         technique_menu->show_selection_highlight();
         technique_menu->clear_flag_and_release();

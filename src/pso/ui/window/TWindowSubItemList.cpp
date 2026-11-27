@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TWindowLayoutRect.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #pragma readonly_strings on
 
 void TWindowSubItemList::draw_blinking_selection(WindowDrawContext *context) {

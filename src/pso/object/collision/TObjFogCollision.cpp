@@ -21,8 +21,8 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
@@ -35,7 +35,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";

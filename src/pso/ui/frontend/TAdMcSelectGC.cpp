@@ -89,8 +89,8 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     create_draw_line_ctrl(this, 0x17, 0.0f)->set_render_mode(0);
     slot_gc = new TAdChrSelSlotGC(this);
     slot_gc->set_select_index(0);
-    slot_gc->init_slot(0, (void *)&mc_slot_a_position);
-    slot_gc->init_slot(1, (void *)&mc_slot_b_position);
+    slot_gc->init_slot(0, &mc_slot_a_position);
+    slot_gc->init_slot(1, &mc_slot_b_position);
     for (i = 0; i < 2; i++) {
         mc = new TAdMcSelectMcGC(this, i);
         mc->set_render_direct(0);

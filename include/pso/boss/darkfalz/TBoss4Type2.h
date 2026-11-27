@@ -16,7 +16,7 @@ class TBoss4Zanzo;
 class TObjDFJisin;
 struct TBoss4ZanzoParams;
 
-/* Boss parameter block 0x36 from TLobby::dispatch_shared_handler_a (read by TBoss4Type1.cpp and
+/* Boss parameter block 0x36 from dispatch_shared_handler_a (read by TBoss4Type1.cpp and
  * TObjDFHorming). move_seconds is clamped to 1..60 and scaled by 30.0 into a frame count; the two
  * levels are the 4th (level) argument of the Ra Barta / Ra Foie create calls; power is cast to f32. */
 struct TBoss4Type2Params
@@ -160,5 +160,17 @@ extern const u32 alpha_blend_render_flags;
 extern const f32 alpha_blend_alpha_bias;
 void begin_alpha_blend(f32 alpha);
 void end_alpha_blend();
+
+// One row of boss4_type2_action_table: the state name and its handlers.
+struct TBoss4Type2Action {
+    const char *name;
+    s32 attack_index;
+    void (TBoss4Type2::*enter)();
+    void (TBoss4Type2::*update_idle)();
+    void (TBoss4Type2::*update)();
+};
+
+// Where spawn_bishi_around_players puts its three TBoss4Bishi round each player.
+struct BishiSpawnOffset { f32 x, z; };
 
 #endif

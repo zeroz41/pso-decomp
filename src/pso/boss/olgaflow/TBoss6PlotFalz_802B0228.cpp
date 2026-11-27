@@ -77,7 +77,7 @@ void TBoss6PlotFalz::reset_and_recreate() {
     Vec target;
     get_target_pos_b(&target);
     TBoss6PlotFalz::queue_instance_destruction();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     TBoss6PlotFalz::freeze_all_players();
     shake_active = 0;
     state_timer = 0;
@@ -134,7 +134,7 @@ void TBoss6PlotFalz::stop_adx_audio() {
     }
     wait_demo = NULL;
     TBoss6PlotFalz::freeze_all_players();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     play_area_music("proto2.adx");
     state_timer = 0;
     TBoss6Demo20_TYPE2_APPEAR::create(this);
@@ -178,7 +178,7 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
     }
     get_target_pos_a(&target);
     TBoss6PlotFalz::destroy_static_instance();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     TBoss6PlotFalz::freeze_all_players();
     shake_active = 0;
     state_timer = 0;

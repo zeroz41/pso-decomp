@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TEnemyTaskList.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/TLobby.h"
@@ -8,7 +8,7 @@
 
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/npc/NpcPartnerControl.h"
 
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";
@@ -36,7 +36,7 @@ void TSetEvtDestroy::run_task() {
             m_phase = 2;
         }
         if (--m_countdown < 0) {
-            if (TLobby::spawn_matching_objects(m_event_record->spawn_arg0, m_event_record->spawn_arg1, (saddr)m_enemy_tasks) != 0) {
+            if (TLobby::spawn_matching_objects(m_event_record->spawn_arg0, m_event_record->spawn_arg1, m_enemy_tasks) != 0) {
                 m_phase = 1;
             } else {
                 m_phase = 2;

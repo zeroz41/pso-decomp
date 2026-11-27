@@ -49,7 +49,7 @@
 
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 
 #include "pso/map/FloorArea.h"
 
@@ -58,29 +58,29 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
 #include "pso/render/DebugFont.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 
 s32 city_main_warp_enabled_destinations;
@@ -90,13 +90,6 @@ s32 city_main_warp_visible_destination_mask;
 BmlResource *labo_map_warp_resource_bundle;
 
 
-extern "C" {
-
-extern s32 lbl_805D55C0;
-
-
-
-}
 
 const char *bm_obj_warp_labo_model_names[3] = {
     "warp_citybeam.gj",
@@ -174,7 +167,7 @@ s32 TObjCityMainWarpChallenge::are_all_players_in_range() {
 }
 
 s32 TObjCityMainWarp::get_phase_flag() {
-    return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
+    return ((get_main_phase() - 0xF) == 0) ? TLobby::connection_lost : 0;
 }
 char *get_area_title() {
     return area_title;
@@ -597,7 +590,7 @@ TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
     m_name = class_name;
     clamp_destination_index();
     warp_range = 23.0f;
-    *(f32 *)((s8 *)this + 0xFC) = 0.0f;
+    animation_frame = 0.0f;
 }
 
 TObjCityMapWarp::~TObjCityMapWarp() {}

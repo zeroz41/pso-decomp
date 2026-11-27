@@ -17,7 +17,6 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     virtual ~TAdEnterSerialAccessGC();
     virtual void render();
     virtual void run_task();
-    u8 pad_38[0x8];
     s32 prev_state;
     s32 next_state;
     s32 state_timer;
@@ -26,8 +25,8 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     TAdSelectCurGC *cursor;
     TWindowBase *message_window;
     TWindowBase *draw_window;
-    s32 input_valid;
-    s32 prev_input_valid;
+    s32 serial_valid;
+    s32 prev_serial_valid;
     // The word at +0x118 of the system save payload (of the second card's for get_serial_result); get_serial_seed seeds the character select serial RNG.
     static s32 get_serial_seed();
     static s32 get_serial_result();
@@ -55,6 +54,12 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void store_serial_access_key(saddr serial, saddr access_key, saddr password);
     static char *serial_to_hex_string(const char *serial);
     static int forward_input(void *screen, s32 field, const char *text);
+    // 1 when text is a valid entry for field `mode`: 0 serial and 1 access key take digits, 2 password letters and digits.
+    static int validate_input(void *window, s32 mode, const char *text);
+    // 1 when get_serial_text has a value for `field` to prefill the keyboard with.
+    static s32 has_serial_input(s32 parent, s32 field);
+    // The saved (or entered) text of `field`: serial, access key or password; "" for the rest.
+    static u8 *get_serial_text(s32 owner, s32 field);
     static TKeyBoardControl *create_keyboard_control(saddr parent, s32 field);
 
     static const NJS_POINT2 selection_positions[2];
@@ -66,11 +71,9 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
 
 LAYOUT_ASSERT(TAdEnterSerialAccessGC_size, sizeof(TAdEnterSerialAccessGC) == 0x68);
 
-extern "C" {
 char *format_saved_serial(void);
 char *format_entered_access_key(void);
 char *format_entered_serial(void);
-}
 void *create_callback_at_zero_vec2(WindowCallback callback);
 
 #endif

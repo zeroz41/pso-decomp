@@ -99,7 +99,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void refresh_players_equipment();
     void spawn_type2();
     void spawn_type1();
-    static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);
+    static void apply_radial_effect_to_players(Vec *pos, s16 amount, s16 kind, f32 range);
     static void set_fade_material_color(f32 f);
     // Restores the render flags and polygon masks set_fade_material_color or apply_fade_material_color
     // saved.
@@ -174,12 +174,5 @@ void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio);
 // TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
 s32 boss6_sphere_blocks_player_view(Vec *pos, f32 r);
 
-// The record exchange_object_state reads and writes.
-struct TBoss6PlotFalzStateRecord {
-    s32 flags;
-    s16 pad_04;
-    s16 value;
-    s32 pad_08;
-};
 
 #endif

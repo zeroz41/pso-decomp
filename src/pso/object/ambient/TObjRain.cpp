@@ -5,13 +5,13 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include <dolphin/mtx/GeoTypes.h>
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/NinjaUtil.h"
@@ -26,9 +26,6 @@ __declspec(section ".data") u32 rain_streak_colors[2] = {0x80808030, 0x70707020}
 
 NJS_POINT3COL rain_streak_line_list = {rain_streak_points, rain_streak_colors, NULL, 2};
 
-extern "C" {
-void draw_line_list(NJS_POINT3COL *, s32, s32);
-}
 
 void TObjRain::draw_streaks() {
     Drop *drop;

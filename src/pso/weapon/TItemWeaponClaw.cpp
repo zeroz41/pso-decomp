@@ -4,9 +4,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80120908.h"
 
-void TItemWeaponClaw::draw_held_model() { draw_weapon_at_joint(this, (s8)49); update_trail_slot(0); update_trail_slot(1); }
+void TItemWeaponClaw::draw_held_model() { draw_weapon_at_joint(49); update_trail_slot(0); update_trail_slot(1); }
 
 TItemWeaponClaw::TItemWeaponClaw(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(1);

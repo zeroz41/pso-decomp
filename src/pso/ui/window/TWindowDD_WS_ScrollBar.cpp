@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -15,7 +15,7 @@
 
 
 // Screen positions and scales of the word-select quad sets (word_select_quad_points), set up by
-// load_word_select_data. inferred: names from that use.
+// load_word_select_data. Names from that use.
 extern const NJS_POINT2 window_dd_quad_positions[7] = {
     {72.0f, 199.0f}, {122.0f, 199.0f}, {72.0f, 219.0f}, {122.0f, 219.0f},
     {172.0f, 199.0f}, {172.0f, 219.0f}, {222.0f, 199.0f},
@@ -53,7 +53,7 @@ WindowDescriptor scroll_bar_descriptor = {{0.0f, 0.0f}, 0.0f, 0, 3};
 #pragma dont_inline off
 #pragma inline_depth(4)
 // Edges of a span around its centre.
-// inferred: span_start/span_end (names guessed); the original computes the bar's x edges through
+// span_start/span_end: the original computes the bar's x edges through
 // an inline helper, whose return value schedules differently from a plain `c - t`.
 static inline f32 span_start(f32 center, f32 half_extent) { return center - half_extent; }
 static inline f32 span_end(f32 center, f32 half_extent) { return center + half_extent; }

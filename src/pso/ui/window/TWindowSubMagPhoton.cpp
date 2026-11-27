@@ -48,7 +48,7 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
     MagStats stats;
     s32 i;
     stats.init();
-    TItemData::deserialize_mag(mag_item, &stats);
+    mag_item->deserialize_mag(&stats);
     for (i = 0; i < 3; i++) {
         s32 blast = stats.get_photon_blast(i);
         photon_blasts[photon_blast_slot_order[i]] = blast;

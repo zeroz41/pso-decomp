@@ -35,7 +35,7 @@ s32 claim_trade_sub_window(TWindowSubTrade *window);
 
 void cancel_trade_for_member_out_of_range(s32 client_id);
 const char *format_trade_out_of_range_message(s32 client_id);
-void handle_6xA6_modify_trade_proposal(u8 *message_window);
+void handle_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *packet);
 void handle_6xA7(void);
 void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_final_confirmation(G_ModifyTradeProposal_6xA6 *proposal);
@@ -58,10 +58,22 @@ const char *build_trade_partner_status_text(void);
 void send_6xA6_modify_trade_proposal(saddr client_id);
 
 void snapshot_trade_inventories(void);
+s32 are_both_trade_offers_confirmed(void);
+void clear_local_trade_final_confirmation(void);
+void clear_local_trade_offer_confirmation(void);
+s32 is_local_trade_offer_confirmation_requested(void);
+void set_local_trade_final_confirmation(void);
+void set_local_trade_offer_confirmation(void);
 
 // One bit per client id: set while that player stands in the trade range.
 s32 is_trade_range_bit_set(s32 client_id);
 void clear_trade_range_bit(s32 client_id);
 void set_trade_range_bit(s32 client_id);
+
+// Per-frame steps of the trade session update_game_modes runs.
+void update_trade_list_send();
+void update_trade_partner();
+void update_battle_mode();
+void update_trade_proposal_state();
 
 #endif

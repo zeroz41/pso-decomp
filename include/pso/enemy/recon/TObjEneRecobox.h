@@ -41,7 +41,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     void update_child_spawn();
     s32 is_out_of_range();
     void restore_position();
-    void remove_child_entity(u8 *child);
+    void remove_child_entity(TObjCollidable *child);
     void remove_tracked_target(TObjEneRecon *child);
     s32 has_child_in_anim_5();
     s32 is_below_child_limit(u16 id);

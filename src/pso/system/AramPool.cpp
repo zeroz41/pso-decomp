@@ -6,6 +6,7 @@
 #include "pso/system/AramPool.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 volatile s32 aram_dma_pending;
 
@@ -34,7 +35,7 @@ s32 aram_read_sync(s32 owner, s32 aram, void *dest, s32 length) {
     ARQPostRequest(&request, owner, 1, 1, aram, (uaddr)dest, len, aram_sync_dma_done);
     for (;;) {
         if (aram_dma_pending == 0) break;
-        TLobby::run_frame();
+        run_frame();
     }
     DCInvalidateRange(dest, len);
     return 1;
@@ -52,7 +53,7 @@ s32 aram_transfer_sync(s32 owner, void *source, s32 aram, s32 length) {
     ARQPostRequest(&request, owner, 0, 1, (uaddr)source, aram, len, aram_sync_dma_done);
     for (;;) {
         if (aram_dma_pending == 0) break;
-        TLobby::run_frame();
+        run_frame();
     }
     return 1;
 }

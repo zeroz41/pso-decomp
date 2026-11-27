@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/MatrixStack.h"
@@ -14,8 +14,6 @@
 #include <dolphin/gx/GXPixel.h>
 #undef PSO_SDK_COMPACT_MATH
 
-// The blend factor index of each colour blending mode, copied whole by set_color_blending_mode.
-struct BlendModeFactorTable { u32 factor[12]; };
 
 // Defined at the end of the unit.
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];

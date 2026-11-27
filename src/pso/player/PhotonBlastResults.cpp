@@ -18,7 +18,7 @@
 #include "pso/effect/photon/TPhotonPilla.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonGolla.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPhotonBlastSequence.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -39,6 +39,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/audio/MusicControl.h"
 
 
 
@@ -595,7 +596,7 @@ TPhotonBlastSequence::~TPhotonBlastSequence() {
     s32 i;
     s32 j;
     if (animated != 0) {
-        TLobby::set_and_notify_default();
+        set_and_notify_default();
         release_photon_blast_player_holds(holds);
         if (get_player_by_client_id(local_client_id) != NULL) {
             TWindowCtrl::enable_client_main_menu(local_client_id);
@@ -656,7 +657,7 @@ TPhotonBlastSequence::TPhotonBlastSequence(s32 owner_client_id, PhotonBlastReque
     owner = get_player_by_client_id(owner_client_id);
     apply_photon_blast_action_hold(this, summon_count * 150 + 100, owner_client_id);
     if (this->animated != 0) {
-        TLobby::send_neg30();
+        send_neg30();
         TWindowCtrl::disable_client_main_menu(local_client_id);
         if (owner != NULL) {
             VecCopy(&position, &owner->position);

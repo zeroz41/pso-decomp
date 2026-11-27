@@ -19,12 +19,12 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/RelModule.h"
 #include "pso/ui/frontend/EndingSequence.h"
+#include "pso/ui/frontend/OpeningMovie.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 extern "C" {
 s32 DVDCheckDisk();
-}
-extern "C" {
-s8 get_opening_movie_purpose();
 }
 
 extern int opening_movie_selector;
@@ -39,10 +39,10 @@ static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
 MovieState::~MovieState() {
     release();
     free_buffer();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
-MovieState::MovieState(s8 *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending) {
+MovieState::MovieState(const char *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending) {
     this->movie_mode = movie_mode;
     pad_00 = 0;
     init(filename);
@@ -129,7 +129,7 @@ void MovieState::init_sfd_player(s32 is_ending, s32 is_normal_ending) {
     } else {
         ply->vt->start_fname(ply, filename);
     }
-    ply->vt->f2C(ply, TLobby::get_lobby_data());
+    ply->vt->f2C(ply, get_lobby_data());
 }
 
 s32 MovieState::decode_frame() {
@@ -185,14 +185,14 @@ void MovieState::free_buffer() {
     reset_and_release_capture_texture();
 }
 
-void MovieState::init(const s8 *filename) {
+void MovieState::init(const char *filename) {
     reset_movie_state();
     memset(&handle, 0, 0xC8);
     buffer = xmalloc(0x420000);
     handle = NULL;
     pad_C8 = 1;
     pad_C4 = 0;
-    strcpy(this->filename, (const char *)filename);
+    strcpy(this->filename, filename);
     init_params.vsync_hz = 59.94f;
     init_params.display_cycle = 1;
     init_params.display_latency = 2;
@@ -218,12 +218,12 @@ TMovie::~TMovie() {
     if (finish_callback != NULL) {
         finish_callback(this);
     }
-    TLobby::set_pre_retrace_callback();
+    set_pre_retrace_callback();
 }
 
 void TMovie::render_until_finished() {
 loop_1:
-    if ((DVDCheckDisk() == 0) && (TLobby::run_disk_error_check() == 0)) {
+    if ((DVDCheckDisk() == 0) && (run_disk_error_check() == 0)) {
         render_tick();
         goto loop_1;
     }
@@ -234,8 +234,8 @@ s32 TMovie::check_skip_input() {
     s32 reset_pressed;
 
     if (is_ending_sequence_active() != 0) {
-        if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
-            if ((TLobby::run_disk_error_check() == 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
+        if ((run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
+            if ((run_disk_error_check() == 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
                 set_ending_movie_active();
             }
             return 1;
@@ -245,24 +245,24 @@ s32 TMovie::check_skip_input() {
     switch (get_opening_movie_purpose()) {
     case 0:
         context = &controller_physical_port_bank.controllers[0];
-        if (test_pressed_buttons_packed(context, 4) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 2) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x400) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x200) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 8) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x10) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x20) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x40) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x80) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x20000) != 0) goto block_fn_8000F91C;
-        if (test_pressed_buttons_packed(context, 0x10000) != 0) goto block_fn_8000F91C;
+        if (test_pressed_buttons_packed(context, 4) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 2) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x400) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x200) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 8) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x10) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x20) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x40) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x80) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x20000) != 0) goto end_movie;
+        if (test_pressed_buttons_packed(context, 0x10000) != 0) goto end_movie;
         context = &controller_input_state.keyboard;
-        if (test_controller_flag_4c_color(context, 4) != 0) goto block_fn_8000F91C;
-        if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
-        if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
-        if (check_reset_button() != 0) goto block_fn_8000F91C;
+        if (test_controller_flag_4c_color(context, 4) != 0) goto end_movie;
+        if (test_controller_flag_4c_color(context, 2) != 0) goto end_movie;
+        if (run_disk_error_check() == 0) goto end_movie;
+        if (check_reset_button() != 0) goto end_movie;
         if (this->player->is_playback_finished() == 0) goto block_return0;
-block_fn_8000F91C:
+end_movie:
         set_queued_main_phase(9);
         return 1;
     case 1:
@@ -276,7 +276,7 @@ block_fn_8000F91C:
         context = &controller_input_state.keyboard;
         if (test_controller_flag_4c_color(context, 4) != 0) goto block_call_func;
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
-        if (TLobby::run_disk_error_check() == 0) goto block_call_func;
+        if (run_disk_error_check() == 0) goto block_call_func;
         if (reset_pressed != 0) goto block_call_func;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:
@@ -330,13 +330,13 @@ void TMovie::run_task() {
     this->queue_destruction();
 }
 
-TMovie::TMovie(TObject *parent, s8 *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending) : TObject(parent) {
+TMovie::TMovie(TObject *parent, const char *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending, s32) : TObject(parent) {
     m_name = TMovie::class_name;
     this->finish_callback = finish_callback;
     module = NULL;
     this->movie_mode = movie_mode;
     player = NULL;
-    strncpy(this->filename, (const char *)filename, 0x20);
+    strncpy(this->filename, filename, 0x20);
     RelModuleBuffer *loaded = new RelModuleBuffer;
     if (loaded != NULL) {
         loaded = load_rel_module(loaded, "movie.rel");

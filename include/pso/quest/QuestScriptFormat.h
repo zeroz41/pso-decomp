@@ -22,6 +22,6 @@ struct QuestBinHeader {
 LAYOUT_ASSERT(QuestBinScriptNameOffset, offsetof(QuestBinHeader, name) == 0x14);
 
 struct QuestVmContext;
-extern "C" void init_quest_script_context(QuestBinHeader *header, QuestVmContext *context);
+void init_quest_script_context(QuestBinHeader *header, QuestVmContext *context);
 
 #endif

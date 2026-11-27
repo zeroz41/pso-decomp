@@ -25,6 +25,8 @@ public:
 
 LAYOUT_ASSERT(TObjCMHexTile_size, sizeof(TObjCMHexTile) == 0x54);
 
+void *create_TObjCMHexTile(void *pos);
+
 void create_hex_tile_grid(void);
 
 

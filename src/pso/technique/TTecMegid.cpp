@@ -3,8 +3,7 @@
 #include "pso/system/memory.h"
 #include "pso/technique/TechniqueBandSound.h"
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D96A8.h"
-// ---- pso/technique/TTecMegid
+#include "pso/system/MatrixStack.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
@@ -21,7 +20,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"

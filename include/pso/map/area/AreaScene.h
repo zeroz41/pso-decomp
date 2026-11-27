@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// Scene hooks of area_initializer_dispatch_table (TLobby_80228154.cpp), one source file per area
+// Scene hooks of area_initializer_dispatch_table (FloorTransition.cpp), one source file per area
 // under src/pso/map/area/, linked in the table's alphabetical area order. An init loads its area
 // (0 while a disconnect is pending) and starts the area's bgm; a cleanup releases it.
 s32 init_ancient1_area(void);           // ANCIENT01
@@ -45,10 +45,8 @@ void cleanup_spaceship_area(void);
 s32 init_temple_area(void);             // VERSUS02, RUINS01, RUINS02
 void cleanup_temple_area(void);
 
-extern "C" {
 // Empty; defined with BOSS02, and the CAVE, FOREST02, LOBBY, MACHINE and VERSUS02 inits call it with 0.
 void debug_area_hook(s32 _w0);
-}
 // Defined in TFontSmallTask.cpp on its {load, release} pair type: runs each pair's load hook.
 s32 run_load_callback_table(void *table, u32 size);
 

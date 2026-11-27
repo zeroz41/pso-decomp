@@ -9,7 +9,7 @@
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_801C4F80.h"
+#include "pso/network/BattleModeDataCmd.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
@@ -36,13 +36,13 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/Language.h"
 #include "pso/object/base/TObjMotion.h"
 
 
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
@@ -59,17 +59,15 @@
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/unk/TLobby_80103F5C.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/render/ScreenSpriteDraw.h"
+#include "pso/audio/MusicControl.h"
 
 
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
-extern "C" {
-extern const char *dead_spot_class_name;
-s32 start_duel_stub_a(int);
-void start_duel_stub_b(void);
-}
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
@@ -483,7 +481,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
         if (quest_mission_manager != NULL) {
             TQuestThread::clear_buffer(quest_mission_manager);
         }
-        TLobby::stop_audio_streams();
+        stop_audio_streams();
         reload_ready = 0;
         TLobby::init_fadeout_state(TPlayerBattleCtrl4P::init);
         set_phase_state(2);

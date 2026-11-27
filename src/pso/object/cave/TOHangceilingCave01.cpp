@@ -14,13 +14,13 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/NinjaUtil.h"
@@ -30,12 +30,11 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
 
-struct Q_801681D0 { f32 w[4]; };
 
 
 BmlResource *hangceiling_cave01_model_archive;
@@ -57,7 +56,7 @@ __declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {"
 BmlResourceDescriptor turiten_singo_resource_descriptor = {
     "bm_obj_ruins_turiten.bml", bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 #pragma pop
-__declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
+__declspec(section ".rodata") extern HangCeilingCaveDamageScale hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
 extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
 extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
 extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
@@ -285,14 +284,14 @@ void TOHangceilingCaveBase::hit_touching_players() {
 
     do {
         player = get_player_by_client_id(i);
-        if (player != NULL && has_hit_player((uaddr)player) == 0) {
+        if (player != NULL && has_hit_player(player) == 0) {
             if (player->get_floor() == get_current_floor() && check_actor_body_contact(player, 100.0f) != 0) {
                 DirectAttackPayload attack;
                 attack.kind = 0;
                 attack.power = calc_damage(damage);
                 player->receive_direct_attack(this, attack, NULL, -1, -1);
                 player->set_actor_flags(0x400);
-                add_hit_player((uaddr)player);
+                add_hit_player(player);
             }
         }
         i++;
@@ -367,13 +366,13 @@ void TOHangceilingCaveBase::clear_hit_players() {
     hit_player_count = 0;
 }
 
-void TOHangceilingCaveBase::add_hit_player(uaddr player) {
+void TOHangceilingCaveBase::add_hit_player(TObjPlayer *player) {
     if (hit_player_count < 4) {
         hit_players[hit_player_count++] = player;
     }
 }
 
-s32 TOHangceilingCaveBase::has_hit_player(uaddr player) {
+s32 TOHangceilingCaveBase::has_hit_player(TObjPlayer *player) {
     s32 i;
 
     for (i = 0; i != hit_player_count; i++) {
@@ -392,8 +391,8 @@ void TOHangceilingCaveBase::advance_frame() {
 }
 
 f32 TOHangceilingCaveBase::calc_damage(f32 power) {
-    Q_801681D0 q = hang_ceiling_cave_scale_params;
-    return power * q.w[game_difficulty_selection];
+    HangCeilingCaveDamageScale scale = hang_ceiling_cave_scale_params;
+    return power * scale.by_difficulty[game_difficulty_selection];
 }
 
 TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)

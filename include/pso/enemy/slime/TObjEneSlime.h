@@ -31,7 +31,7 @@ struct TObjEneSlime : public TObjEnemy {
     SlimeSpawnTemplate spawn_template;
     s32 child_limit;
     SlimeChildSlot child_slots[4];
-    s32 try_spawn_child(void *position);
+    s32 try_spawn_child(Vec *position);
     void release_child_slot(s32 id);
     void release_split_slimes();
     virtual void render();

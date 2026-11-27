@@ -1,4 +1,4 @@
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/ControllerInputState.h"
@@ -19,7 +19,12 @@
 extern "C" {
 const char *info_col_class_name = "TObjInfoCol";
 
-void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_Unknown_6x78::bswap() {
+    header.bswap();
+    bswap_16(&client_id);
+    bswap_16(&unused1);
+    bswap_32(&unused2);
+}
 
 }
 

@@ -7,7 +7,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/network/TLobby.h"
@@ -16,13 +16,13 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill_Solo.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill_SoloM.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
@@ -33,14 +33,10 @@
 #include "pso/player/PlayerSlots.h"
 
 const char *TObjBoss1Floor::name = "TObjBoss1Floor";
-extern "C" {
-void free_boss1_floor_stub(void);
-void load_boss1_floor_stub(void);
-}
 
-void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock::free_resources(); TObjBoss1Crater::free_resources(); free_boss1_floor_stub(); TLobby::free_char_select(); }
+void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock::free_resources(); TObjBoss1Crater::free_resources(); TObjBoss1Floor::free_resources(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
-void TLobby::init_bosses() { load_dragon_ground_assets(); load_boss1_floor_stub(); clear_boss1_crater_instances(); TObjBoss1Rock::load_resources(); TObjBoss1MokoHill_SoloM::load_resources(); }
+void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor::load_resources(); clear_boss1_crater_instances(); TObjBoss1Rock::load_resources(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
 
 void TObjBoss1Floor::render() {
@@ -109,14 +105,14 @@ TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
     }
 }
 
-extern "C" void free_boss1_floor_stub(void) {  }
+void TObjBoss1Floor::free_resources() {}
 
 
 void TObjBoss1Floor::create_instance() {
     void* obj = new TObjBoss1Floor((TObject *)tl_02);
 }
 
-extern "C" void load_boss1_floor_stub(void) {  }
+void TObjBoss1Floor::load_resources() {}
 
 
 void TObjBoss1MokoHill_Solo::render() {

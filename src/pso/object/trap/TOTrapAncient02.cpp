@@ -10,13 +10,13 @@
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/technique/TTecFoie.h"
@@ -26,9 +26,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_800FD8A0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -53,10 +53,6 @@
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
 const char *bm_obj_ruins_pillar_motion_names[] = {NULL};
 const char *bm_obj_seabed_pillar_motion_names[] = {NULL};
-struct TrapAncient02ResourceRecord {
-    const char *model_filenames[2];
-    BmlResourceDescriptor descriptor;
-};
 
 TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
     { {"fs_obj_o_torabasami.gj", NULL},

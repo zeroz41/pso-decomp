@@ -17,7 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/BattleRuleConfig.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -28,6 +28,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -39,12 +40,11 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/text_800C7FEC.h"
+#include "pso/network/LegacyEnemyKill.h"
 #include <string.h>
 #include "pso/ui/Language.h"
 
 #include "pso/object/base/TObjMotion.h"
-
 
 
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -55,6 +55,8 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/player/PlayerTrapCounts.h"
+#include "pso/object/TDeadSpot.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -65,9 +67,8 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/unk/TLobby_801C4F80.h"
-#include "pso/unk/TLobby_80103F5C.h"
-#include "pso/player/TPlayerBattleCtrlTypes.h"
+#include "pso/network/BattleModeDataCmd.h"
+#include "pso/item/FloorItemSync.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
@@ -89,7 +90,6 @@ f32 battle_enemy_take_damage_score;
 f32 battle_meseta_score;
 
 
-
 void play_duel_result_stream(const char *file, saddr duration);
 extern "C" {
 u8 is_battle_mode_running(void);
@@ -108,32 +108,6 @@ const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 
 
 
-
-
-
-
-
-extern "C" {
-void start_duel_stub_a(s32);
-void start_duel_stub_b(void);
-extern const char *dead_spot_class_name;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern "C" {
 
 
@@ -141,12 +115,7 @@ void __destroy_new_array(void *, void *);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void __ct__19PlayerCharDataEntryFv(void);
-
-
-
-void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
 }
-
 
 extern s32 battle_intro_value_table[];
 
@@ -154,12 +123,8 @@ extern char battle_intro_message_buffer[];
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
-
 #define CFG (*(BattleRuleConfig **)&battle_config_ptr)
 
-
-
-extern s32 lbl_805D55C0;
 
 BattleRanking duel_result_table[4];
 s32 battle_team_table[4];
@@ -183,7 +148,7 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     if (player != NULL) {
         player->export_character_data(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     battle_ctrl_default = 0;
 }
 
@@ -199,7 +164,7 @@ TPlayerBattleCtrl::~TPlayerBattleCtrl() {
 }
 
 void TPlayerBattleCtrl::run_task() {
-    if (lbl_805D55C0 == 0) {
+    if (TLobby::connection_lost == 0) {
         if (state_1c != state_24) {
             if (state_20 != -1) {
                 state_20 = -1;
@@ -619,7 +584,7 @@ void TLobby::handle_battle_result(int client, s32 local) {
     }
 }
 
-void apply_game_settings(s32 owner, s32 use_config) {
+void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
     lobby_rule_settings.reset_settings_to_default();
     if (use_config != 0) {
         s32 flag;
@@ -695,7 +660,7 @@ void send_battle_mode_params(s8 command, s32 value, s32 extra) {
     cmd.what = 0;
     cmd.params[0] = value;
     cmd.params[1] = extra;
-    ((TLobby *)(&cmd))->send_set_battle_mode_data();
+    cmd.send();
 }
 
 s32 TPlayerBattleCtrl::check_team_balance(s32 check_rule) {
@@ -804,7 +769,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
             if (quest_mission_manager != NULL) {
                 TQuestThread::clear_buffer(quest_mission_manager);
             }
-            TLobby::stop_audio_streams();
+            stop_audio_streams();
             battle_fadeout_done = 0;
             TLobby::init_fadeout_state(init_and_set_flag);
             ctrl->state_20 = 2;
@@ -834,7 +799,7 @@ void restart_battle_after_fade(void) {
 void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt) {
     TObjPlayer *p;
     s32 i;
-    ((TLobby *)pkt)->bswap_set_battle_mode_data();
+    pkt->bswap();
     switch (pkt->what) {
     case 0:
         if (battle_mode_data_ptr != NULL) {
@@ -877,9 +842,9 @@ void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt) {
 
 void handle_6x7E(void) {  }
 
-void handle_6x7F_battle_scores(saddr command) {
-    bswap_client_id_header((G_ClientIDHeader *)command);
-    memcpy(duel_result_table, (void *)(command + 4), 0x20);
+void handle_6x7F_battle_scores(G_BattleScores_6x7F *cmd) {
+    bswap_client_id_header(&cmd->header);
+    memcpy(duel_result_table, cmd->rankings, sizeof(cmd->rankings));
     battle_scores_received = 1;
 }
 
@@ -1061,7 +1026,7 @@ void TPlayerBattleCtrl::init_battle_round() {
   }
   set_active_disconnect_count((u16) clamped_slot);
   save_active_character_to_card();
-  apply_game_settings((saddr)this, 1);
+  this->apply_game_settings(1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
   player = get_local_player();
   if (player != NULL)
@@ -1155,7 +1120,7 @@ void send_6x7D_set_battle_mode_data(void *) {
             msg.params[b] = t;
         }
     }
-    ((TLobby *)(&msg))->send_6x7D_set_battle_mode_data();
+    msg.send_to_leader();
     ((game_command *)&msg)->send();
 }
 
@@ -1194,7 +1159,7 @@ void TPlayerBattleCtrl::send_player_ready() {
     build_6x7D_set_battle_mode_data(&cmd);
     cmd.what = 4;
     cmd.params[0] = local_client_id;
-    ((TLobby *)(&cmd))->send_set_battle_mode_data();
+    cmd.send();
 }
 
 s32 TPlayerBattleCtrl::check_all_players_ready() {
@@ -1265,7 +1230,7 @@ void TPlayerBattleCtrl::send_battle_mode_state() {
         }
         m.is_alive = on;
         battle_team_table[local_client_id] = on;
-        ((TLobby *)(&m))->send_set_battle_mode_data();
+        m.send();
     }
 }
 
@@ -1283,7 +1248,7 @@ void TLobby::send_battle_mode_data(void * _w0) {
 
     build_6x7D_set_battle_mode_data(&cmd);
     cmd.what = 5;
-    ((TLobby *)(&cmd))->send_set_battle_mode_data();
+    cmd.send();
 }
 
 void TPlayerBattleCtrl::update_battle_sync(s32 t) {

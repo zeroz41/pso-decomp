@@ -24,9 +24,9 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibbles/TObjEneGibbles.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -39,10 +39,10 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -62,6 +62,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 static const char gibbles_model_name[] = "gibb_body.nj";
 static const char gibbles_attack_motion_name[] = "attack_gibb_body.njm";
@@ -217,12 +218,12 @@ void TObjEneGibbles::load_resources() {
     gibbles_render_node_index = 0;
     gibbles_render_rotation_x = 0;
     gibbles_combat_stat_entries = (AttackParams **)mem_alloc(0xC);
-    gibbles_boss_stat_handle = TLobby::register_boss(0x3D);
-    gibbles_combat_stat_entries[0] = TLobby::dispatch_shared_handler_b(0x3D);
-    gibbles_combat_stat_entries[2] = TLobby::dispatch_shared_handler_b(0x3E);
-    gibbles_combat_stat_entries[1] = TLobby::dispatch_shared_handler_b(0x3F);
-    gibbles_combat_stats_handle = TLobby::register_object(0x3D);
-    gibbles_ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
+    gibbles_boss_stat_handle = register_boss(0x3D);
+    gibbles_combat_stat_entries[0] = dispatch_shared_handler_b(0x3D);
+    gibbles_combat_stat_entries[2] = dispatch_shared_handler_b(0x3E);
+    gibbles_combat_stat_entries[1] = dispatch_shared_handler_b(0x3F);
+    gibbles_combat_stats_handle = register_object(0x3D);
+    gibbles_ai_parameters = (GibblesAiParams *)dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
     s.motions = gibbles_resource_bundle->motions;
     TObjNpcEnemy::register_animated_chunk(0x44, gibbles_resource_bundle->models->model, gibbles_resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
@@ -461,7 +462,7 @@ void TObjEneGibbles::refresh_target() {
         best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != (TObjChara *)this) {
+            if (TObjPlayer::is_valid_and_active(p) != 0 && p != (TObjChara *)this) {
                 id = p->get_entity_id();
                 if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     VecCopy(&v, &p->body_center);
@@ -519,7 +520,7 @@ void TObjEneGibbles::refresh_target() {
             VecCopy(&v, &p->body_center);
             subtract_vector(&v, &body_center);
             d = v.x * v.x + v.z * v.z;
-            if ((p->class_flags & target_class_mask) && d < best &&
+            if ((p->appearance.classFlags & target_class_mask) && d < best &&
                 check_path_obstructed(this, &p->body_center) != 1) {
                 best_id = p->get_entity_id();
                 best = d;
@@ -980,7 +981,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
         }
         for (i = 0; i < entity_table_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p->get_entity_id() < 0x1000) {
+            if (TObjPlayer::is_valid_and_active(p) != 0 && p->get_entity_id() < 0x1000) {
                 d = horizontal_distance_squared(&p->body_center, &v);
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
@@ -1000,7 +1001,7 @@ s32 TObjEneGibbles::landing_damage_players() {
 
     for (i = 0; i < entity_table_count; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl->get_entity_id() < 0x1000U) {
+        if (TObjPlayer::is_valid_and_active(pl) != 0 && pl->get_entity_id() < 0x1000U) {
             f32 dist = horizontal_distance_squared(&pl->body_center, &position);
             if (dist <= gibbles_combat_stat_entries[1]->get_damage_radius() * gibbles_combat_stat_entries[1]->get_damage_radius()) {
                 DirectAttackPayload attack;

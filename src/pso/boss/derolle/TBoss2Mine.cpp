@@ -7,22 +7,23 @@
 #include "pso/boss/derolle/TBoss2TargetMine.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/AltModel.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/enemy/BattleParamTables.h"
 
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
@@ -93,9 +94,9 @@ void TBoss2Mine::init(s32 variant) {
     this->model = boss2_derolle_resource->models[3].model;
     this->texlist = boss2_derolle_resource->models[2].texlist;
     this->init_model(&boss2_mine_collision_body, 1);
-    this->reset_hp(TLobby::register_boss(boss2_mine_params[variant]),
-                   TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
-                   TLobby::register_object(boss2_mine_resist_params[variant]));
+    this->reset_hp(register_boss(boss2_mine_params[variant]),
+                   dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
+                   register_object(boss2_mine_resist_params[variant]));
     this->set_state_flag_2();
     this->movementParameters = &boss2_mine_movement[variant];
     this->wall_reach = 3.0f;

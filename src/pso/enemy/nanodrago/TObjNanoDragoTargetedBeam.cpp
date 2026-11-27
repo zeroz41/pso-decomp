@@ -1,7 +1,7 @@
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -18,7 +18,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjChara.h"

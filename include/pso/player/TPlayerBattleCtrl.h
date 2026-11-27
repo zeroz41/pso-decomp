@@ -6,6 +6,8 @@
 #include "pso/player/BattleRanking.h"
 
 struct TWindowMessage;
+struct G_SetBattleModeData_6x7D;
+struct G_BattleScores_6x7F;
 struct TWindowMenu;
 struct TWindowDuelResult;
 
@@ -19,6 +21,7 @@ public:
     TPlayerBattleCtrl(TObject *parent);
     virtual ~TPlayerBattleCtrl();
     void init_battle_round();
+    void apply_game_settings(s32 use_config);
     void update_state();
     // States run by update_state.
     void update_battle_intro();
@@ -91,7 +94,8 @@ void free_char_slots(void);
 s32 get_battle_time_limit_frames(void);
 void clear_battle_player_ready_flags(void);
 void handle_6x7E(void);
-void handle_6x7F_battle_scores(saddr command);
+void handle_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *pkt);
+void handle_6x7F_battle_scores(G_BattleScores_6x7F *cmd);
 void record_local_battle_placement(void *arg0);
 extern "C" {
 void send_6x7D_set_battle_mode_data(void *arg0);
@@ -100,7 +104,6 @@ void send_6x7D_set_battle_mode_data(void *arg0);
 void init_char_slots(void);
 void init_battle_ctrl(s32 config, saddr src);
 void init_and_set_flag(void);
-void apply_game_settings(s32 owner, s32 use_config);
 void finish_chr_select_scene_init(void);
 void send_battle_mode_params(s8 command, s32 value, s32 extra);
 void apply_battle_rules_to_players(void);
@@ -132,5 +135,7 @@ extern f32 battle_enemy_kill_score;
 extern f32 battle_enemy_death_score;
 extern f32 battle_enemy_take_damage_score;
 extern f32 battle_meseta_score;
+
+struct UpdateBattleIntroName { char s[16]; };
 
 #endif

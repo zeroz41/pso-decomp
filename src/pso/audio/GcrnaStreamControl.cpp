@@ -8,6 +8,7 @@
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/GcrnaBufferQuery.h"
 #include "pso/audio/GcrnaMusyxStream.h"
+#include "musyx/runtime/musyx_internal.h"
 
 void gcrna_interrupt_lock_leave(void) {
     middleware_interrupt_lock_leave();
@@ -45,8 +46,6 @@ void gcrna_set_sample_bits(GcrnaStream *stream, s32 sample_bits) {
 }
 
 extern "C" {
-extern u8 gcrna_volume_table[1000];
-extern u32 gcrna_pan_table[31];
 
 inline s32 gcrna_get_play_switch(GcrnaStream *stream) {
     if (stream == 0) {
@@ -121,8 +120,6 @@ void gcrna_set_stream_count(GcrnaStream *stream, s32 stream_count) {
 }
 
 extern "C" {
-void sndStreamARAMUpdate(u32 stream_id, u32 offset1, u32 samples1, u32 offset2, u32 samples2);
-extern GcrnaStream gcrna_stream_pool[16];
 
 inline s32 gcrna_get_transfer_switch(GcrnaStream *stream) {
     if (stream == NULL) {

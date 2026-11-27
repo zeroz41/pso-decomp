@@ -2,7 +2,7 @@
 #define PSO_OBJECT_CITY_CITYTRAFFICTABLES_H
 #include "types.h"
 
-// .rodata block, defined by CityTrafficTables.cpp: CityTraffic.cpp
+// .rodata block, defined by CityTrafficTables.cpp: TObjCityAirCar_Car.cpp
 // addresses each table on its own. One entry per traffic air car (5).
 extern "C" {
 extern const s32 city_traffic_path_motion_index_table[5];

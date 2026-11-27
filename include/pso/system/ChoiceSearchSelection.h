@@ -9,4 +9,9 @@ struct ChoiceSearchSelection {
     u32 choice_id;
 };
 
+// The five choice search settings as one block.
+struct ChoiceSearchSelections {
+    ChoiceSearchSelection entries[5];
+};
+
 #endif

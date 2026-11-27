@@ -91,7 +91,7 @@ struct HelpItemDescriptionLayout {
     TextLayoutRecord text;
 };
 
-// inferred: the attribute area names show_weapon_attributes labels the first four rows with
+// The attribute area names show_weapon_attributes labels the first four rows with
 // ("Hit" is the fifth).
 extern const char native_attribute_label[];
 extern const char abeast_attribute_label[];
@@ -102,6 +102,7 @@ const char *get_help_text_string(s32 id);
 
 struct TWindowHelpItem : public TWindowBase
 {
+    static const char *class_name;
     static HelpItemDescriptionLayout description_text_layout;
     static HelpItemResistanceLayout resistance_layout_entries;
     static HelpItemLayout item_layout_entries;
@@ -143,8 +144,6 @@ struct TWindowHelpItem : public TWindowBase
     void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
 
     TWindowHelpItem(const NJS_POINT2 *position, s32 index);
-    static void set_help_text(saddr help, saddr client_id);
-    static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
     void update_resistance_rows();
@@ -173,7 +172,6 @@ struct TWindowHelpItem : public TWindowBase
     void set_flag0_bit20();
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
-    static void set_flag_0x10(u16 *flags, s32 on);
     void set_flag8_and_field20(s32 next_value);
     void set_compare_color(s32 count);
     void set_flag4_and_field1c(s32 count);

@@ -28,6 +28,7 @@ public:
     s32 get_field_308();
     // Steps the sound random generator (x * 0x10DCD + 1) and returns it.
     s32 advance_rng();
+    f32 get_surround_scale();
     s32 get_voice_volume_adjustment();
     void set_voice_volume_adjustment(s32 adjustment);
     // Clamps to 0..1.
@@ -37,6 +38,14 @@ public:
     // otherwise down to the four resident banks.
     s32 pop_sound_groups(s32 pop_all);
     s32 validate_and_set_selection(s32 bank);
+    // Steps the pending bank route: loads the next group's bank files, then marks the state ready.
+    void update_sound_bank_load();
+    // Frees bank id's buffers and starts reading its four AFS files; 0, or 2/3 when an open or
+    // allocation fails.
+    s32 start_sound_bank_load(int id);
+    int sound_retrace_stub();
+    s32 update_sound_frame();
+    s32 init_sound_aux_effects();
 
     u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
     u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
@@ -57,7 +66,7 @@ public:
     s32 load_state;
     s32 next_group_state;
     s32 output_mode;              // 0, 1 or 2: what set_output_mode gave sndOutputMode
-    f32 f2A4;
+    f32 surround_scale;           // weight of the surround term of a voice's spatial mix
     s32 f2A8;
     s32 rng_seed;
     s32 route_pos;
@@ -84,21 +93,13 @@ extern SoundControlState sound_control_state;
 
 void set_sound_voice_position(s32 slot, const Vec *position);
 s32 get_sound_voice_state(s32 voice);
-int sound_retrace_stub(SoundControlState *self);
-extern "C" {
-void copy_guild_card_f4c(void *dst, void *src);
-}
 // Keeps a looping voice alive for five more updates.
 void sound_request_voice_set_refresh(struct SoundRequestVoice *voice);
 // Sends the voice's pitch to the sound driver when it changed.
 void sound_request_voice_update_pitch(struct SoundRequestVoice *v);
-void voice_start_stub(struct SoundRequestVoice *v);
-void voice_pitch_stub(struct SoundRequestVoice *v);
 void reset_com_card_list_callback(void);
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
-extern "C" {
 s32 start_voice_fade(SoundRequestVoice *v, s32 step);
-}
 void fade_out_sound_slot(s32 slot, s32 step);
 s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags);
 s32 alloc_one_shot_sound_slot(u32 id, const Vec *position, s32 base, s32 flags);
@@ -112,8 +113,6 @@ s32 set_voice_pitch_slide(struct SoundRequestVoice *voice, s32 target, s32 durat
 s32 tick_sound_voice(struct SoundRequestVoice *v);
 
 
-s32 update_sound_frame(SoundControlState *self);
-s32 init_sound_aux_effects(SoundControlState *self);
 
 typedef struct ResolveSoundEffectBankRange {
     s32 start;

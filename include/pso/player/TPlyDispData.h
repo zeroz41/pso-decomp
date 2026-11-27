@@ -17,12 +17,13 @@
 
 struct disp_data_part2 {
     void bswap();
+    void clear();
     bool is_valid() {
         return false;
     };
 
     char name[16];
-    u32 smth[2];
+    u8 smth[8];
     u32 name_colour;
     u8 extra_model;
     u8 padding[15];

@@ -3,8 +3,8 @@
 #include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/player/LocalClientId.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/network/TLobby.h"
@@ -37,22 +37,21 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
-#include "pso/unk/TLobby_80300098.h"
+#include "pso/ui/frontend/MultiSelRuleReset.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/TLobby_8020B03C.h"
+#include "pso/map/MapSetData.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
@@ -65,10 +64,9 @@
 #include "pso/network/protocol/choice_search.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/object/key/TOKeyJungleMain.h"
-#include "pso/unk/TLobby_802D3970.h"
+#include "pso/network/TradeProposalCmd.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
 #include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
@@ -76,17 +74,17 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/map/TSetManager.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby_80228154.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/map/FloorTransition.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/gjSystem.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/quest/QuestFlagSync.h"
-#include "pso/unk/text_800F9B84.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFlagCommand.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/ActorCollision.h"
@@ -94,12 +92,18 @@
 #include "pso/network/TProtocol.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/object/door/TODoorBase.h"
-#include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TObjFreezeShell.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/quest/QuestActiveFlag.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/task/DestructorChain.h"
+#include "pso/map/MapCollisionSetup.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/map/FloorMapSelection.h"
 
 
 void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -120,14 +124,14 @@ void recreate_split_screen_players(void) {
                     delete player;
                 }
             }
-            TLobby::apply_char_to_players();
+            apply_char_to_players();
             break;
         }
         }
     }
 }
 
-void TLobby::apply_char_to_players() {
+void apply_char_to_players() {
     s32 slot;
     TPlyCharData *record;
     TPlyCharData *local_record;
@@ -196,11 +200,11 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_story_flag_list_and_reload, clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, destroy_tombstone},
-    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {update_keyboard_menu, free_keyboard_soft_resources},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {reset_clock_bar_pulse, clock_bar_on_floor_free_stub},
-    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {alloc_battle_param_tables, free_battle_param_tables},
     {reset_id_counters, free_id_counters},
@@ -208,7 +212,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
-    {TLobby::load_item_data, free_forest_rel_work_buffer},
+    {load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {create_area_event_set_heap, free_area_event_set_heap},
@@ -220,7 +224,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {load_word_select_data, TWindowDD::free_buffers},
     {init_switch_table, clear_switch_table},
     {reset_shop_stock_and_params, clear_all_shop_stock},
-    {THunterGuildSeqOffline::reset_quest_result_callbacks, reset_quest_result_callbacks_on_unload},
+    {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline::unload_quest_result_callbacks},
     {TQuestThread::clear_all_floor_handlers, clear_quest_floor_handlers},
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
     {clear_short_mail_on_load, clear_short_mail_on_unload},
@@ -234,7 +238,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_jungle_key_slots, unload_jungle_key_slots},
     {reset_trade_state_on_scene_load, reset_trade_state_on_scene_unload},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel::free_resources},
-    {TBGMulti__ct, TLobby::release_bg_multi_textures},
+    {load_bg_multi_textures, release_bg_multi_textures},
     {clear_boss6_player_snapshots, NULL},
 };
 
@@ -275,7 +279,7 @@ void TLobby::reload_offline_area() {
     free_area_event_sets();
     clear_floor_population();
     randomize_offline_maps();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
@@ -327,13 +331,13 @@ void TLobby::rebuild_area_keep_players() {
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
     TLobby::sync_story_select();
-    TAdStorySelectGC::set_state(0);
+    select_episode(0);
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
     free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
@@ -353,7 +357,7 @@ void TLobby::rebuild_area_keep_players() {
         TQuestThread *thread = new TQuestThread(quest_mission_manager, 0);
         thread->run_task();
     }
-    TLobby::set_enemy_mode_flag();
+    set_enemy_mode_flag();
     reset_enemy_and_object_ids();
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
@@ -397,7 +401,7 @@ void run_offline_area_transfer(void) {
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
     TKeyBoardControl::update();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     leader_selection.find_leader_section_id(designated_client_id);
@@ -426,8 +430,8 @@ void TLobby::teardown_scene() {
     }
     reset_view_count();
     TAdSelectGameModeGC::enable_camera();
-    TLobby::stop_audio_streams();
-    TLobby::update_lobby_subsystems();
+    stop_audio_streams();
+    update_lobby_subsystems();
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
     main_task.resume_layers();
@@ -535,7 +539,7 @@ void run_split_screen_frame(void) {
             if (TCameraCtrl::get_active_controller() != 5 && TCameraCtrl::get_active_controller() != 9) {
                 if (i == 0) {
                     main_task.run_task();
-                    TWindowSubStatusDisp::draw_split_screen_hud();
+                    draw_split_screen_hud();
                 } else if (camera_ctrl_instance != NULL) {
                     camera_ctrl_instance->run_task();
                 }
@@ -581,7 +585,7 @@ void init_offline_game_scene(void) {
     reset_controller_input_state();
     clear_keyboard_key_state();
     clear_resource_load_tasks();
-    TLobby::create_map_csn_ctrl();
+    create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::poll_default();
     TObjPlayer::send_local_player_invisible();
@@ -593,7 +597,7 @@ void init_offline_game_scene(void) {
     run_load_callback_table(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
         TObjPlayer::send_local_player_visible();
@@ -602,7 +606,7 @@ void init_offline_game_scene(void) {
     TLobby::clear_callback_and_reset_keyboard();
     quest_flag_sync_stub();
     offline_scene_init_stub_c();
-    TLobby::apply_char_to_players();
+    apply_char_to_players();
     offline_scene_init_stub_b();
     actor_frame_tick = 0;
     local_client_id = 0;

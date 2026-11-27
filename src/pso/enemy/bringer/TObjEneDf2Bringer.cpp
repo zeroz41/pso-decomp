@@ -16,16 +16,16 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -136,6 +136,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 s32 TItem::get_item_id() { return (s32)this->item_id; }
@@ -199,10 +200,10 @@ void TObjEneDf2Bringer::load_resources() {
   {
     TObjEneDf2Bringer::resource_bundle = load_enemy_bml_resource(&bm_ene_df2_bringer_resource_descriptor);
   }
-  bringer_boss_stats_handle = TLobby::register_boss(0xD);
-  bringer_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0xD);
-  bringer_object_handle = TLobby::register_object(0xD);
-  df2_bringer_params = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
+  bringer_boss_stats_handle = register_boss(0xD);
+  bringer_boss_stats_ptr_b = dispatch_shared_handler_b(0xD);
+  bringer_object_handle = register_object(0xD);
+  df2_bringer_params = (BringerParameters *)dispatch_shared_handler_a(0xD);
   df2_bringer_render_node_index = 0;
   df2_bringer_render_rotation_x = 0;
   df2_bringer_render_point_cursor = 0;
@@ -285,7 +286,7 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 index, f32 speed) {
 TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = df2_bringer_name;
     invoke_initialization_hook(set_data);
-    demo_stub();
+    apply_parameters();
     this->init_enemy();
 }
 
@@ -408,7 +409,7 @@ void TObjEneDf2Bringer::set_effect_pos_above_self() {
 
 void TObjEneDf2Bringer::update_body_colliders() {  }
 
-void TObjEneDf2Bringer::demo_stub() {  }
+void TObjEneDf2Bringer::apply_parameters() {  }
 
 // The slash: from the swing's start frame to frame 13 the attack collider follows the blade
 // points sampled from the motion and hits through attack_history.
@@ -471,7 +472,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 }
                 eff = (u8 *)TObject::operator new(0x34);
                 if (eff != NULL) {
-                    construct_bringer_rush_effect(eff, (saddr)this, (u8 *)this, (saddr)player, 12.0f);
+                    construct_bringer_rush_effect(eff, (saddr)this, this, player, 12.0f);
                 }
             }
         }
@@ -1378,7 +1379,7 @@ void TObjEneDf2Bringer::render() {
 
 #pragma pop
 
-void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { demo_stub(); } }
+void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { apply_parameters(); } }
 
 void TObjEneDf2Bringer::render_demo() {
     f32 frame;

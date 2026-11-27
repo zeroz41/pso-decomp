@@ -8,7 +8,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -20,7 +20,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/GameModeQueries.h"
 
 const char *fs_obj_do_doa02_model_names[] = {"fs_obj_do_doa02.gj", NULL};
 const char *fs_obj_do_doa02_motion_names[] = {"fs_obj_do_doa02.njm", NULL};
@@ -144,7 +145,7 @@ void TODoorCave02::destroy() {
 void TODoorCave02::load_resources() {
     BmlResource *resource;
     texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
-    if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
+    if (enable_v2_features == 1 && is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave02_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
         texture_lists[0] = LoadPvmFileTls("fs_obj_do_doa02r_a.gvm");

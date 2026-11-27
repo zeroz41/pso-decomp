@@ -1,12 +1,12 @@
-// ---- pso/misc/TLobby_80335E08: separate TU (own .sdata2 pool)
+// Its own TU: the title textures have their own .sdata2 pool.
 #include "types.h"
 #include "pso/ui/TitleTextures.h"
+#include "pso/ui/TitleTextureResources.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/unk/TTitleScene.h"
 
 #include "pso/ui/TTitleMenu.h"
-#include "pso/unk/TLobby_80335E08.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
@@ -59,7 +59,7 @@ NJS_TEXLIST *get_title_texture_list(void) {
     return &title_texture_list;
 }
 
-NJS_SPRITE *TLobby::get_record(int index) { return &lobby_record_table[index]; }
+NJS_SPRITE *get_record(int index) { return &lobby_record_table[index]; }
 
 void bind_title_texture_list(void) {
     set_texlist(&title_texture_list);

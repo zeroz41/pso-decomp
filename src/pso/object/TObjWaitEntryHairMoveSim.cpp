@@ -487,7 +487,7 @@ const char *T_OWEHMS_Exp::class_name = "T_OWEHMS_Exp";
 TObjWaitEntryHairMoveSim::~TObjWaitEntryHairMoveSim() {}
 
 TObject *create_hair_move_sim(TObjPlayer *player) {
-    if (character_display_index((CharacterAppearanceFields *)player->name) == 0xE) {
+    if (character_display_index(&player->appearance) == 0xE) {
         TObjTailsTailsMove::create(player);
         return 0;
     }
@@ -503,13 +503,13 @@ TObject *create_hair_move_sim(TObjPlayer *player) {
 
 s32 TObjWaitEntryHairMoveSim::is_level_in_table(TObjPlayer *player) {
     HairEffectEntry *e;
-    if (player->v2_flags & 0xA) {
+    if (player->appearance.flags & 0xA) {
         return 0;
     }
-    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->class_index; e++) {
-        if (player->class_index == e->class_id &&
-            (player->hair == e->head_model_hair || player->hair == e->hair_model_hair ||
-             player->head == e->attachment_model_head)) {
+    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->appearance.classId; e++) {
+        if (player->appearance.classId == e->class_id &&
+            (player->appearance.hair == e->head_model_hair || player->appearance.hair == e->hair_model_hair ||
+             player->appearance.head == e->attachment_model_head)) {
             return 1;
         }
     }
@@ -519,13 +519,13 @@ s32 TObjWaitEntryHairMoveSim::is_level_in_table(TObjPlayer *player) {
 void TObjWaitEntryHairMoveSim::create_hair_effects() {
     HairEffectEntry *e;
     NJS_OBJECT *model;
-    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->class_index; e++) {
-        if (player->class_index == e->class_id) {
-            if (player->hair == e->head_model_hair) {
+    for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->appearance.classId; e++) {
+        if (player->appearance.classId == e->class_id) {
+            if (player->appearance.hair == e->head_model_hair) {
                 model = (NJS_OBJECT *)player->head_model;
-            } else if (player->hair == e->hair_model_hair) {
+            } else if (player->appearance.hair == e->hair_model_hair) {
                 model = (NJS_OBJECT *)player->hair_model;
-            } else if (player->head == e->attachment_model_head) {
+            } else if (player->appearance.head == e->attachment_model_head) {
                 model = (NJS_OBJECT *)player->attachment_model;
             } else {
                 continue;
@@ -583,10 +583,10 @@ void T_OWEHMS_Exp::start_bone_rotation() {
 }
 
 s32 TObjWaitEntryHairMoveSim::get_move_done_result(TObjPlayer *player) {
-    if (!(player->v2_flags & 0xA)) {
+    if (!(player->appearance.flags & 0xA)) {
         return -1;
     }
-    switch (player->extra_model) {
+    switch (player->appearance.extraModel) {
     case 6:
         return 0;
     }

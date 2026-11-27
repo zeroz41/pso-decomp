@@ -17,7 +17,7 @@ struct Boss6StripDesc {
 // appearance demo. The functions are in TBoss6PlotFalz.cpp.
 struct Boss6ScrollStrips {
     s32 count;
-    u8 unk_04[0x4];
+    u8 pad_04[0x4];
     s32 u;
     s32 v;
     StripBufferPair **items;

@@ -7,6 +7,7 @@ struct ObjectSetData;
 struct AttackParams;
 struct ActorParamBlock;
 struct TObjPlayer;
+struct MagStats;
 
 // The start every ItemPMT record shares (lookup_item_pmt_record): its id and
 // the ItemModel.afs / ItemTexture.afs file indices of the item's model.
@@ -42,14 +43,16 @@ struct TItemData {
     // Makes this item a meseta drop of `amount`.
     void init_meseta(s32 amount);
     void bswap();
-    static s32 is_usable(TItemData *data);
-    static s32 lookup_item_def(void *data);
-    static s32 is_wrapped(void *data);
-    static s32 is_rare_item(void *data);
-    static s32 is_custom_name_srank(void *data);
+    s32 is_usable();
+    s32 lookup_item_def();
+    s32 is_wrapped();
+    s32 is_rare_item();
+    s32 is_custom_name_srank();
+    s32 is_frame();
+    s32 is_unit();
     // Packs a mag's MagStats into its item data, and unpacks them.
-    static void serialize_mag(void *item, void *mag);
-    static void deserialize_mag(void *item, void *mag);
+    void serialize_mag(const MagStats *mag);
+    void deserialize_mag(MagStats *mag);
 
 
     union {
@@ -57,6 +60,7 @@ struct TItemData {
         s8 data_s8[12];
         u8 data_u8_pair[6][2];
         u16 data_u16[6];
+        s16 data_s16[6];
         u32 data_u32[3];
     } data1;
     u32 id;
@@ -95,7 +99,7 @@ struct TItemData {
     // EVP bonus).
     static s16 getS16_06(void *data);
     static s16 get_bswap16_field8(void *data);
-    void set_bswapped_field_8(s16 evp_bonus);
+    void set_evp_bonus(s16 evp_bonus);
     void set_dfp_bonus(s16 dfp_bonus);
     s16 get_technique_level();
     s32 has_bonus_stats();
@@ -124,7 +128,7 @@ struct TItemData {
     s32 get_base_rarity();
     s32 check_item_flags();
     void clear_unidentified_flag();
-    static s32 is_item_usable(saddr player, u8 *item);
+    static s32 is_item_usable(TObjPlayer *player, TItemData *item);
     void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
@@ -146,9 +150,17 @@ struct TItemData {
 
 // The ItemPMT record for an item's type bytes, NULL for none.
 void *lookup_item_pmt_record(u8 *item);
+void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group);
+// The help text of an item: its description, with a unit's modifier or a tool's count filled in.
+const char *format_item_description(TItemData *item);
 
 #include <stddef.h>
 LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);
 LAYOUT_ASSERT(ItemDataIDOffset, offsetof(TItemData, id) == 0xC);
 LAYOUT_ASSERT(ItemDataExtensionOffset, offsetof(TItemData, data2) == 0x10);
+
+// get_item_icon_index copies the table whole.
+struct ItemIconIndexTable { s32 w[19]; };
+
+
 #endif

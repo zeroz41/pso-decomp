@@ -23,6 +23,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void clear_instance_table();
     static void notify_quest_thread();
     static void reset_quest_result_callbacks();
+    static void unload_quest_result_callbacks();
     static THunterGuildSeqOffline *create(TObjPlayer *player);
     static s32 check_party_gathered();
     static void set_state_close(TShopWindowBase *sequence);
@@ -45,14 +46,12 @@ struct THunterGuildSeqOffline : public TShopSequence {
     TQuestThread *quest_thread;       // 0x34: TQuestThread::create_in_root
     s32 exit_action;       // 0: close; 1-4: leave through a fade-out that sets enemy mode 0, 1, 3 or 5
     static void clear_slots();
-    static void on_quest_download_failed();
     static void clear_slot_flags();
     static void zero_four_slots();
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
 
-void reset_quest_result_callbacks_on_unload(void);
 // Quest thread ids started per quest result ([1] success, [2] cancel, [3] exit); -1 when unset.
 extern "C" s32 quest_result_callbacks[4];
 
@@ -70,5 +69,7 @@ s32 get_online_client_instance(s32 client_id);
 s32 get_online_server_instance(s32 client_id);
 s32 get_offline_instance(s32 client_id);
 s32 is_near_designated_player(void);
+
+struct GuildMenuCallbackBase { char pad[0x18]; };
 
 #endif

@@ -5,8 +5,8 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
@@ -16,9 +16,9 @@
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"

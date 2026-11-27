@@ -10,7 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/ui/window/ChallengeRank.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
@@ -18,7 +18,7 @@
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_8026A328.h"
+#include "pso/ui/chat/ChatLogLastLine.h"
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"
@@ -37,7 +37,7 @@ ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
 };
 ChallengeModeState challenge4p_mode_state = {0};
-__declspec(section ".data") char lbl_804DB880[] = "theBest";
+__declspec(section ".data") char the_best_text[] = "theBest";
 
 
 
@@ -85,7 +85,7 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 char split_screen_player_name[0x20];
 // challenge_check_rank_time passes card unextended: it saw an int card, the definition takes u16.
-extern "C" s32 record_challenge_stage_clear(s32 seed, u16 card);
+s32 record_challenge_stage_clear(s32 seed, u16 card);
 #define record_challenge_stage_clear ((s32 (*)(s32, s32))record_challenge_stage_clear)
 void draw_if_ready2() {
     if ((is_challenge_mode_active() != 0) && (is_multi_ready() != 0) && (challenge_retry_object != NULL)) {
@@ -192,10 +192,7 @@ void challenge_set_time_record(s32 seed) {
     fabs_float((f32) (seed - challenge4p_mode_state.base_time));
     store_challenge_seeds(seed);
 }
-extern "C" {
-
 s32 challenge_set_rank_override(const char *match, const char *title, s32 color) { return 1; }
-}
 
 
 s32 challenge_check_rank_time(s32 seed, s32 card) {
@@ -338,7 +335,7 @@ void rebuild_players_for_stage(s32 stage) {
         if (p != NULL) {
             VecCopy(&pos, &p->position);
             copy_player_visual_record(&info, (u8 *)p + 0x85C);
-            ((TLobby *)(&hdr))->copy_header_struct(&p->guild_card_tag);
+            hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
             switch (info.flags & 0xE0) {
@@ -365,7 +362,7 @@ void rebuild_players_for_stage(s32 stage) {
                     return;
                 }
             }
-            ((TLobby *)&p->guild_card_tag)->copy_header_struct(&hdr);
+            p->guild_card_tag.copy_from(&hdr);
             p->set_position_from(&pos);
             p->save_previous_position();
             p->reset_motion_fields();
@@ -548,7 +545,6 @@ s32 calc_min_challenge_progress() {
     } while (i < 4);
     return min_progress;
 }
-extern "C" {
 s32 record_challenge_stage_clear(s32 seed, u16 card) {
     s32 result;
     s32 total;
@@ -578,7 +574,6 @@ s32 record_challenge_stage_clear(s32 seed, u16 card) {
         }
         return r;
     }
-}
 }
 
 

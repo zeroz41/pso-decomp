@@ -146,4 +146,6 @@ s32 item_drop_rng_below(SubtractiveRng *rng, u32 count);
 
 u8 default_rule_value_stub(void *lobby);
 
+struct DifficultyLetters { char *n[4]; };
+
 #endif

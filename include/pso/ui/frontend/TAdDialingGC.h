@@ -13,6 +13,7 @@ struct TAdDialingGC : public TObject {
     TAdDialingGC(TObject *parent);
     virtual ~TAdDialingGC();
     void spawn_title_screen();
+    s32 is_dial_cancel_pressed();
     u32 dial_mode;
     s32 dial_step;
     s32 frame;
@@ -54,7 +55,5 @@ LAYOUT_ASSERT(TAdDialingGC_size, sizeof(TAdDialingGC) == 0xA8);
 
 
 void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size);
-extern "C" {
 void dialing_render_stub(TAdDialingGC *screen);
-}
 #endif

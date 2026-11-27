@@ -19,7 +19,7 @@ struct TOSwitchAttack : public TObjBase {
     u8 trigger_state;     // the trigger switch's state last frame
     u8 effect_type;       // rotation_x (0-20): which effect goes with the blast
     s32 effect_timer;     // frames until the next effect of type 2
-    static void create_sub(saddr parent, s32 stop_switch, s32 required_switch, s32 type, f32 scale);
+    void create_sub(s32 stop_switch, s32 required_switch, s32 type, f32 scale);
     void init_params();
     virtual void render();
     virtual void run_task();

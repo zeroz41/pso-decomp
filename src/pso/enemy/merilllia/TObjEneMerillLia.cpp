@@ -18,11 +18,11 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include <stdlib.h>
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 
 
@@ -42,7 +42,7 @@
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/TLevelSelect.h"
@@ -66,6 +66,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -205,14 +206,14 @@ void TObjEneMerillLia::load_resources() {
     merill_lia_rock_buffer = static_cast<AttackParams **>(mem_alloc(2 * sizeof(*merill_lia_rock_buffer)));
     merill_lia_rock_aux_buffer = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*merill_lia_rock_aux_buffer)));
     merill_lia_behavior_params = (MerillLiaBehaviorParams **)mem_alloc(8);
-    merill_lia_rock_stats_table[0] = TLobby::register_boss(75);
-    merill_lia_rock_stats_table[1] = TLobby::register_boss(76);
-    merill_lia_rock_buffer[0] = TLobby::dispatch_shared_handler_b(78);
-    merill_lia_rock_buffer[1] = TLobby::dispatch_shared_handler_b(79);
-    merill_lia_rock_aux_buffer[0] = TLobby::register_object(74);
-    merill_lia_rock_aux_buffer[1] = TLobby::register_object(75);
-    merill_lia_behavior_params[0] = (MerillLiaBehaviorParams *)TLobby::dispatch_shared_handler_a(74);
-    merill_lia_behavior_params[1] = (MerillLiaBehaviorParams *)TLobby::dispatch_shared_handler_a(75);
+    merill_lia_rock_stats_table[0] = register_boss(75);
+    merill_lia_rock_stats_table[1] = register_boss(76);
+    merill_lia_rock_buffer[0] = dispatch_shared_handler_b(78);
+    merill_lia_rock_buffer[1] = dispatch_shared_handler_b(79);
+    merill_lia_rock_aux_buffer[0] = register_object(74);
+    merill_lia_rock_aux_buffer[1] = register_object(75);
+    merill_lia_behavior_params[0] = (MerillLiaBehaviorParams *)dispatch_shared_handler_a(74);
+    merill_lia_behavior_params[1] = (MerillLiaBehaviorParams *)dispatch_shared_handler_a(75);
     {
         s16 ids[2] = {44, 46};
         NpcAnimationBinding motions = { NULL, merill_lia_action_table, 0, 2, 12 };

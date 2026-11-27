@@ -15,7 +15,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void set_state(s32 episode);
     // The story list's cursor (story_select_cursor); TKeyBoardControl::dispatch_select_phase
     // switches on it after the ending.
     static int get_story_select();

@@ -9,10 +9,10 @@
 class TParticleCtrl;
 struct BmlResource;
 
-// The tuning record TLobby::dispatch_shared_handler_a hands the crawfish.
+// The tuning record dispatch_shared_handler_a hands the crawfish.
 struct Boss7CrawfishParams {
     f32 speed;
-    u8 unk_4[0x14];
+    u8 pad_4[0x14];
     s32 wait_time;
 };
 
@@ -63,11 +63,5 @@ struct TBoss7Crawfish : public TObjEnemy {
 LAYOUT_ASSERT(TBoss7Crawfish_collision_body, offsetof(TBoss7Crawfish, collision_body) == 0x374);
 LAYOUT_ASSERT(TBoss7Crawfish_hits, offsetof(TBoss7Crawfish, hits) == 0x3A8);
 LAYOUT_ASSERT(TBoss7Crawfish_size, sizeof(TBoss7Crawfish) == 0x3D0);
-// The record exchange_object_state reads and writes.
-struct Boss7CrawfishStateRecord {
-    s32 flags;
-    u8 unk_4[0x2];
-    s16 value;
-};
 
 #endif

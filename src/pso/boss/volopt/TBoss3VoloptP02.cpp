@@ -27,7 +27,7 @@
 #include "pso/network/TGameProtocol.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/boss/volopt/TObjVoloptPillar.h"
 #include "pso/object/base/TObjMotion.h"
@@ -39,9 +39,9 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
@@ -59,7 +59,8 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -293,11 +294,11 @@ void TBoss3VoloptP02::load_resources() {
     node_44_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_44->model)->polygon_list);
     node_27_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_27->model)->polygon_list);
     node_3f_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_3f->model)->polygon_list);
-    boss_stat_handle = TLobby::register_boss(0x25);
-    shared_handler_b = TLobby::dispatch_shared_handler_b(0x25);
-    object_handle = TLobby::register_object(0x25);
-    volopt_p02_params = (VoloptP02Params *)TLobby::dispatch_shared_handler_a(0x25);
-    part_params = (s32 *)TLobby::dispatch_shared_handler_a(0x2A);
+    boss_stat_handle = register_boss(0x25);
+    shared_handler_b = dispatch_shared_handler_b(0x25);
+    object_handle = register_object(0x25);
+    volopt_p02_params = (VoloptP02Params *)dispatch_shared_handler_a(0x25);
+    part_params = (s32 *)dispatch_shared_handler_a(0x2A);
 }
 
 void TBoss3VoloptP02::free_resources() {
@@ -949,7 +950,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
                 heal_emitter = NULL;
             }
             n = TBoss3VoloptP02::get_int_param(3) / 5;
-            create_boss_health_font((saddr)&body_center, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
+            create_boss_health_font(&body_center, (s32)(0xFF00FF00), 0x1E, "HP", (void *)n);
             hp = min_s32(hp + n, hpmax);
             for (s32 i = 0; i < 4; i++) {
                 if (part_hp[i] > 0) {
@@ -1316,7 +1317,7 @@ void TBoss3VoloptP02::broadcast_values() {
     message.send();
 }
 
-extern "C" void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
+void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
     TBoss3VoloptP02 *boss;
     s32 i;
     u32 bit;

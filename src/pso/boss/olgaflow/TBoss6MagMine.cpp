@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -14,8 +15,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -24,10 +25,10 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/system/MatrixOps.h"
@@ -36,6 +37,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -268,7 +270,7 @@ TBoss6MagMine::~TBoss6MagMine() {
 #pragma push
 #pragma opt_common_subs off
 TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : TObjEnemy(parent) {
-    TBoss6MagMineStateRecord record;
+    EnemyStateRecord record;
     f32 *params;
     m_name = TBoss6MagMine::class_name;
     VecCopy(&position, &set_data->origin);
@@ -277,7 +279,7 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     apply_set_data(set_data);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     archive = TBoss6PlotFalz::get_scene_archive();
@@ -288,11 +290,11 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2D), TLobby::dispatch_shared_handler_b(0x2D), TLobby::register_object(0x2D));
+    bind_enemy_combat_stats(register_boss(0x2D), dispatch_shared_handler_b(0x2D), register_object(0x2D));
     referenceHp = hp;
     register_by_id();
     set_param(0);
-    params = (f32 *)TLobby::dispatch_shared_handler_a(0x2D);
+    params = (f32 *)dispatch_shared_handler_a(0x2D);
     attack_power = (s32)params[1];
     if ((f32) attack_power <= 0.0f) {
         attack_power = 0x14;

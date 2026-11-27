@@ -8,9 +8,9 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/object/base/TObjMotion.h"
@@ -19,7 +19,7 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTextureMatrices.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/model_render_state.h"
 
 extern const char chr_sel_player_class_name_string[] = "TAdChrSelPlayerGC";
@@ -143,7 +143,7 @@ void TAdChrSelPlayerGC::set_status_value(s32 value) {
     status_index = value;
     TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
-        TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), status_index);
+        status->set_status_index(status_index);
     }
 }
 

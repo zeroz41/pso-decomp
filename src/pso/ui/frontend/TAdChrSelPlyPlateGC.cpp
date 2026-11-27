@@ -3,11 +3,11 @@
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_80299420.h"
+#include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
@@ -15,13 +15,10 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
-typedef struct CursorJump {
-    s32 v[4];
-} CursorJump;
 
 extern s32 multi_ply_chr_select_slot_table[][5];
 NJS_TEXLIST *chr_sel_plate_texlist;
-s32 lbl_805D67D4;
+s32 chr_sel_plate_cursor_texture_list;
 
 s32 multi_ply_chr_select_player_slot[4] = {
     0, 0, 0, 0,
@@ -87,7 +84,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     u32 j;
     m_name = TAdChrSelPlyPlateGC::name;
     chr_sel_plate_texlist = get_player_tex_texture_list();
-    lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
+    chr_sel_plate_cursor_texture_list = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);
     frame_counter = -1;
@@ -775,7 +772,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
                 set_color_blending_mode(0, 8);
                 set_color_blending_mode(1, 0xA);
                 begin_screen_draw(1);
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D4));
+                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(chr_sel_plate_cursor_texture_list));
                 set_draw_texture_and_color(0, cursor_color[i][j]);
                 draw_textured_quad_at_depth(cursor[0], 0.53f);
                 draw_textured_quad_at_depth(cursor[1], 0.53f);

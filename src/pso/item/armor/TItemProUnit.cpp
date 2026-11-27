@@ -15,7 +15,7 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-// Defined in text_801D9870.cpp, which has no header yet.
+// Defined in CastTechniqueLevel.cpp, which has no header yet.
 u8 get_cast_technique_level(void *levels, s16 technique);
 }
 
@@ -144,7 +144,7 @@ void TItemProUnit::apply_owner_bonuses() {
             if (level != 0xFF) {
                 // Called with the class byte unextended: this TU saw the
                 // limit lookup as taking two u8s.
-                limit = get_technique_learn_limit(owner->class_index, (u8)i);
+                limit = get_technique_learn_limit(owner->appearance.classId, (u8)i);
                 bonus = technique_bonus;
                 total = level + bonus;
                 if (limit < total) {

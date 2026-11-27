@@ -14,12 +14,12 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TObject.h"
@@ -34,8 +34,6 @@
 
 struct BmlResource;
 struct NJS_TEXLIST;
-
-s32 check_player_door_proximity(saddr door, s32 expect_clear, f32 radius);
 
 const char *fe_obj_doa_kanban_model_names[6] = {
     "fe_obj_doa_kanban.gj", "fs_obj_doa_shingo_omote.gj", "fs_obj_doa_shingo_ura.gj", "taiki_fe_obj_doa_laz_oya.gj",
@@ -179,7 +177,7 @@ void TObjDoor::update_state() {
         return;
     case 2:
         set_indexed_flags(0, 1);
-        if(check_player_door_proximity((saddr)this, 0, (7e+01f))!=0) {
+        if(check_player_door_proximity(this, 0, (7e+01f))!=0) {
             this->frame=(0.0f);this->state=4;clear_player_status_flag(0, 1);
         }
         break;
@@ -197,7 +195,7 @@ void TObjDoor::update_state() {
         break;
     case 5:
         clear_player_status_flag(0, 1);
-        if(check_player_door_proximity((saddr)this, 1, 100.0f)!=0) {this->state=3;set_indexed_flags(0, 1);}
+        if(check_player_door_proximity(this, 1, 100.0f)!=0) {this->state=3;set_indexed_flags(0, 1);}
         break;
     }
 }

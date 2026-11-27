@@ -1,4 +1,4 @@
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/object/door/TODoorAncient08.h"
 
@@ -9,12 +9,12 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80160804.h"
+#include "pso/network/ObjectStateSend.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
@@ -25,7 +25,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 // Written from the last function back: the unit is compiled with deferred
 // code generation (its vtable precedes its switch tables).
@@ -353,7 +353,7 @@ void TODoorAncient08::door_ancient08_sync_state(void *saved_state) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {
-        ((TLobby *)&state)->copy_short_fields(source);
+        state.copy_from(source);
     } else {
         access_object_saved_state(&state, 1);
     }

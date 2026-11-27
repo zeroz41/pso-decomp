@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -11,14 +12,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/math/InverseTrig.h"
 #include "pso/system/vector.h"
@@ -37,11 +38,12 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -81,7 +83,7 @@ void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src) {
 }
 
 TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(parent) {
-    TBoss6MagStateRecord record;
+    EnemyStateRecord record;
     f32 *tuning;
     s32 param_index;
     m_name = boss6_mag_name;
@@ -93,7 +95,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     apply_set_data(params);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     scene_archive = TBoss6PlotFalz::get_scene_archive();
@@ -107,7 +109,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = NULL;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2E), TLobby::dispatch_shared_handler_b(0x2E), TLobby::register_object(0x2E));
+    bind_enemy_combat_stats(register_boss(0x2E), dispatch_shared_handler_b(0x2E), register_object(0x2E));
     referenceHp = hp;
     initial_hp = hp;
     register_by_id();
@@ -122,7 +124,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     init_motion_state();
     capture = ModelNodePositionCapture::create(boss6_mag_capture_nodes, node_positions);
     copy_mag_target(&chase_target, (TBoss6MagTarget *)&boss6_mag_initial_target);
-    tuning = (f32 *)TLobby::dispatch_shared_handler_a(0x2E);
+    tuning = (f32 *)dispatch_shared_handler_a(0x2E);
     dead_duration = (s32)tuning[0];
     if ((f32)dead_duration <= 0.0f) {
         dead_duration = 0x96;

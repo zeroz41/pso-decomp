@@ -36,10 +36,9 @@ void TAdGameStartGC::bswap_6x92(void *p) {
     bswap_32((u32 *)&cmd->value);
 }
 void TAdGameStartGC::send_6x92(void *p) { bswap_6x92(p); send_subcommand((u8 *)p); }
-void TAdGameStartGC::init_6x92(void *p) {
-    G_Unknown_6x92 *cmd = (G_Unknown_6x92 *)p;
-    cmd->header.subcommand = 0x92;
-    cmd->header.size = 3;
+void TAdGameStartGC::init_6x92(G_Unknown_6x92 *p) {
+    p->header.subcommand = 0x92;
+    p->header.size = 3;
 }
 
 void TAdGameStartGC::render() {  }

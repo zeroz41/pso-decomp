@@ -11,25 +11,19 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_8026C664.h"
+#include "pso/ui/window/ListPageIndicator.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/ControllerInput.h"
 
 
 /* Layout table of the soft keyboard: one 16-column key-code grid per page. */
-struct SoftKeyboardLayout {
-    u8 page_count; /* bound of the page-tab loop */
-    u8 tab_width;  /* page tab width in pixels */
-    u8 pad_2[2];
-    u16 **pages;
-};
 
 #include <stddef.h>
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -40,16 +34,14 @@ struct SoftKeyboardLayout {
 #include "pso/system/SoundEffect.h"
 #include "pso/network/client_id.h"
 #include "pso/render/ColorLineList.h"
+#include "pso/system/TLanguage.h"
 
 extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
 
-
-extern u8 *TWindowKeyBoardSoft__language_text_resources;
-
-const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
+const char *TWindowKeyBoardSoft::class_name = "TWindowKeyBoardSoft";
 
 /* Per key class (indexed through soft_keyboard_key_class): steps back to the class's first column,
    and soft_keyboard_key_columns_to_last the columns left to its last one (read from the cursor moves in handle_cursor_move). */
@@ -148,7 +140,7 @@ s32 TWindowKeyBoardSoft::calc_key_index(s32 col, s32 row) {
 #pragma push
 #pragma fp_contract on
 f32 TWindowKeyBoardSoft::get_tab_bar_x() {
-    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     return -((0.5f * (f32) (layout->page_count * layout->tab_width)) - 153.0f);
 }
 #pragma pop
@@ -231,7 +223,7 @@ void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 port) 
 }
 
 void TWindowKeyBoardSoft::handle_key_press(s32 port) {
-    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     static void (TWindowKeyBoardBase::*key_actions[])() = {
         &TWindowKeyBoardBase::key_enter,  &TWindowKeyBoardBase::key_backspace,  &TWindowKeyBoardBase::key_clear,
         &TWindowKeyBoardBase::key_f1,  &TWindowKeyBoardBase::key_f2,  &TWindowKeyBoardBase::key_f3,
@@ -550,7 +542,7 @@ void TWindowKeyBoardSoft::draw_key_labels(WindowDrawContext *ctx) {
     TexturedQuad q;
     u32 color;
 
-    layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     depth = -1.0f / (0.1196f + ctx->depth);
     cursor = this->get_cursor_key();
     keys = layout->pages[layout_page];
@@ -670,7 +662,7 @@ void TWindowKeyBoardSoft::draw_key_area_borders(WindowDrawContext *ctx) {
     u8 *res;
 
     depth = 0.0598f + ctx->depth;
-    res = TWindowKeyBoardSoft__language_text_resources;
+    res = soft_keyboard_layouts;
     d.verts = v;
     d.colors = col;
     d.tex = NULL;
@@ -776,7 +768,7 @@ void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32
 /* Key frames of the character grid and the page tabs, then the tab bar ends. */
 void TWindowKeyBoardSoft::draw_key_frames(WindowDrawContext *ctx) {
     s32 cursor;
-    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)TWindowKeyBoardSoft__language_text_resources;
+    SoftKeyboardLayout *layout = (SoftKeyboardLayout *)soft_keyboard_layouts;
     f32 depth = -1.0f / ctx->depth;
     s32 i;
     s32 j;
@@ -874,7 +866,7 @@ TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}
 
 TWindowKeyBoardSoft::TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client)
     : TWindowBase((u8 *)&soft_keyboard_window_and_action_data, client, (u8 *)get_window_layout_position(0xBA)) {
-    m_name = keyboard_soft_type_name_pointer;
+    m_name = class_name;
     state_flags = 0;
     layout_page = 0;
     cursor_column = 2;

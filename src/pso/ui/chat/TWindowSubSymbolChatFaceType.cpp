@@ -8,16 +8,16 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/HeadingEntry.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
 
@@ -212,11 +212,11 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
     {178.0f, 188.0f}, 50050.0f, &symbol_chat_face_type_layout_entries, 0x43,
 };
 
-const char *window_sub_symbol_chat_face_type_name = symbol_chat_face_type_class_name_string;
+const char *TWindowSubSymbolChatFaceType::class_name = symbol_chat_face_type_class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selected)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
     WindowHeading *heading;
-    m_name = window_sub_symbol_chat_face_type_name;
+    m_name = class_name;
     result_flags = 0;
     cursor_col = 0;
     cursor_row = 0;

@@ -7,7 +7,7 @@
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
@@ -15,13 +15,13 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include <stdlib.h>
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
@@ -88,13 +88,13 @@ void TBoss3VoloptMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
     if (trail != NULL) {
         Vec back = velocity;
         back.x = -back.x;
         back.y = -back.y;
         back.z = -back.z;
-        direction_to_rotation_yx((u8 *)&back, &trail_rotation[1], &trail_rotation[2]);
+        direction_to_rotation_yx(&back, &trail_rotation[1], &trail_rotation[2]);
         trail_rotation[2] -= 0x4000;
         trail->set_direction(trail_rotation);
         vec_set_length(&back, 10.0f);

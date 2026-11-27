@@ -44,10 +44,10 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/dragon/TBoss1DragonEffBreath.h"
@@ -69,7 +69,7 @@ struct NJS_OBJECT;
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -97,7 +97,7 @@ struct NJS_OBJECT;
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
@@ -165,7 +165,7 @@ const char *boss1_dragon_motion_names[27] = {
     NULL,
 };
 BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", boss1_dragon_model_names, boss1_dragon_motion_names, 2, 26};
-// inferred: the ids load_resources passes to TLobby::register_boss and TLobby::register_object
+// inferred: the ids load_resources passes to register_boss and register_object
 // (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
 s32 boss1_dragon_base_param_ids[1] = {0x12};
 s32 boss1_dragon_register_object_ids[1] = {0x12};
@@ -243,6 +243,7 @@ static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/TProtocol.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 AttackParams *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];
@@ -270,7 +271,7 @@ Vec *boss1_dragon_capture_points_out;
 s32 boss1_dragon_capture_flags;
 s32 boss1_dragon_model_node_count;
 NJS_OBJECT *boss1_dragon_capture_model;
-saddr boss1_dragon_main_instance;
+TBoss1Dragon *boss1_dragon_main_instance;
 f32 boss1_dragon_visibility_distance;
 s32 boss1_dragon_hold_mode;
 s32 boss1_dragon_player_control;
@@ -343,11 +344,11 @@ void MaterialColorFade::set_speed(f32 v) { rate = v; }
 
 s32 TWindowKeyBoardHard::test_card_flag_2(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 2); }
 
-extern "C" {
 s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
+extern "C" {
 f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
@@ -449,17 +450,17 @@ void TBoss1DragonAttackCollider::apply_hit_if_active(TObjChara *target, const f3
     apply_dragon_hit_ailment(target);
 }
 
-saddr TBoss1Dragon::get_instance() {
+TBoss1Dragon *TBoss1Dragon::get_instance() {
     return boss1_dragon_main_instance;
 }
 
 void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
-    if ((void *) (*(u8 * *)&boss1_dragon_main_instance) == NULL) {
+    if (boss1_dragon_main_instance == NULL) {
         VecCopy(target_offset, boss1_dragon_follow_camera_target_offset);
         VecCopy(eye_offset, boss1_dragon_follow_camera_eye_offset);
         return;
     }
-    ((TBoss1Dragon *)boss1_dragon_main_instance)->calc_follow_camera_offsets(target_offset, eye_offset);
+    boss1_dragon_main_instance->calc_follow_camera_offsets(target_offset, eye_offset);
 }
 
 #pragma push
@@ -468,7 +469,7 @@ void TBoss1Dragon::calc_follow_camera_offsets(Vec *target_offset, Vec *eye_offse
     s32 phase;
     Vec *limit;
 
-    if (((TBoss1Dragon *)boss1_dragon_main_instance)->mode == 0x16) {
+    if (boss1_dragon_main_instance->mode == 0x16) {
         VecCopy(target_offset, boss1_dragon_follow_camera_target_offset);
         VecCopy(eye_offset, boss1_dragon_follow_camera_eye_offset);
         return;
@@ -566,7 +567,7 @@ void TBoss1Dragon::load_resources() {
     boss1_dragon_capture_cursor = 0;
     boss1_dragon_capture_points_out = NULL;
     boss1_dragon_capture_flags = 0;
-    boss1_dragon_main_instance = 0;
+    boss1_dragon_main_instance = NULL;
 
     NJS_MOTION *landing_motion = reinterpret_cast<NJS_MOTION *>(boss1_dragon_resource->motions[13].motion);
     NJS_MDATA2 *data = static_cast<NJS_MDATA2 *>(landing_motion->mdata);
@@ -609,15 +610,15 @@ void TBoss1Dragon::load_resources() {
     nodes[55].key[1] -= (0.5f);
 
     out = boss1_dragon_base_params;
-    for (s32 i = 0; i < 1; i++) { static_cast<player_stats **>(out)[i] = TLobby::register_boss(boss1_dragon_base_param_ids[i]); }
+    for (s32 i = 0; i < 1; i++) { static_cast<player_stats **>(out)[i] = register_boss(boss1_dragon_base_param_ids[i]); }
     table = boss1_dragon_attack_param_ids;
     out = boss1_dragon_part_hp_stats;
     for (s32 i = 0; i < 5; i++) {
-        static_cast<AttackParams **>(out)[i] = TLobby::dispatch_shared_handler_b(table[i]);
+        static_cast<AttackParams **>(out)[i] = dispatch_shared_handler_b(table[i]);
     }
-    for (s32 i = 0; i < 1; i++) { boss1_dragon_resistance_params[i] = TLobby::register_object(boss1_dragon_register_object_ids[i]); }
+    for (s32 i = 0; i < 1; i++) { boss1_dragon_resistance_params[i] = register_object(boss1_dragon_register_object_ids[i]); }
     for (s32 i = 0; i < 3; i++) {
-        boss1_dragon_behavior_params[i] = (Boss1DragonParams *)TLobby::dispatch_shared_handler_a(boss1_dragon_behavior_param_ids[i]);
+        boss1_dragon_behavior_params[i] = (Boss1DragonParams *)dispatch_shared_handler_a(boss1_dragon_behavior_param_ids[i]);
     }
     boss1_dragon_hold_mode = 0;
     boss1_dragon_player_control = 0;
@@ -667,8 +668,8 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     s32 j;
 
     this->m_name = TBoss1Dragon::name;
-    if ((u32)boss1_dragon_main_instance == 0U) {
-        boss1_dragon_main_instance = (saddr)this;
+    if (boss1_dragon_main_instance == NULL) {
+        boss1_dragon_main_instance = this;
     }
     this->invoke_initialization_hook(set_data);
     this->flags = 0;
@@ -827,8 +828,8 @@ TBoss1Dragon::~TBoss1Dragon() {
         this->tail = 0;
     }
     free_collision_body_parts(this);
-    if ((TBoss1Dragon *)boss1_dragon_main_instance == this) {
-        boss1_dragon_main_instance = 0;
+    if (boss1_dragon_main_instance == this) {
+        boss1_dragon_main_instance = NULL;
     }
 }
 
@@ -4931,7 +4932,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         enable_all_bodies();
         *demo = 0;
         TWindowCtrl::unsuppress_all_slots();
-        this->get_target_state_a();
+        this->release_cutscene_players();
         break;
     }
 }

@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/GinjaDrawUtil.h"
@@ -22,6 +22,7 @@
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 const char TBoss6SwordWave::class_name_string[] = "TBoss6SwordWave";
@@ -101,12 +102,12 @@ TBoss6SwordWave::TBoss6SwordWave(TBoss6Type2 *owner, const Vec *position, s32 st
     inner_radius = 0.0f;
     outer_radius = 0.0f;
     particle_timer = 0.0f;
-    f32 param = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[0];
+    f32 param = dispatch_shared_handler_a(0x2C)->values.floats[0];
     power = (s32)param;
     if (0.0f == param) {
         power = 0x14;
     }
-    f32 scale = TLobby::dispatch_shared_handler_a(0x2F)->values.floats[2];
+    f32 scale = dispatch_shared_handler_a(0x2F)->values.floats[2];
     power_scale = scale;
     if (0.0f == scale) {
         power_scale = 1.0f;
@@ -287,7 +288,7 @@ TBoss6SwordShot::TBoss6SwordShot(TObject *owner, const Vec *position, s32 with_p
     VecCopy(&this->position, position);
     this->radius = radius;
     age = 0;
-    v = *(f32 *)TLobby::dispatch_shared_handler_a(0x2B);
+    v = *(f32 *)dispatch_shared_handler_a(0x2B);
     damage = (s32)v;
     if (0.0f == v) {
         damage = 0x14;

@@ -6,18 +6,18 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
 
@@ -81,11 +81,6 @@ __declspec(section ".data") const char *bm_obj_table_labo_model_filenames[2] = {
 };
 BmlResourceDescriptor bm_obj_table_labo_resource_descriptor = {
     "bm_obj_table_labo.bml", bm_obj_table_labo_model_filenames, bm_obj_table_labo_motion_filenames, 1, 0,
-};
-// Archive descriptors of the six laboratory design objects, by object id.
-struct LaboDesignObjectEntry {
-    s32 id;
-    BmlResourceDescriptor *descriptor;
 };
 
 LaboDesignObjectEntry labo_design_object_descriptors[7] = {

@@ -67,7 +67,7 @@ void close_gogo_ball_timer();
 
 // Sends the 6x79 throw of the ball at position; handle_6x79_gogo_ball receives it.
 void throw_gogo_ball(Vec *position, s32 angle, s32 sequence);
-void handle_6x79_gogo_ball(u8 *packet);
+void handle_6x79_gogo_ball(G_GoGoBall_6x79 *packet);
 
 // The Go-Go ball's model and the lobby textures (biri_ball.bml, robby_*.gvm, ...).
 void load_lobby_textures();

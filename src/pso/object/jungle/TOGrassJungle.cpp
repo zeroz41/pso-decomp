@@ -11,12 +11,12 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 extern "C" {
 BmlResource *grass_jungle_bml_resource;

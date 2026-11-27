@@ -8,15 +8,14 @@
 
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
@@ -155,7 +154,7 @@ void TWindowStatus::run_task() {
     update_hp_tp_values();
     update_lockon_window(this);
     update_status_help_item(this);
-    update_status_icons((void *)(get_window_layout_position(0x1D)));
+    update_status_icons(const_cast<NJS_POINT2 *>(get_window_layout_position(0x1D)));
     update_window();
     update_fade();
     update_window_entry_list(&entry_list);

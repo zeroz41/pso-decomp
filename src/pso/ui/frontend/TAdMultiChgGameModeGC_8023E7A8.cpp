@@ -22,13 +22,12 @@
 #include "pso/audio/SoundPlayback.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_803360CC.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_8023F160.h"
-#include "pso/unk/text_8023F3F8.h"
-#include "pso/unk/text_8026ACDC.h"
-#include "pso/unk/text_8026AC50.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/chat/ChatLogHeap.h"
+#include "pso/ui/chat/ChatLogLines.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/ui/TLogo.h"
@@ -47,7 +46,6 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdEp3Exist.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
-#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/frontend/TAdMultiOkGC.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
@@ -56,7 +54,6 @@
 #include "pso/ui/frontend/TAdPlyPltAnimGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -76,11 +73,12 @@
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/unk/text_800F9B84.h"
 #include "pso/render/GinjaView.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
@@ -105,9 +103,9 @@ static const Vec game_mode_scene_camera_target = {0.0f, 0.0f, -100.0f};
 FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {update_keyboard_menu, free_keyboard_soft_resources},
     {register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global},
-    {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0},
+    {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext},
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
     {load_multi_ply_chr_select_resources, free_multi_ply_chr_select_resources},
     {TAdTimeSetGC::load_scene_resources, TAdTimeSetGC::free_scene_resources},
@@ -122,7 +120,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {load_data_buffers, TObjBoss2Tunnel::free_buffers},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
-    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {load_draw_line_task_resource, free_draw_line_task_resource},
@@ -192,7 +190,7 @@ void TAdMultiChgGameModeGC::open_level_select_scene() {
     game_mode_scene_change_state = 1;
 }
 void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(const char *name) {
-    if (strcmp((const char *)TLobby::get_current_slot_entry(), name) != 0) {
+    if (strcmp((const char *)get_current_slot_entry(), name) != 0) {
         play_area_music((char *)name);
     }
 }
@@ -432,8 +430,8 @@ void load_lobby_scene_resources(void) {
 }
 
 void TLobby::release_scene_resources() {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     if (game_mode_scene_instance != NULL) {
         game_mode_scene_instance->queue_destruction();
         game_mode_scene_instance = NULL;
@@ -459,14 +457,14 @@ void init_game_mode_select_scene(void) {
     apply_phase_keyboard_mode();
     run_load_callback_table(game_mode_select_scene_callbacks, sizeof(game_mode_select_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLobby::reset_keyboard_state();
         return;
     }
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
     if (is_area_transfer_pending() != 0) {
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLobby::reset_keyboard_state();
         return;

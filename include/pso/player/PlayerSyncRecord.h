@@ -16,8 +16,8 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/system/data/FlagWord.h"
 
-// A player as the 0x70 subcommand carries it (G_SyncPlayerDispAndInventory_GC_6x70
-// after its header); create_remote_player_object builds the remote player from it.
+// A player as the 6x70 subcommand carries it; create_remote_player_object builds the remote player
+// from it.
 struct PlayerSyncRecord {
     // An empty record: no client (0xFFFF), every item stack at its maximum count.
     PlayerSyncRecord();
@@ -75,5 +75,16 @@ LAYOUT_ASSERT(PlayerSyncRecordVisualOffset, offsetof(PlayerSyncRecord, visual) =
 LAYOUT_ASSERT(PlayerSyncRecordStatsOffset, offsetof(PlayerSyncRecord, stats) == 0x118);
 LAYOUT_ASSERT(PlayerSyncRecordItemsOffset, offsetof(PlayerSyncRecord, inventory) == 0x13C);
 LAYOUT_ASSERT(PlayerSyncRecordSize, sizeof(PlayerSyncRecord) == 0x48C);
+
+// 6x70: A player's state, display data and inventory, sent to a joining player. The subcommand
+// header's size is 0 and total_size holds the packet's size in bytes. Sent by
+// TLobby::send_6x70_player_data; received by handle_6x70_sync_player_disp_and_inventory. Size checked:
+// the sender allocates and sends 0x494 bytes.
+struct PlayerSyncPacket {
+    G_ClientIDHeader header;
+    s32 total_size;
+    PlayerSyncRecord record;
+};
+LAYOUT_ASSERT(PlayerSyncPacketSize, sizeof(PlayerSyncPacket) == 0x494);
 
 #endif

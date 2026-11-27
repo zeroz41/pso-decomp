@@ -11,11 +11,8 @@ struct CameraParams;
 extern CameraParams *demo_camera_params_table[16];
 
 TQuestVmDownLoadServer *get_quest_vm_download_server(void);
-extern "C" {
 void init_quest_vm_stub(void);
-void __dl__FPv(void);
-u8 *alloc_zeroed_array(s32 a, s32 b);
-}
+u8 *alloc_zeroed_array(s32 count, s32 size);
 
 void debug_printf(const char *format, ...);
 

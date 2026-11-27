@@ -14,7 +14,7 @@ struct TObjContainerIdo : public TUnk_804B97C0 {
     static void free_resources();
     static void load_resources();
     static void *create(void *set);
-    Vec m_b4;              // a copy of the set position; nothing here reads it
+    Vec spawn_position;    // a copy of the set position; nothing here reads it
     // The set position: the rail is drawn there and the lift's travel is measured from it (name inferred).
     Vec home_position;
     s32 switch_ids[4];     // the floor switches that move it: set_params[0] and the ids after it

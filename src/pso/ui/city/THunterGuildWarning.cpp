@@ -12,8 +12,8 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #define PSO_SDK_COMPACT_MATH
@@ -57,7 +57,7 @@ void THunterGuildWarning::close_windows() {
 }
 
 // Opens the warning message windows for the local or remote players.
-void THunterGuildWarning::open_warning_windows(void *) {
+void THunterGuildWarning::open_warning_windows(s32) {
     f32 size[2] = {322.0f, 120.0f};
     f32 scale[2] = {1.0f, 1.0f};
     int text;
@@ -138,7 +138,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, s32 initial_mode) : TO
     mode = initial_mode;
     timer = 90;
     clear_windows(this);
-    open_warning_windows((void *)mode);
+    open_warning_windows(mode);
     THunterGuildWarning::instance = this;
 }
 
@@ -149,7 +149,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, s32 initial_mode) : TO
 
 #pragma push
 #pragma optimization_level 3
-s32 TPlayerBattleCtrl4P::get_party_not_ready_reason(s32 id) {
+s32 THunterGuildWarning::get_party_not_ready_reason(s32 id) {
     TObjPlayer *self;
     u16 client_id;
     s32 result;
@@ -189,16 +189,12 @@ s32 TPlayerBattleCtrl4P::get_party_not_ready_reason(s32 id) {
 }
 #pragma pop
 
-// ---- pso/unk/TLobby_80211C1C
-
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListOnline.h"
 
 
 int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
-
-// ---- pso/unk/text_80211C3C
 
 #include "pso/ui/keyboard/SystemBootInit.h"
 
@@ -226,13 +222,10 @@ s32 get_guild_quest_list_stage(void) {
     }
 }
 
-// ---- pso/unk/TLobby_80211CE0
 
 
-#include "pso/unk/TLobby_80211F0C.h"
 
-
-s32 TLobby::handle_main_phase(saddr player) {
+s32 handle_main_phase(saddr player) {
     if (get_main_phase() == 0xE) {
         return (saddr)THunterGuildSeqOffline::create((TObjPlayer *)player);
     }
@@ -246,8 +239,6 @@ s32 TLobby::handle_main_phase(saddr player) {
 }
 
 
-// ---- pso/unk/text_80211D58
-
 
 
 
@@ -255,7 +246,6 @@ extern "C" {
 // TCameraCtrl::get_nth_view_player_id, whose u16 return this caller does not see: it extends the id at every use.
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
-extern s32 lbl_805D55C0;
 s32 is_in_hunter_guild(s32 client_id) {
     s32 kind;
     s32 player;
@@ -271,7 +261,7 @@ s32 is_in_hunter_guild(s32 client_id) {
             if (THunterGuildWarning::is_active() != 0) {
                 return 1;
             }
-            kind = TPlayerBattleCtrl4P::get_party_not_ready_reason(player);
+            kind = THunterGuildWarning::get_party_not_ready_reason(player);
             if (kind != 0) {
                 TObjPlayer *view_player = get_player_by_client_id((u16)player);
                 if (view_player != NULL) {
@@ -294,7 +284,7 @@ s32 is_in_hunter_guild(s32 client_id) {
         return get_offline_instance(client_id);
     }
     if (get_main_phase() == 15) {
-        if (lbl_805D55C0 != 0) {
+        if (TLobby::connection_lost != 0) {
             return 1;
         }
         if (get_online_server_instance(client_id) != 0) {
@@ -304,8 +294,6 @@ s32 is_in_hunter_guild(s32 client_id) {
     }
     return 0;
 }
-
-// ---- pso/unk/TLobby_80211F0C
 
 
 #include "pso/player/PlayerSlots.h"

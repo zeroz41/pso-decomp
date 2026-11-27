@@ -25,12 +25,12 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/system/task/TObject.h"
@@ -40,7 +40,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/TBreakUpMdl.h"
@@ -61,6 +61,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -146,10 +147,10 @@ void TObjEneMe1Gee::load_resources() {
     TObjEneMe1Gee_NEEDLE::init_global();
     gee_model_node7 = find_model_node(me1_gee_resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
-        gee_boss_stat_handle_table[i] = TLobby::register_boss(gee_base_stat_ids[i]);
-        gee_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
-        gee_object_handle_table[i] = TLobby::register_object(gee_resist_stat_ids[i]);
-        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
+        gee_boss_stat_handle_table[i] = register_boss(gee_base_stat_ids[i]);
+        gee_shared_handler_b_table[i] = dispatch_shared_handler_b(gee_attack_stat_ids[i]);
+        gee_object_handle_table[i] = register_object(gee_resist_stat_ids[i]);
+        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)dispatch_shared_handler_a(gee_param_ids[i]);
     }
     me1_gee_render_node_index = 0;
     p = new TBreakUpMdlData(me1_gee_resource_bundle->models->model);

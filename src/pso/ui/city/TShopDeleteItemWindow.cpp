@@ -24,9 +24,10 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/GameModeQueries.h"
 
 extern "C" {
 s16 get_player_entity_id__15TShopWindowBaseFv(void *);
@@ -154,7 +155,7 @@ void TShopDeleteItemWindow::open_item_list() {
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
             help_window = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
-            if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+            if (help_window != NULL && is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }
             help_window->set_displayed_item_colored(&displayed_item_colored);
@@ -198,7 +199,7 @@ void TShopDeleteItemWindow::update_item_select() {
                     p = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(p, get_window_layout_position(0x2B), 1, count, 1, id);
                 }
                 number_input = p;
-                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
                 set_state(2);

@@ -7,9 +7,8 @@
 #include "pso/effect/item/TItemEffCane.h"
 
 void TItemWeaponBranchOfPakupaku::emit_marker_effects() {
-    saddr item = (saddr)this;
     if (this->get_attack_stage() == 0) {
-        TItemEffCane::spawn(tl_05, (TItem*)item, 1);
+        TItemEffCane::spawn(tl_05, this, 1);
     }
 }
 

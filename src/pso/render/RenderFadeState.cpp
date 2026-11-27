@@ -2,7 +2,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/DebugFont.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/memory.h"
 
 #pragma push

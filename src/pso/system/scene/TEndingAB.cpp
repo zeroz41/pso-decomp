@@ -9,15 +9,15 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/system/scene/TEndingABTypes.h"
 
 extern "C" {
 void render_ending_ab_stub(TEndingAB *);
 }
 
+LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
 const char ending_texture_name_ed_512kabe_a[] = "ed_512kabe_A";
 const char ending_texture_name_ed_512kabe_b[] = "ed_512kabe_B";

@@ -12,7 +12,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
 #pragma readonly_strings on
 

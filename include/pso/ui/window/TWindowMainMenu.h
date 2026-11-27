@@ -18,6 +18,7 @@ extern TWindowMainMenuEntry main_menu_4p_entries[];
 extern TWindowMainMenuEntry main_menu_4p_android_entries[];
 
 struct TWindowMenuMainMenu;
+class TWindowBase;
 class TWindowMessage;
 struct NJS_POINT2;
 
@@ -88,15 +89,11 @@ LAYOUT_ASSERT(MainMenuSize, sizeof(TWindowMainMenu) == 0x60);
 
 int test_keyboard_card_flag4(s32 client_id);
 
-extern "C" {
 void equip_window_stub(void *, s32);
-}
 f32 get_main_menu_layer_depth(u8 *parent, u32 layer);
-void call_if_split_screen(uaddr object, s32 client_id);
+void call_if_split_screen(TWindowBase *window, s32 client_id);
 // Two empty functions after TWindowMainMenu's inlines; TWindowCtrl::shutdown and TWindowCtrl::close call them.
-extern "C" {
 void window_ctrl_shutdown_stub(void);
 void window_ctrl_close_stub(void);
-}
 
 #endif

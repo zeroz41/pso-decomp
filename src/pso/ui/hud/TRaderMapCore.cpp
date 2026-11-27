@@ -4,7 +4,7 @@
 #include "pso/system/memory.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
@@ -32,14 +32,14 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/psoLoadTexture.h"
@@ -52,11 +52,10 @@
 #include <dolphin/gx/GXCull.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_800F8A18.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -65,7 +64,9 @@
 #include "pso/ui/hud/RadarMapData.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/FileExtension.h"
+#include "pso/system/GameModeQueries.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
@@ -165,9 +166,6 @@ RadarMapViewState radar_map_view_state[3];
 s16 *TRaderMapCore::floor_discovery_table[18];
 
 
-struct RadarSceneEntry { s32 a; char *name; };
-
-
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
 // written here last to first.
 #pragma fp_contract on
@@ -225,10 +223,10 @@ void TRaderMapCore::load_map_resources() {
     area = get_current_floor_area();
     status = TScene::get_status();
     e = (RadarSceneEntry *)get_floor_scene_table(area);
-    TLobby::replace_file_extension(buf, (char *)e[status].name, (char *)"r.rel");
+    replace_file_extension(buf, (char *)e[status].name, (char *)"r.rel");
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore::floor_map_resource != NULL && RADAR_REGION_MAP->textures != 0) {
-        TLobby::replace_file_extension(buf, (char *)e[status].name, "r");
+        replace_file_extension(buf, (char *)e[status].name, "r");
         bind_gvm_texture_list(buf, (NJS_TEXLIST *)((u8 *)RADAR_REGION_MAP->textures));
     }
     copy_name("..");
@@ -266,7 +264,7 @@ void TRaderMapCore::unload_floor_map() {
 }
 
 void TRaderMapCore::create() {
-    if ((TRaderMapCore::is_not_split_screen() != 1) || (TLobby::is_ready() != 1)) {
+    if ((TRaderMapCore::is_not_split_screen() != 1) || (is_game_quest_active() != 1)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             new TRaderMapCore(tl_clipout);
         } else {
@@ -1334,7 +1332,7 @@ void TRaderMapCore::hide_radar() {
 void TRaderMapCore::reset_counter() { this->target_player = 0; }
 
 s32 TRaderMapCore::should_show_map(void) {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (TLobby::is_ready() == 0)) {
+    if ((TRaderMapCore::is_not_split_screen() == 1) && (is_game_quest_active() == 0)) {
         return 0;
     }
     return TTecCtrl::is_technique_ready();

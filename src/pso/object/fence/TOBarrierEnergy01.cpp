@@ -7,10 +7,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/psoLoadTexture.h"
-#include "pso/unk/TLobby_80156B18.h"
+#include "pso/network/UpdateObjectStateCmd.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -18,7 +18,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
 // This unit is compiled with deferred code generation (its vtable comes ahead

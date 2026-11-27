@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopItemListWindow.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_8026934C.h"
+#include "pso/ui/window/MesetaWindowCreate.h"
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
@@ -23,7 +23,7 @@
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 
 s32 TShopItemTecSequence::slot_table[4];
 extern "C" {

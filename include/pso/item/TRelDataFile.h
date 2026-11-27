@@ -14,7 +14,7 @@ struct RelFileTrailer {
 };
 
 // A loaded relocatable data file: the image, its size and the relocated root. The ones
-// TLobby_800F8AA8.cpp loads by name are children of resource_load_task_root; their m_name
+// MallocLoadFilePrc.cpp loads by name are children of resource_load_task_root; their m_name
 // points at their own copy of the name (inferred: a resource load task).
 class TRelDataFile : public TObject {
 public:

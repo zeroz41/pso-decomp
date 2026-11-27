@@ -25,8 +25,8 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
 // The source is written from the last function back: the unit is built

@@ -17,7 +17,6 @@
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct ClassGroupRange { s32 min; s32 max; };
 
 const char *TChCrCharSelect::name = "TChCrCharSelect";
 s32 TChCrCharSelect::selected_char_index = -1;
@@ -49,7 +48,6 @@ void TChCrCharSelect::clamp_slot_index_to_range() {
     }
 }
 
-CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }

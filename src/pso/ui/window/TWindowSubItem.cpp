@@ -1,11 +1,12 @@
 #include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/HeadingEntry.h"
 #pragma defer_codegen on
 
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -51,9 +52,6 @@
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id);
 
-extern "C" {
-s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
-}
 
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
 
@@ -443,9 +441,9 @@ TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (item_id == -0xFF) {
-        add_meseta_purpose_actions(titled_window_menu);
+        this->add_meseta_purpose_actions(titled_window_menu);
     } else if ((s32) (item_id & 0xFFFFFFF0) == -0x10) {
-        draw_slot(titled_window_menu, item_id);
+        this->draw_slot(titled_window_menu, item_id);
     } else {
         add_item_purpose_actions(this, titled_window_menu, item_id);
     }
@@ -459,8 +457,8 @@ TWindowMenu *TWindowSubItem::open_purpose_window(s32 item_id) {
 TWindowMenu *TWindowSubItem::create_menu_window() {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
-    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
-    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
+    titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0x5D), 6, 0);
+    titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0x5E), 6, 1);
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 2));
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(224.0f);
@@ -481,10 +479,10 @@ TWindowInputNumber *TWindowSubItem::create_count_input(s32 maximum) {
 
 void TWindowSubItem::add_meseta_purpose_actions(TWindowMenu *titled_window_menu) {
     if (get_current_floor_area() == AREA_LOBBY) {
-        add_gray_text_entry(titled_window_menu, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+        add_gray_text_entry(titled_window_menu, TWindowSubStatusDisp::get_message_10(0x5F), 6, 6);
         return;
     }
-    titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+    titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0x5F), 6, 6);
 }
 
 void TWindowSubItem::draw_slot(TWindowMenu *titled_window_menu, s32 item_id) {
@@ -509,11 +507,11 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
     {
       if ((item->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
       {
-        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
+        add_gray_text_entry(list, TWindowSubStatusDisp::get_message_10(0x60), 6, 0);
       }
       else
       {
-        list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
+        list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x60), 6, 0);
       }
     }
     item->get_item_type();
@@ -523,11 +521,11 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
       {
         if (get_current_floor_area() == AREA_LOBBY)
         {
-          add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
+          add_gray_text_entry(list, TWindowSubStatusDisp::get_message_10(0x61), 6, 2);
         }
         else
         {
-          list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
+          list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x61), 6, 2);
         }
       }
       else
@@ -537,29 +535,29 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         {
           if (((item->check_equip_requirements(player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
-            list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
+            list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x62), 6, 1);
           }
           else
           {
-            add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
+            add_gray_text_entry(list, TWindowSubStatusDisp::get_message_10(0x62), 6, 1);
           }
         }
       }
     }
     if ((get_current_floor_area() == AREA_LOBBY) || (item->get_usable_action_flags(0x10, 0) != 0U))
     {
-      add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
+      add_gray_text_entry(list, TWindowSubStatusDisp::get_message_10(0x5F), 6, 3);
     }
     else
     {
-      list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
+      list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x5F), 6, 3);
     }
     if (get_current_floor_area() == AREA_LOBBY)
     {
-      add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
+      add_gray_text_entry(list, TWindowSubStatusDisp::get_message_10(0x63), 6, 7);
       return;
     }
-    list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
+    list->add_text_entry(TWindowSubStatusDisp::get_message_10(0x63), 6, 7);
   }
 }
 

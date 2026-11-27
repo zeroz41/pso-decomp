@@ -13,7 +13,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/warp/TObjWarpBoss.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -21,10 +21,10 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include <string.h>
@@ -51,9 +51,9 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
@@ -100,13 +100,9 @@ AnimationMotion *warp_boss_motion;
 AnimationMotion *warp_boss_bml_motion;
 NJS_TEXLIST *boss_warp_base_textures;
 NJS_TEXLIST *boss_warp_effect_textures;
-extern "C" {
-void release_boss_warp_resources(void);
-}
 
 const char debug_next_stage_label[] = "<- NEXT STAGE No.";
 const char debug_key_id_format[] = "<- KEY ID : %d";
-extern s32 lbl_805D55C0;
 
 
 
@@ -400,7 +396,7 @@ void TObjWarpBoss::update_warp_occupants() {
                 }
             }
             player_in_range[player_count] = inside;
-            strcpy(player_names[player_count], pl->name);
+            strcpy(player_names[player_count], pl->appearance.name);
             player_count++;
         }
     }
@@ -663,20 +659,19 @@ void TObjWarpBoss::release_player(s32 client) {
 
 void TObjWarpBoss::send_cmd_6A(u16 value) {
     G_SetBossWarpFlags_6x6A pkt;
-    ((TWindowSubTradeMain *)&pkt)->init_pkt_cmd_6A();
+    pkt.init();
     pkt.header.entity_id = entity_id;
     pkt.flags = value;
-    ((TWindowSubTradeMain *)&pkt)->send_60_update();
+    pkt.send();
 }
 
-void handle_6x6A_set_boss_warp_flags(void *packet) {
-    G_SetBossWarpFlags_6x6A *packet_gsetbosswarpflags6x6a = (G_SetBossWarpFlags_6x6A *)packet;
+void handle_6x6A_set_boss_warp_flags(G_SetBossWarpFlags_6x6A *packet) {
     TObjCollidable *entity;
 
-    ((TWindowSubTradeMain *)packet)->bswap_6x6A_packet();
-    entity = find_entity_by_id(packet_gsetbosswarpflags6x6a->header.entity_id);
+    packet->bswap();
+    entity = find_entity_by_id(packet->header.entity_id);
     if (entity != NULL) {
-        ((TObjWarpBoss *)entity)->next_state = packet_gsetbosswarpflags6x6a->flags;
+        ((TObjWarpBoss *)entity)->next_state = packet->flags;
     }
 }
 
@@ -730,7 +725,7 @@ s32 TObjWarpBoss::are_all_players_in_range() {
 }
 
 s32 TObjWarpBossMulti::get_boss_warp_flag() {
-    return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
+    return ((get_main_phase() - 0xF) == 0) ? TLobby::connection_lost : 0;
 }
 
 s32 TObjWarpBossMulti::is_lobby_active() {

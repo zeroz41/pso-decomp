@@ -19,7 +19,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/PageIndicator.h"
-#include "pso/unk/text_8026C664.h"
+#include "pso/ui/window/ListPageIndicator.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -36,14 +36,14 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/item/item_create.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
@@ -53,9 +53,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-saddr format_item_description(u8 *item);
-
-const char *window_help_item_class_name = "TWindowHelpItem";
+const char *TWindowHelpItem::class_name = "TWindowHelpItem";
 
 HelpItemLayout TWindowHelpItem::item_layout_entries = {
     12, 1,
@@ -158,7 +156,7 @@ const char *get_help_text_string(s32 id) {
 }
 
 TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
-    this->m_name = window_help_item_class_name;
+    this->m_name = class_name;
     copy_vec2(target_position, (void *)pos);
     this->save_position();
     this->help_flags = 0;
@@ -173,7 +171,7 @@ TWindowHelpItem::TWindowHelpItem(const NJS_POINT2 *pos, s32 idx) : TWindowBase((
     this->scale_x = 1.0f;
     this->scale_y = 1.0f;
     this->dispatch_item_help();
-    call_if_split_screen((uaddr)this, this->client_index);
+    call_if_split_screen(this, this->client_index);
 }
 
 TWindowHelpItem::~TWindowHelpItem() {
@@ -198,7 +196,7 @@ void TWindowHelpItem::run_task() {
     this->update_fade();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     if (!(this->help_flags & 8)) {
-        toggle_help_window_on_button((uaddr)this, this->client_index);
+        toggle_help_window_on_button(this, this->client_index);
     }
 }
 
@@ -335,7 +333,7 @@ void TWindowHelpItem::dispatch_item_help() {
             lock_page_flip();
             init_text(get_localized_text_entry(0x10, ((s32)primary_id & 0xF) + 0x18));
         }
-    } else if (TItemData::is_wrapped(active_item) != 0) {
+    } else if (active_item->is_wrapped() != 0) {
         help_flags &= ~2;
         lock_page_flip();
         update_displayed_item();
@@ -891,7 +889,7 @@ void TWindowHelpItem::show_mag_growth() {
         &help_item_stats_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     lv = (HelpItemStatCompareRow *)get_array_entry(0);
     sy = (HelpItemStatCompareRow *)get_array_entry(1);
     iq = (HelpItemStatCompareRow *)get_array_entry(2);
@@ -948,7 +946,7 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     s32 changed;
     mag.init();
     changed = 0;
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     panel = (TWindowLayoutEntry *)get_array_entry(0);
     synchro = (HelpItemStatCompareRow *)get_array_entry(1);
     iq = (HelpItemStatCompareRow *)get_array_entry(2);
@@ -1004,7 +1002,7 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     return changed;
 }
 
-// inferred: steps each shown mag level one towards the mag's own level; 1 while any still moves.
+// Steps each shown mag level one towards the mag's own level; 1 while any still moves.
 s32 TWindowHelpItem::advance_mag_levels() {
     MagStats mag;
     HelpItemStatCompareRow *level_row;
@@ -1013,7 +1011,7 @@ s32 TWindowHelpItem::advance_mag_levels() {
     TWindowLayoutNumber *num;
     s32 count;
     mag.init();
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     level_row = (HelpItemStatCompareRow *)get_array_entry(0);
     panel = (TWindowLayoutEntry *)get_array_entry(0xF);
     count = level_row->get_value();
@@ -1108,7 +1106,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
         &help_item_sprites_layout,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    TItemData::deserialize_mag(active_item, &mag);
+    active_item->deserialize_mag(&mag);
     for (slot = 0; slot < 3; slot++) {
         blast = mag.get_photon_blast(slot);
         if (blast != -1) {
@@ -1154,7 +1152,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         m_callback = &TWindowHelpItem::update_tech_disk_stats;
         e0 = (WindowTextEntry *)this->get_array_entry(0);
         text_builder_reset();
-        text_builder_append((const char *)format_item_description((u8 *)active_item));
+        text_builder_append(format_item_description(active_item));
         if (current_language == LANGUAGE_JAPANESE) {
             text_builder_append(get_help_text_string(active_item->data1.data_u8[4]));
         }
@@ -1194,7 +1192,7 @@ void TWindowHelpItem::update_tech_disk_stats() {
     stats.clear_fields();
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        appearance = (CharacterAppearanceFields *)player->name;
+        appearance = &player->appearance;
         if (appearance != NULL) {
             mst_entry = (TWindowLayoutNumber *)get_array_entry(5);
             if (!(appearance->classFlags & 0x10) && (build_player_equipment_requirement_stats(player, &stats) != 0)) {
@@ -1226,7 +1224,7 @@ void TWindowHelpItem::idle_update() {}
 
 void TWindowHelpItem::format_description_with_price() {
     text_builder_reset();
-    text_builder_append((const char *)format_item_description(reinterpret_cast<u8 *>(active_item)));
+    text_builder_append(format_item_description(active_item));
     text_builder_append("\n");
     text_builder_append((const char *)(active_item->calc_buy_price()));
 }

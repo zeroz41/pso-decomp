@@ -49,4 +49,9 @@ void clear_short_mail_on_load();
 void set_new_mail_flag();
 void receive_short_mail(TChatMessage &message);
 
+ShortMailEntry *find_short_mail_by_id(u32 id);
+s32 find_free_short_mail_slot();
+void clear_short_mails();
+void remove_short_mail_at(s32 idx);
+
 #endif

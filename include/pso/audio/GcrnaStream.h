@@ -75,4 +75,7 @@ u32 gcrna_stream_callback(void *buffer1, u32 length1, void *buffer2, u32 length2
 }
 // --- end of C functions
 
+extern u8 gcrna_volume_table[1000];
+extern u32 gcrna_pan_table[31];
+extern GcrnaStream gcrna_stream_pool[16];
 #endif

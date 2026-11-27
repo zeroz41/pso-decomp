@@ -50,7 +50,7 @@ struct TObjEneDD : public TObjEnemy {
     static void init_lights();
     static s32 clamp_frame_index(s32 frame);
     static s32 check_v2_mode();
-    int get_target_state_a();
+    void release_cutscene_players();
     void get_target_state_b();
     static int query_teammate_state();
     int update_lobby_state();

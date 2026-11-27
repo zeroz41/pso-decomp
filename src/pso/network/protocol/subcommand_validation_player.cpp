@@ -5,14 +5,13 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/render_util.h"
 #include "types.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/PlayerActionProvider.h"
-#include "pso/network/protocol/subcommand_validation_playerTypes.h"
 
 
 s32 validate_attack_target_entry(void *parameters) {
@@ -317,10 +316,7 @@ s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;
 }
 
-
-extern "C" {
-s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet);
-s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet) {
+s32 validate_6xAE_set_animation_state(G_SetAnimationState_6xAE *packet) {
     TObjPlayer *player;
     player = get_player_by_client_id(packet->header.client_id);
     if (player == 0) {
@@ -336,6 +332,4 @@ s32 validate_6xAE_set_animation_state(LobbyAnimationState *packet) {
         return 0;
     }
     return 1;
-}
-
 }

@@ -25,13 +25,13 @@
 #include "pso/player/TObjPlayer.h"
 
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 
 #include "pso/render/RenderFadeState.h"
@@ -247,6 +247,7 @@ void TObjEneBeast::render() {
 
 #include "pso/enemy/saver/TObjEneSaver.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 const char *beast_model_name_table[4] = {
@@ -359,18 +360,18 @@ void TObjEneBeast::load_resources() {
     beast_boss4_rock_handler_ids = static_cast<AttackParams **>(mem_alloc(0xC));
     boss4_rock_pool = static_cast<ActorParamBlock **>(mem_alloc(0xC));
     boss4_rock_shared_handler_ids = (f32 **)mem_alloc(0xC);
-    ene_beast_boss_id_buffer[0] = TLobby::register_boss(0x4B);
-    ene_beast_boss_id_buffer[1] = TLobby::register_boss(0x4C);
-    ene_beast_boss_id_buffer[2] = TLobby::register_boss(0x4D);
-    beast_boss4_rock_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x4E);
-    beast_boss4_rock_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x4F);
-    beast_boss4_rock_handler_ids[2] = TLobby::dispatch_shared_handler_b(0x50);
-    boss4_rock_pool[0] = TLobby::register_object(0x4A);
-    boss4_rock_pool[1] = TLobby::register_object(0x4B);
-    boss4_rock_pool[2] = TLobby::register_object(0x4C);
-    boss4_rock_shared_handler_ids[0] = (f32 *)TLobby::dispatch_shared_handler_a(0x4A);
-    boss4_rock_shared_handler_ids[1] = (f32 *)TLobby::dispatch_shared_handler_a(0x4B);
-    boss4_rock_shared_handler_ids[2] = (f32 *)TLobby::dispatch_shared_handler_a(0x4C);
+    ene_beast_boss_id_buffer[0] = register_boss(0x4B);
+    ene_beast_boss_id_buffer[1] = register_boss(0x4C);
+    ene_beast_boss_id_buffer[2] = register_boss(0x4D);
+    beast_boss4_rock_handler_ids[0] = dispatch_shared_handler_b(0x4E);
+    beast_boss4_rock_handler_ids[1] = dispatch_shared_handler_b(0x4F);
+    beast_boss4_rock_handler_ids[2] = dispatch_shared_handler_b(0x50);
+    boss4_rock_pool[0] = register_object(0x4A);
+    boss4_rock_pool[1] = register_object(0x4B);
+    boss4_rock_pool[2] = register_object(0x4C);
+    boss4_rock_shared_handler_ids[0] = (f32 *)dispatch_shared_handler_a(0x4A);
+    boss4_rock_shared_handler_ids[1] = (f32 *)dispatch_shared_handler_a(0x4B);
+    boss4_rock_shared_handler_ids[2] = (f32 *)dispatch_shared_handler_a(0x4C);
     {
         s16 ids[3] = {2, 3, 4};
         NpcAnimationBinding q = { NULL, beast_action_table, 0, 2, 12 };

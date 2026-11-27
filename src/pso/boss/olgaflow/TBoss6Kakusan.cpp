@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/boss/olgaflow/TBoss6Kakusan.h"
 #include "pso/system/vector.h"
 
@@ -11,16 +12,17 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 #pragma readonly_strings on
@@ -179,12 +181,12 @@ TBoss6Kakusan::TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_cli
     }
     VecCopy(&position, pos);
     VecCopy(&prev_position, &position);
-    f32 param = ((f32 *)TLobby::dispatch_shared_handler_a(0x2B))[1];
+    f32 param = dispatch_shared_handler_a(0x2B)->values.floats[1];
     damage = (s32)param;
     if (0.0f == param) {
         damage = 0x14;
     }
-    homing_weight = ((f32 *)TLobby::dispatch_shared_handler_a(0x2F))[4];
+    homing_weight = dispatch_shared_handler_a(0x2F)->values.floats[4];
     if (homing_weight < 0.0f) {
         homing_weight = 0.0f;
     }

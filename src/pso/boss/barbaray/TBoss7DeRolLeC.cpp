@@ -71,7 +71,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -99,12 +99,12 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include <stddef.h>
 
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 #include "pso/math/AngleLookup.h"
 
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/object/base/TObjChara.h"
@@ -137,6 +137,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern const s32 boss7_derolle_c_body_point_node_ids[21] = {0x18, 0x1a, 0x1c, 0x1d, 0x1e, 0x1f, 0x22, 0x45, 0x4a, 0x5f, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1};
 
@@ -549,8 +550,8 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     if (boss7_joint_state == NULL) {
         boss7_joint_state = this;
     }
-    reset_hp(TLobby::register_boss(15), TLobby::dispatch_shared_handler_b(15), TLobby::register_object(15));
-    boss_params = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
+    reset_hp(register_boss(15), dispatch_shared_handler_b(15), register_object(15));
+    boss_params = (TBoss7DeRolLeCParams *)dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     state_flags = 0;
     if (exchange_object_state(state, 1) && (state[0] & 0x12008) == 0x12008) {
@@ -941,7 +942,7 @@ void TBoss7DeRolLeC::reload_stats_for_phase(s32 phase) {
         v = 0x11;
         break;
     }
-    reload_stats_keep_hp_tp(TLobby::register_boss(0xF), TLobby::dispatch_shared_handler_b(v), TLobby::register_object(0xF));
+    reload_stats_keep_hp_tp(register_boss(0xF), dispatch_shared_handler_b(v), register_object(0xF));
 }
 
 void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
@@ -951,11 +952,11 @@ void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
 }
 
 f32 TBoss7PhotonBullet::get_target_pos_y() {
-    return ((TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(0xF))->target_pos_y;
+    return ((TBoss7DeRolLeCParams *)dispatch_shared_handler_a(0xF))->target_pos_y;
 }
 
 s32 TBoss7Joint_get_shell_max_hp(void) {
-    return ((TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(0xF))->shell_max_hp;
+    return ((TBoss7DeRolLeCParams *)dispatch_shared_handler_a(0xF))->shell_max_hp;
 }
 
 void TBoss7DeRolLeC::set_position_index(s32 index) {
@@ -1775,7 +1776,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
     case 5:
         restore_player_cameras();
         TWindowCtrl::unsuppress_all_slots();
-        get_target_state_a();
+        release_cutscene_players();
         break;
     }
 }
@@ -3046,7 +3047,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (laser_ptcl != NULL) {
                 laser_ptcl->calc_position((u8 *)&part_points[0], (u8 *)&part_points[1]);
                 laser_ptcl->calc_world_position(beam_end);
-                calc_laser_ray_hit_point((u8 *)laser_ptcl, (u8 *)&from);
+                calc_laser_ray_hit_point(laser_ptcl, &from);
             }
             hit = csnVector(&from, beam_end, 0x16EF);
             if (hit != NULL) {
@@ -3737,7 +3738,7 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
         set.parameters[3] = 0.0f;
         set.parameters[4] = 0.0f;
         set.variant = 0;
-        set.unk_3E = 0;
+        set.state = 0;
         new TBoss7Crawfish((TObject *)crawfish_parent, &set);
     }
 }

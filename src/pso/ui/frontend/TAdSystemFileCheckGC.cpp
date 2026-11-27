@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
@@ -27,6 +26,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/audio/MusicControl.h"
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -119,13 +119,6 @@ const char *multi_chg_game_mode_text_table_b[11] = {
 // Size of the confirm window; the window is centred on the 640-wide screen in __sinit below.
 const f32 multi_chg_game_mode_window_size[2] = {540.0f, 280.0f};
 
-typedef void (TAdSystemFileCheckGC::*TAdSystemFileCheckGCAction)();
-
-// One entry per state: enter is called by set_state, task by run_task every frame.
-struct TAdSystemFileCheckGCState {
-    TAdSystemFileCheckGCAction enter;
-    TAdSystemFileCheckGCAction task;
-};
 
 TAdSystemFileCheckGCState multi_chg_game_mode_entry_table[11] = {
     {&TAdSystemFileCheckGC::enter_state_0, &TAdSystemFileCheckGC::confirm_mode_selection},
@@ -365,12 +358,11 @@ void TAdSystemFileCheckGC::enter_state_3() {
     create_back_objects();
 }
 void TAdSystemFileCheckGC::update_mode_selection() {
-    s32 this_addr = (saddr)this;
     if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
         set_state(2);
     }
 }
-void TAdSystemFileCheckGC::load_system_on_mode_default() { if (handle_mode_selection() == 0) { load_system_file((saddr)((void*)0)); } }
+void TAdSystemFileCheckGC::load_system_on_mode_default() { if (handle_mode_selection() == 0) { load_system_file(0); } }
 s32 TAdSystemFileCheckGC::handle_mode_selection() {
     s32 selection;
     selection = this->status;
@@ -398,14 +390,13 @@ void TAdSystemFileCheckGC::run_state_7() {
 }
 void TAdSystemFileCheckGC::enter_state_7() {  }
 void TAdSystemFileCheckGC::update_mode_selection_and_save() {
-    s32 this_addr = (saddr)this;
     if (((int)handle_mode_selection()) == 0) {
         TAdSinglePlyChrSelectGC::refresh_char_slots();
         if (TAdSinglePlyChrSelectGC::encrypt_save_and_write() != 0) {
-            set_state((s32)((saddr)((void*)(7))));
+            set_state(7);
             return;
         }
-        set_state((s32)((saddr)((void*)(8))));
+        set_state(8);
     }
 }
 void TAdSystemFileCheckGC::enter_state_6() {  }
@@ -474,7 +465,7 @@ s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
     return 0;
 }
 
-void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state((s32)((saddr)((void*)((void*)1)))); } }
+void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state(1); } }
 void TAdSystemFileCheckGC::enter_state_0() { close_window_30(); open_message_window(4); }
 
 void TAdSystemFileCheckGC::run_task() {
@@ -508,6 +499,6 @@ TAdSystemFileCheckGC::TAdSystemFileCheckGC(TObject *object) : TObject(object) {
     } else {
         set_state(1);
     }
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     set_fallback_main_phase(9);
 }

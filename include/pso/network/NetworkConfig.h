@@ -7,9 +7,7 @@ extern u32 lobby_net_config_mode;
 
 s32 update_network_info_request(void);
 
-extern "C" {
 s32 open_network_config(s32 backup_mode, void *buffer, s32 mode);
-}
 s32 close_network_config(void);
 
 #endif

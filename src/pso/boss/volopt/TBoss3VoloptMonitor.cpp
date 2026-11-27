@@ -8,7 +8,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
@@ -17,9 +17,9 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/render/DebugFont.h"
@@ -33,6 +33,7 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/psoLoadTexture.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -202,10 +203,10 @@ void TBoss3VoloptMonitor::load_resources() {
     for (i = 0; i < 4; i++) {
         volopt_monitor_screen_meshes[i] = static_cast<GinjaModel *>(get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->model);
     }
-    volopt_monitor_stats = (BossStats *)TLobby::register_boss(0x23);
-    volopt_monitor_stats_b = TLobby::dispatch_shared_handler_b(0x23);
-    volopt_monitor_object_params = TLobby::register_object(0x23);
-    volopt_monitor_stat_table = (MonitorStatTable *)TLobby::dispatch_shared_handler_a(0x23);
+    volopt_monitor_stats = (BossStats *)register_boss(0x23);
+    volopt_monitor_stats_b = dispatch_shared_handler_b(0x23);
+    volopt_monitor_object_params = register_object(0x23);
+    volopt_monitor_stat_table = (MonitorStatTable *)dispatch_shared_handler_a(0x23);
 }
 
 void TBoss3VoloptMonitor::release() {

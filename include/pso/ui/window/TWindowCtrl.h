@@ -7,6 +7,7 @@
 #include "pso/ui/window/WindowCtrlCallback.h"
 
 struct NJS_POINT2;
+struct PlayerLevelStats;
 struct TWindowTradeRequest;
 struct TWindowTimer;
 class TWindowArea;
@@ -50,7 +51,6 @@ struct TWindowCtrl : public TObject {
     virtual void run_task();
     virtual void render();
     static s32 get_flag_bit3();
-    static s32 is_map_visible();
     static void clear_flag_2();
     static void set_close_flag();
     static s32 get_pulse_color();
@@ -110,7 +110,7 @@ struct TWindowCtrl : public TObject {
     static s32 open_balloon(u16 player, u8 *text, s32 flags, s32 client);
     static saddr open(u16 id, const char *text, s32 flags);
     static int open_default(u16 id, const char *text);
-    static void create_level_up_window(saddr stats, saddr client);
+    static void create_level_up_window(const PlayerLevelStats *stats, saddr client);
     static void append_client_message(s32 client, const char *text, s32 mode);
     static void append_client_message(s32 client, const char *text);
     static void append_message_all(const char *text, s32 mode);
@@ -166,5 +166,6 @@ saddr get_party_member_name(s32 n);
 s32 is_chat_flag2_clear(const TWindowChat *chat);
 void destroy_com_card_window(void);
 s32 is_player_input_active(s32 client);
+void send_card_window_state();
 
 #endif

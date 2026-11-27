@@ -9,7 +9,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TCharSaveSequence.h"
@@ -44,6 +43,8 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/audio/SoundRequests.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -340,8 +341,8 @@ void TCharSaveSequence::set_char_slots(s32 message, s32 sub_message) {
 void on_chr_select_fade_out_done(TObject *) { request_queued_main_phase(); }
 void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
-    TLobby::stop_audio_streams();
-    TLobby::set_and_notify(0);
+    stop_audio_streams();
+    set_and_notify(0);
     TLobby::call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
@@ -389,7 +390,7 @@ void init_single_player_char_select_scene(void) {
     set_fallback_main_phase(2);
     char_save_message_flags = 0;
     play_area_music("title.adx");
-    TLobby::set_and_notify(-900);
+    set_and_notify(-900);
     lobby_rule_settings.reset_settings_to_default();
     render_tick();
 }
@@ -426,12 +427,6 @@ void TCharSaveSequence::init_warps() {
 
 typedef void (TCharSaveSequence::*Handler)();
 
-// The two serial number generator seeds; the rest of the 0x10 bytes is not used here.
-struct ChrSelectSerialSeeds {
-    s32 seed_a;
-    s32 seed_b;
-    u8 remaining[0x8];
-};
 LAYOUT_ASSERT(ChrSelectSerialSeeds_size, sizeof(ChrSelectSerialSeeds) == 0x10);
 
 
@@ -439,8 +434,8 @@ extern ChrSelectSerialSeeds chr_select_serial_seeds;
 
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
-    (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
-    (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
+    (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
+    (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&update_keyboard_menu, (void *)&free_keyboard_soft_resources,
 };
 
 void TCharSaveSequence::close_message_window() {

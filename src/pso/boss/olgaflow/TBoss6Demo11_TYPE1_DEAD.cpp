@@ -13,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).

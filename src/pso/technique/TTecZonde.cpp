@@ -17,7 +17,7 @@
 
 #pragma readonly_strings on
 
-const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
+const char *TTecZonde_class_name = "TTecZonde"; // TTecZonde__name
 
 void TTecZonde::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(6, level, 0xFFFF);
@@ -46,14 +46,13 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 }
 
 #include "pso/technique/TTecLuker.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/technique/TTecZondeHitEffect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/technique/TTecZondeTypes.h"
 
 
 TTecZonde::~TTecZonde() {
@@ -174,7 +173,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
+    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active(t) != 0) {
         apply_to_target(t);
     }
     queue_destruction();
@@ -182,7 +181,7 @@ void TTecZonde::run_task() {
 
 #pragma pop
 TTecZonde::TTecZonde(TObjBase *source, Vec *origin, TargetCursorList *target_list, s32 level) : TTecShot(source, origin, 0, level) {
-    m_name = lbl_805D3838;
+    m_name = TTecZonde_class_name;
     init_parameters();
     copy_technique_target_list(&targets, target_list);
     if (this->source != NULL) {

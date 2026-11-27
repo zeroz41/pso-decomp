@@ -18,17 +18,17 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/task/TObject.h"
@@ -37,7 +37,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
@@ -251,7 +251,7 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
                 }
             }
             player_in_range[player_count] = inside;
-            strcpy(player_names[player_count], pl->name);
+            strcpy(player_names[player_count], pl->appearance.name);
             player_count++;
         }
     }

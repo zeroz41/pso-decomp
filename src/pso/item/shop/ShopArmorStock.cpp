@@ -8,7 +8,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/memory.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 #pragma readonly_strings on
 #pragma inline_depth(1)

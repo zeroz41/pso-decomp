@@ -11,10 +11,11 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     static const char *class_name;
     TAdVIConfigGC(TObject *parent);
     virtual ~TAdVIConfigGC();
-    u32 m_48;
+    u32 answered;
     u8 *init(const Vec *position, f32 radius);
     virtual void render();
-    void set_field48_clear_global();
+    void mark_answered();
+    s32 is_answered();
     void enable_progressive_mode();
     static void disable_progressive_mode();
     virtual void run_task();

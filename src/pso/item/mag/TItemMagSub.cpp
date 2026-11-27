@@ -23,9 +23,8 @@
 #include "pso/system/vector.h"
 
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/item/mag/TItemMagSubTypes.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 // The mag data files TItemMag::load_data_files reads.
 extern const char item_mag_motion_path[20] = "itemmagmotion.dat";
 extern const char item_mag_edit_path[20] = "ItemMagEdit.prs";
@@ -93,8 +92,8 @@ TItemMagSub::TItemMagSub(TObjPlayer *player, TItemMag *mag) : TItemHeapObject(ma
     for (i = 0; i < 3; i++) {
         node_ids[i] = -1;
     }
-    if (0.5 < player->height) {
-        owner_height_scale = 1.1f - 0.2f * player->height;
+    if (0.5 < player->appearance.height) {
+        owner_height_scale = 1.1f - 0.2f * player->appearance.height;
     } else {
         owner_height_scale = 1.0f;
     }

@@ -19,19 +19,19 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/text_80290B3C.h"
-#include "pso/unk/text_80290BE0.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/DataBlockRelocation.h"
+#include "pso/ui/charcreate/FigureRotationReset.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 
 
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index);
 extern "C" {
 f32 vector_length(f32 *v);
 }
@@ -62,9 +62,6 @@ extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
 void reset_invalid_proportions();
 void copy_player_visual_record(void *, void *);
-
-void prefetch_creation_textures(s32 part);
-void load_creation_entry_textures(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 }
@@ -250,7 +247,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
     creation_figure_object = this;
-    res = (saddr)new BmlResource(6, (character_making_resource_descriptor_table)[character_display_index(cm)], 0, 0, NULL);
+    res = (saddr)new BmlResource(6, character_making_resource_descriptor_table[character_display_index(cm)], 0, 0, NULL);
     chara_select_preview_resource = res;
     for (p = creation_texture_cache; p < creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY; p++) {
         p->in_use = 0;
@@ -304,7 +301,10 @@ TCMCharacter::~TCMCharacter() {
 
 void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
 
-void copy_creation_model_part(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+void copy_creation_model_part(CreationModelPart *dst, CreationModelPart *src) {
+    dst->present = src->present;
+    dst->model = src->model;
+}
 void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 10; i++) {
         copy_creation_model_part(&creation_hair_model_parts[i], &empty_creation_model_part);
@@ -366,7 +366,10 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
     return (u8)((u8) (char_select_active_flag == 1));
 }
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
-extern "C" void copy_creation_model_node(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+extern "C" void copy_creation_model_node(CreationModelNodeState *dst, CreationModelNodeState *src) {
+    dst->node = src->node;
+    dst->flags = src->flags;
+}
 void reset_creation_shape_set(CreationModelNodeState *node) {
     copy_creation_model_node(node, &creation_empty_model_node);
 }
@@ -434,9 +437,9 @@ void reset_creation_body_shapes() {
 }
 #pragma pop
 
-void bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_body_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *model) {
     reset_creation_body_shapes();
-    make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_body_shape_destination);
+    make_node_flag_table(model, (NodeFlagEntry *)&creation_body_shape_destination);
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }
@@ -644,19 +647,19 @@ s32 scan_creation_resources(void *context) {
     creation_resource_ready_state = 2;
     return 1;
 }
-s32 find_shape_triangle_region(u8 *point) {
+s32 find_shape_triangle_region(const f32 *point) {
     f32 u;
     f32 v0;
     f32 v1;
-    u = *(f32 *)((s8 *)point + 0);
+    u = point[0];
     if (u > 0.6666667f) {
-        if ((3.0f * (u - 0.6666667f)) <= *(f32 *)((s8 *)point + 4)) {
+        if ((3.0f * (u - 0.6666667f)) <= point[1]) {
             return 6;
         }
         return 7;
     }
     if (u <= 0.33333334f) {
-        v0 = *(f32 *)((s8 *)point + 4);
+        v0 = point[1];
         if (u >= (0.6666667f * v0)) {
             return 0;
         }
@@ -665,7 +668,7 @@ s32 find_shape_triangle_region(u8 *point) {
         }
         return 2;
     }
-    v1 = *(f32 *)((s8 *)point + 4);
+    v1 = point[1];
     if (u <= (-0.6666667f * (v1 - 1.0f))) {
         return 3;
     }
@@ -693,7 +696,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
     s32 x;
     s32 i;
     reset_invalid_proportions();
-    map_shape_region_samples(find_shape_triangle_region((u8 *)point), samples);
+    map_shape_region_samples(find_shape_triangle_region(point), samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
             x = samples[j];
@@ -709,7 +712,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
 #pragma fp_contract on
 // Barycentric weights of point inside the sample triangle of its region (inferred).
 void calc_shape_region_coefficients(f32 *point) {
-    s32 region = find_shape_triangle_region((u8 *)point);
+    s32 region = find_shape_triangle_region(point);
     s32 i0;
     s32 i1;
     s32 i2;
@@ -955,23 +958,23 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
     }
     return 0;
 }
-void load_creation_entry_textures(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance) {
+void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
     saddr index;
-    bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
+    bind_appearance_texture_lists(&hair_textures.textures, &head_textures.textures, &body_textures.textures, appearance);
     index = character_display_index(appearance);
-    slot = &entry->hair_textures;
+    slot = &hair_textures;
     if (slot->textures.present != 0) {
         slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
     }
-    slot = &entry->head_textures;
+    slot = &head_textures;
     if (slot->textures.present != 0) {
         slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
     }
-    slot = &entry->body_textures;
+    slot = &body_textures;
     slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
-    entry->in_use = 1;
-    entry->copy_slot_data(appearance);
+    in_use = 1;
+    copy_slot_data(appearance);
 }
 s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     s32 n;
@@ -1064,7 +1067,7 @@ load:
                 }
                 entry = TAdSinglePlyChrSelectGC::find_free_slot();
             }
-            load_creation_entry_textures(entry, &buf);
+            entry->request_textures(&buf);
         }
     }
 }

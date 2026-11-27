@@ -11,17 +11,16 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/save/TCheckMemoryCardTypes.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
-
+LAYOUT_ASSERT(CheckMemoryCardState_size, sizeof(CheckMemoryCardState) == 0x18);
+LAYOUT_ASSERT(CheckMemoryCardState_run_offset, offsetof(CheckMemoryCardState, run) == 0xC);
 
 const char *TCheckMemoryCard::class_name = "TCheckMemoryCard";
 

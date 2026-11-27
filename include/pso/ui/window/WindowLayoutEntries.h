@@ -20,4 +20,10 @@ void draw_visible_window_entries(const void *window, const WindowLayoutEntries *
 // Populate the entry list from the dimensions and packed part descriptors.
 void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout, s32 client);
 
+struct WindowLayoutEntriesDesc {
+    u32 cols;
+    u32 rows;
+    u32 recs[1];
+};
+
 #endif

@@ -7,6 +7,7 @@
 #include "pso/ui/city/BankItemRecord.h"
 #include "pso/system/ChoiceSearchSelection.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
+#include "pso/ui/window/WordSelectMessage.h"
 
 // A character's battle mode results: wins in each place (first to fourth) and battles left early.
 // The client keeps the remaining counts and values only to send them on.
@@ -27,14 +28,17 @@ struct ChatShortcutKind {
     ChatShortcutKind &operator=(const ChatShortcutKind &src);
 };
 
-struct ChatShortcutBodyCopy {
-    u8 bytes[0x50];
+// What a chat shortcut sends, by its kind.
+union ChatShortcutBody {
+    char text[0x50];            // 1: chat text
+    WordSelectMessage message;  // 2: word select message
+    s32 symbol_chat_preset;     // 3: index of the symbol chat preset
 };
 
 // One chat shortcut of the character's save record: the kind and the text, message or symbol chat it sends.
 struct ChatShortcut {
     ChatShortcutKind kind;
-    ChatShortcutBodyCopy body;
+    ChatShortcutBody body;
 
     ChatShortcut &operator=(const ChatShortcut &src);
 };
@@ -47,7 +51,7 @@ struct CharacterSaveRecord {
     // Whether every row of bank_items is in use.
     s32 is_bank_full();
     // Whether the bank holds an item of the same kind as item.
-    s32 find_bank_item(saddr item);
+    s32 find_bank_item(TItemData *item);
     // Puts item in the first free bank row; 0 when the bank is full.
     s32 register_in_free_room_slot(TItemData *item);
 
@@ -79,7 +83,7 @@ struct CharacterSaveRecord {
     ChallengeRecord challenge;
     s16 short_list_order[0x14];   // filled by init_default_short_list_order
     // Choice search settings, sent in C2/C3 and with the character data.
-    ChoiceSearchSelection choice_search[5];
+    ChoiceSearchSelections choice_search;
     s32 quest_counters[16];  // the quest counter opcodes (write_counter, read_counter) read and write these
     // Split-screen battles finished in each place (first to fourth), and battles left early.
     BattleRecord split_screen_battle;

@@ -12,9 +12,9 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 #include "pso/system/vector.h"
 
@@ -34,11 +34,11 @@
 
 #include "pso/render/RenderFadeState.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
@@ -86,8 +86,9 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/enemy/BattleParamTables.h"
 
-// TObjBoss2Tunnel.cpp's debug chunk model.
+// TObjBoss2Tunnel_Snapshot.cpp's debug chunk model.
 
 // TObjEneDD.cpp's view-detail distances.
 
@@ -141,7 +142,7 @@ TObjMotionAction recobox_animation_entries[4] = {
 };
 
 
-Vec lbl_80543000;
+Vec recobox_zero_vector;  // zeroed by the resource loader, never read
 
 s32 recobox_behavior_params;
 
@@ -156,9 +157,9 @@ void *TObjEneRecon::get_field_38_ptr() {
 }
 
 void TObjEneRecobox::load_resources() {
-    lbl_80543000.x = 0.0f;
-    lbl_80543000.y = 0.0f;
-    lbl_80543000.z = 0.0f;
+    recobox_zero_vector.x = 0.0f;
+    recobox_zero_vector.y = 0.0f;
+    recobox_zero_vector.z = 0.0f;
     {
         BmlResource *res;
         if (is_split_screen() != 0) {
@@ -168,10 +169,10 @@ void TObjEneRecobox::load_resources() {
         }
         recobox_static_instance = res;
     }
-    recobox_boss_register_id = TLobby::register_boss(0x41);
-    recobox_attack_params = TLobby::dispatch_shared_handler_b(0x41);
-    recobox_shared_object_handle = TLobby::register_object(0x41);
-    recobox_behavior_params = (saddr)TLobby::dispatch_shared_handler_a(0x41);
+    recobox_boss_register_id = register_boss(0x41);
+    recobox_attack_params = dispatch_shared_handler_b(0x41);
+    recobox_shared_object_handle = register_object(0x41);
+    recobox_behavior_params = (saddr)dispatch_shared_handler_a(0x41);
     TObjEneRecon::load_resources();
     {
         NpcAnimationBinding binding = recobox_resource_binding_desc;
@@ -663,10 +664,10 @@ void TObjEneRecobox::remove_tracked_target(TObjEneRecon *child) {
     }
 }
 
-void TObjEneRecobox::remove_child_entity(u8 *child) {
+void TObjEneRecobox::remove_child_entity(TObjCollidable *child) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(live_recon_ids[i]) == reinterpret_cast<TObjCollidable *>(child)) {
+        if (find_entity_by_id(live_recon_ids[i]) == child) {
             live_recons--;
             live_recon_ids[i] = live_recon_ids[live_recons];
             live_recon_ids[live_recons] = 0xFFFF;

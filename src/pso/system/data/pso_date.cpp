@@ -13,7 +13,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct MonthStartDays { s32 v[12]; };
 
 extern "C" {
 

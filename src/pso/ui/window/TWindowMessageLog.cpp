@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "pso/system/memory.h"
@@ -17,14 +17,14 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/THeap.h"
-#include "pso/unk/text_8026A14C.h"
+#include "pso/ui/chat/ChatLogText.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 
@@ -55,7 +55,7 @@ char *TWindowMessageLog::get_active_photon_object(u16 id) {
     if ((entity->obj_isState2_324() == 0) && (entity->is_locally_controlled() == 0)) {
         return 0;
     }
-    name = entity->name;
+    name = entity->appearance.name;
     if (name == 0) {
         name = 0;
     }
@@ -145,7 +145,8 @@ void TWindowMessageLog::set_target_height(f32 height) {
     }
 }
 
-s32 TLobby::find_free_chat_log_slot() {
+}
+s32 find_free_chat_log_slot() {
     s32 i;
     for (i = 0; i < 30; i++) {
         if (chat_log_lines[i] == 0) {
@@ -154,7 +155,6 @@ s32 TLobby::find_free_chat_log_slot() {
     }
     chat_log_remove_line(0);
     return 29;
-}
 }
 
 void chat_log_remove_line(saddr index) {
@@ -226,14 +226,14 @@ void chat_log_add_line(const char *text) {
     s32 slot;
     char *buffer;
     num = strlen(text);
-    slot = TLobby::find_free_chat_log_slot();
+    slot = find_free_chat_log_slot();
     buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
     if (buffer == NULL) {
         do {
             chat_log_remove_line(0);
             buffer = (char *)scroll_win_chat_log_heap->heap_alloc(num + 1);
         } while (buffer == NULL);
-        slot = TLobby::find_free_chat_log_slot();
+        slot = find_free_chat_log_slot();
     }
     chat_log_lines[slot] = buffer;
     strncpy(chat_log_lines[slot], text, num);

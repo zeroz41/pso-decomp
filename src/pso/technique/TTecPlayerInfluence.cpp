@@ -18,7 +18,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/technique/TTecPlayerInfluenceTypes.h"
 
 const char *TTecPlayerInfluence::class_name = "TTecPlayerInfluence";
 
@@ -113,7 +112,7 @@ void TTecPlayerInfluence::deliver_technique_to_party_targets() {
         list = find_support_technique_contact_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active((uaddr)list->actors[i]) != 0) {
+        if (TObjPlayer::is_valid_and_active(list->actors[i]) != 0) {
             apply_to_player((TObjPlayer *)list->actors[i]);
         }
     }

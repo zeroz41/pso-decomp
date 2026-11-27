@@ -11,7 +11,7 @@
 #include "pso/boss/darkfalz/TOBoss4Bird.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/boss/darkfalz/TOBoss4Tower.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
@@ -23,8 +23,8 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 
 const char *bm_o_boss4_model_names[7] = {
     "df_obj_bird.gj", "df_obj_iwa_l.gj", "df_obj_iwa_m.gj", "df_obj_iwa_s1.gj",

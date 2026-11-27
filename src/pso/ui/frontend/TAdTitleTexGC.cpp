@@ -1,11 +1,11 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
@@ -41,7 +41,7 @@ void load_player_tex_texture() {
     if (player_tex_texture_list_ptr != NULL) {
         return;
     }
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     NJS_TEXLIST *lists[5] = {
         &player_tex_texture_list, &player_tex_eng_texture_list, &player_tex_eng_texture_list,
         &player_tex_eng_texture_list, &player_tex_eng_texture_list,

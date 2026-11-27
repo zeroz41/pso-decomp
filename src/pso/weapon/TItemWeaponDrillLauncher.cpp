@@ -15,10 +15,10 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaMaterial.h"
 
 struct TItemEquipBase;
@@ -31,8 +31,6 @@ struct TItemEquipBase;
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
-
-saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
 
 
 void TItemShootDrillLauncher::render() {
@@ -62,34 +60,34 @@ void TItemShootDrillLauncher::hook() {  }
 TItemShootDrillLauncher::TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {}
 
-saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
+TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootDrillLauncher *shot = NULL;
     TItemShootParticle *particle;
 
-    if (owner != 0) {
-        shot = new TItemShootDrillLauncher((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+    if (owner != NULL) {
+        shot = new TItemShootDrillLauncher(owner, pos, dir, life);
     }
-    particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
         particle->spawn_slot_emitter(0x1BB, 0);
     }
-    return (saddr)shot;
+    return shot;
 }
 
 void TItemWeaponDrillLauncher::emit_marker_effects() {
     Vec gun_point;
-    saddr burst_slot;
+    PlayerAttackController *attack_state;
     s32 burst_added;
     if (projectile_visible == 1) {
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)drill_launcher_return_timer, 0x1E);
         projectile_visible = 0;
     }
     recoil_phase = 2;
-    burst_slot = (saddr)owner + 0x7CC;
-    if (get_burst_counter((void*)burst_slot) == 0) {
+    attack_state = &owner->attack_state;
+    if (get_burst_counter(attack_state) == 0) {
         burst_added = 0;
         do {
-            increment_burst_counter((u8 *)burst_slot);
+            increment_burst_counter((u8 *)attack_state);
             burst_added += 1;
         } while (burst_added != 2);
     }
@@ -151,7 +149,7 @@ TItemWeaponDrillLauncher::~TItemWeaponDrillLauncher() {
 
 }
 TItemWeaponDrillLauncher::TItemWeaponDrillLauncher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    shot_callback = (WeaponShotCallback)drill_launcher_create_shot;
+    shot_callback = drill_launcher_create_shot;
     shot_speed = 9.0f;
     set_weapon_flags(0x22);
     projectile_visible = 1;

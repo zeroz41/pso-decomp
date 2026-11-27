@@ -25,13 +25,13 @@
 
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/system/MatrixOps.h"
@@ -41,7 +41,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -103,12 +103,13 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -180,7 +181,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     motion_list = nano_drago_entry_params_resource->motions;
     variant = 0;
     add_flags_2e4(2);
-    state36C = setData_enemyplacement->unknown3e;
+    state36C = setData_enemyplacement->state;
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
     set_action_table(action_table);
@@ -233,10 +234,10 @@ void TObjEneNanoDrago::load_resources() {
 
     resource = (u8 *)new BmlResource(1, &bm_ene_nanodrago_resource_descriptor, 0, 0, NULL);
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    nano_drago_base_params = TLobby::register_boss(0x1A);
-    nano_drago_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
-    nano_drago_resistance_params = TLobby::register_object(0x1A);
-    nano_drago_behavior_params = (NanoDragoBehaviorParams *)TLobby::dispatch_shared_handler_a(0x1A);
+    nano_drago_base_params = register_boss(0x1A);
+    nano_drago_attack_params = dispatch_shared_handler_b(0x1A);
+    nano_drago_resistance_params = register_object(0x1A);
+    nano_drago_behavior_params = (NanoDragoBehaviorParams *)dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
     TObjNpcEnemy::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
@@ -1101,7 +1102,7 @@ s32 TObjEneNanoDrago::collect_beam_targets() {
     beamTargetCount = 0;
     for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
         candidate = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)candidate) != 0) {
+        if (TObjPlayer::is_valid_and_active(candidate) != 0) {
             add_target_in_front_arc(candidate);
         }
     }

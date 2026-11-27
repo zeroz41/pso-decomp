@@ -1,0 +1,40 @@
+#include "pso/network/protocol/protocol_types.h"
+#include "types.h"
+#include "pso/network/BattleModeDataCmd.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/TGameProtocol.h"
+#include "pso/system/byteswap.h"
+#include "pso/network/TLobby.h"
+#include "pso/player/PlayerBattleScore.h"
+
+void DamageStatSlot::reset() {
+    set_total(0.0f);
+    set_accumulated(0.0f);
+}
+
+void DamageStatSlot::set_accumulated(f32 v) { accumulated = v; }
+s32 PlayerSubObjectSlots::get_score() { return score; }
+void DamageStatSlot::set_normal_weight(f32 v) { normal_weight = v; }
+void DamageStatSlot::set_bonus_weight(f32 v) { bonus_weight = v; }
+
+void G_SetBattleModeData_6x7D::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void G_SetBattleModeData_6x7D::bswap() {
+    int i;
+    header.bswap();
+    for (i = 0; i < 4; i++) {
+        bswap_32((u32 *)&params[i]);
+    }
+}
+
+void build_6x7D_set_battle_mode_data(G_SetBattleModeData_6x7D *cmd) {
+    cmd->header.subcommand = 0x7D;
+    cmd->header.size = sizeof(G_SetBattleModeData_6x7D) / 4;
+}
+void G_SetBattleModeData_6x7D::send_to_leader() {
+    bswap();
+    send_subcommand_to_leader(this);
+}

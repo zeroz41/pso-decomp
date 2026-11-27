@@ -10,11 +10,11 @@
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -70,7 +70,7 @@ void TBoss3VoloptCageShot::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_yx((u8 *)&velocity, &rotation_y, &rotation_z);
+    direction_to_rotation_yx(&velocity, &rotation_y, &rotation_z);
     rotation_z -= 0x4000;
     if (trail != NULL) {
         trail->set_position(&position);

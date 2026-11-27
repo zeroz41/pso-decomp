@@ -8,17 +8,17 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include <stdlib.h>
@@ -26,6 +26,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 
@@ -170,8 +171,8 @@ void TObjVoloptCage::destroy() {
 void TObjVoloptCage::init_break_model() {
     volopt_cage_model = boss3_volopt_resources->models[0x12].model;
     volopt_cage_breakup_model = new TBreakUpMdlData(volopt_cage_model);
-    volopt_cage_combat_stats = TLobby::register_boss(0x26);
-    volopt_cage_params = (VoloptCageParams *)TLobby::dispatch_shared_handler_a(0x26);
+    volopt_cage_combat_stats = register_boss(0x26);
+    volopt_cage_params = (VoloptCageParams *)dispatch_shared_handler_a(0x26);
 }
 
 void TObjVoloptCage::render() {

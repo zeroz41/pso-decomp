@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -208,7 +208,7 @@ void TWindowSubShortMail::run_task() {
         } else if (action_menu->is_decided() != 0) {
             ShortMailEntry *mail;
             reply_mail_id = mail_list->get_cursor_value();
-            mail = TLobby::find_short_mail_by_id(reply_mail_id);
+            mail = find_short_mail_by_id(reply_mail_id);
             if (mail != NULL) {
                 target_card_id = mail->get_sender_card_id();
             }
@@ -552,7 +552,7 @@ void TWindowSubShortMail::update_mail_count() {
         cursor_id = mail_list->get_cursor_value();
         if ((s32) mail_id != cursor_id) {
             mail_id = cursor_id;
-            mail = TLobby::find_short_mail_by_id(mail_id);
+            mail = find_short_mail_by_id(mail_id);
             if (mail != NULL) {
                 message_window->append_line(mail->get_body(), 0x482);
             }
@@ -567,7 +567,7 @@ void TWindowSubShortMail::close() {
     s32 i;
 
     src = (saddr)this->keyboard->realloc_buffer();
-    TWindowSubComCard::mask_profanity_words((char *)src, get_shared_text_buffer());
+    mask_profanity_words((char *)src, get_shared_text_buffer());
     TLobby::send_simple_mail(this->target_card_id, (get_shared_text_buffer()));
     mem_free((void *)src);
     short_mail_ctrl = TLobby::get_short_mail_ctrl();

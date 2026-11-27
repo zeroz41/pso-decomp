@@ -22,11 +22,12 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_802432F0.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/save/CardFileChannel.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.
 
@@ -66,7 +67,7 @@ void load_memcard_file(void) {
         if (slot != -2) {
             break;
         }
-        TLobby::run_frame();
+        run_frame();
     }
     if (slot == -1) {
         return;
@@ -84,7 +85,7 @@ void load_memcard_file(void) {
     memset(buf, 0, stat.blocks << 13);
     TAdSinglePlyChrSelectGC::load_player_slot(slot, memcard_file_099_name, buf);
     while (poll_memcard_result(slot) != 0) {
-        TLobby::run_frame();
+        run_frame();
     }
     if (verify_card_save_header(&hdr, buf) != 0) {
         safe_free(buf);

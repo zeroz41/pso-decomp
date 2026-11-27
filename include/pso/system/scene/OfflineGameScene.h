@@ -31,5 +31,6 @@ extern int camera_split_screen_selector;
 void offline_scene_init_stub_a(void);
 void offline_scene_init_stub_b(void);
 void offline_scene_init_stub_c(void);
+void apply_char_to_players();
 
 #endif

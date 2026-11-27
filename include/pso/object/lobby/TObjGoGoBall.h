@@ -22,7 +22,7 @@ public:
     f32 gravity;          // added to velocity.y every frame
     f32 restitution;      // gogo_ball_configuration.restitution
     Vec velocity;
-    s32 time;             // TLobby::get_clock_frames() % 2592
+    s32 time;             // get_clock_frames() % 2592
     s32 sequence;         // the 6x79 sequence of the last throw applied
     s32 resting;          // set while the ball does not move
     s32 rest_count;       // times the ball came to rest ("Go!")

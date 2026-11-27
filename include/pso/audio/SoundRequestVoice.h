@@ -44,4 +44,6 @@ LAYOUT_ASSERT(SoundRequestVoice_studio_offset, offsetof(SoundRequestVoice, studi
 LAYOUT_ASSERT(SoundRequestVoice_reverb_offset, offsetof(SoundRequestVoice, reverb) == 0x9C);
 
 void send_sound_request_reverb(SoundRequestVoice* voice);
+void voice_start_stub(SoundRequestVoice *v);
+void voice_pitch_stub(SoundRequestVoice *v);
 #endif

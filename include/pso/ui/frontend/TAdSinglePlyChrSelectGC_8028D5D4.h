@@ -19,4 +19,6 @@ struct CharacterCreationEffects {
 LAYOUT_ASSERT(CharacterCreationEffectsSize, sizeof(CharacterCreationEffects) == 0xC);
 extern CharacterCreationEffects character_creation_effects;
 
+void check_load_buffer_slot_stub(s32 i);
+
 #endif

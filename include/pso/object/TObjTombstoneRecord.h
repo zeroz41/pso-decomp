@@ -22,9 +22,9 @@ struct TObjTombstoneRecord {
     s8 phase;
     s8 layout;
     u8 floor;  // compared with get_current_floor
-    u8 unk_3;
+    u8 pad_3;
     s16 deaths;    // times the character died, capped at 9999 (inferred)
-    s16 unk_6;
+    s16 pad_6;
     u32 date;      // year-2000 << 28 | month << 24 | day << 16 | hour << 8 | minute
     s32 rt_index;  // passed to enemy_name_for_rt_index
     Vec position;

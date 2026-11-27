@@ -4,7 +4,7 @@
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TLogo.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
@@ -26,11 +26,12 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/gjSystem.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 const char *logo_class_name = "TLogo";
@@ -39,15 +40,14 @@ const char *logo_class_name = "TLogo";
 void (*logo_load_callback_table[18])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
-    TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
+    update_keyboard_menu, free_keyboard_soft_resources,
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
-    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
+    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
     register_texture_logo_e, TLogo::free_held_object,
     load_sonic_logo_texture, free_sonic_logo_texture,
     TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
-extern int sega_logo_done_flag;
 
 // This unit was built with deferred inlining (-inline off,deferred): the compiler emits
 // function bodies in reverse source order, so the functions below are listed from the
@@ -55,7 +55,7 @@ extern int sega_logo_done_flag;
 
 int is_logo_clear_flag_set(void) {  return logo_clear_flag; }
 
-s32 is_vi_config_answered(void* p) { return *(s32*)((char*)p + 0x48); }
+s32 TAdVIConfigGC::is_answered() { return answered; }
 
 int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
@@ -80,7 +80,7 @@ void TLogo::init_logo_scene() {
     apply_phase_keyboard_mode();
     run_load_callback_table(logo_load_callback_table, sizeof(logo_load_callback_table));
     if (is_area_transfer_pending() != 0) {
-        TLobby::invoke_callback();
+        invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLobby::reset_keyboard_state();
         return;
@@ -149,7 +149,7 @@ void TLogo::run_task() {
         state = 4U;
         return;
     case 1:
-        if ((vi_config != NULL) && (is_vi_config_answered(vi_config) != 0)) {
+        if ((vi_config != NULL) && (vi_config->is_answered() != 0)) {
             sega_logo = new TAdSEGAlogo(this);
             state = 4U;
             return;

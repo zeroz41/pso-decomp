@@ -6,15 +6,15 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include <stddef.h>
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/enemy/fly/TObjEneBm3Fly.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -40,6 +40,7 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 
@@ -77,10 +78,10 @@ void TObjEneBm3Fly::load_resources() {
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
     model = new TBreakUpMdlData(bm3_fly_nest_resources->models[0].model);
     bm3_fly_breakup_model = model;
-    bm3_fly_boss_stat_handle = TLobby::register_boss(0);
-    bm3_fly_attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
-    bm3_fly_resist_stats = TLobby::register_object(0);
-    bm3_fly_lobby_params = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
+    bm3_fly_boss_stat_handle = register_boss(0);
+    bm3_fly_attack_params = (AttackParams *)dispatch_shared_handler_b(0);
+    bm3_fly_resist_stats = register_object(0);
+    bm3_fly_lobby_params = (Bm3FlyParameters *)dispatch_shared_handler_a(0);
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
         binding.motions = bm3_fly_nest_resources->motions;

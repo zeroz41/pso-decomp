@@ -23,14 +23,13 @@
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80278460.h"
 
 #pragma readonly_strings on
 
 const char *TWindowSubEquip::class_name = "TWindowSubEquip";
 
 // Sizes of the equipment list (ctor) and equipment kind (open_equip_kind_list) windows, passed next to
-// their layout positions. inferred: names from the create_*_window argument they fill.
+// their layout positions. Names from the create_*_window argument they fill.
 static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
 static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 

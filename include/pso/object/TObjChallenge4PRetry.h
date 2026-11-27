@@ -26,7 +26,7 @@ public:
     void open_giveup_window();
     void close_window();
     void open_message_window();
-    void close_window_field30();
+    void close_message_window();
     void send_giveup_to_all_players();
     void close_giveup_window();
     void play_all_players_effect();

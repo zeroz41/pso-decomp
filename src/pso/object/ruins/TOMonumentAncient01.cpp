@@ -3,13 +3,13 @@
 #include "pso/object/ruins/TOMonumentAncient01.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fs_obj_o_sekihi01_model_names[4] = {
     "de_obj_o_sekihi01_moji.gj", "ds_obj_o_sekihi01_crystal.gj", "fe_obj_o_sekihi01.gj", NULL

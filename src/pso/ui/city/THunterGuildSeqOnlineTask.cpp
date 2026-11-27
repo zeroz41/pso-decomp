@@ -5,7 +5,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "types.h"
@@ -26,7 +25,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
@@ -36,17 +35,9 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
+#include "pso/quest/QuestActiveFlag.h"
 
-
-struct OnlineQuestFileChunk {
-    u8 f0;
-    u8 chunk;
-    u8 pad2[2];
-    char name[0x10];
-    u8 data[0x400];
-    u32 size;
-};
 
 // Window sizes {width, height} of the quest download windows.
 static const NJS_POINT2 quest_info_window_size = {332.0f, 210.0f};
@@ -129,7 +120,7 @@ void TQuestListOnline::handle_quest_ready() {
         TQuestListOnline::decompress_quest_buffer(q->buffer, q->size);
         q = &quest_list_online_dat_download_state;
         decompress_online_quest_dat(q->buffer, q->size);
-        TLobby::set_enemy_mode_flag();
+        set_enemy_mode_flag();
         r = is_challenge_mode();
         m = 2;
         if (r != 0) {
@@ -307,14 +298,11 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
         }
     }
 }
-extern "C" {
-
 void copy_quest_list_data(OnlineQuestMenu &menu) {
     if (quest_list_online_quest_list_buffer != NULL) {
         memcpy(quest_list_online_quest_list_buffer, &menu, sizeof(OnlineQuestMenu));
         set_quest_list_online_state(1);
     }
-}
 }
 
 void TQuestListOnline::release_resources() {

@@ -12,6 +12,11 @@ struct TWindowMessageLine {
     s32 timer;
 };
 
+// A window's width and height, as create's size argument reads them.
+struct WindowSize {
+    f32 dimensions[2];
+};
+
 struct TWindowMessage : public TWindowAddition {
     TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client);
     virtual ~TWindowMessage();
@@ -39,6 +44,8 @@ struct TWindowMessage : public TWindowAddition {
     void update_line_timers();
 };
 
+s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color);
+
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);
 
@@ -50,5 +57,10 @@ struct MessageWindowLayout {
     TextLayoutRecord rec_0;
 };
 
+struct WindowDescriptor;
+
+void set_message_window_default_flags(void);
+void set_message_window_flags(s32 flags);
+WindowDescriptor *get_message_window_settings(void);
 
 #endif

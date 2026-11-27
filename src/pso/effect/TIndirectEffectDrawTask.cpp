@@ -2,7 +2,7 @@
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/render/render_util.h"
@@ -18,7 +18,7 @@
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXTev.h>
 #include <dolphin/gx/GXGeometry.h>

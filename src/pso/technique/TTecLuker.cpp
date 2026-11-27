@@ -3,9 +3,9 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/player/TObjPlayer.h"
@@ -34,11 +34,11 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/network/client_id.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -49,8 +49,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/gjSystem.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 

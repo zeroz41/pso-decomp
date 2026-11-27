@@ -17,7 +17,7 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 #include "types.h"
 #include <string.h>
 
-#include "pso/unk/TLobby_8015ABD0.h"
+#include "pso/object/switch/TOChatSensor.h"
 
 #include "pso/object/switch/TOChatSensorFolder.h"
 
@@ -25,7 +25,6 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/system/NinjaTypes.h"
 
-#include "pso/object/switch/TOChatSensor.h"
 
 #include "pso/system/task/TObject.h"
 
@@ -33,7 +32,7 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/quest/TQuestThread.h"
 
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
@@ -48,17 +47,12 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/system/byteswap.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_80225CD8.h"
+#include "pso/ui/chat/ChatKeyword.h"
 
-// ChatSensor.prs: how many trigger texts there are and the texts (a sensor's text_index picks one, from 1).
-struct ChatSensorTable {
-    s32 count;
-    char **texts;
-};
 
 TOChatSensorFolder *chat_sensor_folder_instance;
 

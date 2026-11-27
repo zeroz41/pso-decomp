@@ -30,7 +30,7 @@ struct TWindowSubItem;
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TWindowStatusCategoryMenu.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/window/TWindowSubEquip.h"
@@ -46,17 +46,14 @@ struct TWindowSubItem;
 const char *TWindowMainMenu::class_name = "TWindowMainMenu";
 
 extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 
 
-
-extern "C" {
-#include "pso/unk/TLobby_8013292C.h"
-}
 
 #include "pso/ui/window/TWindowMainMenu1P.h"
+#include "pso/player/ClassTypeName.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubAreaMap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -320,7 +317,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
             const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
             help_window = TWindowMessage::create(tmp, main_menu_help_message_size, 1, this->client_index);
             help_window->set_depth(49999.0f);
-            call_if_split_screen((uaddr)help_window, this->client_index);
+            call_if_split_screen(help_window, this->client_index);
         }
         help_window->append_line(select_main_menu_item_10(id), 0x80);
     }
@@ -329,7 +326,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
 void TWindowMainMenu::close_child_window() { if (help_window != NULL) { this->help_window->close(); help_window = NULL; } }
 
 void TWindowMainMenu::toggle_help_window() {
-    toggle_help_window_on_button((uaddr)help_window, this->client_index);
+    toggle_help_window_on_button(help_window, this->client_index);
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
@@ -340,7 +337,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
     if (player == NULL) {
         return 0;
     }
-    p = (CharacterAppearanceFields *)player->name;
+    p = &player->appearance;
     if (p == NULL) {
         return 0;
     }
@@ -493,13 +490,10 @@ void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }
 f32 get_main_menu_layer_depth(u8 *parent, u32 layer) {
     return ((TWindowMainMenu *)parent)->depth_base - (f32) layer;
 }
-extern "C" {
-
 void equip_window_stub(void *, s32) {}
-}
 
-void call_if_split_screen(uaddr object, s32 client_id) {
-    if ((is_split_screen() != 0) && (object != 0U)) {
-        hide_window((u8 *)object);
+void call_if_split_screen(TWindowBase *window, s32 client_id) {
+    if ((is_split_screen() != 0) && (window != NULL)) {
+        hide_window(window);
     }
 }

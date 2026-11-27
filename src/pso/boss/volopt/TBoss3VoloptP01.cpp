@@ -19,18 +19,18 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
@@ -39,11 +39,11 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 void init_collision_body_parts(void *obj, void *parts, s32 count);
 }
-void free_collision_body_parts(TObjCollidable *actor);
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 
@@ -177,10 +177,10 @@ void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01::resource_bundle = boss3_volopt_resources;
     TBoss3VoloptP01::breakup_model = new TBreakUpMdlData(TBoss3VoloptP01::resource_bundle->models[17].model);
     volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01::resource_bundle->models[17].model, 0xD);
-    volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
-    volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);
-    volopt_p01_object_handle = TLobby::register_object(0x22);
-    volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)TLobby::dispatch_shared_handler_a(0x22);
+    volopt_p01_boss_stat_handle_a = register_boss(0x22);
+    volopt_p01_shared_handler_b = dispatch_shared_handler_b(0x22);
+    volopt_p01_object_handle = register_object(0x22);
+    volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)dispatch_shared_handler_a(0x22);
     volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(volopt_p01_chunk_list->model)->polygon_list);
 }
 

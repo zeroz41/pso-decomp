@@ -24,7 +24,7 @@ struct G_BarbaRayBossActions_6xA9;
 struct G_BarbaRayBossActions_6xAA;
 struct TBoss7LaserPtcl;
 
-// Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
+// Boss parameter block 15 from dispatch_shared_handler_a.
 struct TBoss7DeRolLeCParams {
     f32 laser_power;              // the laser hit's attack power (handle_laser_attack_state)
     f32 target_pos_y;             // TBoss7PhotonBullet::get_target_pos_y
@@ -148,7 +148,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s16 *joint_polygons[10];      // polygon lists of the boss7_derolle_c_joint_node_ids nodes, saved by the ctor
     s16 *shell_polygons[10];      // polygon lists of the boss7_derolle_c_shell_node_ids nodes
     TBoss7Joint *joints[10];
-    TBoss7DeRolLeCParams *boss_params; // TLobby::dispatch_shared_handler_a(15)
+    TBoss7DeRolLeCParams *boss_params; // dispatch_shared_handler_a(15)
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1], read by handle_debug_pad_input
     s32 state_flags;              // 0x4, 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 stat_phase;               // the stat phase reload_stats_for_phase restores after a hit
@@ -250,7 +250,7 @@ struct Boss7CrawfishSetData {
     Boss7Angles rotation;
     f32 parameters[5];
     s16 variant;
-    s16 unk_3E;
+    s16 state;  // apply_set_data copies it to state36C
 };
 // Spawns a crawfish in child slot `slot` unless one with that entity id is
 // already alive.

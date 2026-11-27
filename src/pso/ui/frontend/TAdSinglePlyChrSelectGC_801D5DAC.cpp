@@ -1,14 +1,13 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/item/TItemData.h"
 
 int TAdSinglePlyChrSelectGC::get_game_mode() {  return chr_select_game_mode; }
 
-s32 TAdSinglePlyChrSelectGC::is_both_confirmed() {
-    s32 result;
-
-    result = 0;
-    if (((u8) *(u8 *)&this->m_name == 1) && ((u8) *(u8 *)((s8 *)this + 1) == 1)) {
-        result = 1;
+s32 TItemData::is_frame() {
+    bool result = false;
+    if (data1.data_u8[0] == 1 && data1.data_u8[1] == 1) {
+        result = true;
     }
-    return (u8)((u8)result);
+    return result;
 }

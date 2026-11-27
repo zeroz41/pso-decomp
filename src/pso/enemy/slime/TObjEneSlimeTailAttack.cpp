@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -20,12 +21,12 @@ struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/system/vector.h"
@@ -38,7 +39,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -53,18 +54,11 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/EnemyPlacement.h"
 
 extern "C" {
 extern void *slime_model_index_by_type[2];
 extern TObjMotionAction slime_motion_action_table[7];
-
-struct SlimeSavedState {
-    s32 flags;
-    u16 unknown4;
-    s16 unknown6;
-    u8 unknown8[4];
-};
-
 
 
 // This TU's .rodata objects in address order (names stay placeholders).
@@ -102,8 +96,8 @@ extern const Vec slime_full_scale = {1.0f, 1.0f, 1.0f};
 extern const char slime_water_bomb_class_name_string[] = "TObjEneSlimeWaterBomb";
 }
 SlimeTailNodeCapture slime_tail_node_capture;
-extern "C" {
 BmlResource *slime_bml_resource;
+extern "C" {
 int slime_tail_node_index;  // capture_slime_tail_node's count of the nodes drawn
 
 const char *slime_model_name_ptr_table[7] = {
@@ -154,8 +148,6 @@ TObjMotionAction slime_motion_action_table[7] = {
     { MOTION_MODE_ONCE, 0, 9, 0.8f, 0 },
 };
 /* State table of TObjEneSlimeOne: {enter, update} per state, indexed by state; built by the TU's __sinit. */
-typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
-struct SlimeOneState { SlimeOneStateFn enter; SlimeOneStateFn update; };
 static SlimeOneState slime_one_state_table[15] = {
     { &TObjEneSlimeOne::init_state, &TObjEneSlimeOne::update_wait_search },
     { &TObjEneSlimeOne::reset_display, &TObjEneSlimeOne::update_grow },
@@ -211,9 +203,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
 
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
-
-
+#include "pso/render/ProjectedStripDraw.h"
 
 
 #include "pso/render/model_render_state.h"
@@ -232,10 +222,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/player/PlayerSlots.h"
-
-
-
-
+#include "pso/enemy/BattleParamTables.h"
 
 
 void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
@@ -285,7 +272,7 @@ TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
     clear_lobby_object_state();
     register_by_id();
     copy_set_entry(&spawn_template, set_data);
-    child_limit = *(s16 *)(set_data + 2);
+    child_limit = ((EnemyPlacement *)set_data)->child_count;
     if (child_limit < 1) {
         if (TObjPlayer::check_demo_mode() != 0) {
             child_limit = 3;
@@ -423,7 +410,7 @@ void TObjEneSlime::release_child_slot(s32 id) {
 }
 
 
-s32 TObjEneSlime::try_spawn_child(void *position) {
+s32 TObjEneSlime::try_spawn_child(Vec *position) {
     s32 i;
     Vec pos;
     Vec dir;
@@ -435,7 +422,7 @@ s32 TObjEneSlime::try_spawn_child(void *position) {
     if (i == n) {
         return 0;
     }
-    VecCopy(&pos, (const Vec *)position);
+    VecCopy(&pos, position);
     pos.y += 10.0f;
     ang = (s16) (65535.0f * random_ratio());
     dir.x = sin_table_lookup(ang);
@@ -470,13 +457,13 @@ saddr TObjEneSlimeOne::create(saddr owner, saddr set_data, saddr velocity) {
 #pragma opt_common_subs off
 TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data)
     : TObjEnemy(parent) {
-    SlimeSavedState state;
+    EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
     add_flags_2e4(2);
     apply_set_data(set_data);
     if (exchange_object_state(&state, 1) != 0) {
         state.flags = 0;
-        state.unknown6 = 0;
+        state.damage = 0;
         exchange_object_state(&state, 0);
     }
     parent_slime = owner;
@@ -491,13 +478,13 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set
 #pragma opt_common_subs off
 TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data, const Vec *velocity)
     : TObjEnemy(parent) {
-    SlimeSavedState state;
+    EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
     add_flags_2e4(2);
     apply_set_data(set_data);
     if (exchange_object_state(&state, 1) != 0) {
         state.flags = 0;
-        state.unknown6 = 0;
+        state.damage = 0;
         exchange_object_state(&state, 0);
     }
     parent_slime = owner;
@@ -531,11 +518,11 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     this->velocity.x = 0.0f;
     this->target = NULL;
     if (*variant == 0) {
-        this->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30),
-                                      TLobby::register_object(0x30));
+        this->bind_enemy_combat_stats(register_boss(0x30), dispatch_shared_handler_b(0x30),
+                                      register_object(0x30));
     } else {
-        this->bind_enemy_combat_stats(TLobby::register_boss(0x34), TLobby::dispatch_shared_handler_b(0x34),
-                                      TLobby::register_object(0x34));
+        this->bind_enemy_combat_stats(register_boss(0x34), dispatch_shared_handler_b(0x34),
+                                      register_object(0x34));
     }
     this->referenceHp = this->hp;
     this->register_by_id();
@@ -677,7 +664,7 @@ void TObjEneSlimeOne::run_hit_reaction() {
     if ((s32) this->state != 0xC) {
         TObjPlayer *player;
         if (((s32) this->attacker_id < (s32) registered_player_count) && ((player = get_player_by_client_id(attacker_id)) != NULL) && (player->get_attack_stage() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {
-            parent_slime->try_spawn_child((u8 *)&this->position);
+            parent_slime->try_spawn_child(&this->position);
         }
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
         set_state(0xC);
@@ -1280,7 +1267,7 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     movement.z = 0.6f * c;
     lifetime = 0.0f;
     particle = (TParticleCtrl *)create_particle_emitter(&position, 0xCF);
-    attack_power = *(f32 *)TLobby::dispatch_shared_handler_a(slime_attack_target_param_table[this->owner->get_attack_target()]);
+    attack_power = *(f32 *)dispatch_shared_handler_a(slime_attack_target_param_table[this->owner->get_attack_target()]);
     if (attack_power < 0.0f) {
         attack_power = 0.0f;
     }
@@ -1490,7 +1477,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
     }
     hit.kind = 0;
     result = 0;
-    hit.power = *(s16 *)TLobby::register_boss(slime_tail_attack_param_ids[this->owner->get_attack_target()]);
+    hit.power = *(s16 *)register_boss(slime_tail_attack_param_ids[this->owner->get_attack_target()]);
     id = find_nearest_visible_player(this, 0, 25.0f);
     if (id != 0xFFFF && id != this->last_hit_player) {
         e = get_player_by_client_id(id);

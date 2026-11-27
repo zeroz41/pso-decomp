@@ -35,9 +35,4 @@ struct TBoss4DarkFalz;
 
 TBoss4Fade *create_boss4_fade();
 
-// The fullscreen fade's draw list: the strip's four vertices, then the four colours it points at.
-struct FadeStrip : public ColorLineList {
-    u32 col[4];
-};
-
 #endif

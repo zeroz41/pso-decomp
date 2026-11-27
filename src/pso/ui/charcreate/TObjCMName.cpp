@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/unk/text_801E3F24.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -46,9 +46,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
-#include "pso/unk/text_80290BE0.h"
-
-
+#include "pso/ui/charcreate/FigureRotationReset.h"
 
 
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
@@ -59,12 +57,6 @@ void run_task__16TObjCMAssignMenuFv(void *menu);
 
 s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu::state;
-
-
-struct CreationMenuModeList {
-    s32 count;
-    s32 *entries;
-};
 
 
 extern "C" void copy_player_visual_record(void *, void *);
@@ -107,12 +99,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
 NJS_COLOR proportion_frame_colors[4];
 NJS_POINT2 proportion_marker_points[4];
 NJS_COLOR proportion_marker_colors[4];
-
-// RGBA colour of the hair colour bars (inferred: the alpha byte is set from the fade).
-union HairBarColor {
-    u32 rgba;
-    u8 c[4];
-};
 
 
 s32 *TObjCMMainMenu::get_name_buffer() {
@@ -1055,14 +1041,14 @@ void TObjCMAssignMenu::calc_grid_layout() {
     }
 }
 
-__declspec(section ".data") vec2f lbl_804DBCC8[1] = {{56.0f, 146.0f}};
+__declspec(section ".data") vec2f char_creation_assign_title_position[1] = {{56.0f, 146.0f}};
 
 const f32 char_creation_assign_menu_tab_positions[10] = {
     206.0f, 219.0f, 243.0f, 271.0f, 271.0f, 284.0f, 297.0f, 323.0f, 347.0f, 347.0f,
 };
-const vec2f lbl_80465048 = {0.75f, 0.75f};
-const vec2f lbl_80465050 = {1.0f, 0.5f};
-const vec2f lbl_80465058 = {0.75f, 0.75f};
+const vec2f char_creation_assign_page_number_scale = {0.75f, 0.75f};
+const vec2f char_creation_assign_slot_marker_scale = {1.0f, 0.5f};
+const vec2f char_creation_assign_slot_number_scale = {0.75f, 0.75f};
 const s32 char_creation_assign_sprite_id_table[7] = {0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x29};
 const s32 char_creation_assign_icon_sprite_id_table[4] = {0x29, 0x28, 0x27, 0x26};
 
@@ -1114,7 +1100,7 @@ void TObjCMAssignMenu::render() {
         draw_ui_sprite_opaque(9, &pos, &scl, -2.75f);
     }
     if (!(fade <= 0.0f)) {
-        draw_ui_sprite(0, lbl_804DBCC8, -2.4375f,
+        draw_ui_sprite(0, char_creation_assign_title_position, -2.4375f,
                        fade >= 0.33f ? 1.0f : fade / 0.33f);
     }
     if (!(fade <= 0.66f)) {
@@ -1141,7 +1127,7 @@ void TObjCMAssignMenu::render() {
             s32 n = page;
             pos2.x += 6.0f;
             pos2.y += 20.0f;
-            draw_ui_sprite_scaled(n + 0x14, &pos2, &lbl_80465048, -2.4375f, alpha);
+            draw_ui_sprite_scaled(n + 0x14, &pos2, &char_creation_assign_page_number_scale, -2.4375f, alpha);
         }
         w = base - 347.0f;
         pos3.x = 299.0f + w;
@@ -1204,12 +1190,12 @@ void TObjCMAssignMenu::render_assign_slots() {
         }
         step = 17.0f;
         for (j = 0; j < n; j++) {
-            draw_ui_sprite_scaled(0x1F, &pos, &lbl_80465050, -3.0625f, a);
+            draw_ui_sprite_scaled(0x1F, &pos, &char_creation_assign_slot_marker_scale, -3.0625f, a);
             pos.x += step;
         }
         pos.x += 10.0f;
         pos.y += 5.0f;
-        draw_ui_sprite_scaled(i + 0x14, &pos, &lbl_80465058, -3.0625f, a);
+        draw_ui_sprite_scaled(i + 0x14, &pos, &char_creation_assign_slot_number_scale, -3.0625f, a);
     }
 }
 
@@ -1371,7 +1357,7 @@ vec2f hair_slider_icon_positions[3] = {{105.0f, 194.0f}, {105.0f, 238.0f}, {105.
 
 #pragma push
 #pragma fp_contract on
-const f32 lbl_8046509C[10] = {
+const f32 char_creation_hair_menu_tab_positions[10] = {
     206.0f, 219.0f, 243.0f, 271.0f, 271.0f, 284.0f, 297.0f, 323.0f, 347.0f, 347.0f,
 };
 const f32 hair_bar_widths[4] = {0.0f, 244.0f, 244.0f, 244.0f};
@@ -1416,7 +1402,7 @@ void TObjCMHairMenu::render() {
     } else if (idx >= 10) {
         idx = 9;
     }
-    base = lbl_8046509C[idx];
+    base = char_creation_hair_menu_tab_positions[idx];
     if (!(fade <= 0.33f)) {
         if (fade >= 0.66f) {
             r = 1.0f;

@@ -32,7 +32,7 @@ void TItemWeaponHolyRay::transform_model_node() {
 }
 
 TItemWeaponHolyRay::TItemWeaponHolyRay(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    shot_callback = (WeaponShotCallback)TItemShoot::spawn_shoot_particle_attached;
+    shot_callback = TItemShoot::spawn_shoot_particle_attached;
     hit_callback = (WeaponHitCallback)spawn_target_needle;
     impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;
     rotation_z = 0;

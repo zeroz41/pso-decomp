@@ -29,7 +29,7 @@ struct TAdPlyStatusGC : public TObject {
     // Shows preview's character in the status window once it has loaded.
     void set_status_param(CharacterPreview *preview);
     static TAdPlyStatusGC *get_index();
-    static void set_status_index(int a0, int a1);
+    void set_status_index(int index);
     void close_window(s32 index);
     void close_window();
     void update_shown();

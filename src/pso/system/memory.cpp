@@ -3,7 +3,7 @@
 #include <dolphin/os/OSAlloc.h>
 #include "pso/system/AllocatorCallbacks.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 
 const AllocatorCallbacks *global_allocator;
 OSHeapHandle sys_heap_handle;

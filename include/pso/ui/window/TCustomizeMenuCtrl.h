@@ -5,6 +5,7 @@
 
 struct TWindowMainMenu;
 struct TWindowSubCustomSelect;
+struct TWindowMessage;
 struct PaletteAction;
 
 // The main menu's customize submenu (TWindowMainMenu ids 0 and 1): the custom
@@ -22,7 +23,7 @@ public:
     TWindowMainMenu *main_menu;
     uaddr custom_equip;
     TWindowSubCustomSelect *custom_select;
-    uaddr help_window;
+    TWindowMessage *help_window;
     u16 help_kind;
     u16 help_id;
 };

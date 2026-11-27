@@ -12,7 +12,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/task/TMainTask.h"

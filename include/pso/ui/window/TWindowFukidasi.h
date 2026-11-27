@@ -9,6 +9,7 @@ struct RotatedQuadSpriteRect;
 
 class TWindowFukidasi : public TWindowAddition {
 public:
+    static const char *class_name;
     void init_flags(s32 flags);
     TWindowFukidasi(u16 speaker, const char *text, s32 client, f32 scale);
     virtual ~TWindowFukidasi();
@@ -80,7 +81,7 @@ public:
     s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
     s16 hide_ticks;      // frames left before the balloon starts to close (counts down in run_task state 4)
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
-    char *name;  // speaker name, drawn by draw_name_plate (inferred)
+    char *name;  // speaker name, drawn by draw_name_plate
     f32 scale;
     f32 tail_scale;
     s32 balloon_color;
@@ -96,9 +97,6 @@ LAYOUT_ASSERT(TWindowFukidasi_balloon_center_offset, offsetof(TWindowFukidasi, b
 LAYOUT_ASSERT(TWindowFukidasi_head_position_offset, offsetof(TWindowFukidasi, head_position) == 0x90);
 LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
-extern "C" {
-void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
-}
 
 struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 

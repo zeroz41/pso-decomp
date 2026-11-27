@@ -2,20 +2,19 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/unk/text_802A0A30.h"
+#include "pso/ui/frontend/TitleMenuText.h"
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/unk/TLobby_802A0F3C.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/render/TextureState.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // The title banner textures: English (title_midashi_texnames_eng/78) and Japanese (title_midashi_texnames/98) name lists and texlists.
 NJS_TEXNAME title_midashi_texnames_eng[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };
@@ -36,7 +35,7 @@ extern const s32 current_language;
 int game_files_modified() { return game_files_modified_flag; }
 
 void load_title_midashi_texture() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
     NJS_TEXLIST *lists[5] = { &title_midashi_texlist, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng };
     title_midashi_texlist_current = (uaddr)lists[current_language];

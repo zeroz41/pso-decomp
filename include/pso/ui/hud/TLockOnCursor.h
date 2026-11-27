@@ -103,7 +103,7 @@ struct LockOnTargetRecordList {
 // TLockOnCursor +0x5C, four of them.
 class LockOnActionSlot {
 public:
-    gc_tag unk_0;
+    gc_tag palette_tag;
     // How many targets publish_target_list keeps.
     s32 max_targets;
     // Collision body flags a candidate body must have / must not have.
@@ -239,11 +239,18 @@ struct TLockOnCursor : public TObject {
     // Fills the four action slots from the player's action palette.
     void bind_action_channels();
     void setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id);
+    s32 get_action_cursor_priority(TObjPlayer *player, s32 index);
+    void set_cursor_color(TObjPlayer *player, LockOnActionSlot *main_cursor);
+    void set_display_flags(TObjPlayer *player, LockOnActionSlot *main_cursor);
+    void setup_flags(TObjPlayer *player, LockOnActionSlot *main_cursor);
     void init_slots();
     void init_slot(s32 i);
     void reset_slots();
     void set_cursor_pos(u16 part, s32 index);
     int is_cursor_clear();
+    void set_flags_bit2();
+    void set_flags_bit1();
+    void clear_flag_1_at_1c();
 };
 
 LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);

@@ -66,5 +66,10 @@ LAYOUT_ASSERT(TSaveChCrActionSize, sizeof(TSaveChCrStateAction) == 12);
 LAYOUT_ASSERT(TSaveChCrEntrySize, sizeof(TSaveChCrStateActions) == 24);
 LAYOUT_ASSERT(TSaveChCrStateTaskOffset, offsetof(TSaveChCrStateActions, task) == 12);
 
+// Text group and entry of each message set_message_by_index shows.
+struct SaveChCrMessageText {
+    s32 group;
+    s32 entry;
+};
 
 #endif

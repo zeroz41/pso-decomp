@@ -1,19 +1,19 @@
 #include "types.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/quest/QuestDownloadRequests.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/Language.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 is_chat_shortcut_set(int);
 
 int TWindowKeyBoardBase::is_alnum(u16 code) {
     if ((s32) code < 0x30) {

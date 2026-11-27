@@ -15,9 +15,9 @@
 
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/system/NinjaTypes.h"

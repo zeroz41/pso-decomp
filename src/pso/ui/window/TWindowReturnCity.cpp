@@ -2,7 +2,8 @@
 #include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 
@@ -12,7 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 #include "pso/player/PlayerSlots.h"
@@ -26,10 +27,9 @@
 const char *TWindowReturnCity::class_name = "TWindowReturnCity";
 #pragma pop
 
-extern s32 lbl_805D55C0;
 int TWindowReturnCity::client_scan_index;
 void return_to_city_after_defeat(TObject *) {
-    if (((s32) lbl_805D55C0 != 1) && ((s32) TWindowReturnCity::client_scan_index < 4)) {
+    if ((TLobby::connection_lost != 1) && ((s32) TWindowReturnCity::client_scan_index < 4)) {
         TObjPlayer *player = get_player_by_client_id(TWindowReturnCity::client_scan_index);
         if (player != NULL) {
             player->prepare_hospital_return();
@@ -53,7 +53,7 @@ void TWindowReturnCity::render() {  }
 
 void TWindowReturnCity::run_task() {
     s32 selected_value;
-    if ((s32) lbl_805D55C0 != 1) {
+    if (TLobby::connection_lost != 1) {
         switch (state) {
         case 2:
             break;

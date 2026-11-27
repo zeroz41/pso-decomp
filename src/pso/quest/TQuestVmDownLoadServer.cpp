@@ -25,7 +25,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 // .rodata: window_size {444,84} (the layout position is the other argument), "TQuestVmDownLoadServer",
@@ -36,10 +36,8 @@
 #pragma dont_reuse_strings off
 
 
-extern "C" {
 char quest_card_file_name[0xC] = "\xB8\xB4\xBD\xC4\xCC\xA7\xB2\xD9";
 void reset_state_on_format_done(TMCFormatSequence *);
-}
 // This TU's .sbss (address order).
 s32 quest_dat_download_complete;
 s32 quest_bin_download_complete;
@@ -54,7 +52,6 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
 extern TObject *tl_00;
 
-extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
 
 
@@ -67,20 +64,18 @@ extern uaddr lobby_player_construction_window;
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TMessageWindowController.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-extern u8 quest_memcard_key[];
 QuestDownloadRecord quest_download_file_state;
 QuestDownloadRecord quest_download_file_slot;
 QuestDownloadRecord quest_download_file_info;
 QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
-extern "C" {
 s32 calc_download_crc32(void *data, s32 size);
-}
 extern TObject *tl_03;
 
 extern "C" {
@@ -281,8 +276,8 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
-            ((TQuestVmDownLoadServer *)quest_download_file_state.data)->encrypt_download_data(quest_download_file_state.size);
-            ((TQuestVmDownLoadServer *)quest_download_file_slot.data)->encrypt_download_data(quest_download_file_slot.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_state.data, quest_download_file_state.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_slot.data, quest_download_file_slot.size);
             TQuestVmDownLoadServer::create();
         }
         break;
@@ -299,8 +294,8 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
-            ((TQuestVmDownLoadServer *)quest_download_file_state.data)->encrypt_download_data(quest_download_file_state.size);
-            ((TQuestVmDownLoadServer *)quest_download_file_slot.data)->encrypt_download_data(quest_download_file_slot.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_state.data, quest_download_file_state.size);
+            TQuestVmDownLoadServer::encrypt_download_data((u32 *)quest_download_file_slot.data, quest_download_file_slot.size);
             TQuestVmDownLoadServer::create();
         }
         break;
@@ -315,25 +310,25 @@ void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
         break;
     }
 }
-void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
+void TQuestVmDownLoadServer::encrypt_download_data(u32 *data, s32 size) {
     u32 *body;
     void *src;
     void *dst;
-    body = ((u32 *)this) + 1;
-    ((u32 *)this)[0] = quest_download_cipher_state.next();
+    body = data + 1;
+    data[0] = quest_download_cipher_state.next();
     *body = 0;
-    *body = calc_download_crc32(this, size);
-    quest_download_cipher_state.set_seed(((u32 *)this)[0]);
+    *body = calc_download_crc32(data, size);
+    quest_download_cipher_state.set_seed(data[0]);
     quest_download_cipher_state.xor_buffer(body, (s32)((size - 4) & ~3));
     quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
-    quest_download_cipher_state.apply_rng_cipher(((u32 *)this), size & ~3);
+    quest_download_cipher_state.apply_rng_cipher(data, size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), ((const void *)this), size);
+    move_data(src, data, size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.permute_save_blocks((const u8*)src, (u8*)dst, (u32)size);
-    move_data((this), (dst), size);
+    move_data(data, dst, size);
     safe_free(dst);
     safe_free(src);
 }
@@ -343,18 +338,18 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     u32 *words;
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((src), (data), size);
+    move_data((src), data, size);
     quest_download_cipher_state.set_seed(download_rng_seed_pair[1]);
     quest_download_cipher_state.make_shuffle();
     quest_download_cipher_state.unshuffle((const u8 *)src, (u8 *)dst, (u32)size);
-    move_data(data, (dst), size);
+    move_data(data, dst, size);
     safe_free(dst);
     safe_free(src);
     words = (u32 *)data;
     quest_download_cipher_state.set_seed(download_rng_seed_pair[0]);
     quest_download_cipher_state.apply_rng_cipher(words, size & ~3);
     quest_download_cipher_state.set_seed(words[0]);
-    quest_download_cipher_state.xor_buffer((u32 *)(words + 1), (s32)((size - 4) & ~3));
+    quest_download_cipher_state.xor_buffer(words + 1, (s32)((size - 4) & ~3));
 }
 s32 calc_download_crc32(void *data, s32 size) {
     u32 crc = -1;
@@ -452,7 +447,7 @@ void TQuestVmDownLoadServer::run_task() {
         this->update_mc_select();
         break;
     case 4:
-        if (lbl_805D55C0 != 0) {
+        if (TLobby::connection_lost != 0) {
             if (status_window != NULL) {
                 status_window->suspend_update();
             }
@@ -699,7 +694,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
                 ((TWindowBase *)this->status_window)->close();
                 this->status_window = NULL;
             }
-            this->status_window = (TWindowBase *)init_shop_judgment_window((void *)(get_window_layout_position(0x2B)));
+            this->status_window = (TWindowBase *)init_shop_judgment_window(get_window_layout_position(0x2B));
             show_status_message(get_message_text(0x40), 1);
             this->memcard_slot = slot;
             this->state = 6;
@@ -1027,7 +1022,7 @@ void TQuestVmDownLoadServer::check_client_connections() {
         return;
     }
     {
-        if ((s32) lbl_805D55C0 != 0) {
+        if (TLobby::connection_lost != 0) {
             if ((uaddr) this->mc_select != 0U) {
                 ((TObject *)(this->mc_select))->suspend_update();
             }
@@ -1165,12 +1160,6 @@ void TMCFormatSequence::run_task() {
     }
 }
 
-// TMCFormatSequence: its class name and window position sit in this TU's
-// .sdata/.rodata, so it is the tail of this file (deferred: the source runs backwards from the text).
-
-extern "C" {
-s32 start_memcard_format(s32, s32, s32, s32, s32);
-}
 
 void TMCFormatSequence::open_windows() {
     if (this->message_window == NULL) {
@@ -1180,7 +1169,7 @@ void TMCFormatSequence::open_windows() {
         show_message(get_localized_text_entry(this->message_group, this->message_id), 0);
     }
     if (this->confirm_menu == NULL) {
-        this->confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x2B));
+        this->confirm_menu = init_shop_judgment_window(get_window_layout_position(0x2B));
     }
     this->state = 1;
 }

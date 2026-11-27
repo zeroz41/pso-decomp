@@ -25,15 +25,13 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby_800F8AA8.h"
-#include "pso/player/PhotonBlastMotionTiming.h"
-
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 extern "C" {
 s32 clamp_class_index(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
-s32 get_class_max_exp(saddr player);
+s32 get_class_max_exp(TObjPlayer *player);
 }
 // The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
 PlayerLevelTableRow ***ply_level_table;
@@ -41,8 +39,8 @@ f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class
 extern PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
 extern const TObjMotionAction *player_clamped_index_table_pointers[3];
-extern const Rec_8044845C *player_anim_table_pointers[3];
-extern const Rec_804484EC *player_cast_motion_record_table[6];
+extern const PlayerAnimTableEntry *player_anim_table_pointers[3];
+extern const PlayerCastMotionRecord *player_cast_motion_record_table[6];
 extern const TPlyInventoryItem *class_starting_inventory_table[12];
 // Defined after their users, which keeps these 8-byte tables out of .sdata.
 extern const Vec *hospital_position_table_by_episode[];
@@ -189,7 +187,7 @@ f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class
 }
 
 // .data
-PhotonBlastMotionTiming lbl_804C46B0[19] = {
+PhotonBlastMotionTiming photon_blast_motion_timing_0[19] = {
     { 20.0f, 22.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
@@ -210,7 +208,7 @@ PhotonBlastMotionTiming lbl_804C46B0[19] = {
     { 28.0f, 30.0f, 42.0f },
     { 30.0f, 32.0f, 46.0f },
 };
-PhotonBlastMotionTiming lbl_804C4794[19] = {
+PhotonBlastMotionTiming photon_blast_motion_timing_1[19] = {
     { 24.0f, 26.0f, 40.0f },
     { 24.0f, 26.0f, 46.0f },
     { 16.0f, 18.0f, 44.0f },
@@ -231,7 +229,7 @@ PhotonBlastMotionTiming lbl_804C4794[19] = {
     { 26.0f, 28.0f, 44.0f },
     { 28.0f, 30.0f, 42.0f },
 };
-PhotonBlastMotionTiming lbl_804C4878[19] = {
+PhotonBlastMotionTiming photon_blast_motion_timing_2[19] = {
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
@@ -253,21 +251,21 @@ PhotonBlastMotionTiming lbl_804C4878[19] = {
     { 28.0f, 30.0f, 42.0f },
 };
 PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6] = {
-    lbl_804C46B0, lbl_804C4794, lbl_804C4878,
-    lbl_804C46B0, lbl_804C4794, lbl_804C4794,
+    photon_blast_motion_timing_0, photon_blast_motion_timing_1, photon_blast_motion_timing_2,
+    photon_blast_motion_timing_0, photon_blast_motion_timing_1, photon_blast_motion_timing_1,
 };
 const s32 (*player_footstep_floor_table[3])[5] = {
     footstep_floor_table_default, footstep_floor_table_cast, footstep_floor_table_racast,
 };
 const TObjMotionAction *player_clamped_index_table_pointers[3] = {
-    lbl_8044821C, lbl_804482DC, lbl_8044839C,
+    player_clamped_motion_actions_0, player_clamped_motion_actions_1, player_clamped_motion_actions_2,
 };
-const Rec_8044845C *player_anim_table_pointers[3] = {
-    lbl_8044845C, lbl_8044848C, lbl_804484BC,
+const PlayerAnimTableEntry *player_anim_table_pointers[3] = {
+    player_anim_table_0, player_anim_table_1, player_anim_table_2,
 };
-const Rec_804484EC *player_cast_motion_record_table[6] = {
-    lbl_804484EC, lbl_80448668, lbl_804487E4,
-    lbl_80448960, lbl_80448668, lbl_80448668,
+const PlayerCastMotionRecord *player_cast_motion_record_table[6] = {
+    player_cast_motion_records_0, player_cast_motion_records_1, player_cast_motion_records_2,
+    player_cast_motion_records_3, player_cast_motion_records_1, player_cast_motion_records_1,
 };
 const TPlyInventoryItem *class_starting_inventory_table[12] = {
     humar_starting_inventory, hunewearl_starting_inventory, hucast_starting_inventory, ramar_starting_inventory,
@@ -275,8 +273,8 @@ const TPlyInventoryItem *class_starting_inventory_table[12] = {
     fonewearl_starting_inventory, hucaseal_starting_inventory, fomar_starting_inventory, ramarl_starting_inventory,
 };
 
-s32 get_class_max_exp(saddr player) {
-    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(reinterpret_cast<TObjPlayer *>(player)), TObjPlayer::get_max_level());
+s32 get_class_max_exp(TObjPlayer *player) {
+    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(player), TObjPlayer::get_max_level());
 }
 
 s32 TObjPlayer::get_current_state_field(s32 cls, s32 lvl) {
@@ -317,7 +315,7 @@ player_stats *TObjPlayer::get_class_stat_entry() {
 }
 
 f32 TObjPlayer::get_tp_class_factor() {
-    if (this->class_flags & CLASS_FLAG_ANDROID) {
+    if (this->appearance.classFlags & CLASS_FLAG_ANDROID) {
         return 0.0f;
     }
     return player_profession_stat_factors[this->get_clamped_index()].tp;

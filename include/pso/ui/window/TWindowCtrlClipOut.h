@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowCtrlClipOut : public TObject {
+    static const char *class_name;
     TWindowCtrlClipOut(TObject *parent);
     virtual ~TWindowCtrlClipOut();
     virtual void render();

@@ -17,13 +17,13 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/render/TextureState.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/render/ModelDrawContext.h"
@@ -438,8 +438,8 @@ s32 TODoorFourLightSeabedU::get_lit_textures() {
 }
 
 void load_labo_door_resources(void) {
-    saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
-    labo_door_bml_resource = (BmlResource *)r;
+    BmlResource *r = new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
+    labo_door_bml_resource = r;
     door_labo_green_texture_list = LoadPvmFileTls("obj_o_labodoor_l_grn.GVM");
     labo_door_red_textures = LoadPvmFileTls("obj_o_labodoor_l_red.GVM");
 }

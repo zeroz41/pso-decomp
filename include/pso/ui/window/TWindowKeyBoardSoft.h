@@ -10,6 +10,7 @@ struct TWindowKeyBoardBase;
 
 struct TWindowKeyBoardSoft : public TWindowBase
 {
+    static const char *class_name;
     TWindowKeyBoardSoft(TWindowKeyBoardBase *control, s32 client);
     virtual ~TWindowKeyBoardSoft();
     void draw_key_frames(WindowDrawContext *);
@@ -59,7 +60,7 @@ LAYOUT_ASSERT(TWindowKeyBoardSoft_state_offset, offsetof(TWindowKeyBoardSoft, st
 LAYOUT_ASSERT(TWindowKeyBoardSoft_control_offset, offsetof(TWindowKeyBoardSoft, m_control) == 0x6C);
 
 // Key class of each cell of the 16 x 7 key grid, indexed by x + y * 16: 0/1 one-cell keys, 2..17 the cells
-// of the wide keys (it picks the key width and colour). Defined after profanity_word_table (name inferred).
+// of the wide keys (it picks the key width and colour). Defined after profanity_word_table.
 extern u8 soft_keyboard_key_class[7 * 16];
 
 struct KeyUV {
@@ -67,5 +68,11 @@ struct KeyUV {
     f32 v;
 };
 
+struct SoftKeyboardLayout {
+    u8 page_count; /* bound of the page-tab loop */
+    u8 tab_width;  /* page tab width in pixels */
+    u8 pad_2[2];
+    u16 **pages;
+};
 
 #endif

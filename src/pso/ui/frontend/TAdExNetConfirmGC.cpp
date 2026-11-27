@@ -1,12 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
-#include "pso/unk/text_8014618C.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/network/TLobby.h"

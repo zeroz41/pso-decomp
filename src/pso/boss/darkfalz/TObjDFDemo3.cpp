@@ -10,8 +10,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TObjDFDemo3.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -20,10 +20,10 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 
 #pragma readonly_strings on

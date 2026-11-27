@@ -22,7 +22,7 @@ struct TWindowShortCut;
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/WindowLayout.h"

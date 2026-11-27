@@ -4,13 +4,12 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/TLobby_80269C6C.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -21,7 +20,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 const char *TWindowMessage::class_name = "TWindowMessage";
 
 extern "C" {
@@ -149,7 +148,6 @@ void TWindowMessage::update_scroll() {
 
 #pragma push
 #pragma fp_contract on
-s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color);
 
 #pragma readonly_strings on
 s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u32 flags) {
@@ -178,7 +176,6 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
 
 }
 
-extern "C" {
 
 s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color) {
     WindowTextEntry *e;
@@ -255,7 +252,6 @@ s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags
     return 1;
 }
 
-}
 
 MessageWindowLayout message_window_layout_entries = {
     1, 0,

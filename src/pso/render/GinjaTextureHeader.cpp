@@ -5,11 +5,10 @@
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/RenderSbssGlobals.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/GinjaTextureHeader.h"
-#include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 
 #pragma push
 #pragma scheduling off

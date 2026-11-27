@@ -41,17 +41,14 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/map/FloorWaveEvents.h"
+#include "pso/audio/SoundPlayback.h"
 
-extern "C" {
-s32 load_floor_sound_bank();
-}
-
-void update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_floor_state_deferred() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 // inferred: the JUNGLE01-07 init of area_initializer_dispatch_table
 s32 init_jungle_area(void) {
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
@@ -75,14 +72,13 @@ s32 init_jungle_area(void) {
     return 1;
 }
 
-void update_scene_alt() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+void update_scene_alt() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
 
 s32 initialize_boss_scene(void) {
     s32 area;
 
-    get_current_floor_area();
-    load_floor_sound_bank();
+    load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
@@ -123,7 +119,7 @@ s32 is_multi_ready() {
     return 1;
 }
 
-void TObjChallenge4PRetry::close_window_field30() {
+void TObjChallenge4PRetry::close_message_window() {
     if (this->message != NULL) {
         this->message->close();
         this->message = NULL;
@@ -217,7 +213,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
         start_challenge_countdown();
         send_giveup_to_all_players();
         close_window();
-        close_window_field30();
+        close_message_window();
         queue_destruction();
     }
 }
@@ -230,7 +226,7 @@ void TObjChallenge4PRetry::giveup_window_handle_select() {
         play_cue_stream_file("lose.adx");
         send_giveup_to_all_players();
         close_window();
-        close_window_field30();
+        close_message_window();
         queue_destruction();
         if (is_quest_active() == 1) {
             TLobby::clear_counter();
@@ -242,7 +238,7 @@ void TObjChallenge4PRetry::giveup_window_handle_select() {
         play_sound_effect(0x52812, 0, 0, 0);
         send_giveup_to_all_players();
         play_all_players_effect();
-        close_window_field30();
+        close_message_window();
         close_window();
         countdown = 0x1E;
         state = 4;
@@ -251,7 +247,7 @@ void TObjChallenge4PRetry::giveup_window_handle_select() {
         if ((is_designated != 0) && (selection_sent == 0)) {
             send_giveup_to_all_players();
             close_giveup_window();
-            close_window_field30();
+            close_message_window();
             open_giveup_window();
             state = 2;
         }
@@ -349,7 +345,7 @@ void TObjChallenge4PRetry::run_task() {
     if (is_multi_ready() == 0) {
         send_giveup_to_all_players();
         this->close_window();
-        this->close_window_field30();
+        this->close_message_window();
         this->queue_destruction();
     }
 }

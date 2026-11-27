@@ -26,11 +26,15 @@ s32 mount_memcard(saddr chan);
 s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
 s32 start_memcard_write(s32 chan, const char *name, void *buffer, s32 blocks, CardWriteDate *date, u32 flags);
 s32 init_memcard(s32, s32 chan, u8 *workArea, s32);
+s32 start_memcard_format(s32 chan, s32, s32, s32, s32);
 
 // Nothing sets the state; TChallenge and TChallenge4P skip their run_task while it is 1.
 int get_card_wait_state(void);
 s32 card_blocks_for_size(void *, s32, u32 size);
 
 extern void *banner_buffers[6];
+
+// The banner and icon image files of the save, copied whole by load_banner_files.
+struct CardBannerFileNames { const char* p[6]; };
 
 #endif

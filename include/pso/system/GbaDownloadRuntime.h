@@ -25,4 +25,6 @@ void gba_calc_joyboot_checksum();
 s32 gba_start_joyboot();
 void gba_joyboot_set_send_buffer(u8 *buffer, s32 length);
 
+struct DayMinuteTicks { s32 days; s32 mins; s32 ticks; };
+
 #endif

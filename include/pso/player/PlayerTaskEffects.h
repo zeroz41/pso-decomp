@@ -34,4 +34,11 @@ struct TObjPlayer;
 // lobby marker is drawn.
 void calc_marker_position(Vec *pos, TObjPlayer *player);
 
+struct PlayerShrinkPacket;
+struct PlayerRestoreSizePacket;
+
+// 6x87 / 6x88: shrink a player, and restore a shrunken player's size.
+void handle_6x87_shrink_player(const PlayerShrinkPacket *input);
+void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket *input);
+
 #endif

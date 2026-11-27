@@ -10,12 +10,11 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 
 
 #pragma readonly_strings on
@@ -76,7 +75,7 @@ void TWindowPartyStatus::run_task() {
     update_lockon_window(this);
     draw();
     update_status_help_item(this);
-    update_status_icons((void *)(get_window_layout_position(0xAC)));
+    update_status_icons(const_cast<NJS_POINT2 *>(get_window_layout_position(0xAC)));
     update_window();
     update_fade();
     update_window_entry_list(&entry_list);

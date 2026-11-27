@@ -83,5 +83,6 @@ struct CustomEquipLayout {
     SpritePartLayoutRecord rec_17;
 };
 
+int is_custom_equip_cancelled(void *p);
 
 #endif

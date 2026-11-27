@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 
 

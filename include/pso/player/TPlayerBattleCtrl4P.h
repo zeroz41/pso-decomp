@@ -12,9 +12,7 @@ class TWindowMenu;
 extern BattleRanking split_screen_battle_rankings[4];
 
 s32 are_split_screen_battle_players_tied(void);
-extern "C" {
 BattleRanking *get_split_screen_battle_rankings(void);
-}
 
 class TPlayerBattleCtrl4P : public TObject {
 private:
@@ -107,7 +105,6 @@ public:
     void start_match();
     s32 is_battle_decided();
     s32 check_all_players_flag();
-    static s32 get_party_not_ready_reason(s32 client_id);
     void apply_rule_configuration(s32 use_rules);
     void update_all_players();
     void shuffle_order();

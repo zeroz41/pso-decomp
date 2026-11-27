@@ -1,9 +1,8 @@
 #include "pso/system/memory.h"
 #include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/TLanguage.h"
-#include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
@@ -38,11 +37,11 @@ extern const char TextGerman[];
 extern const char TextFrench[];
 extern const char TextSpanish[];
 extern const char TextEnglish[];
-s32 *TLanguage::text_resource;
+void **TLanguage::text_resource;
 char ***text_language_group_table;
 NJS_TEXLIST *localized_alphabet_list;
 language current_language;
-s32 TWindowKeyBoardSoft__language_text_resources;
+u8 *soft_keyboard_layouts;
 
 void TLanguage::free_alphabet_textures() {
     if (localized_alphabet_list != NULL) {
@@ -56,7 +55,7 @@ void TLanguage::free_alphabet_textures() {
 
 void TLanguage::free_text_resources() {
     TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(text_resource));
-    TWindowKeyBoardSoft__language_text_resources = 0;
+    soft_keyboard_layouts = NULL;
     text_language_group_table = 0;
     text_resource = NULL;
 }
@@ -121,22 +120,22 @@ void TLanguage::load_fonts(s32 language) {
 void TLanguage::load_text_resources(s32 language) {
     switch (language) {
     case LANGUAGE_JAPANESE:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextJapanese);
+        text_resource = (void **)load_text_resource_pair((saddr)TextJapanese);
         break;
     case LANGUAGE_GERMAN:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextGerman);
+        text_resource = (void **)load_text_resource_pair((saddr)TextGerman);
         break;
     case LANGUAGE_FRENCH:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextFrench);
+        text_resource = (void **)load_text_resource_pair((saddr)TextFrench);
         break;
     case LANGUAGE_SPANISH:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextSpanish);
+        text_resource = (void **)load_text_resource_pair((saddr)TextSpanish);
         break;
     default:
-        text_resource = (s32 *)load_text_resource_pair((saddr)TextEnglish);
+        text_resource = (void **)load_text_resource_pair((saddr)TextEnglish);
         break;
     }
-    TWindowKeyBoardSoft__language_text_resources = text_resource[0];
+    soft_keyboard_layouts = (u8 *)text_resource[0];
     text_language_group_table = (char ***)text_resource[1];
 }
 

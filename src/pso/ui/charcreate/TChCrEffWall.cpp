@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/math/TMath.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 
 const char *TChCrEffWall::name = "TChCrEffWall";
 extern const vec2f creation_effwall_sprite_position_table[6] = {

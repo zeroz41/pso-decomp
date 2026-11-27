@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -14,7 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
@@ -27,7 +28,7 @@
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/render_util.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
@@ -43,6 +44,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
 const char *bm_boss7_crawfish_motion_names[7] = {
@@ -184,10 +186,10 @@ void TBoss7Crawfish::render() {
 }
 
 void TBoss7Crawfish::clear_object_state_exchange() {
-    Boss7CrawfishStateRecord record;
+    EnemyStateRecord record;
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
 }
@@ -373,13 +375,13 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     apply_set_data(set);
     if (is_small_variant() != 0) {
         set_param(0x4A);
-        bind_enemy_combat_stats(TLobby::register_boss(8), TLobby::dispatch_shared_handler_b(8), TLobby::register_object(8));
-        params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(8);
+        bind_enemy_combat_stats(register_boss(8), dispatch_shared_handler_b(8), register_object(8));
+        params = (Boss7CrawfishParams *)dispatch_shared_handler_a(8);
         model = get_bml_model(TBoss7Crawfish::shared_resource, 0);
     } else {
         set_param(0x4B);
-        bind_enemy_combat_stats(TLobby::register_boss(9), TLobby::dispatch_shared_handler_b(9), TLobby::register_object(9));
-        params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(9);
+        bind_enemy_combat_stats(register_boss(9), dispatch_shared_handler_b(9), register_object(9));
+        params = (Boss7CrawfishParams *)dispatch_shared_handler_a(9);
         model = get_bml_model(TBoss7Crawfish::shared_resource, 1);
     }
     get_or_assign_entity_id(0);

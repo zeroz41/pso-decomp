@@ -5,25 +5,24 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
-u32 baranz_launcher_create_shot(TItemWeapon *player, s32 pos, s32 dir, f32 life) {
-    uaddr model_shot;
-    uaddr particle_shot;
+TItemShoot *baranz_launcher_create_shot(TItemWeapon *player, const Vec *pos, const Vec *dir, f32 life) {
+    TItemShoot *model_shot;
+    TItemShootParticle *particle_shot;
     NJS_OBJECT *model;
 
-    model_shot = TObjPlayer::create_shoot_model((uaddr)player, pos, dir, life);
-    particle_shot = (uaddr)TObjPlayer::spawn_shoot_particle((saddr)player, pos, dir, life);
-    if ((model_shot != 0U) && (particle_shot != 0U)) {
+    model_shot = TObjPlayer::create_shoot_model(player, pos, dir, life);
+    particle_shot = TObjPlayer::spawn_shoot_particle(player, pos, dir, life);
+    if ((model_shot != NULL) && (particle_shot != NULL)) {
         model = player->second_model;
         if (model != NULL) {
             model->evalflags &= ~NJD_EVAL_UNIT_ANG;
             model->ang[0] = 0x4000;
         }
-        ((TItemShootParticle *)particle_shot)->spawn_slot_emitter(0x1BB, 0);
-        ((TObject *)particle_shot)->set_parent((TObject *)model_shot);
+        particle_shot->spawn_slot_emitter(0x1BB, 0);
+        particle_shot->set_parent(model_shot);
     }
     return model_shot;
 }
@@ -62,13 +61,11 @@ TItemWeaponBaranzLauncher::~TItemWeaponBaranzLauncher() {
 
 TItemWeaponBaranzLauncher::TItemWeaponBaranzLauncher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
-    shot_callback = (WeaponShotCallback)baranz_launcher_create_shot;
+    shot_callback = baranz_launcher_create_shot;
     spin_speed = 0;
     rotation_y = 0;
     shot_speed = 7.0f;
 }
-
-// ---- pso/unk/text_80126740
 
 
 TItem *TItemWeaponBaranzLauncher::create(u8 *item) {

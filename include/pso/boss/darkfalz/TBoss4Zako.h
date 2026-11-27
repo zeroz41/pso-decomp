@@ -51,8 +51,8 @@ struct TBoss4Zako : public TObjEnemy {
     s32 target_id;      // client id of the player it follows, 0xFFFF for none
     Vec velocity;
     f32 speed;
-    f32 max_speed;      // TLobby::dispatch_shared_handler_a(0x35)
-    f32 max_speed_alt;  // TLobby::dispatch_shared_handler_a(0x39)
+    f32 max_speed;      // dispatch_shared_handler_a(0x35)
+    f32 max_speed_alt;  // dispatch_shared_handler_a(0x39)
     s32 state_timer;
     s32 surfaced;       // collision on and drawn on the minimap while set
     s32 surface_timer;

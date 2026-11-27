@@ -1,4 +1,4 @@
-// VERSUS02's (and RUINS01/02's) scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// VERSUS02's (and RUINS01/02's) scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
@@ -12,14 +12,15 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/map/FloorWaveEvents.h"
 
 #pragma readonly_strings on
 
 void cleanup_temple_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     unload_current_floor_resources();
-    TLobby::update_current_floor();
+    update_current_floor();
     TLobby::clear_session_buffers();
 }
 

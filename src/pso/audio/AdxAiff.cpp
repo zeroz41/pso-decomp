@@ -6,18 +6,14 @@
 #include <stddef.h>
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803C1780.h"
+#include "pso/audio/AdxAiff.h"
 #include "pso/system/RefCountedWorkBuffer.h"
 #include <string.h>
-#include "pso/audio/AdxAiff.h"
 #include "pso/audio/AiffHeader.h"
 
 // The RIFF chunk ids parse_wav_header_info scans a WAVE header for.
 const char *wav_fmt_chunk_id = "fmt ";
 const char *wav_data_chunk_id = "data";
-
-
-
 
 
 AudioStreamInputState audio_stream_input_pool[16];
@@ -314,7 +310,7 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
     st = &audio_stream_input_pool[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->decoder = AdxbDecoder::alloc_record(channels, (saddr)buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    st->decoder = AdxbDecoder::alloc_record(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
     if (st->decoder == NULL) {
         return NULL;
     }
@@ -524,23 +520,6 @@ s32 (*ahx_exec_callback)();
 RecoveredCallback_1268626c296b ahx_notify_callback;
 extern s32 (*ahx_exec_callback)();
 
-
-// "fmt " chunk of a WAVE file.
-struct WavFmtChunk {
-    char id[4];
-    u32 size;
-    u16 format;
-    u16 channels;
-    u32 sample_rate;
-    u32 byte_rate;
-    u16 block_align;
-    u16 bits;
-};
-
-struct WavDataChunk {
-    char id[4];
-    u32 size;
-};
 
 LAYOUT_ASSERT(WavFmtChunkSize, sizeof(WavFmtChunk) == 0x18);
 LAYOUT_ASSERT(WavFmtChannelOffset, offsetof(WavFmtChunk, channels) == 0xA);

@@ -2,17 +2,17 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/ResourceFile.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "types.h"
-#include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/TLobby_80140FF4.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorWaveEvents.h"
+#include "pso/map/MapCollisionSetup.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/TextureState.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -25,10 +25,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/system/scene/TSceneSoraTypes.h"
-
-
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/FileExtension.h"
 
 
 #pragma readonly_strings on
@@ -128,13 +126,13 @@ void TSceneSora::load_sky_resources() {
     if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
         tbl = (SceneTableEntry *)get_floor_scene_table(ref.area);
-        TLobby::replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
+        replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
+            replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size(name2);
         }
         if (ok <= 0) {
-            TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
+            replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
         }
         p = ADXF_Open(name2, 0);
         if (p != NULL) {

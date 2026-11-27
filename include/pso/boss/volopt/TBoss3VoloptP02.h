@@ -130,6 +130,8 @@ public:
 extern BmlResource *volopt_p02_resources;
 extern VoloptP02Params *volopt_p02_params;
 
+void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message);
+
 LAYOUT_ASSERT(TBoss3VoloptP02_size, sizeof(TBoss3VoloptP02) == 0x510);
 
 #endif

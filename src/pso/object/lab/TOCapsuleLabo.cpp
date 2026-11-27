@@ -3,8 +3,8 @@
 #include "pso/object/lab/TOCapsuleLabo.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -12,7 +12,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_obj_labo_infocapsule_model_names[2] = { "obj_o_labo_infocapsule.gj", NULL };
 const char *bm_obj_labo_infocapsule_motion_names[1] = { NULL };

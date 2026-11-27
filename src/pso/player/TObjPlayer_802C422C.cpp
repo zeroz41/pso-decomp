@@ -1,7 +1,6 @@
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_802C422C.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/system/date.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
@@ -10,7 +9,7 @@
 #include "pso/ui/Language.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 
 #include "pso/network/client_id.h"
@@ -56,7 +55,7 @@ void TPlyCharData::copy_from_player(TObjPlayer *player) {
     u8 *overflow;
     s32 i;
     player->set_flag_80000();
-    copy_player_visual_record(&m_disp_part2, player->name);
+    copy_player_visual_record(&m_disp_part2, &player->appearance);
     m_inventory.m_num_items = player->query_state_if_present(m_inventory.get_items());
     player->inventory_objects->set_flag_and_update(player);
     player->clamp_stats(&m_stats, player->get_class_stat_entry());
@@ -89,7 +88,7 @@ void TPlyCharData::set_mag_level(u8 level) { m_inventory.m_items[13].m_present[3
 void TPlyCharData::clear_inventory() {
     int i;
     for (i = 0; i < 30; i++) {
-        ((TAdSinglePlyChrSelectGC *)&m_inventory.m_items[i])->clear_inventory_slot();
+        m_inventory.m_items[i].clear();
     }
 }
 

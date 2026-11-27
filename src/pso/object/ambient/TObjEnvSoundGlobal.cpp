@@ -78,7 +78,7 @@ const EnvSoundRow *environment_sound_tables_by_area[36] = {
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 
 
 

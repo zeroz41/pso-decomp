@@ -31,8 +31,5 @@ LAYOUT_ASSERT(TWindowEffectLight_kind_offset, offsetof(TWindowEffectLight, effec
 LAYOUT_ASSERT(TWindowEffectLight_age_offset, offsetof(TWindowEffectLight, age) == 0x26);
 LAYOUT_ASSERT(TWindowEffectLight_player_offset, offsetof(TWindowEffectLight, player_id) == 0x28);
 
-extern "C" {
-u8 *__ct__18TWindowEffectLightFPvsUl(u8 *self, void *position, s16 kind, u32 id);
-}
 
 #endif

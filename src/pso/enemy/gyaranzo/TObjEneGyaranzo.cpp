@@ -24,7 +24,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -32,8 +32,8 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
@@ -52,11 +52,12 @@
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
 LAYOUT_ASSERT(GyaranzoPositionOffset, offsetof(TObjEneGyaranzo, position) == 0x38);
 
@@ -220,10 +221,10 @@ void TLobby::load_gyaranzo_resources() {
     gyaranzo_broken_node25 = find_model_node(gyaranzo_bml_resource->models[3].model, 0x19);
     gyaranzo_broken_node13 = find_model_node(gyaranzo_bml_resource->models[3].model, 0xD);
     gyaranzo_breakup_model_obj = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
-    gyaranzo_boss_stats_handle = TLobby::register_boss(0x1D);
-    gyaranzo_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0x1D);
-    gyaranzo_object_handle = TLobby::register_object(0x1D);
-    gyaranzo_missile_param_table = (GyaranzoParameters *)TLobby::dispatch_shared_handler_a(0x1D);
+    gyaranzo_boss_stats_handle = register_boss(0x1D);
+    gyaranzo_boss_stats_ptr_b = dispatch_shared_handler_b(0x1D);
+    gyaranzo_object_handle = register_object(0x1D);
+    gyaranzo_missile_param_table = (GyaranzoParameters *)dispatch_shared_handler_a(0x1D);
     {
         NpcAnimationBinding pos = { NULL, gyaranzo_action_table, 0, 1, 8 };
         pos.motions = gyaranzo_bml_resource->motions;
@@ -820,7 +821,7 @@ void TObjEneGyaranzo::select_targets() {
     }
     for (i = 0; i < count; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)p) == 0) continue;
+        if (TObjPlayer::is_valid_and_active(p) == 0) continue;
         if (p == this) continue;
         if (p->actorFlags & 0x2000800) continue;
         VecCopy(&d, &p->body_center);

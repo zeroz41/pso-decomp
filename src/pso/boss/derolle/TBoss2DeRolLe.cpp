@@ -51,14 +51,14 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TBoss2MotionProfile.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/math/AngleLookup.h"
 
 
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -124,7 +124,7 @@ struct NJS_OBJECT;
 
 #include "pso/ui/window/TWindowCtrl.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/math/AngleUnits.h"
 
@@ -163,7 +163,7 @@ s32 de_rol_le_base_param_ids[1] = {0xF};
 
 s32 de_rol_le_resistance_param_ids[1] = {0xF};
 
-// inferred: the ids load_resources passes to TLobby::dispatch_shared_handler_a, the
+// inferred: the ids load_resources passes to dispatch_shared_handler_a, the
 // counterpart of TBoss2DeRolLe::shared_handler_id_table (dispatch_shared_handler_b)
 s32 de_rol_le_shared_handler_a_ids[1] = {0xF};
 
@@ -268,6 +268,7 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TSceneAmbientLight.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/enemy/BattleParamTables.h"
 
 player_stats *TBoss2DeRolLe::base_params[1];
 ActorParamBlock *TBoss2DeRolLe::resistance_params[1];
@@ -468,16 +469,16 @@ void TBoss2DeRolLe::load_resources() {
     derolle_capture_tentacle_matrices = NULL;
     derolle_capture_node_matrices = NULL;
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe::base_params[i] = TLobby::register_boss(de_rol_le_base_param_ids[i]);
+        TBoss2DeRolLe::base_params[i] = register_boss(de_rol_le_base_param_ids[i]);
     }
     for (i = 0; i < 3; i++) {
-        TBoss2DeRolLe::attack_params_table[i] = TLobby::dispatch_shared_handler_b(TBoss2DeRolLe::shared_handler_id_table[i]);
+        TBoss2DeRolLe::attack_params_table[i] = dispatch_shared_handler_b(TBoss2DeRolLe::shared_handler_id_table[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe::resistance_params[i] = TLobby::register_object(de_rol_le_resistance_param_ids[i]);
+        TBoss2DeRolLe::resistance_params[i] = register_object(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        derolle_params[i] = (TBoss2DeRolLeParams *)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
+        derolle_params[i] = (TBoss2DeRolLeParams *)dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
     }
     TBoss2DeRolLe::instance = 0;
     TBoss2Tentacle::load_shared_model();
@@ -1944,7 +1945,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
     case 5:
         restore_player_cameras();
         TWindowCtrl::unsuppress_all_slots();
-        get_target_state_a();
+        release_cutscene_players();
         break;
     }
 }

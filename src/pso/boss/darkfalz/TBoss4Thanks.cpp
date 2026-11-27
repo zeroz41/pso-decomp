@@ -5,12 +5,13 @@
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -32,13 +33,12 @@
 const char *TBoss4Thanks::class_name = "TBoss4Thanks";
 extern "C" {
 // Position of the emitters and of the proximity check (x, y, z).
-extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
+__declspec(section ".rodata") Vec boss4_thanks_position = {-9860.0f, 29.0f, -238.9f};
 // Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
 extern const u8 boss4_thanks_listed_item_table[3][3] = {{0x00, 0x9D, 0x00}, {0x00, 0x9E, 0x00}, {0x00, 0x9F, 0x00}};
 extern const Boss4ThanksEmitter boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
-f32 xyz_distance(void *, const void *);
 
 s32 TBoss4Thanks::is_story_flag_0x99_set() {
     return get_story_flag(0x99) != 0;
@@ -56,7 +56,7 @@ void TBoss4Thanks::update_particle_emitters() {
         const Boss4ThanksEmitter *e = &boss4_thanks_emitter_table[i];
         if (this->fade_frame >= e->first_frame && this->fade_frame <= e->last_frame) {
             if (particle_emitters[i] == NULL) {
-                particle_emitters[i] = create_particle_emitter(boss4_thanks_position, e->id);
+                particle_emitters[i] = create_particle_emitter(&boss4_thanks_position, e->id);
                 if (particle_emitters[i] != NULL) {
                     particle_emitters[i]->set_flags(0x40);
                 }
@@ -97,7 +97,7 @@ int TBoss4Thanks::is_player_nearby() {
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0 &&
-            xyz_distance(&p->position, boss4_thanks_position) <= lim) {
+            xyz_distance(&p->position, &boss4_thanks_position) <= lim) {
             return 1;
         }
     }
@@ -120,7 +120,7 @@ void TBoss4Thanks::render() {
     begin_alpha_blend(fade);
     push_matrix();
     set_motion_packed_rotation();
-    post_translate_matrix(boss4_thanks_position);
+    post_translate_matrix(&boss4_thanks_position.x);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();

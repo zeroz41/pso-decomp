@@ -32,24 +32,18 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/system/BmlResource.h"
 
-
-// A window's width and height.
-struct WindowSize {
-    f32 width;
-    f32 height;
-};
 
 // Owner token for tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
 static const char online_tmp_buf_owner_name[] = "quest_online";
 const char *quest_list_online_class_name = "TQuestListOnline";
 // Size of the description window build_list_window creates (TQuestListVM's description window uses the same size)
-static const WindowSize online_description_window_size = {228.0f, 184.0f};
+static const WindowSize online_description_window_size = {{228.0f, 184.0f}};
 // Size of the info window show_info_window creates (TQuestListVM's detail window uses the same size)
-static const WindowSize online_info_window_size = {332.0f, 210.0f};
+static const WindowSize online_info_window_size = {{332.0f, 210.0f}};
 
 TQuestListOnline *quest_list_online_instance;
 u8 *quest_list_online_decompression_cursor;
@@ -174,7 +168,7 @@ void TQuestListOnline::build_list_window() {
         }
         if (description_window == NULL) {
             WindowSize size = online_description_window_size;
-            description_window = TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = TWindowMessage::create(get_window_layout_position(0x2D), size.dimensions, 1);
             description_window->append_line(quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
         } else {
             description_window->append_line(quest_list_online_quest_list_buffer->entries[0].short_description, (int)0x80);
@@ -189,7 +183,7 @@ void TQuestListOnline::show_info_window() {
     if (info_window == NULL) {
         WindowSize size = online_info_window_size;
         entity_id = player->get_entity_id();
-        info_window = TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&size, 1, entity_id);
+        info_window = TWindowMessage::create(get_window_layout_position(0x2E), size.dimensions, 1, entity_id);
         info_window->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
             info_window->set_position_xy(0.75f, 0.75f);

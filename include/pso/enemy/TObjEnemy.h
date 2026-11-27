@@ -18,7 +18,7 @@ struct EnemyMoveParams {
 struct TObjEnemy : public TObjChara {
     TObjEnemy(TObject *parent);
     void refresh_and_send_entity_flags();
-    int submit_default_cursor_candidate();
+    void submit_default_cursor_candidate();
     virtual ~TObjEnemy();
     void draw_motion_model();
     s32 calc_joint_matrices(f32);

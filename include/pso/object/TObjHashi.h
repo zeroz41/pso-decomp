@@ -18,7 +18,8 @@ public:
 };
 
 // Packet 6x78: toggles the 300-frame timer of one of twelve slots.
-void handle_6x78(void *packet);
+struct G_Unknown_6x78;
+void handle_6x78(G_Unknown_6x78 *cmd);
 void set_handle_6x78_entry(u16 index, s32 value);
 s32 get_handle_6x78_entry(u16 index);
 void start_handle_6x78_entry(u16 index);

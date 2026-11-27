@@ -1,30 +1,26 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_8014618C.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include "pso/network/NetworkConnect.h"
-#include "pso/unk/text_80145A94.h"
-#include "pso/unk/text_80145A44.h"
+#include "pso/network/NetworkSettings.h"
 
 void TAdDialingGC::open() {
     TAdDialingGC::instance = NULL;
@@ -374,7 +370,7 @@ void TAdDialingGC::update_selection() {
     }
 }
 
-s32 is_skip_pressed(s32 _w0) {
+s32 TAdDialingGC::is_dial_cancel_pressed() {
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x706) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 0x606) != 0)) {
         return 1;
     }
@@ -421,7 +417,7 @@ void TAdDialingGC::update_idle_dial_state() {
             return;
         default:
             show_guide_button();
-            if (is_skip_pressed((saddr)this) != 0) {
+            if (this->is_dial_cancel_pressed() != 0) {
                 this->dial_step = 3;
                 return;
             }
@@ -450,7 +446,7 @@ void TAdDialingGC::update_state() {
             this->dial_step = 3;
             return;
         }
-        if (is_skip_pressed((saddr)this) != 0) {
+        if (this->is_dial_cancel_pressed() != 0) {
             this->dial_step = 3;
         }
         break;
@@ -476,7 +472,7 @@ void TAdDialingGC::update_dial_state() {
             this->dial_step = 3;
             return;
         }
-        if (is_skip_pressed((saddr)this) != 0) {
+        if (this->is_dial_cancel_pressed() != 0) {
             this->dial_step = 3;
         }
         break;

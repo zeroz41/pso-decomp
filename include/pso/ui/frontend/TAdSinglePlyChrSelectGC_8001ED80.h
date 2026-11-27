@@ -3,8 +3,5 @@
 
 #include "types.h"
 
-extern "C" {
-s32 get_bml_request_data_size(void *p);
-}
 
 #endif

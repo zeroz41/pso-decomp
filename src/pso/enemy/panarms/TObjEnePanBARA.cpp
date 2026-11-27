@@ -1,3 +1,5 @@
+#include "pso/enemy/BattleParameters.h"
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -9,7 +11,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/BlobShadow.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
@@ -23,9 +25,9 @@
 #include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecZarua.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/object/TObjControl.h"
@@ -46,19 +48,13 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
-// The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
-struct PanBARATechniqueLevels {
-    u8 pad_0[0x18];
-    s32 resta_level;  // TTecResta::create (update_heal)
-    s32 jelin_level;  // TTecJelin::create (attack_target_player)
-    s32 zalure_level; // TTecZarua::create_instance (attack_target_player)
-};
 
 /* A half's one collision sphere (init_collision_body_parts in the constructor). */
 CollisionBody panbara_collision_body[1] = {
@@ -122,12 +118,7 @@ const s32 panbara_retreat_angle_offset[2] = {0x800, -0x800};
 // spawn_npc_pair's NPC descriptors (local initialisers; their templates end the TU's .rodata). spawn_npc_pair fills
 // in the bml's motion table before TLobby::spawn_npc_enemy.
 
-typedef void (TObjEnePanBARA::*PanBARAStateFn)();
 
-struct PanBARAState {
-    PanBARAStateFn enter;
-    PanBARAStateFn update;
-};
 
 extern "C" void __sinit_TObjEnePanBARA_cpp();
 __declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanBARA_cpp;
@@ -239,20 +230,6 @@ TObjEnePanBARA *TObjEnePanarms::create_bara(EnemyPlacement *setData, s32 index) 
     return new TObjEnePanBARA(new TObjControl(tl_04), setData, index);
 }
 
-struct PanBARAParams {
-    f32 unk_0;
-    f32 unk_4;
-    f32 unk_8;
-};
-
-// The 12-byte record TObjEnemy::exchange_object_state fills (mode 1) or stores (mode 0).
-struct PanBARAObjectState {
-    u32 unk_0;
-    u16 unk_4;
-    s16 unk_6;
-    u8 unk_8[4];
-};
-
 TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 index) : TObjEnemy(parent) {
     s32 i;
 
@@ -260,10 +237,10 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     add_flags_2e4(2);
     apply_set_data(setData);
     // The statements of TObjEnemy::clear_lobby_object_state, expanded here.
-    PanBARAObjectState objectState;
+    EnemyStateRecord objectState;
     if (this->exchange_object_state(&objectState, 1) != 0) {
-        objectState.unk_0 = 0;
-        objectState.unk_6 = 0;
+        objectState.flags = 0;
+        objectState.damage = 0;
         this->exchange_object_state(&objectState, 0);
     }
     half_index = index;
@@ -280,12 +257,12 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     target = NULL;
     switch (half_index) {
     case 0:
-        bind_enemy_combat_stats(TLobby::register_boss(50), TLobby::dispatch_shared_handler_b(50),
-                                TLobby::register_object(50));
+        bind_enemy_combat_stats(register_boss(50), dispatch_shared_handler_b(50),
+                                register_object(50));
         break;
     case 1:
-        bind_enemy_combat_stats(TLobby::register_boss(51), TLobby::dispatch_shared_handler_b(51),
-                                TLobby::register_object(51));
+        bind_enemy_combat_stats(register_boss(51), dispatch_shared_handler_b(51),
+                                register_object(51));
         break;
     default:
         return;
@@ -305,17 +282,17 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     move_speed = 0.0f;
     partner_death_seen = 0;
     if (half_index == 0) {
-        pad_460 = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(50))->unk_0;
-        attack_power = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(50))->unk_4;
+        pad_460 = dispatch_shared_handler_a(50)->values.floats[0];
+        attack_power = dispatch_shared_handler_a(50)->values.floats[1];
     } else {
-        pad_460 = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(51))->unk_0;
-        jelin_chance = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(51))->unk_4;
+        pad_460 = dispatch_shared_handler_a(51)->values.floats[0];
+        jelin_chance = dispatch_shared_handler_a(51)->values.floats[1];
         if (jelin_chance < 0.0f) {
             jelin_chance = 0.0f;
         } else if (jelin_chance > 1.0f) {
             jelin_chance = 1.0f;
         }
-        zalure_chance = ((PanBARAParams *)TLobby::dispatch_shared_handler_a(51))->unk_8;
+        zalure_chance = dispatch_shared_handler_a(51)->values.floats[2];
         if (zalure_chance < 0.0f) {
             zalure_chance = 0.0f;
         } else if (zalure_chance > 1.0f) {
@@ -725,7 +702,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
         }
         roll = random_ratio();
         if (roll <= jelin_chance) {
-            level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->jelin_level;
+            level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->jelin_level;
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
@@ -733,7 +710,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
             return;
         }
         if (roll <= jelin_chance + zalure_chance) {
-            level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->zalure_level;
+            level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->zalure_level;
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
@@ -1326,7 +1303,7 @@ void TObjEnePanBARA::update_heal() {
         set_requested_action(4);
     }
     if (-15.0f == (f32) this->action_timer) {
-        level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->resta_level;
+        level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->resta_level;
         if (level < 0 || level > 0xE) {
             level = 0;
         }

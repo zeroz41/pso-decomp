@@ -45,14 +45,11 @@ struct TWindowSubSymbolChat : public TObject {
     static s32 compute_total_height();
     static s32 calc_remaining_slots();
     static unsigned char get_global_4e54();
-    static void send_selected_symbol_chat(s32 *preset_index);
     static s32 count_instance_empty_slots();
     static s32 update_layout();
     static void update_symbol_chat_result(s32 index);
     static void play_symbol_sound(s32 sound_index);
     u8 *get_symbol_chat_data();
-    void bswap_symbol_chat_packet();
-    void send_symbol_chat();
     static saddr get_instance();
     int is_initialized();
     static void close_child(void *window, void *frame_context);
@@ -64,7 +61,7 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowCheckBox *create_confirm_window();
     TWindowMessageYesNo *open_confirm_prompt();
     TWindowMenu *create_menu();
-    static TWindowMenu *create_menu(void *chat);
+    static TWindowMenu *create_menu(TWindowSubSymbolChat *chat);
     TWindowSubSymbolChatPartsSet *create_parts_set();
     TWindowSubSymbolChatParts *create_parts();
     void open_menu(TWindowMenu *menu);
@@ -96,4 +93,10 @@ struct TWindowSubSymbolChat : public TObject {
 LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 
 SymbolChatPreset *get_symbol_chat_receive_buffer(void);
+void send_selected_symbol_chat(s32 *preset_index);
+
+// 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator=
+// copies the char array at +4 with __copy and the word array at +0x1C as a block.
+struct SymbolChatPresetCopy { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
+
 #endif

@@ -25,13 +25,13 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include <stdio.h>
@@ -260,7 +260,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     game_start = new TAdGameStartGC(tl_clipout);
     NJS_POINT2 v = {multi_chr_select_plate_layout.width, multi_chr_select_plate_layout.height};
     player_plate = TAdChrSelPlyPlateGC::create_singleton(tl_02, (vec2f *)&v);
-    TAdMultiPlyChrSelectGC::get_move_effect((saddr)tl_clipout);
+    TAdMultiPlyChrSelectGC::get_move_effect(tl_clipout);
 }
 #pragma pop
 
@@ -284,7 +284,7 @@ void TAdMultiPlyChrSelectGC::run_task() {
                 if (TAdMultiPlyChrSelectGC::count_selected_slots() > 0) {
                     if (this->show_flag_notice == 0) {
                         if (TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_last_selected_player()) != 0) {
-                            this->guide->set_line(0, reinterpret_cast<const char *>(format_player_number_text((s32)(TAdMultiPlyChrSelectGC::get_last_selected_player()))));
+                            this->guide->set_line(0, reinterpret_cast<const char *>(this->format_player_number_text((s32)(TAdMultiPlyChrSelectGC::get_last_selected_player()))));
                             this->guide->set_line(1, "");
                         } else {
                             this->guide->set_line(0, "");
@@ -876,7 +876,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
     player_plate->set_select_mode(0);
     player_plate->set_state_ready();
-    if ((((TAdMultiPlyChrSelectGC *)game_start)->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((game_start->is_active() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         ready_count = TAdMultiPlyChrSelectGC::count_ready();
         selected_count = TAdMultiPlyChrSelectGC::count_selected_slots();
         if (selected_count != ready_count) {
@@ -1378,7 +1378,7 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
     s32 ready_count;
     s32 selected_count;
 
-    if ((((TAdMultiPlyChrSelectGC *)game_start)->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((game_start->is_active() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         ready_count = TAdMultiPlyChrSelectGC::count_ready();
         selected_count = TAdMultiPlyChrSelectGC::count_selected_slots();
         if (selected_count != ready_count) {
@@ -1744,7 +1744,7 @@ void TAdMultiPlyChrSelectGC::update_guide_text(s32 cursor) {
                 guide->set_line(1, "");
                 return;
             }
-            guide->set_line(0, reinterpret_cast<const char *>(format_player_number_text(TAdMultiPlyChrSelectGC::get_clamped_cursor())));
+            guide->set_line(0, reinterpret_cast<const char *>(this->format_player_number_text(TAdMultiPlyChrSelectGC::get_clamped_cursor())));
             guide->set_line(1, "");
             break;
         default:
@@ -1753,7 +1753,7 @@ void TAdMultiPlyChrSelectGC::update_guide_text(s32 cursor) {
                 guide->set_line(1, "");
                 return;
             }
-            guide->set_line(0, reinterpret_cast<const char *>(format_player_number_text(cursor)));
+            guide->set_line(0, reinterpret_cast<const char *>(this->format_player_number_text(cursor)));
             guide->set_line(1, "");
             break;
         }

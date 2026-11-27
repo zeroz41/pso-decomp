@@ -18,12 +18,12 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include <stddef.h>
@@ -36,7 +36,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/camera/TCameraCtrl.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -51,6 +51,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -236,10 +237,10 @@ void TObjEneBm3FlyNest::load_resources() {
     } else {
         bm3_fly_nest_bml = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
     }
-    bm3_fly_nest_base_stats = TLobby::register_boss(1);
-    bm3_fly_nest_attack_stats = TLobby::dispatch_shared_handler_b(1);
-    bm3_fly_nest_resist_stats = TLobby::register_object(1);
-    bm3_fly_nest_lobby_params = TLobby::dispatch_shared_handler_a(1);
+    bm3_fly_nest_base_stats = register_boss(1);
+    bm3_fly_nest_attack_stats = dispatch_shared_handler_b(1);
+    bm3_fly_nest_resist_stats = register_object(1);
+    bm3_fly_nest_lobby_params = dispatch_shared_handler_a(1);
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
     {

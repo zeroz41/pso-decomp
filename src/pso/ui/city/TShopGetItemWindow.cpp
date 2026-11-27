@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -32,6 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/GameModeQueries.h"
 
 s32 shop_section_id;
 s32 shop_world_player_level;
@@ -249,7 +250,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
             help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
-            if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+            if (help_window != NULL && is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }
             help_window->set_displayed_item_colored(&displayed_item_colored);
@@ -292,7 +293,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                     obj = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(obj, get_window_layout_position(0x2B), 1, count, 1, sel);
                 }
                 number_input = obj;
-                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
                 set_state(2);
@@ -349,7 +350,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                 if (get_item_def(&record) != 0) {
                     record.set_stack_count(withdraw_count);
                 }
-                if (player->can_inventory_accept_item((u8 *)&record) == 0) {
+                if (player->can_inventory_accept_item(&record) == 0) {
                     display_shop_message(0x4B, 1);
                     set_state(6);
                 } else {

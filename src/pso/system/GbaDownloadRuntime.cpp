@@ -140,7 +140,6 @@ u8 gba_download_update_graph() {
 }
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/GbaDownloadRuntimeTypes.h"
 GbaJoybootState gba_joyboot_states[1];
 
 

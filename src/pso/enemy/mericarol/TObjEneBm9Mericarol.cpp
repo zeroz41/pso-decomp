@@ -18,7 +18,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
@@ -29,8 +29,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -58,6 +58,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 #pragma defer_codegen on
 
 
@@ -137,7 +138,7 @@ player_stats *bm9_mericarol_phase_hp_table[3];
 AttackParams *bm9_mericarol_phase_attack_table[3];
 ActorParamBlock *bm9_mericarol_phase_resist_table[3];
 TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
-f32 lbl_80540B88[4];
+f32 mericarol_zero_vector[4];  // zeroed by the resource loader, never read
 const char *bm9_mericarol_class_name = bm9_mericarol_class_name_string;
 SampledMotionPoints *mericarol_trail0_points;
 SampledMotionPoints *mericarol_trail1_points;
@@ -159,18 +160,18 @@ void TObjEneBm9Mericarol::load_resources() {
     }
     mericarol_node_counter = 0;
     lbl_805D6870 = 0;
-    lbl_80540B88[0] = 0.0f;
-    lbl_80540B88[1] = 0.0f;
-    lbl_80540B88[2] = 0.0f;
+    mericarol_zero_vector[0] = 0.0f;
+    mericarol_zero_vector[1] = 0.0f;
+    mericarol_zero_vector[2] = 0.0f;
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
     create_mericarol_render_texture();
     init_alt_model();
     for (i = 0; i < 3; i++) {
-        bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
-        bm9_mericarol_phase_attack_table[i] = TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
-        bm9_mericarol_phase_resist_table[i] = TLobby::register_object(mericarol_phase_resist_ids[i]);
-        mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)TLobby::dispatch_shared_handler_a(mericarol_phase_param_ids[i]);
+        bm9_mericarol_phase_hp_table[i] = register_boss(mericarol_phase_hp_ids[i]);
+        bm9_mericarol_phase_attack_table[i] = dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
+        bm9_mericarol_phase_resist_table[i] = register_object(mericarol_phase_resist_ids[i]);
+        mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)dispatch_shared_handler_a(mericarol_phase_param_ids[i]);
     }
     mericarol_trail0_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     mericarol_trail1_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);

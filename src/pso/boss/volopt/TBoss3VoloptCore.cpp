@@ -6,7 +6,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptParticleSpray.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,15 +14,15 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -33,6 +33,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptCore_name = "TBoss3VoloptCore";
@@ -149,10 +150,10 @@ void *TBoss3VoloptCore::create(void *set_data) {
 
 void TBoss3VoloptCore::load_resources() {
     core_resources = boss3_volopt_resources;
-    core_combat_stats_a = TLobby::register_boss(0x21);
-    core_combat_stats_b = TLobby::dispatch_shared_handler_b(0x21);
-    core_combat_stats_c = TLobby::register_object(0x21);
-    core_orbit_speeds = (TBoss3VoloptOrbitSpeeds *)TLobby::dispatch_shared_handler_a(0x21);
+    core_combat_stats_a = register_boss(0x21);
+    core_combat_stats_b = dispatch_shared_handler_b(0x21);
+    core_combat_stats_c = register_object(0x21);
+    core_orbit_speeds = (TBoss3VoloptOrbitSpeeds *)dispatch_shared_handler_a(0x21);
 }
 
 void TBoss3VoloptCore::release() {}

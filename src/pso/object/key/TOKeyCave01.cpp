@@ -10,7 +10,7 @@
 #include "pso/object/key/TOKeyCave01.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -21,7 +21,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/render_util.h"
 
 // The default constant-material colour (owner unit not split yet; 27 files

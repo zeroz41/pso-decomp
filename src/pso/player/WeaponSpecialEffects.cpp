@@ -24,7 +24,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/WeaponSpecialEffectsTypes.h"
@@ -34,7 +34,7 @@ static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
 static const InwardOrbitDir inward_orbit_particle_dir = {0, 0, 0x4000};
 
 
-struct Strike_80357B2C {
+struct WeaponSpecialStrike {
     Vec pos;
     Vec dir;
     f32 len;
@@ -48,10 +48,9 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
 
 #pragma push
 #pragma fp_contract on
-void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern) {
-    Vec *p = (Vec *)origin;
-    Strike_80357B2C strikes[14];
-    Strike_80357B2C *s;
+void spawn_scattered_lightning_strikes(Vec *origin, s32 pattern) {
+    WeaponSpecialStrike strikes[14];
+    WeaponSpecialStrike *s;
     Vec *d;
     s32 i;
     f32 scale;
@@ -60,16 +59,16 @@ void spawn_scattered_lightning_strikes(u8 *origin, s32 pattern) {
     s32 m;
     for (i = 0; i < 14; i++) {
         s = &strikes[i];
-        s->pos.y = 100.0f + p->y;
+        s->pos.y = 100.0f + origin->y;
         if (pattern == 5 && i == 0) {
-            s->pos.y = 500.0f + p->y;
+            s->pos.y = 500.0f + origin->y;
         }
-        s->pos.x = 13.0f * ((f32) i * (3.0517578e-05f * (f32) rand())) + p->x;
-        s->pos.z = 13.0f * ((f32) i * (3.0517578e-05f * (f32) rand())) + p->z;
+        s->pos.x = 13.0f * ((f32) i * (3.0517578e-05f * (f32) rand())) + origin->x;
+        s->pos.z = 13.0f * ((f32) i * (3.0517578e-05f * (f32) rand())) + origin->z;
         d = &s->dir;
-        s->dir.x = p->x - s->pos.x;
-        s->dir.y = p->y - s->pos.y;
-        s->dir.z = p->z - s->pos.z;
+        s->dir.x = origin->x - s->pos.x;
+        s->dir.y = origin->y - s->pos.y;
+        s->dir.z = origin->z - s->pos.z;
         s->len = vector_length(d);
         if (0.0f != s->len) {
             normalize_vector(d);
@@ -310,7 +309,7 @@ void dispatch_attack_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 p
         spawn_particle_effect(&player->body_center, 0xA0);
     }
     if (phase == 1) {
-        spawn_scattered_lightning_strikes((u8 *)pos, 4);
+        spawn_scattered_lightning_strikes(pos, 4);
     }
 }
 
@@ -319,7 +318,7 @@ void dispatch_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
         spawn_particle_effect(&player->body_center, 0xA0);
     }
     if (phase == 1) {
-        spawn_scattered_lightning_strikes((u8 *)pos, 4);
+        spawn_scattered_lightning_strikes(pos, 4);
     }
 }
 

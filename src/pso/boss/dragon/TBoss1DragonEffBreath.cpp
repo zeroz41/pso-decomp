@@ -18,7 +18,7 @@ void TBoss1DragonEffBreath::run_task() {
         return;
     }
     if (height < 30.0f) {
-        ((TBoss1Dragon *)TBoss1Dragon::get_instance())->deliver_breath_attack(&position, attack_history);
+        TBoss1Dragon::get_instance()->deliver_breath_attack(&position, attack_history);
     }
 }
 

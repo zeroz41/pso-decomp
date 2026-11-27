@@ -9,6 +9,7 @@
 struct WindowDescriptor;
 
 struct TWindowKeyBoardBase : public TWindowBase {
+    static const char *class_name;
     static WindowDescriptor window_descriptor;
     TWindowKeyBoardBase();
     virtual ~TWindowKeyBoardBase();
@@ -128,5 +129,21 @@ LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBas
 
 // Blinking caret drawn after the input text at cursor.
 void draw_text_cursor(WindowDrawContext *context, NJS_POINT2 *cursor);
+
+void load_ask_dictionary();
+
+// One entry of the conversion candidate list: the previous entry's length (to step back), this entry's text length,
+// the candidate index chosen for it, then the text.
+struct CandidateRecord {
+    u8 prev_len;
+    s8 len;
+    u8 candidate_index;
+    char str[1];
+};
+
+struct InputTextCursors {
+    NJS_POINT2 caret;
+    NJS_POINT2 cursor;
+};
 
 #endif

@@ -5,17 +5,19 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/quest/challenge/TChallenge4PResult.h"
+#include "pso/player/TObjPlayer.h"
 
 
 const char *floor_load_cam_class_name = "TAdFloorLoadCamGC";
 extern const f32 floor_load_cam_zero;
 
-u16 get_challenge_result_slot_index(void* p) { return *(u16*)((char*)p + 0x24); }
-void clear_player_hold_flag(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
-void set_player_hold_flag(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
+s32 TChallenge4PResult::get_slot_index() { return slot_index; }
+void clear_player_hold_flag(TObjPlayer *player) { player->state_flags &= ~0x40000000; }
+void set_player_hold_flag(TObjPlayer *player) { player->state_flags |= 0x40000000; }
 void TAdFloorLoadCamGC::render() {  }
 
 extern const f32 floor_load_cam_angle_units_per_degree = 182.04445f;

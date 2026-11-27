@@ -3,7 +3,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -58,7 +57,7 @@ SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
 
 #pragma push
 #pragma readonly_strings on
-const char *window_chat_symbol_name = "TWindowChatSymbol";
+const char *TWindowChatSymbol::class_name = "TWindowChatSymbol";
 #pragma pop
 
 extern const NJS_POINT2 symbol_chat_face_uv_table[4];
@@ -202,16 +201,16 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
     }
 }
 
-WindowSpritePart *get_shortcut_icon_entry(void *window, s32 sel) {
-    return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 0x1);
+WindowSpritePart *get_shortcut_icon_entry(TWindowBase *window, s32 sel) {
+    return (WindowSpritePart *)window->get_array_entry(sel + 0x1);
 }
 
 WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr index) {
     return (WindowSpritePart *)get_array_entry(index + 9);
 }
 
-WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
-    return (WindowSpritePart *)((TWindowBase *)window)->get_array_entry(sel + 5);
+WindowSpritePart *TWindowSubSymbolChatPartsSet::get_parts_entry(TWindowBase *window, int sel) {
+    return (WindowSpritePart *)window->get_array_entry(sel + 5);
 }
 extern "C" {
 
@@ -313,7 +312,7 @@ WindowDescriptor window_chat_symbol_settings = {
 };
 
 TWindowChatSymbol::TWindowChatSymbol(const NJS_POINT2 *position, const NJS_POINT2 *size) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)position) {
-    this->m_name = window_chat_symbol_name;
+    this->m_name = class_name;
     set_size((f32 *)size);
     this->selected_preset = 0;
     this->always_visible = 0;

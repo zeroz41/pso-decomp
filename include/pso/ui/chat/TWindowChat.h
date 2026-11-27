@@ -10,6 +10,7 @@ struct TWindowKeyBoardSoft;
 
 class TWindowChat : public TObject {
 public:
+    static const char *class_name;
     virtual void render();
     TWindowChat(TObject *object, void *result);
     virtual ~TWindowChat();

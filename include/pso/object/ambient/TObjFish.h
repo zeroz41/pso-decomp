@@ -6,6 +6,7 @@
 struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
+#include "pso/system/BmlResourceDescriptor.h"
 
 // One fish of a school (0x44 bytes; init_fish_school allocates fish_count of them at fish).
 struct TObjFishEntry {
@@ -53,4 +54,21 @@ LAYOUT_ASSERT(TObjFishEntry_timer_offset, offsetof(TObjFishEntry, timer) == 0x32
 LAYOUT_ASSERT(TObjFishEntry_seen_offset, offsetof(TObjFishEntry, seen) == 0x34);
 LAYOUT_ASSERT(TObjFishEntry_mode_offset, offsetof(TObjFishEntry, mode) == 0x38);
 LAYOUT_ASSERT(TObjFish_size, sizeof(TObjFish) == 0xA4);
+
+// The placement record passed by object factory 0x220. Only these fields
+// are read by the fish constructor; the leading set metadata stays opaque.
+struct TObjFishSetData {
+    u8 metadata[0xC];
+    Vec position;
+    s32 rotation[3];
+    Vec scale;
+    s32 counts[3];
+};
+
+struct TObjFishAreaResource {
+    const char *models[4];
+    const char *motions[4];
+    BmlResourceDescriptor descriptor;
+};
+
 #endif

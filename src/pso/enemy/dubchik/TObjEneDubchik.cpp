@@ -30,18 +30,18 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGue.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/dubchik/TDubchikPart.h"
 #include "pso/enemy/dubchik/TDubchikShot.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
@@ -55,6 +55,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern "C" {
 BmlResource *dubchik_resource;
@@ -71,7 +72,7 @@ TBreakUpMdlData *breakup_model_ptr;
 
 extern "C" {
 
-// What TLobby::register_boss / dispatch_shared_handler_b / register_object / dispatch_shared_handler_a
+// What register_boss / dispatch_shared_handler_b / register_object / dispatch_shared_handler_a
 // (0x1B + variant) return; the behavior table spans 0x50 bytes in the original, only [0] and [1] are read.
 __declspec(section ".data") player_stats *dubchik_base_params_by_variant[2];
 __declspec(section ".data") AttackParams *dubchik_attack_params_by_variant[2];
@@ -213,7 +214,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;
     variant = set_data_enemyplacement->variant ? 1 : 0;
-    state36C = set_data_enemyplacement->unknown3e;
+    state36C = set_data_enemyplacement->state;
     init_level_stats(variant);
     action_table = dubchik_action_table;
     set_action_table(action_table);
@@ -312,10 +313,10 @@ void TObjEneDubchik::load_resources() {
     t[1] = p;
     t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
-        dubchik_base_params_by_variant[i] = TLobby::register_boss(i + 0x1B);
-        dubchik_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(i + 0x1B);
-        dubchik_resistance_params_by_variant[i] = TLobby::register_object(i + 0x1B);
-        dubchik_behavior_params_by_variant[i] = (TObjEneDubchikBehaviorParams *)TLobby::dispatch_shared_handler_a(i + 0x1B);
+        dubchik_base_params_by_variant[i] = register_boss(i + 0x1B);
+        dubchik_attack_params_by_variant[i] = dispatch_shared_handler_b(i + 0x1B);
+        dubchik_resistance_params_by_variant[i] = register_object(i + 0x1B);
+        dubchik_behavior_params_by_variant[i] = (TObjEneDubchikBehaviorParams *)dispatch_shared_handler_a(i + 0x1B);
     }
     mdl = dubchik_resource->models[0].model;
     for (i = 0; i < 3; i++) {

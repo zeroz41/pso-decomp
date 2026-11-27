@@ -2,9 +2,10 @@
 #define PSO_OBJECT_CONTAINER_TOCONTAINERANCIENTENEMY_H
 
 #include "types.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
-struct TOContainerAncientEnemy : public TObjContainerCommon {
+struct TOContainerAncientEnemy : public TObjContainerBase {
     TOContainerAncientEnemy(void *set_data);
     virtual ~TOContainerAncientEnemy();
     virtual void debug_print_item_box_info();
@@ -17,5 +18,10 @@ struct TOContainerAncientEnemy : public TObjContainerCommon {
 
 LAYOUT_ASSERT(TOContainerAncientEnemy_size, sizeof(TOContainerAncientEnemy) == 0x368);
 void free_ancient_container_resources(void);
+
+struct AncientContainerBml {
+    const char *model_filenames[4];
+    BmlResourceDescriptor descriptor;
+};
 
 #endif

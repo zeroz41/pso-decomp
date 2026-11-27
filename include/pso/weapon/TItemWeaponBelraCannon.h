@@ -17,7 +17,7 @@ public:
 
 // Timer callback: lets the cannon shoot again.
 void belra_cannon_return_timer(TItemWeaponBelraCannon *weapon);
-u32 belra_cannon_create_extra_shot(TItemWeapon *player, s32 pos, s32 dir, f32 life);
-saddr belra_cannon_create_shot(TItemWeapon *owner, s32 pos, s32 dir, f32 life);
+TItemShoot *belra_cannon_create_extra_shot(TItemWeapon *player, const Vec *pos, const Vec *dir, f32 life);
+TItemShoot *belra_cannon_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
 
 #endif

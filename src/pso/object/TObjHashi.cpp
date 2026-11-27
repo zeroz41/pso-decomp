@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/collision/TObjInfoCol.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/ActorCollision.h"
@@ -22,7 +22,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 // The unit's .sdata2 float pool is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no
@@ -95,10 +95,8 @@ void set_handle_6x78_entry(u16 index, s32 value) {
     }
 }
 
-void handle_6x78(void *packet) {
-    G_Unknown_6x78 *cmd = (G_Unknown_6x78 *)packet;
-    // The packet's byte swap is still filed under TObjInfoCol (the next unit).
-    ((TObjInfoCol *)cmd)->bswap_6x78();
+void handle_6x78(G_Unknown_6x78 *cmd) {
+    cmd->bswap();
     if (get_handle_6x78_entry(cmd->client_id) != 0) {
         set_handle_6x78_entry(cmd->client_id, 0);
         return;

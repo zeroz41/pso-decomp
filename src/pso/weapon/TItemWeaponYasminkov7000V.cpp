@@ -19,7 +19,7 @@ void TItemWeaponYasminkov7000V::transform_model_node() { if (get_model_node_coun
 #pragma opt_common_subs off
 
 void TItemWeaponYasminkov7000V::update_weapon() {
-    f32 casing_velocity[3];
+    Vec casing_velocity;
     s32 casing_angles[3];
     s32 angle;
     switch (this->state) {
@@ -42,13 +42,13 @@ void TItemWeaponYasminkov7000V::update_weapon() {
     case 3:
         this->state = 1;
         angle = this->owner->rotation_y - 0x4000;
-        casing_velocity[0] = sin_table_lookup(angle);
-        casing_velocity[1] = 1.0f;
-        casing_velocity[2] = cos_table_lookup(angle);
+        casing_velocity.x = sin_table_lookup(angle);
+        casing_velocity.y = 1.0f;
+        casing_velocity.z = cos_table_lookup(angle);
         casing_angles[0] = 0x4000;
         casing_angles[1] = this->owner->rotation_y;
         casing_angles[2] = 0;
-        TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr) this, 2, (uaddr) &casing_velocity[0], (uaddr) &casing_angles[0]);
+        TObjPlayer::launch_weapon_casing(tl_05, (uaddr) this, 2, &casing_velocity, &casing_angles[0]);
         break;
     }
 }

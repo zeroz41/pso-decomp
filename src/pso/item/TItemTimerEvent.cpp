@@ -30,7 +30,6 @@ const char TItemTimerEvent::class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent::class_name = TItemTimerEvent::class_name_string;
 
 
-
 void TObjPlayer::set_state_flags(u32 v) { state_flags |= v; }
 
 void TObjPlayer::set_flag_10000() {
@@ -44,7 +43,7 @@ void TObjPlayer::clear_state_flags(s32 mask) {
 }
 
 void clear_timer_flag_unless_android(TObjPlayer *player) {
-    if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
+    if (!(player->appearance.classFlags & CLASS_FLAG_ANDROID)) {
         player->clear_state_flags(0x10000);
     }
 }
@@ -59,16 +58,16 @@ void TItemTimerEvent::clear_active() {
 }
 
 void TItemTimerEvent::notify_if_active(int client) {
-    uaddr player;
-    if ((player = ((uaddr)get_player_by_client_id((u16)client))) != 0U) {
-        ((TObjPlayer *)player)->set_flag_10000();
+    TObjPlayer *player;
+    if ((player = get_player_by_client_id((u16)client)) != NULL) {
+        player->set_flag_10000();
     }
 }
 
 void TItemTimerEvent::check_battle_ctrl(int client) {
-    uaddr player = (uaddr)get_player_by_client_id((u16)client);
-    if (player != 0U) {
-        clear_timer_flag_unless_android((TObjPlayer *)player);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        clear_timer_flag_unless_android(player);
     }
 }
 
@@ -116,8 +115,8 @@ TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period
 TItemTimerEvent::~TItemTimerEvent() {}
 
 void TItemTimerEvent::run_task() {
-    this->player = (uaddr)get_player_by_client_id((u16)this->client_id);
-    if ((u32) this->player == 0U) {
+    this->player = get_player_by_client_id((u16)this->client_id);
+    if (this->player == NULL) {
         queue_destruction();
         return;
     }
@@ -134,54 +133,54 @@ void TItemTimerEvent::advance_timer() {
 }
 
 void TItemTimerEventHpDrain::advance_timer() {
-    if (((TObjPlayer *)this->player)->test_action_mask(0x1C) != 0) {
+    if (this->player->test_action_mask(0x1C) != 0) {
         this->elapsed = (this->elapsed + 1);
     }
 }
 
 void TItemTimerEventHpDrain::apply_effect() {
-        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
-        subtract_actor_hp((TObjChara *)this->player, 1);
+        if ((is_item_area_enabled(this->player->get_area()) == 1) && (this->player->obj_isState3_324() == 0) && (this->player->test_actor_flags(0x800) == 0)) {
+        subtract_actor_hp(this->player, 1);
     }
 }
 
 void TItemTimerEventTpDrain::advance_timer() {
-    if (((TObjPlayer *)this->player)->test_action_mask(0x1C) != 0) {
+    if (this->player->test_action_mask(0x1C) != 0) {
         this->elapsed = (this->elapsed + 1);
     }
 }
 
 void TItemTimerEventTpDrain::apply_effect() {
-        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
-        ((TObjChara *)(this->player))->subtract_actor_tp(1);
+        if ((is_item_area_enabled(this->player->get_area()) == 1) && (this->player->obj_isState3_324() == 0) && (this->player->test_actor_flags(0x800) == 0)) {
+        this->player->subtract_actor_tp(1);
     }
 }
 
 void TItemTimerEventHpRegen::apply_effect() {
-    if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
-        add_actor_hp((TObjChara *)this->player, 1);
+    if (this->player->test_actor_flags(0x800) == 0) {
+        add_actor_hp(this->player, 1);
     }
 }
 
 void TItemTimerEventTpRegen::apply_effect() {
-    if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
-        add_actor_tp((TObjChara *)this->player, 1);
+    if (this->player->test_actor_flags(0x800) == 0) {
+        add_actor_tp(this->player, 1);
     }
 }
 
 void TItemTimerEventPbCharge::apply_effect() {
-    if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
-        ((TObjChara *)this->player)->gain_photon_blast_charge(1.0f);
+    if (this->player->test_actor_flags(0x800) == 0) {
+        this->player->gain_photon_blast_charge(1.0f);
     }
 }
 
 void TItemTimerEventFreezeCurse::apply_effect() {
 
-    if (((TObjChara *)(this->player))->obj_isState2_324() == 0) {
-        if (((TObjPlayer *)this->player)->is_actor_dead() == 0) {
-                        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->chance)) {
-                ((TObjPlayer *)this->player)->apply_movement_ailment(0);
-                ((TObjPlayer *)this->player)->sync_enemy_state(0);
+    if (this->player->obj_isState2_324() == 0) {
+        if (this->player->is_actor_dead() == 0) {
+                        if ((is_item_area_enabled(this->player->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->chance)) {
+                this->player->apply_movement_ailment(0);
+                this->player->sync_enemy_state(0);
             }
         }
     }
@@ -190,49 +189,40 @@ void TItemTimerEventFreezeCurse::apply_effect() {
 void TItemTimerEventArmorParticle::apply_effect() {
     TParticleCtrl *particle;
 
-    if ((((TObjPlayer *)this->player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->player))->is_flag_20000_set() == 0)) {
-                if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjCollidable *)((void *)this->player))->test_actor_flags(0x800) == 0)) {
-            particle = spawn_particle_effect_with_flags((const Vec *)(this->player + 0x2FC), this->particle_id, 0x10);
+    if ((this->player->is_body_collision_inactive() == 0) && (this->player->is_flag_20000_set() == 0)) {
+                if ((is_item_area_enabled(this->player->get_area()) == 1) && (this->player->test_actor_flags(0x800) == 0)) {
+            particle = spawn_particle_effect_with_flags(&this->player->body_center, this->particle_id, 0x10);
             if (particle != 0) {
-                particle->set_owner_id(((TObjBase *)this->player)->get_entity_id());
+                particle->set_owner_id(this->player->get_entity_id());
             }
         }
     }
 }
 
 void TItemTimerEventSlowCurse::apply_effect() {
-    CurseTimerView *timer = (CurseTimerView *)this;
-    StatusRequest a;
-        if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
-        a.k1 = 0x11;
-        a.v2 = 0.0f;
-        a.k2 = 0x11;
-        a.v1 = *(s32 *)&a.v2;
-        timer->obj->m21(timer->obj, &a, 0, -1, -1);
+    DirectAttackPayload attack;
+    if (is_item_area_enabled(player->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < chance) {
+        attack.kind = 0x11;
+        attack.power = 0.0f;
+        player->receive_direct_attack(player, attack, NULL, -1, -1);
     }
 }
 
 void TItemTimerEventConfusionCurse::apply_effect() {
-    CurseTimerView *timer = (CurseTimerView *)this;
-    StatusRequest a;
-        if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
-        a.k1 = 0x12;
-        a.v2 = 0.0f;
-        a.k2 = 0x12;
-        a.v1 = *(s32 *)&a.v2;
-        timer->obj->m21(timer->obj, &a, 0, -1, -1);
+    DirectAttackPayload attack;
+    if (is_item_area_enabled(player->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < chance) {
+        attack.kind = 0x12;
+        attack.power = 0.0f;
+        player->receive_direct_attack(player, attack, NULL, -1, -1);
     }
 }
 
 void TItemTimerEventParalysisCurse::apply_effect() {
-    CurseTimerView *timer = (CurseTimerView *)this;
-    StatusRequest a;
-        if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
-        a.k1 = 0x10;
-        a.v2 = 0.0f;
-        a.k2 = 0x10;
-        a.v1 = *(s32 *)&a.v2;
-        timer->obj->m21(timer->obj, &a, 0, -1, -1);
+    DirectAttackPayload attack;
+    if (is_item_area_enabled(player->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < chance) {
+        attack.kind = 0x10;
+        attack.power = 0.0f;
+        player->receive_direct_attack(player, attack, NULL, -1, -1);
     }
 }
 

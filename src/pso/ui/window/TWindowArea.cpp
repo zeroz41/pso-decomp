@@ -2,8 +2,8 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowArea.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -41,7 +41,7 @@ TWindowArea *create_window_area() {
     TWindowArea *object;
     WindowTextEntry *title_entry;
     object = new TWindowArea();
-    hide_window((u8 *)object);
+    hide_window(object);
     update_area_count_text(object);
     title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
     title_entry->x = 80.0f - 0.5f * (f32) calc_text_width(title_entry->get_text());
@@ -56,7 +56,7 @@ TWindowArea *create_area_window(const char *text) {
     WindowTextEntry *title_entry;
     object = new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value(text);
-    hide_window((u8 *)object);
+    hide_window(object);
     title_entry = static_cast<WindowTextEntry *>(object->get_title_entry());
     title_entry->x = 80.0f - 0.5f * (f32) calc_text_width((char *)text);
     return object;

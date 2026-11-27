@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdTitleGC.h"

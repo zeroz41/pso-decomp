@@ -20,7 +20,7 @@ public:
     Vec pos;
     Vec prev_pos;   // where the last wall check (every 4th frame) started
     Vec velocity;   // 7 units a frame along the shooter's heading
-    u8 unk_40[0x18];
+    u8 pad_40[0x18];
     f32 distance;   // how far it has flown
     TParticleCtrl *particle;
     s32 frame;

@@ -3,8 +3,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -12,7 +12,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fe_obj_o_capsule01_model_names[2] = { "fe_obj_o_capsule01.gj", NULL };
 const char *bm_fe_obj_o_capsule01_motion_names[1] = { NULL };

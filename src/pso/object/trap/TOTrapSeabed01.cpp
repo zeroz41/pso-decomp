@@ -12,20 +12,20 @@
 #include "pso/object/TObjChip.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
@@ -46,13 +46,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// One fragment chip play_sounds throws when the trap breaks: model index,
-// position in the trap's frame and the chip's y angle.
-struct SeabedTrapFragmentSpawn {
-    s32 model;
-    Vec pos;
-    s32 angle_y;
-};
 
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",
@@ -363,7 +356,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     TObjChara *chara;
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
+        if (TObjPlayer::is_valid_and_active(chara) != 0 &&
             chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {

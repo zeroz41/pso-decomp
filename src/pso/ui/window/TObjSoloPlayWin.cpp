@@ -16,7 +16,7 @@
 #include "pso/network/client_id.h"
 
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
-const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
+const char *TObjSoloPlayWin::class_name = TObjSoloPlayWin_class_name;
 __declspec(section ".data") float solo_play_result_window_extent[2] = {240.0f, 180.0f};
 
 s32 TObjSoloPlayWin::has_at_most_one_player() {
@@ -72,7 +72,7 @@ void TObjSoloPlayWin::run_task() {
 }
 TObjSoloPlayWin::~TObjSoloPlayWin() {}
 TObjSoloPlayWin::TObjSoloPlayWin(TObject* parent) : TObject(parent) {
-    m_name = TObjSoloPlayWin_name;
+    m_name = class_name;
     m_result_window = 0;
     m_state = 0;
 }

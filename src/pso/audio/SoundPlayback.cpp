@@ -8,7 +8,7 @@
 #include "pso/audio/SoundPlayback.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/audio/SoundControlState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
@@ -25,8 +25,9 @@ void update_voice_stream_mix(AdxtPlayer *tracks) {
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby_803382E4.h"
+#include "pso/ui/LoadingInfoIcon.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
 
@@ -60,14 +61,14 @@ void handle_6xB2_play_sound_from_player(game_command_header *header) {
     }
 }
 
-s32 TLobby::is_camera_state_active() {
+s32 is_camera_state_active() {
     if ((TCameraCtrl::get_active_controller() == 5) || (TCameraCtrl::get_active_controller() == 9)) {
         return 1;
     }
     return 0;
 }
 
-void TLobby::set_mode(s32 mode) {
+void apply_sound_output_mode(s32 mode) {
     switch (mode) {
     case 0:
         adxt_set_output_mono(1);
@@ -87,7 +88,7 @@ s32 get_sound_voice_volume_adjustment(void) {
     return sound_control_state.get_voice_volume_adjustment();
 }
 
-void TLobby::set_menu_index_main(s32 index) {
+void set_menu_index_main(s32 index) {
     sound_control_state.set_voice_volume_adjustment(index);
 }
 
@@ -139,7 +140,7 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
     return -1;
 }
 
-s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options) {
+s32 play_packed_sound_once(u32 id, const Vec *position, s32 offset, s32 options) {
     s32 r;
     s32 m;
     s32 flags;
@@ -174,7 +175,7 @@ s32 play_packed_sound_once(u32 id, saddr position, s32 offset, s32 options) {
     }
     m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
-        h = alloc_one_shot_sound_slot(m, reinterpret_cast<const Vec *>(position), r, flags);
+        h = alloc_one_shot_sound_slot(m, position, r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
         }
@@ -190,6 +191,7 @@ void is_sound_enabled(void) {
 
 
 extern "C" {
+
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,
     5, 7, 9, -1, 10, 11, 1, 14, 14, 15, 15, 12,
@@ -200,9 +202,11 @@ extern const f32 floor_sound_bank_volume_table[36] = {
     0.4f, 0.0f, 0.2f, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.05f, 0.05f, 0.1f,
     0.1f, 0.1f, 0.1f, 0.1f, 0.5f, 0.5f, 0.1f, 0.5f, 0.0f, 0.1f, 0.1f, 0.2f,
 };
+}
 
-void TLobby::refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
+void refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
 
+extern "C" {
 void load_floor_sound_bank(s32 floor) {
     s32 bank;
 
@@ -214,9 +218,9 @@ void load_floor_sound_bank(s32 floor) {
             }
             sound_control_state.validate_and_set_selection(bank);
             do {
-                TLobby::run_disk_error_check();
+                run_disk_error_check();
                 exec_adx_server();
-                TLobby::run_frame();
+                run_frame();
             } while (sound_control_state.is_ready() == 0);
             enable_sound_requests(0);
         }
@@ -226,22 +230,22 @@ void load_floor_sound_bank(s32 floor) {
 }
 
 void run_sound_retrace(void) {
-    sound_retrace_stub(&sound_control_state);
+    sound_control_state.sound_retrace_stub();
 }
 
 void update_global_sound_frame(void) {
-    update_sound_frame(&sound_control_state);
+    sound_control_state.update_sound_frame();
 }
 void reset_sound_control_state(void) {
     sound_control_state.reset_sound_state();
 }
 
-void TLobby::wait_for_sound_init() {
-    init_sound_aux_effects(&sound_control_state);
+void wait_for_sound_init() {
+    sound_control_state.init_sound_aux_effects();
     sound_control_state.validate_and_set_selection(0);
     do {
         draw_loading_compass();
-        TLobby::run_disk_error_check();
+        run_disk_error_check();
         exec_adx_server();
         render_tick();
     } while (((s32 (*)())is_sound_enabled)() == 0);

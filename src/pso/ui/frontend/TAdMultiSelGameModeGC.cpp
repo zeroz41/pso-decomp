@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
@@ -49,20 +49,13 @@ void apply_multi_sel_rule(void) {
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
+#include "pso/map/FloorMapSelection.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*StateAction)();
 
 
-struct Float8 { f32 v[8]; };
-
-struct Float2 { f32 v[2]; };
-
 saddr multi_sel_episode;
-
-typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
-
-typedef struct Int3 { s32 v[3]; } Int3;
 
 
 static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
@@ -71,7 +64,7 @@ static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
 };
 const char *TAdMultiSelGameModeGC::name = "TAdMultiSelGameModeGC";
 extern Point3 multi_sel_game_mode_position;
-extern Int3 lbl_80474EEC;
+extern Int3 multi_sel_game_mode_entry_ids;
 extern Int3 multi_sel_game_mode_arr3;
 
 void TAdMultiSelGameModeGC::render() {  }
@@ -102,7 +95,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     counts[1] = 3;
     counts[2] = 2;
     {
-    Int3 a = lbl_80474EEC;
+    Int3 a = multi_sel_game_mode_entry_ids;
     Int3 b = multi_sel_game_mode_arr3;
     n = counts[menu];
     r = create_window_menu_default(&pos.p[menu], n);
@@ -164,7 +157,7 @@ void TAdMultiSelGameModeGC::run_state_2() {
             rule_text->reset_slots((TAdSelectTxtLayout *)&multi_sel_text_layouts[5], multi_sel_rule + 9);
             if (multi_sel_rule == 1 && multi_sel_episode == 1) {
                 multi_sel_episode = 0;
-                TAdStorySelectGC::set_state(0);
+                select_episode(0);
                 episode_text->reset_slots((TAdSelectTxtLayout *)&multi_sel_text_layouts[6], multi_sel_episode + 4);
             }
             if (multi_sel_rule == 2 && game_difficulty_selection != 0) {
@@ -183,11 +176,11 @@ void TAdMultiSelGameModeGC::run_state_2() {
             switch (menu->get_selected_value()) {
             case 0:
                 multi_sel_episode = 0;
-                TAdStorySelectGC::set_state(0);
+                select_episode(0);
                 break;
             case 1:
                 multi_sel_episode = 1;
-                TAdStorySelectGC::set_state(1);
+                select_episode(1);
                 break;
             }
             episode_text->reset_slots((TAdSelectTxtLayout *)&multi_sel_text_layouts[6], multi_sel_episode + 4);
@@ -284,10 +277,10 @@ TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObjec
     }
     switch (multi_sel_episode) {
     case 0:
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         break;
     case 1:
-        TAdStorySelectGC::set_state(1);
+        select_episode(1);
         break;
     }
     new TAdBackGC(this);
@@ -325,5 +318,5 @@ TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObjec
 #pragma pool_data reset
 
 __declspec(section ".rodata") Point3 multi_sel_game_mode_position = { 364.0f, 145.0f, 340.0f, 197.0f, 318.0f, 250.0f };
-__declspec(section ".rodata") Int3 lbl_80474EEC = { 0 };
+__declspec(section ".rodata") Int3 multi_sel_game_mode_entry_ids = { 0 };
 __declspec(section ".rodata") Int3 multi_sel_game_mode_arr3 = { 0x4, 0x8, 0xB };

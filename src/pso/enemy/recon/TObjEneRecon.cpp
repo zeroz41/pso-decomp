@@ -7,16 +7,16 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -52,7 +52,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -273,7 +274,7 @@ void TObjEneRecon::handle_message(s32 message) {
         recon_flags |= 1;
         recon_flags &= ~2;
         if ((box = (TObjEneRecobox *)find_entity_by_id(owner_id)) != NULL) {
-            box->remove_child_entity((u8 *)this);
+            box->remove_child_entity(this);
         }
         break;
     case 5:
@@ -697,7 +698,7 @@ void TObjEneRecon::state_attack(s32 reason) {
             if (hit_window == 1) {
                 for (i = 0; i < entity_table_count; i++) {
                     p = TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->is_actor_dead() == 0) {
+                    if (TObjPlayer::is_valid_and_active(p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->is_actor_dead() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);
                         if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;
@@ -1096,10 +1097,10 @@ void TObjEneRecon::load_resources() {
   boss3_volopt_instance = new TBreakUpMdlData(recon_recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
-  recon_base_params = TLobby::register_boss(0x42);
-  recon_attack_params = TLobby::dispatch_shared_handler_b(0x42);
-  recon_resistance_params = TLobby::register_object(0x42);
-  recon_behavior_params = (ReconParams *)TLobby::dispatch_shared_handler_a(0x42);
+  recon_base_params = register_boss(0x42);
+  recon_attack_params = dispatch_shared_handler_b(0x42);
+  recon_resistance_params = register_object(0x42);
+  recon_behavior_params = (ReconParams *)dispatch_shared_handler_a(0x42);
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = recon_recobox_static_instance->motions;

@@ -13,10 +13,10 @@
 #include "pso/effect/TEffect.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/technique/TTecGrantsFlash.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecGrantsEffect.h"
 #include "pso/technique/TTimedSoundEffect.h"
@@ -37,9 +37,6 @@
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/technique/TTecGrantsTypes.h"
-
-// ---- pso/unk/text_80232934
 
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
@@ -48,21 +45,12 @@ extern "C" {
 
 void draw_ginja_object(void);
 
-// ---- pso/unk/text_80232AA4
-
 }
 
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
 NJS_TEXNAME grants_ring_texname[1];
 NJS_TEXLIST grants_ring_texlist = { grants_ring_texname, 1 };
-
-// ---- pso/unk/text_80232B24
-
-// ---- pso/unk/text_80232B7C
-
-
-
 
 
 // Per level tier (get_technique_level_tier): the particle emitters TTecGrantsEffect keeps alive and
@@ -123,12 +111,12 @@ void TTecGrants::run_task() {
         return;
     }
     entity = find_entity_by_id(targets.records[0].id);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0) && (frames == 0)) {
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (frames == 0)) {
         new TTecGrantsEffect(entity, level, tl_07);
     }
     frames = frames + 1;
     if (frames > 0x1E) {
-        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active((uaddr)entity) != 0)) {
+        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
             apply_to_target((TObjChara *)entity);
         }
         queue_destruction();
@@ -198,11 +186,6 @@ TTecGrantsEffect::TTecGrantsEffect(TObjBase *src, s32 level, TObject *parent) : 
         break;
     }
 }
-
-
-
-
-
 
 
 TTecGrantsEffect::~TTecGrantsEffect() {

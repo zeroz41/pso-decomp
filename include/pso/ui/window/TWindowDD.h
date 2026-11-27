@@ -32,6 +32,7 @@ extern TWindowDDStateEntry word_select_state_table[21];
 
 struct TWindowDD : public TObject
 {
+    static const char *class_name;
     static void * ws_data_fr;
     static TWindowDDValueList * ws_data_table;
     static TWindowDDValueList * ws_data_base;
@@ -152,8 +153,6 @@ struct TWindowDD : public TObject
     static void append_string(const char *str, char *buf, s32 *pos);
     static s32 get_draw_count(const NJS_TEXLIST *textures);
     static TWindowDDValueList *get_entry(s32 index);
-    static void init_ws_data_tables();
-    static s32 lookup_item_category(s32 item);
     void handle_confirm_input();
     void update_selection_state();
     static void update_draw(void *p);
@@ -195,6 +194,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void load_word_select_data(void);
+void ws_data_load(void);
 
 extern char *window_dd_buffer_a;
 extern char *window_dd_buffer_b;
@@ -254,11 +254,13 @@ struct WindowVertex;
 
 // Texture coordinates of the word-select quad sets, filled from window_dd_quad_positions.
 extern NJS_POINT2 word_select_quad_points[7][8];
+extern const NJS_POINT2 window_dd_quad_positions[7];
+extern const f32 window_dd_quad_scales[8];
 void set_frame_row_vertices_y(WindowDrawContext *context, WindowVertex *vertices, s32 row);
 void set_frame_column_vertices_x(WindowDrawContext *context, WindowVertex *vertices);
 f32 word_select_inverse_depth(f32 depth, f32 offset);
 const char *get_word_select_token_text(s16 id);
-void handle_6x74_word_select(u8 *window_dd);
+void handle_6x74_word_select(G_WordSelect_6x74 *cmd);
 
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
 struct WsRecentState {
@@ -272,7 +274,7 @@ struct WsRecentState {
 
 extern WsRecentState ws_recent_state;
 
-// Entry counts of TWindowDD::lookup_item_category's id lists (.sdata2, after the lists).
+// Entry counts of lookup_item_category's id lists (.sdata2, after the lists).
 extern const s32 category0_id_count;
 extern const s32 category2_id_count;
 extern const s32 category3_id_count;
@@ -351,5 +353,9 @@ extern const f32 word_label_depth;
 extern const f32 scroll_bar_depth;
 extern const f32 word_cursor_depth;
 extern const f32 mode_window_depth;
+
+void init_ws_data_tables();
+
+s32 lookup_item_category(s32 item);
 
 #endif

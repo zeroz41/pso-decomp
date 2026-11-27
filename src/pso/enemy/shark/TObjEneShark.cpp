@@ -28,14 +28,14 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -46,6 +46,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern player_stats **shark_resource_node;
 extern AttackParams **shark_resource_buf;
@@ -463,18 +464,18 @@ void TLobby::load_shark_resources() {
     shark_resource_buf = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*shark_resource_buf)));
     shark_resource_data = static_cast<ActorParamBlock **>(mem_alloc(3 * sizeof(*shark_resource_data)));
     shark_resource_buffer = static_cast<BattleMovementParams **>(mem_alloc(3 * sizeof(*shark_resource_buffer)));
-    shark_resource_node[0] = TLobby::register_boss(0x4F);
-    shark_resource_node[1] = TLobby::register_boss(0x50);
-    shark_resource_node[2] = TLobby::register_boss(0x51);
-    shark_resource_buf[0] = TLobby::dispatch_shared_handler_b(0x54);
-    shark_resource_buf[1] = TLobby::dispatch_shared_handler_b(0x55);
-    shark_resource_buf[2] = TLobby::dispatch_shared_handler_b(0x56);
-    shark_resource_data[0] = TLobby::register_object(0x4E);
-    shark_resource_data[1] = TLobby::register_object(0x4F);
-    shark_resource_data[2] = TLobby::register_object(0x50);
-    shark_resource_buffer[0] = TLobby::dispatch_shared_handler_a(0x4E);
-    shark_resource_buffer[1] = TLobby::dispatch_shared_handler_a(0x4F);
-    shark_resource_buffer[2] = TLobby::dispatch_shared_handler_a(0x50);
+    shark_resource_node[0] = register_boss(0x4F);
+    shark_resource_node[1] = register_boss(0x50);
+    shark_resource_node[2] = register_boss(0x51);
+    shark_resource_buf[0] = dispatch_shared_handler_b(0x54);
+    shark_resource_buf[1] = dispatch_shared_handler_b(0x55);
+    shark_resource_buf[2] = dispatch_shared_handler_b(0x56);
+    shark_resource_data[0] = register_object(0x4E);
+    shark_resource_data[1] = register_object(0x4F);
+    shark_resource_data[2] = register_object(0x50);
+    shark_resource_buffer[0] = dispatch_shared_handler_a(0x4E);
+    shark_resource_buffer[1] = dispatch_shared_handler_a(0x4F);
+    shark_resource_buffer[2] = dispatch_shared_handler_a(0x50);
     shark_render_node_index = 0;
     {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };

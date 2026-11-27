@@ -5,10 +5,8 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -25,6 +23,7 @@
 #include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/audio/MusicControl.h"
 
 void TAdDialingSelectGC::run_task() {
     Vec pos = {0.0f, 0.0f, 0.0f};
@@ -105,7 +104,7 @@ void TAdDialingSelectGC::run_task() {
 }
 
 TAdDialingSelectGC::~TAdDialingSelectGC() {
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     if (this->card != NULL) {
         this->card->queue_destruction();
         this->card = NULL;

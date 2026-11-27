@@ -31,7 +31,7 @@ TItemWeaponAgito::TItemWeaponAgito(TObject *parent, u8 *item) : TItemWeapon(pare
     set_weapon_flags(2);
     if (get_item_index() == 0) {
         set_weapon_flags(0x20);
-        shot_callback = (WeaponShotCallback)create_lavis_shot;
+        shot_callback = create_lavis_shot;
         shot_speed = 10.0f;
     }
 }

@@ -2,6 +2,8 @@
 #define PSO_UI_FRONTEND_TADSELECTGAMEMODEGC_H
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 
 class TAdSelectCurGC;
 class TAdGuideTxtGC;
@@ -26,5 +28,10 @@ public:
 
 LAYOUT_ASSERT(TAdSelectGameModeGC_size, sizeof(TAdSelectGameModeGC) == 0x24);
 
+int on_local_player_created(void *p);
+
+struct SelectGameModeButtonRects { NJS_POINT2 x[2]; };
+
+struct SelectGameModeTextLayouts { TAdSelectTxtLayout t[2]; };
 
 #endif

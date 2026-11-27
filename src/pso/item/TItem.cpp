@@ -27,7 +27,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TGameProtocol.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -43,12 +43,11 @@
 #include "pso/system/THeap.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80104F4C.h"
+#include "pso/item/item_create.h"
+#include "pso/item/item_pmt.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_801036CC.h"
-#include "pso/unk/text_801057A8.h"
-#include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/data/FlagWord.h"
@@ -62,7 +61,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include <dolphin/base/PPCArch.h>
@@ -72,9 +71,8 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 
 #include "pso/effect/TEffIndirectSampler.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/item/item_create.h"
 
 
 // The two colours of the present box, by wrapping colour (box_color).
@@ -133,8 +131,8 @@ void FloorItem::clear() {
     source_type = 0;
     floor = -1;
     entity_index = -1;
-    pos.x = 0.0f;
-    pos.z = 0.0f;
+    x = 0.0f;
+    z = 0.0f;
     room_id = -1;
     drop_number = 0;
     item.init();
@@ -348,25 +346,27 @@ void *TItem::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
 TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
+    TItemData *data = (TItemData *)item;
+
     m_name = TItem::name;
     set_actor_flags(0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
     set_collision_body(&collision_body);
     owner_client_id = 0xFFFF;
-    item_id = ((TItemData *)item)->id;
+    item_id = data->id;
     item_flags = 0;
     pickup_wait_frames = 0;
     model_node_callback = 0;
-    item_type = item[0];
-    item_group = item[1];
-    item_index = item[2];
+    item_type = data->data1.data_u8[0];
+    item_group = data->data1.data_u8[1];
+    item_index = data->data1.data_u8[2];
     owner = NULL;
     item_model = NULL;
     kill_count = 0;
-    apply_item_flags((TItemData *)item);
-    box_color = ((TItemData *)item)->get_type_nibble();
-    if (TItemData::is_rare_item(item) != 0) {
+    apply_item_flags(data);
+    box_color = data->get_type_nibble();
+    if (data->is_rare_item() != 0) {
         set_drop_model(4);
     } else {
         set_drop_model(item_type_drop_models[clamp_s32(get_item_type(), 0, 4)]);
@@ -528,9 +528,9 @@ void handle_6x59_pick_up_item(G_PickUpItem_6x59 *cmd) {
                 item->send_field_state(floor, player);
             }
         } else {
-            FloorItemEntry *entry = find_item_condition(floor, cmd->item_id);
+            FloorItem *entry = find_item_condition(floor, cmd->item_id);
             if (entry != NULL) {
-                TItemData *data = &entry->data;
+                TItemData *data = &entry->item;
                 if (data->data1.data_u8[0] == 4) {
                     TItem *created = create_item(data);
                     if (created != NULL) {
@@ -593,8 +593,8 @@ void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
     if (get_floor_area(cmd->floor) != 15) {
         FloorItem drop;
         drop.floor = cmd->floor;
-        drop.pos.x = cmd->pos.x;
-        drop.pos.z = cmd->pos.z;
+        drop.x = cmd->pos.x;
+        drop.z = cmd->pos.z;
         drop.room_id = cmd->room_id;
         drop.item.copy_from(&cmd->item_data);
         if (cmd->header.size * 4 == sizeof(G_DropStackedItem_DC_6x5D)) {
@@ -981,13 +981,13 @@ void TItem::destroy() {
 s32 TItem::is_rare_item() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData::is_rare_item(&data);
+    return data.is_rare_item();
 }
 
 s32 TItem::is_custom_name_srank() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData::is_custom_name_srank(&data);
+    return data.is_custom_name_srank();
 }
 
 void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
@@ -1532,11 +1532,11 @@ void TItem::render_owned() {}
 void TItem::render_following_owner() {}
 
 void TItem::apply_item_flags(TItemData *data) {
-    if (TItemData::is_usable(data) != 0) {
+    if (data->is_usable() != 0) {
         item_flags |= ITEM_FLAG_KILL_COUNTER;
         kill_count = data->get_packed_value();
     }
-    if (TItemData::is_wrapped(data) != 0) {
+    if (data->is_wrapped() != 0) {
         item_flags |= ITEM_FLAG_WRAPPED;
     }
 }
@@ -1561,12 +1561,12 @@ void TItem::use_combination_recipe() {
     if (owner != NULL) {
         copy_to_item_data(&data);
         TItem *target = find_unique_combination_target(owner, &data);
-        u8 *recipe = (u8 *)find_eligible_combination_recipe((saddr)owner, (u8 *)&data);
+        ItemCombination *recipe = find_eligible_combination_recipe(owner, &data);
         if (recipe != NULL && target != NULL) {
             result.init();
-            result.data1.data_u8[0] = recipe[6];
-            result.data1.data_u8[1] = recipe[7];
-            result.data1.data_u8[2] = recipe[8];
+            result.data1.data_u8[0] = recipe->result_item[0];
+            result.data1.data_u8[1] = recipe->result_item[1];
+            result.data1.data_u8[2] = recipe->result_item[2];
             int had_flag_80 = target->is_at_tekker();
             s32 target_id = target->get_item_id();
             replace_item_with_new_code(&result, target);

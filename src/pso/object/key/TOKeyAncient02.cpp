@@ -6,7 +6,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient02.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -15,7 +15,7 @@
 #include "pso/render/GinjaModel.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 const char *bm_fs_obj_o_doorswitch01_model_names[] = {"ds_obj_o_doorswitch01_glass.gj", "fs_obj_o_doorswitch01.gj", NULL};
 const char *bm_fs_obj_o_doorswitch01_motion_names[] = {NULL};

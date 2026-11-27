@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -6,7 +7,7 @@
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -23,12 +24,12 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
@@ -40,9 +41,10 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -335,7 +337,7 @@ TBoss6Mine::~TBoss6Mine() {
 #pragma push
 #pragma fp_contract on
 TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy(parent) {
-    TBoss6MineStateRecord record;
+    EnemyStateRecord record;
     f32 f;
     m_name = TBoss6Mine::class_name;
     owner = set_data->owner;
@@ -347,7 +349,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     apply_set_data(set_data);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     scene_archive = TBoss6PlotFalz::get_scene_archive();
@@ -360,7 +362,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2D), TLobby::dispatch_shared_handler_b(0x2D), TLobby::register_object(0x2D));
+    bind_enemy_combat_stats(register_boss(0x2D), dispatch_shared_handler_b(0x2D), register_object(0x2D));
     referenceHp = hp;
     register_by_id();
     set_param(0);
@@ -368,7 +370,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     spread_frames = 0x96 - rise_delay;
     arm_delay = (s32)(57.0f * next_random_float(&seed) + 3.0f);
     travel_distance = 80.0f * next_random_float(&seed) + 120.0f;
-    f = TLobby::dispatch_shared_handler_a(0x2D)->values.floats[0];
+    f = dispatch_shared_handler_a(0x2D)->values.floats[0];
     damage = f;
     if (0.0f == f) {
         damage = 0x14;

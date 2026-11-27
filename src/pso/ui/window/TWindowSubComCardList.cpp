@@ -8,10 +8,9 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/unk/text_80076E84.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/TextBuilder.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
@@ -25,11 +24,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/HeadingEntry.h"
-void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
+void TWindowSubComCardList::draw_card_list_selection(WindowDrawContext *window_key_board_soft) {
   s16 page_row;
   u16 *array_entry;
   if (!(actor_frame_tick & 0x10))
@@ -40,7 +39,7 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
       array_entry = (u16 *) this->get_array_entry((s32) page_row);
       if ((*array_entry) & 1)
       {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (TWindowLayoutRect *)array_entry, 1);
+        draw_selection_bar(window_key_board_soft, (TWindowLayoutRect *)array_entry, 1);
       }
     }
   }
@@ -109,7 +108,7 @@ void TWindowSubComCardList::render() {
         &this->entry_list,
         ctx);
     this->render_selected_entry(ctx);
-    this->draw_card_list_selection((u8 *)ctx);
+    this->draw_card_list_selection(ctx);
     if (this->heading != 0) {
         this->heading->render(ctx);
     }

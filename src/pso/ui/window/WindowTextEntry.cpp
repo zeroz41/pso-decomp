@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowDuelResult.h"

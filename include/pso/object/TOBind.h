@@ -14,7 +14,7 @@ struct TOBind : public TObjCollidable {
     virtual ~TOBind();
     void run_task_stub();
     void update_motion();
-    u8 unk_AC[0x4];
+    u8 pad_AC[0x4];
     u32 triggered;
     u32 index;
     f32 motion_frame;

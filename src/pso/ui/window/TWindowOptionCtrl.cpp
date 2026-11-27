@@ -8,12 +8,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/save/CharacterFile.h"
 #include "pso/system/TLanguage.h"
-#include "pso/unk/text_8023F160.h"
-#include "pso/unk/text_8036A3CC.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/audio/MusicUnlockFlags.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -34,10 +34,11 @@
 #include "pso/math/TMath.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowCheckBox.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/audio/SoundRequests.h"
 
 // The class name opens .rodata, then the menu window positions in this order, ahead of the
 // strings of the functions.
@@ -194,8 +195,8 @@ void TWindowOptionCtrl::run_task() {
                 flags &= ~2;
                 sub_menu->clear_cancelled();
             } else {
-                TLobby::stop_audio_streams();
-                TLobby::close_option_window();
+                stop_audio_streams();
+                close_option_window();
                 play_area_music("advr.adx");
                 state = 1;
                 break;
@@ -539,9 +540,9 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
 }
 
 void TWindowOptionCtrl::apply_and_close(s32 bgm_index) {
-    TLobby::stop_audio_streams();
-    TLobby::stop_audio_streams();
-    TLobby::close_option_window();
+    stop_audio_streams();
+    stop_audio_streams();
+    close_option_window();
     play_area_music(get_bgm_filename(bgm_index));
     this->flags = (u8) (this->flags | 2);
 }
@@ -549,16 +550,16 @@ void TWindowOptionCtrl::apply_and_close(s32 bgm_index) {
 void TWindowOptionCtrl::init_selection_indices() {
     s16 current_sound_mode;
 
-    current_sound_mode = TLobby::init_sound_mode();
+    current_sound_mode = init_sound_mode();
     saved_sound_mode = current_sound_mode;
     sound_mode = current_sound_mode;
 }
 
 void TWindowOptionCtrl::apply_selection_change() {
     if (saved_sound_mode != sound_mode) {
-        TLobby::stop_audio_streams();
-        TLobby::set_sound_output_mode(sound_mode);
-        TLobby::init_layout_positions();
+        stop_audio_streams();
+        set_sound_output_mode(sound_mode);
+        init_layout_positions();
     }
 }
 

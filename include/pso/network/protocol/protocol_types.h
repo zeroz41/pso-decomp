@@ -1,23 +1,9 @@
-/* PSO shared wire payload/header structs.
+/* The headers and records the game subcommands (subcmd_6x.h) share.
  *
- * Shared PSO wire-protocol structures for Episode I & II Plus (GameCube / V3).
- * These command/subcommand formats are identical between server and client by
- * definition, so they are safe to use to type the GameCube client decomp's
- * network handlers.
- *
- * Field names and byte offsets are derived from newserv
- * (fuzziqersoftware/newserv), an MIT-licensed PSO server reimplementation, via
- * tools/newserv_match.py. newserv is MIT (Copyright (c) 2024 Martin Michelsen);
- * its LICENSE is bundled at reference/newserv-LICENSE and permits this reuse.
- *
- * The decomp's own integer types (u8/u16/u32/s8/s16/s32/f32 ...) replace
- * newserv's phosg le_/be_ wire-endian wrappers; on the big-endian PowerPC
- * client these are plain scalars. The `size 0xNN` trailer reflects newserv's
- * static_assert/check_struct_size (0 computed-vs-declared mismatches at
- * generation time). V3/GC-relevant structs are kept; BB/DC/Ep3/XB-only
- * variants are skipped.
- *
- * GENERATED — verify offsets against the DOL before relying on a field.
+ * The layouts started from newserv (MIT licence, Copyright (c) 2024 Martin Michelsen; see
+ * third_party/LICENSES/newserv-MIT.txt). Where our code uses a type, its names and size follow our
+ * code; each struct says whether it is used. Our integer types replace newserv's little-endian
+ * wrappers; the senders and handlers swap the bytes.
  */
 
 #ifndef PSO_PROTOCOL_TYPES_H
@@ -27,17 +13,21 @@
 #include <dolphin/mtx.h>
 #include "pso/item/TItemData.h"
 
+// An x/z position on the floor, as the movement and drop subcommands carry it.
 struct VectorXZF {
  f32 x;
  f32 z;
  void bswap();
 };
 
+// An item lying on the floor: its floor, position, room, drop number and the item. Used by our code
+// (TItem, FloorItemSync).
 struct FloorItem {
  s8 floor;
  u8 source_type;
  s16 entity_index;
- struct VectorXZF pos;
+ f32 x;
+ f32 z;
  s16 room_id;
  u16 drop_number;
  TItemData item;
@@ -45,6 +35,8 @@ struct FloorItem {
  void clear();
 };
 
+// The header of most game subcommands: the subcommand, its size in 4-byte words and the client it
+// is about. Used by our code.
 struct G_ClientIDHeader {
  u8 subcommand;
  u8 size;
@@ -56,10 +48,8 @@ struct G_ClientIDHeader {
 };
 
 // Header helpers every 6x packet's send and operator= call with the packet itself.
-extern "C" {
 void bswap_g_client_id_header(void *header);
 void assign_subcommand_header(void *dst, void *src);
-}
 void *copy_subcommand_header(void *dst, const void *src);
 
 // 6x05: a floor switch was set or cleared (TOKey's TU sends and handles it).
@@ -75,78 +65,31 @@ struct G_SwitchStateChanged_6x05 {
  void bswap();
 };
 
+// The header of subcommands about an enemy or object instead of a client. Used by our code (the
+// Vol Opt packets).
 struct G_EntityIDHeader {
  u8 subcommand;
  u8 size;
  u16 entity_id;
 };
 
+// A subcommand header whose third field is a parameter. Used by our code (dispatch_6x_subcommand).
 struct G_ParameterHeader {
  u8 subcommand;
  u8 size;
  u16 param;
 };
 
+// A subcommand header whose third field is not used. Used by our code.
 struct G_UnusedHeader {
  u8 subcommand;
  u8 size;
  u16 unused;
 };
 
-struct GuildCardPC {
- u32 player_tag;
- u32 guild_card_number;
- char name[0x30];
- char description[0xB4];
- u8 present;
- u8 language[0x1];
- u8 section_id;
- u8 char_class;
-};
+// A player's records: our code carries them as TPlyChallenge (packet_classes.h).
 
-struct PlayerHoldState {
- u16 expiration_frames;
- u16 unknown_a2;
- u32 unknown_a3;
- f32 trigger_radius2;
- f32 x;
- f32 z;
-};
-
-struct PlayerHoldState_DCProtos {
- u16 expiration_frames;
- u16 unknown_a2;
- f32 trigger_radius2;
- f32 x;
- f32 z;
-};
-
-struct PlayerLobbyDataDCGC {
- u32 player_tag;
- u32 guild_card_number;
- u32 ip_address;
- u32 client_id;
- char name[0x10];
-};
-
-struct PlayerRecordsEntry_PC {
- u32 client_id;
- u8 challenge[0xD8];
- u8 battle[0x18];
-};
-
-struct PlayerRecordsEntry_V3 {
- u32 client_id;
- u8 challenge[0x100];
- u8 battle[0x18];
-};
-
-struct StatusEffectState {
- u32 effect_type;
- f32 multiplier;
- u32 remaining_frames;
-};
-
+// A player's telepipe: its owner, floor, room, position and angle. Used by our code (TTecLuker).
 struct TelepipeState {
  u16 owner_client_id;
  s16 floor;
@@ -157,12 +100,6 @@ struct TelepipeState {
  void reset();
  void init_fields(u16 owner);
  s32 get_floor();
-};
-
-struct VectorXYZI {
- u32 x;
- u32 y;
- u32 z;
 };
 
 #endif

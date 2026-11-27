@@ -8,7 +8,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
 NJS_TEXNAME mc_select_memorycard_texname = { "f256_memorycard", 0, NULL };

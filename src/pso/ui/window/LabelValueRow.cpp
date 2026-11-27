@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TWindowLayoutRect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/LabelValueRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/WindowDrawContext.h"

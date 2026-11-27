@@ -19,10 +19,10 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -31,7 +31,7 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/object/base/ActorCollision.h"
@@ -65,6 +65,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/shark/TObjEneShark.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
@@ -240,18 +241,18 @@ void TObjEneMoja::load_resources() {
     moja_attack_params = static_cast<AttackParams **>(mem_alloc(6 * sizeof(*moja_attack_params)));
     moja_object_handles = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*moja_object_handles)));
     moja_behavior_params = static_cast<BattleMovementParams **>(mem_alloc(2 * sizeof(*moja_behavior_params)));
-    moja_boss_stats_handles[0] = TLobby::register_boss(0x49);
-    moja_boss_stats_handles[1] = TLobby::register_boss(0x4A);
-    moja_attack_params[0] = TLobby::dispatch_shared_handler_b(0x48);
-    moja_attack_params[1] = TLobby::dispatch_shared_handler_b(0x49);
-    moja_attack_params[2] = TLobby::dispatch_shared_handler_b(0x4A);
-    moja_attack_params[3] = TLobby::dispatch_shared_handler_b(0x4B);
-    moja_attack_params[4] = TLobby::dispatch_shared_handler_b(0x4C);
-    moja_attack_params[5] = TLobby::dispatch_shared_handler_b(0x4D);
-    moja_object_handles[0] = TLobby::register_object(0x48);
-    moja_object_handles[1] = TLobby::register_object(0x49);
-    moja_behavior_params[0] = TLobby::dispatch_shared_handler_a(0x48);
-    moja_behavior_params[1] = TLobby::dispatch_shared_handler_a(0x49);
+    moja_boss_stats_handles[0] = register_boss(0x49);
+    moja_boss_stats_handles[1] = register_boss(0x4A);
+    moja_attack_params[0] = dispatch_shared_handler_b(0x48);
+    moja_attack_params[1] = dispatch_shared_handler_b(0x49);
+    moja_attack_params[2] = dispatch_shared_handler_b(0x4A);
+    moja_attack_params[3] = dispatch_shared_handler_b(0x4B);
+    moja_attack_params[4] = dispatch_shared_handler_b(0x4C);
+    moja_attack_params[5] = dispatch_shared_handler_b(0x4D);
+    moja_object_handles[0] = register_object(0x48);
+    moja_object_handles[1] = register_object(0x49);
+    moja_behavior_params[0] = dispatch_shared_handler_a(0x48);
+    moja_behavior_params[1] = dispatch_shared_handler_a(0x49);
     s16 ids[3] = { 0x32, 0x33, 0x34 };
     NpcAnimationBinding binding = { moja_bml_resource->motions, moja_motion_actions, 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {

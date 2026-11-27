@@ -18,13 +18,12 @@
 #include <string.h>
 #include "pso/system/byteswap.h"
 #include "pso/network/FloorEventCommand.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/mag/TItemMag.h"
@@ -61,14 +60,13 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/system/TColorOverlayFade.h"
 #include "pso/object/door/TObjDoor_801F3754.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
@@ -123,7 +121,7 @@
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
@@ -133,7 +131,7 @@
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayerActions.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/item/item_create.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/quest/QuestScriptFormat.h"
@@ -147,8 +145,8 @@
 #include "pso/object/trap/TOMine.h"
 #include "pso/player/Palettex.h"
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
-#include "pso/unk/TLobby_80103F5C.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/QuestStoryFlags.h"
@@ -158,16 +156,15 @@
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"
-
+#include "pso/player/ClassTypeName.h"
+#include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/boss/BossPhaseQuery.h"
+#include "pso/map/MapSetData.h"
 
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
-int qst_label_address(int label);
-
-
-
-
+u8 *qst_label_address(int label);
 
 
 u8 *qst_code;
@@ -200,19 +197,14 @@ u16 qst_statistic_arg2;
 u16 qst_statistic_id;
 
 
-
-extern "C" {
 void append_string(const char *s);
 s32 is_message_source_exhausted(void);
 void begin_message_substitution(u8 *source, char *result);
 s32 parse_r_index(const char *text);
-}
 // The player name and class name qst_op_get_pl_name / qst_op_get_pl_job copy for the message tags.
 extern char quest_player_class_name_buffer[16];
 extern char quest_player_name_buffer[16];
 void append_player_name(void);
-namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
-#define read_byte_advance__6TLobbyFv pf2_p0::read_byte_advance__6TLobbyFv
 void append_message_char(s8);
 void append_team_name(void);
 void append_episode_progress_string(void);
@@ -221,7 +213,6 @@ void append_challenge_title(void);
 s32 parse_f_index(const char *a0);
 void append_hero_name(void);
 void append_hero_class_name(void);
-
 
 
 const BaInitialFloorTable ba_initial_floor_table = { { 16, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 } };
@@ -280,7 +271,7 @@ void TLobby::capture_chat_sensor() {
 char *expand_message_substitutions(u8 *source, char *result) {
     begin_message_substitution(source, result);
     while (is_message_source_exhausted() == 0) {
-        s8 c = read_byte_advance__6TLobbyFv();
+        s8 c = TLobby::read_byte_advance();
         switch (c) {
         case 0x3C:
             TLobby::parse_message_tag();
@@ -305,7 +296,7 @@ void TLobby::parse_message_tag() {
     s32 idx;
     s8 c;
     for (i = 0; i < 0x40 && is_message_source_exhausted() == 0; i++) {
-        c = read_byte_advance__6TLobbyFv();
+        c = TLobby::read_byte_advance();
         switch (c) {
         case 0x3E:
             buf[i] = 0;
@@ -403,9 +394,7 @@ s32 parse_f_index(const char *a0) {
     return -1;
 }
 
-#undef read_byte_advance__6TLobbyFv
 
-extern "C" {
 s32 parse_r_index(const char *text) {
     s32 index;
 
@@ -416,9 +405,8 @@ s32 parse_r_index(const char *text) {
     }
     return -1;
 }
-}
 
-u8 *quest_script_read_ptr;
+s8 *quest_script_read_ptr;
 
 void append_challenge_title(void) {
     char buf[0x40];
@@ -441,7 +429,7 @@ void append_entered_item_name_pair(void) {
 
 void TLobby::append_float_value(s32 reg) {
     char buf[64];
-    sprintf(buf, "%f", ((f32 *)qst_registers)[reg]);
+    sprintf(buf, "%f", qst_registers[reg].f);
     append_string(buf);
 }
 
@@ -460,7 +448,7 @@ void append_episode_progress_string(void) {
 void append_hero_class_name(void) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        append_string((const char *)TLobby::get_class_type_name(player->class_flags));
+        append_string((const char *)get_class_type_name(player->appearance.classFlags));
     } else {
         append_string("Error Job");
     }
@@ -475,14 +463,11 @@ void append_hero_name(void) {
         append_string("Error Name");
     }
 }
-extern "C" {
-
 s32 is_message_source_exhausted(void) {
-    return (u8) ((s8) *quest_script_read_ptr == 0);
+    return (u8) (*quest_script_read_ptr == 0);
 }
-
-u8 read_byte_advance__6TLobbyFv(void) {
-    u8 *cursor;
+s8 TLobby::read_byte_advance() {
+    s8 *cursor;
 
     cursor = quest_script_read_ptr;
     quest_script_read_ptr = cursor + 1;
@@ -496,8 +481,6 @@ void append_string(const char *s) {
     strcpy(quest_string_append_cursor, s);
     quest_string_append_cursor += len;
 }
-}
-
 
 
 void append_message_char(s8 c) {
@@ -507,10 +490,7 @@ void append_message_char(s8 c) {
     quest_string_append_cursor = write_ptr + 1;
     *write_ptr = c;
 }
-extern "C" {
-
-void begin_message_substitution(u8 *source, char *result) { quest_script_read_ptr = source; quest_string_append_cursor = result; }
-}
+void begin_message_substitution(u8 *source, char *result) { quest_script_read_ptr = (s8 *)source; quest_string_append_cursor = result; }
 
 void qst_op_olga_flow_is_dead(s32 reg) {
     if (TBoss6PlotFalz::is_phase_reached() != 0) {
@@ -625,53 +605,12 @@ void qst_op_va_call(s32 label) {
   qst_pc = qst_function_table[(u16)label];
 }
 extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-s32 copy_player_visual_record(void *, int);
-}
-extern "C" {
-s32 delete_bank_item(u8 *item, s32 slot);
-}
-extern "C" {
-int update_alloc_size__6TLobbyFv(void*);
+s32 copy_player_visual_record(void *, void *);
 }
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
-extern VaCallPair lbl_80449A38[];
-extern QuestNpcVisualRecord quest_npc_visual_record;
-extern s32 symbolchat_colli_param_table[];
+extern VaCallPair qb_message_window_size[];
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -855,7 +794,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
         item.data1.data_u8[1] = qst_registers[i++].i;
         item.data1.data_u8[2] = qst_registers[i++].i;
         item.data1.data_u8[4] = qst_registers[i].i;
-        if (((CharacterSaveRecord *)card)->find_bank_item((saddr)&item) != 0) {
+        if (((CharacterSaveRecord *)card)->find_bank_item(&item) != 0) {
             qst_registers[out].i = 1;
         } else {
             qst_registers[out].i = 0;
@@ -1014,7 +953,7 @@ void qst_op_wrap_item_with_color() {
         TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
         item.set_wrapped();
         item.set_present_color(n);
-        if (player->can_inventory_accept_item((u8 *)&item) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
         }
     }
@@ -1036,7 +975,7 @@ void qst_op_wrap_item() {
     if (player != NULL) {
         TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
         item.set_wrapped();
-        if (player->can_inventory_accept_item((u8 *)&item) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
         }
     }
@@ -1414,7 +1353,7 @@ void qst_op_compute_bezier_curve_point() {
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (CurvePathPoint *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
+    pts = (CurvePathPoint *)qst_label_address((u16)g->id);
     if (pts == NULL) {
         return;
     }
@@ -1446,7 +1385,7 @@ void qst_op_get_vector_from_path() {
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (CurvePathPoint *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
+    pts = (CurvePathPoint *)qst_label_address((u16)g->id);
     if (pts == NULL) {
         return;
     }
@@ -1639,7 +1578,7 @@ void qst_op_start_or_update_gba_joyboot(s32 idx) {
     }
 }
 
-void qst_op_prepare_gba_rom_from_download() { update_alloc_size__6TLobbyFv((void*)0); gba_joyboot_set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size)); }
+void qst_op_prepare_gba_rom_from_download() { ((TLobby *)0)->update_alloc_size(); gba_joyboot_set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size)); }
 
 void qst_op_get_dl_status(s32 reg) {
     if (TLobby::get_lobby_count() != 0) {
@@ -1662,18 +1601,18 @@ void qst_op_file_dl_req(void) {
 void qst_op_set_episode(s32 episode) {
     switch (episode) {
     case 0:
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         return;
     case 1:
-        TAdStorySelectGC::set_state(1);
+        select_episode(1);
         return;
     default:
-        TAdStorySelectGC::set_state(0);
+        select_episode(0);
         return;
     }
 }
 
-int qst_op_write_flag_buf_to_event_flags2(void* p) { return ((int (*)(void*))qst_op_write_flag_buf_to_event_flags)(p); }
+void qst_op_write_flag_buf_to_event_flags2(u8 reg) { qst_op_write_flag_buf_to_event_flags(reg); }
 
 void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
     s32 creation_time;
@@ -1971,7 +1910,7 @@ void qst_op_reset_map(void) {
         TQuestThread::clear_buffer(quest_mission_manager);
     }
     TQuestThread::destroy_all_in(tl_00);
-    TLobby::init_sub_objects();
+    init_sub_objects();
     reset_id_tables();
     clear_floor_event_flags();
     init_switch_table();
@@ -2033,43 +1972,40 @@ void qst_op_get_eventflag16(u8 a0, u8 a1) {
 
 void qst_op_set_enemy_movement_data(s32 label) {
     BattleMovementParams params;
-    uaddr data_addr;
-    data_addr = qst_label_address(label);
-    if (data_addr != 0U) {
-        params = *(const BattleMovementParams *)(data_addr - 4 + 4);
+    const BattleMovementParams *data;
+    data = (const BattleMovementParams *)qst_label_address(label);
+    if (data != NULL) {
+        params = *data;
         params.bswap();
         set_enemy_movement_data(&params);
     }
 }
 
 void qst_op_set_enemy_resist_data(s32 label) {
-    ActorParamBlock packet;
-    uaddr data_addr;
-    data_addr = qst_label_address(label);
-    if (data_addr != 0U) {
-        *reinterpret_cast<ByteBlock_20 *>(&packet) = *reinterpret_cast<const ByteBlock_20 *>(data_addr);
-        packet.swap_endian();
-        set_enemy_resist_data(&packet);
+    const ActorParamBlock *data;
+    data = (const ActorParamBlock *)qst_label_address(label);
+    if (data != NULL) {
+        ActorParamBlock params = *data;
+        params.swap_endian();
+        set_enemy_resist_data(&params);
     }
 }
 
 void qst_op_set_enemy_attack_data(s32 label) {
-    AttackParams packet;
-    uaddr data_addr;
-    data_addr = qst_label_address(label);
-    if (data_addr != 0U) {
-        *reinterpret_cast<ByteBlock_30 *>(&packet) = *reinterpret_cast<const ByteBlock_30 *>(data_addr);
-        packet.byteswap_packet();
-        set_enemy_attack_data(&packet);
+    const AttackParams *data;
+    data = (const AttackParams *)qst_label_address(label);
+    if (data != NULL) {
+        AttackParams params = *data;
+        params.byteswap_packet();
+        set_enemy_attack_data(&params);
     }
 }
 
-void qst_op_set_enemy_physical_data(int _w0) {
-    player_stats stats;
-    uaddr data_addr;
-    data_addr = ((u32)qst_label_address(_w0));
-    if (data_addr != 0U) {
-        *(ByteBlock_24 *)&stats = *(const ByteBlock_24 *)((data_addr - 4) + 4);
+void qst_op_set_enemy_physical_data(int label) {
+    const player_stats *data;
+    data = (const player_stats *)qst_label_address(label);
+    if (data != NULL) {
+        player_stats stats = *data;
         stats.bswap();
         set_enemy_physical_data(&stats);
     }
@@ -2279,7 +2215,7 @@ void qst_op_call_image_data() {
     s32 size;
     void *source_data;
     size = qst_args[0].i;
-    source_data = ((void *(*)(void *))qst_label_address)((void *)((saddr) (u16) qst_args[1].i));
+    source_data = qst_label_address((u16)qst_args[1].i);
     if (source_data != NULL) {
         prs_decompress_buffer(source_data, resource_decompress_buffer);
         load_sin_board_image(resource_decompress_buffer, size);
@@ -2307,7 +2243,7 @@ void qst_op_get_pl_job(s32 reg) {
     TObjPlayer *player;
     player = get_player_by_client_id(qst_registers[(u8)reg].i);
     if (player != NULL) {
-        strncpy(quest_player_class_name_buffer, (const char *)(TLobby::get_class_type_name((int) (player->class_flags))), 0xF);
+        strncpy(quest_player_class_name_buffer, (const char *)(get_class_type_name((int) (player->appearance.classFlags))), 0xF);
         quest_player_class_name_buffer[0xF] = 0;
         qst_registers[(u8)reg].i = 1;
         return;
@@ -2385,7 +2321,7 @@ void qst_op_take_slot_meseta(s32 regs, s32 dst) {
 void qst_op_get_chara_class(s32 slot_reg, s32 dst) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)slot_reg].i);
     if (player != NULL) {
-        s32 f = player->class_flags;
+        s32 f = player->appearance.classFlags;
         if (f & CLASS_FLAG_HUMAN) {
             qst_registers[(u8)dst].i = RACE_HUMAN;
         } else if (f & CLASS_FLAG_NEWMAN) {
@@ -2415,7 +2351,7 @@ void qst_op_get_gender(s32 slot_reg, s32 dst) {
     TObjPlayer *player;
     player = get_player_by_client_id(qst_registers[(u8)slot_reg].i);
     if (player != NULL) {
-        class_flags = player->class_flags;
+        class_flags = player->appearance.classFlags;
         if (class_flags & CLASS_FLAG_MALE) {
             qst_registers[(u8)dst].i = GENDER_MALE;
             return;
@@ -2480,7 +2416,7 @@ void qst_op_set_cmode_rank_override(void) {
 }
 
 void qst_op_dark_falz_is_dead(s32 reg) {
-    if (TLobby::is_boss_phase_reached() != 0) {
+    if (is_boss_phase_reached() != 0) {
         qst_registers[(u8)reg].i = 1;
         return;
     }
@@ -2597,13 +2533,10 @@ void qst_op_set_cmode_rank_threshold(u8 regs, u8 dst) {
         }
     }
 }
-extern "C" {
-void init_srank_weapon_item(TItemData *, saddr, s32);
-}
 void qst_op_award_item_give(u8 reg) {
     TItemData item;
     u8 t = TObjItemNameSelect::get_selected_value();
-    init_srank_weapon_item(&item, (saddr)get_entered_item_name(), t);
+    init_srank_weapon_item(&item, get_entered_item_name(), t);
     if (is_split_screen() == 1) {
         if (challenge_create_reward_item(&item, 0) != 0) {
             qst_registers[reg].i = 1;
@@ -2652,13 +2585,13 @@ void qst_op_get_mag_levels(s32 i) {
 void qst_op_give_s_rank_weapon() {
     TItemData item;
     u8 r = qst_args[1].i;
-    s32 a = qst_args[2].i;
+    saddr a = qst_args[2].i;
     u16 id = qst_args[0].i;
     if (id == local_client_id) {
         TObjPlayer *player = get_player_by_client_id(id);
         if (player != NULL) {
-            init_srank_weapon_item(&item, a, (u8)qst_registers[r].i);
-            if (item.isValidGroundDrop() == 1 && player->can_inventory_accept_item((u8 *)&item) > 0) {
+            init_srank_weapon_item(&item, (const char *)a, (u8)qst_registers[r].i);
+            if (item.isValidGroundDrop() == 1 && player->can_inventory_accept_item(&item) > 0) {
                 player->request_inventory_item(&item);
             }
         }
@@ -2700,12 +2633,12 @@ void qst_op_set_allow_item_flags(void) {
 void qst_op_p_talk_guild_local(int _w0, int _w1) {
     u32 player = ((uaddr)get_player_by_client_id((int)(local_client_id)));
     if (player != 0U) {
-        TLobby::handle_main_phase(player);
+        handle_main_phase(player);
     }
 }
 
 void qst_op_unequip_item() {
-    TLobby::handle_player_event((int) ((u16) qst_args[0].i), (int) (qst_args[1].i));
+    handle_player_event((int) ((u16) qst_args[0].i), (int) (qst_args[1].i));
 }
 
 void qst_op_equip_item(u8 i) {
@@ -2715,7 +2648,7 @@ void qst_op_equip_item(u8 i) {
     item.data1.data_u8[0] = qst_registers[i++].i;
     item.data1.data_u8[1] = qst_registers[i++].i;
     item.data1.data_u8[2] = qst_registers[i++].i;
-    TLobby::forward_to_player(id, &item);
+    forward_to_player(id, &item);
 }
 
 int qst_op_ba_hide_self_traps(void) { return TOMineTrap::set_instance(0); }
@@ -2881,10 +2814,10 @@ void qst_op_set_cmode_base_time(s32 reg) {
 }
 
 void qst_op_prepare_npc_visual(saddr label) {
-    u32 record_addr;
-    record_addr = ((u32 (*)(void *))qst_label_address)((void *)label);
-    if (record_addr != 0U) {
-        copy_player_visual_record((&quest_npc_visual_record.value), record_addr);
+    u8 *record;
+    record = qst_label_address(label);
+    if (record != NULL) {
+        copy_player_visual_record(&quest_npc_visual_record, record);
     }
 }
 
@@ -2989,10 +2922,10 @@ void qst_op_set_switch_flag_sync() {
 }
 
 void qst_op_reset_kills(s32 slot_reg) {
-    u8 *lobby;
-    lobby = (u8 *)(((u8 *)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg].i)))));
-    if (lobby != NULL) {
-        ((TLobby *)lobby)->set_floor(0);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg].i);
+    if (player != NULL) {
+        player->set_kill_count(0);
     }
 }
 
@@ -3463,11 +3396,11 @@ void qst_op_clear_quest_board_handler(void) {
 void qst_op_set_quest_board_handler(void) {
     s32 i = qst_args[0].i;
     s32 v = qst_args[1].i;
-    s32 n = qst_args[2].i;
+    saddr n = qst_args[2].i;
     if (i <= 5) {
         QuestBoardHandler *e = &quest_board_handlers[i];
         e->label = v;
-        ((void* (*)(void*, s32, s32))strncpy)(e, n, 0x20);
+        strncpy(e->title, (const char *)n, 0x20);
     }
 }
 
@@ -3650,7 +3583,7 @@ void qst_op_item_create2(u8 regs, u8 dst) {
         item.data1.data_u8[9] = qst_registers[regs++].i;
         item.data1.data_u8[10] = qst_registers[regs++].i;
         item.data1.data_u8[11] = qst_registers[regs].i;
-        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
             qst_registers[dst].i = item.id;
         } else {
@@ -3671,7 +3604,7 @@ void qst_op_item_create(u8 regs, u8 dst) {
         item.data1.data_u8[1] = qst_registers[(u8)regs++].i;
         item.data1.data_u8[2] = qst_registers[regs].i;
         item.id = advance_item_id_counter(local_client_id);
-        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+        if (player->can_inventory_accept_item(&item) > 0) {
             player->request_inventory_item(&item);
             qst_registers[dst].i = item.id;
         } else {
@@ -3799,7 +3732,7 @@ void qst_op_npc_talk_pl(u8 regs) {
 void qst_op_p_talk_guild(void) {
     TObjPlayer *player = get_player_by_client_id(qst_args[0].i);
     if (player != NULL) {
-        TLobby::handle_main_phase((saddr)player);
+        handle_main_phase((saddr)player);
     }
 }
 
@@ -3823,10 +3756,10 @@ void qst_op_npc_text() {
 void qst_op_nop_A0_debug(void) {
     char buf[0x200];
     TTokenList *fields;
-    void *s = ((void *)qst_args[1].p);
+    const char *s = ((const char *)qst_args[1].p);
     fields = new TTokenList(NULL, 0, 0);
     buf[0x1FF] = 0;
-    ((void (*)(void *, void *, int))strncpy)(buf, s, 0x1FF);
+    strncpy(buf, s, 0x1FF);
     trim_whitespace(buf);
     fields->parse_csv_line(buf);
     if (fields->count != 2) {
@@ -4202,10 +4135,10 @@ void qst_op_particle(u8 regs) {
 
 void qst_op_particle2() {
     Vec v;
-    f32* p = &((f32*)qst_registers)[qst_args[0].i];
-    v.x = p[0];
-    v.y = p[1];
-    v.z = p[2];
+    QuestValue *p = &qst_registers[qst_args[0].i];
+    v.x = p[0].f;
+    v.y = p[1].f;
+    v.z = p[2].f;
     uaddr r = (uaddr)create_timed_particle_emitter(&v, qst_args[1].i, 0, (s32)qst_args[2].f);
     if (r != 0) {
         ((TParticleCtrl *)r)->set_flags(0x40);
@@ -4565,7 +4498,7 @@ void qst_op_close_msg_qb(void) {
 
 void qst_op_disp_msg_qb(void) {
     s32 t = qst_args[0].i;
-    VaCallPair pr = lbl_80449A38[0];
+    VaCallPair pr = qb_message_window_size[0];
     if (qst_message_window_qb != 0) {
         qst_message_window_qb->close();
         qst_message_window_qb = 0;
@@ -4614,7 +4547,7 @@ void qst_op_list(void) {
     idx = (u32)qst_args[0].i;
     text = ((char *)qst_args[1].p);
     list = new TTokenList(NULL, 0, 0);
-    ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
+    strncpy(buf, text, 0x1FF);
     trim_whitespace(buf);
     list->tokenize_args(buf);
     qst_list_window = create_window_menu_default(get_window_layout_position(0x37), list->count);
@@ -5125,7 +5058,7 @@ void qst_call_stack_push(s32 value)
 {
   qst_call_stack[qst_call_stack_depth++] = value;
 }
-int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
+u8 *qst_label_address(int label) {  return qst_code + qst_function_table[(u16)label]; }
 void append_string_to_buffer(char *dest) {
     s32 string_length;
 
@@ -5377,7 +5310,7 @@ s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
 
 void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
-void TLobby::set_floor(s16 v) { *(s16*)((char*)this + 0x11a) = v; }
+void TObjPlayer::set_kill_count(s16 count) { kill_count = count; }
 
 void gba_set_identifiers(int a0, int a1) { gba_identifier_value = a1; gba_identifier_slot_plus_1 = (a0 + 0x1); }
 

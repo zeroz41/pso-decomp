@@ -69,7 +69,7 @@ struct ItemCombination {
     u8 pad_D[3];
 };
 
-ItemCombination *find_item_combination_recipe(u8 *id, void *item);
+ItemCombination *find_item_combination_recipe(u8 *id, TItem *item);
 
 // A {count, records} list of the item parameter table; the record size
 // depends on the list (weapon 0x28, armor 0x1C, unit 0x10, mag 0x18).

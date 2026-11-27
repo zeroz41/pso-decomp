@@ -232,8 +232,8 @@ s32 quest_download_request_extend_segment(saddr *args) {
 s32 quest_download_request_open(saddr *args) {
     u32 i;
     for (i = 0; i < 80; i++) {
-        lbl_8058DC98[i] = 0;
-        lbl_8058DC48[i] = 0;
+        name_entry_name_buffer[i] = 0;
+        name_entry_text_buffer[i] = 0;
     }
     {
         saddr src = *args;
@@ -578,15 +578,11 @@ s32 convert_jis_to_sjis_string(saddr *args) {
 }
 #pragma pop
 
-u8 lbl_8058DC48[80];
-u8 lbl_8058DC98[80];
-u8 lbl_8058DCE8[80];
+u8 name_entry_text_buffer[80];
+u8 name_entry_name_buffer[80];
+u8 learned_name_text_buffer[80];
 u8 quest_request_text_buffer[80];
 QuestConvertString quest_convert_string;
-
-
-
-
 
 
 s32 ime_dispatch_request(ImeRequest *request) {

@@ -30,6 +30,4 @@ struct TObjBoss1Rock : public TObject {
 
 LAYOUT_ASSERT(TObjBoss1Rock_size, sizeof(TObjBoss1Rock) == 0x54);
 
-extern "C" {
-}
 #endif

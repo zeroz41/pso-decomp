@@ -5,13 +5,15 @@
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/network/TGameProtocol.h"
-#include "pso/unk/text_800C7FEC.h"
+#include "pso/network/LegacyEnemyKill.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/player/TPlayerBattleCtrl.h"
+#include "pso/player/PlayerTaskEffects.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/item/TItem.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -41,10 +43,10 @@
 #include "pso/object/TObjHashi.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/TLobby_80103F5C.h"
-#include "pso/network/ChallengePackets.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/quest/QuestFlagSync.h"
+#include "pso/quest/QuestFlagCommand.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
@@ -59,8 +61,9 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/player/PlayerAttackController.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -74,18 +77,7 @@ const char *TGameProtocol::class_name = "TGameProtocol";
 s32 dispatching_own_subcommand;
 
 
-extern "C" void handle_6x07_symbol_chat();
-extern "C" void handle_6x18_vol_opt2_boss_actions();
-void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
-extern "C" void handle_6x6B_sync_game_state();
-extern "C" void handle_6x6C_sync_game_state();
-extern "C" void handle_6x6D_sync_game_state();
-extern "C" void handle_6x6E_sync_game_state();
-extern "C" void handle_6x70_sync_player_disp_and_inventory();
-extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
-extern "C" void handle_6x87_shrink_player();
-extern "C" void handle_6x88_restore_shrunken_player();
 u32 lbl_804C5238[10] = { 0 };
 
 u8 subcommand_area_masks[36] = {

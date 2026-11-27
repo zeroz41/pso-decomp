@@ -26,8 +26,6 @@ public:
 
 LAYOUT_ASSERT(TChCrEffCtrlPl_size, sizeof(TChCrEffCtrlPl) == 0x38);
 
-extern "C" {
 int should_show_controller_plate();
-}
 
 #endif

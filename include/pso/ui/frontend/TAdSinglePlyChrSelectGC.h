@@ -53,7 +53,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 selection_index;
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
-    void init_fields();
+    void clear_members();
     static s32 can_pay_fee();
     virtual void render();
     s32 state_timer;                       // 0x1C  frames spent in the current state
@@ -65,8 +65,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdGuideTxtGC *guide;                  // 0x34
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
-    static void format_challenge_stage_times(s32 lobby, s32 challenge_id);
-    static void free_singleton_805D65C0();
+    static void free_texture_f256_backtext();
     static s32 check_slot_flags(s32 slot, u32 mask);
     void cleanup();
     virtual void run_task();
@@ -74,7 +73,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u8 *get_global_state();
     static int get_state();
     static int get_game_mode();
-    s32 is_both_confirmed();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
     s32 init_char_slot_record();
@@ -106,9 +104,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_state(int a0);
     static void set_chr_select_state(int a0);
     void*init_guild_card_tag();
-    void clear_inventory_slot();
     static s32 draw_window_bg(s32 chan, const char *filename, void *buf, s32 blocks);
-    static s32 load_player(s32 chan, s32 filename, s32 buf, s32 blocks);
+    static s32 load_player(s32 chan, const char *filename, void *buf, s32 blocks);
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
     static void init_entry_tables(void* _w0);
@@ -274,7 +271,7 @@ extern s32 chr_select_save_slot;
 
 class TAdTitleTexGC;
 struct NJS_POINT2;
-extern "C" void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
+void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 
 s32 get_guild_card_file_block_count(void);
 

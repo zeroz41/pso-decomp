@@ -4,7 +4,6 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffLandHit.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
@@ -13,7 +12,7 @@ void TItemWeaponYasminkov9000M::draw_held_model() {
     draw_weapon_model();
     get_joint_position(3, &muzzles[0]);
     get_joint_position(1, &ejectors[0]);
-    draw_weapon_at_joint(this, 35);
+    draw_weapon_at_joint(35);
     get_joint_position(3, &muzzles[1]);
     get_joint_position(1, &ejectors[1]);
 }
@@ -72,7 +71,7 @@ void TItemWeaponYasminkov9000M::yasminkov_9000m_eject_casing(Vec *pos, s32 angle
         angle[0] = 0x4000;
         angle[1] = owner->rotation_y;
         angle[2] = 0;
-        TObjPlayer::spawn_weapon_casing((saddr)tl_05, (uaddr)this, (uaddr)pos, (uaddr)&dir, (uaddr)angle);
+        TObjPlayer::spawn_weapon_casing(tl_05, this, pos, &dir, angle);
     }
 }
 

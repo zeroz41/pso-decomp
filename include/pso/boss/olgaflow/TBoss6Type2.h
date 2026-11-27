@@ -369,8 +369,6 @@ LAYOUT_ASSERT(TBoss6Type2_offset_scroll_strips, (offsetof(TBoss6Type2, scroll_st
 
 LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
-// The record exchange_object_state reads and writes.
-struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 // One leg contact for update_leg_ground_effects: its node, the particle slot it drives and
 // the node height above which (up to 20 units) the slot's dust stays alive.

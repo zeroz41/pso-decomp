@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/unk/text_8026934C.h"
+#include "pso/ui/window/MesetaWindowCreate.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDeposit.h"
 #include "pso/ui/window/TWindowMeseta.h"
@@ -22,8 +22,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/system/GameModeQueries.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -35,7 +35,7 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/shop/ShopItemSort.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/system/MemoryMove.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
@@ -45,7 +45,7 @@ const char *check_room_sequence_name = "TCheckRoomSequence";
 s32 lbl_805D6160;
 s32 TCheckRoomSequence::error_return_text_id;
 saddr TCheckRoomSequence::error_return_state;
-s32 TCheckRoomSequence::active_instance;
+TCheckRoomSequence *TCheckRoomSequence::active_instance;
 
 
 #pragma optimization_level 1
@@ -177,7 +177,7 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
         if (amount > 0) {
             if (number_input == NULL) {
                 number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
-                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
             }
@@ -235,7 +235,7 @@ void TCheckRoomSequence::begin_meseta_deposit() {
             amount = (amount < meseta) ? amount : meseta;
             if (number_input == NULL) {
                 number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
-                if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
             }
@@ -547,7 +547,7 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     counter_camera = NULL;
     menu_step = 0;
     set_state(0);
-    TCheckRoomSequence::active_instance = (saddr)this;
+    TCheckRoomSequence::active_instance = this;
     scratch_buffer = NULL;
     TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
@@ -559,7 +559,7 @@ void TCheckRoomSequence::reset_slot_state() {
     lbl_805D6160 = 0;
     TCheckRoomSequence::error_return_text_id = 0;
     TCheckRoomSequence::error_return_state = 0;
-    TCheckRoomSequence::active_instance = 0;
+    TCheckRoomSequence::active_instance = NULL;
     for (s32 i = 0; i < 4; i++) {
         TCheckRoomSequence::slot_active_flags[i] = 0;
     }
@@ -572,7 +572,7 @@ void TCheckRoomSequence::reset_slots() {
     lbl_805D6160 = 0;
     TCheckRoomSequence::error_return_text_id = 0;
     TCheckRoomSequence::error_return_state = 0;
-    TCheckRoomSequence::active_instance = 0;
+    TCheckRoomSequence::active_instance = NULL;
     for (s32 i = 0; i < 4; i++) {
         TCheckRoomSequence::slot_active_flags[i] = 0;
     }
@@ -698,7 +698,6 @@ s32 bank_credit_meseta(s32 v, s32 i) {
 
 #pragma push
 #pragma optimization_level 1
-extern "C" {
 s32 delete_bank_item(u8 *item, s32 slot) {
     BankItemRecord *rec = bank_item_records_by_slot[slot];
     s32 i;
@@ -712,7 +711,6 @@ s32 delete_bank_item(u8 *item, s32 slot) {
         }
     }
     return 0;
-}
 }
 
 void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) {
@@ -890,9 +888,9 @@ void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) {
     dst->data1.data_u8[3] = p->item.data1.data_u8[3];
     dst->data1.data_u8[4] = p->item.data1.data_u8[4];
     dst->data1.data_u8[5] = p->item.data1.data_u8[5];
-    ((TObjPlayer *)&dst->data1.data_u16[3])->copy_entry_bytes(&p->item.data1.data_u16[3]);
-    ((TObjPlayer *)&dst->data1.data_u16[4])->copy_entry_bytes(&p->item.data1.data_u16[4]);
-    ((TObjPlayer *)&dst->data1.data_u16[5])->copy_entry_bytes(&p->item.data1.data_u16[5]);
+    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&p->item.data1.data_u16[3]);
+    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&p->item.data1.data_u16[4]);
+    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&p->item.data1.data_u16[5]);
     dst->id = p->item.id;
     dst->data2.data_u32 = p->item.data2.data_u32;
 }
@@ -906,9 +904,9 @@ void TCheckRoomSequence::copy_item_to_bank_entry(BankItemRecord *entry, TItemDat
     entry->item.data1.data_u8[3] = item->data1.data_u8[3];
     entry->item.data1.data_u8[4] = item->data1.data_u8[4];
     entry->item.data1.data_u8[5] = item->data1.data_u8[5];
-    ((TObjPlayer *)&entry->item.data1.data_u16[3])->copy_entry_bytes(&item->data1.data_u16[3]);
-    ((TObjPlayer *)&entry->item.data1.data_u16[4])->copy_entry_bytes(&item->data1.data_u16[4]);
-    ((TObjPlayer *)&entry->item.data1.data_u16[5])->copy_entry_bytes(&item->data1.data_u16[5]);
+    ((WeaponAttribute *)&entry->item.data1.data_u16[3])->copy((WeaponAttribute *)&item->data1.data_u16[3]);
+    ((WeaponAttribute *)&entry->item.data1.data_u16[4])->copy((WeaponAttribute *)&item->data1.data_u16[4]);
+    ((WeaponAttribute *)&entry->item.data1.data_u16[5])->copy((WeaponAttribute *)&item->data1.data_u16[5]);
     entry->item.id = item->id;
     entry->item.data2.data_u32 = item->data2.data_u32;
     entry->amount = 1;

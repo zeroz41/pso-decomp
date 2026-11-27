@@ -1,4 +1,5 @@
 #include "pso/ui/window/WindowSpritePart.h"
+#include "pso/player/Palettex.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -6,7 +7,7 @@
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
@@ -17,7 +18,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/hud/TMainCursor.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -51,8 +52,6 @@ void TWindowLayoutEntry::show() { flags &= ~2; }
 
 extern "C" {
 s32 find_inventory_item_id_by_code(void *player, s32 kind, u8 group, u8 index);
-s32 is_palettex_activated(u16 client_index);
-s32 is_palettex_enabled(u16);
 }
 
 const PaletteItemKind action_palette_item_kinds[13] = {
@@ -67,7 +66,7 @@ PaletteIconUV action_palette_icon_uv_tables[19] = {
     {0.0f, 172.0f}, {50.0f, 129.0f}, {200.0f, 86.0f}, {150.0f, 0.0f},
     {150.0f, 86.0f}, {150.0f, 43.0f}, {200.0f, 43.0f},
 };
-PaletteIconUV lbl_804CDD40[17] = {
+PaletteIconUV action_palette_item_icon_uvs[17] = {
     {0.0f, 0.0f}, {0.0f, 43.0f}, {0.0f, 86.0f}, {50.0f, 0.0f},
     {50.0f, 43.0f}, {50.0f, 86.0f}, {100.0f, 0.0f}, {50.0f, 129.0f},
     {100.0f, 43.0f}, {0.0f, 172.0f}, {0.0f, 129.0f}, {150.0f, 43.0f},
@@ -155,7 +154,7 @@ void TWindowActionPalette::run_task() {
         state = 3;
     }
     help = (TWindowHelpItem *)get_array_entry(0);
-    TWindowHelpItem::set_help_text((saddr)help, client_index);
+    set_help_icon_uv((saddr)help, client_index);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
@@ -387,7 +386,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         } else {
             icon->kind = 4;
         }
-        row = lbl_804CDD40;
+        row = action_palette_item_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -433,7 +432,7 @@ void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePar
             v = p->trap_counts.get_count(index - 0xD);
         }
     } else {
-        v = TWindowHelpItem::get_help_value(index, client_id);
+        v = get_palette_item_amount(index, client_id);
     }
     if (v <= 0) {
         label->hide();
@@ -465,7 +464,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
 
 // The amount of the item in palette slot `slot` of the player `client_id`
 // (0 when the slot holds no item).
-s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
+s32 get_palette_item_amount(u16 slot, s32 client_id) {
     s32 id = get_palette_consumable_count(slot, client_id);
     if (id == -1) {
         return 0;
@@ -477,7 +476,7 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void TWindowHelpItem::set_help_text(saddr help, saddr client_id) {
+void set_help_icon_uv(saddr help, saddr client_id) {
     if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
         reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 56.0f);
         return;

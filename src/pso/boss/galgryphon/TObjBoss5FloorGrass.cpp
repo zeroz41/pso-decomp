@@ -5,8 +5,8 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 

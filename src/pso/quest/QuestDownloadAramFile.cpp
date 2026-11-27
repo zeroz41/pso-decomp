@@ -7,12 +7,6 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/quest/QuestDownloadRequests.h"
 
-// The ARAM back end of the keyboard's ASKDIC dictionary ("ASKDIC:ARAM DMA Timeout!!"): TWindowKeyBoardBase sets the
-// ARAM image up with aram_dma_setup, then start_askdic starts the dictionary.
-struct QuestDownloadAramFile {
-    s32 remain;
-    s32 pos;
-};
 LAYOUT_ASSERT(QuestDownloadAramFileSize, sizeof(QuestDownloadAramFile) == 8);
 LAYOUT_ASSERT(QuestDownloadAramFilePosition, offsetof(QuestDownloadAramFile, pos) == 4);
 
@@ -27,11 +21,6 @@ u32 quest_download_aram_owner;
 u32 quest_download_aram_dma_pending;
 u32 quest_download_aram_base;
 
-struct QuestDownloadAramDmaBuffer {
-    u8 reserved[0x40];
-    u8 bytes[0x2000];
-    ARQRequest request;
-};
 
 LAYOUT_ASSERT(QuestDownloadAramDmaBytesOffset, offsetof(QuestDownloadAramDmaBuffer, bytes) == 0x40);
 LAYOUT_ASSERT(QuestDownloadAramDmaRequestOffset, offsetof(QuestDownloadAramDmaBuffer, request) == 0x2040);

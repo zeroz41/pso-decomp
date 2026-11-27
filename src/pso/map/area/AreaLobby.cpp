@@ -1,4 +1,4 @@
-// LOBBY's scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// LOBBY's scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
@@ -11,15 +11,17 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/map/FloorWaveEvents.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*lobby_floor_scene_callbacks[12])(void) = {
     init_lobby_player_actions, release_lobby_player_actions,
     TLobby::alloc_download_server, TLobby::free_single_player_chr_select,
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
-    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
+    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
     load_title_midashi_texture, free_title_midashi_texture,
     TAdMcSelectGC::close, TAdMcSelectGC::open,
 };
@@ -27,11 +29,11 @@ void (*lobby_floor_scene_callbacks[12])(void) = {
 void cleanup_lobby_area(void) {
     TQuestVmDownLoadServer::free_download_buffers();
     unload_current_floor_resources();
-    TLobby::update_current_floor();
+    update_current_floor();
     TLobby::call_funcs_reverse(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks));
-    TLobby::stop_audio_streams();
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     TLobby::clear_session_buffers();
 }
 

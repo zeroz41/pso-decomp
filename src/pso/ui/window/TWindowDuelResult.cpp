@@ -1,7 +1,7 @@
-#include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
@@ -9,10 +9,10 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
@@ -24,11 +24,7 @@
 #pragma readonly_strings on
 
 
-extern "C" {
-const char *window_duel_result_class_name = "TWindowDuelResult";
-
-extern const char *window_duel_result_class_name;
-}
+const char *TWindowDuelResult::class_name = "TWindowDuelResult";
 
 extern "C" const char duel_result_time_separator[] = ":";
 void *TWindowDuelResult::layout_entries[140] = {
@@ -120,7 +116,7 @@ void TWindowDuelResult::build_stats_page() {
     set_default_status(c, get_localized_text_entry(0x10, 5));
     pl = get_player_by_client_id(client_index);
     if (pl != 0) {
-        set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), pl->name, 0x20);
+        set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), pl->appearance.name, 0x20);
         vals[0] = pl->battle_score.kills.get_total();
         vals[1] = pl->battle_score.deaths.get_total();
         vals[2] = pl->battle_score.damage_given.get_total();
@@ -182,7 +178,7 @@ void TWindowDuelResult::build_ranking_page() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
-            set_text_entry_string((WindowTextEntry *)c, player->name, 0x20);
+            set_text_entry_string((WindowTextEntry *)c, player->appearance.name, 0x20);
             text_builder_reset();
             text_builder_append_int(e->score);
             text_builder_append(get_localized_text_entry(0x10, 0xD));
@@ -236,7 +232,7 @@ TWindowDuelResult::~TWindowDuelResult() {
 
 TWindowDuelResult::TWindowDuelResult(s32 client)
     : TWindowBase((u8 *)&window_duel_result_descriptor, (s16)client, (u8 *)get_window_layout_position(0x24)) {
-    m_name = window_duel_result_class_name;
+    m_name = class_name;
     page_indicator = new PageIndicator(0, 2, client_index);
     if (TCameraCtrl::get_camera_id() > 2) {
         scale_x = 0.8f;

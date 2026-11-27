@@ -61,7 +61,7 @@ void PlayerTechniqueState::reset_tech_state() {
     u8 v;
     s32 i;
     n = technique_count();
-    v = TObjPlayer::get_item_count_max();
+    v = get_item_count_max();
     for (i = 0; i < n; i++) {
         levels[i] = v;
         caps[i] = v;

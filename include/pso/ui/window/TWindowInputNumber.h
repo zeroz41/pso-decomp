@@ -68,5 +68,8 @@ struct InputNumberWindowLayout {
     ValueLayoutRecord rec_0;
 };
 
+struct ArrowUV { f32 u, v; };
+
+struct ArrowUVs { ArrowUV uv[2]; };
 
 #endif

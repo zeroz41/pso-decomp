@@ -2,9 +2,9 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlyDispData.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
+#include "pso/ui/city/JudgeItem.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/TLobby_802268F4.h"
@@ -38,9 +38,11 @@
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/city/AppraisalScore.h"
+#include "pso/system/GameModeQueries.h"
 
 const char *shop_judgment_item_window_class_name = "TShopJudgmentItemWindow";
 
@@ -254,7 +256,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
         }
         if (this->help_window == NULL) {
             this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
-            if ((this->help_window != NULL) && (TLobby::is_camera_ctrl_active() > 2)) {
+            if ((this->help_window != NULL) && (is_camera_ctrl_active() > 2)) {
                 this->help_window->set_scale(0.75f, 0.75f);
             }
             this->help_window->set_displayed_item_colored(&judged_item);
@@ -301,7 +303,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 send_message(0xB, 1);
                 yes_no_menu->close();
                 yes_no_menu = NULL;
-                if (TLobby::get_shop_value() > 0) {
+                if (get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
                 set_state(0);
@@ -366,7 +368,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 }
                 send_6x25_equip_item(player, judged_item.id, 0);
                 send_message(0xB, 1);
-                if (TLobby::get_shop_value() > 0) {
+                if (get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
                 set_state(0);
@@ -379,7 +381,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 player->request_inventory_item(&judged_item);
                 set_judgment_target_flag(this, &judged_item);
                 send_message(0xB, 1);
-                if (TLobby::get_shop_value() > 0) {
+                if (get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
                 set_state(0);
@@ -393,7 +395,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             player->request_inventory_item(&judged_item);
             set_judgment_target_flag(this, &judged_item);
             send_message(0xB, 1);
-            if (TLobby::get_shop_value() > 0) {
+            if (get_shop_value() > 0) {
                 play_cue_stream_file("miniclear.adx");
             }
             set_state(0);

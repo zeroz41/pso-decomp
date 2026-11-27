@@ -7,7 +7,8 @@
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "types.h"
 
-// C2/C3: the player's choice search settings.
+// C2 and C3: the player's choice search settings. TProtocol::send_choice_search_parameters sends C2,
+// TProtocol::send_choice_search sends C3.
 struct ChoiceSearchPacket {
     packet_header header;
     TPlyChoiceSearchConfig parameters;
@@ -25,7 +26,9 @@ struct ChoiceSearchOption {
     void bswap();
 };
 
-// C0: the choice search options the server offers; header.flags is the entry count.
+// C0: the choice search options the server offers, the answer to
+// TProtocol::send_choice_search_options_request; header.flags is the entry count.
+// TProtocol::handle_cmd_C0 passes them to TLobby::handle_choice_search_options.
 struct TRecvChoiceSearchOptions {
     packet_header header;
     ChoiceSearchOption entries[56];
@@ -57,7 +60,8 @@ struct ChoiceSearchResult {
     void bswap();
 };
 
-// C4: the choice-search results the server sends.
+// C4: the players the choice search found. TProtocol::handle_cmd_C4 passes them to
+// TLobby::handle_choice_search_results.
 struct ChoiceSearchResultList {
     ChoiceSearchResultList();
 
@@ -90,18 +94,23 @@ LAYOUT_ASSERT(ChoiceSearchResultSize, sizeof(ChoiceSearchResult) == 0xD4);
 LAYOUT_ASSERT(ChoiceSearchResultListSize, sizeof(ChoiceSearchResultList) == 0x1A84);
 
 struct ChoiceSearchSelection;
+struct ChoiceSearchSelections;
 struct TPlyChoiceSearchConfig;
 
-extern "C" {
-u8 *copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src);
+// Keeps, of the selections, the categories the server offers (in its order) with the option picked before.
+void rebuild_choice_search_selections(ChoiceSearchSelections *selections, TRecvChoiceSearchOptions *chr_select);
+
+// Copies the five selections of src to dest (rebuild_choice_search_selections saves the old ones with it).
+ChoiceSearchSelections *copy_choice_search_block(ChoiceSearchSelections *dest, const ChoiceSearchSelections *src);
 int quest_hack_check_b_stub(void);
 int quest_hack_check_a_stub(void);
-}
 
 // The option picked in the category `parent_choice_id` of the five selections, or 0.
 s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id);
 
 // Copies the saved choice search selections into the search request.
 void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config);
+
+void clear_choice_search_selections(ChoiceSearchSelection *arr);
 
 #endif

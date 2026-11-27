@@ -127,7 +127,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 pad_75c;
     s32 player_controlled;  // init_control_mode: a player (target_client_id) steers the Dragon
     u16 target_client_id;
-    u8 unk_766[0x2];
+    u8 pad_766[0x2];
     s32 controlTimer;
     s32 facingAngle;
     s32 attack_kind;  // the fire attacks' DragonAttackParams kind: 1, 0x13 in V2
@@ -197,7 +197,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void choose_next_action();
     static void free_resources();
     static void *create(void *set_data);
-    static saddr get_instance();
+    static TBoss1Dragon *get_instance();
     static void select_fireball_particle_table();
     void draw();
     void update_burrow_inward_run(u32 reason, s32 state);
@@ -313,7 +313,7 @@ LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 
 struct ByteBlock_C { u8 bytes[0xC]; };
 struct DragonCaptureVectors { Vec vectors[3]; };
-// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
+// The Dragon's block from dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
 // landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
 struct Boss1DragonParams {
     f32 breath_attack_power;   // deliver_breath_attack

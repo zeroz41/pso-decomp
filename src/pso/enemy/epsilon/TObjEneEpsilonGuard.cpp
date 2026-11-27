@@ -14,7 +14,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 

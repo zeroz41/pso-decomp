@@ -28,14 +28,13 @@ struct TAdEnterBaseGC : public TObject {
     TAdSelectCurGC *select_cursor;
     TWindowBase *prompt_window;
     TWindowCallBack *callback_window;
+    s32 input_valid;
+    s32 prev_input_valid;
 };
 
-LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);
+LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x40);
 
-extern "C" {
 void entry_window_render_stub(void);
-// TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
-}
 
 extern u32 serial_access_entered_value_table[4];
 extern s32 password_entry_dispatch_state;
@@ -44,20 +43,15 @@ extern TKeyBoardControl *password_entry_keyboard_control;
 
 
 void clear_state(void);
-extern "C" {
-u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field);
-s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field);
-int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *text);
-}
 
-extern "C" {
 s32 is_pso_pass_save_accepted(void);
-}
 
 void draw_masked_password_field(saddr context);
-extern "C" {
-void render_entry_window(void *window, void *context);
-}
 void draw_entry_field_box(void);
+void render_entry_window(void *window, void *context);
+
+struct LengthLimits { u32 n[4]; };
+
+struct KeyboardModes { u8 b[4]; };
 
 #endif

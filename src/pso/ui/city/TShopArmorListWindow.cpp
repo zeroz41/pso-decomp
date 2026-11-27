@@ -23,15 +23,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/TLobby_8021B268.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/shop/ShopStockCount.h"
+#include "pso/item/item_create.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/text_80222C28.h"
-#include "pso/unk/text_80222DE8.h"
+#include "pso/ui/CounterTextLookup.h"
+#include "pso/item/shop/ShopSinglePurchase.h"
+#include "pso/system/GameModeQueries.h"
 
 #pragma readonly_strings on
 
@@ -172,7 +173,7 @@ void TShopArmorListWindow::refresh_item_list() {
     }
     if (help_window == NULL) {
         help_window = new TWindowHelpItem(get_window_layout_position(0x27), player->get_entity_id());
-        if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (help_window != NULL && is_camera_ctrl_active() > 2) {
             help_window->set_scale(0.75f, 0.75f);
         }
         help_window->set_displayed_item_colored(stock);
@@ -200,7 +201,7 @@ s32 TShopArmorListWindow::check_purchase_eligibility() {
         return 0;
     }
     r = &stock[i];
-    if (player->can_inventory_accept_item((u8 *)r) == 0) {
+    if (player->can_inventory_accept_item(r) == 0) {
         return 1;
     }
     if (check_equip_requirements(player, r, &res) == 0) {

@@ -18,8 +18,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
@@ -150,7 +150,7 @@ void TItemProShield::on_unequip() { clear_technique_boosts(); }
 
 void TItemProShield::write_item_data(TItemData *data) {
     data->set_dfp_bonus(dfp_bonus);
-    data->set_bswapped_field_8(evp_bonus);
+    data->set_evp_bonus(evp_bonus);
 }
 
 void TItemProShield::update_equipped() {
@@ -173,7 +173,7 @@ void TItemProShield::update_owned() {
 
 void TItemProShield::carry_over_stats(TItemData *data, TItem *item) {
     data->set_dfp_bonus(((TItemProShield *)item)->dfp_bonus);
-    data->set_bswapped_field_8(((TItemProShield *)item)->evp_bonus);
+    data->set_evp_bonus(((TItemProShield *)item)->evp_bonus);
 }
 
 void TItemProShield::on_update_equipped() {}
@@ -291,12 +291,12 @@ s32 is_opposite_sex_player_near(u16 idx) {
     TObjPlayer *other;
     me = get_player_by_client_id(idx);
     if (me != NULL) {
-        mask = (me->class_flags & 1) ? 2 : 1;
+        mask = (me->appearance.classFlags & 1) ? 2 : 1;
         floor = me->get_floor();
         for (i = 0; i != 4; i++) {
             if (i != idx) {
                 other = get_player_by_client_id(i);
-                if (other != NULL && (other->class_flags & mask) && floor == other->get_floor() &&
+                if (other != NULL && (other->appearance.classFlags & mask) && floor == other->get_floor() &&
                     horizontal_distance_squared(&me->position, &other->position) < 400.0) {
                     found = 1;
                     break;

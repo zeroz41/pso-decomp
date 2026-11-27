@@ -7,9 +7,8 @@
 #include "pso/effect/item/TItemEffCane.h"
 
 void TItemWeaponWand::emit_marker_effects() {
-    saddr item = (saddr)this;
-    if ((get_item_index() < 4U) && (((TItemWeapon *)item)->get_attack_stage() == 0)) {
-        TItemEffCane::spawn_pair(tl_05, (TItem*)item, 1, 2);
+    if ((get_item_index() < 4U) && (get_attack_stage() == 0)) {
+        TItemEffCane::spawn_pair(tl_05, this, 1, 2);
     }
 }
 

@@ -23,9 +23,9 @@ struct TWindowSubGameEnd : public TObject {
 
 LAYOUT_ASSERT(TWindowSubGameEnd_size, sizeof(TWindowSubGameEnd) == 0x2C);
 
-// --- C functions defined in TWindowSubGameEnd.cpp ---
 void clear_game_end_window_on_floor_free(void);
 void clear_game_end_window_on_floor_load(void);
-// --- end of C functions
+
+void init_char_select(TObject *fade);
 
 #endif

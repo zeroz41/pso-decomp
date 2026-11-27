@@ -3,7 +3,7 @@
 
 
 void TItemData::set_stack_count(u8 count) {
-    if (TItemData::lookup_item_def(this) != 0) {
+    if (lookup_item_def() != 0) {
         data1.data_u8[5] = count;
         return;
     }

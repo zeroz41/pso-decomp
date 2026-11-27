@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/weapon/TWeaponCasing.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
@@ -13,7 +13,7 @@
 #include "pso/weapon/TItemWeaponInfernoBazooka.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/effect/item/TItemEffFlame.h"
@@ -29,7 +29,7 @@ void TItemWeaponInfernoBazooka::emit_marker_effects() { recoil_state = 1; }
 
 TItemWeaponInfernoBazooka::~TItemWeaponInfernoBazooka() {}
 
-void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
+void expire_weapon_casing(TObject *p) { p->queue_destruction(); }
 
 TWeaponCasing::~TWeaponCasing() {}
 
@@ -45,7 +45,7 @@ TItemWeaponInfernoBazooka::TItemWeaponInfernoBazooka(TObject *parent, u8 *item) 
     impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
     recoil_state = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
-    shot_callback = (WeaponShotCallback)create_shoot_model_with_particles;
+    shot_callback = create_shoot_model_with_particles;
     shot_speed = 15.0f;
 }
 
@@ -64,7 +64,7 @@ void TItemWeaponInfernoBazooka::update_weapon() {
             rotation[0] = 0x4000;
             rotation[1] = owner->rotation_y;
             rotation[2] = 0;
-            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)rotation);
+            TObjPlayer::launch_weapon_casing(tl_05, (uaddr)this, 3, &v, rotation);
         }
     } else if (this->recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);
@@ -126,19 +126,19 @@ void TWeaponCasing::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle) {
+void TObjPlayer::launch_weapon_casing(TObject *parent, uaddr item, s32 joint, Vec *velocity, s32 *angle) {
     Vec joint_pos;
     TObject *object;
     if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, &joint_pos) != 0)) {
-        object = new TWeaponCasing((TObject *)parent, (TItem *)item, &joint_pos, (Vec *)velocity, (s32 *)angle);
+        object = new TWeaponCasing(parent, (TItem *)item, &joint_pos, velocity, angle);
         TItemAttacker::spawn_item_timer(object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle) {
+void TObjPlayer::spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle) {
     TObject *p;
     if ((parent != 0) && (item != 0U) && (pos != 0U) && (velocity != 0U) && (angle != 0U)) {
-        p = new TWeaponCasing((TObject *)parent, (TItem *)item, (Vec *)pos, (Vec *)velocity, (s32 *)angle);
+        p = new TWeaponCasing(parent, item, pos, velocity, angle);
         TItemAttacker::spawn_item_timer(p, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }

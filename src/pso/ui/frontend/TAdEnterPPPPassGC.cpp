@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/network/NetworkConnect.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -11,7 +11,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCallBack.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
-#include "pso/unk/text_8014618C.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/TLobby.h"

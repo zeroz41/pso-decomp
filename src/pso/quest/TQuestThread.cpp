@@ -7,7 +7,6 @@
 #include "pso/ui/TLevelSelect.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include <string.h>
@@ -44,26 +43,21 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_800F8A18.h"
-#include "pso/item/TItemData_8010EDA8.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/item/MaterialStats.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/quest/QuestFlagSync.h"
+#include "pso/quest/QuestFlagCommand.h"
 
 
 #pragma readonly_strings on
 
-
-extern "C" {
-
-extern int quest_bin_decompressed_size;
-extern u8 *online_quest_bin_data;
-}
+struct ByteBlock_20 { u8 bytes[0x20]; };
 
 extern const char *quest_thread_class_name;
 extern const char *quest_thread_board_class_name;
@@ -705,7 +699,7 @@ s32 TObjItemNameEntry::process_keyboard_input() {
             keyboard->clear_keyboard_flag60_bit1();
             return 0;
         }
-        if (TWindowSubComCard::contains_profanity((char *)text) != 0) {
+        if (contains_profanity((char *)text) != 0) {
             keyboard->clear_keyboard_flag60_bit1();
             mem_free((void *)text);
             return 0;
@@ -780,7 +774,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     s32 name;
 
     m_name = obj_item_ok_window_class_name;
-    confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x57));
+    confirm_menu = init_shop_judgment_window(get_window_layout_position(0x57));
     if (confirm_menu != NULL) {
         confirm_menu->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions(confirm_menu);

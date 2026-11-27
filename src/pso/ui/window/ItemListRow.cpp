@@ -7,10 +7,10 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TItemData.h"
@@ -20,12 +20,11 @@
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/ui/window/WindowTextDraw.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/item/item_create.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma readonly_strings on
 
@@ -215,7 +214,7 @@ void ItemListRow::update_item_colors(TItemData *item) {
     s32 item_flags;
     TObjPlayer *player;
 
-    if (TItemData::is_wrapped(item) != 0) {
+    if (item->is_wrapped() != 0) {
         this->style = -1;
         return;
     }
@@ -224,7 +223,7 @@ void ItemListRow::update_item_colors(TItemData *item) {
         equip_requirements = check_equip_requirements(player, item, &requirement);
         item_flags = item->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
-            if ((item_flags == 0) && (TItemData::is_rare_item(item) != 0)) {
+            if ((item_flags == 0) && (item->is_rare_item() != 0)) {
                 this->status_icon = 0x19U;
             } else if (requirement & 1) {
                 this->status_icon = 0x13U;
@@ -238,7 +237,7 @@ void ItemListRow::update_item_colors(TItemData *item) {
         }
         if (equip_requirements != 0) {
             this->category_style = -1;
-            if (TItemData::is_custom_name_srank(item) != 0) {
+            if (item->is_custom_name_srank() != 0) {
                 this->style = 0xFFFE3C28;
                 return;
             }
@@ -510,8 +509,8 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
     this->x = 0.0f;
     this->status_icon = 51;
     item_data = get_item_data((uaddr)item);
-    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
-    forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
+    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
+    forward_message(get_shared_text_buffer(), item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     update_stat_line_if_positive(count);
     update_item_colors(item);
@@ -532,8 +531,8 @@ void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     this->x = 0.0f;
     this->status_icon = 0x33;
     item_data = get_item_data((uaddr)item);
-    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], TItemData::is_wrapped(item));
-    forward_message((saddr)get_shared_text_buffer(), (uaddr)(void *)item);
+    select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
+    forward_message(get_shared_text_buffer(), item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();

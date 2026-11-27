@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/mine/TOMonitorMachine01.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
@@ -13,8 +13,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/LocalClientId.h"
 
 
 const char *bm_fs_obj_monitor_model_names[] = {"fs_obj_monitor.gj", NULL};

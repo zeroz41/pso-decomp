@@ -7,12 +7,12 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/StripBufferPair.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 
 #include "pso/unk/TLobby_802268F4.h"
@@ -20,7 +20,7 @@
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"

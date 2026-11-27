@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOffline.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/item/shop/TShopGenerator.h"
@@ -29,7 +29,8 @@
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/text_802233F8.h"
+#include "pso/player/OtherPlayersHold.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 // The quest-list callbacks before the guild sequence proper are built in source order;
 // the rest of the file uses deferred code generation (reverse order in .text).
@@ -95,9 +96,9 @@ void THunterGuildSeqOffline::set_state_close2(TShopWindowBase *) {
     }
 }
 
-void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 5; set_keyboard_input_flag(); }
+void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { set_enemy_mode_flag(); evt2_random_enemies_mode = 5; set_keyboard_input_flag(); }
 
-void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 1; set_keyboard_input_flag(); }
+void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { set_enemy_mode_flag(); evt2_random_enemies_mode = 1; set_keyboard_input_flag(); }
 
 
 void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
@@ -238,7 +239,6 @@ void THunterGuildSeqOffline::handle_window_input() {
 
 #pragma defer_codegen on
 
-struct GuildMenuCallbackBase { char pad[0x18]; };
 struct GuildMenuCallbackView : GuildMenuCallbackBase {
     virtual void m0(); virtual void m1();
 };
@@ -330,7 +330,7 @@ void THunterGuildSeqOffline::reset_quest_result_callbacks() {
 }
 extern "C" {
 
-void reset_quest_result_callbacks_on_unload(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
+void THunterGuildSeqOffline::unload_quest_result_callbacks() { reset_quest_result_callbacks(); }
 }
 
 void THunterGuildSeqOffline::notify_quest_thread() {

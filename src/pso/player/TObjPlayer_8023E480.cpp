@@ -5,14 +5,14 @@
 #include "types.h"
 #include <string.h>
 #include <stdio.h>
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/prs.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/system/memory.h"
 #include "pso/render/psoLoadTexture.h"
 

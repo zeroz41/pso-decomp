@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 extern s32 area_random_seed;
 
@@ -19,5 +20,13 @@ public:
 };
 
 TObjChara *get_enemy_entity(u16 entity_id);
+
+void object_control_on_floor_free_stub(void);
+
+// The enemy's row of the floor's set data (what set_entry points at).
+struct EnemySetData {
+    s16 set_index; u8 pad2[4]; u16 entity_id; s16 room; s16 group; u8 padC[4];
+    Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
+};
 
 #endif

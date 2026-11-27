@@ -2,10 +2,9 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/DragonAttackParams.h"
+#include "pso/enemy/flower/TObjEneRe2Flower.h"
 
 // The flower enemy's constant tables (TObjEneRe2Flower and TObjEneDD read them).
-
-extern TObjMotionAction re2_flower_animation_descriptors[8];
 
 // The normal and rare variants' self-destruct blast (state_self_destruct hands it to setup_attack_at_owner).
 __declspec(section ".rodata") extern const DragonAttackParams enemy_dd_attack_param_block ATTRIBUTE_ALIGN(4) = {

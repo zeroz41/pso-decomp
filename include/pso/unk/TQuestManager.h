@@ -11,7 +11,7 @@ public:
     u8 unk_1C[0x24 - 0x1C];
     QuestVmContext ctx;
     QuestBinHeader *script;
-    u8 unk_19C[4];
+    u8 pad_19C[4];
     s32 kind;
 
     TQuestManager(TObject *parent, void *script, s32 size);

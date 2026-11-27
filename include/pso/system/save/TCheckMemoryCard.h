@@ -76,4 +76,17 @@ LAYOUT_ASSERT(TCheckMemoryCard_prompt_accepted_offset, offsetof(TCheckMemoryCard
 LAYOUT_ASSERT(TCheckMemoryCard_unk_48_offset, offsetof(TCheckMemoryCard, unk_48) == 0x48);
 LAYOUT_ASSERT(TCheckMemoryCard_use_main_ctrl_offset, offsetof(TCheckMemoryCard, use_main_ctrl) == 0x4C);
 
+// Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.
+struct CheckMemoryCardText {
+    s32 group;
+    s32 entry;
+    s32 keyboard_entry;
+};
+
+// One entry per state: enter is called by set_state, run by run_task every frame.
+struct CheckMemoryCardState {
+    void (TCheckMemoryCard::*enter)();
+    void (TCheckMemoryCard::*run)();
+};
+
 #endif

@@ -14,6 +14,7 @@ struct TWindowSubEquipList : public TWindowMenuIconLine {
 
 LAYOUT_ASSERT(TWindowSubEquipList_size, sizeof(TWindowSubEquipList) == 0x88);
 
+struct NJS_POINT2;
 TWindowSubEquipList *create_equip_list_window(const NJS_POINT2 *parent, const NJS_POINT2 *position, s32 client);
 
 #endif

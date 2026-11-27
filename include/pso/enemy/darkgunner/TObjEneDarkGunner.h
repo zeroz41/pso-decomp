@@ -10,7 +10,7 @@ class TObject;
 class TParticleCtrl;
 class TeneFakeTecThunderEff;
 
-// The record TLobby::dispatch_shared_handler_a(30) returns (dark_gunner_behavior_params).
+// The record dispatch_shared_handler_a(30) returns (dark_gunner_behavior_params).
 struct TObjEneDarkGunnerBehaviorParams {
     f32 float_params[6]; // get_float_parameter: 0 move speed, 1 move distance, 2 damage limit, 3 dark_gunner_shot_speed
     s32 int_params[4];   // get_int_parameter: 0 attack timer, 1 hide timer, 2 bodies->defense while behavior_flags bit 22, 3 TObjEneDarkGunnerShot t.b

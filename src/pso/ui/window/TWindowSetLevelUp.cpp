@@ -6,18 +6,15 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/player/PlayerSlots.h"
-
 
 
 const char *TWindowSetLevelUp::class_name = "TWindowSetLevelUp";
 
 void TWindowShop::set_capacity(s32 capacity) { this->capacity = capacity; }
 
-// The shown stats copy as one 0x16-byte block, then HP and TP.
-struct ByteBlock_16 { u8 bytes[0x16]; };
 
 void PlayerLevelStats::copy_stat_block(const PlayerLevelStats *src) {
     *(ByteBlock_16 *)this = *(const ByteBlock_16 *)src;
@@ -26,9 +23,9 @@ void PlayerLevelStats::copy_stat_block(const PlayerLevelStats *src) {
 }
 
 
-TWindowSetLevelUp::TWindowSetLevelUp(TObject *parent, saddr stats, s32 client) : TObject(parent) {
+TWindowSetLevelUp::TWindowSetLevelUp(TObject *parent, const PlayerLevelStats *stats, s32 client) : TObject(parent) {
     m_name = class_name;
-    stat_gains.copy_stat_block((const PlayerLevelStats *)stats);
+    stat_gains.copy_stat_block(stats);
     timer = 0;
     this->client = client;
     state = 0;

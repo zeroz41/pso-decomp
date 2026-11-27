@@ -48,6 +48,9 @@ struct PlayerBattleScore {
     PlayerSubObjectSlots slots;
 
     PlayerBattleScore();
+    ~PlayerBattleScore();
+    // Clears the timer and every score slot.
+    void reset();
     void set_timer(s32 v);
     s32 get_timer();
 };

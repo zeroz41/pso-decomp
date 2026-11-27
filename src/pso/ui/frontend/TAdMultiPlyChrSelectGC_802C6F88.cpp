@@ -1,6 +1,6 @@
 #include "types.h"
 #include <stddef.h>
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
@@ -67,13 +67,13 @@ void TAdMultiPlyChrSelectTransitionGC::run_task() {
         case 150:
             this->position1X = 650.0f;
             this->position1Y = 425.0f;
-            this->target1X = 616.0f + TLobby::calc_result_offset();
+            this->target1X = 616.0f + calc_result_offset();
             this->target1Y = 425.0f;
             break;
         case 300:
             this->position0X = 650.0f;
             this->position0Y = 425.0f;
-            this->target0X = 616.0f + TLobby::calc_phase_offset();
+            this->target0X = 616.0f + calc_phase_offset();
             this->target0Y = 425.0f;
             this->timer = 0;
             break;
@@ -99,7 +99,7 @@ TAdMultiPlyChrSelectTransitionGC::TAdMultiPlyChrSelectTransitionGC(TObject *pare
     this->parent = parent;
     this->position0X = 650.0f;
     this->position0Y = 425.0f;
-    this->target0X = 616.0f + TLobby::calc_phase_offset();
+    this->target0X = 616.0f + calc_phase_offset();
     this->target0Y = 425.0f;
     this->position1X = 650.0f;
     this->position1Y = 425.0f;

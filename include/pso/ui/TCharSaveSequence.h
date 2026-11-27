@@ -47,11 +47,16 @@ public:
 };
 LAYOUT_ASSERT(TCharSaveSequence_size, sizeof(TCharSaveSequence) == 0x44);
 
-extern "C" {
 void on_chr_select_fade_out_done(TObject *fade);
 void release_single_ply_chr_select_scene(void);
-}
 void init_single_player_char_select_scene(void);
 void seed_character_select_serial_rng(s32 seed);
+
+// The two serial number generator seeds; the rest of the 0x10 bytes is not used here.
+struct ChrSelectSerialSeeds {
+    s32 seed_a;
+    s32 seed_b;
+    u8 remaining[0x8];
+};
 
 #endif

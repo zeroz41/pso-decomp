@@ -142,7 +142,7 @@ void play_appear_effects(Vec *position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), position, 0, 0);
         break;
     }
-    spawn_particles_at((saddr)position);
+    spawn_particles_at(position);
 }
 
 void play_area_sound_effect(Vec *position) {
@@ -168,18 +168,15 @@ void play_area_sound_effect(Vec *position) {
         play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), position, 0, 0);
         break;
     }
-    spawn_particles_at((saddr)position);
+    spawn_particles_at(position);
 }
-extern "C" {
 
-void spawn_particles_at(saddr position) {
+void spawn_particles_at(Vec *position) {
     Vec pos;
-    VecCopy(&pos, (const Vec *)position);
-    create_timed_particle_emitter((void *)position, 0xEA, 0xA, 0x1E);
+    VecCopy(&pos, position);
+    create_timed_particle_emitter(position, 0xEA, 0xA, 0x1E);
     pos.y += 30.0f;
     spawn_particle_effect(&pos, 0xE9);
-}
-
 }
 
 void create_dead_spot(Vec *pos, s32 duration, f32 radius) {

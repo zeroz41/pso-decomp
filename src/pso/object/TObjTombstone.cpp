@@ -15,9 +15,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker_801329B0.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
@@ -31,8 +31,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/DebugFont.h"
 #include "pso/quest/challenge/TChallenge4P.h"
@@ -43,7 +43,6 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
-struct LabelOffset { s16 x, y; };
 
 extern "C" {
 
@@ -312,7 +311,7 @@ void TObjTombstone::format_player_name() {
     player = get_player_by_client_id(this->client_id);
     dst[0] = 0;
     if (player != NULL) {
-        strncpy(buf, player->name, 0x2F);
+        strncpy(buf, player->appearance.name, 0x2F);
         buf[0x2F] = 0;
         for (p = buf + strlen(buf) - 1; p > buf && *p == ' '; p--) {
             *p = 0;
@@ -329,7 +328,7 @@ void TObjTombstone::format_label() {
 
 void TObjTombstone::build_name_text() {
     char *buf = this->labels[2];
-    if (this->record.display_name[0] == 0 || TWindowSubComCard::contains_profanity(this->record.display_name) != 0) {
+    if (this->record.display_name[0] == 0 || contains_profanity(this->record.display_name) != 0) {
         buf[0] = 0;
     } else {
         sprintf(buf, "%s%s", get_message_text(0x4C), this->record.display_name);
@@ -355,7 +354,7 @@ void TObjTombstone::format_enemy_text() {
 
 void TObjTombstone::format_quoted_name() {
     char *buf = this->labels[4];
-    if (this->record.unit_name[0] == 0 || TWindowSubComCard::contains_profanity(this->record.unit_name) != 0) {
+    if (this->record.unit_name[0] == 0 || contains_profanity(this->record.unit_name) != 0) {
         buf[0] = 0;
     } else {
         sprintf(buf, "\"%s\"", this->record.unit_name);

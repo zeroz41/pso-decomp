@@ -4,7 +4,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 
-/* Own TU: these four follow __sinit_TBoss4DarkFalz_cpp in .text, and CodeWarrior emits a
+/* Own TU: these four follow __sinit_TBoss4DarkFalz_States_cpp in .text, and CodeWarrior emits a
  * TU's static initializer after every function of that TU (weak inline copies follow their first
  * caller under -inline off and -inline off,deferred alike). */
 

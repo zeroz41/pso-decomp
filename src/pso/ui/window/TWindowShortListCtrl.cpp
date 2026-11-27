@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubItem.h"
@@ -23,7 +22,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/unk/TBattleProximitySound.h"
 #include "pso/system/ControllerInputState.h"
@@ -43,17 +42,14 @@
 
 // Compared as a signed word here (cmpwi) while TWindowCtrl.cpp defines it as bool.
 s32 is_com_card_window_open();
-extern "C" {
-s32 try_send_6x27_use_item(void *player, s32 key);
-}
 
 // The class name TObject::m_name points at.
 const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
 
-// Screen position of the list windows (inferred from create_equip_kind_window / set_scroll_target use).
+// Screen position of the list windows (from create_equip_kind_window / set_scroll_target use).
 static const NJS_POINT2 short_list_window_pos = {308.0f, 124.0f};
 
-// First run_task state of each page (inferred from enter_page_first_state and run_task's case labels).
+// First run_task state of each page (from enter_page_first_state and run_task's case labels).
 static const u8 page_first_state[4] = {0, 3, 6, 9};
 
 s16 TWindowMenu::get_selected_index() { return marked_row; }
@@ -76,7 +72,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
         queue_destruction();
         return;
     }
-    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    CharacterAppearanceFields *appearance = &player->appearance;
     if (appearance == NULL) {
         queue_destruction();
         return;
@@ -347,7 +343,7 @@ void TWindowShortListCtrl::cycle_list_page() {
         s8 old_page = page;
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
-            CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+            CharacterAppearanceFields *appearance = &player->appearance;
             if (appearance != NULL && help_window == NULL) {
                 page++;
                 if (page >= 4) {
@@ -402,7 +398,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
                     if (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, player, 4, slot) != 0) {
                         set_action_palette_tag_mode(&cursor->palette_override, 4);
                         set_action_palette_tag_slot(&cursor->palette_override, slot);
-                        set_action_channel_active((u8 *)&cursor->palette_override);
+                        set_action_channel_active(&cursor->palette_override);
                     }
                 }
             }
@@ -430,7 +426,7 @@ s32 TWindowShortListCtrl::is_technique_usable() {
     if (player == NULL) {
         return 0;
     }
-    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    CharacterAppearanceFields *appearance = &player->appearance;
     if (appearance == NULL) {
         return 0;
     }

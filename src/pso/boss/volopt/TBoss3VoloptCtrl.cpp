@@ -14,7 +14,7 @@
 #include "pso/audio/MusicControl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 

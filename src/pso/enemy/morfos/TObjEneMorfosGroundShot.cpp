@@ -77,7 +77,7 @@ void TObjEneMorfosGroundShot::run_task() {
     if (owner != 0) {
         for (i = 0; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && fabs_float(pos.y - p->body_center.y) < 20.0f) {
+            if (TObjPlayer::is_valid_and_active(p) != 0 && fabs_float(pos.y - p->body_center.y) < 20.0f) {
                 hit_target_in_range((TObjChara *)p, owner);
             }
         }

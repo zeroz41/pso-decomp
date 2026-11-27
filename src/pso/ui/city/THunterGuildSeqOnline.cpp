@@ -31,6 +31,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/quest/QuestActiveFlag.h"
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
@@ -308,10 +309,10 @@ void THunterGuildSeqOnline_Server::open_quest_list() {
     l = new TQuestListOnline(tl_05, this, player);
     if (l != 0) {
         display_guild_message(4, 1);
-        l->cancelled_callback = on_guild_quest_list_cancelled;
+        l->cancelled_callback = on_quest_list_cancelled;
         l->callback2c = on_quest_list_state_10;
-        l->downloaded_callback = on_guild_quest_downloaded;
-        l->download_failed_callback = THunterGuildSeqOffline::on_quest_download_failed;
+        l->downloaded_callback = on_quest_downloaded;
+        l->download_failed_callback = on_quest_download_failed;
         set_state(0xE);
     }
 }
@@ -323,7 +324,7 @@ void THunterGuildSeqOnline_Server::confirm_and_close_if_valid() {
     }
 }
 
-void on_guild_quest_list_cancelled(void) {
+void THunterGuildSeqOnline_Server::on_quest_list_cancelled() {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(0xC, 1);
         hunter_guild_seq_online_server_instance->set_state(9);
@@ -331,7 +332,7 @@ void on_guild_quest_list_cancelled(void) {
     }
 }
 
-void THunterGuildSeqOffline::on_quest_download_failed() {
+void THunterGuildSeqOnline_Server::on_quest_download_failed() {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_message(get_message_text(0x43), 1);
         hunter_guild_seq_online_server_instance->set_state(9);
@@ -347,7 +348,7 @@ void on_quest_list_state_10(void) {
     }
 }
 
-void on_guild_quest_downloaded(void) {
+void THunterGuildSeqOnline_Server::on_quest_downloaded() {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(6, 1);
         hunter_guild_seq_online_server_instance->set_state(0xC);
@@ -356,7 +357,7 @@ void on_guild_quest_downloaded(void) {
 }
 
 
-void set_random_enemies_mode(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; set_keyboard_input_flag(); }
+void set_random_enemies_mode(TObject *) { set_enemy_mode_flag(); evt2_random_enemies_mode = 2; set_keyboard_input_flag(); }
 
 void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 

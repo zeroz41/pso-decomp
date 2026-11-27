@@ -31,6 +31,7 @@ class PlayerActionProvider {
 public:
     PlayerMotionKey key;
     PlayerActionProvider();
+    s32 get_body_type();
     static void *operator new(size_t size);
     static void operator delete(void *p);
     virtual u8 *get_cell_address(s32, s32);

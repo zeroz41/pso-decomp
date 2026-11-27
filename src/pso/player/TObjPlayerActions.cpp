@@ -51,7 +51,7 @@
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/enemy/TObjEneBeastBase.h"
@@ -60,6 +60,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/weapon/TItemWeaponHeavenPunisher.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/base/ActorCollision.h"
@@ -76,7 +77,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/item/item_pmt.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 
 #pragma readonly_strings on
@@ -111,8 +112,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 
 
 extern "C" {
-
-s32 copy_attack_targets(void *dst, void *src);
 s32 draw_player_status(void *, void *, const char *);
 u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
@@ -122,13 +121,11 @@ u8 get_cast_technique_level(void *techs, s16 tech);
 }
 int is_android_player(TObjPlayer *p);
 void remove_photon_blast_participant(s32 id);
-void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 
 const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
-extern const char *TWindowReturnCity__class_name;
 
 }
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
@@ -766,8 +763,6 @@ void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 
         }
     }
 }
-extern "C" {
-
 void TObjPlayer::send_position_update() {
     G_SetPlayerPositionAndAngle_6x56 pkt;
     if (this == NULL || this->obj_isState2_324() == 0) {
@@ -993,9 +988,6 @@ void TObjPlayer::enter_freeze_action() {
         this->freeze_escape_step = (s32) -(freeze_escape_timer_scale * (f64) this->get_status_effect_timer(1));
     }
     this->set_action_state(0x13, (s16)get_no_action());
-}
-
-
 }
 void handle_6x53(G_Unknown_6x53 *command) {
     G_Unknown_6x53 m;
@@ -1636,7 +1628,7 @@ void TObjPlayer::prepare_death() {
         enable_action_input();
     }
     if (this->lock_on_cursor != NULL && this->lock_on_cursor->is_cursor_clear() == 0) {
-        ((TObjPlayer *)this->lock_on_cursor)->clear_flag_1_at_1c();
+        this->lock_on_cursor->clear_flag_1_at_1c();
     }
     if (this == NULL || this->obj_isState2_324() == 0) {
         c1.init();
@@ -2056,10 +2048,9 @@ void TObjPlayer::run_action11_phase(s16 phase) {
 
 void TObjPlayer::switch_interaction_phase6_nop() {  }
 
-void TObjPlayer::apply_velocity_if_ready(saddr player) {
-    TObjPlayer *p = (TObjPlayer *)player;
-    if (p->resolve_move_collision() == 0U) {
-        p->apply_velocity();
+void TObjPlayer::apply_velocity_if_ready() {
+    if (resolve_move_collision() == 0U) {
+        apply_velocity();
     }
 }
 
@@ -2133,7 +2124,7 @@ void TObjPlayer::run_switch_interaction_phase(s16 phase) {
         this->start_action_c();
         return;
       case 1:
-        TObjPlayer::apply_velocity_if_ready((saddr)this);
+        apply_velocity_if_ready();
         return;
       case 6:
         switch_interaction_phase6_nop();
@@ -2707,7 +2698,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     if ((cursor != NULL) && (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
-        set_action_channel_active((u8 *)&this->lock_on_cursor->palette_override);
+        set_action_channel_active(&this->lock_on_cursor->palette_override);
     }
 }
 
@@ -3354,7 +3345,7 @@ void TObjPlayer::start_attack_preparation() {
     case 1:
         this->phase = 1;
         this->set_state_flags(0x80);
-        ((TObjPlayer *)&this->follow_particles)->request_heavy_attack_particles();
+        this->follow_particles.request_heavy_attack_particles();
         scratch_vec.y = scratch_vec.x = 0.0f;
         player_feedback_light_color.a = scratch_vec.z = 1.0f;
         player_feedback_light_color.g = player_feedback_light_color.r = 0.8f;
@@ -3513,7 +3504,7 @@ void handle_6x46_attack_finished(G_AttackFinished_6x46 *command) {
     TItem *it;
     packet = *command;
     packet.bswap_received();
-    if (validate_6x46_attack_finished(&packet.header) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
+    if (validate_6x46_attack_finished(&packet) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
             pl->attack_state.set_lockon_targets(&packet.targets);
             it = TObjPlayer::get_equipped_weapon(pl);
@@ -3533,7 +3524,7 @@ void TObjPlayer::send_attack_target_packet() {
     if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (this->attack_state.capture_lockon_targets(this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         G_AttackFinished_6x46 packet;
         packet.header.client_id = this->get_entity_id();
-        copy_attack_targets(&packet.targets, this->attack_state.get_lockon_targets());
+        copy_attack_targets((u32 *)&packet.targets, (u32 *)(this->attack_state.get_lockon_targets()));
         packet.send();
     }
 }
@@ -4250,21 +4241,20 @@ void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840));
 
 void TObjPlayer::exit_idle_state() {  }
 
-void TObjPlayer::update_action(saddr owner) {
+void TObjPlayer::update_action() {
     u32 collision;
-    TObjPlayer *p = (TObjPlayer *)owner;
 
-    collision = p->resolve_move_collision();
+    collision = resolve_move_collision();
     if (collision == 0U) {
-        p->apply_velocity();
+        apply_velocity();
     } else if (collision == 1U) {
-        p->rewind_position_history();
+        rewind_position_history();
     }
-    if ((p->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (p->tick_regen_timer() != 0)) {
-        add_actor_tp(p, 1);
+    if ((is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (tick_regen_timer() != 0)) {
+        add_actor_tp(this, 1);
     }
-    if ((is_android_player(p) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (p->tick_regen_timer() != 0)) {
-        add_actor_hp(p, 1);
+    if ((is_android_player(this) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (tick_regen_timer() != 0)) {
+        add_actor_hp(this, 1);
     }
 }
 
@@ -4431,7 +4421,7 @@ void TObjPlayer::run_idle_state_phase(s16 phase) {
         start_animation();
         return;
       case 1:
-        TObjPlayer::update_action((saddr)this);
+        update_action();
         return;
       case 6:
         TObjPlayer::exit_idle_state();
@@ -4587,7 +4577,7 @@ void update_player_action_palette(TObjPlayer *player, u8 slot) {
 }
 }
 
-int is_android_player(TObjPlayer *p) { return (p->class_flags & CLASS_FLAG_ANDROID) != 0; }
+int is_android_player(TObjPlayer *p) { return (p->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
 
 
 void PhotonChairSeat::set_move_angle(s32 v) { move_angle = v; }
@@ -5682,7 +5672,7 @@ f32 PlayerAttackController::calc_attack_stage_multiplier(s32 kind) {
     return attack_type_accuracy_scales[kind] * attack_combo_accuracy_multipliers[get_validated_attack_stage()];
 }
 
-void PlayerAttackController::set_lockon_targets(void *src) { copy_attack_targets(&lockon_targets, src); }
+void PlayerAttackController::set_lockon_targets(CapturedTargetList *src) { copy_attack_targets((u32 *)&lockon_targets, (u32 *)src); }
 
 void PlayerAttackController::end_swing() { ((FlagWord *)&flags)->set(1); }
 
@@ -5692,18 +5682,15 @@ void PlayerAttackController::set_recovery_timer(s32 frames) { recovery_timer = f
 
 s32 PlayerAttackController::get_recovery_timer() { return recovery_timer; }
 
-void TObjPlayer::request_heavy_attack_particles() {
-    u16 *record = (u16 *)this;
-    emit_heavy_attack_particles((saddr)((s8 *)record + 4), *record);
-}
+void PlayerFollowParticles::request_heavy_attack_particles() { hands.emit_heavy_attack_particles(owner_id); }
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void emit_heavy_attack_particles(saddr owner, u16 target_id) {
-    TObjPlayer::check_hit_by_id(owner, target_id, 0xBB);
-    TObjPlayer::check_hit_by_id(owner, target_id, 0x1B7);
+void PlayerHandParticles::emit_heavy_attack_particles(u16 target_id) {
+    check_hit_by_id(target_id, 0xBB);
+    check_hit_by_id(target_id, 0x1B7);
 }
 
 f32 attack_damage_scale_table[3] = { 0.9f, 1.7f, 0.5f };

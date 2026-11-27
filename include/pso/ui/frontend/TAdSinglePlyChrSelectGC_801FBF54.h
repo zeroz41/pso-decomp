@@ -3,11 +3,17 @@
 
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/date.h"
 
 class TPlyCharData;
 struct CharacterFile;
 struct CharacterFileSlot;
 struct CharacterSaveRecord;
+struct SubtractiveRng;
+
+extern SubtractiveRng chr_select_rng_state;
+extern char memory_card_character_dir_name[0x20];
 
 CharacterFileSlot *get_selected_character_slot(CharacterFile *file);
 CharacterSaveRecord *get_selected_save_record(CharacterFile *file);
@@ -31,13 +37,9 @@ s32 poll_secondary_card_load(void);
 void rebuild_guild_card_save_file(void);
 void decrypt_secondary_card_buffer(void);
 
-extern "C" {
 s32 save_active_character_to_card(void);
-}
 int start_system_file_write(s32 chan);
-extern "C" {
 s32 begin_character_card_save(void);
-}
 void set_character_file_seed(CharacterFile *file, s32 value);
 s32 get_character_file_seed(CharacterFile *file);
 s32 start_character_file_write(void);
@@ -61,4 +63,21 @@ s32 load_system_file(s32 mode);
 void load_tables(int a0);
 s32 pso_system_load_gc(void);
 
+// The date the selected character was loaded at; the union keeps the 12 bytes and 4-byte alignment of the original object.
+union CharSelectDate {
+    DateStamp stamp;
+    u32 words[3];
+};
+
+// The save writers address the neighboring card records relative to the character record.
+struct CardSaveMetadataBlock {
+    CharacterCardMetadata character;
+    char system_filename[0x20];
+    char system_dir_name[0x20];
+    char character_dir_name[0x20];
+    EpisodeCardMetadata episode;
+    GuildCardFile guild_card;
+};
+
+extern u8 quest_memcard_key[];
 #endif

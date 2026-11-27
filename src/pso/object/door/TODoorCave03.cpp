@@ -6,7 +6,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
@@ -18,7 +18,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/GameModeQueries.h"
 
 const char *fs_obj_do_doa03_model_names[] = {"fs_obj_do_doa03.gj", NULL};
 const char *fs_obj_do_doa03_motion_names[] = {"fs_obj_do_doa03.njm", NULL};
@@ -139,7 +140,7 @@ void TODoorCave03::destroy() {
 
 void TODoorCave03::load_resources() {
     BmlResource *resource;
-    if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
+    if (enable_v2_features == 1 && is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave03_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
         return;

@@ -18,6 +18,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 void G_BarbaRayBossActions_6xAA::bswap() {
@@ -61,7 +62,7 @@ int TBoss7Joint::is_part_active() { return part_flags & 0x1; }
 
 void TBoss7Joint::init_boss_stats() {
     part_flags = part_flags | 1;
-    reload_stats_keep_hp_tp(TLobby::register_boss(0x10), TLobby::dispatch_shared_handler_b(0xF), TLobby::register_object(0x10));
+    reload_stats_keep_hp_tp(register_boss(0x10), dispatch_shared_handler_b(0xF), register_object(0x10));
     hp = 0x4E20;
     hpmax = 0x4E20;
     new TBoss7JointBreakUp(this, &position, index);
@@ -141,7 +142,7 @@ s32 TBoss7Joint::init_params() {
     copy_collision_body(&collision_body, &boss7_joint_collision_body_desc);
     set_collision_body(&collision_body);
     transform_part_positions();
-    reset_hp(TLobby::register_boss(0x10), TLobby::dispatch_shared_handler_b(0xF), TLobby::register_object(0x10));
+    reset_hp(register_boss(0x10), dispatch_shared_handler_b(0xF), register_object(0x10));
     hp = 0x4E20;
     hpmax = 0x4E20;
     set_state_flag_2();

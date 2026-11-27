@@ -17,8 +17,8 @@
 #include "pso/technique/TTimedSoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 #include "pso/object/lobby/TGoGoBallGoal.h"
 #include "pso/player/TObjPlayer.h"
@@ -30,7 +30,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/TLanguage.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -40,9 +40,9 @@
 #include "pso/object/lobby/TGoGoBallGame.h"
 #include <stddef.h>
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/client_id.h"
@@ -61,6 +61,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
+#include "pso/enemy/BattleParamTables.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -273,7 +274,7 @@ void TObjGoGoBall::run_task() {
     Vec q;
     Vec p;
     i = 0;
-    time = TLobby::get_clock_frames() % 2592;
+    time = get_clock_frames() % 2592;
     if (time >= gogo_ball_configuration.lifetime) {
         VecCopy(&p, &position);
         p.y += gogo_ball_configuration.radius;
@@ -327,7 +328,7 @@ void TObjGoGoBall::render() {
     VecCopy(&dir, &velocity);
     dir.y = 0.0f;
     len = vector_length(&dir);
-    direction_to_rotation_yx((u8 *)&dir, &rotation_y, &rotation_z);
+    direction_to_rotation_yx(&dir, &rotation_y, &rotation_z);
     heading = (u16)heading;
     rotation_y = (u16)rotation_y;
     if (0.0f != len) {
@@ -568,21 +569,20 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     pop_matrix();
 }
 
-void handle_6x79_gogo_ball(u8 *packet) {
-    G_GoGoBall_6x79 *cmd = (G_GoGoBall_6x79 *)packet;
-    cmd->bswap();
+void handle_6x79_gogo_ball(G_GoGoBall_6x79 *packet) {
+    packet->bswap();
     gogo_ball_sync_state.applied = 0;
-    gogo_ball_sync_state.position.x = cmd->x;
+    gogo_ball_sync_state.position.x = packet->x;
     gogo_ball_sync_state.position.y = 0.0f;
-    gogo_ball_sync_state.position.z = cmd->z;
-    gogo_ball_sync_state.angle = cmd->angle;
-    gogo_ball_sync_state.mode = cmd->mode;
-    gogo_ball_sync_state.sequence = cmd->sequence;
+    gogo_ball_sync_state.position.z = packet->z;
+    gogo_ball_sync_state.angle = packet->angle;
+    gogo_ball_sync_state.mode = packet->mode;
+    gogo_ball_sync_state.sequence = packet->sequence;
 }
 
 
 TGoGoBallGame::TGoGoBallGame(TObject *parent) : TObject(parent) {
-    beat = TLobby::get_internet_beat();
+    beat = get_internet_beat();
     TWindowCtrl::create_timer();
     set_gogo_ball_score(1, 0);
     set_gogo_ball_score(0, 0);
@@ -612,7 +612,7 @@ void TGoGoBallGame::run_task() {
     } else if (get_gogo_ball_score(0) >= 999) {
         set_gogo_ball_score(0, 0);
     }
-    m = TLobby::get_internet_beat();
+    m = get_internet_beat();
     r = (s32)fabs_float((f32)(m - this->beat));
     if (r == 1 || r == 999) {
         gogo_ball_sync_state.applied = 1;

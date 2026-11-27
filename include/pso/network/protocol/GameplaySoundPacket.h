@@ -6,6 +6,10 @@
 
 struct game_command_header;
 
+// 6xB2: Plays a sound effect on a floor, at the local player's position or, when client_id is 0xFFFF,
+// without a position. Sent by take_snapshot (send_6xB2_play_sound); received by
+// handle_6xB2_play_sound_from_player, which ignores it on another floor. Size checked:
+// init_6xB2_play_sound sets the header size to 3 words.
 struct G_PlaySound_6xB2 {
     G_ClientIDHeader header;
     s8 floor;

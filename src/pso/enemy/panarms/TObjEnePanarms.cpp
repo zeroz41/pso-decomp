@@ -7,7 +7,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -24,7 +24,7 @@
 #include "pso/enemy/TObjEnePanBARA.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -36,8 +36,8 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 
 
@@ -55,6 +55,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";
@@ -134,8 +135,6 @@ extern const s32 panarms_beam_down_charge_effects[2] = { 0x10a, 0x107 };
 extern const s32 panarms_beam_down_charge_points[3] = { 3, 4, 0 };
 
 /* State table of TObjEnePanarms: {enter, update} per state, indexed by state; filled by the TU's __sinit. */
-typedef void (TObjEnePanarms::*PanarmsStateFn)();
-struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
 extern PanarmsState panarms_state_table[14];
 // The unit's static initializer comes before the weak copies of the inline accessors it emits.
 extern "C" {
@@ -144,13 +143,6 @@ static void __sinit_TObjEnePanarms_cpp();
 __declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
 
 
-/* What TLobby::dispatch_shared_handler_a(49) returns for Pan Arms. */
-struct PanarmsParams {
-    f32 unk_0;
-    u8 unk_4[0x14];
-    s32 search_range;
-    s32 wait_frames;
-};
 
 // Out-of-line copies of inline accessors; defined first because the unit is emitted backwards.
 int TObjEnePanarms::get_state_flag() { return (this->actorFlags >> 4) & 0x1; }
@@ -262,8 +254,8 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjE
     velocity.x = velocity.y = velocity.z = 0.0f;
     move_velocity.x = move_velocity.y = move_velocity.z = 0.0f;
     target = NULL;
-    bind_enemy_combat_stats(TLobby::register_boss(49), TLobby::dispatch_shared_handler_b(49),
-                            TLobby::register_object(49));
+    bind_enemy_combat_stats(register_boss(49), dispatch_shared_handler_b(49),
+                            register_object(49));
     referenceHp = hp;
     register_entity_by_id(this);
     set_param(21);
@@ -277,12 +269,12 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjE
     max_hp = hp;
     has_split = 0;
     move_count = 0;
-    pad_470 = ((PanarmsParams *)TLobby::dispatch_shared_handler_a(49))->unk_0;
-    search_range = ((PanarmsParams *)TLobby::dispatch_shared_handler_a(49))->search_range;
+    pad_470 = ((PanarmsParams *)dispatch_shared_handler_a(49))->unk_0;
+    search_range = ((PanarmsParams *)dispatch_shared_handler_a(49))->search_range;
     if (search_range < 5) {
         search_range = 5;
     }
-    wait_frames = ((PanarmsParams *)TLobby::dispatch_shared_handler_a(49))->wait_frames;
+    wait_frames = ((PanarmsParams *)dispatch_shared_handler_a(49))->wait_frames;
     if (wait_frames < 0) {
         wait_frames = 0;
     }

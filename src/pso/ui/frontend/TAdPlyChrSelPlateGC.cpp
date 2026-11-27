@@ -140,18 +140,6 @@ void TAdPlyChrSelPlateGC::run_task() {
 
 TAdPlyChrSelPlateGC::~TAdPlyChrSelPlateGC() {}
 
-// The original loop advances one word through three separate arrays in the plate.
-struct SelectionPlateInit {
-    const char *name;
-    u8 prefix[0x224 - 4];
-    s32 count;
-    s32 shown[32];
-    f32 progress[32];
-    u8 color[32][4];
-    u8 active_color[4];
-    s32 frame;
-    s32 settings;
-};
 
 TAdPlyChrSelPlateGC::TAdPlyChrSelPlateGC(TObject *parent, const ChrSelPlateLayout *layout)
     : TObject(parent) {

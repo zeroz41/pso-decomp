@@ -2,7 +2,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/text_80145A94.h"
+#include "pso/network/NetworkSettings.h"
 #include "pso/network/PppApi.h"
 #include "pso/network/NetStack.h"
 #include "pso/network/NetApi.h"
@@ -16,8 +16,7 @@
 #include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/ModemSession.h"
-#include "pso/unk/text_80145A44.h"
-#include "pso/unk/text_803F4D84.h"
+#include "pso/network/NetworkInfoEntry.h"
 #include <string.h>
 #include <string.h>
 #include "pso/system/memory.h"
@@ -26,9 +25,7 @@
 #include "pso/system/ControllerInput.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
-#include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/text_8014618C.h"
-#include "pso/unk/TLobby_80145E40.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnectTypes.h"
 #undef PSO_SDK_COMPACT_MATH
 
@@ -477,45 +474,45 @@ void load_network_configs() {
     } else {
         lobby_network_info_loaded[1] = 0;
     }
-    if (init_work(1, (u8 *)&w) == 0) {
+    if (init_work(1, &w) == 0) {
         strncpy(lobby_account_entries[0].login_user, w.login_user, 0x7F);
         strncpy(lobby_account_entries[0].login_password, w.login_password, 0x1F);
         strncpy(lobby_account_entries[0].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[0].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[0].phone[2].number, w.phone[2], 0x1F);
-        strncpy(lobby_account_entries[0].f100, w.f16C, 0x3F);
-        strncpy(lobby_account_entries[0].f140, w.f18C, 0x3F);
-        strncpy(lobby_account_entries[0].f180, w.f1CC, 0x3F);
+        strncpy(lobby_account_entries[0].mail_address, w.mail_address, 0x3F);
+        strncpy(lobby_account_entries[0].mail_server, w.mail_server, 0x3F);
+        strncpy(lobby_account_entries[0].pop_server, w.pop_server, 0x3F);
         copy_ip_address(&lobby_account_entries[0].dns1, &w.dns1);
         copy_ip_address(&lobby_account_entries[0].dns2, &w.dns2);
         lobby_account_entries[0].valid = 1;
     } else {
         lobby_account_entries[0].valid = 0;
     }
-    if (init_work(2, (u8 *)&w) == 0) {
+    if (init_work(2, &w) == 0) {
         strncpy(lobby_account_entries[1].login_user, w.login_user, 0x7F);
         strncpy(lobby_account_entries[1].login_password, w.login_password, 0x1F);
         strncpy(lobby_account_entries[1].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[1].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[1].phone[2].number, w.phone[2], 0x1F);
-        strncpy(lobby_account_entries[1].f100, w.f16C, 0x3F);
-        strncpy(lobby_account_entries[1].f140, w.f18C, 0x3F);
-        strncpy(lobby_account_entries[1].f180, w.f1CC, 0x3F);
+        strncpy(lobby_account_entries[1].mail_address, w.mail_address, 0x3F);
+        strncpy(lobby_account_entries[1].mail_server, w.mail_server, 0x3F);
+        strncpy(lobby_account_entries[1].pop_server, w.pop_server, 0x3F);
         copy_ip_address(&lobby_account_entries[1].dns1, &w.dns1);
         copy_ip_address(&lobby_account_entries[1].dns2, &w.dns2);
         lobby_account_entries[1].valid = 1;
     } else {
         lobby_account_entries[1].valid = 0;
     }
-    if (init_work(0, (u8 *)&w) == 0) {
+    if (init_work(0, &w) == 0) {
         strncpy(lobby_account_entries[2].login_user, w.login_user, 0x7F);
         strncpy(lobby_account_entries[2].login_password, w.login_password, 0x1F);
         strncpy(lobby_account_entries[2].phone[0].number, w.phone[0], 0x1F);
         strncpy(lobby_account_entries[2].phone[1].number, w.phone[1], 0x1F);
         strncpy(lobby_account_entries[2].phone[2].number, w.phone[2], 0x1F);
-        strncpy(lobby_account_entries[2].f100, w.f16C, 0x3F);
-        strncpy(lobby_account_entries[2].f140, w.f18C, 0x3F);
-        strncpy(lobby_account_entries[2].f180, w.f1CC, 0x3F);
+        strncpy(lobby_account_entries[2].mail_address, w.mail_address, 0x3F);
+        strncpy(lobby_account_entries[2].mail_server, w.mail_server, 0x3F);
+        strncpy(lobby_account_entries[2].pop_server, w.pop_server, 0x3F);
         copy_ip_address(&lobby_account_entries[2].dns1, &w.dns1);
         copy_ip_address(&lobby_account_entries[2].dns2, &w.dns2);
         lobby_account_entries[2].valid = 1;
@@ -523,7 +520,7 @@ void load_network_configs() {
         lobby_account_entries[2].valid = 0;
     }
     network_config.valid = 0;
-    if (net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
+    if (net_session_mode == 1 && init_struct(&info) == 0) {
         network_config.connection_type = info.connection_type;
         network_config.local_ip = info.ip_addr;
         network_config.netmask = info.netmask;
@@ -534,8 +531,8 @@ void load_network_configs() {
         strncpy(network_config.ppp_user, info.ppp_user, 0x7F);
         strncpy(network_config.ppp_password, info.ppp_password, 0x1F);
         strncpy(network_config.dhcp_hostname, info.dhcp_hostname, 0x1F);
-        strncpy(network_config.domain, info.f104, 0x3F);
-        network_config.f11C = info.f244;
+        strncpy(network_config.domain, info.domain, 0x3F);
+        network_config.proxy_port = info.proxy_port;
         network_config.valid = 1;
     }
 }

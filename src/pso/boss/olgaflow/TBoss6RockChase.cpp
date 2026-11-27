@@ -6,7 +6,7 @@
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/object/base/TObjMotion.h"
@@ -20,13 +20,14 @@
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/enemy/BattleParamTables.h"
 
 __declspec(section ".rodata") char TBoss6RockChase::class_name_string[] = "TBoss6RockChase";
 extern const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2];
@@ -45,7 +46,7 @@ void TBoss6RockChase::damage_players_in_range() {
     f32 range;
     count = TLobby::get_game_mode();
     range = boss6_rock_chase_model_radius_table[size_kind].radius;
-    damage = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[3];
+    damage = dispatch_shared_handler_a(0x2C)->values.floats[3];
     if (damage < 1) {
         damage = 20;
     }
@@ -100,7 +101,7 @@ void TBoss6RockChase::run_task() {
             play_sound_effect(0x4006B51E, &position, 0, 0);
             spawn_particle_effect(&position, 0x220);
             spawn_particle_effect(&position, 0x222);
-            TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&position, 0xC0, 0xF, 100.0f);
+            TBoss6PlotFalz::apply_radial_effect_to_players(&position, 0xC0, 0xF, 100.0f);
             TBoss6Rock::spawn_crush_rocks(&position, size_kind);
             play_sound_effect(0x4006AB1F, &position, 0, 0);
             queue_destruction();

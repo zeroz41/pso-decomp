@@ -68,4 +68,8 @@ struct ActionPaletteWindowLayout {
 };
 
 
+s32 get_palette_item_amount(u16 slot, s32 client_id);
+
+void set_help_icon_uv(saddr help, saddr client_id);
+
 #endif

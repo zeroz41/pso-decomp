@@ -7,7 +7,7 @@
 
 struct BmlResource;
 
-// The record TLobby::dispatch_shared_handler_a(0x1A) returns (nano_drago_behavior_params).
+// The record dispatch_shared_handler_a(0x1A) returns (nano_drago_behavior_params).
 struct NanoDragoBehaviorParams {
     f32 float_params[6]; // get_float_parameter: 0 flight speed, 1 nano_drago_single_beam_speed, 2-4 the homing beam's
     s32 int_params[2];   // get_int_parameter: 0 nano_drago_single_beam_power, 1 nano_drago_beam_power

@@ -44,6 +44,7 @@ struct BmlResource {
     void set_flag_and_notify();
     s32 LoadBinMotion(const char *name, s32 index);
     s32 LoadBinModel(const char *name, s32 index);
+    s32 get_arena_offset();
 
     u32 flags;
     s32 loaded_models;
@@ -93,5 +94,41 @@ u8 *tmp_buf_use_req(const char *name);
 
 void free_chr_select_data();
 void init_download_buffers();
+
+struct BmlModelLoadRequest {
+    const char *name;
+    NJS_OBJECT **model;
+    NJS_TEXLIST **texture;
+    BmlResource *resource;
+    BmlModelEntry *entry;
+    u32 size;
+};
+
+struct BmlMotionLoadRequest {
+    AnimationMotion **motion;
+    BmlResource *resource;
+};
+
+struct BmlTextureLoadRequest {
+    BmlResource *resource;
+    BmlModelEntry *entry;
+};
+
+struct BmlArchiveEntry {
+    char name[0x20];
+    s32 size;
+    u8 pad24[4];
+    s32 rawSize;
+    s32 texSize;
+    u8 pad30[0x10];
+};
+
+struct BmlArchiveHeader {
+    u8 pad0[8];
+    u8 compressed;
+    s8 small;
+    u8 padA[0x36];
+    BmlArchiveEntry recs[1];
+};
 
 #endif

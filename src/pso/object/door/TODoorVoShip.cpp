@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
@@ -15,8 +15,8 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/render/ProjectedStripDraw.h"
 
 const char *fe_obj_fuuin_model_names[] = {"fe_obj_fuuin_singo_moto.nj", "fe_obj_fuuin_doa.nj", NULL};
 const char *fe_obj_fuuin_motion_names[] = {"fe_obj_fuuin_doa.njm", "fe_obj_fuuin_doa.njs", NULL};

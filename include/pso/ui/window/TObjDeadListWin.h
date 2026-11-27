@@ -12,6 +12,7 @@ struct DeadPlayerName {
 
 class TObjDeadListWin : public TObject {
 public:
+    static const char *class_name;
     s32 m_phase;
     TWindowMessage *m_window_handle;
     s32 m_countdown;

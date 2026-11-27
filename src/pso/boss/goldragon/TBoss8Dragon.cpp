@@ -15,7 +15,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/RenderFadeState.h"
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
@@ -31,15 +31,15 @@
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/PlayerStats.h"
@@ -66,7 +66,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/task/TMainTask.h"
@@ -95,6 +95,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/enemy/BattleParamTables.h"
 
 extern u16 boss8_dragon_control_client_id;
 AttackParams *boss8_dragon_part_hp_stats[5];
@@ -417,10 +418,10 @@ void TBoss8Dragon::load_resources() {
     boss8_dragon_capture_flags = 0;
     boss8_dragon_main_instance = 0;
     for (i = 0; i < 5; i++) {
-        boss8_dragon_part_hp_stats[i] = TLobby::dispatch_shared_handler_b(TBoss8Dragon::camera_offset_index_table[i]);
+        boss8_dragon_part_hp_stats[i] = dispatch_shared_handler_b(TBoss8Dragon::camera_offset_index_table[i]);
     }
     for (j = 0; j < 3; j++) {
-        boss8_dragon_behavior_params[j] = (Boss8DragonParams *)TLobby::dispatch_shared_handler_a(boss8_dragon_behavior_param_ids[j]);
+        boss8_dragon_behavior_params[j] = (Boss8DragonParams *)dispatch_shared_handler_a(boss8_dragon_behavior_param_ids[j]);
     }
     boss8_dragon_hold_mode = 0;
     boss8_dragon_player_control = 0;
@@ -474,7 +475,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
-    reset_hp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], TLobby::register_object(0x12));
+    reset_hp(register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], register_object(0x12));
     this->set_state_flag_1();
     this->movementParameters = &boss8_dragon_movement_params;
     initialize_enemy_state(0x4C);
@@ -496,7 +497,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->target_vector.y = 0.0f;
     this->target_vector.z = 0.0f;
     this->target_distance = 0.0f;
-    this->m_5dc = 0.0f;
+    this->height = 0.0f;
     this->last_flight_direction.x = 0.0f;
     this->last_flight_direction.y = 0.0f;
     this->last_flight_direction.z = 0.0f;
@@ -1119,7 +1120,7 @@ s32 TBoss8Dragon::advance_air_turn() {
 
 #pragma pop
 void TBoss8Dragon::reload_boss_stats() {
-    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], TLobby::register_object(0x12));
+    this->reload_stats_keep_hp_tp(register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], register_object(0x12));
 }
 
 void TBoss8Dragon::reset_tail_hp() {
@@ -1127,11 +1128,11 @@ void TBoss8Dragon::reset_tail_hp() {
 }
 
 void TBoss8Dragon::reload_stats_for_phase() {
-    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[2]], TLobby::register_object(0x12));
+    this->reload_stats_keep_hp_tp(register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[2]], register_object(0x12));
 }
 
 void TBoss8Dragon::reload_impact_stats() {
-    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[3]], TLobby::register_object(0x12));
+    this->reload_stats_keep_hp_tp(register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[3]], register_object(0x12));
 }
 
 void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd) {
@@ -4369,7 +4370,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
         enable_all_bodies();
         *flag = 0;
         TWindowCtrl::unsuppress_all_slots();
-        this->get_target_state_a();
+        this->release_cutscene_players();
         break;
     }
 }

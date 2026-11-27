@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
@@ -26,7 +27,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/boss/olgaflow/Boss6Type2Data.h"
 #include "pso/player/TObjPlayer.h"
@@ -34,7 +35,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
@@ -43,7 +44,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
@@ -53,7 +54,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
@@ -63,6 +64,41 @@
 #include "pso/network/client_id.h"
 #include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
+
+const char *TBoss6Type2::name = "TBoss6Type2";
+// Inferred name: distance checks (> 390), sound sources and the start position all use it.
+const Vec boss6_arena_center = { -10000.0f, 0.0f, 0.0f };
+// Inferred names: the constructor copies these into position and rotation_x..z.
+const Vec TBoss6Type2::initial_position = { -10000.0f, 0.0f, 0.0f };
+const s32 TBoss6Type2::initial_rotation[3] = { 0x8000, 0, 0 };
+const TBoss6Type2DefaultParams TBoss6Type2::default_battle_parameters = {
+    { 20, 20, 200, 200, 200, 60, 25, 10, 60 },
+    { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
+    120,
+};
+const s32 TBoss6Type2::initial_actor_flag_masks[4] = { 0x41, 0x42, 0x44, 0x48 };
+const ParticleAttachment TBoss6Type2::particle_attachment_table[14] = {
+    { 0x22D, 8 }, { 0x22D, 9 }, { 0x22D, 10 }, { 0x22D, 3 }, { 0x22D, 4 }, { 0x22D, 5 }, { 0x228, -1 },
+    { 0x22A, -1 }, { 0x137, 16 }, { 0x138, 16 }, { 0x139, 16 }, { 0x13A, 16 }, { 0x13B, 16 }, { 0x22C, 13 },
+};
+const ModelNodePositionEntry boss6_type2_effect_desc_table[20] = {
+    { 0x01 }, { 0x13 }, { 0x14 }, { 0x16 }, { 0x17, { 0.0f, -5.0f, 0.0f } }, { 0x18 }, { 0x1B }, { 0x1C },
+    { 0x1E }, { 0x1F, { 0.0f, -5.0f, 0.0f } }, { 0x20 }, { 0x24 }, { 0x30 }, { 0x3A }, { 0x48 }, { 0x4B },
+    { 0x50 }, { 0x51 }, { 0x51, { 0.0f, 1.0f, 0.0f } }, { -1 },
+};
+const s32 boss6_type2_variant_id_table[4] = { 1, 2, 3, 4 };
+const s32 boss6_type2_body_model_indices[2] = { 4, 5 };
+const Boss6StripDesc boss6_type2_plot_falz_entry_table[2] = { { 4, 0x69, 0 }, { 5, 0x69, 0 } };
+const s32 boss6_type2_zero_vec[4] = { 0, 0, 0, 0 };
+const MotionIndexBlock boss6_type2_zero_motion_block = { 0 };
+const TBoss6Type2MotionTrack boss6_type2_motion_entry_transform = { NULL, 0.0f, 0.0f, 0.0f, 1.0f / 15.0f, NULL, 0.0f };
+const s32 TBoss6Type2::no_target_sound_ids[4] = { 0x68528, 0x68529, 0x6852A, 0x6852B };
+const CollisionBodyNode boss6_type2_collision_body_nodes[3] = { { 0, 4 }, { 0, 9 }, { 0, 11 } };
+const s32 TBoss6Type2::player_hit_rock_indices[6] = { 3, 4, 5, 8, 9, 10 };
+const s32 boss6_type2_mag_spawn_offsets[2] = { 0x1FE, 0x1FD };
+const Vec boss6_type2_player_aim_offset = { 0.0f, 19.8f, -5.0f };
+
 
 CollisionBody boss6_type2_collision_parts[3] = {
     { { 0.0f, 0.0f, 0.0f }, 15.0f, 0.0f, 0, 0x801B },
@@ -159,8 +195,11 @@ void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec) {
 
 #pragma push
 #pragma opt_common_subs off
+// The original reaches each table here by its own symbol, not off the unit's pooled .rodata base.
+#pragma push
+#pragma pool_data off
 TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEnemy(parent) {
-    TBoss6Type2StateRecord record;
+    EnemyStateRecord record;
     s32 i;
     s32 id;
     m_name = TBoss6Type2::name;
@@ -168,7 +207,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
-        record.value = 0;
+        record.damage = 0;
         exchange_object_state(&record, 0);
     }
     archive = TBoss6PlotFalz::get_scene_archive();
@@ -183,7 +222,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x2C), TLobby::dispatch_shared_handler_b(0x2C), TLobby::register_object(0x2C));
+    bind_enemy_combat_stats(register_boss(0x2C), dispatch_shared_handler_b(0x2C), register_object(0x2C));
     referenceHp = prev_hp = hp;
     register_by_id();
     set_param(0x4E);
@@ -249,6 +288,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     spawn_particle_slot(5);
     set_action_state(0);
 }
+#pragma pop
 #pragma pop
 
 TBoss6Type2::~TBoss6Type2() {
@@ -868,7 +908,7 @@ void TBoss6Type2::load_battle_params() {
     const BattleMovementParams *rec;
     s32 first;
     s32 second;
-    rec = TLobby::dispatch_shared_handler_a(0x2C);
+    rec = dispatch_shared_handler_a(0x2C);
     rock_damage = (s32)rec->values.floats[1];
     if ((f32)rock_damage <= 0.0f) {
         rock_damage = TBoss6Type2::default_battle_parameters.int_params[0];
@@ -904,7 +944,7 @@ void TBoss6Type2::load_battle_params() {
         iai_x2_percent = TBoss6Type2::default_battle_parameters.int_params[6];
         iai_x3_percent = TBoss6Type2::default_battle_parameters.int_params[7];
     }
-    rec = TLobby::dispatch_shared_handler_a(0x2F);
+    rec = dispatch_shared_handler_a(0x2F);
     base_walk_speed = rec->values.floats[0];
     if (base_walk_speed <= 0.0f) {
         base_walk_speed = TBoss6Type2::default_battle_parameters.float_params[0];
@@ -921,7 +961,7 @@ void TBoss6Type2::load_battle_params() {
     if ((f32)info_stat_duration <= 0.0f) {
         info_stat_duration = TBoss6Type2::default_battle_parameters.last_param;
     }
-    rec = TLobby::dispatch_shared_handler_a(0x2E);
+    rec = dispatch_shared_handler_a(0x2E);
     low_hp_walk_speed = rec->values.floats[2];
     if (low_hp_walk_speed <= 0.0f) {
         low_hp_walk_speed = TBoss6Type2::default_battle_parameters.float_params[2];
@@ -1991,16 +2031,16 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
         return 0;
     }
     possessed_client = client_id;
-    grab_appearance = player->name;
-    copy_texlist(&saved_look.body_textures, &player->body_textures);
-    copy_texlist(&saved_look.head_textures, (NJS_TEXLIST *)player->head_textures);
-    copy_texlist(&saved_look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
+    grab_appearance = player->appearance.name;
+    copy_texlist(&saved_look.body_textures, &player->body_textures.list);
+    copy_texlist(&saved_look.head_textures, &player->head_textures.list);
+    copy_texlist(&saved_look.attachment_textures, &player->attachment_textures.list);
     saved_look.model = player->model;
     saved_look.head_model = player->head_model;
     saved_look.hair_model = player->hair_model;
     saved_look.attachment_model = player->attachment_model;
-    copy_texlist(&player->body_textures, grab_texlists[0]);
-    copy_texlist((NJS_TEXLIST *)player->attachment_textures, grab_texlists[1]);
+    copy_texlist(&player->body_textures.list, grab_texlists[0]);
+    copy_texlist(&player->attachment_textures.list, grab_texlists[1]);
     player->model = grab_models[0];
     player->head_model = NULL;
     player->hair_model = NULL;
@@ -2019,8 +2059,8 @@ void TBoss6Type2::restore_target_player_state() {
             reset_fish_fields();
             return;
         }
-        copy_texlist(&player->body_textures, &saved_look.body_textures);
-        copy_texlist((NJS_TEXLIST *)player->attachment_textures, &saved_look.attachment_textures);
+        copy_texlist(&player->body_textures.list, &saved_look.body_textures);
+        copy_texlist(&player->attachment_textures.list, &saved_look.attachment_textures);
         player->model = (NJS_OBJECT *)saved_look.model;
         player->head_model = saved_look.head_model;
         player->hair_model = saved_look.hair_model;
@@ -2286,7 +2326,7 @@ void TBoss6Type2::draw() {
         push_matrix();
         post_translate_matrix((const f32 *)&this->node_positions[11]);
         rotate_matrix_y(NULL, this->rotation_y);
-        boss6type2_draw_models((saddr)&saved_look.body_textures, (saddr)&saved_look.head_textures, (saddr)&saved_look.attachment_textures,
+        boss6type2_draw_models(&saved_look.body_textures, &saved_look.head_textures, &saved_look.attachment_textures,
                                (uaddr)saved_look.model, (uaddr)saved_look.head_model, (uaddr)saved_look.hair_model,
                                saved_look.attachment_model, (saddr)grab_appearance, 1.0f);
         pop_matrix();

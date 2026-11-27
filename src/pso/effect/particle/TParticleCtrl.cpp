@@ -112,13 +112,13 @@ TParticleCtrl *create_particle_controller(const Vec *pos, s32 id, s32 use_self) 
     return NULL;
 }
 
-TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 id, s32 use_self, u16 flags) {
+TParticleCtrl *create_particle_controller_with_angles(const Vec *pos, void *dir, s32 id, s32 use_self, u16 flags) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, use_self, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, use_self, flags);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, use_self, flags);
+        return new TParticleCtrl(pos, static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, use_self, flags);
     }
     return NULL;
 }

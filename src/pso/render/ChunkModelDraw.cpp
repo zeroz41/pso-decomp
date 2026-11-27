@@ -7,8 +7,8 @@
 #include "pso/render/SceneFog.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -19,7 +19,7 @@
 #include "pso/system/MatrixOps.h"
 #include <dolphin/mtx.h>
 #include "pso/animation/MotionContext.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/gx/GXStruct.h>

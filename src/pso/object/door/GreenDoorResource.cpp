@@ -10,6 +10,9 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 
 u8 *get_green_door_motion(s32 index) {
     if (green_door_bml_resource != NULL) {
@@ -64,5 +67,18 @@ void load_green_door_resources(void) {
         green_door_bml_resource = resource;
         green_door_texture_handle = LoadPvmFileTls("obj_door_space_green.gvm");
         break;
+    }
+}
+
+NJS_TEXLIST *get_green_door_textures() {
+    return green_door_texture_handle;
+}
+void break_floor_grass_in_range(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params) {
+    NJS_OBJECT *root = boss5_common_bml_resource->models[7].model;
+    f32 range_squared = TBoss8Dragon::calc_sq_offset(params, 15.0f);
+    for (NJS_OBJECT *node = root->child; node != NULL; node = node->sibling) {
+        if (!(node->evalflags & NJD_EVAL_BREAK) && TBoss8Dragon::is_within_xz_distance(pos, node, range_squared) != 0) {
+            node->evalflags |= NJD_EVAL_BREAK;
+        }
     }
 }

@@ -16,16 +16,15 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8DE0.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/QuaternionBlend.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/camera/CameraAngles.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TPlayerFootStampTypes.h"
 
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
@@ -231,7 +230,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         dir[1].x = 0.0f;
         dir[1].y = 1.0f;
         dir[1].z = 0.0f;
-        direction_to_rotation_yx((u8 *)&ground->contact->normal, &yaw, &pitch);
+        direction_to_rotation_yx(&ground->contact->normal, &yaw, &pitch);
         if (pitch < 0x2000 || pitch > 0x6000) {
             queue_destruction();
             return;

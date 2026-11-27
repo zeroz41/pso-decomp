@@ -1,12 +1,12 @@
 #include "pso/player/TPlyDispData.h"
-#include "pso/unk/TLobby_80228C84.h"
+#include "pso/player/PlayerStatusRefresh.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TradeSession.h"
 
@@ -15,7 +15,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
-#include "pso/unk/TLobby_802D3970.h"
+#include "pso/network/TradeProposalCmd.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
@@ -24,7 +24,6 @@
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -32,8 +31,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TextBuilder.h"
+#include "pso/enemy/BattleParamTables.h"
 
 void TWindowTradeRequest::reset_trade() {
     if ((s32) trade_proposal_state == 2) {
@@ -48,7 +47,7 @@ void TLobby::send_trade_proposal_modify() {
   G_ModifyTradeProposal_6xA6 packet;
   TObjPlayer *player;
   player_stats *stats;
-  build_6xA6_modify_trade_proposal(&packet.header);
+  build_6xA6_modify_trade_proposal(&packet);
   if (((s32) trade_proposal_state) == 2)
   {
     player = get_player_by_client_id(local_client_id);
@@ -67,7 +66,7 @@ void TLobby::send_trade_proposal_modify() {
   }
 }
 
-void TLobby::update_trade_list_send() {
+void update_trade_list_send() {
     TTradeList list;
     switch ((s8) trade_proposal_state) {
     case 5:
@@ -77,7 +76,7 @@ void TLobby::update_trade_list_send() {
         break;
     case 6:
         list.build_from_trade_window();
-        protocol_instance->send_trade_list(&list);
+        TLobby::protocol_instance->send_trade_list(&list);
         trade_protocol_flags |= 0x400;
         if (trade_main_window != NULL) {
             trade_main_window->show_trade_status();
@@ -93,7 +92,7 @@ void TLobby::update_trade_list_send() {
     }
 }
 
-void TLobby::update_trade_proposal_state() {
+void update_trade_proposal_state() {
     if (!(trade_protocol_flags & 0x10)) {
         trade_proposal_delay = 0;
         if (trade_protocol_flags & 0x20) {
@@ -367,8 +366,7 @@ void handle_6xA7(void) {  }
 
 
 LAYOUT_ASSERT(TradeProposalStateHandlersSize, sizeof(trade_proposal_state_handlers) == 0x140);
-void handle_6xA6_modify_trade_proposal(u8 *message_window) {
-    G_ModifyTradeProposal_6xA6 *packet = (G_ModifyTradeProposal_6xA6 *)message_window;
+void handle_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *packet) {
     TradeProposalHandler handler;
     u16 client_id;
     u8 what;
@@ -489,12 +487,11 @@ void reset_trade_session() {
             trade_main_window->finish();
         }
         if (trade_sub_window != NULL) {
-            reset__15TLobby_802D2F7CFPv((u8 *)trade_sub_window);
+            trade_sub_window->finish();
         }
     }
 }
 
-LAYOUT_ASSERT(TradeProposalSize, sizeof(G_ModifyTradeProposal_6xA6) == 0x10);
 LAYOUT_ASSERT(TradeProposalAmountOffset, offsetof(G_ModifyTradeProposal_6xA6, amount) == 0xC);
 
 void reset_trade_session(const char *message) {
@@ -514,7 +511,7 @@ void reset_trade_session(const char *message) {
 
 void cancel_trade_for_member_out_of_range(s32 client_id) {
     G_ModifyTradeProposal_6xA6 packet;
-    build_6xA6_modify_trade_proposal(&packet.header);
+    build_6xA6_modify_trade_proposal(&packet);
     packet.what = 7;
     packet.result = 0;
     packet.out_of_range_client_id = client_id;
@@ -529,7 +526,7 @@ void cancel_trade_for_member_out_of_range(s32 client_id) {
 
 void send_trade_busy_reply(saddr client_id) {
     G_ModifyTradeProposal_6xA6 packet;
-    build_6xA6_modify_trade_proposal((&packet.header));
+    build_6xA6_modify_trade_proposal(&packet);
     packet.what = 6;
     packet.result = 0;
     packet.prepare_and_send(client_id);
@@ -568,7 +565,7 @@ void TTradeList::build_from_trade_window() {
 
 void TLobby::send_modify_trade_proposal(s8 what, s32 item_id, s32 amount) {
   G_ModifyTradeProposal_6xA6 packet;
-  build_6xA6_modify_trade_proposal(&packet.header);
+  build_6xA6_modify_trade_proposal(&packet);
   packet.what = what;
   packet.result = 0;
   packet.item_id = item_id;
@@ -578,7 +575,7 @@ void TLobby::send_modify_trade_proposal(s8 what, s32 item_id, s32 amount) {
 
 void TLobby::send_trade_proposal_result(s8 what, s8 result) {
   G_ModifyTradeProposal_6xA6 packet;
-  build_6xA6_modify_trade_proposal(&packet.header);
+  build_6xA6_modify_trade_proposal(&packet);
   packet.what = what;
   packet.result = result;
   packet.prepare_and_send(trade_partner_client_id);
@@ -588,7 +585,7 @@ void send_6xA6_modify_trade_proposal(saddr client_id) {
     G_ModifyTradeProposal_6xA6 packet;
     TObjPlayer *player;
     player_stats *stats;
-    build_6xA6_modify_trade_proposal((&packet.header));
+    build_6xA6_modify_trade_proposal(&packet);
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (stats = player->get_stats(), stats != NULL)) {
         if ((s32) (u8)trade_partner_client_id != 4) {
@@ -785,7 +782,7 @@ void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal) {
     }
 }
 
-void TLobby::update_battle_mode() {
+void update_battle_mode() {
     if ((s8) trade_proposal_state != 0) {
         if (get_player_by_client_id(local_client_id) == NULL) {
             TLobby::cancel_trade();
@@ -797,7 +794,7 @@ void TLobby::update_battle_mode() {
     }
 }
 
-void TLobby::update_trade_partner() {
+void update_trade_partner() {
     if ((s8) trade_proposal_state == 0) {
         return;
     }

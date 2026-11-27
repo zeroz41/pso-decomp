@@ -19,15 +19,13 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 const char *TWindowMakeTeam::class_name = "TWindowMakeTeam";
 const char *make_team_empty_text = "";
 // Menu position pairs {389, 251} of the entry and status menus.
 extern const NJS_POINT2 make_team_name_menu_position = {389.0f, 251.0f};
 extern const NJS_POINT2 make_team_comment_menu_position = {389.0f, 251.0f};
-extern "C" {
-}
 
 TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
     m_name = TWindowMakeTeam::class_name;
@@ -42,9 +40,9 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
     mode = 0;
     selected_value = 0;
     if (this->kind == 1 || this->kind == 2) {
-        m_menu->set_entry_string_by_id(draw_entry_0x110(mode), 2);
+        m_menu->set_entry_string_by_id(get_mode_label(mode), 2);
     }
-    m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(selected_value), 3);
+    m_menu->set_entry_string_by_id(TWindowMakeTeam::get_value_label(selected_value), 3);
 }
 
 TWindowMakeTeam::~TWindowMakeTeam() {
@@ -106,7 +104,7 @@ void TWindowMakeTeam::run_task() {
             s32 n;
             mem_free(name);
             name = keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(name, get_shared_text_buffer());
+            mask_profanity_words(name, get_shared_text_buffer());
             n = (s32)measure_string_len(name);
             strncpy(name, get_shared_text_buffer(), n);
             m_menu->set_entry_string_by_id(name, 0);
@@ -131,7 +129,7 @@ void TWindowMakeTeam::run_task() {
             s32 n;
             mem_free(comment);
             comment = keyboard->realloc_buffer();
-            TWindowSubComCard::mask_profanity_words(comment, get_shared_text_buffer());
+            mask_profanity_words(comment, get_shared_text_buffer());
             n = (s32)measure_string_len(comment);
             strncpy(comment, get_shared_text_buffer(), n);
             m_menu->set_entry_string_by_id(comment, 1);
@@ -146,7 +144,7 @@ void TWindowMakeTeam::run_task() {
             this->state = 1;
         } else if (sub_menu->is_decided() != 0) {
             this->mode = sub_menu->get_selected_value();
-            m_menu->set_entry_string_by_id(TWindowMakeTeam::draw_entry_0x110(this->mode), 2);
+            m_menu->set_entry_string_by_id(TWindowMakeTeam::get_mode_label(this->mode), 2);
             send_state();
             this->state = 1;
         }
@@ -159,7 +157,7 @@ void TWindowMakeTeam::run_task() {
             this->state = 1;
         } else if (sub_menu->is_decided() != 0) {
             this->selected_value = sub_menu->get_selected_value();
-            m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(this->selected_value), 3);
+            m_menu->set_entry_string_by_id(TWindowMakeTeam::get_value_label(this->selected_value), 3);
             this->state = 1;
         }
         break;
@@ -184,9 +182,9 @@ TWindowMenuInfomation *TWindowMakeTeam::create_menu() {
 TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     TWindowMenu *r;
     r = create_window_menu_default(&make_team_name_menu_position, 3);
-    r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
-    r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(1), 6, 1);
-    r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
+    r->add_text_entry(TWindowMakeTeam::get_mode_label(0), 6, 0);
+    r->add_text_entry(TWindowMakeTeam::get_mode_label(1), 6, 1);
+    r->add_text_entry(TWindowMakeTeam::get_mode_label(2), 6, 2);
     r->calc_window_size();
     align_menu_entry_positions(r);
     r->set_selected_index(this->mode);
@@ -197,12 +195,12 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     TWindowMenu *r;
     s32 m;
     r = create_window_menu_default(&make_team_comment_menu_position, 4);
-    r->add_text_entry((TWindowMakeTeam::init_status_disp(0)), 6, 0);
-    r->add_text_entry((TWindowMakeTeam::init_status_disp(1)), 6, 1);
-    r->add_text_entry((TWindowMakeTeam::init_status_disp(2)), 6, 2);
+    r->add_text_entry((TWindowMakeTeam::get_value_label(0)), 6, 0);
+    r->add_text_entry((TWindowMakeTeam::get_value_label(1)), 6, 1);
+    r->add_text_entry((TWindowMakeTeam::get_value_label(2)), 6, 2);
     m = this->kind;
     if (m == 1 || m == 2) {
-        r->add_text_entry((TWindowMakeTeam::init_status_disp(3)), 6, 3);
+        r->add_text_entry((TWindowMakeTeam::get_value_label(3)), 6, 3);
     }
     r->calc_window_size();
     align_menu_entry_positions(r);
@@ -265,11 +263,11 @@ s32 TWindowMakeTeam::is_enabled() {
     return (u8)this->selected_value;
 }
 
-const char *TWindowMakeTeam::draw_entry_0x110(s8 index) {
+const char *TWindowMakeTeam::get_mode_label(s8 index) {
     return TWindowSubStatusDisp::get_message_10(index + 0x110);
 }
 
-const char *TWindowMakeTeam::init_status_disp(s8 index) {
+const char *TWindowMakeTeam::get_value_label(s8 index) {
     return TWindowSubStatusDisp::get_message_10(index + 0x113);
 }
 

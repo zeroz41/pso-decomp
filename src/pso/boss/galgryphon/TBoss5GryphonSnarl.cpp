@@ -113,10 +113,10 @@ TBoss5GryphonSnarl::~TBoss5GryphonSnarl() {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *origin) : TObject(parent) {
+TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, Vec *origin) : TObject(parent) {
     s32 i;
     m_name = TBoss5GryphonSnarl::name;
-    VecCopy(&position, (const Vec *)origin);
+    VecCopy(&position, origin);
     position.y = 2.0f;
     frame = 0;
     state = 0;

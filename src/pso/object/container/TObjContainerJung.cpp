@@ -6,7 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -23,15 +23,15 @@
 #include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjContainerCommon.h"
+#include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/TObjChip.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/container/TObjContainerJungEx.h"
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/object/container/TObjContainerJung.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
@@ -108,7 +108,6 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
 };
 
 
-struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 
 // This TU was compiled -inline deferred: the functions below are written
 // last-to-first, so the compiler emits them (and the three vtables) in
@@ -140,7 +139,7 @@ NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     return 0;
 }
 
-TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -273,7 +272,7 @@ NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
-TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_ex_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -377,7 +376,7 @@ void *TObjContainerJungEx::create(void *set_data) {
     return new TObjContainerJungEx(tl_05, set_data);
 }
 
-TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_enemy_name;
     load_models();
     mode = 0;
@@ -460,8 +459,7 @@ void TObjContainerJungEnemy::draw_model() {
 }
 
 void TObjContainerJungEnemy::debug_print_item_box_info() {
-    Obj_8018CBF0 *self = (Obj_8018CBF0 *)this;
-    ((TObjContainerJungEnemy *)self)->load_models();
+    load_models();
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
     debug_printf_at(0x130021, "MODEL SELECT");

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -26,23 +26,20 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
 static const CharacterSlotPosition chr_sel_b_slot_positions[4] = {
     { 434.0f, 182.0f }, { 434.0f, 225.0f }, { 434.0f, 268.0f }, { 434.0f, 311.0f },
 };
-static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
-static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
+static const CharacterSlotPosition chr_sel_b_slot_entry_position = { 429.0f, 156.0f };
+static const CharacterSlotPosition chr_sel_b_slot_position = { 441.0f, 117.0f };
 const char *TAdChrSelBSlotGC::name = "TAdChrSelBSlotGC";
 
 
 PlayerSlotLabel chr_select_b_slot_entry;
 
-extern "C" {
-s32 start_memcard_format(s32, s32, s32, s32, s32);
-}
-extern TAdChrSelASlotGC *chr_sel_a_slot_instance;
 
 void TAdChrSelBSlotGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -57,12 +54,12 @@ s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
     return e->copied == 1 ? 1 : 0;
 }
 
-PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
+PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, const CharacterSlotPosition *pos) {
     CardSlotSummary *e = get_secondary_slot_summary(slot);
     chr_select_b_slot_entry.slot = index;
     chr_select_b_slot_entry.name = e != NULL ? e->name : reinterpret_cast<const char *>(get_localized_text_entry(0x16, 0x1C));
     chr_select_b_slot_entry.level = e != NULL ? e->level + 1 : 0;
-    copy_vec2(&chr_select_b_slot_entry.position, pos);
+    copy_vec2(&chr_select_b_slot_entry.position, (void *)pos);
     return &chr_select_b_slot_entry;
 }
 
@@ -114,9 +111,9 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
     u32 i;
 
     if (plate->is_slot_value_ready(2)) {
-        slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
+        slot_gc->init_slot_entry(2, &chr_sel_b_slot_entry_position);
         for (i = 0; i < 4; i++) {
-            player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
+            player_items->set_entry_text(build_slot_entry(i, i, &chr_sel_b_slot_positions[i]));
             if (is_character_transferred(i)) {
                 move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_b_slot_positions[i]));
             }
@@ -672,7 +669,7 @@ void TAdChrSelBSlotGC::reset_windows() {
     }
     plate->reset_selection_slots();
     player_items->hide_all_entries();
-    slot_gc->init_slot(1, (void *)&lbl_80475910);
+    slot_gc->init_slot(1, &chr_sel_b_slot_position);
     draw_line[0] = create_draw_line_ctrl(this, 0xE, 0.0f);
     draw_line[1] = create_draw_line_ctrl(this, 0x15, 0.0f);
     state_frames = -1;

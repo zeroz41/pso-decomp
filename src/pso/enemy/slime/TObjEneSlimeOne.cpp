@@ -3,10 +3,10 @@
 #include "pso/enemy/slime/SlimeAnimationState.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/render/render_util.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
@@ -35,10 +35,9 @@ extern "C" {
 
 s32 TObjEneSlimeOne::get_attack_target() { return variant; }
 
-extern BmlResource *slime_bml_resource;
 
 s32 TObjEneSlimeOne::is_in_water_bomb_states() {
-    return (s32)state == 11 || (s32)state == 12 || (s32)state == 13;
+    return state == 11 || state == 12 || state == 13;
 }
 
 BmlResource *TObjEneSlimeOne::get_instance() { return slime_bml_resource; }

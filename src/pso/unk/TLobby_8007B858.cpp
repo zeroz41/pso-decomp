@@ -26,33 +26,33 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraScripted.h"
-#include "pso/unk/TLobby_802D79EC.h"
+#include "pso/npc/NpcEnemyAnimReset.h"
 #include "pso/render/reflection.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby_800F7744.h"
-#include "pso/unk/text_800C7FEC.h"
+#include "pso/object/TObjControl.h"
+#include "pso/network/LegacyEnemyKill.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/npc/TNpcTalkTrigger.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/effect/TEffIndirectCtrl.h"
-#include "pso/unk/TLobby_802D3970.h"
+#include "pso/network/TradeProposalCmd.h"
 #include "pso/unk/TDeferredRenderQueue.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/object/TObjSinBoard.h"
-#include "pso/unk/TLobby_8015ABD0.h"
+#include "pso/object/switch/TOChatSensor.h"
 #include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCineCtrl.h"
-#include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/system/TGStream.h"
@@ -66,7 +66,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/memory.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/technique/TTecLuker.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
@@ -119,11 +119,10 @@ s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
 char *ShortMailEntry::get_sender_name() { return sender_name; }
 
 s32 TObjPlayer::get_section_id() {
-    s8 id = *((s8 *)this + 0x88C);
-    return id;
+    return appearance.section;
 }
 
-const char *TObjPlayer::get_name() { return name; }
+const char *TObjPlayer::get_name() { return appearance.name; }
 
 
 
@@ -131,10 +130,10 @@ const char *TObjPlayer::get_name() { return name; }
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
 // back to front by TLobby::clear_session_buffers (load, release pairs).
-FloorResourceCallbacks lbl_8048D4C0[29] = {
+FloorResourceCallbacks session_resource_callbacks[29] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {(FloorResourceCallback)reset_npc_enemy_anims_on_floor_load, TLobby::forward_npc_enemy},
+    {(FloorResourceCallback)reset_npc_enemy_anims_on_floor_load, forward_npc_enemy},
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
@@ -164,7 +163,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 };
 
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
-FloorResourceCallbacks lbl_8048D5A8[4] = {
+FloorResourceCallbacks field_resource_callbacks[4] = {
     {load_technique_resources, free_technique_resources},
     {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
@@ -213,20 +212,20 @@ void TLobby::clear_session_buffers() {
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        TLobby::call_funcs_reverse(lbl_8048D5A8, 0x20);
+        TLobby::call_funcs_reverse(field_resource_callbacks, 0x20);
     }
-    TLobby::call_funcs_reverse(lbl_8048D4C0, 0xE8);
+    TLobby::call_funcs_reverse(session_resource_callbacks, 0xE8);
 }
 
 s32 TLobby::run_lobby_load_tables() {
     s32 second_result;
     s32 first_result;
-    first_result = run_load_callback_table(lbl_8048D4C0, 0xE8);
+    first_result = run_load_callback_table(session_resource_callbacks, 0xE8);
     if (first_result == 0) {
         return first_result;
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        second_result = run_load_callback_table(lbl_8048D5A8, 0x20);
+        second_result = run_load_callback_table(field_resource_callbacks, 0x20);
         if (second_result == 0) {
             return second_result;
         }
@@ -265,7 +264,7 @@ s32 TLobby::check_disconnect_conditions() {
     TLobby::clear_callback_and_reset_keyboard();
     return 0;
 }
-void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
+void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); invoke_callback(); TLobby::clear_callback_and_reset_keyboard(); }
 
 
 

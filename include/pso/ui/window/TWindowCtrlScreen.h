@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowCtrlScreen : public TObject {
+    static const char *class_name;
     TWindowCtrlScreen(TObject *parent);
     virtual ~TWindowCtrlScreen();
     virtual void render();

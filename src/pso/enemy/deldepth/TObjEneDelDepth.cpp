@@ -27,21 +27,21 @@
 #include "pso/network/TLobby.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -55,6 +55,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/model_render_state.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 DelDepthParameters *TObjEneDelDepth::tune_params;
@@ -174,7 +175,7 @@ void TObjEneDelDepth::load_assets() {
         info.motions = shared_resource->motions;
         TObjNpcEnemy::register_animated_chunk((s16)0x48, shared_resource->models[1].model, shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
-    tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
+    tune_params = (DelDepthParameters *)dispatch_shared_handler_a(0x30);
 }
 
 void TObjEneDelDepth::free_shared_data() {
@@ -208,7 +209,7 @@ void TObjEneDelDepth::init() {
     this->velocity.y = 0.0f;
     velocity.x = 0.0f;
     this->target = 0;
-    this->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30), TLobby::register_object(0x30));
+    this->bind_enemy_combat_stats(register_boss(0x30), dispatch_shared_handler_b(0x30), register_object(0x30));
     this->referenceHp = (s16) this->hp;
     register_by_id();
     this->movementParameters = 0;

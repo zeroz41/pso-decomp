@@ -33,4 +33,7 @@ public:
 
 LAYOUT_ASSERT(TWindowStatusGaugeFeedback_size, sizeof(TWindowStatusGaugeFeedback) == 0x68);
 
+// The four bytes of a colour as copy4 stores them into TWindowStatusGauge::color.
+struct ColorBytes { u8 r, g, b, a; };
+
 #endif

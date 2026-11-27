@@ -13,8 +13,6 @@ struct TWindowCost : public TWindowMeseta {
 };
 
 LAYOUT_ASSERT(TWindowCost_size, sizeof(TWindowCost) == 0x74);
-extern "C" {
 TWindowCost *create_cost_window(s32 client);
-}
 
 #endif

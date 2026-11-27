@@ -31,8 +31,8 @@ struct CompassSpriteVertex {
     s32 color;
 };
 
-extern "C" {
 void draw_compass_sprite(const NJS_SPRITE *sprite, s32 index, s32 color, s32 flags, f32 depth);
+extern "C" {
 void draw_creation_sprite_offset(s32 sprite_id, const vec2f* position, const vec2f* scale,
                                  f32 depth, f32 alpha);
 }
@@ -47,10 +47,8 @@ void draw_ui_sprite_opaque(s32 sprite_id, const vec2f* position, const vec2f* sc
 // The UI scale TObjCMMainMenu::get_scale returns.
 extern f32 ui_sprite_scale;
 void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
-extern "C" {
 // Points *table at the cell table of sprite *id; ids from 143 on index the language's own table.
 void resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
-}
 void free_creation_sprites(void);
 void load_creation_sprites(void);
 

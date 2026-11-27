@@ -99,8 +99,8 @@ s32 validate_subcommand_client(G_ClientIDHeader *packet) {
 
 #pragma push
 #pragma opt_common_subs off
-u8 validate_attack_target_count(s32 *count) {
-    s32 valid = 0;
+s32 validate_attack_target_count(s32 *count) {
+    u8 valid = 0;
     if (*count >= 0 && *count <= 10) {
         valid = 1;
     }

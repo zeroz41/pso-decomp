@@ -6,7 +6,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
@@ -14,7 +14,7 @@
 
 
 
-const char *window_sub_symbol_chat_help_name = "TWindowSubSymbolChatHelp";
+const char *TWindowSubSymbolChatHelp::class_name = "TWindowSubSymbolChatHelp";
 const HelpIconUv symbol_chat_help_icon_uv_table[6] = {
     {216.0f, 54.0f}, {216.0f, 70.0f}, {216.0f, 86.0f},
     {216.0f, 102.0f}, {216.0f, 118.0f}, {216.0f, 134.0f},
@@ -211,10 +211,9 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
 }
 
 void TWindowSubSymbolChatHelp::render() {
-    saddr self_addr = (saddr)this;
     WindowDrawContext *entry;
     entry = draw_default_entry();
-    ((TWindowBase *)self_addr)->draw_window_frame(entry);
+    draw_window_frame(entry);
     draw_help_entries(entry);
 }
 
@@ -223,7 +222,7 @@ void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_i
 TWindowSubSymbolChatHelp::~TWindowSubSymbolChatHelp() {}
 TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s8 *selection, s32 *mode)
     : TWindowBase((u8 *)&symbol_chat_help_window_layout, 4, reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(get_window_layout_position(0x7E)))) {
-    m_name = window_sub_symbol_chat_help_name;
+    m_name = class_name;
     feature_flags = 0;
     color_selection = selection;
     mirror_mode = mode;

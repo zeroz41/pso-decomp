@@ -15,8 +15,8 @@ struct NJS_TEXLIST;
 #include "pso/render/render_util.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/camera/CameraDistanceFade.h"
@@ -30,7 +30,7 @@ struct NJS_TEXLIST;
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/ActorCollision.h"

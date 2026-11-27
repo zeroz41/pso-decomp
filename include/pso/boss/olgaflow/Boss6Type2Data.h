@@ -5,9 +5,9 @@
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 
-// TBoss6Type2's class name and the constructor/battle tables. They live in their own unit ahead of
-// TBoss6Type2.cpp: its code addresses every table on its own (no shared .rodata base) and TBoss6Rock
-// reads boss6_arena_center as well.
+// TBoss6Type2's class name and the constructor/battle tables, first in TBoss6Type2.cpp's .rodata.
+// The constructor addresses every table on its own (no shared .rodata base); TBoss6Rock reads
+// boss6_arena_center as well.
 
 struct ParticleAttachment { s32 effect_id; s32 node; };
 struct MotionIndexBlock { s32 a; s32 b; s32 rest[7]; };

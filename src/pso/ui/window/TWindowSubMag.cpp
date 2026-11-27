@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -38,17 +38,17 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 
 #pragma readonly_strings on
 
@@ -103,9 +103,9 @@ TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(pare
 }
 
 TWindowSubMag::~TWindowSubMag() {
-    if (message != 0U) {
-        ((TObject *)message)->queue_destruction();
-        message = 0U;
+    if (message != NULL) {
+        message->queue_destruction();
+        message = NULL;
     }
     if (photon != 0U) {
         photon->close();
@@ -173,7 +173,7 @@ void TWindowSubMag::run_task() {
         break;
     case 3:
         if (message != NULL) {
-            ((TObject *)(message))->queue_destruction();
+            message->queue_destruction();
             message = NULL;
         }
         if (photon != NULL) {
@@ -188,7 +188,7 @@ void TWindowSubMag::run_task() {
             help->request_show();
             help->unlock_page_flip();
             help->enable_help_toggle();
-            call_if_split_screen((uaddr)help, client_id);
+            call_if_split_screen(help, client_id);
         }
         list->start_scroll(188.0f);
         if (card == NULL) {
@@ -278,7 +278,7 @@ void TWindowSubMag::run_task() {
         }
     case 13:
         if ((f32)timer++ > (9e+01f) && message != NULL) {
-            ((TWindowBase *)message)->close();
+            message->close();
             message = NULL;
             state = 3;
         }
@@ -347,7 +347,7 @@ extern "C" {
 // dead-stripped: only its literals survive. 2.0f is pooled after create_action_menu's
 // 172.0f and ahead of run_task's literals, but its one live user is_mag_full is generated last (deferred
 // codegen runs this file bottom-up), so a function generated between create_action_menu and create_list
-// used it first. Minimal body after is_mag_full's check; name inferred.
+// used it first. Minimal body after is_mag_full's check.
 static int is_mag_fed_full(TItemMag *mag) {
     return mag->feeds_while_full >= 2.0f;
 }
@@ -366,7 +366,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     } else {
         window->add_text_entry((TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     }
-    TItemData::deserialize_mag(mag, &stats);
+    mag->deserialize_mag(&stats);
     if (stats.get_photon_blast(0) != -1) {
         window->add_text_entry((TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     } else {
@@ -378,7 +378,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     return window;
 }
 
-void *TWindowSubMag::create() {
+TWindowMessage *TWindowSubMag::create() {
     TWindowMessage *object;
     const NJS_POINT2 *window_layout_position;
 
@@ -386,21 +386,21 @@ void *TWindowSubMag::create() {
     object = TWindowMessage::create(window_layout_position, mag_message_window_size, 1, this->client_id);
     object->set_depth(get_main_menu_layer_depth((u8 *)parent, 4));
     object->open_tick = 100000;
-    call_if_split_screen((uaddr)object, this->client_id);
+    call_if_split_screen(object, this->client_id);
     return object;
 }
 
 #pragma push
 #pragma fp_contract on
-void *TWindowSubMag::create_learned_blast_toast() {
+TWindowMessage *TWindowSubMag::create_learned_blast_toast() {
     MagStats stats;
     NJS_POINT2 pos;
     NJS_POINT2 size;
     f32 scale;
     s32 n;
-    void *win;
+    TWindowMessage *win;
     stats.init();
-    TItemData::deserialize_mag(mag, &stats);
+    mag->deserialize_mag(&stats);
     n = stats.get_photon_blast(this->slots);
     if (n == -1) {
         return 0;
@@ -421,9 +421,9 @@ void *TWindowSubMag::create_learned_blast_toast() {
     size.x = 8.0f + n;
     size.y = 40.0f;
     win = TWindowMessage::create(&pos, &size.x, 1, this->client_id);
-    ((TWindowBase *)win)->set_depth(get_main_menu_layer_depth((u8 *)parent, 6));
-    ((TWindowMessage *)win)->append_line(get_shared_text_buffer(), 2);
-    ((TWindowAddition *)win)->set_position_xy(scale, scale);
+    win->set_depth(get_main_menu_layer_depth((u8 *)parent, 6));
+    win->append_line(get_shared_text_buffer(), 2);
+    win->set_position_xy(scale, scale);
     return win;
 }
 #pragma pop
@@ -444,7 +444,7 @@ s32 TWindowSubMag::count_slots() {
     s32 slot;
 
     stats.init();
-    TItemData::deserialize_mag(mag, &stats);
+    mag->deserialize_mag(&stats);
     slot = 0;
 loop_1:
     if (stats.get_photon_blast(slot) == -1) {
@@ -470,14 +470,14 @@ void TWindowSubMag::update_displayed_item() {
 void TWindowSubMag::update_mag_help() {
     s32 selected_blast;
 
-    toggle_help_window_on_button((uaddr)this->message, this->client_id);
+    toggle_help_window_on_button(this->message, this->client_id);
     selected_blast = photon->get_selected_blast();
     if (selected_blast != (s8) this->help_blast) {
         this->help_blast = (u8) selected_blast;
         if (selected_blast == -1) {
-            ((TWindowMessage *)(this->message))->append_line(mag_empty_line, 0x80);
+            this->message->append_line(mag_empty_line, 0x80);
             return;
         }
-        ((TWindowMessage *)(this->message))->append_line(get_help_text_string(selected_blast + 0x27), 0x80);
+        this->message->append_line(get_help_text_string(selected_blast + 0x27), 0x80);
     }
 }

@@ -6,7 +6,7 @@
 #include "pso/system/GbaAramCache.h"
 #include "pso/system/THeap.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/unk/TLobby_8013A874.h"
 
 // These packet classes were built by an older compiler than TProtocol.cpp. Their copy

@@ -11,6 +11,22 @@ struct ChunkVertexJob {
     s32 count;
 };
 
+// The vertex formats cache_chunk_vertex_colors reads (src) and writes (dst).
+struct ColoredChunkVertex {
+    Vec position;
+    u32 color;
+};
+
+struct CachedChunkVertex {
+    Vec position;
+    Vec normal;
+    u32 color;
+    u32 padding;
+};
+
+LAYOUT_ASSERT(ColoredChunkVertexSize, sizeof(ColoredChunkVertex) == 0x10);
+LAYOUT_ASSERT(CachedChunkVertexSize, sizeof(CachedChunkVertex) == 0x20);
+
 // The dispatcher passes the matrix in r4; this format uses the current matrix
 // through matrix_mult_vec(NULL, ...), so the second argument is unused.
 void cache_chunk_vertex_colors(ChunkVertexJob *job, GC_Mtx *matrix);

@@ -8,6 +8,9 @@
 #include "musyx/musyx.h"
 #include <dolphin/ar.h>
 #include <dolphin/ai.h>
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/vi.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
@@ -17,14 +20,15 @@
 #include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/unk/text_8036A3CC.h"
+#include "pso/audio/MusicUnlockFlags.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "dolphin/ar.h"
 #include "dolphin/ai.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
+#include "pso/system/FileExtension.h"
 
 
 
@@ -35,12 +39,12 @@ s16 lbl_805D371C = -1;
 char *lobby_current_slot_entry = "";
 
 extern "C" {
-u32 lbl_804CB838[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
+u32 ar_stack_index[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 }
 // [0] and [1] play the music, [2] the cue stream ("can't create ADXT-BGM #%d", "can't create ADXT-SE #%d").
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
-void *lbl_805D62D8;
+void *se_stream_buffer;
 void *adx_rna_work_buffer;
 s32 music_active;
 s32 music_state;
@@ -66,15 +70,15 @@ s32 bgm_stream_active;
 s16 music_current_slot;
 
 extern char music_slot_entries[2][0x20];
-u8 *TLobby::get_current_slot_entry() {
+u8 *get_current_slot_entry() {
     if (music_state == 1) {
         return (u8 *)music_slot_entries[music_fade_slot_index];
     }
     return (u8 *)lobby_current_slot_entry;
 }
 
-void TLobby::set_and_notify_default() { TLobby::set_and_notify(0); }
-void TLobby::send_neg30() { TLobby::set_and_notify(-30); }
+void set_and_notify_default() { set_and_notify(0); }
+void send_neg30() { set_and_notify(-30); }
 
 void set_cue_stream_gain(s32 gain) {
     s32 value;
@@ -98,11 +102,11 @@ void set_music_streams_volume(s32 total) {
     }
     adxt_set_output_vol(adxt_players[1], value);
 }
-void TLobby::release_bgm_resource() {
+void release_bgm_resource() {
     if (bgm_stream_active != 0) {
         stop_audio_stream(adxt_players[1]);
         bgm_stream_active = 0;
-        TLobby::init_layout_positions();
+        init_layout_positions();
     }
 }
 void *bgm_stream_buffers[0x20];
@@ -126,21 +130,21 @@ void start_bgm_stream(s32 index) {
 
 __declspec(section ".data") s32 music_slot_cues[2];
 __declspec(section ".data") s32 music_slot_progress[2];
-__declspec(section ".data") s32 lbl_80514CF0[2];
+__declspec(section ".data") s32 music_slot_sample_counts[2];
 __declspec(section ".data") f32 music_fade_volumes[2];
 __declspec(section ".data") char music_slot_entries[2][0x20];
-u8 lbl_80514D40[0x218];
+u8 music_afs_work_buffer[0x218];
 
 extern TLoadCtrlProgram *music_programs[];
 
 void init_music_sequencer(s32 program) {
     unlock_sequencer_flag(program);
     lbl_805D371C = 0;
-    TLobby::release_bgm_resource();
+    release_bgm_resource();
     music_program_index = program;
     music_program = music_programs[program];
     music_loop_started = 0;
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
     music_active = 1;
     music_state = 1;
     music_fade_slot_index = 0;
@@ -159,11 +163,11 @@ void init_music_sequencer(s32 program) {
     music_slot_cues[1] = music_slot_cues[0] + 1;
     music_sequencer_passage_index = 0;
     music_passage_index = 1;
-    open_afs_file_wait_input(190, music_program->archive, lbl_80514D40, 128);
+    open_afs_file_wait_input(190, music_program->archive, music_afs_work_buffer, 128);
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[0]);
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[1]);
     adxt_start_seamless(adxt_players[0]);
-    TLobby::close_option_window();
+    close_option_window();
     strncpy(music_slot_entries[0], music_program->archive, 32);
     strncpy(music_slot_entries[1], music_program->archive, 32);
 }
@@ -232,7 +236,7 @@ void update_music_sequencer(void) {
     ADXT_EntryAfs(adxt_players[0], 190, music_slot_cues[music_fade_slot_index]);
     music_fade_slot_index = 1 - music_fade_slot_index;
     music_slot_progress[music_fade_slot_index] = 0;
-    lbl_80514CF0[music_fade_slot_index] = adxt_get_num_samples(adxt_players[music_fade_slot_index]);
+    music_slot_sample_counts[music_fade_slot_index] = adxt_get_num_samples(adxt_players[music_fade_slot_index]);
 }
 
 void set_dark_falz_music_request(s32 request) {
@@ -241,7 +245,7 @@ void set_dark_falz_music_request(s32 request) {
     }
 }
 
-void TLobby::set_target_id(s32 target_id) {
+void set_target_id(s32 target_id) {
     if (music_program_index != 4) {
         music_target_id = target_id;
     }
@@ -278,19 +282,12 @@ void turn_off_bgm_p2(void) {
 
 
 extern "C" {
-s32 VISetPreRetraceCallback(void (*callback)(void));
-}
-extern "C" {
 void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
-}
-extern "C" {
-s32 VISetPostRetraceCallback(int (*callback)(void *));
-s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
 
 // The four .acx streams start_bgm_stream starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
-extern const SND_HOOKS snd_hooks = { musyx_malloc_hook, TLobby::free };
+extern const SND_HOOKS snd_hooks = { musyx_malloc_hook, musyx_free_hook };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
 
 // Area music: each program names its .afs archive and two passage lists (modes[0]/[1]).
@@ -460,11 +457,11 @@ TLoadCtrlProgram *music_programs[] = {
     &jungle_music, &seabed_music, &ruin_music, &space_music,
 };
 
-void TLoadCtrl::step() { TLobby::stop_audio_streams(); stop_cue_stream(); }
+void TLoadCtrl::step() { stop_audio_streams(); stop_cue_stream(); }
 
 void start_music_crossfade(s32 frames) {
     if (music_active != 0) {
-        TLobby::stop_audio_streams();
+        stop_audio_streams();
         return;
     }
     music_fade_slot_index = 1 - music_fade_slot_index;
@@ -473,7 +470,7 @@ void start_music_crossfade(s32 frames) {
     music_fade_step = music_fade_full_scale / (f32)frames;
 }
 
-void TLobby::stop_audio_streams() {
+void stop_audio_streams() {
     s32 i;
     for (i = 0; i < 2; i++) {
         stop_audio_stream(adxt_players[i]);
@@ -487,7 +484,7 @@ void TLobby::stop_audio_streams() {
 void play_area_music(char *name) {
     s32 flag;
     TObjBgmColCtrl::update_all_zones(name);
-    TLobby::release_bgm_resource();
+    release_bgm_resource();
     flag = 1;
     if (music_state != 0) {
         if (music_active == 0) {
@@ -498,7 +495,7 @@ void play_area_music(char *name) {
             music_fade_volumes[1 - music_fade_slot_index] = 0.0f;
             music_fade_step = music_fade_full_scale / (f32)area_music_fade_frame_count;
         } else {
-            TLobby::stop_audio_streams();
+            stop_audio_streams();
         }
     }
     if (flag) {
@@ -507,7 +504,7 @@ void play_area_music(char *name) {
     lbl_805D371C = music_fade_slot_index + 1;
     ADXT_StartFname(adxt_players[music_fade_slot_index], name);
     adxt_pause(adxt_players[music_fade_slot_index], 0);
-    TLobby::close_option_window();
+    close_option_window();
     music_active = 0;
     music_state = 1;
     strncpy(music_slot_entries[music_fade_slot_index], name, 0x20);
@@ -518,8 +515,8 @@ void update_music_fade(void) {
     if (bgm_stream_active != 0) {
         return;
     }
-    if (lbl_805D62B8 != 0) {
-        TLobby::set_and_notify(-999);
+    if (music_muted != 0) {
+        set_and_notify(-999);
     }
     if (music_fade_frames_remaining > 0) {
         music_fade_volumes[music_fade_slot_index] += music_fade_step;
@@ -547,10 +544,10 @@ void update_music_fade(void) {
     }
 }
 
-void TLobby::set_pre_retrace_callback() {
+void set_pre_retrace_callback() {
     VISetPreRetraceCallback(pre_retrace_callback);
 }
-void TLobby::shutdown_buffers() {
+void shutdown_buffers() {
     s32 i;
     for (i = 0; i < 3; i++) {
         adx_destroy_stream_player(adxt_players[i]);
@@ -572,14 +569,14 @@ void init_adx_audio_system(void) {
 
     bgm_stream_buffers[0] = xmalloc(0x2D1E4);
     bgm_stream_buffers[1] = xmalloc(0x2D1E4);
-    lbl_805D62D8 = xmalloc(0xA924);
+    se_stream_buffer = xmalloc(0xA924);
     adx_rna_work_buffer = xmalloc(0xA000);
     gcrna_bridge_init_buffers(adx_rna_work_buffer, 0xA000, 5);
     adxt_init();
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);
     SND_HOOKS hooks = snd_hooks;
-    ARInit(lbl_804CB838, 6);
+    ARInit(ar_stack_index, 6);
     ARQInit();
     AIInit(NULL);
     VISetPostRetraceCallback(post_retrace_callback);
@@ -592,15 +589,15 @@ void init_adx_audio_system(void) {
     for (i = 0; i < 2; i++) {
         adxt_players[i] = adx_create_stream_player(2, bgm_stream_buffers[i], 0x2D1E4);
         if (adxt_players[i] == NULL) {
-            TLobby::debug_print("can't create ADXT-BGM #%d", i);
+            file_debug_printf("can't create ADXT-BGM #%d", i);
         } else {
             set_auto_repeat(adxt_players[i], 2);
         }
     }
     for (i = 0; i < 1; i++) {
-        adxt_players[2 + i] = adx_create_stream_player(1, (&lbl_805D62D8)[i], 0xA924);
+        adxt_players[2 + i] = adx_create_stream_player(1, (&se_stream_buffer)[i], 0xA924);
         if (adxt_players[2 + i] == NULL) {
-            TLobby::debug_print("can't create ADXT-SE #%d", i);
+            file_debug_printf("can't create ADXT-SE #%d", i);
         }
     }
     lbl_805D62F8 = 0x5A3C8;
@@ -616,10 +613,10 @@ void init_adx_audio_system(void) {
 #pragma pool_data reset
 
 
-// TLobby::free and musyx_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
-void TLobby::free(void *p) { xfree(p); }
+// musyx_free_hook and musyx_malloc_hook are the MusyX free/malloc hooks (snd_hooks, sndSetHooks).
+void musyx_free_hook(void *p) { xfree(p); }
 
 void *musyx_malloc_hook(u32 size) { return xmalloc(size); }
-void pre_retrace_callback(void) {  }
-int post_retrace_callback(void* p) { return ((int (*)(void*))run_sound_retrace)(p); }
+void pre_retrace_callback(u32 retrace_count) {}
+void post_retrace_callback(u32 retrace_count) { run_sound_retrace(); }
 void adxt_error_callback_stub(s32, const char *) {  }

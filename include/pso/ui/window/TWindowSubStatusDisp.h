@@ -60,30 +60,21 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_count_ratio_text(s32 count, s32 total);
 
     static const char *get_message_10(s32 index);
-    static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
     static void end_render_forward();
     static void begin_render();
     static const char *get_meseta_unit();
     static u32 calc_text_width(const char *s);
     static s32 is_alpha_char(u16 arg0);
-    void pack_status_flags(u32 arg1);
     static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2);
     static void set_gauge_param(s32 gauge_param);
     static void reset_gauge(void* p);
     static f32 get_card_window_scale(s32 client_id);
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
-    static void append_comma();
-    s8 *copy_message_page_text();
     void fill_card_text_entries(GuildCardRecord *record);
-    static void draw_split_screen_dividers();
-    static void draw_tiled_background();
-    static void draw_bottom_bar();
-    static void draw_split_screen_hud();
     void set_entry_display_value(const char *str);
     s32 get_display_mode();
-    static char *build_status_text(s32 client_id);
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
 };
@@ -253,5 +244,19 @@ struct NumberedTimesLayout {
     TextLayoutRecord rec_9;
 };
 
+
+void release_bg_multi_textures();
+
+void load_bg_multi_textures();
+
+void draw_split_screen_hud();
+
+void draw_split_screen_dividers();
+
+void draw_tiled_background();
+
+void draw_scanline_sweep();
+
+void draw_bottom_bar();
 
 #endif

@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -20,11 +20,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
-struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
 
-struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
-
-s32 lbl_805D69E8;
+s32 multi_chr_select_state;
 const char *TAdMultiChgGameModeGC::class_name = "TAdMultiChgGameModeGC";
 
 static const MultiChgGameModeTextLayouts multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
@@ -60,7 +57,7 @@ void TAdMultiChgGameModeGC::run_task() {
             break;
         case 1:
             TAdMultiPlyChrSelectGC::reset_slot_selections();
-            lbl_805D69E8 = 1;
+            multi_chr_select_state = 1;
             set_mode_18();
             break;
         case 2:

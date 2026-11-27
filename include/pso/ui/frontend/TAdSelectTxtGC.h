@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 class TAdSelectTxtSubGC;
 
@@ -29,8 +30,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void reset_state();
-public:
     void reset_slots(TAdSelectTxtLayout *layout, s32 value);
 
     TAdSelectTxtEntry entries[8];
@@ -38,12 +37,7 @@ public:
     TAdSelectTxtSubGC *lines[8];
 };
 
-extern uaddr ad_select_text_texture_handle;
-
-extern "C" {
-void clear_lobby_header(void *p);
-s32 get_player_role(void *p);
-}
+extern NJS_TEXLIST *ad_select_text_texture_handle;
 
 void load_select_gamen_texture();
 void free_select_gamen_texture();

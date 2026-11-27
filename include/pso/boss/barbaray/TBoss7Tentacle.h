@@ -82,4 +82,9 @@ LAYOUT_ASSERT(TBoss7TentacleJoint, offsetof(TBoss7Tentacle, joint) == 0x130);
 LAYOUT_ASSERT(TBoss7TentacleReach, offsetof(TBoss7Tentacle, reach) == 0x158);
 LAYOUT_ASSERT(TBoss7Tentacle_size, sizeof(TBoss7Tentacle) == 0x16C);
 
+// The striking tentacle's draw scale (TBoss7Tentacle::render, state 3).
+extern const f32 boss7_tentacle_draw_scale[3];
+extern const s32 boss7_tentacle_angle_table[4];
+extern const char *boss7_tentacle_needle_name_ptr;
+
 #endif

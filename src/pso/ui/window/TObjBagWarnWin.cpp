@@ -19,7 +19,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
@@ -68,8 +68,8 @@ const char *get_message_text(s32 text) {
     return text_language_group_table[11][text];
 }
 
-void *TObjBagWarnWin::create(void *bag_warn_win) {
-    void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
+void *TObjBagWarnWin::create(TObject *bag_warn_win) {
+    void *o = (void *)new TObjBagWarnWin(bag_warn_win);
     return o;
 }
 
@@ -148,9 +148,9 @@ s32 TObjBagWarnWin::should_show_warning() {
     return 1;
 }
 
-TObjBagWarnWin4P *create_bag_warn_window_4p(saddr parent) {
-    if (TWindowCtrl::is_map_visible() == 0) {
-        return new TObjBagWarnWin4P((TObject *)parent);
+TObjBagWarnWin4P *create_bag_warn_window_4p(TObject *parent) {
+    if (is_map_visible() == 0) {
+        return new TObjBagWarnWin4P(parent);
     }
     return NULL;
 }
@@ -230,7 +230,7 @@ s32 TObjBagWarnWin4P::check_can_open() {
 
 // The map is hidden only in single-screen solo play while the lobby state
 // reports it closed.
-s32 TWindowCtrl::is_map_visible() {
+s32 is_map_visible() {
     if (TRaderMapCore::is_not_split_screen() != 1) {
         return 1;
     }

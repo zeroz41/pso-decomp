@@ -2,7 +2,7 @@
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/object/TObjEZBoneRotBase.h"
 #include "pso/object/TObjHMS_EZRope_Player.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -22,7 +22,7 @@ void TObjEZBoneRotPlayer::run_task() {
     TObjPlayer *p;
 
     p = player;
-    status_flags = *(s32 *)((s8 *)p + 0x320) & 0xDF7FF;
+    status_flags = p->mode_mask & 0xDF7FF;
     if (status_flags & 0x99003) {
         scale += -0.016666668f;
     } else if ((status_flags & 0x1E0) || (last_rotation_y != p->rotation_y)) {

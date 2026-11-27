@@ -50,20 +50,20 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -77,6 +77,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 player_stats *dellbiter_boss_stat_handle;
@@ -154,10 +155,10 @@ void TObjEneDellBiter::load_resources() {
     } else {
         dell_biter_shared_model_resource = load_enemy_bml_resource(&dell_biter_bml_resource);
     }
-    dellbiter_boss_stat_handle = TLobby::register_boss(0xD);
-    dell_biter_shared_handler_param = TLobby::dispatch_shared_handler_b(0xD);
-    dellbiter_object_stat_handle = TLobby::register_object(0xD);
-    dell_biter_movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
+    dellbiter_boss_stat_handle = register_boss(0xD);
+    dell_biter_shared_handler_param = dispatch_shared_handler_b(0xD);
+    dellbiter_object_stat_handle = register_object(0xD);
+    dell_biter_movement_params = (DelbiterMovementParameters *)dispatch_shared_handler_a(0xD);
     dell_biter_demo_script_step = 0;
     dell_biter_demo_rotate_x_angle = 0;
     dell_biter_demo_script_cursor = 0;

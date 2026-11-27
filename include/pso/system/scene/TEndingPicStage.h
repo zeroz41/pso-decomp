@@ -15,4 +15,6 @@ public:
     static void set_picture(s32 picture);
 };
 
+struct ColorF { f32 r, g, b, a; };
+
 #endif

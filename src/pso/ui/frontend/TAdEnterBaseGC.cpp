@@ -36,7 +36,7 @@
 
 #include "pso/network/TLobby.h"
 
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
 #include "pso/system/NinjaTypes.h"
@@ -45,9 +45,6 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"
 
-struct LengthLimits { u32 n[4]; };
-
-struct KeyboardModes { u8 b[4]; };
 
 // show_message_window: position and size of the message window it opens.
 const f32 enter_base_message_window_position[2] = {46.0f, 110.0f};
@@ -106,7 +103,6 @@ s32 TAdEnterBaseGC::entry_mode;
 extern "C" {
 
 
-
 extern char serial_access_hex_string_buf[];
 
 u8 *get_access_key_input_buffer();
@@ -134,7 +130,7 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
 }
 
-void TAdEnterBaseGC::reset(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::reset(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; input_valid = 0; prev_input_valid = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);
@@ -161,9 +157,9 @@ void TAdEnterBaseGC::get_title_position(Position *position) {
     position->y = enter_base_text_anchor[1];
 }
 
-int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
+int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input(window, mode, buf); }
 
-int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *text) {
+int TAdEnterSerialAccessGC::validate_input(void *window, s32 mode, const char *text) {
     s32 i;
     s32 n;
 
@@ -241,11 +237,11 @@ void TAdEnterSerialAccessGC::clear_serial_buffer() {
     }
 }
 
-s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field) {
-    return (s8)*get_serial_text__22TAdEnterSerialAccessGCFii(parent, field) ? 1 : 0;
+s32 TAdEnterSerialAccessGC::has_serial_input(s32 parent, s32 field) {
+    return (s8)*get_serial_text(parent, field) ? 1 : 0;
 }
 
-u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
+u8 *TAdEnterSerialAccessGC::get_serial_text(s32 owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
@@ -295,8 +291,8 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, 
         return NULL;
     }
     kb->set_sub_position((u8 *)serial_keyboard_position_table[field]);
-    if (has_serial_input__22TAdEnterSerialAccessGCFv(parent, field) != 0) {
-        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(parent, field));
+    if (has_serial_input(parent, field) != 0) {
+        kb->set_text((char *)get_serial_text(parent, field));
     }
     if (field != 3) {
         kb->set_composer_flag62_bit4();

@@ -1,4 +1,4 @@
-// CITY's (and LABO's) scene hooks in area_initializer_dispatch_table (TLobby_80228154.cpp): cleanup, then init.
+// CITY's (and LABO's) scene hooks in area_initializer_dispatch_table (FloorTransition.cpp): cleanup, then init.
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
@@ -18,14 +18,13 @@
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/object/city/CitySeasonResources.h"
-#include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
-
-// THunterGuildSeqOnlineTask_802156A0.cpp; no header declares it yet.
+#include "pso/ui/city/JudgeItem.h"
+#include "pso/audio/MusicControl.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {
@@ -33,9 +32,9 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     load_weapon_random_tables, free_weapon_random_tables,
     load_armor_random_table, free_armor_random_table,
     load_tool_random_rel, free_tool_random_rel,
-    load_judge_item, TLobby::free_window,
+    load_judge_item, free_judge_item,
     TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,
-    reset_globals2, reset_globals__19TQuestListChallengeFv,
+    reset_globals2, TQuestListChallenge::reset_globals,
     load_city_season_resources, free_city_season_resources,
     TCheckRoomSequence::alloc_item_buffers, TCheckRoomSequence::free_bank_item_records,
     measure_traffic_path_lengths, free_buffer_pair_table,
@@ -44,12 +43,12 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
 };
 
 void cleanup_city_area(void) {
-    TLobby::refresh_render_state();
-    TLobby::stop_audio_streams();
+    refresh_render_state();
+    stop_audio_streams();
     cleanup_city_area_stub();
     TLobby::call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
     unload_current_floor_resources();
-    TLobby::update_current_floor();
+    update_current_floor();
     TLobby::clear_session_buffers();
 }
 
@@ -69,6 +68,6 @@ s32 init_city_area(void) {
         new TObjCityAirCar_Ctrl(tl_05);
     }
     new TQuestBgmCtrl(tl_05);
-    create_bag_warn_window_4p((saddr)tl_07);
+    create_bag_warn_window_4p(tl_07);
     return 1;
 }

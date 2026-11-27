@@ -42,7 +42,9 @@ struct WeaponParams {
 // impact_callback / hit_callback: (task layer, weapon, target, extra).
 typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, u16 target, s32 extra);
 // shot_callback: draws a shot from origin to end over frames.
-typedef s32 (*WeaponShotCallback)(void *weapon, void *origin, f32 *end, f32 frames);
+struct TItemWeapon;
+class TItemShoot;
+typedef TItemShoot *(*WeaponShotCallback)(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames);
 
 // The base of every weapon: the equipped weapon's attacks, its trails and
 // the technique it rolls.
@@ -104,6 +106,8 @@ struct TItemWeapon : public TItemEquipBase {
     CsnHit *trace_from_owner(Vec *point);
     void remap_extra_attack_type();
     void draw_weapon_model();
+    // Draws the weapon model attached to the owner's `joint`, then restores the attach joint.
+    void draw_weapon_at_joint(s8 joint);
     void create_weapon_trail_effects();
     // The weapon row of item_class_load_unload_table.
     static void load_data();
@@ -205,5 +209,7 @@ MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
 // The model node the weapon draw callback is at (counted by increment_model_node_counter).
 int get_model_node_counter(void);
+
+struct SRankModelIds { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 #endif

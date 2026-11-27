@@ -4,14 +4,15 @@
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/quest/QuestStoryFlags.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -53,7 +54,7 @@ const char *TBoss6Thanks::class_name = "TBoss6Thanks";
 
 // Where the object sits: render translates both models there, is_player_near measures the
 // players' distance to it and the emitters spawn at it (boss6_thanks_position is an inferred name).
-static const Vec boss6_thanks_position = {-10000.0f, 0.0f, -1.7f};
+__declspec(section ".rodata") static Vec boss6_thanks_position = {-10000.0f, 0.0f, -1.7f};
 
 // Item type, group and index that any_player_has_listed_equipment looks for in each slot.
 extern const u8 listed_equipment_table[10][3] = {
@@ -64,8 +65,6 @@ extern const u8 listed_equipment_table[10][3] = {
 static const Boss6ThanksEmitter boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
-
-extern "C" f32 xyz_distance(const void *, const void *);
 
 s32 TBoss6Thanks::is_story_flag_0x9A_set() {
     return get_story_flag(0x9A) != 0;

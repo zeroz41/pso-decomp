@@ -9,15 +9,15 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -59,6 +59,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/BattleParamTables.h"
 // Written last function first: the unit is built with deferred code generation.
 #pragma defer_codegen on
 
@@ -131,7 +132,7 @@ TObjMotionAction morfos_motion_param_table[5] = {
 };
 const char *morfos_class_name = "TObjEneMorfos";
 
-f32 lbl_805434D0[3];
+f32 morfos_zero_vector[3];  // zeroed by the resource loader, never read
 AttackParams *morfos_attack_params[3];
 
 void TObjEneMorfos::load_static_data() {
@@ -144,9 +145,9 @@ void TObjEneMorfos::load_static_data() {
         mgr = load_enemy_bml_resource(&morfos_resource_descriptor);
     }
     morfos_instance = mgr;
-    lbl_805434D0[0] = 0.0f;
-    lbl_805434D0[1] = 0.0f;
-    lbl_805434D0[2] = 0.0f;
+    morfos_zero_vector[0] = 0.0f;
+    morfos_zero_vector[1] = 0.0f;
+    morfos_zero_vector[2] = 0.0f;
     morfos_phase = 0;
     morfos_camera_path_cursor = NULL;
     morfos_body_scroll_polygons = ((NJS_CNK_MODEL *)mgr->models[1].model->child->model)->polygon_list;
@@ -154,16 +155,16 @@ void TObjEneMorfos::load_static_data() {
     morfos_body_scroll_tick = 0;
     morfos_wall_scroll_tick = 0;
     for (i = 0; i < 1; i++) {
-        morfos_base_params[i] = TLobby::register_boss(morfos_boss_ids[i]);
+        morfos_base_params[i] = register_boss(morfos_boss_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        morfos_attack_params[i] = TLobby::dispatch_shared_handler_b(morfos_attack_param_ids[i]);
+        morfos_attack_params[i] = dispatch_shared_handler_b(morfos_attack_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        morfos_resistance_params[i] = TLobby::register_object(morfos_object_ids[i]);
+        morfos_resistance_params[i] = register_object(morfos_object_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        (&morfos_param_table)[i] = (MorfosParams *)TLobby::dispatch_shared_handler_a(morfos_handler_a_ids[i]);
+        (&morfos_param_table)[i] = (MorfosParams *)dispatch_shared_handler_a(morfos_handler_a_ids[i]);
     }
     TObjEneMorfosArm::init_global();
     {

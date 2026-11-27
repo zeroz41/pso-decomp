@@ -7,15 +7,15 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TDeadSpotGroundEmitter.h"
 #include "pso/unk/TDeadSpotEmitter.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include <stddef.h>
@@ -25,25 +25,20 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/unk/text_803D8DE0.h"
+#include "pso/math/QuaternionBlend.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/RandomAngle.h"
 #include "pso/render/model_render_state.h"
 
-struct CornerRow {
-    u8 pad[0x88];
-    Vec corners[4];
-};
 
 extern "C" {
 extern const f32 lbl_805DA380;
+}
 
 #pragma push
 #pragma readonly_strings on
 const char *dead_spot_class_name = "TDeadSpot";
-}
 #pragma pop
-
 
 
 #pragma push
@@ -96,7 +91,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     basis[1].x = 0.0f;
     basis[1].y = 1.0f;
     basis[1].z = 0.0f;
-    direction_to_rotation_yx((u8 *)&ground->contact->normal, &yaw, &pitch);
+    direction_to_rotation_yx(&ground->contact->normal, &yaw, &pitch);
     if (pitch < 0x3000 || pitch > 0x5000) {
         (this)->queue_destruction();
         return;

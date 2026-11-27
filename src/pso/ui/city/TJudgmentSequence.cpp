@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TJudgmentSequence.h"
-#include "pso/unk/text_8026934C.h"
+#include "pso/ui/window/MesetaWindowCreate.h"
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/city/TShopSequence.h"
 

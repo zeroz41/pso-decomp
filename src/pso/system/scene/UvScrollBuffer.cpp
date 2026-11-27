@@ -1,7 +1,7 @@
 #include "types.h"
 #include <dolphin/os/OSCache.h>
-#include "pso/unk/text_80327844.h"
-#include "pso/unk/text_803279CC.h"
+#include "pso/render/MatchingModelVisit.h"
+#include "pso/render/ScrolledStripCount.h"
 #include "pso/system/memory.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/scene/UvScrollBuffer.h"

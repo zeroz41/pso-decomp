@@ -40,7 +40,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/object/base/TObjBase.h"
 
@@ -111,7 +111,7 @@ void MagNodeOscillationState::update() {
     }
 }
 
-s16 MagStats::get_level() {
+s16 MagStats::get_level() const {
     return get_def_level() + get_pow_level() + get_mind_level() + get_dex_level();
 }
 
@@ -469,7 +469,7 @@ TItemMag::TItemMag(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     action_cooldown = 0.0f;
     fullness_frames = 6300.0f;
     feeds_while_full = 2.0f;
-    TItemData::deserialize_mag(item, &stats);
+    ((TItemData *)item)->deserialize_mag(&stats);
     stats.photon_blast_flags &= ~0x40;
     set_item_index(stats.get_level());
     set_attach_slot(1);
@@ -549,7 +549,7 @@ void TItemMag::on_unequip() {
 }
 
 void TItemMag::write_item_data(TItemData *data) {
-    TItemData::serialize_mag(data, &stats);
+    data->serialize_mag(&stats);
 }
 
 void TItemMag::render_equipped() {
@@ -1165,7 +1165,7 @@ void TItemMag::evolve_third_form() {
     if (owner != NULL) {
         dominant = get_dominant_stats();
         player = owner;
-        section_id = player->section_id;
+        section_id = (u8)player->appearance.section;
         pow = get_pow_level();
         dex = get_dex_level();
         mind = get_mind_level();
@@ -1341,7 +1341,7 @@ s32 TItemMag::evolve_rare_form() {
 
     before = get_item_group();
     if (owner != NULL && stats.get_level() >= 100) {
-        section = (s8)owner->section_id % 3;
+        section = owner->appearance.section % 3;
         pow = get_pow_level();
         dex = get_dex_level();
         mind = get_mind_level();
@@ -1622,14 +1622,14 @@ void TItemMag::evolve_special_form(u8 kind) {
     before = get_item_group();
     switch (kind) {
     case 0:
-        if (owner->section_id & 1) {
+        if (owner->appearance.section & 1) {
             evolve_into(0x1D);
         } else {
             evolve_into(0x21);
         }
         break;
     case 1:
-        if (owner->section_id & 1) {
+        if (owner->appearance.section & 1) {
             evolve_into(0x22);
         } else {
             evolve_into(0x27);
@@ -1864,9 +1864,9 @@ void TItemMag::resolve_color() {
     u8 color;
 
     if (check_class_equip_permission(owner, 0xD7) != 0) {
-        color = owner->skin;
+        color = owner->appearance.skin;
     } else {
-        color = owner->costume;
+        color = owner->appearance.costume;
     }
     color = color % 9;
     if (color >= 7) {

@@ -5,14 +5,11 @@
 #include "pso/map/FloorArea.h"
 #include "pso/effect/item/TItemEffHeaven.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_8012AE50.h"
 #include "pso/item/TItem.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/enemy/BattleParamTables.h"
 
-
-extern "C" {
-u32 *copy_attack_targets(u32 *dst, u32 *src);
 
 void TItemWeaponHeavenPunisher::activate_effect(s32 effect_variant) {
   if (owner != NULL)
@@ -59,7 +56,7 @@ void TItemWeaponHeavenPunisher::emit_marker_effects() {
         copy_attack_targets((u32 *)&captured_targets, (u32 *)owner->get_extended_state());
         get_gun_point(&captured_muzzle);
         effect = 0;
-        if (!((TLobby::get_internet_beat() / 100) & 1)) {
+        if (!((get_internet_beat() / 100) & 1)) {
             effect = 1;
         }
         send_activate_effect(effect);
@@ -81,8 +78,6 @@ u32 *copy_attack_targets(u32 *dst, u32 *src) {
         *(d += 2) = b;
     }
     return dst;
-}
-
 }
 
 TItemWeaponHeavenPunisher::TItemWeaponHeavenPunisher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

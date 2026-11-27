@@ -19,9 +19,9 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/illgill/TObjEneIllGill.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/TObjEnemyColorFade.h"
@@ -34,7 +34,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/TLevelSelect.h"
@@ -48,7 +48,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
@@ -56,6 +56,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/network/TProtocol.h"
+#include "pso/enemy/BattleParamTables.h"
 extern "C" {
 BmlResource * illGillResource;
 player_stats *ill_gill_boss_registration_id;
@@ -115,13 +116,13 @@ void TObjEneIllGill::load_shared_resources() {
     Vec *q;
 
     illGillResource = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
-    ill_gill_boss_registration_id = TLobby::register_boss(0x26);
-    ill_gill_combat_parameter_variants[0] = TLobby::dispatch_shared_handler_b(0x26);
-    ill_gill_combat_parameter_variants[1] = TLobby::dispatch_shared_handler_b(0x27);
-    ill_gill_combat_parameter_variants[2] = TLobby::dispatch_shared_handler_b(0x28);
-    ill_gill_combat_parameter_variants[3] = TLobby::dispatch_shared_handler_b(0x29);
-    ill_gill_resistance_params = TLobby::register_object(0x26);
-    illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
+    ill_gill_boss_registration_id = register_boss(0x26);
+    ill_gill_combat_parameter_variants[0] = dispatch_shared_handler_b(0x26);
+    ill_gill_combat_parameter_variants[1] = dispatch_shared_handler_b(0x27);
+    ill_gill_combat_parameter_variants[2] = dispatch_shared_handler_b(0x28);
+    ill_gill_combat_parameter_variants[3] = dispatch_shared_handler_b(0x29);
+    ill_gill_resistance_params = register_object(0x26);
+    illGillAttackBehavior = (IllGillAttackBehavior *)dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
     q = &illGillWeaponEffectPosition;
     q->x = q->y = q->z = 0.0f;
@@ -1124,7 +1125,7 @@ void TObjEneIllGill::update_shadow_attack() {
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);
                 if (this->action_flags != 4 && ((TObjCollidable *)target)->test_actor_flags(0x04000000) == 0) {
-                    void *m = (void *)new TObjIllGillKage((saddr)tl_05, (uaddr)this->target);
+                    void *m = (void *)new TObjIllGillKage(tl_05, (uaddr)this->target);
                 }
             } else {
                 this->action_flags &= ~4;
@@ -1368,7 +1369,7 @@ void TObjEneIllGill::update_charge_attack() {
 }
 
 #pragma pop
-TObjIllGillKage::TObjIllGillKage(saddr parent, uaddr target) : TObjBase((TObject *)parent) {
+TObjIllGillKage::TObjIllGillKage(TObject *parent, uaddr target) : TObjBase(parent) {
     TObjBase *target_tobjbase = (TObjBase *)target;
     m_name = ill_gill_kage_class_name;
     if (target != 0U) {

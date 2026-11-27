@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/ui/window/TWindowSubCustomSelect.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -26,7 +26,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 #include "pso/ui/window/HeadingEntry.h"
 
 
@@ -270,7 +269,7 @@ void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     }
     pos.x = 45.0f + p->x;
     pos.y = 53.0f + p->y;
-    TWindowHelpItem::set_help_text((saddr)b, (s32)this->client_index);
+    set_help_icon_uv((saddr)b, (s32)this->client_index);
     copy_vec2(&a->x, &pos);
     copy_vec2(&b->x, &pos);
     a->depth = p->depth;

@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
@@ -48,7 +48,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/object/warp/TObjWarpJung.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
@@ -57,17 +57,17 @@
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/map/FloorMapSelection.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/GameModeQueries.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/ModelDrawContext.h"
@@ -85,7 +85,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjBase.h"
@@ -101,25 +101,8 @@
 
 
 
-
-
-
-union WarpStringPos {
-    s64 packed;
-    struct {
-        f32 x;
-        f32 y;
-    } xy;
-};
 // The table is 4-aligned in the original, so its entries are float pairs, not s64.
 
-extern "C" {
-
-
-
-extern s32 lbl_805D55C0;
-
-}
 
 BmlResource *forest_warp_bml_resource;
 NJS_TEXLIST *forest_warp_texture_list;
@@ -261,7 +244,7 @@ s32 TObjWarpBase::is_warp_enabled() {
     if (quest_warp_enabled == 0) {
         return 0;
     }
-    if (lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return 0;
     }
     if ((player != NULL) && (player->is_actor_dead() != 0)) {
@@ -343,7 +326,7 @@ s32 TObjMapWarp::can_warp(u16 client_id) {
     if (quest_warp_enabled == 0) {
         return 0;
     }
-    if (lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return 0;
     }
     if ((player != NULL) && (player->is_actor_dead() != 0)) {

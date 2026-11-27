@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/unk/text_803D619C.h"
+#include "pso/math/BinomialCoefficient.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";
@@ -342,7 +342,7 @@ void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 bottom;
     f32 step;
 
-    // TWindowDD::get_draw_count(hud_texlist), read inline here (0x80348AE8 is the same load chain)
+    // TWindowDD::get_draw_count(hud_texlist), read inline here
     tex = hud_texlist->textures[2].texture->surface->id;
     if (rect->open_tick < 0) {
         return;

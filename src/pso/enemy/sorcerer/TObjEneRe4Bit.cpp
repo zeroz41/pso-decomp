@@ -5,7 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -20,12 +20,13 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/enemy/sorcerer/Re4BitData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 #pragma defer_codegen on
 
 NJS_OBJECT *re4_bit_model;
@@ -63,10 +64,10 @@ void TObjEneRe4Bit::load_resources() {
     re4_bit_model = sorcerer_bml_resource->models[1].model;
     re4_bit_texture_list = sorcerer_bml_resource->models[0].texlist;
     for (i = 0; i < 2; i++) {
-        TObjEneRe4Bit_boss_handles[i] = TLobby::register_boss(re4_bit_base_param_ids[i]);
-        TObjEneRe4Bit_attack_handles[i] = TLobby::dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);
-        TObjEneRe4Bit_resistance_handles[i] = TLobby::register_object(re4_bit_resistance_param_ids[i]);
-        TObjEneRe4Bit_behavior_params[i] = TLobby::dispatch_shared_handler_a(re4_bit_behavior_param_ids[i]);
+        TObjEneRe4Bit_boss_handles[i] = register_boss(re4_bit_base_param_ids[i]);
+        TObjEneRe4Bit_attack_handles[i] = dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);
+        TObjEneRe4Bit_resistance_handles[i] = register_object(re4_bit_resistance_param_ids[i]);
+        TObjEneRe4Bit_behavior_params[i] = dispatch_shared_handler_a(re4_bit_behavior_param_ids[i]);
     }
 }
 

@@ -1,4 +1,5 @@
 #include "pso/player/TPlyDispData.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
@@ -32,7 +33,7 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/protocol/cast_packets.h"
 #include "pso/technique/TTecReverser.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/TLevelSelect.h"
@@ -43,7 +44,7 @@
 #include "pso/math/BoxCollision.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TechniqueParams.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/DebugFont.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/MatrixOps.h"
@@ -61,7 +62,6 @@ s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
 void * __ct__12TPlyCharDataFv(void *object);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
-s32 try_send_6x27_use_item(void *player, s32 key);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
 

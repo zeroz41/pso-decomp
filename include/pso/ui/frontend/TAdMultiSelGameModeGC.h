@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 class TWindowMenu;
 class TAdSelectTxtGC;
@@ -33,7 +34,7 @@ public:
     TWindowMenu *menu;                // 0x2C: the open option menu (build_mode_menu)
     TAdSelectTxtGC *difficulty_text;  // 0x30: shows game_difficulty_selection
     TAdSelectTxtGC *rule_text;        // 0x34: shows multi_sel_rule
-    TAdSelectTxtGC *episode_text;     // 0x38: shows multi_sel_episode, the episode handed to TAdStorySelectGC::set_state
+    TAdSelectTxtGC *episode_text;     // 0x38: shows multi_sel_episode, the episode handed to select_episode
     TAdSelectCurGC *cursor;           // 0x3C
     TAdGuideTxtGC *guide;             // 0x40
 };
@@ -41,5 +42,13 @@ public:
 LAYOUT_ASSERT(TAdMultiSelGameModeGC_size, sizeof(TAdMultiSelGameModeGC) == 0x44);
 
 void apply_multi_sel_rule();
+
+struct Float8 { f32 v[8]; };
+
+struct Float2 { f32 v[2]; };
+
+typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
+
+typedef struct Int3 { s32 v[3]; } Int3;
 
 #endif

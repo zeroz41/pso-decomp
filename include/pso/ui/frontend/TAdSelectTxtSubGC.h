@@ -35,6 +35,6 @@ public:
 
 LAYOUT_ASSERT(TAdSelectTxtSubGC_size, sizeof(TAdSelectTxtSubGC) == 0x88);
 
-int get_select_text_texture_handle(void);
+NJS_TEXLIST *get_select_text_texture_handle(void);
 
 #endif

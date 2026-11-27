@@ -7,7 +7,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemAttackColBase.h"
@@ -19,7 +19,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/item/TItemMenuCtrl.h"
@@ -208,18 +208,18 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     return 0;
 }
 
-void reset_attack_params(AttackColParams *s_802_e451_c) {
-    s_802_e451_c->position.x = 0.0f;
-    s_802_e451_c->position.y = 0.0f;
-    s_802_e451_c->position.z = 0.0f;
-    s_802_e451_c->radius = 5.0f;
-    s_802_e451_c->hits = 1;
-    s_802_e451_c->client_id = 0xFFFF;
-    s_802_e451_c->room = -1;
-    s_802_e451_c->item_id = -1;
-    s_802_e451_c->accuracy = 0.0f;
-    s_802_e451_c->damage_scale = 1.0f;
-    s_802_e451_c->attack_kind = 0;
+void reset_attack_params(AttackColParams *params) {
+    params->position.x = 0.0f;
+    params->position.y = 0.0f;
+    params->position.z = 0.0f;
+    params->radius = 5.0f;
+    params->hits = 1;
+    params->client_id = 0xFFFF;
+    params->room = -1;
+    params->item_id = -1;
+    params->accuracy = 0.0f;
+    params->damage_scale = 1.0f;
+    params->attack_kind = 0;
 }
 
 WeaponEffectDescriptor *reset_weapon_effect_descriptor(WeaponEffectDescriptor *params) {
@@ -378,7 +378,7 @@ void TItemAttackCol::run_task() {
         continuous_particle->set_position(&position);
     }
     check_hits();
-    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (hit_wall_flags.test_flags_any(1) != 0)) {
+    if ((range_sq <= vec_distance_squared(&position, &start_position)) || (hit_wall_flags.test_flags_any(1) != 0)) {
         queue_destruction();
     }
 }

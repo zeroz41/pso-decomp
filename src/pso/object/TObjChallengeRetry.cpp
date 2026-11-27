@@ -20,6 +20,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/object/TObjChallengeRetry.h"
+#include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -32,8 +33,6 @@
 
 #pragma readonly_strings on
 
-void build_6x95_packet(u8 *packet);
-void build_6x8A_packet(u8 *packet);
 extern "C" {
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
@@ -42,9 +41,6 @@ __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
 void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void build_6x9D_packet(u8 *packet);
-extern "C" {
-void bswap_client_id_packet(void *player);
-}
 void build_6x97_packet(u8 *packet);
 
 void G_SetChallengeDeadFlag_6x9D::bswap() {
@@ -62,19 +58,16 @@ void build_6x9D_packet(u8 *packet) {
     header->size = 2;
 }
 
-void TLobby::send_and_handle_60_wrapper() {
-    bswap_client_id_packet(this);
-    send_subcommand(this);
+void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet) {
+    bswap_client_id_packet(packet);
+    send_subcommand(packet);
 }
-extern "C" {
-
 void bswap_client_id_packet(void *player) {
     ((G_ClientIDHeader *)player)->bswap();
     bswap_32((u32 *)((char *)player + 4));
     bswap_32((u32 *)((char *)player + 8));
     bswap_32((u32 *)((char *)player + 12));
     bswap_32((u32 *)((char *)player + 16));
-}
 }
 
 void build_6x97_packet(u8 *packet) {
@@ -83,35 +76,37 @@ void build_6x97_packet(u8 *packet) {
     header->size = 5;
 }
 
-void TLobby::byteswap_challenge_time_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
-    bswap_32((u32 *)((char *)this + 8));
-    bswap_32((u32 *)((char *)this + 12));
-    bswap_32((u32 *)((char *)this + 16));
+void G_SetChallengeTime_6x95::bswap() {
+    header.bswap();
+    bswap_32((u32 *)&client_id);
+    bswap_32((u32 *)&time);
+    bswap_32(&unused[0]);
+    bswap_32(&unused[1]);
 }
 
-void TLobby::send_state() {
-    byteswap_challenge_time_packet();
+void G_SetChallengeTime_6x95::send() {
+    bswap();
     send_subcommand(this);
 }
-void build_6x95_packet(u8 *packet) {
-    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
-    header->subcommand = 0x95;
-    header->size = 5;
+
+void build_6x95_packet(G_SetChallengeTime_6x95 *packet) {
+    packet->header.subcommand = 0x95;
+    packet->header.size = sizeof(G_SetChallengeTime_6x95) / 4;
 }
-void TLobby::byteswap_challenge_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
+
+void G_ShowChallengeTimeRecordsWindow_6x8A::bswap() {
+    header.bswap();
+    bswap_32((u32 *)&which);
 }
-void TLobby::send_challenge_packet() {
-    byteswap_challenge_packet();
+
+void G_ShowChallengeTimeRecordsWindow_6x8A::send() {
+    bswap();
     send_subcommand(this);
 }
-void build_6x8A_packet(u8 *packet) {
-    G_ClientIDHeader *header = (G_ClientIDHeader *)packet;
-    header->subcommand = 0x8A;
-    header->size = 2;
+
+void build_6x8A_packet(G_ShowChallengeTimeRecordsWindow_6x8A *packet) {
+    packet->header.subcommand = 0x8A;
+    packet->header.size = sizeof(G_ShowChallengeTimeRecordsWindow_6x8A) / 4;
 }
 void G_SetChallengeRecords_V3_6x7C::bswap() {
     __base_G_SetChallengeRecordsBase_6x7C.header.bswap();
@@ -298,7 +293,7 @@ void TObjChallengeRetry::update_challenge_retry() {
         if (selected_menu_value == 2) {
             close_requested = 1;
         } else {
-            TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
+            send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
             send_45_and_close_windows();
             play_player_default_effect();
             this->selection_sent = 1;
@@ -413,7 +408,7 @@ void TObjChallengeRetry::run_task() {
 
 TObjChallengeRetry::~TObjChallengeRetry() {
     if (is_designated != 0 && selection_sent == 0) {
-        TLobby::send_challenge_retry_cmd(0);
+        send_challenge_retry_cmd(0);
     }
 }
 

@@ -1,7 +1,9 @@
+#include <dolphin/ar.h>
 #include "pso/ui/font/TNECFontEORFunction.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/quest/QuestDownloadAramFile.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
@@ -28,7 +30,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *keyboard_base_type_name_pointer = "TWindowKeyBoardBase";
+const char *TWindowKeyBoardBase::class_name = "TWindowKeyBoardBase";
 #pragma pop
 
 WindowDescriptor TWindowKeyBoardBase::window_descriptor = {
@@ -41,26 +43,13 @@ u16 soft_keyboard_conversion_exclusions[20] = {
     0x818F, 0x8191, 0x8192, 0x81CA, 0x8396, 0x8199, 0x8163, 0x81F4, 0x0000, 0x0000,
 };
 
-// One entry of the conversion candidate list: the previous entry's length (to step back), this entry's text length,
-// the candidate index chosen for it, then the text.
-struct CandidateRecord {
-    u8 prev_len;
-    s8 len;
-    u8 candidate_index;
-    char str[1];
-};
 
 extern "C" {
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
-struct Stack_8025E6DC {
-    NJS_POINT2 caret;
-    NJS_POINT2 cursor;
-};
 
 void draw_textured_quad_at_depth(void *, f32);
-extern s32 actor_frame_tick;
 
 
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
@@ -835,7 +824,7 @@ void TWindowKeyBoardBase::layout_wrapped_glyphs(WindowDrawContext *box, NJS_POIN
 #pragma push
 #pragma opt_common_subs off
 void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
-    Stack_8025E6DC stack;
+    InputTextCursors stack;
     s32 composing_cursor;
     s32 text_cursor;
     s32 composing_remaining;
@@ -894,7 +883,6 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
 
 }
 extern "C" {
-s32 ARAlloc(s32);
 
 void TWindowKeyBoardBase::render() {
     if ((is_state_flag_8_set() == 0) && ((has_text() != 0) || (this->request_flags & 2))) {
@@ -917,7 +905,7 @@ TWindowKeyBoardBase::~TWindowKeyBoardBase() {
 TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardBase::window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
     s32 language;
 
-    this->m_name = keyboard_base_type_name_pointer;
+    this->m_name = class_name;
     language = current_language;
     this->init_keyboard_text_field(0, 0);
     m_text2.init(0, 0);
@@ -939,7 +927,8 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
 
 const char ask_dictionary_file[10] = "Ask_n.dic";
 
-void TLobby::load_ask_dictionary() {
+}
+void load_ask_dictionary() {
     u8 *data;
     s32 size;
     s32 aligned;
@@ -952,7 +941,6 @@ void TLobby::load_ask_dictionary() {
     safe_free(data);
     aram_dma_setup(aram, size, 3, 1, 0x2710);
     start_askdic();
-}
 }
 
 int TWindowKeyBoardBase::is_state_flag_8_set() { return (this->state_flags >> 3) & 0x1; }

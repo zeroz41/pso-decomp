@@ -24,7 +24,7 @@ struct TLanguage
     static void load_container_fragment_textures();
 
     // The loaded language's text file: two words, the language text resources and the group table.
-    static s32 *text_resource;
+    static void **text_resource;
 
     // Tag of the temporary buffer load_fonts borrows.
     static const char class_name[];
@@ -32,5 +32,7 @@ struct TLanguage
 
 // The loaded text resource's string groups: text_language_group_table[group][id] is one string.
 extern char ***text_language_group_table;
+// The loaded text resource's soft keyboard layout (its first word).
+extern u8 *soft_keyboard_layouts;
 
 #endif

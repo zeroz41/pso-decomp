@@ -7,7 +7,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 
 void TCameraController::apply_camera_params(s32) {  }

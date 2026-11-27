@@ -70,12 +70,12 @@ TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(TObject *parent, TObjBase
 
 GinjaTextureInput player_render_target;
 NJS_TEXNAME player_render_texture_name;
-__declspec(section ".data") NJS_TEXLIST lbl_80500C30;
+__declspec(section ".data") NJS_TEXLIST player_render_texlist;
 
 void free_curse_resources(void) {
-    NJS_TEXLIST *p = &lbl_80500C30;
-    if (p != 0) {
-        release_texture_list(p);
+    NJS_TEXLIST *texlist = &player_render_texlist;
+    if (texlist != NULL) {
+        release_texture_list(texlist);
     }
     if (player_render_texture_buffer != 0) {
         mem_free(player_render_texture_buffer);
@@ -86,7 +86,7 @@ void free_curse_resources(void) {
 void TObjPlayer::create_render_texture() {
     player_render_target.set_render_rect(player_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
-    lbl_80500C30.textures = &player_render_texture_name;
-    lbl_80500C30.nbTexture = 1;
-    psoLoadTexture(&lbl_80500C30);
+    player_render_texlist.textures = &player_render_texture_name;
+    player_render_texlist.nbTexture = 1;
+    psoLoadTexture(&player_render_texlist);
 }

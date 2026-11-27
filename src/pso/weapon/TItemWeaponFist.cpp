@@ -7,21 +7,15 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/effect/item/TItemEffCane.h"
-#include "pso/weapon/TItemWeaponFistTypes.h"
-
-// ---- pso/unk/text_80126740
 
 
 void TItemWeaponFist::on_unequipped() {
     owner->attack_state.set_evp(1.0f);
 }
-
-// ---- pso/player/TObjPlayer_801267C4
 
 
 void TItemWeaponFist::on_equipped() {
@@ -48,14 +42,11 @@ void TItemWeaponFist::on_equipped() {
 }
 
 
-
-
 extern "C" {
 s32 reflect_matrix_in_plane(s32, f32 *, f32);
 }
 s32 knuckle_second_hand_pass;
 
-extern s32 knuckle_marker_joint_table[];
 void TItemWeaponFist::transform_model_node() {
     MirrorPlane plane;
     if ((get_model_node_counter() == 0) && (get_item_index() == 3) && (knuckle_second_hand_pass != 0)) {
@@ -100,12 +91,11 @@ s32 knuckle_marker_joint_table[18] = {
 
 
 void TItemWeaponFist::draw_held_model() {
-    TItemWeapon *weapon = this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
-        weapon->draw_weapon_model();
+        draw_weapon_model();
         knuckle_second_hand_pass = 1;
-        draw_weapon_at_joint(weapon, 0x23);
+        draw_weapon_at_joint(0x23);
     }
 }
 

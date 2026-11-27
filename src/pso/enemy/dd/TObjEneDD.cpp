@@ -5,7 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/DragonAttackParams.h"
@@ -44,13 +44,10 @@ extern const f32 view_detail_near_depth = 155.0f;
 
 
 #include "pso/ui/TLevelSelect.h"
-extern "C" {
-int release_players_from_cutscene(void*);
-}
 
 
 #include "pso/render/BlobShadow.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 
 
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -89,9 +86,7 @@ TargetCandidate enemy_target_candidate_table[4];
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 
-extern "C" {
-int submit_cursor_candidate(void*, int);
-}
+#include "pso/player/PlayerCommands.h"
 
 
 
@@ -102,10 +97,8 @@ int submit_cursor_candidate(void*, int);
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/LocalClientId.h"
 
-extern "C" {
-int is_stored_target(void*);
-}
 
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
     s32 count;
@@ -275,7 +268,7 @@ void TObjEneDD::init_common_from(TObjBase *source) {
 }
 
 
-int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidate(this, -1); }
+void TObjEnemy::submit_default_cursor_candidate() { submit_cursor_candidate(this, -1); }
 
 void enemy_death_stub(void *self) {  }
 
@@ -766,9 +759,9 @@ s32 TObjBase::is_alive() {
     return (u8)alive;
 }
 
-int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_RANGER) != 0; }
+int is_target_ranger(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_RANGER) != 0; }
 
-int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
+int is_target_android(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
 
 void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history) {
     obj_ene_dd_instance->set_owner(owner);
@@ -995,7 +988,7 @@ void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance)
 
 void TObjEneDD::get_target_state_b() { TObjPlayer::freeze_all_players(); }
 
-int TObjEneDD::get_target_state_a() { return release_players_from_cutscene(this); }
+void TObjEneDD::release_cutscene_players() { release_players_from_cutscene(); }
 
 s32 TObjEneDD::check_v2_mode() {
     if (((s32) enable_v2_features != 0) && ((s32) game_difficulty_selection == 3)) {

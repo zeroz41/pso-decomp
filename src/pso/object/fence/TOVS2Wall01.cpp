@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
@@ -14,7 +14,7 @@
 #include "pso/object/fence/TOVS2WallResources.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TOVS2Wreck06.h"
 #include "pso/object/TOVS2Wreck05.h"
@@ -26,7 +26,7 @@
 #include "pso/render/GinjaModel.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/TOVS2.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
@@ -42,9 +42,9 @@
 
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -82,8 +82,6 @@ CollisionBody ovs2wall01_collision_parts[7] = {
 
 BmlResource *vs2_wall01_bml_resource;
 
-// The raw set entry: its quest_object_entries row sits 4 bytes in.
-struct WallSetEntry { u8 pad_0[4]; s16 set_index; };
 
 extern "C" {
 
@@ -138,7 +136,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
         if (entry.flags != 1) {
             entry.flags = wall_hit_packet->flags;
-            TLobby::apply_table_entry(wall_hit_packet->object_index, &entry);
+            set_quest_object_entry(wall_hit_packet->object_index, &entry);
         }
     }
 }
@@ -204,7 +202,6 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 }
 
 #pragma pop
-
 
 
 void TOVS2Wall01::break_wall() {

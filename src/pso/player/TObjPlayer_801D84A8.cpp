@@ -13,9 +13,9 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/player/TObjPlayer_801D84A8.h"
+#include "pso/unk/TUnk_804A7248.h"
 #include "pso/item/TItemIdCounters.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/GameModeQueries.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
@@ -272,10 +272,6 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
     return is_palette_entry_displayable(kind, arg) ? 1 : 0;
 }
 
-extern "C" {
-
-s32 is_palette_override_set(void* p);
-
 // `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
 // unlike gc_tag::tag0.
 struct Obj_801D8474 { s8 a; u8 b; };
@@ -294,6 +290,4 @@ gc_tag *TPlyDispConfigSmth::get_current_row() {
 }
 
 void gc_tag::bswap_disp_config_field() { bswap_16(&tag2); }
-s32 is_palette_override_set(void* p) { return *(s32*)((char*)p + 0x4); }
-
-}
+s32 LockOnPaletteOverride::is_active() { return active; }

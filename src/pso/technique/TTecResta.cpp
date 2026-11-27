@@ -21,16 +21,11 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/technique/TTecRestaTypes.h"
 
 #pragma readonly_strings on
 
 
 const char *TTecResta::class_name = "TTecResta";
-
-
-
-
 
 
 extern "C" {

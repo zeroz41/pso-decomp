@@ -12,7 +12,10 @@ struct GvmFileHeader {
 
 // A GVR texture in memory: the GBIX chunk, the GVRT chunk header, then the texels.
 struct GvrTexture {
-    u8 gbix[0x10];
+    u8 gbix_magic[4];
+    u32 gbix_size;
+    u16 global_index[2];
+    u8 pad_0c[4];
     u8 gvrt_magic[4];
     u32 gvrt_size;
     u16 flags;

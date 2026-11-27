@@ -29,11 +29,6 @@
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
 
-struct Desc_80257D44 {
-    u32 cols;
-    u32 rows;
-    u32 recs[1];
-};
 
 void draw_visible_window_entries(const void *, const WindowLayoutEntries *entries, WindowDrawContext *context) {
     void *const *part;
@@ -79,7 +74,7 @@ void WindowLayoutEntries::destroy_all_items() {
 }
 
 void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout, s32 client) {
-    const Desc_80257D44 *desc = static_cast<const Desc_80257D44 *>(layout);
+    const WindowLayoutEntriesDesc *desc = static_cast<const WindowLayoutEntriesDesc *>(layout);
     u32 cols;
     u32 rows;
     u32 *rec;

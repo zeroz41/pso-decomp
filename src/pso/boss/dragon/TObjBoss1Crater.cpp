@@ -10,17 +10,17 @@
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/MatrixStack.h"
@@ -160,7 +160,7 @@ TObjBoss1Crater *TObjBoss1Crater::create(TObject *parent, Vec *pos) {
     if (is_count_below_limit() == 0) {
         return NULL;
     }
-    dragon = (TObjBase *)TBoss1Dragon::get_instance();
+    dragon = TBoss1Dragon::get_instance();
     if (dragon == NULL) {
         return NULL;
     }

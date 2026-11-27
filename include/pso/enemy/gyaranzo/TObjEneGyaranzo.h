@@ -74,7 +74,7 @@ extern BmlResource *gyaranzo_bml_resource;
 // The frame count after which spawn_missile_volley's missiles go off.
 extern s32 gyaranzo_missile_volley_end_time;
 
-// The Gyaranzo parameter table (TLobby::dispatch_shared_handler_a(0x1D)).
+// The Gyaranzo parameter table (dispatch_shared_handler_a(0x1D)).
 struct GyaranzoParameters {
     f32 floats[6];
     s32 ints[4];

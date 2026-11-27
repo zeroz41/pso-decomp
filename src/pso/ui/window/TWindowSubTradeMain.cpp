@@ -5,9 +5,8 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include "pso/network/TradeSession.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -34,7 +33,7 @@
 
 const char *TWindowSubTradeMain::class_name = "TWindowSubTradeMain";
 
-// inferred: screen positions of the trade windows, named after the function that opens each one
+// Screen positions of the trade windows, named after the function that opens each one
 // (create_equip_kind_window takes the position, like short_list_window_pos in TWindowShortListCtrl).
 static const NJS_POINT2 trade_window_pos = {326.0f, 84.0f};
 static const NJS_POINT2 trade_equip_window_pos = {326.0f, 84.0f};
@@ -45,6 +44,7 @@ static const NJS_POINT2 trade_list_window_pos = {326.0f, 104.0f};
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/TradeModeQuery.h"
 
 
 
@@ -598,7 +598,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
 TWindowSubEquipKind *TWindowSubTradeMain::create_trade_window() {
     TObjPlayer *p;
     TWindowSubEquipKind *w;
-    p = get_player_by_client_id((s8)TLobby::get_trade_mode());
+    p = get_player_by_client_id((s8)get_trade_mode());
     if (p == NULL) {
         return 0;
     }

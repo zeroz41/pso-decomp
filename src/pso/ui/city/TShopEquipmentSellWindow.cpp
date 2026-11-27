@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCost.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
@@ -31,6 +31,7 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/GameModeQueries.h"
 
 #pragma readonly_strings on
 
@@ -161,7 +162,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     }
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem(get_window_layout_position(0x27), this->player->get_entity_id());
-        if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+        if (this->help_window != NULL && is_camera_ctrl_active() > 2) {
             this->help_window->set_scale(0.75f, 0.75f);
         }
         this->help_window->set_displayed_item_by_id(this->entries[0].data.id);
@@ -230,7 +231,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             type = this->entries[i].data.get_stack_count();
             if (type > 1 && this->number_input == NULL) {
                 this->number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, type, 1, get_player_entity_id());
-                if (this->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                if (this->number_input != NULL && is_camera_ctrl_active() > 2) {
                     this->number_input->set_scale(0.75f, 0.75f);
                 }
                 set_state(3);

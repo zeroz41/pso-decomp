@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 
@@ -102,7 +102,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TLiveCameraView.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/TextureLoad.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/render/GinjaView.h"
@@ -113,7 +113,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
@@ -128,7 +128,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/ui/window/TWindowBase.h"
 
 u8 camera_capture_overlay_alpha = 143;

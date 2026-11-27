@@ -3,16 +3,6 @@
 #include "pso/quest/AskDicFile.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
-struct QuestDownloadFreeLink { QuestDownloadFreeLink *next; };
-// Every block is either free or occupied by one live node.
-union QuestDownloadPoolCell {
-    QuestDownloadFreeLink free;
-    QuestDownloadTextNode text;
-    QuestDownloadEntryNode entry;
-    QuestDownloadQueueNode queue;
-    QuestDownloadSegment segment;
-    QuestDownloadItemNode item;
-};
 
 LAYOUT_ASSERT(QuestDownloadPoolCellSize, sizeof(QuestDownloadPoolCell) == 0x14);
 
@@ -55,10 +45,6 @@ s32 number_format_mode;
 s32 lbl_805D7900;
 s32 quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
 
-struct QuestDownloadRequestStorage {
-    QuestDownloadRequest request;
-    u8 reserved[0x18];
-};
 LAYOUT_ASSERT(QuestDownloadRequestStorageSize, sizeof(QuestDownloadRequestStorage) == 0x28);
 LAYOUT_ASSERT(QuestDownloadRequestStorageRequest, offsetof(QuestDownloadRequestStorage, request) == 0);
 
@@ -2093,7 +2079,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
 }
 
 void reset_entry_text_accumulator(void) {
-    lbl_8058DC98[0] = 0;
+    name_entry_name_buffer[0] = 0;
 }
 
 
@@ -2105,7 +2091,7 @@ inline void copy_entry_text(u8 *dst, u8 *text, s32 pos, s32 len, QuestDownloadTe
     strncpy((char *)dst, reinterpret_cast<char *>(quest_download_scratch_storage) + pos, len);
     dst[len] = 0;
     if (len != strlen((char *)dst)) {
-        lbl_8058DC98[0] = 0;
+        name_entry_name_buffer[0] = 0;
     } else {
         quest_text_u16_to_u8(quest_text_page_buffer, text, write_entry_group_text(pos, len, node, quest_text_page_buffer));
     }
@@ -2135,22 +2121,22 @@ void process_entry_text_range(s32 pos, s32 end) {
             continue;
         }
         if (slot->latched_length != 0 && slot->latched_length != slot->length) {
-            name = lbl_8058DC98;
-            text = lbl_8058DC48;
+            name = name_entry_name_buffer;
+            text = name_entry_text_buffer;
             len = n;
             copy_entry_text(name, text, pos, len, node);
             learn_conversion_result(pos, n, node, slot->head);
         } else {
-            if (lbl_8058DC98[0] == 0) {
+            if (name_entry_name_buffer[0] == 0) {
                 goto plain;
             }
-            name = lbl_8058DC98 + strlen((char *)lbl_8058DC98);
-            text = lbl_8058DC48 + strlen((char *)lbl_8058DC48);
+            name = name_entry_name_buffer + strlen((char *)name_entry_name_buffer);
+            text = name_entry_text_buffer + strlen((char *)name_entry_text_buffer);
             len = node->len;
             copy_entry_text(name, text, pos, len, node);
-            if (lbl_8058DC98[0] != 0) {
-                req.name = (char *)lbl_8058DC98;
-                name_len = strlen((char *)lbl_8058DC98);
+            if (name_entry_name_buffer[0] != 0) {
+                req.name = (char *)name_entry_name_buffer;
+                name_len = strlen((char *)name_entry_name_buffer);
                 req.len = name_len;
                 req.pad6 = 0;
                 if (node == NULL || (sub = node->source) == NULL) {
@@ -2160,17 +2146,17 @@ void process_entry_text_range(s32 pos, s32 end) {
                     req.x7 = sub->a;
                     req.x8 = sub->b;
                 }
-                req.text = lbl_8058DC48;
+                req.text = name_entry_text_buffer;
                 store_name_entry(&req);
             }
-            lbl_8058DC98[0] = 0;
+            name_entry_name_buffer[0] = 0;
         }
         pos += n;
     }
 }
 #pragma pop
 
-extern QuestDownloadRequestStorage lbl_805A0698;
+extern QuestDownloadRequestStorage learned_name_request;
 
 #pragma push
 #pragma dont_inline off
@@ -2182,7 +2168,7 @@ extern QuestDownloadRequestStorage lbl_805A0698;
 void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, QuestDownloadEntryNode *listp) {
   QuestDownloadEntryNode *list = listp;
   s32 *buf;
-  QuestDownloadRequest *obj = (0, &lbl_805A0698.request);
+  QuestDownloadRequest *obj = (0, &learned_name_request.request);
   QuestDownloadTextNode *cmd = (QuestDownloadTextNode *) cmdp;
   const QuestDownloadItemNode *p;
   s32 r;
@@ -2232,14 +2218,14 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
     strncpy((char *) quest_request_text_buffer, reinterpret_cast<char *>(quest_download_scratch_storage) + pos, len);
     quest_request_text_buffer[len] = 0;
     r = write_entry_group_text(pos, len, cmd, quest_text_page_buffer);
-    quest_text_u16_to_u8(quest_text_page_buffer, lbl_8058DCE8, r);
+    quest_text_u16_to_u8(quest_text_page_buffer, learned_name_text_buffer, r);
     obj->name = (char *) quest_request_text_buffer;
     obj->len = (s16) len;
     obj->pad6 = 0;
     obj->x7 = 0x19;
     obj->x8 = 0;
     request = obj;
-    obj->text = lbl_8058DCE8;
+    obj->text = learned_name_text_buffer;
     store_learned_name(request, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values, buf - ((0, reinterpret_cast<QuestDownloadScratchIds *>(quest_download_text_buffer)->values)));
   }
   else
@@ -3322,4 +3308,4 @@ u16 quest_text_page_buffer[0x98];
 u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 QuestDownloadInputEntry quest_download_entry_table[39];
 u16 quest_download_buffer_storage[0x64] ATTRIBUTE_ALIGN(4);
-QuestDownloadRequestStorage lbl_805A0698;
+QuestDownloadRequestStorage learned_name_request;

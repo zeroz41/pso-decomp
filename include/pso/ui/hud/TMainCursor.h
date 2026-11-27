@@ -9,7 +9,7 @@
 
 struct NJS_OBJECT;
 class LockOnActionSlot;
-struct TLockOnCursor;
+class TObjCollidable;
 struct TObjPlayer;
 class TPlyDispConfigSmth;
 class LockOnNearestTarget;
@@ -72,17 +72,14 @@ struct TMainCursor : public TObject {
     void update_photon_chair();
     virtual void render();
     virtual void run_task();
-    static s32 get_action_cursor_priority(void *unused, TObjPlayer *player, s32 index);
-    static void set_cursor_color(TLockOnCursor *unused, TObjPlayer *player, LockOnActionSlot *main_cursor);
-    static void set_display_flags(TLockOnCursor *unused, TObjPlayer *player, LockOnActionSlot *main_cursor);
-    static void setup_flags(TLockOnCursor *unused, TObjPlayer *player, LockOnActionSlot *main_cursor);
     s32 is_channel_active();
     static s32 check_visible(TPlyDispConfigSmth *palette, TObjPlayer *player, s16 type, s32 enabled);
     static NJS_OBJECT *get_cursor_model();
     TObjPlayer *get_owner_player();
     void update_target_sub();
     u16 get_client_id();
-    int test_flag_2_at_20();
+    int is_hidden();
+    void hide();
     int init_render_flags();
     int update();
     int check_flag_1();
@@ -100,7 +97,7 @@ struct TMainCursor : public TObject {
     void set_target_id(u8 target_id);
     void set_entity_id(u16 id);
     s32 check_can_pickup();
-    static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, LockOnNearestTarget *best);
+    static s32 try_add_target_candidate(LockOnActionSlot *entry, TObjCollidable *candidate, TObjPlayer *owner, LockOnNearestTarget *best);
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);
@@ -119,23 +116,19 @@ void load_target_cursor_models(void);
 void render_marker(TMainCursor *main_cursor);
 struct CsnHit *is_target_obstructed(class LockOnActionSlot *unused, const Vec *to, const Vec *from);
 s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
-void set_action_channel_inactive(u8 *entry);
-void set_action_channel_active(u8 *entry);
+void set_action_channel_inactive(gc_tag *tag);
+void set_action_channel_active(gc_tag *tag);
 int get_lock_on_cursor_model(void);
-extern "C" {
-void set_main_cursor_state_flag_2(void *p);
-}
-u8 get_target_palette_slot(void *p);
-u8 get_target_palette_mode(void *p);
-void deactivate_action_channel(void *p);
-void activate_action_channel(void *p);
-void clear_marker_color(void *a0);
+u8 get_target_palette_slot(ActionPaletteTag *p);
+u8 get_target_palette_mode(ActionPaletteTag *p);
+void deactivate_action_channel(LockOnActionSlot *slot);
+void activate_action_channel(LockOnActionSlot *slot);
+void clear_marker_color(MarkerColor *marker);
 extern "C" {
 int get_empty_action_entry(void);
 }
 int get_target_cursor_model(void);
-extern "C" {
-void disable_palette_override(void *p);
-void enable_palette_override(void *p);
-}
+
+struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
+
 #endif

@@ -52,7 +52,7 @@ public:
     void clear_body_flag(s32 index, u16 client);
     // The radius of collision body `body`.
     f32 get_body_radius(s32 body);
-    u32 check_actor_body_contact(void *, f32);
+    u32 check_actor_body_contact(TObjCollidable *, f32);
     void mark_enemy_body_contacts();
     void update_enemy_collision_flags();
     void check_object_collisions();

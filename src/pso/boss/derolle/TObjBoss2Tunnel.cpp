@@ -1,1336 +1,640 @@
-#include "pso/render/ProjectedColorDraw.h"
-#include "pso/system/save/CardSaveFile.h"
-#include "pso/system/ResourceFile.h"
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/system/MatrixStack.h"
-#include <string.h>
-#include <dolphin/os/OSCache.h>
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/system/task/TMainTask.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
-#include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80132ED0.h"
-#include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/render/CameraCapture.h"
-#include "pso/render/gjSystem.h"
-#include "pso/system/main_loop.h"
-#include "pso/system/memory.h"
-#include "pso/ui/window/TWindowMessage.h"
-#include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/AccelerationCurve.h"
-#include "pso/render/TDLGraph.h"
-#include "pso/network/TLobby.h"
-#include "pso/system/scene/TScene.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/quest/TQuestListVM.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/render/render_util.h"
-#include "pso/system/ControllerInputState.h"
-#include "pso/network/protocol/GameplaySoundPacket.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
-#include "pso/map/FloorArea.h"
-#include "pso/map/CsnQuery.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
-#include "pso/unk/TLobby_803382E4.h"
-#include "pso/network/client_id.h"
-#include "pso/object/base/ActorCollision.h"
-#include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/network/protocol/protocol_types.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/system/vector.h"
-#include "pso/render/DebugFont.h"
-#include "pso/network/TGameProtocol.h"
-#include "pso/system/byteswap.h"
-#include "pso/math/AngleLookup.h"
-#include "pso/math/MatrixVector.h"
-#include "pso/system/MatrixOps.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-
-#include "pso/system/NinjaTypes.h"
-#include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby_803DE778.h"
+#include "pso/boss/derolle/TObjBoss2RaftSplash.h"
+#include "pso/boss/derolle/TObjBoss2Dust.h"
+#include "pso/boss/derolle/Boss2CommonResource.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/render/TFogCtrl.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/TextureState.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/boss/TObjBoss2TunnelSlide.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/render/GinjaMaterial.h"
+#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
+#pragma defer_codegen on
 
-static s16 debug_chunk_a_strips[59] = {
-    0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
-    0x0006, 0x000A, 0x0004, 0x000C, 0x0002, 0x000E, 0x0003, 0x0008, 0x0009, 0x0007, 0x0003, 0x0000,
-    0x0001, 0x000F, 0xFFEE, 0x0005, 0x0007, 0x0006, 0x0008, 0x000A, 0x0009, 0x000B, 0x0007, 0x000D,
-    0x0005, 0x000F, 0x0003, 0x0001, 0x0002, 0x0000, 0x000E, 0x000F, 0x000D, 0xFFFB, 0x0002, 0x0003,
-    0x0004, 0x0005, 0x0006, 0x0005, 0x000E, 0x000D, 0x000C, 0x000B, 0x000A, 0x0000, 0x00FF,
-};
-static DebugChunkVertices16 debug_chunk_a_vertices = {
-    0x00610029, 0x00100000,
-    {
-        {{2.0f, -5.0f, 0.0f}, {0.77638215f, -0.63026243f, 5.3428018e-08f}},
-        {{2.0f, 5.0f, 0.0f}, {0.77638215f, 0.63026243f, 5.3428018e-08f}},
-        {{1.4142135f, -5.0f, -1.4142135f}, {0.54898506f, -0.6302625f, -0.54898506f}},
-        {{1.4142135f, 5.0f, -1.4142135f}, {0.54898506f, 0.6302625f, -0.54898506f}},
-        {{0.0f, -5.0f, -1.9999999f}, {-1.7809338e-08f, -0.6302625f, -0.7763821f}},
-        {{0.0f, 5.0f, -1.9999999f}, {-1.7809338e-08f, 0.6302625f, -0.7763821f}},
-        {{-1.4142134f, -5.0f, -1.4142134f}, {-0.54898506f, -0.6302625f, -0.54898506f}},
-        {{-1.4142134f, 5.0f, -1.4142134f}, {-0.54898506f, 0.6302625f, -0.54898506f}},
-        {{-1.9999998f, -5.0f, 0.0f}, {-0.77638215f, -0.63026243f, 0.0f}},
-        {{-1.9999998f, 5.0f, 0.0f}, {-0.77638215f, 0.63026243f, 0.0f}},
-        {{-1.4142134f, -5.0f, 1.4142134f}, {-0.54898506f, -0.6302625f, 0.54898506f}},
-        {{-1.4142134f, 5.0f, 1.4142134f}, {-0.54898506f, 0.6302625f, 0.54898506f}},
-        {{0.0f, -5.0f, 1.9999998f}, {0.0f, -0.63026243f, 0.77638215f}},
-        {{0.0f, 5.0f, 1.9999998f}, {0.0f, 0.63026243f, 0.77638215f}},
-        {{1.4142134f, -5.0f, 1.4142134f}, {0.54898506f, -0.63026243f, 0.5489851f}},
-        {{1.4142134f, 5.0f, 1.4142134f}, {0.54898506f, 0.63026243f, 0.5489851f}},
-    },
-    0x000000FF,
-};
-static NJS_CNK_MODEL debug_chunk_a_model = {&debug_chunk_a_vertices, debug_chunk_a_strips, {0.0f, 0.0f, -0.0f}, 5.385165f};
-static NJS_OBJECT debug_chunk_a_object = {
-    NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_BREAK, &debug_chunk_a_model,
-    {0.0f, 0.0f, 0.0f}, {0, 0, 0}, {1.0f, 1.0f, 1.0f}, NULL, NULL,
-};
-static s16 debug_chunk_b_strips[161] = {
-    0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0096, 0x000C, 0xFFF4,
-    0x0000, 0x0009, 0x0010, 0x000A, 0x0011, 0x000B, 0x0012, 0x000C, 0x0013, 0x000D, 0x0014, 0x000E,
-    0xFFF9, 0x0013, 0x0019, 0x0012, 0x0018, 0x0011, 0x0017, 0x0010, 0xFFF9, 0x0019, 0x001F, 0x0018,
-    0x001E, 0x0017, 0x0000, 0x0010, 0x0004, 0x0023, 0x0024, 0x001D, 0x0001, 0x0004, 0x001F, 0x001E,
-    0x0025, 0x0000, 0xFFFA, 0x0029, 0x0023, 0x002A, 0x0024, 0x002B, 0x0001, 0x000A, 0x0000, 0x002C,
-    0x0025, 0x0026, 0x001F, 0x0020, 0x0019, 0x001A, 0x0013, 0x0014, 0xFFF8, 0x002F, 0x0029, 0x0030,
-    0x002A, 0x0031, 0x002B, 0x0032, 0x0001, 0xFFF5, 0x0035, 0x002F, 0x0036, 0x0030, 0x0037, 0x0031,
-    0x0038, 0x0032, 0x0039, 0x0001, 0x0008, 0xFFF2, 0x0002, 0x0033, 0x0034, 0x002D, 0x002E, 0x0027,
-    0x0028, 0x0021, 0x0022, 0x001B, 0x001C, 0x0015, 0x0016, 0x000F, 0x002A, 0x0002, 0x0003, 0x0034,
-    0x0035, 0x002E, 0x002F, 0x0028, 0x0029, 0x0022, 0x0023, 0x001C, 0x001D, 0x0016, 0x0001, 0x000F,
-    0x0008, 0x000E, 0x0007, 0x000D, 0x0006, 0x000C, 0x0005, 0x000B, 0x0004, 0x000A, 0x0003, 0x0009,
-    0x0002, 0x0000, 0x0033, 0x002C, 0x002D, 0x0026, 0x0027, 0x0020, 0x0021, 0x001A, 0x001B, 0x0014,
-    0x0015, 0x000E, 0x000F, 0xFFF5, 0x0003, 0x0035, 0x0004, 0x0036, 0x0005, 0x0037, 0x0006, 0x0038,
-    0x0007, 0x0039, 0x0008, 0x0000, 0x00FF,
-};
-static DebugChunkVertices58 debug_chunk_b_vertices = {
-    0x015D0029, 0x003A0000,
-    {
-        {{0.0f, -5.0f, 0.0f}, {-8.297286e-09f, -1.0f, -6.914405e-10f}},
-        {{0.0f, 5.0f, 0.0f}, {0.0f, 1.0f, -6.9144046e-10f}},
-        {{1.9134172f, -4.6193976f, 0.0f}, {0.42258298f, -0.9063242f, 1.6794909e-08f}},
-        {{3.535534f, -3.535534f, 0.0f}, {0.7296192f, -0.6838536f, 3.5057905e-08f}},
-        {{4.6193976f, -1.9134171f, 0.0f}, {0.9303025f, -0.3667931f, 1.2089442e-08f}},
-        {{5.0f, 1.6391772e-07f, 0.0f}, {1.0f, 0.0f, 2.4487974e-08f}},
-        {{4.6193976f, 1.9134173f, 0.0f}, {0.9303025f, 0.36679316f, 3.626833e-08f}},
-        {{3.5355337f, 3.5355341f, 0.0f}, {0.72961915f, 0.68385375f, 4.090089e-08f}},
-        {{1.9134169f, 4.6193976f, 0.0f}, {0.42258295f, 0.90632427f, 1.8194486e-08f}},
-        {{1.3529903f, -4.6193976f, -1.3529903f}, {0.2988113f, -0.90632427f, -0.29881132f}},
-        {{2.5f, -3.535534f, -2.5f}, {0.51591873f, -0.68385357f, -0.5159188f}},
-        {{3.2664073f, -1.9134171f, -3.2664073f}, {0.6578232f, -0.3667931f, -0.65782326f}},
-        {{3.535534f, 1.6391772e-07f, -3.535534f}, {0.70710677f, 0.0f, -0.70710677f}},
-        {{3.2664073f, 1.9134173f, -3.2664073f}, {0.65782315f, 0.36679316f, -0.6578232f}},
-        {{2.4999998f, 3.5355341f, -2.4999998f}, {0.5159186f, 0.6838537f, -0.5159187f}},
-        {{1.35299f, 4.6193976f, -1.35299f}, {0.29881126f, 0.90632427f, -0.2988113f}},
-        {{0.0f, -4.6193976f, -1.9134171f}, {-1.1196606e-08f, -0.90632427f, -0.42258298f}},
-        {{0.0f, -3.535534f, -3.535534f}, {-2.3371937e-08f, -0.68385357f, -0.7296193f}},
-        {{0.0f, -1.9134171f, -4.619397f}, {-2.4178881e-08f, -0.3667931f, -0.93030256f}},
-        {{0.0f, 1.6391772e-07f, -5.0f}, {0.0f, 0.0f, -1.0f}},
-        {{0.0f, 1.9134173f, -4.619397f}, {-3.6268325e-08f, 0.36679325f, -0.93030256f}},
-        {{0.0f, 3.5355341f, -3.5355334f}, {-6.427282e-08f, 0.6838536f, -0.72961915f}},
-        {{0.0f, 4.6193976f, -1.9134169f}, {-2.3792788e-08f, 0.90632427f, -0.42258298f}},
-        {{-1.3529902f, -4.6193976f, -1.3529902f}, {-0.29881132f, -0.90632427f, -0.2988113f}},
-        {{-2.5f, -3.535534f, -2.5f}, {-0.5159188f, -0.6838535f, -0.5159188f}},
-        {{-3.266407f, -1.9134171f, -3.266407f}, {-0.6578232f, -0.3667931f, -0.65782326f}},
-        {{-3.535534f, 1.6391772e-07f, -3.535534f}, {-0.70710677f, 0.0f, -0.70710677f}},
-        {{-3.266407f, 1.9134173f, -3.266407f}, {-0.6578232f, 0.36679327f, -0.65782315f}},
-        {{-2.4999995f, 3.5355341f, -2.4999995f}, {-0.51591873f, 0.6838536f, -0.5159187f}},
-        {{-1.35299f, 4.6193976f, -1.35299f}, {-0.2988113f, 0.90632427f, -0.2988113f}},
-        {{-1.913417f, -4.6193976f, 0.0f}, {-0.42258298f, -0.90632427f, 0.0f}},
-        {{-3.535534f, -3.535534f, 0.0f}, {-0.7296193f, -0.6838535f, 0.0f}},
-        {{-4.619397f, -1.9134171f, 0.0f}, {-0.93030256f, -0.36679313f, 0.0f}},
-        {{-5.0f, 1.6391772e-07f, 0.0f}, {-1.0f, 0.0f, 0.0f}},
-        {{-4.619397f, 1.9134173f, 0.0f}, {-0.93030244f, 0.36679327f, -6.0447207e-09f}},
-        {{-3.5355332f, 3.5355341f, 0.0f}, {-0.7296192f, 0.6838536f, -5.8429834e-09f}},
-        {{-1.9134169f, 4.6193976f, 0.0f}, {-0.42258295f, 0.90632427f, -4.1987276e-09f}},
-        {{-1.3529902f, -4.6193976f, 1.3529902f}, {-0.2988113f, -0.90632427f, 0.29881132f}},
-        {{-2.5f, -3.535534f, 2.5f}, {-0.5159188f, -0.6838535f, 0.5159188f}},
-        {{-3.266407f, -1.9134171f, 3.266407f}, {-0.65782326f, -0.3667931f, 0.6578232f}},
-        {{-3.535534f, 1.6391772e-07f, 3.535534f}, {-0.70710677f, 0.0f, 0.70710677f}},
-        {{-3.266407f, 1.9134173f, 3.266407f}, {-0.65782315f, 0.36679327f, 0.6578232f}},
-        {{-2.4999995f, 3.5355341f, 2.4999995f}, {-0.51591873f, 0.6838536f, 0.5159187f}},
-        {{-1.35299f, 4.6193976f, 1.35299f}, {-0.2988113f, 0.90632427f, 0.29881126f}},
-        {{0.0f, -4.6193976f, 1.913417f}, {0.0f, -0.90632427f, 0.42258298f}},
-        {{0.0f, -3.535534f, 3.535534f}, {0.0f, -0.6838535f, 0.7296193f}},
-        {{0.0f, -1.9134171f, 4.619397f}, {0.0f, -0.36679313f, 0.93030256f}},
-        {{0.0f, 1.6391772e-07f, 5.0f}, {0.0f, 0.0f, 1.0f}},
-        {{0.0f, 1.9134173f, 4.619397f}, {-6.0447207e-09f, 0.36679327f, 0.93030244f}},
-        {{0.0f, 3.5355341f, 3.5355332f}, {-5.8429834e-09f, 0.6838536f, 0.7296192f}},
-        {{0.0f, 4.6193976f, 1.9134169f}, {-4.1987276e-09f, 0.90632427f, 0.42258295f}},
-        {{1.3529902f, -4.6193976f, 1.3529902f}, {0.29881132f, -0.90632427f, 0.29881132f}},
-        {{2.5f, -3.535534f, 2.5f}, {0.5159188f, -0.68385357f, 0.5159188f}},
-        {{3.266407f, -1.9134171f, 3.266407f}, {0.6578232f, -0.3667931f, 0.65782326f}},
-        {{3.535534f, 1.6391772e-07f, 3.535534f}, {0.70710677f, 0.0f, 0.7071069f}},
-        {{3.266407f, 1.9134173f, 3.266407f}, {0.6578232f, 0.3667932f, 0.6578232f}},
-        {{2.4999995f, 3.5355341f, 2.4999995f}, {0.5159187f, 0.6838537f, 0.51591873f}},
-        {{1.35299f, 4.6193976f, 1.35299f}, {0.29881126f, 0.90632427f, 0.2988113f}},
-    },
-    0x000000FF,
-};
-static NJS_CNK_MODEL debug_chunk_b_model = {&debug_chunk_b_vertices, debug_chunk_b_strips, {0.0f, 0.0f, 0.0f}, 7.071068f};
-NJS_OBJECT debug_chunk_b_object = {
-    NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_BREAK, &debug_chunk_b_model,
-    {0.0f, 0.0f, 0.0f}, {0, 0, 0}, {1.0f, 1.0f, 1.0f}, NULL, NULL,
-};
-NJS_OBJECT *debug_chunk_object = &debug_chunk_b_object;
-NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
+u32 TObjBoss2Tunnel::global_flags;
+// Two sibling nodes of common model 10 (clear_target_flags); TObjBoss2TunnelSlide slides them apart
+// along x after 30 frames, a to +70 and b to -70.
+NJS_OBJECT *boss2_tunnel_slide_node_b;
+NJS_OBJECT *boss2_tunnel_slide_node_a;
 
-LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
+static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
+const char *TObjBoss2Tunnel::name = "TObjBoss2Tunnel";
 
 
-u8 boss2_tunnel_state_flag;
-u16 TObjBoss2Tunnel::snapshot_state;
-ScreenSnapshot *boss2_tunnel_snapshot_buffer;
-void *TObjBoss2Tunnel::snapshot_buffer;
-s32 TObjBoss2Tunnel::snapshot_saved_flag;
+s32 boss2_tunnel_model_index_table[6] = {
+    0x14, 0xe, 0xf, 0x10,
+    0x11, 0x13,
+};
+s32 boss2_tunnel_model_order_table[12] = {
+    0xc, 0x6, 0x7, 0x8,
+    0x9, 0xb, 0x5, 0x0,
+    0x1, 0x2, 0x3, 0x4,
+};
+Boss2TunnelColor boss2_tunnel_color_table[7] = {
+    {1.0f, 1.0f, 0.6f, 0.4f},
+    {1.0f, 1.0f, 0.8f, 0.5f},
+    {1.0f, 0.8f, 0.6f, 0.3f},
+    {1.0f, 0.6f, 1.0f, 0.4f},
+    {1.0f, 1.0f, 0.8f, 0.4f},
+    {1.0f, 1.0f, 0.6f, 0.4f},
+    {1.0f, 1.0f, 0.6f, 0.4f},
+};
+Boss2TunnelColor boss2_tunnel_color = {1.0f, 0.8f, 0.8f, 0.8f};
+// Frames each fog step of the flicker lasts; -1 ends the flicker.
+s32 boss2_tunnel_fog_flicker_frames[15] = {
+    1, 10, 1, 5, 1, 2, 2, 20, 2, 20, 4, 5, 4, 2, -1,
+};
+static s32 boss2_tunnel_queue_table[6] = {
+    2, 2, 3, 1, 2, 4,
+};
+static s32 boss2_tunnel_ring_queue_table[31] = {
+    1, 3, 3, 1, 2, 2, 4, 3,
+    3, 1, 1, 2, 3, 3, 1, 4,
+    3, 2, 2, 2, 1, 4, 3, 3,
+    1, 3, 1, 2, 1, 2, 4,
+};
+static s32 boss2_tunnel_shift_queue_table[10] = {
+    6, 5, 5, 0, 5, 5, 5, 5, 5, 0,
+};
+static Vec boss2_tunnel_raft_splash_positions[2] = {
+    {78.0f, boss2_tunnel_splash_y, 83.0f},
+    {-78.0f, boss2_tunnel_splash_y, 83.0f},
+};
+static Vec boss2_tunnel_particle_pos_table[4] = {
+    {26.0f, -19.0f, 62.0f},
+    {-26.0f, -19.0f, 62.0f},
+    {26.0f, -19.0f, 0.0f},
+    {-26.0f, -19.0f, 0.0f},
+};
 
-// The snapshot's memory card file: name, comment and icon; screen.bin is the same capture on disc.
-const char snapshot_card_filename[32] = "PSO_SCREEN";
-const char snapshot_card_title[36] = "SNAPSHOT_FILE"; // inferred: copied into the card header's title
-const u8 snapshot_card_icon[16] = {0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 0x57, 0x54, 0x54, 0x54}; // inferred: copied into the card header's icon
-const char screen_binary_filename_string[] = "screen.bin";
-const char *screen_binary_filename = screen_binary_filename_string;
-// Centre of the capture frame, moved with the C stick.
-NJS_POINT2 snapshot_frame_center = {320.0f, 240.0f};
-
-// Fills in the 6xB2 header: subcommand 0xB2, size 3 (in words).
-void init_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
-    cmd->header.subcommand = 0xB2;
-    cmd->header.size = 3;
+TObjBoss2TunnelSlide::TObjBoss2TunnelSlide(TObject *parent) : TObject(parent) {
+    frame = 0;
+    slide = 0.0f;
 }
 
-void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
-    cmd->header.bswap();
-    bswap_16(&cmd->client_id);
-    bswap_32(&cmd->sound_id);
-}
-
-void send_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
-    bswap_6xB2_play_sound(cmd);
-    send_subcommand((u8 *)cmd);
-}
-
-
-f32 normalize_vector_safe(Vec *vector) {
-    f32 length;
-    f32 zero;
-
-    length = 0.0f;
-    if (0.0f != vec_squared_length(vector)) {
-        length = normalize_vector(vector);
-        if (is_float_nonfinite(length) != 0) {
-            vector->x = length = 0.0f;
-            vector->y = length;
-            vector->z = length;
-        }
-    } else {
-        zero = 0.0f;
-        vector->x = zero;
-        vector->y = zero;
-        vector->z = zero;
-    }
-    return length;
-}
+TObjBoss2TunnelSlide::~TObjBoss2TunnelSlide() {}
 
 #pragma push
-#pragma fp_contract on
-f32 normalize_vector_xz(Vec *vector) {
-    f32 x;
-    f32 z;
-    f32 length_sq;
-    f32 inv_length;
-
-    z = vector->z;
-    x = vector->x;
-    length_sq = (x * x) + (z * z);
-    if (0.0f != length_sq) {
-        inv_length = 1.0f / newton_sqrtf(length_sq);
-        if (is_float_nonfinite(inv_length) != 0) {
-            vector->x = 0.0f;
-            vector->z = 0.0f;
-            return 0.0f;
+#pragma opt_common_subs off
+void TObjBoss2TunnelSlide::run_task() {
+    f32 offset;
+    frame = frame + 1;
+    if (frame > 30) {
+        slide += 1.0f;
+        offset = slide;
+        if (offset > 70.0f) {
+            slide = 70.0f;
+            queue_destruction();
+            return;
         }
-        vector->x = x * inv_length;
-        vector->z = z * inv_length;
-        return length_sq * inv_length;
+        boss2_tunnel_slide_node_b->pos[0] = -offset;
+        boss2_tunnel_slide_node_a->pos[0] = slide;
     }
-    vector->x = 0.0f;
-    vector->z = 0.0f;
-    return 0.0f;
 }
 
 #pragma pop
+void TObjBoss2Tunnel::clear_target_flags() {
+    NJS_OBJECT *first;
+    NJS_OBJECT *second;
 
-void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
-    push_matrix();
-    invert_matrix_in_place(0);
-    get_current_matrix(&view->m);
-    pop_matrix();
+    TObjBoss2Tunnel::global_flags = 0;
+    first = boss2_common_resource->models[10].model->child->sibling;
+    boss2_tunnel_slide_node_a = first;
+    second = first->sibling;
+    boss2_tunnel_slide_node_b = second;
+    second->evalflags &= ~1;
+    boss2_tunnel_slide_node_a->evalflags &= ~1;
 }
 
-#pragma push
-#pragma fp_contract on
-void transform_vec_by_camera(NJS_CAMERA *camera, const Vec *in, Vec *out) {
-    push_matrix();
-    premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
-    matrix_mult_vec(NULL, in, out);
-    pop_matrix();
+void *TObjBoss2Tunnel::create() {
+    return new TObjBoss2Tunnel(tl_02);
 }
 
-s32 is_vec_xz_cross_negative(const Vec *a, const Vec *b) {
-    if (a->z * b->x - a->x * b->z >= 0.0f) {
+void TObjBoss2Tunnel::free_state() {}
+
+void TObjBoss2Tunnel::set_global_flag_400() {
+    TObjBoss2Tunnel::global_flags |= 0x400;
+}
+
+void TObjBoss2Tunnel::set_global_flag_800() {
+    TObjBoss2Tunnel::global_flags |= 0x800;
+}
+
+void TObjBoss2Tunnel::start_sway_negative_x() {
+    TObjBoss2Tunnel::global_flags |= 0x1000;
+    TObjBoss2Tunnel::global_flags &= ~0x2000;
+}
+
+void TObjBoss2Tunnel::start_sway_positive_x() {
+    TObjBoss2Tunnel::global_flags |= 0x2000;
+    TObjBoss2Tunnel::global_flags &= ~0x1000;
+}
+
+void TObjBoss2Tunnel::clear_global_flag_3000() {
+    TObjBoss2Tunnel::global_flags &= 0xFFFFCFFF;
+}
+
+s32 TObjBoss2Tunnel::is_active() {
+    return TObjBoss2Tunnel::global_flags & 1;
+}
+
+void TObjBoss2Tunnel::set_global_flag_100() {
+    TObjBoss2Tunnel::global_flags |= 0x100;
+}
+
+void TObjBoss2Tunnel::set_global_flag_200() {
+    TObjBoss2Tunnel::global_flags |= 0x200;
+}
+
+TObjBoss2Tunnel::TObjBoss2Tunnel(TObject *parent) : TObject(parent) {
+    s32 i;
+    s32 j;
+    m_name = TObjBoss2Tunnel::name;
+    state = 0;
+    TObjBoss2Tunnel::global_flags = 0;
+    segment_pos = 0.0f;
+    scroll_speed = 0.0f;
+    queue_pos = 0;
+    init_queue_from_start();
+    texture_frame = 0;
+    start_offset = 0.0f;
+    shift_index = 0;
+    brake_pos = 0.0f;
+    brake_end = 0.0f;
+    brake_speed = 0.0f;
+    pad_58 = 0;
+    sway_state = 0;
+    sway_curve.reset_floats();
+    sway_dir = 1.0f;
+    sway_offset = 0.0f;
+    saved_fog = 0x21;
+    fog_state = 0;
+    fog_timer = 0;
+    fog_step = 0;
+    bob_angle = 0;
+    roll_phase = 0;
+    roll_angle = 0;
+    inner_roll_angle = 0;
+    bob_height = 0.0f;
+    for (i = 0; i < 2; i++) {
+        raft_splashes[i] = new TObjBoss2RaftSplash(this, &boss2_tunnel_raft_splash_positions[i], &boss2_tunnel_raft_splash_offsets[i], &scroll_speed);
+    }
+    for (j = 0; j < 4; j++) {
+        particles[j] = 0;
+    }
+    dust_timer = 0xA;
+}
+
+TObjBoss2Tunnel::~TObjBoss2Tunnel() {}
+
+void TObjBoss2Tunnel::init_queue_from_start() {
+    s32 k = queue_pos;
+    s32 n = 6 - k;
+    s32 i;
+    s32 j;
+    for (i = 0; i < n; i++) {
+        segment_queue[i] = boss2_tunnel_queue_table[k++];
+    }
+    for (j = 0; i < 6; i++, j++) {
+        segment_queue[i] = boss2_tunnel_ring_queue_table[j];
+    }
+}
+
+void TObjBoss2Tunnel::copy_ring_buffer_window() {
+    s32 idx = queue_pos;
+    s32 n = 6;
+    s32 i;
+    s32 j;
+    if (idx + 6 > 0x1F) {
+        n = 0x1F - idx;
+    }
+    s32 k = idx;
+    for (i = 0; i < n; i++, k++) {
+        segment_queue[i] = boss2_tunnel_ring_queue_table[k];
+    }
+    for (j = 0; i < 6; i++, j++) {
+        segment_queue[i] = boss2_tunnel_ring_queue_table[j];
+    }
+}
+
+void TObjBoss2Tunnel::shift_queue_push_next() {
+    s32 i;
+    for (i = 0; i < 5; i++) {
+        segment_queue[i] = segment_queue[i + 1];
+    }
+    segment_queue[5] = boss2_tunnel_shift_queue_table[shift_index++];
+}
+
+void TObjBoss2Tunnel::enable_fog() {
+    TFogCtrl::update_all(0xB, 1);
+    TObjBoss2Tunnel::global_flags |= 2;
+}
+
+void TObjBoss2Tunnel::restore_fog() {
+    TFogCtrl::update_all(saved_fog, 1);
+    TObjBoss2Tunnel::global_flags |= 4;
+}
+
+
+s32 TObjBoss2Tunnel::current_texture_index() {
+    if (texture_frame == 0) {
         return 0;
     }
-    return 1;
+    return texture_frame + 31;
 }
 
-void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle) {
-    f32 x0;
-    f32 sin_a;
-    f32 cos_a;
-    f32 z0;
-    cos_a = cos_table_lookup(angle);
-    sin_a = sin_table_lookup(angle);
-    x0 = *x;
-    z0 = *z;
-    *z = (cos_a * z0) - (sin_a * x0);
-    *x = (sin_a * z0) + (cos_a * x0);
+s32 TObjBoss2Tunnel::is_swaying() {
+    s32 right;
+    s32 left;
+    right = is_swaying_positive_x();
+    left = is_flag_set();
+    return left | right;
 }
 
-void rotate_vec_xz(const Vec *in, Vec *out, s32 angle) {
-    f32 x0;
-    f32 sin_a;
-    f32 cos_a;
-    f32 z0;
-    cos_a = cos_table_lookup(angle);
-    sin_a = sin_table_lookup(angle);
-    x0 = in->x;
-    z0 = in->z;
-    out->z = (cos_a * z0) - (sin_a * x0);
-    out->x = (sin_a * z0) + (cos_a * x0);
+s32 TObjBoss2Tunnel::is_flag_set() {
+    return (TObjBoss2Tunnel::global_flags >> 0xCU) & 1;
 }
 
-#pragma pop
-f32 TObjBoss2Tunnel::calc_scaled_value(s32 angle, f32 length) {
-    return (0.5f * length) / sin_table_lookup(angle / 2);
+s32 TObjBoss2Tunnel::is_swaying_positive_x() {
+    return (TObjBoss2Tunnel::global_flags >> 0xDU) & 1;
 }
 
-s32 count_tree_nodes(NJS_OBJECT *node) {
-    s32 count;
-    NJS_OBJECT *child;
-    NJS_OBJECT *sibling;
-    count = 1;
-    child = node->child;
-    if (child != NULL) {
-        count = count_tree_nodes(child) + 1;
-    }
-    sibling = node->sibling;
-    if (sibling != NULL) {
-        count += count_tree_nodes(sibling);
-    }
-    return count;
-}
-
-s32 count_visible_nodes(NJS_OBJECT *node) {
-    s32 flags;
-    s32 count;
-
-    count = 0;
-    do {
-        flags = node->evalflags;
-        if (!(flags & 8)) {
-            count += 1;
-        }
-        if (!(flags & 0x10)) {
-            count += count_visible_nodes(node->child);
-        }
-        node = node->sibling;
-    } while (node != NULL);
-    return count;
-}
-
-s32 TObjBoss2Tunnel::turn_toward_angle_limited(s32 angle, s32 cur, s32 target, s32 step, s32 limit) {
-    target = angle_diff_s16(angle, target);
-    if (target > limit) {
-        target = limit;
-    } else if (target < -limit) {
-        target = -limit;
-    }
-    if (cur * target >= 0) {
-        cur = approach_angle_limited(cur, target, step);
-    } else if (cur * angle_diff_s16(cur, target) >= 0) {
-        if (cur >= 0) {
-            cur = cur - step;
-        } else {
-            cur = cur + step;
-        }
-    } else {
-        cur = approach_angle_limited(cur, target, step);
-    }
-    return (s16)(cur);
-}
-
-void rotate_y_and_translate(Vec *v, Vec *origin, s32 angle) {
-    rotate_xz_pair_by_angle(&v->x, &v->z, angle);
-    vec3_add_to(v, origin);
-}
-
-s32 TObjBoss2Tunnel::adjust_to_ground(const Vec *from, Vec *out) {
-    CsnHit *hit;
-
-    VecCopy(out, from);
-    out->y += 20.0f;
-    hit = csnVecterUnder(out, 0x16EF);
-    if (hit != NULL) {
-        VecCopy(out, &hit->contact->point);
-        return 1;
-    }
-    VecCopy(out, from);
-    return 0;
-}
-
-s32 TObjBoss2Tunnel::spawn_effect(const Vec *from, Vec *out, Vec *normal) {
-    CsnHit *hit;
-
-    VecCopy(out, from);
-    out->y += 20.0f;
-    hit = csnVecterUnder(out, 0x16EF);
-    if (hit != NULL) {
-        VecCopy(out, &hit->contact->point);
-        VecCopy(normal, &hit->contact->normal);
-        return 1;
-    }
-    VecCopy(out, from);
-    return 0;
-}
-
-// The timer is the top byte of *packed; returns 1 once it runs out.
-s32 TObjBoss2Tunnel::decrement_packed_timer(u32 *packed, s32 step) {
-    u32 value;
-
-    value = *packed;
-    if ((s32)((value >> 24) - step) < 0) {
-        *packed = value & 0xFFFFFF;
-        return 1;
-    }
-    *packed = ((((value >> 24) - step) << 24) & 0xFF000000) | (value & 0xFFFFFF);
-    return 0;
-}
-
-AccelerationCurve::AccelerationCurve() {
-    reset_coords();
-}
-
-AccelerationCurve::~AccelerationCurve() {}
-
-void AccelerationCurve::reset_coords() {
-    decel = 0.0f;
-    accel = 0.0f;
-    peak = 0.0f;
-    end = 0.0f;
-    decelStart = 0.0f;
-    accelEnd = 0.0f;
-    dist = 0.0f;
-    decelPos = 0.0f;
-    accelDist = 0.0f;
-}
-
-
-void AccelerationCurve::init(f32 accel, f32 decel, f32 dist, f32 peak) {
-    f32 sq;
-    f32 up;
-    f32 down;
-    f32 p;
-    this->accel = accel;
-    if (this->accel <= 0.0f) {
-        this->accel = 0.1f;
-    }
-    this->decel = decel;
-    if (this->decel >= 0.0f) {
-        this->decel = (-0.1f);
-    }
-    sq = peak * peak;
-    this->dist = dist;
-    this->peak = peak;
-    up = (0.5f * sq) / this->accel;
-    down = (0.5f * -sq) / this->decel;
-    if (up + down >= this->dist) {
-        f32 k2 = 2.0f * this->accel;
-        this->peak = newton_sqrtf((this->dist * (k2 *= this->decel)) / (this->decel - this->accel));
-        sq = this->peak * this->peak;
-        this->accelEnd = this->decelStart = this->peak / this->accel;
-        this->accelDist = this->decelPos = (0.5f * sq) / this->accel;
-        this->end = this->decelStart + (-this->peak / this->decel);
-        return;
-    }
-    this->accelDist = up;
-    this->accelEnd = this->peak / this->accel;
-    this->decelPos = this->dist - down;
-    this->decelStart = this->accelEnd + (this->decelPos - up) / this->peak;
-    this->end = this->decelStart + (-this->peak / this->decel);
-}
-
-int AccelerationCurve::check_param_threshold(f32 t) {
-    return t >= this->end;
-}
-
-#pragma push
-#pragma fp_contract on
-f32 AccelerationCurve::sample(f32 t) {
-    if (t < 0.0f) {
-        return 0.0f;
-    }
-    if (t < this->accelEnd) {
-        {
-        f32 k = 0.5f * this->accel;
-        k *= t;
-        return t * k;
-        }
-    }
-    if (t < this->decelStart) {
-        t -= this->accelEnd;
-        return t * this->peak + this->accelDist;
-    }
-    if (t < this->end) {
-        t = this->end - t;
-        {
-        f32 k = 0.5f * this->decel;
-        k *= t;
-        return t * k + this->dist;
-        }
-    }
-    return this->dist;
-}
-
-#pragma pop
-PiecewiseCurve::PiecewiseCurve() {
-    reset_floats();
-}
-
-PiecewiseCurve::~PiecewiseCurve() {}
-
-void PiecewiseCurve::reset_floats() {
-    accel = decel = 0.0f;
-    v0 = peak = 0.0f;
-    accelEnd = decelStart = end = 0.0f;
-    t = 0.0f;
-    accelDist = decelPos = dist = 0.0f;
-}
-
-void PiecewiseCurve::init(f32 accel, f32 decel, f32 dist, f32 v0, f32 peak) {
-    f32 sq;
-    f32 up;
-    f32 down;
-    this->t = 0.0f;
-    this->accel = accel;
-    if (this->accel <= 0.0f) {
-        this->accel = 0.1f;
-    }
-    this->decel = decel;
-    if (this->decel >= 0.0f) {
-        this->decel = -0.1f;
-    }
-    this->dist = dist;
-    sq = peak * peak;
-    this->peak = peak;
-    this->v0 = v0;
-    if (this->v0 > this->peak) {
-        this->accel = this->decel;
-    }
-    up = (0.5f * (sq - this->v0 * this->v0)) / this->accel;
-    down = (-0.5f * sq) / this->decel;
-    if (up + down >= this->dist) {
-        if (this->v0 > this->peak) {
-            this->decel = (-0.5f * (this->v0 * this->v0)) / this->dist;
-            this->accelEnd = this->decelStart = this->accelDist = this->decelPos = 0.0f;
-            this->end = -this->v0 / this->decel;
-        } else {
-            this->peak = newton_sqrtf((this->dist * (2.0f * this->accel * this->decel)) / (this->decel - this->accel));
-            sq = this->peak * this->peak;
-            this->accelEnd = this->decelStart = this->peak / this->accel;
-            this->accelDist = this->decelPos = (0.5f * sq) / this->accel;
-            this->end = this->decelStart + (-this->peak / this->decel);
-        }
-    } else {
-        this->accelDist = up;
-        this->accelEnd = (this->peak - this->v0) / this->accel;
-        this->decelPos = this->dist - down;
-        this->decelStart = this->accelEnd + (this->decelPos - up) / this->peak;
-        this->end = this->decelStart + (-this->peak / this->decel);
-    }
-}
-
-#pragma push
-#pragma fp_contract on
-f32 PiecewiseCurve::speed_at(f32 time) {
+void TObjBoss2Tunnel::update_particles() {
     f32 t;
-    f32 r = 0.0f;
-    if (time < r) {
-        r = r;
-    } else {
-        if (time < this->accelEnd) {
-            r = this->accel * time + this->v0;
-        } else {
-            t = this->decelStart;
-            if (time < t) {
-                r = this->peak;
-            } else if (time < this->end) {
-                t = time - t;
-                r = this->decel * t + this->peak;
-            }
-        }
-    }
-    return r;
-}
-
-#pragma pop
-f32 PiecewiseCurve::current_speed() {
-    return speed_at(t);
-}
-
-#pragma push
-#pragma fp_contract on
-s32 PiecewiseCurve::sample(f32 *out, f32 t) {
-    s32 done = 0;
-    if (t < 0.0f) {
-        *out = 0.0f;
-    } else if (t < this->accelEnd) {
-        *out = t * (0.5f * this->accel * t + this->v0);
-    } else if (t < this->decelStart) {
-        t -= this->accelEnd;
-        *out = t * this->peak + this->accelDist;
-    } else if (t < this->end) {
-        t = this->end - t;
-        *out = t * (0.5f * this->decel * t) + this->dist;
-    } else {
-        done = 1;
-        *out = this->dist;
-    }
-    return done;
-}
-#pragma pop
-s32 PiecewiseCurve::advance(f32 *out) {
-    s32 done = this->sample(out, this->t);
-    this->t += 1.0f;
-    return done;
-}
-
-void TObjBoss2Tunnel::reset_state() {
-    snapshot_frame_center.x = 320.0f;
-    boss2_tunnel_state_flag = 0;
-    snapshot_frame_center.y = 240.0f;
-    TObjBoss2Tunnel::snapshot_buffer = 0;
-    TObjBoss2Tunnel::snapshot_state = 0;
-    TObjBoss2Tunnel::snapshot_saved_flag = 0;
-    TQuestListVM::reset();
-}
-
-void TObjBoss2Tunnel::free_resources(void) {  }
-
-/* Moves the capture frame with the C stick and keeps it on screen. */
-void move_snapshot_frame(void) {
-    s16 stick_x = controller_physical_port_bank.controllers[3].cstick_x;
-    s16 stick_y = controller_physical_port_bank.controllers[3].cstick_y;
-    f32 magnitude = controller_physical_port_bank.controllers[3].cstick_magnitude;
-    if (magnitude > 0.2f) {
-        f32 speed = 0.3f * magnitude;
-        s16 dx = stick_x * speed;
-        s16 dy = stick_y * speed;
-        dx = dx + dx % 4;
-        dy = dy + dy % 4;
-        snapshot_frame_center.x += dx;
-        snapshot_frame_center.y += dy;
-    }
-    if (snapshot_frame_center.x - 128.0f <= 0.0f) {
-        snapshot_frame_center.x = 128.0f;
-    }
-    if (128.0f + snapshot_frame_center.x >= 640.0f) {
-        snapshot_frame_center.x = 512.0f;
-    }
-    if (snapshot_frame_center.y - 96.0f <= 0.0f) {
-        snapshot_frame_center.y = 96.0f;
-    }
-    if (96.0f + snapshot_frame_center.y >= 480.0f) {
-        snapshot_frame_center.y = 384.0f;
-    }
-}
-
-void draw_snapshot_capture_overlay(void) {
-    ScreenQuad q;
-    ProjectedVertex v[4];
     s32 i;
-    set_default_alpha_blend();
+    TParticleCtrl *particle;
+    if (scroll_speed < boss2_tunnel_max_scroll_speed) {
+        t = -5.0f * (scroll_speed / boss2_tunnel_max_scroll_speed);
+    } else {
+        t = -5.0f;
+    }
     for (i = 0; i < 4; i++) {
-        v[i].z = 0.25f;
-        v[i].color = 0x8F000000;
-    }
-    set_depth_buffer_settings_1();
-    v[0].x = 0.0f;
-    v[0].y = 0.0f;
-    v[1].x = 640.0f;
-    v[1].y = 0.0f;
-    v[2].x = 0.0f;
-    v[2].y = snapshot_frame_center.y - 96.0f;
-    v[3].x = 640.0f;
-    v[3].y = snapshot_frame_center.y - 96.0f;
-    setup_projected_color_draw(1);
-    draw_projected_quads(v, 4);
-    end_projected_color_draw();
-    v[0].x = 0.0f;
-    v[0].y = snapshot_frame_center.y - 96.0f;
-    v[1].x = snapshot_frame_center.x - 128.0f;
-    v[1].y = snapshot_frame_center.y - 96.0f;
-    v[2].x = 0.0f;
-    v[2].y = 480.0f;
-    v[3].x = snapshot_frame_center.x - 128.0f;
-    v[3].y = 480.0f;
-    setup_projected_color_draw(1);
-    draw_projected_quads(v, 4);
-    end_projected_color_draw();
-    v[0].x = 128.0f + snapshot_frame_center.x;
-    v[0].y = snapshot_frame_center.y - 96.0f;
-    v[1].x = 640.0f;
-    v[1].y = snapshot_frame_center.y - 96.0f;
-    v[2].x = 128.0f + snapshot_frame_center.x;
-    v[2].y = 96.0f + snapshot_frame_center.y;
-    v[3].x = 640.0f;
-    v[3].y = 96.0f + snapshot_frame_center.y;
-    setup_projected_color_draw(1);
-    draw_projected_quads(v, 4);
-    end_projected_color_draw();
-    v[0].x = snapshot_frame_center.x - 128.0f;
-    v[0].y = 96.0f + snapshot_frame_center.y;
-    v[1].x = 640.0f;
-    v[1].y = 96.0f + snapshot_frame_center.y;
-    v[2].x = snapshot_frame_center.x - 128.0f;
-    v[2].y = 480.0f;
-    v[3].x = 640.0f;
-    v[3].y = 480.0f;
-    setup_projected_color_draw(1);
-    draw_projected_quads(v, 4);
-    end_projected_color_draw();
-    set_texture_list(hud_texlist);
-    set_draw_texture_and_color(1, -1);
-    begin_screen_draw(1);
-    q.x0 = snapshot_frame_center.x - 27.0f;
-    q.y0 = snapshot_frame_center.y - 27.0f;
-    q.x1 = snapshot_frame_center.x;
-    q.y1 = snapshot_frame_center.y;
-    q.u0 = 0.31764707f;
-    q.v0 = 0.494117647f;
-    q.u1 = 0.423529416f;
-    q.v1 = 0.600000024f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    q.x0 = snapshot_frame_center.x;
-    q.y0 = snapshot_frame_center.y - 27.0f;
-    q.x1 = 27.0f + snapshot_frame_center.x;
-    q.y1 = snapshot_frame_center.y;
-    q.u0 = 0.31764707f;
-    q.v0 = 0.494117647f;
-    q.u1 = 0.423529416f;
-    q.v1 = 0.600000024f;
-    q.u0 = 0.423529416f;
-    q.u1 = 0.31764707f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    q.x0 = snapshot_frame_center.x - 27.0f;
-    q.y0 = snapshot_frame_center.y;
-    q.x1 = snapshot_frame_center.x;
-    q.y1 = 27.0f + snapshot_frame_center.y;
-    q.u0 = 0.31764707f;
-    q.v0 = 0.494117647f;
-    q.u1 = 0.423529416f;
-    q.v1 = 0.600000024f;
-    q.v0 = 0.600000024f;
-    q.v1 = 0.494117647f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    q.x0 = snapshot_frame_center.x;
-    q.y0 = snapshot_frame_center.y;
-    q.x1 = 27.0f + snapshot_frame_center.x;
-    q.y1 = 27.0f + snapshot_frame_center.y;
-    q.u0 = 0.31764707f;
-    q.v0 = 0.494117647f;
-    q.u1 = 0.423529416f;
-    q.v1 = 0.600000024f;
-    q.v0 = 0.600000024f;
-    q.v1 = 0.494117647f;
-    q.u0 = 0.423529416f;
-    q.u1 = 0.31764707f;
-    draw_textured_quad_at_depth((f32 *)&q, 0.5f);
-    end_screen_draw();
-    restore_saved_depth_alpha_state();
-}
-
-/* Takes a snapshot of the screen with the C stick frame and saves it to the memory card. */
-s32 take_snapshot(void) {
-    static char buffer_owner[] = "GetFrameBuffer";
-    SnapshotFrameBuffer *frame;
-    ScreenSnapshot *snap;
-    u32 *sum;
-    PadSlot *pad;
-    s32 filter;
-    u8 *p;
-    s32 mode;
-    u16 *countp;
-    u32 *flags;
-    u32 *levels;
-    char *name;
-    u16 count;
-    TObjPlayer *me;
-    s32 i;
-    TObjPlayer *player;
-    TDLGraph *graph;
-    s32 err;
-    s32 err2;
-    CardSaveDescriptor card;
-    G_PlaySound_6xB2 cmd;
-    f32 pos[2];
-    f32 size[2];
-    f32 limit;
-    f32 t;
-
-    if (get_main_phase() == 0xF &&
-        (is_boss_area() != 0 || is_quest_active() != 0 || get_quest_vm_download_server() != 0)) {
-        return 0;
-    }
-    if (TQuestListVM::get_quest_bin() != NULL) {
-        return 0;
-    }
-    if (TCameraCtrl::is_view_override_active() != 0) {
-        return 0;
-    }
-    if (is_split_screen() != 0) {
-        return 0;
-    }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
-        return 0;
-    }
-    pad = get_pad_slot(0x12);
-    if (test_previous_buttons_packed(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
-        if (boss2_tunnel_state_flag == 0) {
-            move_snapshot_frame();
-            draw_snapshot_capture_overlay();
-        }
-    } else if (boss2_tunnel_state_flag == 0) {
-        return 0;
-    }
-    if (boss2_tunnel_state_flag == 0) {
-        if (pad->held & 4) {
-            if (memcard_check_snapshot(0, &err) == 0) {
-                TObjBoss2Tunnel::show_message_and_wait(err);
-                return 0;
-            }
-            if (TObjBoss2Tunnel::run_confirm_message_loop() != 0) {
-                boss2_tunnel_state_flag |= 1;
-            } else {
-                boss2_tunnel_state_flag = 0;
-            }
-        } else if (pad->held & 0x400) {
-            if (memcard_check_snapshot(0, &err2) == 0) {
-                TObjBoss2Tunnel::show_message_and_wait(err2);
-                return 0;
-            }
-            if (TObjBoss2Tunnel::run_confirm_message_loop() != 0) {
-                boss2_tunnel_state_flag |= 2;
-            } else {
-                boss2_tunnel_state_flag = 0;
+        particle = particles[i];
+        if (particle == 0) {
+            TParticleCtrl *created = (TParticleCtrl *)create_particle_controller(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
+            if (created != 0) {
+                created->enable();
+                particles[i] = created;
             }
         } else {
-            boss2_tunnel_state_flag = 0;
-        }
-        return 0;
-    }
-    mode = (boss2_tunnel_state_flag & 1) ^ 1;
-    boss2_tunnel_state_flag = 0;
-    filter = get_display_copy_filter();
-    set_display_copy_filter(0);
-    copy_screen_to_texture(mode, &snapshot_frame_center);
-    set_display_copy_filter(filter);
-    render_tick();
-    if (tmp_buf_is_free() != 0) {
-        frame = (SnapshotFrameBuffer *)tmp_buf_use_req(buffer_owner);
-        p = (u8 *)frame;
-        sum = (u32 *)p;
-        snap = (ScreenSnapshot *)p;
-        *sum = 0;
-        frame->snapshot.width = 0x100;
-        frame->snapshot.height = 0xC0;
-        p += 8;
-        move_data((p), get_capture_texture_pixels(), sizeof(snap->pixels));
-        p += sizeof(snap->pixels);
-        *p++ = 0x18;
-        *p++ = 2;
-        countp = (u16 *)p;
-        p += 2;
-        flags = (u32 *)p;
-        levels = (u32 *)(p + 0x30);
-        name = (char *)(p + 0x60);
-        memset(name, 0, sizeof(snap->names));
-        count = TLobby::get_game_mode();
-        me = (TObjPlayer *)find_entity_by_id(local_client_id);
-        if (me != NULL) {
-            *flags++ = me->class_flags;
-            if (me->get_stats() != NULL) {
-                *levels++ = me->get_actor_level_index();
-            }
-            strncpy(name, me->name, sizeof(snap->names[0]));
-            name += sizeof(snap->names[0]);
-        }
-        for (i = 0; i < count; i++) {
-            if (i != local_client_id) {
-                player = (TObjPlayer *)find_entity_by_id(i);
-                if (player != NULL) {
-                    *flags++ = player->class_flags;
-                    if (player->get_stats() != NULL) {
-                        *levels++ = player->get_actor_level_index();
-                    }
-                    strncpy(name, player->name, sizeof(snap->names[0]));
-                    name += sizeof(snap->names[0]);
-                }
-            }
-        }
-        *countp = count;
-        memset(&card, 0, sizeof(card));
-        strcpy(card.filename, episode_i_and_ii_card_filename.game_name);
-        strcpy(card.title, snapshot_card_title);
-        memcpy(card.key, snapshot_card_icon, 0x10);
-        set_card_banner_and_icon(&card, 4);
-        card.field_4c = 1;
-        card.field_4e = 1;
-        card.field_50 = 0;
-        card.omit_title_space = 0;
-        card.data = (u8 *)snap;
-        card.size = sizeof(ScreenSnapshot);
-        *sum = calc_crc32_bitwise((u8 *)snap, sizeof(ScreenSnapshot));
-        TAdPlayerLoadGC::build_save_file_image(frame->save_image, &card);
-        release_card_banner_and_icon(&card);
-        init_6xB2_play_sound(&cmd);
-        cmd.floor = get_current_floor_area();
-        cmd.unused = 0;
-        cmd.client_id = local_client_id;
-        cmd.sound_id = 0x52B20;
-        send_6xB2_play_sound(&cmd);
-        if (memcard_check_snapshot(0, NULL) != 0) {
-            if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)frame->save_image, 0xF) == 0) {
-                t = 0.0f;
-                graph = (TDLGraph *)TDLGraph::create();
-                if (get_main_phase() == 0xF) {
-                    TLobby::reset_state_flags();
-                }
-                limit = 60.0f;
-                do {
-                    t += 1.0f;
-                    if (t > limit) {
-                        t = limit;
-                    }
-                    begin_gx_frame();
-                    controller_stuff();
-                    main_task.run_tl_camera_tasks();
-                    pos[0] = 192.0f;
-                    pos[1] = 144.0f;
-                    size[0] = 256.0f;
-                    size[1] = 192.0f;
-                    TParticleCtrl::begin_effect_render();
-                    draw_textured_screen_quad(-1, pos, size, 1);
-                    if (graph != NULL) {
-                        TDLGraph::update_graph((s32)t, (s32)limit);
-                        graph->run_task();
-                        graph->render();
-                    }
-                    TLobby::update_pulse_colors(1);
-                    draw_loading_overlay();
-                    TParticleCtrl::end_effect_render();
-                    render_tick();
-                } while (poll_memcard_result(1) == 0xFFFFFFFF);
-                if (TAdPlayerLoadGC::get_load_result(1) == 0xFFFFFF81) {
-                    TObjBoss2Tunnel::show_message_and_wait(-2);
-                }
-                if (graph != NULL) {
-                    delete graph;
-                }
-                if (get_main_phase() == 0xF) {
-                    TLobby::process_deferred_player_setup();
-                }
-                TParticleCtrl::end_effect_render();
-            } else {
-                TObjBoss2Tunnel::show_message_and_wait(-2);
-            }
-        }
-        tmp_buf_release(buffer_owner);
-        return 1;
-    }
-    return 0;
-}
-
-// Checks memory card slot B for the PSO_SCREEN file; *error gets the card error code (1 when
-// the file is missing). for_save == 1 also needs a free file entry and 15 free blocks.
-s32 memcard_check_snapshot(s32 for_save, s32 *error) {
-    s32 card_file;
-
-    if (TAdPlayerLoadGC::get_instance() != 0) {
-        return 0;
-    }
-    if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
-        if (error != NULL) {
-            *error = -4;
-        }
-        return 0;
-    }
-    if (TAdPlayerLoadGC::probe_and_check_card(1) == 0) {
-        if (error != NULL) {
-            if ((u32)(TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xff83U) {
-                if (error != NULL) {
-                    *error = -6;
-                }
-            } else if ((u32)(TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xff21U) {
-                if (error != NULL) {
-                    *error = -8;
-                }
-            } else if (error != NULL) {
-                *error = -2;
-            }
-        }
-        return 0;
-    }
-    if (TAdPlayerLoadGC::check_memcard_status(1) != 0) {
-        if (error != NULL) {
-            *error = -3;
-        }
-        return 0;
-    }
-    if (poll_memcard_result(1) != 0) {
-        if (error != NULL) {
-            *error = -2;
-        }
-        return 0;
-    }
-    card_file = TAdPlayerLoadGC::find_card_file(1, snapshot_card_filename);
-    if (card_file == 0) {
-        if (error != NULL) {
-            *error = 1;
-        }
-        return 1;
-    }
-    if ((card_file + 0x10000) == 0xff41U) {
-        if (error != NULL) {
-            *error = -9;
-        }
-        return 0;
-    }
-    if (for_save != 1) {
-        return 0;
-    }
-    if (get_memcard_free_files(1) < 1) {
-        if (error != NULL) {
-            *error = -7;
-        }
-        return 0;
-    }
-    if (TAdPlayerLoadGC::query_memcard_capacity(1, 0) < 0xF) {
-        if (error != NULL) {
-            *error = -1;
-        }
-        return 0;
-    }
-    if (error != NULL) {
-        *error = 0;
-    }
-    return 1;
-}
-
-void load_data_buffers(void) {
-    s32 size;
-    u8 *file;
-    ScreenSnapshot *buf;
-
-    TObjBoss2Tunnel::snapshot_saved_flag = 0;
-    TObjBoss2Tunnel::snapshot_buffer = xmalloc(0x1E000);
-    TObjBoss2Tunnel::snapshot_state = 0;
-    init_capture_texture(0);
-    buf = static_cast<ScreenSnapshot *>(xmalloc(sizeof(ScreenSnapshot)));
-    boss2_tunnel_snapshot_buffer = buf;
-    if (buf != NULL) {
-        memset(buf, 0, 0x1818C);
-    }
-    size = get_resource_file_size(screen_binary_filename);
-    if (size <= (s32)sizeof(ScreenSnapshot)) {
-        file = load_disc_file(screen_binary_filename);
-        if (file != 0) {
-            if (boss2_tunnel_snapshot_buffer != NULL) {
-                memmove(boss2_tunnel_snapshot_buffer, file, size);
-            }
-            safe_free(file);
+            release_children(particle, t);
         }
     }
 }
 
-void TObjBoss2Tunnel::free_buffers() {
-    TObjBoss2Tunnel::snapshot_saved_flag = 0;
-    if (boss2_tunnel_snapshot_buffer != NULL) {
-        xfree(boss2_tunnel_snapshot_buffer);
-        boss2_tunnel_snapshot_buffer = NULL;
+#pragma push
+#pragma fp_contract on
+void TObjBoss2Tunnel::run_task() {
+    f32 tmp;
+    s32 flag;
+    f32 prev;
+    texture_frame++;
+    if (texture_frame >= 30) {
+        texture_frame = 0;
     }
-    release_capture_texture();
-    if (TObjBoss2Tunnel::snapshot_buffer != NULL) {
-        xfree(TObjBoss2Tunnel::snapshot_buffer);
-        TObjBoss2Tunnel::snapshot_buffer = NULL;
-    }
-}
-
-s32 TObjBoss2Tunnel::save_snapshot() {
-    s32 status;
-
-    memcard_check_snapshot(1, &status);
-    if (status == 1) {
-        if ((s32) TObjBoss2Tunnel::snapshot_saved_flag != 0) {
-            return -9;
-        }
-        save_screen_snapshot();
-retry_load:
-        if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
-            TObjBoss2Tunnel::snapshot_saved_flag = 0;
-            return -5;
-        }
-        if (TObjBoss2Tunnel::load_snapshot() != 0) {
-            if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
-                TObjBoss2Tunnel::snapshot_saved_flag = 1;
-                return -9;
-            }
-            goto clear_saved_flag;
-        }
-        goto retry_load;
-    }
-clear_saved_flag:
-    TObjBoss2Tunnel::snapshot_saved_flag = 0;
-    return status;
-}
-
-s32 TObjBoss2Tunnel::save_snapshot_to_card() {
-    CardSaveDescriptor c;
-    u32 *checksum;
-    if (memcard_check_snapshot(1, 0) == 0) {
-        return 0;
-    }
-    if (TObjBoss2Tunnel::snapshot_buffer == NULL) {
-        return 0;
-    }
-    memset(TObjBoss2Tunnel::snapshot_buffer, 0, 4);
-    memset(&c, 0, 0x60);
-    strcpy(c.filename, episode_i_and_ii_card_filename.game_name);
-    strcpy(c.title, snapshot_card_title);
-    memcpy(c.key, snapshot_card_icon, 0x10);
-    set_card_banner_and_icon(&c, 4);
-    c.field_4c = 1;
-    checksum = &boss2_tunnel_snapshot_buffer->checksum;
-    c.field_4e = 1;
-    c.field_50 = 0;
-    c.omit_title_space = 0;
-    *checksum = 0;
-    *checksum = calc_crc32_bitwise(reinterpret_cast<u8 *>(boss2_tunnel_snapshot_buffer), sizeof(ScreenSnapshot));
-    c.data = (u8 *)boss2_tunnel_snapshot_buffer;
-    c.size = sizeof(ScreenSnapshot);
-    TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel::snapshot_buffer, &c);
-    release_card_banner_and_icon(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
-        return 0;
-    }
-    memcard_access_active = 1;
-    TObjBoss2Tunnel::snapshot_state = 1;
-    return 1;
-}
-
-s32 save_screen_snapshot(void) {
-    if (memcard_check_snapshot(1, 0) == 0) {
-        return 0;
-    }
-    if (TAdSinglePlyChrSelectGC::load_player_slot(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer) != 0) {
-        return 0;
-    }
-    TObjBoss2Tunnel::snapshot_state = 2;
-    return 1;
-}
-
-s32 TObjBoss2Tunnel::load_snapshot() {
-    CardSaveDescriptor file;
-    void *buf;
-    if (poll_memcard_result(1) == 0) {
-        if (((s32) TObjBoss2Tunnel::snapshot_state != 0) && ((s32) TObjBoss2Tunnel::snapshot_state >= 0) && ((s32) TObjBoss2Tunnel::snapshot_state < 3)) {
-            buf = get_capture_texture_pixels();
-            if (verify_card_save_header(&file, TObjBoss2Tunnel::snapshot_buffer) == 0) {
-                memcpy(buf, file.data + 8, 0x1818C);
-                DCFlushRange(buf, 0x1818C);
-            }
-            memcard_access_active = 0;
-        }
-        return 1;
-    }
-    return 0;
-}
-
-BOOL TObjBoss2Tunnel::verify_snapshot_checksum() {
-    CardSaveDescriptor ld;
-    ScreenSnapshot *snapshot;
-    u32 saved;
-    u32 sum;
-    if ((u32)verify_card_save_header(&ld, TObjBoss2Tunnel::snapshot_buffer) == 0xFFFFFF20) {
-        return FALSE;
-    }
-    snapshot = reinterpret_cast<ScreenSnapshot *>(ld.data);
-    saved = snapshot->checksum;
-    snapshot->checksum = 0;
-    sum = calc_crc32_bitwise(ld.data, sizeof(ScreenSnapshot));
-    snapshot->checksum = saved;
-    return sum == saved ? TRUE : FALSE;
-}
-
-// Draws the captured snapshot at pos (default 192,144), 345.6 x 259.2.
-void draw_screen_snapshot(f32 *pos) {
-    f32 position[2];
-    f32 size[2];
-    if (pos == NULL) {
-        position[0] = 192.0f;
-        position[1] = 144.0f;
+    f32 step = 512.0f;
+    bob_angle = (s32)((f32)bob_angle + step);
+    roll_phase = (s32)((f32)roll_phase + step);
+    roll_angle = (s32)(546.0f * sin_table_lookup(roll_phase));
+    bob_height = 3.0f * sin_table_lookup(bob_angle) + 2.0f;
+    if (is_swaying() != 0) {
+        inner_roll_angle = (roll_angle * 2) / 3;
     } else {
-        copy_vec2(position, pos);
+        inner_roll_angle = roll_angle / 2;
     }
-    size[0] = 345.6f;
-    size[1] = 259.2f;
-    draw_textured_screen_quad(-1, position, size, 1);
-}
-
-void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
-    static const f32 window_pos[2] = {46.0f, 131.0f};
-    static const f32 window_size[2] = {548.0f, 220.0f};
-    // Text position and width inside the window, set on first call (the retail build never reads them).
-    static f32 text_pos[2] = {20.0f + window_pos[0], 10.0f + (window_pos[1] + window_size[1])};
-    static f32 text_width = window_size[0] - 40.0f;
-    TWindowMessage *win;
-    s32 frames;
-    win = TWindowMessage::create((const NJS_POINT2 *)window_pos, window_size, (u32)1, 4);
-    if (win != NULL) {
-        switch (message) {
-        case -2:
-        case -9:
-            win->append_line(get_localized_text_entry(0x24, 3), 3);
-            break;
-        case -4:
-            win->append_line(get_localized_text_entry(0x24, 0xD), 3);
-            break;
-        default:
-            win->append_line(get_localized_text_entry(0x24, 0xC), 3);
-            break;
-        }
-        win->set_depth(36900.0f);
-        win->complete_reveal();
-    }
-    if (get_main_phase() == 0xF) {
-        TLobby::reset_state_flags();
-    }
-    frames = 0;
-    for (;;) {
-        frames++;
-        begin_gx_frame();
-        controller_stuff();
-        if (camera_ctrl_instance != NULL) {
-            camera_ctrl_instance->setup_default_view(0);
-        }
-        main_task.render();
-        if ((f32)frames >= 30.0f) {
-            break;
-        }
-        TLobby::wait_ready_loop();
-        if (static_cast<s8>(poll_reset_request()) != 0) {
-            break;
-        }
-        render_tick();
-    }
-    if (get_main_phase() == 0xF) {
-        TLobby::process_deferred_player_setup();
-    }
-    if (win != NULL) {
-        delete win;
-    }
-}
-
-void TObjBoss2Tunnel::poll_pso_screen_load() {
-    TAdPlayerLoadGC::delete_memcard_file(1, (const char *)(((u8 *)&snapshot_card_filename)));
-}
-
-s32 TObjBoss2Tunnel::run_confirm_message_loop() {
-    s32 result = 0;
-    static const f32 window_pos[2] = {46.0f, 131.0f};
-    static const f32 window_size[2] = {548.0f, 220.0f};
-    static f32 text_pos[2] = {20.0f + window_pos[0], 10.0f + (window_pos[1] + window_size[1])};
-    static f32 text_width = window_size[0] - 40.0f;
-    ControllerInputContext *pad;
-    TWindowMessage *win;
-    TDLGraph *graph;
-    s32 frames;
-    win = TWindowMessage::create((const NJS_POINT2 *)window_pos, window_size, (u32)1, 4);
-    if (win != NULL) {
-        win->append_line(get_localized_text_entry(0x24, 0xB), 3);
-        win->set_depth(36900.0f);
-    }
-    win->complete_reveal();
-    graph = (TDLGraph *)TDLGraph::create();
-    if (graph != NULL) {
-        graph->set_graph_param(2);
-    }
-    frames = 0;
-    if (get_main_phase() == 0xF) {
-        TLobby::reset_state_flags();
-    }
-    pad = &controller_physical_port_bank.controllers[3];
-    for (;;) {
-        frames++;
-        begin_gx_frame();
-        controller_stuff();
-        if (camera_ctrl_instance != NULL) {
-            camera_ctrl_instance->setup_default_view(0);
-        }
-        main_task.render();
-        draw_snapshot_capture_overlay();
-        TLobby::wait_ready_loop();
-        if (static_cast<s8>(poll_reset_request()) != 0) {
-            break;
-        }
-        TParticleCtrl::begin_effect_render();
-        if (graph != NULL) {
-            TDLGraph::update_graph(frames, 0x78);
-            graph->run_task();
-            graph->render();
-        }
-        win->render();
-        TParticleCtrl::end_effect_render();
-        if (frames >= 6.0) {
-            if (test_pressed_buttons_packed(pad, 2) != 0 || frames >= 0x78) {
-                result = 0;
-                break;
+    switch (sway_state) {
+    case 0:
+        if (is_swaying() != 0) {
+            if (is_flag_set() != 0) {
+                sway_dir = -1.0f;
+            } else {
+                sway_dir = 1.0f;
             }
-            if (test_pressed_buttons_packed(pad, 4) != 0) {
-                result = 1;
-                break;
+            sway_state = 1;
+            sway_curve.init(0.1f, -0.1f, 150.0f, 5.0f, 2.0f);
+            sway_offset = 0.0f;
+        }
+        break;
+    case 1:
+        if (is_swaying() == 0) {
+            sway_state = 3;
+            tmp = fabs_float(sway_offset);
+            sway_curve.init(0.1f, -0.1f, sway_offset, -sway_curve.current_speed(), 2.0f);
+        } else {
+            if (sway_curve.advance(&tmp) != 0) {
+                sway_state = 2;
+            }
+            sway_offset = tmp * sway_dir;
+        }
+        break;
+    case 2:
+        if (is_swaying() == 0) {
+            sway_state = 3;
+            sway_curve.init(0.1f, -0.1f, 150.0f, 0.0f, 2.0f);
+        }
+        break;
+    case 3:
+        if (sway_curve.advance(&tmp) != 0) {
+            sway_offset = 0.0f;
+            sway_state = 0;
+        } else {
+            sway_offset = sway_dir * (150.0f - tmp);
+        }
+        break;
+    }
+    switch (state) {
+    case 0:
+        TObjBoss2Tunnel::set_global_flag_100();
+        if (TObjBoss2Tunnel::global_flags & 0x100) {
+            TObjBoss2Tunnel::global_flags &= ~0x100;
+            state = 1;
+        }
+        break;
+    case 1:
+        scroll_speed += 0.05f;
+        if (scroll_speed > boss2_tunnel_max_scroll_speed) {
+            scroll_speed = boss2_tunnel_max_scroll_speed;
+        }
+        segment_pos += scroll_speed;
+        start_offset += scroll_speed;
+        if (segment_pos >= 600.0f) {
+            segment_pos -= 600.0f;
+            queue_pos++;
+            if (queue_pos >= 6) {
+                queue_pos = 0;
+                copy_ring_buffer_window();
+                state = 2;
+                saved_fog = TFogCtrl::update_first_active_fog();
+            } else {
+                init_queue_from_start();
             }
         }
-        render_tick();
+        break;
+    case 2: {
+        scroll_speed += 0.05f;
+        if (scroll_speed > boss2_tunnel_max_scroll_speed) {
+            scroll_speed = boss2_tunnel_max_scroll_speed;
+        }
+        segment_pos += scroll_speed;
+        if (segment_pos >= 600.0f) {
+            segment_pos -= 600.0f;
+            queue_pos++;
+            if (queue_pos >= 31) {
+                queue_pos = 0;
+            }
+            copy_ring_buffer_window();
+        }
+        if (TObjBoss2Tunnel::global_flags & 0x200) {
+            TObjBoss2Tunnel::global_flags &= ~0x200;
+            state = 3;
+            shift_index = 0;
+            brake_end = 4400.0f - (0.5f * (scroll_speed * scroll_speed)) / 0.02f;
+            brake_pos = segment_pos;
+            brake_speed = scroll_speed;
+            brake_frame = 0;
+            new TObjBoss2TunnelSlide(this);
+        }
+        dust_timer--;
+        if (dust_timer <= 0) {
+            Vec v;
+            v.x = 200.0f * rand_signed_unit();
+            v.y = 90.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
+            v.z = 600.0f;
+            new TObjBoss2Dust(tl_05, &v);
+            dust_timer = 10;
+        }
+        break;
     }
-    if (graph != NULL) {
-        delete graph;
+    case 3:
+        flag = 0;
+        prev = brake_pos;
+        if ((f32)brake_frame <= 0.0f) {
+            brake_pos = prev + brake_speed;
+            if (brake_pos > brake_end) {
+                brake_frame = 1;
+                brake_end = brake_pos;
+                play_sound_effect(0x4003A80E, 0, 0, 0);
+            } else {
+                play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
+            }
+        } else {
+            f32 lim;
+            brake_pos = (f32)brake_frame * (brake_speed - 0.01f * (f32)brake_frame) + brake_end;
+            { f32 one = 1.0f; brake_frame = (s32)((f32)brake_frame + one); }
+            lim = brake_speed / 0.02f;
+            if ((f32)brake_frame >= lim) {
+                brake_frame = (s32)lim;
+                pad_58 = 0;
+                state = 4;
+            }
+        }
+        scroll_speed = brake_pos - prev;
+        segment_pos += brake_pos - prev;
+        if (segment_queue[2] == 6 || segment_queue[3] == 6) {
+            if (segment_pos >= 700.0f) {
+                segment_pos -= 700.0f;
+                flag = 1;
+            }
+        } else if (segment_pos >= 600.0f) {
+            segment_pos -= 600.0f;
+            flag = 1;
+        }
+        if (flag) {
+            shift_queue_push_next();
+        }
+        break;
+    case 4:
+        break;
     }
-    if (get_main_phase() == 0xF) {
-        TLobby::process_deferred_player_setup();
+    if (state == 1 || state == 2) {
+        play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
     }
-    if (win != NULL) {
-        delete win;
+    update_particles();
+    if (TObjBoss2Tunnel::global_flags & 2) {
+        TObjBoss2Tunnel::global_flags &= ~2;
+        TObjBoss2Tunnel::global_flags |= 1;
+    } else if (TObjBoss2Tunnel::global_flags & 4) {
+        TObjBoss2Tunnel::global_flags &= ~4;
+        TObjBoss2Tunnel::global_flags &= ~1;
     }
-    return result;
+    switch (fog_state) {
+    case 0:
+        if (TObjBoss2Tunnel::global_flags & 0x400) {
+            TObjBoss2Tunnel::global_flags &= ~0x400;
+            fog_state = 1;
+            fog_timer = 0;
+            fog_step = 0;
+            enable_fog();
+        }
+        break;
+    case 1:
+        fog_timer++;
+        if (boss2_tunnel_fog_flicker_frames[fog_step] <= fog_timer) {
+            fog_timer = 0;
+            fog_step++;
+            if (fog_step & 1) {
+                restore_fog();
+            } else {
+                enable_fog();
+                play_sound_effect(0x4003A80B, 0, 0, 0);
+                if (boss2_tunnel_fog_flicker_frames[fog_step] == -1) {
+                    fog_state = 2;
+                }
+            }
+        }
+        break;
+    case 2:
+        if (TObjBoss2Tunnel::global_flags & 0x800) {
+            TObjBoss2Tunnel::global_flags &= ~0x800;
+            fog_state = 3;
+            fog_timer = 0;
+            fog_step = 0;
+            restore_fog();
+        }
+        break;
+    case 3:
+        fog_timer++;
+        if (boss2_tunnel_fog_flicker_frames[fog_step] <= fog_timer) {
+            fog_step++;
+            fog_timer = 0;
+            if (fog_step & 1) {
+                enable_fog();
+            } else {
+                restore_fog();
+                play_sound_effect(0x4003A80B, 0, 0, 0);
+                if (boss2_tunnel_fog_flicker_frames[fog_step] == -1) {
+                    fog_state = 0;
+                }
+            }
+        }
+        break;
+    }
+    if (TObjBoss2Tunnel::is_active() == 0) {
+        f32 d = segment_pos;
+        Boss2TunnelColor *a = &boss2_tunnel_color_table[segment_queue[2]];
+        Boss2TunnelColor *b = &boss2_tunnel_color_table[segment_queue[3]];
+        if (d <= 200.0f) {
+            set_scene_light_color(a->r, a->g, a->b);
+        } else if (d <= 400.0f) {
+            f32 u;
+            f32 t;
+            t = (d - 200.0f) / 200.0f;
+            u = 1.0f - t;
+            set_scene_light_color(a->r * u + b->r * t, a->g * u + b->g * t, a->b * u + b->b * t);
+        } else {
+            set_scene_light_color(b->r, b->g, b->b);
+        }
+    } else {
+        set_scene_light_color(boss2_tunnel_color.r, boss2_tunnel_color.g, boss2_tunnel_color.b);
+    }
 }
 
+#pragma pop
+void TObjBoss2Tunnel::render() {
+    GinjaTextureState *saved;
+    s32 i;
+    Vec v = {0.0f, 0.0f, 0.0f};
+    if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
+    push_matrix();
+    {
+        NJS_TEXNAME *entries = boss2_common_texture_list->textures;
+        saved = entries->texture;
+        entries->texture = entries[current_texture_index()].texture;
+    }
+    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
+    if (state == 0 || state == 1) {
+        push_matrix();
+        translate_matrix(0, 0.0f, 0.0f, -start_offset);
+        draw_ginja_object(boss2_common_resource->models[13].model);
+        pop_matrix();
+    }
+    if (state == 3) {
+        v.z = -segment_pos;
+        if (segment_queue[0] == 6) {
+            v.z -= 400.0f;
+        } else {
+            v.z -= 300.0f;
+        }
+        if (segment_queue[1] == 6) {
+            v.z -= 800.0f;
+        } else {
+            v.z -= 600.0f;
+        }
+        if (segment_queue[2] == 6) {
+            v.z -= 400.0f;
+        } else {
+            v.z -= 300.0f;
+        }
+    } else {
+        v.z = -(1200.0f + segment_pos);
+    }
+    post_translate_matrix(&v.x);
+    v.z = 600.0f;
+    for (i = 0; i < 6; i++) {
+        s32 t = segment_queue[i];
+        if (t == 6) {
+            if (i != 0) {
+                translate_matrix(0, 0.0f, 0.0f, 100.0f);
+            }
+            translate_matrix(0, 0.0f, 0.0f, -300.0f);
+            push_matrix();
+            translate_matrix(0, 0.0f, bob_height, 0.0f);
+            rotate_matrix_z(0, roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[18].model);
+            draw_ginja_object(boss2_common_resource->models[21].model);
+            pop_matrix();
+            push_matrix();
+            rotate_matrix_z(0, inner_roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[10].model);
+            pop_matrix();
+            translate_matrix(0, 0.0f, 0.0f, 400.0f);
+            push_matrix();
+            translate_matrix(0, 0.0f, bob_height, 0.0f);
+            rotate_matrix_z(0, roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[19].model);
+            pop_matrix();
+            push_matrix();
+            rotate_matrix_z(0, inner_roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[11].model);
+            pop_matrix();
+            post_translate_matrix(&v.x);
+        } else {
+            push_matrix();
+            translate_matrix(0, 0.0f, bob_height, 0.0f);
+            rotate_matrix_z(0, roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[boss2_tunnel_model_index_table[t]].model);
+            pop_matrix();
+            push_matrix();
+            rotate_matrix_z(0, inner_roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[boss2_tunnel_model_order_table[t]].model);
+            pop_matrix();
+            post_translate_matrix(&v.x);
+        }
+    }
+    boss2_common_texture_list->textures->texture = saved;
+    pop_matrix();
+    }
+}

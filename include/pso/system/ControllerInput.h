@@ -58,4 +58,8 @@ s32 input_press_or_repeat(ControllerInputContext *pad, u32 mask, s32 delay, s32 
 
 s32 poll_reset_request(void);
 
+struct ControllerHoldFrameBlock {
+    u32 words[7];
+};
+
 #endif

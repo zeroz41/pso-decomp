@@ -10,6 +10,7 @@ struct G_ImposeHold_6x2C;
 struct G_MoveToPosition_6x41_6x42;
 struct G_PhotonBlast_6x37;
 struct G_RevivePlayer_6x33;
+struct G_SetAnimationState_6xAE;
 struct G_SetPosition_6x3F;
 struct G_StopAtPosition_6x3E;
 struct G_WalkToPosition_6x40;
@@ -32,6 +33,7 @@ s32 validate_6x45_attack(G_Attack_6x43_6x44_6x45 *packet);
 s32 validate_6x87_shrink_player(PlayerShrinkPacket *packet);
 s32 validate_6x88_restore_shrunken_player(G_ClientIDHeader *packet);
 s32 validate_attack_target_entry(void *parameters);
+s32 validate_6xAE_set_animation_state(G_SetAnimationState_6xAE *packet);
 // --- end of C functions
 
 #endif

@@ -6,7 +6,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 void TItemWeaponMechgun::transform_model_node() {
     if ((s32) this->effectJoint == get_model_node_counter()) {

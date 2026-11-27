@@ -423,16 +423,13 @@ void TProtocol::send_lobby_arrow(int arrow) {
     send((u8*)&header, sizeof(header));
 }
 
-// The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
-typedef void (*arrow_color_list_handler)(TArrowColorList *list);
-
 void TProtocol::handle_cmd_88(packet &pkt) {
     char list[sizeof(TArrowColorList)];
-    arrow_color_list_handler handler;
+    recv_packet_handler_handle_88_player_arrow_color_list_packet handler;
 
     copy_arrow_color_list((TArrowColorList *)list, (TArrowColorList *)&pkt);
     ((TArrowColorList *)list)->bswap();
-    handler = (arrow_color_list_handler)m_recv_handlers.handle_88_player_arrow_color_list_packet;
+    handler = m_recv_handlers.handle_88_player_arrow_color_list_packet;
     if (handler != NULL) {
         handler((TArrowColorList *)list);
     }
@@ -509,7 +506,7 @@ void TProtocol::handle_cmd_B1(packet &pkt) {
     lobby_state_flags = (lobby_state_flags & ~0xFF00) | ((mid << 8) & 0xFF00);
     lobby_state_flags = (lobby_state_flags & ~0xFF0000) | ((high << 16) & 0xFF0000);
     recv.bswap();
-    handler = (server_time_handler)m_recv_handlers.handle_B1_current_time_packet;
+    handler = m_recv_handlers.handle_B1_current_time_packet;
     if (handler != NULL) {
         handler(recv.time);
     }
@@ -1340,11 +1337,9 @@ void TProtocol::recv_battle_data(packet &pkt) {
 	tmp.bswap();
 };
 
-void TProtocol::seq_jump(u8 *some_struct, TPlyMeetUserExtension &extension) {
-	TRecvPort *port_info = (TRecvPort *)some_struct;
-
-	new_ip_addr = port_info->ip_addr;
-	new_port = port_info->port;
+void TProtocol::seq_jump(TRecvPort &port_info, TPlyMeetUserExtension &extension) {
+	new_ip_addr = port_info.ip_addr;
+	new_port = port_info.port;
 	meet_user_settings = extension;
 
 	close();

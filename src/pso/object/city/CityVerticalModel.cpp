@@ -6,10 +6,10 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/city/CityVerticalModel.h"
 #include "pso/object/city/CityTraffic.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/TObjCityVerticalModel.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/render/TextureState.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TMainTask.h"
 
 void TObjCityVerticalModel::vfunc_13(s32) {

@@ -5,28 +5,25 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
 #include "pso/render/DebugFont.h"
 
-extern "C" {
-void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
-}
-
-__declspec(section ".data") static VoloptLineColor volopt_sweep_line_colors[2] = {
-    {0x80, 0xFF, 0x40, 0x40},
-    {0x80, 0xFF, 0x40, 0x40},
+__declspec(section ".data") static NJS_COLOR volopt_sweep_line_colors[2] = {
+    {0x80FF4040},
+    {0x80FF4040},
 };
 
 static Vec volopt_sweep_line_points[2];
 
-static VoloptLineList volopt_sweep_line = {
-    volopt_sweep_line_points, volopt_sweep_line_colors, 0, 4,
+static NJS_POINT3COL volopt_sweep_line = {
+    volopt_sweep_line_points, &volopt_sweep_line_colors[0].color, NULL, 4,
 };
 
 void TBoss3VoloptSweepLine::render() {
@@ -34,8 +31,8 @@ void TBoss3VoloptSweepLine::render() {
     s32 alpha;
     if (lifetime < 10) {
         alpha = (lifetime << 7) / 10;
-        volopt_sweep_line_colors[0].a = alpha;
-        volopt_sweep_line_colors[0].a = alpha;
+        volopt_sweep_line_colors[0].argb.b = alpha;
+        volopt_sweep_line_colors[0].argb.b = alpha;
     }
     VecCopy(&volopt_sweep_line_points[0], from);
     end = &volopt_sweep_line_points[1];
@@ -73,7 +70,7 @@ TBoss3VoloptSweepLine::TBoss3VoloptSweepLine(Vec *from, Vec *to, s32 spread, s32
         Vec dir = *to;
         subtract_vector(&dir, from);
         length = 2.0f * vector_length(&dir);
-        direction_to_rotation_xy((u8 *)&dir, &rotation_x, &rotation_y);
+        direction_to_rotation_xy(&dir, &rotation_x, &rotation_y);
     }
     rotation_y -= spread * 0x71C + (s32)(1820.0f * (3.0517578e-05f * (f32)rand()));
     sweep_speed = spread * (s32)(1820.0f * ((2.0f * (3.0517578e-05f * (f32)rand()) + 1.0f) / (f32)lifetime));

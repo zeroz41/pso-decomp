@@ -5,6 +5,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct CharacterSlotPosition;
+
 class TAdSubPlyItemGC;
 class TAdChrSelSlotGC;
 class TAdChrSelMovePlateGC;
@@ -31,7 +33,7 @@ struct TAdChrSelBSlotGC : public TObject {
     void create_children();
     static void render(void *self);
     s32 is_character_transferred(u32 i);
-    PlayerSlotLabel *build_slot_entry(s32 index, s32 slot, void *pos);
+    PlayerSlotLabel *build_slot_entry(s32 index, s32 slot, const CharacterSlotPosition *pos);
     void run_state_29();
     void set_load_state();
     void init();

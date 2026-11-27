@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
@@ -103,7 +103,7 @@ void TAdVIConfigGC::open_player_names_window() {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != NULL) {
-                strncpy(((WarpPartyCheck *)this)->names[i].s, p->name, 0x17);
+                strncpy(((WarpPartyCheck *)this)->names[i].s, p->appearance.name, 0x17);
                 ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
                 ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
             } else {
@@ -175,8 +175,8 @@ void TAdVIConfigGC::render() {
 }
 
 
-void TAdVIConfigGC::set_field48_clear_global() {
-    this->m_48 = 1;
+void TAdVIConfigGC::mark_answered() {
+    this->answered = 1;
     logo_clear_flag = 0;
 }
 
@@ -194,14 +194,14 @@ const char *TAdVIConfigGC::get_message_text() { return get_localized_text_entry(
 
 void TAdVIConfigGC::on_cancel() {
     disable_progressive_mode();
-    set_field48_clear_global();
+    mark_answered();
 }
 
 void TAdVIConfigGC::on_accept() {
     if (VIGetDTVStatus() != 0) {
         enable_progressive_mode();
     }
-    set_field48_clear_global();
+    mark_answered();
 }
 
 void TAdVIConfigGC::run_task() {
@@ -217,7 +217,7 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     m_name = TAdVIConfigGC::class_name;
     set_default_choice(0);
-    m_48 = 0;
+    answered = 0;
 }
 
 }

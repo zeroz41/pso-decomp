@@ -10,7 +10,6 @@
 
 #pragma scheduling off
 
-union GxFifoValue { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 
 // The Gekko write-gather pipe.
 #define GX_FIFO (*(volatile GxFifoValue *)0xCC008000)

@@ -23,7 +23,7 @@ struct PlayerCharDataEntry {
     void copy_from_player(TObjPlayer *player);
 
     s32 role;              // the control role the player is created with
-    PlayerGuildCardTag lobby_header;  // copied into the created player (TLobby::copy_header_struct)
+    PlayerGuildCardTag lobby_header;  // copied into the created player (PlayerGuildCardTag::copy_from)
     TPlyCharData char_data;
     FlagWord flags;        // bit 0: the slot holds a character
 };

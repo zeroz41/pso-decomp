@@ -19,7 +19,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjChara.h"
@@ -37,13 +37,13 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/render/TextureState.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -64,6 +64,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 BmlResource * TObjEneMe3ShinowaMirage::bml_resource;
@@ -172,16 +173,16 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage::alternate_texture_list.textures[i + 3].texture = TObjEneMe3ShinowaMirage::alternate_texture_list.textures[i].texture;
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage::base_params_by_variant[j] = TLobby::register_boss(shinowa_mirage_base_param_ids[j]);
+        TObjEneMe3ShinowaMirage::base_params_by_variant[j] = register_boss(shinowa_mirage_base_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage::attack_params_by_variant[j] = TLobby::dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
+        TObjEneMe3ShinowaMirage::attack_params_by_variant[j] = dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage::resistance_params_by_variant[j] = TLobby::register_object(shinowa_mirage_resistance_param_ids[j]);
+        TObjEneMe3ShinowaMirage::resistance_params_by_variant[j] = register_object(shinowa_mirage_resistance_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage::mirage_info_table[j] = (TObjEneMe3ShinowaParams *)TLobby::dispatch_shared_handler_a(shinowa_mirage_behavior_param_ids[j]);
+        TObjEneMe3ShinowaMirage::mirage_info_table[j] = (TObjEneMe3ShinowaParams *)dispatch_shared_handler_a(shinowa_mirage_behavior_param_ids[j]);
     }
     info = TObjEneMe3ShinowaMirage::mirage_info_table[0];
     TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(6, info->sword_motion_speed);

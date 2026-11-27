@@ -35,4 +35,7 @@ LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
 void prepare_adventure_maps(void);
 // Release hook paired with prepare_adventure_maps in offline_game_scene_callbacks.
 void release_adventure_maps(void);
+
+struct SceneTableEntry { s32 f0; char *name; };
+
 #endif

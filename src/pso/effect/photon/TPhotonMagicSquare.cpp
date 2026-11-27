@@ -3,7 +3,7 @@
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/player/TObjPlayer.h"
@@ -16,7 +16,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #pragma readonly_strings on
 

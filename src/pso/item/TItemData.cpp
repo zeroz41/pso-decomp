@@ -17,8 +17,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/quest/challenge/TChallenge4P.h"
-#include "pso/item/TItemData_8010EDA8.h"
-#include "pso/unk/text_80076E84.h"
+#include "pso/item/MaterialStats.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -31,15 +31,15 @@
 #include "pso/item/TItemObject.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_create.h"
 #include "pso/item/item_pmt.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_param.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/weapon/TItemAttacker.h"
-#include "pso/unk/TLobby_800F8AA8.h"
-#include "pso/item/TItemDataTypes.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern "C" {
@@ -53,7 +53,6 @@ extern "C" {
 extern const u8 item_wrapped_flag = 0x40;
 }
 extern "C" {
-
 
 
 void TItemData::set_present_color(s8 box_color) {
@@ -212,7 +211,7 @@ void TItemData::add_mag_stat_bonuses(TObjPlayer *player, AttackParams *attack, A
     MagStats mag;
 
     mag.init();
-    TItemData::deserialize_mag(data1.data_u8, &mag);
+    deserialize_mag(&mag);
     if (stats != NULL && stats != NULL) {
         stats->atp += (s16)(mag_stat_bonus_scale[0] * (f32)mag.get_pow_level());
         stats->ata += (s16)(mag_stat_bonus_scale[1] * (f32)(mag.get_dex_level() * 10));
@@ -388,7 +387,7 @@ void TItemData::set_wrapped() {
         data1.data_u8[4] |= item_wrapped_flag;
         break;
     case 3:
-        if (TItemData::lookup_item_def(this) == 0) {
+        if (lookup_item_def() == 0) {
             data1.data_u8[3] |= item_wrapped_flag;
         }
         break;
@@ -399,19 +398,18 @@ void TItemData::set_wrapped() {
 }
 
 
-s32 TItemData::is_wrapped(void *data) {
-    TItemData *item = (TItemData *)data;
-    switch (item->data1.data_u8[0]) {
+s32 TItemData::is_wrapped() {
+    switch (data1.data_u8[0]) {
     case 0:
     case 1:
-        return ((item->data1.data_u8[4] & 0x40) - 0x40) == 0;
+        return ((data1.data_u8[4] & 0x40) - 0x40) == 0;
     case 3:
-        if (TItemData::lookup_item_def(item) != 0) {
+        if (lookup_item_def() != 0) {
             return 0;
         }
-        return ((item->data1.data_u8[3] & 0x40) - 0x40) == 0;
+        return ((data1.data_u8[3] & 0x40) - 0x40) == 0;
     case 2:
-        return ((item->data2.data_u8[2] & 0x40) - 0x40) == 0;
+        return ((data2.data_u8[2] & 0x40) - 0x40) == 0;
     default:
         return 0;
     }
@@ -421,7 +419,7 @@ f32 TItemData::calc_clock_bonus(TObjPlayer *player) {
     f32 bonus = 0.0f;
     switch (data1.data_u8[1]) {
     case 0x94:
-        bonus = (f32) (TLobby::get_internet_beat() / 4);
+        bonus = (f32) (get_internet_beat() / 4);
         break;
     }
     return bonus;
@@ -434,7 +432,7 @@ void TItemData::set_packed_value(u16 kill_count) {
 }
 
 u16 TItemData::get_packed_value() {
-    if (TItemData::is_usable(this) != 0) {
+    if (is_usable() != 0) {
         return (u16) (((this->data1.data_u8[10] << 8) & 0x7F00) | this->data1.data_u8[11]);
     }
     return 0U;
@@ -442,13 +440,12 @@ u16 TItemData::get_packed_value() {
 
 s32 get_item_icon_index(const u8 *q);
 
-s32 TItemData::is_usable(TItemData *data) {
-    TItemData *item = data;
+s32 TItemData::is_usable() {
     u8 kind;
 
-    if (TItemData::is_custom_name_srank(item) == 0) {
-        kind = item->data1.data_u8[0];
-        if ((kind != 2) && (kind != 4) && (item->data1.data_u8[10] & 0x80)) {
+    if (is_custom_name_srank() == 0) {
+        kind = data1.data_u8[0];
+        if ((kind != 2) && (kind != 4) && (data1.data_u8[10] & 0x80)) {
             return 1;
         }
     }
@@ -464,7 +461,7 @@ s32 TItemData::get_name_style() { return 0; }
 void TItemData::convert_from_version(s32) {}
 
 void TItemData::unpack_from_item(ObjectSetData *set) {
-    s32 mag;
+    MagStats mag;
     u8 item_kind;
 
     if (set != NULL) {
@@ -502,8 +499,8 @@ void TItemData::unpack_from_item(ObjectSetData *set) {
             this->data1.data_u8[4] = (u8) ((u32) set->set_params[1] >> 0x10U);
             return;
         case 2:
-            ((MagStats *)(&mag))->init();
-            TItemData::serialize_mag(this, &mag);
+            mag.init();
+            serialize_mag(&mag);
             break;
         }
     }
@@ -521,9 +518,6 @@ s32 get_item_icon_index(const u8 *q) {
     }
     return 0;
 }
-
-
-void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group);
 
 }
 int TItemData::isValidGroundDrop() {
@@ -550,16 +544,16 @@ int TItemData::isValidGroundDrop() {
     } else return 0;
 }
 
-void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 group) {
+void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group) {
     s8 sp8[10];
     item_data->init();
-    if ((src != 0U) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
-        *(s8 *)((s8 *)item_data + 0) = 0;
+    if ((name != NULL) && (((group >= 0x70U) && (group <= 0x88U)) || ((group >= 0xA5U) && (group <= 0xA9U)))) {
+        item_data->data1.data_u8[0] = 0;
         item_data->data1.data_u8[1] = group;
-        *(s8 *)((s8 *)item_data + 2) = 0;
+        item_data->data1.data_u8[2] = 0;
         memset(sp8, 0, 0xA);
         sp8[0] = 0x41;
-        strncpy((char *)&sp8[1], (const char *)src, 8);
+        strncpy((char *)&sp8[1], name, 8);
         item_data->pack_three_colors((u8 *)sp8);
     }
 }
@@ -620,11 +614,10 @@ void TItemData::pack_three_colors(u8 *in) {
   }
 }
 
-s32 TItemData::is_custom_name_srank(void *data) {
-    TItemData *item = (TItemData *)data;
+s32 TItemData::is_custom_name_srank() {
     u8 kind;
-    if (item->data1.data_u8[0] == 0) {
-        kind = item->data1.data_u8[1];
+    if (data1.data_u8[0] == 0) {
+        kind = data1.data_u8[1];
         if ((kind >= 0x70U) && (kind <= 0x88U)) {
             return 1;
         }
@@ -649,7 +642,7 @@ u8 TItemData::get_max_grind() {
 void TItemData::register_drop() { register_item_drop(this); }
 
 s32 TItemData::get_max_stack_size() {
-    if (TItemData::lookup_item_def(this) != 0) {
+    if (lookup_item_def() != 0) {
         if (((u8) this->data1.data_u8[0] == 3) && ((u8) this->data1.data_u8[1] == 0x10)) {
             return 0x63;
         }
@@ -662,12 +655,10 @@ s32 TItemData::get_max_stack_size() {
 
 
 
-s32 format_item_description(u8 *item);
 extern "C" {
 
-s32 TItemData::lookup_item_def(void *data) {
-    TItemData *item = (TItemData *)data;
-    return is_item_stackable(item->data1.data_u8[0], item->data1.data_u8[1]);
+s32 TItemData::lookup_item_def() {
+    return is_item_stackable(data1.data_u8[0], data1.data_u8[1]);
 }
 s16 TItemData::get_field6_bswap(void *data) {
     s16 value = *(s16 *)((u8 *)data + 6);
@@ -686,7 +677,7 @@ s16 TItemData::get_bswap16_field8(void *data) {
     return value;
 }
 
-void TItemData::set_bswapped_field_8(s16 evp_bonus) {
+void TItemData::set_evp_bonus(s16 evp_bonus) {
     data1.data_u16[4] = evp_bonus;
     bswap_16(&this->data1.data_u16[4]);
 }
@@ -777,11 +768,11 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
   {
     return 0;
   }
-  if (TItemData::is_item_usable((saddr)player, data1.data_u8) != 0)
+  if (TItemData::is_item_usable(player, this) != 0)
   {
     result |= 2;
   }
-  if (TItemData::is_wrapped(this) != 0)
+  if (is_wrapped() != 0)
   {
     return result & mask;
   }
@@ -986,33 +977,30 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
   return result & mask;
 }
 
-
-void serialize_mag__9TItemDataFPvPv(MagItemData *item, const MagStats *mag) {
-    MagItemData copy;
-    copy.kind = item->kind;
-    copy.group = item->group;
-    copy.level = ((MagStats *)((void *)mag))->get_level();
-    copy.photon_blasts = mag->photon_blasts;
-    copy.stat[0] = mag->def & 0x7FFE;
-    copy.stat[1] = mag->pow & 0x7FFE;
-    copy.stat[2] = mag->dex & 0x7FFE;
-    copy.stat[3] = mag->mind & 0x7FFE;
-    copy.id = item->id;
-    copy.synchro = mag->synchro;
-    copy.iq = mag->iq;
-    copy.photon_blast_flags = mag->photon_blast_flags;
-    copy.color = mag->color;
-    ((TItemData *)(&copy))->bswap_fields();
-    ((TItemData *)item)->copy_from((TItemData *)(&copy));
+void TItemData::serialize_mag(const MagStats *mag) {
+    TItemData copy;
+    copy.data1.data_u8[0] = data1.data_u8[0];
+    copy.data1.data_u8[1] = data1.data_u8[1];
+    copy.data1.data_u8[2] = mag->get_level();
+    copy.data1.data_u8[3] = mag->photon_blasts;
+    copy.data1.data_s16[2] = mag->def & 0x7FFE;
+    copy.data1.data_s16[3] = mag->pow & 0x7FFE;
+    copy.data1.data_s16[4] = mag->dex & 0x7FFE;
+    copy.data1.data_s16[5] = mag->mind & 0x7FFE;
+    copy.id = id;
+    copy.data2.data_u8[0] = mag->synchro;
+    copy.data2.data_u8[1] = mag->iq;
+    copy.data2.data_u8[2] = mag->photon_blast_flags;
+    copy.data2.data_u8[3] = mag->color;
+    copy.bswap_fields();
+    copy_from(&copy);
 }
 
 void TItemData::bswap_fields() { bswap_16(&this->data1.data_u16[2]); bswap_16(&this->data1.data_u16[3]); bswap_16(&this->data1.data_u16[4]); bswap_16(&this->data1.data_u16[5]); }
 
-void TItemData::deserialize_mag(void *item_data, void *mag_data) {
-    TItemData *src = (TItemData *)item_data;
-    MagStats *dst = (MagStats *)mag_data;
+void TItemData::deserialize_mag(MagStats *dst) {
     if (dst != 0) {
-        TItemData tmp = *src;
+        TItemData tmp = *this;
         tmp.bswap_fields();
         dst->photon_blasts = tmp.data1.data_u8[3];
         dst->def = tmp.data1.data_u16[2] & 0x7ffe;
@@ -1278,8 +1266,8 @@ void TItemData::apply_equip_effects(TObjPlayer *owner, AttackParams *attack, Act
     }
 }
 
-s32 TItemData::is_rare_item(void *item) {
-    return (u8) ((TItemData *)item)->get_base_rarity() >= 9 ? 1 : 0;
+s32 TItemData::is_rare_item() {
+    return (u8) get_base_rarity() >= 9 ? 1 : 0;
 }
 
 #pragma push
@@ -1304,7 +1292,7 @@ s32 TItemData::calc_price() {
       price = 8;
     }
     else
-      if (TItemData::is_rare_item(data1.data_u8) != 0)
+      if (is_rare_item() != 0)
     {
       price = 0x50;
     }
@@ -1337,7 +1325,7 @@ s32 TItemData::calc_price() {
       break;
 
     case 1:
-      if (TItemData::is_rare_item(data1.data_u8) != 0)
+      if (is_rare_item() != 0)
     {
       price = 0x50;
     }
@@ -1423,44 +1411,44 @@ saddr TItemData::calc_buy_price() {
 
     if ((u8) this->data1.data_u8[0] == 0) {
         special = this->data1.data_u8[4];
-        if ((special != 0) && (special < 0x29U) && (TItemData::is_rare_item(this) == 0)) {
+        if ((special != 0) && (special < 0x29U) && (is_rare_item() == 0)) {
             if (check_item_flags() == 1) {
                 return get_item_description_text(this->data1.data_u8[4] + 0x1CB);
             }
             return get_item_description_text(0x1F4);
         }
     }
-    return (saddr)lbl_805D2B10;
+    return (saddr)empty_string;
 }
 }
 
-s32 format_item_description(u8 *item) {
+const char *format_item_description(TItemData *item) {
     char *format;
     UnitPmtEntry *p;
     char *out;
     s32 name;
-    p = (UnitPmtEntry *)lookup_item_pmt_record(item);
+    p = (UnitPmtEntry *)lookup_item_pmt_record(item->data1.data_u8);
     out = (char *)get_item_chunk_buffer(0);
     if (p != NULL && out != NULL) {
         format = NULL;
-        if (TItemData::is_wrapped(item) != 0) {
+        if (item->is_wrapped() != 0) {
             format = (char *)get_item_description_text(0x77);
         } else {
             name = p->id;
             if (name == 0x1F4) {
-                return (saddr)lbl_805D2B10;
+                return empty_string;
             }
-            if (item[0] == 0) {
-                if (TItemData::is_rare_item(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
+            if (item->data1.data_u8[0] == 0) {
+                if (item->is_rare_item() != 0 && item->check_item_flags() == 0) {
                     format = (char *)get_item_description_text(0x17E);
                 } else {
                     format = (char *)get_item_description_text(name);
                 }
-            } else if (item[0] == 1 && item[1] == 3) {
+            } else if (item->data1.data_u8[0] == 1 && item->data1.data_u8[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
                         sprintf(out, (char *)get_item_description_text(name), p->stat_amount + TItemData::get_field6_bswap(item));
-                        return (saddr)out;
+                        return out;
                     }
                 } else {
                     format = (char *)get_item_description_text(name);
@@ -1470,11 +1458,11 @@ s32 format_item_description(u8 *item) {
             }
         }
         if (format != NULL) {
-            sprintf(out, format, ((TItemData *)item)->get_packed_value());
+            sprintf(out, format, item->get_packed_value());
         }
-    return (saddr)out;
+    return out;
     }
-    return (saddr)lbl_805D2B10;
+    return empty_string;
 }
 
 void TItemData::format_item_name(char *buf) {
@@ -1499,13 +1487,13 @@ void TItemData::format_item_name(char *buf) {
     } else {
         name = get_text_collection(0x1F4);
     }
-    if (is_wrapped(this) != 0) {
+    if (is_wrapped() != 0) {
         sprintf(buf, "%s", get_text_collection(0x77));
         return;
     }
     t = data1.data_u8[0];
     if (t == 0) {
-        if (is_custom_name_srank(this) != 0) {
+        if (is_custom_name_srank() != 0) {
             memset(tmp, 0, 10);
             decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
@@ -1522,7 +1510,7 @@ void TItemData::format_item_name(char *buf) {
             return;
         }
         slot = (s8 *)TObjPlayer::get_item_by_slot_flag(data1.data_u8[4]);
-        if (is_rare_item(this) != 0) {
+        if (is_rare_item() != 0) {
             if (check_item_flags() == 1) {
                 if (data1.data_u8[3] != 0) {
                     sprintf(buf, "%s +%d", name, data1.data_u8[3]);
@@ -1695,7 +1683,7 @@ void TItemData::clear_unidentified_flag() {
 
 s32 TItemData::check_item_flags() {
     if (((u8) this->data1.data_u8[0] == 0) && (this->data1.data_u8[4] & 0x80)) {
-        return TItemData::is_wrapped(this) != 0 ? 1 : 0;
+        return is_wrapped() != 0 ? 1 : 0;
     }
     return 1;
 }
@@ -1709,7 +1697,7 @@ void TItemData::init_meseta(s32 amount) {
 s32 TItemData::get_stack_count() {
     u8 count;
 
-    if (TItemData::lookup_item_def(this) != 0) {
+    if (lookup_item_def() != 0) {
         count = data1.data_u8[5];
         if (count != 0) {
             return count;

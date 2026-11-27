@@ -43,7 +43,7 @@ void safe_free(void *allocation) {
     }
 }
 
-u8 *alloc_zeroed_array(s32 a, s32 b) { return (u8 *)xcalloc(a, b); }
+u8 *alloc_zeroed_array(s32 count, s32 size) { return (u8 *)xcalloc(count, size); }
 
 void *TQuestVmDownLoadServer::alloc(u32 size) { return xmalloc(size); }
 

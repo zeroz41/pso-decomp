@@ -12,9 +12,8 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/charcreate/CreationInput.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
@@ -24,7 +23,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/save/TSaveChCrTypes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

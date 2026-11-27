@@ -10,7 +10,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -100,7 +100,7 @@ TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id) { 
 // The emitters below take target_id as an int while find_entity_by_id and set_owner_id
 // take u16, and the int is passed on unconverted, so both are called through int prototypes.
 
-s32 TObjPlayer::check_hit_by_id(saddr owner, u16 target_id, s32 id) {
+s32 PlayerHandParticles::check_hit_by_id(u16 target_id, s32 id) {
     TObjCollidable *target = find_entity_by_id(target_id);
     if (target == NULL) {
         return 0;
@@ -173,7 +173,7 @@ void emit_idle_water_splash(PlayerHandParticles *owner, const Vec *position) {
 }
 
 
-s32 TObjPlayer::check_hit_by_id_431(void* p, u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)p, target_id, 431); }
+s32 PlayerHandParticles::check_hit_by_id_431(u16 target_id) { return check_hit_by_id(target_id, 431); }
 
 PlayerFollowParticles::PlayerFollowParticles() {
     s32 i;
@@ -199,11 +199,11 @@ void PlayerFollowParticles::create_hand_particles(TObjBase *owner) {
     hands.create_right_hand(owner);
 }
 
-void TObjPlayer::clear_foot_stamp(saddr owner, saddr player) {
-    TPlayerFootStamp::create((void *)player, (void *)0);
+void TObjPlayer::clear_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player) {
+    TPlayerFootStamp::create(player, (void *)0);
 }
 
-void TObjPlayer::enable_foot_stamp(saddr owner, saddr player) {
-    TPlayerFootStamp::create((void *)player, (void *)1);
+void TObjPlayer::enable_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player) {
+    TPlayerFootStamp::create(player, (void *)1);
 }
 

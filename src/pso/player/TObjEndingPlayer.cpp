@@ -1,4 +1,4 @@
-#include "pso/unk/text_800F9B84.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
@@ -6,14 +6,14 @@
 #include "pso/item/TItemIdCounters.h"
 #include "pso/network/client_id.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TObjEndingPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerClassStats.h"
 #include "pso/map/FloorArea.h"
@@ -60,7 +60,7 @@ void TObjPlayer::process_trade_target(TItemData *item_data) {
         TItem *slot_item = (TItem *)get_slot_value(equipped_items.items, slot);
         if (slot_item != NULL) {
             send_6x29_delete_item(this, slot_item->get_item_id(), 1);
-            set_equip_slot_entry((saddr)equipped_items.items, slot, 0);
+            set_equip_slot_entry(equipped_items.items, slot, 0);
         }
         if (pickup_item(item) != 0U) {
             set_flag_20000();
@@ -102,7 +102,7 @@ void TObjEndingPlayer::render() {
         rotate_matrix_y(0, rotation_y);
         render_material_state.save();
         apply_material_color_override();
-        set_texture_list(&body_textures);
+        set_texture_list(&body_textures.list);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();

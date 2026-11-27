@@ -4,7 +4,7 @@
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
@@ -13,11 +13,11 @@
 #include "pso/system/vector.h"
 
 const char *ad_select_txt_sub_gc_class_name = "TAdSelectTxtSubGC";
-s32 status_disp_texture_handle;
+NJS_TEXLIST *status_disp_texture_handle;
 
 void TAdSelectTxtSubGC::render_status() {
     begin_screen_draw(1);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(status_disp_texture_handle));
+    set_texture_list(status_disp_texture_handle);
     set_draw_texture_and_color(m_texture, m_color);
     draw_textured_quad_at_depth(&m_quad.x0, 0.25f);
     end_screen_draw();
@@ -76,5 +76,5 @@ TAdSelectTxtSubGC::TAdSelectTxtSubGC(TObject *parent, TAdSelectTxtEntry *entry) 
 }
 #pragma pop
 
-int get_select_text_texture_handle(void) {  return ad_select_text_texture_handle; }
+NJS_TEXLIST *get_select_text_texture_handle(void) {  return ad_select_text_texture_handle; }
 

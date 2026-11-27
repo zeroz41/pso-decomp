@@ -1,7 +1,7 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/text_80076BC4.h"
+#include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/TProtocol.h"
@@ -17,50 +17,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct BattleRecordBlock { u32 w[7]; };
 
-struct CardAccountBlock { u32 w[7]; };
-
-struct CardUserNameBlock { u32 w[4]; };
-
-struct CardPaddingBlock { u32 w[0x100]; };
-
-struct GuildCardBlock { u32 w[0x24]; };
-
-struct SymbolChatBlock { u32 w[0x108]; };
-
-struct MailTextBlock { u32 w[0x2B]; };
-
-struct ChallengeBlock { u32 w[0x40]; };
-
-struct ListSettingsBlock { u32 w[0xA]; };
-
-struct Pso3SettingsBlock { u32 w[0x30]; };
-
-struct Pso3TailBlock { u32 w[0x87F]; };
-
-
-
-struct Pso3SaveRecordView {
-    s32 flags, creation_seconds, magic, play_time, card_window_flags, save_count;
-    CardAccountBlock account;
-    CardUserNameBlock user_name;
-    CardPaddingBlock padding;
-    s32 death_count, bank_item_count, bank_meseta;
-    BankItemRecord items[4];
-    GuildCardBlock guild_card;
-    SymbolChatBlock symbol_chat_presets;
-    ChatShortcut chat_shortcuts[20];
-    MailTextBlock short_mail_text;
-    MailTextBlock info_board_text;
-    BattleRecordBlock online_battle;
-    ChallengeBlock challenge;
-    ListSettingsBlock short_list_order;
-    ListSettingsBlock choice_search;
-    Pso3SettingsBlock settings;
-    BattleRecordBlock split_screen_battle;
-    Pso3TailBlock tail;
-};
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -91,7 +48,7 @@ TItemData *TPlyInventory::get_item_data(s32 index) {
 }
 
 void TPlyInventory::clear_item(s32 index) {
-    ((TAdSinglePlyChrSelectGC *)(&m_items[index]))->clear_inventory_slot();
+    m_items[index].clear();
 }
 
 int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC::selection_index; }
@@ -159,6 +116,7 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
     to->blk = from->blk;
     to->cipher_seed = from->cipher_seed;
     return to;
+}
 }
 
 #define dst ((P_801FDFB8 *)a0)
@@ -229,25 +187,25 @@ Pso3CharacterFileSlot::Pso3CharacterFileSlot() {}
 Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
+extern "C" {
 
 // The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
 void *__ct__14GuildCardEntryFv(void *card);
 }
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }
-void clear_equipped_flag(void* item) { *(u32*)((char*)item + 0x4) &= 0xfffffff7; }
+void TPlyInventoryItem::clear_equipped() { m_flags &= ~8; }
 
-void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
-    *(s8 *)&this->m_name = 0;
-    *(s8 *)((s8 *)this + 1) = -1;
-    *(s32 *)&this->m_flags = 0;
-    ((TItemData *)((u8 *)&this->m_prev))->init();
+void TPlyInventoryItem::clear() {
+    m_present[0] = 0;
+    m_present[1] = -1;
+    m_flags = 0;
+    m_data.init();
 }
 
-int is_unit_item_data(void *item) {
-    int is_unit;
-    is_unit = 0;
-    if (((u8) *(u8 *)((s8 *)item + 0x0) == 1) && ((u8) *(u8 *)((s8 *)item + 0x1) == 3)) {
-        is_unit = 1;
+s32 TItemData::is_unit() {
+    bool result = false;
+    if (data1.data_u8[0] == 1 && data1.data_u8[1] == 3) {
+        result = true;
     }
-    return (u8)is_unit;
+    return result;
 }

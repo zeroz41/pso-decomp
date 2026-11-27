@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/system/ControllerInputState.h"
@@ -12,8 +13,8 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -533,7 +534,7 @@ s32 TAdSinglePlyChrSelectGC::can_pay_fee() {
     return 0;
 }
 
-void TAdSinglePlyChrSelectGC::init_fields() {
+void TAdSinglePlyChrSelectGC::clear_members() {
     this->state = 0;
     this->prev_state = this->state;
     this->cursor = NULL;
@@ -564,7 +565,7 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
 #pragma pool_data off
 TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(parent) {
     m_name = TAdSinglePlyChrSelectGC::class_name;
-    init_fields();
+    clear_members();
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     new TAdTitleGC(this, 0);
@@ -582,19 +583,14 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
 
 void TAdSelectCurGC::set_selection_state(s32 v) { pending_command = v; }
 
-extern "C" {
 s32 TAdChrSelASlotGC::get_state() { return state; }
 void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
 
 void TAdChrSelPlayerGC::request_state(s32 value) {
     pending_state = value;
 }
-
-void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
-
 void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
-    copy_vec2__FPvPv(&title->rest_pos[0], first);
-    copy_vec2__FPvPv(&title->rest_pos[1], second);
-    copy_vec2__FPvPv(&title->rest_pos[2], third);
-}
+    copy_vec2(&title->rest_pos[0], const_cast<NJS_POINT2 *>(first));
+    copy_vec2(&title->rest_pos[1], const_cast<NJS_POINT2 *>(second));
+    copy_vec2(&title->rest_pos[2], const_cast<NJS_POINT2 *>(third));
 }

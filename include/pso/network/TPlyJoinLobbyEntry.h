@@ -48,10 +48,10 @@ void *__ct__17TPlyJoinLobbyDataFv(void *self);
 void *__ct__13GameListEntryFv(void *entry);
 void *__ct__18TPlyJoinLobbyEntryFv(void *self);
 void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
+}
 void bswap_and_send_extended_subcommand(void *p, u32 size);
 void bswap_extended_subcommand_header(void *p);
-}
-void handle_6x6F_set_quest_flags_v2(saddr pkt);
+void handle_6x6F_set_quest_flags_v2(G_SetQuestFlags_V2_V3_6x6F *pkt);
 void handle_6x71_unblock_game_join(void);
 void handle_6x72_done_loading_into_game(void);
 void send_6x6F_quest_flags(saddr size);

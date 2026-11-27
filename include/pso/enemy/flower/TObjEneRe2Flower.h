@@ -73,6 +73,46 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
 // The archive loader the enemy factory table pairs with destroy_instance.
 void load_re2_flower_resources(void);
 
+struct NpcAnimationBinding;
+struct TObjMotionAction;
+
+// The flower's shared tables and literals. FlowerRe2Data.cpp defines the names, the binding and the
+// stat block ids; TObjEneRe2FlowerStates.cpp the float tuning;
+// TObjEneRe2Flower.cpp the motion table and the chunk node callback's state.
+extern TObjMotionAction re2_flower_animation_descriptors[8];
+extern const NpcAnimationBinding re2_flower_animation_binding;
+extern const char re2_flower_model_name_re2_b_flower_root_nj[];
+extern const char re2_flower_motion_name_attack_re2_b_root_njm[];
+extern const char re2_flower_motion_name_damege_re2_b_root_njm[];
+extern const char re2_flower_motion_name_die_re2_b_root_njm[];
+extern const char re2_flower_motion_name_laugh_re2_b_root_njm[];
+extern const char re2_flower_motion_name_waitc_re2_b_root_njm[];
+extern const char re2_flower_motion_name_waito_re2_b_root_njm[];
+extern const char re2_flower_motion_name_wake_re2_b_root_njm[];
+extern const char re2_flower_bml_name_bm_ene_re2_flower_bml[];
+extern const char re2_flower_class_name_string[];
+// Stat block ids by variant (0 normal, 1 rare, 2 the tower's): reset_hp's base, attack and
+// resistance blocks, and the param block.
+extern const u32 re2_flower_base_stat_ids[3];
+extern const u32 re2_flower_attack_stat_ids[3];
+extern const u32 re2_flower_resist_stat_ids[3];
+extern const u32 re2_flower_param_ids[3];
+
+extern const f32 re2_flower_lose_target_distance;
+extern const f32 re2_flower_attack_distance;
+extern const f32 re2_flower_track_timeout;
+extern const f32 re2_flower_retarget_margin;
+extern const f32 re2_flower_acquire_range;
+extern const f32 re2_flower_player_range_sq;
+extern const f32 re2_flower_body_center_height;
+extern const f32 re2_flower_rare_chance; // 0.002
+
+// State of the chunk node callback TObjPlayer::update_effect_sequence: the node counter, the head yaw
+// applied at node 1 and the two points transformed at node 14.
+extern s32 re2_flower_node_index;
+extern s32 re2_flower_node_yaw;
+extern f32 *re2_flower_node_points;
+
 LAYOUT_ASSERT(TObjEneRe2Flower_size, sizeof(TObjEneRe2Flower) == 0x42C);
 
 #endif

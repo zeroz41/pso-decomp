@@ -11,7 +11,9 @@ struct TWindowSubStatusDisp;
 struct SymbolChatPart;
 struct WindowDrawContext;
 
+class TWindowBase;
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
+    static const char *class_name;
     TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second);
     virtual ~TWindowSubSymbolChatPartsSet();
     void update_part_sprites();
@@ -50,12 +52,13 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     static void set_part_sprite(WindowSpritePart *sprite, s16 id, s32 flip_u, s32 flip_v);
     WindowSpritePart *get_entry_offset_d(s32 sel);
     WindowSpritePart *get_parts_entry(saddr index);
-    static WindowSpritePart *get_parts_entry(void *window, int index);
+    static WindowSpritePart *get_parts_entry(TWindowBase *window, int index);
     static void apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index);
     static void setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index);
 };
 
-WindowSpritePart *get_shortcut_icon_entry(void *window, s32 index);
+class TWindowBase;
+WindowSpritePart *get_shortcut_icon_entry(TWindowBase *window, s32 index);
 
 LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);
 #endif

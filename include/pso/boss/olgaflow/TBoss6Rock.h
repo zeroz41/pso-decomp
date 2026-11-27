@@ -18,7 +18,7 @@ struct RockKindParams {
     f32 radius;      // the marker's radius; players are pushed out to it
     f32 height;      // TObjMapCsn box: set y scale
     f32 width;       // TObjMapCsn box: set x/z scale
-    f32 unk_10;
+    f32 pad_10;
 };
 
 // One of the 32 rocks of the Olga Flow arena (TBoss6Type2): it waits at its

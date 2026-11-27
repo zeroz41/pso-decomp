@@ -5,9 +5,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 
 #include <stddef.h>
@@ -16,7 +16,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_80222C28.h"
+#include "pso/ui/CounterTextLookup.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/city/TShopEquipmentSequence.h"
@@ -28,7 +28,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -41,10 +41,10 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
     {"ITEM STORE", TShopItemTecSequence::init_slot_table, TShopItemTecSequence::release_slot_table,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
-    // TLobby::handle_main_phase and is_in_hunter_guild still carry recovered s32 prototypes; the table
+    // handle_main_phase and is_in_hunter_guild still carry recovered s32 prototypes; the table
     // proves create(void *) / int(int) (follow-up: retype them with their callers).
     {"HUNTER GUILD", TLobby::update_guild_or_quest_phase, update_hunter_guild_phase,
-     (void *(*)(void *))TLobby::handle_main_phase, (int (*)(int))is_in_hunter_guild},
+     (void *(*)(void *))handle_main_phase, (int (*)(int))is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},
     {"JUDGMENT", TJudgmentSequence::init_slot_flags, TJudgmentSequence::release_slot_flags,
@@ -58,7 +58,6 @@ s32 TShopGenerator::slot_active_table[4];
 extern "C" {
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 lbl_805D55C0;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *player, f32 range);
 }
@@ -85,12 +84,12 @@ bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
 }
 #pragma pop
 
-s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
+s32 TShopGenerator::is_no_service_active(void *self, TObjBase *player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
         get_slot_flag = service_dispatch_table[i].get_slot_flag;
-        if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(player))->get_entity_id())) == 1) {
+        if (get_slot_flag((u16)get_client_split_screen_slot(player->get_entity_id())) == 1) {
             return 0;
         }
     }
@@ -107,7 +106,7 @@ void TShopGenerator::run_task() {
         this->service_check_delay--;
         return;
     }
-    if (lbl_805D55C0 != 0) {
+    if (TLobby::connection_lost != 0) {
         return;
     }
     if (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
@@ -139,7 +138,7 @@ void TShopGenerator::run_task() {
         if (TMedicalCenterMes::get_slot_flag(q->get_entity_id()) == 1) return;
         if (q->is_action_input_disabled() == 1) return;
         if (q->is_controls_locked() == 1) return;
-        if (is_no_service_active(this, (saddr)q) == 0) return;
+        if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;

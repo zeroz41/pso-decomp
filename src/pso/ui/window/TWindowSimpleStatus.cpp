@@ -15,14 +15,13 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
 #include "pso/map/FloorArea.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/ui/window/TWindowDD.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
@@ -146,7 +145,7 @@ s32 TWindowSimpleStatus::update_hp_entry() {
     return color;
 }
 
-void TWindowSimpleStatus::update_status_icons(void *ofs) {
+void TWindowSimpleStatus::update_status_icons(NJS_POINT2 *ofs) {
     PhotonBlastChainCopy chain;
     s32 k;
     s32 count;
@@ -177,7 +176,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
         help_mode = get_chain_help_mode(i);
         window = (TWindowComCardFollower *)(this->w[j]);
         if (window == NULL) {
-            window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, help_mode, this->client_index));
+            window = new TWindowComCardFollower(this, ofs, 0, help_mode, this->client_index);
             this->w[j] = window;
             this->w[j]->set_depth(1.0f + get_scale());
         } else {
@@ -201,7 +200,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
             help_mode = get_status_effect_icon_index(word);
             window = (TWindowComCardFollower *)(this->w[j]);
             if (window == NULL) {
-                window = (TWindowComCardFollower *)(new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, help_mode, this->client_index));
+                window = new TWindowComCardFollower(this, ofs, count, help_mode, this->client_index);
                 this->w[j] = window;
                 this->w[j]->set_depth(2.0f + ((f32)k + get_scale()));
             } else {
@@ -287,7 +286,7 @@ void WindowTextEntry::show_player_name(s32 client_id) {
         hide();
         return;
     }
-    appearance = (CharacterAppearanceFields *)player->name;
+    appearance = &player->appearance;
     if (appearance == NULL) {
         hide();
         return;
@@ -448,7 +447,7 @@ void TWindowSimpleStatus::run_task() {
     update_hp_tp_level();
     update_lockon_window(this);
     update_status_help_item(this);
-    update_status_icons((void *)(get_window_layout_position(0x1D)));
+    update_status_icons(const_cast<NJS_POINT2 *>(get_window_layout_position(0x1D)));
     update_window();
     update_fade();
     update_window_entry_list(&entry_list);

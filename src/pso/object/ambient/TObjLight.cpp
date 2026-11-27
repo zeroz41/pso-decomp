@@ -7,14 +7,14 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
@@ -25,6 +25,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -151,7 +152,7 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = light_class_name;
     (light)->apply_object_set_data(set_data);
-    light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
+    light->light_room = (s32) ((ObjectSetData *)set_data)->room;
     light->actor_color.a = 0.5f;
     light->actor_color.r = (f32) light->scale.x;
     light->actor_color.g = (f32) light->scale.y;

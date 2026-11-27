@@ -3,7 +3,7 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
-#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/data/FlagWord.h"
@@ -29,7 +29,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
-#include "pso/unk/TLobby_80207644.h"
+#include "pso/map/FloorMapSelection.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjBase.h"
@@ -48,7 +48,6 @@ const char *luker_name = "TObjLuker";
 
 
 extern "C" {
-extern s32 lbl_805D55C0;
 
 void TObjLuker::hide_part(u16 part) {
     if (windows[part] != 0) {
@@ -246,7 +245,7 @@ void TObjLuker::transfer_to_town() {
   s32 flag;
   self = get_player_by_client_id(owner_id);
   local = get_player_by_client_id(local_client_id);
-  if ((((get_main_phase() == 0xF) && (lbl_805D55C0 != 0)) || (self == 0)) || (local == 0))
+  if ((((get_main_phase() == 0xF) && (TLobby::connection_lost != 0)) || (self == 0)) || (local == 0))
   {
     return;
   }

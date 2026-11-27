@@ -5,10 +5,11 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/network/TLobby.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // The original reads current_language as const here (the load is scheduled
 // above the stores of the copied tables); the same view as six other units.
@@ -26,7 +27,7 @@ NJS_TEXLIST *player_ad_texture_list_ptr;
 #pragma fp_contract on
 
 void TLobby::update_menu_cursor_selection() {
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     const char *names[5] = {
         "f128_player_ad", "f128_player_ad_eng", "f128_player_ad_eng",
         "f128_player_ad_eng", "f128_player_ad_eng",

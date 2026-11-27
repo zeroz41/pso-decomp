@@ -13,7 +13,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include <dolphin/mtx.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -22,11 +22,11 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803E2D70.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/render/ProjectedStripDraw.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -46,7 +46,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -59,6 +59,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/BattleParamTables.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -157,7 +158,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     motion_list = gigue_resource->motions;
     variant = 0;
     add_flags_2e4(0x11);
-    state36C = ((EnemyPlacement *)set_data)->unknown3e;
+    state36C = ((EnemyPlacement *)set_data)->state;
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
     set_action_table(action_table);
@@ -222,10 +223,10 @@ void TObjEneMe1GiGue::load_resources() {
     } else {
         gigue_resource = new BmlResource(1, &gigue_bml_descriptor, 0, 0, NULL);
     }
-    ene_me1_gigue_boss_id = TLobby::register_boss(0x1A);
-    gigue_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
-    gigue_resistance_params = TLobby::register_object(0x1A);
-    me1_gi_gue_param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
+    ene_me1_gigue_boss_id = register_boss(0x1A);
+    gigue_attack_params = dispatch_shared_handler_b(0x1A);
+    gigue_resistance_params = register_object(0x1A);
+    me1_gi_gue_param_table = (GiGueParameters *)dispatch_shared_handler_a(0x1A);
     gigue_breakup_model = new TBreakUpMdlData(gigue_resource->models->model);
     TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();

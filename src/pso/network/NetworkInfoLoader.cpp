@@ -313,41 +313,41 @@ void init_network_config_defaults(void) {
         switch (i) {
         case 0:
             strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_0);
-            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_0);
+            strcpy(lobby_net_config_buffer->b[i].provider_name, default_provider_name_0);
             break;
         case 1:
             strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_1);
-            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_1);
+            strcpy(lobby_net_config_buffer->b[i].provider_name, default_provider_name_1);
             break;
         case 2:
             strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_2);
-            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_2);
+            strcpy(lobby_net_config_buffer->b[i].provider_name, default_provider_name_2);
             break;
         case 3:
             strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_3);
-            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_3);
+            strcpy(lobby_net_config_buffer->b[i].provider_name, default_provider_name_3);
             break;
         case 4:
             strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_4);
-            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_4);
+            strcpy(lobby_net_config_buffer->b[i].provider_name, default_provider_name_4);
             break;
         case 5:
             strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_5);
-            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_5);
+            strcpy(lobby_net_config_buffer->b[i].provider_name, default_provider_name_5);
             break;
         }
     }
     lobby_net_config_buffer->a[0].pan = 0;
     lobby_net_config_buffer->a[0].man = 0;
     strcpy(lobby_net_config_buffer->a[0].name, isao_provider_name);
-    strcpy(lobby_net_config_buffer->b[0].pn, isao_provider_name);
-    strcpy(lobby_net_config_buffer->c[0].mn, isao_mail_account_name);
-    lobby_net_config_buffer->b[0].at = 1;
-    lobby_net_config_buffer->b[1].at = 1;
-    lobby_net_config_buffer->b[2].at = 1;
-    lobby_net_config_buffer->b[3].at = 1;
-    lobby_net_config_buffer->b[4].at = 4;
-    lobby_net_config_buffer->b[5].at = 4;
+    strcpy(lobby_net_config_buffer->b[0].provider_name, isao_provider_name);
+    strcpy(lobby_net_config_buffer->c[0].mail_name, isao_mail_account_name);
+    lobby_net_config_buffer->b[0].device_type = 1;
+    lobby_net_config_buffer->b[1].device_type = 1;
+    lobby_net_config_buffer->b[2].device_type = 1;
+    lobby_net_config_buffer->b[3].device_type = 1;
+    lobby_net_config_buffer->b[4].device_type = 4;
+    lobby_net_config_buffer->b[5].device_type = 4;
     lobby_net_config_buffer->mnum = 1;
     lobby_net_config_buffer->bnum = 4;
     if (lobby_net_config_mode != 4) {

@@ -7,10 +7,9 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
-#include "pso/unk/text_80076E84.h"
-#include "pso/unk/text_80263A20.h"
+#include "pso/ui/window/TextBuilder.h"
+#include "pso/ui/chat/SymbolChatCommand.h"
+#include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TCustomizeMenuCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -28,7 +27,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/enemy/BattleParamTables.h"
 
 
 extern "C" {
@@ -36,7 +35,7 @@ u8 get_cast_technique_level(void *, s16);
 }
 
 extern "C" {
-extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
+extern const f32 customize_help_window_size[2] = {190.0f, 168.0f};
 }
 
 TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
@@ -44,8 +43,8 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
     ((TWindowBase *)custom_equip)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
-    help_window = (uaddr)TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
-    ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
+    help_window = TWindowMessage::create(get_window_layout_position(0x11), customize_help_window_size, 1, client_id);
+    help_window->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
     custom_select = NULL;
     help_kind = 0;
@@ -58,9 +57,9 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
         custom_select->close();
         custom_select = NULL;
     }
-    if ((void *)help_window != NULL) {
-        ((TWindowBase *)help_window)->close();
-        help_window = 0;
+    if (help_window != NULL) {
+        help_window->close();
+        help_window = NULL;
     }
     if ((void *)custom_equip != NULL) {
         ((TWindowBase *)custom_equip)->close();
@@ -166,5 +165,5 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
     case 7:
         break;
     }
-    ((TWindowMessage *)(help_window))->append_line(get_shared_text_buffer(), 0x82);
+    help_window->append_line(get_shared_text_buffer(), 0x82);
 }

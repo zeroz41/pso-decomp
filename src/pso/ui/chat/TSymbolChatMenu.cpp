@@ -6,7 +6,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -14,7 +13,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TSymbolChatMenu.h"
 
-// The symbol chat preset selection (inferred): its vtable follows a 4-byte pad after
+// The symbol chat preset selection: its vtable follows a 4-byte pad after
 // TWindowChatSymbol's vtable (pad + 8-aligned start = new TU).
 
 void TSymbolChatMenu::render() {  }

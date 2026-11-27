@@ -21,14 +21,15 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/enemy/BattleParamTables.h"
 
 #pragma defer_codegen on
 
@@ -89,7 +90,7 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     TObjChara::velocity.y = 0.0f;
     TObjChara::velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats(TLobby::register_boss(0x35), TLobby::dispatch_shared_handler_b(0x35), TLobby::register_object(0x35));
+    bind_enemy_combat_stats(register_boss(0x35), dispatch_shared_handler_b(0x35), register_object(0x35));
     referenceHp = hp;
     register_by_id();
     set_param(0);
@@ -110,11 +111,11 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     spin_ratio = 0.0f;
     bob_angle = 65536.0f * random_ratio();
     bob_angle_step = 2184.0f * random_ratio() + 1092.0f;
-    max_speed = TLobby::dispatch_shared_handler_a(0x35)->values.floats[0];
+    max_speed = dispatch_shared_handler_a(0x35)->values.floats[0];
     if (max_speed <= one_third || max_speed > 5.833333f) {
         max_speed = 0.5833333f;
     }
-    max_speed_alt = TLobby::dispatch_shared_handler_a(0x39)->values.floats[0];
+    max_speed_alt = dispatch_shared_handler_a(0x39)->values.floats[0];
     if (max_speed_alt <= one_third || max_speed_alt > 10.208332f) {
         max_speed_alt = 1.0208333f;
     }

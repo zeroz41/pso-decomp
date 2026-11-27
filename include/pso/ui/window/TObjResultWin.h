@@ -21,6 +21,7 @@ struct ChallengeResultRecord {
 
 class TObjResultWin : public TObject {
 public:
+    static const char *class_name;
     uaddr m_window;
     s32 m_close_requested;
     s32 m_countdown;
@@ -49,5 +50,10 @@ LAYOUT_ASSERT(ResultRecordField, offsetof(TObjResultWin,m_result)==0x128);
 int get_current_lobby_id(void);
 ChallengeResultRecord *copy_challenge_result_record(ChallengeResultRecord *destination, const ChallengeResultRecord *source);
 
+struct ResultCopySummary { s32 stage_index, reserved, total_time; };
+
+struct ResultCopyEntry { s32 words[5]; };
+
+struct ResultCopyRecord { ResultCopySummary summary; ResultCopyEntry previous, current; };
 
 #endif

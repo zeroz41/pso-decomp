@@ -3,7 +3,7 @@
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
@@ -20,9 +20,9 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/unk/text_803DA798.h"
-#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/render/TextureState.h"
+#include "pso/ui/window/SmallFontText.h"
+#include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -41,6 +41,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/math/Vec2Constants.h"
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -52,7 +54,6 @@ f32 xyz_distance(void *, void *);
 
 extern "C" {
 f32 vec3_dot(void *, void *);
-void rotate_matrix_y(s32, s32);
 __declspec(section ".rodata") extern const char window_fukidasi_class_name_string[] = "TWindowFukidasi";
 }
 
@@ -64,12 +65,7 @@ extern const u32 balloon_color_table[16] = {
 extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
-const char *window_fukidasi_class_name = window_fukidasi_class_name_string;
-
-extern "C" {
-
-saddr get_zero_vec2();
-}
+const char *TWindowFukidasi::class_name = window_fukidasi_class_name_string;
 
 void TWindowFukidasi::clear_flag2c_bit100() { this->window_flags &= 0xfffffeff; }
 
@@ -421,7 +417,7 @@ void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
 void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32 scale) {
     u32 len;
 
-    m_name = window_fukidasi_class_name;
+    m_name = class_name;
     this->state = 0;
     this->balloon_flags = 0;
     this->content_kind = 2;
@@ -469,7 +465,7 @@ void TWindowFukidasi::init_flags(s32 flags) {
 // Dead-stripped from the DOL: no code of it survives, only its literal (1e6,
 // pooled between set_text's 200 and init_flags's 60000). It measures a text entry
 // the way set_text does but without its 200 wrap width, using the
-// 1e6 "no limit" width draw_name_plate clips names with. Name inferred from that role.
+// 1e6 "no limit" width draw_name_plate clips names with.
 void TWindowFukidasi::measure_text_unbounded(WindowTextEntry *entry) {
     reinterpret_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
 }
@@ -791,7 +787,7 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
 
 // Dead-stripped from the DOL: no code of it survives, only its literal (0.0,
 // pooled between rest_balloon's 65536 and project_anchor's 320). It clears
-// the width init_balloon zeroes when it sets the balloon up. Name inferred
+// the width init_balloon zeroes when it sets the balloon up.
 // from that role.
 void TWindowFukidasi::clear_width() {
     frame_size[0] = 0.0f;
@@ -1035,7 +1031,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 // approach's 0.011 and find_random_free_position's 2^-15. It aims from the
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
-// same atan2 scale. Name inferred from that role.
+// same atan2 scale.
 s32 TWindowFukidasi::calc_name_plate_angle(f32 *world, f32 *scr, f32 *rect, f32 *size) {
     f32 reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
     f32 dx = (0.5f * size[0] + rect[0]) - scr[0];

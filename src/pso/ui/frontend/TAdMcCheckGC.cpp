@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"

@@ -13,7 +13,7 @@
 #include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/frontend/TTitleBackground.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -27,13 +27,14 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/TLobby_80335E08.h"
+#include "pso/ui/TitleTextureResources.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
     extern int lobby_game_mode_state;
@@ -80,12 +81,6 @@ NJS_TEXNAME title_texture_entries[21] = {
 
 __declspec(section ".data") NJS_TEXLIST title_texture_list = {title_texture_entries, 21};
 
-// One scene resource: load runs front to back (run_load_callback_table),
-// release back to front (call_funcs_reverse); field names inferred from those.
-struct LobbyLoadCallback {
-    void (*load)(void);
-    void (*release)(void);
-};
 
 LobbyLoadCallback lobby_load_callback_table[4] = {
     {load_title_menu_resources, free_title_menu_resources},
@@ -155,7 +150,7 @@ NJS_TEXANIM title_sprite_frames[46] = {
     {16, 18, 0, 0, 87, 224, 103, 242, 0, 0},
 };
 
-// Title screen sprites; TLobby::get_record hands one to draw_with_camera.
+// Title screen sprites; get_record hands one to draw_with_camera.
 // The Ninja sprite table references the Ginja texture list at its original address.
 #define TITLE_SPRITE_TEXTURE_LIST reinterpret_cast<NJS_TEXLIST *>(&title_texture_list)
 NJS_SPRITE lobby_record_table[46] = {
@@ -213,7 +208,6 @@ NJS_SPRITE lobby_record_table[46] = {
 const TitleTextureFilenameTable title_texture_filename_table = {
     {"Title", "Title_eng", "Title_eng", "Title_eng", "Title_eng"},
 };
-
 
 
 TTitleScene *title_scene_instance;
@@ -330,7 +324,7 @@ TTitleScene::~TTitleScene() {
     }
     close_auxiliary_window();
     end_view_override();
-    TLobby::stop_audio_streams();
+    stop_audio_streams();
 }
 
 TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
@@ -392,7 +386,7 @@ void TLobby::destroy_global_object() {
 
 void initialize_lobby_title_scene(void) {
     title_scene_instance = NULL;
-    TLobby::update_menu_cursor();
+    update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;
     load_streamed_prs_texture(names.archive[current_language], &title_texture_list);

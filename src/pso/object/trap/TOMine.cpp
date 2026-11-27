@@ -16,7 +16,7 @@ struct game_command_header;
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/trap/TOMineTrapDisp.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOMineDisp.h"
@@ -24,8 +24,8 @@ struct game_command_header;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/trap/TOMine.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/player/PlayerCommands.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
@@ -40,7 +40,7 @@ struct game_command_header;
 #include "pso/object/trap/TOMineIcon03.h"
 #include "pso/object/trap/TOMineIcon04.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
@@ -51,11 +51,11 @@ struct game_command_header;
 
 
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/base/TObjBase.h"
@@ -146,9 +146,9 @@ void set_mine_trap_damage(f32 power) {
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
 u16 TOMineTrap::get_trap_number() { return trap_number; }
 int TOMineTrap::get_instance() { return mine_trap_instance_id; }
-void TOMineTrap::set_trap_type(u16 type) { this->m_2d8 = type; }
+void TOMineTrap::set_trap_type(u16 type) { this->owner_entity_id = type; }
 s16 TOMineTrap::get_mode() { return mode; }
-u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
+u16 TOMineTrap::get_trap_type() { return this->owner_entity_id; }
 s32 can_see_traps(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     m_name = mine_name;
@@ -268,7 +268,7 @@ void TOMine::detonate() {
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
         obj = (TObjChara *)TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)obj) != 0) {
+        if (TObjPlayer::is_valid_and_active(obj) != 0) {
             DirectAttackPayload pair = attack;
             f32 r = obj->receive_direct_attack(this, pair, NULL, -1, -1);
             if (attack.kind < 5) {
@@ -570,7 +570,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     if (owner != NULL) {
         set_trap_type(owner->get_entity_id());
     } else {
-        m_2d8 = 0xFFFF;
+        owner_entity_id = 0xFFFF;
     }
     player = NULL;
     if (get_trap_type() != 0xFFFF && get_trap_type() < 0x1000) {

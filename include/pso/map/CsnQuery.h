@@ -35,9 +35,7 @@ LAYOUT_ASSERT(WallRayResultHeaderOffset, offsetof(WallRayResult, header) == 0);
 extern CsnGroup **scene_collision_data;
 
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
-extern "C" {
 CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask);
-}
 // The deepest wall the rays of query reach within its radius, NULL for none.
 WallRayResult *query_wall_radial(WallRayQuery *query);
 extern "C" {
@@ -64,9 +62,7 @@ s32 select_deepest_wall_ray(WallRayQuery *query, WallRayResult *result);
 s32 query_segment_wall_meshes(Vec *from, Vec *to, u32 mask, CsnGroup **groups);
 s32 check_line_hits_walls(Vec *from, Vec *to, u32 mask, CsnGroup **groups);
 s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *face, Vec *vertices, s32 mode);
-extern "C" {
 CsnGroup *refill_csn_candidate_cache(Vec *origin, CsnGroup **cache, u32 mask);
-}
 CsnGroup *select_segment_query_groups(const Vec *from, const Vec *to);
 CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
@@ -78,5 +74,16 @@ struct CsnHit;
 
 CsnContact *init_csn_contact(CsnContact *contact);
 void init_csn_hit(CsnHit *hit);
+
+// A wall polygon prepare_wall_query_polygons copies into the scene buffer,
+// with the vertex array of its model (name inferred).
+struct WallPolygon {
+    CsnFace face;
+    Vec *vertices;
+
+    void copy_wall_polygon(const CsnFace *source);
+};
+
+struct VecWords { u32 words[3]; };
 
 #endif

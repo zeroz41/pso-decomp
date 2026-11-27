@@ -4,12 +4,12 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarSmoke.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 
-#include "pso/unk/text_803DA798.h"
+#include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ModelDrawContext.h"
@@ -95,8 +95,5 @@ TObjBoss5Pillar *TObjBoss5Pillar::create(Vec *pos) {
     return new TObjBoss5Pillar(tl_02, pos);
 }
 
-extern "C" {
-void pillar_update_stub(void) {  }
-void pillar_forward_stub(void) {  }
-
-}
+void pillar_update_stub() {  }
+void pillar_forward_stub() {  }

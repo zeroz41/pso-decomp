@@ -12,7 +12,7 @@
 #include "pso/system/MainPhaseTable.h"
 #include "pso/render/BlobShadow.h"
 
-#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixReflect.h"
 
 #include "pso/player/PlayerAttackParams.h"
 
@@ -55,6 +55,9 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 
 #include "pso/player/DamageBookkeeping.h"
+#include "pso/object/base/TObjCharaData.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/scene/TScene.h"
 
 #include "dolphin/mtx.h"
 
@@ -76,14 +79,13 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 
-#include "pso/unk/text_8023F3F8.h"
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
-#include "pso/unk/text_802A1020.h"
+#include "pso/ui/frontend/OpeningMovie.h"
 
 
-#include "pso/unk/text_80290BEC.h"
+#include "pso/system/MainFrame.h"
 
 #include "pso/ui/frontend/TAdEndText.h"
 
@@ -103,7 +105,7 @@
 #include "pso/effect/TEffHit.h"
 
 #include "pso/item/TItemReverseTech.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixTransforms.h"
@@ -117,17 +119,14 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TObjFreezeShell.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/PlayerCommands.h"
+#include "pso/player/LocalClientId.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/TLobby_800FD78C.h"
 
 
 class TObjPlayer;
 
-extern s32 registered_player_count;
-extern s32 registered_enemy_count;
 extern "C" {
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 }
@@ -156,12 +155,6 @@ extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 s32 record_damage_stats(void *, void *, void *);
-extern const f64 angle_units_per_radian;
-extern const f64 newton_sqrt_half;
-extern const f64 newton_sqrt_three;
-extern const char meseta_label_text[];
-extern const char miss_label_text[];
-extern s32 current_floor_index;
 void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
@@ -177,7 +170,7 @@ static const f32 subtractive_rng_ratio_divisor = 65536.0f;
 }
 void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_height);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-s32 is_entity_locally_controlled(s32 id);
+s32 is_entity_locally_controlled(u16 id);
 f64 fabs_double(f64 x);
 #pragma push
 #pragma fp_contract on
@@ -188,7 +181,6 @@ f64 fabs_double(f64 x);
 
 #pragma push
 #pragma fp_contract on
-extern const double accuracy_distance_penalty_scale;
 
 #pragma pop
 
@@ -525,7 +517,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     this->target_attribute_mask = 0;
     this->add_flags_2e4(0);
     this->control_state = 0;
-    this->m_2d8 = 0xFFFF;
+    this->owner_entity_id = 0xFFFF;
     for (i = 0; i < 3; i++) {
         attack_attributes[i].area = 0;
         attack_attributes[i].percent = 0;
@@ -1503,11 +1495,14 @@ WeaponAttribute *TObjPlayer::get_attribute_entry(s32 i) {
     return 0;
 }
 
-void TObjPlayer::copy_entry_bytes(void* q) { *(u8*)((char*)this + 0x0) = *(u8*)((char*)q + 0x0); *(u8*)((char*)this + 0x1) = *(u8*)((char*)q + 0x1); }
+void WeaponAttribute::copy(WeaponAttribute *src) {
+    area = src->area;
+    percent = src->percent;
+}
 
-void TObjPlayer::set_attribute_entry(s32 i, void *q) {
+void TObjPlayer::set_attribute_entry(s32 i, WeaponAttribute *attribute) {
     if (i < 3) {
-        ((TObjPlayer *)&attack_attributes[i])->copy_entry_bytes(q);
+        attack_attributes[i].copy(attribute);
     }
 }
 
@@ -3272,16 +3267,16 @@ void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
     }
 }
 
-s32 is_entity_locally_controlled(s32 id) {
-    void *p;
-    if ((u16)id == 0xFFFF || (u16)id >= 0x1000) {
+s32 is_entity_locally_controlled(u16 id) {
+    TObjCollidable *p;
+    if (id == 0xFFFF || id >= 0x1000) {
         return 0;
     }
-    p = ((TObjCollidable * (*)(s32))find_entity_by_id)(id);
+    p = find_entity_by_id(id);
     if (p == 0) {
         return 0;
     }
-    return ((TObjChara *)p)->is_locally_controlled();
+    return static_cast<TObjChara *>(p)->is_locally_controlled();
 }
 
 void TObjChara::apply_switch_attack() {

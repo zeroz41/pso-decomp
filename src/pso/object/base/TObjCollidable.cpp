@@ -30,11 +30,11 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80156B18.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/network/UpdateObjectStateCmd.h"
+#include "pso/math/MatrixReflect.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/map/FloorPopulation.h"
 
 
@@ -244,7 +244,7 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     } else {
         QuestObjectEntry fallback = quest_object_entries[packet->object_index];
         fallback.flags = packet->flags;
-        TLobby::apply_table_entry(packet->object_index, &fallback);
+        set_quest_object_entry(packet->object_index, &fallback);
     }
 }
 
@@ -253,7 +253,7 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {
-        ((TLobby *)&state)->copy_short_fields(source);
+        state.copy_from(source);
     } else {
         access_object_saved_state(&state, 1);
     }
@@ -912,28 +912,27 @@ void TAttackCollider::update_body_contact_flag(f32 range) {
     }
 }
 
-u32 TObjCollidable::check_actor_body_contact(void *target, f32 range) {
-    TObjCollidable *other = (TObjCollidable *)target;
+u32 TObjCollidable::check_actor_body_contact(TObjCollidable *target, f32 range) {
     CollisionBodySet a;
     CollisionBodySet b;
     CollisionBody *hit;
 
-    if (other != this && other != NULL && !(actorFlags & 0x800) && !(other->actorFlags & 0x80000800)) {
-        if (range * range < horizontal_distance_squared(&position, &other->position)) {
+    if (target != this && target != NULL && !(actorFlags & 0x800) && !(target->actorFlags & 0x80000800)) {
+        if (range * range < horizontal_distance_squared(&position, &target->position)) {
             return 0;
         }
-        if (bodies != NULL && other->bodies != NULL) {
+        if (bodies != NULL && target->bodies != NULL) {
             a.colliders = bodies;
             a.count = body_count;
             VecCopy(&a.position, &position);
             a.facing = rotation_y;
-            b.colliders = other->bodies;
-            b.count = other->body_count;
-            VecCopy(&b.position, &other->position);
-            b.facing = other->rotation_y;
+            b.colliders = target->bodies;
+            b.count = target->body_count;
+            VecCopy(&b.position, &target->position);
+            b.facing = target->rotation_y;
             hit = refresh_actor_body_spheres(a, b);
             if (hit != NULL) {
-                find_or_alloc_battle_param_slot((uaddr)other);
+                find_or_alloc_battle_param_slot((uaddr)target);
                 hit->flags |= 0x04000000;
                 return (uaddr)hit;
             }
@@ -1140,10 +1139,10 @@ s32 TObjCollidable::access_object_saved_state(void *saved_state, s16 load) {
         return 0;
     }
     if (load == 0) {
-        ((TLobby *)&quest_object_entries[index])->copy_short_fields(saved_state);
+        quest_object_entries[index].copy_from((QuestObjectEntry *)saved_state);
     }
     if (load == 1) {
-        ((TLobby *)saved_state)->copy_short_fields(&quest_object_entries[index]);
+        ((QuestObjectEntry *)saved_state)->copy_from(&quest_object_entries[index]);
     }
     return 1;
 }

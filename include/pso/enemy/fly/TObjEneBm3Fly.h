@@ -9,10 +9,10 @@
 class TParticleCtrl;
 struct TObjEneBm3FlyNest;
 
-// The block TLobby::dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in bm3_fly_lobby_params.
+// The block dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in bm3_fly_lobby_params.
 struct Bm3FlyParameters {
     f32 distance;
-    u8 unknown_04[0x18];
+    u8 pad_04[0x18];
     s32 attack_wind_up_frames;  // frames the fly waits before the strike (execute_action step 1)
 };
 
@@ -20,9 +20,9 @@ struct Bm3FlyParameters {
 struct Bm3FlyAnimationBinding {
     BmlMotionEntry *motions;
     TObjMotionAction *actions;
-    u32 unknown_08;
+    u32 pad_08;
     u16 actionCount;
-    u16 unknown_0E;
+    u16 pad_0E;
 };
 
 // TObjEneBm3Fly::status_flags.

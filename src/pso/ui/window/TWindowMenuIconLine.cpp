@@ -7,7 +7,7 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -35,10 +35,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/WindowTextDraw.h"
+#include "pso/enemy/BattleParamTables.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
+#include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -67,7 +67,7 @@ void get_shortcut_entry_codes(s32 index, u8 *first, u8 *second, s32 player) {
 
 
 
-// inferred: the trade lists' enable step, the reverse of deactivate.
+// The trade lists' enable step, the reverse of deactivate.
 void TWindowMenuIconLine::activate() {
     if (status_display != NULL) {
         if (is_decided() != 0) {
@@ -80,7 +80,7 @@ void TWindowMenuIconLine::activate() {
     enable_input();
 }
 
-// inferred: what the trade window creators call on a new list.
+// What the trade window creators call on a new list.
 void TWindowMenuIconLine::deactivate() {
     disable_input();
     set_close_flag();
