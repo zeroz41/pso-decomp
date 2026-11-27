@@ -237,10 +237,10 @@ void TLobby::dispatch_by_index(s32 index) {
     }
 }
 
-void TLobby::open_scroll_text_window(saddr src) {
+void TLobby::open_scroll_text_window(const char *text) {
     void *obj;
     if (lobby_scroll_text_window == 0) {
-        strncpy((char *)lobby_scroll_text_buffer, (const char *)src, 0x1000);
+        strncpy((char *)lobby_scroll_text_buffer, text, 0x1000);
         lobby_scroll_text_buffer[0xFFF] = 0;
         lobby_scroll_text_window = new TAdScrollWinGC(tl_window, 2, (const char *)lobby_scroll_text_buffer);
     }
@@ -291,7 +291,7 @@ s32 TLobby::get_option_state() {
 }
 
 void TLobby::install_game_join_handlers() {
-    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = (recv_packet_handler_handle_64_recv_start_game3)TLobby::handle_game_join;
+    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = TLobby::handle_game_join;
     protocol_instance->m_recv_handlers.handle_65_recv_burst_game = TLobby::on_game_player_add;
 }
 
@@ -1997,7 +1997,7 @@ void TLobby::handle_state(int checksum_ok) {
     }
 }
 
-void handle_server_message(const char *text) {
+void handle_server_message(const char *text, u8) {
     if (TLobby::download_list_window == 0) {
         NJS_POINT2 tmp = { 224.0f, 188.0f };
         TLobby::download_list_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc7), &tmp);
@@ -2013,7 +2013,7 @@ void handle_lobby_text(const char *text) {
     TLobby::join_entry_window_obj->append_line(text, (int)3);
     TLobby::lobby_state = 0x16;
 }
-void TLobby::disable_window_flags(void*flags) { TWindowCtrl::append_client_message(local_client_id, (const char *)flags); }
+void TLobby::disable_window_flags(const char *mesg) { TWindowCtrl::append_client_message(local_client_id, mesg); }
 void TLobby::open_ship_block_select_menu(int count, GameListEntry *list, GameListEntry &entry) {
     static void *tblA = (void *)lobby_window_title_ship_select;
     static void *tblB = (void *)lobby_window_title_block_select;
@@ -2097,33 +2097,33 @@ void handle_game_list(int count, GameListEntry *entries, GameListEntry &selected
     memset(selected_game_name, 0, 0x11);
     strncpy(selected_game_name, selected.name, 0x11);
 }
-void TLobby::handle_game_join(TPlyJoinGame *pkt) {
+void TLobby::handle_game_join(TPlyJoinGame &join_data) {
     PlayerGuildCardTag tag;
     TObjPlayer *p;
     saddr i;
     s32 j;
-    memcpy(game_join_player_records, pkt->lobby_data, 0x80);
+    memcpy(game_join_player_records, join_data.lobby_data, 0x80);
     bswap_32(&game_join_player_records[0].ip_addr);
     bswap_32(&game_join_player_records[1].ip_addr);
     bswap_32(&game_join_player_records[2].ip_addr);
     bswap_32(&game_join_player_records[3].ip_addr);
     TLobby::destroy_all_objects();
-    lobby_debug_printf_stub(lobby_debug_game_start_format, pkt->client_id);
-    local_client_id = pkt->client_id;
-    designated_client_id = pkt->leader_id;
-    join_state_flag = pkt->disable_udp;
-    TLobby::set_player_count(pkt->battle_mode);
-    lobby_challenge_mode = pkt->challenge_mode;
-    game_difficulty_selection = pkt->difficulty;
-    event_theme_id = pkt->event;
-    set_area_random_seed(pkt->rare_seed);
-    leader_selection.set_section_id(pkt->section_id);
-    if ((s32)pkt->episode == 2) {
+    lobby_debug_printf_stub(lobby_debug_game_start_format, join_data.client_id);
+    local_client_id = join_data.client_id;
+    designated_client_id = join_data.leader_id;
+    join_state_flag = join_data.disable_udp;
+    TLobby::set_player_count(join_data.battle_mode);
+    lobby_challenge_mode = join_data.challenge_mode;
+    game_difficulty_selection = join_data.difficulty;
+    event_theme_id = join_data.event;
+    set_area_random_seed(join_data.rare_seed);
+    leader_selection.set_section_id(join_data.section_id);
+    if ((s32)join_data.episode == 2) {
         request_story_select_state(1);
     } else {
         request_story_select_state(0);
     }
-    set_item_drop_server_seed(pkt->rare_seed);
+    set_item_drop_server_seed(join_data.rare_seed);
     for (i = 0; i < 0xC; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL) {
@@ -2217,7 +2217,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     set_floor_map_variant(get_current_floor(), v4);
     event_theme_id = event_theme;
     activate_keyboard();
-    protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)handle_lobby_text;
+    protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = handle_lobby_text;
 }
 #pragma pop
 
@@ -2413,7 +2413,7 @@ void TLobby::retire_lobby_player(int idx, int v) {
     strncpy(lobby_player_names[idx], "", 0x10);
 }
 
-void handle_generate_id(void) {  }
+void handle_generate_id(TRecvGenerateID) {  }
 void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 0> &list) {
     static void *tbl = (void *)lobby_window_title_download;
     s32 i;
@@ -2572,33 +2572,33 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     memset(lobby_player_status_records, 0, sizeof(lobby_player_status_records));
     protocol = new TProtocol(this, 0x36, current_language, TLobby::init_serial_access(), (char *)get_access_key_input_buffer(), (char *)get_password_input_buffer());
     protocol_instance = protocol;
-    protocol->m_recv_handlers.handle_unused_login = (recv_packet_handler_handle_unused_login)TLobby::handle_regist_check;
-    protocol_instance->m_recv_handlers.handle_03_recv_regist = (recv_packet_handler_handle_03_recv_regist)TLobby::handle_register_name_result;
-    protocol_instance->m_recv_handlers.handle_04_recv_login = (recv_packet_handler_handle_04_recv_login)TLobby::handle_login_result;
+    protocol->m_recv_handlers.handle_unused_login = TLobby::handle_regist_check;
+    protocol_instance->m_recv_handlers.handle_03_recv_regist = TLobby::handle_register_name_result;
+    protocol_instance->m_recv_handlers.handle_04_recv_login = TLobby::handle_login_result;
     protocol_instance->m_recv_handlers.handle_05_recv_logout = TLobby::queue_static_object_destruction;
     protocol_instance->m_recv_handlers.handle_06_recv_chat = NULL;
-    protocol_instance->m_recv_handlers.handle_01_recv_error = (recv_packet_handler_handle_01_recv_error)handle_error;
+    protocol_instance->m_recv_handlers.handle_01_recv_error = handle_error;
     protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = TLobby::open_ship_block_select_menu;
     protocol_instance->m_recv_handlers.handle_08_recv_game_list = handle_game_list;
-    protocol_instance->m_recv_handlers.handle_11_recv_message = (recv_packet_handler_handle_11_recv_message)handle_server_message;
+    protocol_instance->m_recv_handlers.handle_11_recv_message = handle_server_message;
     protocol_instance->m_recv_handlers.handle_0E_recv_start_game = NULL;
     protocol_instance->m_recv_handlers.unused7 = NULL;
-    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = (recv_packet_handler_handle_64_recv_start_game3)TLobby::handle_game_join;
+    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = TLobby::handle_game_join;
     protocol_instance->m_recv_handlers.unused8 = NULL;
-    protocol_instance->m_recv_handlers.handle_67_recv_start_lobby2 = (recv_packet_handler_handle_67_recv_start_lobby2)TLobby::handle_lobby_enter;
-    protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)TLobby::open_scroll_text_window;
-    protocol_instance->m_recv_handlers.handle_80_recv_generate_id = (recv_packet_handler_handle_80_recv_generate_id)handle_generate_id;
+    protocol_instance->m_recv_handlers.handle_67_recv_start_lobby2 = TLobby::handle_lobby_enter;
+    protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = TLobby::open_scroll_text_window;
+    protocol_instance->m_recv_handlers.handle_80_recv_generate_id = handle_generate_id;
     protocol_instance->m_recv_handlers.handle_65_recv_burst_game = TLobby::on_game_player_add;
-    protocol_instance->m_recv_handlers.handle_66_recv_exit_game = (recv_packet_handler_handle_66_recv_exit_game)TLobby::remove_player;
+    protocol_instance->m_recv_handlers.handle_66_recv_exit_game = TLobby::remove_player;
     protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
     protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
     protocol_instance->m_recv_handlers.handle_81_recv_chat_message = receive_short_mail;
     protocol_instance->m_recv_handlers.handle_41_recv_user_ans = handle_user_search_answer;
-    protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
-    protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
+    protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = TLobby::handle_verify_result;
+    protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = TLobby::handle_register_result;
     protocol_instance->m_recv_handlers.handle_95_request_character_data_packet = TLobby::send_selected_character;
     protocol_instance->m_recv_handlers.send_96_unused = TLobby::send_position_update;
-    protocol_instance->m_recv_handlers.handle_97_checksum_reply_packet = (recv_packet_handler_handle_97_checksum_reply_packet)TLobby::handle_state;
+    protocol_instance->m_recv_handlers.handle_97_checksum_reply_packet = TLobby::handle_state;
     protocol_instance->m_recv_handlers.handle_B1_current_time_packet = TLobby::reset_lobby_state;
     protocol_instance->m_recv_handlers.handle_C0_choice_search_option_packet = TLobby::handle_choice_search_options;
     protocol_instance->m_recv_handlers.handle_C4_choice_search_reply_packet = TLobby::handle_choice_search_results;
@@ -2606,17 +2606,17 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = receive_quest_info;
     protocol_instance->m_recv_handlers.handle_44_recv_download_head = begin_file_download;
     protocol_instance->m_recv_handlers.handle_13_recv_download = handle_quest_download_chunk;
-    protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
+    protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = TLobby::open_download_list_window;
     protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = show_card_list_message;
     protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = TQuestVmDownLoadServer::begin_file_download;
     protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = TQuestVmDownLoadServer::receive_file_chunk;
-    protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
+    protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = TLobby::disable_window_flags;
     protocol_instance->m_recv_handlers.handle_1F_recv_text_list = TLobby::open_information_list;
     protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_arrow_colors;
     protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
-    protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)handle_reset_choice;
-    protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)apply_trade_items;
+    protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = handle_reset_choice;
+    protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = apply_trade_items;
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
     protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)create_quest_stats_thread;

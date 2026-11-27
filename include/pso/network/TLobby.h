@@ -74,7 +74,7 @@ struct TLobby : public TObject {
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(const void *root);
     static void dispatch_by_index(s32 index);
-    static void open_scroll_text_window(saddr src);
+    static void open_scroll_text_window(const char *text);
     void render();
     static void copy_player_records(TPlyChallenge *records, s32 count);
     static s32 get_option_state();
@@ -218,13 +218,13 @@ struct TLobby : public TObject {
     static void destroy_child_recursive(TObject *task, TObject *object);
     static void destroy_join_entries();
     static void destroy_lobby_ui();
-    static void disable_window_flags(void*);
+    static void disable_window_flags(const char *mesg);
     static s32 get_progress_info(void *, void *, void *, void *);
     static const char *get_seq_phase(int);
     static void handle_com_card();
     static void handle_comcard_window();
     static void handle_create_game_window();
-    static void handle_game_join(TPlyJoinGame *);
+    static void handle_game_join(TPlyJoinGame &join_data);
     static void handle_game_list_select();
     static void handle_lobby_enter(TPlyJoinLobbyEntry *, int, int, int, int, int, int, int);
     static void handle_login_result(unsigned int);

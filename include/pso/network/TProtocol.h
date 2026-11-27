@@ -277,35 +277,35 @@ struct TSendClientConfig {
 LAYOUT_ASSERT(TSendClientConfigSize, sizeof(TSendClientConfig) == 0x24);
 
 #define RECV_PACKET_HANDLERS \
-    o(handle_unused_login, void) \
-    o(handle_03_recv_regist, u8 state) \
-    o(handle_04_recv_login, u8 error_code) \
+    o(handle_unused_login, int ok) \
+    o(handle_03_recv_regist, int state) \
+    o(handle_04_recv_login, unsigned int error_code) \
     o(handle_05_recv_logout, void) \
     o(handle_07_A0_A1_recv_dir_list, int entry_count, GameListEntry *entries, GameListEntry &entry_0) \
     o(handle_08_recv_game_list, int entry_count, GameListEntry *entries, GameListEntry &entry_0) \
-    o(handle_01_recv_error, char *mesg) \
+    o(handle_01_recv_error, const char *mesg) \
     o(handle_06_recv_chat, TPlyGuildCardTag &tag, char *mesg) \
-    o(handle_11_recv_message, char *mesg, u8 unused) \
-    o(handle_1A_D5_recv_text, char *text) \
+    o(handle_11_recv_message, const char *mesg, u8 unused) \
+    o(handle_1A_D5_recv_text, const char *text) \
     o(handle_0E_recv_start_game, TPlyJoinLobbyData *entries, u8 entry_count, int lobby_entry_idx) \
     o(unused7, void) \
     o(handle_64_recv_start_game3, TPlyJoinGame &join_data) \
     o(unused8, void) \
-    o(handle_67_recv_start_lobby2, TPlyJoinLobbyEntry *entries, u8 entry_count, int client_id, int leader_id, int lobby_number, int block_number, int enable_battle_mode, int event) \
+    o(handle_67_recv_start_lobby2, TPlyJoinLobbyEntry *entries, int entry_count, int client_id, int leader_id, int lobby_number, int block_number, int enable_battle_mode, int event) \
     o(handle_80_recv_generate_id, TRecvGenerateID gen_id) \
     o(unused9, void) \
     o(handle_65_recv_burst_game, TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp) \
-    o(handle_66_recv_exit_game, int client_id, int leader_id, int disable_udp) \
+    o(handle_66_recv_exit_game, unsigned int client_id, int leader_id, int disable_udp) \
     o(handle_68_recv_burst_lobby, TPlyJoinLobbyEntry *entries, int leader_id) \
     o(handle_69_recv_exit_lobby, int client_id, int leader_id) \
-    o(handle_18_90_9A_recv_pso_regist_check, u8 state) \
-    o(handle_92_9C_register_response_packet, u8 state) \
+    o(handle_18_90_9A_recv_pso_regist_check, unsigned int state) \
+    o(handle_92_9C_register_response_packet, int state) \
     o(unused10, void) \
     o(handle_95_request_character_data_packet, void) \
     o(handle_81_recv_chat_message, TChatMessage &chat_message) \
     o(handle_41_recv_user_ans, TUserAns &user_ans) \
     o(send_96_unused, void) \
-    o(handle_97_checksum_reply_packet, u8 flags) \
+    o(handle_97_checksum_reply_packet, int flags) \
     o(handle_B1_current_time_packet, char *time) \
     o(handle_C0_choice_search_option_packet, TRecvChoiceSearchOptions *options) \
     o(handle_C4_choice_search_reply_packet, ChoiceSearchResultList *results) \
@@ -314,20 +314,20 @@ LAYOUT_ASSERT(TSendClientConfigSize, sizeof(TSendClientConfig) == 0x24);
     o(handle_A3_recv_quest_menu_info, TPlyText<288> &info) \
     o(handle_44_recv_download_head, TRecvDownloadHead &download_head) \
     o(handle_13_recv_download, TRecvDownload &download) \
-    o(handle_A4_recv_quest_list, u8 entry_count, TMenuList<QuestListEntry, 30, 0> &quest_list) \
+    o(handle_A4_recv_quest_list, int entry_count, TMenuList<QuestListEntry, 30, 0> &quest_list) \
     o(handle_A5_recv_quest_info, TPlyText<288> &info) \
     o(handle_A6_recv_vm_download_head, TRecvDownloadHead &download_head) \
     o(handle_A7_recv_vm_download, TRecvDownload &download) \
     o(unused11, void) \
     o(handle_1F_recv_text_list, int entry_count, GameListEntry *entries, GameListEntry &entry_0) \
-    o(handle_B0_recv_emergency_call, char *mesg) \
+    o(handle_B0_recv_emergency_call, const char *mesg) \
     o(handle_88_player_arrow_color_list_packet, TArrowColorList *list) \
     o(handle_8A_lobby_name_packet, char *name) \
     o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, s32 count) \
     o(handle_DA_lobby_event_packet, int theme) \
     o(handle_AB_quest_stats_response_packet, u16 value) \
     o(handle_D3_execute_trade_packet, TTradeList *trade_list) \
-    o(handle_D4_trade_result_packet, u8 state) \
+    o(handle_D4_trade_result_packet, s32 state) \
     o(handle_D1_advance_trade_state_packet, u8 state)
 
 #define recv_packet_handler(name) recv_packet_handler_##name

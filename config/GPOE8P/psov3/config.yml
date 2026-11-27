@@ -652,10 +652,10 @@ force_active:
   - __sinit_FloorItemSync_cpp
   - init_idle_timeout_timer__FPUcP7TObject
   - show_card_list_message__FR13TPlyText<288>
-  - handle_generate_id__Fv
+  - handle_generate_id__F15TRecvGenerateID
   - handle_game_list__FiP13GameListEntryR13GameListEntry
   - handle_lobby_text__FPCc
-  - handle_server_message__FPCc
+  - handle_server_message__FPCcUc
   - handle_error__FPCc
   - queue_join_entry_exit_on_input__FP7TObject
   - show_join_entry_message__Fl
@@ -5666,7 +5666,7 @@ force_active:
   - disable__23MagNodeOscillationStateFv
   - disable_cancel__19TWindowMenuIconLineFv
   - disable_channel_polling
-  - disable_window_flags__6TLobbyFPv
+  - disable_window_flags__6TLobbyFPCc
   - dispatch_action__10TNpcPlayerFl
   - dispatch_action__12TBoss1DragonFUll
   - dispatch_action__12TObjEneReconFUll

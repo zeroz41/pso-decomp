@@ -209,7 +209,7 @@ void start_udp_test_game() {
     msg.lobby_data[1].ip_addr = lobby_udp_test_game_entries[1].ip_addr;
     msg.lobby_data[1].client_id = 1;
     strcpy(msg.lobby_data[1].name, "UDPTEST-2");
-    TLobby::handle_game_join(&msg);
+    TLobby::handle_game_join(msg);
     game_protocol_instance->delete_children();
     TLobby::open_udp_socket_for_player(1 - local_client_id);
 }

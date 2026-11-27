@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/packet_classes.h"
 
 class TPlyCharData;
 class TPlyDispConfig;
@@ -26,9 +27,9 @@ extern TAdScrollWinGC *lobby_scroll_text_window;
 // The idle-timeout warning window TLobby::update_idle_timeout opens.
 extern TWindowMessage *lobby_idle_timeout_window;
 
-void handle_generate_id(void);
+void handle_generate_id(TRecvGenerateID gen_id);
 void handle_lobby_text(const char *text);
-void handle_server_message(const char *text);
+void handle_server_message(const char *text, u8 unused);
 void handle_error(const char *text);
 void update_state_with_location(void);
 void lobby_init_hook(void);

@@ -295,7 +295,7 @@ s32 claim_trade_sub_window(TWindowSubTrade *window) {
     return 1;
 }
 
-void apply_trade_items() {
+void apply_trade_items(u8) {
     s32 allowed;
     struct TradeItemEntry *list;
     u32 id;
