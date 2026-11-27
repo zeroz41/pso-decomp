@@ -29,7 +29,7 @@ public:
     virtual void render();
     virtual void run_task();
     f32 lifetime;  // tick_lifetime destroys it once age passes this
-    s32 m_74;
+    s32 pad_74;
     s16 level;
     s16 band;  // get_technique_level_tier(level)
     Vec target;  // where the circle travels to before it spreads
