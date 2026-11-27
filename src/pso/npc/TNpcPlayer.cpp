@@ -76,11 +76,13 @@ static const s32 npc_player_combat_action_table[3][2] = {
 const char *npc_player_char_file_name = "npcplayerchar.dat";
 const char *TNpcPlayer::name = "TNpcPlayer";
 
-// npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
+// On CodeWarrior npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
-// of this file, which no compiler-generated __sinit reproduces.
+// of this file, which no compiler-generated __sinit reproduces; other compilers construct it.
+#ifdef __MWERKS__
 void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
+#endif
 
 int get_registered_object_count(void);
 TNpcPlayer::AiParams npc_player_ai_templates[64] = {
@@ -795,7 +797,7 @@ void PhotonBlastTarget::reset() {
 
 PhotonBlastTarget::PhotonBlastTarget() { reset(); }
 
-void PhotonBlastTarget::set_entity_id(s32 id) { entity_id = id; }
+void PhotonBlastTarget::set_entity_id(u16 id) { entity_id = id; }
 
 void PhotonBlastTarget::set_index(s16 part) { index = part; }
 
@@ -988,7 +990,7 @@ s32 PartnerCounters::reset_if_reached(s32 index, s32 limit) {
 
 s16 PartnerCounters::get(s32 index) { return count[index]; }
 
-u16 NpcPlayerView::get_client_id() { return client_id; }
+s32 NpcPlayerView::get_client_id() { return client_id; }
 
 u32 NpcPlayerView::get_target_id() { return target_id; }
 
@@ -1000,9 +1002,11 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
+#ifdef __MWERKS__
 void __sinit_TNpcPlayer_cpp() {
     __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, &npc_player_char_data_dtor_chain);
 }
+#endif
 
 void TNpcPlayer::ensure_rock_singleton() {
     if (npc_player_char_data_buffer == NULL) {
@@ -1213,7 +1217,7 @@ TNpcPlayer::~TNpcPlayer() {
     }
     partner = self_view;
     if (partner != NULL) {
-        player = get_player_by_client_id(partner->get_client_id());
+        player = get_player_by_client_id((u16)partner->get_client_id());
         if (player != NULL) {
             TObjPlayer::send_disable_pk_mode(player);
         }
@@ -1815,7 +1819,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
             cmd.targets[0].set_index(0);
         } else {
             cmd.params.level = player->technique_state.get_cast_technique_level(kind);
-            cmd.targets[0].set_entity_id((u16)self_view->get_target_id());
+            cmd.targets[0].set_entity_id(self_view->get_target_id());
             cmd.targets[0].set_index(self_view->get_target_collider());
         }
         cmd.send();
@@ -1868,7 +1872,7 @@ void TNpcPlayer::partner_observe_surroundings() {
     leader = leader_view->player;
     leader_distance_sq = horizontal_distance_squared(&leader->position, &self_view->player->position);
     if (escort_leader != 0) {
-        self_view->try_update_target_flag((u16)leader_view->get_client_id(), ai_params.enemy_lock_on_range);
+        self_view->try_update_target_flag(leader_view->get_client_id(), ai_params.enemy_lock_on_range);
     } else {
         self_view->scan_targets(ai_params.enemy_lock_on_range);
     }

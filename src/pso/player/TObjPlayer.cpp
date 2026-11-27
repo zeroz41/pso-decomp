@@ -807,7 +807,6 @@ void TObjPlayer::place_on_area_entry() {
 
 extern "C" {
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
-s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s8 clamp_class_index(s8 cls);
 }
 extern "C" {
@@ -2966,7 +2965,7 @@ void TObjPlayer::check_level_up() {
     if ((this->is_locally_controlled() != 0) && (is_current_area_item_enabled() != 0)) {
         lvl = this->clamp_nested_index() + 1;
         if (lvl <= TObjPlayer::get_max_level()) {
-            if (TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), lvl) <= (s32) this->stat_block->exp) {
+            if (TObjPlayer::get_current_state_field(get_class_index(), lvl) <= (s32) this->stat_block->exp) {
                 PlayerLevelStats before;
                 PlayerLevelStats after;
                 PlayerLevelStats gain;
@@ -3133,7 +3132,7 @@ void copy_stats(stats *out, const stats *source) {
 #pragma pop
 
 // Base stats of the class plus the growth of every level row up to `level`, each clamped to the class caps.
-void apply_class_level_growth(s32 cls, s32 level, stats *st) {
+void apply_class_level_growth(s8 cls, s32 level, stats *st) {
     s32 n;
     s32 i;
     PlayerLevelTableRow *row;
@@ -3175,7 +3174,7 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
         }
     }
     inventory_objects->set_flag_and_update(this);
-    s32 cls = get_class_index__10TObjPlayerFv(this);
+    s8 cls = get_class_index();
     stats *base = get_class_base_stats(cls);
     stat_block->stats.atp = base->atp;
     stat_block->stats.mst = base->mst;
@@ -4639,7 +4638,7 @@ s32 TObjPlayer::get_next_level_exp() {
         return 0;
     }
     actor_level_index = this->get_actor_level_index();
-    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), actor_level_index + 1);
+    return TObjPlayer::get_current_state_field(get_class_index(), actor_level_index + 1);
 }
 
 void TObjPlayer::send_status_effect_add(StatStatusReceipt effect) {
@@ -5995,7 +5994,7 @@ void TObjPlayer::clamp_stats(player_stats *out, player_stats *class_stats) {
     player_stats *stats;
 
     stats = get_stats();
-    caps = get_class_stat_caps(get_class_index__10TObjPlayerFv(this));
+    caps = get_class_stat_caps(get_class_index());
     if (stats->stats.atp < 0) {
         out->stats.atp = 1;
         clamp_stat_41c();
@@ -6081,7 +6080,7 @@ void TObjPlayer::clamp_stats(player_stats *out, player_stats *class_stats) {
         out->level = value;
     }
     value = stats->exp;
-    max_exp = TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), max_level);
+    max_exp = TObjPlayer::get_current_state_field(get_class_index(), max_level);
     if (value < 0) {
         out->exp = 0;
         check_flag_at_41c();
@@ -6418,7 +6417,6 @@ void TObjPlayer::add_dfp_material(u8 amount) {
     materials.try_add_item_count_kind3(get_class_index(), 1);
 }
 
-// TObjPlayer::get_class_index as its callers see it: the whole return register.
 // The material handlers an item use calls; the gain is five times larger
 // while is_camera_mode_active() holds.
 void TObjPlayer::add_luck_material(u8 amount) {

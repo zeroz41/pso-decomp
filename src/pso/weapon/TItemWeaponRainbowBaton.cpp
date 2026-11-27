@@ -10,10 +10,8 @@
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-extern "C" void get_weapon_color__11TItemWeaponFv(f32 *, void *);
-
 void TItemWeaponRainbowBaton::emit_marker_effects() {
-    f32 color_tmp[4];
+    NJS_ARGB color;
     SlicerLaunchState launch;
     init_slicer_launch_state(&launch);
     launch.player_id = owner->get_entity_id();
@@ -23,8 +21,13 @@ void TItemWeaponRainbowBaton::emit_marker_effects() {
     launch.attack_kind = owner->attack_state.get_validated_attack_kind();
     launch.combo_stage = owner->attack_state.get_validated_attack_stage();
     launch.damage_multiplier = owner->query_extended_state();
-    get_weapon_color__11TItemWeaponFv(color_tmp, this);
-    copy_argb(&launch.color, (NJS_ARGB *)color_tmp);
+    // CodeWarrior: the original passes get_weapon_color's temporary straight to copy_argb.
+#ifdef __MWERKS__
+    get_weapon_color__11TItemWeaponFv(&color, this);
+#else
+    color = get_weapon_color();
+#endif
+    copy_argb(&launch.color, &color);
     launch.facing = owner->rotation.y;
     get_joint_position(2, &launch.first_joint);
     get_joint_position(1, &launch.second_joint);

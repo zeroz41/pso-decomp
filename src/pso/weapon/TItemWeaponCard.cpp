@@ -28,10 +28,6 @@
 
 struct VecWords { s32 a; s32 b; s32 c; };
 
-extern "C" {
-void get_weapon_color__11TItemWeaponFv(void *, void *);
-}
-
 TItemWeaponCard::~TItemWeaponCard() {}
 
 TItemWeaponHitogata::~TItemWeaponHitogata() {}
@@ -138,7 +134,12 @@ void TItemWeaponCard::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc
     desc->scale = effect_scale;
     desc->spin[2] = 0xC000;
     desc->flags |= 2;
+    // CodeWarrior: the original passes get_weapon_color's temporary straight to copy_argb.
+#ifdef __MWERKS__
     get_weapon_color__11TItemWeaponFv(&color, this);
+#else
+    color = get_weapon_color();
+#endif
     copy_argb(&desc->color, &color);
     desc->hit_effect = hit_effect;
     desc->wall_effect = wall_effect;

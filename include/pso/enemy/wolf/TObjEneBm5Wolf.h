@@ -30,16 +30,21 @@ struct TObjEneBm5WolfList {
     TObjEneBm5WolfNode *head;
     TObjEneBm5WolfNode *tail;
 
-    TObjEneBm5WolfList *reset();
+    TObjEneBm5WolfList();
     ~TObjEneBm5WolfList();
     void clear();
     void append(TObjEneBm5WolfNode *node);
     void remove(TObjEneBm5WolfNode *node);
 };
 
-// The list's destructor by symbol, for the static initializer that registers the global lists (C++ cannot take a
-// destructor's address).
-extern "C" void __dt__18TObjEneBm5WolfListFv(void *object, s16 flags);
+#ifdef __MWERKS__
+// The list's constructor and destructor by symbol, for CodeWarrior's hand-written static initializer that builds
+// and registers the global lists (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+TObjEneBm5WolfList *__ct__18TObjEneBm5WolfListFv(void *object);
+void __dt__18TObjEneBm5WolfListFv(void *object, s16 flags);
+}
+#endif
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
     TObjEneBm5Wolf(TObject *parent, EnemyPlacement *set_data);
@@ -168,13 +173,5 @@ LAYOUT_ASSERT(WolfOffset_nearTarget, offsetof(TObjEneBm5Wolf, near_target) == 0x
 LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 
 s32 actor_rand_int(TObjChara *actor, s32 range);
-
-struct WolfGlobalObjects {
-    u8 pad[0x2c];
-    DestructorChain chain0;
-    TObjEneBm5WolfList list0;
-    DestructorChain chain1;
-    TObjEneBm5WolfList list1;
-};
 
 #endif

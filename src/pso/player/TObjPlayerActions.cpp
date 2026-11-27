@@ -83,8 +83,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-// start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
-s32 get_run_action__10TObjPlayerFv(void *);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 }
 int is_android_player(TObjPlayer *p);
@@ -3801,12 +3799,12 @@ void TObjPlayer::update_run_movement() {
 void TObjPlayer::start_action() {
     f32 unscaled_speed;
     f32 rate;
-    s16 action;
+    s32 action;
 
     this->action_state = 4;
     run_action_state_phase(this->mode, 6);
     move_speed.flags.reset();
-    action = get_run_action__10TObjPlayerFv(this);
+    action = get_run_action();
     if (is_matching_id(action) != 0) {
         set_action_flag();
     }

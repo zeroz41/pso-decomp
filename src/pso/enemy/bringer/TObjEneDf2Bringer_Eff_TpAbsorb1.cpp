@@ -26,10 +26,6 @@
 // Written last-to-first: the unit is built with -inline off,deferred, which emits the functions
 // (and pools their constants) in reverse order.
 
-extern "C" {
-extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
-}
-
 const char *bringer_rush_effect_name = "TObjEneDf2Bringer_Eff_Rush";
 const char *bringer_tp_absorb_effect_name = "TObjEneDf2Bringer_Eff_TpAbsorb1";
 extern const AreaAttackContact bringer_tp_absorb_hit_params = {3.0f, 3};
@@ -40,29 +36,25 @@ u32 bringer_effect_color_table[12];
 
 #pragma fp_contract on
 
-// Builds a rush effect in `rush` (allocated by the Bringer with TObject::operator new): parent,
-// source, recipient and speed as in TObjEneDellBiter_Eff_Rush's constructor.
-u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, TObjBase *source, TObjChara *recipient, f32 speed) {
-    TObjEneDf2Bringer_Eff_Rush *self = (TObjEneDf2Bringer_Eff_Rush *)rush;
+TObjEneDf2Bringer_Eff_Rush::TObjEneDf2Bringer_Eff_Rush(TObject *parent, TObjBase *source, TObjChara *recipient,
+                                                       f32 speed)
+    : TObject(parent) {
     Vec displacement;
-    __ct__7TObjectFP7TObject(self, (TObject *)parent);
-    *(s32 **)((u8 *)self + 0x18) = __vt__26TObjEneDf2Bringer_Eff_Rush;
-    self->m_name = bringer_rush_effect_name;
-    self->target = recipient;
-    self->strength = speed;
-    self->pad_30 = 0;
+    m_name = bringer_rush_effect_name;
+    target = recipient;
+    strength = speed;
+    pad_30 = 0;
     VecCopy(&displacement, &recipient->position);
     subtract_vector(&displacement, &source->position);
     displacement.y = 0.0f;
-    self->direction.x = sin_table_lookup(source->rotation.y);
-    self->direction.y = 0.0f;
-    self->direction.z = cos_table_lookup(source->rotation.y);
-    if (is_vec_xz_cross_negative(&self->direction, &displacement) != 0) {
-        rotate_xz_pair_by_angle(&self->direction.x, &self->direction.z, -0x1800);
+    direction.x = sin_table_lookup(source->rotation.y);
+    direction.y = 0.0f;
+    direction.z = cos_table_lookup(source->rotation.y);
+    if (is_vec_xz_cross_negative(&direction, &displacement) != 0) {
+        rotate_xz_pair_by_angle(&direction.x, &direction.z, -0x1800);
     } else {
-        rotate_xz_pair_by_angle(&self->direction.x, &self->direction.z, 0x1800);
+        rotate_xz_pair_by_angle(&direction.x, &direction.z, 0x1800);
     }
-    return rush;
 }
 
 TObjEneDf2Bringer_Eff_Rush::~TObjEneDf2Bringer_Eff_Rush() {}

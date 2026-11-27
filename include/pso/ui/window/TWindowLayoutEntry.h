@@ -20,7 +20,12 @@ public:
     virtual ~TWindowLayoutEntry();
     virtual void update();
     virtual void render(WindowDrawContext *context);
+    // CodeWarrior: the layout entries' vtables keep this slot 0; the host gives it a body to build them with new.
+#ifdef __MWERKS__
     virtual void calc_bar_width() = 0;
+#else
+    virtual void calc_bar_width() {}
+#endif
 };
 
 LAYOUT_ASSERT(TWindowLayoutEntry_size, sizeof(TWindowLayoutEntry) == 8);

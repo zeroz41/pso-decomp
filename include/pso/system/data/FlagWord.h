@@ -19,9 +19,11 @@ struct FlagWord {
     FlagWord &operator=(FlagWord &src);
 };
 
+#ifdef __MWERKS__
 extern "C" {
-// FlagWord::FlagWord(), for code that builds the word in place.
+// FlagWord::FlagWord(), for CodeWarrior's hand-written static initializer in TItem.cpp.
 FlagWord *__ct__8FlagWordFv(void *flags);
 }
+#endif
 
 #endif

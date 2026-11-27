@@ -79,7 +79,7 @@ void TObjPlayer::setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette) {
     palette->init_tag(0, 3, 3, 0);
 }
 
-void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
+void init_character_stats_for_level(s8 cls, TPlyCharData *c, s32 level) {
     struct stats st;
     level = TObjPlayer::clamp_index_to_max(level);
     copy_stats(&st, get_class_base_stats(cls));
@@ -133,7 +133,7 @@ void copy_item_entry_array(s32 count, const TPlyInventoryItem *src, TPlyInventor
 }
 
 void init_class_starting_inventory(TPlyCharData *character) {
-    u8 class_index = character->m_disp_part2.char_class;
+    s8 class_index = character->m_disp_part2.char_class;
     character->m_inventory.m_num_items = 5;
     copy_item_entry_array(character->m_inventory.m_num_items,
         get_class_starting_inventory(class_index),
@@ -141,7 +141,7 @@ void init_class_starting_inventory(TPlyCharData *character) {
 }
 
 s32 TObjPlayer::begin_action_state(TPlyCharData *character) {
-    u8 class_index;
+    s8 class_index;
 
     if (character == NULL) {
         return 0;
@@ -180,7 +180,7 @@ void TObjPlayer::apply_pending_action(TPlyCharData *record) {
 }
 
 
-s32 TNpcPlayer::send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character) {
+s32 TNpcPlayer::send_command(s8 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character) {
     character->m_inventory.m_num_items = count;
     copy_item_entry_array(count, source,
         character->m_inventory.get_items());
@@ -394,7 +394,7 @@ void TPlyCharData::set_technique_level_overflow(s32 tech, u8 level) {
 }
 
 void TPlyCharData::set_technique_level(s32 tech, u8 level) {
-    TObjPlayer::is_slot_within_limit(m_disp_part2.char_class, (s16)tech, level);
+    TObjPlayer::is_slot_within_limit(m_disp_part2.char_class, tech, level);
     m_tech_levels[tech] = level;
 }
 

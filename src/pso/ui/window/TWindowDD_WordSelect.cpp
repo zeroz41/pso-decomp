@@ -1949,17 +1949,17 @@ s32 TWindowDD::is_topic_word(s16 id) {
 }
 
 // 0x2C8 is OTHER SUBJECTS.
-s32 TWindowDD::is_non_topic_word(s32 id) {
-    if ((s16)id == 0x2C8) {
+s32 TWindowDD::is_non_topic_word(s16 id) {
+    if (id == 0x2C8) {
         return 0;
     }
-    return (u32) __cntlzw((u32) ((s32 (*)(void))is_topic_word)()) >> 5;
+    return (u32)__cntlzw(is_topic_word(id)) >> 5;
 }
 
 // 0x5AC-0x5F9 are the verbs ("want", "will give", ...).
-s32 is_verb_word(s32 value) {
+s32 is_verb_word(s16 value) {
     u8 in_range = 0;
-    if (static_cast<s16>(value) >= 0x5ac && static_cast<s16>(value) <= 0x5f9) {
+    if (value >= 0x5ac && value <= 0x5f9) {
         in_range = 1;
     }
     return in_range;
@@ -2010,18 +2010,18 @@ TWindowDD_WS_Word *TWindowDD::init_last_child() {
 
 
 void TWindowDD::take_word_select_word(TWindowDD_WS_Word *word_window) {
-    s32 id;
+    s16 id;
     id = word_window->get_selected_id();
     if (TWindowDD::is_non_topic_word(id) != 0) {
         message.push_token(id);
         refresh_word_select_message(&message);
         token_pushed = 1;
-        last_selected_id = (s16) id;
+        last_selected_id = id;
         return;
     }
     update_word_select_child_position(3);
     token_pushed = 0;
-    last_selected_id = (s16) id;
+    last_selected_id = id;
 }
 
 TWindowDD_WS_Word *TWindowDD::get_or_create_word_select_child(s32 offset, s32 id) {
@@ -2045,9 +2045,9 @@ TWindowDD_WS_Word *TWindowDD::get_or_create_word_select_child(s32 offset, s32 id
 #pragma fp_contract on
 
 void TWindowDD::update_selection_state() {
-    s32 v;
+    s16 v;
     v = word_windows[depth]->get_selected_id();
-    if ((s16)v != last_selected_id) {
+    if (v != last_selected_id) {
         switch (token_pushed) {
         case 0:
             if (TWindowDD::is_non_topic_word(v) != 0) {
@@ -2067,7 +2067,7 @@ void TWindowDD::update_selection_state() {
             break;
         }
         refresh_word_select_message(&message);
-        last_selected_id = (s16)v;
+        last_selected_id = v;
     }
 }
 
@@ -2152,7 +2152,7 @@ void TWindowDD::create_word_select_cursor_label(s32 slot) {
     }
 }
 
-s32 TWindowDD::get_current_child_index() {
+s16 TWindowDD::get_current_child_index() {
     TWindowDD_WS_Word *word_window;
     word_window = word_windows[depth];
     if (word_window != NULL) {
@@ -2303,8 +2303,7 @@ s32 TWindowDD::get_word_select_context() {
     return (enemies_active != 0 ? 1 : 0) + 2;
 }
 
-// C functions: handle_confirm_input calls these and push_recent_id through prototypes that
-// disagree with the definitions (s16 against s32 ids), which only C linkage allows.
+// C functions: handle_confirm_input calls these and push_recent_id.
 extern "C" s32 get_word_next_state(TWindowDD *window, s32 id) { return get_word_select_type_state(1, id); }
 
 extern "C" s32 get_word_message_type(TWindowDD *window, s16 id) {
@@ -2652,7 +2651,7 @@ void WordSelectMessage::reset_numeric_parameter() { numeric_parameter = 0; }
 void WordSelectMessage::set_numeric_parameter(s32 value) { numeric_parameter = value; }
 s32 WordSelectMessage::get_numeric_parameter() { return numeric_parameter; }
 
-void WordSelectMessage::set_last_token(s32 id) {
+void WordSelectMessage::set_last_token(s16 id) {
     if (count > 0) {
         ids[count - 1] = id;
     }
@@ -2664,7 +2663,7 @@ void WordSelectMessage::pop_token() {
     }
 }
 
-void WordSelectMessage::push_token(s32 id) {
+void WordSelectMessage::push_token(s16 id) {
     if (count < 8) {
         ids[count++] = id;
     }

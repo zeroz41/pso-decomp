@@ -16,7 +16,7 @@ public:
     void enable_input();  // clears state_flags bit 0
     s16 get_element_list_id() const;
     s32 get_scroll_top() const; // first visible token (selected token minus its row)
-    int get_selected_id() const;
+    s16 get_selected_id() const;
     virtual void render();
     virtual void run_task();
     void add_scroll_offset(int offset);

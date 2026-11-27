@@ -122,6 +122,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/item/TItem.h"
 
 #include "pso/enemy/bringer/BringerEffects.h"
+#include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"
 #include "pso/enemy/TObjEneDf2BringerTpDrainPoint.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/SoundEffect.h"
@@ -441,7 +442,6 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
     s32 hit;
     TObjPlayer *player;
     s32 i;
-    u8 *eff;
     hit = 0;
     clear_battle_param_slots();
     check_object_collisions();
@@ -470,10 +470,12 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                         TObjEneDD::inflict_confusion(this, player);
                     }
                 }
-                eff = (u8 *)TObject::operator new(0x34);
-                if (eff != NULL) {
-                    construct_bringer_rush_effect(eff, (saddr)this, this, player, 12.0f);
-                }
+                // CodeWarrior: the original's register order needs the parent passed through an integer.
+#ifdef __MWERKS__
+                new TObjEneDf2Bringer_Eff_Rush((TObject *)(saddr)this, this, player, 12.0f);
+#else
+                new TObjEneDf2Bringer_Eff_Rush(this, this, player, 12.0f);
+#endif
             }
         }
     }

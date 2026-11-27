@@ -60,7 +60,9 @@
 #undef PSO_SDK_COMPACT_MATH
 
 
+#ifdef __MWERKS__
 extern void *lock_on_list_clear_vtable[6];
+#endif
 
 
 extern const char *lockon_list_clear_task_name;
@@ -74,9 +76,11 @@ extern const char *lock_on_start_task_name;
 
 
 
+#ifdef __MWERKS__
 extern "C" void render__7TObjectFv();
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void run_task__14TLOC_ListClearFv();
+#endif
 const char *bm_ply_lock_on_cursor_model_names[4] = {
     "obj_f_maincarsol.nj", "obj_f_zakocarsol.nj", "obj_f_blackcarsol.nj", NULL,
 };
@@ -100,10 +104,13 @@ NJS_ARGB target_cursor_color_table[6] = {
     {1.0f, 0.0f, 0.39f, 0.0f},
     {1.0f, 0.0f, 0.0f, 0.0f},
 };
+// CodeWarrior: TLOC_ListClear's table, which the original keeps ahead of the jump tables (see TLOC_ListClear.h).
+#ifdef __MWERKS__
 void *lock_on_list_clear_vtable[6] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__14TLOC_ListClearFv, (void *)&run_task__14TLOC_ListClearFv,
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
 };
+#endif
 
 
 struct TLockOnCursor;
@@ -142,6 +149,8 @@ void TLOC_ListClear::run_task() {
     }
 }
 
+// CodeWarrior: the dtor and ctor store the hand-written table (see TLOC_ListClear.h).
+#ifdef __MWERKS__
 TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
     if (task != NULL) {
         *(void ***)((u8 *)task + 0x18) = lock_on_list_clear_vtable;
@@ -162,6 +171,17 @@ void *TLOC_ListClear::init_lockon(TObject *parent, u16 id) {
     m_name = lockon_list_clear_task_name;
     return this;
 }
+#else
+TLOC_ListClear::~TLOC_ListClear() {
+    if (m_target.resolve() != 0 && m_target.get_player()->lock_on_cursor != NULL) {
+        m_target.get_player()->lock_on_cursor->set_list_clear_task(NULL);
+    }
+}
+
+TLOC_ListClear::TLOC_ListClear(TObject *parent, u16 id) : LockOnTask(parent, id) {
+    m_name = lockon_list_clear_task_name;
+}
+#endif
 
 void TLOC_End::run_task() {
     s32 i;
@@ -246,10 +266,15 @@ void TLockOnCursor::reset_and_spawn_cursors() {
         set_end_task(new TLOC_End(tl_loc_end, get_target_id()));
     }
     if (get_list_clear_task() == NULL) {
+        // CodeWarrior: the constructor is the plain function init_lockon.
+#ifdef __MWERKS__
         list_clear = (TLOC_ListClear *)TObject::operator new(sizeof(TLOC_ListClear));
         if (list_clear != NULL) {
             list_clear = (TLOC_ListClear *)list_clear->init_lockon(tl_window, get_target_id());
         }
+#else
+        list_clear = new TLOC_ListClear(tl_window, get_target_id());
+#endif
         set_list_clear_task(list_clear);
     }
 }

@@ -46,9 +46,6 @@ const vec2f sound_mode_menu_window_size = {470.0f, 80.0f};
 const vec2f option_menu_window_size = {470.0f, 80.0f};
 const vec2f serial_info_window_size = {470.0f, 80.0f};
 
-extern "C" {
-void set_udp_option__17TWindowOptionCtrlFls(s32 unused, s16 option);
-}
 
 int TWindowSoundBalance::is_cancelled() { return result_flags & 0x2; }
 
@@ -311,8 +308,7 @@ void TWindowOptionCtrl::run_task() {
         }
         state = 0x13;
     case 19:
-        // Called with the selection as an int: the definition takes it as s16.
-        ((void (*)(void *, s32)) set_udp_option__17TWindowOptionCtrlFls)(this, option_menu->update_selected_item());
+        set_udp_option(option_menu->update_selected_item());
         if (option_menu->is_cancelled() != 0) {
             state = 0x10;
         }
@@ -575,6 +571,7 @@ s32 TWindowOptionCtrl::get_udp_option() {
     return TAdSinglePlyChrSelectGC::get_global_state()->udp_option;
 }
 
-void TWindowOptionCtrl::set_udp_option(s32 unused, s16 option) {
-    TAdSinglePlyChrSelectGC::get_global_state()->udp_option = option;
+void TWindowOptionCtrl::set_udp_option(s32 option) {
+    SystemSaveData *save = TAdSinglePlyChrSelectGC::get_global_state();
+    save->udp_option = option;
 }

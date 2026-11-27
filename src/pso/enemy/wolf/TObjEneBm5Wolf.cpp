@@ -47,8 +47,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
 extern "C" {
-extern u32 bm5_wolf_instance_list[];
-extern u32 bm5_wolf_pack_member_list[];
 BmlResource *bm5_wolf_bml_resource;
 
 EnemyMoveParams bm5_wolf_decision_row = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
@@ -119,13 +117,22 @@ s32 bm5_wolf_render_joint_y_rotation;
 
 extern "C" {
 Vec bm5_wolf_zero_vector;  // zeroed by the resource loader, never read
-u32 lbl_80500B6C[3];
-u32 bm5_wolf_pack_member_list[5];
-u32 bm5_wolf_instance_list[3];
 }
 
+// On CodeWarrior the hand-written __sinit below constructs the lists and registers their destructors.
+#pragma suppress_init_code on
+#pragma no_static_dtors on
+__declspec(section ".data") DestructorChain bm5_wolf_pack_member_list_dtor_chain;
+__declspec(section ".data") TObjEneBm5WolfList bm5_wolf_pack_member_list;
+__declspec(section ".data") DestructorChain bm5_wolf_instance_list_dtor_chain;
+__declspec(section ".data") TObjEneBm5WolfList bm5_wolf_instance_list;
+#pragma no_static_dtors reset
+#pragma suppress_init_code reset
+
+#ifdef __MWERKS__
 void __sinit_TObjEneBm5Wolf_cpp();
 __declspec(section ".ctors") static void *const bm5_wolf_global_initializer = (void *)__sinit_TObjEneBm5Wolf_cpp;
+#endif
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
@@ -133,13 +140,15 @@ s32 actor_rand_int(TObjChara *actor, s32 range) {
     return (s32) ((f32) range * actor->random_ratio());
 }
 
-// Builds the two global lists after bm5_wolf_stat_params and registers their destructors, spelled out because
-// the original's static initializer precedes this file's inline copies.
+// CodeWarrior: the original's static initializer precedes this file's inline copies, so it is spelled out.
+#ifdef __MWERKS__
 void __sinit_TObjEneBm5Wolf_cpp() {
-    WolfGlobalObjects *g = (WolfGlobalObjects *)bm5_wolf_stat_params;
-    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, &g->chain0);
-    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, &g->chain1);
+    __register_global_object(__ct__18TObjEneBm5WolfListFv(&bm5_wolf_pack_member_list), __dt__18TObjEneBm5WolfListFv,
+        &bm5_wolf_pack_member_list_dtor_chain);
+    __register_global_object(__ct__18TObjEneBm5WolfListFv(&bm5_wolf_instance_list), __dt__18TObjEneBm5WolfListFv,
+        &bm5_wolf_instance_list_dtor_chain);
 }
+#endif
 
 TObjEneBm5WolfNode::TObjEneBm5WolfNode() {
     prev = NULL;
@@ -182,7 +191,7 @@ TObjEneBm5Wolf *TObjEneBm5WolfNode::get_owner() {
     return (TObjEneBm5Wolf *)find_entity_by_id(entity_id);
 }
 
-TObjEneBm5WolfList *TObjEneBm5WolfList::reset() { clear(); return this; }
+TObjEneBm5WolfList::TObjEneBm5WolfList() { clear(); }
 
 TObjEneBm5WolfList::~TObjEneBm5WolfList() {}
 
@@ -207,8 +216,8 @@ void TObjEneBm5Wolf::load_resources() {
     } else {
         bm5_wolf_bml_resource = load_enemy_bml_resource(&bm_ene_bm5_wolf_resource_descriptor);
     }
-    ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->clear();
-    ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->clear();
+    bm5_wolf_pack_member_list.clear();
+    bm5_wolf_instance_list.clear();
     bm5_wolf_render_node_index = 0;
     bm5_wolf_render_joint_y_rotation = 0;
     bm5_wolf_zero_vector.x = 0.0f;
@@ -245,24 +254,24 @@ void TObjEneBm5Wolf::free_resources() {
 }
 
 void TObjEneBm5Wolf::add_to_pack_member_list() {
-    ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->append(&this->pack_node);
+    bm5_wolf_pack_member_list.append(&this->pack_node);
 }
 
 void TObjEneBm5Wolf::remove_from_pack_member_list() {
-    ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->remove(&this->pack_node);
+    bm5_wolf_pack_member_list.remove(&this->pack_node);
 }
 
 void TObjEneBm5Wolf::add_to_instance_list() {
-    ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->append(&this->instance_node);
+    bm5_wolf_instance_list.append(&this->instance_node);
 }
 
 void TObjEneBm5Wolf::remove_from_instance_list() {
-    ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->remove(&this->instance_node);
+    bm5_wolf_instance_list.remove(&this->instance_node);
 }
 
 TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
     TObjEneBm5WolfNode *n;
-    for (n = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; n != 0; n = n->next) {
+    for (n = bm5_wolf_instance_list.head; n != 0; n = n->next) {
         TObjEneBm5Wolf *w = n->get_owner();
         if (w != 0 && w->group_id == id) {
             return w;
@@ -964,7 +973,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
             play_effect_if_v2(-0x200);
         }
         if (this->substate == 0x3C) {
-            for (p = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; p != NULL; p = p->next) {
+            for (p = bm5_wolf_instance_list.head; p != NULL; p = p->next) {
                 r = p->get_owner();
                 if (this->group_id == r->get_group_id()) {
                     r->set_attack_flag();
@@ -1748,7 +1757,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         this->wall_reach = this->sink_depth = 0.0f;
         if (this->is_leader != 0) {
             k = 50.0f;
-            for (n = ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->head; n != NULL; n = n->next) {
+            for (n = bm5_wolf_pack_member_list.head; n != NULL; n = n->next) {
                 e = n->get_owner();
                 if (e != NULL && e->group_id == this->group_id) {
                     e->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);

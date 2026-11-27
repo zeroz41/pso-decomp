@@ -26,14 +26,14 @@ struct PlayerLevelTableRow {
 LAYOUT_ASSERT(PlayerLevelTableRowSize, sizeof(PlayerLevelTableRow) == 0xC);
 LAYOUT_ASSERT(PlayerLevelTableExperienceOffset, offsetof(PlayerLevelTableRow, experience) == 0x8);
 
-PlayerLevelTableRow *get_ply_level_table_row(s32 class_index, s32 level);
+PlayerLevelTableRow *get_ply_level_table_row(s8 class_index, s32 level);
 void load_ply_level_tbl(void);
 void free_ply_level_tbl(void);
 // The experience the player's class needs for the top level.
 s32 get_class_max_exp(TObjPlayer *player);
 
-stats *get_class_base_stats(s32 class_index);
-const player_stats *get_class_stat_caps(s32 class_index);
-void apply_class_level_growth(s32 class_index, s32 level, stats *out);
+stats *get_class_base_stats(s8 class_index);
+const player_stats *get_class_stat_caps(s8 class_index);
+void apply_class_level_growth(s8 class_index, s32 level, stats *out);
 void copy_stats(stats *out, const stats *source);
 #endif

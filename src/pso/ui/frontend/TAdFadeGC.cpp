@@ -148,7 +148,7 @@ TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
+s32 TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     f32 radius;
     f32 radius_sq;
     s32 player_floor;
@@ -166,6 +166,9 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     }
     radius = trade_radius;
     radius_sq = radius * radius;
-    return (xz_distance_squared(&player->position, &position) < radius_sq) == 0;
+    if (xz_distance_squared(&player->position, &position) < radius_sq) {
+        return 0;
+    }
+    return 1;
 }
 #pragma pop

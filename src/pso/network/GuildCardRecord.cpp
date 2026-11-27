@@ -28,24 +28,14 @@
 #include "pso/enemy/BattleParamTables.h"
 
 
-// Their constructors run from __sinit_GuildCardRecord_cpp, spelled out below because the
-// original's static initializer precedes this file's inline copies.
+// On CodeWarrior their constructors run from __sinit_GuildCardRecord_cpp, spelled out below because the
+// original's static initializer precedes this file's inline copies; other compilers construct them.
 #pragma push
 #pragma suppress_init_code on
 GuildCardRecord selected_guild_card_record;
 // inferred: the com-card list; init_player_entry fills it, com_card_entry_count records are live
 GuildCardRecord com_card_entries[8];
 #pragma pop
-
-extern "C" {
-s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-}
-
-#pragma push
-
-
-#pragma inline_depth(1)
-#pragma dont_inline off
 
 s32 guild_card_next_serial;
 int com_card_entry_count;
@@ -74,7 +64,7 @@ void load_selected_guild_card_record(ChoiceSearchResult *src) {
   cursor = parse_csv_token(cursor, selected_guild_card_record.block_name);
   parse_csv_token(cursor, selected_guild_card_record.team_name);
   copy_guild_card_f4c(&selected_guild_card_record.recv_port, &src->reconnect);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->extension);
+  selected_guild_card_record.ext = src->extension;
 }
 
 void copy_guild_card_f4c(void *dst, void *src) {
@@ -95,6 +85,9 @@ void find_and_load_com_card(u32 serial) {
     }
 }
 
+#pragma push
+#pragma inline_depth(1)
+#pragma dont_inline off
 GuildCardRecord *GuildCardRecord::copy_com_card_entry(GuildCardRecord *src) {
     *this = *src;
     return this;
@@ -102,6 +95,7 @@ GuildCardRecord *GuildCardRecord::copy_com_card_entry(GuildCardRecord *src) {
 
 GuildCardRecord *TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
 
+#pragma pop
 char *parse_csv_token(char *src, char *dst) {
     s32 i;
     for (i = 0x10; i != 0; i--) {
@@ -163,7 +157,6 @@ void jump_to_guild_card_owner(GuildCardRecord *entry) {
         TLobby::protocol_instance->seq_jump(entry->recv_port, entry->ext);
     }
 }
-#pragma pop
 
 
 void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
@@ -232,6 +225,8 @@ void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void reset_com_card_list_callback(void) { TLobby::reset_com_card_list(); }
 
 
+// CodeWarrior: the original's static initializer precedes this file's inline copies.
+#ifdef __MWERKS__
 static void __sinit_GuildCardRecord_cpp();
 __declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_GuildCardRecord_cpp;
 
@@ -239,6 +234,7 @@ static void __sinit_GuildCardRecord_cpp() {
     __ct__15GuildCardRecordFv(&selected_guild_card_record);
     __construct_array(com_card_entries, __ct__15GuildCardRecordFv, NULL, sizeof(GuildCardRecord), 8);
 }
+#endif
 
 GuildCardRecord::GuildCardRecord() {}
 

@@ -16,9 +16,9 @@ struct WordSelectMessage {
     void reset_numeric_parameter();
     void set_numeric_parameter(s32 value);
     s32 get_numeric_parameter();
-    void set_last_token(s32 id);
+    void set_last_token(s16 id);
     void pop_token();
-    void push_token(s32 id);
+    void push_token(s16 id);
     void bswap();
     void remember_selected_id();
     void format_type6_message(char *buf, s32 *pos);

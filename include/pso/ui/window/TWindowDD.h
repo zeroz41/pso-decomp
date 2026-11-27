@@ -6,7 +6,7 @@
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/system/NinjaTypes.h"
 
-s32 is_verb_word(s32 value);
+s32 is_verb_word(s16 value);
 
 class WindowTextEntry;
 class TWindowDD_WS_Word;
@@ -105,12 +105,12 @@ struct TWindowDD : public TObject
     static void append_word_inside_phrase(WordSelectMessage *src, s16 id, const char *verb, const char *phrase, char *buf, s32 *pos);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
-    static s32 is_non_topic_word(s32 id);
+    static s32 is_non_topic_word(s16 id);
     void destroy_menu_entry(s32 offset);
     void set_item_pos(s32 i);
     TWindowDD_WS_Word *init_last_child();
     s32 setup_entry(s16 id);
-    s32 get_current_child_index();
+    s16 get_current_child_index();
     TWindowDDStateEntry *get_state_entry(s32 state);
     void move_label_to_start(s32 index);
     void refresh_sub(TWindowDD_WS_Word *page);

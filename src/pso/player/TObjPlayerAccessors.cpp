@@ -1570,15 +1570,9 @@ PhotonBlastGauge::~PhotonBlastGauge() {}
 PlayerAttackController::~PlayerAttackController() {}
 
 
-extern "C" {
-void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
-
-
 PlayerAttackController::PlayerAttackController() {
     evp_scale = player_one;
     reset();
-}
-
 }
 
 s32 is_count_positive(s32 *count) {
@@ -1640,7 +1634,7 @@ s32 TPlyCharData::get_record_byte_at(s32 tech) {
 
 s32 TPlyCharData::get_technique_level(s32 tech) {
     u8 level = m_tech_levels[tech];
-    is_slot_within_limit__10TObjPlayerFllUc(m_disp_part2.char_class, tech, level);
+    TObjPlayer::is_slot_within_limit(m_disp_part2.char_class, tech, level);
     return level;
 }
 

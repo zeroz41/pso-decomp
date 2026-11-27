@@ -149,18 +149,16 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, s32 initial_mode) : TO
 
 #pragma push
 #pragma optimization_level 3
-s32 THunterGuildWarning::get_party_not_ready_reason(s32 id) {
+s32 THunterGuildWarning::get_party_not_ready_reason(u16 client_id) {
     TObjPlayer *self;
-    u16 client_id;
     s32 result;
     s32 i;
     s32 j;
     s32 k;
-    self = get_player_by_client_id((u16)id);
+    self = get_player_by_client_id(client_id);
     if (self == NULL) {
         return 1;
     }
-    client_id = id;
     result = 0;
     for (i = 0; i < 4; i++) {
         if (client_id != i) {
@@ -242,20 +240,16 @@ void *handle_main_phase(TObjPlayer *player) {
 
 
 
-extern "C" {
-// TCameraCtrl::get_nth_view_player_id, whose u16 return this caller does not see: it extends the id at every use.
-s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-}
 int is_in_hunter_guild(int client_id) {
     s32 kind;
-    s32 player;
+    u16 player;
     if (get_main_phase() == 14) {
         if (is_not_split_screen() == 1) {
             if (get_game_play_mode() == 0) {
                 return 1;
             }
-            player = get_nth_view_player_id__11TCameraCtrlFl(0);
-            if ((u16)player != client_id) {
+            player = TCameraCtrl::get_nth_view_player_id(0);
+            if (player != client_id) {
                 return 1;
             }
             if (THunterGuildWarning::is_active() != 0) {
@@ -263,7 +257,7 @@ int is_in_hunter_guild(int client_id) {
             }
             kind = THunterGuildWarning::get_party_not_ready_reason(player);
             if (kind != 0) {
-                TObjPlayer *view_player = get_player_by_client_id((u16)player);
+                TObjPlayer *view_player = get_player_by_client_id(player);
                 if (view_player != NULL) {
                     if (test_pressed_buttons_packed(&controller_input_state.controllers[view_player->get_controller_port()], 4) != 0 &&
                         THunterGuildWarning::is_active() == 0) {

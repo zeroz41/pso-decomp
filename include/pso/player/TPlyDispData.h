@@ -29,7 +29,7 @@ struct disp_data_part2 {
     u8 padding[15];
     u32 name_colour_checksum;
     s8 section_id;
-    u8 char_class;
+    s8 char_class;
     s8 v2_flags;
     u8 version;
     u32 v1_flags;

@@ -27,11 +27,12 @@ struct GuildCardRecord {
     GuildCardRecord *copy_com_card_entry(GuildCardRecord *src);
 };
 
-// GuildCardRecord's constructor by symbol, for the static initializer that builds the com-card records
-// (C++ cannot take a constructor's address).
+// GuildCardRecord::GuildCardRecord(), for CodeWarrior's hand-written static initializer in GuildCardRecord.cpp.
+#ifdef __MWERKS__
 extern "C" {
 void *__ct__15GuildCardRecordFv(void *object);
 }
+#endif
 
 // The com-card record picked in the com-card or choice-search windows (load_selected_guild_card_record).
 extern GuildCardRecord selected_guild_card_record;

@@ -12,14 +12,19 @@
 // These packet classes were built by an older compiler than TProtocol.cpp. Their copy
 // constructors are the implicit ones, but the game links them as strong definitions from
 // this object, ahead of TProtocol's weak copies. The copies of classes whose members are
-// arrays of classes are defined and called by their linker names: a written copy
+// arrays of classes are defined here and copy their elements one by one: a written copy
 // constructor would default-construct those array members first.
+// CodeWarrior: the element copies are called by their linker names, as placement new adds a null check.
+#ifdef __MWERKS__
 extern "C" {
 QuestListEntry *__ct__14QuestListEntryFRC14QuestListEntry(QuestListEntry *dst, const QuestListEntry *src);
 LobbyListEntry *__ct__14LobbyListEntryFRC14LobbyListEntry(LobbyListEntry *dst, const LobbyListEntry *src);
 GameListEntry *__ct__13GameListEntryFRC13GameListEntry(GameListEntry *dst, const GameListEntry *src);
 TPlyJoinLobbyData *__ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(TPlyJoinLobbyData *dst, const TPlyJoinLobbyData *src);
 }
+#else
+#include <new>
+#endif
 
 void TRegister::bswap() {
     header.bswap();
@@ -63,7 +68,12 @@ TMenuList<QuestListEntry, 30, 0>::TMenuList(const TMenuList &other) : header(oth
     src = (const QuestListEntry *)other.entries;
     end = (QuestListEntry *)entries[30];
     do {
+        // CodeWarrior: the element's copy constructor by its linker name (placement new adds a null check).
+#ifdef __MWERKS__
         __ct__14QuestListEntryFRC14QuestListEntry(dst, src);
+#else
+        new (dst) QuestListEntry(*src);
+#endif
         dst++;
         src++;
     } while (dst < end);
@@ -127,7 +137,12 @@ TMenuList<LobbyListEntry, 16, 0>::TMenuList(const TMenuList &other) : header(oth
     src = (const LobbyListEntry *)other.entries;
     end = (LobbyListEntry *)entries[16];
     do {
+        // CodeWarrior: the element's copy constructor by its linker name (placement new adds a null check).
+#ifdef __MWERKS__
         __ct__14LobbyListEntryFRC14LobbyListEntry(dst, src);
+#else
+        new (dst) LobbyListEntry(*src);
+#endif
         dst++;
         src++;
     } while (dst < end);
@@ -158,10 +173,18 @@ void TPlyJoinGame::bswap() {
 extern "C" TPlyJoinGame *__ct__12TPlyJoinGameFRC12TPlyJoinGame(TPlyJoinGame *dst, const TPlyJoinGame *src) {
     __memcpy(&dst->header, &src->header, sizeof(dst->header));
     __memcpy(dst->variations, src->variations, sizeof(dst->variations));
+    // CodeWarrior: the records' copy constructors by their linker names (placement new adds a null check).
+#ifdef __MWERKS__
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[0], &src->lobby_data[0]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[1], &src->lobby_data[1]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[2], &src->lobby_data[2]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[3], &src->lobby_data[3]);
+#else
+    new (&dst->lobby_data[0]) TPlyJoinLobbyData(src->lobby_data[0]);
+    new (&dst->lobby_data[1]) TPlyJoinLobbyData(src->lobby_data[1]);
+    new (&dst->lobby_data[2]) TPlyJoinLobbyData(src->lobby_data[2]);
+    new (&dst->lobby_data[3]) TPlyJoinLobbyData(src->lobby_data[3]);
+#endif
     dst->client_id = src->client_id;
     dst->leader_id = src->leader_id;
     dst->disable_udp = src->disable_udp;
@@ -199,10 +222,18 @@ void TPlyJoinLobbyData::bswap() {
 
 extern "C" TPlyStartGame *__ct__13TPlyStartGameFRC13TPlyStartGame(TPlyStartGame *dst, TPlyStartGame *src) {
     __memcpy(&dst->header, &src->header, sizeof(dst->header));
+    // CodeWarrior: the records' copy constructors by their linker names (placement new adds a null check).
+#ifdef __MWERKS__
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[0], &src->lobby_data[0]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[1], &src->lobby_data[1]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[2], &src->lobby_data[2]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[3], &src->lobby_data[3]);
+#else
+    new (&dst->lobby_data[0]) TPlyJoinLobbyData(src->lobby_data[0]);
+    new (&dst->lobby_data[1]) TPlyJoinLobbyData(src->lobby_data[1]);
+    new (&dst->lobby_data[2]) TPlyJoinLobbyData(src->lobby_data[2]);
+    new (&dst->lobby_data[3]) TPlyJoinLobbyData(src->lobby_data[3]);
+#endif
     copy_ply_meet_user_extension(&dst->extension, &src->extension);
     dst->unused[0] = src->unused[0];
     dst->unused[1] = src->unused[1];
@@ -236,11 +267,21 @@ void GameListEntry::bswap() {
 TMenuList<GameListEntry, 64, 1>::TMenuList(const TMenuList &other) : header(other.header) {
     GameListEntry *dst;
     const GameListEntry *src;
+    // CodeWarrior: the pad entry's copy constructor by its linker name (placement new adds a null check).
+#ifdef __MWERKS__
     __ct__13GameListEntryFRC13GameListEntry((GameListEntry *)pad_entries[0], (const GameListEntry *)other.pad_entries[0]);
+#else
+    new (pad_entries[0]) GameListEntry(*(const GameListEntry *)other.pad_entries[0]);
+#endif
     dst = (GameListEntry *)entries;
     src = (const GameListEntry *)other.entries;
     do {
+        // CodeWarrior: the element's copy constructor by its linker name (placement new adds a null check).
+#ifdef __MWERKS__
         __ct__13GameListEntryFRC13GameListEntry(dst, src);
+#else
+        new (dst) GameListEntry(*src);
+#endif
         dst++;
         src++;
     } while (dst < (GameListEntry *)entries[64]);

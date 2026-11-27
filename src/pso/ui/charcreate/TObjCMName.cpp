@@ -50,9 +50,11 @@
 
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
 
+#ifdef __MWERKS__
 extern "C" {
 void run_task__16TObjCMAssignMenuFv(void *menu);
 }
+#endif
 
 s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu::state;
@@ -877,7 +879,14 @@ TObjCMAssignMenu *TObjCMAssignMenu::create(TObject *parent, s32 kind) {
 
 #pragma push
 #pragma opt_common_subs off
+// CodeWarrior: the original allocates the menu as a local copy of a parameter (r30, between the part offset
+// and the appearance); a member's this always ranks below both, whatever the declaration order.
+#ifdef __MWERKS__
 void run_task__16TObjCMAssignMenuFv(void *menu) {
+#else
+void TObjCMAssignMenu::run_task() {
+  void *menu = this;
+#endif
   s32 step;
   s32 wrap;
   s32 old;

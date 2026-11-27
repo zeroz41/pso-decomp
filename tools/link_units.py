@@ -204,15 +204,23 @@ def discarded_weak_functions(u: dict) -> set[str]:
             continue
         compiled = _obj_path(owner)
         split = SPLIT_OBJ_DIR / compiled.relative_to(OBJ_DIR)
-        if not split.exists() or elf_symbol_bindings(split).get(name) != (1, 2):
+        if not split.exists():
             continue
+        this_split = SPLIT_OBJ_DIR / obj.relative_to(OBJ_DIR)
+        if elf_symbol_bindings(split).get(name) != (1, 2):
+            # The original owner kept a weak copy as well: mwld keeps the first
+            # weak definition, so only a linked owner earlier in the link order
+            # provides it.
+            if not (elf_symbol_bindings(split).get(name) == (2, 2)
+                    and unit_name(owner) in linked and _links_before(split, this_split)):
+                continue
         if compiled.exists() and elf_symbol_bindings(compiled).get(name) != (1, 2):
             # The owner's own copy is weak as well (an in-class inline whose
             # vtable both TUs emit): mwld keeps the first weak definition, so
             # a linked owner earlier in the link order still provides it.
             if not (elf_symbol_bindings(compiled).get(name) == (2, 2)
                     and unit_name(owner) in linked
-                    and _links_before(split, SPLIT_OBJ_DIR / obj.relative_to(OBJ_DIR))):
+                    and _links_before(split, this_split)):
                 if (unit_name(owner) in linked or (owner.get("metadata") or {}).get("complete")
                         or report_scores_exact(owner)):
                     continue

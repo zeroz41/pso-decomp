@@ -28,6 +28,10 @@
 #include "pso/ui/frontend/TAdDialingMessageWindow.h"
 #include <stddef.h>
 #include <string.h>
+// Placement new, for the idle timer off CodeWarrior.
+#ifndef __MWERKS__
+#include <new>
+#endif
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
@@ -116,7 +120,10 @@ void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
+// TObject::render_shadows(), for CodeWarrior's hand-built idle timer vtable below.
+#ifdef __MWERKS__
 void render_shadows__7TObjectFv();
+#endif
 }
 void set_area_random_seed(int a0);
 
@@ -169,11 +176,13 @@ const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
-void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
-// lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out below because
-// the original's static initializer precedes this file's inline copies.
+// On CodeWarrior lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out
+// below because the original's static initializer precedes this file's inline copies; other compilers build them.
+// CodeWarrior: the record that links lobby_join_entries' destructor into the global destructor chain.
+#ifdef __MWERKS__
 DestructorChain lobby_join_entries_dtor_chain;
+#endif
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
@@ -194,6 +203,10 @@ char player_joined_message[0x80];
 char lobby_idle_timeout_text_buffer[0x100];
 u8 lobby_scroll_text_buffer[0x1000];
 
+// CodeWarrior: the original's idle timer vtable is built by hand, ahead of this file's jump tables.
+#ifdef __MWERKS__
+void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
+
 extern "C" {
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
@@ -206,6 +219,11 @@ void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     return object;
 }
 }
+#else
+TLobbyIdleTimer::~TLobbyIdleTimer() {}
+void TLobbyIdleTimer::run_task() { TLobby::update_idle_timeout(this); }
+void TLobbyIdleTimer::render() { render_idle_timeout(); }
+#endif
 
 TQuestThread *create_quest_stats_thread(s32 label) { return TQuestThread::create_in_root(label); }
 
@@ -400,8 +418,13 @@ void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
 u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
+    // CodeWarrior: the base constructor by its linker name, then the hand-built vtable.
+#ifdef __MWERKS__
     __ct__7TObjectFP7TObject(timer, parent);
     *(void ***)((s8 *)timer + 0x18) = lobby_idle_timer_vtable;
+#else
+    ::new (timer) TLobbyIdleTimer(parent);
+#endif
     getDateStamp(&date);
     DateToSeconds(&date, &t->now);
     t->start = t->now;
@@ -1083,16 +1106,13 @@ void TLobby::update() {
     }
     reset_controller_input_state();
 }
-// The create-game call uses the low byte of the team's word result in r3.
-extern "C" u8 get_kind__15TWindowMakeTeamFv(TWindowMakeTeam *window);
-
 void TLobby::handle_create_game_window() {
     const char *name;
     const char *password;
     u8 battle_mode;
     u8 difficulty;
     u8 challenge_mode;
-    u8 episode;
+    s32 episode;
 
     if (lobby_make_team_window != NULL) {
         if (lobby_make_team_window->test_flag_1d_bit0() != 0) {
@@ -1102,7 +1122,7 @@ void TLobby::handle_create_game_window() {
                 battle_mode = (s8)lobby_make_team_window->read_mode() == 2;
                 difficulty = lobby_make_team_window->is_enabled();
                 challenge_mode = (s8)lobby_make_team_window->get_mode() == 1;
-                episode = get_kind__15TWindowMakeTeamFv(lobby_make_team_window);
+                episode = lobby_make_team_window->get_kind();
                 protocol_instance->send_create_game((char *)name, (char *)password, difficulty, battle_mode, challenge_mode, episode);
                 TLobby::destroy_lobby_ui();
                 return;
@@ -2611,6 +2631,8 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
 const char *TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
+// CodeWarrior: the original's static initializer precedes this file's inline copies.
+#ifdef __MWERKS__
 // Destroys lobby_join_entries at exit (the global destructor chain passes no object).
 void destroy_lobby_join_entries(void *, s16);
 
@@ -2620,13 +2642,17 @@ void __sinit_TLobby_cpp() {
     __register_global_object(NULL, destroy_lobby_join_entries, &lobby_join_entries_dtor_chain);
     __construct_array(game_join_player_records, __ct__17TPlyJoinLobbyDataFv, NULL, sizeof(TPlyJoinLobbyData), 4);
 }
+#endif
 
 
 
 TPlyJoinLobbyData::TPlyJoinLobbyData() {}
+// CodeWarrior: the exit-time destructor of lobby_join_entries that __sinit_TLobby_cpp registers.
+#ifdef __MWERKS__
 void destroy_lobby_join_entries(void *, s16) {
     __destroy_arr(lobby_join_entries, __dt__18TPlyJoinLobbyEntryFv, sizeof(TPlyJoinLobbyEntry), 12);
 }
+#endif
 
 
 TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
@@ -2912,7 +2938,10 @@ u8 *get_password_input_buffer(void) {
 
 void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
+// CodeWarrior: the .ctors entry of the hand-written static initializer above.
+#ifdef __MWERKS__
 __declspec(section ".ctors") static void *const lobby_global_initializer = (void *)__sinit_TLobby_cpp;
+#endif
 
 // Window positions copied by the message/menu openers above, and the lobby log and
 // menu strings; defined after their users so each is addressed on its own.

@@ -26,11 +26,6 @@ void *__register_global_object(void *object, ObjectDestructor destructor, Destru
 void __construct_array(void *block, ObjectConstructor ctor, ObjectDestructor dtor, size_t size, size_t n);
 // Destroys the n objects of a global array, last first.
 void __destroy_arr(void *block, ObjectDestructor dtor, size_t size, size_t n);
-// new[]: stores the array header in the first 0x10 bytes of block and constructs the n objects after it;
-// returns the first object.
-void *__construct_new_array(void *block, ObjectConstructor ctor, ObjectDestructor dtor, size_t size, size_t n);
-// delete[]: destroys the objects of a __construct_new_array block, last first, and frees the block.
-void __destroy_new_array(void *array, ObjectDestructor dtor);
 // Copies size bytes from from to to (the copy the compiler emits for array members); returns to.
 void *__copy(void *to, void *from, size_t size);
 }

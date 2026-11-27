@@ -97,12 +97,18 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
         cols = desc->cols;
         rec = const_cast<u32 *>(desc->recs);
         while (cols-- != 0) {
+            // CodeWarrior: the entry classes are abstract there (their vtables keep calc_bar_width 0),
+            // so each one is allocated and constructed by hand.
             switch (*rec) {
             case 0:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x18));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__17TWindowLayoutRectFPUcl(o, (u8 *)rec, client);
                 }
+#else
+                o = (WindowSpritePart *)(new TWindowLayoutRect((u8 *)rec, client));
+#endif
                 *out = o;
                 rec += 0x14 / 4;
                 break;
@@ -117,82 +123,122 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += sizeof(LayoutEntryCopyRecord) / 4;
                 break;
             case 3:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x2C));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__15WindowTextEntryFP16TextLayoutRecordl(o, reinterpret_cast<TextLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new WindowTextEntry(reinterpret_cast<TextLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += 0x1C / 4;
                 break;
             case 4:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__19TWindowLayoutNumberFP17ValueLayoutRecordl(o, reinterpret_cast<ValueLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new TWindowLayoutNumber(reinterpret_cast<ValueLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += 0x1C / 4;
                 break;
             case 5:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x30));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__27TWindowLayoutCountingNumberFP17ValueLayoutRecordl(o, reinterpret_cast<ValueLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new TWindowLayoutCountingNumber(reinterpret_cast<ValueLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += 0x1C / 4;
                 break;
             case 6:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__16WindowSpritePartFP22SpritePartLayoutRecordl(o, reinterpret_cast<SpritePartLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new WindowSpritePart(reinterpret_cast<SpritePartLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += sizeof(SpritePartLayoutRecord) / 4;
                 break;
             case 7:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__16WindowSpritePartFP28DirectSpritePartLayoutRecordl(o, reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new WindowSpritePart(reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += sizeof(DirectSpritePartLayoutRecord) / 4;
                 break;
             case 8:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x38));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__11ItemListRowFPUcl(o, (u8 *)rec, client);
                 }
+#else
+                o = (WindowSpritePart *)(new ItemListRow((u8 *)rec, client));
+#endif
                 *out = o;
                 rec += 1;
                 break;
             case 9:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x28));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__13LabelValueRowFPUcl(o, (u8 *)rec, client);
                 }
+#else
+                o = (WindowSpritePart *)(new LabelValueRow((u8 *)rec, client));
+#endif
                 *out = o;
                 rec += 1;
                 break;
             case 10:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x14));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__21HelpItemRarityStarRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new HelpItemRarityStarRow(reinterpret_cast<PointLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += 0xC / 4;
                 break;
             case 11:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x24));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__22HelpItemStatCompareRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
+#else
+                o = (WindowSpritePart *)(new HelpItemStatCompareRow(reinterpret_cast<PointLayoutRecord *>(rec), client));
+#endif
                 *out = o;
                 rec += 0xC / 4;
                 break;
             case 12:
+#ifdef __MWERKS__
                 o = (WindowSpritePart *)(::operator new(0x28));
                 if (o != NULL) {
                     o = (WindowSpritePart *)__ct__12TGameListRowFPUcl(o, (u8 *)rec, client);
                 }
+#else
+                o = (WindowSpritePart *)(new TGameListRow((u8 *)rec, client));
+#endif
                 *out = o;
                 rec += 1;
                 break;

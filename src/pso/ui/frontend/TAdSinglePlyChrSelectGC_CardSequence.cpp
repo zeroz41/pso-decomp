@@ -3286,3 +3286,6 @@ TPlyCharData *TAdSinglePlyChrSelectGC::get_char_index(unsigned int index) {
     }
     return selected_character_data;
 }
+
+// render_frame calls this inline; OfflineGameScene defines it the same way, and its copy is the one linked.
+inline void TCameraCtrl::set_mode(int mode) { camera_mode = mode; }

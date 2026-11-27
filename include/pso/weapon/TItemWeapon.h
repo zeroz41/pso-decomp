@@ -199,6 +199,10 @@ LAYOUT_ASSERT(WeaponShotCallbackOffset, offsetof(TItemWeapon,shot_callback)==0x1
 LAYOUT_ASSERT(WeaponGunPointOffset, offsetof(TItemWeapon,gun_point_joint)==0x1CE);
 LAYOUT_ASSERT(WeaponHitCallbackOffset, offsetof(TItemWeapon,hit_callback)==0x1F4);
 LAYOUT_ASSERT(WeaponBaseSize, sizeof(TItemWeapon)==0x1F8);
+// CodeWarrior: get_weapon_color with its result buffer, for the callers that pass its temporary to copy_argb.
+#ifdef __MWERKS__
+extern "C" void get_weapon_color__11TItemWeaponFv(NJS_ARGB *color, TItemWeapon *weapon);
+#endif
 void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s32 end_joint);
 void increment_model_node_counter(void);
 // weapon_factory_table's entry for weapons without a class of their own.

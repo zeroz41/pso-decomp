@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+class TFontSmallTask;
 class TParticleCtrl;
 class TObjEneEpsilonBody;
 
@@ -67,7 +68,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     TObjEnemyColorFade fade;
     static TObjEneEpsilonGuard *create(TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     void init_model_and_state();
-    static s32 create_damage_font(s32 pos, s32 color, s32 life, s32 damage);
+    static TFontSmallTask *create_damage_font(const Vec *pos, s32 color, s32 life, s32 damage);
     s32 is_guard_active();
     s32 is_state_flag_set();
     s32 is_guard_ready();

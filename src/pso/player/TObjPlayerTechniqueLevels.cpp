@@ -2,10 +2,7 @@
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/TObjPlayer.h"
-
-extern "C" {
-u8 get_class_technique_cap(s32 cls, s32 technique);
-}
+#include "pso/player/PlayerClassTechniques.h"
 
 u8 PlayerTechniqueState::clamp_to_max(u8 level, u8 max) {
     u8 clamped;
@@ -28,7 +25,7 @@ s32 TObjPlayer::is_invalid_slot(u8 level) {
     return (u8)((u8)(level == 0xFF));
 }
 
-bool TObjPlayer::is_slot_within_limit(s32 cls, s32 tech, u8 level) {
+bool TObjPlayer::is_slot_within_limit(s8 cls, s16 tech, u8 level) {
     if (TObjPlayer::is_invalid_slot(level) != 0) {
         return 1;
     }
@@ -59,7 +56,7 @@ s32 PlayerTechniqueState::check_technique_level(s16 technique, u8 level) {
     return level <= get_effective_technique_level(technique) ? 1 : 0;
 }
 
-void PlayerTechniqueState::set_target(s32 slot, s32 entity_id, s16 index) {
+void PlayerTechniqueState::set_target(s32 slot, u16 entity_id, s16 index) {
     PhotonBlastTarget *target = get_target(slot);
     target->set_entity_id(entity_id);
     target->set_index(index);

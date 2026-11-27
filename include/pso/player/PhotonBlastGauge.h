@@ -13,7 +13,7 @@ struct PhotonBlastTarget {
     PhotonBlastTarget();
     // No target: entity_id 0xFFFF, part 0.
     void reset();
-    void set_entity_id(s32 id);
+    void set_entity_id(u16 id);
     void set_index(s16 part);
     void bswap();
 
