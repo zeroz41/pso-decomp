@@ -39,7 +39,7 @@ s32 lobby_dhcp_renew_time;
 s32 lobby_dhcp_rebind_time;
 s32 connect_pending_flags;
 s32 lobby_default_gateway;
-uaddr avetcp_work_area;
+u8 *avetcp_work_area;
 s32 net_session_mode;
 int phone_number_index;
 s32 dns_initialized;
@@ -311,9 +311,9 @@ void cleanup() {
         avetcp_term();
         connect_pending_flags &= 0xFFFFFFF7;
     }
-    if ((u32) avetcp_work_area != 0U) {
-        xfree((void*)avetcp_work_area);
-        avetcp_work_area = 0U;
+    if (avetcp_work_area != NULL) {
+        xfree(avetcp_work_area);
+        avetcp_work_area = NULL;
     }
 }
 s32 init_network_and_connect() {
@@ -325,9 +325,9 @@ s32 init_network_and_connect() {
     params.tcp_buffer_size = 0x1000;
     params.thread_stack_size = 0x3000;
     AT_SetInitParam(&params);
-    avetcp_work_area = (uaddr)xmalloc(size);
-    if (avetcp_work_area != 0) {
-        AT_SetWorkArea((u8 *)avetcp_work_area, size);
+    avetcp_work_area = (u8 *)xmalloc(size);
+    if (avetcp_work_area != NULL) {
+        AT_SetWorkArea(avetcp_work_area, size);
     }
     avetcp_init();
     connect_pending_flags |= 8;
