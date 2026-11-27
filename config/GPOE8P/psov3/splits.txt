@@ -4620,13 +4620,10 @@ pso/player/TObjPlayer_801D6BC8.cpp:
 	.text       start:0x801D6BC8 end:0x801D6BF8
 
 pso/player/PlayerBattleScore.cpp:
-	.text       start:0x801D6BF8 end:0x801D6C4C
-
-pso/player/TObjPlayer_801D6C4C.cpp:
-	.text       start:0x801D6C4C end:0x801D6D60
+	.text       start:0x801D6BF8 end:0x801D6D28
 
 pso/network/LobbyRuleSettings.cpp:
-	.text       start:0x801D6D60 end:0x801D7860
+	.text       start:0x801D6D28 end:0x801D7860
 
 pso/player/DamageStatSlot.cpp:
 	.text       start:0x801D7860 end:0x801D78E4

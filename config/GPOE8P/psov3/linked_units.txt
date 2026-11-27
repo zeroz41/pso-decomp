@@ -1363,7 +1363,6 @@ pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayerActions.cpp
 pso/player/PlayerAttackController.cpp
 pso/player/TObjPlayer_801D6BC8.cpp
-pso/player/TObjPlayer_801D6C4C.cpp
 pso/player/DamageStatSlot.cpp
 pso/player/TObjPlayer_801D7C5C.cpp
 pso/player/TObjPlayer_801D84A8.cpp

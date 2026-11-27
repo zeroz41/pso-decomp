@@ -4,6 +4,21 @@
 #include "pso/system/data/pso_const_ids4.h"
 #include "pso/item/drop/TItemDrop.h"
 
+s32 LobbyRuleSettings::get_sonar_count() {
+    s32 count = sonar_count;
+    if ((count < 0) || (count > 99)) {
+        return 0;
+    }
+    return count;
+}
+
+void LobbyRuleSettings::set_sonar_count(s32 count) {
+    if ((count < 0) || (count > 99)) {
+        count = 0;
+    }
+    sonar_count = count;
+}
+
 s8 LobbyRuleSettings::get_trap_count(s32 index) {
     s8 count = trap_counts[index];
     if (count < 0 || count > 20) {
