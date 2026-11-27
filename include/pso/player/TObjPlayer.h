@@ -937,7 +937,6 @@ struct TObjPlayer : public TObjChara {
     void update_warp_relocation();
     s32 try_camera_action(s32 tech);
     static void update_party_cursors(TPlyDispConfigSmth *palette, TObjPlayer *player);
-    s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);
     void process_trade_target(TItemData *item_data);

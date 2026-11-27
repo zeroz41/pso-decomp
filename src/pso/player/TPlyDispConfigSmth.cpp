@@ -86,7 +86,7 @@ void TObjPlayer::update_party_cursors(TPlyDispConfigSmth *palette, TObjPlayer *p
         tag = &palette->get_current_row()[i];
         if (player->is_palette_slot_enabled(i) == 0) {
             set_action_channel_inactive(tag);
-        } else if (((TObjPlayer *)tag)->can_use_palette_action_for_entry(player) != 0) {
+        } else if (tag->can_use_palette_action_for_entry(player) != 0) {
             set_action_channel_active(tag);
         } else {
             set_action_channel_inactive(tag);
@@ -361,12 +361,8 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
     return is_palette_entry_displayable(kind, arg) ? 1 : 0;
 }
 
-// `this` is an action palette tag whose first byte is signed (s8 -> u8 argument moves through r0),
-// unlike gc_tag::tag0.
-struct Obj_801D8474 { s8 a; u8 b; };
-
-s32 TObjPlayer::can_use_palette_action_for_entry(TObjPlayer *player) {
-    return player->can_use_palette_action(((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
+s32 gc_tag::can_use_palette_action_for_entry(TObjPlayer *player) {
+    return player->can_use_palette_action(tag0, tag1);
 }
 
 s32 TPlyDispConfigSmth::get_bank() { return bank; }
