@@ -20,7 +20,6 @@ struct TAdEp3Exist : public TObject {
     s32 prev_state;              // 0x2C: state when run_task began; a change restarts frames
     s32 next_state;              // 0x30: entered when the closing state's frames run out
     s32 frames;                  // 0x34: frames spent in the closing state
-    void draw_message_window(saddr arg1);
     virtual void render();
     void request_game_mode_transition();
     void request_scene_change();

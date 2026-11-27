@@ -237,12 +237,12 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     case 0:
     case 2:
         new TAdTitleGC(this, 0);
-        this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
+        this->a_slot = get_or_create_slot_window(this, 1);
         this->player_preview = get_or_create_player(this, 1, -1, 0);
         break;
     case 1: {
         new TAdTitleGC(this, 8);
-        this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 2);
+        this->a_slot = get_or_create_slot_window(this, 2);
         this->b_slot = TAdChrSelBSlotGC::create(this);
         NJS_POINT2 pos = {0.0f, 0.0f};
         this->select_cursor = new TAdSelectCurGC(this,
@@ -834,7 +834,7 @@ void TAdMultiPlyChrSelectGC::open_windows() {
     game_start->destroy_windows();
     player_plate->set_select_mode(1);
     player_preview->set_index_and_close_status(1);
-    this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 2);
+    this->a_slot = get_or_create_slot_window(this, 2);
     this->b_slot = TAdChrSelBSlotGC::create(this);
     guide->set_line(0, "");
     guide->set_line(1, "");
@@ -873,7 +873,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
         this->confirm_window = NULL;
     }
     this->move_requested = 0;
-    this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
+    this->a_slot = get_or_create_slot_window(this, 1);
     player_plate->set_select_mode(0);
     player_plate->set_state_ready();
     if ((game_start->is_active() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {

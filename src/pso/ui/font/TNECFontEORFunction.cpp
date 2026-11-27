@@ -337,7 +337,7 @@ void upload_font_glyph(u16 c, void *free_slot) {
 s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot) {
     u8 slot_epoch;
     slot_epoch = ((MenuGlyphEntry *)free_slot)->epoch;
-    if (slot_epoch == (u8) menu_font_upload_epoch) {
+    if (slot_epoch == menu_font_upload_epoch) {
         return 0;
     }
     if (slot_epoch != (u8)(menu_font_upload_epoch - 1)) {

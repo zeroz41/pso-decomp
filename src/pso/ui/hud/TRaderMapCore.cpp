@@ -91,8 +91,6 @@ extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
-extern "C" {
-}
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
