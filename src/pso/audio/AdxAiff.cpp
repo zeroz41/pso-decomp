@@ -481,7 +481,7 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
 
 s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 n;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (parse_wav_header_info(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
                              &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
@@ -714,7 +714,7 @@ s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
     s32 st;
     u8 *e;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (size < 0x1000) {
         len = 0;
         st = -1;

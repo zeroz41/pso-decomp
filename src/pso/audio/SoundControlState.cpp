@@ -602,13 +602,9 @@ void SoundControlState::set_reverb_level(f32 level) {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 s32 get_sound_voice_state(s32 voice) {
-  u8 *voices;
-  s8 *entry;
   if ((voice >= 0) && (voice < 0x28))
   {
-    voices = (u8 *)sound_request_voices;
-    entry = (s8 *) (voices + (voice * 0xA0));
-    return *((s32 *)(entry + 4));
+    return sound_request_voices[voice].state;
   }
   return -9;
 }

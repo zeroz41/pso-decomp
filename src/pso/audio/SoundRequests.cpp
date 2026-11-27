@@ -45,7 +45,8 @@ s32 cue_stream_user_gain;
 int lobby_layout_offset_c;
 // cue_gain_offset + cue_stream_user_gain + lobby_layout_offset_c, as music_stream_base_gain is for music.
 s32 cue_stream_base_gain;
-s32 lbl_805D62A0;
+// cue_gain_offset + lobby_layout_offset_c: the cue stream gain without the user gain.
+s32 cue_stream_offset_gain;
 s32 lobby_layout_start_position;
 s32 cue_stream_scaled_gain;
 s32 cue_stream_gain;
@@ -83,7 +84,7 @@ void set_cue_stream_user_gain(s32 gain) {
     set_menu_index_main(gain);
     cue_stream_user_gain = gain;
     cue_stream_base_gain = cue_gain_offset + cue_stream_user_gain + lobby_layout_offset_c;
-    lbl_805D62A0 = cue_gain_offset + lobby_layout_offset_c;
+    cue_stream_offset_gain = cue_gain_offset + lobby_layout_offset_c;
     cue_stream_scaled_gain = (s32)(2.3622048f * (f32)gain);
     cue_stream_gain = lobby_layout_start_position + cue_stream_scaled_gain;
     set_cue_stream_gain(cue_stream_gain);

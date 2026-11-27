@@ -53,7 +53,7 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb) {
 
 s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (adx_parse_spsd_header((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }

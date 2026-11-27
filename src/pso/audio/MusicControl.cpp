@@ -49,7 +49,7 @@ u8 *adx_rna_work_buffer;
 s32 music_active;
 s32 music_state;
 s32 music_fade_slot_index;
-u32 lbl_805D62EC;
+void *lbl_805D62EC;
 s32 music_next_cue;
 s32 music_cue_threshold;
 s32 bgm_stream_buffer_total_size;
@@ -551,8 +551,8 @@ void shutdown_buffers() {
         adx_rna_work_buffer = NULL;
     }
     adxt_finish();
-    if (lbl_805D62EC != 0U) {
-        safe_free(reinterpret_cast<void *>(lbl_805D62EC));
+    if (lbl_805D62EC != NULL) {
+        safe_free(lbl_805D62EC);
     }
 }
 
@@ -598,7 +598,7 @@ void init_adx_audio_system(void) {
     se_stream_buffer_size = 0xA924;
     music_active = 0;
     music_state = 0;
-    lbl_805D62EC = 0;
+    lbl_805D62EC = NULL;
     music_fade_frames_remaining = 0;
     music_slot_entries[1][0] = 0;
     music_slot_entries[0][0] = 0;

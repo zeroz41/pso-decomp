@@ -301,7 +301,7 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     u16 second_delays[2];
     s16 header_size;
     u8 *buffer;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (adx_parse_header_info(hdr, size, &header_size, (u8 *)&adxb->encoding_type, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
         return 0;
     }

@@ -172,7 +172,7 @@ s32 adxb_decode_header_au(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s32 err;
     u8 *data;
     u8 *buf;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (size < 8) {
         len = 0;
         err = -1;

@@ -8,7 +8,7 @@ struct AdxDecoderChannel;
 // One ADXB decoder ("ADXB_DecodeHeaderAdx"), shared by the ADX, SPSD, AIFF and AU decoders.
 struct AdxbDecoder {
     s16 used;
-    s16 m_02;
+    s16 header_decode_started; // set to 1 as each header decode begins, never read
     s32 state;
     AdxDecoderChannel *channel;
     s8 encoding_type; // the ADX header's encoding type; above 4 is AHX, -1 for PCM formats
