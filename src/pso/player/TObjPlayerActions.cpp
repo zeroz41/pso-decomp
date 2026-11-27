@@ -575,7 +575,7 @@ void handle_6x57(G_Unknown_6x57 *command) {
 
     m.init();
     m = *command;
-    bswap_g_client_id_header(&m);
+    bswap_g_client_id_header(&m.header);
     if (validate_6x57(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
@@ -960,7 +960,7 @@ void handle_6x53(G_Unknown_6x53 *command) {
 
     m.init();
     m = *command;
-    bswap_g_client_id_header(&m);
+    bswap_g_client_id_header(&m.header);
     if (validate_6x53(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL && p->is_in_tl03_state() != 0) {
@@ -1246,7 +1246,7 @@ void handle_6x4F_player_revived(G_PlayerRevived_6x4F *command) {
 
     m.init();
     m = *command;
-    bswap_g_client_id_header(&m);
+    bswap_g_client_id_header(&m.header);
     if (validate_6x4F_player_revived(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL && p->is_in_tl03_state() != 0) {
@@ -1422,7 +1422,7 @@ void handle_6x4E_player_revivable(G_PlayerRevivable_6x4E *command) {
 
     m.init();
     m = *command;
-    bswap_g_client_id_header(&m);
+    bswap_g_client_id_header(&m.header);
     if (validate_6x4E_player_revivable(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL && p->is_in_tl03_state() != 0) {
@@ -2135,7 +2135,7 @@ void handle_6x4A_shield_attack(G_ShieldAttack_6x4A *command) {
 
     m.init();
     m = *command;
-    bswap_g_client_id_header(&m);
+    bswap_g_client_id_header(&m.header);
     if (validate_6x4A_shield_attack(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL && p->is_in_tl03_state() != 0 && p->reset_volopt_state() != 0 &&

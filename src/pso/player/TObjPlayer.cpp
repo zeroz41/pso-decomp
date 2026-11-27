@@ -3747,7 +3747,7 @@ void handle_6x2D_release_hold(G_ReleaseHold_6x2D *command) {
     G_ReleaseHold_6x2D pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x2D_release_hold(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -4053,7 +4053,7 @@ void handle_6x31_use_medical_center(G_UseMedicalCenter_6x31 *command) {
     G_UseMedicalCenter_6x31 pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x31_use_medical_center(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -4075,7 +4075,7 @@ void TObjPlayer::send_medical_center_revive_all_players() {
 
     if (this == NULL || obj_isState2_324() == 0) {
         pkt.init();
-        pkt.header.unused = get_entity_id();
+        pkt.header.client_id = get_entity_id();
         pkt.send();
     }
 }
@@ -4111,7 +4111,7 @@ void handle_6xA1_revive_player_v3(G_RevivePlayer_V3_BB_6xA1 *command) {
     G_RevivePlayer_V3_BB_6xA1 pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6xA1_revive_player_v3(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -4679,7 +4679,7 @@ void handle_6x0E_clear_negative_status_effects(G_ClearNegativeStatusEffects_6x0E
     G_ClearNegativeStatusEffects_6x0E pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x0E_clear_negative_status_effects(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != 0) {
@@ -5233,7 +5233,7 @@ void handle_6x1B_enable_pk_mode_for_player(G_EnablePKModeForPlayer_6x1B *command
     G_EnablePKModeForPlayer_6x1B pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x1B_enable_pk_mode_for_player(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -5270,7 +5270,7 @@ void handle_6x1C_disable_pk_mode_for_player(G_DisablePKModeForPlayer_6x1C *comma
     G_DisablePKModeForPlayer_6x1C pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x1C_disable_pk_mode_for_player(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -5390,7 +5390,7 @@ void handle_6x7A_enable_stealth_suit_effect(G_EnableStealthSuitEffect_6x7A *comm
     G_EnableStealthSuitEffect_6x7A pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x7A_enable_stealth_suit_effect(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -5424,7 +5424,7 @@ void handle_6x7B_disable_stealth_suit_effect(G_DisableStealthSuitEffect_6x7B *co
     G_DisableStealthSuitEffect_6x7B pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x7B_disable_stealth_suit_effect(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -5675,7 +5675,7 @@ void handle_6x81_disable_drop_weapon_on_death(G_DisableDropWeaponOnDeath_6x81 *c
     G_DisableDropWeaponOnDeath_6x81 pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x81_disable_drop_weapon_on_death(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -5708,7 +5708,7 @@ void handle_6x82_enable_drop_weapon_on_death(G_EnableDropWeaponOnDeath_6x82 *com
     G_EnableDropWeaponOnDeath_6x82 pkt;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x82_enable_drop_weapon_on_death(&pkt.header) != 0) {
         TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
@@ -6209,7 +6209,7 @@ void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
     TObjPlayer *p;
     pkt.init();
     pkt = *command;
-    bswap_g_client_id_header(&pkt);
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x9B_level_up_all_techniques(&pkt) != 0) {
         p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {

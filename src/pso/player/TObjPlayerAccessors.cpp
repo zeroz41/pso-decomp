@@ -895,7 +895,7 @@ PlayerTechniqueState::PlayerTechniqueState() {
     reset_tech_state();
 }
 
-void bswap_g_client_id_header(void *header) { ((G_ClientIDHeader *)header)->bswap(); }
+void bswap_g_client_id_header(G_ClientIDHeader *header) { header->bswap(); }
 
 G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAllTechniques_6x9B &src) {
     copy_subcommand_header(this, &src);

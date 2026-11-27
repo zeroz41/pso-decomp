@@ -859,7 +859,7 @@ LAYOUT_ASSERT(G_LobbyAnimation_6x58Size, sizeof(G_LobbyAnimation_6x58) == 0x8);
 // handle_6x32_medical_center_revive_all_players. Size checked:
 // G_MedicalCenterReviveAllPlayers_6x32::init sets the header size to 1 word.
 struct G_MedicalCenterReviveAllPlayers_6x32 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;  // client_id: the player at the medical center
  void send();
  void init();
 };
