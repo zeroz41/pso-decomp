@@ -23,7 +23,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"

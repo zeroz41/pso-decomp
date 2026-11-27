@@ -13,7 +13,7 @@
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TObjLiveCameraCtrl.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/MatrixStack.h"

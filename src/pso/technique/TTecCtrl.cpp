@@ -54,7 +54,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/technique/TechniqueRingwaveList.h"
 #include "pso/network/client_id.h"
 #include "pso/render/gjSystem.h"

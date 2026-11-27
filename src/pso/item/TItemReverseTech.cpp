@@ -5,11 +5,11 @@
 #include <string.h>
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemReverseTechPart2.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/render_util.h"
 #include "pso/item/TItemReverseTechPart1.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"

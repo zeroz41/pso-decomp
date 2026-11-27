@@ -28,7 +28,7 @@
 
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
 
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 

@@ -10,7 +10,7 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/DebugFont.h"
 #pragma defer_codegen on

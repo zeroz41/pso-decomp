@@ -12,7 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
+#include "pso/boss/goldragon/BossAssetVariant.h"
 
 #pragma readonly_strings on
 

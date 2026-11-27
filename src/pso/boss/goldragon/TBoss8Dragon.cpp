@@ -13,7 +13,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/RenderFadeState.h"

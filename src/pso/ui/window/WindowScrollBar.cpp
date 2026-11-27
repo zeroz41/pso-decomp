@@ -3,7 +3,7 @@
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"

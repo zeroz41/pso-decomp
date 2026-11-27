@@ -8,9 +8,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 extern f32 TAdRayGC_ray_quad_table[4][8];
 NJS_TEXLIST *TAdRayGC::ray_texture_list;

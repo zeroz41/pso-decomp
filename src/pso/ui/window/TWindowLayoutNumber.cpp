@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 extern "C" {
 extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);

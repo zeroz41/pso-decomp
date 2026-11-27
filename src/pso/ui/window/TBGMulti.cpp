@@ -2,7 +2,7 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/render/ColorLineList.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/render_util.h"
 
 #include "pso/ui/window/TWindowCtrlMain.h"

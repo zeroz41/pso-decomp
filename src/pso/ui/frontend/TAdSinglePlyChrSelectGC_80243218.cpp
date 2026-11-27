@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/system/date.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 

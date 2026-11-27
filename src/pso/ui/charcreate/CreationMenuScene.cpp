@@ -8,7 +8,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdBackGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"

@@ -74,7 +74,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"

@@ -18,7 +18,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TEndingAB.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjEndingPlayer.h"

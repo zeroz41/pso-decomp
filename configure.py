@@ -935,7 +935,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # node-range statics, then the load slot count, then run_task's table: written last to first, deferred.
     "pso/ui/charcreate/TChCrLoadReq.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/beast/TObjEneBeast.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/frontend/TAdPlayerLoadGC_MemCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # psoLoadTexturePvmFile reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/render/psoLoadTexture.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/system/scene/OfflineGameScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

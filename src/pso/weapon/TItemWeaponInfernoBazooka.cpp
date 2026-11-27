@@ -11,7 +11,7 @@
 #include "pso/item/TItem.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/weapon/TItemWeaponInfernoBazooka.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"

@@ -3,7 +3,7 @@
 #include <dolphin/gx/GXStruct.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
+#include "pso/ui/frontend/TextureNameExtension.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/render/GvmTextureArchive.h"

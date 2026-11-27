@@ -10,7 +10,7 @@
 #include "pso/ui/TTitleLogo.h"
 #include "pso/ui/TTitleMenu.h"
 #include "pso/unk/TTitleScene.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/frontend/TTitleBackground.h"

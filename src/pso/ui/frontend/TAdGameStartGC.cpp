@@ -11,7 +11,7 @@
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -24,7 +24,7 @@
 #include "pso/ui/frontend/TAdGameStartBackGC.h"
 #include "pso/ui/frontend/TAdGameStartLineGC.h"
 #include "pso/ui/frontend/TAdGameStartShineGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 extern const char *ad_game_start_name_ptr[2];
 

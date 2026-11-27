@@ -3,7 +3,7 @@
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPicStage.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

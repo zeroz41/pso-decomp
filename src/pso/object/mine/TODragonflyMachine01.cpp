@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/object/mine/TODragonflyMachine01.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

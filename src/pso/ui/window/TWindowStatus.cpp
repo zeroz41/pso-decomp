@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"

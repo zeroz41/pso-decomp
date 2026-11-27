@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/armor/TItemProShield.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/render/ChunkMaterialState.h"

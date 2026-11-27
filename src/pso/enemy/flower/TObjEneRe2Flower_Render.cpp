@@ -17,7 +17,7 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"

@@ -8,7 +8,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/render/TextureState.h"

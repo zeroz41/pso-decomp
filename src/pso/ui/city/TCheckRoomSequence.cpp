@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/CounterTextLookup.h"

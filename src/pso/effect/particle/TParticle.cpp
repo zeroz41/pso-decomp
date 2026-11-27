@@ -18,7 +18,7 @@
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/effect/TEffIndirectSampler.h"

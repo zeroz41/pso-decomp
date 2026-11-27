@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/player/TObjPlayer.h"

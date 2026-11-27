@@ -6,7 +6,7 @@
 #include "pso/network/client_id.h"
 #include "pso/quest/challenge/ChallengeModeData.h"
 #include "pso/ui/chat/ChatLogLastLine.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/system/task/TObject.h"

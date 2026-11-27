@@ -15,7 +15,7 @@
 #include "pso/object/TObjSinBoard.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTexture.h"

@@ -17,7 +17,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 #pragma readonly_strings on
 

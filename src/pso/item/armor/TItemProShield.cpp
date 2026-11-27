@@ -10,7 +10,7 @@
 #include "pso/effect/item/TItemEffShield.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/byteswap.h"
 #include "pso/render/GinjaMaterial.h"

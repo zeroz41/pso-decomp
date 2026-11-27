@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PhotonBlastResults.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"

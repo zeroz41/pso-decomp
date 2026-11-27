@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/chat/SymbolChatPayload.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

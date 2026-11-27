@@ -3,7 +3,7 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

@@ -89,7 +89,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/quest/TQuestThread.h"

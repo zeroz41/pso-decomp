@@ -5,7 +5,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/weapon/shoot/TItemShootWindmill.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/weapon/TItemWeaponWindmill.h"

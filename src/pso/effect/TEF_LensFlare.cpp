@@ -13,7 +13,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"

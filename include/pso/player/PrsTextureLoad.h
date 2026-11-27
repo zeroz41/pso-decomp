@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TOBJPLAYER_8023E480_H
-#define PSO_PLAYER_TOBJPLAYER_8023E480_H
+#ifndef PSO_PLAYER_PRSTEXTURELOAD_H
+#define PSO_PLAYER_PRSTEXTURELOAD_H
 
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"

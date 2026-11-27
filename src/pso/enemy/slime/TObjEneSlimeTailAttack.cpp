@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlime.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/enemy/slime/SlimeAnimationState.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"

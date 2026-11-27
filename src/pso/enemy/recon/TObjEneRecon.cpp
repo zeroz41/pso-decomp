@@ -23,7 +23,7 @@
 #include "pso/render/reflection.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/vector.h"

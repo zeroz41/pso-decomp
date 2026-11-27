@@ -23,7 +23,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 
 extern const Vec nano_drago_beam_forward = {0.0f, 0.0f, 0.0f};
 

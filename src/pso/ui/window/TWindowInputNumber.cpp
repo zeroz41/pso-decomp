@@ -18,7 +18,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/HeadingEntry.h"
 
 const char *TWindowInputNumber::class_name = "TWindowInputNumber";

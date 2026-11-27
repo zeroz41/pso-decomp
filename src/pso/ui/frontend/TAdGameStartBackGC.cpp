@@ -1,5 +1,5 @@
 #include "pso/ui/frontend/TAdGameStartBackGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

@@ -19,7 +19,7 @@ struct NJS_OBJECT;
 #include "pso/boss/TBoss1DragonAttackCollider.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/render/ChunkMaterialState.h"

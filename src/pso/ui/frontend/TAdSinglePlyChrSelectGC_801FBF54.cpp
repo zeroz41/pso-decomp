@@ -30,7 +30,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/GuildCardSaveData.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"

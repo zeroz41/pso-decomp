@@ -55,7 +55,7 @@
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"

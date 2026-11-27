@@ -15,7 +15,7 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorWaveEvents.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*lobby_floor_scene_callbacks[12])(void) = {

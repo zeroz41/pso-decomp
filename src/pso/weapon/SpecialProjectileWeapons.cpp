@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"

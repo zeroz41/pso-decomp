@@ -13,7 +13,7 @@ struct NJS_OBJECT;
 
 #include "pso/enemy/TObjEnemy.h"
 
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 #define N 0x1000
 #define F 0x12

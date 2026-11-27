@@ -3,7 +3,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"

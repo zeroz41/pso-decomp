@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/TCharSaveSequence.h"
 

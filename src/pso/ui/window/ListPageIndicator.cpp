@@ -2,7 +2,7 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/ListPageIndicator.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/WindowTextDraw.h"

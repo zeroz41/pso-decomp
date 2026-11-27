@@ -65,7 +65,7 @@
 #include "pso/system/TColorOverlayFade.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"

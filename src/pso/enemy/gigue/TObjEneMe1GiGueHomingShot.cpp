@@ -25,7 +25,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/network/client_id.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 
 
 TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, Angle3 *angles, s32 delay, s32 double_hit, u16 src_id)

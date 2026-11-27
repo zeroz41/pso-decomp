@@ -30,7 +30,7 @@
 
 #include "pso/system/ControllerInputState.h"
 
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/CollisionActorLookup.h"

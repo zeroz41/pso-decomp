@@ -30,7 +30,7 @@ const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/network/TLobby.h"
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;

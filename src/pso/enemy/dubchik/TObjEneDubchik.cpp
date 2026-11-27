@@ -33,7 +33,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/enemy/dubchik/TDubchikPart.h"
 #include "pso/enemy/dubchik/TDubchikShot.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixReflect.h"

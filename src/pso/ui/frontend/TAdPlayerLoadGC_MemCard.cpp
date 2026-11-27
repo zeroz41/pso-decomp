@@ -9,7 +9,7 @@
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/date.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"

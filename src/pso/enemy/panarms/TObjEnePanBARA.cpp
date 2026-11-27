@@ -9,7 +9,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"

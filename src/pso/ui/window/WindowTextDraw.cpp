@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 
 WindowDrawContext *text_draw_clip_context;

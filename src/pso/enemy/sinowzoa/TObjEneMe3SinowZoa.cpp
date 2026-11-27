@@ -70,7 +70,7 @@
 #include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"

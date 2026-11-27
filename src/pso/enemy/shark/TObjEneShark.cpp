@@ -12,7 +12,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TAttackTrace.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"

@@ -40,7 +40,7 @@ extern "C" {
 #pragma push
 #pragma force_active on
 static asm void pad_03_8042E9FC_text(void) {
-#include "orig_asm/pso/ui/frontend/TAdTrialModemChkGC_8042E9FC/pad_03_8042E9FC_text.inc"
+#include "orig_asm/pso/ui/frontend/ntUtl/pad_03_8042E9FC_text.inc"
 }
 #pragma pop
 #endif

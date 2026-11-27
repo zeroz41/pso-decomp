@@ -68,7 +68,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/map/FloorMapSelection.h"

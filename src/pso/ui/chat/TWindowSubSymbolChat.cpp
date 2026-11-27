@@ -86,7 +86,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

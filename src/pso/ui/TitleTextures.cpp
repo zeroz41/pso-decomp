@@ -7,7 +7,7 @@
 #include "pso/unk/TTitleScene.h"
 
 #include "pso/ui/TTitleMenu.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 
 #include "pso/network/TLobby.h"
@@ -15,7 +15,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
 #include "pso/ui/window/WindowDrawContext.h"
 

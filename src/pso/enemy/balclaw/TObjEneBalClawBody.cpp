@@ -32,7 +32,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/MatrixStack.h"

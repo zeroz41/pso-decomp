@@ -11,7 +11,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
@@ -169,7 +169,7 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 
 #include <stddef.h>
 #include "pso/enemy/AreaSoundRemap.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 
 

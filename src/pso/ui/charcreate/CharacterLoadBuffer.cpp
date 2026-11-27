@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

@@ -15,7 +15,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/player/LocalClientId.h"
 extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";

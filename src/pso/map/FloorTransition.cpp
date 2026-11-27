@@ -9,7 +9,7 @@
 #include "pso/player/LocalClientId.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"

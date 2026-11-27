@@ -25,7 +25,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 
 // .rodata: window_size {444,84} (the layout position is the other argument), "TQuestVmDownLoadServer",
 // window_size, "TMCFormatSequence", window_size, "%s%02d". The positions interleave with the class names,

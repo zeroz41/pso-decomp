@@ -1,4 +1,4 @@
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
@@ -29,7 +29,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 
 // The whole unit is built with deferred inlining, so the compiler emits the
 // functions in reverse order: the last function here sits first in the DOL.

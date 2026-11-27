@@ -4,7 +4,7 @@
 #include "pso/system/CxxRuntime.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/TGameProtocol.h"

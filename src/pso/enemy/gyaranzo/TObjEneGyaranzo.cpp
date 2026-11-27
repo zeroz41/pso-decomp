@@ -11,7 +11,7 @@
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/RenderFadeState.h"

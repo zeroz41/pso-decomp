@@ -10,7 +10,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TObject.h"

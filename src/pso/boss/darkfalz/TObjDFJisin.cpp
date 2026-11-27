@@ -10,7 +10,7 @@
 struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/PlayerClassFlags.h"

@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/StringCharTable.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
+#include "pso/ui/frontend/TextureNameExtension.h"
 #include <string.h>
 
 

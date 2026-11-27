@@ -21,7 +21,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/unk/TWindowLayoutNumber.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"

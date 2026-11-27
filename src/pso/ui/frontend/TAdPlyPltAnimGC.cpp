@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdPlyPltAnimGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 

@@ -43,7 +43,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/MallocLoadFilePrc.h"
 
 // Window position and size setup passes to create_message_window_for_size

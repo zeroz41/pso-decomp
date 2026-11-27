@@ -3,13 +3,13 @@
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/TextureState.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 NJS_TEXNAME mc_select_memorycard_texname = { "f256_memorycard", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST mc_select_memorycard_texture_list = { &mc_select_memorycard_texname, 1 };

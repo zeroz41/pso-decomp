@@ -11,7 +11,7 @@
 
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
+#include "pso/boss/goldragon/BossAssetVariant.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/hud/TNowLoading.h"

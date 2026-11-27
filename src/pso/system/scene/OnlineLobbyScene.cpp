@@ -56,7 +56,7 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/item/TItem.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"

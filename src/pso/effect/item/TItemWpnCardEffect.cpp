@@ -15,7 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"

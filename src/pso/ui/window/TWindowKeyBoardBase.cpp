@@ -26,7 +26,7 @@
 #include "pso/system/AramPool.h"
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TextBuilder.h"

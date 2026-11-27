@@ -12,7 +12,7 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "types.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/system/AreaSound.h"

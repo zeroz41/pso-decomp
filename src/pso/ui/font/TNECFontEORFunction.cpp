@@ -2,7 +2,7 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/WindowDrawContext.h"

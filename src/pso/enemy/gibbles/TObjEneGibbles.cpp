@@ -14,7 +14,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"

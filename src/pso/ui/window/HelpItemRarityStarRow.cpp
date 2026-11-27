@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #pragma readonly_strings on
 
 extern const StarUV item_rarity_star_uv_table[4] = {

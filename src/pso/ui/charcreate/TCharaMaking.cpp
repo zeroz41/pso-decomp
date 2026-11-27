@@ -22,7 +22,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/save/TSaveChCr.h"

@@ -11,7 +11,7 @@
 #include "pso/technique/TSlicerHistory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"

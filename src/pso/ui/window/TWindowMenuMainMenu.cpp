@@ -9,7 +9,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/math/Vec2Constants.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMainMenu.h"

@@ -10,7 +10,7 @@
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
+#include "pso/ui/frontend/TextureNameExtension.h"
 
 s32 set_texture_list(NJS_TEXLIST *texlist) {
     current_render_context->textures = texlist;

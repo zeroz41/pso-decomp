@@ -15,7 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/TextureState.h"

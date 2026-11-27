@@ -4,7 +4,7 @@
 #include "pso/weapon/shoot/TItemShootRocketPunch.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"

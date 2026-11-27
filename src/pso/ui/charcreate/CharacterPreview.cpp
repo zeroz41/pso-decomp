@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 extern "C" {
 void copy_player_visual_record(void *, const void *);

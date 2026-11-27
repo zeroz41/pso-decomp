@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "pso/render/TextureState.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/prs.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"

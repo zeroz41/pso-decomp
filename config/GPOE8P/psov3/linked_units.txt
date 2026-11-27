@@ -293,7 +293,7 @@ pso/boss/goldragon/TBoss8DragonEffBreath.cpp
 pso/boss/goldragon/TBoss8DragonEffBullet.cpp
 pso/boss/goldragon/TBoss8DragonEffTail.cpp
 pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp
-pso/boss/goldragon/TBoss8Dragon_8005D700.cpp
+pso/boss/goldragon/BossAssetVariant.cpp
 pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/AreaAttackHistory.cpp
 pso/boss/goldragon/TBoss8DragonLeaderPart.cpp
@@ -417,10 +417,10 @@ pso/enemy/sorcerer/TObjEneRe4Sorcerer.cpp
 pso/enemy/berura/BeruraData.cpp
 pso/enemy/berura/TObjEneRe7Berura.cpp
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp
-pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp
+pso/enemy/berura/ChunkModelNodeCallback.cpp
 pso/enemy/recon/TObjEneRecon.cpp
 pso/enemy/recon/TObjEneReconBomb.cpp
-pso/enemy/recon/TObjEneRecon_80302DB0.cpp
+pso/enemy/recon/ReflectionRenderRequest.cpp
 pso/enemy/recon/TObjEneRecobox.cpp
 pso/enemy/shark/TObjEneShark.cpp
 pso/enemy/slime/TObjEneSlimeOne.cpp
@@ -813,7 +813,7 @@ pso/enemy/TNeedleShoot.cpp
 pso/enemy/gee/TObjEneMe1Gee_NEEDLE.cpp
 pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp
-pso/npc/TNpcPlayer_800D87A8.cpp
+pso/npc/TargetPlayerLookup.cpp
 pso/npc/TNpcTalkTrigger.cpp
 pso/npc/NpcPartnerControl.cpp
 pso/object/cave/TOAirconCave01.cpp
@@ -949,7 +949,7 @@ pso/quest/TQuestListChallenge.cpp
 pso/quest/TQuestListOnline.cpp
 pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
-pso/quest/TQuestVmDownLoadServer_80080788.cpp
+pso/quest/ObjectUpdateSuspension.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
 pso/quest/QuestDownloadRequests.cpp
 pso/quest/AskDicFile.cpp
@@ -977,7 +977,7 @@ pso/ui/city/TShopJudgmentItemWindow.cpp
 pso/ui/city/TShopKeepItemWindow.cpp
 pso/ui/city/TShopSequence.cpp
 pso/ui/city/TShopWindowBase.cpp
-pso/ui/city/TShopWindowBase_80217454.cpp
+pso/ui/city/ShopWindowMessage.cpp
 pso/object/switch/TSwitch.cpp
 pso/technique/TTecAnti.cpp
 pso/technique/TTecBarta.cpp
@@ -1117,7 +1117,7 @@ pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/window/WindowArrayEntry.cpp
 pso/ui/window/ChallengeRank.cpp
 pso/ui/window/SmallFontText.cpp
-pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
+pso/ui/window/StringLength.cpp
 pso/ui/window/TextBuilder.cpp
 pso/ui/window/PageIndicator.cpp
 pso/ui/window/WindowTextDraw.cpp
@@ -1139,7 +1139,7 @@ pso/ui/frontend/TAdSelectTxtSubGC.cpp
 pso/ui/frontend/TAdTitleTexGC.cpp
 pso/ui/frontend/TAdScrollWinGC.cpp
 pso/ui/window/TGameListRow.cpp
-pso/ui/window/TWindowSubStatusDisp_803DEE6C.cpp
+pso/ui/window/ScreenQuadDraw.cpp
 pso/ui/chat/TWindowSubSymbolChat.cpp
 pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp
@@ -1236,7 +1236,7 @@ pso/object/ambient/TObjCGrass.cpp
 pso/ui/window/TObjCHTimeWinTimer.cpp
 pso/ui/window/TObjCHTimeWin.cpp
 pso/ui/charcreate/TObjCMIcon.cpp
-pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp
+pso/ui/charcreate/CreationMenuScene.cpp
 pso/camera/TObjCamera.cpp
 pso/object/TObjChip.cpp
 pso/object/warp/TObjCityMainWarpChallenge.cpp
@@ -1254,7 +1254,7 @@ pso/boss/darkfalz/TBoss4DarkFalz.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/object/TObjDoaEx01.cpp
 pso/object/door/TObjDoorJung.cpp
-pso/object/door/TObjDoorJung_8023DBEC.cpp
+pso/object/door/GinjaTextureSlot.cpp
 pso/object/door/TObjDoorKey.cpp
 pso/object/door/TObjDoor.cpp
 pso/object/TObjEZBoneRotBase.cpp
@@ -1318,7 +1318,7 @@ pso/boss/volopt/TObjVoloptShutter.cpp
 pso/object/TObjWaitEntryHairMoveSim.cpp
 pso/object/TObjWarnChime.cpp
 pso/object/warp/TObjWarpBoss03.cpp
-pso/object/warp/TObjWarpBoss03_801A2AEC.cpp
+pso/object/warp/TObjWarpBoss03Factory.cpp
 pso/object/warp/TObjWarpBossMulti.cpp
 pso/object/warp/TObjWarpJungMain.cpp
 pso/object/warp/TObjWarpLobby.cpp
@@ -1356,13 +1356,13 @@ pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/DamageStatSlot.cpp
 pso/player/TObjEndingPlayer.cpp
 pso/player/TObjPlayer_801D8ADC.cpp
-pso/player/TObjPlayer_801D95B8.cpp
+pso/player/PlayerTechniqueQueries.cpp
 pso/player/TObjPlayerTechniqueLevels.cpp
 pso/player/PlayerTechniqueState.cpp
 pso/render/GinjaMotionDraw.cpp
-pso/player/TObjPlayer_8023E480.cpp
+pso/player/PrsTextureLoad.cpp
 pso/player/GinjaRenderTarget.cpp
-pso/player/TObjPlayer_802A1440.cpp
+pso/player/PlayerCharDataInit.cpp
 pso/player/TObjPlayer_802C367C.cpp
 pso/weapon/TItemWeaponCard.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp
@@ -1485,7 +1485,7 @@ pso/ui/frontend/TAdMultiSaveGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
-pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp
+pso/ui/frontend/TAdPlayerLoadGC_MemCard.cpp
 pso/system/save/McFsGcRequests.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
 pso/ui/frontend/TAdPlyPltAnimGC.cpp
@@ -1505,7 +1505,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_Accessors.cpp
 pso/ui/city/BankItemRecord.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.cpp
+pso/ui/charcreate/CharacterLoadBuffer.cpp
 pso/ui/charcreate/TCMCharacter.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_802E3AE4.cpp
 pso/ui/frontend/TTitleScene.cpp
@@ -1518,7 +1518,7 @@ pso/ui/frontend/TAdTitleGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
 pso/ui/TTitleMenu.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
-pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
+pso/ui/frontend/ntUtl.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
 pso/ui/frontend/TAdVIConfigGC_80308200.cpp
 pso/ui/frontend/TAdWarningBaseGC.cpp
@@ -1613,7 +1613,7 @@ pso/ui/charcreate/CharCreationTagSelect.cpp
 pso/ui/charcreate/CharCreationTagClear.cpp
 pso/system/RelModule.cpp
 pso/render/MatchingModelVisit.cpp
-pso/object/mine/TOComputerMachine01_803278B0.cpp
+pso/object/mine/ScrollUvEntries.cpp
 pso/render/ScrolledStripCount.cpp
 pso/ui/window/WindowLayoutCamera2Data.cpp
 pso/math/CurvePathPoint.cpp
@@ -1631,7 +1631,7 @@ PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c
 pso/audio/Adxf.cpp
 pso/system/movie/Gcci.cpp
 pso/math/BinomialCoefficient.cpp
-pso/ui/window/TWindowSubComCard_803D6438.cpp
+pso/ui/window/TruncFloat.cpp
 pso/math/SinCosTable.cpp
 pso/render/NinjaCameraInit.cpp
 pso/render/DebugFont.cpp
@@ -1640,7 +1640,7 @@ pso/math/MatrixReflect.cpp
 pso/math/MatrixTranslate.cpp
 pso/system/MatrixStack.cpp
 pso/system/StringCharTable.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.cpp
+pso/ui/frontend/TextureNameExtension.cpp
 pso/render/GinjaTextureAlloc.cpp
 pso/render/TextureListRelease.cpp
 pso/render/TextureState.cpp

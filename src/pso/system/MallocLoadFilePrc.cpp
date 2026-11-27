@@ -10,7 +10,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"

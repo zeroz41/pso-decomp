@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

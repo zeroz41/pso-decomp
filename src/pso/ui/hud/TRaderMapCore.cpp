@@ -1,6 +1,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/DebugFont.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/memory.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"

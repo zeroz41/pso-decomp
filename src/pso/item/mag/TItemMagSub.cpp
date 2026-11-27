@@ -1,5 +1,5 @@
 #include "pso/system/NinjaTypes.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMagSub.h"
 #include <string.h>
@@ -13,7 +13,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"

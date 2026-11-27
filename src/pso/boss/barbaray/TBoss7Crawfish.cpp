@@ -13,7 +13,7 @@
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include <stdlib.h>
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TNowLoading.h"
