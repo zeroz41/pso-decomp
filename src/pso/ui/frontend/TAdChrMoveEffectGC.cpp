@@ -21,8 +21,11 @@ const u8 chr_move_effect_color_table[2][4] = { { 0x25, 0x76, 0x68, 0xFF }, { 0x2
 const f32 chr_move_effect_size[2] = { 180.0f, 38.0f };
 const char *TAdChrMoveEffectGC::class_name = "TAdChrMoveEffectGC";
 
-// The effect parameters copied word by word.
-struct ChrMoveEffectWords { u32 w[8]; };
+struct S_803491F8 { u32 w[8]; };
+
+extern "C" {
+void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source);
+}
 
 #pragma push
 #pragma fp_contract on
@@ -107,7 +110,7 @@ void TAdChrMoveEffectGC::setup_move_effect_params(s32 from_index, s32 to_index) 
 void TAdChrMoveEffectGC::start_move_effect(ChrMoveEffectParams *params) {
     s32 i;
     for (i = 0; i < 16; i++) {
-        copy_effect_data(&entries[i], params);
+        copy_effect_data__18TAdChrMoveEffectGCFPvPv((S_803491F8 *)(&entries[i]), (S_803491F8 *)(params));
     }
     reset_effect_entries();
     active = 1;
@@ -115,9 +118,7 @@ void TAdChrMoveEffectGC::start_move_effect(ChrMoveEffectParams *params) {
 
 #pragma push
 #pragma optimization_level 1
-void TAdChrMoveEffectGC::copy_effect_data(void *dest_data, void *source_data) {
-    ChrMoveEffectWords *dest = (ChrMoveEffectWords *)dest_data;
-    ChrMoveEffectWords *source = (ChrMoveEffectWords *)source_data;
+void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source) {
     u32 b, a;
     a = source->w[0]; b = source->w[1]; dest->w[0] = a; dest->w[1] = b;
     a = source->w[2]; b = source->w[3]; dest->w[2] = a; dest->w[3] = b;

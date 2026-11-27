@@ -56,6 +56,10 @@ s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 const char *shop_item_list_window_class_name = "TShopItemListWindow";
 
+extern "C" {
+s32 try_buy_item(TObjPlayer *player, TItemData *item);
+}
+
 TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
     this->m_name = shop_item_list_window_class_name;

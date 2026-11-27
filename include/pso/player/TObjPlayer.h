@@ -1289,8 +1289,4 @@ struct PhotonBlastMotionTiming {
     f32 complete_threshold;
 };
 
-extern "C" {
-s32 try_buy_item(TObjPlayer *player, TItemData *item);
-}
-
 #endif

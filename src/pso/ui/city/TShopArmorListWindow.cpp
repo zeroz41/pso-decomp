@@ -41,6 +41,7 @@
 #pragma dont_inline off
 extern "C" {
 const char *shop_armor_list_window_class_name = "TShopArmorListWindow";
+s32 try_buy_item(TObjPlayer *player, TItemData *item);
 // This unit sees the local client id as const: its load is scheduled across the item copies.
 extern const s32 local_client_id;
 }
