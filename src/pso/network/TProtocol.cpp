@@ -263,9 +263,9 @@ void TProtocol::handle_cmd_C5(packet &pkt) {
     }
 }
 
-s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
+s32 TProtocol::send_login_9e_extended(const char *player_name, int udp_disabled) {
     memset(m_player_name, 0, 0x10);
-    strncpy(m_player_name, (const char *)player_name, 0x10);
+    strncpy(m_player_name, player_name, 0x10);
     m_udp_disabled = udp_disabled;
     TSendLogin pkt;
     memset(&pkt, 0, sizeof(pkt));

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
@@ -522,7 +523,6 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
 
 
 extern "C" {
-u32 calc_text_width(char *s);
 }
 
 void ItemListRow::set_ground_item(TItemData *item, s32 index) {

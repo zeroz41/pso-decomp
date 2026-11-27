@@ -544,9 +544,9 @@ void TOMine::vfunc_79() {  }
 void TOMine::apply_knockback_from_attacker(TObjBase *, f32) {  }
 s32 TOMine::try_start_action(TObjChara *, s32, f32) { return 1; }
 s32 TOMine::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
-s32 TOMine::is_target_in_list(void *obj) {
+s32 TOMine::is_target_in_list(TObjBase *obj) {
     if (obj != 0) {
-        u32 id = ((TObjBase *)(obj))->get_entity_id();
+        u32 id = obj->get_entity_id();
         if (id < 4) {
             TObject *n;
             for (n = m_down; n != 0; n = n->m_next) {

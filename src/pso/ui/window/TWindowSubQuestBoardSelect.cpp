@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -263,7 +264,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
     delete status_disp;
 }
 
-u32 calc_text_width();
 }
 #pragma push
 #pragma fp_contract on
@@ -277,8 +277,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
     set_text_entry_string(entry_0, (TQuestThread::get_quest_name()), 0);
-    entry_0->get_text();
-    title_width = (f32) calc_text_width();
+    title_width = (f32) calc_text_width(entry_0->get_text());
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;
     update_slot_display_flags();

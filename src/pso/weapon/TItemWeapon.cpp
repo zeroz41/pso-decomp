@@ -47,7 +47,7 @@ void TItemWeapon::draw_weapon_model() {
         set_texlist((this->texlist));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
         if ((visible != 0) && (this->is_hidden() == 0)) {
-            weapon_render_callback_object = (u8 *)this;
+            weapon_render_callback_object = this;
             weapon_node_material_index = color_node;
             parameters = this->parameters;
             weapon_node_ids[0] = parameters->effect_nodes[0];

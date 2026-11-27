@@ -44,10 +44,10 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 
+u32 calc_text_width(const char *);
 extern "C" {
 
 
-u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 void set_tombstone_position(s32 i, Vec *pos);
 }

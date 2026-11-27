@@ -2,6 +2,7 @@
 #include "pso/item/MagStats.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/system/memory.h"
@@ -42,7 +43,6 @@ s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
 
 extern "C" {
-s32 __cvt_fp2unsigned(f32);
 }
 
 extern const f32 item_drop_u16_scale;

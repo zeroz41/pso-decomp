@@ -45,7 +45,7 @@ void TActorLight::run_task() {
         queue_destruction();
         return;
     }
-    TObjLight::find_light_params((f32 *)&baseDir, (f32 *)&baseColor, actor);
+    TObjLight::find_light_params(&baseDir, &baseColor, actor);
     mid = 0.5f * (f32) duration;
     if (age < (s32) mid) {
         f32 amb1;
@@ -93,7 +93,7 @@ TActorLight::TActorLight(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec
     this->peak = peak;
     this->intensity = intensity;
     actor = this->source->get_entity_id();
-    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
+    TObjLight::find_light_params(&direction, &scene_color, actor);
 }
 TActorLight::TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, TObjBase *source, TObject *parent)
     : TObject(parent) {
@@ -108,7 +108,7 @@ TActorLight::TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, 
     peak = actor_light_one[0];
     intensity = actor_light_one[0];
     actor = this->source->get_entity_id();
-    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
+    TObjLight::find_light_params(&direction, &scene_color, actor);
 }
 
 #pragma push

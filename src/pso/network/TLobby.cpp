@@ -1,6 +1,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/network/TradeSession.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -125,6 +126,7 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
+void queue_destruction__7TObjectFv(void *task);
 }
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
@@ -135,7 +137,6 @@ extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 }
 extern "C" {
-void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
@@ -410,7 +411,7 @@ void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
             delete lobby_idle_timeout_window;
             lobby_idle_timeout_window = 0;
             idle_timeout_active = 1;
-            queue_destruction__7TObjectFv(t);
+            t->queue_destruction();
         } else {
             sprintf(lobby_idle_timeout_text_buffer, (const char *)TLobby::get_seq_phase(0x1F), limit - elapsed);
         }
@@ -1084,7 +1085,7 @@ void queue_join_entry_exit_on_input(TObject *task) {
         TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
-        queue_destruction__7TObjectFv(task);
+        task->queue_destruction();
     }
 }
 void TLobby::update() {
@@ -2345,7 +2346,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         }
     } else {
         game_join_pending_clients[e.client_id] = 1;
-        TLobby::copy_member_record(&lobby_join_entries[e.client_id], &e);
+        TLobby::copy_member_record(&lobby_join_entries[e.client_id], (TPlyJoinLobbyEntry *)&e);
     }
     if (local_client_id == designated_client_id) {
         init_6x72_resume_packet(&pkt);
@@ -2432,7 +2433,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
     const NJS_POINT2 *w;
 
     if (list_window != 0) {
-        queue_destruction__7TObjectFv(list_window);
+        list_window->queue_destruction();
         list_window = 0;
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((const char *)tbl);
@@ -2454,7 +2455,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
     }
     list_window->calc_content_extent();
     if (download_list_window != 0) {
-        queue_destruction__7TObjectFv(download_list_window);
+        download_list_window->queue_destruction();
         download_list_window = 0;
     }
     {
@@ -2729,9 +2730,7 @@ void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet) {
     packet->header.subcommand = 0x72;
     packet->header.size = sizeof(G_DoneLoadingIntoGame_6x72) / 4;
 }
-void *TLobby::copy_member_record(void *to, void *from) {
-    TPlyJoinLobbyEntry *dst = (TPlyJoinLobbyEntry *)to;
-    TPlyJoinLobbyEntry *src = (TPlyJoinLobbyEntry *)from;
+TPlyJoinLobbyEntry *TLobby::copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src) {
     *(ByteBlock_8 *)&dst->tag = *(ByteBlock_8 *)&src->tag;
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;

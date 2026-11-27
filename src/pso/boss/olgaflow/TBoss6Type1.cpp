@@ -1373,7 +1373,7 @@ void TBoss6Type1::spawn_grav_ball() {
         v.x += r * sin_table_lookup(ang);
         v.z += r * cos_table_lookup(ang);
     }
-    TBoss6Type1::create_grav_ball(this, &v);
+    this->create_grav_ball(&v);
 }
 
 

@@ -303,7 +303,7 @@ void TItemData::add_shield_stat_contribution(TObjPlayer *player, AttackParams *a
     parm = (ShieldPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
         b06 = ((s32 (*)(void *))TItemData::getS16_06)(this);
-        s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(this);
+        s32 b08 = ((s32 (*)(void *))TItemData::get_evp_bonus)(this);
         s32 v = (s32)(parm->evp * mult + add);
         if (params != 0) {
             params->add_evp((s16)(v + b08));
@@ -329,7 +329,7 @@ void TItemData::add_armor_stat_contribution(TObjPlayer *player, AttackParams *at
     parm = (ArmorPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
         dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(this);
-        s16 evpBonus = get_bswap16_field8(data1.data_u8);
+        s16 evpBonus = get_evp_bonus(data1.data_u8);
         s32 dfp = (s32)(parm->dfp * mult + add);
         if (params != 0) {
             params->add_evp((s16)(parm->evp + evpBonus));
@@ -671,7 +671,7 @@ void TItemData::set_unit_modifier(s16 modifier) {
     bswap_16(&this->data1.data_u16[3]);
 }
 
-s16 TItemData::get_bswap16_field8(void *data) {
+s16 TItemData::get_evp_bonus(void *data) {
     s16 value = *(s16 *)((u8 *)data + 8);
     bswap_16((u16 *)&value);
     return value;
@@ -722,7 +722,7 @@ s32 TItemData::has_bonus_stats() {
                 return 1;
             }
         case 2:
-            if (getS16_06(this) > 0 || get_bswap16_field8(this) > 0) {
+            if (getS16_06(this) > 0 || get_evp_bonus(this) > 0) {
                 return 1;
             }
             break;
@@ -1338,7 +1338,7 @@ s32 TItemData::calc_price() {
       if ((0.0f != coef) && (armor != 0))
       {
         s32 a = TItemData::getS16_06(this);
-        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_bswap16_field8(this));
+        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_evp_bonus(this));
         {
           s32 dv = (s32) ((atp * atp) / coef);
           f32 sl = 70.0f * ((f32)(data1.data_u8[5] + 1));

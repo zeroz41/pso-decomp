@@ -1935,21 +1935,21 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
     }
 }
 
-inline s32 approach_destination(TObjEneMe3SinowZoa *self) {
-    copy_position_if_valid(self, self->body_center);
-    self->body_center.y += 5.0f;
-    return ((TObjEnemy *)self)->enemy_turn_toward_dest(self->movementParameters->turn_speed);
+inline s32 TObjEneMe3SinowZoa::approach_destination() {
+    copy_position_if_valid(this, this->body_center);
+    this->body_center.y += 5.0f;
+    return ((TObjEnemy *)this)->enemy_turn_toward_dest(this->movementParameters->turn_speed);
 }
-inline s32 seek_destination(TObjEneMe3SinowZoa *self, Vec *diff) {
+inline s32 TObjEneMe3SinowZoa::seek_destination(Vec *diff) {
     s32 angle;
-    if (select_enemy_destination(self, self->destination, 1) != 0) {
-        angle = approach_destination(self);
-        enemy_set_heading_velocity(self->movementParameters->move_speed, self, self->rotation_y);
-        move_with_wall_slide(self);
+    if (select_enemy_destination(this, this->destination, 1) != 0) {
+        angle = approach_destination();
+        enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
+        move_with_wall_slide(this);
     } else {
-        VecCopy(diff, &self->destination);
-        subtract_vector(diff, &self->body_center);
-        angle = self->turn_toward_direction(self->movementParameters->turn_speed, diff);
+        VecCopy(diff, &this->destination);
+        subtract_vector(diff, &this->body_center);
+        angle = this->turn_toward_direction(this->movementParameters->turn_speed, diff);
     }
     return angle;
 }
@@ -1983,7 +1983,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 this->transition_enemy_state(6);
                 break;
             }
-            angle = seek_destination(this, &diff);
+            angle = seek_destination(&diff);
             if (angle < 0x100) {
                 if (this->stealthed != 0) {
                     this->fade.set_rate(0.05f);

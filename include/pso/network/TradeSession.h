@@ -38,6 +38,8 @@ const char *format_trade_out_of_range_message(s32 client_id);
 void handle_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *packet);
 void handle_6xA7(void);
 void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal);
+struct TTradeList;
+void handle_trade_received_items(TTradeList *trade_list);
 void handle_trade_final_confirmation(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_item_amount(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_item_move(G_ModifyTradeProposal_6xA6 *proposal);

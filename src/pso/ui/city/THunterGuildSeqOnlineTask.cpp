@@ -207,9 +207,6 @@ void TLobby::handle_quest_download_chunk() {
     }
 }
 
-extern "C" {
-char *strtok(char *, const char *);
-}
 
 void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     TRecvDownloadHead *head = &file;

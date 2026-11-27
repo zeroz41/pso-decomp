@@ -164,7 +164,6 @@
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
 void *consume_telepipe_arrival(u16, void *);
-void copy_player_visual_record(void *dst, void *src);
 void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 }
 
@@ -379,7 +378,7 @@ TObjPlayer::~TObjPlayer() {
     unregister();
 }
 
-void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record(&appearance, visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }
+void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((PlayerVisualRecord *)&appearance, (PlayerVisualRecord *)visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }
 
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); free_loaded_buffers(); }
 
@@ -2067,7 +2066,7 @@ s32 TObjPlayer::is_target_in_facing_cone(Vec *target) {
     to.y = player_zero;
     to.z = target->z - z;
     normalize_vector_safe(&to);
-    dot = ((f32 (*)(Vec *, Vec *))vec3_dot)(&fwd, &to);
+    dot = vec3_dot(&fwd, &to);
     if (dot < cos_table_lookup(0x1555)) {
         return 0;
     }
@@ -2266,7 +2265,7 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     if (check_player_action_allowed() != 0 &&
         (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0 ||
          TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 1)) {
-        ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53F06, 0, 0, 0);
+        play_sound_effect(0x53F06, NULL, 0, 0);
         return;
     }
     TItemList *list = this->inventory_objects->start_inventory_update(key);
@@ -3717,7 +3716,7 @@ void TObjPlayer::init_trait_flags() {
 }
 
 void send_impose_hold(TObjPlayer *player, int frames) {
-    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, player_zero);
+    send_6x2C_impose_hold(player, player->get_position_ptr(), frames, 0, player_zero);
 }
 
 
@@ -3856,7 +3855,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->floor = get_floor();
     record->player_flags = state_flags;
     record->language = get_language();
-    copy_player_visual_record(&record->visual, &appearance);
+    copy_player_visual_record((PlayerVisualRecord *)&record->visual, (PlayerVisualRecord *)&appearance);
     record->inventory.count = inventory_objects->run_state_query(record->inventory.items);
     saved_hp = get_actor_hp();
     saved_tp = get_actor_tp();

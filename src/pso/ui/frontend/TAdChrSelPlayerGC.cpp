@@ -66,7 +66,6 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
 
 extern "C" {
 
-void copy_player_visual_record(void *, const void *);
 
 }
 
@@ -192,19 +191,19 @@ void TAdChrSelPlayerGC::run_task() {
         }
         switch (layout_mode) {
         case 0:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
         case 1:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
         case 2:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
@@ -212,7 +211,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 3:
         case 4:
         case 5:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, slot);
             preview_data = p;
             break;

@@ -25,7 +25,7 @@ s32 lbl_805D64A8;
 s32 lbl_805D64AC;
 TQuestListChallenge *quest_list_challenge_active_instance;
 
-extern __declspec(section ".rodata") const QuestListStageEntry TQuestListChallenge__stage_table[5];
+extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge2_stage_table[5];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge_stage_table[9];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_battle_stage_table[8];
 extern const char *quest_list_challenge_name;
@@ -237,7 +237,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
         if (TLobby::get_instance() == 0) {
             entries = quest_list_challenge_stage_table;
         } else {
-            entries = TQuestListChallenge__stage_table;
+            entries = quest_list_challenge2_stage_table;
         }
         text_group = 0xF;
         count = calc_min_challenge_progress() + 1;
@@ -277,7 +277,7 @@ extern "C" const char str_challenge2_mlt_stg2[] = "challenge2_mlt_stg2";
 extern "C" const char str_challenge2_mlt_stg3[] = "challenge2_mlt_stg3";
 extern "C" const char str_challenge2_mlt_stg4[] = "challenge2_mlt_stg4";
 extern "C" const char str_challenge2_mlt_stg5[] = "challenge2_mlt_stg5";
-extern "C" const QuestListStageEntry TQuestListChallenge__stage_table[5] = {
+extern "C" const QuestListStageEntry quest_list_challenge2_stage_table[5] = {
     {27, 28, 29, str_challenge2_mlt_stg1},
     {30, 31, 32, str_challenge2_mlt_stg2},
     {33, 34, 35, str_challenge2_mlt_stg3},

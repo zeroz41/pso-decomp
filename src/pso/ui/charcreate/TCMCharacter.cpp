@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
@@ -61,7 +62,6 @@ s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
 void reset_invalid_proportions();
-void copy_player_visual_record(void *, void *);
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 }
@@ -444,9 +444,9 @@ void bind_body_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *mo
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }
 }
-void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_head_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *model) {
     reset_creation_head_shapes();
-    make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_head_shape_destination);
+    make_node_flag_table(model, (NodeFlagEntry *)&creation_head_shape_destination);
     s32 head = appearance->head + 1;
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[head][i], (NodeFlagEntry *)&creation_head_shape_samples[i]);
@@ -532,7 +532,7 @@ void TCMCharacter::apply_character_appearance() {
     }
     char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
     bind_body_shape_nodes(app, this->model);
-    bind_head_shape_nodes(app, (void *)chara_select_head_node);
+    bind_head_shape_nodes(app, (NJS_OBJECT *)chara_select_head_node);
     blend_creation_proportion_shapes(&creation_player_character->width);
     memcard_access_active = 0;
     char_select_active_flag = 1;
@@ -545,7 +545,7 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            bind_head_shape_nodes(creation_player_character, ((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
+            bind_head_shape_nodes(creation_player_character, (NJS_OBJECT *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model));
         }
         break;
     case 4: {
@@ -1009,8 +1009,8 @@ void CreationTextureCacheEntry::release_texture_lists() {
 }
 
 
-s32 select_unused_appearance_part(void *appearance, s32 part) {
-    CharacterAppearanceFields c = *(CharacterAppearanceFields *)appearance;
+s32 select_unused_appearance_part(CharacterAppearanceFields *appearance, s32 part) {
+    CharacterAppearanceFields c = *appearance;
     s32 max;
     s32 cur;
     s32 v;
@@ -1042,7 +1042,7 @@ s32 select_unused_appearance_part(void *appearance, s32 part) {
     }
     return 0;
 ok:
-    copy_player_visual_record(appearance, &c);
+    copy_player_visual_record((PlayerVisualRecord *)appearance, (PlayerVisualRecord *)&c);
     return 1;
 }
 

@@ -130,7 +130,7 @@ extern f32 scratch_vec5[3];
 }
 
 
-u8 * lock_on_cursor_bml_resource;
+BmlResource * lock_on_cursor_bml_resource;
 s32 lock_on_cursor_model;
 s32 TLockOnCursor::target_cursor_model;
 
@@ -217,21 +217,21 @@ TLockOnCursor::~TLockOnCursor() {
 }
 
 void load_target_cursor_models(void) {
-    saddr resource;
-    if ((void *) lock_on_cursor_bml_resource == NULL) {
-        resource = (saddr)new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
-        lock_on_cursor_bml_resource = (unsigned char *) ((void *) resource);
-        if ((u32) resource != 0U) {
-            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)resource, 0);
-            TLockOnCursor::target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
-            main_cursor_model = get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
+    BmlResource *resource;
+    if (lock_on_cursor_bml_resource == NULL) {
+        resource = new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
+        lock_on_cursor_bml_resource = resource;
+        if (resource != NULL) {
+            lock_on_cursor_model = (saddr)get_bml_model(resource, 0);
+            TLockOnCursor::target_cursor_model = (saddr)get_bml_model(lock_on_cursor_bml_resource, 0);
+            main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
         }
     }
 }
 
 void TLockOnCursor::free_cursor_resources() {
-    if ((void *) lock_on_cursor_bml_resource != NULL) {
-        delete (BmlResource *)lock_on_cursor_bml_resource;
+    if (lock_on_cursor_bml_resource != NULL) {
+        delete lock_on_cursor_bml_resource;
         lock_on_cursor_bml_resource = NULL;
     }
     lock_on_cursor_model = 0;

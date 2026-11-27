@@ -15,7 +15,6 @@
 #include "pso/network/client_id.h"
 
 extern "C" {
-s32 copy_player_visual_record(void *, void *);
 }
 
 // Saves the local player into `record`. With no local player yet it asks for one and returns 0.
@@ -55,7 +54,7 @@ void TPlyCharData::copy_from_player(TObjPlayer *player) {
     u8 *overflow;
     s32 i;
     player->set_flag_80000();
-    copy_player_visual_record(&m_disp_part2, &player->appearance);
+    copy_player_visual_record((PlayerVisualRecord *)&m_disp_part2, (PlayerVisualRecord *)&player->appearance);
     m_inventory.m_num_items = player->query_state_if_present(m_inventory.get_items());
     player->inventory_objects->set_flag_and_update(player);
     player->clamp_stats(&m_stats, player->get_class_stat_entry());

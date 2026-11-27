@@ -2,6 +2,7 @@
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -14,7 +15,6 @@
 const char *TChCrEffFade::class_name = "TChCrEffFade";
 
 extern "C" {
-u32 __cvt_fp2unsigned(f32);
 }
 
 void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha) {

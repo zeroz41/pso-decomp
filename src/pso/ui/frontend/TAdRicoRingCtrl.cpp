@@ -1,3 +1,4 @@
+#include "clib/fp_convert.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
@@ -34,7 +35,6 @@ s8 rico_ring_quad_z_near_ready;
 f32 rico_ring_quad_z_far;
 s8 rico_ring_quad_z_far_ready;
 s8 rico_ring_quad_vertices_ready;
-u32 __cvt_fp2unsigned(f32);
 }
 
 const char *rico_ring_model_names[2] = { "rico_ring.nj", NULL };

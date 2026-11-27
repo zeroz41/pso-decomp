@@ -7,6 +7,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include <stddef.h>
@@ -45,9 +46,6 @@ u16 soft_keyboard_conversion_exclusions[20] = {
 
 
 extern "C" {
-s32 map_char_to_font_code(u16);
-u8 get_font_char_advance(s32);
-extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
 
 void draw_textured_quad_at_depth(void *, f32);
 
@@ -789,7 +787,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(WindowDrawContext *context, NJS_POIN
 void TWindowKeyBoardBase::layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled) {
     TexturedQuad q;
     f32 depth;
-    s32 code;
+    u16 code;
     u16 ch;
     u8 adv;
 

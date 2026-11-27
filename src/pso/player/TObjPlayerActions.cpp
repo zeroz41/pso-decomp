@@ -2717,7 +2717,7 @@ s32 TObjPlayer::try_equip_item(s16 tech) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void tail_801CCD38(TObjPlayer *p, s32 t, s8 lvl) {
+inline void start_technique_cast_from_packet(TObjPlayer *p, s32 t, s8 lvl) {
     switch (t) {
     case 10:
     case 11:
@@ -2768,13 +2768,13 @@ void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command) 
     if (lvl == 0xE) {
         lvl += p->technique_state.get_valid_technique();
     }
-    if (p->technique_state.check_technique_level((s16)tech, (u8)lvl) == 0) {
+    if (p->technique_state.check_technique_level(tech, (u8)lvl) == 0) {
         lvl = 0;
     }
     ul = lvl;
     p->technique_state.set_level(ul);
     TObjPlayer::set_technique_level_clamped(p, ul, tech);
-    tail_801CCD38(p, tech, lvl);
+    start_technique_cast_from_packet(p, tech, lvl);
 }
 #pragma pop
 

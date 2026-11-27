@@ -42,7 +42,7 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 
 TChallenge4PResult *challenge4p_result_slot_entries[4];
 
-void resume_challenge_result_processing(void *result);
+void resume_challenge_result_processing(TChallenge4PResult *result);
 extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
@@ -295,9 +295,9 @@ void TChallenge4PResult::update_entries(TItemData *item, s32 slot) {
     } while (i < 4);
 }
 
-void resume_challenge_result_processing(void *result) {
+void resume_challenge_result_processing(TChallenge4PResult *result) {
     if (result != NULL) {
-        ((TChallenge4PResult *)result)->state_1c = 1;
+        result->state_1c = 1;
     }
 }
 
@@ -381,7 +381,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
 }
 
 void TChallenge4PItemSelect::close_with_callback() {
-    void (*callback)(void *);
+    void (*callback)(TChallenge4PResult *);
 
     callback = onClosed;
     if (callback != NULL) {

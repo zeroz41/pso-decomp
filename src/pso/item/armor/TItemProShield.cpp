@@ -85,7 +85,7 @@ TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(paren
     dfp_range = pmt->dfp_range;
     evp_range = pmt->evp_range;
     dfp_bonus = TItemData::getS16_06(item);
-    evp_bonus = TItemData::get_bswap16_field8(item);
+    evp_bonus = TItemData::get_evp_bonus(item);
     shield_flags = 0;
     set_attach_joint(0x24);
     apply_shield_effect_flags();

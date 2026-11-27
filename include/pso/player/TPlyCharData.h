@@ -100,4 +100,6 @@ struct PlayerVisualRecord {
     VisualRecordBlock proportions;
 };
 
+PlayerVisualRecord *copy_player_visual_record(PlayerVisualRecord *dst, PlayerVisualRecord *src);
+
 #endif

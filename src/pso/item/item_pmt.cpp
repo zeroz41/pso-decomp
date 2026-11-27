@@ -2,6 +2,7 @@
 // the item drop rolls that read it.
 #pragma readonly_strings on
 #include "types.h"
+#include "clib/fp_convert.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
@@ -38,7 +39,6 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
 extern "C" {
-s32 __cvt_fp2unsigned(f32);
 }
 
 saddr TObjPlayer::get_item_pmt_entry(u8 index) {

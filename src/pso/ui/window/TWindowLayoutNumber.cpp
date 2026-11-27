@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 extern "C" {
-extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
 u8 get_small_font_glyph_width();
 s32 get_small_font_glyph_id(s32);
 s32 build_small_font_glyph_quad(s32, TexturedQuad *);

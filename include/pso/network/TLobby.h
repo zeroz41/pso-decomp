@@ -26,6 +26,8 @@ struct player_stats;
 struct AttackParams;
 struct SymbolChatPayload;
 struct TAdDialingMessageWindow;
+struct ObjectSetData;
+struct TObjQuestColApcINW;
 struct ActorParamBlock;
 union BattleMovementParams;
 #include "pso/audio/AdxCallbacks.h"
@@ -282,9 +284,9 @@ struct TLobby : public TObject {
     static void close_menu_windows();
     static void construct_global_arrays();
     static void copy_all_data(int, int);
-    static void *copy_member_record(void *, void *);
+    static TPlyJoinLobbyEntry *copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src);
     static void *copy_symbol_chat_entry(void *, void *);
-    static void *create_quest_col_apc_inw(void *, void *);
+    static TObjQuestColApcINW *create_quest_col_apc_inw(ObjectSetData *set, s32 *out_id);
     static void create_warp_menu();
     static void destroy_all_objects();
     static void destroy_child_recursive(TObject *task, TObject *object);
@@ -450,4 +452,5 @@ TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
 u8 *get_password_input_buffer(void);
 
 extern TPlyChallenge lobby_player_status_records[];
+extern TObject *lobby_player_construction_window;
 #endif

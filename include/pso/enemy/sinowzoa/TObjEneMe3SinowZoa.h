@@ -135,6 +135,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s32 is_in_sword_range(f32);
     s32 check_move_collision(const Vec *pos);
     void cast_technique();
+    s32 approach_destination();  // body_center lifted 5 and turned toward the destination
+    s32 seek_destination(Vec *diff);
 };
 
 LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, stealthed) == 0x3C0);

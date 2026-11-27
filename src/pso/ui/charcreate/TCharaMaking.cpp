@@ -37,7 +37,6 @@
 #include "pso/render/GinjaTexture.h"
 
 extern "C" {
-u8 * copy_player_visual_record(void *, void *);
 extern CharacterAppearanceFields character_creation_visual_record;
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
@@ -51,7 +50,7 @@ void load_creation_visual_record(CharacterAppearanceFields *record) {
         invalidate_creation_visual_record();
         return;
     }
-    copy_player_visual_record(&character_creation_visual_record, record);
+    copy_player_visual_record((PlayerVisualRecord *)&character_creation_visual_record, (PlayerVisualRecord *)record);
 }
 
 void invalidate_creation_visual_record(void) {
@@ -116,7 +115,7 @@ s32 get_current_char_flag() {
 void reset_current_char_appearance(void) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
-    copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
+    copy_player_visual_record((PlayerVisualRecord *)character_appearance_fields, (PlayerVisualRecord *)get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int char_select_check_stub(void) { return 1; }

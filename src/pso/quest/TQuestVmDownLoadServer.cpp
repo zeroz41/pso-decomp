@@ -52,8 +52,6 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
 extern TObject *tl_00;
 
-extern uaddr lobby_player_construction_window;
-
 
 #include "pso/render/TDLGraph.h"
 #include "pso/network/TLobby.h"
@@ -78,9 +76,6 @@ __declspec(section ".data") u32 download_rng_seed_pair[2];
 s32 calc_download_crc32(void *data, s32 size);
 extern TObject *tl_03;
 
-extern "C" {
-char *strtok(char *, const char *);
-}
 
 void TQuestVmDownLoadServer::reset_download_state() {
     quest_dat_download_complete = 0;
@@ -332,7 +327,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(u32 *data, s32 size) {
     safe_free(dst);
     safe_free(src);
 }
-void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
+void TQuestVmDownLoadServer::unshuffle_and_decrypt(u8 *data, s32 size) {
     void *src;
     void *dst;
     u32 *words;
@@ -367,7 +362,7 @@ s32 calc_download_crc32(void *data, s32 size) {
     }
     return crc ^ 0xFFFFFFFF;
 }
-s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
+s32 TQuestVmDownLoadServer::verify_checksum(const u8 *data, s32 size) {
   s32 crc;
   void *copy;
   s32 stored;
@@ -594,7 +589,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
         if (this->mc_select == NULL) {
             TScene::reset_counter();
             if (lobby_player_construction_window != 0) {
-                ((TObject *)((void *)lobby_player_construction_window))->disallow_rendering();
+                lobby_player_construction_window->disallow_rendering();
             }
             this->mc_select = TAdMcSelectGC::create(tl_03);
         }
@@ -634,9 +629,9 @@ void TQuestVmDownLoadServer::update_mc_select() {
 void TQuestVmDownLoadServer::open() {
     if ((uaddr) this->mc_select == 0U) {
         TScene::reset_counter();
-        uaddr window = lobby_player_construction_window;
+        TObject *window = lobby_player_construction_window;
         if (window != 0U) {
-            ((TObject *)((void *)window))->disallow_rendering();
+            window->disallow_rendering();
         }
         this->mc_select = TAdMcSelectGC::create(tl_03);
     }
@@ -994,7 +989,7 @@ void TQuestVmDownLoadServer::close_download() {
 void TQuestVmDownLoadServer::destroy() {
     TScene::set_ready();
     if (lobby_player_construction_window != 0) {
-        ((TObject *)((void *)lobby_player_construction_window))->allow_rendering();
+        lobby_player_construction_window->allow_rendering();
     }
     TQuestVmDownLoadServer::free_buffers();
     queue_destruction();

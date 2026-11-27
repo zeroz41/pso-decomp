@@ -28,15 +28,6 @@
 #include "pso/enemy/BattleParamTables.h"
 
 
-typedef struct Src_8024220C
-{
-  s32 id;
-  char name[0x30];
-  char list[0x30];
-  u8 f64[0xC];
-  u8 ext[0x64];
-} Src_8024220C;
-
 // Their constructors run from __sinit_GuildCardRecord_cpp, spelled out below because the
 // original's static initializer precedes this file's inline copies.
 #pragma push
@@ -69,26 +60,23 @@ void TLobby::send_find_user_self_tag(s32 gc_num) {
     }
 }
 
-typedef struct Src_8024220C Src_8024220C;
-extern "C" {
-void load_selected_guild_card_record(Src_8024220C *src) {
+void load_selected_guild_card_record(ChoiceSearchResult *src) {
   char *list;
   char *cursor;
-  selected_guild_card_record.id = src->id;
+  selected_guild_card_record.id = src->guildcard_number;
   selected_guild_card_record.serial = 0;
   memset(selected_guild_card_record.name, 0, 0x11);
   strncpy(selected_guild_card_record.name, src->name, 0x10);
   selected_guild_card_record.name[0x10] = 0;
-  list = src->list;
+  list = src->location;
   list = build_text_from_comma_list(list);
   cursor = list;
   cursor = parse_csv_token(cursor, selected_guild_card_record.s19);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   parse_csv_token(cursor, selected_guild_card_record.s3B);
-  copy_guild_card_f4c(&selected_guild_card_record.recv_port, src->f64);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->ext);
-}
+  copy_guild_card_f4c(&selected_guild_card_record.recv_port, &src->reconnect);
+  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->extension);
 }
 
 void copy_guild_card_f4c(void *dst, void *src) {

@@ -1106,21 +1106,20 @@ void TObjEneDubchik::render_model_and_set_attach_points() {
 }
 
 void TObjEneDubchik::apply_broken_part_visibility() {
-    u8 *g = (u8 *)dubchik_base_params_by_variant;
     if (behavior_flags & 0x20000) {
-        hide_model_nodes((NJS_OBJECT **)(g + 0x68));
+        hide_model_nodes(dubchik_part0_nodes);
     } else {
-        show_model_nodes((NJS_OBJECT **)(g + 0x68));
+        show_model_nodes(dubchik_part0_nodes);
     }
     if (behavior_flags & 0x40000) {
-        hide_model_nodes((NJS_OBJECT **)(g + 0x78));
+        hide_model_nodes(dubchik_part1_nodes);
     } else {
-        show_model_nodes((NJS_OBJECT **)(g + 0x78));
+        show_model_nodes(dubchik_part1_nodes);
     }
     if (behavior_flags & 0x80000) {
-        hide_model_nodes((NJS_OBJECT **)(g + 0xA8));
+        hide_model_nodes(dubchik_part2_nodes);
     } else {
-        show_model_nodes((NJS_OBJECT **)(g + 0xA8));
+        show_model_nodes(dubchik_part2_nodes);
     }
 }
 

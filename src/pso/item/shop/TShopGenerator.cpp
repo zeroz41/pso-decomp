@@ -2,6 +2,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
+#include "pso/render/DebugFont.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -56,7 +57,6 @@ const char *TShopGenerator::class_name = "TShopGenerator";
 s32 TShopGenerator::slot_active_table[4];
 
 extern "C" {
-f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *player, f32 range);
@@ -67,20 +67,20 @@ bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *play
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
-    f32 to_self[3];
+    Vec to_self;
     if (xyz_distance_squared(&player->position, &position) > (range * range)) {
         return 0;
     }
-    f32 facing[3] = {0.0f, 0.0f, -1.0f};
+    Vec facing = {0.0f, 0.0f, -1.0f};
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, (int) player->rotation_y);
-    rotate_vector_by_matrix(0, facing, facing);
+    rotate_vector_by_matrix(0, &facing, &facing);
     pop_matrix();
-    to_self[0] = this->position.x - player->position.x;
-    to_self[1] = this->position.y - player->position.y;
-    to_self[2] = this->position.z - player->position.z;
-    normalize_vector((Vec *)to_self);
-    return (vec3_dot(facing, to_self) > -0.5f) == 0;
+    to_self.x = this->position.x - player->position.x;
+    to_self.y = this->position.y - player->position.y;
+    to_self.z = this->position.z - player->position.z;
+    normalize_vector(&to_self);
+    return (vec3_dot(&facing, &to_self) > -0.5f) == 0;
 }
 #pragma pop
 

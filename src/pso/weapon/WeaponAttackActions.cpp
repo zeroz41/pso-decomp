@@ -1,6 +1,8 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/system/MatrixStack.h"
 #include "types.h"
+#include "clib/fp_convert.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/object/TActorLight.h"
 #include "pso/item/item_pmt.h"
 
@@ -64,8 +66,6 @@ extern NJS_ARGB weapon_light_color[];
 
 
 TObjChara *resolve_hittable_target(s32, s32);
-u32 __cvt_fp2unsigned(f32);
-f32 xyz_distance(void *, void *);
 
 
 void TItemWeapon::set_weapon_category_flags() {
@@ -460,11 +460,11 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
                         this->restore_action_type();
                     }
                 } else {
-                    flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
+                    flight_frames = xyz_distance(origin, &endpoint) / shot_speed;
                 }
             } else {
                 VecCopy(&endpoint, &wall_hit->contact->point);
-                flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
+                flight_frames = xyz_distance(origin, &endpoint) / shot_speed;
                 if ((wall_hit->contact->flags & 0x100) && (impact_callback != NULL)) {
                     spawn_land_hit_effect(tl_05, this, origin, &endpoint, (s32)flight_frames);
                 }
@@ -788,23 +788,23 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 extern const f32 weapon_photon_phase_step;
 s16 weapon_node_material_index;
 __declspec(section ".data") s16 weapon_node_ids[4];
-u8* weapon_render_callback_object;
+TItemWeapon *weapon_render_callback_object;
 
 void apply_weapon_node_material(NJS_OBJECT *) {
     const s32 node = get_model_node_counter();
     TItem::end_material_color();
     TItem::end_effect_render();
-    ((TItem *)weapon_render_callback_object)->end_particle_tev();
-    ((TItem *)weapon_render_callback_object)->end_shield_tev();
-    ((TItemWeapon *)weapon_render_callback_object)->transform_model_node();
+    weapon_render_callback_object->end_particle_tev();
+    weapon_render_callback_object->end_shield_tev();
+    weapon_render_callback_object->transform_model_node();
     if(node == weapon_node_material_index) {
-        NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+        NJS_ARGB color = weapon_render_callback_object->get_weapon_color();
         TItem::begin_constant_material_color(&color);
     }
     if(node == weapon_node_ids[0] || node == weapon_node_ids[1] || node == weapon_node_ids[2]) {
         TItem::begin_effect_render();
         if(item_render_state.test_flags_any(4)) {
-            NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+            NJS_ARGB color = weapon_render_callback_object->get_weapon_color();
             TItem::begin_constant_material_color(&color);
         }
     }

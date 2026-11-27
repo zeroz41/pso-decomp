@@ -35,7 +35,7 @@ public:
     static const char *get_quest_name();
     static s32 get_register(const TQuestManager *root, int index);
     static void queue_destruction(TObject *obj);
-    static void set_status_flag_80(void *window);
+    static void set_status_flag_80(TWindowMenu *window);
 };
 
 class TQuestThreadBoard : public TObject {

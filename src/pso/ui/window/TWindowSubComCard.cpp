@@ -69,7 +69,6 @@ static const saddr com_card_help_message_ids[] = {0x47, 0x48, 0x49, 0x4A, 0x4B, 
 
 extern "C" {
 void set_value_by_key(void *, u16, s32);
-void load_selected_guild_card_record(ChoiceSearchResult *result);
 }
 
 

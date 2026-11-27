@@ -71,6 +71,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -605,7 +606,6 @@ void qst_op_va_call(s32 label) {
   qst_pc = qst_function_table[(u16)label];
 }
 extern "C" {
-s32 copy_player_visual_record(void *, void *);
 }
 
 int quest_active_flag;
@@ -1217,7 +1217,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start].i);
+    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;
@@ -2817,7 +2817,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u8 *record;
     record = qst_label_address(label);
     if (record != NULL) {
-        copy_player_visual_record(&quest_npc_visual_record, record);
+        copy_player_visual_record((PlayerVisualRecord *)&quest_npc_visual_record, (PlayerVisualRecord *)record);
     }
 }
 
@@ -3793,7 +3793,7 @@ void qst_op_check_npc_straggle(u8 i) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start].i);
+    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;

@@ -1,5 +1,6 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -24,10 +25,7 @@ extern "C" {
 u8 get_small_font_glyph_width(s32);
 s32 get_small_font_glyph_id(s32);
 void calc_plain_glyph_quad(s32, void *);
-extern "C" void bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
 void build_small_font_glyph_quad(s32, void *);
-s32 get_font_char_advance(s32);
-s32 map_char_to_font_code(s32);
 void TWindowKeyBoardBase::set_input_mode(s32 mode) { m_input_mode = mode; }
 }
 s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width) {
@@ -144,8 +142,8 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
             ok = 0;
             continue;
         }
-        glyph = map_char_to_font_code(code);
-        adv = get_font_char_advance(glyph);
+        glyph = ((s32 (*)(s32))map_char_to_font_code)(code);
+        adv = ((s32 (*)(s32))get_font_char_advance)(glyph);
         if (x + (f32)(u8)adv > text_draw_right_limit_x) {
             x = pos[0];
             y += 20.0f;
@@ -163,7 +161,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
             q.x1 = q.x0 + width;
         }
         if (text_clip_enabled_flag == 0 || text_draw_clip_context->is_point_in_bounds(&q) != 0) {
-            bind_menu_font_glyph(glyph, &q, col);
+            ((void (*)(s32, TexturedQuad *, s32))bind_menu_font_glyph)(glyph, &q, col);
             reinterpret_cast<SetGlyphExtent>(set_glyph_quad_extents)(adv, &q);
             if ((f32)(u8)adv > width) {
                 q.x1 = q.x0 + width;

@@ -110,7 +110,7 @@ void TQuestThread::queue_destruction(TObject *obj) { obj->queue_destruction(); }
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 
-void TQuestThread::set_status_flag_80(void *window) { *(u16 *)((u8 *)window + 0x70) |= 0x80; }
+void TQuestThread::set_status_flag_80(TWindowMenu *window) { window->menu_flags |= 0x80; }
 
 TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;

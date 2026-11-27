@@ -229,7 +229,7 @@ void *TObjFogCollisionPoison::create(void *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 
-TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent_task, void *set) : TObjFogCollisionSwitch(parent_task, set) {
     u16 i;
     TObject *parent = this;
     m_name = fog_collision_poison_name;

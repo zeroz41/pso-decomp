@@ -520,12 +520,12 @@ s32 TObjBase::set_event_source_flag(s32 event_source_flag) {
     return 0;
 }
 
-s32 TObjBase::mask_object_set_row_flags(s32 arg1) {
+s32 TObjBase::mask_object_set_row_flags(s32 mask) {
     FloorObjectSetRow *set_entry;
 
     set_entry = (FloorObjectSetRow *)this->set_entry;
     if (set_entry != NULL) {
-        set_entry->flags &= arg1;
+        set_entry->flags &= mask;
         return 1;
     }
     return 0;
@@ -1039,7 +1039,7 @@ void apply_room_transform(Vec *position, s32 *angles, SceneMaterialSection *room
 
 void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count) {
     EnemySetRecord *row;
-    void *cached_room;
+    SceneMaterialSection *cached_room;
     s16 cached_id = -1;
     s32 i;
     for (i = 0; i < count; i++) {
@@ -1049,14 +1049,14 @@ void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count) {
             cached_id = row->placement.room;
         }
         if (cached_room) {
-            apply_room_transform(&row->placement.position, (s32 *)row->placement.rotation, (SceneMaterialSection *)cached_room);
+            apply_room_transform(&row->placement.position, (s32 *)row->placement.rotation, cached_room);
         }
     }
 }
 
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
     FloorObjectSetRow *p;
-    void *sec;
+    SceneMaterialSection *sec;
     s16 key;
     s32 i;
     key = -1;
@@ -1068,7 +1068,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
             key = p->placement.room;
         }
         if (sec != NULL) {
-            apply_room_transform(&p->placement.position, (s32 *)p->placement.rotation, (SceneMaterialSection *)sec);
+            apply_room_transform(&p->placement.position, (s32 *)p->placement.rotation, sec);
         }
     }
 }

@@ -18,7 +18,6 @@ void submit_target_to_player_cursor(TObjCollidable *target, s32 id);
 extern "C" {
 // Lets every player move again after a boss cutscene.
 void release_players_from_cutscene(void);
-void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 }
 // 6x2F: sets a player's HP (sender 0xFFFF for an object).
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);

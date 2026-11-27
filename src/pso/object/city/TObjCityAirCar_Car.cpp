@@ -124,7 +124,7 @@ void free_buffer_pair_table(void) {
     }
 }
 
-s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
+s32 sample_aircar_path_position(s32 lane, Vec *pos, f32 frame) {
     Vec ang;
     Vec sp18;
     f32 quat[4];

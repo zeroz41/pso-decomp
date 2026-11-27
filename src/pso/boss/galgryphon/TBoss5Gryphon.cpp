@@ -98,9 +98,6 @@
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/BattleParamTables.h"
-// TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
-extern "C" {
-}
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
 };
@@ -234,10 +231,8 @@ extern CurvePathPoint boss5_gryphon_landing_bezier_points[4];
 extern CurvePathPoint boss5_gryphon_descend_bezier_points[4];
 extern Vec gryphon_left_horn_lightning_offset;
 extern Vec gryphon_right_horn_lightning_offset;
-extern void *gryphon_particle_enable_pos[3];
-extern void *gryphon_particle_position_vec[3];
-#define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
-#define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
+extern Vec gryphon_particle_enable_pos;
+extern Vec gryphon_particle_position_vec;
 typedef void (TBoss5Gryphon::*StateAction)(int);
 }
 const f32 gryphon_max_floor_height = 6.0f;
@@ -294,8 +289,6 @@ CurvePathPoint boss5_gryphon_landing_bezier_points[4] = {
     {{0.0f, 147.0f, 0.0f}, 0.0f},
     {{0.0f, 65.0f, 0.0f}, 0.0f},
 };
-#undef gryphon_particle_enable_pos
-#undef gryphon_particle_position_vec
 CurvePathPoint boss5_gryphon_descend_bezier_points[4] = {
     {{0.0f, 67.0f, 0.0f}, 0.0f},
     {{0.0f, 157.0f, 0.0f}, 0.0f},
@@ -329,19 +322,13 @@ static inline ScriptAction *script_step_actions() {
 }
 #pragma pop
 extern "C" {
-void *gryphon_particle_enable_pos[3] = {
-    (void *)0x0, (void *)0xc61c4000, (void *)0x0,
-};
-void *gryphon_particle_position_vec[3] = {
-    (void *)0x0, (void *)0xc61c4000, (void *)0x0,
-};
-#define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
-#define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
-inline s32 angle_to_move_target(TBoss5Gryphon *self) {
-    Boss5GryphonMoveArgs *move = &self->motion->args.move;
+Vec gryphon_particle_enable_pos = {0.0f, -10000.0f, 0.0f};
+Vec gryphon_particle_position_vec = {0.0f, -10000.0f, 0.0f};
+inline s32 TBoss5Gryphon::angle_to_move_target() {
+    Boss5GryphonMoveArgs *move = &this->motion->args.move;
     f32 initial_dx = move->x;
-    f32 initial_dz = move->z - self->position.z;
-    initial_dx -= self->position.x;
+    f32 initial_dz = move->z - this->position.z;
+    initial_dx -= this->position.x;
     return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
@@ -1772,7 +1759,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
         this->clear_intangible();
         enter_flight_mode();
         this->set_flight_height();
-        this->work.target_angle = angle_to_move_target(this);
+        this->work.target_angle = angle_to_move_target();
         break;
     case ENEMY_STATE_UPDATE:
         this->advance_animation();
@@ -3430,7 +3417,7 @@ void TBoss5Gryphon::enable_particles() {
     s32 i;
     for (i = 0; i < 16; i++) {
         if (this->parts[i] != 0) {
-            this->parts[i]->set_position(gryphon_particle_enable_pos);
+            this->parts[i]->set_position(&gryphon_particle_enable_pos);
             this->parts[i]->enable();
         }
     }
@@ -3481,15 +3468,15 @@ void TBoss5Gryphon::update_low_flight_particles() {
 #pragma pop
 void TBoss5Gryphon::update_particle_positions() {
     if (particles[0] != NULL) {
-        particles[0]->set_position(gryphon_particle_position_vec);
+        particles[0]->set_position(&gryphon_particle_position_vec);
         particles[0]->enable();
     }
     if (particles[1] != NULL) {
-        particles[1]->set_position(gryphon_particle_position_vec);
+        particles[1]->set_position(&gryphon_particle_position_vec);
         particles[1]->enable();
     }
     if (particles[2] != NULL) {
-        particles[2]->set_position(gryphon_particle_position_vec);
+        particles[2]->set_position(&gryphon_particle_position_vec);
         particles[2]->enable();
     }
 }

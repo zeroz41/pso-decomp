@@ -98,7 +98,7 @@ struct TItemData {
     // The byte-swapped s16s at +6 and +8 (an armor's or shield's DFP and
     // EVP bonus).
     static s16 getS16_06(void *data);
-    static s16 get_bswap16_field8(void *data);
+    static s16 get_evp_bonus(void *data);
     void set_evp_bonus(s16 evp_bonus);
     void set_dfp_bonus(s16 dfp_bonus);
     s16 get_technique_level();

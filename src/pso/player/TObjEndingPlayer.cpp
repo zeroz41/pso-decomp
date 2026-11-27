@@ -31,7 +31,6 @@
 
 
 extern "C" {
-s32 copy_player_visual_record(void *, void *);
 }
 
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
@@ -86,7 +85,7 @@ void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); 
 
 TObjEndingPlayer *TObjEndingPlayer::create(TPlyCharData *data) {
     EndingPlayerRecord record;
-    copy_player_visual_record(record.visual, &data->m_disp_part2);
+    copy_player_visual_record((PlayerVisualRecord *)record.visual, (PlayerVisualRecord *)&data->m_disp_part2);
     record.stats = data->m_stats;
     copy_equipped_weapon_and_mag(data->m_inventory.m_num_items,
                 data->m_inventory.get_items(),

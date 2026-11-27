@@ -9,7 +9,6 @@
 #include "pso/system/CvFs.h"
 
 extern "C" {
-void adxt_start_sj(AdxtPlayer *player, SjRingBuffer *sj);
 void update_file_stream_range(void *context);
 AixPlayer aix_player_pool[4];
 void aix_exec_server(void) {

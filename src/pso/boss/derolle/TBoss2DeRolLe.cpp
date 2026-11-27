@@ -27,6 +27,7 @@ struct NJS_OBJECT;
 #include "pso/system/NinjaTypes.h"
 
 #include "types.h"
+#include "clib/fp_convert.h"
 
 #include "pso/camera/CameraPlayback.h"
 
@@ -1632,7 +1633,6 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 
 // SWAP_COLOR_HALVES swaps the two halfwords of a packed colour (0xAARRGGBB -> 0xGGBBAARR)
 // The runtime's float to unsigned conversion, called directly here.
-extern "C" u32 __cvt_fp2unsigned(f32);
 
 void TBoss2DeRolLe::update_pulsing_colors() {
     s32 i;

@@ -233,7 +233,7 @@ u32 calc_fullwidth_text_width(const char *s) {
     return max;
 }
 
-u32 get_font_char_advance(u16 c) {
+u8 get_font_char_advance(u16 c) {
     if (c < 0x21) {
         return 9;
     }
@@ -398,7 +398,7 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
 }
 
 // Binds the cached glyph's page and color, sets the quad's top-left uv and returns the glyph width.
-extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
+u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     void *cached_glyph;
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);

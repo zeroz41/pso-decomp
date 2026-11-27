@@ -36,7 +36,6 @@
 #include "pso/render/ColorLineList.h"
 #include "pso/system/TLanguage.h"
 
-extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *quad, s32 color);
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 

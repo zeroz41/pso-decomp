@@ -246,7 +246,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void render();
     void release_map_csn();
     void spawn_map_csn();
-    static TBoss6GravBall *create_grav_ball(TBoss6Type1 *owner, const Vec *position);
+    TBoss6GravBall *create_grav_ball(const Vec *position);
     s32 get_gravity_attack_state();
     void spawn_grav_ball();
     void damage_players_in_range();

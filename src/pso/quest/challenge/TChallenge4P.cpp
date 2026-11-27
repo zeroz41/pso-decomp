@@ -296,7 +296,6 @@ void update_challenge_timer(s32 time) {
 
 
 extern "C" {
-void copy_player_visual_record(void *, void *);
 
 
 }
@@ -334,7 +333,7 @@ void rebuild_players_for_stage(s32 stage) {
         PlayerGuildCardTag hdr;
         if (p != NULL) {
             VecCopy(&pos, &p->position);
-            copy_player_visual_record(&info, (u8 *)p + 0x85C);
+            copy_player_visual_record((PlayerVisualRecord *)&info, (PlayerVisualRecord *)((u8 *)p + 0x85c));
             hdr.copy_from(&p->guild_card_tag);
             map = (p)->get_controller_port();
             delete p;
@@ -354,7 +353,7 @@ void rebuild_players_for_stage(s32 stage) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record(&cd.m_disp_part2, &info);
+                copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&info);
                 TObjPlayer::begin_action_state(&cd);
                 TNpcPlayer::send_command(info.cls, tbl->item_count, tbl->items, tbl->level, &cd);
                 p = create_player_object(i, map, &cd);

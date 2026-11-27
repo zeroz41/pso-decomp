@@ -197,8 +197,6 @@ const char *slime_tail_attack_name = slime_tail_attack_class_name_string;
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
 
 
-s32 has_no_active_slot(TObjEneSlime *self);
-s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity);
 
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
 
@@ -293,7 +291,7 @@ void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 void TObjEneSlime::run_task() {
     s32 enemy_state;
 
-    if ((TObjPlayer::check_demo_mode() == 0) && (has_no_active_slot(this) != 0)) {
+    if ((TObjPlayer::check_demo_mode() == 0) && (this->has_no_active_slot() != 0)) {
         enemy_state = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
@@ -343,7 +341,7 @@ void TObjEneSlime::init_slots() {
     for (i = 0; i < 4; i++) {
         copy_child_slot(&child_slots[i], (SlimeChildSlot *)&slime_empty_child_slot);
     }
-    spawn_slime_in_slot(this, 0, NULL, NULL);
+    this->spawn_slime_in_slot(0, NULL, NULL);
 }
 
 void TObjEneSlime::release_split_slimes() {
@@ -360,38 +358,38 @@ void TObjEneSlime::release_split_slimes() {
     }
 }
 
-s32 has_no_active_slot(TObjEneSlime *self) {
+s32 TObjEneSlime::has_no_active_slot() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->child_slots[i].state == 1) {
+        if (this->child_slots[i].state == 1) {
             return 0;
         }
     }
     return 1;
 }
 
-s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity) {
+s32 TObjEneSlime::spawn_slime_in_slot(s32 index, Vec *position, Vec *velocity) {
     SlimeSpawnTemplate t;
     SlimeChildSlot *slot;
     s32 n;
-    if (index < 0 || index >= origin->child_limit || origin->child_slots[index].state != 0) {
+    if (index < 0 || index >= this->child_limit || this->child_slots[index].state != 0) {
         return 0;
     }
-    t = origin->spawn_template;
+    t = this->spawn_template;
     n = index + 1;
-    t.entry.set_index = origin->spawn_template.entry.set_index + n;
+    t.entry.set_index = this->spawn_template.entry.set_index + n;
     t.entry.child_count = 0;
-    t.entry.entity_id = origin->spawn_template.entry.entity_id + n;
+    t.entry.entity_id = this->spawn_template.entry.entity_id + n;
     if (position == NULL) {
-        VecCopy(&t.entry.position, &origin->position);
+        VecCopy(&t.entry.position, &this->position);
     } else {
         VecCopy(&t.entry.position, position);
     }
-    slot = &origin->child_slots[index];
+    slot = &this->child_slots[index];
     if (velocity == 0) {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t);
+        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)this, (saddr)&t);
     } else {
-        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)origin, (saddr)&t, (saddr)velocity);
+        slot->slime = (TObjEneSlimeOne *)TObjEneSlimeOne::create((saddr)this, (saddr)&t, (saddr)velocity);
     }
     if (slot->slime == NULL) {
         return 0;
@@ -436,7 +434,7 @@ s32 TObjEneSlime::try_spawn_child(Vec *position) {
         normalize_vector(&dir);
     }
     play_sound_effect(0x4003A619, &pos, 0, 0);
-    return spawn_slime_in_slot(this, i, &pos, &dir);
+    return this->spawn_slime_in_slot(i, &pos, &dir);
 }
 
 #pragma push
