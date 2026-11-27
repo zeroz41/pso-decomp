@@ -64,9 +64,9 @@ TODoorAncient09::TODoorAncient09(TObject *parent, ObjectSetData *set_data) : TOD
     init_door_switch_binding();
     extra_switch_id = set_params[0] + 1;
     both_switches_set = 0;
-    m_dc = 0;
+    pad_dc = 0;
     is_open = 0;
-    m_e4 = 0;
+    pad_e4 = 0;
 }
 
 TODoorAncient09::~TODoorAncient09() {
