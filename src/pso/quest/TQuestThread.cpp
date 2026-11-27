@@ -690,22 +690,22 @@ TObjItemNameEntry *TObjItemNameEntry::create(TObject *parent) {
 }
 
 s32 TObjItemNameEntry::process_keyboard_input() {
-    saddr text;
+    char *text;
 
     if (keyboard != NULL && keyboard->is_confirmed() != 0) {
-        text = (saddr)keyboard->realloc_buffer();
-        if (strcmp((const char *)text, "") == 0) {
-            mem_free((void *)text);
+        text = keyboard->realloc_buffer();
+        if (strcmp(text, "") == 0) {
+            mem_free(text);
             keyboard->clear_keyboard_flag60_bit1();
             return 0;
         }
-        if (contains_profanity((char *)text) != 0) {
+        if (contains_profanity(text) != 0) {
             keyboard->clear_keyboard_flag60_bit1();
-            mem_free((void *)text);
+            mem_free(text);
             return 0;
         }
-        set_entered_name((const char *)text);
-        mem_free((void *)text);
+        set_entered_name(text);
+        mem_free(text);
         return 1;
     }
     return 0;

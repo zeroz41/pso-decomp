@@ -11,7 +11,7 @@ struct AdxfHandle;
 // the dtor closes it.
 class TGStream {
 public:
-    TGStream(void *name, s32 direct_read_mode);
+    TGStream(const char *name, s32 direct_read_mode);
     ~TGStream();
 
     static s32 get_resource_file_size(const char *filename);

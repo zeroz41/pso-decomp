@@ -613,7 +613,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         pump_frames();
         lbl_805D4AD0 = 1;
         {
-            TGStream st((void *)descriptor->archive_filename, 0);
+            TGStream st(descriptor->archive_filename, 0);
             if (st.get_file_size() <= 0) {
                 file_debug_printf("TBinModel: %s not found.", descriptor->archive_filename);
                 model_count = motion_count = 0;

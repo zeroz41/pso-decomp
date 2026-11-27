@@ -119,7 +119,7 @@ void load_area_gsl(void) {
 }
 
 u8 *TGStream::load_file(const char *name) {
-    TGStream stream((void *)name, 1);
+    TGStream stream(name, 1);
     s32 size;
     s32 sectors;
     u8 *buf;
@@ -138,7 +138,7 @@ u8 *TGStream::load_file(const char *name) {
 }
 
 s32 TGStream::read_whole_file(const char *name, u8 *dst) {
-    TGStream stream((void *)name, 1);
+    TGStream stream(name, 1);
     s32 size;
     s32 n;
     s32 rem;
@@ -159,7 +159,7 @@ s32 TGStream::read_whole_file(const char *name, u8 *dst) {
 }
 
 s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
-    TGStream stream((void *)name, 1);
+    TGStream stream(name, 1);
     s32 size;
     s32 sectors;
     u8 *buf;
@@ -348,24 +348,24 @@ TGStream::~TGStream() {
     }
 }
 
-TGStream::TGStream(void *file, s32 direct_read_mode) {
+TGStream::TGStream(const char *file, s32 direct_read_mode) {
     s32 size;
 
     adxf_handle = 0;
     archive_entry = NULL;
     TGStream::reset();
-    archive_entry = find_gsl_entry((const char *)file, 1);
+    archive_entry = find_gsl_entry(file, 1);
     if (archive_entry != NULL) {
         adxf_handle = gsl_adxf_handle;
         ADXF_Seek(adxf_handle, archive_entry->archive_offset, 0);
         gstream_file_size = archive_entry->file_size;
         strncpy(name, archive_entry->name, 0x20);
     } else {
-        size = get_disc_file_size((const char *)file);
+        size = get_disc_file_size(file);
         gstream_file_size = size;
         if (size > 0) {
-            adxf_handle = ADXF_Open((char *)file, 0);
-            strncpy(name, (char *)file, 0x20);
+            adxf_handle = ADXF_Open(file, 0);
+            strncpy(name, file, 0x20);
         } else {
             gstream_file_size = 0;
             name[0] = 0;
