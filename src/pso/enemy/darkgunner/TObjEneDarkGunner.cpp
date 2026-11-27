@@ -107,28 +107,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-
-struct Raw_800A10A0 { u8 b[12]; };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-extern "C" {
 player_stats *dark_gunner_base_params_by_variant[1];
 
 AttackParams *dark_gunner_attack_params_by_variant[1];

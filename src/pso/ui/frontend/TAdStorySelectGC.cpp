@@ -24,10 +24,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/map/FloorMapSelection.h"
 
-struct B_802C3400 { NJS_POINT2 e[2]; };
-
-struct C_802C3400 { TAdSelectTxtLayout e[2]; };
-
 __declspec(section ".rodata") extern const char TAdStorySelectGC_class_name_string[] = "TAdStorySelectGC";
 const char *TAdStorySelectGC::class_name = TAdStorySelectGC_class_name_string;
 
@@ -89,15 +85,15 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
     new TAdTitleGC(this, 1);
     new TAdTitleTexGC(this);
     {
-        C_802C3400 c = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
-        new TAdSelectTxtGC(this, &c.e[0], 4);
-        new TAdSelectTxtGC(this, &c.e[1], 5);
+        TAdSelectTxtLayout c[2] = {{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}};
+        new TAdSelectTxtGC(this, &c[0], 4);
+        new TAdSelectTxtGC(this, &c[1], 5);
         {
         NJS_POINT2 a = {302.0f, 28.0f};
-        B_802C3400 b = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
-        cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&b), &a);
-        cursor->append_entry(&b.e[0]);
-        cursor->append_entry(&b.e[1]);
+        NJS_POINT2 b[2] = {{185.0f, 198.0f}, {155.0f, 250.0f}};
+        cursor = new TAdSelectCurGC(this, b, &a);
+        cursor->append_entry(&b[0]);
+        cursor->append_entry(&b[1]);
         }
     }
     guide = new TAdGuideTxtGC(this);
