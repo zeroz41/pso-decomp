@@ -17083,7 +17083,7 @@ force_active:
   - update_segments__20TItemEffOrgaFlowShotFv
   - update_select_state__17TCharSaveSequenceFv
   - update_selected_char__19TChCrTagInformationFv
-  - update_selected_help__19TWindowSubTechniqueFl
+  - update_selected_help__19TWindowSubTechniqueFs
   - update_selection__17TWindowSubComCardFP11TWindowMenuP14TWindowComCardPll
   - update_selection__17TWindowSubComCardFP11TWindowMenuP14TWindowComCardPl
   - update_selection__19TQuestListChallengeFv
