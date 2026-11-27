@@ -7,6 +7,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct NJS_TEXLIST;
+struct BmlResource;
 
 class TDeadSpot : public TObject {
 public:
@@ -19,6 +20,7 @@ public:
     // The shared corpse mark model the spots draw with, loaded and freed with the floor.
     static void load_resource();
     static void free_resource();
+    static BmlResource *corpse_mark_resource; // model 0 of bm_ene_common_all.bml (corpse_mark_resource_descriptor)
     ParticleStripVertex verts[4]; // 0x1C
     Vec center;                    // 0x7C
     Vec corners[4];                // 0x88

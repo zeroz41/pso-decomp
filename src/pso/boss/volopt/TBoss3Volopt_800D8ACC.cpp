@@ -23,7 +23,7 @@
 const char *bm_ene_common_all_model_names[2] = { "ene_common_all.nj", NULL };
 const char *bm_ene_common_all_motion_names[1] = { NULL };
 BmlResourceDescriptor corpse_mark_resource_descriptor = { "bm_ene_common_all.bml", bm_ene_common_all_model_names, bm_ene_common_all_motion_names, 1, 0 };
-BmlResource *player_corpse_mark_resource;
+BmlResource *TDeadSpot::corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
 void toggle_particle_effect() {
@@ -274,22 +274,22 @@ void spawn_dead_spot_kind2_scale25(const Vec *point, s32 delay) {
 
 
 void spawn_dead_spot_fade(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
-    new TDeadSpotFade(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
+    new TDeadSpotFade(tl_05, point, TDeadSpot::corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
 void TDeadSpot::spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
-    new TDeadSpot(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
+    new TDeadSpot(tl_05, point, corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
 
 void TDeadSpot::free_resource() {
-    if (player_corpse_mark_resource != NULL) {
-        delete player_corpse_mark_resource;
-        player_corpse_mark_resource = NULL;
+    if (corpse_mark_resource != NULL) {
+        delete corpse_mark_resource;
+        corpse_mark_resource = NULL;
     }
 }
 
 void TDeadSpot::load_resource() {
-    player_corpse_mark_resource = new BmlResource(1, &corpse_mark_resource_descriptor, 0, 0, NULL);
+    corpse_mark_resource = new BmlResource(1, &corpse_mark_resource_descriptor, 0, 0, NULL);
     player_particle_effect_enabled = 1;
 }

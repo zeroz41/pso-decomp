@@ -40,6 +40,8 @@ s32 attack_target_list_count(PointerBuffer *buffer);
 // Drops entry index, moving the last entry into its place.
 void attack_target_list_remove(PointerBuffer *buffer, s32 index);
 
+// Frees what load_dragon_ground_assets loads: the arena texture list and the ground archive.
+void free_dragon_ground_assets(void);
 void load_dragon_ground_assets(void);
 
 #endif

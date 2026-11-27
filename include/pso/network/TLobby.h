@@ -80,7 +80,6 @@ struct TLobby : public TObject {
     static s32 get_instance();
     static void close_result_windows();
     static s32 get_game_mode();
-    static void free_char_select();
     void collect_active_card_ids();
     static void send_status_packet();
     void *alloc_download_quest(s32 size, s32 *out_size);
