@@ -125,7 +125,7 @@ static player_stats *gee_boss_stat_handle_table[3];
 static AttackParams *gee_shared_handler_b_table[3];
 static ActorParamBlock *gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
-static f32 gee_camera_ctrl_vec[4];
+static Vec gee_camera_ctrl_vec;
 
 
 
@@ -135,8 +135,8 @@ void TObjEneMe1Gee::load_resources() {
     s32 i;
     TBreakUpMdlData *p;
     Vec *v;
-    v = (Vec *)gee_camera_ctrl_vec;
-    gee_camera_ctrl_vec[0] = 0.0f;
+    v = &gee_camera_ctrl_vec;
+    gee_camera_ctrl_vec.x = 0.0f;
     v->y = 0.0f;
     v->z = 0.0f;
     if (is_split_screen() != 0) {
@@ -1731,12 +1731,12 @@ void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
     case 4:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 1;
-        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, pos);
+        forward_transform_to_view(&gee_camera_ctrl_vec, pos);
         break;
     case 7:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 1;
-        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, pos);
+        forward_transform_to_view(&gee_camera_ctrl_vec, pos);
         break;
     }
     me1_gee_render_node_index += 1;
