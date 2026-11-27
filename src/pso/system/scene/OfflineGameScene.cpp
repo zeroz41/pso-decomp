@@ -229,7 +229,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
     {reset_info_board_on_load, reset_info_board_on_unload},
-    {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
+    {init_received_guild_cards, free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, symbol_chat_on_floor_free_stub},
     {reset_choice_search_data, free_choice_search_data},

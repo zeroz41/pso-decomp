@@ -403,11 +403,11 @@ void remove_guild_card_entry(s32 index, GuildCardEntry *entries, s32 count) {
     entries += count - 1;
     clear_entry_active_flag(entries);
 }
-void clear_received_guild_cards(void *p) {
+void clear_received_guild_cards(void) {
     destroy_com_card_window();
     for (s32 i = 0; i < 4; i++) {
         clear_entry_active_flag(&TWindowGetComCard::received_guild_card_tags[i]);
     }
 }
-void free_received_guild_cards(void* p) { clear_received_guild_cards(p); }
-void init_received_guild_cards(void* p) { clear_received_guild_cards(p); }
+void free_received_guild_cards(void) { clear_received_guild_cards(); }
+void init_received_guild_cards(void) { clear_received_guild_cards(); }
