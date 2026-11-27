@@ -84,7 +84,7 @@ MainPhaseState main_phase_state;
 
 GinjaTextureState *texture_state_buffer;
 GinjaSurfaceState *texture_surface_buffer;
-saddr player_matrix_stack_buffer;
+void *player_matrix_stack_buffer;
 DebugTextRecord *keyboard_input_buffer;
 u8 *resource_decompress_buffer;
 s32 memcard_access_active;
@@ -150,7 +150,7 @@ void shutdown_and_reset_system(void) {
     xfree(resource_decompress_buffer);
     xfree(motion_blend_buffer);
     xfree(anim_model_matrix_array);
-    xfree((void *)player_matrix_stack_buffer);
+    xfree(player_matrix_stack_buffer);
     VISetBlack(TRUE);
     VIFlush();
     VIWaitForRetrace();
@@ -252,9 +252,9 @@ void init_gx_lighting_defaults(void) {
 void init_game_systems(void) {
     VideoSystemConfig cfg;
     uaddr lo;
-    uaddr hi;
+    u8 *hi;
     u32 size;
-    uaddr start;
+    u8 *start;
 
     PADSetSpec(5);
     OSInit();
@@ -263,7 +263,7 @@ void init_game_systems(void) {
     PADInit();
     reset_projection_state();
     lo = (uaddr)OSGetArenaLo();
-    hi = (uaddr)OSGetArenaHi();
+    hi = (u8 *)OSGetArenaHi();
     cfg.render_mode = NULL;
     cfg.render_mode = &GXNtsc480IntDf;
     cfg.present_interval = 2;
@@ -272,12 +272,12 @@ void init_game_systems(void) {
     cfg.fifo_size = 0x40000;
     cfg.draw_framebuffer = cfg.display_framebuffer + size;
     cfg.fifo_buffer = cfg.draw_framebuffer + size;
-    cfg.heap = (u8 *)OSInitAlloc(cfg.fifo_buffer + 0x40000, (void *)hi, 2);
+    cfg.heap = (u8 *)OSInitAlloc(cfg.fifo_buffer + 0x40000, hi, 2);
     cfg.heap_size = 0x518000;
-    start = (uaddr)cfg.heap + 0x518000;
-    init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
+    start = cfg.heap + 0x518000;
+    init_system_heap_and_global_allocator(start, hi - start);
     init_video_and_gx(&cfg);
-    OSSetArenaLo((void *)hi);
+    OSSetArenaLo(hi);
     texture_state_buffer = (GinjaTextureState *)xmalloc(0x4560);
     texture_surface_buffer = (GinjaSurfaceState *)xmalloc(0x73A0);
     init_texture_tables(texture_state_buffer, 0x2E4, texture_surface_buffer, 0x2E4);
@@ -288,7 +288,7 @@ void init_game_systems(void) {
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
     init_chunk_draw((ChunkCachedVertex *)resource_decompress_buffer, 0x2000);
     set_frame_update_callback(poll_input_devices_frame);
-    player_matrix_stack_buffer = (saddr)xmalloc(0x600);
+    player_matrix_stack_buffer = xmalloc(0x600);
     init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
     init_pad_slots_and_read(0, 0, 0);
