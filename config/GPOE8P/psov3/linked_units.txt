@@ -808,7 +808,6 @@ pso/ui/TLogo.cpp
 pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
-pso/player/ActionPaletteSlots.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/object/TMotorcycle.cpp
@@ -1364,8 +1363,6 @@ pso/player/TObjPlayerActions.cpp
 pso/player/PlayerAttackController.cpp
 pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/DamageStatSlot.cpp
-pso/player/TObjPlayer_801D7C5C.cpp
-pso/player/TObjPlayer_801D84A8.cpp
 pso/player/TObjEndingPlayer.cpp
 pso/player/TObjPlayer_801D8ADC.cpp
 pso/player/TObjPlayer_801D95B8.cpp

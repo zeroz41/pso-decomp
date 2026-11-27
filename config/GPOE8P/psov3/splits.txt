@@ -4633,17 +4633,8 @@ pso/system/data/pso_const_ids4.cpp:
 	.text       start:0x801D78E4 end:0x801D7A78
 	.rodata     start:0x80447178 end:0x80447190
 
-pso/player/ActionPaletteSlots.cpp:
-	.text       start:0x801D7A78 end:0x801D7C5C
-
-pso/player/TObjPlayer_801D7C5C.cpp:
-	.text       start:0x801D7C5C end:0x801D7CF4
-
 pso/player/TPlyDispConfigSmth.cpp:
-	.text       start:0x801D7CF4 end:0x801D7D4C
-
-pso/player/TObjPlayer_801D84A8.cpp:
-	.text       start:0x801D7D4C end:0x801D84F8
+	.text       start:0x801D7A78 end:0x801D84F8
 	.data       start:0x804C44C8 end:0x804C453C
 
 pso/player/TObjEndingPlayer.cpp:
