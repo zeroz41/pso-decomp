@@ -35,7 +35,6 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -403,7 +402,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, player, 4, slot) != 0) {
+                    if (canSetMenuCursorAction(&cursor->palette_override, player, 4, slot) != 0) {
                         set_action_palette_tag_mode(&cursor->palette_override, 4);
                         set_action_palette_tag_slot(&cursor->palette_override, slot);
                         set_action_channel_active(&cursor->palette_override);

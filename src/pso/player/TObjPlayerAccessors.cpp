@@ -1498,7 +1498,7 @@ int TPlyDispConfig::is_primary_first_bank() { return m_smth.is_first_bank(); }
 int TPlyDispConfigSmth::is_first_bank() { return bank == 0; }
 
 s32 TPlyDispConfigSmth::is_channel_active_at(s32 row, s32 index) {
-    return ((TMainCursor *)(get_row(row) + index))->is_channel_active();
+    return ::is_channel_active(get_row(row) + index);
 }
 
 gc_tag *TPlyDispConfigSmth::get_row(s32 row) {

@@ -68,7 +68,6 @@
 #include "pso/player/Palettex.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
-#include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/math/ScratchVectors.h"
@@ -2695,7 +2694,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     TLockOnCursor *cursor;
 
     cursor = this->lock_on_cursor;
-    if ((cursor != NULL) && (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
+    if ((cursor != NULL) && (canSetMenuCursorAction(&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
         set_action_channel_active(&this->lock_on_cursor->palette_override);

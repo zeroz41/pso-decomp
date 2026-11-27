@@ -3594,17 +3594,17 @@ s32 TObjPlayer::is_quest_interaction_blocked() {
 
 LockOnActionSlot *TObjPlayer::find_palette_lockon_slot() {
     s32 i;
-    saddr cursor;
+    LockOnActionSlot *cursor;
     if (lock_on_cursor == NULL) {
         return NULL;
     }
-    cursor = (saddr)lock_on_cursor->action_slots;
+    cursor = lock_on_cursor->action_slots;
     for (i = 0; i < 4; i++) {
         if (is_active_channel_matching(cursor, action_palette_state.get_mode(),
                 action_palette_state.get_slot()) != 0) {
-            return (LockOnActionSlot *)cursor;
+            return cursor;
         }
-        cursor += 0x124;
+        cursor++;
     }
     return NULL;
 }
@@ -3946,7 +3946,7 @@ void submit_target_to_player_cursor(TObjCollidable *target, s32 id) {
     if (player != NULL && player->lock_on_cursor != NULL) {
         for (i = 0; i < 4; i++) {
             entry = &player->lock_on_cursor->action_slots[i];
-            if (((TMainCursor *)entry)->get_selected_entry() != 0) {
+            if (entry->get_selected_entry() != 0) {
                 TMainCursor::try_add_target_candidate(entry, target, player, &player->lock_on_cursor->nearest_target);
             }
         }
@@ -3965,7 +3965,7 @@ void submit_cursor_candidate(TObjCollidable *target, s32) {
             if (o != 0 && o->lock_on_cursor != 0) {
                 for (j = 0; j < 4; j++) {
                     LockOnActionSlot *c = &o->lock_on_cursor->action_slots[j];
-                    if (((TMainCursor *)c)->get_selected_entry() != 0) {
+                    if (c->get_selected_entry() != 0) {
                         TMainCursor::try_add_target_candidate(c, target, o, &o->lock_on_cursor->nearest_target);
                     }
                 }

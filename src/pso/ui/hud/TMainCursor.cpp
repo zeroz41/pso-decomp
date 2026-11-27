@@ -15,8 +15,8 @@
 #include "pso/unk/TLOC_Start.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/object/TActorLight.h"
 #include "pso/math/MatrixTransforms.h"
@@ -74,9 +74,6 @@ extern const char *lock_on_start_task_name;
 }
 
 extern "C" {
-
-void draw_chunk_object(void);
-
 u8 get_cast_technique_level(void *, s16);
 s16 get_action_palette_mode(TObjPlayer *player, s32 index);
 }
@@ -130,9 +127,9 @@ extern f32 scratch_vec5[3];
 }
 
 
-u8 * lock_on_cursor_bml_resource;
-s32 lock_on_cursor_model;
-s32 TLockOnCursor::target_cursor_model;
+BmlResource *lock_on_cursor_bml_resource;
+NJS_OBJECT *lock_on_cursor_model;
+NJS_OBJECT *TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
 void reset_target_part_entry(LockOnTargetPart *);
@@ -217,25 +214,25 @@ TLockOnCursor::~TLockOnCursor() {
 }
 
 void load_target_cursor_models(void) {
-    saddr resource;
-    if ((void *) lock_on_cursor_bml_resource == NULL) {
-        resource = (saddr)new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
-        lock_on_cursor_bml_resource = (unsigned char *) ((void *) resource);
-        if ((u32) resource != 0U) {
-            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)resource, 0);
-            TLockOnCursor::target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
-            main_cursor_model = get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
+    BmlResource *resource;
+    if (lock_on_cursor_bml_resource == NULL) {
+        resource = new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
+        lock_on_cursor_bml_resource = resource;
+        if (resource != NULL) {
+            lock_on_cursor_model = get_bml_model(resource, 0);
+            TLockOnCursor::target_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 0);
+            main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
         }
     }
 }
 
 void TLockOnCursor::free_cursor_resources() {
-    if ((void *) lock_on_cursor_bml_resource != NULL) {
-        delete (BmlResource *)lock_on_cursor_bml_resource;
+    if (lock_on_cursor_bml_resource != NULL) {
+        delete lock_on_cursor_bml_resource;
         lock_on_cursor_bml_resource = NULL;
     }
-    lock_on_cursor_model = 0;
-    TLockOnCursor::target_cursor_model = 0;
+    lock_on_cursor_model = NULL;
+    TLockOnCursor::target_cursor_model = NULL;
 }
 
 void TLockOnCursor::reset_and_spawn_cursors() {
@@ -264,7 +261,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 }
 
 void TLockOnCursor::run_task() {
-    if (((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+    if (is_channel_active(&palette_override) != 0) {
         palette_override.set_active();
         return;
     }
@@ -291,7 +288,7 @@ void TLockOnCursor::render() {
     }
     for (i = 0; i < 4; i++) {
         c = get_action_slot(i);
-        if (((TMainCursor *)c)->get_selected_entry() != 0) {
+        if (c->get_selected_entry() != 0) {
             n = c->target_records.get_count();
             for (p = c->target_records.get_record(0), j = 0; j < n; j++, p++) {
                 if (p->is_primary() == 0 &&
@@ -301,7 +298,7 @@ void TLockOnCursor::render() {
                     if (o != NULL) {
                         body = &o->bodies[p->flag];
                         if (body != NULL) {
-                            renderSecondaryCursor(body, (s32)(get_cursor_palette_mode(c)), (s32)(((TMainCursor *)c)->get_active()));
+                            renderSecondaryCursor(body, (s32)(get_cursor_palette_mode(c)), (s32)(c->get_active()));
                         }
                     }
                 }
@@ -332,11 +329,9 @@ void TLockOnCursor::renderSecondaryCursor(CollisionBody *body, s16 type, s32 act
                 translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
                 save_model_draw_state(&marker);
                 begin_constant_color_draw(&marker, &target_cursor_color_table[5]);
-                TMainCursor::get_cursor_model();
-                draw_chunk_object();
+                draw_chunk_object(TMainCursor::get_cursor_model());
                 begin_constant_color_draw(&marker, &target_cursor_color_table[color_index]);
-                get_target_cursor_model();
-                draw_chunk_object();
+                draw_chunk_object(get_target_cursor_model());
                 restore_model_draw_state(&marker);
                 pop_matrix();
                 TParticleCtrl::end_effect_render();
@@ -417,10 +412,10 @@ void TLockOnCursor::publish_target_list(s32 slot) {
                 list = selection.get_target();
                 list->set_entity_id(item->id);
                 set_cursor_palette_mode(&list->palette_tag, get_cursor_palette_mode(sub));
-                set_cursor_palette_slot(&list->palette_tag, ((TMainCursor *)sub)->get_active());
+                set_cursor_palette_slot(&list->palette_tag, sub->get_active());
                 list->set_target_id(item->flag);
                 if (selection.is_cursor_on_target() == 0 && cur->is_excluded() == 0) {
-                    TMainCursor *cursor = new TMainCursor((TObject *)tl_loc_end, item->id, item->flag, (s32)get_cursor_palette_mode(sub), (s32)((TMainCursor *)sub)->get_active(), get_target_id(), part->radius);
+                    TMainCursor *cursor = new TMainCursor((TObject *)tl_loc_end, item->id, item->flag, (s32)get_cursor_palette_mode(sub), (s32)sub->get_active(), get_target_id(), part->radius);
                     if (cursor != NULL) {
                         cursor->refresh_target_marker();
                     }
@@ -437,7 +432,7 @@ void TLockOnCursor::publish_target_list(s32 slot) {
 
 void TLockOnCursor::sort_list(s32 index) {
     LockOnActionSlot *slot = &action_slots[index];
-    if (((TMainCursor *)slot)->get_selected_entry() != 0) {
+    if (slot->get_selected_entry() != 0) {
         slot->quick_sort(slot->target_list.get_record(0), 0, slot->target_list.get_count() - 1);
     }
 }
@@ -695,7 +690,7 @@ void TLockOnCursor::bind_action_channels() {
     if (player == NULL) {
         return;
     }
-    if (player->is_controls_locked() != 0 && ((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+    if (player->is_controls_locked() != 0 && is_channel_active(&palette_override) != 0) {
         type = get_action_palette_tag_mode(&palette_override);
         enabled = get_action_palette_tag_slot(&palette_override);
         if (is_current_area_item_enabled() == 0) {
@@ -738,7 +733,7 @@ LockOnActionSlot *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
     i = 0;
     slot = action_slots;
     do {
-        if ((mode == (s32) get_cursor_palette_mode(slot)) && (kind == (s32) ((TMainCursor *)slot)->get_active()) && (((TMainCursor *)slot)->get_selected_entry() != 0)) {
+        if ((mode == (s32) get_cursor_palette_mode(slot)) && (kind == (s32) slot->get_active()) && (slot->get_selected_entry() != 0)) {
             return slot;
         }
         i += 1;
@@ -1005,9 +1000,9 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 #pragma pop
 
 
-s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled) {
-    if (((TMainCursor *)cursor)->is_channel_active() != 0) {
-        return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cursor), type, enabled);
+s32 is_active_channel_matching(LockOnActionSlot *slot, u8 type, u8 enabled) {
+    if (is_channel_active(&slot->palette_tag) != 0) {
+        return matches_type_and_enabled(&slot->palette_tag, type, enabled);
     }
     return 0;
 }
@@ -1276,8 +1271,7 @@ void render_marker(TMainCursor *main_cursor) {
 void TMainCursor::update_chair() {
     save_model_draw_state(&marker);
     begin_constant_color_draw_self((NJS_ARGB *)&marker);
-    get_lock_on_cursor_model();
-    draw_chunk_object();
+    draw_chunk_object(get_lock_on_cursor_model());
     restore_model_draw_state(&marker);
 }
 
@@ -1285,15 +1279,14 @@ void TMainCursor::update_photon_chair() {
     if (marker.get_alpha() > 0.99999f) {
         save_model_draw_state(&marker);
         begin_constant_color_draw_argb(&marker, 1.0f, cursor_float_zero, cursor_float_zero, cursor_float_zero);
-        TMainCursor::get_cursor_model();
-        draw_chunk_object();
+        draw_chunk_object(TMainCursor::get_cursor_model());
         restore_model_draw_state(&marker);
     }
 }
 
 
-s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8 kind, u8 parameter) {
-    if (((TMainCursor *)cursor)->is_channel_active() != 0) {
+s32 canSetMenuCursorAction(LockOnPaletteOverride *cursor, TObjPlayer *player, u8 kind, u8 parameter) {
+    if (is_channel_active(cursor) != 0) {
         return 0;
     }
     switch ((s32) kind) {
@@ -1410,8 +1403,8 @@ TLOC_End::~TLOC_End() {
 void set_action_channel_inactive(gc_tag *tag) { *(s16 *)&tag->tag2 |= 1; }
 
 
-s32 TMainCursor::is_channel_active() {
-    return (u8)((u8) ((*(s16 *)((s8 *)this + 2) & 1) ^ 1));
+s32 is_channel_active(const gc_tag *tag) {
+    return (u8)((u8) ((*(const s16 *)((const s8 *)tag + 2) & 1) ^ 1));
 }
 
 s32 TMainCursor::check_visible(TPlyDispConfigSmth *palette, TObjPlayer *player, s16 type, s32 enabled) {
@@ -1520,7 +1513,7 @@ void LockOnActionSlot::set_max_targets(s32 v) { max_targets = v; }
 NJS_OBJECT *TMainCursor::get_cursor_model() { return main_cursor_model; }
 
 
-int get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
+NJS_OBJECT *get_lock_on_cursor_model(void) { return lock_on_cursor_model; }
 
 
 TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
@@ -1641,11 +1634,11 @@ void TLockOnCursor::init_slot(s32 i) {
 
 void deactivate_action_channel(LockOnActionSlot *slot) { set_action_channel_inactive(&slot->palette_tag); }
 
-int TMainCursor::get_selected_entry() { return is_channel_active(); }
+int LockOnActionSlot::get_selected_entry() { return is_channel_active(&palette_tag); }
 
-u8 TMainCursor::get_active() { return get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(this)); }
+u8 LockOnActionSlot::get_active() { return get_action_palette_tag_slot(&palette_tag); }
 
-u8 get_cursor_palette_mode(void *p) { return get_action_palette_tag_mode(static_cast<const ActionPaletteTag *>(p)); }
+u8 get_cursor_palette_mode(LockOnActionSlot *slot) { return get_action_palette_tag_mode(&slot->palette_tag); }
 
 s16 ActionPriorityEntry::get_index() { return index; }
 
@@ -1673,9 +1666,9 @@ void LockOnActionSlot::set_actor_exclude_mask(s32 v) { actor_exclude_mask = v; }
 
 void activate_action_channel(LockOnActionSlot *slot) { set_action_channel_active(&slot->palette_tag); }
 
-void set_cursor_slot(void* p, u8 v) { set_action_palette_tag_slot(static_cast<ActionPaletteTag *>(p), v); }
+void set_cursor_slot(LockOnActionSlot *slot, u8 v) { set_action_palette_tag_slot(&slot->palette_tag, v); }
 
-void set_cursor_mode(void* p, u8 v) { set_action_palette_tag_mode(static_cast<ActionPaletteTag *>(p), v); }
+void set_cursor_mode(LockOnActionSlot *slot, u8 v) { set_action_palette_tag_mode(&slot->palette_tag, v); }
 
 void LockOnTargetRecordList::set_count(s32 count) { this->count = count; }
 
@@ -1696,7 +1689,7 @@ void LockOnTargetRecord::clear_excluded() { flags.clear(2); }
 s32 LockOnActionSlot::get_max_targets() { return max_targets; }
 
 
-int get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
+NJS_OBJECT *get_target_cursor_model(void) { return TLockOnCursor::target_cursor_model; }
 
 
 int LockOnTargetRecord::is_primary() { return flags.test_flags_any(1); }

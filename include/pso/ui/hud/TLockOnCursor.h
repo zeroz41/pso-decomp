@@ -138,6 +138,8 @@ public:
     s32 quick_sort_partition(TargetCursorRecord *a, s32 lo, s32 hi);
     void store_sorted_record(TargetCursorRecord *src, TargetCursorRecord *dst);
     s32 get_body_exclude_mask();
+    int get_selected_entry();
+    u8 get_active();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();
     s32 get_actor_include_mask();
@@ -202,7 +204,7 @@ public:
 };
 
 struct TLockOnCursor : public TObject {
-    static s32 target_cursor_model;
+    static NJS_OBJECT *target_cursor_model;
     FlagWord flags;
     u16 target_id; // read by get_target_id()
     ActionPriorityList action_list;
