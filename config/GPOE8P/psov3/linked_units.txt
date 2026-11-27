@@ -441,7 +441,6 @@ pso/item/TItem.cpp
 pso/weapon/TItemAttacker.cpp
 pso/item/TItemBuff.cpp
 pso/item/TItemData.cpp
-pso/item/MaterialStats.cpp
 pso/item/TItemDisconnectCtrl.cpp
 pso/system/SubtractiveRng.cpp
 pso/item/drop/TItemDropSub.cpp
