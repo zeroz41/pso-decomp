@@ -8702,13 +8702,13 @@ force_active:
   - rabarta_top_effect_height
   - duel_result_time_separator
   - lbl_805DCEF0
-  - lbl_805DCFAC
-  - lbl_805DCFB0
-  - lbl_805DCFB4
-  - lbl_805DCFB8
-  - lbl_805DCFBC
-  - lbl_805DCFC0
-  - lbl_805DCFC4
+  - text_entry_zero
+  - text_entry_no_wrap_width
+  - text_entry_small_advance
+  - text_entry_small_line_height
+  - text_entry_advance
+  - text_entry_line_height
+  - text_entry_half
   - lbl_805DD188
   - lbl_805DD18C
   - lbl_805DD190

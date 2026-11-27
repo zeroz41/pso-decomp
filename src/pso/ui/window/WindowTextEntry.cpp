@@ -25,20 +25,20 @@ void WindowTextEntry::reveal_all() {
     reveal_pos = 9e+05f;
 }
 
-extern const u32 lbl_805DCFAC = 0x00000000;
-extern const u32 lbl_805DCFB0 = 0x4B189680;
-extern const u32 lbl_805DCFB4 = 0x41200000;
-extern const u32 lbl_805DCFB8 = 0x41500000;
-extern const u32 lbl_805DCFBC = 0x41900000;
-extern const u32 lbl_805DCFC0 = 0x41A00000;
-extern const u32 lbl_805DCFC4 = 0x3F000000;
-#define K_CFAC (*(const f32 *)&lbl_805DCFAC)
-#define K_CFB0 (*(const f32 *)&lbl_805DCFB0)
-#define K_CFB4 (*(const f32 *)&lbl_805DCFB4)
-#define K_CFB8 (*(const f32 *)&lbl_805DCFB8)
-#define K_CFBC (*(const f32 *)&lbl_805DCFBC)
-#define K_CFC0 (*(const f32 *)&lbl_805DCFC0)
-#define K_CFC4 (*(const f32 *)&lbl_805DCFC4)
+extern const u32 text_entry_zero = 0x00000000;
+extern const u32 text_entry_no_wrap_width = 0x4B189680;
+extern const u32 text_entry_small_advance = 0x41200000;
+extern const u32 text_entry_small_line_height = 0x41500000;
+extern const u32 text_entry_advance = 0x41900000;
+extern const u32 text_entry_line_height = 0x41A00000;
+extern const u32 text_entry_half = 0x3F000000;
+#define TEXT_ENTRY_ZERO (*(const f32 *)&text_entry_zero)
+#define TEXT_ENTRY_NO_WRAP_WIDTH (*(const f32 *)&text_entry_no_wrap_width)
+#define TEXT_ENTRY_SMALL_ADVANCE (*(const f32 *)&text_entry_small_advance)
+#define TEXT_ENTRY_SMALL_LINE_HEIGHT (*(const f32 *)&text_entry_small_line_height)
+#define TEXT_ENTRY_ADVANCE (*(const f32 *)&text_entry_advance)
+#define TEXT_ENTRY_LINE_HEIGHT (*(const f32 *)&text_entry_line_height)
+#define TEXT_ENTRY_HALF (*(const f32 *)&text_entry_half)
 
 #pragma push
 #pragma fp_contract on
@@ -56,27 +56,27 @@ void WindowTextEntry::measure_text(f32 max_width) {
     char ch;
     u8 w;
     if (this->text == NULL || *this->text == 0) {
-        this->width = K_CFAC;
-        this->height = K_CFAC;
+        this->width = TEXT_ENTRY_ZERO;
+        this->height = TEXT_ENTRY_ZERO;
         return;
     }
     if (this->flags & 0x40) {
-        limit = K_CFB0;
+        limit = TEXT_ENTRY_NO_WRAP_WIDTH;
     } else {
         limit = max_width;
     }
     sjis = (u32)__cntlzw(current_language) >> 5;
     small = (this->flags >> 2) & 1;
     if (small) {
-        lineh = K_CFB8;
-        adv = K_CFB4;
+        lineh = TEXT_ENTRY_SMALL_LINE_HEIGHT;
+        adv = TEXT_ENTRY_SMALL_ADVANCE;
         y = lineh;
     } else {
-        adv = K_CFBC;
-        lineh = K_CFC0;
+        adv = TEXT_ENTRY_ADVANCE;
+        lineh = TEXT_ENTRY_LINE_HEIGHT;
         y = adv;
     }
-    maxx = K_CFAC;
+    maxx = TEXT_ENTRY_ZERO;
     p = this->text;
     x = maxx;
     while (*p != 0) {
@@ -89,16 +89,16 @@ void WindowTextEntry::measure_text(f32 max_width) {
         p++;
         if (c == 0xA) {
             if (this->flags & 0x80) {
-                x += adv * K_CFC4;
+                x += adv * TEXT_ENTRY_HALF;
             } else {
                 if (x > maxx) {
                     maxx = x;
                 }
                 y += lineh;
-                x = K_CFAC;
+                x = TEXT_ENTRY_ZERO;
             }
         } else if (c == 0x20) {
-            x += adv * K_CFC4;
+            x += adv * TEXT_ENTRY_HALF;
         } else {
             if (sjis != 0 && ((c & 0xE0) == 0x80 || (c & 0xE0) == 0xE0)) {
                 c = ((c << 8) & 0xFF00) | *(u8 *)p;
@@ -113,13 +113,13 @@ void WindowTextEntry::measure_text(f32 max_width) {
                 if (x > maxx) {
                     maxx = x;
                 }
-                x = K_CFAC;
+                x = TEXT_ENTRY_ZERO;
                 y += lineh;
             }
             x += (f32)w;
         }
     }
-    if (x <= K_CFAC) {
+    if (x <= TEXT_ENTRY_ZERO) {
         y -= lineh;
     }
     if (x > maxx) {
@@ -155,8 +155,8 @@ void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags) {
     } else {
         entry->text = (char *)str;
     }
-    if (entry->reveal_step > K_CFAC) {
-        entry->reveal_pos = K_CFAC;
+    if (entry->reveal_step > TEXT_ENTRY_ZERO) {
+        entry->reveal_pos = TEXT_ENTRY_ZERO;
     }
     entry->flags = entry->flags & ~0x2D1;
     entry->flags = entry->flags | (flags & 0x2C1);
@@ -180,7 +180,7 @@ void WindowTextEntry::render(WindowDrawContext *context) {
     pt.y = context->inner_y + y;
     scale = (-1.0f) / ((0.299f) * depth + context->depth);
     if (flags & 0x40) {
-        clip = K_CFB0;
+        clip = TEXT_ENTRY_NO_WRAP_WIDTH;
     } else {
         clip = context->clip_x1;
     }
@@ -234,13 +234,13 @@ WindowTextEntry::WindowTextEntry(TextLayoutRecord *rec, s32 client) : TWindowLay
     y = rec->pos[1];
     depth = rec->depth;
     flags = rec->flags;
-    reveal_pos = K_CFAC;
+    reveal_pos = TEXT_ENTRY_ZERO;
     color = rec->color;
     reveal_step = TWindowSubStatusDisp::get_card_window_scale(this->client);
     if (flags & 4) {
-        reveal_step = reveal_step * K_CFC4;
+        reveal_step = reveal_step * TEXT_ENTRY_HALF;
     }
-    if (reveal_step <= K_CFAC) {
+    if (reveal_step <= TEXT_ENTRY_ZERO) {
         reveal_pos = (9e+05f);
     }
     text = (char *)rec->text;
