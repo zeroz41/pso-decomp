@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/BattleParamTables.h"
@@ -17,7 +18,6 @@ s32 TAdMultiPlyChrSelectGC::get_current_state() { return state; }
 
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPlyChrSelectGC::instance; }
 
-    extern int plyplt_anim_ctrl_instance;
 saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_instance; }
 
 int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cursor_texture_list; }

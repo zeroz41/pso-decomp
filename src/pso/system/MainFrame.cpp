@@ -9,7 +9,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/charcreate/CreationResourceFree.h"
 #include "pso/audio/MusicControl.h"

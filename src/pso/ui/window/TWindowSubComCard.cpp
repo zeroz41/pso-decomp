@@ -25,7 +25,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
 class TChCrTagPlBack;
@@ -47,14 +47,13 @@ class TChCrTagPlBack;
 
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
+#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowSubComCard::class_name = "TWindowSubComCard";
@@ -67,10 +66,6 @@ static const f32 com_card_mode4_message_size[2] = {206.0f, 122.0f};
 static const f32 com_card_message_size[2] = {206.0f, 82.0f};
 static const saddr com_card_help_message_ids[] = {0x47, 0x48, 0x49, 0x4A, 0x4B, 0xF9, 0};
 
-extern "C" {
-void set_value_by_key(void *, u16, s32);
-void load_selected_guild_card_record(ChoiceSearchResult *result);
-}
 
 
 void TWindowMenu::mark_selected_value() {
@@ -657,7 +652,7 @@ void TWindowSubComCard::run_task() {
         if (TWindowSubComCard::get_choice_search_options() != NULL) {
             if (this->search_options == NULL) {
                 this->search_options = TWindowSubComCard::get_choice_search_options();
-                character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+                character_save_record = get_character_save_record(0xFFFF);
                 rebuild_choice_search_selections(&choice_selections, this->search_options);
                 rebuild_choice_search_selections(&character_save_record->choice_search, this->search_options);
             }
@@ -797,7 +792,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x37:
         this->entry_list_window->shrink_to_selected_entry();
-        option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+        option_record = get_character_save_record(0xFFFF);
         this->com_card_menu = this->create_option_list_window(option_record->choice_search.entries, (s32)((int) (this->entry_list_window->update_selected_entry())));
         this->state = 0x38U;
     case 0x38:
@@ -806,7 +801,7 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (this->com_card_menu->is_decided() != 0) {
-            chosen_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+            chosen_record = get_character_save_record(0xFFFF);
             this->set_choice_search_option(chosen_record->choice_search.entries, (int) (this->entry_list_window->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x35U;
             return;
@@ -1093,7 +1088,7 @@ TWindowMenu *TWindowSubComCard::create_menu() {
     }
     list->set_flag70_bit10();
     list->update_layout_height(179.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -1104,7 +1099,7 @@ TWindowMenu *TWindowSubComCard::create_send_action_menu() {
     menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x56)), 6, 9);
     menu->set_flag70_bit10();
     menu->update_layout_height(213.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 
@@ -1122,7 +1117,7 @@ TWindowMenu *TWindowSubComCard::create_contact_menu() {
   }
   list->set_flag70_bit10();
   list->update_layout_height(186.0f);
-  align_menu_entry_positions(list);
+  list->align_menu_entry_positions();
   return list;
 }
 
@@ -1173,7 +1168,7 @@ TWindowMenu *TWindowSubComCard::open_menu() {
     list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x15);
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -1285,7 +1280,7 @@ TWindowChoiceSetting *TWindowSubComCard::create_entry_list_window() {
     TWindowChoiceSetting *w;
     ChoiceSearchOption *e;
     TRecvChoiceSearchOptions *l;
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     hard = TLobby::open_hard_keyboard(client_id);
     w = TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
     w->create_sub_window(TWindowSubStatusDisp::get_message_10(0x6D));
@@ -1346,7 +1341,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
     }
     win->set_flag70_bit10();
     win->set_scroll_target(405.0f, 124.0f);
-    align_menu_entry_positions(win);
+    win->align_menu_entry_positions();
     return win;
 }
 #pragma pop
@@ -1389,7 +1384,7 @@ TWindowMenu *TWindowSubComCard::create_menu_window() {
   }
   list->set_flag70_bit10();
   list->update_layout_height(206.0f);
-  align_menu_entry_positions(list);
+  list->align_menu_entry_positions();
   return list;
 }
 

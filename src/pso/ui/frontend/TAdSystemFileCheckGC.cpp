@@ -10,8 +10,8 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TAdSystemFileCheckGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -25,7 +25,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/audio/MusicControl.h"
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
@@ -300,7 +299,7 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
             this->menu_window->set_selected_index(0);
         }
         this->menu_window->update_layout_height(system_file_check_menu_height);
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
+        (reinterpret_cast<TWindowMenu *>(this->menu_window))->align_menu_entry_positions();
     }
 }
 

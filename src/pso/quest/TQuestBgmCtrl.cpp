@@ -9,7 +9,7 @@ s32 quest_bgm_ctrl_area_bgm_index;
 TQuestBgmCtrl* quest_bgm_ctrl_instance;
 extern "C" const char* quest_bgm_ctrl_class_name;
 
-extern void *quest_bgm_area_filename_table[];
+extern const char *quest_bgm_area_filename_table[];
 
 extern "C" __declspec(section ".rodata") const char quest_bgm_epi1_filename[] = "epi1.adx";
 extern "C" __declspec(section ".rodata") const char quest_bgm_epi2_filename[] = "epi2.adx";
@@ -50,12 +50,12 @@ void TQuestBgmCtrl::run_task() {
     }
 }
 
-void *quest_bgm_area_filename_table[17] = {
-    (void *)&quest_bgm_epi1_filename, (void *)&quest_bgm_epi2_filename, (void *)&quest_bgm_ed_piano_filename, (void *)&quest_bgm_matter_filename,
-    (void *)&quest_bgm_open_filename, (void *)&quest_bgm_dreams_filename, (void *)&quest_bgm_mambo_filename, (void *)&quest_bgm_carnaval_filename,
-    (void *)&quest_bgm_hearts_filename, (void *)&quest_bgm_smile_filename, (void *)&quest_bgm_nomal_filename, (void *)&quest_bgm_chu_f_filename,
-    (void *)&quest_bgm_ending_loop_filename, (void *)&quest_bgm_dreams_kids_filename, (void *)&quest_bgm_escape_filename, (void *)&quest_bgm_live_filename,
-    (void *)&quest_bgm_miles_filename,
+const char *quest_bgm_area_filename_table[17] = {
+    quest_bgm_epi1_filename, quest_bgm_epi2_filename, quest_bgm_ed_piano_filename, quest_bgm_matter_filename,
+    quest_bgm_open_filename, quest_bgm_dreams_filename, quest_bgm_mambo_filename, quest_bgm_carnaval_filename,
+    quest_bgm_hearts_filename, quest_bgm_smile_filename, quest_bgm_nomal_filename, quest_bgm_chu_f_filename,
+    quest_bgm_ending_loop_filename, quest_bgm_dreams_kids_filename, quest_bgm_escape_filename, quest_bgm_live_filename,
+    quest_bgm_miles_filename,
 };
 
 TQuestBgmCtrl::~TQuestBgmCtrl() {

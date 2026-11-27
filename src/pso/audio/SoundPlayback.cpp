@@ -6,13 +6,13 @@
 #include "types.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/audio/SoundPlayback.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/audio/SoundControlState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-    extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
 void update_voice_stream_mix(AdxtPlayer *tracks) {
     sound_control_state.set_stream_mix(tracks, get_sound_voice_volume_adjustment() + 0x55, 0x40, 0x40, 0);
@@ -26,7 +26,6 @@ void update_voice_stream_mix(AdxtPlayer *tracks) {
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/LoadingInfoIcon.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/MallocLoadFilePrc.h"
 
 void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
@@ -206,7 +205,6 @@ extern const f32 floor_sound_bank_volume_table[36] = {
 
 void refresh_render_state() { sound_control_state.pop_sound_groups(0); set_sound_reverb_level(0.0f); render_tick(); }
 
-extern "C" {
 void load_floor_sound_bank(s32 floor) {
     s32 bank;
 
@@ -227,7 +225,6 @@ void load_floor_sound_bank(s32 floor) {
     }
 }
 
-}
 
 void run_sound_retrace(void) {
     sound_control_state.sound_retrace_stub();

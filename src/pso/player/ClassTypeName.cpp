@@ -3,7 +3,7 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/PlayerClassFlags.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 const char *get_class_type_name(s32 class_flags) {
     if (class_flags & CLASS_FLAG_HUNTER) {

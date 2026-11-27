@@ -8,7 +8,7 @@
 
 extern TitleBackgroundTile title_background_tiles[8];
 
-void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s32 mode, f32 depth) {
+void draw_title_background_quads(NJS_TEXLIST *texture_list, s32 tex_base, s32 color, s32 mode, f32 depth) {
     static f32 s_offset_x0 = 0.0f;
     static f32 s_offset_y0 = 0.0f;
     static f32 s_offset_x1 = 0.0f;
@@ -17,7 +17,7 @@ void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s3
     int i;
 
     begin_screen_draw(mode);
-    set_texture_list(static_cast<NJS_TEXLIST *>(texture_list));
+    set_texture_list(texture_list);
     for (i = 0; i < 8; i++) {
         set_draw_texture_and_color(tex_base + title_background_tiles[i].tex, color);
         q[0] = s_offset_x0 + (f32)title_background_tiles[i].x;
@@ -44,10 +44,10 @@ TitleBackgroundTile title_background_tiles[8] = {
     { 0x100, 0x0, 0x100, 0x100, 2 },
 };
 
-void draw_title_background_layer(void *texture_list, int tex_base, int color, f32 depth) {
+void draw_title_background_layer(NJS_TEXLIST *texture_list, int tex_base, int color, f32 depth) {
     draw_title_background_quads(texture_list, tex_base, color, 1, depth);
 }
 
-void render_logo_with_default(void *texture_list, int tex_base, int color, f32 depth) {
+void render_logo_with_default(NJS_TEXLIST *texture_list, int tex_base, int color, f32 depth) {
     draw_title_background_quads(texture_list, tex_base, color, 0, depth);
 }

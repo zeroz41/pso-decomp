@@ -33,7 +33,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/render/ScreenSpriteDraw.h"
-#include "pso/unk/text_801E3F24.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <stdlib.h>
@@ -42,8 +41,8 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
@@ -59,7 +58,6 @@ s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu::state;
 
 
-extern "C" void copy_player_visual_record(void *, void *);
 
 const char *TObjCMMainMenu::class_name = "TObjCMMainMenu";
 
@@ -133,7 +131,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     m_name = class_name;
     character = creation_player_character;
     if (!(character->flags & 0xA) && character->classId == get_creation_visual_record()->classId) {
-        copy_player_visual_record(character, get_creation_visual_record());
+        copy_player_visual_record((PlayerVisualRecord *)character, (PlayerVisualRecord *)get_creation_visual_record());
     }
     strncpy(character->name, (const char *)get_name_buffer(), 0xC);
     character->name[0xC] = 0;
@@ -319,7 +317,7 @@ void TObjCMMainMenu::update_confirmation() {
             play_sound_effect(0x52D01, 0, 0, 0);
             this->delay = 7;
             state = 5;
-            TObjCMMainMenu::create_fade((void *)7, (void *)1);
+            TObjCMMainMenu::create_fade(7, 1);
         }
     } else {
         fv = this->progress;
@@ -1756,7 +1754,7 @@ void TObjCMProportion::run_task() {
     if (this->active == 0) {
         if ((this->fade += -0.083333336f) <= 0.0f) {
             this->fade = 0.0f;
-            ((TObject *)this)->queue_destruction();
+            queue_destruction();
         }
     } else {
         if ((this->fade += 0.16666667f) > 1.0f) {

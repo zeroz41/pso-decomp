@@ -36,7 +36,7 @@ void TObjNpcARM00::free_resources() {
         texture_list = NULL;
     }
     if (model_resource != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(model_resource));
+        TLobby::free_nodes_with_id(model_resource);
         model_resource = NULL;
     }
 }

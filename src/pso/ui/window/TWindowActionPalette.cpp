@@ -25,7 +25,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/system/ControllerInput.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -50,9 +51,6 @@ const char *TWindowActionPalette::class_name = "TWindowActionPalette";
 void TWindowLayoutEntry::hide() { flags |= 2; }
 void TWindowLayoutEntry::show() { flags &= ~2; }
 
-extern "C" {
-s32 find_inventory_item_id_by_code(void *player, s32 kind, u8 group, u8 index);
-}
 
 const PaletteItemKind action_palette_item_kinds[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},
@@ -77,10 +75,10 @@ PaletteIconUV action_palette_photon_blast_icon_uvs[6] = {
     {200.0f, 172.0f}, {150.0f, 129.0f}, {150.0f, 172.0f}, {200.0f, 129.0f},
     {100.0f, 172.0f}, {100.0f, 129.0f},
 };
-PaletteIconUV lbl_804CDDF8[3] = {
+PaletteIconUV action_palette_group2_icon_uvs[3] = {
     {200.0f, 43.0f}, {200.0f, 0.0f}, {200.0f, 86.0f},
 };
-PaletteIconUV lbl_804CDE10[8] = {
+PaletteIconUV action_palette_group7_icon_uvs[8] = {
     {0.0f, 0.0f}, {100.0f, 129.0f}, {100.0f, 172.0f}, {200.0f, 129.0f},
     {200.0f, 172.0f}, {100.0f, 86.0f}, {100.0f, 86.0f}, {50.0f, 0.0f},
 };
@@ -141,7 +139,7 @@ void TWindowActionPalette::run_task() {
     u16 v;
     u16 target;
     u8 cnt;
-    TWindowHelpItem *help;
+    WindowSpritePart *help;
     player = get_player_by_client_id(client_index);
     if (player == NULL || (palette = player->refresh_effect()) == NULL) {
         return;
@@ -153,14 +151,14 @@ void TWindowActionPalette::run_task() {
     if (test_previous_buttons_packed(&controller_input_state.controllers[slot], get_control_button_mask(client_index)) != 0) {
         state = 3;
     }
-    help = (TWindowHelpItem *)get_array_entry(0);
-    set_help_icon_uv((saddr)help, client_index);
+    help = static_cast<WindowSpritePart *>(get_array_entry(0));
+    set_help_icon_uv(help, client_index);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
-        help->window_flags = -1;
+        help->color = -1;
     } else {
-        help->window_flags = 0xFF666666;
+        help->color = 0xFF666666;
     }
     v = player->select_action_palette_and_apply(0, 0, 0);
     if (v == 0) {
@@ -197,22 +195,21 @@ void TWindowActionPalette::run_task() {
 }
 
 void TWindowActionPalette::render() {
-    saddr context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
+    WindowDrawContext *context = setup_window_draw_context((f32 *)&scale);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     draw_frame(context);
 }
 
 #pragma push
 #pragma fp_contract on
-void TWindowActionPalette::draw_frame(saddr context) {
+void TWindowActionPalette::draw_frame(WindowDrawContext *ctx) {
     TexturedQuad corner;
     TexturedQuad top_row;
     TexturedQuad frame;
     TexturedQuad bottom_row;
-    WindowDrawContext *ctx = (WindowDrawContext *)context;
     f32 scale;
     f32 depth;
     scale = get_transition_progress();
@@ -370,7 +367,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         break;
     case 2:
         icon->kind = 4;
-        row = lbl_804CDDF8;
+        row = action_palette_group2_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -402,7 +399,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         } else {
             icon->kind = 4;
         }
-        row = lbl_804CDE10;
+        row = action_palette_group7_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -476,10 +473,10 @@ s32 get_palette_item_amount(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void set_help_icon_uv(saddr help, saddr client_id) {
+void set_help_icon_uv(WindowSpritePart *help, s32 client_id) {
     if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
-        reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 56.0f);
+        help->set_sprite_uv_from_pixels(92.0f, 56.0f);
         return;
     }
-    reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 0.0f);
+    help->set_sprite_uv_from_pixels(92.0f, 0.0f);
 }

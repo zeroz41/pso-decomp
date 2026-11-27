@@ -40,6 +40,8 @@ struct TObjEneSlime : public TObjEnemy {
     static void spawn_pair();
     static void *create(void *set_data);
     void init_slots();
+    s32 has_no_active_slot();  // every child slot is free or finished
+    s32 spawn_slime_in_slot(s32 index, Vec *position, Vec *velocity);
 };
 
 LAYOUT_ASSERT(TObjEneSlime_size, sizeof(TObjEneSlime) == 0x3D8);

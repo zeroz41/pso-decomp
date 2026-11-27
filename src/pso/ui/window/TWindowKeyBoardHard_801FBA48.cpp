@@ -6,7 +6,7 @@
 #include "pso/system/SubtractiveRng.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/main_loop.h"
@@ -102,16 +102,16 @@ void decrypt_character_save(Pso3CharacterFile *save_data) {
     delete unshuffled;
     delete plain;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);
-    chr_select_rng_state.apply_rng_cipher((u32 *)save_data, 0x194B0);
+    chr_select_rng_state.apply_rng_cipher(save_data, 0x194B0);
     chr_select_rng_state.set_seed(save_data->get_cipher_seed());
-    chr_select_rng_state.xor_buffer((u32 *)save_data, 0x194AC);
+    chr_select_rng_state.xor_buffer(save_data, 0x194AC);
 }
 
 s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     s32 sum;
     u8 *buf;
     s32 res;
-    u8 *data;
+    Pso3CharacterFile *data;
     s32 saved;
     buf = (u8 *)TQuestVmDownLoadServer::alloc(0x214B0);
     res = TAdPlayerLoadGC::find_card_file(0, memory_card_character_dir_name);
@@ -134,14 +134,14 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     }
     memcard_access_active = 0;
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
-    data = (u8 *)TQuestVmDownLoadServer::alloc(0x194B0);
+    data = (Pso3CharacterFile *)TQuestVmDownLoadServer::alloc(0x194B0);
     memcpy(data, buf + 0x2048, 0x194B0);
-    decrypt_character_save((Pso3CharacterFile *)data);
-    saved = *(s32 *)data;
-    *(s32 *)data = 0;
-    res = calc_crc32_bitwise(data, 0x194B0);
-    strncpy(((char *)this), (char *)(data + 0x193F0), 0x10);
-    strncpy(desc, (char *)(data + 0x19400), 0x10);
+    decrypt_character_save(data);
+    saved = data->checksum;
+    data->checksum = 0;
+    res = calc_crc32_bitwise((u8 *)data, 0x194B0);
+    strncpy(((char *)this), (char *)data + 0x193F0, 0x10);
+    strncpy(desc, (char *)data + 0x19400, 0x10);
     safe_free(data);
     safe_free(buf);
     return (u8)(saved == res);

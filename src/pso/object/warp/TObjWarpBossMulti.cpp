@@ -32,7 +32,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/render/DebugFont.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -96,8 +95,8 @@ BmlResource *boss_warp_resource_bundle;
 NJS_OBJECT *boss_warp_base_model;
 NJS_OBJECT *boss_warp_confirmation_model;
 NJS_OBJECT *warp_boss_model;
-AnimationMotion *warp_boss_motion;
-AnimationMotion *warp_boss_bml_motion;
+NJS_MOTION *warp_boss_motion;
+NJS_MOTION *warp_boss_bml_motion;
 NJS_TEXLIST *boss_warp_base_textures;
 NJS_TEXLIST *boss_warp_effect_textures;
 
@@ -116,9 +115,9 @@ NJS_OBJECT *get_boss_warp_confirmation_model(void) { return boss_warp_confirmati
 
 NJS_OBJECT *get_boss_warp_model(void) { return warp_boss_model; }
 
-AnimationMotion *get_boss_warp_motion(void) { return warp_boss_motion; }
+NJS_MOTION *get_boss_warp_motion(void) { return warp_boss_motion; }
 
-AnimationMotion *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
+NJS_MOTION *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
 
 NJS_TEXLIST *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
 
@@ -237,7 +236,7 @@ void TObjWarpBoss::run_task() {
         update();
         if (motion != NULL) {
             frame += 4.0f;
-            if ((1.0f + frame) >= (f32)motion->frameCount) {
+            if ((1.0f + frame) >= (f32)motion->nbFrame) {
                 frame = 0.0f;
             }
         }
@@ -589,7 +588,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
                     menu_window->add_text_entry(TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     menu_window->disable_input();
                     menu_window->calc_window_size();
-                    align_menu_entry_positions(menu_window);
+                    menu_window->align_menu_entry_positions();
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
@@ -792,11 +791,11 @@ TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjArea
     update();
     init_warp_params();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 19.0f);
+            p = p->init(&position, 19.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -843,13 +842,13 @@ void TObjWarpBossMulti::run_task() {
     switch (state) {
     case 0:
         frame += frame_step;
-        if (frame > (motion->frameCount - 1)) {
+        if (frame > (motion->nbFrame - 1)) {
             frame = 0.0f;
         }
         break;
     case 1:
         frame += frame_step;
-        if (frame > (bml_motion->frameCount - 1)) {
+        if (frame > (bml_motion->nbFrame - 1)) {
             frame = 0.0f;
         }
         handle_area_selection();
@@ -868,10 +867,10 @@ void TObjWarpBossMulti::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model_handle));
+    set_texture_list(model_handle);
     draw_ginja_object(base_model);
     TParticleCtrl::begin_effect_render();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
+    set_texture_list(effect_textures);
     switch (state) {
     case 0:
         draw_ginja_model_with_motion(confirmation_model, motion, frame);

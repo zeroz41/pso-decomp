@@ -391,20 +391,20 @@ void TObjCollidable::collision_update_stub() {}
 void clear_battle_param_slots() {
     int i;
     for (i = 0; i < 16; i++) {
-        set_battle_param_slot(i, 0);
+        set_battle_param_slot(i, NULL);
     }
 }
 
-s32 find_or_alloc_battle_param_slot(uaddr actor) {
+s32 find_or_alloc_battle_param_slot(TObjChara *actor) {
     s32 slot;
-    u32 battle_param;
+    TObjChara *battle_param;
 
     for (slot = 0;;) {
         battle_param = TObjPlayer::get_battle_param(slot);
         if (battle_param == actor) {
             return slot;
         }
-        if (battle_param == 0U) {
+        if (battle_param == NULL) {
             return set_battle_param_slot(slot, actor);
         }
         slot += 1;
@@ -414,7 +414,7 @@ s32 find_or_alloc_battle_param_slot(uaddr actor) {
     }
 }
 
-int set_battle_param_slot(int slot, int actor) {
+int set_battle_param_slot(int slot, TObjChara *actor) {
     player_battle_param_table[slot] = actor;
     return slot;
 }
@@ -872,7 +872,7 @@ CollisionBody *TObjCollidable::find_actor_body_contact(TObjCollidable *target, f
             destination.facing = target->rotation_y;
             result = refresh_actor_body_spheres(source, destination);
             if (result != NULL) {
-                find_or_alloc_battle_param_slot(reinterpret_cast<uaddr>(target));
+                find_or_alloc_battle_param_slot((TObjChara *)target);
                 return result;
             }
         }
@@ -932,7 +932,7 @@ u32 TObjCollidable::check_actor_body_contact(TObjCollidable *target, f32 range) 
             b.facing = target->rotation_y;
             hit = refresh_actor_body_spheres(a, b);
             if (hit != NULL) {
-                find_or_alloc_battle_param_slot((uaddr)target);
+                find_or_alloc_battle_param_slot((TObjChara *)target);
                 hit->flags |= 0x04000000;
                 return (uaddr)hit;
             }
@@ -1148,5 +1148,5 @@ s32 TObjCollidable::access_object_saved_state(void *saved_state, s16 load) {
 }
 
 TObjCollidable *entity_table[0x18C];
-saddr player_battle_param_table[0x10];
+TObjChara *player_battle_param_table[0x10];
 ActorBodyHit player_unique_pair_entries[0x10];

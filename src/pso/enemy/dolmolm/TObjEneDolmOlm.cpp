@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -10,7 +10,7 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/DebugFont.h"
 #pragma defer_codegen on
@@ -51,7 +51,7 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #include "pso/system/MatrixOps.h"
@@ -341,7 +341,7 @@ void TObjEneDolmOlm::render() {
     if (vis != 0 && render_model_if_visible() == 0) {
     select_actor_lighting(this);
     model_render_flags |= 1;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
@@ -421,7 +421,7 @@ void TObjEneDolmOlm::render() {
 s32 TObjEneDolmOlm::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

@@ -26,15 +26,11 @@ public:
     f32 animation_frame;        // the motion frame update_anim_phase advances
     f32 animation_end_frame;    // where animation_frame wraps
     f32 animation_step;         // frames per update
-    AnimationMotion *motion;    // the looped motion, NULL for a static model
+    NJS_MOTION *motion;    // the looped motion, NULL for a static model
     f32 view_range;             // range classify_actor_view_detail is asked with
     f32 model_radius;
 };
 
 LAYOUT_ASSERT(TObjMapObjectSize, sizeof(TObjMapObject) == 0xC8);
-
-// The derived destructors still written out by hand call the base one by
-// its symbol.
-extern "C" void *__dt__13TObjMapObjectFv(void *self, s16 del);
 
 #endif

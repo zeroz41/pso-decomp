@@ -17,11 +17,11 @@ LAYOUT_ASSERT(BmlModelEntry_size, sizeof(BmlModelEntry) == 0x10);
 LAYOUT_ASSERT(BmlModelEntry_model_offset, offsetof(BmlModelEntry, model) == 0x8);
 LAYOUT_ASSERT(BmlModelEntry_texlist_offset, offsetof(BmlModelEntry, texlist) == 0xC);
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct BmlMotionEntry {
     BmlMotionEntry &operator=(BmlMotionEntry &other);
     u32 unknown;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
 };
 
 LAYOUT_ASSERT(BmlMotionEntry_size, sizeof(BmlMotionEntry) == 8);
@@ -82,7 +82,7 @@ void check_bin_model_loaded(BmlResource *resource);
 void increment_ref_and_set_flag(void *context);
 struct BmlModelLoadRequest;
 struct BmlMotionLoadRequest;
-struct AnimationMotion;
+struct NJS_MOTION;
 void LoadBinModelCallBack(BmlModelLoadRequest *request);
 void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
 
@@ -105,7 +105,7 @@ struct BmlModelLoadRequest {
 };
 
 struct BmlMotionLoadRequest {
-    AnimationMotion **motion;
+    NJS_MOTION **motion;
     BmlResource *resource;
 };
 

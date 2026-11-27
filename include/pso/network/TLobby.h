@@ -8,13 +8,21 @@ struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
-struct LobbyPlayerEntry;
+struct LobbyPlayerEntry {
+    u8 tag[8];
+    u32 ip_addr;
+    saddr client_id;
+    char name[16];
+    u8 char_data[0x41C];
+};
 class TLobbyIdleTimer;
 class TEnemyTaskList;
 template <size_t size> struct TPlyText;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
 struct G_ClientIDHeader;
+struct AdxfHandle;
+struct extended_game_command_header;
 struct FloorObjectSetRow;
 class GameListEntry;
 class QuestListEntry;
@@ -26,6 +34,8 @@ struct player_stats;
 struct AttackParams;
 struct SymbolChatPayload;
 struct TAdDialingMessageWindow;
+struct ObjectSetData;
+struct TObjQuestColApcINW;
 struct ActorParamBlock;
 union BattleMovementParams;
 #include "pso/audio/AdxCallbacks.h"
@@ -37,6 +47,7 @@ struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
 class TUserAns;
+class TChallenge;
 class TWindowMenuIconLine;
 struct TWindowMessage;
 struct TPlyChallenge;
@@ -73,7 +84,7 @@ struct TLobby : public TObject {
     static void load_shark_resources();
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
-    static void free_nodes_with_id(uaddr root);
+    static void free_nodes_with_id(const void *root);
     static void dispatch_by_index(s32 index);
     static void open_scroll_text_window(saddr src);
     void render();
@@ -129,7 +140,7 @@ struct TLobby : public TObject {
     static s32 sum_floor_enemy_counts();
     static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
     static int get_selected_quest_id();
-    static void *create_tl05_object(void *player);
+    static void *create_tl05_object(TObjPlayer *player);
     static void free_singleton();
     static void create_named_lobby_object();
     s32 get_id();
@@ -165,9 +176,9 @@ struct TLobby : public TObject {
     void handle_quest_download_chunk();
     static void close_trade_request();
     static void reset_trade_state();
-    static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
-    static void send_challenge_with_value(s32 challenge, s32 window_mode);
-    static void send_challenge_records(u32 _w0);
+    static void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination);
+    static void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
+    static void send_challenge_records(TChallenge *challenge);
     static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
@@ -271,7 +282,7 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static void bswap_and_handle_packet(void *packet, int size);
-    static void bswap_header_fields(void *header);
+    static void bswap_header_fields(extended_game_command_header *header);
     static void bswap_player_data(PlayerSyncRecord *record);
     static void close_all_windows(void *);
     static void close_all_windows();
@@ -282,9 +293,9 @@ struct TLobby : public TObject {
     static void close_menu_windows();
     static void construct_global_arrays();
     static void copy_all_data(int, int);
-    static void *copy_member_record(void *, void *);
+    static TPlyJoinLobbyEntry *copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src);
     static void *copy_symbol_chat_entry(void *, void *);
-    static void *create_quest_col_apc_inw(void *, void *);
+    static TObjQuestColApcINW *create_quest_col_apc_inw(ObjectSetData *set, s32 *out_id);
     static void create_warp_menu();
     static void destroy_all_objects();
     static void destroy_child_recursive(TObject *task, TObject *object);
@@ -450,4 +461,11 @@ TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
 u8 *get_password_input_buffer(void);
 
 extern TPlyChallenge lobby_player_status_records[];
+extern TObject *lobby_player_construction_window;
+
+u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
+
+void set_quest_list_online_state(s32 state);
+void set_item_drop_server_seed(int seed);
+
 #endif

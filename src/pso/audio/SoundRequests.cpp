@@ -6,7 +6,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/system/vector.h"
 #include "pso/audio/SoundRequests.h"
@@ -33,17 +32,17 @@ void TObjPlayer::play_effect_if_v2(s32 pitch) {
 
 
 s8 lbl_805D6278;
-s8 lbl_805D6279;
+s8 sound_request_expiry_suspended;
 s32 music_gain_offset;
 s32 music_user_gain;
 int music_gain_adjust;
 s32 music_stream_base_gain;
 s32 music_stream_gain;
-s32 lbl_805D6290;
+s32 cue_stream_layout_base;
 s32 cue_stream_user_gain;
 int lobby_layout_offset_c;
-s32 lbl_805D629C;
-s32 lbl_805D62A0;
+s32 cue_stream_layout_end;
+s32 cue_stream_layout_start;
 s32 lobby_layout_start_position;
 s32 cue_stream_scaled_gain;
 s32 cue_stream_gain;
@@ -71,7 +70,7 @@ void init_layout_positions() {
     if (init_sound_mode() == 1) {
         music_gain_offset -= 0x32;
     }
-    lbl_805D6290 = -0xA;
+    cue_stream_layout_base = -0xA;
     close_option_window();
     reset_global();
 }
@@ -80,8 +79,8 @@ int get_lobby_data() {  return music_user_gain; }
 void set_cue_stream_user_gain(s32 gain) {
     set_menu_index_main(gain);
     cue_stream_user_gain = gain;
-    lbl_805D629C = lbl_805D6290 + cue_stream_user_gain + lobby_layout_offset_c;
-    lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;
+    cue_stream_layout_end = cue_stream_layout_base + cue_stream_user_gain + lobby_layout_offset_c;
+    cue_stream_layout_start = cue_stream_layout_base + lobby_layout_offset_c;
     cue_stream_scaled_gain = (s32)(2.3622048f * (f32)gain);
     cue_stream_gain = lobby_layout_start_position + cue_stream_scaled_gain;
     set_cue_stream_gain(cue_stream_gain);
@@ -110,12 +109,12 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
 // Defined here: CodeWarrior emits it in definition order.
-const u32 lbl_805DC748 = 1;
+const u32 sound_pitch_request_keep_mask = 1;
 
 void stop_sound_request(s32 idx) {
     if (sound_requests_enabled != 0 && idx >= 0 && idx < 0x28) {
         release_sound_with_fade(idx);
-        sound_pitch_requests[idx].flags &= lbl_805DC748;
+        sound_pitch_requests[idx].flags &= sound_pitch_request_keep_mask;
         sound_pitch_requests[idx].timer = 0;
         sound_pitch_requests[idx].src = 0;
     }
@@ -124,7 +123,7 @@ void stop_sound_request(s32 idx) {
 int init_sound_output_mode(void) { return init_sound_mode(); }
 
 int init_sound_mode() {
-    u8 *p;
+    SystemSaveData *p;
     if (OSGetSoundMode() == 0U) {
         sound_mode_value = 1;
         apply_sound_output_mode(0);
@@ -132,7 +131,7 @@ int init_sound_mode() {
         apply_sound_output_mode(1);
         sound_mode_value = 0;
         p = TAdSinglePlyChrSelectGC::get_global_state();
-        if (p != NULL && p != NULL && *(s16 *)((s8 *)p + 0xE) != 0) {
+        if (p != NULL && p != NULL && p->surround_sound != 0) {
             sound_mode_value = 2;
             apply_sound_output_mode(2);
         }
@@ -142,10 +141,10 @@ int init_sound_mode() {
 
 void set_sound_output_mode(s32 mode) {
     s32 mode_id;
-    u8 *global_state;
+    SystemSaveData *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state != NULL) {
-        *(s16 *)((s8 *)global_state + 0xE) = 0;
+        global_state->surround_sound = 0;
     }
     switch (mode) {
     case 0:
@@ -155,7 +154,7 @@ void set_sound_output_mode(s32 mode) {
     case 2:
         OSSetSoundMode(1);
         if (global_state != NULL) {
-            *(s16 *)((s8 *)global_state + 0xE) = 1;
+            global_state->surround_sound = 1;
         }
         mode_id = 2;
         break;
@@ -172,7 +171,7 @@ void reset_sound_pitch_requests(void) {
         fade_all_voice_channels();
     }
     for (i = 0; i < 0x28; i++) {
-        sound_pitch_requests[i].flags &= lbl_805DC748;
+        sound_pitch_requests[i].flags &= sound_pitch_request_keep_mask;
         sound_pitch_requests[i].timer = 0;
         sound_pitch_requests[i].src = 0;
     }
@@ -249,7 +248,7 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 vo
         idx = normalize_sound_request(id, actor, position, volume, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
-            sound_pitch_requests[idx].flags &= lbl_805DC748;
+            sound_pitch_requests[idx].flags &= sound_pitch_request_keep_mask;
             if (flags & 1) {
                 sound_pitch_requests[idx].flags |= 0x2000;
             }
@@ -291,7 +290,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
             VecCopy(pos, position);
             set_sound_request_position(idx, pos);
         }
-        sound_pitch_requests[idx].flags &= lbl_805DC748;
+        sound_pitch_requests[idx].flags &= sound_pitch_request_keep_mask;
         if (flags & 1) {
             sound_pitch_requests[idx].flags |= 0x2000;
         }
@@ -336,13 +335,13 @@ s32 check_sound_admission_range(const Vec *pos) {
 void update_sound_request_slots(void) {
     s32 i;
     s32 r;
-    uaddr p;
+    TObjPlayer *p;
     SetSoundPitchRequestSndEnt *e;
     s16 *t;
     if (sound_requests_enabled != 0) {
-        p = (uaddr)get_player_by_client_id((local_client_id));
-        if (p != 0U) {
-            VecCopy((Vec *)sound_listener_position, (const Vec *)(p + 0x38));
+        p = get_player_by_client_id((local_client_id));
+        if (p != NULL) {
+            VecCopy((Vec *)sound_listener_position, &p->position);
         } else if (camera_ctrl_instance != NULL) {
             VecCopy((Vec *)sound_listener_position, &camera_ctrl_instance->pos);
         } else {
@@ -350,7 +349,7 @@ void update_sound_request_slots(void) {
             sound_listener_position[1] = 0.0f;
             sound_listener_position[0] = 0.0f;
         }
-        if (lbl_805D6279 == 0) {
+        if (sound_request_expiry_suspended == 0) {
             for (i = 0; i < 0x28; i++) {
                 r = get_sound_voice_state(i);
                 if (r == -1 || r == 1) {
@@ -401,7 +400,7 @@ s32 reset_sound_request_state(void) {
     lbl_805D62CF = 0;
     lbl_805D62D1 = 0;
     sound_requests_enabled = 1;
-    lbl_805D6279 = 0;
+    sound_request_expiry_suspended = 0;
     music_muted = 0;
     lbl_80514C30[0] = 0;
     music_user_gain = 0;

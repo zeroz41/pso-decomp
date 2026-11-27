@@ -33,4 +33,9 @@ public:
 };
 LAYOUT_ASSERT(TBoss8DragonLeaderPart_size, sizeof(TBoss8DragonLeaderPart) == 0x5C);
 
+// The leader's constructor makes boss8_dragon_leader_part; TLobby's floor callbacks clear and release it.
+TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, void *set_data);
+void release_boss8_dragon_leader_part(void);
+void clear_boss8_dragon_leader_part(void);
+
 #endif

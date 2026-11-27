@@ -14,7 +14,6 @@
 #include "pso/quest/QuestFlagCommand.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/TWindowShop.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/TObjPlayer.h"
@@ -25,11 +24,11 @@ s32 lbl_805D64A8;
 s32 lbl_805D64AC;
 TQuestListChallenge *quest_list_challenge_active_instance;
 
-extern __declspec(section ".rodata") const QuestListStageEntry TQuestListChallenge__stage_table[5];
+extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge2_stage_table[5];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge_stage_table[9];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_battle_stage_table[8];
 extern const char *quest_list_challenge_name;
-extern __declspec(section ".rodata") const ChallengeWindowExtentResource lbl_80450AB4[1];
+extern __declspec(section ".rodata") const ChallengeWindowExtentResource quest_list_challenge_window_extent[1];
 }
 
 #pragma push
@@ -154,7 +153,7 @@ void TQuestListChallenge::update_selection() {
     if (list_window != NULL && list_window->is_decided() == 1) {
         sel = list_window->get_cursor_value();
         if (info_window == NULL) {
-            ChallengeWindowExtent p = lbl_80450AB4[0].extent;
+            ChallengeWindowExtent p = quest_list_challenge_window_extent[0].extent;
             id = (u16)player->get_entity_id();
             info_window = create_quest_detail_window(get_window_layout_position(0x2E), p.dimensions, 1, id);
             text2 = get_quest_list_text(text_group, entries[sel].confirm_text);
@@ -237,7 +236,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
         if (TLobby::get_instance() == 0) {
             entries = quest_list_challenge_stage_table;
         } else {
-            entries = TQuestListChallenge__stage_table;
+            entries = quest_list_challenge2_stage_table;
         }
         text_group = 0xF;
         count = calc_min_challenge_progress() + 1;
@@ -277,7 +276,7 @@ extern "C" const char str_challenge2_mlt_stg2[] = "challenge2_mlt_stg2";
 extern "C" const char str_challenge2_mlt_stg3[] = "challenge2_mlt_stg3";
 extern "C" const char str_challenge2_mlt_stg4[] = "challenge2_mlt_stg4";
 extern "C" const char str_challenge2_mlt_stg5[] = "challenge2_mlt_stg5";
-extern "C" const QuestListStageEntry TQuestListChallenge__stage_table[5] = {
+extern "C" const QuestListStageEntry quest_list_challenge2_stage_table[5] = {
     {27, 28, 29, str_challenge2_mlt_stg1},
     {30, 31, 32, str_challenge2_mlt_stg2},
     {33, 34, 35, str_challenge2_mlt_stg3},
@@ -325,4 +324,4 @@ extern "C" const QuestListStageEntry quest_list_battle_stage_table[8] = {
 extern "C" const char quest_list_challenge_class_name_string[] = "TQuestListChallenge";
 extern "C" const char *quest_list_challenge_name = quest_list_challenge_class_name_string;
 
-extern "C" const ChallengeWindowExtentResource lbl_80450AB4[1] = {{{{332.0f, 210.0f}}, 0}};
+extern "C" const ChallengeWindowExtentResource quest_list_challenge_window_extent[1] = {{{{332.0f, 210.0f}}, 0}};

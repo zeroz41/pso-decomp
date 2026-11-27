@@ -70,7 +70,6 @@
 
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
@@ -350,7 +349,7 @@ void unlock_main_warp_destination(s32 id) {
 TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     s32 i;
     s32 j;
-    void *p;
+    TAdVIConfigGC *p;
     m_name = class_name;
     warp_range = 25.0f;
     frame = 0.0f;
@@ -361,11 +360,11 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
         lobby_menu_destinations[j] = 0;
     }
     if (is_split_screen() == 1) {
-        p = ::operator new(0x88);
+        p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 25.0f);
+            p = p->init(&position, 25.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -455,7 +454,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
             if (((TWindowSubComCardList *)menu_window)->target_size[1] > 160.0f) {
                 ((TWindowMenu *)menu_window)->set_scroll_target(288.0f, 160.0f);
             }
-            align_menu_entry_positions(menu_window);
+            menu_window->align_menu_entry_positions();
         }
     }
     request_active_window_close();
@@ -490,7 +489,7 @@ s32 TObjCityMainWarp::is_warp_enabled() {
 }
 
 void TObjCityMainWarp::run_task() {
-    f32 lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
+    f32 lim = (f32)(city_common_model_archive->motions[7].motion->nbFrame - 1);
 
     frame += 4.0f;
     if (frame >= lim) {
@@ -501,7 +500,7 @@ void TObjCityMainWarp::run_task() {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -547,7 +546,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
         menu_window->set_flag70_bit10();
         menu_window->disable_input();
         menu_window->calc_window_size();
-        align_menu_entry_positions(menu_window);
+        menu_window->align_menu_entry_positions();
         user_client_id = client_id;
     }
 }
@@ -555,7 +554,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
 void TObjCityAreaWarp::run_task() {
     f32 lim;
     if (TObjEneDD::is_main_phase_15() != 0) {
-        lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
+        lim = (f32)(city_common_model_archive->motions[7].motion->nbFrame - 1);
         frame += 4.0f;
         if (frame >= lim) {
             frame -= lim;
@@ -566,7 +565,7 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -603,11 +602,11 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
-        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TWindowMenu *)playerPopups[client_id])->disable_input();
-        ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
+        playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        playerPopups[client_id]->set_flag70_bit10();
+        playerPopups[client_id]->disable_input();
+        playerPopups[client_id]->calc_window_size();
+        playerPopups[client_id]->align_menu_entry_positions();
     }
 }
 
@@ -625,7 +624,7 @@ void TObjCityMapWarp::clamp_destination_index() {
 int TObjCityMapWarp::is_field88_zero() { return set_params[1] == 0; }
 
 void TObjCityMapWarp::run_task() {
-    u32 n = city_common_model_archive->motions[7].motion->frameCount;
+    u32 n = city_common_model_archive->motions[7].motion->nbFrame;
     f32 lim = (n - 1);
     animation_frame += 4.0f;
     if (animation_frame >= lim) {
@@ -639,7 +638,7 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -700,11 +699,11 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
-        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TWindowMenu *)playerPopups[client_id])->disable_input();
-        ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
+        playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        playerPopups[client_id]->set_flag70_bit10();
+        playerPopups[client_id]->disable_input();
+        playerPopups[client_id]->calc_window_size();
+        playerPopups[client_id]->align_menu_entry_positions();
     }
 }
 
@@ -723,7 +722,7 @@ int TObjLaboMapWarp::is_field88_zero() { return set_params[1] == 0; }
 
 void TObjLaboMapWarp::run_task() {
     f32 lim;
-    lim = (f32)(get_bml_motion(labo_map_warp_resource_bundle, 0)->frameCount - 1);
+    lim = (f32)(get_bml_motion(labo_map_warp_resource_bundle, 0)->nbFrame - 1);
     animation_frame += 4.0f;
     if (animation_frame >= lim) {
         animation_frame -= lim;

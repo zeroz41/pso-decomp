@@ -232,71 +232,71 @@ void TWindowMainMenu::create_submenu(u32 id) {
     reset_depth_base();
     switch (id) {
     case 25:
-        this->submenu = (saddr)new TWindowStatusCategoryMenu(this, this->client_index);
+        this->submenu = new TWindowStatusCategoryMenu(this, this->client_index);
         return;
     case 0:
     case 1:
-        this->submenu = (saddr)new TCustomizeMenuCtrl(this, this->client_index);
+        this->submenu = new TCustomizeMenuCtrl(this, this->client_index);
         return;
     case 9:
     case 10:
-        this->submenu = (saddr)new TWindowSubEquip(this, this->client_index);
+        this->submenu = new TWindowSubEquip(this, this->client_index);
         return;
     case 11:
-        this->submenu = (saddr)new TWindowSubItem(this, this->client_index);
+        this->submenu = new TWindowSubItem(this, this->client_index);
         return;
     case 23:
     case 24:
-        this->submenu = (saddr)new TWindowSubMag(this, this->client_index);
+        this->submenu = new TWindowSubMag(this, this->client_index);
         return;
     case 26:
     case 27:
     case 28:
-        submenu = reinterpret_cast<saddr>(new TWindowSubTrade(this, client_index));
+        submenu = new TWindowSubTrade(this, client_index);
         return;
     case 29:
-        submenu = reinterpret_cast<saddr>(new TWindowSubTradeMain(this, client_index));
+        submenu = new TWindowSubTradeMain(this, client_index);
         return;
     case 30:
-        submenu = reinterpret_cast<saddr>(new TWindowSubTradeMessage(this, client_index));
+        submenu = new TWindowSubTradeMessage(this, client_index);
         return;
     case 12:
     case 13:
-        this->submenu = (saddr)new TWindowSubAreaMap(this, this->client_index);
+        this->submenu = new TWindowSubAreaMap(this, this->client_index);
         return;
     case 15:
     case 16:
-        this->submenu = reinterpret_cast<saddr>(new TWindowSubQuestBoard(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
+        this->submenu = new TWindowSubQuestBoard(this, client_index);
         return;
     case 3:
     case 4:
-        this->submenu = (saddr)new TWindowSubTechnique(this, this->client_index);
+        this->submenu = new TWindowSubTechnique(this, this->client_index);
         return;
     case 18:
-        this->submenu = (saddr)new TWindowSubSymbolChat(this, this->client_index);
+        this->submenu = new TWindowSubSymbolChat(this, this->client_index);
         return;
     case 14:
-        this->submenu = (saddr)new TWindowSubComCard(this, this->client_index);
+        this->submenu = new TWindowSubComCard(this, this->client_index);
         return;
     case 21:
-        this->submenu = (saddr)new TWindowSubLog(this, this->client_index);
+        this->submenu = new TWindowSubLog(this, this->client_index);
         return;
     case 6:
-        this->submenu = (saddr)new TWindowSubOption(this, this->client_index);
+        this->submenu = new TWindowSubOption(this, this->client_index);
         return;
     case 19:
     case 20:
-        this->submenu = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
+        this->submenu = new TWindowSubShortMail(this, client_index);
         return;
     case 22:
-        this->submenu = (saddr)new TWindowSubInformationBoard(this, this->client_index);
+        this->submenu = new TWindowSubInformationBoard(this, this->client_index);
         return;
     case 17:
-        this->submenu = (saddr)new TWindowSubShortCut(this, this->client_index);
+        this->submenu = new TWindowSubShortCut(this, this->client_index);
         return;
     case 7:
     case 8:
-        this->submenu = (saddr)new TWindowSubGameEnd(this, this->client_index);
+        this->submenu = new TWindowSubGameEnd(this, this->client_index);
     default:
         return;
     }
@@ -305,10 +305,10 @@ void TWindowMainMenu::create_submenu(u32 id) {
 void TWindowMainMenu1P::create_char_select_slot() {
     destroy_submenu();
     reset_depth_base();
-    *(void * *)&this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
+    this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
 }
 
-void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); this->submenu = 0; } }
+void TWindowMainMenu::destroy_submenu() { if (this->submenu != 0) { this->submenu->queue_destruction(); this->submenu = 0; } }
 
 void TWindowMainMenu::update_description_text(s32 id) {
     if ((s32)description_item_id != id) {
@@ -464,13 +464,13 @@ s32 TWindowMainMenu::close_active_submenu() {
 }
 
 void TWindowMainMenu::try_open_battle_menu(s16 key) {
-    s32 spC;
+    s32 enabled;
     s16 id;
     TObjPlayer *player;
 
     id = key;
     player = get_player_by_client_id(this->client_index);
-    if ((player != 0) && !(menu_flags & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
+    if ((player != 0) && !(menu_flags & 1) && (filter_menu_entry(&id, &enabled) != 0) && (enabled != 0)) {
         menu_flags = (s32) (menu_flags | 1);
         active_entries = 0;
         open_menu_with_entry(id);

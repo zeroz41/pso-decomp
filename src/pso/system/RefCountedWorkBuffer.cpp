@@ -2,6 +2,7 @@
 #include <string.h>
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
+#include "pso/system/ByteBlocks.h"
 
 u8 ref_counted_load_buffer[0xC00];
 s32 lobby_buffer_refcount;
@@ -19,7 +20,6 @@ void ref_counted_work_buffer_init(void) {
     lobby_buffer_refcount += 1;
 }
 
-struct ByteBlock_8 { u8 bytes[0x8]; };
 
 u32 hex_digit_values[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

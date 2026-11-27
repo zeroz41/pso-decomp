@@ -53,11 +53,11 @@ void TBoss3VoloptMissile::explode_and_destroy() {
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
+            if (obj_is_hit_receivable(target) != 0) {
                 target->receive_direct_attack((TObjBase *)m_up, attack, NULL, -1, -1);
             }
         }
@@ -67,13 +67,13 @@ void TBoss3VoloptMissile::explode_and_destroy() {
 }
 
 void TBoss3VoloptMissile::render() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(textures);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_x(0, rotation_x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags &= ~0x400;
-    draw_chunk_object((void *)model);
+    draw_chunk_object(model);
     pop_matrix();
 }
 
@@ -147,8 +147,8 @@ TBoss3VoloptMissile::TBoss3VoloptMissile(TObject *parent, Vec *pos, s32 angle, s
     rotate_matrix_x(0, rotation_x);
     matrix_mult_vec(0, &velocity, &velocity);
     pop_matrix();
-    model = (saddr)boss3_volopt_resources->models[0x16].model;
-    textures = (saddr)boss3_volopt_resources->models[0x16].texlist;
+    model = boss3_volopt_resources->models[0x16].model;
+    textures = boss3_volopt_resources->models[0x16].texlist;
     age = 0;
     trail_rotation[2] = 0;
     trail_rotation[1] = 0;

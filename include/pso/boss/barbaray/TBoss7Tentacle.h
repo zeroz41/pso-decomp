@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 struct NJS_OBJECT;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 // One of Barba Ray's four tentacles. state is the running behaviour (0 sway, 1 raise, 2 lower, 3 strike at
 // target, 4 turn to its rest angle, 5 drop back); next_state is the one requested, entered by switch_state().
@@ -48,7 +48,7 @@ public:
     static void destroy_instance();
 
     NJS_OBJECT *model;
-    AnimationMotion *motion;   // get_boss7_motion(0x11)
+    NJS_MOTION *motion;   // get_boss7_motion(0x11)
     Vec scale;
     s32 state;
     s32 next_state;

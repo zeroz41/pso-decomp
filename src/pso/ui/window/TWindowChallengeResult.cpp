@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDD.h"

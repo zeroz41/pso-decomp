@@ -21,6 +21,7 @@
 #include "pso/enemy/bringer/TObjEneDf2Bringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -41,7 +42,7 @@
 
 
 #include "pso/math/FloatRounding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/effect/TAttackTrace.h"
@@ -132,7 +133,6 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
@@ -461,9 +461,9 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (player->is_locally_controlled() != 0) {
-                            TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
+                            TItem *item = player->get_equipped_weapon();
                             if (item != NULL) {
-                                TObjPlayer::send_6x26_unequip_item(player, item->get_item_id());
+                                player->send_6x26_unequip_item(item->get_item_id());
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
@@ -576,7 +576,7 @@ void TObjEneDf2Bringer::play_move_sound() {
 
 s32 TObjEneDf2Bringer::acquire_target(f32 range) {
     if (this->is_confused() != 0) {
-        return ((TObjEneDD_ST *)this)->select_and_apply_target(range);
+        return select_and_apply_target(range);
     }
     return select_nearest_target(range);
 }
@@ -1384,7 +1384,7 @@ void TObjEneDf2Bringer::run_demo_task() { if (get_target_info() != 0) { apply_pa
 void TObjEneDf2Bringer::render_demo() {
     f32 frame;
     s32 i;
-    AnimationMotion *mot;
+    NJS_MOTION *mot;
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
@@ -1404,8 +1404,8 @@ void TObjEneDf2Bringer::render_demo() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (mot->frameCount - 1)) {
-            frame = (mot->frameCount - 1);
+        } else if (frame > (mot->nbFrame - 1)) {
+            frame = (mot->nbFrame - 1);
         }
         set_motion_packed_rotation();
         draw_model_motion(model, mot, frame);

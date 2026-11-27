@@ -47,7 +47,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
+#include "pso/boss/olgaflow/TBoss6Type2SubordinateActions.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
@@ -65,6 +65,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/system/ByteBlocks.h"
 
 const char *TBoss6Type2::name = "TBoss6Type2";
 // Inferred name: distance checks (> 390), sound sources and the start position all use it.
@@ -134,7 +135,6 @@ extern "C" {
 void copy_move_target(s32 *dest, s32 *boss6_type2_zero_vec);
 
 
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 
 
@@ -556,7 +556,7 @@ void TBoss6Type2::set_target_state(s32 mode, s32 new_variant) {
     variant = new_variant;
     update_segments();
     if (old_mask != target_attribute_mask || old_variant != variant) {
-        set_state_0x34();
+        start_attribute_switch();
     }
     if (mags[0] != 0) {
         mags[0]->set_target_nodes(target_attribute_mask, variant);
@@ -763,7 +763,7 @@ void TBoss6Type2::init_motion_entries() {
     TBoss6Type2::copy_block((MotionIndexBlock *)&motion_index, &boss6_type2_zero_motion_block);
     for (i = 0; i < get_motion_track_count(); i++) {
         TBoss6Type2MotionTrack *e = &motion_tracks[i];
-        AnimationMotion *motion;
+        NJS_MOTION *motion;
         e->copy_from((TBoss6Type2MotionTrack *)&boss6_type2_motion_entry_transform);
         motion = get_bml_motion(archive, TBoss6Type2::motion_table[0].motion[i]);
         e->prev_motion = motion;
@@ -781,7 +781,7 @@ void TBoss6Type2::update_motion_tracks() {
     for (i = 0; i < get_motion_track_count(); i++) {
         if (i != get_main_motion_track()) {
             e = &motion_tracks[i];
-            n = (f32)e->motion->frameCount;
+            n = (f32)e->motion->nbFrame;
             e->frame += e->speed;
             if (e->frame >= n) {
                 e->frame -= n;
@@ -794,7 +794,7 @@ void TBoss6Type2::update_motion_tracks() {
         }
     }
     e = &motion_tracks[get_main_motion_track()];
-    n = (f32)e->motion->frameCount;
+    n = (f32)e->motion->nbFrame;
     e->frame += e->speed;
     switch (motion_mode) {
     case 0:
@@ -828,7 +828,7 @@ void TBoss6Type2::change_motion(s32 motion) {
         motion_mode = ent->mode;
         for (i = 0; i < get_motion_track_count(); i++) {
             TBoss6Type2MotionTrack *e = &motion_tracks[i];
-            AnimationMotion *next = get_bml_motion(archive, ent->motion[i]);
+            NJS_MOTION *next = get_bml_motion(archive, ent->motion[i]);
             e->blend = e->blend_step;
             e->prev_motion = e->motion;
             e->prev_frame = e->frame;
@@ -1027,7 +1027,7 @@ void TBoss6Type2::start_countdown_sound_state() {
     play_sound_if_no_target();
 }
 
-void TBoss6Type2::set_state_0x34() {
+void TBoss6Type2::start_attribute_switch() {
     switch_timer = 0x34;
     switch_pending = 1;
     play_sound_if_no_target();
@@ -2031,7 +2031,7 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
         return 0;
     }
     possessed_client = client_id;
-    grab_appearance = player->appearance.name;
+    grab_appearance = &player->appearance;
     copy_texlist(&saved_look.body_textures, &player->body_textures.list);
     copy_texlist(&saved_look.head_textures, &player->head_textures.list);
     copy_texlist(&saved_look.attachment_textures, &player->attachment_textures.list);
@@ -2327,8 +2327,8 @@ void TBoss6Type2::draw() {
         post_translate_matrix((const f32 *)&this->node_positions[11]);
         rotate_matrix_y(NULL, this->rotation_y);
         boss6type2_draw_models(&saved_look.body_textures, &saved_look.head_textures, &saved_look.attachment_textures,
-                               (uaddr)saved_look.model, (uaddr)saved_look.head_model, (uaddr)saved_look.hair_model,
-                               saved_look.attachment_model, (saddr)grab_appearance, 1.0f);
+                               saved_look.model, saved_look.head_model, saved_look.hair_model,
+                               saved_look.attachment_model, grab_appearance, 1.0f);
         pop_matrix();
     }
 }

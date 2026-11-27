@@ -21,7 +21,8 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
@@ -186,7 +187,7 @@ void TPhotonPilla::render() {
     if (started != 0) {
         pilla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);
@@ -233,9 +234,9 @@ void TPhotonPilla::apply_photon_blast_effects() {
     if (bodies->flags & 0x100000) {
         index = 0;
         do {
-            saddr player = TObjPlayer::get_battle_param(index);
-            if (player != 0U) {
-                queue_photon_blast_hit(((TObjBase *)player)->get_entity_id(), 2, 0, power);
+            TObjChara *player = TObjPlayer::get_battle_param(index);
+            if (player != NULL) {
+                queue_photon_blast_hit(player->get_entity_id(), 2, 0, power);
             }
             index += 1;
         } while (index < 0x10);

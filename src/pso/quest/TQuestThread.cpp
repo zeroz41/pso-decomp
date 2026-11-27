@@ -37,7 +37,7 @@
 #include "pso/quest/QuestScriptFormat.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "stdio.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -46,18 +46,17 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/MaterialStats.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestFlagCommand.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
 
-struct ByteBlock_20 { u8 bytes[0x20]; };
 
 extern const char *quest_thread_class_name;
 extern const char *quest_thread_board_class_name;
@@ -110,7 +109,7 @@ void TQuestThread::queue_destruction(TObject *obj) { obj->queue_destruction(); }
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 
-void TQuestThread::set_status_flag_80(void *window) { *(u16 *)((u8 *)window + 0x70) |= 0x80; }
+void TQuestThread::set_status_flag_80(TWindowMenu *window) { window->menu_flags |= 0x80; }
 
 TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
@@ -676,7 +675,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         prompt_menu->add_text_entry(get_message_text(0x47), 0x81, 0);
     }
     prompt_menu->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions(prompt_menu);
+    prompt_menu->align_menu_entry_positions();
     TQuestThread::set_status_flag_80(prompt_menu);
 }
 
@@ -777,7 +776,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     confirm_menu = init_shop_judgment_window(get_window_layout_position(0x57));
     if (confirm_menu != NULL) {
         confirm_menu->set_scroll_target(104.0f, 74.0f);
-        align_menu_entry_positions(confirm_menu);
+        confirm_menu->align_menu_entry_positions();
     }
     name_menu = create_window_menu_default(get_window_layout_position(0x56), 1);
     if (name_menu != NULL) {
@@ -791,7 +790,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         name_menu->add_text_entry(m_text, 0x81, 0);
     }
     name_menu->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions(name_menu);
+    name_menu->align_menu_entry_positions();
     TQuestThread::set_status_flag_80(name_menu);
     pos.x = 332.0f;
     pos.y = 80.0f;

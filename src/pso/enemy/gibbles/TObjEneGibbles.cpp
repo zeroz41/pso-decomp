@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -14,7 +14,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -41,7 +41,7 @@ struct NJS_OBJECT;
 #include "pso/network/TLobby.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -59,7 +59,7 @@ struct NJS_OBJECT;
 #include "pso/render/DebugFont.h"
 #include "pso/network/client_id.h"
 
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -342,7 +342,7 @@ void TObjEneGibbles::render() {
         this->fades[cam].update();
         fade = this->fades[cam].updateFromCamera(&body_center);
         select_actor_lighting(this);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix_from(NULL);
         VecCopy(&v, &position);
         switch (this->mode) {
@@ -390,7 +390,7 @@ void TObjEneGibbles::render() {
                     if (vis == 1) {
                         motion->draw();
                     } else {
-                        ((TObjEnemy *)this)->draw_motion_model();
+                        draw_motion_model();
                     }
                 }
                 this->fades[cam].clear_flag_and_notify();
@@ -400,7 +400,7 @@ void TObjEneGibbles::render() {
             } else if (vis == 1) {
                 motion->draw();
             } else {
-                ((TObjEnemy *)this)->draw_motion_model();
+                draw_motion_model();
             }
             break;
         }
@@ -409,7 +409,7 @@ void TObjEneGibbles::render() {
         pop_matrix();
         restore_scene_lighting();
         if (!(this->status_flags & 1)) {
-            ((TObjEnemy *)this)->draw_ground_shadow(0, 0);
+            draw_ground_shadow(0, 0);
         }
     } else {
         this->update_position();
@@ -1033,7 +1033,7 @@ bool TObjEneGibbles::attack_from_joint_53(s32 trigger_hit_reaction, f32 power) {
     this->attack_colliders[0]->check_object_collisions();
     if (this->attack_colliders[0]->bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjCollidable *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate == NULL) {
                 break;
             }
@@ -1079,7 +1079,7 @@ bool TObjEneGibbles::attack_from_joint_31(s32 trigger_hit_reaction, f32 power) {
     this->attack_colliders[0]->check_object_collisions();
     if (this->attack_colliders[0]->bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjCollidable *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate == NULL) {
                 break;
             }

@@ -13,7 +13,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/RenderFadeState.h"
@@ -28,6 +28,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
@@ -52,8 +53,8 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -71,15 +72,13 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/object/TObjControl.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_802268F4.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -448,7 +447,7 @@ void TBoss8Dragon::free_static() {
 void TBoss8Dragon::clear_player_control() { boss8_dragon_player_control = 0; }
 
 TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    u32 record[4];
+    EnemyStateRecord record;
     s32 i;
     s32 j;
     Boss8DragonParams *cfg;
@@ -459,7 +458,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     }
     invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(record, 1) != 0 && (record[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
         this->flags |= 8;
     }
     this->init_position_vectors();
@@ -905,7 +904,7 @@ s32 TBoss8Dragon::select_air_fire_target(Vec *out) {
     n = 0;
     for (i = 0; i < 12; i++) {
         p = get_player_by_client_id(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 &&
+        if (p->is_valid_target() != 0 &&
             horizontal_distance_squared(&p->position, &this->position) >= lim) {
             list[n] = p;
             n++;
@@ -4656,7 +4655,7 @@ void TBoss8Dragon::draw() {
 void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
     RenderFadeState *fade;
     if (!(this->position.y <= -400.0f)) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -4760,9 +4759,9 @@ void TBoss8Dragon::render_nodes_flagged() {
 void TBoss8Dragon::draw_motion_model() {
     f32 f;
     s32 idx;
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -4781,8 +4780,8 @@ void TBoss8Dragon::draw_motion_model() {
         f = this->parameters[1];
         if (f < 0.0f) {
             f = 0.0f;
-        } else if (f > (f32)(anim->frameCount - 1)) {
-            f = anim->frameCount;
+        } else if (f > (f32)(anim->nbFrame - 1)) {
+            f = anim->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(this->model, anim, f);

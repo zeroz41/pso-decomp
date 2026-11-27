@@ -39,7 +39,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/math/Vec2Constants.h"

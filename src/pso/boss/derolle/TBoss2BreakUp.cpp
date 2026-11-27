@@ -7,7 +7,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/RandomAngle.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/system/vector.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
@@ -17,7 +17,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -197,7 +197,7 @@ void TBoss2JointBreakUp::render() {
     scale.x = boss2_model_scale;
     scale.y = boss2_model_scale;
     scale.z = boss2_model_scale;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
+    set_texture_list(models[2].texlist);
     for (i = 0; i < 19; i++) {
         push_matrix();
         post_translate_matrix(&p->pos.x);
@@ -301,7 +301,7 @@ void TBoss2BodyBreakUp::render() {
     {
         NJS_ARGB c = {1.0f, 1.0f, 1.0f, 1.0f};
         n = mesh->child;
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(models[2].texlist));
+        set_texture_list(models[2].texlist);
         push_matrix();
         for (i = 0; i < 0x1C; i++, n = n->sibling, p++) {
             push_matrix();

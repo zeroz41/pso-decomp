@@ -6,7 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/BmlResource.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecCircle.h"
@@ -244,7 +244,7 @@ TTecBarta::TTecBarta(TObjBase *source, Vec *pos, s32 angle, s32 level)
     }
 }
 
-void TTecShot::vfunc_6() {  }
+void TTecShot::spawn_impact_effect() {  }
 struct TechniqueParticleEmitter;
 void TTecCircle::apply_technique_to_area_targets() {
     TechniqueContactList *list;

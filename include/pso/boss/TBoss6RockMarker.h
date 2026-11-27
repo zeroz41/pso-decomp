@@ -4,6 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
+struct NJS_OBJECT;
+struct NJS_TEXLIST;
+
 // The second object of a TBoss6Rock (TBoss6Rock::marker, made by
 // TBoss6Rock::create()): it draws the rock's model at the falling rock's
 // position while the rock is airborne (inferred: the rock's falling shadow).
@@ -13,15 +16,15 @@ public:
     virtual ~TBoss6RockMarker();
     virtual void run_task();
     virtual void render();
-    void set_target(s32 enabled, Vec *position, s32 *rotation, s32 texlist, s32 model, f32 radius);
+    void set_target(s32 enabled, Vec *position, s32 *rotation, NJS_TEXLIST *texlist, NJS_OBJECT *model, f32 radius);
     s32 enabled;
     Vec position;
     f32 radius;
     s32 rotation_x;
     s32 rotation_y;
     s32 rotation_z;
-    s32 texlist;
-    saddr model;
+    NJS_TEXLIST *texlist;
+    NJS_OBJECT *model;
 };
 LAYOUT_ASSERT(TBoss6RockMarker_size, sizeof(TBoss6RockMarker) == 0x44);
 

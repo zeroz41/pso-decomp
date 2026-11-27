@@ -24,7 +24,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/DebugFont.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
 
@@ -179,7 +180,7 @@ void TPhotonGolla::render() {
     if (visible != 0) {
         golla_photon_blast_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -211,7 +212,7 @@ void TPhotonGolla::collect_hit_targets() {
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjChara *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
                 if (target != NULL) {
                     Vec selected_delta = target->body_center;

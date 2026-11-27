@@ -2,7 +2,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharDataNewCharacter.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
 #include "pso/player/PlayerSlots.h"

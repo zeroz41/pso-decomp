@@ -12,7 +12,6 @@
 #include "types.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -47,7 +46,7 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -60,8 +59,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
-#include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/render/GinjaView.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
@@ -182,7 +179,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     StelthBehaviorParams *d;
     NJS_OBJECT *m;
     NJS_CNK_MODEL *q;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
 
     me3_stelth_zero_vector[0] = 0.0f;
     me3_stelth_zero_vector[1] = 0.0f;
@@ -242,15 +239,15 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = me3_stelth_bml_resource->motions[me3_stelth_animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        me3_stelth_breakup_model = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        me3_stelth_breakup_model = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, motion, (f32)(motion->nbFrame - 1));
     } else {
-        me3_stelth_breakup_model = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        me3_stelth_breakup_model = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(motion->nbFrame - 1));
     }
     {
         Vec va;
         Vec vb;
         NJS_OBJECT *mdl;
-        AnimationMotion *trail_motion;
+        NJS_MOTION *trail_motion;
         BmlResource *r = me3_stelth_bml_resource;
         s32 idx = me3_stelth_animation_descriptors[6].motion;
         mdl = r->models->model;
@@ -262,17 +259,17 @@ void TObjEneMe3Stelth::load_shared_resources() {
         vb.z = 0.0f;
         trail_motion = r->motions[idx].motion;
         me3_stelth_trail_buffer = new SampledMotionPoints(2, 16.0f, 26.0f, 0.7f);
-        me3_stelth_trail_buffer->sample_node_offsets(mdl, (NJS_MOTION *)trail_motion, 0x22, &va, &vb);
+        me3_stelth_trail_buffer->sample_node_offsets(mdl, trail_motion, 0x22, &va, &vb);
     }
     {
         NpcAnimationBinding a = stelth_attack_binding_desc_a;
         a.motions = me3_stelth_bml_resource->motions;
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = me3_stelth_bml_resource->motions;
-        TObjNpcEnemy::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &a, 8.0f, 0.0f);
-        TObjNpcEnemy::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &b, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2B, me3_stelth_bml_resource->models->model,
+                                                  me3_stelth_bml_resource->models->texlist, &a, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2D, me3_stelth_bml_resource->models->model,
+                                                  me3_stelth_bml_resource->models->texlist, &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }
@@ -488,11 +485,11 @@ void TObjEneMe3Stelth::attack_and_unequip() {
         current_target->apply_knockback_from_attacker(this, 3.0f);
         if (d > 0.0f) {
             if (is_alternate_variant() != 0) {
-                TObjChara *t = current_target;
+                TObjPlayer *t = (TObjPlayer *)current_target;
                 TItem *held;
-                if (t->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((TObjPlayer *)t, held->get_item_id());
-                    ((TObjPlayer *)t)->get_hand_joint_position(&hand_position);
+                if (t->is_locally_controlled() != 0 && (held = t->get_equipped_weapon()) != 0) {
+                    t->send_6x26_unequip_item(held->get_item_id());
+                    t->get_hand_joint_position(&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
                 }
             } else if (near != 0 && random_ratio() <= 0.1666f) {
@@ -1010,7 +1007,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 ang = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1026,7 +1023,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1130,7 +1127,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
         case 0:
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (validate_target() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1145,7 +1142,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
             spawn_footstep_effects();
             cur_frame = this->frame;
             if ((cur_frame >= 0.0f) && (cur_frame <= 5.0f)) {
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
+                move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
             } else {
                 this->update_ground_contact();
             }

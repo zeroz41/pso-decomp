@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
-#include "pso/unk/TLobby_8026B06C.h"
+#include "pso/unk/QuestMessageWindows.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -19,7 +19,7 @@ void TWindowMessageQuest::set_frame_mode(s32 mode) {
 int dispatch_message_window_text(TWindowMessageQuest *window, const char *text, s32 flags) {
     switch (window->frame_mode) {
     case 0:
-        return append_message_window_line(window, text, flags, 0xFF000000);
+        return window->append_line_colored(text, flags, 0xFF000000);
     case 1:
     case 2:
         return window->append_line(text, flags);

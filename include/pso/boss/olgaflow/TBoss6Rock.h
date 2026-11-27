@@ -48,14 +48,14 @@ struct TBoss6Rock : public TObjCollidable {
     static const char *class_name;
     static TBoss6RockMarker *create();
     static TBoss6Rock *create(s32 index);
-    static s32 is_rock_valid(s32 arg0);
+    static s32 is_rock_valid(s32 i);
     static s32 is_rock_state_2(int i);
-    static void reset_rock_state(s32 arg0);
+    static void reset_rock_state(s32 i);
     static void clear_rock_state(s32 i);
     static void set_rock_target(s32 i, s32 a, s32 b);
     void release_object();
     void randomize_motion();
-    static const RockKindParams *get_rock_entry(s32 arg0);
+    static const RockKindParams *get_rock_entry(s32 i);
     void break_and_release();
     void update_fall();
     void init_spin_params();

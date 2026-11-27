@@ -7,7 +7,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -42,7 +41,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/scene/TScene.h"
@@ -153,7 +152,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     s32 count;
     NJS_OBJECT *model;
     NJS_CNK_MODEL *chunk;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
@@ -214,7 +213,7 @@ void TObjEneMe3SinowZoa::load_resources() {
         me3_sinow_zoa_material_color_pointers[2] = NULL;
     }
     motion = me3_sinow_zoa_bml_resource->motions[me3_sinow_zoa_animation_descriptors[5].motion].motion;
-    breakup = new TBreakUpMdlData(me3_sinow_zoa_bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    breakup = new TBreakUpMdlData(me3_sinow_zoa_bml_resource->models->model, motion, motion->nbFrame - 1);
     me3_sinow_zoa_breakup_model = breakup;
     {
         NpcAnimationBinding info = sinow_zoa_attack_binding_desc_a;
@@ -490,7 +489,7 @@ s32 TObjEneMe3SinowZoa::is_in_sword_range(f32) {
 void TObjEneMe3SinowZoa::attack_and_unequip() {
     f32 d;
     s32 near;
-    TObjChara *pl;
+    TObjPlayer *pl;
     near = is_passing_frame(23.0f);
     if (is_passing_frame(15.0f) != 0 || near != 0) {
         if (enemy_check_target_valid() != 0) {
@@ -499,11 +498,11 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                 current_target->apply_knockback_from_attacker(this, 3.0f);
                 if (d > 0.0f) {
                     if (is_alternate_variant() != 0) {
-                        pl = current_target;
+                        pl = (TObjPlayer *)current_target;
                         TItem *held;
-                        if (pl->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
-                            ((TObjPlayer *)pl)->get_hand_joint_position(&hand_position);
+                        if (pl->is_locally_controlled() != 0 && (held = pl->get_equipped_weapon()) != 0) {
+                            pl->send_6x26_unequip_item(held->get_item_id());
+                            pl->get_hand_joint_position(&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {
@@ -1056,7 +1055,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         case 1: {
             s32 target;
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 target = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1073,7 +1072,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         }
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1202,7 +1201,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
             this->advance_animation();
             this->attack_and_unequip();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (validate_target() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     target_angle = (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1711,7 +1710,7 @@ void TObjEneMe3SinowZoa::render() {
             TObjEneDD::clear_global_flag_400();
         }
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         for (i = 0; i < 3; i++) {
             if (me3_sinow_zoa_material_color_pointers[i] != NULL) {
                 *me3_sinow_zoa_material_color_pointers[i] = this->material_color;
@@ -1766,7 +1765,7 @@ extern "C" {
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&this->floor_point) != 0) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
             translate_matrix(0, 0.0f, this->body_offset_y, 0.0f);
@@ -1783,7 +1782,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
 void TObjEneMe3SinowZoa::render_demo() {
     s32 save[3];
     s32 flag;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     if (get_target_info() != 0) {
         if (starts_stealthed() != 0) {
@@ -1843,13 +1842,13 @@ void TObjEneMe3SinowZoa::render_demo() {
             frame = parameters[3];
             if (frame < 0.0f) {
                 frame = 0.0f;
-            } else if (frame > (motion->frameCount - 1)) {
-                frame = (motion->frameCount - 1);
+            } else if (frame > (motion->nbFrame - 1)) {
+                frame = (motion->nbFrame - 1);
             }
             set_motion_packed_rotation();
             draw_model_motion(model, motion, frame);
             clear_motion_packed_rotation();
-            current_motion = (NJS_MOTION *)motion;
+            current_motion = motion;
             this->frame = frame;
             frame = get_node_height();
             print_float_padded(pack_debug_text_position(0, 7), 5, frame);
@@ -1935,21 +1934,21 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
     }
 }
 
-inline s32 approach_destination(TObjEneMe3SinowZoa *self) {
-    copy_position_if_valid(self, self->body_center);
-    self->body_center.y += 5.0f;
-    return ((TObjEnemy *)self)->enemy_turn_toward_dest(self->movementParameters->turn_speed);
+inline s32 TObjEneMe3SinowZoa::approach_destination() {
+    copy_position_if_valid(this, this->body_center);
+    this->body_center.y += 5.0f;
+    return enemy_turn_toward_dest(this->movementParameters->turn_speed);
 }
-inline s32 seek_destination(TObjEneMe3SinowZoa *self, Vec *diff) {
+inline s32 TObjEneMe3SinowZoa::seek_destination(Vec *diff) {
     s32 angle;
-    if (select_enemy_destination(self, self->destination, 1) != 0) {
-        angle = approach_destination(self);
-        enemy_set_heading_velocity(self->movementParameters->move_speed, self, self->rotation_y);
-        move_with_wall_slide(self);
+    if (select_enemy_destination(this, this->destination, 1) != 0) {
+        angle = approach_destination();
+        enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
+        move_with_wall_slide(this);
     } else {
-        VecCopy(diff, &self->destination);
-        subtract_vector(diff, &self->body_center);
-        angle = self->turn_toward_direction(self->movementParameters->turn_speed, diff);
+        VecCopy(diff, &this->destination);
+        subtract_vector(diff, &this->body_center);
+        angle = this->turn_toward_direction(this->movementParameters->turn_speed, diff);
     }
     return angle;
 }
@@ -1983,7 +1982,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
                 this->transition_enemy_state(6);
                 break;
             }
-            angle = seek_destination(this, &diff);
+            angle = seek_destination(&diff);
             if (angle < 0x100) {
                 if (this->stealthed != 0) {
                     this->fade.set_rate(0.05f);

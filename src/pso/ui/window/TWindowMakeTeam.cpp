@@ -11,7 +11,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -186,7 +185,7 @@ TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     r->add_text_entry(TWindowMakeTeam::get_mode_label(1), 6, 1);
     r->add_text_entry(TWindowMakeTeam::get_mode_label(2), 6, 2);
     r->calc_window_size();
-    align_menu_entry_positions(r);
+    r->align_menu_entry_positions();
     r->set_selected_index(this->mode);
     return r;
 }
@@ -203,7 +202,7 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
         r->add_text_entry((TWindowMakeTeam::get_value_label(3)), 6, 3);
     }
     r->calc_window_size();
-    align_menu_entry_positions(r);
+    r->align_menu_entry_positions();
     r->set_selected_index(this->selected_value);
     return r;
 }

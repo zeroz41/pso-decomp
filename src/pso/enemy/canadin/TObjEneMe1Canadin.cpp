@@ -7,7 +7,7 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -36,7 +36,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -56,7 +56,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixVector.h"
@@ -1057,7 +1056,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         this->enemy_copy_target_destination();
@@ -1191,7 +1190,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
             if (this->update_linked_position(200.0f) == 0) {
                 break;
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         switch (this->stage) {
@@ -1375,7 +1374,7 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
                     f32 t;
                     this->enemy_copy_target_destination();
                     this->update_velocity();
-                    t = 8192.0f * ((TObjEneDD *)this)->calc_elapsed_scaled();
+                    t = 8192.0f * calc_elapsed_scaled();
                     if (t >= 0.0f) {
                         t += 12288.0f;
                     } else {
@@ -1536,7 +1535,7 @@ void TObjEneMe1Canadin::hurt_state(s32 msg) {
         this->check_collisions();
         break;
     case 5:
-        ((TObjEneDD *)this)->clear_attack_receipts();
+        clear_attack_receipts();
         if (this->move_action == 5) {
             this->requested_action = 1;
         } else {
@@ -1788,7 +1787,7 @@ void TObjEneMe1Canadin::render() {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
@@ -1862,7 +1861,7 @@ void TObjEneMe1Canadin::render_demo() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

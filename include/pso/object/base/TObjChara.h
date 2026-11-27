@@ -90,7 +90,7 @@ public:
     void adjust_dfp(int);
     s32 recalc_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats, f32 xscale, f32 yscale);
     s32 set_motion_params(player_stats *base_stats);
-    void show_miss_popup(const float *);
+    void show_miss_popup(Vec *pos);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
     // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
@@ -152,7 +152,7 @@ public:
     virtual s32 update_shock_clock();
     virtual s32 update_attack_stat_status();
     virtual s32 update_defense_stat_status();
-    virtual s32 vfunc_43();
+    virtual s32 update_evp_status();
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();
@@ -269,9 +269,11 @@ public:
     s16 hp;
     s16 tp;
     u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent
+    u16 enemy_nearest_visible_player_sq(f32 range);
+    u16 enemy_find_nearest_player_in_range(f32 range);
+    u16 enemy_nearest_visible_enemy_sq(f32 range);
+    u16 enemy_nearest_visible_enemy(f32 range);
 };
-
-extern "C" void *__dt__9TObjCharaFv(void *, s16);
 
 LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
 LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);

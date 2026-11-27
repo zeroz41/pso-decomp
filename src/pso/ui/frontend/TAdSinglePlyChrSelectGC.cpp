@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -35,7 +35,6 @@
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 
 const vec2f single_chr_select_item_rect_table[4] = {
@@ -70,7 +69,7 @@ TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(NJS_POINT2 *pos) {
         menu->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     }
     menu->calc_window_size();
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 

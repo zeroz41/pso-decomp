@@ -12,7 +12,7 @@ struct TOTrapAncient02 : public TOTrap {
     virtual void update_holding();
     virtual void update_effects();
     virtual void run_demo();
-    virtual void vfunc_86();
+    virtual void draw_debug_home_marker();
     virtual void render();
     f32 h344;
     f32 h348;

@@ -28,7 +28,7 @@ void TObjNpcNHW00::free_static_resources() {
         texture_gvm_handle = NULL;
     }
     if (shared_named_model_object != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(shared_named_model_object));
+        TLobby::free_nodes_with_id(shared_named_model_object);
         shared_named_model_object = NULL;
     }
 }

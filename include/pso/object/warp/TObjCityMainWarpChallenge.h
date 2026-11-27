@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 class TWindowCheckBox;
 struct TWindowMessageYesNo;
 
@@ -28,7 +28,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
     u8 pad_c8[0x8];
     s32 model;                // city common model 0 (draw_ginja_model_with_motion)
-    AnimationMotion *motion;  // city common motion 5
+    NJS_MOTION *motion;  // city common motion 5
     u8 _padD8[0x4];
     s16 next_state;
     s16 state;

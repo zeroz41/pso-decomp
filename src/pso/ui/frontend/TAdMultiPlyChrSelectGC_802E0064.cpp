@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 
 void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
@@ -33,6 +34,5 @@ s32 TAdChrSelBSlotGC::is_state_closing() {
 
 TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return chr_move_effect_instance; }
 
-    extern int chg_game_mode_state_synced;
 int TAdMultiPlyChrSelectGC::get_select_flag() {  return chg_game_mode_state_synced; }
 

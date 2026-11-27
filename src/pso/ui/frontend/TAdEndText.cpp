@@ -281,7 +281,7 @@ void TAdEndText::free_resources() {
         loaded_font_texture_list = 0;
     }
     if (credit_script_lines != 0) {
-        TLobby::free_nodes_with_id((uaddr)credit_script_lines);
+        TLobby::free_nodes_with_id(credit_script_lines);
         credit_script_lines = 0;
     }
 }

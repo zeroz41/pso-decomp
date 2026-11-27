@@ -35,6 +35,14 @@ struct TTecLuker : public TTecCircle {
     static void reset_visit_counts_on_floor_free();
 };
 
+// The telepipe arrival spot of player slot (and its heading), taken once; NULL when none is pending.
+const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
+// Whether a telepipe record is on another floor or more than 0.2 away (on the ground plane) from p.
+struct TelepipeState;
+s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
+// Stores owner, floor, position, room and the owner player's facing in record.
+void write_telepipe_record(TelepipeState *record, u16 owner, s16 floor, const Vec *pos, s32 room);
+
 LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);
 
 void create_quest_telepipe_for_client(u16 client);

@@ -39,6 +39,6 @@ public:
 };
 LAYOUT_ASSERT(TObjFogCollisionPoison_Ticker_size, sizeof(TObjFogCollisionPoison_Ticker) == 0x2C);
 void fog_reset_stub(void);
-void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
+void record_fog_collision_hit(s32 client, s32 param_no, s32 link_on);
 
 #endif

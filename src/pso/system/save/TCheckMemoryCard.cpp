@@ -7,14 +7,13 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 
@@ -200,7 +199,7 @@ void TCheckMemoryCard::create_message_and_menu(const char *text, s32 sel, const 
         menu_window->add_text_entry(entry_text, 5, 1);
     }
     menu_window->update_layout_height(check_memory_card_menu_width);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+    menu_window->align_menu_entry_positions();
     if (sel != -2) {
         menu_window->set_selected_index(sel);
     } else {
@@ -382,18 +381,18 @@ TCheckMemoryCard::~TCheckMemoryCard() {
     }
 }
 
-TCheckMemoryCard::TCheckMemoryCard(TObject *parent, void *arg2, s32 main_ctrl, s32 system_only) : TObject(parent) {
+TCheckMemoryCard::TCheckMemoryCard(TObject *parent, void *context, s32 main_ctrl, s32 system_only) : TObject(parent) {
     m_name = TCheckMemoryCard::class_name;
-    unk_48 = arg2;
+    unk_48 = context;
     system_file_only = system_only;
     use_main_ctrl = main_ctrl;
     reset();
 }
 
-TCheckMemoryCard *TCheckMemoryCard::create_system_file_check(TObject *parent, void *arg2, s32 main_ctrl) {
-    return new TCheckMemoryCard(parent, arg2, main_ctrl, 1);
+TCheckMemoryCard *TCheckMemoryCard::create_system_file_check(TObject *parent, void *context, s32 main_ctrl) {
+    return new TCheckMemoryCard(parent, context, main_ctrl, 1);
 }
 
-TCheckMemoryCard *TCheckMemoryCard::create(TObject *parent, void *arg2, s32 main_ctrl) {
-    return new TCheckMemoryCard(parent, arg2, main_ctrl, 0);
+TCheckMemoryCard *TCheckMemoryCard::create(TObject *parent, void *context, s32 main_ctrl) {
+    return new TCheckMemoryCard(parent, context, main_ctrl, 0);
 }

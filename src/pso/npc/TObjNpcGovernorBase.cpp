@@ -46,7 +46,7 @@ void TObjNpcGovernorBase::load_shared_resource() {
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 
 TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *set_data) : TObjNpcMale(parent) {
-    ((TObject *)this)->m_name = name;
+    m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
     model = shared_resource->models->model;

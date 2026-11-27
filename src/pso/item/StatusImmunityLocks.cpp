@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 
 // The lock-counted item effects (TItemLockCountCtrl objects), one per effect.
 TItemLockCountCtrl *item_effect_object_table[7];
@@ -34,101 +35,101 @@ void lock_effect(u16 client, u32 effect) {
 
 
 void remove_freeze_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->remove_immunity_flags(0x20);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->remove_immunity_flags(0x20);
     }
 }
 
 void remove_confusion_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->remove_immunity_flags(0x10);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->remove_immunity_flags(0x10);
     }
 }
 
 
 void remove_slow_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->remove_immunity_flags(8);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->remove_immunity_flags(8);
     }
 }
 
 void remove_shock_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->remove_immunity_flags(4);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->remove_immunity_flags(4);
     }
 }
 
 void remove_paralysis_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->remove_immunity_flags(2);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->remove_immunity_flags(2);
     }
 }
 
 void remove_poison_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->remove_immunity_flags(1);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->remove_immunity_flags(1);
     }
 }
 
 void remove_status_cleanse(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjBase *)temp)->clear_actor_flags(0x40);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->clear_actor_flags(0x40);
     }
 }
 
 void add_freeze_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->add_immunity_flags(0x20);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->add_immunity_flags(0x20);
     }
 }
 
 void add_confusion_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->add_immunity_flags(0x10);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->add_immunity_flags(0x10);
     }
 }
 
 void add_slow_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->add_immunity_flags(8);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->add_immunity_flags(8);
     }
 }
 
 void add_shock_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->add_immunity_flags(4);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->add_immunity_flags(4);
     }
 }
 
 void add_paralysis_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->add_immunity_flags(2);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->add_immunity_flags(2);
     }
 }
 
 void add_poison_immunity(int client) {
-    uaddr temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjChara *)temp)->add_immunity_flags(1);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->add_immunity_flags(1);
     }
 }
 
 void add_status_cleanse(int client) {
-    u32 temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        ((TObjBase *)(saddr)temp)->set_actor_flags(0x40);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        player->set_actor_flags(0x40);
     }
 }
 void free_all() {

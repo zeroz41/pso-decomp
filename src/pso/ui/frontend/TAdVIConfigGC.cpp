@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
 
-struct Name_80307D00 { char s[0x18]; };
+struct PlayerNameText { char s[0x18]; };
 
 // The block init() fills: who of the party stands within radius of a spot (warps; the
 // name WarpPartyCheck is inferred).
@@ -40,7 +40,7 @@ struct WarpPartyCheck {
     s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
     s32 in_range_mask;     // bit per client
     TWindowCheckBox *win;  // the player-name check boxes
-    Name_80307D00 names[4];
+    PlayerNameText names[4];
 };
 
 // Ticks the names of the players on this floor within the radius init() set (in the
@@ -154,18 +154,17 @@ void *destroy__13TAdVIConfigGCFPvs(void *config, s16 delete_flag) {
 
 extern "C" {
 
-u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
-    u8 *base = (u8 *)this;
+TAdVIConfigGC *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (radius * radius);
     this->exit_state = 0;
     memset((u8 *)&this->state_frames, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();
     this->m_down = 0;
-    *(s32 *)((s8 *)base + 0x18) = 0;
-    ((TAdVIConfigGC *)base)->open_player_names_window();
+    *(s32 *)((s8 *)this + 0x18) = 0;
+    open_player_names_window();
     this->state = 0;
-    return base;
+    return this;
 }
 
 }

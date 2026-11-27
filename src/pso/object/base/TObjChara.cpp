@@ -226,7 +226,7 @@ s32 PlayerPkState::is_enabled() { return enabled; }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_equipped_weapon(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items.items, 6); }
+TItem *TObjPlayer::get_equipped_weapon() { return get_slot_value(equipped_items.items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -312,8 +312,8 @@ s16 AttackParams::get_ata() { return this->ata; }
 
 s16 TObjChara::get_attack_params_ata() { return this->attack_params->get_ata(); }
 
-s32 TObjChara::add_status_effect_timer(s32 i, s32 v) {
-    return this->status_effects[i].timer += v;
+s32 TObjChara::add_status_effect_timer(s32 i, s32 frames) {
+    return this->status_effects[i].timer += frames;
 }
 
 f32 AttackParams::get_attack_range() { return attack_range; }
@@ -594,7 +594,7 @@ CsnHit *TObjChara::update_actor_ground_y_at(Vec *pos) {
 #pragma push
 #pragma fp_contract on
 void TObjChara::calc_attach_pos() {
-    if ((void *) this->stat_block != NULL) {
+    if (this->stat_block != NULL) {
         this->body_center.x = (f32) this->position.x;
         this->body_center.y = (f32) (((0.5f) * this->stat_block->proportions) + this->position.y);
         this->body_center.z = (f32) this->position.z;
@@ -919,7 +919,6 @@ void move_with_wall_slide(TObjChara *actor) {
 }
 
 #pragma pop
-extern "C" {
 f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
     if (enemy->is_actor_cadence_frame(0x1E) != 0) {
         if (select_enemy_destination(enemy, dest, flags) != 0) {
@@ -930,6 +929,7 @@ f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
     move_with_wall_slide(enemy);
     return horizontal_distance_squared(&dest, &enemy->position);
 }
+extern "C" {
 
 f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) {
     Vec v;
@@ -1056,7 +1056,7 @@ s32 TObjChara::is_target_in_attack_range() {
                     }
                 }
             } else {
-                dist = calc_xz_distance_sq(this, reinterpret_cast<const TObjBase *>(t), &out);
+                dist = calc_xz_distance_sq(this, t, &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(angle_units_per_radian * atan2_float(out.x, out.z))));
                 if (target->bodies != NULL) {
                     prod = (target->bodies->radius + get_attack_range()) * (target->bodies->radius + get_attack_range());
@@ -1074,7 +1074,7 @@ s32 TObjChara::is_target_in_attack_range() {
     return 0;
 }
 
-s32 TObjChara::vfunc_43() {
+s32 TObjChara::update_evp_status() {
     if (this->test_actor_flags(0x40) != 0) {
         this->clear_harmful_statuses();
         return 1;
@@ -1409,13 +1409,13 @@ s32 TObjChara::roll_physical_accuracy(TObjChara *attacker, s32 collider, f32 acc
 
 #pragma pop
 void TObjPlayer::show_miss_for_collider(s32 collider) {
-    this->show_miss_popup((const float*)((*(uaddr *)&this->bodies) + collider*0x2C + 0x1C));
+    this->show_miss_popup(&this->bodies[collider].center);
 }
 
-void TObjChara::show_miss_popup(const float *pos) {
+void TObjChara::show_miss_popup(Vec *pos) {
     if (this->test_actor_flags(0x02000000) == 0 && this->is_locally_controlled() == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
-            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, miss_label_text);
+            TOCtrlDubchik::create_font(pos, 0xFFFF0000, 0x14, miss_label_text);
         }
     }
 }
@@ -1482,7 +1482,7 @@ int TObjChara::calc_distance_accuracy_penalty(TObjChara *attacker, CollisionBody
         }
         this->actorFlags |= 0x100;
         VecCopy(&delta, &body->center);
-        this->show_miss_popup((const float *)&delta);
+        this->show_miss_popup(&delta);
     }
     return 0;
 }
@@ -1829,7 +1829,7 @@ void TObjChara::run_hit_reaction() {  }
 
 void TObjChara::run_death_reaction() {  }
 
-void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); this->hp = this->hpmax; this->tp = this->tpmax; }
+void TObjChara::reset_pose() { clear_actor_flags(2048); this->hp = this->hpmax; this->tp = this->tpmax; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
@@ -2379,7 +2379,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
         case 11:
         case 12:
         case 13:
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             break;
         }
         if (coll != NULL) {
@@ -2407,7 +2407,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     rec.kind = 0;
     rec.power = dmg;
     if (attacker_id < 0x1000) {
-        TItem *item = TObjPlayer::get_equipped_weapon(att);
+        TItem *item = ((TObjPlayer *)att)->get_equipped_weapon();
         if (item == NULL) {
             mul = (1.0f);
         } else {
@@ -2538,7 +2538,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else if (entity_id < 0x1000) {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2591,7 +2591,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             actorFlags |= 0x100;
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2619,7 +2619,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             actorFlags |= 0x100;
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2650,7 +2650,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             actorFlags |= 0x100;
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2672,7 +2672,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
                 receive_physical_attack(att, (0.6f));
             }
         } else {
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2692,7 +2692,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
                 receive_physical_attack(att, (0.6f));
             }
         } else {
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2764,7 +2764,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
                 empty_post_damage_hook(this, att);
             }
         } else {
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2786,13 +2786,13 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     case 13:
         if (is_boss_area() != 0) {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
         } else if (entity_id < 0x1000) {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2815,7 +2815,7 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
             }
         } else {
             dmg = (0.0f);
-            show_miss_popup(&pos.x);
+            show_miss_popup(&pos);
             if (coll != NULL) {
                 coll->flags &= ~0x04000000;
             }
@@ -2870,7 +2870,6 @@ s32 TObjChara::is_actor_cadence_frame(s32 x) {
     }
     return 0;
 }
-extern "C" {
 u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) {
     f32 best = range * range;
     u16 result = 0xFFFF;
@@ -2898,7 +2897,6 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) 
     return result;
 }
 
-}
 u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
     Vec pos;
     f32 best;
@@ -3284,7 +3282,7 @@ void TObjChara::apply_switch_attack() {
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FD, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(((TObjBase *)this)->get_entity_id());
+        particle_effect_with_flags->set_owner_id(get_entity_id());
     }
 }
 
@@ -3296,7 +3294,7 @@ void TObjChara::enemy_spawn_jellen_effect() {
     rotation.z = -0x8000;
     oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(get_entity_id());
     }
 }
 
@@ -3305,7 +3303,7 @@ void TObjChara::trigger_switch_attack() {
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FE, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(((TObjBase *)this)->get_entity_id());
+        particle_effect_with_flags->set_owner_id(get_entity_id());
     }
 }
 
@@ -3317,7 +3315,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
     rotation.z = -0x8000;
     oneshot_particle_emitter = create_oneshot_particle_emitter(&this->body_center, &rotation, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        oneshot_particle_emitter->set_owner_id(((TObjBase *)this)->get_entity_id());
+        oneshot_particle_emitter->set_owner_id(get_entity_id());
     }
 }
 
@@ -3493,7 +3491,7 @@ void TObjChara::spawn_poison_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x25, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xCD0B, &this->position, 0, 0);
@@ -3506,7 +3504,7 @@ void TObjChara::spawn_paralysis_feedback_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x26, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20C, &this->position, 0, 0);
@@ -3519,7 +3517,7 @@ void TObjChara::spawn_slow_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x27, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20D, &this->position, 0, 0);
@@ -3532,7 +3530,7 @@ void TObjChara::spawn_confusion_feedback_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x24, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20E, &this->position, 0, 0);
@@ -3545,7 +3543,7 @@ void TObjChara::play_shock_feedback(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x21, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
+            effect->set_owner_id(get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB210, &this->position, 0, 0);

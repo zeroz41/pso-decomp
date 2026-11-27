@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/HeadingEntry.h"
@@ -18,7 +17,7 @@
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/unk/TLobby_8026B06C.h"
+#include "pso/unk/QuestMessageWindows.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -156,7 +155,7 @@ void TWindowShortCut::render() {
     this->heading->render(ctx);
 }
 
-void TWindowShortCut::run_task() { this->heading->update(); update_window(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowShortCut::run_task() { this->heading->update(); update_window(); update_fade(); update_window_entry_list(&entry_list); }
 
 TWindowShortCut::~TWindowShortCut() {
     if (this->symbol_preview != NULL) {

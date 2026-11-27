@@ -3,14 +3,14 @@
 
 #include "types.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct OlgaFlowScenePart {
     NJS_OBJECT *model;
     NJS_TEXLIST *texture;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
 };
 
 LAYOUT_ASSERT(OlgaFlowScenePart_size, sizeof(OlgaFlowScenePart) == 0xC);

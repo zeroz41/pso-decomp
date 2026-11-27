@@ -80,7 +80,6 @@ struct TObjEneDD : public TObjEnemy {
     // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
     static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
     static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
-    s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_active_flags();
@@ -113,7 +112,7 @@ struct TObjEneDD : public TObjEnemy {
     s32 collect_enemy_target_candidates(TargetCandidate *out, f32 range);
     s32 is_target_unobstructed_from(TObjChara *target);
 
-    s32 previous_mode;         // mode when the last state handler finished; vfunc_86 tests for a change
+    s32 previous_mode;         // mode when the last state handler finished; has_action_state_changed tests for a change
     s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
     f32 wall_reach;            // extra distance the wall probe looks ahead of a move (5.0)
     s32 wall_probe_failures;   // moves the wall probe blocked in a row
@@ -128,12 +127,9 @@ struct TargetCandidate {
     f32 dist;
 };
 
-
 extern TargetCandidate enemy_target_candidate_table[4];
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
-u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range);
-u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
 s32 is_player_entity_id(u16 id);
 // 1 for an enemy's entity id (0x1000-0x3FFF).
 int is_enemy_entity_id(u16 id);
@@ -150,7 +146,6 @@ void enemy_death_stub(void *self);
 void set_collider_contact_high(CollisionBody *body);
 void set_collider_contact_low(CollisionBody *body);
 void update_collider_contact_by_height(CollisionBody *body, f32 height);
-u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range);
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit);
 
 // The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
@@ -164,7 +159,9 @@ class TObjChara;
 struct BmlResource;
 struct BmlResourceDescriptor;
 
-u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
+
+// Empty in the release build.
+void lappy_render_scale_stub(f32);
 
 #endif

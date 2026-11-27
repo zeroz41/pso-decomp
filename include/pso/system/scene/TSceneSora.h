@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct BmlResource;
 
@@ -12,7 +12,7 @@ struct TSceneSora : public TObjBase {
     TSceneSora(TObject *parent);
     virtual ~TSceneSora();
     NJS_OBJECT *sky_model;
-    AnimationMotion *sky_motion;
+    NJS_MOTION *sky_motion;
     NJS_TEXLIST *sky_textures;
     virtual void render();
     virtual void run_task();
@@ -20,7 +20,7 @@ struct TSceneSora : public TObjBase {
     static void load_sky_resources();
     static void release_sky_scene();
     f32 motion_step;
-    f32 m_a0;
+    f32 motion_frame;
     static TSceneSora *instance;
     static s32 sky_active_flag; // 0 while something else draws the sky
     static const char *name;
@@ -30,7 +30,7 @@ struct TSceneSora : public TObjBase {
 };
 
 LAYOUT_ASSERT(TSceneSora_motion_offset, offsetof(TSceneSora, sky_motion) == 0x94);
-LAYOUT_ASSERT(TSceneSora_frame_offset, offsetof(TSceneSora, m_a0) == 0xA0);
+LAYOUT_ASSERT(TSceneSora_frame_offset, offsetof(TSceneSora, motion_frame) == 0xA0);
 LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
 void prepare_adventure_maps(void);
 // Release hook paired with prepare_adventure_maps in offline_game_scene_callbacks.

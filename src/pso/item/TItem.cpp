@@ -272,7 +272,7 @@ f32 RenderMaterialState::get_alpha() { return fade_color.a; }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
-TItem *TObjPlayer::get_equipped_item(s32 slot) { return (TItem *)get_slot_value(equipped_items.items, slot); }
+TItem *TObjPlayer::get_equipped_item(s32 slot) { return get_slot_value(equipped_items.items, slot); }
 
 s32 TObjPlayer::get_hp_bonus() { return hp_bonus; }
 
@@ -463,7 +463,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     owner_client_id = 0xFFFF;
     if (quiet == 0) {
         copy_to_item_data(&data);
-        add_item_condition(floor, position.x, position.z, room, (u8 *)&data);
+        add_item_condition(floor, position.x, position.z, room, &data);
     }
     if (is_local_player_off_current_floor() == 1 || floor != get_current_floor()) {
         destroy();
@@ -1153,7 +1153,7 @@ void TItem::refresh_if_current_player() {
 s32 TItem::get_icon_index() {
     TItemData data;
     copy_to_item_data(&data);
-    return get_item_data((uaddr)&data);
+    return get_item_data(&data);
 }
 
 void TItem::set_item_group(u8 value) { item_group = value; }

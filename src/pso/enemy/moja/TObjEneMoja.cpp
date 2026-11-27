@@ -53,7 +53,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/ScratchVectors.h"
@@ -381,7 +381,7 @@ void TObjEneMoja::render() {
         return;
     }
     select_actor_lighting(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     id = model_render_flags;
     fade = &camera_fades[cam];
     saved_model_render_flags = id;

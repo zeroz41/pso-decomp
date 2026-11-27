@@ -45,7 +45,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/render/TextureState.h"
@@ -53,14 +53,13 @@
 #include "pso/object/warp/TObjWarpJung.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/TObjLukerNames.h"
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/StoryQuestProgress.h"
@@ -169,7 +168,7 @@ void TObjMapForceWarp::open_confirm_window(s32) {}
 
 NJS_OBJECT *get_forest_warp_model(s32 index) { return get_bml_model(forest_warp_bml_resource, index); }
 
-AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
+NJS_MOTION *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
 NJS_TEXLIST *get_forest_warp_textures() { return forest_warp_texture_list; }
 
@@ -308,7 +307,7 @@ void TObjMapWarp::open_confirm_window(s32 client_id) {
         playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         playerPopups[client_id]->calc_window_size();
-        align_menu_entry_positions(playerPopups[client_id]);
+        playerPopups[client_id]->align_menu_entry_positions();
         playerPopups[client_id]->set_flag70_bit10();
         playerPopups[client_id]->disable_input();
     }
@@ -444,13 +443,13 @@ TObjMapWarpForest::TObjMapWarpForest(TObject *parent, void *set_data) : TObjMapW
 
 void TObjMapWarpForest::run_task() {
     this->frame+=4.0f;
-    if((f32)(u32)(this->motion->frameCount-1)<this->frame)this->frame=0.0f;
+    if((f32)(u32)(this->motion->nbFrame-1)<this->frame)this->frame=0.0f;
     process_player_warps();
 }
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -492,7 +491,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
             this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }
         this->menu_window->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        this->menu_window->align_menu_entry_positions();
         this->menu_window->set_flag70_bit10();
         this->menu_window->disable_input();
         this->user_client_id = client_id;
@@ -617,11 +616,11 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -631,7 +630,7 @@ TObjAreaWarpForest::~TObjAreaWarpForest() {}
 
 void TObjAreaWarpForest::run_task() {
     beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+    if (static_cast<f32>(beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_rotation += 0x150;
@@ -654,7 +653,7 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -711,11 +710,11 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -725,7 +724,7 @@ TObjAreaWarpQuest::~TObjAreaWarpQuest() {}
 
 void TObjAreaWarpQuest::run_task() {
     beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+    if (static_cast<f32>(beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_rotation += 0x150;
@@ -746,7 +745,7 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+        set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -827,11 +826,11 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -841,7 +840,7 @@ TObjAreaWarpEnding::~TObjAreaWarpEnding() {}
 
 void TObjAreaWarpEnding::run_task() {
     beam_frame += 4.0f;
-    if (static_cast<f32>(beam_motion->frameCount - 1) < beam_frame) {
+    if (static_cast<f32>(beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_rotation += 0x150;
@@ -863,7 +862,7 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(textures);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -913,7 +912,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
             this->menu_window->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
         this->menu_window->calc_window_size();
-        align_menu_entry_positions(this->menu_window);
+        this->menu_window->align_menu_entry_positions();
         this->menu_window->set_flag70_bit10();
         this->menu_window->disable_input();
         user_client_id = client_id;

@@ -35,7 +35,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/audio/MusicUnlockFlags.h"
 #include "pso/quest/QuestStoryFlags.h"
 

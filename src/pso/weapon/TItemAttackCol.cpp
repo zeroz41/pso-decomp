@@ -129,15 +129,15 @@ s32 TItemAttackColBase::try_add_hit_target(const ActorBodyHit *hit) {
     if (hit_count >= 8) {
         return 0;
     }
-    if (client_id == ((TObjBase *)hit->target)->get_entity_id()) {
+    if (client_id == hit->target->get_entity_id()) {
         return 0;
     }
     ok = 1;
-    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->test_actor_flags(0x60000000) == 0x20000000
-        && this->room != ((TObjBase *)(hit->target))->get_room()) {
+    if (TTecCtrl::is_technique_ready() == 0 && hit->target->test_actor_flags(0x60000000) == 0x20000000
+        && this->room != hit->target->get_room()) {
         ok = 0;
     }
-    if (((TObjCollidable *)hit->target)->test_actor_flags(0x04000000) != 0
+    if (hit->target->test_actor_flags(0x04000000) != 0
         || ((flags = hit->target->bodies[hit->body].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;
@@ -434,7 +434,7 @@ void TItemAttackCol::on_hit(ActorBodyHit *hit) {
     if (!(flags & 0x80)) {
         if (resolve_attack_col_hit(hit) != 0) {
             if (hit_object != NULL) {
-                hit_object(item_id, (s32 *)hit, &velocity);
+                hit_object(item_id, hit, &velocity);
             }
             if (flags & 0x100) {
                 damage_scale *= 0.75f;
@@ -442,7 +442,7 @@ void TItemAttackCol::on_hit(ActorBodyHit *hit) {
         }
     } else {
         if (hit_object != NULL) {
-            hit_object(item_id, (s32 *)hit, &velocity);
+            hit_object(item_id, hit, &velocity);
         }
         if (flags & 0x200) {
             TItemWeapon *weapon = (TItemWeapon *)find_item_by_id(item_id);

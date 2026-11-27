@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 
 #include "pso/ui/chat/TWindowChat.h"
@@ -28,7 +27,7 @@ void TWindowSubLog::render() {  }
 
 void TWindowSubLog::run_task() {
     ControllerInputContext *context;
-    if ((chat->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&submission) != 0)) {
+    if ((chat->is_mode_bit4() != 0) && (chat_accept_submission(&submission) != 0)) {
         consume_active_flag(chat);
     }
     if (chat->is_visible() != 0) {

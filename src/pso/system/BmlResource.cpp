@@ -53,7 +53,7 @@ s32 is_bml_loaded(BmlResource *resource) {
     return (resource->flags >> 10) & 1;
 }
 
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
+NJS_MOTION *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
 
@@ -173,7 +173,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         bml_archive_header = reinterpret_cast<BmlArchiveHeader *>(bml_load_buffer);
         bml_header_record_ptr = bml_archive_header->recs;
         ADXF_ReadNw(lobby_bml_file_handle, n, bml_load_buffer);
-        set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(bml_archive_header));
+        set_read_params(&lobby_bml_file_handle, (int)n, bml_archive_header);
         bml->load_state = 1;
     case 1:
         if (bml->flags & 0x200) {
@@ -204,7 +204,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 0:
             case 1:
                 ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                set_read_params(&lobby_bml_file_handle, (int)n, lobby_bml_read_buffer);
                 break;
             default:
                 file_debug_printf("TBinModel: Illegal File Format");
@@ -253,7 +253,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 0:
             case 1:
                 ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                set_read_params(&lobby_bml_file_handle, (int)n, lobby_bml_read_buffer);
                 break;
             default:
                 file_debug_printf("TBinModel: Illegal File Format");
@@ -313,7 +313,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
                     bml_header_record_ptr++;
                 } else {
                     ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
-                    set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
+                    set_read_params(&lobby_bml_file_handle, (int)n, lobby_bml_read_buffer);
                 }
             } else {
                 bml->models[bml_load_entry_index].flags |= 2;
@@ -400,7 +400,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 kind;
     *request->motion = NULL;
     position = 0;
-    AnimationMotion *data = (AnimationMotion *)request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
+    NJS_MOTION *data = (NJS_MOTION *)request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &position, &kind);
     if (data == 0) {
         file_debug_printf("LoadBinMotionCallBack: Illegal format.");
     }
@@ -411,7 +411,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
 }
 
 
-void LoadBinModelCallBack(BmlModelLoadRequest *self) {
+void LoadBinModelCallBack(BmlModelLoadRequest *request) {
     char name[0x20];
     BmlTextureLoadRequest params;
     u32 i;
@@ -421,42 +421,42 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
     s32 r;
     NJS_TEXLIST **slot;
     i = 0;
-    while (i < self->size) {
-        data = self->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &i, &tag);
+    while (i < request->size) {
+        data = request->resource->allocate_bml_chunk((u8 *)lobby_download_buffer, &i, &tag);
         switch (tag) {
         case 0x4E4A544C:
-            slot = self->texture;
+            slot = request->texture;
             *slot = (NJS_TEXLIST *)data;
-            params.resource = self->resource;
-            params.entry = self->entry;
-            change_file_extension(name, (char *)self->name, (char *)"gvm");
+            params.resource = request->resource;
+            params.entry = request->entry;
+            change_file_extension(name, (char *)request->name, (char *)"gvm");
             r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
-                self->resource->add_resource_handle(handle);
-                self->resource->expected_textures++;
-            } else if (!(self->resource->flags & 4)) {
+                request->resource->add_resource_handle(handle);
+                request->resource->expected_textures++;
+            } else if (!(request->resource->flags & 4)) {
                 file_debug_printf("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
             }
             break;
         case 0x4E4A434D:
-            *self->model = (NJS_OBJECT *)data;
-            self->resource->loaded_models++;
+            *request->model = (NJS_OBJECT *)data;
+            request->resource->loaded_models++;
             break;
         default:
             file_debug_printf("LoadBinModelCallBack: Illegal model format.");
             break;
         }
     }
-    check_bin_model_loaded(self->resource);
+    check_bin_model_loaded(request->resource);
 }
 
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
     u32 offset;
     u32 tag;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     resource->motions[index].motion = NULL;
     offset = 0;
-    motion = static_cast<AnimationMotion *>(resource->allocate_bml_chunk(bytes, &offset, &tag));
+    motion = static_cast<NJS_MOTION *>(resource->allocate_bml_chunk(bytes, &offset, &tag));
     if (motion == NULL) {
         file_debug_printf("LoadBinMotionSub: Illegal format.");
         return 0;
@@ -493,7 +493,7 @@ s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
     u32 offset;
     s32 tag;
     s32 size;
-    AnimationMotion *data;
+    NJS_MOTION *data;
     motions[index].motion = NULL;
     size = read_disc_file_sectors(name, lobby_download_buffer);
     if (size == 0) {
@@ -504,7 +504,7 @@ s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
         file_debug_printf("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
-    data = static_cast<AnimationMotion *>(allocate_bml_chunk(lobby_download_buffer, &offset, (u32 *)&tag));
+    data = static_cast<NJS_MOTION *>(allocate_bml_chunk(lobby_download_buffer, &offset, (u32 *)&tag));
     if (data == 0) {
         file_debug_printf("LoadBinMotion: Illegal format.");
     }
@@ -613,7 +613,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         pump_frames();
         lbl_805D4AD0 = 1;
         {
-            TGStream st((void *)descriptor->archive_filename, 0);
+            TGStream st(descriptor->archive_filename, 0);
             if (st.get_file_size() <= 0) {
                 file_debug_printf("TBinModel: %s not found.", descriptor->archive_filename);
                 model_count = motion_count = 0;

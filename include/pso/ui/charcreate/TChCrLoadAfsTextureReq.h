@@ -50,6 +50,6 @@ struct TChCrLoadAfsTextureReq : public TObject {
 };
 
 LAYOUT_ASSERT(TChCrLoadAfsTextureReq_size, sizeof(TChCrLoadAfsTextureReq) == 0x194);
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, void *slot, void *index);
+TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 index);
 
 #endif

@@ -3,12 +3,11 @@
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -162,7 +161,7 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
     text_builder_append(sep);
     text_builder_append(value);
     e = (WindowTextEntry *)get_array_entry(next_line);
-    r = append_message_window_line(this, get_shared_text_buffer(), flags | 2, -1);
+    r = append_line_colored(get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
         x = (0.5f) * (target_size[0] - 8.0f);
         x -= (f32)calc_text_width((char *)label);
@@ -177,7 +176,7 @@ s32 TWindowMessage::add_label_value_line(const char *label, const char *value, u
 }
 
 
-s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags, s32 color) {
+s32 TWindowMessage::append_line_colored(const char *text, s32 flags, s32 color) {
     WindowTextEntry *e;
     TWindowMessageLine *rec;
     f32 y;
@@ -185,28 +184,28 @@ s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags
     if (text == 0) {
         return 0;
     }
-    e = (WindowTextEntry *)self->get_array_entry(self->next_line);
-    rec = &self->lines[self->next_line];
+    e = (WindowTextEntry *)get_array_entry(next_line);
+    rec = &lines[next_line];
     if (e->get_text() != 0U) {
-        self->scroll_up_line((u8 *)e);
+        scroll_up_line((u8 *)e);
     }
     if (flags & 0x80) {
-        self->next_line_y = self->scroll_offset[1];
+        next_line_y = scroll_offset[1];
     }
     if (flags & 0x10) {
-        lim = (self->scroll_offset[1] + self->frame_size[1]) - 2e+01f;
-        if (self->next_line_y < lim) {
-            self->next_line_y = lim;
+        lim = (scroll_offset[1] + frame_size[1]) - 2e+01f;
+        if (next_line_y < lim) {
+            next_line_y = lim;
         }
     }
     if (flags & 8) {
-        if (self->reveal_line == self->next_line) {
+        if (reveal_line == next_line) {
             flags &= ~8;
         } else {
             e->flags |= 8;
         }
     }
-    e->y = self->next_line_y;
+    e->y = next_line_y;
     e->color = color;
     if (flags & 2) {
         set_text_entry_string(e, text, 0x20);
@@ -225,8 +224,8 @@ s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags
     if (flags & 0x400) {
         e->flags |= 0x200;
     }
-    y = self->frame_size[0] - 8.0f;
-    if (self->window_flags & 0x80) {
+    y = frame_size[0] - 8.0f;
+    if (window_flags & 0x80) {
         y -= 5.0f;
     }
     e->measure_text(y);
@@ -236,17 +235,17 @@ s32 append_message_window_line(TWindowMessage *self, const char *text, s32 flags
         e->x = 0.0f;
     }
     rec->flags = flags;
-    rec->timer = self->line_display_ticks;
-    if (++self->next_line >= self->line_count) {
-        self->next_line = 0;
+    rec->timer = line_display_ticks;
+    if (++next_line >= line_count) {
+        next_line = 0;
     }
-    self->next_line_y += 2.0f + e->height;
+    next_line_y += 2.0f + e->height;
     if (flags & 1) {
-        self->target_scroll_y = (self->next_line_y - e->height) - 2.0f;
-    } else if (self->next_line_y > (self->scroll_offset[1] + self->frame_size[1]) - 2e+01f) {
-        lim = self->next_line_y - (self->frame_size[1] - 2e+01f);
-        if (self->target_scroll_y < lim) {
-            self->target_scroll_y = lim;
+        target_scroll_y = (next_line_y - e->height) - 2.0f;
+    } else if (next_line_y > (scroll_offset[1] + frame_size[1]) - 2e+01f) {
+        lim = next_line_y - (frame_size[1] - 2e+01f);
+        if (target_scroll_y < lim) {
+            target_scroll_y = lim;
         }
     }
     return 1;
@@ -263,7 +262,7 @@ WindowDescriptor message_window_settings = {
 };
 
 
-int TWindowMessage::append_line(const char *text, int flags) { return append_message_window_line(this, text, flags, -1); }
+int TWindowMessage::append_line(const char *text, int flags) { return append_line_colored(text, flags, -1); }
 
 void set_message_window_default_flags(void) {
     message_window_settings.flags = 3;

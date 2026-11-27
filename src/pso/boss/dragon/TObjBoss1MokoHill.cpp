@@ -36,7 +36,7 @@
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 
 #include "pso/system/BmlResource.h"
 

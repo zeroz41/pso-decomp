@@ -82,9 +82,6 @@ void *salAiGetDest(void) {
     return salAIBufferBase + (u8)((salAIBufferIndex + 2) % 4) * 0x280;
 }
 
-extern u8 dspSlave[];
-extern u16 dspSlaveLength;
-
 static DSPTaskInfo dsp_task __attribute__((aligned(8)));
 static u16 dram_image[4096] __attribute__((aligned(32)));
 

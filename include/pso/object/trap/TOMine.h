@@ -23,7 +23,7 @@ struct TOMine : public TObjChara {
     void update_trigger();
     void play_trigger_effects();
     void update_state();
-    s32 is_target_in_list(void *);
+    s32 is_target_in_list(TObjBase *);
     virtual void vfunc_79();
     virtual void play_trigger_sound();
     virtual void play_effect_sound();

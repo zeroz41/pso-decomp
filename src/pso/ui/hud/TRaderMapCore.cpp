@@ -54,7 +54,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
@@ -91,8 +91,6 @@ extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
-extern "C" {
-}
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -244,8 +242,8 @@ void TRaderMapCore::load_map_resources() {
 
 void TRaderMapCore::unload_floor_map() {
     NJS_TEXLIST *texlist;
-    u8 *map_data;
-    map_data = (u8 *)TRaderMapCore::floor_map_resource;
+    RadarPieceMap *map_data;
+    map_data = (RadarPieceMap *)TRaderMapCore::floor_map_resource;
     if (map_data != NULL) {
         save_floor_discovery(get_current_floor(), map_data);
     }
@@ -257,7 +255,7 @@ void TRaderMapCore::unload_floor_map() {
         }
     }
     if ((void *) TRaderMapCore::floor_map_resource != NULL) {
-        TLobby::free_nodes_with_id((saddr)TRaderMapCore::floor_map_resource);
+        TLobby::free_nodes_with_id(TRaderMapCore::floor_map_resource);
         TRaderMapCore::floor_map_resource = NULL;
     }
     TRaderMapCore::render_mode = 0;
@@ -1254,8 +1252,7 @@ s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map) {
     return 1;
 }
 
-s32 TRaderMapCore::save_floor_discovery(int floor, void *map_data) {
-    RadarPieceMap *map = (RadarPieceMap *)map_data;
+s32 TRaderMapCore::save_floor_discovery(int floor, RadarPieceMap *map) {
     s16* saved = ((s16* *)&TRaderMapCore::floor_discovery_table)[floor];
     s16* p;
     RadarPiece* piece;

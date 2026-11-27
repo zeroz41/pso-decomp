@@ -249,10 +249,10 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     set_motion_packed_rotation();
     body = get_bml_model(archive, boss4_type3_model_ids[0]);
     trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
-    trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[3].motions[0]), 0x16, 0x17);
+    trail_samples[0]->sample_two_nodes(body, get_bml_motion(archive, TBoss4Type3::anim_state_table[3].motions[0]), 0x16, 0x17);
     trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     trail_samples[1] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
-    trail_samples[1]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[4].motions[0]), 9, 10);
+    trail_samples[1]->sample_two_nodes(body, get_bml_motion(archive, TBoss4Type3::anim_state_table[4].motions[0]), 9, 10);
     trails[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     create_particle_emitters();
@@ -388,7 +388,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample(get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
+    p->sample(get_bml_model(archive, boss4_type3_model_ids[0]), get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = p->lookup(lim);
     push_matrix();
@@ -483,7 +483,7 @@ void TBoss4Type3::set_anim_state(s32 index) {
 
 #pragma push
 #pragma opt_propagation off
-void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
+void TBoss4Type3::draw_model_set(const s32 *tbl, f32 weight) {
     f32 c;
     s32 i;
     f32 v;
@@ -496,11 +496,11 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     if (v < c || v >= 30.0f) {
         return;
     }
-    if (c == t) {
+    if (c == weight) {
         return;
     }
-    if (t < 1.0f) {
-        begin_alpha_blend(t);
+    if (weight < 1.0f) {
+        begin_alpha_blend(weight);
     } else if (tbl == boss4_type3_model_ids) {
         apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     }
@@ -515,7 +515,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     }
     clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
-    if (t < 1.0f) {
+    if (weight < 1.0f) {
         end_alpha_blend();
         return;
     }
@@ -528,10 +528,10 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
 void TBoss4Type3::copy_pair(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); (*(f32 *)&this->m_flags) = *(f32*)((char*)q + 0x4); }
 
 void TBoss4Type3::draw_faded_models() {
-    Pair_8005A438 b;
-    Pair_8005A438 a;
-    Words_8005A438 tmp;
-    Pair_8005A438 *pb = &b;
+    ModelFadeEntry b;
+    ModelFadeEntry a;
+    ModelFadeEntryBits tmp;
+    ModelFadeEntry *pb = &b;
     a.p = boss4_type3_model_ids;
     a.f = fade;
     b.p = boss4_type3_index_table;

@@ -8,7 +8,7 @@
 
 extern const s32 episode1_story_quest_flag_pairs[];
 extern const AreAllStoryQuestsCompletePair episode2_story_quest_flag_pairs[];
-LAYOUT_ASSERT(Induction_80219EE8_var_r31_size_check, sizeof(ShouldRecordEpisode1QuestCompletionInduction) == 0x8);
+LAYOUT_ASSERT(ShouldRecordEpisode1QuestCompletionInductionSize, sizeof(ShouldRecordEpisode1QuestCompletionInduction) == 0x8);
 s32 should_record_episode1_quest_completion(void) {
     s32 all_complete;
     s32 i;

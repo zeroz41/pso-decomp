@@ -27,7 +27,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"
@@ -38,7 +38,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TargetCursorList.h"
 
-struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
+struct ZeroColorWords { u32 a; u32 b; u32 c; u32 d; };
 
 
 extern "C" {
@@ -293,7 +293,7 @@ void TTecGrantsFlash::render() {
     }
     init_texture_copy_rect(&ctx, &grants_ring_texlist, &technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
-    Quad_80232934 q = { 0, 0, 0, 0 };
+    ZeroColorWords q = { 0, 0, 0, 0 };
     approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);
     approach_position_if_far(&scale, &v, scale_rate);
     copy_anim_frame_to_slot(&ctx);

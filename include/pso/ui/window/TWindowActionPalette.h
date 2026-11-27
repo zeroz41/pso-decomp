@@ -33,7 +33,7 @@ struct TWindowActionPalette : public TWindowBase {
     void set_bank_panel_art(unsigned short state);
     void update_slot_icon(int idx, u16 mode, u16 slot);
     void update_slot_sprites(int idx, u16 mode, u16 slot);
-    void draw_frame(saddr context);
+    void draw_frame(WindowDrawContext *ctx);
 };
 
 class TWindowLayoutNumber;
@@ -70,6 +70,6 @@ struct ActionPaletteWindowLayout {
 
 s32 get_palette_item_amount(u16 slot, s32 client_id);
 
-void set_help_icon_uv(saddr help, saddr client_id);
+void set_help_icon_uv(WindowSpritePart *help, s32 client_id);
 
 #endif

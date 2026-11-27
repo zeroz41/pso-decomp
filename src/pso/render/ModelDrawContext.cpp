@@ -27,12 +27,12 @@ void set_model_node_callback(ModelNodeCallback callback) {
     model_node_callback = callback;
 }
 
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
-    bind_motion_context((NJS_MOTION *)motion, frame);
+void draw_ginja_model_with_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
+    bind_motion_context(motion, frame);
     model_draw_context->draw = draw_ginja_model_lists;
     prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
-    draw_ginja_motion_node_tree((NJS_OBJECT *)model);
+    draw_ginja_motion_node_tree(model);
     flush_model_draw_queue();
     if (ginja_draw_end_callback != NULL) {
         ginja_draw_end_callback();

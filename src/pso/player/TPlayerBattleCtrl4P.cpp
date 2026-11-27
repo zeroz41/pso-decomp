@@ -8,7 +8,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/BattleModeDataCmd.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -57,7 +57,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/object/TDeadSpot.h"
@@ -121,9 +120,9 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     }
     this->message_table = p;
     for (i = 0; i < 4; i++) {
-        saddr pl = (saddr)get_player_by_client_id(i);
-        if (pl != 0) {
-            reinterpret_cast<TObjPlayer *>(pl)->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
+        TObjPlayer *pl = get_player_by_client_id(i);
+        if (pl != NULL) {
+            pl->export_character_data(TAdSinglePlyChrSelectGC::get_char_index((u32)i));
         }
     }
     instance = this;
@@ -368,7 +367,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
             menu_window->add_text_entry(message_table[1], 6, 1);
             menu_window->add_text_entry(message_table[3], 6, 3);
             menu_window->calc_window_size();
-            align_menu_entry_positions(menu_window);
+            menu_window->align_menu_entry_positions();
             menu_window->set_ready_flag();
         }
         if (menu_window != NULL) {
@@ -997,7 +996,7 @@ void TPlayerBattleCtrl4P::record_results() {
     do {
         entry = (BattleRanking *)((u8 *)rankings + off);
         if (get_player_by_client_id(entry->client_id) != NULL) {
-            record = (CharacterSaveRecord *)get_character_save_record(entry->client_id);
+            record = get_character_save_record(entry->client_id);
             if (record != NULL) {
                 s16 place = entry->place;
                 if (are_split_screen_battle_players_tied() == 0) {

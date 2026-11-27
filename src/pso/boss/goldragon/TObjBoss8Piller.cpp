@@ -42,7 +42,7 @@ void TObjBoss8Piller::render() {
         } else {
             model = TObjBoss8Piller::shared_resource->models[0].model;
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller::shared_resource->models[0].texlist));
+        set_texture_list(TObjBoss8Piller::shared_resource->models[0].texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);
@@ -59,7 +59,7 @@ void TObjBoss8Piller::run_task() {
     if (dragon != NULL) {
         dragon->apply_pillar_attack(&this->position, 25.0f);
     }
-    last_frame = this->motion->frameCount - 1;
+    last_frame = this->motion->nbFrame - 1;
     if (this->frame >= (f32)last_frame) {
         this->frame = (f32)last_frame;
         this->queue_destruction();

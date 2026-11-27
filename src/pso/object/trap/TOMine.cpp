@@ -201,7 +201,7 @@ void TOMine::render() {
 }
 void TOMine::draw_body() { set_texture_list(this->texlist); draw_ginja_object(this->model); }
 void TOMine::draw_light() {
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(light_textures));
+    set_texture_list(light_textures);
     draw_ginja_object(light_model);
 }
 void TOMine::run_task() {
@@ -267,7 +267,7 @@ void TOMine::detonate() {
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
-        obj = (TObjChara *)TObjPlayer::get_battle_param(i);
+        obj = TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active(obj) != 0) {
             DirectAttackPayload pair = attack;
             f32 r = obj->receive_direct_attack(this, pair, NULL, -1, -1);
@@ -544,9 +544,9 @@ void TOMine::vfunc_79() {  }
 void TOMine::apply_knockback_from_attacker(TObjBase *, f32) {  }
 s32 TOMine::try_start_action(TObjChara *, s32, f32) { return 1; }
 s32 TOMine::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
-s32 TOMine::is_target_in_list(void *obj) {
+s32 TOMine::is_target_in_list(TObjBase *obj) {
     if (obj != 0) {
-        u32 id = ((TObjBase *)(obj))->get_entity_id();
+        u32 id = obj->get_entity_id();
         if (id < 4) {
             TObject *n;
             for (n = m_down; n != 0; n = n->m_next) {
@@ -772,7 +772,7 @@ void TOMineTrap::run_task() {
                     }
                     target->record_attack_source(get_trap_type());
                 }
-            } else if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap::class_name) != 0) {
+            } else if (p->check_value_equals(TOMineTrap::class_name) != 0) {
                 if (horizontal_distance_squared(&position, &p->position) < trigger_radius * trigger_radius) {
                     target = p;
                     target->receive_physical_attack(this, 1.0f);
@@ -869,7 +869,7 @@ f32 TOMineTrap::receive_physical_attack(TObjChara *attacker, f32) {
     case 0:
     case 1:
     case 2:
-        if ((attacker != NULL) && (reinterpret_cast<TObject *>(attacker)->check_value_equals(TOMineTrap::class_name) != 0)) {
+        if ((attacker != NULL) && (attacker->check_value_equals(TOMineTrap::class_name) != 0)) {
             set_triggered();
             if (set_params[1] > 0xF) {
                 set_params[1] = 0xF;
@@ -908,7 +908,7 @@ void handle_6x80_trigger_trap(game_command_header *command) {
         if (p == NULL) {
             continue;
         }
-        if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap::class_name) == 0) {
+        if (p->check_value_equals(TOMineTrap::class_name) == 0) {
             continue;
         }
         if (packet->trap_number != p->get_trap_number()) {

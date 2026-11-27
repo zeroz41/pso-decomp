@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 extern "C" {
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};

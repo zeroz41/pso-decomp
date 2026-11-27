@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -32,7 +31,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TWindowLayoutRect.h"
 
@@ -313,12 +311,12 @@ void TWindowMenu::set_selected_index(s16 index) {
 
 #pragma push
 #pragma fp_contract on
-void align_menu_entry_positions(TWindowMenu *self) {
-    f32 left = self->target_size[0] - 8.0f;
-    f32 right = 0.5f * self->target_size[0] - 4.0f;
+void TWindowMenu::align_menu_entry_positions() {
+    f32 left = this->target_size[0] - 8.0f;
+    f32 right = 0.5f * this->target_size[0] - 4.0f;
     u32 i;
-    for (i = 0; i < self->row_count; i++) {
-        WindowTextEntry *e = static_cast<WindowTextEntry *>(self->get_array_entry(i));
+    for (i = 0; i < this->row_count; i++) {
+        WindowTextEntry *e = static_cast<WindowTextEntry *>(this->get_array_entry(i));
         if (e->get_text() != 0) {
             e->measure_text(left);
             if (e->height > 18.0f) {
@@ -364,7 +362,7 @@ void TWindowMenu::set_scroll_target(f32 width, f32 max_height) {
     update_scroll_target_position();
 }
 
-void TWindowMenu::update_layout_height(f32 x) {
+void TWindowMenu::update_layout_height(f32 width) {
     f32 sum = 0.0f;
     u32 i;
     for (i = 0; i < row_count; i++) {
@@ -379,7 +377,7 @@ void TWindowMenu::update_layout_height(f32 x) {
     if (window_flags & 0x40) {
         sum += 6.0f;
     }
-    target_size[0] = x;
+    target_size[0] = width;
     target_size[1] = 20.0f + sum;
     layout_height = sum;
     save_position();
@@ -538,7 +536,7 @@ TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char
   {
     window_menu->update_layout_height(104.0f);
   }
-  align_menu_entry_positions(window_menu);
+  window_menu->align_menu_entry_positions();
   window_menu->set_ready_flag();
   window_menu->set_depth(50030.0f);
   return window_menu;

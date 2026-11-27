@@ -10,7 +10,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TSymbolChatMenu.h"
 
 // The symbol chat preset selection: its vtable follows a 4-byte pad after
@@ -50,6 +49,6 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     } while (i < 0xC);
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
-    align_menu_entry_positions(preset_list);
+    preset_list->align_menu_entry_positions();
     chat_symbol = new TWindowChatSymbol(&symbol_chat_menu_position, &symbol_chat_menu_size);
 }

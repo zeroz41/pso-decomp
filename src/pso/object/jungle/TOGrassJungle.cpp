@@ -46,7 +46,7 @@ void TOGrassJungle::load_resources() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&ograss_jungle_resource_descriptor, 0, 0, NULL);
     grass_jungle_bml_resource = archive;
     grass_jungle_grass_gvm_texture = LoadPvmFileTls("o_grass_jungle.gvm");
-    TObjNpcEnemy::register_ginja(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)grass_jungle_bml_resource, 0)),
+    TObjNpcEnemy::register_ginja(0x3F, get_bml_model((BmlResource *)grass_jungle_bml_resource, 0),
                            grass_jungle_grass_gvm_texture, 12.0f, -10.0f);
 }
 

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/trap/TOTrapChainSaw.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_OBJECT;
 
 // The chainsaw that sets its floor switch when it touches a player; its light
@@ -22,7 +22,7 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     virtual void update_run();
     s32 variant;                    // scale.z clamped to 0-1: the 2 m or 4 m saw
     NJS_OBJECT *light_model;
-    AnimationMotion *light_motion;
+    NJS_MOTION *light_motion;
     f32 light_frame;
     f32 light_frame_step;
     static void *create(void *set_data);

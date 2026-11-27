@@ -54,9 +54,9 @@ void *TOFenceAncient04::create(void *set_data) {
 
 void TOFenceAncient04::unload_resources() {
     if (texlists != NULL) {
-        TObjPlayer::free_if_valid((saddr)texlists[1]);
-        TObjPlayer::free_if_valid((saddr)texlists[2]);
-        TObjPlayer::free_if_valid((saddr)texlists[3]);
+        TObjPlayer::free_if_valid(texlists[1]);
+        TObjPlayer::free_if_valid(texlists[2]);
+        TObjPlayer::free_if_valid(texlists[3]);
         if (texlists != NULL) {
             mem_free(texlists);
             texlists = NULL;
@@ -95,7 +95,7 @@ TOFenceAncient04::TOFenceAncient04(TObject *parent, void *set_data) : TOFenceBas
     model = model_resource->models[0].model;
     texlist = texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     init_collision_body_parts(this, fence_ancient04_collision_bodies, 8);
     refresh_collision_body_centers();
     register_object_by_id();

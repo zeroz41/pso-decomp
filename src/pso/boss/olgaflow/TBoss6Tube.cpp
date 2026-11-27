@@ -198,8 +198,8 @@ TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
     state = 0;
 }
 
-TBoss6Tube *TBoss6Tube::create(void *parent) {
-    return new TBoss6Tube((TObject *)parent);
+TBoss6Tube *TBoss6Tube::create(TObject *parent) {
+    return new TBoss6Tube(parent);
 }
 
 void TBoss6Tube::free_resources() {

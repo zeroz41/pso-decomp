@@ -27,6 +27,14 @@ struct CharacterFileSlot {
 struct CharacterFile {
     CharacterFile();
     ~CharacterFile();
+    s32 has_valid_slot();
+    void set_cipher_seed(s32 value);
+    s32 get_cipher_seed();
+    void set_checksum(s32 value);
+    s32 get_checksum();
+    s32 is_entry_valid(int i);
+    CharacterFileSlot *get_selected_slot();
+    CharacterSaveRecord *get_selected_record();
 
     u32 checksum;    // CRC32 of the file, written by encrypt_save_data
     CharacterFileSlot slots[7];

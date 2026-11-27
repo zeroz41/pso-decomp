@@ -5,11 +5,10 @@
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "pso/audio/CriSvm.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/movie/Mfci.h"
-
-extern "C" unsigned long strtoul(const char *, char **, int);
 
 
 // inferred: named after gcrna_version_pointer, the same banner pointer in GCRNA.
@@ -295,9 +294,9 @@ void *mfci_open(const char *name, s32 entry, s32 mode) {
     return f;
 }
 
-s32 mfci_parse_file_size(char *s) {
+s32 mfci_parse_file_size(char *name) {
     u32 lo;
-    mfci_get_adr_size(s, &lo);
+    mfci_get_adr_size(name, &lo);
     return lo;
 }
 

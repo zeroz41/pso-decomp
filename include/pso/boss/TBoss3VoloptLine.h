@@ -7,11 +7,11 @@
 // A line Vol Opt draws between two points.
 class TBoss3VoloptLine : public TObject {
 public:
-    void *from;
-    void *to;
+    Vec *from;
+    Vec *to;
     u8 pad_24[0x4];
 
-    TBoss3VoloptLine(void *from, void *to);
+    TBoss3VoloptLine(Vec *from, Vec *to);
     virtual ~TBoss3VoloptLine();
     virtual void run_task();
     virtual void render();

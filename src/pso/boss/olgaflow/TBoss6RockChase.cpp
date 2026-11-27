@@ -73,7 +73,7 @@ void TBoss6RockChase::render() {
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_z(NULL, rotation_z);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
+    set_texture_list(textures);
     draw_ginja_object(model);
     pop_matrix();
 }

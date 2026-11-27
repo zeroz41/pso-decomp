@@ -9,11 +9,11 @@ struct TWindowMainMenu;
 struct TWindowSubQuestBoardSelect;
 
 struct TWindowSubQuestBoard : public TObject {
-    TWindowSubQuestBoard(TObject *object, void *client);
+    TWindowSubQuestBoard(TObject *object, s32 client);
     virtual ~TWindowSubQuestBoard();
     u8 state;
     u8 pad_1d[0x3];
-    void *client;
+    s32 client;
     TWindowMainMenu *parent_menu;
     TWindowSubQuestBoardSelect *select_window;
     TQuestThreadBoard *quest_thread_board;

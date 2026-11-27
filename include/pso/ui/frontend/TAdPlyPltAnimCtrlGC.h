@@ -33,4 +33,6 @@ void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl);
 // Whether every bit of `mask` is set in the flag word.
 s32 test_flags_all(s32 *flags, s32 mask);
 
+extern u32 plyplt_anim_ctrl_instance;
+
 #endif

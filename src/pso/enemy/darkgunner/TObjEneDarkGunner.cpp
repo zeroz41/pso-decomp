@@ -88,7 +88,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/object/TObjControl.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -107,7 +107,7 @@
 
 extern "C" {
 
-struct Raw_800A10A0 { u8 b[12]; };
+struct VecBits { u8 b[12]; };
 
 
 
@@ -276,9 +276,9 @@ void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
 void TeneFakeTecThunderEff::clear_counter() { active = 0; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void *index) {
-    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
-    this->texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
+void TObjEneDarkGunner::load_model_and_texlist(s32 index) {
+    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, index);
+    this->texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, index);
 }
 
 int TObjEneDarkGunner::is_death_gunner() { return (behavior_flags >> 26) & 0x1; }
@@ -315,7 +315,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     VecCopy(&home_position, &position);
     VecCopy(&move_origin, &position);
     VecCopy(&move_destination, &position);
-    set_fields_24_34_from_global((void *)1);
+    load_model_and_texlist(1);
     motion_list = TObjEneDarkGunner::bml_resource->motions;
     action_table = dark_gunner_action_table;
     set_action_table(action_table);
@@ -394,7 +394,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner::bml_resource = NULL;
     }
     if (dark_gunner_effect_resource != NULL) {
-        TObjPlayer::free_if_valid((saddr)dark_gunner_effect_resource);
+        TObjPlayer::free_if_valid(dark_gunner_effect_resource);
         dark_gunner_effect_resource = NULL;
     }
     TObjPlayer::reset_effect_count();
@@ -880,7 +880,7 @@ void TObjEneDarkGunner::render() {
                 set_constant_material(&color);
                 set_texture_list(dark_gunner_effect_resource);
             } else {
-                set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                set_texture_list(texlist);
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
@@ -1130,7 +1130,7 @@ void TObjEneDarkGunner::load_params() {
 extern "C" {
 void TObjEneDarkGunner::step_along_ground() {
     Vec pos;
-    Raw_800A10A0 vel;
+    VecBits vel;
     Vec dir;
     Vec v;
     s32 ang;
@@ -1143,7 +1143,7 @@ void TObjEneDarkGunner::step_along_ground() {
 
     VecCopy(&prev_position, &position);
     VecCopy(&pos, &body_center);
-    vel = *(Raw_800A10A0 *)&velocity;
+    vel = *(VecBits *)&velocity;
     vec_set_length((Vec *)&vel, 10.0f + get_float_parameter(0));
     vec3_add_to(&pos, (Vec *)&vel);
     hit = csnVector(&body_center, &pos, -1);

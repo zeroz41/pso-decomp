@@ -6,6 +6,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
 
+struct RadarPieceMap;
+
 // Where configure_viewport puts the radar on screen; begin_map_view fills one from
 // radar_map_view_rect_table and clears the rest.
 struct RadarViewportParameters
@@ -74,14 +76,13 @@ struct TRaderMapCore : public TObjBase {
     f32 alpha_limit;
 
     void configure_viewport(const RadarViewportParameters* view);
-    void set_map_position(void *arg1);
     s32 is_render_admitted_default();
     static s32 is_active();
     void reset_counter();
     static void hide_radar();
     static void show_radar();
     void set_view_scissor(int mode, const RadarScissorRect *rect);
-    static s32 save_floor_discovery(int floor, void *map_data);
+    static s32 save_floor_discovery(int floor, RadarPieceMap *map);
     static void free_map_data();
     static void free_heap();
     static void set_piece_flags(s32 piece_flags);

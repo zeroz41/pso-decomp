@@ -18,7 +18,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -66,13 +65,13 @@ static const Boss6ThanksEmitter boss6_thanks_particle_emitter_table[4] = {
     {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
 };
 
-s32 TBoss6Thanks::is_story_flag_0x9A_set() {
+s32 TBoss6Thanks::was_thanks_shown() {
     return get_story_flag(0x9A) != 0;
 }
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-void TBoss6Thanks::set_story_flag_0x9A() { set_story_flag_or_send_quest_flag(154); }
+void TBoss6Thanks::mark_thanks_shown() { set_story_flag_or_send_quest_flag(154); }
 void TBoss6Thanks::dispatch_darkfalz_phase() { set_story_flag_or_send_quest_flag(152); }
 
 void TBoss6Thanks::update_particle_emitters() {
@@ -137,13 +136,13 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture0));
+    set_texture_list(texture0);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model0, motions[current_motion], frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture1));
+    set_texture_list(texture1);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(model1, motion1, frame1);
     pop_matrix();
@@ -193,7 +192,7 @@ void TBoss6Thanks::run_task() {
       break;
   }
   frame0 += 0.6f;
-  lim = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  lim = ((f32) motions[current_motion]->nbFrame) - 1.0f;
   if (frame0 >= lim)
   {
     frame0 -= lim;
@@ -203,7 +202,7 @@ void TBoss6Thanks::run_task() {
     }
   }
   frame1 += 0.6f;
-  lim = ((f32) motion1->frameCount) - 1.0f;
+  lim = ((f32) motion1->nbFrame) - 1.0f;
   if (frame1 >= lim)
   {
     frame1 -= lim;
@@ -211,7 +210,7 @@ void TBoss6Thanks::run_task() {
 }
 
 TBoss6Thanks::~TBoss6Thanks() {
-    TBoss6Thanks::set_story_flag_0x9A();
+    TBoss6Thanks::mark_thanks_shown();
     destroy_effects();
 }
 
@@ -241,7 +240,7 @@ void *TBoss6Thanks::create() {
 }
 
 s32 TBoss6Thanks::is_ship_door_ready() {
-    if ((check_ship_door() != 0) && (is_story_flag_0x9A_set() == 0)) {
+    if ((check_ship_door() != 0) && (was_thanks_shown() == 0)) {
         return 1;
     }
     return 0;
@@ -290,5 +289,5 @@ void TItemWeaponRubyBullet::init_weapon_effect_descriptor(WeaponEffectDescriptor
     get_weapon_color__11TItemWeaponFv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
-    desc->wall_effect = (void *)spawn_wall_hit_particles;
+    desc->wall_effect = spawn_wall_hit_particles;
 }

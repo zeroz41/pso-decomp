@@ -1,6 +1,0 @@
-#ifndef PSO_ENEMY_TNEEDLESHOOT_802A4754_H
-#define PSO_ENEMY_TNEEDLESHOOT_802A4754_H
-
-#include "types.h"
-
-#endif

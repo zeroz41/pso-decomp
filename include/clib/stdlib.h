@@ -8,8 +8,10 @@ extern "C" {
 #endif
 
 int atoi(const char *str);
+unsigned long strtoul(const char *str, char **end, int base);
 void srand(unsigned int seed);
 int rand(void);
+int ansi_fp_abs(int x);
 
 #ifdef __cplusplus
 }

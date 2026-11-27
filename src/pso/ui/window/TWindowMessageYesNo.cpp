@@ -9,7 +9,6 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowBase.h"

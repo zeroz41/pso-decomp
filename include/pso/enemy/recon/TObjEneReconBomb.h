@@ -14,7 +14,7 @@ struct TObjEneReconBomb : public TObjChara {
     virtual void render();
     virtual void run_task();
     static void release_resources();
-    static void *create(void *parent, void *recon, void *pos);
+    static void *create(TObject *parent, TObjEneRecon *recon, const Vec *pos);
     static void load_resources();
     s32 has_player_nearby();
 

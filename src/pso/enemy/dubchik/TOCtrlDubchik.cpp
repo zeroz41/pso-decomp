@@ -130,7 +130,7 @@ void TOCtrlDubchik::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
@@ -225,7 +225,7 @@ void TOCtrlDubchik::update_waiting() {
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != this && p->test_actor_flags(0x800) != 0 &&
-            reinterpret_cast<TObject *>(p)->check_value_equals(dubchik_class_name) != 0 &&
+            p->check_value_equals(dubchik_class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             mode = 1;
         }
@@ -324,7 +324,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(TObjChara *attacker, CollisionB
         } else {
             VecCopy(&pos, &body_center);
         }
-        TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, "MISS");
+        TOCtrlDubchik::create_font(&pos, (s32)0xFFFF0000, 0x14, "MISS");
     }
     return 0.0f;
 }

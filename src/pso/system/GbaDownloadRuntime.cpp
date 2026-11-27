@@ -37,7 +37,7 @@ void gba_download_destroy_graph() {
         ((TObject *)gba_download_graph)->queue_destruction();
         gba_download_graph = 0U;
     }
-    *(s8 *)((s8 *)gba_joyboot_states + 7) = 0;
+    gba_joyboot_states[0].device_present = 0;
 }
 
 void gba_download_create_graph() {
@@ -143,16 +143,14 @@ u8 gba_download_update_graph() {
 GbaJoybootState gba_joyboot_states[1];
 
 
-struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
-
 #pragma push
 #pragma fp_contract on
 void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
     u32 secs;
-    Rec_8032C9A8 rec;
+    JoybootStampRecord rec;
     DayMinuteTicks ds;
     u8 *obj;
-    u8 *st;
+    SystemSaveData *st;
     memset(&rec, 0, 0xC);
     obj = gba_joyboot_send_buffer;
     st = TAdSinglePlyChrSelectGC::get_global_state();
@@ -161,7 +159,7 @@ void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;
-            memmove(&rec.a, st + 0x118, 4);
+            memmove(&rec.a, &st->serial_seed, 4);
             memmove(&rec.b, &secs, 4);
             memmove(obj + 0x2C0, &rec, 8);
         }
@@ -268,4 +266,10 @@ void gba_joyboot_set_send_buffer(u8 *buffer, s32 length) {
 
 void gba_clear_identifiers(void) { gba_identifier_value = 0; gba_identifier_slot_plus_1 = 0; }
 
-void reset_joyboot_state(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s16*)((char*)p + 0x4) = 0; *(u8*)((char*)p + 0x6) = 0; *(u8*)((char*)p + 0x7) = 0; }
+void reset_joyboot_state(GbaJoybootState *state) {
+    state->probe_counter = 0;
+    state->reserved_02 = 0;
+    state->timeout_counter = 0;
+    state->phase = 0;
+    state->device_present = 0;
+}

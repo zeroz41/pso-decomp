@@ -51,7 +51,7 @@ TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(p
     texlist = texture_lists[0];
     model = bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient09_collision_body, 1);
     refresh_collision_body_centers();
@@ -84,7 +84,7 @@ void TODoorAncient09::load_resources() {
 
 void TODoorAncient09::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)texture_lists[1]);
+        TObjPlayer::free_if_valid(texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

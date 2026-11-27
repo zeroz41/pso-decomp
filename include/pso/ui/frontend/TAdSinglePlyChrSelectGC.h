@@ -13,6 +13,7 @@ class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
 struct CharacterFile;
+class TCMCharacter;
 struct CharacterSaveRecord;
 struct TItemData;
 
@@ -40,8 +41,8 @@ struct SystemSaveData {
     s8 language;
     s32 clock_offset_frames;
     s16 udp_option; // option menu "UDP Option": 0 auto, 1 on, 2 off
-    s16 field_e;
-    u8 data_10[0x110 - 0x10];
+    s16 surround_sound; // 1 when the output mode is surround: stereo to the OS, flagged here
+    u8 event_flags[0x100]; // the quest event flags (get/set_eventflag opcodes)
     u8 serial_number[8];
     s32 serial_seed;
 };
@@ -70,12 +71,11 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void cleanup();
     virtual void run_task();
     static s32 get_chr_select_state();
-    static u8 *get_global_state();
-    static int get_state();
+    static SystemSaveData *get_global_state();
+    static GuildCardSaveData *get_state();
     static int get_game_mode();
     static void copy_name(s32 chan);
     static void set_card_disk_id(s32 chan);
-    s32 init_char_slot_record();
     static s32 is_ready();
     // Battle results of the client's character record (CharacterSaveRecord::split_screen_battle
     // and online_battle), shown in the status window.
@@ -93,7 +93,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_save_from_card();
     static s32 verify_card_player_data();
     static s32 poll_memcard_status();
-    s32 has_valid_slot();
     static int get_selection();
     static void set_global_flags(s32 flags);
     static CharacterFile *get_instance();
@@ -183,7 +182,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 free_buffer();
     static void free_callbacks();
     static s32 free_data();
-    static s32 get_type(void* p);
     static void increment_counter();
     static void increment_counters();
     static s32 init_and_register(CharacterFile *source);
@@ -202,10 +200,9 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void render_frame();
     static void reset_save_header();
     static void save_character_file(int use_primary);
-    static void set_id(void* p, int v);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
-    static void update_pair(void* p);
+    static void update_pair(TCMCharacter *character);
     static s32 update_play_time();
     static s32 verify_save_checksum(int keep_on_mismatch);
     static void verify_save_checksum();
@@ -220,7 +217,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_char_data_slots(CharacterBufferTable *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
-    static s32 is_entry_valid(CharacterFile *self, int i);
     static s32 is_same_slot_entry(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int slot);
     static s32 load_character_and_wait();

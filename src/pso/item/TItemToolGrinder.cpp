@@ -11,7 +11,7 @@ s32 add_weapon_grind(TItem *weapon, u8 amount);
 void TItemToolGrinder::apply_use_effect() {
     TItem *weapon;
 
-    weapon = TObjPlayer::get_equipped_weapon(this->owner);
+    weapon = this->owner->get_equipped_weapon();
     if (weapon != NULL) {
         add_weapon_grind(weapon, get_pmt_amount());
     }

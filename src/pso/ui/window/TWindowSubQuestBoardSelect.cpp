@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -13,7 +14,6 @@
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -135,7 +135,7 @@ void TWindowSubQuestBoardSelect::select_next() {
 
 extern "C" {
 
-void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
+void TWindowSubQuestBoardSelect::draw_selection_leader_line(WindowDrawContext *ctx) {
     ColorLineVertex v[3];
     ColorLineList d;
     u32 colors[3];
@@ -150,10 +150,10 @@ void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawCont
     if (ctx->open_tick < 0) {
         return;
     }
-    if (self->get_slot_flag(self->slot) == 0) {
+    if (get_slot_flag(slot) == 0) {
         return;
     }
-    e = static_cast<WindowTextEntry *>(self->get_array_entry(self->slot + 2));
+    e = static_cast<WindowTextEntry *>(get_array_entry(slot + 2));
     draw_selection_corners(ctx, &e->x, 56.0f, 0.3f);
     x = ctx->inner_x + e->x;
     y = ctx->inner_y + e->y;
@@ -162,7 +162,7 @@ void draw_selection_leader_line(TWindowSubQuestBoardSelect *self, WindowDrawCont
     } else {
         alpha = 0xFF000000;
     }
-    e = static_cast<WindowTextEntry *>(self->get_array_entry(1));
+    e = static_cast<WindowTextEntry *>(get_array_entry(1));
     depth = 0.1794f + ctx->depth;
     d.verts = v;
     d.colors = colors;
@@ -233,7 +233,7 @@ void TWindowSubQuestBoardSelect::render() {
     ctx = draw_default_entry();
     draw_window_frame(ctx);
     status_disp->render(ctx);
-    draw_selection_leader_line(this, ctx);
+    draw_selection_leader_line(ctx);
     draw_visible_window_entries(
         this,
         &this->entry_list,
@@ -263,7 +263,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
     delete status_disp;
 }
 
-u32 calc_text_width();
 }
 #pragma push
 #pragma fp_contract on
@@ -277,8 +276,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     state_flags = 0;
     entry_0 = static_cast<WindowTextEntry *>(this->get_array_entry(0));
     set_text_entry_string(entry_0, (TQuestThread::get_quest_name()), 0);
-    entry_0->get_text();
-    title_width = (f32) calc_text_width();
+    title_width = (f32) calc_text_width(entry_0->get_text());
     entry_0->x = 210.0f - 0.5f * title_width;
     slot = -1;
     update_slot_display_flags();

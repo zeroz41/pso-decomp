@@ -126,7 +126,7 @@ void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
         select_cursor->append_entry(pass_selection_positions[2]);
         select_cursor->lock_navigation();
     }
-    password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control((saddr)this, 3);
+    password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control(this, 3);
     password_entry_dispatch_state = 1;
 }
 

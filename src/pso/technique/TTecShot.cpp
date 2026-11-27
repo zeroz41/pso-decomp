@@ -30,7 +30,7 @@ void TTecShot::check_technique_projectile_wall_hit() {
     wall = csnVector(&from, &to, 0x100);
     if (wall != NULL) {
         VecCopy(&position, &wall->contact->point);
-        this->vfunc_6();
+        this->spawn_impact_effect();
         queue_destruction();
     }
 }

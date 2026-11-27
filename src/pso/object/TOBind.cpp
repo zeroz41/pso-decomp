@@ -73,7 +73,7 @@ void TOBind::render() {
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->triggered != 1) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(animated_textures));
+            set_texture_list(animated_textures);
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();
@@ -113,7 +113,7 @@ TOBind::TOBind(void *set_data) : TObjCollidable(tl_05) {
     animated_textures = get_bml_texlist(static_model_resource, 1);
     motion = get_bml_motion(static_model_resource, 0);
     motion_frame = 0.0f;
-    motion_end_frame = static_cast<f32>(motion->frameCount) - 1.0f;
+    motion_end_frame = static_cast<f32>(motion->nbFrame) - 1.0f;
     motion_step = 1.0f;
     init_collision_body_parts(this, bind_collision_body_parts, 2);
     refresh_collision_body_centers();

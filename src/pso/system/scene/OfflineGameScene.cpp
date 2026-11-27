@@ -47,7 +47,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/item/TItem.h"
@@ -59,14 +59,14 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/audio/SoundControlState.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
@@ -86,7 +86,6 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/door/TODoorJungleMain.h"
 #include "pso/network/TProtocol.h"
@@ -288,7 +287,7 @@ void TLobby::reload_offline_area() {
     load_area_event_sets();
     load_battle_param_entry();
     initialize_floor_transition(&floor_transition_state, 0, 0);
-    load_area_scene_and_init((u8 *)&floor_transition_state);
+    load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
@@ -362,10 +361,10 @@ void TLobby::rebuild_area_keep_players() {
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        load_area_scene_and_init((u8 *)&floor_transition_state);
+        load_area_scene_and_init(&floor_transition_state);
     } else {
         initialize_floor_transition(&floor_transition_state, 0, 0);
-        load_area_scene_and_init((u8 *)&floor_transition_state);
+        load_area_scene_and_init(&floor_transition_state);
     }
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -405,7 +404,7 @@ void run_offline_area_transfer(void) {
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     leader_selection.find_leader_section_id(designated_client_id);
-    load_area_scene_and_init((u8 *)&floor_transition_state);
+    load_area_scene_and_init(&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -613,7 +612,7 @@ void init_offline_game_scene(void) {
     designated_client_id = 0;
     offline_scene_init_stub_a();
     leader_selection.find_leader_section_id(designated_client_id);
-    load_area_scene_and_init((u8 *)&floor_transition_state);
+    load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
     main_task.run_task();

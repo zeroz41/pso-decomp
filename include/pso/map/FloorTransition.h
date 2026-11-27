@@ -9,7 +9,7 @@ struct NJS_SPRITE;
 
 void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
 extern "C" {
-void load_area_scene_and_init(u8 *transition);
+void load_area_scene_and_init(FloorTransition *transition);
 }
 // --- end of C functions
 

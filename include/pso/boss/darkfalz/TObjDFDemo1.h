@@ -6,7 +6,7 @@
 #include "pso/unk/ModelNodeTables.h"
 
 class TParticleCtrl;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 class TObjDFDemo1 : public TObjBase {
 public:

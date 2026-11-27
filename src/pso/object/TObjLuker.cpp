@@ -9,7 +9,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/TObjLukerNames.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -36,7 +36,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
@@ -88,7 +87,7 @@ void TObjLuker::update_floor_name_windows() {
             }
             ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
             ((TWindowMenu *)(windows[i]))->calc_window_size();
-            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
+            (reinterpret_cast<TWindowMenu *>(windows[i]))->align_menu_entry_positions();
         }
     }
 }
@@ -121,7 +120,7 @@ void TObjLuker::open_destination_windows() {
                 ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
                 ((TWindowMenu *)(windows[i]))->disable_input();
                 ((TWindowMenu *)(windows[i]))->calc_window_size();
-                align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
+                (reinterpret_cast<TWindowMenu *>(windows[i]))->align_menu_entry_positions();
                 windows[i]->suspend_update();
                 windows[i]->disallow_rendering();
             }

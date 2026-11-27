@@ -276,13 +276,13 @@ void bind_motion_channel_samplers(const NJS_MOTION *motion, f32 frame) {
 
 // Applies node's pose in the current motion (bind_motion_context) to the
 // current matrix.
-void compose_motion_node_matrix(void *node) {
+void compose_motion_node_matrix(NJS_OBJECT *node) {
     f32 pos[3];
     f32 scl[3];
     s32 ang[3];
     f32 quat[4];
     s32 kind;
-    kind = sample_motion_node_transform((NJS_OBJECT *)node, pos, ang, scl, quat);
+    kind = sample_motion_node_transform(node, pos, ang, scl, quat);
     post_translate_matrix(pos);
     switch (kind) {
     case 0:

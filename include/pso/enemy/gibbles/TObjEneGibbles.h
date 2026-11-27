@@ -111,9 +111,5 @@ struct TObjEneGibbles : public TObjEnemy {
 LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
 void gibbles_render_node_callback(NJS_OBJECT *);
-// hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
-// arg 1 grows armor by the damage dealt
-extern "C" {
-}
 
 #endif

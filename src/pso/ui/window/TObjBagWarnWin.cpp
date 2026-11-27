@@ -32,7 +32,6 @@ const char *TObjBagWarnWin::class_name = "TObjBagWarnWin";
 
 const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 #include "pso/quest/challenge/ChallengeMode.h"
 
@@ -220,7 +219,7 @@ s32 TObjBagWarnWin4P::check_can_open() {
     i = 0;
     j = 0;
     do {
-        if ((get_player_by_client_id(j) != NULL) && ((record = (CharacterSaveRecord *)get_character_save_record(j)) != 0U) && (record->is_bank_full() != 0)) {
+        if ((get_player_by_client_id(j) != NULL) && ((record = get_character_save_record(j)) != NULL) && (record->is_bank_full() != 0)) {
             i = 1;
         }
         j += 1;

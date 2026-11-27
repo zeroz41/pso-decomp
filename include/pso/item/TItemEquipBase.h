@@ -72,7 +72,7 @@ struct TItemEquipBase : public TItem {
     TItemHeapObject *effect_objects; // parent of the objects the equip effects create
     FlagWord effect_flags;
     NJS_MOTION *model_motion;              // drawn with draw_model_motion
-    void *model_data[2];
+    NJS_OBJECT *model_data[2];
     NJS_OBJECT *second_model;
 };
 

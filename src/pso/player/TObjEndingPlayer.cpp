@@ -25,14 +25,11 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 
-extern "C" {
-s32 copy_player_visual_record(void *, void *);
-}
 
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
 void TObjEndingPlayer::set_animation_from_data(s32 picture) {
@@ -57,7 +54,7 @@ void TObjPlayer::process_trade_target(TItemData *item_data) {
     item = create_item(item_data);
     if (item != NULL) {
         s32 slot = item->get_attach_slot();
-        TItem *slot_item = (TItem *)get_slot_value(equipped_items.items, slot);
+        TItem *slot_item = get_slot_value(equipped_items.items, slot);
         if (slot_item != NULL) {
             send_6x29_delete_item(this, slot_item->get_item_id(), 1);
             set_equip_slot_entry(equipped_items.items, slot, 0);
@@ -86,7 +83,7 @@ void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); 
 
 TObjEndingPlayer *TObjEndingPlayer::create(TPlyCharData *data) {
     EndingPlayerRecord record;
-    copy_player_visual_record(record.visual, &data->m_disp_part2);
+    copy_player_visual_record((PlayerVisualRecord *)record.visual, (PlayerVisualRecord *)&data->m_disp_part2);
     record.stats = data->m_stats;
     copy_equipped_weapon_and_mag(data->m_inventory.m_num_items,
                 data->m_inventory.get_items(),
@@ -123,7 +120,7 @@ void TObjEndingPlayer::render() {
 void TObjEndingPlayer::run_task() {}
 
 void free_player_ending_motion() {
-    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(player_ending_motion_object));
+    TLobby::free_nodes_with_id(player_ending_motion_object);
     player_ending_motion_object = NULL;
     TObjPlayer::free_shared_data();
 }

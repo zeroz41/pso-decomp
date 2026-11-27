@@ -167,6 +167,8 @@ void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user);
 u32 sndAuxCallbackPrepareChorus(SND_AUX_CHORUS *chorus);
 u32 sndFXStartParaInfo(u16 fid, u8 vol, u8 pan, u8 studio, SND_PARAMETER_INFO *paraInfo);
 u32 sndFXCheck(u32 vid);
+s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
+s32 sndFXKeyOff(s32 vid);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aramSize);
 void sndVolume(u8 volume, u16 time, u8 vGroup);
 void sndOutputMode(s32 mode);

@@ -12,7 +12,7 @@ public:
     void close_with_callback();
     void submit_selected_item();
     void open_menu();
-    void (*onClosed)(void *);
+    void (*onClosed)(TChallenge4PResult *);
     s32 state;
     s32 waitFrames;
     TChallenge4PResult *result;

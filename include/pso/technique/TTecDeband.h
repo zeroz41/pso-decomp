@@ -26,8 +26,5 @@ struct TTecDeband : public TTecPlayerInfluence {
 
 LAYOUT_ASSERT(TTecDeband_size, sizeof(TTecDeband) == 0x140);
 
-extern "C" {
-void *__dt__10TTecDebandFv(void *arg0, s16 arg1);
-}
 
 #endif

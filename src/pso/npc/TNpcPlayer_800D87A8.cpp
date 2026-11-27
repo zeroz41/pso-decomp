@@ -5,7 +5,7 @@
 #include "pso/object/base/ActorCollision.h"
 
 TObjCollidable *get_valid_target_player(int id) {
-    TObjCollidable *player = reinterpret_cast<TObjCollidable *>(TObjPlayer::get_battle_param(id));
+    TObjCollidable *player = TObjPlayer::get_battle_param(id);
     if (TObjPlayer::is_valid_and_active(player) != 0) {
         return player;
     }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
@@ -508,7 +509,7 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
 
     this->x = 0.0f;
     this->status_icon = 51;
-    item_data = get_item_data((uaddr)item);
+    item_data = get_item_data(item);
     select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
     forward_message(get_shared_text_buffer(), item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);
@@ -521,16 +522,13 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
 
 
 
-extern "C" {
-u32 calc_text_width(char *s);
-}
 
 void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     s32 item_data;
 
     this->x = 0.0f;
     this->status_icon = 0x33;
-    item_data = get_item_data((uaddr)item);
+    item_data = get_item_data(item);
     select_item_icon(item_data, item->data1.data_u8[0], item->data1.data_u8[1], item->is_wrapped());
     forward_message(get_shared_text_buffer(), item);
     this->label = replace_owned_string(get_shared_text_buffer(), this->label, 8, 1);

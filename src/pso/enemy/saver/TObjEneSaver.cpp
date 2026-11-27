@@ -11,7 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
@@ -39,7 +39,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -49,7 +49,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/GinjaUvScroll.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
@@ -822,7 +822,7 @@ void TObjEneSaver::render() {
     v = classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting(this);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);

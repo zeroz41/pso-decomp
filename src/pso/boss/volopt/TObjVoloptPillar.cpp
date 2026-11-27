@@ -9,7 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjChip.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjChara.h"
@@ -112,7 +112,7 @@ void TObjVoloptPillar::run_task() {
             this->check_object_collisions();
             if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {
-                    target = (TObjChara *)TObjPlayer::get_battle_param(i);
+                    target = TObjPlayer::get_battle_param(i);
                     if (target == NULL) {
                         break;
                     }

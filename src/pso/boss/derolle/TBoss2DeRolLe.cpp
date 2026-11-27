@@ -13,7 +13,7 @@ struct NJS_OBJECT;
 
 #include "pso/enemy/TObjEnemy.h"
 
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -27,6 +27,7 @@ struct NJS_OBJECT;
 #include "pso/system/NinjaTypes.h"
 
 #include "types.h"
+#include "clib/fp_convert.h"
 
 #include "pso/camera/CameraPlayback.h"
 
@@ -97,7 +98,8 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixStack.h"
 #include "pso/render/DebugFont.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/ActorCollision.h"
@@ -264,7 +266,7 @@ f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TSceneAmbientLight.h"
 #include "pso/quest/QuestStoryFlags.h"
@@ -568,9 +570,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     invoke_initialization_hook(set_data);
     state_flags = 0;
     {
-        // exchange_object_state copies the object's whole 12-byte lobby record
-        u32 flags[3];
-        if (exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+        EnemyStateRecord record;
+        if (exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
             state_flags |= 0x8000;
         }
     }
@@ -1631,8 +1632,6 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 #define SWAP_COLOR_HALVES(x) ((((x) & 0xFF00) << 16) | ((x) >> 16) | (((x) & 0xFF) << 16))
 
 // SWAP_COLOR_HALVES swaps the two halfwords of a packed colour (0xAARRGGBB -> 0xGGBBAARR)
-// The runtime's float to unsigned conversion, called directly here.
-extern "C" u32 __cvt_fp2unsigned(f32);
 
 void TBoss2DeRolLe::update_pulsing_colors() {
     s32 i;
@@ -3762,7 +3761,7 @@ void TBoss2DeRolLe::render() {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
@@ -3821,7 +3820,7 @@ int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
 
 void TBoss2DeRolLe::render_body() {
     s32 i;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     s32 idx;
     f32 frame;
     f32 max;
@@ -3847,7 +3846,7 @@ void TBoss2DeRolLe::render_body() {
     }
     motion = motion_list[action_table[idx].motion].motion;
     if (test_previous_buttons_packed(&controller_input_state.controllers[2], 4) != 0) {
-        max = motion->frameCount - 1;
+        max = motion->nbFrame - 1;
         this->frame = this->frame + parameters[2];
         while (this->frame < 0.0f) {
             this->frame = this->frame + max;
@@ -3860,13 +3859,13 @@ void TBoss2DeRolLe::render_body() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (motion->frameCount - 1)) {
-            frame = motion->frameCount;
+        } else if (frame > (motion->nbFrame - 1)) {
+            frame = motion->nbFrame;
         }
     }
     derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     current_scene_light->debug_scene_light_hook();

@@ -118,7 +118,7 @@ struct CsnHit *is_target_obstructed(class LockOnActionSlot *unused, const Vec *t
 s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
 void set_action_channel_inactive(gc_tag *tag);
 void set_action_channel_active(gc_tag *tag);
-int get_lock_on_cursor_model(void);
+NJS_OBJECT *get_lock_on_cursor_model(void);
 u8 get_target_palette_slot(ActionPaletteTag *p);
 u8 get_target_palette_mode(ActionPaletteTag *p);
 void deactivate_action_channel(LockOnActionSlot *slot);
@@ -127,7 +127,7 @@ void clear_marker_color(MarkerColor *marker);
 extern "C" {
 int get_empty_action_entry(void);
 }
-int get_target_cursor_model(void);
+NJS_OBJECT *get_target_cursor_model(void);
 
 struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
 

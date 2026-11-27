@@ -116,7 +116,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 
-#include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 
 #include "pso/enemy/AttackTargetHistory.h"
 
@@ -544,7 +543,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
 }
 
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
-    u32 state[3];
+    EnemyStateRecord state;
 
     m_name = TBoss7DeRolLeC::class_name;
     if (boss7_joint_state == NULL) {
@@ -554,7 +553,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     boss_params = (TBoss7DeRolLeCParams *)dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     state_flags = 0;
-    if (exchange_object_state(state, 1) && (state[0] & 0x12008) == 0x12008) {
+    if (exchange_object_state(&state, 1) && ((u32)state.flags & 0x12008) == 0x12008) {
         state_flags |= 0x8000;
     }
     init_position_vectors();
@@ -1190,7 +1189,7 @@ void TBoss7DeRolLeC::turn_off_laser_light() {
 }
 void TBoss7DeRolLeC::pick_random_target() {
     s32 n;
-    u8 *p;
+    TObjPlayer *p;
     s32 idx;
     s32 i;
     n = TLobby::get_game_mode();
@@ -1199,15 +1198,15 @@ void TBoss7DeRolLeC::pick_random_target() {
         return;
     }
     if (n == 1) {
-        p = (u8 *)TObjPlayer::get_player_data(0);
+        p = TObjPlayer::get_player_data(0);
         set_target_player(p);
         return;
     }
     idx = (s32)floor_to_float((f32)n * random_ratio());
     enemy_clear_target();
     for (i = 0; i < n; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(idx);
-        if (((TObjBase *)p)->is_alive() != 0) {
+        p = TObjPlayer::get_player_data(idx);
+        if (p->is_alive() != 0) {
             set_target_player(p);
             return;
         }
@@ -3662,7 +3661,7 @@ NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(bos
 
 NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return get_bml_model(boss7_derolle_c_bml_resource, index); }
 
-AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
+NJS_MOTION *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
 void TBoss7DeRolLeC::restore_joint_polygons() {
     NJS_OBJECT *model;
     s32 i;

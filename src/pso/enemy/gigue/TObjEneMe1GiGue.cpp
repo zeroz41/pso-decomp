@@ -49,7 +49,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
@@ -61,8 +61,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/enemy/BattleParamTables.h"
 
-s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
-f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
 player_stats *ene_me1_gigue_boss_id;
 AttackParams *gigue_attack_params;
 ActorParamBlock *gigue_resistance_params;
@@ -134,11 +132,11 @@ void TObjEneMe1GiGue::load_params_from_table(s32 i) {
 
 void TObjEneMe1GiGue::update_attack() {  }
 
-f32 get_gigue_float_parameter(TObjEneMe1GiGue *self, s32 i) {
+f32 TObjEneMe1GiGue::get_gigue_float_parameter(s32 i) {
     return me1_gi_gue_param_table->floats[i];
 }
 
-s32 get_gigue_int_parameter(TObjEneMe1GiGue *self, s32 i) {
+s32 TObjEneMe1GiGue::get_gigue_int_parameter(s32 i) {
     return me1_gi_gue_param_table->ints[i];
 }
 
@@ -371,7 +369,7 @@ void TObjEneMe1GiGue::render() {
             return;
         }
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     select_actor_lighting(this);
     toggle_particle_effect();
     ok = 1;
@@ -742,8 +740,8 @@ void TObjEneMe1GiGue::update_technique_state() {
             if (frame >= 10.0f) {
                 capture_shot_origins();
                 state = 3;
-                TTecZarua::create_instance(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
-                TTecJelin::create(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
+                TTecZarua::create_instance(this, &body_center, &body_center, get_gigue_int_parameter(2));
+                TTecJelin::create(this, &body_center, &body_center, get_gigue_int_parameter(2));
             }
             break;
         }
@@ -828,7 +826,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         s32 rising;
         this->actorFlags &= ~0x800000;
         this->advance_animation();
-        calc_velocity_toward_destination(this, this->position, this->moveDestination, get_gigue_float_parameter(this, 0));
+        calc_velocity_toward_destination(this, this->position, this->moveDestination, get_gigue_float_parameter(0));
         rising = 1;
         if (this->requested_action == 6 && this->frame < 22.0f) {
             rising = 0;
@@ -848,7 +846,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
     }
     case 3:
         this->advance_animation();
-        calc_velocity_toward_destination(this, this->position, this->moveDestination, get_gigue_float_parameter(this, 0));
+        calc_velocity_toward_destination(this, this->position, this->moveDestination, get_gigue_float_parameter(0));
         this->velocity.y = 0.0f;
         VecCopy(&this->prev_position, &this->position);
         vec3_add_to(&this->position, &this->velocity);
@@ -1014,7 +1012,7 @@ void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
         angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;
         new TObjEneMe1GiGueHomingShot(&shotOrigin, targetIds[index], &angles, index * 3,
-                          random_ratio() <= get_gigue_float_parameter(this, 5),
+                          random_ratio() <= get_gigue_float_parameter(5),
                           entity_id);
     }
 }
@@ -1151,7 +1149,7 @@ void TObjEneMe1GiGue::init() {
 
 void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
     int angle;
-    if (this->targetCount < 12 && target != NULL && (void *)target != (void *)this && !(target->actorFlags & 0x06000800)) {
+    if (this->targetCount < 12 && target != NULL && target != this && !(target->actorFlags & 0x06000800)) {
         Vec v = target->position;
         subtract_vector(&v, &this->position);
         if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {
@@ -1192,14 +1190,14 @@ void TObjEneMe1GiGue::update_direction() {
 }
 
 void TObjEneMe1GiGue::load_params() {
-    gigue_missile_speed = get_gigue_float_parameter(this, 1);
-    gigue_shot_speed = get_gigue_float_parameter(this, 2);
-    gigue_shot_homing = get_gigue_float_parameter(this, 3);
-    gigue_shot_homing_step = get_gigue_float_parameter(this, 4);
-    gigue_missile_power = get_gigue_int_parameter(this, 0);
-    gigue_shot_power = get_gigue_int_parameter(this, 1);
-    barrierDuration = (s32)(30.0f * (f32)get_gigue_int_parameter(this, 3));
-    attackDuration = get_gigue_int_parameter(this, 4);
+    gigue_missile_speed = get_gigue_float_parameter(1);
+    gigue_shot_speed = get_gigue_float_parameter(2);
+    gigue_shot_homing = get_gigue_float_parameter(3);
+    gigue_shot_homing_step = get_gigue_float_parameter(4);
+    gigue_missile_power = get_gigue_int_parameter(0);
+    gigue_shot_power = get_gigue_int_parameter(1);
+    barrierDuration = (s32)(30.0f * (f32)get_gigue_int_parameter(3));
+    attackDuration = get_gigue_int_parameter(4);
 }
 
 #pragma pool_data off
@@ -1307,7 +1305,7 @@ void TObjEneMe1GiGue::clear_barrier_active() { behavior_flags &= ~0x80000; }
 f32 TObjEneMe1GiGue::receive_physical_attack(TObjChara *attacker, f32 power) {
     f32 damage = 0.0f;
     if (behavior_flags & 0x80000) {
-        show_miss_popup(&body_center.x);
+        show_miss_popup(&body_center);
         set_state(10);
     } else {
         damage = TObjChara::receive_physical_attack(attacker, power);
@@ -1318,7 +1316,7 @@ f32 TObjEneMe1GiGue::receive_physical_attack(TObjChara *attacker, f32 power) {
 f32 TObjEneMe1GiGue::receive_direct_attack(TObjBase *attacker, DirectAttackPayload hit, CollisionBody *source, s32, s32) {
     f32 damage = 0.0f;
     if (behavior_flags & 0x80000) {
-        show_miss_popup(&body_center.x);
+        show_miss_popup(&body_center);
         set_state(10);
     } else {
         damage = TObjChara::receive_direct_attack(attacker, hit, source, -1, -1);
@@ -1329,7 +1327,7 @@ f32 TObjEneMe1GiGue::receive_direct_attack(TObjBase *attacker, DirectAttackPaylo
 f32 TObjEneMe1GiGue::receive_weapon_special_attack(TObjChara *attacker, CollisionBody *weapon) {
     f32 damage = 0.0f;
     if (behavior_flags & 0x80000) {
-        show_miss_popup(&body_center.x);
+        show_miss_popup(&body_center);
         set_state(10);
     } else {
         damage = TObjChara::receive_weapon_special_attack(attacker, weapon);

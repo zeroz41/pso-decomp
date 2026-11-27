@@ -54,6 +54,8 @@ struct CharacterSaveRecord {
     s32 find_bank_item(TItemData *item);
     // Puts item in the first free bank row; 0 when the bank is full.
     s32 register_in_free_room_slot(TItemData *item);
+    // Marks the slot as holding a character and empties its bank.
+    s32 init_char_slot_record();
 
     s32 flags;              // set_global_flags / clear_flags / check_flag
     s32 creation_seconds;   // when the character was made; tells two records of one slot apart
@@ -99,7 +101,7 @@ LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
 
 // In split screen the record of player `client` (0xFFFF: the first player), otherwise the active
 // character's record.
-saddr get_character_save_record(u32 client);
+CharacterSaveRecord *get_character_save_record(u32 client);
 
 // The decoded challenge rank title of the record get_character_save_record(0xFFFF) returns, in a
 // shared buffer.

@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
+#include "pso/item/shop/ShopToolStock.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -31,11 +32,6 @@ extern const char *shop_item_tec_sequence_class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
-}
-extern "C" {
-
-
-extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on
@@ -140,7 +136,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
         choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         choice_menu->calc_window_size();
-        align_menu_entry_positions(choice_menu);
+        choice_menu->align_menu_entry_positions();
         choice_menu->set_ready_flag();
         choice_menu->set_position_xy(get_scale(), get_scale());
     }

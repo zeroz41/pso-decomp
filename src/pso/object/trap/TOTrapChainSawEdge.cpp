@@ -176,7 +176,7 @@ NJS_OBJECT *TOTrapChainSaw::get_model(s32 index) {
     return NULL;
 }
 
-AnimationMotion *TOTrapChainSaw::get_motion(s32 index) {
+NJS_MOTION *TOTrapChainSaw::get_motion(s32 index) {
     if (jungle_nokogiri_resource != NULL) {
         return get_bml_motion(jungle_nokogiri_resource, index);
     }
@@ -258,7 +258,7 @@ void TOTrapChainSaw::update_state() {
     (this->*tbl[behavior])();
     if (motion != NULL) {
         animation_end_frame = animation_end_frame + animation_step;
-        if (animation_end_frame > (f32)(motion->frameCount - 1)) {
+        if (animation_end_frame > (f32)(motion->nbFrame - 1)) {
             animation_end_frame = 0.0f;
         }
     }
@@ -571,7 +571,7 @@ void TOTrapChainSawKey::hit_player(TObjPlayer *) {
 void TOTrapChainSawKey::update_state() {
     TOTrapChainSaw::update_state();
     light_frame = light_frame + light_frame_step;
-    if (light_frame > (f32)(light_motion->frameCount - 1)) {
+    if (light_frame > (f32)(light_motion->nbFrame - 1)) {
         light_frame = 0.0f;
     }
     play_persistent_sound(get_area_sound(2), this, &position, 0, 0);

@@ -6,7 +6,7 @@
 #include "pso/system/task/TObject.h"
 
 class TTitleMenu;
-class TUnk_804EE470;
+class TTitleLogo;
 class TTitleBackground;
 
 class TTitleScene : public TObject {
@@ -26,7 +26,7 @@ public:
     void close_auxiliary_window();
 
     TTitleBackground *title_layer;
-    TUnk_804EE470 *overlay_layer;
+    TTitleLogo *overlay_layer;
     TTitleMenu *transition_controller;
     s32 m_28;
     TObject *auxiliary_window;
@@ -55,5 +55,8 @@ struct LobbyLoadCallback {
     void (*load)(void);
     void (*release)(void);
 };
+
+void title_choice_stub(TTitleScene *scene);
+void initialize_lobby_title_scene(void);
 
 #endif

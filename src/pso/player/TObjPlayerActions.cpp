@@ -1,3 +1,4 @@
+#include "pso/player/PlayerClassStats.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -62,12 +63,11 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/weapon/TItemWeaponHeavenPunisher.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TForceOperate.h"
-#include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/subcommand_validation.h"
@@ -78,6 +78,7 @@
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/item/item_pmt.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
@@ -88,14 +89,12 @@
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
 #pragma pop
 
 
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma pop
 
 
@@ -125,7 +124,7 @@ extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 
 const f64 freeze_escape_timer_scale = 0.1;
-const f64 lbl_80447148 = 10430.38043493439;
+const f64 player_radians_to_angle_scale = 10430.38043493439;
 
 }
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
@@ -474,11 +473,8 @@ s16 TObjPlayer::select_idle_action() {
             if (keyboard_is_key_down(0x2D) != 0) {
                 return action_provider->get_key_4_action();
             }
-            goto block_109;
         }
-        goto block_109;
     }
-block_109:
     return get_no_action();
 }
 
@@ -1131,11 +1127,10 @@ s32 TObjPlayer::try_change_action() {
 
 void TObjPlayer::clear_flag() { clear_actor_flags((uaddr)((void*)((void*)65536))); clear_velocity(); }
 
-void TObjPlayer::apply_velocity_if_free(TObjPlayer *player) {
-    TObjPlayer *p = player;
-    void *x = (void *)p->resolve_move_collision();
+void TObjPlayer::apply_velocity_if_free() {
+    void *x = (void *)resolve_move_collision();
     if (x == NULL) {
-        p->apply_velocity();
+        apply_velocity();
     }
 }
 
@@ -1234,7 +1229,7 @@ void TObjPlayer::run_service_hold_state_phase(s16 phase) {
         this->enter_service_hold_action();
         return;
       case 1:
-        apply_velocity_if_free(this);
+        apply_velocity_if_free();
         return;
       case 6:
         this->clear_flag();
@@ -1582,11 +1577,11 @@ void TObjPlayer::enter_death_state() {
     }
     if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (TTecCtrl::is_technique_ready() == 0)) {
         if (TObjPlayer::is_single_screen() != 0) {
-            character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)(this->get_entity_id()));
+            character_save_record = get_character_save_record((u16)(this->get_entity_id()));
             character_save_record->death_count += 1;
             return;
         }
-        save_record = (CharacterSaveRecord *)get_character_save_record((u16)(0xFFFFU));
+        save_record = get_character_save_record((u16)(0xFFFFU));
         save_record->death_count += 1;
     }
 }
@@ -1789,12 +1784,12 @@ void TObjPlayer::begin_fall_reaction() {
     z = this->velocity.z;
     x = this->velocity.x;
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
-        this->rotation_y = (s32) ((s32) (lbl_80447148 * atan2_float(x, z)) + 0x8000);
+        this->rotation_y = (s32) ((s32) (player_radians_to_angle_scale * atan2_float(x, z)) + 0x8000);
     }
     if (test_actor_flags(0x800) != 0) {
         drop_items_on_death();
     }
-    TObjPlayer::spawn_effect((saddr)this);
+    start_fall_rumble();
     if ((this == NULL) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
@@ -1983,7 +1978,7 @@ void TObjPlayer::update_action11_movement() {
     }
 }
 
-void TObjPlayer::begin_action_0xB() {
+void TObjPlayer::begin_action11() {
     this->action_state = 0xB;
     run_action_state_phase(this->mode, 6);
     if (obj_isState2_324() != 0) {
@@ -2034,7 +2029,7 @@ void TObjPlayer::run_action11_phase(s16 phase) {
         this->send_6x51_set_player_angle();
         return;
       case 0:
-        this->begin_action_0xB();
+        this->begin_action11();
         return;
       case 1:
         update_action11_movement();
@@ -2140,13 +2135,12 @@ s32 TObjPlayer::can_guard() {
     return 0;
 }
 
-void TObjPlayer::set_flag_0x100000() { clear_velocity(); set_actor_flags(0x100000); }
+void TObjPlayer::stop_and_set_lock_on_flag() { clear_velocity(); set_actor_flags(0x100000); }
 
-void TObjPlayer::apply_velocity_if_free(saddr owner) {
-    TObjPlayer *p = (TObjPlayer *)owner;
-    p->damp_planar_velocity();
-    if (p->resolve_move_collision() == 0U) {
-        p->apply_velocity();
+void TObjPlayer::apply_damped_velocity_if_free() {
+    damp_planar_velocity();
+    if (resolve_move_collision() == 0U) {
+        apply_velocity();
     }
 }
 
@@ -2250,10 +2244,10 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         this->start_use_item_action();
         return;
       case 1:
-        TObjPlayer::apply_velocity_if_free((saddr)this);
+        apply_damped_velocity_if_free();
         return;
       case 6:
-        set_flag_0x100000();
+        stop_and_set_lock_on_flag();
         break;
     }
   }
@@ -2717,7 +2711,7 @@ s32 TObjPlayer::try_equip_item(s16 tech) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void tail_801CCD38(TObjPlayer *p, s32 t, s8 lvl) {
+inline void start_technique_cast_from_packet(TObjPlayer *p, s32 t, s8 lvl) {
     switch (t) {
     case 10:
     case 11:
@@ -2768,13 +2762,13 @@ void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command) 
     if (lvl == 0xE) {
         lvl += p->technique_state.get_valid_technique();
     }
-    if (p->technique_state.check_technique_level((s16)tech, (u8)lvl) == 0) {
+    if (p->technique_state.check_technique_level(tech, (u8)lvl) == 0) {
         lvl = 0;
     }
     ul = lvl;
     p->technique_state.set_level(ul);
     TObjPlayer::set_technique_level_clamped(p, ul, tech);
-    tail_801CCD38(p, tech, lvl);
+    start_technique_cast_from_packet(p, tech, lvl);
 }
 #pragma pop
 
@@ -2843,7 +2837,7 @@ void TObjPlayer::exit_technique_cast() {
 
 void TObjPlayer::update_technique_cast() {
     s16 phase;
-    u8 *cast_record;
+    const PlayerCastMotionRecord *cast_record;
     this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (this->target_heading));
     cast_record = get_cast_motion_record();
     phase = this->phase;
@@ -2877,7 +2871,7 @@ void TObjPlayer::update_technique_cast() {
         }
         break;
     case 2:
-        if (this->is_passing_frame((f32) (*(f32 *)((s8 *)cast_record + 0xC))) != 0) {
+        if (this->is_passing_frame(cast_record->release_frame) != 0) {
             this->phase = 3;
             this->clear_state_flags(0x80);
             pause_motion();
@@ -3410,8 +3404,8 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         f32 accuracy;
-        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon(this) != NULL &&
-            get_equipped_weapon(this)->is_identified() == 0) {
+        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon() != NULL &&
+            get_equipped_weapon()->is_identified() == 0) {
             if ((f32)get_ata() < 0.0f) {
                 accuracy = 0.0f;
             } else {
@@ -3443,7 +3437,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             hit = 1;
             ItemSoundRequest sound;
             sound.clear();
-            TItem *item = get_equipped_weapon(this);
+            TItem *item = get_equipped_weapon();
             if (item != NULL) {
                 sound.group = item->get_item_group();
                 sound.index = item->get_item_index();
@@ -3473,7 +3467,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         hit = 1;
                         ItemSoundRequest sound;
                         sound.clear();
-                        TItem *item = get_equipped_weapon(this);
+                        TItem *item = get_equipped_weapon();
                         if (item != NULL) {
                             sound.group = item->get_item_group();
                         }
@@ -3507,7 +3501,7 @@ void handle_6x46_attack_finished(G_AttackFinished_6x46 *command) {
     if (validate_6x46_attack_finished(&packet) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
             pl->attack_state.set_lockon_targets(&packet.targets);
-            it = TObjPlayer::get_equipped_weapon(pl);
+            it = pl->get_equipped_weapon();
             if (it != NULL) {
                 it->perform_action();
                 return;
@@ -3546,16 +3540,15 @@ s32 TObjPlayer::select_attack_palette_slot() {
 
 s32 TObjPlayer::check_mode_action(s32 action) {
     if (action == 2) {
-        TItem *weapon = get_equipped_weapon(this);
+        TItem *weapon = get_equipped_weapon();
         if (weapon != NULL) {
             if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                 return 0;
             }
-            goto block_5;
+        } else {
+            return 0;
         }
-        return 0;
     }
-block_5:
     return can_perform_physical_action();
 }
 
@@ -3603,7 +3596,7 @@ void TObjPlayer::apply_movement_if_ready() {
 }
 
 void TObjPlayer::update_anim_action() {
-    get_equipped_weapon(this);
+    get_equipped_weapon();
     if (this->get_handle_value() != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
             send_attack_target_packet();
@@ -3614,8 +3607,8 @@ void TObjPlayer::update_anim_action() {
         if (this->attack_state.get_flags()->test_flags_any(8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
-                increment_burst_counter((u8 *)&this->attack_state);
-                if (get_burst_counter(&this->attack_state) >= 3) {
+                this->attack_state.increment_burst_count();
+                if (this->attack_state.get_burst_count() >= 3) {
                     this->attack_state.get_flags()->set(8);
                     this->attack_state.register_strike(this);
                     pause_motion();

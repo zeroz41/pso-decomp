@@ -6,7 +6,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
@@ -32,6 +32,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
@@ -109,7 +110,6 @@ s32 bm5_wolf_render_joint_y_rotation;
 }
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
 
@@ -126,7 +126,7 @@ void __register_global_object(void *obj, void (*dtor)(), void *chain);
 void __dt__18TObjEneBm5WolfListFv();
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = (void *)TObjEneBm5Wolf::register_global_objects;
+__declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = TObjEneBm5Wolf::register_global_objects;
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
@@ -616,7 +616,7 @@ void TObjEneBm5Wolf::play_proximity_effect() {
 }
 
 f32 TObjEneBm5Wolf::calc_death_slide_speed(f32 speed) {
-    return (28.0f) / ((this->motion_list[this->action_table[9].motion].motion->frameCount - 1) / speed);
+    return (28.0f) / ((this->motion_list[this->action_table[9].motion].motion->nbFrame - 1) / speed);
 }
 
 int TObjEneBm5Wolf::get_flag_bit0() { return this->entity_id & 0x1; }
@@ -1122,7 +1122,7 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
         if ((s16) this->requested_action == 2) {
             play_proximity_effect();
         }
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+        if (validate_target() != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
             if (this->frame >= 15.0f) {
@@ -1171,7 +1171,7 @@ void TObjEneBm5Wolf::flanking_state(s32 event) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)((u8 *)this))->update_death_check() != 0) {
+        if (validate_target() != 0) {
             if (is_passing_frame(5.0f) != 0) {
                 spawn_particle_effect(&this->position, 0xF3);
             }
@@ -1269,7 +1269,7 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
         break;
     case 0:
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+        if (validate_target() != 0) {
             if (this->random_phase == 0) {
                 Vec fwd;
                 Vec to;
@@ -1532,7 +1532,7 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
     case 0:
         this->substate++;
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+        if (validate_target() != 0) {
             play_footsteps();
             this->target_heading = approach_angle_limited(this->target_heading, this->base_heading, 0x100);
             this->destination.x = 90.0f * sin_table_lookup(this->target_heading) + home->x;
@@ -1861,7 +1861,7 @@ void TObjEneBm5Wolf::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1910,7 +1910,7 @@ void TObjEneBm5Wolf::render_debug() {
     f32 frame;
     s32 idx;
     u32 n;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     TObjEneBm5Wolf *leader;
 
     if (this->get_target_info() != 0) {
@@ -1923,7 +1923,7 @@ void TObjEneBm5Wolf::render_debug() {
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -1938,7 +1938,7 @@ void TObjEneBm5Wolf::render_debug() {
         if (frame < 0.0f) {
             frame = 0.0f;
         } else {
-            n = motion->frameCount;
+            n = motion->nbFrame;
             if (frame > (n - 1)) {
                 frame = (f32) n;
             }

@@ -57,7 +57,7 @@ public:
     static void free_buffers();
     static void begin_file_download(TRecvDownloadHead &download_head);
     static void receive_file_chunk(TRecvDownload &download);
-    static s32 verify_checksum(const void *data, s32 size);
+    static s32 verify_checksum(const u8 *data, s32 size);
     void close_window();
     void update_mc_select();
     void open();
@@ -87,7 +87,7 @@ public:
     static void reset_download();
 public:
     static void encrypt_download_data(u32 *data, s32 size);
-    static void unshuffle_and_decrypt(void *data, s32 size);
+    static void unshuffle_and_decrypt(u8 *data, s32 size);
 public:
 };
 LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A8);

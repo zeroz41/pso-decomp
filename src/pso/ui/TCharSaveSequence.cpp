@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/memory.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/system/TScreenFadeOut.h"
@@ -14,17 +13,18 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include <string.h>
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #pragma push
 
 #include "types.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/PadRumble.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/audio/MusicControl.h"
@@ -41,7 +41,7 @@
 #include "pso/system/save/CharacterFile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
@@ -66,7 +66,6 @@ s32 char_save_message_flags;
 extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
-s32 start_memcard_read(s32, void *, u32, s32);
 }
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -244,7 +243,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(obj->get_selected_record(), get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 char_save_message_flags &= ~1;
@@ -272,7 +271,7 @@ void TCharSaveSequence::start_character_read() {
     switch (TAdPlayerLoadGC::get_card_file_info(chr_select_state, pso_character_card_filename.filename, 0)) {
     case 0:
         if (download_buffer != 0) {
-            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, (uaddr)download_buffer, flag_count)) {
+            switch (start_memcard_read(chr_select_state, pso_character_card_filename.filename, download_buffer, flag_count)) {
             case 0:
                 state = 3;
                 break;

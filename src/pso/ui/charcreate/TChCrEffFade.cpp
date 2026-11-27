@@ -1,7 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -13,9 +15,6 @@
 
 const char *TChCrEffFade::class_name = "TChCrEffFade";
 
-extern "C" {
-u32 __cvt_fp2unsigned(f32);
-}
 
 void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from
@@ -123,7 +122,6 @@ void TChCrEffFade::run_task() {
     }
 }
 
-extern TObject *tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
 TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(tl_fade) {
@@ -151,10 +149,10 @@ TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(t
     mode = unused;
 }
 
-void *TObjCMMainMenu::create_fade(void *duration, void *mode) {
-    return new TChCrEffFade(-1, (saddr)duration, (saddr)mode);
+TChCrEffFade *TObjCMMainMenu::create_fade(s32 duration, s32 mode) {
+    return new TChCrEffFade(-1, duration, mode);
 }
 
-void *create_fade_effect(s32 duration, s32 mode) {
+TChCrEffFade *create_fade_effect(s32 duration, s32 mode) {
     return new TChCrEffFade(1, duration, mode);
 }

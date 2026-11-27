@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -18,7 +18,7 @@ struct TObjDFDemoF : public TObjBase {
     s32 timer;
     NJS_OBJECT *models[3];
     NJS_TEXLIST *textures[3];
-    AnimationMotion *motions[3];
+    NJS_MOTION *motions[3];
     f32 frame;
     static const char *name;
     static s32 bml_model_id_table[3];

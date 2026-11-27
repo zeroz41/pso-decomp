@@ -7,7 +7,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"

@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/GuildCardEntry.h"
 #pragma defer_codegen on
 
@@ -29,7 +30,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -42,7 +43,6 @@ static const NJS_POINT2 short_mail_item_size = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
 
-extern TObject *tl_00;
 
 s8 ShortMailEntry::get_flags() { return flags; }
 
@@ -436,7 +436,7 @@ TWindowMenu *TWindowSubShortMail::create_menu(void) {
     }
     list->set_flag70_bit10();
     list->update_layout_height(179.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -456,7 +456,7 @@ TWindowMenu *TWindowSubShortMail::build_menu(void) {
     list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 
@@ -561,15 +561,15 @@ void TWindowSubShortMail::update_mail_count() {
 }
 
 void TWindowSubShortMail::close() {
-    saddr src;
+    char *src;
     s32 short_mail_ctrl;
     ShortMailEntry *mail;
     s32 i;
 
-    src = (saddr)this->keyboard->realloc_buffer();
-    mask_profanity_words((char *)src, get_shared_text_buffer());
+    src = this->keyboard->realloc_buffer();
+    mask_profanity_words(src, get_shared_text_buffer());
     TLobby::send_simple_mail(this->target_card_id, (get_shared_text_buffer()));
-    mem_free((void *)src);
+    mem_free(src);
     short_mail_ctrl = TLobby::get_short_mail_ctrl();
     for (i = 0; i < short_mail_ctrl; i += 1) {
         mail = get_short_mail_entry(i);

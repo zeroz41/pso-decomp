@@ -1,6 +1,7 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/item/drop/TItemDrop.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
@@ -24,7 +25,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
-// The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
 extern "C" {
@@ -85,7 +85,7 @@ TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(paren
     dfp_range = pmt->dfp_range;
     evp_range = pmt->evp_range;
     dfp_bonus = TItemData::getS16_06(item);
-    evp_bonus = TItemData::get_bswap16_field8(item);
+    evp_bonus = TItemData::get_evp_bonus(item);
     shield_flags = 0;
     set_attach_joint(0x24);
     apply_shield_effect_flags();
@@ -172,8 +172,9 @@ void TItemProShield::update_owned() {
 }
 
 void TItemProShield::carry_over_stats(TItemData *data, TItem *item) {
-    data->set_dfp_bonus(((TItemProShield *)item)->dfp_bonus);
-    data->set_evp_bonus(((TItemProShield *)item)->evp_bonus);
+    TItemProShield *shield = (TItemProShield *)item;
+    data->set_dfp_bonus(shield->dfp_bonus);
+    data->set_evp_bonus(shield->evp_bonus);
 }
 
 void TItemProShield::on_update_equipped() {}
@@ -182,7 +183,7 @@ void TItemProShield::request_equipped_model() { request_item_model(); }
 
 void TItemProShield::draw_at_joint(s32 joint) {
     if ((item_model != NULL) && (owner != NULL) && (test_actor_flags(0x08000000) == 0) && (is_hidden() == 0)) {
-        push_matrix_from((void *)owner->get_joint_matrix(joint));
+        push_matrix_from(owner->get_joint_matrix(joint));
         TEquippedWeaponDrawTask::save_model_render_state();
         model_render_flags &= ~0x10;
         TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());

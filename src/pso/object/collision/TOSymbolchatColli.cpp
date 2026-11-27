@@ -31,7 +31,7 @@ void TOSymbolchatColli::open_balloon_chat(s32 state, u16 player) {
 }
 
 // switch_ids[i] and preset_ids[i] through one base; the array spellings give sthx per store
-struct HL_8017873C
+struct SymbolChatIdPair
 {
   u8 pad[0x378];
   u16 hi;
@@ -89,7 +89,7 @@ void TOSymbolchatColli::init_collision_params() {
       balloon_chats[i] = symbolchat_colli_param_table[i];
     }
     {
-      HL_8017873C *h = (HL_8017873C *) (((u8 *) this) + (i * 2));
+      SymbolChatIdPair *h = (SymbolChatIdPair *) (((u8 *) this) + (i * 2));
       if (hi < 0x100)
       {
         h->hi = hi;
@@ -136,7 +136,7 @@ void TOSymbolchatColli::run_task() {
 }
 
 void *TOSymbolchatColli::create(void *set_data) {
-    return new TOSymbolchatColli(tl_05, (saddr)set_data);
+    return new TOSymbolchatColli(tl_05, set_data);
 }
 
 void TOSymbolchatColli::free_rock() { mem_free(symbol_chat_colli_entries); symbol_chat_colli_entries = NULL; }
@@ -162,10 +162,10 @@ TOSymbolchatColli::~TOSymbolchatColli() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOSymbolchatColli::TOSymbolchatColli(TObject *parent, saddr set_data) : TObjChara(parent) {
+TOSymbolchatColli::TOSymbolchatColli(TObject *parent, void *set_data) : TObjChara(parent) {
     s32 i;
     m_name = symbolchat_colli_name;
-    apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     init_collision_body_parts(this, symbolchatcolli_collision_body_parts, 1);
     this->register_object_by_id();
     this->init_collision_params();

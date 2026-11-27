@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/ui/window/HelpWindowToggle.h"
@@ -41,8 +41,8 @@ extern const f32 customize_help_window_size[2] = {190.0f, 168.0f};
 TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     main_menu = parent;
     client_id = client;
-    custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
-    ((TWindowBase *)custom_equip)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
+    custom_equip = new TWindowSubCustomEquip(client_id);
+    custom_equip->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
     help_window = TWindowMessage::create(get_window_layout_position(0x11), customize_help_window_size, 1, client_id);
     help_window->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
@@ -61,8 +61,8 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
         help_window->close();
         help_window = NULL;
     }
-    if ((void *)custom_equip != NULL) {
-        ((TWindowBase *)custom_equip)->close();
+    if (custom_equip != NULL) {
+        custom_equip->close();
         custom_equip = 0;
     }
 }
@@ -76,15 +76,15 @@ void TCustomizeMenuCtrl::run_task() {
             custom_select->close();
             custom_select = NULL;
         }
-        ((TWindowSubCustomEquip *)(this->custom_equip))->clear_flag_and_set_entry_state();
+        this->custom_equip->clear_flag_and_set_entry_state();
         state = 2;
     case 2:
-        ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
+        this->custom_equip->get_cursor_pos(&ev);
         update_customize_help_text(&ev);
-        if (is_custom_equip_cancelled((void *)this->custom_equip) != 0) {
+        if (is_custom_equip_cancelled(this->custom_equip) != 0) {
             main_menu->on_submenu_closed();
             state = 5;
-        } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {
+        } else if (this->custom_equip->is_selected() != 0) {
             state = 3;
         }
         break;
@@ -99,7 +99,7 @@ void TCustomizeMenuCtrl::run_task() {
         }
         if (custom_select->is_active() != 0) {
             PaletteAction *e = const_cast<PaletteAction *>(custom_select->get_selected_action());
-            ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
+            this->custom_equip->toggle_action_binding(e);
             state = 1;
         }
         break;
@@ -132,7 +132,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
         break;
     case 2:
         if (ev->slot == 2) {
-            TItem *weapon = TObjPlayer::get_equipped_weapon(pl);
+            TItem *weapon = pl->get_equipped_weapon();
             if (weapon == NULL || weapon_has_extra_attack((TItemWeapon *)weapon) != 1) {
                 break;
             }

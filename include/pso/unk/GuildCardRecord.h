@@ -29,6 +29,8 @@ struct GuildCardRecord {
 
 // The com-card record picked in the com-card or choice-search windows (load_selected_guild_card_record).
 extern GuildCardRecord selected_guild_card_record;
+struct ChoiceSearchResult;
+void load_selected_guild_card_record(ChoiceSearchResult *result);
 
 char *get_guild_card_s2a(GuildCardRecord *entry);
 // Copies the record's ship name to lobby_ship_name and asks the server to move to the card owner.
@@ -39,7 +41,7 @@ class TUserAns;
 void handle_user_search_answer(TUserAns &response);
 void add_found_user_com_card(TUserAns &response);
 void find_and_load_com_card(u32 serial);
-void init_player_entry(GuildCardRecord *entry, u8 *response);
+void init_player_entry(GuildCardRecord *entry, TUserAns *response);
 s32 remove_com_card_by_id(u32 id);
 void remove_com_card_entry(s32 index);
 char *build_text_from_comma_list(char *list);

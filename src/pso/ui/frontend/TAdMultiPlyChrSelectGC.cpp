@@ -41,7 +41,6 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 u8 player_number_text_buffer[0x80];
@@ -1803,7 +1802,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
     menu->add_text_entry(get_localized_text_entry(0x1F, 5), 6, 3);
     menu->update_layout_height(224.0f);
     menu->set_selected_index(0);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }
 

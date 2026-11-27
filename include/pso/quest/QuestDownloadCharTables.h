@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-// Character-code tables of the quest text converter, .rodata 0x8047E698-0x8047EA28, defined by
-// QuestDownloadCharTables.c (interim data-only unit). Read by TQuestVmDownLoadServer_803E6970.
+// Character-code tables of the quest text converter, defined by
+// QuestDownloadCharTables.c (interim data-only unit). Read by AskDicFile.cpp.
 
 // JIS symbol code and the single-byte code it maps to.
 typedef struct JisSymbolEntry {

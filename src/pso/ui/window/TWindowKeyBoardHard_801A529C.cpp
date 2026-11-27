@@ -21,7 +21,7 @@ s32 deferred_packet_buffer_state;
 s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u32)client);
+    character_save_record = get_character_save_record((u32)client);
     if (character_save_record == NULL) {
         return 0;
     }
@@ -31,7 +31,7 @@ s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
 void TWindowKeyBoardHard::set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask) {
     CharacterSaveRecord *character_save_record;
 
-    character_save_record = (CharacterSaveRecord *)get_character_save_record((u32)client_id);
+    character_save_record = get_character_save_record((u32)client_id);
     if (character_save_record != NULL) {
         character_save_record->card_window_flags = (s32) (character_save_record->card_window_flags & keep_mask);
         character_save_record->card_window_flags = (s32) (character_save_record->card_window_flags | bits);
@@ -89,7 +89,6 @@ void alloc_work_buffer(void) {
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }
 
-extern "C" {
 
 // Sends what the packet's send buffer holds, padded to a multiple of 4 bytes
 // (TGameProtocol::run_task clears the buffer afterwards).
@@ -117,4 +116,3 @@ void append_command_to_batch_buffer(TPacket *batch, u8 *cmd) {
     }
 }
 
-}

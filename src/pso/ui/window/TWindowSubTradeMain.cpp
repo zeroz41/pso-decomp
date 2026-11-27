@@ -27,7 +27,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -147,7 +146,7 @@ void TWindowSubTradeMain::run_task() {
     saddr n;
     const char *error_text;
     player = is_player_input_active(this->client_id);
-    if (this->chat->is_mode_bit4() != 0 && chat_accept_submission((saddr)&this->submission) != 0) {
+    if (this->chat->is_mode_bit4() != 0 && chat_accept_submission(&this->submission) != 0) {
         consume_active_flag(this->chat);
     }
     if (this->chat->is_visible() != 0) {
@@ -541,7 +540,7 @@ TWindowMenu *TWindowSubTradeMain::build_trade_menu() {
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDD), 6, 0x14, (int) 0xFFEE946E);
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   titled_window_menu->update_layout_height(282.0f);
-  align_menu_entry_positions(titled_window_menu);
+  titled_window_menu->align_menu_entry_positions();
   return titled_window_menu;
 }
 
@@ -553,7 +552,7 @@ TWindowMenu *TWindowSubTradeMain::create_trade_menu() {
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
   titled_window_menu->add_text_entry(TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
   titled_window_menu->update_layout_height(282.0f);
-  align_menu_entry_positions(titled_window_menu);
+  titled_window_menu->align_menu_entry_positions();
   return titled_window_menu;
 }
 

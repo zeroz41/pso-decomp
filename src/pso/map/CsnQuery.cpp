@@ -1,6 +1,7 @@
 #include "pso/system/memory.h"
 #include "libc/ctype.h"
 #include "types.h"
+#include "pso/map/MapCollisionSetup.h"
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/map/TObjMapCsn.h"
@@ -28,9 +29,6 @@ CsnContact csn_query_contacts[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit csn_hit_storage;
 WallRayResult csn_query_map_object;
-extern Vec scratch_vec3;
-extern Vec scratch_vec4;
-extern Vec scratch_vec5;
 extern "C" {
 
 s32 get_csn_group_flags(u8 ch) {
@@ -547,7 +545,7 @@ CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask) {
   return csn_query_groups[0];
 }
 
-CsnGroup *select_segment_query_groups(const Vec *a, const Vec *b) {
+CsnGroup *select_segment_query_groups(const Vec *from, const Vec *to) {
     Vec d;
     s32 n;
     CsnGroup *w;
@@ -561,7 +559,7 @@ CsnGroup *select_segment_query_groups(const Vec *a, const Vec *b) {
     n = 0;
     src = TObjMapCsn::get_collision_controller()->get_collision_groups();
     dst = csn_query_groups;
-    vsub(a, b, &d);
+    vsub(from, to, &d);
     lenSq = d.x * d.x + d.z * d.z;
     if (0.0f == lenSq) {
         lenSq = 1e-5f;
@@ -570,12 +568,12 @@ CsnGroup *select_segment_query_groups(const Vec *a, const Vec *b) {
     len = newton_sqrtf(lenSq);
     while ((w = *src++) != NULL) {
         if (w->flags & 0x8000) {
-            vsub(a, &w->center, &scratch_vec);
+            vsub(from, &w->center, &scratch_vec);
             dsq = vec_squared_length(&scratch_vec);
             r = len + w->radius;
             r *= r;
             if (dsq <= r) {
-                if (calc_segment_xz_distance_sq(&w->center, a, b, &d, w->radius, lenSq, inv) != 0) {
+                if (calc_segment_xz_distance_sq(&w->center, from, to, &d, w->radius, lenSq, inv) != 0) {
                     if (++n >= 0x100) {
                         break;
                     }
@@ -798,9 +796,11 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
     CsnHit *hit;
     csn_debug_hook_query_begin();
     hit = &csn_hit_storage;
-    if (query_collision_segment_groups((Vec *)from, (Vec *)to, mask) == NULL) {
+    Vec *from_vec = (Vec *)from;
+    Vec *to_vec = (Vec *)to;
+    if (query_collision_segment_groups(from_vec, to_vec, mask) == NULL) {
         hit = NULL;
-    } else if (query_segment_wall_meshes((Vec *)from, (Vec *)to, mask, csn_query_groups) == 0) {
+    } else if (query_segment_wall_meshes(from_vec, to_vec, mask, csn_query_groups) == 0) {
         hit = NULL;
     }
     csn_debug_hook_query_name("csnVector()");
@@ -829,12 +829,11 @@ void __sinit_CsnQuery_cpp(void) {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;
+__declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = __sinit_CsnQuery_cpp;
 
 
 CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }
 
-extern TMapCsnCtrl *map_csn_ctrl_instance;
 
 TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
     return map_csn_ctrl_instance;

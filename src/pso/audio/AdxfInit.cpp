@@ -18,7 +18,7 @@ const char *const volatile adxf_build_string = adxf_version_banner;
 
 AdxfLogHeader adxf_log_header;
 AdxfLogEntry adxf_log_entries[256];
-u8 afs_archive_toc_table[0x400];
+AdxfPartitionInfo *afs_archive_toc_table[256];
 AdxfHandle adxf_file_handle_pool[16];
 
 void adxf_finish(void) {

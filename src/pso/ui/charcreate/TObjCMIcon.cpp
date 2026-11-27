@@ -159,8 +159,8 @@ void TObjCMIcon::run_task() {
 
 const char *cm_icon_name_ptr = TObjCMIcon_class_name_string;
 
-void *TObjCMIcon::create(void *object) {
-    return new TObjCMIcon((TObject *)object);
+TObjCMIcon *TObjCMIcon::create(TObject *object) {
+    return new TObjCMIcon(object);
 }
 
 CreationIconGroup TObjCMIcon::icon_group_table[7] = {

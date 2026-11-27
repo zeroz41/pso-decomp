@@ -49,6 +49,7 @@ BOOL EXIAttach(s32 channel, EXICallback callback);
 BOOL EXIDetach(s32 channel);
 u32 EXIGetState(s32 channel);
 s32 EXIGetID(s32 channel, u32 device, u32* id);
+s32 EXIGetType(s32 chan, u32 dev, u32* type);
 void EXIProbeReset(void);
 
 #ifdef __cplusplus

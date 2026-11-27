@@ -8,7 +8,7 @@
 static char no_rank_title[4] = "";
 
 s32 get_challenge_title_color(u16 client_index) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client_index);
+    CharacterSaveRecord *record = get_character_save_record(client_index);
     if (record == NULL) {
         return -1;
     }
@@ -25,7 +25,7 @@ s32 challenge_title_color(ChallengeRecord *record) {
 static char no_record_title[4] = "";
 
 char *get_challenge_rank_title(u16 client) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    CharacterSaveRecord *record = get_character_save_record(client);
     if (record == NULL) {
         return no_record_title;
     }
@@ -41,7 +41,7 @@ char *decode_challenge_rank_title(ChallengeRecord *record) {
 }
 
 s32 get_challenge_rank(u16 client, s32 set) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    CharacterSaveRecord *record = get_character_save_record(client);
     s32 index;
     s32 rank;
     if (record == NULL) {
@@ -63,7 +63,7 @@ s32 get_challenge_total_time(void) {
     s32 i;
     s32 r;
     max = challenge_set_max_time(RECORD_SET_CURRENT);
-    if (is_challenge_mode() == 0 || (u32)get_character_save_record(0xFFFF) == 0) {
+    if (is_challenge_mode() == 0 || get_character_save_record(0xFFFF) == NULL) {
         return max;
     }
     sum = 0;
@@ -85,7 +85,7 @@ s32 get_challenge_set_time(u16 client, s32 set) {
     s32 r;
     s32 sum;
     s32 i;
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    CharacterSaveRecord *record = get_character_save_record(client);
     if (record == NULL) {
         return 0;
     }
@@ -104,7 +104,7 @@ s32 get_challenge_set_time(u16 client, s32 set) {
 
 s32 get_challenge_stage_time(s32 stage, u16 client, s32 set) {
     s32 count;
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    CharacterSaveRecord *record = get_character_save_record(client);
     count = challenge_set_stage_count(set);
     if (stage < 0 || stage >= count || record == NULL) {
         return 0;

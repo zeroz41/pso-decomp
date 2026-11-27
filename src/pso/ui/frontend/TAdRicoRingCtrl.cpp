@@ -1,3 +1,5 @@
+#include "clib/fp_convert.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
@@ -16,9 +18,6 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/ProjectedStripDraw.h"
 
-extern "C" {
-extern TObject *tl_04;
-}
 BmlResource *TAdRicoRing::resource_bundle;
 extern "C" {
 f32 rico_ring_quad_x_min;
@@ -34,7 +33,6 @@ s8 rico_ring_quad_z_near_ready;
 f32 rico_ring_quad_z_far;
 s8 rico_ring_quad_z_far_ready;
 s8 rico_ring_quad_vertices_ready;
-u32 __cvt_fp2unsigned(f32);
 }
 
 const char *rico_ring_model_names[2] = { "rico_ring.nj", NULL };
@@ -310,27 +308,27 @@ void TAdRicoRingCtrl::render() {
 }
 #pragma pop
 
-void TAdRicoRingCtrl::start_fade_all(f32 x) {
+void TAdRicoRingCtrl::start_fade_all(f32 duration) {
     s32 i;
     for (i = 0; i != 2; i++) {
         if (rings[i] != NULL) {
-            rings[i]->start_fade(x);
+            rings[i]->start_fade(duration);
         }
     }
-    if (0.0f != x) {
-        fade_step = -1.0f / x;
+    if (0.0f != duration) {
+        fade_step = -1.0f / duration;
     }
 }
 
-void TAdRicoRingCtrl::start_rings_anim(f32 x) {
+void TAdRicoRingCtrl::start_rings_anim(f32 duration) {
     s32 i;
     for (i = 0; i != 2; i++) {
         if (rings[i] != NULL) {
-            rings[i]->start_anim(x);
+            rings[i]->start_anim(duration);
             rings[i] = NULL;
         }
     }
-    f32 t = 2.0f + x;
+    f32 t = 2.0f + duration;
     if (0.0f != t) {
         fade_step = 1.0f / t;
     }

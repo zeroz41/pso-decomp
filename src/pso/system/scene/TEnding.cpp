@@ -1,6 +1,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/render/gjSystem.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -11,12 +12,12 @@
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby_800FC3CC.h"
+#include "pso/unk/SmallFontMetrics.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
@@ -29,7 +30,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/scene/TEndingPicStage.h"
@@ -122,9 +123,6 @@ int get_ending_c_start_seconds(void) { return 140; }
 u32 ending_frame_counter;
 s32 ending_scene_active;
 
-extern "C" {
-u32 __cvt_fp2unsigned(f32);
-}
 const char *TEnding::class_name = TEnding::class_name_string;
 
 void TEnding::run_task() {

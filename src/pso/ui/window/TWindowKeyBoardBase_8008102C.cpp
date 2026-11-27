@@ -1,4 +1,5 @@
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/math/FloatRound.h"
 #include "pso/system/memory.h"
 #include "pso/effect/TEF_LensFlare.h"
@@ -14,9 +15,6 @@
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 
-extern "C" {
-u32 __cvt_fp2unsigned(f32);
-}
 
 void KeyboardTextBuffer::init(u32 width, u32 lines) {
     if (buffer != NULL) {

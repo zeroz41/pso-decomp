@@ -6,7 +6,6 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/render/render_util.h"
@@ -39,7 +38,6 @@
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/task/TMainTask.h"
 
-extern const f32 lbl_805D9FBC; // 5.0
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/SoundEffect.h"
@@ -352,12 +350,12 @@ TObjPlayer *TObjEneRe2Flower::find_target_in_range() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 && p->obj_isState2_324() == 0) {
+        if (p->is_valid_target() != 0 && p->obj_isState2_324() == 0) {
             result = p;
             break;
         }
     }
-    if (((TObjEneDD *)result)->is_valid_target() != 0 && horizontal_distance_squared(&position, &result->position) < re2_flower_player_range_sq) {
+    if (result->is_valid_target() != 0 && horizontal_distance_squared(&position, &result->position) < re2_flower_player_range_sq) {
         return result;
     }
     return NULL;
@@ -519,16 +517,16 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         if (tick_period_counter(this, &retarget_counter, 0x14) != 0) {
             if (destination_distance > re2_flower_retarget_margin) {
                 if (is_confused() != 0) {
-                    idx = enemy_nearest_visible_enemy(this, destination_distance - re2_flower_retarget_margin);
+                    idx = enemy_nearest_visible_enemy(destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx == 0xFFFF) {
-                    idx = enemy_find_nearest_player_in_range(this, destination_distance - re2_flower_retarget_margin);
+                    idx = enemy_find_nearest_player_in_range(destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx != 0xFFFF) {
                     enemy_set_target_id(idx);
                 }
             }
-        } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        } else if (validate_target() == 0) {
             break;
         }
         enemy_copy_target_destination();

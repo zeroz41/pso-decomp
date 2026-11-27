@@ -15,7 +15,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 
 const char *TBoss2Fin::name = "TBoss2Fin";
@@ -29,7 +29,7 @@ void TBoss2Fin::render() {
     s32 j;
     s32 yaw;
     Vec v;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss2_derolle_resource->models[2].texlist));
+    set_texture_list(boss2_derolle_resource->models[2].texlist);
     seg = segments;
     end = ends;
     pt = points;

@@ -14,7 +14,7 @@ class TParticleCtrl;
 typedef void (*TItemAttackColHitWall)(s32 item_id, Vec *position, Vec *velocity);
 // Called for each target it hits: the weapon's item id, the target's
 // ActorBodyHit entry and the collider's velocity.
-typedef void (*TItemAttackColHitObject)(s32 item_id, s32 *hit, Vec *velocity);
+typedef void (*TItemAttackColHitObject)(s32 item_id, ActorBodyHit *hit, Vec *velocity);
 
 struct TItemAttackCol : public TItemAttackColBase {
     static const char *name;

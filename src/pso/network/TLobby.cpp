@@ -1,6 +1,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/network/TradeSession.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -35,6 +36,7 @@
 #include "pso/network/LegacyEnemyKill.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -49,25 +51,21 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/TLobby_8013A874.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/unk/TLobby_8013AD38.h"
+#include "pso/unk/ConnectionInputBuffers.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -80,7 +78,7 @@
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TTitleScene.h"
@@ -91,7 +89,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/quest/TQuestThread.h"
@@ -104,27 +102,17 @@
 #include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/system/ByteBlocks.h"
 
 
 #pragma readonly_strings on
 
-struct LobbyPlayerEntry {
-    u8 tag[8];
-    u32 ip_addr;
-    saddr client_id;
-    char name[16];
-    u8 char_data[0x41C];
-};
 typedef char LobbyPlayerName[16];
-struct ByteBlock_8 { u8 bytes[0x8]; };
-struct ByteBlock_10 { u8 bytes[0x10]; };
-struct ByteBlock_24 { u8 bytes[0x24]; };
-struct ByteBlock_50 { u8 bytes[0x50]; };
-struct ByteBlock_348 { u8 bytes[0x348]; };
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags);
+void queue_destruction__7TObjectFv(void *task);
 }
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
@@ -135,7 +123,6 @@ extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 }
 extern "C" {
-void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
@@ -191,7 +178,7 @@ const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
-void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
+void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
 u32 TLobby::join_entries_dtor_registration[3];
 #pragma push
@@ -218,7 +205,7 @@ extern "C" {
 void __dt__7TObjectFv(void *, int);
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = (s32 *)lbl_804A7008;
+        *(s32 **)((s8 *)object + 0x18) = (s32 *)lobby_idle_timer_vtable;
         __dt__7TObjectFv(object, 0);
         if (dtor_flags > 0) {
             TObject::operator delete(object);
@@ -345,7 +332,7 @@ void TLobby::send_game_character() {
     TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
     TAdSinglePlyChrSelectGC::init();
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &choice_search_config);
@@ -410,7 +397,7 @@ void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
             delete lobby_idle_timeout_window;
             lobby_idle_timeout_window = 0;
             idle_timeout_active = 1;
-            queue_destruction__7TObjectFv(t);
+            t->queue_destruction();
         } else {
             sprintf(lobby_idle_timeout_text_buffer, (const char *)TLobby::get_seq_phase(0x1F), limit - elapsed);
         }
@@ -422,9 +409,9 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
     __ct__7TObjectFP7TObject(timer, parent);
-    *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
+    *(void ***)((s8 *)timer + 0x18) = lobby_idle_timer_vtable;
     getDateStamp(&date);
-    DateToSeconds(&date, (int *)(timer + 0x1C));
+    DateToSeconds(&date, &t->now);
     t->start = t->now;
     t->limit = get_idle_timeout_limit(local_client_id);
     t->state = 0;
@@ -556,7 +543,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
         {
         }
         n += buf->sync_records_size;
-        restore_switch_table((saddr)(&buf->payload[n]), buf->switch_table_size);
+        restore_switch_table(&buf->payload[n], buf->switch_table_size);
         activate_triggered_floor_events();
       }
       ::operator delete((0, buf));
@@ -1084,7 +1071,7 @@ void queue_join_entry_exit_on_input(TObject *task) {
         TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
-        queue_destruction__7TObjectFv(task);
+        task->queue_destruction();
     }
 }
 void TLobby::update() {
@@ -1436,7 +1423,7 @@ void TLobby::open_lobby_warp_menu() {
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x47), 6, 3);
     }
     TLobby_warp_menu_window->calc_window_size();
-    align_menu_entry_positions(TLobby_warp_menu_window);
+    TLobby_warp_menu_window->align_menu_entry_positions();
     TLobby_warp_menu_window->set_ready_flag();
     TLobby::init_player_window_effect();
     lobby_state = 3;
@@ -1503,7 +1490,7 @@ void TLobby::create_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x39), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3A), 6, 1);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 4;
 }
@@ -1530,7 +1517,7 @@ void TLobby::open_menu_window() {
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x45), 6, 0);
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x46), 6, 1);
     lobby_make_team_menu_window->calc_window_size();
-    align_menu_entry_positions(lobby_make_team_menu_window);
+    lobby_make_team_menu_window->align_menu_entry_positions();
     lobby_make_team_menu_window->set_ready_flag();
     lobby_make_team_menu_window->set_selected_index(0);
     lobby_state = 0x18;
@@ -1548,7 +1535,7 @@ void TLobby::open_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3E), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3F), 6, 1);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 5;
 }
@@ -1614,7 +1601,7 @@ void TLobby::open_keyboard_window() {
         lobby_keyboard_prompt_window->add_text_entry(TLobby::get_seq_phase(0x44), 2, 0);
         lobby_keyboard_prompt_window->add_text_entry(blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
-        align_menu_entry_positions(lobby_keyboard_prompt_window);
+        lobby_keyboard_prompt_window->align_menu_entry_positions();
         lobby_keyboard_prompt_window->disable_input();
     }
     lobby_keyboard_controller = new TKeyBoardControl(join_lobby_controller, 0x10, 0, 0, local_client_id);
@@ -1644,7 +1631,7 @@ void TLobby::open_city_warp_menu() {
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4A), 6, 3);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4B), 6, 4);
     lobby_com_card_window->calc_window_size();
-    align_menu_entry_positions(lobby_com_card_window);
+    lobby_com_card_window->align_menu_entry_positions();
     lobby_com_card_window->set_ready_flag();
     lobby_state = 0x19;
 }
@@ -1951,7 +1938,7 @@ void TLobby::send_selected_character() {
     TPlyChallenge challenge;
     TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &choice_search_config);
@@ -2345,7 +2332,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         }
     } else {
         game_join_pending_clients[e.client_id] = 1;
-        TLobby::copy_member_record(&lobby_join_entries[e.client_id], &e);
+        TLobby::copy_member_record(&lobby_join_entries[e.client_id], (TPlyJoinLobbyEntry *)&e);
     }
     if (local_client_id == designated_client_id) {
         init_6x72_resume_packet(&pkt);
@@ -2432,7 +2419,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
     const NJS_POINT2 *w;
 
     if (list_window != 0) {
-        queue_destruction__7TObjectFv(list_window);
+        list_window->queue_destruction();
         list_window = 0;
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((const char *)tbl);
@@ -2454,7 +2441,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
     }
     list_window->calc_content_extent();
     if (download_list_window != 0) {
-        queue_destruction__7TObjectFv(download_list_window);
+        download_list_window->queue_destruction();
         download_list_window = 0;
     }
     {
@@ -2504,7 +2491,7 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
             init_idle_timeout_timer((u8 *)p, parent);
         }
         join_state_flag = 1;
-        win = TLobby::create_dialing_message_window((const char *)get_connection_message_text(7), 1);
+        win = TLobby::create_dialing_message_window(get_connection_message_text(7), 1);
         switch (lobby_server_choice_stub()) {
         case 0:
         case 1:
@@ -2706,12 +2693,12 @@ void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
 #pragma auto_inline off
 #pragma dont_inline off
 
-void bswap_and_send_extended_subcommand(void *p, u32 client_id) { bswap_extended_subcommand_header(p); ((long_game_command_union *)p)->send_to_client(client_id); }
+void bswap_and_send_extended_subcommand(void *p, u32 client_id) { bswap_extended_subcommand_header((extended_game_command_header *)p); ((long_game_command_union *)p)->send_to_client(client_id); }
 
-void bswap_extended_subcommand_header(void* p) { TLobby::bswap_header_fields(p); }
-void TLobby::bswap_header_fields(void *header) {
-    bswap_16((u16 *)((u8 *)header + 2));
-    bswap_32((u32 *)((u8 *)header + 4));
+void bswap_extended_subcommand_header(extended_game_command_header *p) { TLobby::bswap_header_fields(p); }
+void TLobby::bswap_header_fields(extended_game_command_header *header) {
+    bswap_16(&header->header.id);
+    bswap_32(&header->size);
 }
 void TLobby::bswap_and_handle_packet(void *packet, int client_id) {
     bswap_client_id_header((G_ClientIDHeader *)packet);
@@ -2729,9 +2716,7 @@ void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet) {
     packet->header.subcommand = 0x72;
     packet->header.size = sizeof(G_DoneLoadingIntoGame_6x72) / 4;
 }
-void *TLobby::copy_member_record(void *to, void *from) {
-    TPlyJoinLobbyEntry *dst = (TPlyJoinLobbyEntry *)to;
-    TPlyJoinLobbyEntry *src = (TPlyJoinLobbyEntry *)from;
+TPlyJoinLobbyEntry *TLobby::copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src) {
     *(ByteBlock_8 *)&dst->tag = *(ByteBlock_8 *)&src->tag;
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
@@ -2893,7 +2878,7 @@ void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *to, void *from) {
     dst->m_tag2 = src->m_tag2;
     dst->m_guildcard_number = src->m_guildcard_number;
 }
-void set_item_drop_server_seed(int a0) { item_drop_server_seed = a0; }
+void set_item_drop_server_seed(int seed) { item_drop_server_seed = seed; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
 
 void set_quest_list_online_state(s32 state) {
@@ -2912,21 +2897,18 @@ s32 TWindowMakeTeam::get_field_20() { return kind; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
-extern "C" {
-
-s32 *get_access_key_input_buffer(void) {
-    return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;
+u8 *get_access_key_input_buffer(void) {
+    return (u8 *)TAdEnterSerialAccessGC::access_key_input_buffer;
 }
 
 char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decimal_string((const char *)get_raw_serial_input_buffer()); }
 
-s32 *get_raw_serial_input_buffer(void) {
-    return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
-}
+u8 *get_raw_serial_input_buffer(void) {
+    return (u8 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
 
-saddr get_connection_message_text(s32 id) {
-    return (saddr)text_language_group_table[12][id];
+const char *get_connection_message_text(s32 id) {
+    return text_language_group_table[12][id];
 }
 
 const char *get_online_message_text(s32 id) {

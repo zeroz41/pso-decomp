@@ -63,13 +63,13 @@ TParticleCtrl *create_timed_particle_emitter_with_angles(const Vec *pos, void *d
     return 0;
 }
 
-TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 a, s32 b) {
+TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 delay, s32 duration) {
     if (particle_pool_limit > id) {
-        return new TParticleCtrl(pos, dir, &particle_global_entry_table[id], 0, a, b, 0);
+        return new TParticleCtrl(pos, dir, &particle_global_entry_table[id], 0, delay, duration, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        return new TParticleCtrl(pos, dir, &particle_area_entry_table[idx], 0, a, b, 0);
+        return new TParticleCtrl(pos, dir, &particle_area_entry_table[idx], 0, delay, duration, 0);
     }
     return 0;
 }
@@ -605,7 +605,7 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, 
 
 void TParticle::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
 
-void TParticle::attach_model(void *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
+void TParticle::attach_model(NJS_OBJECT *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
     this->model = model;
     this->texlist = texlist;
     this->motion = motion;

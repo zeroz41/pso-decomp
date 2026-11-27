@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/model_render_state.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
@@ -30,16 +31,12 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
 
-extern "C" {
-u8 * copy_player_visual_record(void *, void *);
-extern CharacterAppearanceFields character_creation_visual_record;
-}
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 CharacterAppearanceFields *get_creation_visual_record(void) {
@@ -51,7 +48,7 @@ void load_creation_visual_record(CharacterAppearanceFields *record) {
         invalidate_creation_visual_record();
         return;
     }
-    copy_player_visual_record(&character_creation_visual_record, record);
+    copy_player_visual_record((PlayerVisualRecord *)&character_creation_visual_record, (PlayerVisualRecord *)record);
 }
 
 void invalidate_creation_visual_record(void) {
@@ -116,7 +113,7 @@ s32 get_current_char_flag() {
 void reset_current_char_appearance(void) {
     CharacterAppearanceFields *character_appearance_fields;
     character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
-    copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
+    copy_player_visual_record((PlayerVisualRecord *)character_appearance_fields, (PlayerVisualRecord *)get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }
 int char_select_check_stub(void) { return 1; }
@@ -187,7 +184,7 @@ u8 player_class_texture_buffer_17[0x134];
 u8 player_class_texture_buffer_18[0x134];
 u8 chara_making_load_buffer[0x40C];
 
-void *player_class_texture_buffer_table[19] = {
+u8 *player_class_texture_buffer_table[19] = {
     player_class_texture_buffer_00, player_class_texture_buffer_01, player_class_texture_buffer_02, player_class_texture_buffer_03, player_class_texture_buffer_04,
     player_class_texture_buffer_05, player_class_texture_buffer_06, player_class_texture_buffer_07, player_class_texture_buffer_08, player_class_texture_buffer_09,
     player_class_texture_buffer_10, player_class_texture_buffer_11, player_class_texture_buffer_12, player_class_texture_buffer_13, player_class_texture_buffer_14,
@@ -252,7 +249,7 @@ static const s32 hair_render_flags[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
+void draw_colored_hair(f32 alpha, void *child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
     NJS_ARGB color;
     s32 flags_masked;
     s32 second;
@@ -279,7 +276,7 @@ void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *charac
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
-    draw_chunk_object((void *)child);
+    draw_chunk_object(child);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
@@ -287,7 +284,7 @@ void draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *charac
 #pragma pop
 
 void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appearance) {
-    draw_colored_hair(1.0f, model, appearance, 0);
+    draw_colored_hair(1.0f, (void *)model, appearance, 0);
 }
 
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {
@@ -576,7 +573,6 @@ void request_chara_making_archives(void) {
 
 void chara_making_init_stub(void) {  }
 
-extern TObject *tl_03;
 
 void TCharaMaking::update_light_direction() {
     f32 cos_pitch;

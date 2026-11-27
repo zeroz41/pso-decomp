@@ -9,6 +9,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/memory.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/system/ByteBlocks.h"
 
 
 // Per shop list (four in split screen): the stock array (18 items, allocated by
@@ -319,7 +320,6 @@ void clear_shop_tool_flags(void) {
     memset(shop_tool_flags, 0, 0x10);
 }
 
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void get_shop_tool_stock_item(TItemData *dst, s32 index, s32 shop) {
     *(ByteBlock_14 *)dst = ((ByteBlock_14 *)shop_tool_stock_buffers[shop])[index];
@@ -368,7 +368,7 @@ void free_tool_random_rel(void) {
         index -= 1;
     } while (i >= 0);
     if (lobby_tool_random_rel != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(lobby_tool_random_rel));
+        TLobby::free_nodes_with_id(lobby_tool_random_rel);
         lobby_tool_random_rel = NULL;
     }
 }

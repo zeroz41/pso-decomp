@@ -56,7 +56,8 @@ class TItemMagSub : public TItemHeapObject {
 public:
     TItemMag *item;
     TObjPlayer *owner;
-    void *model, *animation;
+    NJS_OBJECT *model;
+    NJS_MOTION *animation;
     NJS_TEXLIST *textures;
     MagFollowParameters* motion;
     s32 rotation_delta[3];
@@ -98,7 +99,7 @@ public:
     void set_flags(u32 value);
     void set_node_id(s32 index, s32 id);
     void set_material_node(s32 node, NJS_ARGB *parameters);
-    void set_model(void* model, NJS_TEXLIST *textures, void* animation);
+    void set_model(NJS_OBJECT *model, NJS_TEXLIST *textures, NJS_MOTION *animation);
     void scale_owner_height(f32 factor);
     int is_growth_inactive();
     u32 test_flags(u32 mask);

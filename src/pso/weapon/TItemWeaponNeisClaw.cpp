@@ -115,11 +115,11 @@ void TItemWeaponGiGueBazooka::init_weapon_effect_descriptor(WeaponEffectDescript
     desc->flags |= 0x80;
 }
 
-void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
+void TObjPlayer::spawn_fire_explosion(TItemWeapon *item_weapon, const Vec *pos) {
     WeaponEffectDescriptor info;
     reset_weapon_effect_descriptor(&info);
-    ((TItemWeapon *)item_weapon)->fill_status_info(&info);
-    VecCopy(&info.position, (const Vec *)a1);
+    item_weapon->fill_status_info(&info);
+    VecCopy(&info.position, pos);
     info.hits = 10;
     new TExplosionCollider(tl_05, &info);
     new TFireExplosion(10.0f, &info.position, 0, tl_particle);
@@ -127,15 +127,15 @@ void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
 
 void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr context) {
     ActorBodyHit *hit = (ActorBodyHit *)context;
-    uaddr p = (uaddr)find_item_by_id(id);
-    if (p != 0U) {
-        TObjPlayer::spawn_fire_explosion(p, (saddr)&hit->target->bodies[hit->body].center);
+    TItemWeapon *item_weapon = (TItemWeapon *)find_item_by_id(id);
+    if (item_weapon != NULL) {
+        TObjPlayer::spawn_fire_explosion(item_weapon, &hit->target->bodies[hit->body].center);
     }
 }
 
 void TObjPlayer::spawn_fire_explosion_for_item(s32 id, s32 item) {
-    uaddr item_weapon = (uaddr)find_item_by_id(id);
-    if (item_weapon != 0U) {
-        TObjPlayer::spawn_fire_explosion(item_weapon, item);
+    TItemWeapon *item_weapon = (TItemWeapon *)find_item_by_id(id);
+    if (item_weapon != NULL) {
+        TObjPlayer::spawn_fire_explosion(item_weapon, (const Vec *)item);
     }
 }

@@ -17,7 +17,8 @@
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -364,7 +365,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 set_judgment_target_flag(this, &judged_item);
                 item = find_item_by_id(judged_item.id);
                 if (item != NULL && (equipped = player->get_equipped_item(item->get_attach_slot())) != NULL) {
-                    TObjPlayer::send_6x26_unequip_item(player, equipped->get_item_id());
+                    player->send_6x26_unequip_item(equipped->get_item_id());
                 }
                 send_6x25_equip_item(player, judged_item.id, 0);
                 send_message(0xB, 1);

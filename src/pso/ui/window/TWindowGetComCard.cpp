@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -25,9 +25,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";

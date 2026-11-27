@@ -38,7 +38,7 @@ void TOJungleDesign::init_design_variant() {
 
 
 void *TOJungleDesign::create(void *set_data) {
-    void *o = (void *)new TOJungleDesign(tl_05, set_data);
+    void *o = new TOJungleDesign(tl_05, set_data);
     return o;
 }
 

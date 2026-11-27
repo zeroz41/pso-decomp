@@ -6,7 +6,8 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TGameProtocol.h"
 #include "types.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TLobby.h"
@@ -18,7 +19,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/map/FloorArea.h"
@@ -27,7 +28,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 
 
@@ -39,7 +40,6 @@ __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f
 }
 
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
-void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void build_6x9D_packet(u8 *packet);
 void build_6x97_packet(u8 *packet);
 
@@ -62,12 +62,12 @@ void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet)
     bswap_client_id_packet(packet);
     send_subcommand(packet);
 }
-void bswap_client_id_packet(void *player) {
-    ((G_ClientIDHeader *)player)->bswap();
-    bswap_32((u32 *)((char *)player + 4));
-    bswap_32((u32 *)((char *)player + 8));
-    bswap_32((u32 *)((char *)player + 12));
-    bswap_32((u32 *)((char *)player + 16));
+void bswap_client_id_packet(G_SelectChallengeModeFailureOption_6x97 *packet) {
+    ((G_ClientIDHeader *)packet)->bswap();
+    bswap_32(&packet->client_id);
+    bswap_32(&packet->is_retry);
+    bswap_32(&packet->unused1);
+    bswap_32(&packet->unused2);
 }
 
 void build_6x97_packet(u8 *packet) {
@@ -329,52 +329,47 @@ void TObjChallengeRetry::update_state_0() {
   area = get_current_floor_area();
   if (area != AREA_PIONEER2_EP2)
   {
-    if (area < 0x12)
+    if ((area >= 0x12) || (area != AREA_PIONEER2_EP1))
     {
-      if (area != AREA_PIONEER2_EP1)
-      {
-        return;
-      }
-      goto block_4;
+      return;
     }
   }
   else
   {
     first_client = 0;
-    block_4:
-    if (has_window_task_root() != 0)
+  }
+  if (has_window_task_root() != 0)
+  {
+    play_player_default_effect();
+    no_player_flagged = 1;
+    client = first_client;
+    for (;;)
     {
-      play_player_default_effect();
-      no_player_flagged = 1;
-      client = first_client;
-      loop_6:
       player = get_player_by_client_id(client);
       if (player != NULL && player->test_actor_flags(0x02000000) != 0)
       {
         no_player_flagged = 0;
+        break;
       }
-      else
+      client += 1;
+      if (client >= 4)
       {
-        client += 1;
-        if (client < 4)
-        {
-          goto loop_6;
-        }
+        break;
       }
-      if (no_player_flagged != 0)
+    }
+    if (no_player_flagged != 0)
+    {
+      if ((this->is_designated) != 0)
       {
-        if ((this->is_designated) != 0)
-        {
-          send_45_and_close_windows();
-          show_ctrl_and_play_effect();
-          this->state = 2;
-          return;
-        }
         send_45_and_close_windows();
-        play_player_default_effect();
-        open_message();
-        this->state = 3;
+        show_ctrl_and_play_effect();
+        this->state = 2;
+        return;
       }
+      send_45_and_close_windows();
+      play_player_default_effect();
+      open_message();
+      this->state = 3;
     }
   }
 }

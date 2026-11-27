@@ -7,7 +7,7 @@
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma readonly_strings on
 

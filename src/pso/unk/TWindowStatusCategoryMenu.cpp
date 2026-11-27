@@ -7,7 +7,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -59,6 +58,6 @@ TWindowMenu *TWindowStatusCategoryMenu::create_status_category_menu() {
     menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0x10C)), 0x36, 2);
     (menu)->set_flag70_bit10();
     (menu)->update_layout_height(202.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return menu;
 }

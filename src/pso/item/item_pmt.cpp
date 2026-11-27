@@ -2,10 +2,12 @@
 // the item drop rolls that read it.
 #pragma readonly_strings on
 #include "types.h"
+#include "clib/fp_convert.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
@@ -31,15 +33,12 @@ const s32 weapon_special_roll_channel_table[4] = {8, 10, 11, 11};
 
 // play_shield_sound_cue's view of the ItemPmt root: armors[1].count and
 // shield_sounds through ItemPmt give the same code with r5/r6 swapped.
-typedef struct Sub_8011C59C { u8 pad[8]; s32 count; } Sub_8011C59C;
+typedef struct ShieldSoundCount { u8 pad[8]; s32 count; } ShieldSoundCount;
 
-typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
+typedef struct ShieldSoundEntry { s32 a; s32 b; } ShieldSoundEntry;
 
-typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
+typedef struct ItemPmtSoundRoot { u8 pad[4]; ShieldSoundCount *sub; u8 pad2[0x34]; ShieldSoundEntry *tbl; } ItemPmtSoundRoot;
 
-extern "C" {
-s32 __cvt_fp2unsigned(f32);
-}
 
 saddr TObjPlayer::get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
@@ -211,7 +210,7 @@ s32 get_weapon_special_star_count(u8 special) {
 }
 
 void play_shield_sound_cue(ItemSoundRequest *cue) {
-    Pmt_8011C59C *pmt = (Pmt_8011C59C *)item_pmt_tbl;
+    ItemPmtSoundRoot *pmt = (ItemPmtSoundRoot *)item_pmt_tbl;
     u8 idx = cue->index;
     if (idx < pmt->sub->count) {
         s32 off;
@@ -237,7 +236,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
     u8 group = request->group;
     u8 *target;
     u32 mode;
-    u8 *pos;
+    const Vec *pos;
     u16 type;
     s32 cls;
     s32 i;
@@ -253,13 +252,13 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         pitch[0] = item_pmt_tbl->weapon_sounds[group].target[0].pitch;
         key[1] = item_pmt_tbl->weapon_sounds[group].target[1].key;
         pitch[1] = item_pmt_tbl->weapon_sounds[group].target[1].pitch;
-        pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
+        pos = &((TObjCollidable *)target)->bodies[request->collider].center;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
             cls = ((TObjPlayer *)target)->appearance.classId;
             mode = 1;
         } else if (type < 0x4000) {
-            cls = *(s32 *)(target + 0x370);
+            cls = ((TObjEnemy *)target)->rt_index;
             mode = 3;
         } else {
             mode = 3;
@@ -283,7 +282,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
                 }
             }
             if (k != 0) {
-                s32 handle = play_sound_effect(k, reinterpret_cast<const Vec *>(pos), 0, 0);
+                s32 handle = play_sound_effect(k, pos, 0, 0);
                 if (p != 0) {
                     set_sound_pitch_request(handle, p, 0);
                 }
@@ -407,9 +406,7 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
         if ((flags != 0) && (flags < 0x29U)) {
             return (saddr)get_text_collection(flags + 0x1CB);
         }
-        goto block_6;
     }
-block_6:
     return (saddr)empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {

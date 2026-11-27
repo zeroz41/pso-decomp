@@ -140,7 +140,7 @@ extern PanarmsState panarms_state_table[14];
 extern "C" {
 static void __sinit_TObjEnePanarms_cpp();
 }
-__declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
+__declspec(section ".ctors") static void *const panarms_body_global_initializer = __sinit_TObjEnePanarms_cpp;
 
 
 
@@ -385,7 +385,7 @@ void TObjEnePanarms::draw() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     node_capture->install();
     TObjMotion::draw();
     node_capture->clear();
@@ -1017,7 +1017,7 @@ void TObjEnePanarms::update_beam_down() {
     }
     if (--this->state_timer <= 0) {
         if (!(this->attack_count & 1) && (this->spin_count < 4)) {
-            set_state((saddr)((void*)(0xD)));
+            set_state(0xD);
             return;
         }
         set_state(3);
@@ -1041,7 +1041,7 @@ void TObjEnePanarms::update_split() {
         spawn_particle_effect(&this->position, 0xF0);
     }
     if (this->motion_flags & 0x10) {
-        set_state((saddr)((void*)(0xA)));
+        set_state(0xA);
     }
 }
 
@@ -1090,7 +1090,7 @@ void TObjEnePanarms::update_separated() {
                     this->state_timer = -1;
                     return;
                 }
-                set_state((saddr)((void*)(0xB)));
+                set_state(0xB);
                 return;
             }
             if (this->state_timer < -0x12C) {
@@ -1119,11 +1119,11 @@ void TObjEnePanarms::enter_merge() {
 void TObjEnePanarms::update_merge() {
 
     if ((this->halves[0]->is_dying() != 0) || (this->halves[1]->is_dying() != 0)) {
-        set_state((saddr)((void*)(0xA)));
+        set_state(0xA);
         return;
     }
     if (--this->state_timer <= 0) {
-        set_state((saddr)((void*)(0xC)));
+        set_state(0xC);
         return;
     }
     if (this->state_timer == 0x13) {
@@ -1168,6 +1168,6 @@ void TObjEnePanarms::update_spin() {
         this->rotation_y = (this->rotation_y - 0x111);
     }
     if (--this->state_timer < 0) {
-        set_state((saddr)((void*)(7)));
+        set_state(7);
     }
 }

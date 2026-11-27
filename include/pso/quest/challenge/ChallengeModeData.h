@@ -4,7 +4,7 @@
 #include "types.h"
 
 // The short strings of ChallengeModeData.cpp's interim data-only unit, which
-// ChallengeMode's lbl_8048D0B0 table points at: "N", "C", "0".."8", "E".
+// TChallenge's challenge_mode_label_table points at: "N", "C", "0".."8", "E".
 extern const char challenge_label_N[4];
 extern const char challenge_label_C[4];
 extern const char challenge_label_0[4];

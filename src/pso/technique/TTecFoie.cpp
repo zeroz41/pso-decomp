@@ -3,7 +3,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TechniqueParams.h"
@@ -125,7 +125,7 @@ void TTecFoie::init_projectile_params() {
     range = params.range;
 }
 
-void TTecFoie::vfunc_6() {
+void TTecFoie::spawn_impact_effect() {
     spawn_particle_effect(&position, 0x1DC);
     spawn_particle_effect(&position, 0x1DD);
 }

@@ -39,7 +39,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/LegacyEnemyKill.h"
 #include <string.h>
 #include "pso/ui/Language.h"
@@ -53,13 +53,13 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -77,7 +77,7 @@ char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
 
 TPlayerBattleCtrl *battle_mode_data_ptr;
 s32 battle_frame_rate;
-s32 battle_config_ptr;
+BattleRuleConfig *battle_config_ptr;
 s32 lbl_805D5DA4;
 s32 lbl_805D5DA8;
 s32 battle_scores_received;      // set when the 6x7F final scores arrive
@@ -123,7 +123,6 @@ extern char battle_intro_message_buffer[];
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
-#define CFG (*(BattleRuleConfig **)&battle_config_ptr)
 
 
 BattleRanking duel_result_table[4];
@@ -445,7 +444,7 @@ void TPlayerBattleCtrl::update_duel_result() {
                     window_50->add_text_entry(text[2], 6, 2);
                     window_50->add_text_entry(text[3], 6, 3);
                     window_50->calc_window_size();
-                    align_menu_entry_positions(window_50);
+                    window_50->align_menu_entry_positions();
                     window_50->set_ready_flag();
                 }
                 if (window_50 != NULL) {
@@ -549,7 +548,7 @@ void TPlayerBattleCtrl::end_battle_mode_cleanup() {
         evt2_random_enemies_mode = 0;
         set_keyboard_input_flag();
         lobby_floor_reload_pending = 1;
-        ((TObject *)this)->queue_destruction();
+        queue_destruction();
         break;
     case -1:
         break;
@@ -557,7 +556,7 @@ void TPlayerBattleCtrl::end_battle_mode_cleanup() {
 }
 
 s32 get_battle_time_limit_frames(void) {
-    return CFG->time_limit_seconds * 0x3C;
+    return battle_config_ptr->time_limit_seconds * 0x3C;
 }
 
 void TLobby::close_and_play_effect(int client, s32 local) {
@@ -588,31 +587,31 @@ void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
     lobby_rule_settings.reset_settings_to_default();
     if (use_config != 0) {
         s32 flag;
-        lobby_rule_settings.set_tech_disk_mode(CFG->rules[0]);
-        lobby_rule_settings.set_weapon_and_armor_mode(CFG->rules[1]);
-        lobby_rule_settings.set_mag_mode(CFG->rules[2]);
-        lobby_rule_settings.set_tool_mode(CFG->rules[3]);
-        lobby_rule_settings.set_trap_mode(CFG->rules[4]);
-        lobby_rule_settings.set_unused_F817(CFG->rules[5]);
-        lobby_rule_settings.set_respawn_mode(CFG->rules[6]);
-        lobby_rule_settings.set_replace_char(CFG->rules[7]);
-        lobby_rule_settings.set_drop_weapon(CFG->rules[8]);
-        lobby_rule_settings.set_hide_target_reticle(CFG->rules[0xA]);
-        lobby_rule_settings.set_meseta_mode(CFG->rules[0xB]);
-        lobby_rule_settings.set_death_level_up(CFG->value_c);
+        lobby_rule_settings.set_tech_disk_mode(battle_config_ptr->rules[0]);
+        lobby_rule_settings.set_weapon_and_armor_mode(battle_config_ptr->rules[1]);
+        lobby_rule_settings.set_mag_mode(battle_config_ptr->rules[2]);
+        lobby_rule_settings.set_tool_mode(battle_config_ptr->rules[3]);
+        lobby_rule_settings.set_trap_mode(battle_config_ptr->rules[4]);
+        lobby_rule_settings.set_unused_F817(battle_config_ptr->rules[5]);
+        lobby_rule_settings.set_respawn_mode(battle_config_ptr->rules[6]);
+        lobby_rule_settings.set_replace_char(battle_config_ptr->rules[7]);
+        lobby_rule_settings.set_drop_weapon(battle_config_ptr->rules[8]);
+        lobby_rule_settings.set_hide_target_reticle(battle_config_ptr->rules[0xA]);
+        lobby_rule_settings.set_meseta_mode(battle_config_ptr->rules[0xB]);
+        lobby_rule_settings.set_death_level_up(battle_config_ptr->value_c);
         for (s32 i = 0; i < 4; i++) {
-            lobby_rule_settings.set_rule_slot_clamped(CFG->slot_rules[i], i);
+            lobby_rule_settings.set_rule_slot_clamped(battle_config_ptr->slot_rules[i], i);
         }
-        lobby_rule_settings.set_enable_sonar(CFG->rule_d);
-        lobby_rule_settings.set_sonar_count(CFG->level);
-        lobby_rule_settings.set_forbid_scape_dolls(CFG->rule_e);
-        lobby_rule_settings.set_lives((u8) CFG->volume);
-        lobby_rule_settings.set_max_tech_level((u8) CFG->max_tech_level);
-        lobby_rule_settings.set_char_level((s16) CFG->clamped_index);
-        lobby_rule_settings.set_time_limit(CFG->time_limit_seconds);
-        lobby_rule_settings.set_death_tech_level_up((u8) CFG->value_28);
+        lobby_rule_settings.set_enable_sonar(battle_config_ptr->rule_d);
+        lobby_rule_settings.set_sonar_count(battle_config_ptr->level);
+        lobby_rule_settings.set_forbid_scape_dolls(battle_config_ptr->rule_e);
+        lobby_rule_settings.set_lives((u8) battle_config_ptr->volume);
+        lobby_rule_settings.set_max_tech_level((u8) battle_config_ptr->max_tech_level);
+        lobby_rule_settings.set_char_level((s16) battle_config_ptr->clamped_index);
+        lobby_rule_settings.set_time_limit(battle_config_ptr->time_limit_seconds);
+        lobby_rule_settings.set_death_tech_level_up((u8) battle_config_ptr->value_28);
         flag = 0;
-        if ((s32) CFG->rules[9] == 1 && TLobby::get_game_mode() == 4) {
+        if ((s32) battle_config_ptr->rules[9] == 1 && TLobby::get_game_mode() == 4) {
             s32 toggle = 1;
             for (s32 i = 0; i < 4; i++) {
                 TObjPlayer *p = get_player_by_client_id(i);
@@ -648,7 +647,7 @@ void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
         }
         lobby_rule_settings.set_section_id(1);
     }
-    if (((u32 (*)(void))get_local_player)() != 0U) {
+    if (get_local_player() != NULL) {
         apply_battle_rules_to_players();
     }
 }
@@ -748,7 +747,7 @@ void init_battle_ctrl(s32 config, saddr src) {
     }
     if (battle_mode_data_ptr != NULL) {
         strncpy(battle_mode_data_ptr->intro_text, (const char *)src, 0x200);
-        battle_config_ptr = config;
+        battle_config_ptr = (BattleRuleConfig *)config;
     }
 }
 
@@ -919,7 +918,7 @@ s32 TPlayerBattleCtrl::calc_player_rankings() {
     return 1;
 }
 
-void record_local_battle_placement(void *arg0) {
+void record_local_battle_placement(void *battle_ctrl) {
     s32 slot;
     s32 i;
     s32 n;
@@ -1039,7 +1038,7 @@ void TPlayerBattleCtrl::init_battle_round() {
     player->battle_score.meseta.reset();
     player->battle_score.slots.set_score(0);
   }
-  *((s32 *) (((s8 *) this) + 0x60)) = 0x5A;
+  state_send_wait = 0x5A;
   calc_player_rankings();
   for (i = 0; i < 4; i++)
   {
@@ -1169,15 +1168,10 @@ s32 TPlayerBattleCtrl::check_all_players_ready() {
 
     ready_flag = battle_player_ready_flags;
     all_ready = 1;
-    client = 0;
-loop_1:
-    if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
-        all_ready = 0;
-    } else {
-        client += 1;
-        ready_flag += 1;
-        if (client < 4) {
-            goto loop_1;
+    for (client = 0; client < 4; client++, ready_flag++) {
+        if ((get_player_by_client_id(client) != NULL) && ((s8) *ready_flag == 0)) {
+            all_ready = 0;
+            break;
         }
     }
     return all_ready;
@@ -1347,15 +1341,11 @@ s32 TPlayerBattleCtrl::check_all_battle_flags() {
     TObjPlayer *player;
     s32 client;
 
-    client = 0;
-loop_1:
-    player = get_player_by_client_id(client);
-    if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
-        return 0;
+    for (client = 0; client < 4; client++) {
+        player = get_player_by_client_id(client);
+        if ((player != NULL) && (player->test_actor_flags(0x02000000) != 0)) {
+            return 0;
+        }
     }
-    client += 1;
-    if (client >= 4) {
-        return 1;
-    }
-    goto loop_1;
+    return 1;
 }

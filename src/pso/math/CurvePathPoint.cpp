@@ -6,24 +6,24 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/math/CurvePathPoint.h"
 
-s32 compute_bezier_curve_point(CurvePathPoint *e, f32 scale, s32 n, s32 step, s32 closed, Vec *out, s32) {
+s32 compute_bezier_curve_point(CurvePathPoint *points, f32 scale, s32 count, s32 step, s32 closed, Vec *out, s32) {
     f32 sum;
     f32 total;
     f32 ratio;
     s32 i;
 
-    if (e == NULL || n <= 1) {
+    if (points == NULL || count <= 1) {
         return 0;
     }
     sum = 0.0f;
-    for (i = 0; i < n; i++) {
-        sum += e[i].length;
+    for (i = 0; i < count; i++) {
+        sum += points[i].length;
     }
     if (0.0f == sum) {
         return 0;
     }
     if (closed == 0) {
-        total = (s32) (sum - e[n - 1].length);
+        total = (s32) (sum - points[count - 1].length);
     } else {
         total = (s32) sum;
     }
@@ -31,7 +31,7 @@ s32 compute_bezier_curve_point(CurvePathPoint *e, f32 scale, s32 n, s32 step, s3
     if (ratio >= 1.0f) {
         return 1;
     }
-    return TBoss8Dragon::eval_bezier_curve(e, n, closed, out, ratio);
+    return TBoss8Dragon::eval_bezier_curve(points, count, closed, out, ratio);
 }
 
 #pragma push
@@ -87,7 +87,7 @@ s32 TBoss8Dragon::eval_bezier_curve(CurvePathPoint *pts, int count, int closed, 
 
 #pragma push
 #pragma fp_contract on
-s32 get_vector_from_path(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 closed, Vec *out) {
+s32 get_vector_from_path(CurvePathPoint *points, f32 scale, s32 count, s32 step, s32 closed, Vec *out) {
     Vec a;
     Vec b;
     Vec d;
@@ -100,32 +100,32 @@ s32 get_vector_from_path(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 clo
     s32 i;
     s32 idx;
 
-    if (e == NULL || n <= 1) {
+    if (points == NULL || count <= 1) {
         return 0;
     }
     sum = 0.0f;
-    for (i = 0; i < n; i++) {
-        sum += e[i].length;
+    for (i = 0; i < count; i++) {
+        sum += points[i].length;
     }
     if (0.0f == sum) {
         return 0;
     }
-    pos = scale * count;
+    pos = scale * step;
     if (closed == 0) {
-        total = (s32)(sum - e[n - 1].length);
+        total = (s32)(sum - points[count - 1].length);
     } else {
         total = (s32)sum;
     }
     seg = (s32)pos / total;
     pos -= seg * sum;
     if (closed == 0 && seg != 0) {
-        VecCopy(out, &e[n - 1].pos);
+        VecCopy(out, &points[count - 1].pos);
         return 1;
     }
     acc = 0.0f;
     prev = acc;
-    for (i = 0; i < n; i++) {
-        acc += e[i].length;
+    for (i = 0; i < count; i++) {
+        acc += points[i].length;
         if (pos <= acc) {
             pos -= prev;
             idx = i;
@@ -133,12 +133,12 @@ s32 get_vector_from_path(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 clo
         }
         prev = acc;
     }
-    if (idx == n - 1) {
-        VecCopy(&a, &e[idx].pos);
-        VecCopy(&b, &e[0].pos);
+    if (idx == count - 1) {
+        VecCopy(&a, &points[idx].pos);
+        VecCopy(&b, &points[0].pos);
     } else {
-        VecCopy(&a, &e[idx].pos);
-        VecCopy(&b, &e[idx + 1].pos);
+        VecCopy(&a, &points[idx].pos);
+        VecCopy(&b, &points[idx + 1].pos);
     }
     d.x = b.x - a.x;
     d.y = b.y - a.y;

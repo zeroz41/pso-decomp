@@ -431,4 +431,10 @@ s32 run_wave_event_actions(void) {
 }
 
 
-void set_wave_event_stream(void *a0) { wave_event_stream_base = *(u8 **)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
+#pragma push
+#pragma scheduling off
+void set_wave_event_stream(const WaveEventContext *context) {
+    wave_event_stream_base = context->stream;
+    wave_event_stream_cursor = context->cursor;
+}
+#pragma pop

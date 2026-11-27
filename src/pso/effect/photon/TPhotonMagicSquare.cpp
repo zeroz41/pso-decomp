@@ -27,7 +27,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     scale_current_matrix(&scale.x);
     NJS_ARGB saved = color;
     if ((age % flash_period) == 0) {
@@ -108,7 +108,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     model = photon_blast_shared_resource->models[2].model;
     motion = photon_blast_shared_resource->motions[2].motion;
     frame = 0.0f;
-    last_frame = (f32)motion->frameCount - 1.0f;
+    last_frame = (f32)motion->nbFrame - 1.0f;
     frame_step = 0.1f;
     texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
@@ -129,7 +129,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     model = photon_blast_shared_resource->models[2].model;
     motion = photon_blast_shared_resource->motions[2].motion;
     frame = 0.0f;
-    last_frame = (f32)motion->frameCount - 1.0f;
+    last_frame = (f32)motion->nbFrame - 1.0f;
     frame_step = 0.1f;
     texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
@@ -151,7 +151,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, u16 o
     model = photon_blast_shared_resource->models[2].model;
     motion = photon_blast_shared_resource->motions[2].motion;
     frame = 0.0f;
-    last_frame = (f32)motion->frameCount - 1.0f;
+    last_frame = (f32)motion->nbFrame - 1.0f;
     frame_step = 0.1f;
     texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
@@ -176,4 +176,4 @@ void destroy_magic_square_photon_blast_model(void) {}
 
 void create_magic_square_photon_blast_model(void) {}
 
-int TObjPlayer::check_flag_0x80() { return check_flag(128); }
+int TObjPlayer::is_technique_charging() { return check_flag(128); }

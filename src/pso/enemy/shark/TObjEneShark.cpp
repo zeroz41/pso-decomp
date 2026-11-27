@@ -12,7 +12,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TAttackTrace.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
@@ -38,7 +38,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
@@ -225,7 +225,7 @@ void TObjEneShark::render() {
   }
   select_actor_lighting(this);
   model_render_flags |= 1;
-  set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+  set_texture_list(texlist);
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);

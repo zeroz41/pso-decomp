@@ -15,7 +15,7 @@
 
 const char *TAdADXlogo_name = "TAdADXlogo";
 
-void *TAdADXlogo::texture;
+NJS_TEXLIST *TAdADXlogo::texture;
 u32 TAdADXlogo::state;
 u32 TAdADXlogo::done;
 

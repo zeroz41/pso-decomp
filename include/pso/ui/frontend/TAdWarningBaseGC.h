@@ -2,6 +2,8 @@
 #define PSO_UI_FRONTEND_TADWARNINGBASEGC_H
 
 #include "types.h"
+
+struct TWindowMessage;
 #include "pso/system/task/TObject.h"
 
 class TWindowBase;
@@ -15,7 +17,7 @@ struct TAdWarningBaseGC : public TObject {
     virtual const char *get_message_text() = 0;  // the warning text: get_localized_text_entry
     virtual void update_state();
     virtual void render_dialog();
-    saddr create_message_window();   // creates the message window holding get_message_text's text
+    TWindowMessage *create_message_window();   // creates the message window holding get_message_text's text
     s32 state;               // 0x1C: the update_state switch
     s32 prev_state;          // 0x20: state when update_state began; a change restarts frames
     s32 next_state;          // 0x24: entered when the closing state's frames run out

@@ -54,7 +54,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/item/TItem.h"
 #include "pso/map/FloorWaveEvents.h"
@@ -64,7 +64,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/audio/SoundControlState.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/system/byteswap.h"
@@ -74,7 +74,7 @@
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/area/AreaScene.h"
@@ -90,7 +90,6 @@
 #include "pso/quest/QuestFlagCommand.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/quest/QuestActiveFlag.h"
@@ -107,7 +106,7 @@ int clear_keyboard_input_flag(void);
 // The run_*_frame callers test this as an int, while SystemBootInit defines it bool.
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
-s32 load_area_scene_and_init(void *);
+s32 load_area_scene_and_init(FloorTransition *);
 }
 void set_fallback_main_phase(s32 phase);
 void request_main_phase(s32 phase);
@@ -263,7 +262,7 @@ void reload_lobby_floor_scene(void) {
     floor_transition_state.set_next_floor_index(0);
     set_current_floor_area(0xF);
     TScene::set_scene(TLobby::lobby_number);
-    load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
+    load_area_scene_and_init(&floor_transition_state);
     load_battle_param_entry();
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -415,7 +414,7 @@ void start_quest_mission(void) {
     TLobby::setup_quest_list();
     set_enemy_mode_flag();
     TQuestListOnline::ensure_online_quests_loaded();
-    load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
+    load_area_scene_and_init(&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -471,7 +470,7 @@ void change_floor_reload_area(void) {
         TLobby::reset_item_id_counters();
         TLobby::reset_floor_items();
     }
-    r = ((s32)load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state)));
+    r = ((s32)load_area_scene_and_init(&floor_transition_state));
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -713,7 +712,7 @@ void run_online_lobby_scene(void) {
             set_current_floor_area(0xF);
             TScene::set_scene(0);
         }
-        load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
+        load_area_scene_and_init(&floor_transition_state);
         TLoadCtrl::cleanup_scene();
         TLobby::process_deferred_player_setup();
         main_task.begin_frame();

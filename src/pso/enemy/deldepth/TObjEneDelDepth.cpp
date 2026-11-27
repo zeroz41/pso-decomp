@@ -409,10 +409,8 @@ void TObjEneDelDepth::init_params() {
 }
 
 void TObjEneDelDepth::try_relocate_on_timer() {
-    u8 *self = (u8 *)this;
-
     if (--this->timer <= 0) {
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), NULL, 200.0f) == 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 200.0f) == 0xFFFF) {
             if (++this->relocationAttempts >= 5) {
                 this->position.x = (f32) this->home_position.x;
                 this->position.z = (f32) this->home_position.z;
@@ -454,7 +452,7 @@ void TObjEneDelDepth::update_surface() {
         this->opacity = 2.0f * this->progress;
     }
     if ((this->progress += 0.033333335f) > 1.0f) {
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), NULL, 200.0f) != 0xFFFF) {
+        if (find_nearest_visible_player(this, NULL, 200.0f) != 0xFFFF) {
             this->set_action_state(3);
             play_sound_effect(0x4003A822, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         } else {
@@ -501,9 +499,8 @@ void TObjEneDelDepth::update_scale_pulse() {
 #pragma fp_contract on
 void TObjEneDelDepth::start_move_toward_player() {
     s32 angle;
-    u8 *actor = (u8 *)this;
     this->movementSpeed = 0.0f;
-    if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(actor), &direction, 200.0f) == 0xFFFF) {
+    if (find_nearest_visible_player(this, &direction, 200.0f) == 0xFFFF) {
         this->set_action_state(2);
         return;
     }
@@ -518,7 +515,7 @@ void TObjEneDelDepth::start_move_toward_player() {
     this->progress = ((30.0f * random_ratio()) + 70.0f);
     this->opacity = 1.0f;
     this->motionController->set_motion(7);
-    this->set_draw_mode((saddr)((void *)3));
+    this->set_draw_mode(3);
 }
 #pragma pop
 
@@ -536,7 +533,7 @@ void TObjEneDelDepth::update_movement() {
         clear_battle_param_slots();
         this->check_object_collisions();
         for (i = 0; i < 16; i++) {
-            pl = (TObjChara *)TObjPlayer::get_battle_param(i);
+            pl = TObjPlayer::get_battle_param(i);
             if (pl == 0) {
                 break;
             }
@@ -625,7 +622,7 @@ void TObjEneDelDepth::update_movement() {
     }
     if (this->progress <= 0.0f && 0.0f == this->movementSpeed) {
         Vec q;
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
+        if (find_nearest_visible_player(this, &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
             this->set_action_state(4);
         } else {
             this->set_action_state(3);
@@ -685,7 +682,6 @@ void TObjEneDelDepth::enter_look_around() {
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::update_look_around() {
-    u8 *ene_del_depth = (u8 *)this;
     Vec v;
     Vec w;
     f32 f;
@@ -697,7 +693,7 @@ void TObjEneDelDepth::update_look_around() {
     }
     this->rotation_y = (s32)(f * (f32)this->turnSpeed + (f32)this->rotation_y);
     if (this->targetPlayer == 0xFFFF) {
-        id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(ene_del_depth), &v, 162.5f);
+        id = find_nearest_visible_player(this, &v, 162.5f);
         if (id != 0xFFFF && angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) < 0x1C71) {
             this->angle = 0;
             this->targetPlayer = id;
@@ -705,13 +701,13 @@ void TObjEneDelDepth::update_look_around() {
     }
     this->angle -= 0x600;
     if (this->angle <= 0) {
-        u32 n = ((AnimationMotion *)get_bml_motion(shared_resource, 0xB))->frameCount;
+        u32 n = get_bml_motion(shared_resource, 0xB)->nbFrame;
         lim = (s32)((f32)n / 0.5f);
         this->angle = 0;
         if (this->targetPlayer != 0xFFFF) {
             w.x = 1.0f;
     w.z = w.y = 0.0f;
-            TObjPlayer::calc_distance_to_client(reinterpret_cast<const TObjBase *>(ene_del_depth), this->targetPlayer, &w);
+            TObjPlayer::calc_distance_to_client(this, this->targetPlayer, &w);
             this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)), 0x280);
         }
         if (this->timer > lim) {
@@ -835,8 +831,6 @@ void TObjEneDelDepth::enter_attack_cast() {
 }
 
 void TObjEneDelDepth::update_attack_cast() {
-    u8 *self = (u8 *)this;
-
     this->attackTimer--;
     if (this->attackTimer <= 0 && this->attackTimer == 0) {
         if ((s32) game_difficulty_selection == 3) {
@@ -890,7 +884,6 @@ void TObjEneDelDepth::start_attack_motion() {
 }
 
 void TObjEneDelDepth::update_ai_state() {
-    u8 *self = (u8 *)this;
     Vec direction;
     s32 timer;
 
@@ -902,7 +895,7 @@ void TObjEneDelDepth::update_ai_state() {
         timer = this->timer - 1;
         this->timer = timer;
         if (timer <= 0) {
-            if (((find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), &direction, 50.0f)) != 0xFFFF) && (vector_length(&direction) > 15.0f)) {
+            if (((find_nearest_visible_player(this, &direction, 50.0f)) != 0xFFFF) && (vector_length(&direction) > 15.0f)) {
                 this->set_action_state(4);
                 return;
             }
@@ -931,7 +924,7 @@ void TObjEneDelDepth::init_move() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneDelDepth::update_death_fade() {
-    s32 record;
+    EnemyStateRecord record;
     switch (this->actionPhase) {
     case 0:
         if (--this->timer <= 0) {
@@ -950,10 +943,10 @@ void TObjEneDelDepth::update_death_fade() {
         break;
     case 2:
     default:
-        record = 0x800;
+        record.flags = 0x800;
         this->send_6x0A_enemy_state(&record);
         this->exchange_object_state(&record, 0);
-        apply_enemy_state(&record);
+        apply_enemy_state(&record.flags);
         this->send_entity_set_flags();
         TDeadSpot::spawn_kind0_scale7_5(&position, 0);
         this->queue_destruction();

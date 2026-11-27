@@ -70,7 +70,7 @@ public:
 
 LAYOUT_ASSERT(TAdMultiChgGameModeGC_size, sizeof(TAdMultiChgGameModeGC) == 0x30);
 
-// Defined in TAdMultiChgGameModeGC_8023E7A8.cpp. The unload/load pair runs the lobby
+// Defined in TAdMultiChgGameModeGCScenes.cpp. The unload/load pair runs the lobby
 // scene hook table (unload halves in reverse, then the load halves): the options and
 // time-set screens call it after a language change.
 void unload_lobby_scene_resources(void);
@@ -78,12 +78,14 @@ void load_lobby_scene_resources(void);
 void init_game_mode_select_scene(void);
 
 // The front-end phases' frame loop (main_phase_table), defined in
-// TAdMultiChgGameModeGC_8023E7A8.cpp.
+// TAdMultiChgGameModeGCScenes.cpp.
 void run_game_mode_select_frame(void);
 
 struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
 
 struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
 extern s32 multi_chr_select_state;
+// The game mode state TAdMultiChgGameModeGC::sync_mode_state copies from multi_chg_game_mode_state.
+extern int chg_game_mode_state_synced;
 
 #endif

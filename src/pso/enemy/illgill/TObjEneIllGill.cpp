@@ -3,7 +3,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
@@ -27,7 +27,7 @@
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -39,7 +39,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/ScratchVectors.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
@@ -269,7 +269,7 @@ void TObjEneIllGill::render() {
     this->viewDetail = classify_actor_view_detail(250.0f, 500.0f, 40.0f);
     if (this->viewDetail != 0) {
         select_actor_lighting(this);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -648,7 +648,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
         } else {
             rad = 10.0f;
         }
-        id = reinterpret_cast<TObjBase *>(pl)->get_entity_id();
+        id = pl->get_entity_id();
         if (id < 0x1000) {
             s32 i;
             pl = this->target;
@@ -1125,7 +1125,7 @@ void TObjEneIllGill::update_shadow_attack() {
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);
                 if (this->action_flags != 4 && ((TObjCollidable *)target)->test_actor_flags(0x04000000) == 0) {
-                    void *m = (void *)new TObjIllGillKage(tl_05, (uaddr)this->target);
+                    new TObjIllGillKage(tl_05, this->target);
                 }
             } else {
                 this->action_flags &= ~4;
@@ -1297,7 +1297,7 @@ void TObjEneIllGill::update_charge_attack() {
                 if (p->get_entity_id() >= 0x1000) {
                     break;
                 }
-                if (this->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(p), 10000.0f) != 0 &&
+                if (this->find_actor_body_contact(p, 10000.0f) != 0 &&
                     p->select_melee_contact_body(this, 1.0f) != 0) {
                     f32 dmg = p->receive_physical_attack(this, 1.0f);
                     p->set_actor_flags(0x400);
@@ -1369,12 +1369,11 @@ void TObjEneIllGill::update_charge_attack() {
 }
 
 #pragma pop
-TObjIllGillKage::TObjIllGillKage(TObject *parent, uaddr target) : TObjBase(parent) {
-    TObjBase *target_tobjbase = (TObjBase *)target;
+TObjIllGillKage::TObjIllGillKage(TObject *parent, TObjBase *target) : TObjBase(parent) {
     m_name = ill_gill_kage_class_name;
-    if (target != 0U) {
-        VecCopy(&position, &target_tobjbase->position);
-        this->target_id = target_tobjbase->get_entity_id();
+    if (target != NULL) {
+        VecCopy(&position, &target->position);
+        this->target_id = target->get_entity_id();
         this->timer = 0xB4;
         this->state = 0;
     } else {

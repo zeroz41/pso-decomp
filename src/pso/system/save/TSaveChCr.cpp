@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
@@ -150,10 +150,10 @@ void TSaveChCr::set_message_by_index(s32 message) {
     open_message_window(get_localized_text_entry(text->group, text->entry));
 }
 void TSaveChCr::open_message_window(const char *text) {
-    if ((uaddr) this->owned_window == 0U) {
-        *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
-        if ((uaddr) this->owned_window != 0U) {
-            if (text != 0U) {
+    if (this->owned_window == NULL) {
+        this->owned_window = create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
+        if (this->owned_window != NULL) {
+            if (text != NULL) {
                 owned_window->append_line(text, 3);
             }
             owned_window->complete_reveal();

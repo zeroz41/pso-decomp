@@ -9,7 +9,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
@@ -121,7 +121,7 @@ const s32 panbara_retreat_angle_offset[2] = {0x800, -0x800};
 
 
 extern "C" void __sinit_TObjEnePanBARA_cpp();
-__declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanBARA_cpp;
+__declspec(section ".ctors") static void *const panarms_global_initializer = __sinit_TObjEnePanBARA_cpp;
 // Indexed by the half's state: set_state runs enter, run_task runs update.
 extern PanBARAState panarms_state_fn_table[17];
 
@@ -420,7 +420,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
+void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); set_texture_list(texlist); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     Vec ground_normal;

@@ -27,7 +27,7 @@
 #include "pso/ui/window/TWindowChallengeResult.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/ChallengeRank.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/math/MatrixReflect.h"
@@ -164,8 +164,8 @@ void TBoss4DarkFalz::free_global_instance() {
     }
 }
 
-void *TObjOnlineEnding::create(void *parent) {
-    return new TObjOnlineEnding(static_cast<TObject *>(parent));
+void *TObjOnlineEnding::create(TObject *parent) {
+    return new TObjOnlineEnding(parent);
 }
 
 #pragma push
@@ -190,8 +190,8 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
         object->queue_destruction();
         return;
     }
-    scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(online_ending_resource, 0));
-    scene_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(online_ending_resource, 0));
+    scene_model = get_bml_model(online_ending_resource, 0);
+    scene_textures = get_bml_texlist(online_ending_resource, 0);
     scene_motion = get_bml_motion(online_ending_resource, 0x18);
     player_count = 0;
     for (i = 0; i < 4; i++) {
@@ -315,7 +315,7 @@ void TObjOnlineEnding::render() {
             post_translate_matrix(&entry->position->x);
             rotate_matrix_y(0, entry->yaw);
             scale_matrix(0, entry->scale, entry->scale, entry->scale);
-            TObjPlayer::draw_player_model_by_client(entry->id, reinterpret_cast<saddr>(entry->motion), 0.0f, 1.0f);
+            TObjPlayer::draw_player_model_by_client(entry->id, entry->motion, 0.0f, 1.0f);
             pop_matrix();
         }
     }

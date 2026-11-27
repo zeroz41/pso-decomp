@@ -81,7 +81,7 @@ TObjDFDemo0::TObjDFDemo0(TObject *parent) : TObjBase(parent) {
             models[i] = get_bml_model(h, t);
         }
         texture_lists[i] = get_bml_texlist(h, k);
-        motions[i] = (AnimationMotion *)get_bml_motion(h, df_demo0_body_motion_ids[i]);
+        motions[i] = get_bml_motion(h, df_demo0_body_motion_ids[i]);
     }
     loop_frame = (-0.5f);
     motion_frame = (-0.5f);

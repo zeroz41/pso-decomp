@@ -1,9 +1,9 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -20,8 +20,6 @@
 extern "C" {
 u8 get_small_font_glyph_width(u8);
 s32 get_small_font_glyph_id(u8);
-u8 get_font_char_advance(u16);
-u16 map_char_to_font_code(u16);
 
 void WindowTextEntry::reveal_all() {
     reveal_pos = 9e+05f;

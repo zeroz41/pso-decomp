@@ -37,7 +37,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby_8013A874.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -60,12 +59,9 @@ extern "C" {
 
 s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
 void * __ct__12TPlyCharDataFv(void *object);
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
-s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
 
-void copy_player_visual_record(void *, void *);
 void __sinit_TNpcPlayer_cpp();
 }
 
@@ -1030,9 +1026,9 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
 
     if (quest_npc_visual_pending != 0) {
         quest_npc_visual_pending = 0;
-        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
+        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&quest_npc_visual_record);
     } else {
-        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
+        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&npc_player_char_data_buffer[index]);
     }
     npc_player_visual_record.bswap();
     mem_free(npc_player_char_data_buffer);
@@ -1068,7 +1064,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
         TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], lvl, &npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&npc_player_char_data.m_disp_part2, &npc_player_visual_record);
+    copy_player_visual_record((PlayerVisualRecord *)&npc_player_char_data.m_disp_part2, (PlayerVisualRecord *)&npc_player_visual_record);
     return &npc_player_char_data;
 }
 
@@ -1084,10 +1080,10 @@ TPlyCharData *load_npc_player_template(s32 index) {
     npc_player_char_data_buffer = static_cast<disp_data_part2 *>(mem_alloc(64 * sizeof(disp_data_part2)));
     if (quest_npc_visual_pending != 0) {
         quest_npc_visual_pending = 0;
-        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
+        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&quest_npc_visual_record);
     } else {
         read_disc_file(npc_player_char_file_name, npc_player_char_data_buffer);
-        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
+        copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&npc_player_char_data_buffer[index]);
     }
     npc_player_visual_record.bswap();
     mem_free(npc_player_char_data_buffer);
@@ -1123,7 +1119,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
         TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], lvl, &npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&npc_player_char_data.m_disp_part2, &npc_player_visual_record);
+    copy_player_visual_record((PlayerVisualRecord *)&npc_player_char_data.m_disp_part2, (PlayerVisualRecord *)&npc_player_visual_record);
     return &npc_player_char_data;
 }
 
@@ -1880,7 +1876,7 @@ void TNpcPlayer::partner_observe_surroundings() {
     leader = leader_view->player;
     leader_distance_sq = horizontal_distance_squared(&leader->position, &self_view->player->position);
     if (escort_leader != 0) {
-        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(self_view, leader_view->get_client_id(), ai_params.enemy_lock_on_range);
+        self_view->try_update_target_flag((u16)leader_view->get_client_id(), ai_params.enemy_lock_on_range);
     } else {
         self_view->scan_targets(ai_params.enemy_lock_on_range);
     }
@@ -2186,12 +2182,12 @@ s32 NpcPlayerView::scan_targets(f32 range) {
     return 0;
 }
 
-s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id) {
+s32 NpcPlayerView::try_update_target_flag(u16 id, f32 range) {
     TObjPlayer *obj_player;
 
-    obj_player = view->player;
-    if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &obj_player->position, id, obj_player) != 0) {
-        view->status = view->status | NPC_STATUS_ENEMIES_IN_RANGE;
+    obj_player = player;
+    if (find_parts_in_range(&obj_player->position, id, range) != 0) {
+        status = status | NPC_STATUS_ENEMIES_IN_RANGE;
         return 1;
     }
     return 0;
@@ -2387,18 +2383,18 @@ s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     return found;
 }
 
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range) {
+s32 NpcPlayerView::find_parts_in_range(Vec *pos, u16 id, f32 range) {
     TObjCollidable *actor;
     s32 found;
     s32 i;
     f32 d;
     s32 j;
 
-    view->target_count = 0;
+    target_count = 0;
     found = 0;
     for (j = 0; j < 10; j++) {
-        view->targets[j].entity_id = 0xFFFF;
-        view->targets[j].distance_sq = 0.0f;
+        targets[j].entity_id = 0xFFFF;
+        targets[j].distance_sq = 0.0f;
     }
     actor = find_entity_by_id(id);
     if (((TObjBase *)actor)->is_alive() != 0) {
@@ -2410,17 +2406,17 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 
             d = horizontal_distance_squared(pos, &actor->bodies[i].center);
             if (d < range) {
                 found = 1;
-                view->targets[view->target_count].entity_id = actor->get_entity_id();
-                view->targets[view->target_count].distance_sq = d;
-                view->targets[view->target_count].collider = i;
-                if (view->target_count >= 9) {
+                targets[target_count].entity_id = actor->get_entity_id();
+                targets[target_count].distance_sq = d;
+                targets[target_count].collider = i;
+                if (target_count >= 9) {
                     break;
                 }
-                view->target_count++;
+                target_count++;
             }
         }
     }
-    view->sort_targets(&view->targets[0], 0, view->target_count - 1);
+    sort_targets(&targets[0], 0, target_count - 1);
     return found;
 }
 

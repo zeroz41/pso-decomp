@@ -1,3 +1,4 @@
+#include "pso/npc/ChaoNpcSpawn.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -172,7 +173,7 @@ void TMotionModel::set_frame_count_from_motion() {
 }
 
 void TMotionModel::set_motion(NJS_MOTION *motion) { this->motion = motion; }
-void TDrawableModel::set_model(void *model) { this->model = model; }
+void TDrawableModel::set_model(NJS_OBJECT *model) { this->model = model; }
 
 TMotionModel::TMotionModel() {
     reset();
@@ -192,12 +193,10 @@ TDrawableModel::TDrawableModel() {
 
 void TDrawableModel::reset() { model = NULL; }
 
-extern uaddr chao_npc_instance_handle;
-
 void TPlyPhotonChair::free_instance() {
-    if ((u32) chao_npc_instance_handle != 0U) {
-        delete (BmlResource *)chao_npc_instance_handle;
-        chao_npc_instance_handle = 0U;
+    if (chao_npc_instance_handle != NULL) {
+        delete chao_npc_instance_handle;
+        chao_npc_instance_handle = NULL;
     }
 }
 

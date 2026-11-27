@@ -13,7 +13,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/item/drop/TItemDrop.h"
+#include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/mag/TItemMagGrowEff.h"
 #include "pso/item/mag/TItemMagSub.h"
@@ -385,13 +386,13 @@ int TItemMagSub::is_growth_inactive() { return test_flags(0x40) == 0; }
 
 void TItemMagSub::scale_owner_height(f32 factor) { owner_height_scale *= factor; }
 
-void TItemMagSub::set_model(void *model_arg, NJS_TEXLIST *textures_arg, void *animation_arg) {
+void TItemMagSub::set_model(NJS_OBJECT *model_arg, NJS_TEXLIST *textures_arg, NJS_MOTION *animation_arg) {
     model = model_arg;
     textures = textures_arg;
     animation = animation_arg;
     if (animation != NULL) {
         animation_frame = 0.0f;
-        animation_length = (f32)((NJS_MOTION *)animation)->nbFrame - 1.0f;
+        animation_length = (f32)animation->nbFrame - 1.0f;
     }
 }
 
@@ -831,9 +832,9 @@ s32 TItemMag::apply_feed(MagStats *change) {
         if (get_mode() == 2) {
             refresh_owner_stats();
             if (owner->obj_isState2_324() == 0) {
-                weapon = (TItem *)TObjPlayer::get_equipped_weapon(owner);
+                weapon = owner->get_equipped_weapon();
                 if (weapon != NULL && weapon->check_equip_requirements(owner, NULL) == 0) {
-                    TObjPlayer::send_6x26_unequip_item(owner, weapon->get_item_id());
+                    owner->send_6x26_unequip_item(weapon->get_item_id());
                 }
             }
         }

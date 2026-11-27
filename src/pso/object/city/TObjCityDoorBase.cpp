@@ -220,7 +220,7 @@ s32 TObjCityDoorBase::is_in_view() {
 TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_shop_params) {
     m_name = class_name;
-    end_frame = city_common_model_archive->motions[10].motion->frameCount - 1;
+    end_frame = city_common_model_archive->motions[10].motion->nbFrame - 1;
 }
 
 TObjCityDoor_Shop::~TObjCityDoor_Shop() {
@@ -236,7 +236,7 @@ void TObjCityDoor_Shop::run_task() {
 
 void TObjCityDoor_Shop::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -248,7 +248,7 @@ void TObjCityDoor_Shop::render() {
 TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_guild_params) {
     m_name = class_name;
-    end_frame = get_city_common_motion(12)->frameCount - 1;
+    end_frame = get_city_common_motion(12)->nbFrame - 1;
 }
 
 TObjCityDoor_Guild::~TObjCityDoor_Guild() {
@@ -264,7 +264,7 @@ void TObjCityDoor_Guild::run_task() {
 
 void TObjCityDoor_Guild::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -276,7 +276,7 @@ void TObjCityDoor_Guild::render() {
 TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_warp_params) {
     m_name = class_name;
-    end_frame = get_city_common_motion(8)->frameCount - 1;
+    end_frame = get_city_common_motion(8)->nbFrame - 1;
 }
 
 TObjCityDoor_Warp::~TObjCityDoor_Warp() {
@@ -315,7 +315,7 @@ void TObjCityDoor_Warp::run_task() {
 
 void TObjCityDoor_Warp::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -344,7 +344,7 @@ s32 TObjCityDoor_Warp::is_rader_map_active() {
 TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
     : TObjCityDoorBase(parent, set, &city_door_med_params) {
     m_name = class_name;
-    end_frame = get_city_common_motion(11)->frameCount - 1;
+    end_frame = get_city_common_motion(11)->nbFrame - 1;
 }
 
 TObjCityDoor_Med::~TObjCityDoor_Med() {
@@ -360,7 +360,7 @@ void TObjCityDoor_Med::run_task() {
 
 void TObjCityDoor_Med::render() {
     if (is_in_view() != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -487,7 +487,7 @@ void TObjCityDoor_Lobby::run_task() {
 
 void TObjCityDoor_Lobby::process_lobby_action_14() {
     if (update_object_view_visibility(400.0f, 70.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
+        set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

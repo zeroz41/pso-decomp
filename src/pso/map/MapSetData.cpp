@@ -11,31 +11,25 @@
 #include "pso/network/TLobby.h"
 #include "pso/map/AreaEventSet.h"
 #include "pso/map/TSetManager.h"
-#include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/text_802097B0.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/system/SubtractiveRng.h"
-#include "pso/unk/TLobby_8020A350.h"
-#include "pso/unk/TLobby_8020A568.h"
 #include "pso/system/EventShuffleTable.h"
 #include "string.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_8020A6B0.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_8020B334.h"
 #include "pso/system/MemoryMove.h"
 #include <stdlib.h>
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/FileExtension.h"
+#include "pso/system/ByteBlocks.h"
 
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
@@ -755,7 +749,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char buf[0x28];
     const char *filename;
     s32 size;
-    u8 *p;
+    LoadEnemySetFileEntry *p;
     s32 count;
     s32 i;
     MapSetVariant *t2;
@@ -793,11 +787,11 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = map_set_file_buffer;
-    count = (u32)size / 0x48;
-    for (i = 0; i < count; i++, p += 0x48) {
+    p = (LoadEnemySetFileEntry *)map_set_file_buffer;
+    count = (u32)size / sizeof(LoadEnemySetFileEntry);
+    for (i = 0; i < count; i++, p++) {
         bswap_enemy_set_row(p);
-        *(s16 *)(p + 2) = 0;
+        p->b = 0;
     }
     reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
     TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);

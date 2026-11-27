@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOAttackableCol : public TObjChara {
-    TOAttackableCol(saddr);
+    TOAttackableCol(void *);
     virtual ~TOAttackableCol();
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
@@ -22,7 +22,7 @@ struct TOAttackableCol : public TObjChara {
     void init_params();
     void send_state_change(u16 state);
     void handle_6x91_update_state();
-    f32 apply_hit(saddr player);
+    f32 apply_hit(TObjBase *player);
     void release();
     void check_door_trigger();
     void run_task_stub();

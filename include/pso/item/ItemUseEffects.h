@@ -3,12 +3,12 @@
 #include "types.h"
 #include "pso/item/TItemObject.h"
 
-class TUnk_804F112C : public TItemObject {
+class TItemToolUseEffect : public TItemObject {
 public:
-    TUnk_804F112C(TObject *parent, u8 *item);
+    TItemToolUseEffect(TObject *parent, u8 *item);
     // Declared first: apply_use_effect is the key function, so its TU emits the vtable.
     virtual void apply_use_effect();
-    virtual ~TUnk_804F112C();
+    virtual ~TItemToolUseEffect();
     static TItem *create(u8 *item);
 
     void inflict_status(s32 kind);

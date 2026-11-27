@@ -51,7 +51,7 @@ const char *get_shop_text(s32 index) {
 
 void TLobby::free_singleton() {
     if (shop_text_groups != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)shop_text_groups));
+        TLobby::free_nodes_with_id(shop_text_groups);
         shop_text_groups = 0U;
     }
 }

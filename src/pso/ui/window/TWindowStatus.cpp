@@ -104,8 +104,8 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     f32 s;
 
     {
-        u8 *e = (u8 *)get_array_entry(0xE);
-        draw_photon_blast_gauge_ring(this, context, &pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
+        TWindowLayoutNumber *e = (TWindowLayoutNumber *)get_array_entry(0xE);
+        draw_photon_blast_gauge_ring(this, context, &pos, e->value, 26.0f);
     }
     begin_screen_draw(1);
     set_texture_list(hud_texlist);

@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/object/city/CitySeason.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"
@@ -89,7 +89,7 @@ s32 TObjCitySeasonBase::advance_anim_time(s32 motion, f32 step) {
     f32 last_frame;
     resource = get_anim_frame();
     if (resource != NULL) {
-        last_frame = resource->motions[motion].motion->frameCount - 1;
+        last_frame = resource->motions[motion].motion->nbFrame - 1;
         anim_time += step;
         if (anim_time >= last_frame) {
             anim_time -= last_frame;

@@ -30,7 +30,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -502,7 +502,7 @@ void TObjEneBalClawClaw::render() {
         detail = classify_actor_view_detail(120.0f, 400.0f, 10.0f);
         if (detail != 0) {
             shadow = 1;
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            set_texture_list(texlist);
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();

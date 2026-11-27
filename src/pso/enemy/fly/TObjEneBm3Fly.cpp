@@ -5,6 +5,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/TextureState.h"
 #include <stddef.h>
@@ -35,7 +36,6 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/render/render_util.h"
@@ -626,7 +626,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         break;
     case 0:
         this->advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (validate_target() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         this->update();
@@ -730,7 +730,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+        if (validate_target() == 0) {
             this->enemy_clear_target();
         }
         switch (this->step) {
@@ -823,7 +823,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)this)->update_death_check() == 0 && this->acquire_target(2e+02f) == 0) {
+        if (validate_target() == 0 && this->acquire_target(2e+02f) == 0) {
             break;
         }
         switch (this->step) {
@@ -1102,7 +1102,7 @@ void TObjEneBm3Fly::render() {
             this->draw_ground_shadow(&v, 0);
         }
         this->update_secondary_light();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         translate_matrix(0, this->position.x, this->flightY, this->position.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -1124,7 +1124,7 @@ void TObjEneBm3Fly::render() {
 void TObjEneBm3Fly::render_demo() {
     if (update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         draw_ground_shadow(0, 0);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

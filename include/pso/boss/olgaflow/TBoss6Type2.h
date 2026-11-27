@@ -3,6 +3,7 @@
 
 #include "pso/boss/Boss6ScrollStrips.h"
 #include "types.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 struct TBoss6Zanzo;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
@@ -15,7 +16,7 @@ struct OlgaFlowType2ActionMsg;
 struct Boss6GridBytes;
 struct NJS_OBJECT;
 struct CollisionBody;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct TBoss6Mag;
 struct TBoss6MagSpawnParams;
 class TBoss6DPB;
@@ -34,12 +35,12 @@ struct TBoss6Type2Model {
 
 // One motion track; a change of motion blends from prev_motion over blend.
 struct TBoss6Type2MotionTrack {
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     f32 speed;  // frames per update
     f32 blend;
     f32 blend_step;
-    AnimationMotion *prev_motion;
+    NJS_MOTION *prev_motion;
     f32 prev_frame;
     void copy_from(TBoss6Type2MotionTrack *src);
 };
@@ -170,7 +171,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 turn_done;     // turn_toward_target_position finished
     s32 turn_sound_played;  // the full-speed turn sound plays once
     Vec move_origin;   // where the move to boss6_arena_center starts
-    s32 switch_timer;  // attribute switch countdown (set_state_0x34, update_countdown)
+    s32 switch_timer;  // attribute switch countdown (start_attribute_switch, update_countdown)
     s32 switch_pending;
     s32 lower_contact_index;
     Vec lower_contact_delta;
@@ -182,7 +183,7 @@ struct TBoss6Type2 : public TObjEnemy
     // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
     NJS_TEXLIST *grab_texlists[2];
     NJS_OBJECT *grab_models[2];
-    char *grab_appearance;  // the possessed player's name block, the appearance boss6type2_draw_models takes
+    CharacterAppearanceFields *grab_appearance;  // the possessed player's name block, the appearance boss6type2_draw_models takes
     Boss6PlayerLook saved_look;
     Vec node_positions[19];       // body node positions, captured each draw
     Vec prev_node_positions[19];  // last update's node_positions
@@ -239,7 +240,7 @@ struct TBoss6Type2 : public TObjEnemy
     void play_phase_sound();
     void play_sound_if_no_target();
     void update_countdown();
-    void set_state_0x34();
+    void start_attribute_switch();
     void start_countdown_sound_state();
     void reset_indices();
     s32 get_hit_count();
@@ -298,7 +299,7 @@ struct TBoss6Type2 : public TObjEnemy
     static TBoss6Mag *create_mag(TBoss6MagSpawnParams *params);
     void on_mag_dead();
     void get_shoulder_point(s32 index, Vec *pos, s32 *rotation);
-    static void send_6xAD_grid_positions(s32 index, saddr points, s32 count);
+    static void send_6xAD_grid_positions(s32 index, Vec *points, s32 count);
     static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static TBoss6EffFlowSoul *create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration);
     s32 get_state();

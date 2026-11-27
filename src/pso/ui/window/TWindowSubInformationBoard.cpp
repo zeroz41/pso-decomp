@@ -25,7 +25,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/InfoBoardState.h"
 #include "pso/network/InfoBoardRequests.h"
 
@@ -185,7 +184,7 @@ TWindowMenu *TWindowSubInformationBoard::create_info_board_menu() {
   list->add_text_entry((TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
   list->set_flag70_bit10();
   list->update_layout_height(179.0f);
-  align_menu_entry_positions(list);
+  list->align_menu_entry_positions();
   return list;
 }
 

@@ -10,7 +10,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
@@ -168,7 +168,7 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include <stddef.h>
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 
 
 
@@ -177,7 +177,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 // Kept here: the owner headers (TObjCharaHelpers.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
@@ -260,29 +259,29 @@ s32 TObjEneLappy::advance_flee_step() {
         }
         tries = 0;
         angle = 0;
-loop_7:
-        if (tries == 0) {
-            VecCopy(&step, &velocity);
-        } else {
-            push_matrix_from(&identity_matrix);
-            rotate_matrix_y(0, (int)(dir * angle));
-            rotate_vector_by_matrix(0, &velocity, &step);
-            pop_matrices(1);
+        while (1) {
+            if (tries == 0) {
+                VecCopy(&step, &velocity);
+            } else {
+                push_matrix_from(&identity_matrix);
+                rotate_matrix_y(0, (int)(dir * angle));
+                rotate_vector_by_matrix(0, &velocity, &step);
+                pop_matrices(1);
+            }
+            VecCopy(&probe, &position);
+            vec3_add_to(&probe, &step);
+            if (project_actor_to_ground(this, &probe, 0) == 1) {
+                VecCopy(&position, &probe);
+                VecCopy(&velocity, &position);
+                subtract_vector(&velocity, &prev_position);
+                return 1;
+            }
+            tries += 1;
+            angle += 0x1000;
+            if (tries >= 0xF) {
+                return 0;
+            }
         }
-        VecCopy(&probe, &position);
-        vec3_add_to(&probe, &step);
-        if (project_actor_to_ground(this, &probe, 0) == 1) {
-            VecCopy(&position, &probe);
-            VecCopy(&velocity, &position);
-            subtract_vector(&velocity, &prev_position);
-            return 1;
-        }
-        tries += 1;
-        angle += 0x1000;
-        if (tries >= 0xF) {
-            return 0;
-        }
-        goto loop_7;
     }
     if (project_actor_to_ground(this, &next, 0) == 1) {
         VecCopy(&position, &next);
@@ -311,7 +310,7 @@ void TObjEneLappy::render() {
         detail = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (detail != 0) {
             set_speed_params(this->variant);
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+            set_texture_list(this->texlist);
             select_actor_lighting(this);
             toggle_particle_effect();
             push_matrix();
@@ -576,7 +575,7 @@ void TObjEneLappy::update_moving() {
             }
             turn_toward_direction(movementParameters->turn_speed, &velocity);
             play_walk_sound();
-            goto block_48;
+            break;
         case 1:
             chased = target;
             if (chased != NULL) {
@@ -593,7 +592,7 @@ void TObjEneLappy::update_moving() {
                 move_phase = 0;
             }
             play_walk_sound();
-            goto block_48;
+            break;
         case 2:
             break;
         case 3:
@@ -606,7 +605,7 @@ void TObjEneLappy::update_moving() {
             if (is_passing_frame(30.0f) != 0) {
                 play_sound_effect(remap_area_sound_id(0x3AA11, 5), &position, 0, 0);
             }
-            goto block_48;
+            break;
         case 4:
             if (flags == 1U) {
                 enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation_y);
@@ -635,7 +634,6 @@ void TObjEneLappy::update_moving() {
             return;
         }
     }
-block_48:
     apply_actor_gravity(this, NULL, 0.0f);
     update_collisions();
 }

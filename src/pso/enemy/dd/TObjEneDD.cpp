@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/vector.h"
@@ -27,7 +27,6 @@ const char *dd_name = "TObjEneDD";
 const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 #include "pso/map/CsnQuery.h"
 
-#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
@@ -36,8 +35,7 @@ const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
-#include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -68,7 +66,6 @@ TAttackCollider *obj_ene_dd_instance;
 
 
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #include "pso/math/MatrixVector.h"
 
@@ -138,13 +135,12 @@ TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
 TObjEneDD::~TObjEneDD() {}
 
 void TObjEneDD::init_position_vectors() {
-    u8 *self = (u8 *)this;
     VecCopy(&this->prev_position, (const Vec *)&this->position);
     VecCopy(&this->home_position, (const Vec *)&this->position);
     VecCopy(&this->center, (const Vec *)&this->position);
     register_by_id();
     VecCopy(&this->body_center, (const Vec *)&this->position);
-    *(f32 *)((s8 *)self + 0x308) = 0.0f;
+    this->velocity.x = 0.0f;
     this->velocity.y = 0.0f;
     this->velocity.z = 0.0f;
     this->ground_normal.x = 0.0f;
@@ -292,7 +288,7 @@ int TObjEneBm3Fly::was_hit_by_ranged() { return (this->hit_flags >> 1) & 0x1; }
 
 void TObjEnemy::refresh_and_send_entity_flags() { refresh_lobby_state(); send_entity_set_flags(); }
 
-u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
+u16 TObjChara::enemy_nearest_visible_player_sq(f32 range) {
     f32 d;
     f32 best;
     s32 n;
@@ -305,8 +301,8 @@ u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
     for (i = 0; i < n; i++) {
         p = (TObjChara *)TObjPlayer::get_player_data(i);
         if (p->is_alive() != 0) {
-            d = horizontal_distance_squared(&self->body_center, &p->position);
-            if (d < best && csnLookAt(&self->body_center, &p->body_center) == 0) {
+            d = horizontal_distance_squared(&this->body_center, &p->position);
+            if (d < best && csnLookAt(&this->body_center, &p->body_center) == 0) {
                 result = p->get_entity_id();
                 best = d;
             }
@@ -316,8 +312,8 @@ u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
 }
 
 
-u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range) {
-    return enemy_nearest_visible_player_sq(self, range * range);
+u16 TObjChara::enemy_find_nearest_player_in_range(f32 range) {
+    return this->enemy_nearest_visible_player_sq(range * range);
 }
 
 void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src) {
@@ -385,7 +381,7 @@ s32 TObjEneDD::collect_target_candidates(TObjEneDD *actor, f32 range) {
     return actor->collect_enemy_target_candidates(enemy_target_candidate_table, range);
 }
 
-u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
+u16 TObjChara::enemy_nearest_visible_enemy_sq(f32 range) {
     s32 count;
     s32 base;
     TObjChara *p;
@@ -398,9 +394,9 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
     count = TObjEneDD::get_enemy_count();
     for (i = 0; i < count; i++) {
         p = (TObjChara *)TObjPlayer::get_player_data(base + i);
-        if (p != self && !(p->actorFlags & 0x01000000) && p->is_alive() != 0) {
-            d = horizontal_distance_squared(&self->body_center, &p->position);
-            if (d < range && csnLookAt(&self->body_center, &p->body_center) == 0) {
+        if (p != this && !(p->actorFlags & 0x01000000) && p->is_alive() != 0) {
+            d = horizontal_distance_squared(&this->body_center, &p->position);
+            if (d < range && csnLookAt(&this->body_center, &p->body_center) == 0) {
                 best = p->get_entity_id();
                 range = d;
             }
@@ -409,8 +405,8 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
     return best;
 }
 
-u16 enemy_nearest_visible_enemy(TObjChara *self, f32 range) {
-    return enemy_nearest_visible_enemy_sq(self, range * range);
+u16 TObjChara::enemy_nearest_visible_enemy(f32 range) {
+    return this->enemy_nearest_visible_enemy_sq(range * range);
 }
 
 CsnHit *TObjEneDD::snap_to_ground_at(u8 *dest) {
@@ -730,7 +726,7 @@ int is_enemy_entity_id(u16 id) {
     return is_enemy;
 }
 
-s32 TObjEneDD::is_valid_target() {
+s32 TObjBase::is_valid_target() {
     int valid;
 
     valid = 0;
@@ -1059,7 +1055,7 @@ void TObjEneDD_ST::enemy_set_target_id(u16 id) {
     }
 }
 
-void TObjEneDD_ST::set_target_player(void *player) {
+void TObjEneDD_ST::set_target_player(TObjChara *player) {
     s32 n;
     s32 i;
     target_id = 0xFFFF;
@@ -1067,8 +1063,8 @@ void TObjEneDD_ST::set_target_player(void *player) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == TObjPlayer::get_player_data(i)) {
-            target_id = ((TObjBase *)(player))->get_entity_id();
-            current_target = (TObjChara *)player;
+            target_id = player->get_entity_id();
+            current_target = player;
             return;
         }
     }
@@ -1100,20 +1096,20 @@ s32 TObjEneDD_ST::select_and_apply_target(f32 range) {
     u16 target;
 
     if (this->is_confused() != 0) {
-        enemy = enemy_nearest_visible_enemy(this, range);
+        enemy = enemy_nearest_visible_enemy(range);
         target = enemy;
         if (enemy == 0xFFFF) {
-            target = enemy_find_nearest_player_in_range(this, range);
+            target = enemy_find_nearest_player_in_range(range);
         }
     } else {
-        target = enemy_find_nearest_player_in_range(this, range);
+        target = enemy_find_nearest_player_in_range(range);
     }
     return enemy_bind_or_clear_target(target);
 }
 
 
 s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
-    u16 target = enemy_find_nearest_player_in_range(this, distance);
+    u16 target = enemy_find_nearest_player_in_range(distance);
     return enemy_bind_or_clear_target(target);
 }
 
@@ -1153,17 +1149,14 @@ s32 TObjEneDD_ST::enemy_validate_retained_target() {
         if (is_target_unobstructed_from(this->current_target) != 0) {
             return 1;
         }
-        goto block_5;
-    }
-    if (this->enemy_has_live_target() != 0) {
+    } else if (this->enemy_has_live_target() != 0) {
         return 1;
     }
-block_5:
     this->enemy_clear_target();
     return 0;
 }
 
-s32 TObjEneEpsilon::update_death_check() {
+s32 TObjEneDD_ST::validate_target() {
     if ((this->is_confused() == 0) && (is_player_entity_id(this->target_id) == 0)) {
         this->enemy_clear_target();
         return 0;
@@ -1242,7 +1235,7 @@ s32 TObjEneDD_ST::enemy_check_target_valid() {
         this->enemy_clear_target();
         return 0;
     }
-    return ((TObjEneDD *)current_target)->is_valid_target();
+    return current_target->is_valid_target();
 }
 
 #pragma push

@@ -11,18 +11,18 @@ struct OlgaFlowActionMsg;
 
 class ModelNodePositionCapture;
 class TBoss6PlotFalz;
-struct AnimationMotion;
+struct NJS_MOTION;
 class TParticleCtrl;
 typedef Vec Boss6EffectPoint;
 // One of the two part-motion players at 0x444 (render blends prev_motion/prev_frame into
 // motion/frame by blend; the TBoss6Type2MotionTrack twin).
 struct Boss6PartMotion {
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     f32 frame;
     f32 speed;  // frames per update
     f32 blend;
     f32 blend_step;
-    AnimationMotion *prev_motion;
+    NJS_MOTION *prev_motion;
     f32 prev_frame;
     void copy_from(Boss6PartMotion *src);
 };
@@ -156,7 +156,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void request_default_jittered_camera();
     s32 is_timer_expired();
     void reset_fields_4e0();
-    s32 is_field3F8_over_0x20();
+    s32 has_enough_free_child_ids();
     int is_field4b0_delta_reached();
     s32 is_ready();
     s32 check_field4b0_threshold();
@@ -246,7 +246,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void render();
     void release_map_csn();
     void spawn_map_csn();
-    static TBoss6GravBall *create_grav_ball(TBoss6Type1 *owner, const Vec *position);
+    TBoss6GravBall *create_grav_ball(const Vec *position);
     s32 get_gravity_attack_state();
     void spawn_grav_ball();
     void damage_players_in_range();
@@ -345,8 +345,6 @@ LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680)
 LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, target_position) == 0x420);
 LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
 LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
-// The two motions and frames draw_model_blend_motion blends.
-struct Boss6BlendMotion { AnimationMotion *motions[2]; f32 frames[2]; };
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 
 #endif

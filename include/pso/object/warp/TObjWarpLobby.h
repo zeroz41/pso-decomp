@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
-struct AnimationMotion;
+struct NJS_MOTION;
 
 struct TObjWarpLobby : public TObjAreaWarp {
     static const char *class_name;
@@ -21,7 +21,7 @@ struct TObjWarpLobby : public TObjAreaWarp {
     s32 show_beam;
     s32 pad_D0;
     s32 pad_D4;
-    AnimationMotion *beam_motion;
+    NJS_MOTION *beam_motion;
     s32 pad_DC;
     static void *create(void *set_data);
 };

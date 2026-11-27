@@ -1,8 +1,8 @@
 #include "pso/quest/QuestDownloadCharTables.h"
 
 // Character-code tables of the quest text converter. Interim data-only unit: their only users are in
-// TQuestVmDownLoadServer_803E6970, but that TU's own .rodata statics (glyph_bits, 0x8047EA28) are addressed from
-// their own base (0x803E7390 indexes glyph_rows/glyph_col off glyph_bits), so the TU's .rodata starts there and these
+// AskDicFile.cpp, but that TU's own .rodata statics (glyph_bits) are addressed from
+// their own base (glyph_rows/glyph_col are indexed off glyph_bits), so the TU's .rodata starts there and these
 // external tables (.rodata, so C) belong to a C file linked before it. Fold once that file is known.
 
 // JIS X 0208 code for each single-byte character (0x2223 where none).

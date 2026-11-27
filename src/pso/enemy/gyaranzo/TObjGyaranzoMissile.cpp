@@ -52,7 +52,7 @@ void TObjGyaranzoMissile::explode() {
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
-            target = (TObjChara *)TObjPlayer::get_battle_param(i);
+            target = TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }

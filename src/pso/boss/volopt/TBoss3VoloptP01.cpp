@@ -21,7 +21,7 @@
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -244,7 +244,7 @@ void TBoss3VoloptP01::render() {
     u32 flags;
 
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         select_actor_lighting(this);
         toggle_particle_effect();
         push_matrix();

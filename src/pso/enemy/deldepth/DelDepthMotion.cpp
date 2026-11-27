@@ -21,11 +21,11 @@ DelDepthMotion::DelDepthMotion(TObjMotion *owner) : actor(owner), motion(-1) {}
 
 DelDepthMotion::~DelDepthMotion() {}
 
-void DelDepthMotion::set_motion(s32 arg1) {
+void DelDepthMotion::set_motion(s32 new_motion) {
     s32 flag;
     s32 id;
     flag = motion;
-    motion = arg1 & ~0x1000;
+    motion = new_motion & ~0x1000;
     flag &= 0x1000;
     id = motion;
     if (id == -1) {
@@ -43,7 +43,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         model = get_bml_model(data, 1);
         texture = get_bml_texlist(data, 1);
         animation = get_bml_motion(data, e->motion);
-        endFrame = animation->frameCount;
+        endFrame = animation->nbFrame;
         speed = e->speed;
         frame = 0.0f;
     } else {
@@ -57,7 +57,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         secondModel = get_bml_model(data, q->model);
         secondTexture = get_bml_texlist(data, q->model);
         secondAnimation = get_bml_motion(data, q->motion);
-        endFrame = secondAnimation->frameCount;
+        endFrame = secondAnimation->nbFrame;
         speed = e->speed;
         frame = 0.0f;
     }

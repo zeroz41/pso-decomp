@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 __declspec(section ".rodata") extern const char TAdGameStartSubGC_class_name_string[] = "TAdGameStartSubGC";
-extern void *game_start_sub_class_name[2];
+extern const char *game_start_sub_class_name[2];
 
 #pragma push
 #pragma fp_contract on
@@ -68,7 +68,7 @@ void TAdGameStartSubGC::run_task() {
 TAdGameStartSubGC::~TAdGameStartSubGC() {}
 TAdGameStartSubGC::TAdGameStartSubGC(TObject *parent, GameStartLetterLayout *layout) : TObject(parent) {
     s32 color;
-    m_name = (const char *)game_start_sub_class_name[0];
+    m_name = game_start_sub_class_name[0];
     m_cell = layout->cell;
     copy_vec2(&m_origin, &layout->x);
     color = layout->color;
@@ -91,4 +91,4 @@ TAdGameStartSubGC::TAdGameStartSubGC(TObject *parent, GameStartLetterLayout *lay
 }
 #pragma pop
 
-void *game_start_sub_class_name[2] = {(void *)TAdGameStartSubGC_class_name_string, 0};
+const char *game_start_sub_class_name[2] = {TAdGameStartSubGC_class_name_string, 0};

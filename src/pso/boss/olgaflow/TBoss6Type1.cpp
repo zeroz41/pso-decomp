@@ -659,7 +659,7 @@ void TBoss6Type1::advance_animations() {
     for (i = 0; i < n; i++) {
         if (i == cur) continue;
         a = &motion_state.part_motions[i];
-        len = a->motion->frameCount;
+        len = a->motion->nbFrame;
         a->frame += a->speed;
         if (a->frame >= len) a->frame -= len;
         if (0.0f != a->blend) {
@@ -667,7 +667,7 @@ void TBoss6Type1::advance_animations() {
         }
     }
     a = &motion_state.part_motions[main_anim_index()];
-    len = a->motion->frameCount;
+    len = a->motion->nbFrame;
     a->frame += a->speed;
     switch (this->motion_state.motion_mode) {
     case 0:
@@ -705,7 +705,7 @@ void TBoss6Type1::set_motion_set(s32 set) {
     this->motion_state.motion_mode = t->mode;
     for (i = 0; i < n; i++) {
         a = &motion_state.part_motions[i];
-        AnimationMotion *motion = get_bml_motion(this->bml_resource, t->ids[i]);
+        NJS_MOTION *motion = get_bml_motion(this->bml_resource, t->ids[i]);
         a->blend = a->blend_step;
         a->prev_motion = a->motion;
         a->prev_frame = a->frame;
@@ -718,7 +718,7 @@ void TBoss6Type1::set_motion_set(s32 set) {
 #pragma push
 #pragma opt_propagation off
 void TBoss6Type1::draw_part_motions() {
-    Boss6BlendMotion b;
+    NJS_MOTION_LINK b;
     s32 i;
     saddr id;
     NJS_TEXLIST *textures;
@@ -738,15 +738,15 @@ void TBoss6Type1::draw_part_motions() {
             set_texture_list(textures);
             if (0.0f == a->blend) {
                 cb->install();
-                draw_model_motion((void *)id, a->motion, a->frame);
+                draw_model_motion((NJS_OBJECT *)id, a->motion, a->frame);
                 cb->clear();
             } else {
-                b.motions[0] = a->prev_motion;
-                b.frames[0] = a->prev_frame;
-                b.motions[1] = a->motion;
-                b.frames[1] = a->frame;
+                b.motion[0] = a->prev_motion;
+                b.frame[0] = a->prev_frame;
+                b.motion[1] = a->motion;
+                b.frame[1] = a->frame;
                 cb->install();
-                draw_model_blend_motion((void *)id, &b, a->blend);
+                draw_model_blend_motion((NJS_OBJECT *)id, &b, a->blend);
                 cb->clear();
             }
         }
@@ -970,7 +970,7 @@ void TBoss6Type1::update_beam_attack() {
     Vec A;
     Vec B;
     f32 t = motion_state.part_motions[1].frame;
-    AnimationMotion *motion = motion_state.part_motions[1].motion;
+    NJS_MOTION *motion = motion_state.part_motions[1].motion;
     s32 n;
     s32 i;
 
@@ -1100,7 +1100,7 @@ void TBoss6Type1::spawn_sword_shots() {
 // swept since the previous frame, between frames 10.5 and 15 of motion set 14.
 void TBoss6Type1::check_sweep_hits() {
     f32 frame = motion_state.part_motions[0].frame;
-    AnimationMotion *motion = motion_state.part_motions[0].motion;
+    NJS_MOTION *motion = motion_state.part_motions[0].motion;
     Vec *tip = (Vec *)&arm_node_positions[6];
     s32 i;
     s32 n;
@@ -1373,7 +1373,7 @@ void TBoss6Type1::spawn_grav_ball() {
         v.x += r * sin_table_lookup(ang);
         v.z += r * cos_table_lookup(ang);
     }
-    TBoss6Type1::create_grav_ball(this, &v);
+    this->create_grav_ball(&v);
 }
 
 
@@ -1622,7 +1622,7 @@ s32 TBoss6Type1::is_ready() {
 int TBoss6Type1::is_field4b0_delta_reached() {
     return calc_field4b0_delta() >= delta_threshold ? 1 : 0;
 }
-s32 TBoss6Type1::is_field3F8_over_0x20() {
+s32 TBoss6Type1::has_enough_free_child_ids() {
     return this->plot_falz->count_free_child_ids() > 0x20;
 }
 

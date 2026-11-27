@@ -2,12 +2,16 @@
 #define PSO_ITEM_ITEM_CREATE_H
 
 #include "types.h"
+#include "pso/system/data/FlagWord.h"
 
 struct TItemData;
 
+// Set on entering Pioneer 2; the floor item sync then respawns floor 0's items.
+extern FlagWord floor_item_respawn_requested;
+
 void set_boss_buf_entry(int value, u16 index);
 int get_sync_counter(u16 index);
-s32 get_item_data(u32 item);
+s32 get_item_data(TItemData *item);
 void forward_message(char *buf, TItemData *item);
 void mark_selected();
 int get_drop_flag();
@@ -22,7 +26,7 @@ struct ItemCombination;
 
 // Whether the player's class has every class bit perm asks for.
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
-s32 item_identity_matches(u8 *arg0, u8 *arg1);
+s32 item_identity_matches(u8 *item, u8 *other);
 s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 void normalize_drop_area(s32 *p);

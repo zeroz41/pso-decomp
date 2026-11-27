@@ -494,7 +494,7 @@ public:
     void send_c6_packet(TBlockedSenders *senders);
     void send_text_packet_c7(char *str);
     void send_text_packet_D9(char *str);
-    s32 send_login_9e_extended(void *player_name, int udp_disabled);
+    s32 send_login_9e_extended(const char *player_name, int udp_disabled);
     s32 set_server_info(const char *serial_v1, const char *access_key_v1, const char *serial, const char *access_key,
                         const char *host, u16 port);
     void send_keepalive();

@@ -14,7 +14,7 @@ struct SubtractiveRng {
     // The next sample as a ratio in [0, 1).
     f32 next_ratio();
     // Subtracts the next samples from `len` bytes of words.
-    void apply_rng_cipher(u32 *data, s32 len);
+    void apply_rng_cipher(void *data, s32 len);
     // Moves each 256-byte block's bytes to the positions of make_shuffle's permutation.
     void permute_save_blocks(const u8 *source, u8 *destination, u32 size);
     // XORs the next samples into `len` bytes of big-endian words.
@@ -32,7 +32,7 @@ struct SubtractiveRng {
     // Moves each 256-byte block's bytes back through make_shuffle's inverse permutation.
     void unshuffle(const u8 *source, u8 *destination, u32 size);
     // XORs the next samples into `len` bytes of words.
-    void xor_buffer(u32 *data, s32 len);
+    void xor_buffer(void *data, s32 len);
 };
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
 

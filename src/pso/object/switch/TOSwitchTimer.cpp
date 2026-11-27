@@ -153,7 +153,7 @@ void TOSwitchTimer::run_task() {
 
 
 void *TOSwitchTimer::create(void *set_data) {
-    void *o = (void *)new TOSwitchTimer(tl_05, (saddr)set_data);
+    void *o = new TOSwitchTimer(tl_05, set_data);
     return o;
 }
 
@@ -164,8 +164,8 @@ TOSwitchTimer::~TOSwitchTimer() {
         clear_floor_switch_flag(this->trigger_switch, (s16) this->floor);
     }
 }
-TOSwitchTimer::TOSwitchTimer(TObject *parent, saddr set_data) : TObjBase(parent) {
+TOSwitchTimer::TOSwitchTimer(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = switch_timer_name;
-    apply_object_set_data((void *)set_data);
+    apply_object_set_data(set_data);
     init_from_set_data();
 }

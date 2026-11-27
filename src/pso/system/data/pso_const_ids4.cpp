@@ -3,14 +3,14 @@
 #include "pso/player/TPlyDispConfig.h"
 
 
-void assign_photon_blast_palette_slot(TPlyDispConfig *palettes, s32 arg1) {
+void assign_photon_blast_palette_slot(TPlyDispConfig *palettes, s32 slot) {
     s32 ids[3] = {1, 2, 3};
     s32 id;
     s32 i;
     for (i = 0; i < 3; i++) {
         id = ids[i];
         if (palettes->m_smth1.get_tag_mode(1, id) == 0) {
-            palettes->m_smth1.set_tag(1, id, 5, arg1);
+            palettes->m_smth1.set_tag(1, id, 5, slot);
             return;
         }
     }

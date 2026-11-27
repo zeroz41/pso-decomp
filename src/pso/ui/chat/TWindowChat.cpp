@@ -1,5 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
@@ -91,11 +92,11 @@ s32 TWindowChat::update_word_select_window() {
 }
 
 s32 TWindowChat::submit_keyboard_input() {
-    uaddr kb = (uaddr)this->composer;
-    if (kb == 0U) {
+    TWindowKeyBoardBase *kb = this->composer;
+    if (kb == NULL) {
         return 0;
     }
-    if (((TWindowKeyBoardBase *)kb)->is_cancelled() != 0) {
+    if (kb->is_cancelled() != 0) {
         composer->reset_input();
         this->set_input_active();
         return 1;
@@ -394,7 +395,7 @@ TWindowChat::~TWindowChat() {
         composer = NULL;
     }
 }
-TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
+TWindowChat::TWindowChat(TObject *object, ChatShortcut *result) : TObject(object) {
     m_name = class_name;
     this->inputMode = 0;
     this->flags = 2;
@@ -405,7 +406,7 @@ TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
     auxiliaryWindow = NULL;
     wordSelectWindow = NULL;
     symbolChatWindow = NULL;
-    this->result = static_cast<ChatShortcut *>(result);
+    this->result = result;
     this->open_next_input_window();
 }
 

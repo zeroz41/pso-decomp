@@ -14,7 +14,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/TObjLukerNames.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerCommands.h"
@@ -41,13 +41,13 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-
-
-extern "C" {
+#include "pso/ui/window/TObjBagWarnWin.h"
 
 
 u32 calc_text_width(const char *);
+extern "C" {
+
+
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 void set_tombstone_position(s32 i, Vec *pos);
 }
@@ -435,17 +435,13 @@ s32 TObjTombstone::check_all_players_active() {
     if (has_window_task_root() == 0) {
         return 0;
     }
-    i = 0;
-loop_3:
-    player = get_player_by_client_id(i);
-    if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
-        return 0;
+    for (i = 0; i < 4; i++) {
+        player = get_player_by_client_id(i);
+        if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
+            return 0;
+        }
     }
-    i += 1;
-    if (i >= 4) {
-        return 1;
-    }
-    goto loop_3;
+    return 1;
 }
 
 void TObjTombstone::update_render_flags() {
@@ -488,7 +484,7 @@ void TObjTombstone::draw_name_labels() {
     if (0.0f == this->label_fade) return;
     VecCopy(&pos, &this->position);
     pos.y += 14.0f;
-    if (TObjTombstone::project_to_screen(this, &screen, &pos) == 0) return;
+    if (project_to_screen(&screen, &pos) == 0) return;
     m = 0.0f;
     for (s32 i = 0; i < 6; i++) {
         f32 w = calc_text_width(this->labels[i]);
@@ -545,7 +541,7 @@ void TObjTombstone::update_fade_by_distance() {
     }
 }
 
-s32 TObjTombstone::project_to_screen(const TObjTombstone *, NJS_POINT2 *screen, const Vec *point) {
+s32 TObjTombstone::project_to_screen(NJS_POINT2 *screen, const Vec *point) const {
     Vec d;
     Vec v = { 0.0f, 0.0f, -1.0f };
     push_matrix_from(identity_matrix);

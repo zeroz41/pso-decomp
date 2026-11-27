@@ -427,7 +427,7 @@ void send_quest_collision_warp(void) {
     }
 }
 
-TObjQuestColApcINW *create_quest_col_apc_inw__6TLobbyFPvPv(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColApcINW *TLobby::create_quest_col_apc_inw(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApcINW *o = new TObjQuestColApcINW(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;

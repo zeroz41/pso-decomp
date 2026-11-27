@@ -22,14 +22,14 @@ void sync_auto_reply_state() {
 }
 
 const char *get_card_window_area() {
-    return (const char *)(get_character_save_record(0xFFFF) + 0x2050);
+    return get_character_save_record(0xFFFF)->short_mail_text;
 }
 void set_short_mail_text(char *text) {
-    u8 *mail_text;
-    mail_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
+    char *mail_text;
+    mail_text = get_character_save_record((0xFFFFU))->short_mail_text;
     mask_profanity_words(text, get_shared_text_buffer());
-    strncpy((char *)mail_text, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
-    *(s8 *)((s8 *)mail_text + 0xAB) = 0;
+    strncpy(mail_text, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
+    mail_text[0xAB] = 0;
     auto_reply_flags |= 4;
     if (is_active() != 0) {
         set_flag_bit0(1);

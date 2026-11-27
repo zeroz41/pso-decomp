@@ -1,6 +1,6 @@
 #ifndef PSO_RENDER_TNODEMATRIXRECORDER_H
 #define PSO_RENDER_TNODEMATRIXRECORDER_H
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/task/TObject.h"

@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TLOC_END_H
 #define PSO_UNK_TLOC_END_H
 #include "types.h"
-#include "pso/unk/TUnk_804A7260.h"
+#include "pso/unk/LockOnTask.h"
 
 class TLOC_End : public LockOnTask {
 public:

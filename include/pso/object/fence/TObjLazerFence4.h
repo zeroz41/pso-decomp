@@ -26,7 +26,7 @@ struct TObjLazerFence4 : public TObjCollidable {
     static void *create(void *set_data);
     NJS_OBJECT *beam_model;  // drawn posed by motion
     NJS_OBJECT *post_model;  // the posts, drawn alone when open
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     void *beam_nodes[12];    // the beam model's pieces, recoloured by color_slot
 };
 

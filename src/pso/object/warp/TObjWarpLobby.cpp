@@ -27,7 +27,6 @@
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 
 #pragma readonly_strings on
@@ -87,7 +86,7 @@ void TObjWarpLobby::open_lobby_menu() {
         this->menu_window->add_text_entry(warp_lobby_directory_label_table[i], 6, i);
     }
     this->menu_window->calc_window_size();
-    align_menu_entry_positions(this->menu_window);
+    this->menu_window->align_menu_entry_positions();
     this->menu_window->set_flag70_bit10();
     request_active_window_close();
 }
@@ -112,7 +111,7 @@ void TObjWarpLobby::render() {
 void TObjWarpLobby::run_task() {
     s32 selected_menu_value;
     beam_frame += 4.0f;
-    if ((f32) (beam_motion->frameCount - 1) < beam_frame) {
+    if ((f32) (beam_motion->nbFrame - 1) < beam_frame) {
         beam_frame = 0.0f;
     }
     beam_phase += 336.0f;

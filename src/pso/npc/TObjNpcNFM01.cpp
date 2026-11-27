@@ -28,7 +28,7 @@ void TObjNpcNFM01::free_resources() {
         texture_handle = NULL;
     }
     if (model_object != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(model_object));
+        TLobby::free_nodes_with_id(model_object);
         model_object = NULL;
     }
 }

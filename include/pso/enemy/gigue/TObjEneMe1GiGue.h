@@ -95,6 +95,8 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void update_missile_state();
     void update_circling_state();
     void run_demo_task();
+    s32 get_gigue_int_parameter(s32 i);    // entry i of the boss parameter ints
+    f32 get_gigue_float_parameter(s32 i);  // entry i of the boss parameter floats
     void update_attack();     // mode 2 (run_attack_action's); empty, the attacks are modes 9-11
 };
 

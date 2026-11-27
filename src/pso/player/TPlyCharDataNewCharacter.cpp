@@ -1,0 +1,93 @@
+#include "pso/player/PlayerLevelTable.h"
+#include "pso/player/TPlyCharData.h"
+#include "types.h"
+#include "pso/player/TPlyCharDataNewCharacter.h"
+#include "pso/player/StartingInventory.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyCharDataCapture.h"
+
+int init_new_character_data(TPlyCharData *record) {
+    record->m_inventory.m_num_items = 0;
+    record->clear_inventory();
+    init_character_action_config(&record->m_config);
+    init_class_starting_inventory(record);
+    record->m_stats.meseta = 300;
+    record->set_mag_level(1);
+    return 1;
+}
+
+void TPlyCharData::clear_technique_level_overflows() {
+    int i;
+    for (i = 0; i < 30; i++) {
+        set_technique_level_overflow(i, 0);
+    }
+}
+
+void TPlyCharData::reset_technique_levels() {
+    s32 i;
+    u8 *p;
+    p = get_technique_levels();
+    for (i = 0; i < 0x14; i++) {
+        *p = get_item_count_max();
+        p++;
+    }
+    if (m_disp_part2.v1_flags & 0x80) {
+        set_technique_level(0, 0);
+    }
+    clear_technique_level_overflows();
+}
+
+void init_technique_levels(s32 flags, u8 *counts) {
+    s32 i;
+    u8 *p = counts;
+    for (i = 0; i < 0x14; i++, p++) {
+        *p = get_item_count_max();
+    }
+    if (flags & 0x80) {
+        *counts = 0;
+    }
+}
+
+void TObjPlayer::setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette) {
+    palette->init_tag(0, 0, 1, 0);
+    palette->init_tag(1, 0, 1, 0);
+    palette->init_tag(0, 1, 2, 0);
+    palette->init_tag(0, 2, 2, 1);
+    if (v1_flags & 0x60) {
+        palette->init_tag(0, 3, 4, 0);
+        return;
+    }
+    palette->init_tag(0, 3, 3, 0);
+}
+
+void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
+    struct stats st;
+    level = TObjPlayer::clamp_index_to_max(level);
+    copy_stats(&st, get_class_base_stats(cls));
+    if (level != 0) {
+        apply_class_level_growth(cls, level, &st);
+    }
+    c->m_stats.stats.atp = st.atp;
+    c->m_stats.stats.mst = st.mst;
+    c->m_stats.stats.evp = st.evp;
+    c->m_stats.stats.hp = st.hp;
+    c->m_stats.stats.dfp = st.dfp;
+    c->m_stats.stats.ata = st.ata;
+    c->m_stats.stats.lck = st.lck;
+    c->m_stats.esp = 0x28;
+    c->m_stats.knockback_resist = 10.0f;
+    c->m_stats.level = level;
+    c->m_stats.exp = TObjPlayer::get_current_state_field(cls, level);
+    c->m_stats.meseta = 300;
+    c->m_inventory.m_hp_materials_used = 0;
+    c->m_inventory.m_tp_materials_used = 0;
+    c->set_power_materials_used(0);
+    c->set_mind_materials_used(0);
+    c->set_evade_materials_used(0);
+    c->set_def_materials_used(0);
+    c->set_luck_materials_used(0);
+}
+
+void init_new_character_stats(TPlyCharData *character) {
+    init_character_stats_for_level(character->m_disp_part2.char_class, character, 0);
+}

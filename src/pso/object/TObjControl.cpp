@@ -50,7 +50,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/enemy/AreaSoundRemap.h"
-#include "pso/object/TObjLuker_801329B0.h"
+#include "pso/object/TObjLukerNames.h"
 
 
 extern "C" {
@@ -161,28 +161,19 @@ s32 TObjEnemy::bind_enemy_combat_stats(player_stats *base_stats, AttackParams *a
             this->tpmax = (s16) (bound_stats_for_tp->stats.mst + bound_stats_for_tp->level);
             this->tp = (s16) this->tpmax;
         }
-        goto block_6;
-    }
-    if (stat_block == NULL) {
+    } else if (stat_block == NULL) {
         return 0;
     }
-block_6:
     if (attack_stats != NULL) {
         attack_params = attack_stats;
-        goto block_10;
-    }
-    if (attack_params == NULL) {
+    } else if (attack_params == NULL) {
         return 0;
     }
-block_10:
     if (resistance_stats != NULL) {
         param_block = resistance_stats;
-        goto block_14;
-    }
-    if (param_block == NULL) {
+    } else if (param_block == NULL) {
         return 0;
     }
-block_14:
     atp = stat_block->stats.atp;
     this->atp = atp;
     this->base_atp = atp;
@@ -664,12 +655,12 @@ s32 TObjEnemy::sync_enemy_state(s32 status) {
     return ret;
 }
 
-void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
+void TObjEnemy::send_6x0A_enemy_state(EnemyStateRecord *state_in) {
     EnemyStateRecord state;
     G_UpdateEnemyState_6x0A msg;
     u32 new_flags;
     if (state_in != NULL) {
-        state.copy_header(static_cast<const EnemyStateRecord *>(state_in));
+        state.copy_header(state_in);
     } else if (this->exchange_object_state(&state, 1) == 0) {
         return;
     }
@@ -795,7 +786,7 @@ void TObjControl::run_task() {
         }
         enemy->update_attack_stat_status();
         enemy->update_defense_stat_status();
-        if (enemy->vfunc_43() == 0) {
+        if (enemy->update_evp_status() == 0) {
             enemy->update_flag30_timer();
             if ((enemy->update_action_hold_status() != 0) || (enemy->update_shock_clock() != 0) || (enemy->update_movement_status() != 0)) {
                 submit_cursor_candidate(enemy, -1);

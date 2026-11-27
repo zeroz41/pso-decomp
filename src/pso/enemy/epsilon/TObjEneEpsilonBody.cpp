@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/technique/TFireExplosion.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -998,7 +998,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
         return;
     }
     update_secondary_light();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -1046,7 +1046,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
         TParticleCtrl::end_effect_render();
@@ -1345,7 +1345,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionB
         obj_getS16_118((u8 *)src);
         strong = 0;
         if (src == NULL || src->get_entity_id() == 0xFFFF) {
-            show_miss_popup(&position.x);
+            show_miss_popup(&position);
             return 0.0f;
         }
         if (test_actor_flags(0x04000000) != 0) {
@@ -1373,7 +1373,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionB
             case 11:
             case 12:
             case 13:
-                show_miss_popup(&body_center.x);
+                show_miss_popup(&body_center);
                 break;
             }
             return 0.0f;

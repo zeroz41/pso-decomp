@@ -19,7 +19,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/boss/goldragon/ChunkStripGrid.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/DebugFont.h"
 #include "pso/technique/TechniqueRingwaveList.h"

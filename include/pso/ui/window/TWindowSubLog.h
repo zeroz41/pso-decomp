@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
 
 struct TWindowMainMenu;
 struct TWindowMessageLog;
@@ -17,12 +18,9 @@ struct TWindowSubLog : public TObject {
     TWindowMainMenu *parent_menu;
     TWindowMessageLog *log_window;
     TWindowChat *chat;
-    void *submission;
+    ChatShortcut submission;
     virtual void render();
     virtual void run_task();
-    u8 pad_30[0x1C];
-    u32 m_4c;
-    u8 pad_50[0x30];
 };
 
 LAYOUT_ASSERT(TWindowSubLog_size, sizeof(TWindowSubLog) == 0x80);

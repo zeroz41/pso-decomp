@@ -57,7 +57,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_80309D80.h"
+#include "pso/player/PlayerParticleEmitters.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -167,10 +167,10 @@ G_SetPlayerInvisible_6x22 &G_SetPlayerInvisible_6x22::operator=(const G_SetPlaye
 void clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
-void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
-s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
-int TObjPlayer::check_flag_0x40000000() { return (this->state_flags >> 30) & 0x1; }
-void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
+void TObjPlayer::set_return_destination(s32 destination) { this->return_destination = destination; }
+s32 TObjPlayer::get_return_destination() { return this->return_destination; }
+int TObjPlayer::is_hold_flag_set() { return (this->state_flags >> 30) & 0x1; }
+void TObjPlayer::clear_action_active_flag() { this->state_flags &= 0xfffffffd; }
 
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
@@ -368,13 +368,13 @@ Vec *get_marker_position(Vec *position) { return position; }
 
 void EquippedItems::clear() {
     s32 i;
-    void **slot = items;
+    TItem **slot = items;
     for (i = 0; i < 13; i++) {
         *slot++ = 0;
     }
 }
 
-void set_equip_slot_entry(void **slots, s32 slot, void *item) {
+void set_equip_slot_entry(TItem **slots, s32 slot, TItem *item) {
     slots[slot] = item;
 }
 

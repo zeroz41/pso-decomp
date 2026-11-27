@@ -7,7 +7,7 @@
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/unk/TUnk_804A7248.h"
+#include "pso/unk/LockOnPaletteOverride.h"
 #include "pso/ui/hud/MarkerColor.h"
 
 // A priority and an index into the player's action palette.
@@ -202,7 +202,7 @@ public:
 };
 
 struct TLockOnCursor : public TObject {
-    static s32 target_cursor_model;
+    static NJS_OBJECT *target_cursor_model;
     FlagWord flags;
     u16 target_id; // read by get_target_id()
     ActionPriorityList action_list;

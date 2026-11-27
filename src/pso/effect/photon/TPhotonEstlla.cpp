@@ -19,7 +19,8 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/vector.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -80,7 +81,7 @@ void TPhotonEstlla::render() {
     if (started != 0) {
         estlla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);

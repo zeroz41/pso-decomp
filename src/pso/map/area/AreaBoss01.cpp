@@ -6,20 +6,13 @@
 #include "pso/audio/SoundPlayback.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/map/FloorWaveEvents.h"
 
 #pragma readonly_strings on
 
-struct AreaLightParams {
-    f32 dir[3];
-    f32 pad[3];
-    f32 amb[3];
-    f32 c[4];
-    f32 d[4];
-};
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*dragon_area_scene_callbacks[2])(void) = {TLobby::init_bosses, TLobby::update_boss1_objects};

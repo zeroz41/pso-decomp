@@ -248,8 +248,6 @@
 #include "pso/object/TObjLobbyPigeon.h"
 #include "pso/object/warp/Boss7TunnelAreaWarp.h"
 #include "pso/object/city/CityVerticalModel.h"
-extern "C" {
-}
 ObjectFactoryEntry object_factories_floor_00[50] = {
     { 0x0000, TObjPlayerSet::create, 250000.0f, 0 },
     { 0x0001, TObjParticle::create, 160000.0f, 0 },
@@ -2069,7 +2067,7 @@ ObjectFactoryEntry object_factories_floor_32[24] = {
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x001E, TLightGlare::create, 100000000.0f, 0 },
     { 0x01A8, TLightGlareSwitch::create, 250000.0f, 0 },
-    { 0x0280, TUnk_804E48D8::create, 250000.0f, 0 },
+    { 0x0280, TObjAreaWarpBoss7Tunnel::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
 

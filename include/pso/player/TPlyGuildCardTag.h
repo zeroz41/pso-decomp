@@ -12,7 +12,6 @@
  * Contains a tag triplet + guild card number.
  */
 
-
 struct gc_tag {
     gc_tag() { init(); };
     ~gc_tag() {};
@@ -54,5 +53,11 @@ public:
 public:
     static void bswap_lobby_entry(void *entry);
 };
+
+void copy_guild_card_tag_triplet(gc_tag *dst, gc_tag *src);
+
+extern "C" {
+void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *to, void *from);
+}
 
 #endif

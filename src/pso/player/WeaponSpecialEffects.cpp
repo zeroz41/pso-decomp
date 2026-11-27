@@ -21,7 +21,7 @@
 #include "pso/item/TItem.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
@@ -471,7 +471,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)TObjPlayer::get_equipped_weapon(player);
+    weapon = (TItemWeapon *)player->get_equipped_weapon();
     if (weapon == NULL) {
         return;
     }

@@ -1,11 +1,9 @@
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-extern "C" {
-void copy_player_visual_record(void *, const void *);
-}
 
 CharacterPreview::~CharacterPreview() {
     if (request != NULL && is_unloaded() == 0) {
@@ -34,7 +32,7 @@ CharacterPreview::~CharacterPreview() {
 
 CharacterPreview::CharacterPreview(TObject *parent, void *visual, s32 load_slot) {
     CharacterPreviewLoadArgs args;
-    copy_player_visual_record(&appearance, visual);
+    copy_player_visual_record((PlayerVisualRecord *)&appearance, (PlayerVisualRecord *)visual);
     completion_flags = 0xFF;
     bind_appearance_texture_lists(&head_textures, &other_textures, &body_textures, &appearance);
     args.appearance = &appearance;

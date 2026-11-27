@@ -15,7 +15,7 @@ public:
     virtual ~TPlayerFootStamp();
     void select_texture(s32);
 public:
-    static void *create(void *slot, void *side);
+    static TPlayerFootStamp *create(TObjPlayer *player, s32 side);
     static void free_instance();
     void render();
     void run_task();

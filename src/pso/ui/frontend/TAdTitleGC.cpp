@@ -13,7 +13,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 
 // The title banner textures: English (title_midashi_texnames_eng/78) and Japanese (title_midashi_texnames/98) name lists and texlists.

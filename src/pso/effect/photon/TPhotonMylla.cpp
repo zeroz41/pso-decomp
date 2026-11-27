@@ -27,7 +27,8 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/model_render_state.h"
@@ -52,7 +53,7 @@ void TPhotonMylla::reset_material_color(u8 count) {
 void TPhotonMylla::render() {
     if (visible != 0) {
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);

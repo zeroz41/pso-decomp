@@ -271,12 +271,12 @@ void TContainerAncient01::render() {
 }
 
 s32 TContainerAncient01::select_melee_contact_body(TObjChara *target, f32) {
-    return xyz_distance_squared(&static_cast<const TObjBase *>(target)->position, &position) < 4e+02f;
+    return xyz_distance_squared(&target->position, &position) < 4e+02f;
 }
 
 int TContainerAncient01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TContainerAncient01::receive_direct_attack(TObjBase *arg1, DirectAttackPayload payload, CollisionBody *, s32, s32) {
+f32 TContainerAncient01::receive_direct_attack(TObjBase *, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;
@@ -524,10 +524,10 @@ void TContainerAncient01R::run_task() {
         }
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_r_bml_resource, 0)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(container_ancient01_r_bml_resource, 0));
+        this->model = get_bml_model(container_ancient01_r_bml_resource, 0);
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_r_bml_resource, 1)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(container_ancient01_r_bml_resource, 1));
+        this->model = get_bml_model(container_ancient01_r_bml_resource, 1);
     }
     this->TObject::run_task();
 }
@@ -551,12 +551,12 @@ void TContainerAncient01R::render() {
 }
 
 s32 TContainerAncient01R::select_melee_contact_body(TObjChara *target, f32) {
-    return xyz_distance_squared(&static_cast<const TObjBase *>(target)->position, &position) < 4e+02f;
+    return xyz_distance_squared(&target->position, &position) < 4e+02f;
 }
 
 int TContainerAncient01R::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TContainerAncient01R::receive_direct_attack(TObjBase *arg1, DirectAttackPayload payload, CollisionBody *, s32, s32) {
+f32 TContainerAncient01R::receive_direct_attack(TObjBase *, DirectAttackPayload payload, CollisionBody *, s32, s32) {
     s32 kind;
 
     kind = payload.kind;

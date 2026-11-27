@@ -20,7 +20,7 @@
 
 extern "C" {
 extern const f64 party_marker_angle_scale;
-void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
+void *__ct__18TWindowEffectPartyFP7TObjectScScl(void *, void *, u16, u16, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -31,7 +31,7 @@ void *get_simple_status_window(s8 i) {
     return TWindowCtrl::instance->simple_status[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, s32 effect_id) : TObject(object) {
     Vec position;
     m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
@@ -39,7 +39,7 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, vo
     this->target_slot = target;
     set_slot_position(this->target_slot, &this->target_x);
     this->calc_effect_position(&position);
-    this->m_particle = spawn_continuous_particle_effect_with_flags(&position, (saddr)effect_id, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags(&position, effect_id, 0xC0);
     this->state = 0;
 }
 
@@ -137,7 +137,7 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     }
     w = TObject::operator new(0x34);
     if (w != 0) {
-        w = __ct__18TWindowEffectPartyFP7TObjectScScPv(w, owner, a, b, id);
+        w = __ct__18TWindowEffectPartyFP7TObjectScScl(w, owner, a, b, id);
     }
     return w;
 }
@@ -174,7 +174,8 @@ s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {
   if (((scr * scr) + (y * y)) < 25.0f)
   {
     pos_x = to_x;
- do { pos_y = to_y; return 1; } while (0);
+    pos_y = to_y;
+    return 1;
   }
   angle = (s32) (party_marker_angle_scale * atan2_float((f64) y, (f64) scr));
   pos_x = (f32) ((5.0f * cos_table_lookup(angle)) + pos_x);

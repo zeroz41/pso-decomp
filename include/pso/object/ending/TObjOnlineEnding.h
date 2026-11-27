@@ -7,7 +7,7 @@
 
 struct TWindowChallengeResult;
 
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -24,7 +24,7 @@ struct OnlineEndingPlayer {
     const Vec *position;
     s32 yaw;
     f32 scale;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
 };
 
 LAYOUT_ASSERT(OnlineEndingPlayerSize, sizeof(OnlineEndingPlayer) == 0x28);
@@ -36,7 +36,7 @@ struct TObjOnlineEnding : public TObjBase {
     virtual void run_task();
     NJS_OBJECT *scene_model;
     NJS_TEXLIST *scene_textures;
-    AnimationMotion *scene_motion;
+    NJS_MOTION *scene_motion;
     s32 ending_variant;
     s32 ending_area;
     s32 scene_state;
@@ -48,7 +48,7 @@ struct TObjOnlineEnding : public TObjBase {
     static void *get_attack_entry(int index);
     void close_window();
     void create_result_window();
-    static void *create(void *parent);
+    static void *create(TObject *parent);
     f32 scene_frame;
     TWindowChallengeResult *result_window;
 };

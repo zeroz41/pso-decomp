@@ -42,7 +42,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/DebugFont.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
@@ -221,7 +221,7 @@ void TObjEneDimedian::render() {
         fading = camera_fades[camera].updateFromCamera(&body_center);
     }
     select_actor_lighting(this);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

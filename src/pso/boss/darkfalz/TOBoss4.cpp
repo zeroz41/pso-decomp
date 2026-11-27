@@ -74,7 +74,7 @@ TOBoss4Bird::TOBoss4Bird(void *set_data) {
     model_radius = ((GinjaModelBounds *)model->model)->radius;
     texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 1.0f;
     animation_frame = 0.0f;
     speed = 1.0f + scale.x;
@@ -123,7 +123,7 @@ void TOBoss4Bird::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         for (i = 0; i < count; i++) {
             push_matrix();
             translate_matrix(0, 0.0f, bob_offset, 0.0f);
@@ -193,7 +193,7 @@ void TOBoss4Tower::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
     }
@@ -278,7 +278,7 @@ void TOBoss4Rock::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         for (i = 0; i < count; i++) {
-            set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlists[i]));
+            set_texture_list(texlists[i]);
             push_matrix();
             post_translate_matrix(&positions[i].x);
             rotate_matrix_z(NULL, rotations[i].z);

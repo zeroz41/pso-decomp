@@ -18,7 +18,6 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCheckBox.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -41,7 +40,7 @@ int TWindowSubQuestBoardSelect::is_open() { return this->state_flags & 0x1; }
 
 u8 TWindowSubQuestBoardSelect::get_page_index() { return this->slot; }
 
-TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObject(object) {
+TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, s32 client) : TObject(object) {
     this->m_name = class_name;
     parent_menu = static_cast<TWindowMainMenu *>(object);
     this->client = client;
@@ -179,7 +178,7 @@ saddr TWindowSubOption::create_option_menu_window() {
     }
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(195.0f);
-    align_menu_entry_positions(titled_window_menu);
+    titled_window_menu->align_menu_entry_positions();
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
     return (saddr)titled_window_menu;
 }

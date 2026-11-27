@@ -22,7 +22,7 @@ public:
     s32 yaw;
     s32 pitch;             // tips from -0x4000 up to 0 while it falls
     NJS_OBJECT *mine_model;
-    saddr mine_textures;
+    NJS_TEXLIST *mine_textures;
     s32 state;             // 0 falling, 1 rolling, 2 stopped
     s32 timer;             // goes off at 150 frames
     f32 roll_distance;     // stops rolling at 50

@@ -12,7 +12,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"

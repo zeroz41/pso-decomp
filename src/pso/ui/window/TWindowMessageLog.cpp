@@ -13,14 +13,13 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/chat/ChatLogText.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowCtrl_8026AD44.h"
+#include "pso/ui/window/TWindowCtrlMessageLog.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -157,7 +156,7 @@ s32 find_free_chat_log_slot() {
     return 29;
 }
 
-void chat_log_remove_line(saddr index) {
+void chat_log_remove_line(s32 index) {
     char **destination;
     char *line;
     destination = &chat_log_lines[index];

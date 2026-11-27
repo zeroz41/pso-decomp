@@ -24,12 +24,12 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/math/TMath.h"
 #include "pso/system/ControllerInput.h"
@@ -37,7 +37,6 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/audio/SoundRequests.h"
 
 // The class name opens .rodata, then the menu window positions in this order, ahead of the
@@ -394,7 +393,7 @@ saddr TWindowOptionCtrl::create_menu() {
     menu->add_text_entry(get_localized_text_entry(0xF, 6), 6, 0x19);
     menu->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return (saddr)menu;
 }
 
@@ -430,15 +429,15 @@ saddr TWindowOptionCtrl::create_list_window() {
     } while (idx < 0x31);
     list->set_silent_cancel();
     list->set_scroll_target(470.0f, 124.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return (saddr)list;
 }
 
 TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
     TWindowCheckBox *check_box_window;
 
-    saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &sound_mode_menu_window_size);
+    const NJS_POINT2 *option_position = TWindowOptionCtrl::get_option_entry(0xCF);
+    check_box_window = create_check_box_window_for_local_client(option_position, &sound_mode_menu_window_size);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
     check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);
@@ -471,7 +470,7 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1B), 6, 0x14);
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     return (saddr)menu;
 }
 
@@ -566,7 +565,7 @@ void TWindowOptionCtrl::apply_selection_change() {
 void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain) {
     SystemSaveData *save;
 
-    save = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
+    save = TAdSinglePlyChrSelectGC::get_global_state();
     if (save != NULL) {
         save->music_stream_gain = music_gain;
         save->cue_stream_gain = sound_effect_gain;
@@ -574,9 +573,9 @@ void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain)
 }
 
 s32 TWindowOptionCtrl::get_udp_option() {
-    return ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option;
+    return TAdSinglePlyChrSelectGC::get_global_state()->udp_option;
 }
 
 void TWindowOptionCtrl::set_udp_option(s32 unused, s16 option) {
-    ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option = option;
+    TAdSinglePlyChrSelectGC::get_global_state()->udp_option = option;
 }

@@ -40,7 +40,7 @@ void TObjBoss7TunnelNode::draw_particle_effect() {
     set_draw_list_mask(3);
 
     TParticleCtrl::begin_effect_render();
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
+    set_texture_list(boss7_common_texture_list);
     set_motion_packed_rotation();
 
     draw_ginja_model_with_motion(model, motion, frame);

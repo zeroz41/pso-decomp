@@ -166,7 +166,7 @@ TItemShoot *TObjPlayer::create_shoot_model(TItemWeapon *owner, const Vec *pos, c
 TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShoot(owner, pos, dir, life) {
     m_name = TItemShootModel::class_name;
-    model = *(NJS_OBJECT **)((u8 *)owner + 0x188);
+    model = ((TItemWeapon *)owner)->second_model;
     texture_list = (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist();
     if (0.0f != m_dir.y) {
         f32 horiz = newton_sqrtf(m_dir.x * m_dir.x + m_dir.z * m_dir.z);

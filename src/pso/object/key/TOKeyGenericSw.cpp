@@ -106,7 +106,7 @@ void *TOKeyGenericSw::create(void *set_data) {
 
 void TOKeyGenericSw::free_shared_resources() {
     if (key_generic_sw_texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)key_generic_sw_texture_lists[2]);
+        TObjPlayer::free_if_valid(key_generic_sw_texture_lists[2]);
         if (key_generic_sw_texture_lists != NULL) {
             mem_free(key_generic_sw_texture_lists);
             key_generic_sw_texture_lists = NULL;
@@ -158,7 +158,7 @@ TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) 
     init_switch_id();
     model = key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     motion = key_generic_sw_shared_resource_ptrs[1]->motions[0].motion;
-    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 2.0f;
     texlist = key_generic_sw_texture_lists[1];
     init_collision_body_parts(this, key_generic_sw_collision_body, 1);

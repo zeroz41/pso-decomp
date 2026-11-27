@@ -22,7 +22,6 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -130,7 +129,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
         ++entry;
     }
     ((TWindowMenu *)list)->update_layout_height(179.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
+    (reinterpret_cast<TWindowMenu *>(list))->align_menu_entry_positions();
     ((TWindowMenu *)list)->set_selected_index(selected);
 }
 
@@ -164,7 +163,7 @@ TWindowMenu *TWindowSubTechnique::open_menu() {
     titled_window_menu->add_text_entry((TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(179.0f);
-    align_menu_entry_positions(titled_window_menu);
+    titled_window_menu->align_menu_entry_positions();
     return titled_window_menu;
 }
 

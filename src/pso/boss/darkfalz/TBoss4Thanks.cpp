@@ -18,7 +18,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
-#include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -40,13 +39,13 @@ extern const Boss4ThanksEmitter boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
 
-s32 TBoss4Thanks::is_story_flag_0x99_set() {
+s32 TBoss4Thanks::was_thanks_shown() {
     return get_story_flag(0x99) != 0;
 }
-s32 TBoss4Thanks::is_door_0x97_open() {
+s32 TBoss4Thanks::is_door_open() {
     return get_story_flag(0x97) != 0;
 }
-void TBoss4Thanks::dispatch_main_phase_153() { set_story_flag_or_send_quest_flag(153); }
+void TBoss4Thanks::mark_thanks_shown() { set_story_flag_or_send_quest_flag(153); }
 void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151); }
 
 
@@ -121,7 +120,7 @@ void TBoss4Thanks::render() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss4_thanks_position.x);
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+    set_texture_list(texture_list);
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -173,7 +172,7 @@ void TBoss4Thanks::run_task() {
       break;
   }
   motion_frame += 0.6f;
-  len = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  len = ((f32) motions[current_motion]->nbFrame) - 1.0f;
   if (motion_frame >= len)
   {
     motion_frame -= len;
@@ -185,7 +184,7 @@ void TBoss4Thanks::run_task() {
 }
 
 TBoss4Thanks::~TBoss4Thanks() {
-    TBoss4Thanks::dispatch_main_phase_153();
+    TBoss4Thanks::mark_thanks_shown();
     destroy_effects();
 }
 
@@ -193,8 +192,8 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
     m_name = TBoss4Thanks::class_name;
     archive = TBoss4Uro::get_instance_count();
-    this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
-    this->texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(archive, 1));
+    this->model = get_bml_model(archive, 1);
+    this->texture_list = get_bml_texlist(archive, 1);
     motions[0] = get_bml_motion(archive, 0x46);
     motions[1] = get_bml_motion(archive, 0x47);
     clear_particle_emitters();
@@ -209,18 +208,18 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
 
 
 void *TBoss4Thanks::create() {
-    void *o = (void *)new TBoss4Thanks(tl_02);
+    void *o = new TBoss4Thanks(tl_02);
     return o;
 }
 
 s32 TBoss4Thanks::is_door_open_and_ready() {
-    if ((is_door_0x97_open() != 0) && (is_story_flag_0x99_set() == 0)) {
+    if ((is_door_open() != 0) && (was_thanks_shown() == 0)) {
         return 1;
     }
     return 0;
 }
 
-s32 is_boss4_door_open(void) { return TBoss4Thanks::is_door_0x97_open(); }
+s32 is_boss4_door_open(void) { return TBoss4Thanks::is_door_open(); }
 
 s32 TBoss4Thanks::check_ready() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_item() == 0)) {

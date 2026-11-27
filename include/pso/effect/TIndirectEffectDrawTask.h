@@ -17,7 +17,7 @@ struct IndirectDrawPlacement {
 struct IndirectDrawRecord {
     IndirectDrawPlacement placement;
     NJS_TEXLIST *texlist;
-    void *model;
+    NJS_OBJECT *model;
     u16 scene;
     u8 effect_kind;  // indirect effect kind
     u8 reserved;     // never set by the queueing code; copied with the record

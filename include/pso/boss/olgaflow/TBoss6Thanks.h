@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
-struct AnimationMotion;
+struct NJS_MOTION;
 class TParticleCtrl;
 
 // Field and function names shared with its twin TBoss4Thanks (darkfalz) where the bodies line up.
@@ -23,16 +23,16 @@ struct TBoss6Thanks : public TObject {
     NJS_OBJECT *model1;
     NJS_TEXLIST *texture0;
     NJS_TEXLIST *texture1;
-    AnimationMotion *motions[2];
-    AnimationMotion *motion1;
+    NJS_MOTION *motions[2];
+    NJS_MOTION *motion1;
     TParticleCtrl *particle_emitters[4];
     virtual void run_task();
     virtual void render();
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 check_ship_door();
     // Story flag 0x9A test next to check_ship_door(); int return for the same reason.
-    static s32 is_story_flag_0x9A_set();
-    static void set_story_flag_0x9A();
+    static s32 was_thanks_shown();
+    static void mark_thanks_shown();
     static void dispatch_darkfalz_phase();
     void update_particle_emitters();
     void destroy_effects();
@@ -51,5 +51,7 @@ LAYOUT_ASSERT(TBoss6Thanks_size, sizeof(TBoss6Thanks) == 0x64);
 struct Boss6ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 s32 any_player_has_listed_equipment(void);
+
+s32 is_boss6_ship_door_open(void);
 
 #endif

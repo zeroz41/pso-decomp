@@ -6,7 +6,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/TUnk_804A7260.h"
+#include "pso/unk/LockOnTask.h"
 #include "pso/unk/TLOC_ListClear.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
@@ -118,7 +118,6 @@ struct TLockOnCursor;
 
 
 extern "C" {
-extern f32 scratch_vec5[3];
 #define APPLY_TECH_RANGE(t)                                          \
     cur->cone_apex_offset = (t)->apex_offset;                                           \
     cur->lock_range = (t)->reach + cur->cone_apex_offset;                                \
@@ -130,9 +129,9 @@ extern f32 scratch_vec5[3];
 }
 
 
-u8 * lock_on_cursor_bml_resource;
-s32 lock_on_cursor_model;
-s32 TLockOnCursor::target_cursor_model;
+BmlResource * lock_on_cursor_bml_resource;
+NJS_OBJECT *lock_on_cursor_model;
+NJS_OBJECT *TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
 void reset_target_part_entry(LockOnTargetPart *);
@@ -217,25 +216,25 @@ TLockOnCursor::~TLockOnCursor() {
 }
 
 void load_target_cursor_models(void) {
-    saddr resource;
-    if ((void *) lock_on_cursor_bml_resource == NULL) {
-        resource = (saddr)new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
-        lock_on_cursor_bml_resource = (unsigned char *) ((void *) resource);
-        if ((u32) resource != 0U) {
-            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)resource, 0);
-            TLockOnCursor::target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
-            main_cursor_model = get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
+    BmlResource *resource;
+    if (lock_on_cursor_bml_resource == NULL) {
+        resource = new BmlResource(5, &target_cursor_resource_descriptor, 0, 0, NULL);
+        lock_on_cursor_bml_resource = resource;
+        if (resource != NULL) {
+            lock_on_cursor_model = get_bml_model(resource, 0);
+            TLockOnCursor::target_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 0);
+            main_cursor_model = get_bml_model(lock_on_cursor_bml_resource, 2);
         }
     }
 }
 
 void TLockOnCursor::free_cursor_resources() {
-    if ((void *) lock_on_cursor_bml_resource != NULL) {
-        delete (BmlResource *)lock_on_cursor_bml_resource;
+    if (lock_on_cursor_bml_resource != NULL) {
+        delete lock_on_cursor_bml_resource;
         lock_on_cursor_bml_resource = NULL;
     }
-    lock_on_cursor_model = 0;
-    TLockOnCursor::target_cursor_model = 0;
+    lock_on_cursor_model = NULL;
+    TLockOnCursor::target_cursor_model = NULL;
 }
 
 void TLockOnCursor::reset_and_spawn_cursors() {
@@ -498,7 +497,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
         }
         break;
     case 2:
-        wpn = get_weapon_range_record(TObjPlayer::get_equipped_weapon(player), id);
+        wpn = get_weapon_range_record(player->get_equipped_weapon(), id);
         activate_action_channel(cur);
         set_cursor_color(player, cur);
         cur->set_body_exclude_mask(0);
@@ -542,10 +541,10 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             cur->set_body_exclude_mask(0);
             cur->set_actor_include_mask(0x60000000);
             cur->set_actor_exclude_mask(0x40800);
-            scratch_vec5[0] = 50.0f * sin_table_lookup(player->rotation_y) + player->body_center.x;
-            scratch_vec5[1] = player->body_center.y;
-            scratch_vec5[2] = 50.0f * cos_table_lookup(player->rotation_y) + player->body_center.z;
-            VecCopy(&cur->origin, (const Vec *)scratch_vec5);
+            scratch_vec5.x = 50.0f * sin_table_lookup(player->rotation_y) + player->body_center.x;
+            scratch_vec5.y = player->body_center.y;
+            scratch_vec5.z = 50.0f * cos_table_lookup(player->rotation_y) + player->body_center.z;
+            VecCopy(&cur->origin, &scratch_vec5);
             break;
         case 10:
         case 13:
@@ -1520,7 +1519,7 @@ void LockOnActionSlot::set_max_targets(s32 v) { max_targets = v; }
 NJS_OBJECT *TMainCursor::get_cursor_model() { return main_cursor_model; }
 
 
-int get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
+NJS_OBJECT *get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
 
 
 TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
@@ -1696,7 +1695,7 @@ void LockOnTargetRecord::clear_excluded() { flags.clear(2); }
 s32 LockOnActionSlot::get_max_targets() { return max_targets; }
 
 
-int get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
+NJS_OBJECT *get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
 
 
 int LockOnTargetRecord::is_primary() { return flags.test_flags_any(1); }

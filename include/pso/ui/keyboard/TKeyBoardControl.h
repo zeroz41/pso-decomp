@@ -46,4 +46,7 @@ struct TKeyBoardControl : public TObject {
 };
 
 LAYOUT_ASSERT(TKeyBoardControl_size, sizeof(TKeyBoardControl) == 0x2C);
+
+extern u8 main_menu_scene_active_flag;
+
 #endif

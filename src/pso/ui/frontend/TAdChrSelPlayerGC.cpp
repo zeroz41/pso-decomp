@@ -58,17 +58,12 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
     this->status_index = 0;
     layout_mode = window_offset_index;
     preview_data = NULL;
-    *(s32 *)&this->joint_matrices = (saddr)mem_alloc(0xC00);
+    this->joint_matrices = mem_alloc(0xC00);
     TAdPlyStatusGC::get_instance(this, window_offset_index);
     place_model_for_mode(layout_mode);
 }
 
 
-extern "C" {
-
-void copy_player_visual_record(void *, const void *);
-
-}
 
 TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4] = { NULL };
 
@@ -192,19 +187,19 @@ void TAdChrSelPlayerGC::run_task() {
         }
         switch (layout_mode) {
         case 0:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
         case 1:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
         case 2:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
@@ -212,7 +207,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 3:
         case 4:
         case 5:
-            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
+            copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, slot);
             preview_data = p;
             break;
@@ -302,12 +297,12 @@ void TAdChrSelPlayerGC::update_chara_making() {
     rotate_matrix_y(0, rotation_y);
     set_texture_list(preview_data->get_status_sub());
     draw_model_with_arg((NJS_OBJECT *)preview_data->get_body_model());
-    push_matrix_from((void *)get_joint_matrix(0x3A));
+    push_matrix_from(get_joint_matrix(0x3A));
     set_texture_list(preview_data->get_status_data());
     TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
     pop_matrix();
     if (preview_data->get_head_model() != 0U) {
-        push_matrix_from((void *)get_joint_matrix(0x3B));
+        push_matrix_from(get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
         TObjPlayer::play_phase_transition_sound(preview_data->get_head_model());
@@ -315,7 +310,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
         pop_matrix();
     }
     if (preview_data->get_hair_model() != 0U) {
-        push_matrix_from((void *)get_joint_matrix(0x3B));
+        push_matrix_from(get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
         draw_model_tinted_opaque(this, preview_data->get_hair_model(), &visual_record);

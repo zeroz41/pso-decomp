@@ -6,8 +6,8 @@
 #include "pso/audio/SoundPlayback.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjRainCtrl.h"
@@ -16,13 +16,6 @@
 
 #pragma readonly_strings on
 
-struct AreaLightParams {
-    f32 dir[3];
-    f32 pad[3];
-    f32 amb[3];
-    f32 c[4];
-    f32 d[4];
-};
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*gryphon_area_cleanup_callbacks[2])(void) = {

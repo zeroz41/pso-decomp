@@ -41,7 +41,7 @@ void TObjTank::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(tank_bml_resource, 0)));
+        draw_ginja_object(get_bml_model(tank_bml_resource, 0));
         pop_matrix();
     }
 }

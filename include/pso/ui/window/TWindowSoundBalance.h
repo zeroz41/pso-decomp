@@ -6,12 +6,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
-struct SoundBalanceSettings {
-    u8 pad_00[4];
-    s16 music_gain;
-    s8 sound_effect_gain;
-};
-
 struct TWindowSoundBalance : public TWindowBase {
     TWindowSoundBalance(const NJS_POINT2 *position);
     virtual ~TWindowSoundBalance();

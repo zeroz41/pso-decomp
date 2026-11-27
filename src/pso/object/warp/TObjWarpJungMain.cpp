@@ -31,7 +31,6 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/warp/TObjWarpBase.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -52,7 +51,7 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 
 // The beam archive and what load_warp_beam_resources picks out of it.
 BmlResource *warp_jung_beam_bml_resource;
-AnimationMotion *warp_jung_beam_motion;
+NJS_MOTION *warp_jung_beam_motion;
 NJS_TEXLIST *warp_jung_textures;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
 GinjaModel *warp_jung_beam_uv_model;
@@ -124,7 +123,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
             menu_window->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
         menu_window->calc_window_size();
-        align_menu_entry_positions(menu_window);
+        menu_window->align_menu_entry_positions();
         menu_window->set_flag70_bit10();
         menu_window->set_loss_flag();
         request_active_window_close();
@@ -134,7 +133,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
 
 void TObjWarpJungMain::run_task() {
     beam_frame += 4.0f;
-    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
+    if (beam_frame > (warp_jung_beam_motion->nbFrame - 1)) {
         beam_frame = 0.0f;
     }
     handle_area_selection();
@@ -152,11 +151,11 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
     warp_range = 15.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
@@ -195,7 +194,7 @@ void TObjWarpJung::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::con
 
 void TObjWarpJung::run_task() {
     beam_frame += 4.0f;
-    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
+    if (beam_frame > (warp_jung_beam_motion->nbFrame - 1)) {
         beam_frame = 0.0f;
     }
     handle_area_selection();
@@ -213,18 +212,18 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     }
     warp_range = 15.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
+        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
         if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
+            p = p->init(&position, 20.0f);
         }
-        vi_config = (TAdVIConfigGC *)p;
+        vi_config = p;
     } else {
         vi_config = NULL;
     }
 }
 
 f32 TObjWarpJung::get_static_field4_as_float() {
-    return (f32)warp_jung_beam_motion->frameCount;
+    return (f32)warp_jung_beam_motion->nbFrame;
 }
 
 void TObjWarpJung::set_global_render_param() { set_texture_list(warp_jung_textures); }

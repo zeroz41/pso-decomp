@@ -184,7 +184,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
 extern "C" {
 s32 is_battle_mode_running();
 }
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 extern "C" {
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
@@ -195,7 +194,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 #include "pso/enemy/BattleParamTables.h"
 
 
-// list type of page_indicator per page: the page-flip list kind passed to reset_page_indicator
+// list type of page_indicator per page: the page-flip list kind passed to PageIndicator::reset
 const u8 status_page_list_kinds[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
@@ -219,12 +218,12 @@ void TWindowSubStatusDisp::run_task() {
   {
     this->open_tick = 0x01000000;
   }
-  if ((handle_list_page_flip_input(this->page_indicator) != 0) || ((this->page) != (this->requested_page)))
+  if ((this->page_indicator->handle_flip_input() != 0) || ((this->page) != (this->requested_page)))
   {
     if ((this->page) != (this->requested_page))
     {
       this->page = this->requested_page;
-      reset_page_indicator(this->page_indicator, status_page_list_kinds[this->page]);
+      this->page_indicator->reset(status_page_list_kinds[this->page]);
     }
     this->entry_list.destroy_all_items();
     this->dispatch_page_init();
@@ -244,7 +243,7 @@ void TWindowSubStatusDisp::render() {
             this,
             &this->entry_list,
             context);
-        draw_list_page_indicator(page_indicator, context);
+        page_indicator->draw(context);
     }
 }
 
@@ -408,7 +407,7 @@ void TWindowSubStatusDisp::vt12() {
             e->value = q->stats.lck;
         }
     }
-    if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
+    if (pl->build_player_equipment_requirement_stats(&cur) != 0) {
         build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
         e = (TWindowLayoutNumber *)get_array_entry(idx); \

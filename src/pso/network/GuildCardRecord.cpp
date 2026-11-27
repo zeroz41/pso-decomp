@@ -7,10 +7,10 @@
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
+#include "pso/unk/ShortMailFlag.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/audio/SoundControlState.h"
-#include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "dolphin/mtx.h"
@@ -28,15 +28,6 @@
 #include "pso/enemy/BattleParamTables.h"
 
 
-typedef struct Src_8024220C
-{
-  s32 id;
-  char name[0x30];
-  char list[0x30];
-  u8 f64[0xC];
-  u8 ext[0x64];
-} Src_8024220C;
-
 // Their constructors run from __sinit_GuildCardRecord_cpp, spelled out below because the
 // original's static initializer precedes this file's inline copies.
 #pragma push
@@ -52,43 +43,40 @@ s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 
 #pragma push
 
-typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
+typedef struct GuildCardTagWords { s32 a; s32 b; } GuildCardTagWords;
 
 #pragma inline_depth(1)
 #pragma dont_inline off
 
-s32 lbl_805D63D8;
+s32 guild_card_next_serial;
 int com_card_entry_count;
 
 void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(response); }
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
-        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)protocol_instance + 0x1900);
+        GuildCardTagWords tag = *(GuildCardTagWords *)&protocol_instance->m_guildcard_tag;
         protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }
 
-typedef struct Src_8024220C Src_8024220C;
-extern "C" {
-void load_selected_guild_card_record(Src_8024220C *src) {
+void load_selected_guild_card_record(ChoiceSearchResult *src) {
   char *list;
   char *cursor;
-  selected_guild_card_record.id = src->id;
+  selected_guild_card_record.id = src->guildcard_number;
   selected_guild_card_record.serial = 0;
   memset(selected_guild_card_record.name, 0, 0x11);
   strncpy(selected_guild_card_record.name, src->name, 0x10);
   selected_guild_card_record.name[0x10] = 0;
-  list = src->list;
+  list = src->location;
   list = build_text_from_comma_list(list);
   cursor = list;
   cursor = parse_csv_token(cursor, selected_guild_card_record.s19);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
   parse_csv_token(cursor, selected_guild_card_record.s3B);
-  copy_guild_card_f4c(&selected_guild_card_record.recv_port, src->f64);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->ext);
-}
+  copy_guild_card_f4c(&selected_guild_card_record.recv_port, &src->reconnect);
+  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->extension);
 }
 
 void copy_guild_card_f4c(void *dst, void *src) {
@@ -180,16 +168,16 @@ void jump_to_guild_card_owner(GuildCardRecord *entry) {
 #pragma pop
 
 
-void init_player_entry(GuildCardRecord *entry, u8 *response) {
+void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     s32 serial_no;
     char *p;
 
-    entry->id = *(s32 *)((s8 *)response + 0xC);
-    serial_no = lbl_805D63D8;
-    lbl_805D63D8 = serial_no + 1;
+    entry->id = response->found_guildcard;
+    serial_no = guild_card_next_serial;
+    guild_card_next_serial = serial_no + 1;
     entry->serial = serial_no;
-    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, response + 0x10, serial_no);
-    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
+    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, &response->recv_port, serial_no);
+    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, &response->extension);
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
         strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
@@ -197,7 +185,7 @@ void init_player_entry(GuildCardRecord *entry, u8 *response) {
         strncpy(entry->name, card->get_name(), 0x10);
     }
     entry->name[0x10] = 0;
-    p = build_text_from_comma_list((char *)(response + 0x1C));
+    p = build_text_from_comma_list(response->location);
     p = parse_csv_token(p, entry->s19);
     p = parse_csv_token(p, entry->s2A);
     p = parse_csv_token(p, entry->s2A);
@@ -218,7 +206,7 @@ void add_found_user_com_card(TUserAns &response) {
     s32 slot = remove_com_card_by_id(response.found_guildcard);
     entry = com_card_entries;
     entry += slot;
-    init_player_entry(entry, reinterpret_cast<u8 *>(&response));
+    init_player_entry(entry, &response);
     com_card_entry_count++;
     set_short_mail_flag_bit2();
 }

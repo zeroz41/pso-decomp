@@ -1,4 +1,5 @@
 #include "pso/player/GuildCardEntry.h"
+#include "pso/player/GuildCardSaveData.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -22,6 +23,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/object/quest/TObjQuestCol.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -59,7 +61,7 @@
 #include "pso/system/GslArchive.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -69,7 +71,7 @@
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/technique/TTecLuker.h"
 
-// The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
+// The tail of the guild card code: it follows TWindowSubComCardEntries.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
 
 s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }
@@ -103,7 +105,7 @@ G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
     header.size = sizeof(G_SendGuildCard_6x06) / 4;
 }
 
-int TAdSinglePlyChrSelectGC::get_state() {  return (int)guild_card_save_payload; }
+GuildCardSaveData *TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }
 
 void TPlyGuildCardTag::bswap() {
     bswap_32(&m_guildcard_number);
@@ -268,14 +270,13 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); invoke_callbac
 
 
 
-    extern short quest_collision_next_id;
 void reset_quest_collision_ids_on_floor_load(void) { quest_collision_next_id = 0; }
 
 void reset_quest_collision_ids_on_floor_free(void) { quest_collision_next_id = 0; }
 
 
 saddr TWindowSubComCard::get_card_slot(s32 index) {
-    s32 state;
+    GuildCardSaveData *state;
     s32 slot;
     saddr addr;
     slot = index;
@@ -288,8 +289,7 @@ saddr TWindowSubComCard::get_card_slot(s32 index) {
         return 0;
     }
     state = TAdSinglePlyChrSelectGC::get_state();
-    addr = state + 0x10000;
-    addr = state + 0xD2C4;
+    addr = (saddr)state->tags.entries;
     addr += slot * 0x90;
     return addr;
 }

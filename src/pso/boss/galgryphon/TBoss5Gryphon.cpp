@@ -6,7 +6,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/AttackTargetHistory.h"
@@ -14,7 +13,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/system/vector.h"
@@ -79,14 +78,15 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"
@@ -98,9 +98,6 @@
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/BattleParamTables.h"
-// TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
-extern "C" {
-}
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
 };
@@ -234,10 +231,8 @@ extern CurvePathPoint boss5_gryphon_landing_bezier_points[4];
 extern CurvePathPoint boss5_gryphon_descend_bezier_points[4];
 extern Vec gryphon_left_horn_lightning_offset;
 extern Vec gryphon_right_horn_lightning_offset;
-extern void *gryphon_particle_enable_pos[3];
-extern void *gryphon_particle_position_vec[3];
-#define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
-#define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
+extern Vec gryphon_particle_enable_pos;
+extern Vec gryphon_particle_position_vec;
 typedef void (TBoss5Gryphon::*StateAction)(int);
 }
 const f32 gryphon_max_floor_height = 6.0f;
@@ -294,8 +289,6 @@ CurvePathPoint boss5_gryphon_landing_bezier_points[4] = {
     {{0.0f, 147.0f, 0.0f}, 0.0f},
     {{0.0f, 65.0f, 0.0f}, 0.0f},
 };
-#undef gryphon_particle_enable_pos
-#undef gryphon_particle_position_vec
 CurvePathPoint boss5_gryphon_descend_bezier_points[4] = {
     {{0.0f, 67.0f, 0.0f}, 0.0f},
     {{0.0f, 157.0f, 0.0f}, 0.0f},
@@ -329,23 +322,18 @@ static inline ScriptAction *script_step_actions() {
 }
 #pragma pop
 extern "C" {
-void *gryphon_particle_enable_pos[3] = {
-    (void *)0x0, (void *)0xc61c4000, (void *)0x0,
-};
-void *gryphon_particle_position_vec[3] = {
-    (void *)0x0, (void *)0xc61c4000, (void *)0x0,
-};
-#define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
-#define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
-inline s32 angle_to_move_target(TBoss5Gryphon *self) {
-    Boss5GryphonMoveArgs *move = &self->motion->args.move;
+Vec gryphon_particle_enable_pos = {0.0f, -10000.0f, 0.0f};
+Vec gryphon_particle_position_vec = {0.0f, -10000.0f, 0.0f};
+}
+
+inline s32 TBoss5Gryphon::angle_to_move_target() {
+    Boss5GryphonMoveArgs *move = &this->motion->args.move;
     f32 initial_dx = move->x;
-    f32 initial_dz = move->z - self->position.z;
-    initial_dx -= self->position.x;
+    f32 initial_dz = move->z - this->position.z;
+    initial_dx -= this->position.x;
     return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
-}
 extern "C" {
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
 s32 boss5_gryphon_base_param_ids[1] = { 0x1E };
@@ -354,10 +342,10 @@ const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
 void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
-                           AnimationMotion *motion, s32 loop, f32 frame) {
+                           NJS_MOTION *motion, s32 loop, f32 frame) {
     particle->model = model;
     particle->texlist = texlist;
-    particle->motion = reinterpret_cast<NJS_MOTION *>(motion);
+    particle->motion = motion;
     particle->emit_flags |= 0x200;
     particle->motion_frame = frame;
     if (loop != 0) {
@@ -365,7 +353,6 @@ void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLI
     }
 }
 
-extern "C" void load_boss5_gryphon_resources(void);
 void TObjMotion::disable_motion_blend() {
     motion_flags &= ~MOTION_BLENDING;
     motion_flags |= MOTION_NO_BLEND;
@@ -462,7 +449,6 @@ void TBoss5Gryphon::fill_follow_camera_params(Vec *target_offset, Vec *eye_offse
     }
 }
 
-extern "C" {
 // Inferred: TBoss5Gryphon's resource loader (paired with TBoss5Gryphon::cleanup in the boss resource table).
 void load_boss5_gryphon_resources(void) {
     switch (get_boss_asset_variant()) {
@@ -499,7 +485,6 @@ void load_boss5_gryphon_resources(void) {
     TBoss5GryphonLightningEff::load_texture();
 }
 
-}
 void *TBoss5Gryphon::create(void *data) {
     return new TBoss5Gryphon(tl_04, data);
 }
@@ -525,7 +510,7 @@ void TBoss5Gryphon::cleanup() {
 }
 
 TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    u32 flags[4];
+    EnemyStateRecord record;
     s32 i;
 
     this->m_name = boss5_gryphon_type_name_pointer;
@@ -534,7 +519,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     }
     this->invoke_initialization_hook(data);
     this->flags = 0;
-    if (this->exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
         this->flags |= 1;
     }
     this->init_position_vectors();
@@ -1772,7 +1757,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
         this->clear_intangible();
         enter_flight_mode();
         this->set_flight_height();
-        this->work.target_angle = angle_to_move_target(this);
+        this->work.target_angle = angle_to_move_target();
         break;
     case ENEMY_STATE_UPDATE:
         this->advance_animation();
@@ -3430,7 +3415,7 @@ void TBoss5Gryphon::enable_particles() {
     s32 i;
     for (i = 0; i < 16; i++) {
         if (this->parts[i] != 0) {
-            this->parts[i]->set_position(gryphon_particle_enable_pos);
+            this->parts[i]->set_position(&gryphon_particle_enable_pos);
             this->parts[i]->enable();
         }
     }
@@ -3481,15 +3466,15 @@ void TBoss5Gryphon::update_low_flight_particles() {
 #pragma pop
 void TBoss5Gryphon::update_particle_positions() {
     if (particles[0] != NULL) {
-        particles[0]->set_position(gryphon_particle_position_vec);
+        particles[0]->set_position(&gryphon_particle_position_vec);
         particles[0]->enable();
     }
     if (particles[1] != NULL) {
-        particles[1]->set_position(gryphon_particle_position_vec);
+        particles[1]->set_position(&gryphon_particle_position_vec);
         particles[1]->enable();
     }
     if (particles[2] != NULL) {
-        particles[2]->set_position(gryphon_particle_position_vec);
+        particles[2]->set_position(&gryphon_particle_position_vec);
         particles[2]->enable();
     }
 }
@@ -3618,7 +3603,7 @@ void TBoss5Gryphon::render_model() {
 
 void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     RenderFadeState *fade;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     TObjEneDD::clear_global_flag_400();
     saved_model_render_flags = model_render_flags;
     set_material_alpha_compare_reference(0);
@@ -3777,11 +3762,11 @@ void TBoss5Gryphon::run_demo_task() { get_target_info(); }
 
 // parameters[0] holds the demo's action and parameters[1] its frame.
 void TBoss5Gryphon::render_demo() {
-    AnimationMotion *anim;
+    NJS_MOTION *anim;
     f32 frame;
     s32 action;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -3801,7 +3786,7 @@ void TBoss5Gryphon::render_demo() {
         if (frame < 0.0f) {
             frame = 0.0f;
         } else {
-            u32 n = anim->frameCount;
+            u32 n = anim->nbFrame;
             if (frame > (n - 1)) {
                 frame = (f32)n;
             }

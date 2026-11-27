@@ -3,7 +3,7 @@
 #include "pso/system/Adxf.h"
 #include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/animation/MotionContext.h"
 
 #include "pso/audio/SoundPlayback.h"
@@ -12,7 +12,6 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/unk/text_801E3F24.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -29,6 +28,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/Draw2D.h"
@@ -39,7 +39,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
 #include "pso/render/TextureLoad.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -466,21 +465,21 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 
 
-void TObjPlayer::render_tree(void *model) {
-    void *node;
+void TObjPlayer::render_tree(NJS_OBJECT *model) {
+    NJS_OBJECT *node;
 
     node = model;
     do {
         push_matrix();
         compose_motion_node_matrix(node);
         if (chunk_model_node_callback != NULL) {
-            chunk_model_node_callback(static_cast<NJS_OBJECT *>(node));
+            chunk_model_node_callback(node);
         }
-        if ((u32) *(u32 *)((s8 *)node + 0x2C) != 0U) {
-            TObjPlayer::render_tree((*(void **)((s8 *)node + 0x2C)));
+        if (node->child != NULL) {
+            TObjPlayer::render_tree(node->child);
         }
         pop_matrix();
-        node = *(void **)((s8 *)node + 0x30);
+        node = node->sibling;
     } while (node != NULL);
 }
 
@@ -505,15 +504,16 @@ s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
     handle = ADXF_LoadPartitionNw(id, name, 0, buf);
     if (handle >= 0) {
-loop_2:
-        if (ADXF_GetPtStat(id) != 3) {
+        for (;;) {
+            if (ADXF_GetPtStat(id) == 3) {
+                break;
+            }
             run_disk_error_check();
             flush_input();
             update_global_sound_frame();
             read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
             reset_state_byte();
-            goto loop_2;
         }
     }
     return handle;
@@ -523,12 +523,13 @@ s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
     s32 handle;
     handle = ADXF_LoadPartitionNw(id, name, 0, buf);
     if (handle >= 0) {
-loop_1:
-        if (ADXF_GetPtStat(id) != 3) {
+        for (;;) {
+            if (ADXF_GetPtStat(id) == 3) {
+                break;
+            }
             run_disk_error_check();
             draw_loading_compass();
             run_frame();
-            goto loop_1;
         }
     }
     return handle;

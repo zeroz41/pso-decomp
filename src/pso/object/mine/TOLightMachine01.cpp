@@ -88,22 +88,20 @@ TOLightMachine01::~TOLightMachine01() {
 
 #pragma push
 #pragma fp_contract on
-#define light_machine01 this
 TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
-    light_machine01->m_name = light_machine01_name;
-    ((TOLightMachine01 *)(light_machine01))->apply_object_set_data(set_data);
-    light_machine01->model = get_bml_model(light_machine01_shared_bml_archive, 1);
-    light_machine01->texlist = get_bml_texlist(light_machine01_shared_bml_archive, 1);
-    light_machine01->view_range = 500.0f;
-    light_machine01->model_radius = ((GinjaModelBounds *)light_machine01->model->model)->radius;
-    light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
-    light_machine01->bob_speed = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
-    light_machine01->bob_angle_step = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));
-    light_machine01->bob_angle = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
-    light_machine01->bob_amplitude = (f32) ((0.1f * (f32) light_machine01->set_params[1]) + 0.5f);
-    light_machine01->bob_offset = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->bob_angle));
-    light_machine01->spin_angle = 0;
+    m_name = light_machine01_name;
+    apply_object_set_data(set_data);
+    model = get_bml_model(light_machine01_shared_bml_archive, 1);
+    texlist = get_bml_texlist(light_machine01_shared_bml_archive, 1);
+    view_range = 500.0f;
+    model_radius = ((GinjaModelBounds *)model->model)->radius;
+    actorFlags = (s32) (actorFlags | 0x40000000);
+    bob_speed = (f32) ((0.1f * (f32) set_params[0]) + 1.0f);
+    bob_angle_step = (s32) (182.04445f * (360.0f / (30.0f / bob_speed)));
+    bob_angle = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
+    bob_amplitude = (f32) ((0.1f * (f32) set_params[1]) + 0.5f);
+    bob_offset = (f32) (bob_amplitude * sin_table_lookup(bob_angle));
+    spin_angle = 0;
 }
-#undef light_machine01
 #pragma pop
 

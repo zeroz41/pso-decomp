@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+struct BmlResource;
+
 void load_and_spawn_chao_npc(void);
+extern BmlResource *chao_npc_instance_handle;
 
 #endif

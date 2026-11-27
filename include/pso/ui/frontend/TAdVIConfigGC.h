@@ -12,7 +12,7 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     TAdVIConfigGC(TObject *parent);
     virtual ~TAdVIConfigGC();
     u32 answered;
-    u8 *init(const Vec *position, f32 radius);
+    TAdVIConfigGC *init(const Vec *position, f32 radius);
     virtual void render();
     void mark_answered();
     s32 is_answered();

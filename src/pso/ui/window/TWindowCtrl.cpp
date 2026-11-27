@@ -13,7 +13,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/TWindowFukidasi.h"
-#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/WindowCtrlCallback.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjChara.h"
@@ -36,13 +35,14 @@
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
+#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowPartyStatus.h"
 #include "pso/ui/window/TWindowBreakIn.h"
@@ -432,7 +432,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         chat_window->open_input();
-        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->submission) != 0)) {
+        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission(&this->submission) != 0)) {
             consume_active_flag(chat_window);
         }
         if (chat_window->is_visible() != 0) {
@@ -1271,7 +1271,7 @@ void send_card_window_state() {
     TPlyChoiceSearchConfig parameters;
     CharacterSaveRecord *card;
 
-    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    card = get_character_save_record(0xFFFF);
     parameters.disabled = TLobby::open_hard_keyboard(local_client_id) ? 1 : 0;
     copy_choice_search_selections(card->choice_search.entries, &parameters);
     TLobby::protocol_instance->send_choice_search_parameters(parameters);

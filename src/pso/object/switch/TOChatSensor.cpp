@@ -80,7 +80,7 @@ void load_chat_sensor(void) { chat_sensor_table = (ChatSensorTable *)load_encryp
 
 void TOChatSensor::destroy_global() {
     if (chat_sensor_table != NULL) {
-        TLobby::free_nodes_with_id((uaddr)chat_sensor_table);
+        TLobby::free_nodes_with_id(chat_sensor_table);
         chat_sensor_table = NULL;
     }
 }
@@ -260,9 +260,9 @@ void chat_sensor_on_floor_load(void) {  }
 
 void chat_sensor_on_floor_free(void) {  }
 
-void TOChatSensorCapture::create_instance(void *parent) {
+void TOChatSensorCapture::create_instance(TObject *parent) {
     if (chat_sensor_capture_instance == NULL) {
-        new TOChatSensorCapture((TObject *)parent);
+        new TOChatSensorCapture(parent);
     }
 }
 

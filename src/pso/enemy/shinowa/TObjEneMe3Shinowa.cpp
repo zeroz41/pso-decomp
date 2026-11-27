@@ -11,7 +11,7 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 #include "types.h"
@@ -33,7 +33,7 @@
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
@@ -61,7 +61,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -149,7 +148,7 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaParams *info;
     NJS_OBJECT *root;
     NJS_CNK_MODEL *cnk;
-    AnimationMotion *motion;
+    NJS_MOTION *motion;
     NJS_OBJECT *model;
     f32 step;
     NJS_MOTION *trail;
@@ -211,7 +210,7 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage::material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3ShinowaMirage::bml_resource->motions[shinowa_mirage_motion_param_table[4].motion].motion;
-    TBreakUpMdlData *breakup = new TBreakUpMdlData(TObjEneMe3ShinowaMirage::bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    TBreakUpMdlData *breakup = new TBreakUpMdlData(TObjEneMe3ShinowaMirage::bml_resource->models->model, motion, motion->nbFrame - 1);
     TObjEneMe3ShinowaMirage::breakup_model = breakup;
     {
         Vec first;
@@ -476,7 +475,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     ret = 0;
     if (!(behavior_flags & 0x10000)) {
         if (destination_distance > 100.0f && destination_distance < 150.0f) {
-            mine = (s32)((TObjBase *)this)->get_room();
+            mine = (s32)get_room();
             theirs = current_target->get_room();
             if (theirs == mine && check_body_collision_at(rotation_y, destination_distance - 20.0f) == 0) {
                 ret = 1;
@@ -928,7 +927,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
             break;
         case 1:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -944,7 +943,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
             break;
         case 2:
             this->advance_animation();
-            if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+            if (validate_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1047,7 +1046,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
         case 0:
             this->apply_sword_hits();
             if (this->frame < 20.0f) {
-                if (((TObjEneEpsilon *)this)->update_death_check() != 0) {
+                if (validate_target() != 0) {
                     this->enemy_copy_target_destination();
                     this->update_velocity();
                     angle = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
@@ -1061,7 +1060,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
             this->apply_effect_pair();
             if (this->frame >= 0.0f && this->frame <= 5.0f) {
                 info = TObjEneMe3ShinowaMirage::mirage_info_table[this->kind_index];
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->dist);
+                move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->dist);
             } else {
                 this->update_ground_contact();
             }
@@ -1610,7 +1609,7 @@ void TObjEneMe3Shinowa::render_demo() {
         }
         if (mode == 0) {
             s32 action = (s32)parameters[2];
-            AnimationMotion *motion;
+            NJS_MOTION *motion;
             f32 at_frame;
             if (action < 0) {
                 action = 0;
@@ -1621,13 +1620,13 @@ void TObjEneMe3Shinowa::render_demo() {
             at_frame = parameters[3];
             if (at_frame < 0.0f) {
                 at_frame = 0.0f;
-            } else if (at_frame > (motion->frameCount - 1)) {
-                at_frame = (motion->frameCount - 1);
+            } else if (at_frame > (motion->nbFrame - 1)) {
+                at_frame = (motion->nbFrame - 1);
             }
             set_motion_packed_rotation();
             draw_model_motion(model, motion, at_frame);
             clear_motion_packed_rotation();
-            current_motion = (NJS_MOTION *)motion;
+            current_motion = motion;
             frame = at_frame;
             print_float_padded(pack_debug_text_position(0, 4), 5, get_node_world_y());
         } else {
@@ -1880,7 +1879,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     init_enemy();
     mirage_index = 0;
     behavior_flags |= 0x1000;
-    set_flag_0x100();
+    set_mirage();
     material_color = 0xB000FFB0;
     position.y = -500.0f;
     prev_position.y = -500.0f;
@@ -1958,7 +1957,7 @@ void TObjEneMe3ShinowaMirage::activate_mirage(s32 index) {
 
 void TObjEneMe3ShinowaMirage::init_mirage() { transition_enemy_state(15); }
 
-void TObjEneMe3ShinowaMirage::set_flag_0x100() {
+void TObjEneMe3ShinowaMirage::set_mirage() {
     behavior_flags |= 0x100;
     disable_body_collision();
 }
@@ -1998,7 +1997,7 @@ void TObjEneMe3ShinowaMirage::state_fade_out(s32 mode) {
     case 3:
         if (fade_color.a <= -1.0f) {
             behavior_flags &= ~0x200;
-            set_flag_0x100();
+            set_mirage();
             position.y = -500.0f;
             prev_position.y = -500.0f;
             bodies->center.y = -500.0f;

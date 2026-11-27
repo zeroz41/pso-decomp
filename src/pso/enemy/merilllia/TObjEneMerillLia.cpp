@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 
 #include "pso/system/task/TObject.h"
@@ -44,7 +44,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TextureState.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/math/ScratchVectors.h"
@@ -349,7 +349,7 @@ void TObjEneMerillLia::render() {
     if (detail != 0) {
         saved_model_render_flags = model_render_flags;
         select_actor_lighting(this);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
         post_translate_matrix(&position.x);

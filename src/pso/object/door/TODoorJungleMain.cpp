@@ -13,7 +13,7 @@
 
 struct BmlResource;
 struct NJS_TEXLIST;
-struct AnimationMotion;
+struct NJS_MOTION;
 
 #include "pso/object/door/TODoorJungleMain.h"
 
@@ -100,7 +100,7 @@ NJS_TEXLIST *door_jungle_main_gvm_texture;
 TODoorJungleMain::TODoorJungleMain(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain::bml_resource, 0);
+    motion = get_bml_motion(TODoorJungleMain::bml_resource, 0);
     animation_step = 1.0f;
     animation_end_frame = 0.0f;
     init_collision_body_parts(this, TODoorJungleMain_collision_body_parts, 1);
@@ -139,8 +139,8 @@ void TODoorJungleMain::run_task() {
         flag = 0;
         animation_end_frame += this->animation_step;
         t = animation_end_frame;
-        if ((f32)(u32)(motion->frameCount - 1) - 70.0f < t &&
-            t < (f32)(u32)(motion->frameCount - 1)) {
+        if ((f32)(u32)(motion->nbFrame - 1) - 70.0f < t &&
+            t < (f32)(u32)(motion->nbFrame - 1)) {
             set_indexed_flags(0, 8);
             if (map_csn != NULL) {
                 map_csn->queue_destruction();
@@ -149,9 +149,9 @@ void TODoorJungleMain::run_task() {
         } else {
             flag = 1;
         }
-        if (animation_end_frame > (f32)(u32)(motion->frameCount - 1)) {
+        if (animation_end_frame > (f32)(u32)(motion->nbFrame - 1)) {
             flag = 0;
-            animation_end_frame = (f32)(u32)(motion->frameCount - 1);
+            animation_end_frame = (f32)(u32)(motion->nbFrame - 1);
         } else {
             play_persistent_sound(0x43220, this, &this->position, 0, 0);
         }
@@ -286,7 +286,7 @@ void TODoorJungleMain::apply_saved_state(s16 *state, s32 live) {
     if ((state != NULL) && ((s16) *state == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
         if (live == 0) {
-            this->animation_end_frame = (f32) (this->motion->frameCount - 1);
+            this->animation_end_frame = (f32) (this->motion->nbFrame - 1);
             set_indexed_flags(0, 8);
             if (map_csn != NULL) {
                 map_csn->queue_destruction();

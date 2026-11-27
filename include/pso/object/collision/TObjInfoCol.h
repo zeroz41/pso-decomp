@@ -7,7 +7,7 @@
 
 class TObjInfoCol : public TObjCollidable {
 public:
-    TObjInfoCol(saddr, saddr);
+    TObjInfoCol(TObject *, void *);
     virtual ~TObjInfoCol();
     f32 interaction_radius;
 

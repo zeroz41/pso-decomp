@@ -7,7 +7,7 @@
 #include "pso/network/PSOV3EncryptionTCP.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -15,7 +15,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/system/memory.h"
-#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
 LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
@@ -263,9 +262,9 @@ void TProtocol::handle_cmd_C5(packet &pkt) {
     }
 }
 
-s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
+s32 TProtocol::send_login_9e_extended(const char *player_name, int udp_disabled) {
     memset(m_player_name, 0, 0x10);
-    strncpy(m_player_name, (const char *)player_name, 0x10);
+    strncpy(m_player_name, player_name, 0x10);
     m_udp_disabled = udp_disabled;
     TSendLogin pkt;
     memset(&pkt, 0, sizeof(pkt));
@@ -578,7 +577,6 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 
 // ---- pso/network/TProtocol_801DB684
 
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include <stddef.h>
 
 LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);

@@ -8,10 +8,10 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
@@ -42,8 +42,7 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 
 TChallenge4PResult *challenge4p_result_slot_entries[4];
 
-void resume_challenge_result_processing(void *result);
-extern saddr tl_01;
+void resume_challenge_result_processing(TChallenge4PResult *result);
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
 #pragma defer_codegen on
@@ -217,7 +216,7 @@ void TChallenge4PResult::show_message(const char *text_handle) {
         message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), &pos, 1, slot_index);
     }
     if (message_window != NULL) {
-        message_window->set_message((void *)text_handle, 0x81);
+        message_window->set_message(text_handle, 0x81);
         if (TCameraCtrl::get_view_count() > 2) {
             message_window->set_position_xy(0.9f, 0.9f);
         }
@@ -238,7 +237,7 @@ void TChallenge4PResult::clear_slot_entries() {
 }
 void TChallenge4PResult::create(u16 client, s32 result_code) {
     if (get_player_by_client_id(client) != NULL) {
-        new TChallenge4PResult((TObject *)tl_01, client, result_code);
+        new TChallenge4PResult(tl_01, client, result_code);
     }
 }
 
@@ -257,7 +256,7 @@ s32 update_challenge_result_player_locks() {
                 player->disable_palette_slot(1);
                 player->disable_palette_slot(2);
                 player->disable_palette_slot(3);
-                if ((player)->check_flag_0x40000000() == 0) set_player_hold_flag(player);
+                if ((player)->is_hold_flag_set() == 0) set_player_hold_flag(player);
                 TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
@@ -270,7 +269,7 @@ s32 update_challenge_result_player_locks() {
                 send_release_hold(player);
                 obj_clear_flag30_20000(player);
                 player->enable_all_palette_slots();
-                if ((player)->check_flag_0x40000000()) clear_player_hold_flag(player);
+                if ((player)->is_hold_flag_set()) clear_player_hold_flag(player);
                 TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
@@ -295,9 +294,9 @@ void TChallenge4PResult::update_entries(TItemData *item, s32 slot) {
     } while (i < 4);
 }
 
-void resume_challenge_result_processing(void *result) {
+void resume_challenge_result_processing(TChallenge4PResult *result) {
     if (result != NULL) {
-        ((TChallenge4PResult *)result)->state_1c = 1;
+        result->state_1c = 1;
     }
 }
 
@@ -381,7 +380,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
 }
 
 void TChallenge4PItemSelect::close_with_callback() {
-    void (*callback)(void *);
+    void (*callback)(TChallenge4PResult *);
 
     callback = onClosed;
     if (callback != NULL) {

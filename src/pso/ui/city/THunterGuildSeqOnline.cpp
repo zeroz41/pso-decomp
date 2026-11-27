@@ -3,6 +3,7 @@
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -14,7 +15,7 @@
 #include "pso/quest/OnlineQuestDownloadState.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -235,7 +236,7 @@ void THunterGuildSeqOnline_Server::update() {
 
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
+        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
         choice_menu->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -291,13 +292,13 @@ void THunterGuildSeqOnline_Server::close_window() {
         break;
     case 1:
         new TScreenFadeOut(tl_00, reset_random_enemies_mode);
-        set_shop_slot_active(((TObjBase *)(player))->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;
     case 2:
         new TScreenFadeOut(tl_00, set_random_enemies_mode);
-        set_shop_slot_active(((TObjBase *)(player))->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;

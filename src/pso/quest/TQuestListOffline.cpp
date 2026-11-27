@@ -11,7 +11,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/quest/QuestFlagCommand.h"
@@ -71,7 +70,7 @@ void TQuestListOffline::reset_global_if_not_split_screen() {
 
 void TQuestListOffline::free_global() {
     if (story_quest_list_resource != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(story_quest_list_resource));
+        TLobby::free_nodes_with_id(story_quest_list_resource);
         story_quest_list_resource = NULL;
     }
 }

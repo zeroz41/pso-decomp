@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #undef PSO_SDK_COMPACT_MATH
 
 

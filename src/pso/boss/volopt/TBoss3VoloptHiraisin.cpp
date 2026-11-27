@@ -8,7 +8,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
@@ -187,7 +187,7 @@ void TBoss3VoloptHiraisin::update_hit() {
 void TBoss3VoloptHiraisin::render() {
     f32 scale;
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting(this);

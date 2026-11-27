@@ -5,6 +5,8 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+struct GuildCardEntry;
+
 // The six text entries of the card: name, card id, class, language, stat and keyboard.
 struct ComCardLayout {
     u32 cols;
@@ -14,7 +16,7 @@ struct ComCardLayout {
 
 struct TWindowComCard : public TWindowBase {
     static const char *class_name;
-    TWindowComCard(const NJS_POINT2 *position, void *data);
+    TWindowComCard(const NJS_POINT2 *position, GuildCardEntry *card);
     virtual ~TWindowComCard();
     virtual void render();
     virtual void run_task();

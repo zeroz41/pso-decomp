@@ -3,8 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Cane weapon class (old ctor name TObjPlayer__sub_80125F24), made by
-// TItemWeaponFlowerCane::create.
+// Cane weapon class, made by TItemWeaponFlowerCane::create.
 class TItemWeaponFlowerCane : public TItemWeapon {
 public:
     virtual ~TItemWeaponFlowerCane();

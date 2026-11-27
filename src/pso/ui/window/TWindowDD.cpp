@@ -125,7 +125,6 @@ s32 classify_id__9TWindowDDFs();
 }
 
 
-void clear_window_dd_nodes(void);
 #pragma push
 #pragma opt_common_subs off
 void load_word_select_data(void) {
@@ -237,23 +236,23 @@ void TWindowDD::free_buffers() {
         TWindowDD::work_buffer = NULL;
     }
     if (TWindowDD::ws_data_fr != NULL) {
-        TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_fr));
+        TLobby::free_nodes_with_id(TWindowDD::ws_data_fr);
         TWindowDD::ws_data_fr = NULL;
     }
     if (ws_data_de != NULL) {
-        TLobby::free_nodes_with_id((uaddr)ws_data_de);
+        TLobby::free_nodes_with_id(ws_data_de);
         ws_data_de = NULL;
     }
     if (ws_data_es != NULL) {
-        TLobby::free_nodes_with_id((uaddr)ws_data_es);
+        TLobby::free_nodes_with_id(ws_data_es);
         ws_data_es = NULL;
     }
     if (ws_data_us != NULL) {
-        TLobby::free_nodes_with_id((uaddr)ws_data_us);
+        TLobby::free_nodes_with_id(ws_data_us);
         ws_data_us = NULL;
     }
     if (ws_data_jp != NULL) {
-        TLobby::free_nodes_with_id((uaddr)ws_data_jp);
+        TLobby::free_nodes_with_id(ws_data_jp);
         ws_data_jp = NULL;
     }
 }

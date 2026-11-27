@@ -6,6 +6,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 
 #include "types.h"
+#include "clib/fp_convert.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -24,7 +25,6 @@
 const char *TWindowEffectLight::class_name = "TWindowEffectLight";
 
 extern "C" {
-s32 __cvt_fp2unsigned(f32);
 
 
 #pragma fp_contract on

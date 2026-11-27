@@ -21,7 +21,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"

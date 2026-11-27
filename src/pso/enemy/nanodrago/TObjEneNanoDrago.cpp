@@ -37,7 +37,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -368,7 +368,7 @@ void TObjEneNanoDrago::render() {
                 return;
             }
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         select_actor_lighting(this);
         toggle_particle_effect();
         rendered = 1;

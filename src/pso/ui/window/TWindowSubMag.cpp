@@ -27,7 +27,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -43,7 +43,6 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
@@ -374,7 +373,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     }
     window->set_flag70_bit10();
     window->update_layout_height((172.0f));
-    align_menu_entry_positions(window);
+    window->align_menu_entry_positions();
     return window;
 }
 
@@ -446,15 +445,13 @@ s32 TWindowSubMag::count_slots() {
     stats.init();
     mag->deserialize_mag(&stats);
     slot = 0;
-loop_1:
-    if (stats.get_photon_blast(slot) == -1) {
-        return slot;
-    }
-    slot += 1;
-    if (slot >= 3) {
-        return slot;
-    }
-    goto loop_1;
+    do {
+        if (stats.get_photon_blast(slot) == -1) {
+            return slot;
+        }
+        slot += 1;
+    } while (slot < 3);
+    return slot;
 }
 
 void TWindowSubMag::update_displayed_item() {

@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSoundBalance.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -133,16 +133,15 @@ void TWindowSoundBalance::handle_lr_input() {
 #pragma push
 #pragma opt_common_subs off
 void TWindowSoundBalance::render() {
-    TWindowSoundBalance *self = this;
-    WindowDrawContext *entry = self->draw_default_entry();
-    self->draw_window_frame(entry);
+    WindowDrawContext *entry = draw_default_entry();
+    draw_window_frame(entry);
     draw_visible_window_entries(
-        self,
-        &self->entry_list,
+        this,
+        &entry_list,
         entry);
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
-    self->apply_balance(entry);
+    apply_balance(entry);
 }
 #pragma pop
 
@@ -169,29 +168,29 @@ TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma fp_contract on
 TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     : TWindowBase((u8 *)&window_sound_balance_settings, 4, (u8 *)position) {
-    u8 *e;
-    SoundBalanceSettings *st;
+    WindowTextEntry *e;
+    SystemSaveData *st;
 
     this->m_name = TWindowSoundBalance::class_name;
     this->result_flags = 0;
     this->selection = 0;
     this->music_gain = 1;
     this->sound_effect_gain = 1;
-    e = (u8 *)get_array_entry(0);
-    char *label = reinterpret_cast<WindowTextEntry *>(e)->get_text();
-    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
+    e = (WindowTextEntry *)get_array_entry(0);
+    char *label = e->get_text();
+    e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
-    e = (u8 *)get_array_entry(1);
-    label = reinterpret_cast<WindowTextEntry *>(e)->get_text();
-    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
+    e = (WindowTextEntry *)get_array_entry(1);
+    label = e->get_text();
+    e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
-    st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
+    st = TAdSinglePlyChrSelectGC::get_global_state();
     if (st == 0) {
         this->set_music_gain(0);
         this->set_sound_effect_gain(0);
     } else {
-        this->set_music_gain(st->music_gain);
-        this->set_sound_effect_gain(st->sound_effect_gain);
+        this->set_music_gain(st->music_stream_gain);
+        this->set_sound_effect_gain(st->cue_stream_gain);
     }
 }
 

@@ -38,6 +38,7 @@ public:
     void set_pos_and_data(f32 x);
     void use_active_strips();
     void use_dim_strips();
+    void draw_word_row_strips(struct WindowDrawContext *rect);
     s32 state_flags;
     s32 strip_point_index; // point table index for the strips; 0 also picks the first v range
     s32 selected_token_index;
@@ -53,7 +54,6 @@ public:
 };
 struct WindowDrawContext;
 
-void draw_word_row_strips(TWindowDD_WS_Word *self, WindowDrawContext *rect);
 
 LAYOUT_ASSERT(TWindowDD_WS_Word_size, sizeof(TWindowDD_WS_Word) == 0x90);
 

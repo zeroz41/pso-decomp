@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/HeadingEntry.h"
@@ -28,7 +29,6 @@ extern const s32 status_disp_tab_label_message_ids[4] = {0xE2, 0xE0, 0xE1, 0xF5}
 
 extern "C" {
 
-u32 calc_text_width(void);
 static const u8 equip_kind_tab_label_colors[4] = {1, 2, 2, 1};
 void TWindowSubEquipKind::set_trade_state(s16 trade_state) {
     this->trade_state = trade_state;
@@ -41,7 +41,7 @@ void TWindowSubEquipKind::set_trade_state(s16 trade_state) {
 #pragma fp_contract on
 void TWindowSubEquipKind::draw_tab_label(WindowDrawContext *context) {
     NJS_POINT2 pos;
-    saddr msg;
+    const char *msg;
     s16 fl;
     u8 col;
 
@@ -61,9 +61,9 @@ void TWindowSubEquipKind::draw_tab_label(WindowDrawContext *context) {
         pos.x += 80.0f;
         pos.y += 4.0f;
         set_text_draw_params(context, 0, 0, (f32)(-1.0f / (0.1794f + context->depth)), 100000.0f);
-        msg = (saddr)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[trade_state]);
-        pos.x -= 0.5f * (f32)calc_text_width();
-        draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);
+        msg = TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[trade_state]);
+        pos.x -= 0.5f * (f32)calc_text_width(msg);
+        draw_window_text((f32 *)&pos, msg, (0xFF000000), 0, 100000.0f);
     }
 }
 #pragma pop
@@ -271,7 +271,7 @@ void TWindowMenuIconLine::build_weapon_shortcut_list() {
             }
         }
         // The equipped weapon (equip slot 6) is listed after the inventory.
-        weapon = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, 6);
+        weapon = TObjPlayer::get_slot_value(player->equipped_items.items, 6);
         if (weapon != NULL) {
             weapon_id = weapon->get_item_id();
             add_list_entry(weapon, weapon_id);

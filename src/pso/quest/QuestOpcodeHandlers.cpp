@@ -30,7 +30,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/QuestVm.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
-#include "pso/unk/TLobby_8026B06C.h"
+#include "pso/unk/QuestMessageWindows.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
@@ -39,7 +39,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/item/TItemData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -50,6 +49,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/GuildCardSaveData.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorPopulation.h"
@@ -64,13 +64,14 @@
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/system/TColorOverlayFade.h"
-#include "pso/object/door/TObjDoor_801F3754.h"
+#include "pso/object/door/TObjDoorGlobalState.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -147,7 +148,8 @@
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/quest/QuestFloorDesignation.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -351,7 +353,7 @@ void append_team_name(void) {
 void TLobby::append_card_window_text() {
     CharacterSaveRecord *record;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     if (record != NULL) {
         append_string(record->challenge.tombstone.unit_name);
         return;
@@ -604,9 +606,6 @@ void qst_op_va_call(s32 label) {
   qst_call_stack_push(qst_pc);
   qst_pc = qst_function_table[(u16)label];
 }
-extern "C" {
-s32 copy_player_visual_record(void *, void *);
-}
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
@@ -785,7 +784,7 @@ void qst_op_get_players_present(u8 out) {
 
 void qst_op_find_bank_item(u8 i, u8 out) {
     TItemData item;
-    saddr card;
+    CharacterSaveRecord *card;
     qst_registers[out].i = -1;
     card = get_character_save_record(0xFFFF);
     if (card != 0) {
@@ -794,7 +793,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
         item.data1.data_u8[1] = qst_registers[i++].i;
         item.data1.data_u8[2] = qst_registers[i++].i;
         item.data1.data_u8[4] = qst_registers[i].i;
-        if (((CharacterSaveRecord *)card)->find_bank_item(&item) != 0) {
+        if (card->find_bank_item(&item) != 0) {
             qst_registers[out].i = 1;
         } else {
             qst_registers[out].i = 0;
@@ -805,7 +804,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
 void qst_op_write_counter() {
     s32 idx = qst_args[0].i;
     s32 val = qst_args[1].i;
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    CharacterSaveRecord *record = get_character_save_record(0xFFFFU);
     if (record != NULL && idx >= 0 && idx < 0x10) {
         record->quest_counters[idx] = val;
     }
@@ -814,7 +813,7 @@ void qst_op_write_counter() {
 void qst_op_read_counter(void) {
     s32 counter_index = qst_args[0].i;
     u8 dest_reg = (u8)qst_args[1].i;
-    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    CharacterSaveRecord *record = get_character_save_record(0xFFFFU);
     if (record != NULL) {
         if (counter_index >= 0 && counter_index < 0x10) {
             qst_registers[dest_reg].i = record->quest_counters[counter_index];
@@ -876,13 +875,13 @@ void qst_op_get_player_hp_tp(void) {
 }
 
 void qst_op_get_section_id() {
-  uaddr player;
+  TObjPlayer *player;
   u8 out_reg;
-  player = ((uaddr)get_player_by_client_id((s32)((int) qst_args[0].i)));
+  player = get_player_by_client_id((s32)((int) qst_args[0].i));
   out_reg = (u8) qst_args[1].i;
   if (player != 0U)
   {
-    qst_registers[out_reg].i = (volatile unsigned long)((TObjPlayer *)player)->get_section_id();
+    qst_registers[out_reg].i = (volatile unsigned long)player->get_section_id();
     return;
   }
   qst_registers[out_reg].i = -1;
@@ -912,7 +911,7 @@ void qst_op_get_slot_meseta(u8 i) {
     } else {
         qst_registers[i].i = -1;
     }
-    w = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    w = get_character_save_record(0xFFFF);
     if (w != 0) {
         (&qst_registers[i].i)[1] = w->bank_meseta;
     } else {
@@ -924,7 +923,7 @@ void qst_op_get_guildcard_total(int a0) { qst_registers[(unsigned char)(a0)].i =
 
 void qst_op_get_time_played(s32 reg) {
     CharacterSaveRecord *character_save_record;
-    character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    character_save_record = get_character_save_record(0xFFFFU);
     if (character_save_record != NULL) {
         qst_registers[(u8)reg].i = character_save_record->play_time;
         return;
@@ -1217,7 +1216,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start].i);
+    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;
@@ -1616,11 +1615,11 @@ void qst_op_write_flag_buf_to_event_flags2(u8 reg) { qst_op_write_flag_buf_to_ev
 
 void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
     s32 creation_time;
-    void *state;
+    GuildCardSaveData *state;
 
-    state = (void *)(saddr)TAdSinglePlyChrSelectGC::get_state();
+    state = TAdSinglePlyChrSelectGC::get_state();
     if (state != NULL) {
-        creation_time = *(s32 *)((s8 *)state + 0xE284);
+        creation_time = state->timestamp_seconds;
     } else {
         creation_time = 0;
     }
@@ -1721,14 +1720,14 @@ void qst_op_get_number_of_players2(int a0) { qst_registers[(unsigned char)(a0)].
 void qst_op_get_cmode_prize_rank(s32 reg) {
     CharacterSaveRecord *record;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     if (record != NULL) {
         qst_registers[(u8)reg].i = decode_challenge_count(challenge_set_rank(&record->challenge, RECORD_SET_CURRENT)->rank);
     }
 }
 
 void qst_op_get_ba_record(u8 i) {
-    CharacterSaveRecord *card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    CharacterSaveRecord *card = get_character_save_record(0xFFFF);
     if (card != NULL) {
         qst_registers[i++].i = card->online_battle.place_counts[0];
         qst_registers[i++].i = card->online_battle.place_counts[1];
@@ -1742,7 +1741,7 @@ void qst_op_get_ba_record(u8 i) {
 
 void qst_op_is_there_grave_message(s32 reg) {
     CharacterSaveRecord *record;
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
+    record = get_character_save_record(0xFFFFU);
     if (record != NULL) {
         if (strncmp(record->challenge.tombstone.unit_name, "", 0x20) == 0) {
             qst_registers[(u8)reg].i = 0;
@@ -1812,7 +1811,7 @@ void qst_op_set_chat_callback_no_filter(u8 i) {
 
 void qst_op_write_flag_buf_to_event_flags(u8 reg) {
     s32 idx = qst_registers[reg].i;
-    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && idx >= 0 && idx < 0xFD) {
         move_data(((&w->event_flags[idx])), (&qst_flag_buf), 4);
     }
@@ -1947,7 +1946,7 @@ void qst_op_shift_left(s32 dst, s32 src) {
 void qst_op_get_eventflag32(u8 a0, u8 a1) {
     s32 v;
     qst_registers[a1].i = 0;
-    QuestEventFlagRecord *w = ((QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state());
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL) {
         s32 i = qst_registers[a0].i;
         if (i >= 0 && i < 0xFD) {
@@ -1960,7 +1959,7 @@ void qst_op_get_eventflag32(u8 a0, u8 a1) {
 void qst_op_get_eventflag16(u8 a0, u8 a1) {
     s16 v;
     qst_registers[a1].i = 0;
-    QuestEventFlagRecord *w = ((QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state());
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL) {
         s32 i = qst_registers[a0].i;
         if (i >= 0 && i < 0xFF) {
@@ -2199,7 +2198,7 @@ void qst_op_ba_get_place(u8 a0, u8 a1) {
 void qst_op_set_eventflag32() {
     u32 i = (u32)qst_args[0].i;
     s32 v = qst_args[1].i;
-    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFD) {
         move_data(((&w->event_flags[i])), (&v), 4);
     }
@@ -2233,7 +2232,7 @@ void qst_op_animation_check(s32 slot_reg, s32 dst) {
 void qst_op_set_eventflag16() {
     u32 i = (u32)qst_args[0].i;
     s16 v = qst_args[1].i;
-    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFF) {
         move_data(((&w->event_flags[i])), (&v), 2);
     }
@@ -2269,15 +2268,15 @@ void qst_op_set_trap_damage(s32 i) {
 }
 
 void qst_op_get_eventflag(s32 index_reg, s32 dst) {
-    u8 *flags;
+    SystemSaveData *flags;
     QuestValue *regs;
     s32 index;
-    flags = (u8 *)TAdSinglePlyChrSelectGC::get_global_state();
+    flags = TAdSinglePlyChrSelectGC::get_global_state();
     if (flags != NULL) {
         regs = qst_registers;
         index = regs[(u8)index_reg].i;
         if (index >= 0 && index < 0x100) {
-            regs[(u8)dst].i = flags[index + 0x10];
+            regs[(u8)dst].i = flags->event_flags[index];
         }
     }
 }
@@ -2296,10 +2295,10 @@ void qst_op_kill_player(s32 slot_reg) {
 }
 
 void qst_op_get_guild_card_file_creation_time(s32 reg) {
-    u8 *state;
-    state = (u8 *)(saddr)TAdSinglePlyChrSelectGC::get_state();
+    GuildCardSaveData *state;
+    state = TAdSinglePlyChrSelectGC::get_state();
     if (state != NULL) {
-        qst_registers[(u8)reg].i = *(s32 *)((s8 *)state + 0xE284);
+        qst_registers[(u8)reg].i = state->timestamp_seconds;
         return;
     }
     qst_registers[(u8)reg].i = 0;
@@ -2631,8 +2630,8 @@ void qst_op_set_allow_item_flags(void) {
 }
 
 void qst_op_p_talk_guild_local(int _w0, int _w1) {
-    u32 player = ((uaddr)get_player_by_client_id((int)(local_client_id)));
-    if (player != 0U) {
+    TObjPlayer *player = get_player_by_client_id((int)(local_client_id));
+    if (player != NULL) {
         handle_main_phase(player);
     }
 }
@@ -2817,7 +2816,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u8 *record;
     record = qst_label_address(label);
     if (record != NULL) {
-        copy_player_visual_record(&quest_npc_visual_record, record);
+        copy_player_visual_record((PlayerVisualRecord *)&quest_npc_visual_record, (PlayerVisualRecord *)record);
     }
 }
 
@@ -3317,18 +3316,18 @@ void qst_op_sync_register(void) {
 void qst_op_set_eventflag2(void) {
     u32 x = (u32)qst_args[0].i;
     u32 y = (u32)qst_args[1].i;
-    u8* s = TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *s = TAdSinglePlyChrSelectGC::get_global_state();
     if (s != 0 && x < 0x100) {
-        s[x + 0x10] = y;
+        s->event_flags[x] = y;
     }
 }
 
 void qst_op_set_eventflag(void) {
     u32 x = (u32)qst_args[0].i;
     u32 y = (u32)qst_args[1].i;
-    u8* s = TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *s = TAdSinglePlyChrSelectGC::get_global_state();
     if (s != 0 && x < 0x100) {
-        s[x + 0x10] = y;
+        s->event_flags[x] = y;
     }
 }
 
@@ -3732,7 +3731,7 @@ void qst_op_npc_talk_pl(u8 regs) {
 void qst_op_p_talk_guild(void) {
     TObjPlayer *player = get_player_by_client_id(qst_args[0].i);
     if (player != NULL) {
-        handle_main_phase((saddr)player);
+        handle_main_phase(player);
     }
 }
 
@@ -3793,7 +3792,7 @@ void qst_op_check_npc_straggle(u8 i) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start].i);
+    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;
@@ -4555,7 +4554,7 @@ void qst_op_list(void) {
         qst_list_window->add_text_entry(list->tokens[i], 7, i);
     }
     qst_list_window->calc_window_size();
-    align_menu_entry_positions(qst_list_window);
+    qst_list_window->align_menu_entry_positions();
     qst_list_window->set_ready_flag();
     qst_list_window->set_depth(39000.0f);
     qst_registers[idx].i = 0;

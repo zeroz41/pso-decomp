@@ -8,9 +8,10 @@
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/network/TLobby.h"
+#include "musyx/musyx.h"
+#include "pso/network/GbaJoybootState.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/audio/SoundControlState.h"
-#include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "dolphin/mtx.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -45,8 +46,6 @@ void SoundRequestVoice::clamp_reverb(f32 scale) {
 }
 
 void sound_request_voice_set_refresh(SoundRequestVoice *voice) { voice->refresh = 5; }
-
-extern "C" s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
 
 void sound_request_voice_update_pitch(SoundRequestVoice *v) {
     switch (v->kind) {
@@ -96,9 +95,7 @@ void SoundRequestVoice::update() {
 
 extern "C" {
 s32 sndFXCtrl(int, int, int);
-s32 sndFXKeyOff(int);
 void apply_random_sound_pitch(SoundRequestVoice *);
-extern s8 gba_joyboot_states[];
 void apply_sound_pitch_wobble(SoundRequestVoice *sound);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
@@ -148,12 +145,12 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         params.paraArray = ctl;
         ctl[0].ctrl = 0x80;
         ctl[0].paraData.value14 = v->pitch;
-        if (!(lobby_state_flags & 2) && gba_joyboot_states[7] == 0) {
+        if (!(lobby_state_flags & 2) && gba_joyboot_states[0].device_present == 0) {
             level = OSDisableInterrupts();
         }
         v->token = sndFXStartParaInfo(v->effect, 0x7F, v->pan, v->studio, &params);
         send_voice_controller_updates(v);
-        if (!(lobby_state_flags & 2) && gba_joyboot_states[7] == 0) {
+        if (!(lobby_state_flags & 2) && gba_joyboot_states[0].device_present == 0) {
             OSRestoreInterrupts(level);
         }
         send_sound_request_reverb((v));

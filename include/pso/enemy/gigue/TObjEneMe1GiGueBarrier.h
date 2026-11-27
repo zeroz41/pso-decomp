@@ -7,7 +7,7 @@
 struct TObjEneMe1GiGue;
 
 struct TObjEneMe1GiGueBarrier : public TObjMotion {
-    TObjEneMe1GiGueBarrier(TObject *parent, void *owner);
+    TObjEneMe1GiGueBarrier(TObject *parent, TObjEneMe1GiGue *owner);
     virtual ~TObjEneMe1GiGueBarrier();
     TObjEneMe1GiGue *owner;
     u16 owner_id;
@@ -16,7 +16,7 @@ struct TObjEneMe1GiGueBarrier : public TObjMotion {
     s32 timer;
     virtual void render();
     virtual void run_task();
-    static void *create(void *parent, void *owner);
+    static void *create(TObject *parent, TObjEneMe1GiGue *owner);
     static void init_global();
     static void free_global();
 };

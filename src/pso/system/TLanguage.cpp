@@ -54,7 +54,7 @@ void TLanguage::free_alphabet_textures() {
 }
 
 void TLanguage::free_text_resources() {
-    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(text_resource));
+    TLobby::free_nodes_with_id(text_resource);
     soft_keyboard_layouts = NULL;
     text_language_group_table = 0;
     text_resource = NULL;
@@ -167,7 +167,7 @@ __declspec(section ".rodata") extern const char TextSpanish[] = "TextSpanish";
 __declspec(section ".rodata") extern const char TextEnglish[] = "TextEnglish";
 
 s32 TLanguage::set_language(s8 language) {
-    u8 *save_payload;
+    SystemSaveData *save_payload;
 
     if ((s32) current_language == language) {
         return 0;
@@ -178,7 +178,7 @@ s32 TLanguage::set_language(s8 language) {
 
     save_payload = TAdSinglePlyChrSelectGC::get_global_state();
     if (save_payload != NULL) {
-        *(s8 *)((s8 *)save_payload + 7) = language;
+        save_payload->language = language;
     }
 
     current_language = (enum language)(s8) language;

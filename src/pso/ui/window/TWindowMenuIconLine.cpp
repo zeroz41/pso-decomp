@@ -2,6 +2,7 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/ItemListRow.h"
@@ -121,9 +122,6 @@ void TWindowMenuIconLine::reset_list() {
 
 
 extern "C" {
-u32 calc_text_width();
-u8 get_font_char_advance();
-u16 map_char_to_font_code(u16 c);
 s32 list_window_layout[3] = {1, 0, 8};
 WindowDescriptor list_window_descriptor = {
     {0.0f, 0.0f}, 50050.0f, list_window_layout, 3,
@@ -381,10 +379,8 @@ void TWindowMenuIconLine::draw_item_list_capacity(WindowDrawContext *context, s3
     set_text_draw_params(context, 0, 0, (f32)(-1.0f / (0.1794f + context->depth)), (f32)100000.0f);
     text_builder_reset();
     text_builder_append_int(current_items);
-    get_shared_text_buffer();
-    pt.x -= (f32) calc_text_width();
-    map_char_to_font_code(0x2F);
-    advance = get_font_char_advance();
+    pt.x -= (f32) calc_text_width(get_shared_text_buffer());
+    advance = get_font_char_advance(map_char_to_font_code(0x2F));
     pt.x -= 0.5f * advance;
     text_builder_append("/");
     text_builder_append_int(capacity);

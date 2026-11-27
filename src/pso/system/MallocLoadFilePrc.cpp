@@ -26,7 +26,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TRelDataFile.h"
-#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/item/drop/TItemDrop.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/TGStream.h"
@@ -81,7 +81,7 @@ u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
 u8 lobby_font_texture_loaded;
 AdxfHandle **pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;
-uaddr pending_file_read_destination;
+void *pending_file_read_destination;
 s32 pending_file_read_flush_requested;
 u32 main_phase_deferred_callback;
 s32 quest_download_server_ready;
@@ -857,15 +857,15 @@ void invoke_callback() {
 void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
 
 void flush_pending() {
-    uaddr destination;
+    void *destination;
     s32 count;
     if (pending_file_read_flush_requested != 0) {
         destination = pending_file_read_destination;
         pending_file_read_flush_requested = 0;
-        if ((destination != 0U)) {
+        if ((destination != NULL)) {
             count = pending_file_read_sector_count;
             if (count != 0) {
-                ADXF_ReadNw(*pending_file_read_handle_ref, count, (void *)destination);
+                ADXF_ReadNw(*pending_file_read_handle_ref, count, destination);
             }
         }
         flush_checked_reads();
@@ -882,7 +882,7 @@ void flush_checked_reads() {
     }
 }
 
-void reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = 0; }
+void reset_read_state() { (pending_file_read_handle_ref) = 0; pending_file_read_sector_count = 0; pending_file_read_destination = NULL; }
 void clear_player_slot_tables(s32 n) {
     s32 i;
     if (n == -1) {
@@ -908,7 +908,7 @@ void set_entry_params(AdxfHandle **handle, s32 index, s32 sector_count, void *bu
 
 #pragma push
 
-void set_read_params(AdxfHandle **handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
+void set_read_params(AdxfHandle **handle_ref, int sector_count, void *destination) { pending_file_read_handle_ref = handle_ref; pending_file_read_sector_count = sector_count; pending_file_read_destination = destination; }
 
 void request_pending_file_read_flush(void) { pending_file_read_flush_requested = 1; }
 
@@ -1140,11 +1140,11 @@ void free_data_file(void *p) { safe_free(p); }
 
 void *load_data_file(const char *path) { return load_disc_file(path); }
 
-void TLobby::free_nodes_with_id(uaddr root) {
+void TLobby::free_nodes_with_id(const void *root) {
     TRelDataFile *file = (TRelDataFile *)resource_load_task_root.m_down;
 
     while (file != NULL) {
-        if ((uaddr)file->root == root) {
+        if (file->root == root) {
             safe_free(file->data);
             delete file;
         }
@@ -1180,7 +1180,7 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)data, size - 8);
+    rng.xor_buffer(data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
@@ -1196,7 +1196,7 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer((u32 *)&this->m_prev, size - 8);
+    rng.xor_buffer(&this->m_prev, size - 8);
     prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
@@ -1232,7 +1232,7 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         buf = load_disc_file(name);
         SubtractiveRng rng;
         rng.set_seed(h);
-        rng.xor_buffer((u32 *)(buf + 8), size - 8);
+        rng.xor_buffer(buf + 8, size - 8);
         prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }

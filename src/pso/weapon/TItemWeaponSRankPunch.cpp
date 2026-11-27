@@ -86,10 +86,10 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
     player = owner;
     if (player == NULL) return;
     attack_state = &player->attack_state;
-    if (get_burst_counter(attack_state) == 0) {
+    if (attack_state->get_burst_count() == 0) {
         i = 0;
         do {
-            increment_burst_counter((u8 *)attack_state);
+            attack_state->increment_burst_count();
             i += 1;
         } while (i != 2);
         this->flags.set(2);
@@ -106,7 +106,7 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
 }
 
 void TItemWeaponSRankPunch::transform_model_node() {
-    void *p;
+    NJS_OBJECT *p;
     switch (get_model_node_counter()) {
     case 1:
         if (flags.test_flags_any(2) == 0) {
@@ -132,7 +132,7 @@ void TItemWeaponSRankPunch::draw_held_model() {
     this->flags.set(1);
     draw_weapon_at_joint(0x30);
     get_joint_position(1, &shot_origins[0]);
-    item_model = (NJS_OBJECT *)model_data[0];
+    item_model = model_data[0];
     this->flags.clear(1);
     draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
@@ -175,7 +175,7 @@ NJS_OBJECT *get_punch_shot_model(u8 *weapon) {
     if (punch->flags.test_flags_any(4) != 0) {
         return punch->second_model;
     }
-    return (NJS_OBJECT *)punch->model_data[1];
+    return punch->model_data[1];
 }
 
 

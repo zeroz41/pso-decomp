@@ -20,7 +20,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/CounterTextLookup.h"
@@ -284,7 +284,7 @@ void TCheckRoomSequence::handle_withdraw_choice() {
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
-            align_menu_entry_positions(choice_menu);
+            choice_menu->align_menu_entry_positions();
             choice_menu->set_ready_flag();
             choice_menu->set_position_xy(get_scale(), get_scale());
         }
@@ -326,7 +326,7 @@ void TCheckRoomSequence::handle_deposit_choice() {
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
-            align_menu_entry_positions(choice_menu);
+            choice_menu->align_menu_entry_positions();
             choice_menu->set_ready_flag();
             choice_menu->set_position_xy(get_scale(), get_scale());
         }
@@ -370,7 +370,7 @@ void TCheckRoomSequence::handle_root_choice() {
                 choice_menu->add_text_entry(get_shop_text(8), 6, 0);
                 choice_menu->add_text_entry(get_shop_text(9), 6, 1);
                 choice_menu->calc_window_size();
-                align_menu_entry_positions(choice_menu);
+                choice_menu->align_menu_entry_positions();
                 choice_menu->set_ready_flag();
                 choice_menu->set_position_xy(get_scale(), get_scale());
             }
@@ -408,7 +408,7 @@ void TCheckRoomSequence::handle_root_choice() {
                 choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 choice_menu->add_text_entry(get_shop_text(0xA), 6, 1);
                 choice_menu->calc_window_size();
-                align_menu_entry_positions(choice_menu);
+                choice_menu->align_menu_entry_positions();
                 choice_menu->set_ready_flag();
                 choice_menu->set_position_xy(get_scale(), get_scale());
             }
@@ -744,7 +744,7 @@ void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) 
 #pragma pop
 
 #pragma optimization_level 1
-s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
+s32 copy_bank_item_with_stack_limit(s32 idx, TItemData *data, s32 *out, s32 slot) {
   BankItemRecord *records = bank_item_records_by_slot[slot];
   s32 max;
   if (idx > 199)
@@ -757,7 +757,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   }
   TCheckRoomSequence::copy_data(&records[idx], data);
   *out = records[idx].amount;
-  max = ((TItemData *)data)->get_max_stack_size();
+  max = data->get_max_stack_size();
   if (max < *out)
   {
     *out = max;
@@ -768,7 +768,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
+s32 TCheckRoomSequence::copy_item_record(int idx, TItemData *data, int slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     if (idx > 199) {
         return 0;
@@ -809,7 +809,7 @@ s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot) {
 void copy_bank_to_card_window(s32 slot) {
     CharacterSaveRecord *w;
     if (TAdSinglePlyChrSelectGC::is_ready() != 0) {
-        w = (CharacterSaveRecord *)get_character_save_record(slot);
+        w = get_character_save_record(slot);
         if (w != 0) {
             w->bank_meseta = bank_meseta_by_slot[slot];
             w->bank_item_count = bank_item_count_by_slot[slot];
@@ -822,7 +822,7 @@ void copy_bank_to_card_window(s32 slot) {
 #pragma push
 #pragma optimization_level 1
 void copy_bank_from_card_window(s32 slot) {
-    CharacterSaveRecord *w = (CharacterSaveRecord *)get_character_save_record(slot);
+    CharacterSaveRecord *w = get_character_save_record(slot);
     if (w != 0) {
         bank_meseta_by_slot[slot] = w->bank_meseta;
         bank_item_count_by_slot[slot] = w->bank_item_count;
@@ -880,19 +880,18 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) {
-    TItemData *dst = (TItemData *)item;
-    dst->data1.data_u8[0] = p->item.data1.data_u8[0];
-    dst->data1.data_u8[1] = p->item.data1.data_u8[1];
-    dst->data1.data_u8[2] = p->item.data1.data_u8[2];
-    dst->data1.data_u8[3] = p->item.data1.data_u8[3];
-    dst->data1.data_u8[4] = p->item.data1.data_u8[4];
-    dst->data1.data_u8[5] = p->item.data1.data_u8[5];
-    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&p->item.data1.data_u16[3]);
-    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&p->item.data1.data_u16[4]);
-    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&p->item.data1.data_u16[5]);
-    dst->id = p->item.id;
-    dst->data2.data_u32 = p->item.data2.data_u32;
+void TCheckRoomSequence::copy_data(BankItemRecord *record, TItemData *dst) {
+    dst->data1.data_u8[0] = record->item.data1.data_u8[0];
+    dst->data1.data_u8[1] = record->item.data1.data_u8[1];
+    dst->data1.data_u8[2] = record->item.data1.data_u8[2];
+    dst->data1.data_u8[3] = record->item.data1.data_u8[3];
+    dst->data1.data_u8[4] = record->item.data1.data_u8[4];
+    dst->data1.data_u8[5] = record->item.data1.data_u8[5];
+    ((WeaponAttribute *)&dst->data1.data_u16[3])->copy((WeaponAttribute *)&record->item.data1.data_u16[3]);
+    ((WeaponAttribute *)&dst->data1.data_u16[4])->copy((WeaponAttribute *)&record->item.data1.data_u16[4]);
+    ((WeaponAttribute *)&dst->data1.data_u16[5])->copy((WeaponAttribute *)&record->item.data1.data_u16[5]);
+    dst->id = record->item.id;
+    dst->data2.data_u32 = record->item.data2.data_u32;
 }
 
 #pragma push

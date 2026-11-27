@@ -6,7 +6,7 @@
 
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
-struct AnimationMotion;
+struct NJS_MOTION;
 class TParticleCtrl;
 
 struct TBoss4Thanks : public TObject {
@@ -21,13 +21,13 @@ struct TBoss4Thanks : public TObject {
     s32 fade_frame;
     NJS_OBJECT *model;
     NJS_TEXLIST *texture_list;
-    AnimationMotion *motions[2];
+    NJS_MOTION *motions[2];
     TParticleCtrl *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
-    static s32 is_door_0x97_open();
-    // Story flag 0x99 (153, set by dispatch_main_phase_153) test next to is_door_0x97_open().
-    static s32 is_story_flag_0x99_set();
-    static void dispatch_main_phase_153();
+    static s32 is_door_open();
+    // Story flag 0x99 (153, set by mark_thanks_shown).
+    static s32 was_thanks_shown();
+    static void mark_thanks_shown();
     static void dispatch_main_phase();
     void update_particle_emitters();
     void destroy_effects();
@@ -61,4 +61,7 @@ LAYOUT_ASSERT(TBoss4Thanks_size, sizeof(TBoss4Thanks) == 0x54);
 struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 s32 any_player_has_listed_item(void);
+
+s32 is_boss4_door_open(void);
+
 #endif

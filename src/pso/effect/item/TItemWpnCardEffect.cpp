@@ -41,8 +41,8 @@ void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
     }
 }
 
-void start_wall_card(s32 item_id, saddr position, saddr direction) {
-    new TItemWpnCardEffect(tl_05, (f32 *)position, (f32 *)direction, 0, item_id);
+void start_wall_card(s32 item_id, f32 *position, f32 *direction) {
+    new TItemWpnCardEffect(tl_05, position, direction, 0, item_id);
 }
 
 void TObjPlayer::create_aux_object(s32 item_id, u32 *hit, f32 *direction) {
@@ -291,6 +291,6 @@ void TItemWeaponGuardianna::emit_marker_effects() {
 }
 void TItemWeaponGuardianna::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x176;
-    desc->hit_effect = (void *)TObjPlayer::start_guardianna_hit_card;
-    desc->wall_effect = (void *)start_guardianna_wall_card;
+    desc->hit_effect = TObjPlayer::start_guardianna_hit_card;
+    desc->wall_effect = start_guardianna_wall_card;
 }

@@ -420,18 +420,16 @@ void TWindowKeyBoardHard::process_key_input(u8 key) {
         return;
     }
     if (poll_input() < 3U) {
-        if (lookup_key_repeat_state(key, (u8) ch) == 0) {
-            ch = (u16) apply_accent((u8) ch);
-            goto block_7;
+        if (lookup_key_repeat_state(key, (u8) ch) != 0) {
+            return;
         }
-    } else {
-block_7:
-        if ((is_caps_lock_on() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
-            ch -= 0x20;
-        }
-        m_control->set_input_mode(mode);
-        m_control->insert_character(ch);
+        ch = (u16) apply_accent((u8) ch);
     }
+    if ((is_caps_lock_on() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
+        ch -= 0x20;
+    }
+    m_control->set_input_mode(mode);
+    m_control->insert_character(ch);
 }
 
 void TWindowKeyBoardHard::process_all_key_states() {

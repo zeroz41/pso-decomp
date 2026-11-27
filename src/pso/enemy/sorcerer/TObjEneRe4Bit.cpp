@@ -262,7 +262,7 @@ void TObjEneRe4Bit::set_hold_flags() {
     fade.reset_color();
 }
 
-void TObjEneRe4Bit::clear_state_flag_0x10() {
+void TObjEneRe4Bit::clear_flag_and_notify() {
     behavior_flags &= ~0x10;
     if (!(behavior_flags & 0x408)) {
         set_state_flags();
@@ -460,8 +460,8 @@ void TObjEneRe4Bit::update_damage_state(s32 reason) {
         this->state_step = this->state_step + 1;
         VecCopy(&this->body_center, this->anchor);
         this->body_center.y = this->body_center.y + this->lift_height;
-        this->body_center.x = this->body_center.x + ((TObjEneDD *)this)->calc_elapsed_scaled();
-        this->body_center.z = this->body_center.z + ((TObjEneDD *)this)->calc_elapsed_scaled();
+        this->body_center.x = this->body_center.x + calc_elapsed_scaled();
+        this->body_center.z = this->body_center.z + calc_elapsed_scaled();
         this->update_ground_contact();
         return;
     case 5:
@@ -536,7 +536,7 @@ void TObjEneRe4Bit::render() {
     textures = texlist->textures;
     saved = textures[3].texaddr;
     textures[3].texaddr = textures[texture_index].texaddr;
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    set_texture_list(texlist);
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect();

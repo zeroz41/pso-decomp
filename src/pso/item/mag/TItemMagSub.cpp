@@ -1,5 +1,5 @@
 #include "pso/system/NinjaTypes.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMagSub.h"
 #include <string.h>

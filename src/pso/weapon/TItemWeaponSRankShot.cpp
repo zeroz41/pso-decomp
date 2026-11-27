@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponSRankPunch.h"
 #include "pso/weapon/TItemWeaponSRankShot.h"
-#include "pso/unk/text_80129AB0.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/item/TItem.h"

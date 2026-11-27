@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct BmlResource;
-struct AnimationMotion;
+struct NJS_MOTION;
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
@@ -26,7 +26,7 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     f32 frame;  // the beam motion's frame
     NJS_OBJECT *base_model;      // the fence size's "_moto" model, drawn without motion
     NJS_OBJECT *beam_model;      // the model beam_motion animates
-    AnimationMotion *beam_motion;
+    NJS_MOTION *beam_motion;
     void *beam_part_models[4];   // models of the beam's child nodes, retextured for scale_level
     void select_models();
     static void *create(void *set_data);

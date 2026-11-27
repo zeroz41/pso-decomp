@@ -27,8 +27,6 @@ extern "C" {
 s32 DVDCheckDisk();
 }
 
-extern int opening_movie_selector;
-extern unsigned char main_menu_scene_active_flag;
 
 const char *TMovie::class_name = "TMovie";
 // The eye, target and up of the view a movie plays in.
@@ -222,10 +220,11 @@ TMovie::~TMovie() {
 }
 
 void TMovie::render_until_finished() {
-loop_1:
-    if ((DVDCheckDisk() == 0) && (run_disk_error_check() == 0)) {
+    for (;;) {
+        if ((DVDCheckDisk() != 0) || (run_disk_error_check() != 0)) {
+            break;
+        }
         render_tick();
-        goto loop_1;
     }
 }
 

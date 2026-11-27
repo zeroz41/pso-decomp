@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
@@ -28,13 +29,11 @@
 #include "pso/system/DataBlockRelocation.h"
 #include "pso/ui/charcreate/FigureRotationReset.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 
 
 
-extern "C" {
-f32 vector_length(f32 *v);
-}
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -61,9 +60,7 @@ s32 creation_resource_ready_state;
 extern "C" {
 s32 creation_motion_group(CharacterAppearanceFields *);
 void reset_invalid_proportions();
-void copy_player_visual_record(void *, void *);
 
-void translate_matrix_vec3(u8 *matrix, u8 *vec);
 }
 
 #pragma push
@@ -299,7 +296,7 @@ TCMCharacter::~TCMCharacter() {
     char_creation_figure_draw_flag = 0;
 }
 
-void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
+void TAdSinglePlyChrSelectGC::update_pair(TCMCharacter *character) { TAdSinglePlyChrSelectGC::init_entry_tables(character); character->load_model_parts(); }
 
 void copy_creation_model_part(CreationModelPart *dst, CreationModelPart *src) {
     dst->present = src->present;
@@ -444,9 +441,9 @@ void bind_body_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *mo
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[0][i], (NodeFlagEntry *)&creation_body_shape_samples[i]);
     }
 }
-void bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model) {
+void bind_head_shape_nodes(CharacterAppearanceFields *appearance, NJS_OBJECT *model) {
     reset_creation_head_shapes();
-    make_node_flag_table((NJS_OBJECT *)model, (NodeFlagEntry *)&creation_head_shape_destination);
+    make_node_flag_table(model, (NodeFlagEntry *)&creation_head_shape_destination);
     s32 head = appearance->head + 1;
     for (s32 i = 0; i < 7; ++i) {
         make_node_flag_table((NJS_OBJECT *)char_creation_data_block[head][i], (NodeFlagEntry *)&creation_head_shape_samples[i]);
@@ -532,7 +529,7 @@ void TCMCharacter::apply_character_appearance() {
     }
     char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
     bind_body_shape_nodes(app, this->model);
-    bind_head_shape_nodes(app, (void *)chara_select_head_node);
+    bind_head_shape_nodes(app, (NJS_OBJECT *)chara_select_head_node);
     blend_creation_proportion_shapes(&creation_player_character->width);
     memcard_access_active = 0;
     char_select_active_flag = 1;
@@ -545,7 +542,7 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            bind_head_shape_nodes(creation_player_character, ((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
+            bind_head_shape_nodes(creation_player_character, (NJS_OBJECT *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model));
         }
         break;
     case 4: {
@@ -588,14 +585,14 @@ void TCMCharacter::draw_creation_figure() {
         rotate_matrix_y(0, creation_figure_rotation_y);
         set_texture_list(&char_select_current_entry->body_textures.textures.list);
         this->draw_player_model();
-        push_matrix_from((void *)get_joint_matrix(0x3A));
+        push_matrix_from(get_joint_matrix(0x3A));
         set_texture_list(&char_select_current_entry->head_textures.textures.list);
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[char_select_current_entry->head].model);
         pop_matrix();
         v = creation_cap_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)get_joint_matrix(0x3B));
+            push_matrix_from(get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
@@ -604,7 +601,7 @@ void TCMCharacter::draw_creation_figure() {
         v = creation_hair_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)get_joint_matrix(0x3B));
+            push_matrix_from(get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
@@ -773,7 +770,7 @@ s32 blend_shape_chunk_vertices(void) {
     s32 count;
     s32 k;
     s32 rest;
-    f32 v[3];
+    Vec v;
     f32 fa;
     f32 fb;
     f32 fc;
@@ -802,18 +799,18 @@ s32 blend_shape_chunk_vertices(void) {
             }
             rest = extra;
             if (rest >= 3) {
-                v[0] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                v.x = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                v[1] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                v.y = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                v[2] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                v.z = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                if (vector_length(v) != 0.0f) {
-                    normalize_vector((Vec *)v);
+                if (vector_length(&v) != 0.0f) {
+                    normalize_vector(&v);
                 }
-                d[0] = f32_bits(v[0]);
-                d[1] = f32_bits(v[1]);
-                d[2] = f32_bits(v[2]);
+                d[0] = f32_bits(v.x);
+                d[1] = f32_bits(v.y);
+                d[2] = f32_bits(v.z);
                 d += 3;
                 rest -= 3;
             }
@@ -960,19 +957,19 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
 }
 void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
-    saddr index;
+    s32 index;
     bind_appearance_texture_lists(&hair_textures.textures, &head_textures.textures, &body_textures.textures, appearance);
     index = character_display_index(appearance);
     slot = &hair_textures;
     if (slot->textures.present != 0) {
-        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
+        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, &slot->complete, index);
     }
     slot = &head_textures;
     if (slot->textures.present != 0) {
-        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
+        slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, &slot->complete, index);
     }
     slot = &body_textures;
-    slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
+    slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, &slot->complete, index);
     in_use = 1;
     copy_slot_data(appearance);
 }
@@ -1009,8 +1006,8 @@ void CreationTextureCacheEntry::release_texture_lists() {
 }
 
 
-s32 select_unused_appearance_part(void *appearance, s32 part) {
-    CharacterAppearanceFields c = *(CharacterAppearanceFields *)appearance;
+s32 select_unused_appearance_part(CharacterAppearanceFields *appearance, s32 part) {
+    CharacterAppearanceFields c = *appearance;
     s32 max;
     s32 cur;
     s32 v;
@@ -1042,7 +1039,7 @@ s32 select_unused_appearance_part(void *appearance, s32 part) {
     }
     return 0;
 ok:
-    copy_player_visual_record(appearance, &c);
+    copy_player_visual_record((PlayerVisualRecord *)appearance, (PlayerVisualRecord *)&c);
     return 1;
 }
 

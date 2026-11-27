@@ -9,7 +9,6 @@
 #include <string.h>
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 

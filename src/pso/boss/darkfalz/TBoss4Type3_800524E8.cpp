@@ -6,12 +6,9 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 
 
-extern const f32 boss4_float_one;
-
-extern const f32 boss4_float_half;
-extern const f32 boss4_half_turn_scale;
 
 #pragma push
 #pragma fp_contract on

@@ -25,7 +25,6 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/item/TItemData.h"
@@ -57,7 +56,6 @@ s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
 const char *shop_item_list_window_class_name = "TShopItemListWindow";
-s32 try_buy_item(TObjPlayer *player, void *item);
 }
 
 TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
@@ -281,7 +279,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
         confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
         confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
-        align_menu_entry_positions(confirm_menu);
+        confirm_menu->align_menu_entry_positions();
         confirm_menu->set_ready_flag();
         f32 scale = get_scale();
         confirm_menu->set_position_xy(get_scale(), scale);
@@ -304,7 +302,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                 confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
                 confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
                 confirm_menu->calc_window_size();
-                align_menu_entry_positions(confirm_menu);
+                confirm_menu->align_menu_entry_positions();
                 confirm_menu->set_ready_flag();
                 f32 scale = get_scale();
                 confirm_menu->set_position_xy(get_scale(), scale);

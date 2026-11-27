@@ -5,13 +5,17 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/door/TODoorBase.h"
 
+struct BmlResourceDescriptor;
+extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
+extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
+
 struct TODoorFourLightSpace : public TODoorBase {
-    TODoorFourLightSpace(saddr, saddr);
+    TODoorFourLightSpace(TObject *, void *);
     virtual ~TODoorFourLightSpace();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();
     virtual void apply_saved_state(s16 *, s32);
-    uaddr model_tree;  // the door model's node tree
+    NJS_OBJECT *model_tree;  // the door model's node tree
     void draw_lights();
     virtual void render();
     // The model nodes of the four switch lights: the lamps, then their glows.

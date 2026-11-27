@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -22,10 +22,9 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct S_801FE010;
-struct B8_801FDFB8 { u32 w[2]; };
+struct CopyStampWords { u32 w[2]; };
 
-struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 copy_stamp; s32 f2794; };
+struct CharacterSlotWords { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; CopyStampWords copy_stamp; s32 f2794; };
 
 
 s32 Pso3CharacterFile::get_cipher_seed() {
@@ -119,11 +118,11 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
 }
 }
 
-#define dst ((P_801FDFB8 *)a0)
-#define src ((P_801FDFB8 *)a1)
+#define dst ((CharacterSlotWords *)a0)
+#define src ((CharacterSlotWords *)a1)
 void *copy_character_file_slot(void *a0, void *a1) {
     dst->char_data = src->char_data;
-    ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
+    ((TAdSinglePlyChrSelectGC *)dst->a)->copy_character_data(src->a);
     dst->copy_stamp = src->copy_stamp;
     dst->f2794 = src->f2794;
     return a0;
@@ -189,7 +188,7 @@ Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
 }
 extern "C" {
 
-// The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
+// The generated GuildCardEntry constructor (emitted in TWindowSubComCardEntries.cpp).
 void *__ct__14GuildCardEntryFv(void *card);
 }
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }

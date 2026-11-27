@@ -23,7 +23,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/vector.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -47,7 +47,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/base/TObjBase.h"
@@ -198,9 +198,9 @@ void TObjEneRe7Berura::load_static_resources() {
     re7_berura_detached_part_states[1].launch_frame = 29.0f;
     for (i = 0; i < 2; i++) {
         TObjEneRe7BeruraPart *e = &re7_berura_detached_part_states[i];
-        AnimationMotion *ent = re7_berura_shared_resource->motions[re7_berura_animation_definitions[e->action].motion].motion;
+        NJS_MOTION *ent = re7_berura_shared_resource->motions[re7_berura_animation_definitions[e->action].motion].motion;
         set_motion_packed_rotation();
-        bind_motion_context((NJS_MOTION *)ent, e->launch_frame);
+        bind_motion_context(ent, e->launch_frame);
         TObjEneRe7Berura::capture_arm_matrices(m, e);
         clear_motion_packed_rotation();
         e->first_object = find_model_node(m, e->first_node);
@@ -488,11 +488,11 @@ s32 TObjEneRe7Berura::collect_node_matrices(NJS_OBJECT *obj, s32 idx) {
     return idx;
 }
 
-void TObjEneRe7Berura::capture_arm_matrices(NJS_OBJECT *root, TObjEneRe7BeruraPart *e) {
-    re7_berura_node_matrix_cursor = e->node_matrices;
-    berura_attack_node_range_start = e->first_node;
-    berura_attack_node_range_end = e->last_node;
-    berura_attack_node_vec_ptr = &e->launch_offset;
+void TObjEneRe7Berura::capture_arm_matrices(NJS_OBJECT *root, TObjEneRe7BeruraPart *arm) {
+    re7_berura_node_matrix_cursor = arm->node_matrices;
+    berura_attack_node_range_start = arm->first_node;
+    berura_attack_node_range_end = arm->last_node;
+    berura_attack_node_vec_ptr = &arm->launch_offset;
     push_matrix_from(identity_matrix);
     collect_node_matrices(root, 0);
     pop_matrix();
@@ -527,7 +527,7 @@ void TObjEneRe7Berura::draw_saved_node_tree(NJS_OBJECT *obj, GC_Mtx *matrices) {
 void TObjEneRe7Berura::draw_arm(s32 arm) {
     TObjEneRe7BeruraPart *part;
 
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(re7_berura_shared_resource->models->texlist));
+    set_texture_list(re7_berura_shared_resource->models->texlist);
     part = &re7_berura_detached_part_states[arm];
     draw_saved_node_tree(&part->object, part->node_matrices);
 }
@@ -1372,8 +1372,8 @@ void TObjEneRe7Berura::render() {
     s32 visible;
     s32 cam;
     s32 i;
-    s32 f1;
-    s32 f2;
+    s32 can_draw;
+    s32 can_draw_body;
     s32 l3;
     s32 l4;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -1415,7 +1415,7 @@ void TObjEneRe7Berura::render() {
         fade = &camera_fades[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -1436,11 +1436,11 @@ void TObjEneRe7Berura::render() {
                 re7_berura_demo_flag = 0;
                 berura_demo_flag = 0;
                 fade->set_flags_and_apply_damage_color();
-                f1 = 1;
+                can_draw = 1;
                 if (defer_render() != 0) {
-                    f1 = 0;
+                    can_draw = 0;
                 }
-                if (f1 != 0) {
+                if (can_draw != 0) {
                     set_chunk_model_node_callback(TObjEneRe7Berura::demo_frame_callback);
                     draw();
                     set_chunk_model_node_callback(0);
@@ -1461,11 +1461,11 @@ void TObjEneRe7Berura::render() {
             if (status_flags & 2) {
                 if (body_fade.has_visible_opacity() != 0) {
                     body_fade.set_flags_and_apply_damage_color();
-                    f2 = 1;
+                    can_draw_body = 1;
                     if (defer_render() != 0) {
-                        f2 = 0;
+                        can_draw_body = 0;
                     }
-                    if (f2 != 0) {
+                    if (can_draw_body != 0) {
                         set_chunk_model_node_callback(TObjEneRe7Berura::advance_state);
                         draw();
                         set_chunk_model_node_callback(0);
@@ -1506,7 +1506,7 @@ void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { apply_par
 
 void TObjEneRe7Berura::render_demo() {
     s32 idx;
-    AnimationMotion *mot;
+    NJS_MOTION *mot;
     f32 frame;
 
     get_target_info();
@@ -1516,7 +1516,7 @@ void TObjEneRe7Berura::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         toggle_particle_effect();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -1530,8 +1530,8 @@ void TObjEneRe7Berura::render_demo() {
         frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (mot->frameCount - 1)) {
-            frame = (f32)mot->frameCount;
+        } else if (frame > (mot->nbFrame - 1)) {
+            frame = (f32)mot->nbFrame;
         }
         set_motion_packed_rotation();
         draw_model_motion(model, mot, frame);

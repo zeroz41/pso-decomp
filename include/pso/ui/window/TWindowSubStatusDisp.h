@@ -9,6 +9,7 @@ struct GuildCardRecord;
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct PageIndicator;
+struct MenuGlyphEntry;
 struct NumberedTimesLayout;
 struct RankTimeRecordsLayout;
 struct RecordSummaryLayout;
@@ -65,8 +66,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void begin_render();
     static const char *get_meseta_unit();
     static u32 calc_text_width(const char *s);
-    static s32 is_alpha_char(u16 arg0);
-    static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2);
+    static s32 is_alpha_char(u16 code);
+    static s32 upload_glyph_if_needed(u16 code, MenuGlyphEntry *free_slot, MenuGlyphEntry **pending_slot);
     static void set_gauge_param(s32 gauge_param);
     static void reset_gauge(void* p);
     static f32 get_card_window_scale(s32 client_id);
@@ -76,7 +77,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_entry_display_value(const char *str);
     s32 get_display_mode();
     void update_entry_visibility();
-    static void *find_cached_glyph(u16 code);
+    static MenuGlyphEntry *find_cached_glyph(u16 code);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);
@@ -243,7 +244,6 @@ struct NumberedTimesLayout {
     TextLayoutRecord rec_8;
     TextLayoutRecord rec_9;
 };
-
 
 void release_bg_multi_textures();
 

@@ -45,11 +45,11 @@ const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
 void *TObjFogCollision::create(void *set) {
-    void *o = (void *)new TObjFogCollision(tl_05, set);
+    void *o = new TObjFogCollision(tl_05, set);
     return o;
 }
 TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
-    ((TObject *)this)->m_name = fog_collision_name;
+    m_name = fog_collision_name;
     ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
     this->debug_state = 0;
     this->far_timer = 0;
@@ -229,7 +229,7 @@ void *TObjFogCollisionPoison::create(void *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 
-TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent_task, void *set) : TObjFogCollisionSwitch(parent_task, set) {
     u16 i;
     TObject *parent = this;
     m_name = fog_collision_poison_name;
@@ -327,15 +327,15 @@ void TObjFogCollisionPoison::record_poison_hit(u16 client) {
 }
 
 void TObjFogCollisionPoison::apply_poison_damage(s32 client) {
-    saddr p;
+    TObjPlayer *p;
     s16 v;
-    p = (saddr)get_player_by_client_id(client & 0xFFFF);
-    if (((TObjEneDD *)p)->is_valid_target() != 0) {
-        v = ((TObjChara *)p)->get_actor_hp() - this->poison_damage;
+    p = get_player_by_client_id(client & 0xFFFF);
+    if (p->is_valid_target() != 0) {
+        v = p->get_actor_hp() - this->poison_damage;
         if (v < 0) {
             v = 0;
         }
-        send_6x2F_change_player_hp(0xFFFF, ((TObjBase *)(p))->get_entity_id(), v);
+        send_6x2F_change_player_hp(0xFFFF, p->get_entity_id(), v);
     }
 }
 

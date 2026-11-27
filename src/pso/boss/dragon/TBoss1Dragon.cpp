@@ -19,12 +19,11 @@ struct NJS_OBJECT;
 #include "pso/boss/TBoss1DragonAttackCollider.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/enemy/EnemyStateEvent.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/network/TGameProtocol.h"
@@ -63,22 +62,23 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/TAttackCollider.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/SceneLighting.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/PlayerSlots.h"
 #include "types.h"
 
@@ -299,17 +299,17 @@ void EnemyStateRecord::copy_header(const EnemyStateRecord *source) {
     target->defense_status_level = input->defense_status_level;
 }
 
-s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
+s32 TObjEnemy::exchange_object_state(EnemyStateRecord *record, s16 mode) {
     s16 index;
     index = this->set_index;
     if ((index < 0) || (index > 0xB4F)) {
         return 0;
     }
     if (mode == 0) {
-        enemy_state_records[index].copy_header(static_cast<const EnemyStateRecord *>(record));
+        enemy_state_records[index].copy_header(record);
     }
     if (mode == 1) {
-        static_cast<EnemyStateRecord *>(record)->copy_header(&enemy_state_records[index]);
+        record->copy_header(&enemy_state_records[index]);
     }
     return 1;
 }
@@ -324,7 +324,7 @@ void G_DragonBossActions_6x12::bswap() { ((G_ClientIDHeader *)&action.header)->b
 
 void G_DragonBossActions_6x12::send() { bswap(); send_subcommand((u8 *)this); }
 
-void ProtectionTimer::set_frames(s32 v) { frames = v; }
+void ProtectionTimer::set_frames(s32 frames) { this->frames = frames; }
 
 void ProtectionTimer::reset_type() { frames = 0; }
 
@@ -348,12 +348,10 @@ s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;
 }
 
-extern "C" {
 f32 floor_to_float(f32 value) {
     return (f32) floor((f64)value);
 }
 
-}
 int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 
 s32 TCameraCtrl::get_camera_mode() {
@@ -663,7 +661,7 @@ void TBoss1Dragon::clearControlOverride() {
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
 TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
-    u32 state[3];
+    EnemyStateRecord state;
     s32 i;
     s32 j;
 
@@ -673,7 +671,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     }
     this->invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(state, 1) != 0 && (state[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(&state, 1) != 0 && ((u32)state.flags & 0x12008) == 0x12008) {
         this->flags |= 0x40;
     }
     this->init_position_vectors();
@@ -1151,7 +1149,7 @@ s32 TBoss1Dragon::select_air_fire_target(Vec *out) {
     count = 0;
     for (i = 0; i < 12; i++) {
         p = get_player_by_client_id(i);
-        if (((TObjEneDD *)p)->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
+        if (p->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
             list[count++] = p;
         }
     }
@@ -5042,7 +5040,7 @@ void TBoss1Dragon::draw() {
 #pragma opt_common_subs off
 void TBoss1Dragon::render() {
     s32 view;
-    s32 saved;
+    NJS_OBJECT *saved;
     s32 i;
     RenderFadeState *ch;
     s32 visible;
@@ -5076,17 +5074,17 @@ void TBoss1Dragon::render() {
             rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, this->rotation_z);
             NJS_ARGB color = dragon_boss1_render_color;
-            saved = *(s32 *)&this->model;
+            saved = this->model;
             this->model = boss1_dragon_resource->models[1].model;
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x10;
             set_constant_material((const NJS_ARGB *)((&color)));
             TObjMotion::draw();
             model_render_flags = saved_model_render_flags;
-            *(s32 *)&this->model = saved;
+            this->model = saved;
             pop_matrix();
         }
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -5220,14 +5218,14 @@ void TBoss1Dragon::render_shadows() {
 int TBoss1Dragon::run_demo_task() { return this->get_target_info(); }
 
 void TBoss1Dragon::render_low_detail() {
-    AnimationMotion *m;
+    NJS_MOTION *m;
     s32 i;
     f32 frame;
 
     if (this->update_object_view_visibility((400.0f), (20.0f)) == 0) {
         return;
     }
-    set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+    set_texture_list(this->texlist);
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -5247,8 +5245,8 @@ void TBoss1Dragon::render_low_detail() {
     if (frame < (0.0f)) {
         frame = (0.0f);
     } else {
-        if (frame > (m->frameCount - 1)) {
-            frame = (f32)m->frameCount;
+        if (frame > (m->nbFrame - 1)) {
+            frame = (f32)m->nbFrame;
         }
     }
     draw_model_motion(this->model, m, frame);

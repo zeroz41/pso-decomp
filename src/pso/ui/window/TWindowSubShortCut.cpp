@@ -8,7 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"
@@ -52,7 +52,7 @@ TWindowSubShortCut::~TWindowSubShortCut() {
     if (chat_window != NULL) { chat_window->queue_destruction(); this->chat_window = 0; }
     if (confirm_window != NULL) { confirm_window->close(); this->confirm_window = 0; }
     if (shortcut_window != NULL) { shortcut_window->close(); this->shortcut_window = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->menu = 0; }
+    if (menu != NULL) { menu->close(); menu = 0; }
     if (com_card_list != NULL) { com_card_list->close(); com_card_list = NULL; }
 }
 
@@ -212,7 +212,7 @@ TWindowMenu *TWindowSubShortCut::open_menu() {
     }
     list->set_flag70_bit10();
     list->update_layout_height(205.0f);
-    align_menu_entry_positions(list);
+    list->align_menu_entry_positions();
     return list;
 }
 

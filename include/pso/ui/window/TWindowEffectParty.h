@@ -10,7 +10,7 @@ class TParticleCtrl;
 
 struct TWindowEffectParty : public TObject {
     static const char *class_name;
-    TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id);
+    TWindowEffectParty(TObject *object, s8 source, s8 target, s32 effect_id);
     virtual ~TWindowEffectParty();
     s8 state;
     s8 source_slot;

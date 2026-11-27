@@ -15,26 +15,25 @@
 #include "pso/system/ControllerInput.h"
 
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC::class_name = "TAdYesNoBaseGC";
 
-s32 TAdYesNoBaseGC::create_message_window() {
-    saddr window;
-    window = (saddr)create_message_window_for_size(&this->message_position, &this->message_size);
-    ((TWindowMessage *)window)->append_line(get_message_text(), 1);
+TWindowMessage *TAdYesNoBaseGC::create_message_window() {
+    TWindowMessage *window;
+    window = create_message_window_for_size(&this->message_position, &this->message_size);
+    window->append_line(get_message_text(), 1);
     return window;
 }
 
-s32 TAdYesNoBaseGC::create_menu_window() {
+TWindowMenu *TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *owner = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
     TWindowMenu *menu = init_shop_judgment_window(&pos);
     menu->update_layout_height(470.0f);
-    align_menu_entry_positions(menu);
+    menu->align_menu_entry_positions();
     menu->set_selected_index((s16)owner->default_selection);
-    return (saddr)menu;
+    return menu;
 }
 
 void TAdYesNoBaseGC::init_parts(void *position, void *size) {
@@ -55,8 +54,8 @@ void TAdYesNoBaseGC::run_dialog() {
         this->state = 1;
         break;
     case 1:
-        if (((TWindowMenu *)(this->menu_window))->is_decided() != 0) {
-            selected_menu_value = ((TWindowMenu *)this->menu_window)->get_selected_value();
+        if (this->menu_window->is_decided() != 0) {
+            selected_menu_value = this->menu_window->get_selected_value();
             switch (selected_menu_value) {
             case 0:
                 this->on_yes_chosen();
@@ -75,13 +74,13 @@ void TAdYesNoBaseGC::run_dialog() {
         }
         break;
     case 2:
-        if ((u32) this->message_window != 0U) {
-            ((TWindowBase *)this->message_window)->close();
-            this->message_window = 0U;
+        if (this->message_window != NULL) {
+            this->message_window->close();
+            this->message_window = NULL;
         }
-        if ((u32) this->menu_window != 0U) {
-            ((TWindowBase *)this->menu_window)->close();
-            this->menu_window = 0U;
+        if (this->menu_window != NULL) {
+            this->menu_window->close();
+            this->menu_window = NULL;
         }
         timer = this->state_frames + 1;
         this->state_frames = timer;
@@ -102,11 +101,11 @@ void TAdYesNoBaseGC::run_dialog() {
 }
 TAdYesNoBaseGC::~TAdYesNoBaseGC() {
     if (message_window != 0) {
-        ((TObject *)message_window)->queue_destruction();
+        message_window->queue_destruction();
         message_window = 0;
     }
     if (menu_window != 0) {
-        ((TObject *)menu_window)->queue_destruction();
+        menu_window->queue_destruction();
         menu_window = 0;
     }
 }

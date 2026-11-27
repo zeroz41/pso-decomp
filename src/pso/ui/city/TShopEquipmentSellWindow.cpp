@@ -243,7 +243,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
             this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
-            align_menu_entry_positions(this->confirm_menu);
+            this->confirm_menu->align_menu_entry_positions();
             this->confirm_menu->set_ready_flag();
             this->confirm_menu->set_position_xy(get_scale(), get_scale());
             set_state(2);
@@ -266,7 +266,7 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
             this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
             this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
-            align_menu_entry_positions(this->confirm_menu);
+            this->confirm_menu->align_menu_entry_positions();
             this->confirm_menu->set_ready_flag();
             this->confirm_menu->set_position_xy(get_scale(), get_scale());
         }

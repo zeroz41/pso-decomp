@@ -87,10 +87,10 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
     TObjPlayer *player = owner;
     if (player == NULL) return;
     attack_state = &player->attack_state;
-    if (get_burst_counter(attack_state) == 0) {
+    if (attack_state->get_burst_count() == 0) {
         burst_count = 0;
         do {
-            increment_burst_counter((u8 *)attack_state);
+            attack_state->increment_burst_count();
             burst_count += 1;
         } while (burst_count != 2);
         punch_flags.set(2);
@@ -107,7 +107,7 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
 }
 
 void TItemWeaponRocketPunch::transform_model_node() {
-    void *model;
+    NJS_OBJECT *model;
     switch (get_model_node_counter()) {
     case 1:
         if (punch_flags.test_flags_any(2) == 0) {
@@ -129,7 +129,7 @@ void TItemWeaponRocketPunch::draw_held_model() {
     punch_flags.set(1);
     draw_weapon_model();
     get_joint_position(1, &shot_origins[0]);
-    item_model = (NJS_OBJECT *)model_data[0];
+    item_model = model_data[0];
     punch_flags.clear(1);
     draw_weapon_at_joint(0x23);
     get_joint_position(1, &shot_origins[1]);
@@ -171,5 +171,5 @@ NJS_OBJECT *TItemWeaponRocketPunch::get_shot_model() {
     if (punch_flags.test_flags_any(4) != 0) {
         return second_model;
     }
-    return (NJS_OBJECT *)model_data[1];
+    return model_data[1];
 }

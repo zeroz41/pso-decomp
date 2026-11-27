@@ -47,7 +47,6 @@ void apply_multi_sel_rule(void) {
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/map/FloorMapSelection.h"
 
@@ -107,7 +106,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
         }
         r->update_layout_height(206.0f);
         r->set_selected_index(a.v[menu]);
-        align_menu_entry_positions(r);
+        r->align_menu_entry_positions();
     }
     return (saddr)r;
     }

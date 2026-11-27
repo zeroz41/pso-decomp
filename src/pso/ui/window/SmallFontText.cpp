@@ -9,7 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_800FC3CC.h"
+#include "pso/unk/SmallFontMetrics.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"

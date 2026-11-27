@@ -23,7 +23,7 @@ struct TObjEnemy : public TObjChara {
     void draw_motion_model();
     s32 calc_joint_matrices(f32);
     s32 enemy_turn_toward_dest(s32);
-    void send_6x0A_enemy_state(void *);
+    void send_6x0A_enemy_state(EnemyStateRecord *);
     s32 bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
     void set_param(s32);
     s32 get_rt_index();
@@ -47,7 +47,7 @@ struct TObjEnemy : public TObjChara {
     virtual void apply_set_data(void *);
     virtual void clear_lobby_object_state();
     virtual s32 sync_enemy_state(s32 status);
-    s32 exchange_object_state(void *record, s16 mode);
+    s32 exchange_object_state(EnemyStateRecord *record, s16 mode);
     virtual const char *get_name();
     TObjEnemy* groupRoot();
     s32 has_group();

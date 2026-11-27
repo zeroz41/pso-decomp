@@ -3,6 +3,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/object/collision/TOAttackableCol.h"
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/base/TObjMotion.h"
@@ -89,7 +90,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
         if (command->header.entity_id != 0xFFFF && command->header.entity_id >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
-                if (reinterpret_cast<TObject *>(col)->check_value_equals(attackable_col_name) != 0) {
+                if (col->check_value_equals(attackable_col_name) != 0) {
                     QuestObjectEntry saved;
                     switch (command->is_destroyed) {
                     case 0:
@@ -130,15 +131,15 @@ extern "C" {
 void TOAttackableCol::send_state_change(u16 state) {
     G_UpdateAttackableColState_6x91 msg;
     s16 id;
-    u8 *parent;
+    FloorObjectSetRow *parent;
     id = this->mode;
     access_object_saved_state(&id, 0);
-    parent = *(u8 * *)&this->set_entry;
+    parent = (FloorObjectSetRow *)this->set_entry;
     if (parent != NULL) {
         init_6x91_subcommand(&msg);
         msg.header.entity_id = this->entity_id;
         msg.flags = id;
-        msg.object_index = *(s16 *)(parent + 4);
+        msg.object_index = parent->placement.set_index;
         msg.is_destroyed = state;
         msg.remaining_hits = this->hits_left;
         if (this->label == 0 && this->done_switch >= 0 && state == 1) {
@@ -176,7 +177,7 @@ void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
 
 void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1); }
 
-f32 TOAttackableCol::apply_hit(saddr player) {
+f32 TOAttackableCol::apply_hit(TObjBase *player) {
   s32 id;
   s32 kind;
   s32 is_local_player;
@@ -185,7 +186,7 @@ f32 TOAttackableCol::apply_hit(saddr player) {
   TObject *thread_a;
   TObject *thread_b;
   is_local_player = 0;
-  if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
+  if (((player != 0) && (player->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
     is_local_player = 1;
   }
@@ -227,9 +228,7 @@ f32 TOAttackableCol::apply_hit(saddr player) {
     {
       send_state_change((u16)(0));
     }
-    goto block_26;
   }
-  block_26:
   spawn_particle_effect(&this->position, 0x1D0);
   spawn_particle_effect(&this->position, 1);
   return 0.0f;
@@ -268,7 +267,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *set_data) {
     void *o;
-    o = (void *)new TOAttackableCol((saddr)set_data);
+    o = new TOAttackableCol(set_data);
     return o;
 }
 
@@ -279,13 +278,13 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
-    ((TObject *)this)->m_name = attackable_col_name;
-    ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
-    ((TObjChara *)this)->calc_attach_pos();
+TOAttackableCol::TOAttackableCol(void *set_data) : TObjChara(tl_05) {
+    m_name = attackable_col_name;
+    apply_object_set_data(set_data);
+    calc_attach_pos();
     set_actor_flags(0x60000000);
     init_collision_body_parts(this, &attackable_col_collision_parts, 1);
-    ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
+    set_indexed_flags(0, 0x718);
     ((TObjPlayer *)this)->register_object_by_id();
     this->mode = 0;
     *(f32 *)((s8 *)this + 0x334) = 500.0f;
@@ -301,11 +300,11 @@ s32 TOAttackableCol::select_melee_contact_body(TObjChara *, f32) { return 1; }
 
 int TOAttackableCol::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float) { return 1; }
 
-f32 TOAttackableCol::receive_physical_attack(TObjChara *player, f32) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_physical_attack(TObjChara *player, f32) { return this->apply_hit(player); }
 
-f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit(player); }
 
-f32 TOAttackableCol::receive_weapon_special_attack(TObjChara *player, CollisionBody *) { return this->apply_hit((saddr)player); }
+f32 TOAttackableCol::receive_weapon_special_attack(TObjChara *player, CollisionBody *) { return this->apply_hit(player); }
 
 void TOAttackableCol::apply_knockback_from_attacker(TObjBase *, f32) {  }
 

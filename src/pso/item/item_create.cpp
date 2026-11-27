@@ -66,13 +66,7 @@
 #include "pso/weapon/TItemWeaponSRankCard.h"
 #include "pso/weapon/TItemWeaponPhotonLauncher.h"
 #include "pso/weapon/TItemWeaponSRankLauncher.h"
-#include "pso/unk/text_80126A34.h"
-#include "pso/unk/text_80128308.h"
-#include "pso/unk/text_80128440.h"
-#include "pso/unk/text_80129AB0.h"
-#include "pso/unk/text_80129D18.h"
 #include "pso/weapon/TItemWeaponHeavenPunisher.h"
-#include "pso/unk/text_8012C268.h"
 #include "pso/weapon/TItemWeaponDarkMeteor.h"
 #include "pso/weapon/TItemWeaponNug2000Bazooka.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
@@ -222,7 +216,7 @@ s32 get_item_icon_index();
 // This unit's .sbss, in address order.
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
-FlagWord lbl_805D5440;
+FlagWord floor_item_respawn_requested;
 LoadUnloadSet *item_class_load_handle;
 int lobby_drop_flag;
 
@@ -421,7 +415,7 @@ ItemCreateFunction item_tool_factory_table[24] = {
     TItemObject::create,
     TItemObject::create,
     TItemObject::create,
-    TUnk_804F112C::create,
+    TItemToolUseEffect::create,
     TItemToolRandomItem::create,
     TItemToolQuestBgm::create,
     TItemToolKillCounter::create,
@@ -430,8 +424,8 @@ ItemCreateFunction item_tool_factory_table[24] = {
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int get_sync_counter(u16 index) { return item_sync_counter_table[index]; }
-s32 get_item_data(u32 item) {
-    if (item != 0U) {
+s32 get_item_data(TItemData *item) {
+    if (item != NULL) {
         return get_item_icon_index();
     }
     return 0;
@@ -532,7 +526,7 @@ void handle_player_event(s32 client, s32 slot) {
         item = NULL;
         switch (slot) {
         case 0:
-            item = TObjPlayer::get_equipped_weapon(player);
+            item = player->get_equipped_weapon();
             break;
         case 1:
             item = player->get_equipped_armor();
@@ -553,7 +547,7 @@ void handle_player_event(s32 client, s32 slot) {
             break;
         }
         if (item != NULL) {
-            TObjPlayer::send_6x26_unequip_item(player, item->get_item_id());
+            player->send_6x26_unequip_item(item->get_item_id());
         }
     }
 }
@@ -645,7 +639,7 @@ s32 item_identity_matches(u8 *item, u8 *other) {
   s32 result;
   u8 item_type;
   u8 item_group;
-  if (((((item) != 0) && ((other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
+  if (((((item) != 0) && ((other) != 0)) && ((item_type = item[0], (item_type == other[0]) != 0))) && ((item_group = item[1], (item_group == other[1]) != 0)))
   {
     switch ((s32) item_type)
     {
@@ -754,7 +748,7 @@ void TMainTask::cleanup_game_objects() {
     TLobby::clear_object_count();
     respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
-        lbl_805D5440.set(1);
+        floor_item_respawn_requested.set(1);
         if ((main_phase != 0xE) && (main_phase == 0xF)) {
             TItemDrop::refresh_drop_table_if_changed();
         }
@@ -894,11 +888,10 @@ ItemCreateFunction item_create_fn_table[5] = {
     create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
-void send_6x60_standard_drop_item_request(TObjEnemy *self);
+void send_6x60_standard_drop_item_request(TObjEnemy *enemy);
 }
-extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
-  void *player_alias;
+  TObjPlayer *player_alias;
   s32 flags;
   PlayerRequirementStats st;
   u32 k;
@@ -914,7 +907,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
     return 0;
   }
   player = self;
-  if ((((TObjChara *)player)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(player_alias = player) != 0))
+  if ((((TObjChara *)player)->obj_isState3_324() != 0) || ((player_alias = (TObjPlayer *)player)->is_script_controlled() != 0))
   {
     if (out != 0)
     {
@@ -973,7 +966,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
         flags |= 1;
       }
       st.clear_fields();
-      build_player_equipment_requirement_stats((TObjPlayer *) player_alias, &st);
+      player_alias->build_player_equipment_requirement_stats(&st);
       if (st.atp < weapon->atp_required)
       {
         flags |= 2;
@@ -1000,11 +993,11 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       ArmorPmtEntry *armor;
       if ((saddr) (armor = (ArmorPmtEntry *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) armor->class_flags) == ((0, 0)))
+        if (check_class_equip_permission(player_alias, (s16) armor->class_flags) == ((0, 0)))
         {
           flags |= 1;
         }
-        r = ((TObjChara *) player_alias)->get_actor_level_index();
+        r = player_alias->get_actor_level_index();
         if (r < armor->required_level)
         {
           flags |= 0x10;
@@ -1052,7 +1045,7 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
       MagPmtRecord *mag;
       if ((mag = (MagPmtRecord *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) player_alias, (s16) mag->class_flags) == 0)
+      if (check_class_equip_permission(player_alias, (s16) mag->class_flags) == 0)
       {
         flags |= 1;
       }
@@ -1175,28 +1168,28 @@ void clear_drop_request_position(Vec *v) {
     v->z = 0.0f;
 }
 
-void send_6x60_standard_drop_item_request(TObjEnemy *self) {
+void send_6x60_standard_drop_item_request(TObjEnemy *enemy) {
     TObjPlayer *p1;
     TObjPlayer *p2;
-    if (self != 0) {
+    if (enemy != 0) {
         p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
                 (p1->get_floor() != p2->get_floor() ||
                  designated_client_id == local_client_id)) {
-                if (self->set_index != -1) {
-                    EnemyStateRecord e = enemy_state_records[self->set_index];
+                if (enemy->set_index != -1) {
+                    EnemyStateRecord e = enemy_state_records[enemy->set_index];
                     if (e.drop_id != 0xFFFF) {
                         G_StandardDropItemRequest_PC_V3_BB_6x60 pkt;
                         G_StandardDropItemRequest_DC_6x60 &drop = pkt.__base_G_StandardDropItemRequest_DC_6x60;
                         pkt.init();
                         drop.floor = get_current_floor();
-                        drop.rt_index = self->rt_index;
-                        drop.entity_index = self->set_index;
-                        drop.pos.x = self->position.x;
-                        drop.pos.z = self->position.z;
-                        drop.room = self->room;
+                        drop.rt_index = enemy->rt_index;
+                        drop.entity_index = enemy->set_index;
+                        drop.pos.x = enemy->position.x;
+                        drop.pos.z = enemy->position.z;
+                        drop.room = enemy->room;
                         pkt.effective_area = get_current_floor_area();
                         Vec v;
                         v.x = drop.pos.x;
@@ -1272,7 +1265,7 @@ TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
             }
         }
         if (quiet == 0) {
-            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->floor, drop->room_id, drop->item.data1.data_u8, drop->x, drop->z);
+            ((void (*)(s32, s32, TItemData *, f32, f32))add_item_condition)(drop->floor, drop->room_id, &drop->item, drop->x, drop->z);
         }
     }
     return item;
@@ -1284,7 +1277,7 @@ void TObjPlayer::init_game_resources() {
     init_item_chunk_buffers();
     TItemLoad::init_resources();
     item_class_load_handle = create_load_unload_set(item_class_load_unload_table);
-    lbl_805D5440.reset();
+    floor_item_respawn_requested.reset();
 }
 
 void set_first_inventory_item_flag(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }
@@ -1293,10 +1286,10 @@ s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
 }
 
-TItem *TObjPlayer::get_equipped_mag() { return (TItem *)get_slot_value(equipped_items.items, 1); }
+TItem *TObjPlayer::get_equipped_mag() { return get_slot_value(equipped_items.items, 1); }
 
-TItem *TObjPlayer::get_equipped_shield() { return (TItem *)get_slot_value(equipped_items.items, 3); }
-TItem *TObjPlayer::get_equipped_armor() { return (TItem *)get_slot_value(equipped_items.items, 2); }
+TItem *TObjPlayer::get_equipped_shield() { return get_slot_value(equipped_items.items, 3); }
+TItem *TObjPlayer::get_equipped_armor() { return get_slot_value(equipped_items.items, 2); }
 
 MagStats *MagStats::init() { clear(); return this; }
 

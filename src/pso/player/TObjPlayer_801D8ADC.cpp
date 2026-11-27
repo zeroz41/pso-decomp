@@ -102,12 +102,12 @@ const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
     return class_starting_inventory_table[(s8)cls];
 }
 
-u8 * TObjPlayer::get_cast_motion_record() {
+const PlayerCastMotionRecord *TObjPlayer::get_cast_motion_record() {
   s32 offset;
-  s8 *table_slot;
-  offset = this->get_handle_value() * 0x14;
-  table_slot = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
-  return *(u8 **)table_slot + offset;
+  const PlayerCastMotionRecord *const *slot;
+  offset = this->get_handle_value() * sizeof(PlayerCastMotionRecord);
+  slot = &player_cast_motion_record_table[this->has_valid_handle()];
+  return (const PlayerCastMotionRecord *)((const u8 *)*slot + offset);
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {
@@ -289,7 +289,7 @@ PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
     return &table[(s8)clamp_class_index(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
-void free_ply_level_tbl() { TLobby::free_nodes_with_id((uaddr)ply_level_table); }
+void free_ply_level_tbl() { TLobby::free_nodes_with_id(ply_level_table); }
 
 void load_ply_level_tbl(void) { ply_level_table = (PlayerLevelTableRow ***)load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 

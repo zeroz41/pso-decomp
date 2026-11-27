@@ -1,3 +1,4 @@
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -30,9 +31,9 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowCallBack.h"
 
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 
-#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 #include "pso/network/TLobby.h"
 
@@ -44,6 +45,7 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"
+#include "pso/unk/ConnectionInputBuffers.h"
 
 
 // show_message_window: position and size of the message window it opens.
@@ -100,18 +102,6 @@ s32 password_entry_dispatch_state;
 
 s32 TAdEnterBaseGC::entry_mode;
 
-extern "C" {
-
-
-extern char serial_access_hex_string_buf[];
-
-u8 *get_access_key_input_buffer();
-
-u8 *get_raw_serial_input_buffer();
-
-
-}
-extern TObject *tl_clipout;
 char serial_access_hex_string_buf[0x40];
 
 
@@ -237,11 +227,11 @@ void TAdEnterSerialAccessGC::clear_serial_buffer() {
     }
 }
 
-s32 TAdEnterSerialAccessGC::has_serial_input(s32 parent, s32 field) {
+s32 TAdEnterSerialAccessGC::has_serial_input(TObject *parent, s32 field) {
     return (s8)*get_serial_text(parent, field) ? 1 : 0;
 }
 
-u8 *TAdEnterSerialAccessGC::get_serial_text(s32 owner, s32 field) {
+u8 *TAdEnterSerialAccessGC::get_serial_text(TObject *owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
@@ -280,13 +270,13 @@ TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)enter_base_callback_position, (void *)enter_base_callback_size, render_entry_window);
 }
 
-TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, s32 field) {
+TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(TObject *parent, s32 field) {
     TKeyBoardControl *kb;
     if (field < 0 || field >= 4) {
         return NULL;
     }
-    KeyboardModes sp8 = serial_keyboard_mode_table;
-    kb = new TKeyBoardControl((TObject *)parent, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
+    KeyboardModes modes = serial_keyboard_mode_table;
+    kb = new TKeyBoardControl(parent, serial_keyboard_field_width_table[field], 0, modes.b[field], local_client_id);
     if (kb == NULL) {
         return NULL;
     }

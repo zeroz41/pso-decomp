@@ -44,7 +44,6 @@ s32 client_cleared_stages(s32 client, s32 slot) {
 }
 
 extern "C" {
-void copy_player_visual_record(void *, void *);
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     Vec pos;
     RebuildPlayersForStageChr chr;
@@ -62,8 +61,8 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             if (p == NULL) {
                 continue;
             }
-            VecCopy(&pos, (const Vec *)((u8 *)p + 0x38));
-            copy_player_visual_record(&chr, (u8 *)p + 0x85c);
+            VecCopy(&pos, &p->position);
+            copy_player_visual_record((PlayerVisualRecord *)&chr, (PlayerVisualRecord *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             delete p;
             switch (chr.f34 & 0xe0) {
@@ -82,7 +81,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             }
             {
                 TPlyCharData cd;
-                copy_player_visual_record(&cd.m_disp_part2, &chr);
+                copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&chr);
                 TObjPlayer::begin_action_state(&cd);
                 TNpcPlayer::send_command(chr.f31, t->item_count, (const TPlyInventoryItem *)t->items, t->level, &cd);
                 if (i == local_client_id) {
@@ -104,7 +103,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
                     TObjPlayer::set_technique_level_clamped(p, e->level, e->technique);
                 }
             }
-            *(s32 *)((u8 *)p + 0xd58) = 0;
+            p->base_stats.meseta = 0;
         }
     }
 }

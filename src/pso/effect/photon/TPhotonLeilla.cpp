@@ -27,7 +27,8 @@ const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/SoundEffect.h"
@@ -54,7 +55,7 @@ void TPhotonLeilla::render() {
     if (visible != 0) {
         leilla_photon_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);

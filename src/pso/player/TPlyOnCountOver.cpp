@@ -57,7 +57,7 @@
 #undef get_player_by_client_id
 
 
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/vector.h"
@@ -323,11 +323,11 @@ void PlayerMoveSpeed::update(TObjPlayer *player) { set_speed(calc_speed(player))
 void PlayerMoveSpeed::update(TObjPlayer *player, f32 speed) { set_speed(calc_speed(player, speed)); }
 
 
-saddr TObjPlayer::get_slot_value(void *equipped_items, int slot) {
+TItem *TObjPlayer::get_slot_value(TItem **equipped_items, int slot) {
     if (slot < 0 || slot >= 13) {
         return 0;
     }
-    return ((s32 *)equipped_items)[slot];
+    return equipped_items[slot];
 }
 
 

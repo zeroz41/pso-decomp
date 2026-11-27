@@ -20,7 +20,7 @@ public:
     virtual void spawn_effects(Vec *pos);
     virtual void play_cast_sound();
     TechniqueContactList *find_area_contact(TObjBase *player);
-    TechniqueContactList *collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player);
+    TechniqueContactList *collect_body_contacts(TObjCollidable *target, CollisionBody *body, TObjBase *player);
     TechniqueContactList *collect_body_contacts_for_target(TObjBase *player);
     void apply_technique_to_area_targets();
     void move_toward_target();
@@ -38,6 +38,7 @@ public:
     CollisionBody *contact;  // the body of the target being hit
     CollisionBody collisionBody;
     TObjCollidable *collidable;
+    TechniqueContactList *find_area_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player);
 };
 LAYOUT_ASSERT(TTecCircleSize, sizeof(TTecCircle) == 0xEC);
 

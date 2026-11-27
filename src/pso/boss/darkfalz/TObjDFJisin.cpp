@@ -10,7 +10,7 @@
 struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/PlayerClassFlags.h"
@@ -152,7 +152,7 @@ void TObjDFUsoTower::render() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
+        set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
         if (fade_alpha < 1.0f) {
@@ -218,20 +218,20 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
         set_texture_list(head_textures);
-        draw_colored_hair(alpha, (saddr)hair, &player->appearance, 0);
+        draw_colored_hair(alpha, hair, &player->appearance, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
 }
 
-void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
+void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, NJS_OBJECT *body, void *head, void *hair, uaddr part, CharacterAppearanceFields *appearance, f32 alpha) {
     if (0.0f != alpha) {
-        TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
+        TObjDFTenchuFuru::draw_node_tree(body);
         if (alpha < 1.0f) {
             begin_alpha_blend(alpha);
         }
         set_texture_list(body_texlist);
-        draw_chunk_object((void *)body);
+        draw_chunk_object(body);
         if (part != 0U) {
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
@@ -239,24 +239,24 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
             draw_chunk_object((void *)part);
             pop_matrix();
         }
-        if (head != 0U) {
+        if (head != NULL) {
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
             set_texture_list(head_texlist);
-            draw_chunk_object((void *)head);
+            draw_chunk_object(head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
         if (alpha < 1.0f) {
             end_alpha_blend();
         }
-        if (hair != 0U) {
+        if (hair != NULL) {
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
             set_texture_list(head_texlist);
-            draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
+            draw_colored_hair(alpha, hair, appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
@@ -264,14 +264,14 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
 }
 
 extern "C" {
-void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
+void TObjPlayer::draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, f32 frame, f32 alpha) {
     TObjPlayer *player;
     void *head;
     void *hair;
     NJS_TEXLIST *head_textures;
     uaddr attachment;
     NJS_TEXLIST *attachment_textures;
-    void *body;
+    NJS_OBJECT *body;
     NJS_TEXLIST *body_textures;
     if (0.0f == alpha) {
         return;
@@ -295,7 +295,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     }
     set_texture_list(body_textures);
     TObjDFTenchuFuru::register_callback();
-    draw_model_motion(body, (void *)motion, frame);
+    draw_model_motion(body, motion, frame);
     TObjDFTenchuFuru::unregister_callback();
     if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
@@ -318,7 +318,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
         set_texture_list(head_textures);
-        draw_colored_hair(alpha, (saddr)hair, &player->appearance, 0);
+        draw_colored_hair(alpha, hair, &player->appearance, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }

@@ -13,4 +13,6 @@ struct TObjQuestCol : public TObjQuestColBase {
 
 LAYOUT_ASSERT(TObjQuestCol_size, sizeof(TObjQuestCol) == 0xBC);
 
+extern u16 quest_collision_next_id;
+
 #endif

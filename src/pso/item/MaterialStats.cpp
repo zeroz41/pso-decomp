@@ -6,8 +6,6 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-}
 
 void ActorParamBlock::add_elt(s32 amount) {
     values[4] = values[4] + amount;

@@ -6,7 +6,6 @@
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/enemy/saver/TObjEneSaver.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
@@ -36,6 +35,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
@@ -200,10 +200,6 @@ s32 load_current_floor_resources(void) {
     return load_floor_resources(get_current_floor_area());
 }
 extern "C" {
-
-void load_boss5_gryphon_resources();
-
-
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
     { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },

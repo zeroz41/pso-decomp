@@ -15,7 +15,6 @@
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/GbaAramCache.h"
@@ -30,7 +29,7 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
+#include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/map/TSetManager.h"
 #include "pso/math/MatrixVector.h"
@@ -49,7 +48,7 @@
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
@@ -59,7 +58,7 @@
 #include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/player/PlayerDataLoad.h"
 #include "pso/ui/LoadingInfoIcon.h"
@@ -284,7 +283,7 @@ void init_game_systems(void) {
     resource_decompress_buffer = (u8 *)xmalloc(0x80000);
     motion_blend_buffer = (void *)xmalloc(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
-    init_chunk_draw((saddr)resource_decompress_buffer, 0x2000);
+    init_chunk_draw((ChunkCachedVertex *)resource_decompress_buffer, 0x2000);
     set_frame_update_callback(poll_input_devices_frame);
     player_matrix_stack_buffer = (saddr)xmalloc(0x600);
     init_matrix_stack(player_matrix_stack_buffer, 0x20);

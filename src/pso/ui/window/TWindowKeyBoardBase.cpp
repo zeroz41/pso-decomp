@@ -7,6 +7,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include <stddef.h>
@@ -45,9 +46,6 @@ u16 soft_keyboard_conversion_exclusions[20] = {
 
 
 extern "C" {
-s32 map_char_to_font_code(u16);
-u8 get_font_char_advance(s32);
-extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
 
 void draw_textured_quad_at_depth(void *, f32);
 
@@ -203,7 +201,7 @@ void TWindowKeyBoardBase::add_conversion_candidate(char *text) {
     }
 }
 
-void TWindowKeyBoardBase::remove_candidate(void *record) {
+void TWindowKeyBoardBase::remove_candidate(u8 *record) {
     s8 *src = (s8 *)record;
     s8 *dst = src;
     s32 len = src[1];
@@ -266,13 +264,13 @@ void TWindowKeyBoardBase::insert_string(char *src) {
 }
 #pragma pop
 
-void TWindowKeyBoardBase::update_input(void* a1) { remove_candidate(current_candidate); insert_string((char *)(a1)); }
+void TWindowKeyBoardBase::update_input(char *text) { remove_candidate(current_candidate); insert_string(text); }
 
 #pragma push
 #pragma optimization_level 2
-s32 TWindowKeyBoardBase::can_fit_candidate(void *window_sub_status_disp) {
+s32 TWindowKeyBoardBase::can_fit_candidate(const char *text) {
     s32 len = ((CandidateRecord *)current_candidate)->len;
-    s32 need = measure_string_len(reinterpret_cast<const char *>(window_sub_status_disp));
+    s32 need = measure_string_len(text);
 
     return (candidate_bytes_remaining >= need - len) ? 1 : 0;
 }
@@ -789,7 +787,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(WindowDrawContext *context, NJS_POIN
 void TWindowKeyBoardBase::layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled) {
     TexturedQuad q;
     f32 depth;
-    s32 code;
+    u16 code;
     u16 ch;
     u8 adv;
 

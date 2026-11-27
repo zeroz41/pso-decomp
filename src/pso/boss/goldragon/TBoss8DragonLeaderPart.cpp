@@ -1,7 +1,6 @@
 #include "pso/system/SubtractiveRng.h"
 #include "types.h"
 #include "pso/boss/TBoss8DragonLeaderPart.h"
-#include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8DragonPart.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"

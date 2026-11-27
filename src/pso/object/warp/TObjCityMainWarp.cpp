@@ -16,7 +16,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/city/CityTraffic.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
@@ -108,7 +107,7 @@ void TObjCityMainWarpChallenge::update_warp_window() {
                     menu_window->add_text_entry(TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     menu_window->disable_input();
                     menu_window->calc_window_size();
-                    align_menu_entry_positions(menu_window);
+                    menu_window->align_menu_entry_positions();
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();

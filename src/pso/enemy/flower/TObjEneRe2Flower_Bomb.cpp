@@ -54,7 +54,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(const AreaAttackContact *c
     }
     if (this->bodies->flags & flags) {
         for (i = 0; i < 0x10; i++) {
-            p = reinterpret_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
+            p = TObjPlayer::get_battle_param(i);
             if (p == 0) {
                 break;
             }

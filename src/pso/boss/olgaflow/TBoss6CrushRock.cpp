@@ -116,7 +116,7 @@ void TBoss6CrushRock::render() {
         rotate_matrix_y(NULL, angles.y);
         rotate_matrix_x(NULL, angles.x);
         rotate_matrix_z(NULL, angles.z);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_list));
+        set_texture_list(texture_list);
         draw_ginja_object(model);
         pop_matrix();
     }

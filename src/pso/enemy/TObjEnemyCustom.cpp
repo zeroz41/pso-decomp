@@ -277,7 +277,7 @@ void TObjEnemyCustom::update_dying_state() {
 
 void TObjEnemyCustom::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

@@ -162,25 +162,25 @@ void TWindowSubEquip::apply_slot_selection() {
 }
 
 void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) {
-    uaddr slot_value;
+    TItem *slot_value;
     TObjPlayer *player;
     saddr item_id;
-    uaddr temp_r3b;
+    TItem *target_item;
 
     player = get_player_by_client_id(client_id);
     if (player != 0) {
         slot_value = TObjPlayer::get_slot_value(player->equipped_items.items, slot);
-        temp_r3b = (uaddr)find_item_by_id(item);
-        if (slot_value == temp_r3b) {
-            TObjPlayer::send_6x26_unequip_item(player, item);
+        target_item = find_item_by_id(item);
+        if (slot_value == target_item) {
+            player->send_6x26_unequip_item(item);
             return;
         }
-        if (((TItem *)temp_r3b)->test_item_flags(8) != 0U) {
-            TObjPlayer::send_6x26_unequip_item(player, item);
+        if (target_item->test_item_flags(8) != 0U) {
+            player->send_6x26_unequip_item(item);
         }
-        if (slot_value != 0U) {
-            item_id = ((TItem *)slot_value)->get_item_id();
-            TObjPlayer::send_6x26_unequip_item(player, item_id);
+        if (slot_value != NULL) {
+            item_id = slot_value->get_item_id();
+            player->send_6x26_unequip_item(item_id);
         }
         send_6x25_equip_item(player, item, slot);
     }
@@ -194,7 +194,7 @@ void TWindowSubEquip::update() {
     player = get_player_by_client_id(this->client_id);
     if (player != 0) {
         slot = this->equip_list->get_cursor_value();
-        TItem *item = (TItem *)TObjPlayer::get_slot_value(player->equipped_items.items, slot);
+        TItem *item = TObjPlayer::get_slot_value(player->equipped_items.items, slot);
         if (item == NULL) {
             item_id = -1;
         } else {

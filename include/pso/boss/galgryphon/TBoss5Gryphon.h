@@ -238,6 +238,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void emit_run_body_attack();  // hit between bone_positions[0] and [11] while running
     void emit_flight_body_attacks();  // hits at bone_positions[11] and [0] in low flight
     void emit_wing_attacks();  // hits along bone_positions[3..10] in low flight
+    s32 angle_to_move_target();  // heading from position to the move target, in Ninja angles
     void send_target_update();  // sends entity_id, target_id and destination to the other clients
 };
 
@@ -248,4 +249,12 @@ LAYOUT_ASSERT(TBoss5Gryphon_action_scripts, offsetof(TBoss5Gryphon, action_scrip
 LAYOUT_ASSERT(TBoss5Gryphon_fade, offsetof(TBoss5Gryphon, renderFadeStates) == 0x580);
 LAYOUT_ASSERT(TBoss5Gryphon_work, offsetof(TBoss5Gryphon, work) == 0x6DC);
 LAYOUT_ASSERT(TBoss5Gryphon_particles, offsetof(TBoss5Gryphon, particles) == 0x724);
+// Loads the textures, particle ids and effect ids the Gryphon fight uses.
+void load_boss5_gryphon_resources(void);
+
+// Defined in TBoss5Gryphon.cpp.
+const Vec *get_arena_center(void);
+void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                           NJS_MOTION *motion, s32 loop, f32 frame);
+
 #endif

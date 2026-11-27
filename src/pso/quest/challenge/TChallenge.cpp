@@ -6,7 +6,7 @@
 #include "pso/network/client_id.h"
 #include "pso/quest/challenge/ChallengeModeData.h"
 #include "pso/ui/chat/ChatLogLastLine.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/system/task/TObject.h"
@@ -199,13 +199,13 @@ s32 challenge_rank_for_total(s32 total) {
 
     min_total = challenge_set_min_time(RECORD_SET_CURRENT);
     max_total = challenge_set_max_time(RECORD_SET_CURRENT);
-    if ((CharacterSaveRecord *)get_character_save_record(0xFFFF) == NULL) {
+    if (get_character_save_record(0xFFFF) == NULL) {
         return -4;
     }
     if (total < min_total || total > max_total) {
         return -4;
     }
-    record = &((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
+    record = &get_character_save_record(0xFFFF)->challenge;
     rank = challenge_set_rank(record, RECORD_SET_CURRENT);
     for (i = 2, threshold = &challenge_mode_state.rank_thresholds[2]; i >= 0; i--, threshold--) {
         if (threshold->time != 0 && threshold->time >= total) {
@@ -230,7 +230,7 @@ void apply_challenge_rank_title() {
     s32 i;
     ChallengeRankOverride *entry;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     if (resolve_challenge_record_set(RECORD_SET_CURRENT) != 0) {
         return;
     }
@@ -262,7 +262,7 @@ s32 record_challenge_stage_time(s32 clear_time) {
     s32 improved;
     CharacterSaveRecord *record;
 
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     stage_count = challenge_set_stage_count(RECORD_SET_CURRENT);
     if ((record == NULL) || (challenge_mode_state.stage < 0) || (challenge_mode_state.stage >= stage_count)) {
         return 0;
@@ -308,7 +308,7 @@ s32 show_challenge_result(s32 clear_time) {
     record_challenge_stage_time(clear_time);
     total = get_challenge_set_time(0xFFFF, RECORD_SET_CURRENT);
     if (total != 0) {
-        own = &((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
+        own = &get_character_save_record(0xFFFF)->challenge;
         total -= decode_challenge_time(challenge_set_stage_times(own, RECORD_SET_CURRENT)[challenge_mode_state.stage]);
         total += clear_time;
         rank = challenge_rank_for_total(total);
@@ -327,7 +327,7 @@ s32 show_challenge_result(s32 clear_time) {
     rec.previous.time = decode_challenge_time(*best_time);
     decode_obfuscated_string(rec.previous.award_name, client->rank_title, 12);
     rec.previous.rank = decode_challenge_count(stage_rank->rank);
-    saved = &((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
+    saved = &get_character_save_record(0xFFFF)->challenge;
     stage_rank = challenge_set_rank(saved, RECORD_SET_CURRENT);
     rec.current.time = clear_time;
     decode_obfuscated_string(rec.current.award_name, saved->rank_title, 12);
@@ -500,10 +500,10 @@ void TChallenge::update_card_save_info() {
     char *chat;
     char *unit_name;
     s32 rt_index;
-    if ((CharacterSaveRecord *)get_character_save_record(0xFFFF) == NULL) {
+    if (get_character_save_record(0xFFFF) == NULL) {
         return;
     }
-    record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    record = get_character_save_record(0xFFFF);
     player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
     if (player == NULL) {
         return;
@@ -596,7 +596,7 @@ TChallenge *challenge_task;
 s32 challenge_task_created;
 s32 lobby_challenge_mode;
 
-typedef void (TChallenge::*Step_80070674)(void);
+typedef void (TChallenge::*ChallengeStepFn)(void);
 
 ChallengeModeState challenge_settings_defaults = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
@@ -636,7 +636,7 @@ TChallenge::TChallenge(TObject *parent) : TObject(parent) {
     m_name = class_name;
     challenge_mode_state = challenge_settings_defaults;
     restore_challenge_from_save();
-    TLobby::send_challenge_records((uaddr)this);
+    TLobby::send_challenge_records(this);
     frame_count = 0;
     missing_records_timer = 0;
     records_save_pending = 1;
@@ -656,12 +656,12 @@ void TChallenge::run_task() {
         return;
     }
     request_missing_challenge_records();
-    static Step_80070674 table[3] = {
+    static ChallengeStepFn table[3] = {
         &TChallenge::initialize_windows,
         &TChallenge::wait_for_quest,
         &TChallenge::update_active,
     };
-    Step_80070674 step = table[state];
+    ChallengeStepFn step = table[state];
     if (step) {
         (this->*step)();
     } else {
@@ -670,7 +670,7 @@ void TChallenge::run_task() {
     frame_count++;
 }
 
-void *lbl_8048D0B0[22] = {
+void *challenge_mode_label_table[22] = {
     (void *)0x6368616c, (void *)0x6c656e67, (void *)0x65000000, (void *)0x53004300,
     (void *)0x51000000, (void *)&challenge_label_N, (void *)&challenge_label_C, (void *)&challenge_label_0,
     (void *)&challenge_label_1, (void *)&challenge_label_2, (void *)&challenge_label_3, (void *)&challenge_label_4,
@@ -742,9 +742,9 @@ void TChallenge::restore_challenge_from_save() {
     ChallengeClientRecords *own;
     clear_four_slots();
     own = &challenge_mode_state.client_records[local_client_id];
-    if (get_character_save_record(0xFFFF) != 0U) {
+    if (get_character_save_record(0xFFFF) != NULL) {
         own->present = 1;
-        own->records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);
+        own->records = get_character_save_record(0xFFFF)->challenge;
     }
 }
 
@@ -846,7 +846,7 @@ void TChallenge::update_quest_challenge_state() {
             quest_send_timer = 30;
         }
         if ((quest_send_timer <= 0 || n != 0) && n != challenge_mode_state.record_window_mode) {
-            TLobby::send_challenge_with_value((saddr)this, n);
+            TLobby::send_challenge_with_value(this, n);
         }
     }
 }

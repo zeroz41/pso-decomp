@@ -19,6 +19,8 @@ struct TWindowTimer : public TWindowBase {
     void draw_tab(WindowDrawContext *context);
     static TWindowTimer *create();
     static TWindowTimer *create_alt();
+    void init_timer_window_layout();
+    void init_timer_window_layout_alt();
 };
 
 LAYOUT_ASSERT(TWindowTimer_size, sizeof(TWindowTimer) == 0x64);

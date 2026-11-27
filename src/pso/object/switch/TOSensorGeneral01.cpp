@@ -97,7 +97,7 @@ void *TOSensorGeneral01::create(void *set_data) {
 
 void TOSensorGeneral01::free_assets() {
     if (sensor_general01_texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)sensor_general01_texture_lists[0]);
+        TObjPlayer::free_if_valid(sensor_general01_texture_lists[0]);
         if (sensor_general01_texture_lists != NULL) {
             mem_free(sensor_general01_texture_lists);
             sensor_general01_texture_lists = NULL;

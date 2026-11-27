@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeaponSRankBazooka.h"
 #include "pso/effect/item/TItemEffFlame.h"
-#include "pso/unk/text_80129D18.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
@@ -35,7 +34,7 @@ void TItemWeaponSRankBazooka::update_weapon() {
             a[0] = 0x4000;
             a[1] = owner->rotation_y;
             a[2] = 0;
-            TObjPlayer::launch_weapon_casing(tl_05, (uaddr)this, 3, &v, a);
+            TObjPlayer::launch_weapon_casing(tl_05, this, 3, &v, a);
         }
     } else if (recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);

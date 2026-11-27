@@ -11,10 +11,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/player/TObjPlayer_80309D80.h"
+#include "pso/player/PlayerParticleEmitters.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
@@ -200,10 +200,10 @@ void PlayerFollowParticles::create_hand_particles(TObjBase *owner) {
 }
 
 void TObjPlayer::clear_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player) {
-    TPlayerFootStamp::create(player, (void *)0);
+    TPlayerFootStamp::create(player, 0);
 }
 
 void TObjPlayer::enable_foot_stamp(PlayerFollowParticles *particles, TObjPlayer *player) {
-    TPlayerFootStamp::create(player, (void *)1);
+    TPlayerFootStamp::create(player, 1);
 }
 

@@ -19,7 +19,8 @@ s32 calc_binomial_coefficient(s32 n, s32 k) {
 }
 #pragma pop
 
-inline int __fpclassifyf_803D6308(float __value) {
+// The MSL inlines __fpclassifyf and modff, which the game headers do not provide.
+inline int __fpclassifyf(float __value) {
     switch (*(int *)&__value & 0x7f800000) {
     case 0x7f800000:
         if ((*(int *)&__value & 0x7fffff) != 0) {
@@ -34,10 +35,10 @@ inline int __fpclassifyf_803D6308(float __value) {
     }
     return 4;
 }
-inline float modff_803D6308(float x, float *iptr) {
+inline float modff(float x, float *iptr) {
     float frac;
     long i;
-    switch (__fpclassifyf_803D6308(x)) {
+    switch (__fpclassifyf(x)) {
     case 1:
     case 3:
         *iptr = x;
@@ -62,6 +63,6 @@ inline float modff_803D6308(float x, float *iptr) {
 #pragma peephole off
 #pragma scheduling off
 f32 fractional_part(f32 x) {
-    return modff_803D6308(x, &lbl_805D76A8);
+    return modff(x, &lbl_805D76A8);
 }
 #pragma pop

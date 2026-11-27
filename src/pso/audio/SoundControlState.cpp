@@ -494,7 +494,7 @@ u16 sound_bank_group_ids[38] = {
 
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/audio/SoundRequestVoice.h"
-#include "pso/unk/TLobby_80242910.h"
+#include "pso/unk/ShortMailFlag.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/system/main_loop.h"
 #include <string.h>
@@ -513,8 +513,6 @@ SoundRequestVoice sound_request_voices[0x28];
 u8 sound_bin_data[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
 void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
-extern "C" {
-}
 
 void SoundControlState::set_stream_mix(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
     if (span < 0) {
@@ -978,7 +976,7 @@ s32 SoundControlState::init_sound_aux_effects() {
         AdxfHandle *handle = ADXF_OpenAfs(0, sound_bank_file_indices[i][2]);
         if (handle != NULL) {
             ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
-            set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
+            set_read_params(&handle, (s32)size / 2048, musyx_sdir_buffers[i]);
             do {
                 draw_loading_compass();
                 run_disk_error_check();

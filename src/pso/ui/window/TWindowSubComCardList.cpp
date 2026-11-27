@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/PageIndicator.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/ui/window/HelpWindowToggle.h"
@@ -26,7 +26,7 @@
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/HeadingEntry.h"
 void TWindowSubComCardList::draw_card_list_selection(WindowDrawContext *window_key_board_soft) {
   s16 page_row;
@@ -49,7 +49,7 @@ void TWindowSubComCardList::refresh_page() {
     GuildCardEntry *card;
     s32 n;
     s32 index;
-    saddr msg;
+    const char *msg;
 
     this->reset_entries();
     index = storage->get_type();
@@ -73,13 +73,13 @@ void TWindowSubComCardList::refresh_page() {
     if (this->get_entry_count() <= 0) {
         switch ((s8)this->empty_message) {
         case 0:
-            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
+            msg = TWindowSubStatusDisp::get_message_10(0xD4);
             break;
         case 1:
-            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
+            msg = TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
-        add_gray_text_entry((TWindowMenu *)this, (const char *)msg, 4, -1);
+        add_gray_text_entry((TWindowMenu *)this, msg, 4, -1);
     }
 }
 
@@ -113,13 +113,13 @@ void TWindowSubComCardList::render() {
         this->heading->render(ctx);
     }
     if (this->storage != 0) {
-        draw_list_page_indicator(this->storage, ctx);
+        this->storage->draw(ctx);
     }
 }
 
 void TWindowSubComCardList::run_task() {
     TWindowMenu::run_task();
-    if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
+    if ((is_decided() == 0) && (this->storage->handle_flip_input() != 0)) {
         set_selected_index(0);
         refresh_page();
     }

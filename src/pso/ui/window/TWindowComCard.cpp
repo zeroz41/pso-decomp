@@ -4,7 +4,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCardEntries.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
@@ -22,7 +22,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowTextEntry.h"
@@ -87,10 +87,10 @@ s8 GuildCardEntry::get_section_id() { return section_id; }
 
 char *GuildCardEntry::get_text() { return text; }
 
-TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
+TWindowComCard::TWindowComCard(const NJS_POINT2 *position, GuildCardEntry *card)
     : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
     m_name = TWindowComCard::class_name;
-    update_com_card_display(&entry_list, (GuildCardEntry *)data);
+    update_com_card_display(&entry_list, card);
 }
 
 TWindowComCard::~TWindowComCard() {}
@@ -119,7 +119,7 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
 }
 
 TWindowComCard *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
-    void *entry = TWindowSubComCard::get_card_entry(index);
+    GuildCardEntry *entry = TWindowSubComCard::get_card_entry(index);
     if (entry == NULL) {
         return NULL;
     }
@@ -131,7 +131,7 @@ TWindowComCard *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 
         return NULL;
     }
     saddr data = records + index * 0x90;
-    return new TWindowComCard(position, (void *)data);
+    return new TWindowComCard(position, (GuildCardEntry *)data);
 }
 
 void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
