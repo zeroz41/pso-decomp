@@ -696,7 +696,7 @@ TObjDFHorming::~TObjDFHorming() {
 }
 
 void TObjDFHorming::run_task() {
-    s32 rotation[3];
+    Angle3 rotation;
     Vec d;
     DirectAttackPayload s;
     TObjPlayer *p;
@@ -747,9 +747,9 @@ void TObjDFHorming::run_task() {
             if (i == 1) {
                 VecCopy(&d, &body_center);
                 subtract_vector(&d, &prev_position);
-                direction_to_rotation_xz((u8 *)&d, &rotation[0], &rotation[2]);
-                rotation[1] = 0;
-                effects[i]->set_direction(rotation);
+                direction_to_rotation_xz((u8 *)&d, &rotation.x, &rotation.z);
+                rotation.y = 0;
+                effects[i]->set_direction(&rotation);
             }
             effects[i]->set_position(&body_center);
         }

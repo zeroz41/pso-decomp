@@ -17,7 +17,7 @@ public:
     virtual void apply_saved_state(s16 *state, s32 live);
     virtual void apply_object_set_data(void *);
     virtual void reset_motion_fields();
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual s32 update_object_view_visibility(f32, f32);
     virtual s32 classify_actor_view_detail(f32, f32, f32);
     virtual const char *get_name();

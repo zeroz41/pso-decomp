@@ -194,7 +194,7 @@ void TParticleBallistic::run_task() {
             queue_destruction();
             return;
         }
-        Vec *center = (Vec *)target_obj->get_center();
+        Vec *center = target_obj->get_center();
         if (center != NULL) {
             if (flags & 0x20) {
                 offset_point_toward_camera(center, &toward_camera, 8.0f);

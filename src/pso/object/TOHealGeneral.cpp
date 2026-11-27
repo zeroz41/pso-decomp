@@ -276,4 +276,4 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     heal_target = 0xFFFF;
 }
 
-void *TOHealGeneral::get_center() { return &effect_pos[1]; }
+Vec *TOHealGeneral::get_center() { return &effect_pos[1]; }

@@ -48,8 +48,8 @@ void TItemShootSRankPunch::render() {
         push_matrix();
         set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
-        rotate_matrix_y(NULL, rot_y);
-        rotate_matrix_x(NULL, rot_x - 0x4000);
+        rotate_matrix_y(NULL, rot.y);
+        rotate_matrix_x(NULL, rot.x - 0x4000);
         draw_ginja_object(model);
         pop_matrix();
     }

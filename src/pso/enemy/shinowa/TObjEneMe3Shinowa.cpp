@@ -1165,7 +1165,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     Vec save_pos;
     Vec save_center;
     Vec dest;
-    s32 rot[3];
+    Angle3 rot;
     f32 v;
     Vec *home = &this->start_position;
 
@@ -1241,13 +1241,13 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
         }
         this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z));
         if (this->target_angle != 0) {
-            rot[0] = 0;
+            rot.x = 0;
             if (this->target_angle > 0) {
-                rot[1] = this->rotation_y;
+                rot.y = this->rotation_y;
             } else {
-                rot[1] = this->rotation_y - 0x8000;
+                rot.y = this->rotation_y - 0x8000;
             }
-            rot[2] = -0x4000;
+            rot.z = -0x4000;
             if (this->particle_emitters[0] == NULL) {
                 this->particle_emitters[0] = (TParticleCtrl *)create_particle_emitter(&this->position, 0x115);
                 if (this->particle_emitters[0] != NULL) {
@@ -1255,7 +1255,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
                     this->particle_emitters[0]->set_flags(2);
                 }
             } else {
-                this->particle_emitters[0]->set_direction(rot);
+                this->particle_emitters[0]->set_direction(&rot);
                 this->particle_emitters[0]->set_position(&this->position);
             }
             if (this->particle_emitters[1] == NULL) {
@@ -1265,7 +1265,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
                     this->particle_emitters[1]->set_flags(2);
                 }
             } else {
-                this->particle_emitters[1]->set_direction(rot);
+                this->particle_emitters[1]->set_direction(&rot);
                 this->particle_emitters[1]->set_position(&this->position);
             }
         }

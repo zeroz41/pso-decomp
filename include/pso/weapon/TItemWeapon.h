@@ -56,7 +56,7 @@ struct TItemWeapon : public TItemEquipBase {
     void launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale);
     void fill_status_info(AttackColParams *params);
     void drain_owner_hp_fraction(f32);
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void update_owned();
     virtual void update_equipped();
     // A technique roll (send_activate_effect from roll_technique).

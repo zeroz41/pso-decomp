@@ -10,7 +10,6 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/CameraAngles.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
@@ -47,7 +46,7 @@ TOSwitchAttackSub::~TOSwitchAttackSub() {
 #pragma auto_inline off
 #pragma dont_inline off
 TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 required_switch, u32 type, f32 scale) : TObject(parent) {
-    CameraAngles rotation;
+    Angle3 rotation;
     m_name = switch_attack_sub_name;
     disallow_rendering();
     stopSwitchId = stop_switch;
@@ -60,9 +59,9 @@ TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 requi
                           34, 69, 232, 332, 333, 412, 200, 244, 452};
     s32 rotation_z[18] = {0x8000, 0, 0x8000, 0x8000};
     if (type < 18) {
-        rotation.yaw = 0;
-        rotation.pitch = 0;
-        rotation.roll = rotation_z[type];
+        rotation.y = 0;
+        rotation.x = 0;
+        rotation.z = rotation_z[type];
         particle = spawn_particle_effect_with_rotation(&position, &rotation, effect_ids[type], 0x40);
         if (particle != 0) {
             if ((s32)type == 10) {

@@ -81,7 +81,7 @@ void TItemEffShield::spawn_recipe_particles() {
     for (i = 0; i != 8; i++) {
         s32 id = entry->particle_ids[i];
         if (id != -1) {
-            create_oneshot_particle_emitter(&position, &rotation_x, id, 4);
+            create_oneshot_particle_emitter(&position, (Angle3 *)&rotation_x, id, 4);
         }
     }
 }

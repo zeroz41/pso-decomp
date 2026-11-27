@@ -438,11 +438,11 @@ void TBoss3VoloptMonitor::damage_player_if_aligned() {
 }
 
 void TBoss3VoloptMonitor::spawn_effects() {
-    s32 angle[3];
-    angle[0] = 0;
-    angle[1] = rotation_y;
-    angle[2] = 0;
-    spawn_directional_particle(&body_center, angle, (slot & 3) == 0 ? 0x62 : 0x61);
+    Angle3 angle;
+    angle.x = 0;
+    angle.y = rotation_y;
+    angle.z = 0;
+    spawn_directional_particle(&body_center, &angle, (slot & 3) == 0 ? 0x62 : 0x61);
     spawn_particle_effect(&body_center, 0x45);
 }
 

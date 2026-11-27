@@ -32,7 +32,7 @@ public:
     static BmlResource *regular_bml_resource;
     static NJS_TEXLIST *texture_list;
     // Moves the emitter.
-    void set_position(void *pos);
+    void set_position(Vec *pos);
     // Queues the emitter's destruction; nothing when it is NULL.
     static void release(void *emitter);
     // Who owns the effect; a client id of 0xFFFF leaves it unchanged.
@@ -66,8 +66,8 @@ public:
     // Restarts the emission with entry `index` of particleentry.dat
     // (0x200 and up: the area's entry file).
     void set_param_ptr(s32 index);
-    // Copies the emission direction; dir points at three words.
-    void set_direction(void *dir);
+    // Copies the emission direction.
+    void set_direction(Angle3 *dir);
     void set_flags(u16 flags);
     f32 emit_count;               // 0x1C, a particle is spawned for every whole 1.0
     s32 emit_phase;               // 0x20, angle stepped by the entry's emission frequency
@@ -116,17 +116,17 @@ void load_particle_entry_resources(void);
 // declared in ParticleFactory.h.
 TParticleCtrl *create_timed_particle_emitter_with_flags(const Vec *pos, s32 id, s32 delay, s32 duration, u16 flags);
 TParticleCtrl *create_timed_particle_emitter(const Vec *pos, s32 id, s32 delay, s32 duration);
-TParticleCtrl *create_timed_particle_emitter_with_angles(const Vec *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags);
+TParticleCtrl *create_timed_particle_emitter_with_angles(const Vec *pos, Angle3 *dir, s32 id, s32 delay, s32 duration, u16 flags);
 TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, Angle3 *dir, s32 id, s32 delay, s32 duration);
-TParticleCtrl *create_oneshot_particle_emitter(const Vec *pos, void *dir, s32 id, u16 flags);
-TParticleCtrl *spawn_directional_particle(const Vec *pos, void *dir, s32 id);
+TParticleCtrl *create_oneshot_particle_emitter(const Vec *pos, Angle3 *dir, s32 id, u16 flags);
+TParticleCtrl *spawn_directional_particle(const Vec *pos, Angle3 *dir, s32 id);
 TParticleCtrl *create_particle_controller(const Vec *pos, s32 id, s32 use_self);
-TParticleCtrl *create_particle_controller_with_angles(const Vec *pos, void *dir, s32 id, s32 use_self, u16 flags);
+TParticleCtrl *create_particle_controller_with_angles(const Vec *pos, Angle3 *dir, s32 id, s32 use_self, u16 flags);
 TParticleCtrl *create_particle_controller_with_angles(Vec *pos, Angle3 *dir, s32 id, s32 use_self);
-TParticleCtrl *spawn_particle_effect_with_rotation(const Vec *pos, void *dir, s32 id, u16 flags);
-TParticleCtrl *spawn_continuous_particle_with_direction(const Vec *pos, void *dir, s32 id);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *pos, s32 id, u16 flags);
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
+TParticleCtrl *spawn_particle_effect_with_rotation(const Vec *pos, Angle3 *dir, s32 id, u16 flags);
+TParticleCtrl *spawn_continuous_particle_with_direction(const Vec *pos, Angle3 *dir, s32 id);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(const Vec *pos, s32 id, u16 flags);
+TParticleCtrl *create_particle_emitter(const Vec *pos, s32 id);
 void toggle_particle_effect();
 
 // Sets the colour the frame is cleared to from a packed ARGB value, with depth cleared to the far plane. Only the

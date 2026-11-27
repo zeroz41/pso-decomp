@@ -8,7 +8,7 @@ struct TPlyPtclObjectLeftHand : public TPlyFollowParticleCtrl {
     TPlyPtclObjectLeftHand(TObjBase *owner);
     virtual ~TPlyPtclObjectLeftHand();
     // vtable slot 9 (TObjBase::get_center)
-    virtual void *get_center();
+    virtual Vec *get_center();
 
     static const char *class_name;
 };

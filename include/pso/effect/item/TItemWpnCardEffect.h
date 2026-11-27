@@ -30,7 +30,7 @@ public:
     Vec direction;      // normalized by init
     Vec anchor_offset;  // direction times the hit body's radius: position is the body's center less this
     u32 tint;           // the particles' tint colour, 0 for none
-    s32 rotation[3];    // x, y, z angles; y faces direction
+    Angle3 rotation;    // x, y, z angles; y faces direction
     s32 item_id;        // the card, looked up with find_item_by_id
     Vec position;
 };

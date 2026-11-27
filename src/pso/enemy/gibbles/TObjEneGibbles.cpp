@@ -143,7 +143,7 @@ void TObjEneGibbles::select_model_record(s32 i) {
     texlist = gibbles_resource_bundle->models[i].texlist;
 }
 
-void *TObjEneGibbles::get_center() { return &body_center; }
+Vec *TObjEneGibbles::get_center() { return &body_center; }
 
 TObjEneGibbles::TObjEneGibbles(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     s32 i;

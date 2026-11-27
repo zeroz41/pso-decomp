@@ -2,14 +2,10 @@
 #define PSO_BOSS_DARKFALZ_TOBOSS4ROCK_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/system/memory.h"
 
-struct TOBoss4RockAngles {
-    s32 x;
-    s32 y;
-    s32 z;
-};
 
 // A column of rocks that rise from the floor and respawn once they pass the
 // top of the arena.
@@ -26,8 +22,8 @@ struct TOBoss4Rock : public TOBoss4 {
     NJS_TEXLIST **texlists;
     Vec *positions;
     f32 *speeds;
-    TOBoss4RockAngles *rotations;
-    TOBoss4RockAngles *rotation_speeds;
+    Angle3 *rotations;
+    Angle3 *rotation_speeds;
 };
 
 LAYOUT_ASSERT(TOBoss4Rock_size, sizeof(TOBoss4Rock) == 0xB8);

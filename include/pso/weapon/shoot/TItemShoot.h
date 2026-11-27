@@ -2,6 +2,7 @@
 #define PSO_WEAPON_SHOOT_TITEMSHOOT_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 class TEffStarLight2D;
 struct TItemWeapon;
@@ -11,9 +12,7 @@ class TItemShoot : public TObject {
 public:
  static const char *class_name;
  Vec m_pos;
- s32 rot_x;
- s32 rot_y;
- s32 rot_z;
+ Angle3 rot;
  f32 m_life;
  Vec m_dir;
  Vec end_pos;

@@ -142,7 +142,7 @@ s32 TItemObject::add_amount(s32 count) {
     return 0;
 }
 
-void *TItemObject::get_center() {
+Vec *TItemObject::get_center() {
     if (owner != NULL) {
         return &owner->position;
     }

@@ -972,7 +972,7 @@ void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
 }
 #pragma pop
 void TObjEneNanoDrago::spawn_beam_particle(s32 i) {
-    BeamRotation v;
+    Angle3 v;
     v.x = rotation_y + 0x4000;
     v.y = 0;
     v.z = 0x4000;

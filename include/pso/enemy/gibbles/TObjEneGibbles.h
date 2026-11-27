@@ -46,7 +46,7 @@ struct TObjEneGibbles : public TObjEnemy {
     virtual int test_flag_256();
     virtual void run_miss_reaction();
     virtual void refresh_target();
-    void *get_center();
+    Vec *get_center();
     u32 resolve_sound_id(u32 sound_id);
     // (names inferred from their uses below)
     // state bits: 1 risen, 2 near the target, 4 on the ground, 8 armor broken

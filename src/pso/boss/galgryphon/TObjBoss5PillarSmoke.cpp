@@ -65,10 +65,10 @@ void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke) {
     s32 i;
     for (i = 0; i < smoke->count; i++) {
         if (smoke->particles_a[i] != 0) {
-            smoke->particles_a[i]->set_position((void *)&pillar_smoke_parked_position);
+            smoke->particles_a[i]->set_position(const_cast<Vec *>(&pillar_smoke_parked_position));
         }
         if (smoke->particles_b[i] != 0) {
-            smoke->particles_b[i]->set_position((void *)&pillar_smoke_parked_position);
+            smoke->particles_b[i]->set_position(const_cast<Vec *>(&pillar_smoke_parked_position));
         }
     }
 }
@@ -112,8 +112,8 @@ TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : 
     this->particles_a = (TParticleCtrl **)mem_alloc(this->count * 4);
     this->particles_b = (TParticleCtrl **)mem_alloc(this->count * 4);
     for (i = 0; i < this->count; i++) {
-        this->particles_a[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x213, 0x40);
-        this->particles_b[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x214, 0x40);
+        this->particles_a[i] = spawn_continuous_particle_effect_with_flags(&pillar_smoke_parked_position, 0x213, 0x40);
+        this->particles_b[i] = spawn_continuous_particle_effect_with_flags(&pillar_smoke_parked_position, 0x214, 0x40);
     }
 }
 

@@ -134,7 +134,7 @@ void TParticleRadial::run_task() {
             queue_destruction();
             return;
         }
-        Vec *center = (Vec *)target_obj->get_center();
+        Vec *center = target_obj->get_center();
         sprite.offset.x = center->x - origin.x;
         sprite.offset.y = center->y - origin.y;
         sprite.offset.z = center->z - origin.z;

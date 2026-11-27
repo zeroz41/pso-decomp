@@ -366,13 +366,13 @@ void TItemWeaponSectionIdCard::spawn_hit_particles_at_vec(s32 item_id, Vec *poin
 
 extern const f64 radians_to_angle_scale[1] = { 10430.38043493439 };
 void TItemWeaponSectionIdCard::spawn_hit_particles(Vec *pos, const Vec *dir) {
-    s32 angles[3];
+    Angle3 angles;
     create_timed_particle_emitter(pos, 0x1EF, 0, 0xF);
-    angles[0] = 0;
-    angles[1] = (s32)(radians_to_angle_scale[0] * atan2_float(dir->x, dir->z));
-    angles[2] = 0;
+    angles.x = 0;
+    angles.y = (s32)(radians_to_angle_scale[0] * atan2_float(dir->x, dir->z));
+    angles.z = 0;
     {
-        TParticleCtrl *particle = create_timed_particle_emitter_with_angles(pos, angles, 0x1B8, 0, 0xF, 4);
+        TParticleCtrl *particle = create_timed_particle_emitter_with_angles(pos, &angles, 0x1B8, 0, 0xF, 4);
         if (particle != NULL) {
             particle->set_scale(1.5f, 1.5f);
         }

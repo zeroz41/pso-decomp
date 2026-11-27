@@ -1,6 +1,7 @@
 #ifndef PSO_ENEMY_TOBJENEDARKGUNNERSHOT_H
 #define PSO_ENEMY_TOBJENEDARKGUNNERSHOT_H
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjMotion.h"
 
 class TParticleCtrl;
@@ -19,7 +20,7 @@ public:
     virtual void run_task();
 
     Vec velocity;
-    s32 trail_rotation[3];  // the trail's angles: none, the heading, a quarter turn
+    Angle3 trail_rotation;  // the trail's angles: none, the heading, a quarter turn
     s32 lifetime;           // frames left until it reaches the wall in its path
     u16 owner_id;           // get_entity_id of the gunner that fired it
     u8 pad_ca[0x2];

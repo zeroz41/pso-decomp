@@ -1026,7 +1026,7 @@ void TObjEneMoja::update_punch_attack() {
 void TObjEneMoja::update_technique_state() {
     Vec dir;
     Vec pos;
-    MojaParticleAngles ang;
+    Angle3 ang;
     s32 ang2;
     void *obj;
     TObjPlayer *p;

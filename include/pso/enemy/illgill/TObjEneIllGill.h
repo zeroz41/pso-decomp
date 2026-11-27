@@ -76,6 +76,5 @@ LAYOUT_ASSERT(IllGillEffectsOffset, offsetof(TObjEneIllGill, primaryEffect) == 0
 LAYOUT_ASSERT(IllGillBehaviorSize, sizeof(IllGillAttackBehavior) == 0x20);
 LAYOUT_ASSERT(TObjEneIllGill_size, sizeof(TObjEneIllGill) == 0x420);
 
-struct IllGillEffectRotation { s32 x, y, z; };
 
 #endif

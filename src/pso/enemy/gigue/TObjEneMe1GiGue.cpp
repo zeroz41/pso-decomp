@@ -586,7 +586,7 @@ void TObjEneMe1GiGue::update_missile_state() {
             if (frame >= 20.0f) {
                 capture_shot_origins();
                 if ((particle = spawn_particle_effect(&missileOrigin, 0x203)) != NULL) {
-                    GiGueShotAngles dir = {0x4000, 0, 0};
+                    Angle3 dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
                 TObjEneMe1GiGueMissile::create(this, &missileOrigin, &target->body_center, gigue_missile_speed, (f32)gigue_missile_power);
@@ -1007,7 +1007,7 @@ void TObjEneMe1GiGue::move_around_center(const Vec *center, f32 radius) {
 
 void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
     if (find_entity_by_id(targetIds[index]) != 0) {
-        GiGueShotAngles angles;
+        Angle3 angles;
         angles.x = 0;
         angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;

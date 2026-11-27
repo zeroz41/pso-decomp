@@ -4,6 +4,7 @@
 struct EnemyPlacement;
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 
 class TParticleCtrl;
@@ -48,7 +49,7 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     s16 melee_hit_count;  // melee hits landed since set_form(1); at 2, update_attack_distance_state moves to mode 0xB
     TParticleCtrl *effects[4];  // queue_destruction'd by the dtor
     Vec attack_effect_position;  // node 8, where effects[2] and [3] (particles 0x12B/0x12C) sit
-    s32 attack_effect_angle[3];  // their direction
+    Angle3 attack_effect_angle;  // their direction
 };
 
 LAYOUT_ASSERT(TObjEneBalClawBody_size, sizeof(TObjEneBalClawBody) == 0x404);

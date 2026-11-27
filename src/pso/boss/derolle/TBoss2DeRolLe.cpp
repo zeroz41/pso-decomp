@@ -1493,7 +1493,7 @@ void TBoss2DeRolLe::advance_action_sequence() {
 
 void TBoss2DeRolLe::update_particle_ctrls() {
     Vec t;
-    s32 ang[3];
+    Angle3 ang;
     s32 ok;
     s32 j;
     s32 i;
@@ -1504,10 +1504,10 @@ void TBoss2DeRolLe::update_particle_ctrls() {
     ok = 1;
     for (i = 0; i < 6; i++) {
         if (splash_ctrls[i] == NULL) {
-            ang[2] = 0;
-            ang[1] = 0;
-            ang[0] = 0;
-            p = create_particle_controller_with_angles(joint_positions, ang, 0x120, 1, 0x40);
+            ang.z = 0;
+            ang.y = 0;
+            ang.x = 0;
+            p = create_particle_controller_with_angles(joint_positions, &ang, 0x120, 1, 0x40);
             if (p != NULL) {
                 splash_ctrls[i] = p;
                 splash_ctrls[i]->set_flags(2);

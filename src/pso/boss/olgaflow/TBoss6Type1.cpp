@@ -198,7 +198,7 @@ const Vec boss6_type1_top_camera_eye = {0.0f, 24.8f, -5.0f};
 const Vec boss6_type1_top_camera_target = {0.0f, 15.43f, 70.42f};
 const Vec boss6_type1_default_camera_eye = {0.0f, 19.8f, -5.0f};
 const Vec boss6_type1_default_camera_target = {0.0f, 50.43f, 45.42f};
-const s32 boss6_type1_effect_direction[3] = {0x8000, 0, 0};
+const Angle3 boss6_type1_effect_direction = {0x8000, 0, 0};
 const Vec boss6_map_csn_offset = {62.5f, 0.0f, -35.0f};
 const Vec boss6_map_csn_scale = {30.0f, 25.0f, 30.0f};
 
@@ -2043,7 +2043,7 @@ void TBoss6Type1::update_effect_slots() {
             switch (i) {
             case 0:
             case 1:
-                effect_slots[i]->set_direction((void *)boss6_type1_effect_direction);
+                effect_slots[i]->set_direction(const_cast<Angle3 *>(&boss6_type1_effect_direction));
                 break;
             }
         }

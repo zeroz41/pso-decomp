@@ -71,7 +71,7 @@ TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, f32 *
     copy_actor_body_hit(&hit_target, hit);
     VecCopy(&this->direction, (const Vec *)direction);
     VecCopy(&position, &hit->target->bodies[hit->body].center);
-    rotation[1] = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
+    rotation.y = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
     this->tint = tint;
     init();
 }
@@ -83,7 +83,7 @@ TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, f32 *position, f32 *dire
     this->item_id = item_id;
     VecCopy(&this->direction, (const Vec *)direction);
     VecCopy(&this->position, (const Vec *)position);
-    rotation[1] = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]));
+    rotation.y = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]));
     this->tint = tint;
     init();
 }
@@ -96,8 +96,8 @@ void TItemWpnCardEffect::init() {
     particles[0] = NULL;
     particles[1] = NULL;
     particles[2] = NULL;
-    rotation[0] = 0;
-    rotation[2] = 0;
+    rotation.x = 0;
+    rotation.z = 0;
     normalize_vector(&direction);
     if (target_id != 0xFFFF) {
         radius = hit_target.target->bodies[hit_target.body].radius;
@@ -131,7 +131,7 @@ void TItemWpnCardEffect::run_task() {
     anchor_card_effect();
     for (i = 0; i != 3; i++) {
         if (particles[i] != NULL) {
-            ((TParticleCtrl *)particles[i])->set_position((u8 *)&position);
+            ((TParticleCtrl *)particles[i])->set_position(&position);
         }
     }
     if (age == 0) {
@@ -149,7 +149,7 @@ void TItemWpnCardEffect::run_task() {
 #pragma push
 #pragma fp_contract on
 void TItemWpnCardEffect::start_card_effect_flash() {
-    particles[0] = spawn_particle_effect_with_rotation(&position, rotation, 0x1B9, 0x104);
+    particles[0] = spawn_particle_effect_with_rotation(&position, &rotation, 0x1B9, 0x104);
     if (particles[0] != NULL) {
         ((TParticleCtrl *)particles[0])->set_scale(1.5f, 1.5f);
         if (tint != 0) {
@@ -248,7 +248,7 @@ void TItemWpnCardModelEffect::render() {
                 set_texlist(equipped_item->get_texlist());
                 push_matrix();
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(NULL, rotation[1]);
+                rotate_matrix_y(NULL, rotation.y);
                 scale_current_matrix(&scale.x);
                 draw_ginja_object(model);
                 pop_matrix();

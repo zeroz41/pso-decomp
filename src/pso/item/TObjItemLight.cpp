@@ -22,7 +22,7 @@ void TObjItemLight::run_task() {
     TObjPlayer *p;
     if (m_particle != 0) {
         m_particle->set_position(&position);
-        m_particle->set_direction(&rotation_x);
+        m_particle->set_direction((Angle3 *)&rotation_x);
     }
     if (is_item_light_interaction_blocked() != 0) {
         return;
@@ -54,6 +54,6 @@ TObjItemLight::TObjItemLight(TObject *parent, saddr set_data) : TObjBase(parent)
     if (m_radius < 0.0f) {
         m_radius = 30.0f;
     }
-    m_particle = spawn_particle_effect_with_rotation(&position, &rotation_x, 0x1CA, 0x40);
+    m_particle = spawn_particle_effect_with_rotation(&position, (Angle3 *)&rotation_x, 0x1CA, 0x40);
 }
 

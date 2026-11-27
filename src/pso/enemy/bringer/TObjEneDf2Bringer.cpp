@@ -1175,12 +1175,12 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
             if ((e = emitter) == NULL) {
                 emitter = create_particle_emitter(&position, 0xED);
                 if (emitter != NULL) {
-                    s32 ang[3];
-                    ang[0] = 0;
-                    ang[1] = target_angle - 0x4000;
-                    ang[2] = -0x4000;
+                    Angle3 ang;
+                    ang.x = 0;
+                    ang.y = target_angle - 0x4000;
+                    ang.z = -0x4000;
                     emitter->set_flags(2);
-                    emitter->set_direction(ang);
+                    emitter->set_direction(&ang);
                     emitter->enable();
                 }
             } else if (frame < 7.0f || frame > 14.0f) {

@@ -245,7 +245,7 @@ TTecGiFoieFlame::~TTecGiFoieFlame() {
 static const f32 flame_bob_heights[3] = {0.0f, 3.5f, 7.0f};
 
 void TTecGiFoieFlame::run_task() {
-    s32 rot[3];
+    Angle3 rot;
     s32 bob;
     switch (band) {
     case 0:
@@ -299,23 +299,23 @@ void TTecGiFoieFlame::run_task() {
         rotate_matrix_y(0, yaw);
         rotate_vector_by_matrix(0, &dir, &dir);
         pop_matrix();
-        rot[0] = 0;
-        rot[1] = 0;
-        rot[2] = 0;
-        direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
+        rot.x = 0;
+        rot.y = 0;
+        rot.z = 0;
+        direction_to_rotation_xz((u8 *)&dir, &rot.x, &rot.z);
         particles[0]->set_position(&pos);
-        particles[0]->set_direction(rot);
+        particles[0]->set_direction(&rot);
     } else {
         u32 i;
         s16 roll;
-        rot[1] = (s32)(10430.38043493439 * atan2_float(pos.x - center.x, pos.z - center.z));
+        rot.y = (s32)(10430.38043493439 * atan2_float(pos.x - center.x, pos.z - center.z));
         roll = i = 0;
-        rot[0] = rot[1] - 0x8000;
-        rot[1] = roll;
-        rot[2] = 0x4000;
+        rot.x = rot.y - 0x8000;
+        rot.y = roll;
+        rot.z = 0x4000;
         for (; i < gifoie_emitter_bands[band].count; i++) {
             particles[i]->set_position(&pos);
-            particles[i]->set_direction(rot);
+            particles[i]->set_direction(&rot);
         }
     }
 }

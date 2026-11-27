@@ -356,7 +356,7 @@ extern const Vec boss7_derolle_c_intro_effect_near_point = {0.0f, 0.0f, -275.0f}
 extern const Vec boss7_derolle_c_death_effect_point = {0.0f, 0.0f, -520.0f};
 
 
-extern const Boss7Angles boss7_derolle_c_zero_angles = {0, 0, 0};
+extern const Angle3 boss7_derolle_c_zero_angles = {0, 0, 0};
 
 
 Vec boss7_derolle_c_model_scale = {2.5f, 2.5f, 2.5f};
@@ -1383,7 +1383,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
 #pragma fp_contract on
 void TBoss7DeRolLeC::update_particle_ctrls() {
     Vec v;
-    s32 p[3];
+    Angle3 p;
     s32 ok;
     s32 i;
     s32 k;
@@ -1395,10 +1395,10 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
     for (i = 0; i < 6; i++) {
         if (splash_ctrls[i] == 0) {
             void *r;
-            p[2] = 0;
-            p[1] = 0;
-            p[0] = 0;
-            r = create_particle_controller_with_angles(joint_positions, p, 0x200, 1, 0x40);
+            p.z = 0;
+            p.y = 0;
+            p.x = 0;
+            r = create_particle_controller_with_angles(joint_positions, &p, 0x200, 1, 0x40);
             if (r != 0) {
                 splash_ctrls[i] = (TParticleCtrl *)r;
                 splash_ctrls[i]->set_flags(2);
@@ -3017,7 +3017,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
                 if (laser_ptcl != NULL) {
                     laser_ptcl->queue_destruction();
                 }
-                laser_ptcl = new TBoss7LaserPtcl(this, (TBoss7LaserPtclVector *)&part_points[0], (TBoss7LaserPtclVector *)aim);
+                laser_ptcl = new TBoss7LaserPtcl(this, &part_points[0], aim);
                 calc_offset_position();
                 turn_on_laser_light();
                 play_sound_at(0x39E0F, &sound_origins[0]);
@@ -3704,7 +3704,7 @@ void TBoss7DeRolLeC::save_joint_polygons() {
 #pragma inline_depth(4)
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags) {
+void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Angle3 *angle, s32 flags) {
     Boss7CrawfishSetData set;
     u16 id;
     TObject *child;
@@ -3775,7 +3775,7 @@ void TBoss7DeRolLeC::try_spawn_pattern_crawfish(s32 variant, s32 index) {
         } else {
             flag = 0;
         }
-        Boss7Angles angle = boss7_derolle_c_zero_angles;
+        Angle3 angle = boss7_derolle_c_zero_angles;
         angle.y = angles[index];
         spawn_crawfish_child(find_free_crawfish_slot(), &positions[index], &angle, flag);
     }
@@ -3843,7 +3843,7 @@ void TBoss7DeRolLeC::destroy_child() {
 void TBoss7DeRolLeC::update_attached_orientation() {
     if (aimed_emitter != NULL) {
         Vec d = emitter_points[0];
-        Boss7Angles ang;
+        Angle3 ang;
         subtract_vector(&d, &emitter_points[1]);
         ang.x = -(s32)(10430.38043493439 * atan2_float(d.y, newton_sqrtf(d.x * d.x + d.z * d.z))) - 0x4000;
         ang.y = (s32)(10430.38043493439 * atan2_float(d.x, d.z));

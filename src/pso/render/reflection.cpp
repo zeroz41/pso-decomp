@@ -301,7 +301,7 @@ void end_projection_texture(s32 flags) {
     }
 }
 
-void setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
+void setup_projection_texture(Vec *, Angle3 *, u32 flags) {
     GinjaMatrix mtx;
     f32 x;
     f32 y;

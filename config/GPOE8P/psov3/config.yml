@@ -15554,7 +15554,7 @@ force_active:
   - setup_list__13TWindowSubMagFv
   - setup_mode_menu__20TAdSystemFileCheckGCFl
   - setup_projection_tex_matrix__23TIndirectEffectDrawTaskFv
-  - setup_projection_texture__FP3VecP18SceneSectionAnglesUl
+  - setup_projection_texture__FP3VecP6Angle3Ul
   - setup_sound__18TObjEnvSoundGlobalFv
   - setup_state__14TBoss7TentacleFv
   - reset__19ContactSurfaceFlagsFv

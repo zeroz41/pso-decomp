@@ -325,7 +325,6 @@ struct Boss1DragonParams {
     s32 defense[3];            // update_body_colliders: [0] body 5, [1] bodies 1 and 2, [2] bodies 0, 3, 4, 6
 };
 struct DragonModelState { s32 state[2]; f32 params[4]; };
-struct DragonEffectRotation { s32 x, y, z; };
 
 struct DragonAttackParams;
 

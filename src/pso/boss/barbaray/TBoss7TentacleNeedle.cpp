@@ -519,7 +519,7 @@ TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(
     v[0] = w0;
     v[1] = w1;
     v[2] = w2;
-    particle_emitter = create_particle_emitter(v, 0x212);
+    particle_emitter = create_particle_emitter(reinterpret_cast<Vec *>(v), 0x212);
     for (s32 i = 0; i < 12; i++) {
         player_hit[i] = 0;
     }

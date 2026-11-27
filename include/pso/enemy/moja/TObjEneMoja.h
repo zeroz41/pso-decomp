@@ -9,9 +9,6 @@ struct BmlResource;
 
 extern BmlResource *moja_bml_resource;
 
-struct MojaParticleAngles {
-    s32 x, y, z;
-};
 struct TObjEneMoja : public TObjEnemy {
     TObjEneMoja(TObject *parent, void *setData);
     virtual ~TObjEneMoja();

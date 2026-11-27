@@ -164,7 +164,7 @@ void TItemWeapon::set_flag_8_unless_on_ground(TObject *object) {
     }
 }
 
-void *TItemWeapon::get_center() {
+Vec *TItemWeapon::get_center() {
     TObjPlayer *player = owner;
     if (player != NULL) {
         player->get_anim_node_position(0x30, &held_position);

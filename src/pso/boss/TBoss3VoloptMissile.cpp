@@ -94,9 +94,9 @@ void TBoss3VoloptMissile::run_task() {
         back.x = -back.x;
         back.y = -back.y;
         back.z = -back.z;
-        direction_to_rotation_yx(&back, &trail_rotation[1], &trail_rotation[2]);
-        trail_rotation[2] -= 0x4000;
-        trail->set_direction(trail_rotation);
+        direction_to_rotation_yx(&back, &trail_rotation.y, &trail_rotation.z);
+        trail_rotation.z -= 0x4000;
+        trail->set_direction(&trail_rotation);
         vec_set_length(&back, 10.0f);
         vec3_add_to(&back, &position);
         trail->set_position(&back);
@@ -150,9 +150,9 @@ TBoss3VoloptMissile::TBoss3VoloptMissile(TObject *parent, Vec *pos, s32 angle, s
     model = boss3_volopt_resources->models[0x16].model;
     textures = (saddr)boss3_volopt_resources->models[0x16].texlist;
     age = 0;
-    trail_rotation[2] = 0;
-    trail_rotation[1] = 0;
-    trail_rotation[0] = 0;
-    trail = spawn_particle_effect_with_rotation(&position, trail_rotation, 0x112, 2);
+    trail_rotation.z = 0;
+    trail_rotation.y = 0;
+    trail_rotation.x = 0;
+    trail = spawn_particle_effect_with_rotation(&position, &trail_rotation, 0x112, 2);
     volopt_missile_expire_tick = (s32)TBoss3VoloptP02::get_float_param(3) + 0xF0;
 }

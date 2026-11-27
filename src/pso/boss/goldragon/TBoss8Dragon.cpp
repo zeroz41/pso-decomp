@@ -1971,7 +1971,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
                         this->breath_particles[0]->enable();
                     }
                 } else {
-                    this->breath_particles[0]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[0]->set_position(&breath_effect_position);
                     this->breath_particles[0]->set_direction(&rot);
                 }
                 if (this->breath_particles[1] == 0) {
@@ -1982,7 +1982,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
                         this->breath_particles[1]->enable();
                     }
                 } else {
-                    this->breath_particles[1]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[1]->set_position(&breath_effect_position);
                     this->breath_particles[1]->set_direction(&rot);
                 }
                 if (this->breath_particles[2] == 0) {
@@ -1991,7 +1991,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
                         this->breath_particles[2]->enable();
                     }
                 } else {
-                    this->breath_particles[2]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[2]->set_position(&breath_effect_position);
                     this->breath_particles[2]->set_direction(&rot);
                 }
             }
@@ -2335,7 +2335,7 @@ void TBoss8Dragon::update_air_fire_state(s32 event) {
                     this->breath_particles[0] = spawn_continuous_particle_effect_with_flags(&breath_origin, this->particle_ids[8], (s32)(0x40));
                 }
             } else if (this->frame <= 40.0f) {
-                this->breath_particles[0]->set_position((u8 *)&breath_origin);
+                this->breath_particles[0]->set_position(&breath_origin);
             } else {
                 this->breath_particles[0]->queue_destruction();
                 this->breath_particles[0] = 0;
@@ -3424,7 +3424,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
                     this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&breath_origin, &r, this->particle_ids[7], 0x40);
                 }
                 if (this->breath_particles[0] != 0) {
-                    this->breath_particles[0]->set_position((u8 *)&breath_effect_position);
+                    this->breath_particles[0]->set_position(&breath_effect_position);
                     this->breath_particles[0]->set_direction(&r);
                 }
             } else if (this->breath_particles[0] != 0) {

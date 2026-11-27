@@ -245,7 +245,7 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
             params.id = def->effect_id;
             copy_xyz(angles, def->angles);
             s32 flags = def->flags;
-            s32 rot[3];
+            Angle3 rot;
             Vec dir = attachment_up;
             if (angles[2] || angles[0] || angles[1]) {
                 push_matrix_from(identity_matrix);
@@ -258,14 +258,14 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
                 rotate_matrix_y(0, rotation_y);
                 matrix_mult_vec(0, &dir, &dir);
                 pop_matrices(1);
-                direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
-                rot[1] = 0;
+                direction_to_rotation_xz((u8 *)&dir, &rot.x, &rot.z);
+                rot.y = 0;
             } else {
-                rot[0] = 0;
-                rot[1] = 0;
-                rot[2] = 0;
+                rot.x = 0;
+                rot.y = 0;
+                rot.z = 0;
             }
-            attachments[i].obj = create_timed_particle_emitter_with_angles(&position, rot, params.id, params.delay, params.duration, flags);
+            attachments[i].obj = create_timed_particle_emitter_with_angles(&position, &rot, params.id, params.delay, params.duration, flags);
             attachments[i].joint = def->joint;
             copy_xyz(attachments[i].angles, angles);
         }

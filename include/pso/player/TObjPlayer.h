@@ -48,7 +48,7 @@ struct PhotonBlastRegistry;
 
 struct TItemData;
 struct PhotonBlastRequest;
-struct SceneSectionAngles;
+struct Angle3;
 
 struct TItem;
 class TPlyItem;

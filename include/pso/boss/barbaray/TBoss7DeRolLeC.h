@@ -2,6 +2,7 @@
 #define PSO_BOSS_BARBARAY_TBOSS7DEROLLEC_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -34,8 +35,6 @@ struct TBoss7DeRolLeCParams {
     s32 shell_hp;                 // TBoss7DeRolLeC::shell_hp's start
 };
 
-// An s32 rotation triple (x, y, z) as a set entry stores it.
-struct Boss7Angles { s32 x, y, z; };
 
 struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7DeRolLeC(TObject *parent, void *set_data);
@@ -130,7 +129,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void restore_joint_polygons();
     void calc_joint_positions();
     s16 find_free_crawfish_slot();
-    void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
+    void spawn_crawfish_child(s16 slot, const Vec *position, Angle3 *angle, s32 flags);
     void try_spawn_pattern_crawfish(s32 variant, s32 index);
     void handle_intro_camera_state(u32 event);
     void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (debug_pad)
@@ -251,7 +250,7 @@ struct Boss7CrawfishSetData {
     s16 unk_0C;
     s16 unk_0E;
     Vec position;
-    Boss7Angles rotation;
+    Angle3 rotation;
     f32 parameters[5];
     s16 variant;
     s16 state;  // apply_set_data copies it to state36C

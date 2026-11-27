@@ -82,7 +82,7 @@ TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     direction.z = cos_table_lookup(angle);
     attack_history = history;
     bodies->shape = 1;
-    DelbiterParticleAngles angles = {0, angle - 0x4000, 0x4000};
+    Angle3 angles = {0, angle - 0x4000, 0x4000};
     effect = (TParticleCtrl *)create_particle_controller_with_angles(&position, &angles, 0x210, 0x32, 2);
     effect->clear_active_flag();
 }

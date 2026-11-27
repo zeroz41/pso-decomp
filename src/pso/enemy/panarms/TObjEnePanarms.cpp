@@ -933,16 +933,16 @@ void TObjEnePanarms::update_charge_beam_up() {
 }
 
 void TObjEnePanarms::enter_beam_up() {
-    s32 angles[3];
+    Angle3 angles;
     Vec direction;
     s32 angle;
     this->collision_body_parts->flags |= 1;
     this->clear_actor_flags(0x04040000U);
     angle = this->rotation_y + 0x4000;
-    angles[1] = 0;
-    angles[0] = angle;
-    angles[2] = 0x4000;
-    particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[2], angles, 0x105);
+    angles.y = 0;
+    angles.x = angle;
+    angles.z = 0x4000;
+    particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[2], &angles, 0x105);
     direction.y = 0.0f;
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
@@ -987,17 +987,17 @@ void TObjEnePanarms::update_charge_beam_down() {
 }
 
 void TObjEnePanarms::enter_beam_down() {
-    s32 angles[3];
+    Angle3 angles;
     Vec direction;
     s32 angle;
     this->collision_body_parts->flags |= 1;
     this->clear_actor_flags(0x04040000U);
-    spawn_directional_particle(&draw_positions[4], &rotation_x, 0x109);
+    spawn_directional_particle(&draw_positions[4], (Angle3 *)&rotation_x, 0x109);
     angle = this->rotation_y - 0x4000;
-    angles[1] = 0;
-    angles[0] = angle;
-    angles[2] = 0x4000;
-    particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[4], angles, 0x108);
+    angles.y = 0;
+    angles.x = angle;
+    angles.z = 0x4000;
+    particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[4], &angles, 0x108);
     direction.y = 0.0f;
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);

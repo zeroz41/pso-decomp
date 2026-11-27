@@ -31,7 +31,7 @@ CollisionBody ply_follow_collision_body = {
     { 0.0f, 0.0f, 0.0f }, 20.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
-void *TPlyFollowParticleCtrl::get_center() { return 0; }
+Vec *TPlyFollowParticleCtrl::get_center() { return 0; }
 
 u16 TPlyFollowParticleCtrl::get_owner_id() { return owner_id; }
 
@@ -70,7 +70,7 @@ TPlyPtclObjectLeftHand::TPlyPtclObjectLeftHand(TObjBase *owner) : TPlyFollowPart
 TPlyPtclObjectLeftHand::~TPlyPtclObjectLeftHand() {}
 
 // Follows the left hand (node 0x23).
-void *TPlyPtclObjectLeftHand::get_center() {
+Vec *TPlyPtclObjectLeftHand::get_center() {
     TObjPlayer *player = get_player_by_client_id(get_owner_id());
     if (player == NULL) {
         return NULL;
@@ -86,7 +86,7 @@ TPlyPtclObjectRightHand::TPlyPtclObjectRightHand(TObjBase *owner) : TPlyFollowPa
 TPlyPtclObjectRightHand::~TPlyPtclObjectRightHand() {}
 
 // Follows the right hand (node 0x30) of the player it belongs to.
-void *TPlyPtclObjectRightHand::get_center() {
+Vec *TPlyPtclObjectRightHand::get_center() {
     TObjPlayer *player = get_player_by_client_id(get_owner_id());
     if (player == NULL) {
         return NULL;

@@ -1099,7 +1099,7 @@ void TObjEneIllGill::update_shadow_attack() {
             this->actionTimer = 0;
             {
                 Vec d = *(Vec *)((u8 *)&target->body_center);
-                IllGillEffectRotation ang;
+                Angle3 ang;
                 subtract_vector(&d, &shadowEffectPosition);
                 ang.x = (s32)(10430.38043493439 * atan2_float(d.z, newton_sqrtf(d.x * d.x + d.y * d.y)));
                 ang.y = 0;

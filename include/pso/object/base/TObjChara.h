@@ -197,7 +197,7 @@ public:
     virtual void gain_photon_blast_chain_charge(f32 amount);
     virtual void send_status_effect_add(StatStatusReceipt effect);
     void request_box_item_drop(const Vec *position, s32 random_item);
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void reset_motion_fields();
     u16 get_attack_credit_slot(s32 index);
     void set_attack_credit_slot(s32 index, u16 id);

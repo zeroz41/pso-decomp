@@ -89,10 +89,10 @@ TObjEneDarkGunnerShot::TObjEneDarkGunnerShot(TObjEneDarkGunner *owner, Vec *star
     subtract_vector(&velocity, start);
     velocity.y = 0.0f;
     vec_set_length(&velocity, dark_gunner_shot_speed);
-    trail_rotation[0] = 0;
-    trail_rotation[1] = (s32)(RADIANS_TO_ANGLE * atan2_float(velocity.x, velocity.z)) + 0x4000;
-    trail_rotation[2] = 0x4000;
-    trail = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, trail_rotation, trail_particle_id, 0x42);
+    trail_rotation.x = 0;
+    trail_rotation.y = (s32)(RADIANS_TO_ANGLE * atan2_float(velocity.x, velocity.z)) + 0x4000;
+    trail_rotation.z = 0x4000;
+    trail = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &trail_rotation, trail_particle_id, 0x42);
     {
         Vec end = velocity;
         vec_set_length(&end, 500.0f);

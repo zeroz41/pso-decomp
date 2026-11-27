@@ -552,7 +552,7 @@ void TObjChara::reset_motion_fields() {
     body_center.x = body_center.y = body_center.z = velocity.x = velocity.y = velocity.z = (0.0f);
 }
 
-void *TObjChara::get_center() { return &body_center; }
+Vec *TObjChara::get_center() { return &body_center; }
 
 CsnHit *TObjChara::update_actor_ground_y() {
     Vec stack;

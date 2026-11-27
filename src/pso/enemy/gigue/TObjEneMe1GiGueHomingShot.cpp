@@ -28,7 +28,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
-TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
+TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, Angle3 *angles, s32 delay, s32 double_hit, u16 src_id)
     : TObjCollidable(tl_04) {
     Vec *target;
     this->target_id = target_id;

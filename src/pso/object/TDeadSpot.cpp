@@ -265,7 +265,7 @@ void TDeadSpotEmitter::place_emitter() {
   stack.x = x;
   stack.z = radius * cos_table_lookup((int) angle);
   vec3_add_to(&stack, &position);
-  emitter->set_position(&stack.x);
+  emitter->set_position(&stack);
 }
 
 void TDeadSpotEmitter::run_task() {
@@ -298,7 +298,7 @@ void TDeadSpotGroundEmitter::place_emitter() {
     stack.z = radius * cos_table_lookup(angle);
     vec3_add_to(&stack, &position);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
-    emitter->set_position(&stack.x);
+    emitter->set_position(&stack);
 }
 
 #pragma pop

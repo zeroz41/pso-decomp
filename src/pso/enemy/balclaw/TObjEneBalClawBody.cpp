@@ -524,9 +524,9 @@ void TObjEneBalClawBody::update_attack() {
             if (this->target_distance_sq <= this->attack_params->get_attack_range() * this->attack_params->get_attack_range()) {
                 this->requested_action = 7;
                 this->state = 2;
-                this->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, this->attack_effect_angle, 0x12B, 2);
+                this->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, &this->attack_effect_angle, 0x12B, 2);
                 this->effects[2]->enable();
-                this->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, this->attack_effect_angle, 0x12C, 2);
+                this->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, &this->attack_effect_angle, 0x12C, 2);
                 this->effects[3]->enable();
             }
         }
@@ -538,18 +538,18 @@ void TObjEneBalClawBody::update_attack() {
         this->calc_joint_matrices(this->frame);
         pop_matrix();
         this->get_anim_node_position(8, &this->attack_effect_position);
-        this->attack_effect_angle[0] = 0;
-        this->attack_effect_angle[1] = this->rotation_y + 0x4000;
-        this->attack_effect_angle[2] = -0x4000;
+        this->attack_effect_angle.x = 0;
+        this->attack_effect_angle.y = this->rotation_y + 0x4000;
+        this->attack_effect_angle.z = -0x4000;
         if (this->frame >= 9.0f && this->frame < 17.0f) {
             this->effects[2]->set_position(&this->attack_effect_position);
-            this->effects[2]->set_direction(this->attack_effect_angle);
+            this->effects[2]->set_direction(&this->attack_effect_angle);
         } else {
             this->effects[2]->enable();
         }
         if (this->frame >= 12.0f && this->frame < 17.0f) {
             this->effects[3]->set_position(&this->attack_effect_position);
-            this->effects[3]->set_direction(this->attack_effect_angle);
+            this->effects[3]->set_direction(&this->attack_effect_angle);
         } else {
             this->effects[3]->enable();
         }

@@ -2,6 +2,7 @@
 #define PSO_SYSTEM_SCENE_TSCENE_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 
 struct SceneMaterialSection;
@@ -56,8 +57,6 @@ struct GroupSelectionAreaList { s32 areas[8]; };
 struct RoomVisibilityEntry { s32 id; s32 count; s32 start; };
 struct RoomVisibilityTable { u32 pad_00; s32 count; RoomVisibilityEntry entries[1]; };
 
-/* A map section's rotation, its node's angles plus the section's (passed to the section render callback). */
-struct SceneSectionAngles { s32 x, y, z; };
 
 class TScene : public TObject
 {
@@ -104,7 +103,7 @@ public:
     static int get_status();
     static void set_instance(void (*callback)(void));
     static void set_active_scene(void (*callback)(s32 flags));
-    static void set_id(void (*callback)(Vec *pos, SceneSectionAngles *angles, u32 flags));
+    static void set_id(void (*callback)(Vec *pos, Angle3 *angles, u32 flags));
     // The map section the player with client_id stands in, or -1.
     static s32 find_player_section(u16 client_id);
     void render_map_sections();

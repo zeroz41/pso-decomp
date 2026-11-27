@@ -435,7 +435,7 @@ void TObjEneBm5GibonU::handle_message(s32 msg) {
 void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
     Vec v;
     Vec p;
-    s32 ang[3];
+    Angle3 ang;
     s32 r;
     switch (msg) {
     case 4:
@@ -549,10 +549,10 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     rotate_vector_by_matrix(0, &v, &v);
                     pop_matrices(1);
                     if (technique_type != 1) {
-                        ang[0] = (s32)(RADIANS_TO_ANGLE * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
-                        ang[1] = 0;
-                        ang[2] = -(s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.y));
-                        spawn_directional_particle(&p, ang, 0xCC);
+                        ang.x = (s32)(RADIANS_TO_ANGLE * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
+                        ang.y = 0;
+                        ang.z = -(s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.y));
+                        spawn_directional_particle(&p, &ang, 0xCC);
                     }
                 }
             }

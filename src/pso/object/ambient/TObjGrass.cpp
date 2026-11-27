@@ -1054,7 +1054,7 @@ void TObjGrass::update_charge_attack() {
         play_persistent_sound(this->remap_sound_for_area(0x4003A300), this, &this->position, 0, 0);
         if (this->view_detail != 0) {
             Vec w;
-            s32 ang[3];
+            Angle3 ang;
             w.y = (0.0f);
             w.x = (0.0f);
             w.z = (4.0f);
@@ -1063,10 +1063,10 @@ void TObjGrass::update_charge_attack() {
             rotate_vector_by_matrix(0, &w, &w);
             pop_matrix();
             vec3_add_to(&this->camera_vec, &w);
-            ang[0] = -(s32)((10430.38043493439) * atan2_float(this->velocity.z, newton_sqrtf(this->velocity.x * this->velocity.x)));
-            ang[1] = 0;
-            ang[2] = (s32)((10430.38043493439) * atan2_float(this->velocity.x, (0.0f)));
-            spawn_directional_particle(&this->camera_vec, ang, 0x150);
+            ang.x = -(s32)((10430.38043493439) * atan2_float(this->velocity.z, newton_sqrtf(this->velocity.x * this->velocity.x)));
+            ang.y = 0;
+            ang.z = (s32)((10430.38043493439) * atan2_float(this->velocity.x, (0.0f)));
+            spawn_directional_particle(&this->camera_vec, &ang, 0x150);
         }
         break;
     }
@@ -1093,7 +1093,7 @@ void TObjGrass::update_charge_attack() {
 void TObjGrass::update_web_attack() {
     Vec v;
     Vec v2;
-    s32 ang[3];
+    Angle3 ang;
     if (targetId < 0x1000) {
         TObjPlayer *p = get_player_by_client_id(targetId);
         if (p != NULL && p->get_floor() == get_current_floor()) {
@@ -1136,10 +1136,10 @@ void TObjGrass::update_web_attack() {
             if (d < grass_attack_params[1]->get_attack_angle()) {
                 VecCopy(&v2, &target->position);
                 subtract_vector(&v2, &render_vec);
-                ang[0] = (s32)((10430.38043493439) * atan2_float(v2.z, newton_sqrtf(v2.x * v2.x + v2.y * v2.y)));
-                ang[1] = 0;
-                ang[2] = -(s32)((10430.38043493439) * atan2_float(v2.x, v2.y));
-                spawn_directional_particle(&this->render_vec, ang, 0xCA);
+                ang.x = (s32)((10430.38043493439) * atan2_float(v2.z, newton_sqrtf(v2.x * v2.x + v2.y * v2.y)));
+                ang.y = 0;
+                ang.z = -(s32)((10430.38043493439) * atan2_float(v2.x, v2.y));
+                spawn_directional_particle(&this->render_vec, &ang, 0xCA);
                 if (this->action_flags != 4 && this->target->test_actor_flags(0x4000000) == 0) {
                     if (enable_v2_features == 1 && game_difficulty_selection == 3) {
                         target->apply_movement_ailment(0);

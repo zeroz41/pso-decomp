@@ -29,11 +29,11 @@ TDubchikShot::TDubchikShot(Vec *start, s32 angle, TObjBase *source, s32 power) :
     rotate_vector_by_matrix(0, &step, &velocity);
     pop_matrix();
     this->source = source;
-    s32 rotation[3];
-    rotation[0] = 0;
-    rotation[1] = angle + 0x4000;
-    rotation[2] = 0x4000;
-    particle = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, rotation, 0x6D, 2);
+    Angle3 rotation;
+    rotation.x = 0;
+    rotation.y = angle + 0x4000;
+    rotation.z = 0x4000;
+    particle = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &rotation, 0x6D, 2);
     frame = 0;
     this->power = power;
 }

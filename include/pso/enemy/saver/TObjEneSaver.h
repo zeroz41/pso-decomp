@@ -40,7 +40,7 @@ struct TObjEneSaver : public TObjEnemy {
     virtual int test_flag_256();
     virtual void run_miss_reaction();
     virtual void run_death_reaction();
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void run_idle_action();
     virtual void run_move_action();
     virtual void run_attack_action();

@@ -625,7 +625,7 @@ void TObjEneSaver::select_model_record(s32 i) {
     texlist = saver_bml_resource->models[i].texlist;
 }
 
-void *TObjEneSaver::get_center() { return &body_center; }
+Vec *TObjEneSaver::get_center() { return &body_center; }
 
 TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) {
     s16 guard;

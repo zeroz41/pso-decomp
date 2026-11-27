@@ -86,6 +86,5 @@ extern f32 nano_drago_beam_homing;      // the beam's starting steering pull
 extern f32 nano_drago_beam_homing_gain; // added to the pull every frame in flight
 extern s32 nano_drago_beam_power;       // the direct attack's power
 
-struct BeamRotation { s32 x, y, z; };
 
 #endif

@@ -117,7 +117,7 @@ u16 alloc_player_ids(s32 count) {
     return id;
 }
 
-void *TObjBase::get_center() { return &center; }
+Vec *TObjBase::get_center() { return &center; }
 
 #pragma push
 #pragma opt_common_subs off

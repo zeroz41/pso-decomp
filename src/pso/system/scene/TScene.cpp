@@ -95,7 +95,7 @@ s32 lobby_online_ready_flag;
 s32 reflection_pass_active;
 f32 visibility_radius_margin;
 s32 scene_format_index;
-void (*map_section_render_callback)(Vec *, SceneSectionAngles *, u32);
+void (*map_section_render_callback)(Vec *, Angle3 *, u32);
 void (*active_scene_callback)(s32);
 void (*render_callback)(void);
 s32 lbl_805D5FF8;
@@ -136,7 +136,7 @@ void TScene::set_instance(void (*callback)(void)) { render_callback = callback; 
 
 void TScene::set_active_scene(void (*callback)(s32 flags)) { active_scene_callback = callback; }
 
-void TScene::set_id(void (*callback)(Vec *pos, SceneSectionAngles *angles, u32 flags)) {
+void TScene::set_id(void (*callback)(Vec *pos, Angle3 *angles, u32 flags)) {
     map_section_render_callback = callback;
 }
 
@@ -1257,7 +1257,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             NJS_OBJECT *sh = resolve_indirect_node_record(this, e);
             if (sh != NULL) {
                 Vec v;
-                SceneSectionAngles a;
+                Angle3 a;
                 v.x = sh->pos[0];
                 v.y = sh->pos[1];
                 v.z = sh->pos[2];
@@ -1271,7 +1271,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         node = resolve_indirect_node_record(this, e);
         if (map_section_render_callback != NULL) {
             Vec v;
-            SceneSectionAngles a;
+            Angle3 a;
             v.x = node->pos[0];
             v.y = node->pos[1];
             v.z = node->pos[2];
@@ -1379,7 +1379,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     if (e->flags & 0x10)
     {
       Vec v;
-      SceneSectionAngles a;
+      Angle3 a;
       v.x = node->pos[0];
       v.y = node->pos[1];
       v.z = node->pos[2];
@@ -1392,7 +1392,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     if (map_section_render_callback != 0)
     {
       Vec v;
-      SceneSectionAngles a;
+      Angle3 a;
       v.x = node->pos[0];
       v.y = node->pos[1];
       v.z = node->pos[2];

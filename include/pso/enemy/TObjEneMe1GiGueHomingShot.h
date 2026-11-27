@@ -1,18 +1,17 @@
 #ifndef PSO_ENEMY_TOBJENEME1GIGUEHOMINGSHOT_H
 #define PSO_ENEMY_TOBJENEME1GIGUEHOMINGSHOT_H
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjMotion.h"
 
 class TParticleCtrl;
 
-// x turns the start velocity about x, y about y (rotate_matrix_x / rotate_matrix_y)
-struct GiGueShotAngles { s32 x, y, z; };
 
 // GiGue's homing shot: waits `timer` frames, then flies from *start toward target_id and hits it
 // (made by TObjEneMe1GiGue; it overrides only the dtor and run_task).
 class TObjEneMe1GiGueHomingShot : public TObjCollidable {
 public:
-    TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id);
+    TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, Angle3 *angles, s32 delay, s32 double_hit, u16 src_id);
     virtual ~TObjEneMe1GiGueHomingShot();
     virtual void run_task();
     Vec pos;

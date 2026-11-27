@@ -2390,7 +2390,7 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 void TBoss1Dragon::update_breath_attack_state(u32 reason) {
-    DragonEffectRotation rotation;
+    Angle3 rotation;
 
     switch (reason) {
     case ENEMY_STATE_ENTER:
@@ -3907,7 +3907,7 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
 #pragma pool_data off
 void TBoss1Dragon::update_death_state(u32 reason) {
     CameraPlayback cam;
-    Vec rot;
+    Angle3 rot;
     Vec v;
     switch (reason) {
     case 4:
@@ -3965,7 +3965,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
                 start_pad_rumble_all(0xA0, 0xF);
             }
             if (this->frame >= (25.0f) && this->frame < (40.0f)) {
-                direction_to_rotation_xz((u8 *)&this->breath_direction, (s32 *)&rot.x, (s32 *)&rot.z);
+                direction_to_rotation_xz((u8 *)&this->breath_direction, &rot.x, &rot.z);
                 if (this->breath_particles[0] == 0) {
                     this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation((&this->breath_origin), &rot, (saddr)((void *)((TBoss1Dragon *)((u8 *)this))->effectResource->particle_ids[5]), (int)(0x40));
                 }
@@ -4772,7 +4772,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 5:
                 if (this->frame < (150.0f)) {
-                    DragonEffectRotation rot;
+                    Angle3 rot;
                     direction_to_rotation_xz((u8 *)&this->breath_direction, &rot.x, &rot.z);
                     if (this->breath_particles[0] == 0) {
                         this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->breath_origin, &rot, this->effectResource->particle_ids[5], 0x40);
@@ -4838,7 +4838,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 4:
                 if (this->frame < (155.0f)) {
-                    DragonEffectRotation rot;
+                    Angle3 rot;
                     direction_to_rotation_xz((u8 *)&this->breath_direction, &rot.x, &rot.z);
                     if (this->breath_particles[0] == 0) {
                         this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->breath_origin, &rot, this->effectResource->particle_ids[5], 0x40);
@@ -4901,7 +4901,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 5:
                 if (this->frame < (150.0f)) {
-                    DragonEffectRotation rot;
+                    Angle3 rot;
                     direction_to_rotation_xz((u8 *)&this->breath_direction, &rot.x, &rot.z);
                     if (this->breath_particles[0] == 0) {
                         this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->breath_origin, &rot, this->effectResource->particle_ids[5], 0x40);

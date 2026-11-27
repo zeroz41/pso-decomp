@@ -100,7 +100,7 @@ void TBoss6Kakusan::render() {  }
 void TBoss6Kakusan::run_task() {
     Vec v;
     Vec w;
-    s32 rot[3];
+    Angle3 rot;
     Vec step;
     f32 speed;
     TObjPlayer *player;
@@ -147,9 +147,9 @@ void TBoss6Kakusan::run_task() {
         particle->set_position(&position);
         VecCopy(&step, &position);
         subtract_vector(&step, &prev_position);
-        direction_to_rotation_xz((u8 *)&step, &rot[0], &rot[2]);
-        rot[1] = 0;
-        particle->set_direction(rot);
+        direction_to_rotation_xz((u8 *)&step, &rot.x, &rot.z);
+        rot.y = 0;
+        particle->set_direction(&rot);
     }
     if (is_out_of_range() != 0 || run_task_check_stub() != 0) {
         queue_destruction();

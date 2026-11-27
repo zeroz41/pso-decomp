@@ -226,8 +226,8 @@ TOBoss4Rock::TOBoss4Rock(void *set_data) {
     texlists = static_cast<NJS_TEXLIST **>(mem_alloc(count * sizeof(*texlists)));
     positions = (Vec *)mem_alloc(count * 0xC);
     speeds = (f32 *)mem_alloc(count * 4);
-    rotations = (TOBoss4RockAngles *)mem_alloc(count * 0xC);
-    rotation_speeds = (TOBoss4RockAngles *)mem_alloc(count * 0xC);
+    rotations = (Angle3 *)mem_alloc(count * 0xC);
+    rotation_speeds = (Angle3 *)mem_alloc(count * 0xC);
     for (i = 0; i < count; i++) {
         model = 4.0f * ((1.0f / 32768.0f) * (f32)rand());
         models[i] = get_bml_model(model_resource, model);

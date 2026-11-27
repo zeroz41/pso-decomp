@@ -31,7 +31,7 @@
 
 
 static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
-static const InwardOrbitDir inward_orbit_particle_dir = {0, 0, 0x4000};
+static const Angle3 inward_orbit_particle_dir = {0, 0, 0x4000};
 
 
 struct WeaponSpecialStrike {
@@ -154,7 +154,7 @@ TMirrorPairParticle::TMirrorPairParticle(TObject *parent, Vec *pos, s32 start_an
     angle = start_angle - 0x4000;
     frames_left = 10;
     update_inward_orbit_point();
-    InwardOrbitDir dir = inward_orbit_particle_dir;
+    Angle3 dir = inward_orbit_particle_dir;
     particle = (TParticleCtrl *)spawn_continuous_particle_with_direction(&point, &dir, 10);
 }
 #pragma pop

@@ -118,8 +118,8 @@ TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
     m_dir.x *= scale;
     m_dir.y *= scale;
     m_dir.z *= scale;
-    rot_y = (s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.x, m_dir.z));
-    direction_to_rotation_xz((u8 *)&m_dir, &rot_x, &rot_z);
+    rot.y = (s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.x, m_dir.z));
+    direction_to_rotation_xz((u8 *)&m_dir, &rot.x, &rot.z);
     star_light = NULL;
     m_owner_item_id = ((TItem *)owner)->get_item_id();
     disallow_rendering();
@@ -171,11 +171,11 @@ TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f3
     texture_list = (NJS_TEXLIST *)weapon->get_texlist();
     if (0.0f != m_dir.y) {
         f32 horiz = newton_sqrtf(m_dir.x * m_dir.x + m_dir.z * m_dir.z);
-        rot_x = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));
-        rot_z = 0;
+        rot.x = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));
+        rot.z = 0;
     } else {
-        rot_z = 0;
-        rot_x = 0;
+        rot.z = 0;
+        rot.x = 0;
     }
     m_68 = 0;
     m_64 = 0;
@@ -189,7 +189,7 @@ void TItemShootModel::render() {
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
-            rotate_matrix_by_node_angles(&rot_x, 1);
+            rotate_matrix_by_node_angles(&rot.x, 1);
             rotate_matrix_by_node_angles(&ang, 1);
             draw_ginja_object(model);
             pop_matrix();
@@ -232,7 +232,7 @@ s32 TItemShootParticle::spawn_slot_emitter(s32 effect_id, s32 slot) {
     if (slot >= 0 && slot < 2) {
         offset = slot * 4 + 0x58;
         TParticleCtrl::release(*(TParticleCtrl **)((u8 *)this + offset));
-        *(TParticleCtrl **)((u8 *)this + offset) = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_pos, &rot_x, effect_id, (u16)(m_effect_flags | 0x40));
+        *(TParticleCtrl **)((u8 *)this + offset) = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_pos, &rot, effect_id, (u16)(m_effect_flags | 0x40));
         return *(s32 *)((u8 *)this + offset);
     }
     return 0;
@@ -298,7 +298,7 @@ void TItemShootGun::render() {
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
-            rotate_matrix_by_node_angles(&rot_x, 1);
+            rotate_matrix_by_node_angles(&rot.x, 1);
             draw_ginja_object(model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
@@ -320,7 +320,7 @@ TItemShootModelRotZ::TItemShootModelRotZ(void *owner, const Vec *pos, const Vec 
 }
 
 void TItemShootModelRotZ::hook() {
-    rot_z += 0xCCC;
+    rot.z += 0xCCC;
 }
 
 void TItemShootModelRotZ::render() {
@@ -330,7 +330,7 @@ void TItemShootModelRotZ::render() {
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
-            rotate_matrix_by_node_angles(&rot_x, 1);
+            rotate_matrix_by_node_angles(&rot.x, 1);
             draw_ginja_object(model);
             pop_matrix();
             TParticleCtrl::end_effect_render();

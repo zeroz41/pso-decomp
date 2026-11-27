@@ -549,11 +549,11 @@ void TObjCity_Season_FireWork::run_task() {
         break;
     case 3:
         if (timer == 0 || timer == 4 || timer == 8) {
-            s32 angle[3];
-            angle[0] = 0;
-            angle[1] = random_angle();
-            angle[2] = random_angle();
-            create_oneshot_particle_emitter(&pos, angle, 0x89, 0x40);
+            Angle3 angle;
+            angle.x = 0;
+            angle.y = random_angle();
+            angle.z = random_angle();
+            create_oneshot_particle_emitter(&pos, &angle, 0x89, 0x40);
         }
         timer++;
         pos.y -= 0.8f;

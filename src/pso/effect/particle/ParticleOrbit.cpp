@@ -77,7 +77,7 @@ void TParticleOrbit::run_task() {
             queue_destruction();
             return;
         }
-        Vec *center = (Vec *)target_obj->get_center();
+        Vec *center = target_obj->get_center();
         if (rot_x != 0 && rot_y != 0 && rot_z != 0) {
             sprite.offset.x = orbit_center_x - origin.x;
             sprite.offset.z = orbit_center_z - origin.z;

@@ -3,6 +3,5 @@
 
 #include "types.h"
 
-struct InwardOrbitDir { s32 x, y, z; };
 
 #endif

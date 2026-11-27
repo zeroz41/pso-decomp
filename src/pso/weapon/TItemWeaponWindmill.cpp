@@ -26,20 +26,20 @@ void TItemShootWindmill::render() {
         push_matrix();
         set_texlist(this->texture_list);
         post_translate_matrix(&this->m_pos.x);
-        rotate_matrix_y(0, this->rot_y);
-        rotate_matrix_x(0, this->rot_x);
+        rotate_matrix_y(0, this->rot.y);
+        rotate_matrix_x(0, this->rot.x);
         draw_ginja_object(this->model);
         pop_matrix();
     }
 }
 
 void TItemShootWindmill::hook() {
-    this->rot_x = (this->rot_x + 0xCCC);
+    this->rot.x = (this->rot.x + 0xCCC);
 }
 
 TItemShootWindmill::TItemShootWindmill(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    rot_x = 0;
+    rot.x = 0;
 }
 
 TItemShoot *create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {

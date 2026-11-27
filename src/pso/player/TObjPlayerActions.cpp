@@ -1747,7 +1747,7 @@ void TObjPlayer::start_action_0e() {
     this->clear_actor_flags(0x10000);
     this->play_sound_if_on_floor(0x4000AD13);
     if (this->obj_isState2_324() != 0) {
-        this->TObjChara::trigger_switch_attack((const Vec *)this->get_center());
+        this->TObjChara::trigger_switch_attack(this->get_center());
     }
     this->phase = 0;
     this->set_action_state(0xE, this->get_action_animation());
@@ -1881,7 +1881,7 @@ void TObjPlayer::end_freeze_action() {
     }
     this->play_sound_if_on_floor(0x4000AD12);
     if (this->obj_isState2_324() != 0) {
-        this->TObjChara::trigger_switch_attack((const Vec *)this->get_center());
+        this->TObjChara::trigger_switch_attack(this->get_center());
     }
     this->clear_actor_flags(0x10000);
     this->set_action_state(0xD, this->call_model_m24());

@@ -89,25 +89,25 @@ void TTecBarta::update_technique_by_state() {
 
 
 void TTecBarta::create_particle_emitters() {
-    s32 angles[3];
-    s32 reverse[3];
+    Angle3 angles;
+    Angle3 reverse;
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
-    angles[0] = this->angles[0];
-    angles[1] = 0;
-    angles[2] = this->angles[2];
+    angles.x = this->angles[0];
+    angles.y = 0;
+    angles.z = this->angles[2];
     this->emitters = (TechniqueParticleEmitter **)mem_alloc(barta_emitter_bands[this->band].count * 4);
     for (i = 0; i < barta_emitter_bands[this->band].count; i++) {
         row = &barta_emitter_bands[this->band].rows[i];
         flags = row->flags;
         if (flags & 2) {
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, angles, row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, &angles, row->entry);
         } else if (flags & 1) {
-            reverse[0] = this->angles[0] + 0x8000;
-            reverse[1] = 0;
-            reverse[2] = this->angles[2];
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, reverse, barta_emitter_bands[this->band].rows[i].entry);
+            reverse.x = this->angles[0] + 0x8000;
+            reverse.y = 0;
+            reverse.z = this->angles[2];
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, &reverse, barta_emitter_bands[this->band].rows[i].entry);
         } else {
             this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter(&position, row->entry);
         }

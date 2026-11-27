@@ -74,11 +74,11 @@ void TBoss3VoloptCageShot::run_task() {
     rotation_z -= 0x4000;
     if (trail != NULL) {
         trail->set_position(&position);
-        trail->set_direction(&rotation_x);
+        trail->set_direction((Angle3 *)&rotation_x);
     }
     if (glow != NULL) {
         glow->set_position(&position);
-        glow->set_direction(&rotation_x);
+        glow->set_direction((Angle3 *)&rotation_x);
     }
     if (csnVector(&prev_position, &position, -1) != 0) {
         queue_destruction();
@@ -113,8 +113,8 @@ TBoss3VoloptCageShot::TBoss3VoloptCageShot(TObjEnemy *owner, Vec *pos, s32 targe
     VecCopy(&position, pos);
     target_id = target;
     rotation_x = 0;
-    trail = spawn_particle_effect_with_rotation(&position, &rotation_x, 0x11C, 2);
-    glow = spawn_particle_effect_with_rotation(&position, &rotation_x, 0x11D, 2);
+    trail = spawn_particle_effect_with_rotation(&position, (Angle3 *)&rotation_x, 0x11C, 2);
+    glow = spawn_particle_effect_with_rotation(&position, (Angle3 *)&rotation_x, 0x11D, 2);
     push_matrix_from(identity_matrix);
     {
         Vec dir = volopt_shot_forward;

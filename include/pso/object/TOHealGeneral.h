@@ -15,7 +15,7 @@ struct TOHealGeneral : public TObjMapObject {
     virtual ~TOHealGeneral();
     virtual void run_task();
     virtual void render();
-    virtual void *get_center();
+    virtual Vec *get_center();
 
     static void *create(void *set_data);
     static void unload_resources();
