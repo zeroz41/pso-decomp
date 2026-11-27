@@ -345,7 +345,7 @@ void TObjEneDolmOlm::render() {
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
@@ -424,7 +424,7 @@ s32 TObjEneDolmOlm::render_model_if_visible() {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw();
             pop_matrix();
             restore_render_scissor(1);
@@ -515,9 +515,9 @@ void TObjEneDolmOlm::update_retreat() {
                 }
             }
             f = 4.0f * move_speed;
-            if (check_path_ahead(rotation_y + 0x8000, f) == 0) {
+            if (check_path_ahead(rotation.y + 0x8000, f) == 0) {
                 enemy_turn_toward_dest(movementParameters->turn_speed);
-                enemy_set_heading_velocity(f, this, rotation_y + 0x8000);
+                enemy_set_heading_velocity(f, this, rotation.y + 0x8000);
                 move_with_wall_slide(this);
                 retreat_distance += f;
                 if (retreat_distance >= 50.0f) {
@@ -627,7 +627,7 @@ void TObjEneDolmOlm::update_special_attack() {
             DolmOlmBehaviorParams *t;
             VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
-            a = angle_difference_abs(rotation_y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
+            a = angle_difference_abs(rotation.y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
             d = horizontal_distance_squared(&target->position, &position);
             t = dolm_olm_behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
@@ -862,7 +862,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = attack_traces[idx];
@@ -876,7 +876,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     stack.y = 10.0f;
     stack.z = 0.5f * this->stat_block->proportions;
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);

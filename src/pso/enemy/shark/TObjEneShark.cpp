@@ -86,7 +86,7 @@ void TObjEneShark::spawn_death_effect() {
     stack.y = 10.0f;
     stack.z = 0.5f * stat_block->proportions;
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);
@@ -122,7 +122,7 @@ void TObjEneShark::update_attack_trail() {
     push_matrix();
     set_matrix_identity(NULL);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     trail = attack_trails[idx];
@@ -229,7 +229,7 @@ void TObjEneShark::render() {
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);
-  rotate_matrix_y(0, rotation_y);
+  rotate_matrix_y(0, rotation.y);
   if (check_demo_mode() == 1)
   {
     draw_chunk_object(model);

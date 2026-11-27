@@ -239,7 +239,7 @@ void TObjCityDoor_Shop::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(city_common_model_archive->models[11].model, city_common_model_archive->motions[10].motion, frame);
         pop_matrix();
     }
@@ -267,7 +267,7 @@ void TObjCityDoor_Guild::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(get_city_common_model(0x15), get_city_common_motion(0xC), frame);
         pop_matrix();
     }
@@ -318,7 +318,7 @@ void TObjCityDoor_Warp::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(get_city_common_model(9), get_city_common_motion(8), frame);
         draw_ginja_model_with_motion(get_city_common_model(10), get_city_common_motion(9), frame);
         pop_matrix();
@@ -363,7 +363,7 @@ void TObjCityDoor_Med::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         translate_matrix(0, 0.0f, 0.0f, -80.0f);
         draw_ginja_model_with_motion(get_city_common_model(0x14), get_city_common_motion(0xB), frame);
         pop_matrix();
@@ -427,7 +427,7 @@ void TObjCityDoor_Lobby::build_door_collision_triangles() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     t1 = collision_faces;
     j = 0;
     for (i = 0; i < 4; i++) {
@@ -490,7 +490,7 @@ void TObjCityDoor_Lobby::process_lobby_action_14() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(get_city_common_model(0xE));
         pop_matrix();
     }

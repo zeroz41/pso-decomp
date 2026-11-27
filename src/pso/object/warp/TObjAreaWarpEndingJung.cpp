@@ -275,7 +275,7 @@ TObjMapWarp::TObjMapWarp(TObject *parent, void *set_data) : TObjWarpBase(parent,
     for (i = 0; i < 4; i++) {
         push_matrix_from(identity_matrix);
         post_translate_matrix(&scale.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], &destinations[i]);
         pop_matrix();
         playerPopups[i] = 0;
@@ -413,7 +413,7 @@ void TObjMapWarp::draw_debug_destinations() {
         Vec a = {0.0f, 0.0f, -3.0f};
         push_matrix_from(identity_matrix);
         post_translate_matrix(&scale.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         end = &destinations[i];
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], end);
         pop_matrix();
@@ -452,7 +452,7 @@ void TObjMapWarpForest::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         draw_ginja_object(baseModel);
         begin_effect_render();
         draw_ginja_model_with_motion(beamModel, motion, frame);
@@ -656,7 +656,7 @@ void TObjAreaWarpForest::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         push_matrix();
         post_translate_matrix(m->pos);
         draw_ginja_model(m->model);
@@ -748,7 +748,7 @@ void TObjAreaWarpQuest::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         push_matrix();
         post_translate_matrix(m->pos);
         draw_ginja_model(m->model);
@@ -865,7 +865,7 @@ void TObjAreaWarpEnding::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     push_matrix();
     post_translate_matrix(root->pos);
     draw_ginja_model(root->model);
@@ -1154,7 +1154,7 @@ void TObjAreaWarpEndingJung::render() {
         TObjWarpJung::set_global_render_param();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjWarpJung::render_warp(0);
         begin_effect_render();
         TObjWarpJung::render_warp_effect(1, (s32) this->beam_frame);

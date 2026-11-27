@@ -256,7 +256,7 @@ void TOContainerAncientItem::draw_model() {
         case 0:
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
@@ -415,7 +415,7 @@ void TOContainerAncientEnemy::draw_model() {
         case 0:
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();

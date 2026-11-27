@@ -3,9 +3,9 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct CameraAngles;
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
@@ -36,7 +36,7 @@ public:
     u16 get_entity_id();
     int set_position_from(void *pos);
     void save_previous_position();
-    CameraAngles *get_rotation();
+    Angle3 *get_rotation();
     NJS_TEXLIST *get_texlist();
     s32 is_alive();
     s32 is_active();
@@ -55,9 +55,7 @@ public:
     Vec position;
     Vec prev_position;  // where it stood before this frame's move
     Vec home_position;  // the set position it returns to
-    s32 rotation_x;
-    s32 rotation_y;
-    s32 rotation_z;
+    Angle3 rotation;
     Vec scale;        // the set entry's params 1-3, a scale for most objects
     Vec center;         // the point the virtual center getter returns
     void *set_entry;    // its row of the floor's object or enemy set

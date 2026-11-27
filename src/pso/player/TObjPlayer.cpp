@@ -716,7 +716,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     entity_id = record->client_id;
     alt_room = record->room_id;
     actorFlags = record->game_flags;
-    copy_xyz(&rotation_x, record->angle);
+    copy_xyz(&rotation, record->angle);
     mode = record->phase;
     hp = record->current_hp;
     guild_card_tag.copy_from(&record->guild_card_tag);
@@ -753,25 +753,25 @@ void TObjPlayer::place_on_area_entry() {
         this->check_flag(0x100000) == 0 && TObjPlayer::is_key_machine_ready() != 0) {
         this->set_state_flags(0x100000);
         this->set_position_from(this->get_lobby_entry_ptr());
-        this->rotation_y = get_lobby_entry_yaw();
+        this->rotation.y = get_lobby_entry_yaw();
         send_impose_hold(this, 0x1E);
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, get_entity_id());
     } else if (this->obj_isState2_324() == 0) {
-        p = consume_telepipe_arrival(get_entity_id(), (u8 *)&this->rotation_y);
+        p = consume_telepipe_arrival(get_entity_id(), (u8 *)&this->rotation.y);
         if (p != NULL) {
             this->set_position_from(p);
         } else {
             e = &player_arrival_overrides[get_entity_id()];
             if (this->obj_isState2_324() == 0 && e->get_active() == 1) {
                 e->set_active(0);
-                this->rotation_y = e->get_heading();
+                this->rotation.y = e->get_heading();
                 this->set_position_from(e->get_pos());
             } else {
                 other = find_player_arrival_set(this, get_entity_id());
                 if (other != NULL) {
                     this->set_position_from(&other->position);
-                    this->rotation_y = other->rotation_y;
+                    this->rotation.y = other->rotation.y;
                 } else {
                     this->set_position(player_zero, player_zero, player_zero);
                 }
@@ -893,7 +893,7 @@ void TObjPlayer::send_selected_spawn_position(u16 id) {
     if (found != 0 && (this == NULL || this->obj_isState2_324() == 0)) {
         m.init();
         m.header.client_id = get_entity_id();
-        m.angle = o->rotation_y;
+        m.angle = o->rotation.y;
         VecCopy((Vec *)&m.pos, &o->position);
         m.send();
     }
@@ -945,10 +945,10 @@ void TObjPlayer::send_respawn_position() {
     cmd.init();
     pick = list[(s32)((f32)count * (player_rand_pick_limit * (player_rand_unit * (f32)rand())))].set;
     if (pick == NULL || count == 0) {
-        area = this->rotation_y;
+        area = this->rotation.y;
         VecCopy(&pos, &this->position);
     } else {
-        area = pick->rotation_y;
+        area = pick->rotation.y;
         VecCopy(&pos, &pick->position);
     }
     if (this == NULL || ((TObjChara *)this)->obj_isState2_324() == 0) {
@@ -1357,7 +1357,7 @@ void TObjPlayer::draw_body(s32 detail) {
     VecCopy(&pos, &position);
     pos.y += death_sink.offset;
     translate_matrix_vec3((u8 *)(0), (u8 *)&pos);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     if (scale_state.is_scaled() != 0) {
         scale = scale_state.get_scale();
         scale_matrix(0, scale->x, scale->y, scale->z);
@@ -1446,7 +1446,7 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     translate_matrix(0, v.x, player_shadow_lift + position.y, v.z);
     rotate_matrix_z(0, b);
     rotate_matrix_x(0, a);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_matrix_x(0, -0x4000);
     if (scale != NULL) {
         scale_matrix(0, scale->x, scale->z, player_one);
@@ -1518,7 +1518,7 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
             position.header.client_id = local->get_entity_id();
             position.floor = local->get_floor();
             VecCopy(&position.pos, &local->position);
-            position.angle_y = local->rotation_y;
+            position.angle_y = local->rotation.y;
             position.send();
             if (TFontSmallLobby::is_lobby_floor_15() != 0) {
                 anim.init();
@@ -1544,7 +1544,7 @@ void handle_6x20_set_position(G_SetPosition_6x20 *command) {
             p->set_position_from(&m.pos);
             p->set_floor_index(get_floor_area(m.floor));
             p->set_floor(m.floor);
-            p->rotation_y = m.angle_y;
+            p->rotation.y = m.angle_y;
             ::set_flag_400000(p);
         }
     }
@@ -1602,7 +1602,7 @@ s32 TObjPlayer::start_freeze() {
     anim_state.set_action_id(0x10);
     anim_state.set_animation(this->get_idle_animation());
     anim_state.set_state(0);
-    anim_state.set_angle(this->rotation_y);
+    anim_state.set_angle(this->rotation.y);
     return 1;
 }
 
@@ -1614,7 +1614,7 @@ s32 TObjPlayer::init_photon_blast(s16 anim) {
     anim_state.set_action_id(0x10);
     anim_state.set_animation(anim);
     anim_state.set_state(0);
-    anim_state.set_angle(this->rotation_y);
+    anim_state.set_angle(this->rotation.y);
     return 1;
 }
 
@@ -1629,7 +1629,7 @@ s32 TObjPlayer::start_camera_pan(s16 action, s32 angle) {
     anim_state.set_action_id(action);
     anim_state.set_animation(this->requested_action);
     anim_state.set_state(0);
-    anim_state.set_angle(this->rotation_y);
+    anim_state.set_angle(this->rotation.y);
     return 1;
 }
 
@@ -2045,11 +2045,11 @@ s32 TObjPlayer::is_target_in_facing_cone(Vec *target) {
     f32 x;
     f32 z;
     f32 dot;
-    fwd.x = sin_table_lookup(rotation_y);
+    fwd.x = sin_table_lookup(rotation.y);
     fwd.y = player_zero;
-    fwd.z = cos_table_lookup(rotation_y);
-    x = player_front_distance * sin_table_lookup(rotation_y + 0x8000) + position.x;
-    z = player_front_distance * cos_table_lookup(rotation_y + 0x8000) + position.z;
+    fwd.z = cos_table_lookup(rotation.y);
+    x = player_front_distance * sin_table_lookup(rotation.y + 0x8000) + position.x;
+    z = player_front_distance * cos_table_lookup(rotation.y + 0x8000) + position.z;
     to.x = target->x - x;
     to.y = player_zero;
     to.z = target->z - z;
@@ -2868,7 +2868,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
             corner.y = origin->y;
             corner.z = origin->z + pz;
             s32 target = calc_angle_to(&corner, &move_target);
-            angle = lerp_angle_half(approach_angle_adaptive(rotation_y, target), target);
+            angle = lerp_angle_half(approach_angle_adaptive(rotation.y, target), target);
             move.x = move_speed.get_speed() * sin_table_lookup(angle);
             move.y = player_zero;
             move.z = move_speed.get_speed() * cos_table_lookup(angle);
@@ -2918,7 +2918,7 @@ void TObjPlayer::init_effect_5f0() {
     anim_state.set_action_id(0x10);
     anim_state.set_animation(this->get_idle_animation());
     anim_state.set_state(0);
-    anim_state.set_angle(this->rotation_y);
+    anim_state.set_angle(this->rotation.y);
 }
 
 void TObjPlayer::clear_lobby_flag(void *base) {
@@ -3825,7 +3825,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->room_id = alt_room;
     record->game_flags = actorFlags & ~0x02000000;
     VecCopy(&record->position, &position);
-    copy_xyz(record->angle, &rotation_x);
+    copy_xyz(record->angle, &rotation);
     record->phase = mode;
     record->current_hp = hp;
     for (i = 0; i < 5; i++) {
@@ -3909,9 +3909,9 @@ void TObjPlayer::clear_action_flag() {
 }
 
 void TObjPlayer::update_facing_vector() {
-    facing.x = sin_table_lookup(rotation_y);
+    facing.x = sin_table_lookup(rotation.y);
     facing.y = player_zero;
-    facing.z = cos_table_lookup(rotation_y);
+    facing.z = cos_table_lookup(rotation.y);
     update_ground_contact();
     if (this->lock_on_cursor != NULL) {
         this->lock_on_cursor->reset_slots();
@@ -4252,7 +4252,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         this->attack_state.set_attack_kind(act);
         if (this->check_mode_action(act) != 0) {
             if (pad_binding.get_stick_magnitude() >= player_stick_deadzone) {
-                this->rotation_y = calc_scaled_value(pad_binding.get_stick_angle());
+                this->rotation.y = calc_scaled_value(pad_binding.get_stick_angle());
             }
             run_action_state_phase(5, 5);
             return 1;
@@ -5025,7 +5025,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
         return;
     }
     player->set_position_from(&pkt.pos);
-    player->rotation_y = player->target_heading = pkt.angle_y;
+    player->rotation.y = player->target_heading = pkt.angle_y;
     player->calc_attach_pos();
     player->set_flag_4000();
     player->refresh_equipment_slot();
@@ -5346,7 +5346,7 @@ s32 TObjPlayer::try_pickup_item() {
 void TObjPlayer::draw() {
     push_matrix();
     translate_matrix_vec3((u8 *)(0), (u8 *)(this->get_position_ptr()));
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     calc_joint_matrices(current_motion, player_zero, (saddr)joint_matrices);
     pop_matrix();
 }
@@ -5354,7 +5354,7 @@ void TObjPlayer::draw() {
 void TObjPlayer::draw(f32 at_frame) {
     push_matrix();
     translate_matrix_vec3(NULL, (u8 *)get_position_ptr());
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     calc_joint_matrices(current_motion, at_frame, (saddr)joint_matrices);
     pop_matrix();
 }

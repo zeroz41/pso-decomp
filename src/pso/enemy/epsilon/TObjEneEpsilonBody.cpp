@@ -136,12 +136,12 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     target_position.y = 0.0f;
     target_position.z = 0.0f;
     for (i = 0; i < 4; i++) {
-        TObjEneEpsilonGuard *guard = TObjEneEpsilonGuard::create(this, (u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation_y);
+        TObjEneEpsilonGuard *guard = TObjEneEpsilonGuard::create(this, (u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation.y);
         if (guard != NULL) {
             guard_ids[i] = guard->get_entity_id();
         }
         VecCopy(&guard_position[i], &position);
-        guard_rotation_y[i] = rotation_y;
+        guard_rotation_y[i] = rotation.y;
     }
     mode = 0;
     dispatch_action(mode, 4);
@@ -374,7 +374,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
         if (!(flags & 0x80)) {
             enemy_copy_target_destination();
             update_velocity();
-            effect_scale = destination_direction.x * sin_table_lookup(rotation_y) + destination_direction.z * cos_table_lookup(rotation_y);
+            effect_scale = destination_direction.x * sin_table_lookup(rotation.y) + destination_direction.z * cos_table_lookup(rotation.y);
             if (effect_scale < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(turn_step);
                 update_ground_contact();
@@ -864,7 +864,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             if (action_timer >= 0x14) {
                 set_intangible();
                 TBoss3Volopt::create_breakup_mdl(epsilon_body_breakup_model, &epsilon_guard_destroy_breakup_params,
-                                   texlist, &body_center, rotation_y);
+                                   texlist, &body_center, rotation.y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);
                 flags |= 1;
@@ -932,7 +932,7 @@ void TObjEneEpsilonBody::update_guard_anchor(s32 i) {
     }
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);
     clear_motion_packed_rotation();
@@ -1002,7 +1002,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     TObjEneDD::clear_global_flag_400();
     if (flags & 2) {
         set_chunk_model_node_callback(TObjEneEpsilonBody::record_camera_angle_samples);
@@ -1044,7 +1044,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         toggle_particle_effect();

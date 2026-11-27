@@ -235,7 +235,7 @@ s32 TItemMagSub::resolve_owner_heading() {
 
     player = owner;
     pose = (MagOwnerPose **)player->current_motion;
-    heading = player->rotation_y;
+    heading = player->rotation.y;
     if (pose != NULL) {
         current = *pose;
         if (current != NULL) {
@@ -329,7 +329,7 @@ void TItemMagSub::apply_placement_matrix() {
         heading = resolve_owner_heading();
         rotate_matrix_y(NULL, heading);
     } else {
-        rotate_matrix_y(NULL, owner->rotation_y);
+        rotate_matrix_y(NULL, owner->rotation.y);
     }
     post_translate_matrix(translation_offset);
     follow = motion;

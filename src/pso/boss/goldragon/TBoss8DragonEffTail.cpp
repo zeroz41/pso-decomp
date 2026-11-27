@@ -44,11 +44,11 @@ void TBoss8DragonEffTail::run_task() {
     this->position.x *= 0.5f;
     this->position.z *= 0.5f;
     this->position.y = this->dragon->position.y;
-    this->rotation_y = this->dragon->rotation_y;
+    this->rotation.y = this->dragon->rotation.y;
     node = this->nodes;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(0, -this->rotation_y);
+    rotate_matrix_y(0, -this->rotation.y);
     translate_matrix(0, -this->position.x, -this->position.y, -this->position.z);
     for (i = 0; i < 0x11; i++) {
         body = &this->bodies[i];
@@ -58,13 +58,13 @@ void TBoss8DragonEffTail::run_task() {
     }
     pop_matrix();
     if (this->sweep_side == 1) {
-        this->sweep_vector.x = 5.0f * cos_table_lookup(this->rotation_y);
+        this->sweep_vector.x = 5.0f * cos_table_lookup(this->rotation.y);
         this->sweep_vector.y = 0.0f;
-        this->sweep_vector.z = 5.0f * -sin_table_lookup(this->rotation_y);
+        this->sweep_vector.z = 5.0f * -sin_table_lookup(this->rotation.y);
     } else {
-        this->sweep_vector.x = 5.0f * -cos_table_lookup(this->rotation_y);
+        this->sweep_vector.x = 5.0f * -cos_table_lookup(this->rotation.y);
         this->sweep_vector.y = 0.0f;
-        this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation_y);
+        this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation.y);
     }
     {
         AreaAttackContact params = boss8_dragon_tail_attack_params;

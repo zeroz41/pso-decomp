@@ -221,7 +221,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader,
     set_index = sub_id;
     this->leader->calc_move_vector(&position);
     VecCopy(&position, pos);
-    rotation_y = this->leader->rotation_y;
+    rotation.y = this->leader->rotation.y;
     status_flags = 0;
     this->kind = 1;
     setup_enemy();
@@ -436,8 +436,8 @@ void TObjEneMe1Canadin::update_upper_hover_height() {
 }
 
 void TObjEneMe1Canadin::update_angle() {
-    rotation_y = approach_angle_limited(rotation_y, (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0x400);
-    rotation_y = (s32) (s16) rotation_y;
+    rotation.y = approach_angle_limited(rotation.y, (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0x400);
+    rotation.y = (s32) (s16) rotation.y;
 }
 
 void TObjEneMe1Canadin::update_move() {
@@ -1407,7 +1407,7 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
                     c = normalize_vector_xz(&v);
                     this->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
-                this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
+                this->rotation.y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
                 this->eff_light->push_history_entry(0.8f, this->node_points, this->core_color_packed);
                 break;
             }
@@ -1574,7 +1574,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         this->update_velocity();
         this->approach_hover_y(this->position.y + this->hover_height);
         enemy_turn_and_move_xz_clamped(0x200, 0.68f);
-        this->rotation_z += 0x2000;
+        this->rotation.z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {
             DragonAttackParams c = canadin_self_destruct_attack_params;
@@ -1593,7 +1593,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         break;
     }
     case 5:
-        this->rotation_z = 0;
+        this->rotation.z = 0;
         break;
     }
 }
@@ -1680,7 +1680,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader->remove_member(this);
         }
         TBoss3Volopt::create_breakup_mdl(canadin_breakup_model, NULL,
-                           texlist, &body_center, rotation_y);
+                           texlist, &body_center, rotation.y);
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
         pos.y -= 5.0f;
@@ -1725,8 +1725,8 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
     case 4:
         requested_action = 0;
         hover_y = (f32) (position.y + hover_height);
-        work_speed = sin_table_lookup(rotation_y);
-        orbit_radius = cos_table_lookup(rotation_y);
+        work_speed = sin_table_lookup(rotation.y);
+        orbit_radius = cos_table_lookup(rotation.y);
         return;
     case 0:
         advance_animation();
@@ -1796,7 +1796,7 @@ void TObjEneMe1Canadin::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, hover_offset, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_now = 1;
         if ((mode == 1) || (mode == 0xB)) {
             fade.set_flags_and_apply_damage_color();
@@ -1818,7 +1818,7 @@ void TObjEneMe1Canadin::render() {
                 }
                 set_chunk_model_node_callback(NULL);
             } else {
-                rotate_matrix_z(NULL, rotation_z);
+                rotate_matrix_z(NULL, rotation.z);
                 me1_canadin_render_node_index = -1;
                 me1_canadin_render_point_cursor = node_points;
                 VecCopy(&node_points[3], &canadin_node3_axis);
@@ -1865,7 +1865,7 @@ void TObjEneMe1Canadin::render_demo() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object(model);
         pop_matrix();
@@ -1942,7 +1942,7 @@ void TObjEneMe1CanadinLeader::spawn_members() {
     if (n < 1) {
         n = 1;
     }
-    angle = rotation_y;
+    angle = rotation.y;
     id = (entity_id + 1) & 0xFFFF;
     sub = set_index + 1;
     for (i = 0; i < n; i++) {
@@ -2194,7 +2194,7 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     switch (mode) {
     case 4:
         TBoss3Volopt::create_breakup_mdl(canadin_leader_breakup_model, NULL,
-                           texlist, &body_center, rotation_y);
+                           texlist, &body_center, rotation.y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();
         }

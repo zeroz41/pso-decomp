@@ -257,7 +257,7 @@ void TContainerAncient01::render() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if ((s32) this->opened != 0) {
             scale_current_matrix(&this->open_scale.x);
         }
@@ -537,7 +537,7 @@ void TContainerAncient01R::render() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if ((s32) this->opened != 0) {
             scale_current_matrix(&this->open_scale.x);
         }
@@ -619,7 +619,7 @@ void TContainerAncient01R::init_positions() {
     this->open_scale.x = (f32) ancient01_one[0];
     this->open_scale.y = (f32) ancient01_one[0];
     this->open_scale.z = (f32) ancient01_one[0];
-    this->hp = (s16) this->rotation_z;
+    this->hp = (s16) this->rotation.z;
     if ((s16) this->hp < 1) {
         this->hp = 1;
     }

@@ -25,7 +25,7 @@ void TObjEZBoneRotPlayer::run_task() {
     status_flags = p->mode_mask & 0xDF7FF;
     if (status_flags & 0x99003) {
         scale += -0.016666668f;
-    } else if ((status_flags & 0x1E0) || (last_rotation_y != p->rotation_y)) {
+    } else if ((status_flags & 0x1E0) || (last_rotation_y != p->rotation.y)) {
         scale += 0.13333334f;
     } else if (status_flags & 0x4661C) {
         scale += 0.016666668f;
@@ -39,13 +39,13 @@ void TObjEZBoneRotPlayer::run_task() {
         scale = 1.0f;
     }
     advance_bone_rotation();
-    last_rotation_y = player->rotation_y;
+    last_rotation_y = player->rotation.y;
 }
 
 TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObjPlayer *parent, NJS_OBJECT *root, EZBoneRotDesc *desc) : TObjEZBoneRotBase(parent, root, desc) {
     m_name = ez_bone_rot_player_name;
     player = parent;
-    last_rotation_y = player->rotation_y;
+    last_rotation_y = player->rotation.y;
 }
 
 TObjEZBoneRotPlayer *TObjEZBoneRotPlayer::create(TObjPlayer *player, NJS_OBJECT *root, EZBoneRotDesc *desc) {
@@ -172,7 +172,7 @@ void TObjHMS_EZRope_Player::run_task() {
     ps = rope_specs;
     pd = end_buffer;
     while (ps->bone >= 0) {
-        pd->twist = owner->rotation_y + ps->twist_offset;
+        pd->twist = owner->rotation.y + ps->twist_offset;
         push_matrix();
         concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(owner->get_joint_matrix(ps->bone)));
         matrix_mult_vec(NULL, &ps->pos, &pd->pos);

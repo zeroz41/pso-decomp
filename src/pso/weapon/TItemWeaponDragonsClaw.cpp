@@ -15,7 +15,7 @@ void TItemWeaponDragonsClaw::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &origin) != 0) {
             owner = this->owner;
-            TTecFoie::create(owner, &origin, owner->rotation_y, ((TItemWeapon *)this)->get_tp() + 2);
+            TTecFoie::create(owner, &origin, owner->rotation.y, ((TItemWeapon *)this)->get_tp() + 2);
             roll_technique();
         }
     } else {

@@ -27,7 +27,7 @@ void TObjCityVerticalModel::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, y_offset, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(get_city_common_model(8));
         pop_matrix();
     }

@@ -121,7 +121,7 @@ void TODummyKeyCave01::render() {
         set_texlist(v);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
+        rotate_matrix_zyx(0, this->rotation.x, this->rotation.y, this->rotation.z);
         scale_current_matrix(&this->scale.x);
         node = model;
         draw_ginja_model(node->model);

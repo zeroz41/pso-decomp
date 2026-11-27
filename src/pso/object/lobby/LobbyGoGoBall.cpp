@@ -261,7 +261,7 @@ void TObjGoGoBall::send_local_player_walk() {
     p = get_player_by_client_id(local_client_id);
     if (p != 0) {
         pkt.header.client_id = local_client_id;
-        p->calc_movement_target(p->rotation_y, &x, &z);
+        p->calc_movement_target(p->rotation.y, &x, &z);
         pkt.pos.x = x;
         pkt.pos.z = z;
         pkt.flags = 0;
@@ -328,9 +328,9 @@ void TObjGoGoBall::render() {
     VecCopy(&dir, &velocity);
     dir.y = 0.0f;
     len = vector_length(&dir);
-    direction_to_rotation_yx(&dir, &rotation_y, &rotation_z);
+    direction_to_rotation_yx(&dir, &rotation.y, &rotation.z);
     heading = (u16)heading;
-    rotation_y = (u16)rotation_y;
+    rotation.y = (u16)rotation.y;
     if (0.0f != len) {
         normalize_vector(&dir);
         VecCopy(&prev_position, &dir);
@@ -350,10 +350,10 @@ void TObjGoGoBall::render() {
     rate = (s32)(182.04445f * (4096.0f * len));
     if (0.0f != rate) {
         step = rate;
-        heading = approach_angle_limited(heading, rotation_y, step);
-        roll = approach_angle_limited(roll, rotation_x, step);
+        heading = approach_angle_limited(heading, rotation.y, step);
+        roll = approach_angle_limited(roll, rotation.x, step);
     }
-    rotation_x += (s32)(182.04445f * (7.0f * len));
+    rotation.x += (s32)(182.04445f * (7.0f * len));
     push_matrix_from(0);
     translate_matrix_vec3((u8 *)(0), (u8 *)&pos);
     rate = 0.15f * gogo_ball_configuration.radius;

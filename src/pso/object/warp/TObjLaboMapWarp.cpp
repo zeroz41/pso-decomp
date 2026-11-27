@@ -503,7 +503,7 @@ void TObjCityMainWarp::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         draw_ginja_object(city_common_model_archive->models[12].model);
         begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
@@ -568,7 +568,7 @@ void TObjCityAreaWarp::do_warp() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
         end_effect_render();
@@ -641,7 +641,7 @@ void TObjCityMapWarp::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(city_common_model_archive->models[13].model);
             begin_effect_render();
@@ -738,7 +738,7 @@ void TObjLaboMapWarp::render() {
         set_texture_list(get_bml_texlist(labo_map_warp_resource_bundle, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
             begin_effect_render();

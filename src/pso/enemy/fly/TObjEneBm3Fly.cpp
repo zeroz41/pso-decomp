@@ -215,8 +215,8 @@ void TObjEneBm3Fly::run_task() {
             if (TObjEneDD::check_v2_mode() != 0) {
                 side *= 3.0f;
             }
-            dx = side * cos_table_lookup(this->rotation_y);
-            dz = side * -sin_table_lookup(this->rotation_y);
+            dx = side * cos_table_lookup(this->rotation.y);
+            dz = side * -sin_table_lookup(this->rotation.y);
             this->particle_effect->position.x = (&this->body_center)->x + dx;
             this->particle_effect->position.y = -1.5f + (&this->body_center)->y;
             this->particle_effect->position.z = (&this->body_center)->z + dz;
@@ -460,7 +460,7 @@ void TObjEneBm3Fly::update_launch_state(s32 msg) {
         p->x = (3e+01f) * sin_table_lookup(this->hover_angle) + this->nest_position.x;
         p->y = this->hover_height;
         p->z = (3e+01f) * cos_table_lookup(this->hover_angle) + this->nest_position.z;
-        this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->launch_velocity.x, this->launch_velocity.z));
+        this->rotation.y = (s32)(10430.38043493439 * atan2_float(this->launch_velocity.x, this->launch_velocity.z));
         this->enemy_clear_target();
         break;
     case 3:
@@ -504,7 +504,7 @@ void TObjEneBm3Fly::update_launch_state(s32 msg) {
                 this->flightY = this->moveDir.y * this->moveSpeed + this->flightY;
                 this->position.z = this->moveDir.z * this->moveSpeed + this->position.z;
             }
-            this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->moveDir.x, this->moveDir.z));
+            this->rotation.y = (s32)(10430.38043493439 * atan2_float(this->moveDir.x, this->moveDir.z));
             break;
         }
         this->update_collide_flag();
@@ -560,7 +560,7 @@ void TObjEneBm3Fly::update_orbit_state(s32 msg) {
         this->position.x = radius * sin_table_lookup(a) + this->nest_position.x;
         this->flightY = (1e+01f) * sin_table_lookup(this->orbit_angle) + this->hover_height;
         this->position.z = radius * cos_table_lookup(a) + this->nest_position.z;
-        this->rotation_y = a - 0x4000;
+        this->rotation.y = a - 0x4000;
         this->update_collide_flag();
         this->prev_position.x = this->body_center.x;
         this->prev_position.z = this->body_center.z;
@@ -635,8 +635,8 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         subtract_vector(pos, off);
         if (this->counter == 0) {
             if ((0.0f) == this->moveDir.x && (0.0f) == this->moveDir.z) {
-                this->moveDir.x = sin_table_lookup(this->rotation_y);
-                this->moveDir.z = cos_table_lookup(this->rotation_y);
+                this->moveDir.x = sin_table_lookup(this->rotation.y);
+                this->moveDir.z = cos_table_lookup(this->rotation.y);
             }
             if (vec3_dot(&this->moveDir, &this->destination_direction) < (0.99f)) {
                 if (is_vec_xz_cross_negative(&this->moveDir, &this->destination_direction) != 0) {
@@ -683,7 +683,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         this->flightY = this->approach_value(pos->y, this->destination.y);
         pos->y = this->flightY;
         this->clamp_flight_height();
-        this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->moveDir.x, this->moveDir.z));
+        this->rotation.y = (s32)(10430.38043493439 * atan2_float(this->moveDir.x, this->moveDir.z));
         this->check_collisions();
         pos->x -= this->position.x;
         pos->y -= this->flightY;
@@ -739,8 +739,8 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
                 update_height_offset();
             }
             this->update_velocity();
-            this->moveDir.x = sin_table_lookup(this->rotation_y);
-            this->moveDir.z = cos_table_lookup(this->rotation_y);
+            this->moveDir.x = sin_table_lookup(this->rotation.y);
+            this->moveDir.z = cos_table_lookup(this->rotation.y);
             update_state_flag();
             this->flightY = this->approach_value(this->flightY, this->destination.y);
             this->clamp_flight_height();
@@ -808,7 +808,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle = 0;
         } else {
             this->step = 0;
-            this->circle_angle = this->rotation_y + 0x8000;
+            this->circle_angle = this->rotation.y + 0x8000;
             this->circle_speed = 0;
             this->swept_angle = 0;
             this->bob_angle = 0;
@@ -866,7 +866,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
         update_dd_flag(this->moveDir.x, this->moveDir.z, speed);
         this->flightY = this->approach_value(this->flightY, this->destination.y + vertical);
         this->clamp_flight_height();
-        this->rotation_y = (s32)(10430.38043493439 * atan2_float(
+        this->rotation.y = (s32)(10430.38043493439 * atan2_float(
             this->current_target->position.x - this->position.x, this->current_target->position.z - this->position.z));
         this->check_collisions();
         this->play_pitched_cue();
@@ -983,7 +983,7 @@ void TObjEneBm3Fly::action(s32 msg) {
         debug_effect_hook_scaled(0xF1, 1.0f);
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         TBoss3Volopt::create_breakup_mdl(bm3_fly_breakup_model, &bm3_fly_breakup_params,
-                           this->texlist, &this->body_center, this->rotation_y);
+                           this->texlist, &this->body_center, this->rotation.y);
         this->step = 0;
         return;
     case 3:
@@ -1105,7 +1105,7 @@ void TObjEneBm3Fly::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         translate_matrix(0, this->position.x, this->flightY, this->position.z);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         set_alpha_ref_override(0x8F);
@@ -1127,7 +1127,7 @@ void TObjEneBm3Fly::render_demo() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         draw_chunk_object(model);

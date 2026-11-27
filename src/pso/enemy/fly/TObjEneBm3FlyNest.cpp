@@ -716,7 +716,7 @@ void TObjEneBm3FlyNest::update_down_state(s32 reason) {
         if (is_passing_frame(9.0f) != 0) {
             spawn_particle_effect(&position, 0xF0);
         } else if (is_passing_frame(27.0f) != 0) {
-            angle = rotation_y - 0x4000;
+            angle = rotation.y - 0x4000;
             VecCopy(&pos, &position);
             pos.x += 16.0f * sin_table_lookup(angle);
             pos.z += 16.0f * cos_table_lookup(angle);
@@ -864,7 +864,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.x = -10.0f;
                 v.y = 0.0f;
                 v.z = -8.0f;
-                rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
+                rotate_xz_pair_by_angle(&v.x, &v.z, rotation.y);
                 vec3_add_to(&v, &position);
                 spawn_dead_spot_kind2_scale15(&v, 0x32);
                 create_dead_spot_e4(&v, 0x46, 10.0f);
@@ -1030,7 +1030,7 @@ void TObjEneBm3FlyNest::render() {
                 } else {
                     set_chunk_model_node_callback(TObjEneBm3FlyNest::capture_attachment);
                 }
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 TObjEneDD::clear_global_flag_400();
                 toggle_particle_effect();
                 if (res == 1) {
@@ -1096,7 +1096,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         set_motion_packed_rotation();
@@ -1107,7 +1107,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     }
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     translate_matrix(0, this->parameters[2], this->parameters[3], this->parameters[4]);
     draw_chunk_object(debug_chunk_object);
     pop_matrix();

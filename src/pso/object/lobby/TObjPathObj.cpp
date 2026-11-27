@@ -182,7 +182,7 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, NJS_MOTION *motion, f32 step
         more = sample_clamped_path_position(node, motion, &to, frame);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         debug_draw_line(&from, &to, 0xF0F0F0FF, 0xF0F0F0FF);
         pop_matrix();
     } while (more != 0);
@@ -240,7 +240,7 @@ void TObjSeabedDolphin::draw() {
     set_texture_list(seabed_dolphin_texture_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -408,7 +408,7 @@ void TObjJungleEbi::draw() {
     set_texture_list(jungle_ebi_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -580,7 +580,7 @@ void TObjJungleBird::draw() {
     set_texture_list(lobby_pigeon_texture_gvm);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -730,7 +730,7 @@ void TObjJungleKamome::update() {
         Vec v = path_zero_vec;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
-        rotate_matrix_y(m, this->rotation_y);
+        rotate_matrix_y(m, this->rotation.y);
         translate_matrix_vec3((u8 *)m, (u8 *)&this->path_position);
         matrix_mult_vec(m, &v, &v);
         play_sound_effect(0x4BC04, &this->position, 0x7F, 0);
@@ -745,7 +745,7 @@ void TObjJungleKamome::draw() {
     set_texture_list(lobby_kamome_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -927,7 +927,7 @@ void TObjLobbyPigeon::update() {
     Vec v = lobby_pigeon_zero_vec;
     set_matrix_identity((u8 *)m);
     translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
-    rotate_matrix_y(m, this->rotation_y);
+    rotate_matrix_y(m, this->rotation.y);
     translate_matrix_vec3((u8 *)m, (u8 *)&this->path_position);
     matrix_mult_vec(m, &v, &v);
     this->random_delay =
@@ -945,7 +945,7 @@ void TObjLobbyPigeon::draw() {
   set_texture_list(lobby_pigeon_lobby_type);
   push_matrix();
   post_translate_matrix(&this->position.x);
-  rotate_matrix_y(0, this->rotation_y);
+  rotate_matrix_y(0, this->rotation.y);
   post_translate_matrix(&this->path_position.x);
   rotate_matrix_y(0, this->path_yaw);
   rotate_matrix_z(0, this->path_roll);

@@ -174,7 +174,7 @@ void TObjLaboDesignBase::render_model() {
     set_texture_list(get_bml_texlist(model_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_node_tree(get_bml_model(model_resource, 0));
     pop_matrix();
     end_effect_render();

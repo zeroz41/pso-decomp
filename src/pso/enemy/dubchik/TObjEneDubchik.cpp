@@ -438,7 +438,7 @@ void TObjEneDubchik::render() {
             saved_model_render_flags = model_render_flags;
             apply_broken_part_visibility();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             scale_matrix(0, 1.3f, 1.3f, 1.3f);
             model_render_flags &= 0xFFFFFBFF;
             if (check_demo_mode() == 1) {
@@ -605,7 +605,7 @@ void TObjEneDubchik::update_knockback() {
             state = -1;
         } else {
             requested_action = 3;
-            enemy_set_heading_velocity(-7.0f, this, rotation_y);
+            enemy_set_heading_velocity(-7.0f, this, rotation.y);
             state = 1;
             play_sound_effect(remap_sound_for_area(0x4003A806), &position, 0, 0);
             knockback_timer = get_int_parameter(2);
@@ -678,7 +678,7 @@ void TObjEneDubchik::update_fall_apart() {
         behavior_flags &= ~0x800000;
         set_invuln_flags();
         requested_action = 4;
-        enemy_set_heading_velocity(-7.0f, this, rotation_y);
+        enemy_set_heading_velocity(-7.0f, this, rotation.y);
         render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
@@ -842,7 +842,7 @@ void TObjEneDubchik::update_scratch() {
         push_matrix();
         set_matrix_identity(0);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         if (h0 != 0) {
             matrix_mult_vec_array(NULL, h0, &a1, 2);
             saver->add_segment(&a1, &b1);
@@ -933,7 +933,7 @@ void TObjEneDubchik::update_shoot() {
         }
         if (--timer <= 0) {
             shot_count--;
-            new TDubchikShot(&muzzle_position, rotation_y, this, get_int_parameter(3));
+            new TDubchikShot(&muzzle_position, rotation.y, this, get_int_parameter(3));
             state = 4;
             if (effect != NULL) {
                 effect->queue_destruction();
@@ -1168,7 +1168,7 @@ void TObjEneDubchik::update_dying() {
             play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
         }
         TBoss3Volopt::create_breakup_mdl(breakup_model_ptr, &dubchik_breakup_params,
-                           texlist, &body_center, rotation_y);
+                           texlist, &body_center, rotation.y);
         refresh_lobby_state();
         send_entity_set_flags();
         trigger_dell_biter_events(&body_center);

@@ -26,7 +26,7 @@ void TPhotonMagicSquare::render() {
     begin_effect_render();
     push_matrix();
     post_translate_matrix(&pos.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     scale_current_matrix(&scale.x);
     NJS_ARGB saved = color;

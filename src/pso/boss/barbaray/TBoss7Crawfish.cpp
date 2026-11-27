@@ -85,7 +85,7 @@ void TBoss7Crawfish::register_attack_hits() {
     set.colliders = &collision_body;
     set.count = 1;
     VecCopy(&set.position, &position);
-    set.facing = rotation_y;
+    set.facing = rotation.y;
     collect_player_body_contacts(&set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)hit_count < 4) {
@@ -177,7 +177,7 @@ void TBoss7Crawfish::render() {
         set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_yxz(0, rotation_x, rotation_y, rotation_z);
+        rotate_matrix_yxz(0, rotation.x, rotation.y, rotation.z);
         scale_current_matrix(&scale.x);
         draw();
         pop_matrix();
@@ -239,11 +239,11 @@ void TBoss7Crawfish::aim_at_nearest_player() {
         velocity.y *= speed;
         velocity.z *= speed;
     } else {
-        velocity.x = speed * sin_table_lookup(rotation_y);
+        velocity.x = speed * sin_table_lookup(rotation.y);
         velocity.y = 0.0f;
-        velocity.z = speed * cos_table_lookup(rotation_y);
+        velocity.z = speed * cos_table_lookup(rotation.y);
     }
-    rotation_y = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
+    rotation.y = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
     change_state(2);
 }
 

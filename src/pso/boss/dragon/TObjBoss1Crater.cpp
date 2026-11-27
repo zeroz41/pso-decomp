@@ -56,7 +56,7 @@ void TObjBoss1Crater::render() {
     push_matrix();
     set_texture_list(dragon_common_texture_list);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     model_render_flags |= 0x01000000;
     draw_chunk_object(dragon_ground_resource->models[0].model);
     model_render_flags &= 0xFEFFFFFF;
@@ -132,7 +132,7 @@ TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : T
     m_name = TObjBoss1Crater::name;
     bodies->radius = r;
     VecCopy(&position, pos);
-    rotation_y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
+    rotation.y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
     emitter = create_particle_emitter(&position, 0x40);
     attack_history = new AreaAttackHistory(4);
     for (i = 0; i < 4; i++) {

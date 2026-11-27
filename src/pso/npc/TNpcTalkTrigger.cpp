@@ -77,7 +77,7 @@ void TNpcTalkTrigger::run_task() {
         set_indexed_flags(0, 1);
         if (spawned == 0) {
             spawned = 1;
-            new TNpcPlayerSpawner(&position, rotation_y, npc_slot, record, set_params[1], tl_07);
+            new TNpcPlayerSpawner(&position, rotation.y, npc_slot, record, set_params[1], tl_07);
         }
     } else {
         player = get_player_by_client_id(npc_slot);

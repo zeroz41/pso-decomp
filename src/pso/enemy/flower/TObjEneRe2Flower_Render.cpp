@@ -57,7 +57,7 @@ void TObjEneRe2Flower::render_demo() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect();
     set_alpha_ref_override(0);
@@ -113,7 +113,7 @@ void TObjEneRe2Flower::render() {
         set_alpha_ref_override(0);
         TObjEneDD::clear_global_flag_400();
         translate_matrix(0, lbl_805D9FAC, draw_offset_y, lbl_805D9FAC);
-        re2_flower_node_yaw = rotation_y - base_yaw;
+        re2_flower_node_yaw = rotation.y - base_yaw;
         re2_flower_node_points = &node_points[0];
         node_points[0].x = lbl_805D9FAC;
         node_points[0].y = re2_flower_node_point0_y;
@@ -241,13 +241,13 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
         }
         if (state_step < 0x12C) {
             step = 0x11;
-            rotation_y += 0x400;
+            rotation.y += 0x400;
         } else if (state_step < 0x168) {
             step = 0x22;
-            rotation_y += 0x800;
+            rotation.y += 0x800;
         } else if (state_step < 0x1B3) {
             step = 0x44;
-            rotation_y += 0x1000;
+            rotation.y += 0x1000;
         } else {
             step = 0x44;
         }

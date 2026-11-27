@@ -39,8 +39,8 @@ inline const ModelNodePositionEntry *dead_effect_nodes() {
     };
     return boss6_demo11_dead_effect_nodes;
 }
-inline const CameraAngles *dead_camera_angles() {
-    static const CameraAngles boss6_demo11_dead_camera_angles = {0, 0, 0};
+inline const Angle3 *dead_camera_angles() {
+    static const Angle3 boss6_demo11_dead_camera_angles = {0, 0, 0};
     return &boss6_demo11_dead_camera_angles;
 }
 inline const CameraPlayback *dead_camera_playback() {

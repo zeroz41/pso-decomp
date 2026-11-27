@@ -38,7 +38,7 @@ void TObjButterflyLobby::draw_butterfly() {
 
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_matrix_x(0, -0x2000);
     if ((s32) appear_state != 3) {
         size = appear_scale;
@@ -146,7 +146,7 @@ void TObjButterflyLobby::run_task() {
             in.y = 0.0f;
             in.z = 2.0f * (0.0015f * FRND()) + 0.05f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             rotate_vector_by_matrix(0, &in, &out);
             pop_matrices(1);
             this->velocity.x += out.x;
@@ -160,9 +160,9 @@ void TObjButterflyLobby::run_task() {
         break;
     case 2:
         if (this->turn_dir == 0) {
-            this->rotation_y += 200.0f * FRND() + 200.0f;
+            this->rotation.y += 200.0f * FRND() + 200.0f;
         } else {
-            this->rotation_y -= 200.0f * FRND() + 200.0f;
+            this->rotation.y -= 200.0f * FRND() + 200.0f;
         }
         if (this->rising == 0) {
             Vec in;
@@ -171,7 +171,7 @@ void TObjButterflyLobby::run_task() {
             in.y = 0.0f;
             in.z = 2.0f * (0.025f * FRND()) + 0.05f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             rotate_vector_by_matrix(0, &in, &out);
             pop_matrices(1);
             this->velocity.x += out.x;
@@ -260,7 +260,7 @@ TObjButterflyLobby::~TObjButterflyLobby() {
 TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = butterfly_lobby_name;
     VecCopy(&position, &set_data->position);
-    copy_xyz(&rotation_x, set_data->rotation);
+    copy_xyz(&rotation, set_data->rotation);
     VecCopy(&scale, &set_data->scale);
     if (is_lobby_event_active() != 0) {
         appear_state = 0;

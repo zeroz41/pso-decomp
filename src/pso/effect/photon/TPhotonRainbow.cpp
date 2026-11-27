@@ -22,14 +22,14 @@ void TPhotonRainbow::render() {
     push_matrix();
     texlist = ring_texlist[0];
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y / 2);
+    rotate_matrix_y(0, rotation.y / 2);
     set_texture_list(texlist);
     draw_chunk_object(ring_model[0]);
     pop_matrix();
     push_matrix();
     texlist = ring_texlist[1];
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, 0x10000 - rotation_y);
+    rotate_matrix_y(0, 0x10000 - rotation.y);
     set_texture_list(texlist);
     draw_chunk_object(ring_model[1]);
     pop_matrix();
@@ -37,7 +37,7 @@ void TPhotonRainbow::render() {
 }
 
 void TPhotonRainbow::run_task() {
-    rotation_y = rotation_y + 0xB6;
+    rotation.y = rotation.y + 0xB6;
 }
 
 TPhotonRainbow::~TPhotonRainbow() {

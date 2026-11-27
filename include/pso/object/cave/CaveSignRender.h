@@ -16,7 +16,7 @@ inline void render_cave_sign(TObjMapObject *sign) {
         set_texture_list(sign->texlist);
         push_matrix();
         post_translate_matrix(&sign->position.x);
-        rotate_matrix_y(NULL, sign->rotation_y);
+        rotate_matrix_y(NULL, sign->rotation.y);
         node = sign->model;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);

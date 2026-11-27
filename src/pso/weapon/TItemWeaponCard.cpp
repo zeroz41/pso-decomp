@@ -325,7 +325,7 @@ void TItemWeaponDancingHitogata::emit_marker_effects() {
     origin = orbit_points;
     count = orbit_count;
     n = count;
-    angle = orbit_angle - owner->rotation_y;
+    angle = orbit_angle - owner->rotation.y;
     step = 0x10000 / count;
     while (n != 0) {
         fire_shot_at_target(origin++, item_model, angle);

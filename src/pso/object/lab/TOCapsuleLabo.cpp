@@ -66,7 +66,7 @@ void TOCapsuleLabo::render() {
         body = model;
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         post_translate_matrix(body->pos);
         draw_ginja_model(body->model);
         lid = body->child;

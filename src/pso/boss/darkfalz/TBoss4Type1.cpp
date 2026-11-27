@@ -329,7 +329,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type1_start_position);
-    rotation_y = 0;
+    rotation.y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, boss4_type1_collision_body_desc, 3);
     VecCopy(&body_center, &position);
@@ -453,7 +453,7 @@ void TBoss4Type1::render_effects() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_parts();
     pop_matrix();
     end_effect_render();
@@ -575,7 +575,7 @@ void TBoss4Type1::set_pos_from_scaled_offset(Vec *from, Vec *to) {
 }
 
 void TBoss4Type1::calc_scaled_field(s32 from_angle, s32 to_angle) {
-    rotation_y = from_angle + (s32)(move_ratio * (f32)angle_diff_s16(from_angle, to_angle));
+    rotation.y = from_angle + (s32)(move_ratio * (f32)angle_diff_s16(from_angle, to_angle));
 }
 
 f32 TBoss4Type1::calc_wave_offset(f32 t) {
@@ -594,7 +594,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     push_matrix();
     set_matrix_identity(0);
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     for (i = 0; i < collider_count; i++) {
         in.x = boss4_type1_xz_offset_table[i].x;
         in.y = 0.0f;
@@ -672,8 +672,8 @@ void TBoss4Type1::update_collision_bodies() {
         Vec v = node_positions[i][0];
         VecCopy(&body->center, &v);
         subtract_vector(&v, &position);
-        s = sin_table_lookup(-rotation_y);
-        c = cos_table_lookup(-rotation_y);
+        s = sin_table_lookup(-rotation.y);
+        c = cos_table_lookup(-rotation.y);
         Vec t = v;
         v.x = c * t.x + s * t.z;
         v.z = -s * t.x + c * t.z;
@@ -805,8 +805,8 @@ void TBoss4Type1::update_radar_markers() {
     add_radar_scaled_marker(&node_positions[0][0], -0x5DB4, 1, 1, 5.0f);
     add_radar_scaled_marker(&node_positions[1][0], -0x5DB4, 1, 1, 5.0f);
     add_radar_scaled_marker(&node_positions[2][0], -0x5DB4, 1, 1, 5.0f);
-    s = sin_table_lookup(rotation_y);
-    c = cos_table_lookup(rotation_y);
+    s = sin_table_lookup(rotation.y);
+    c = cos_table_lookup(rotation.y);
     step = 37.5f;
     i = 0;
     dist = 0x25;
@@ -910,7 +910,7 @@ void TBoss4Type1::update_follow_camera_offsets() {
     push_matrix();
     set_matrix_identity(0);
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     for (i = 0; i < collider_count; i++) {
         in.x = boss4_type1_xz_offset_table[i].x;
         in.y = 0.0f;

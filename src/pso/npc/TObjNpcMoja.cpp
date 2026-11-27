@@ -61,7 +61,7 @@ void TObjNpcMoja::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3((u8 *)0, (u8 *)&position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw();
         pop_matrix();
         model_render_flags &= ~1;

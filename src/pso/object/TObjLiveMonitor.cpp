@@ -172,7 +172,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
             target.x = -5.0f * sin_table_lookup(orbit_angle) + player->position.x;
             target.y = 19.8f + player->position.y;
             target.z = -5.0f * cos_table_lookup(orbit_angle) + player->position.z;
-            turn_orbit_toward(player->rotation_y - 0x8000);
+            turn_orbit_toward(player->rotation.y - 0x8000);
             return;
         }
         break;
@@ -185,7 +185,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
             target.x = -120.0f * sin_table_lookup(orbit_angle) + enemy->position.x;
             target.y = 20.0f + enemy->position.y;
             target.z = -120.0f * cos_table_lookup(orbit_angle) + enemy->position.z;
-            turn_orbit_toward(enemy->rotation_y - 0x8000);
+            turn_orbit_toward(enemy->rotation.y - 0x8000);
             return;
         }
         break;
@@ -236,7 +236,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         target_id = get_player_target();
         subject = get_player_by_client_id(target_id);
         if (subject != NULL) {
-            orbit_angle = subject->rotation_y - 0x8000;
+            orbit_angle = subject->rotation.y - 0x8000;
         }
         break;
     case SHOT_BEHIND_BOSS:
@@ -244,7 +244,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         target_id = get_boss_target();
         subject = (TObjBase *)get_enemy_entity(target_id);
         if (subject != NULL) {
-            orbit_angle = subject->rotation_y - 0x8000;
+            orbit_angle = subject->rotation.y - 0x8000;
         }
         break;
     case SHOT_ARENA:

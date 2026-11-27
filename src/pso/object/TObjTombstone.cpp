@@ -149,7 +149,7 @@ void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
     this->client_id = client;
     this->record = *src;
     VecCopy(&this->position, &this->record.position);
-    this->rotation_y = this->client_id << 0xD;
+    this->rotation.y = this->client_id << 0xD;
     this->local_distance = 0.0f;
     this->label_fade = 0.0f;
     this->outline_fade = 0.0f;
@@ -263,7 +263,7 @@ void TObjTombstone::drop_recovery_items() {
             sum += rate[1];
         }
         if (kind != -1) {
-            s32 angle = rotation_y - ((count - 1) * 0x2000) / 2;
+            s32 angle = rotation.y - ((count - 1) * 0x2000) / 2;
             TItemData item = tombstone_recovery_item_templates[kind];
             s32 dropped = 0;
             s32 step;
@@ -465,7 +465,7 @@ void TObjTombstone::update_render_flags() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();

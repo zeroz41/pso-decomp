@@ -161,16 +161,16 @@ void TODoorJungleMain::run_task() {
                 Vec b = {-40.0f, 0.0f, 0.0f};
                 set_matrix_identity((u8 *)&mtx);
                 translate_matrix_vec3((u8 *)&mtx, (u8 *)&this->position);
-                rotate_matrix_y(mtx, this->rotation_y);
+                rotate_matrix_y(mtx, this->rotation.y);
                 matrix_mult_vec(mtx, &a, &a);
                 matrix_mult_vec(mtx, &b, &b);
                 spawn_particle_effect_with_flags(&a, 0x229, 0x800);
                 spawn_particle_effect_with_flags(&b, 0x229, 0x800);
             }
         }
-        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation.y, 0, 0);
     } else {
-        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation.y, 0, 0);
         clear_player_status_flag(0, 8);
     }
 }
@@ -212,7 +212,7 @@ void TODoorJungleMain::render() {
         set_texture_list(door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (door_flags & 1) {
             draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain::bml_resource, 3), motion, animation_end_frame);
         } else {

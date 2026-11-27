@@ -166,7 +166,7 @@ void TORockCave::render() {
         pre_draw();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
@@ -184,7 +184,7 @@ void TORockCaveSimple::render() {
     if (update_object_view_visibility(view_far_depth, view_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
@@ -247,7 +247,7 @@ void TORockCaveBrakable::throw_debris() {
     for (i = 0; i < 6; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         VecCopy(&params.pos, &position);

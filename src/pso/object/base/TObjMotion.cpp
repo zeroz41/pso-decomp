@@ -481,8 +481,8 @@ f32 TObjMotion::get_root_motion_step(f32 *dx, f32 *dz) {
         end = k->key[2] + (dv * (t2 - (f32)k->keyframe)) / span;
     }
     d = end - start;
-    *dx = d * sin_table_lookup(rotation_y);
-    *dz = d * cos_table_lookup(rotation_y);
+    *dx = d * sin_table_lookup(rotation.y);
+    *dz = d * cos_table_lookup(rotation.y);
     return d;
 }
 

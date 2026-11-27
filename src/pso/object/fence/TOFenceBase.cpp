@@ -84,7 +84,7 @@ void TOFenceBase::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         if (is_open == 0) {
             draw_ginja_model_with_motion(model, motion, animation_frame);

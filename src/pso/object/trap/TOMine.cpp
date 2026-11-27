@@ -293,8 +293,8 @@ void TOMine::update_float_height() {
             this->float_flags = (s32) (this->float_flags | 2);
         }
     } else {
-        this->rotation_x = (this->rotation_x + 0x800);
-        float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation_x));
+        this->rotation.x = (this->rotation.x + 0x800);
+        float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation.x));
     }
 }
 void TOMine::apply_float_position() { sync_position(); }
@@ -344,7 +344,7 @@ void TOMine::follow_target() {
   prev_y = prev_position.y;
   position.y = (f32) ((0.5f * ((25.0f + this->target->position.y) - prev_y)) + prev_y);
   calc_attach_pos();
-  this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
+  this->rotation.y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
   refresh_collision_body_centers();
 }
 #pragma pop
@@ -614,7 +614,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         init_position_vectors();
         calc_attach_pos();
         spawn_disp_objects();
-        facing = owner->rotation_y;
+        facing = owner->rotation.y;
         alt_room = owner->alt_room;
         room = owner->room;
         switch (attack.kind) {
@@ -1053,7 +1053,7 @@ void TOMineDisp::render() {
     push_matrix();
     mine = static_cast<TOMine *>(this->m_up);
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     mine->draw_body();
     begin_effect_render();
     render_flags = model_render_flags;

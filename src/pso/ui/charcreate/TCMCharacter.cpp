@@ -264,9 +264,9 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     position.z = 0.0f;
     position.y = 0.0f;
     position.x = 0.0f;
-    rotation_z = 0;
-    rotation_y = 0;
-    rotation_x = 0;
+    rotation.z = 0;
+    rotation.y = 0;
+    rotation.x = 0;
     load_creation_shape_rel(this);
     reset_character_creation_figure_rotation();
     creation_resource_ready_state = 0;

@@ -47,7 +47,7 @@ void TItemEffShield::run_task() {
     ShieldEffectEntry *entry;
     if (player != NULL) {
         player->get_anim_node_position(node, &position);
-        copy_xyz(&rotation_x, &player->rotation_x);
+        copy_xyz(&rotation_x, &player->rotation);
     }
     if (player != NULL && burst != (entry = this->entry)->burst_count) {
         switch (burst) {

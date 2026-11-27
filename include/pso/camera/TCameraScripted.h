@@ -2,7 +2,7 @@
 #define PSO_CAMERA_TCAMERASCRIPTED_H
 #include "types.h"
 #include "pso/camera/TCameraController.h"
-#include "pso/camera/CameraAngles.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/animation/MotionContext.h"
@@ -73,7 +73,7 @@ public:
     virtual void run_task();
     Vec position_origin;
     Vec target_origin; // set with position_origin, never read
-    CameraAngles angles;
+    Angle3 angles;
     NJS_MOTION *motion;
     CameraBankFile *bank_file;
     CameraPlayback playback;

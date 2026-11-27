@@ -353,7 +353,7 @@ void TObjEneMerillLia::render() {
         push_matrix();
         translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
@@ -624,7 +624,7 @@ void TObjEneMerillLia::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
+            rotation.y = approach_angle_limited(rotation.y, ang, movementParameters->turn_speed);
         } else {
             f32 rr = fabs_float(d->z);
             if (fabs_float(scratch_vec.x) < rr) {
@@ -643,7 +643,7 @@ void TObjEneMerillLia::beast_idle_update() {
             if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
                 requested_action = 2;
                 VecCopy(&position, &scratch_vec2);
-                rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
+                rotation.y = approach_angle_limited(rotation.y, ang, movementParameters->turn_speed);
             } else {
                 s32 ang2;
                 rr = fabs_float(d->z);
@@ -663,7 +663,7 @@ void TObjEneMerillLia::beast_idle_update() {
                 if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
                     requested_action = 2;
                     VecCopy(&position, &scratch_vec2);
-                    rotation_y = approach_angle_limited(rotation_y, ang2, movementParameters->turn_speed);
+                    rotation.y = approach_angle_limited(rotation.y, ang2, movementParameters->turn_speed);
                 } else {
                     requested_action = 2;
                 }
@@ -697,7 +697,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     scratch_vec.x = 0.0f;
     scratch_vec.z = get_collision_body_radius(0);
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, -rotation_y);
+    rotate_matrix_y(0, -rotation.y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&pos, &scratch_vec);
@@ -744,7 +744,7 @@ void TObjEneMerillLia::update_kafun_attack() {
             advance_animation();
             push_matrix_from(identity_matrix);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             calc_joint_matrices(13.0f);
             pop_matrix();
             push_matrix_from(anim_model_matrix_array[23]);
@@ -1026,7 +1026,7 @@ void TObjEneMerillLia::spawn_death_effect() {
     stack.y = 10.0f;
     stack.z = 0.5f * stat_block->proportions;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);

@@ -871,7 +871,7 @@ void TObjDFYutai::render() {
     v.y += yutai_height_range.min + t * (yutai_height_range.max - yutai_height_range.min);
     push_matrix();
     post_translate_matrix(&v.x);
-    rotate_matrix_y(0, p->rotation_y);
+    rotate_matrix_y(0, p->rotation.y);
     scale_matrix(0, s, s, s);
     TObjPlayer::draw_player_model_by_id(player_id, w);
     pop_matrix();

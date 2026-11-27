@@ -63,7 +63,7 @@ void TPhotonConcentrate::run_task() {
             push_matrix_from(&identity_matrix);
             owner_obj = owner;
             if (owner_obj != NULL) {
-                rotate_matrix_y(NULL, 182.04445f * (f32)(owner_obj->rotation_y - 0x5A));
+                rotate_matrix_y(NULL, 182.04445f * (f32)(owner_obj->rotation.y - 0x5A));
                 rotate_vector_by_matrix(0, &offset, &turned);
             }
             pop_matrices(1);

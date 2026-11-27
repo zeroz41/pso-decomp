@@ -174,7 +174,7 @@ void TObjContainerJung::draw_model() {
             set_texture_list(jungle_container_textures);
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
             draw_ginja_object(get_bml_model(jungle_container_archive, 0));
             begin_effect_render();
@@ -307,7 +307,7 @@ void TObjContainerJungEx::draw_model() {
         set_texture_list(TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(TObjContainerJungEx::get_model(0));
         begin_effect_render();
@@ -446,7 +446,7 @@ void TObjContainerJungEnemy::draw_model() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(this->body_model);
         begin_effect_render();

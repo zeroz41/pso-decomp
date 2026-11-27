@@ -78,7 +78,7 @@ void TBoss8DragonColli_C::enable_at(Vec *pos, s32 angle) {
     rotate_matrix_y(NULL, angle);
     matrix_mult_vec(NULL, &local_position, &position);
     pop_matrix();
-    rotation_y = angle;
+    rotation.y = angle;
     refresh_collision_body_centers();
     set_segment_flags();
 }

@@ -109,14 +109,14 @@ void TObjContainerIdo::render() {
         }
         push_matrix();
         post_translate_matrix(&home_position.x);
-        rotate_matrix_y(0, rotation_y);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_y(0, rotation.y);
+        rotate_matrix_x(0, rotation.x);
         draw_ginja_object(get_bml_model(container_ido_model_archive, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_y(0, rotation.y);
+        rotate_matrix_x(0, rotation.x);
         draw_ginja_object(get_bml_model(container_ido_model_archive, 1));
         pop_matrix();
         if (fading != 0) {
@@ -158,8 +158,8 @@ void TObjContainerIdo::run_task() {
             Vec v = { 0.0f, 0.0f, 0.0f };
             v.z = -speed;
             push_matrix_from(&identity_matrix);
-            rotate_matrix_y(0, rotation_y);
-            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_y(0, rotation.y);
+            rotate_matrix_x(0, rotation.x);
             rotate_vector_by_matrix(0, &v, &v);
             pop_matrix();
             position.x -= v.x;
@@ -176,8 +176,8 @@ void TObjContainerIdo::run_task() {
             Vec w = { 0.0f, 0.0f, 0.0f };
             w.z = -speed;
             push_matrix_from(&identity_matrix);
-            rotate_matrix_y(0, rotation_y);
-            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_y(0, rotation.y);
+            rotate_matrix_x(0, rotation.x);
             rotate_vector_by_matrix(0, &w, &w);
             pop_matrix();
             position.x += w.x;
@@ -203,8 +203,8 @@ void TObjContainerIdo::run_task() {
             b.z = 3e+01f * (3.0517578e-05f * (f32)rand()) - 15.0f;
             push_matrix_from(&identity_matrix);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
-            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_y(0, rotation.y);
+            rotate_matrix_x(0, rotation.x);
             matrix_mult_vec(0, &a, &out);
             spawn_particle_effect(&out, 0x42);
             matrix_mult_vec(0, &b, &out);

@@ -133,7 +133,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 gr
     position.x = 76.0f * cos_table_lookup(angle) + boss3_volopt_spawn_pos.x;
     position.z = 76.0f * sin_table_lookup(angle) + boss3_volopt_spawn_pos.z;
     position.y = 0.0f;
-    rotation_y = -0x4000 - angle;
+    rotation.y = -0x4000 - angle;
     shutter = new TObjVoloptShutter(index);
 }
 #pragma pop
@@ -250,11 +250,11 @@ void TBoss3VoloptP01::render() {
         push_matrix();
         if (check_demo_mode() == 1) {
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw_chunk_object(model);
         } else {
             translate_matrix(0, position.x, position.y + y_offset, position.z);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             flags = behavior_flags;
             if (flags & 0x40000) {
                 draw_chunk_model(((TBoss3VoloptP01Model *)model)->pieces->root);
@@ -359,7 +359,7 @@ void TBoss3VoloptP01::update_breakup() {
         timer--;
         if (timer < 0) {
             TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01::breakup_model, &volopt_p01_breakup_params,
-                               texlist, &body_center, rotation_y);
+                               texlist, &body_center, rotation.y);
             trigger_dell_biter_events(&body_center);
             behavior_flags |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);
@@ -673,7 +673,7 @@ void TBoss3VoloptP01::enter_state_machine() {
 void TBoss3VoloptP01::get_node_position(s32 node, Vec *out) {
     push_matrix_from(identity_matrix);
     translate_matrix(0, position.x, position.y + y_offset, position.z);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     calc_joint_matrices(frame);
     pop_matrix();
     Vec origin = volopt_p01_node_origin;

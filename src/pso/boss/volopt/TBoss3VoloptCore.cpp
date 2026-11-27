@@ -236,13 +236,13 @@ void TBoss3VoloptCore::render() {
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_x(0, rotation.x);
         if (behavior_flags & 0x10000) {
             rotate_matrix_y(0, facing_angle);
             scale_matrix(0, 1.0f, 1.0f, 0.05f);
-            rotate_matrix_y(0, rotation_y - facing_angle);
+            rotate_matrix_y(0, rotation.y - facing_angle);
         } else {
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
         }
         if (check_demo_mode() == 1) {
             draw_chunk_object(model);
@@ -262,7 +262,7 @@ void TBoss3VoloptCore::update_charge_state() {
     case 0:
         behavior_flags &= ~0x10000;
         this->requested_action = 0;
-        rotation_x = 0;
+        rotation.x = 0;
         if ((s32)previous_action == 4) {
             state = charge_step;
         } else {
@@ -425,10 +425,10 @@ void TBoss3VoloptCore::update_state_spin() {
         targetId = 0xFFFF;
         behavior_flags |= 0x10000;
         this->requested_action = 0;
-        rotation_x = 0;
+        rotation.x = 0;
         update_orbit_position();
         facing_angle = calc_spin_value();
-        rotation_y = facing_angle;
+        rotation.y = facing_angle;
         timer = 0x5A;
         state = 1;
     case 1:
@@ -520,7 +520,7 @@ void TBoss3VoloptCore::update_orbit_state() {
     case 0:
         behavior_flags |= 0x10000;
         this->requested_action = 0;
-        rotation_x = 0;
+        rotation.x = 0;
         state = 1;
         break;
     case 1:
@@ -529,7 +529,7 @@ void TBoss3VoloptCore::update_orbit_state() {
         sweep_angle -= get_orbit_speed(0);
         update_orbit_position();
         facing_angle = calc_spin_value();
-        rotation_y = facing_angle - 0x4000;
+        rotation.y = facing_angle - 0x4000;
         if (moves_left > 1) {
             if (sweep_angle <= -0x238E) {
                 moves_left--;
@@ -564,8 +564,8 @@ void TBoss3VoloptCore::update_orbit_end_state() {
         effect = NULL;
         state = 1;
     case 1:
-        rotation_y = approach_angle_limited(rotation_y, facing_angle - 0x8000, core_turn_angle_limit);
-        if (angle_difference_abs(rotation_y, facing_angle - 0x8000) <= core_turn_angle_limit) {
+        rotation.y = approach_angle_limited(rotation.y, facing_angle - 0x8000, core_turn_angle_limit);
+        if (angle_difference_abs(rotation.y, facing_angle - 0x8000) <= core_turn_angle_limit) {
             timer = (TBoss3Volopt::is_v2_mode() != 0) ? 5 : 0x1E;
             state = 2;
         }
@@ -636,7 +636,7 @@ void TBoss3VoloptCore::update_topple_state() {
     case 0:
         behavior_flags |= 0x10000;
         this->requested_action = 0;
-        if (angle_difference_abs(rotation_y, facing_angle - 0x4000) <= core_turn_angle_limit) {
+        if (angle_difference_abs(rotation.y, facing_angle - 0x4000) <= core_turn_angle_limit) {
             state = 3;
         } else {
             state = 1;
@@ -648,8 +648,8 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 2:
-        rotation_y = approach_angle_limited(rotation_y, facing_angle - 0x4000, core_turn_angle_limit);
-        if (angle_difference_abs(rotation_y, facing_angle - 0x4000) <= core_turn_angle_limit) {
+        rotation.y = approach_angle_limited(rotation.y, facing_angle - 0x4000, core_turn_angle_limit);
+        if (angle_difference_abs(rotation.y, facing_angle - 0x4000) <= core_turn_angle_limit) {
             state = 3;
         }
         break;

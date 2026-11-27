@@ -72,8 +72,8 @@ void TObjGyaranzoMissile::render() {
     set_texture_list(get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_x(0, rotation_x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_x(0, rotation.x);
+    rotate_matrix_y(0, rotation.y);
     translate_matrix(0, 0.0f, wobble_height * sin_table_lookup(wobble_phase), 0.0f);
     model_render_flags &= ~0x400;
     draw_chunk_object(get_bml_model(gyaranzo_bml_resource, 6));
@@ -96,7 +96,7 @@ void TObjGyaranzoMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation.x, &rotation.y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
         if (csnVector(&prev_position, &position, -1) != NULL) {
@@ -138,8 +138,8 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissile
     bodies->radius = 4.0f;
     VecCopy(&position, launch->position);
     target_id = target;
-    rotation_x = launch->rotation_x;
-    rotation_y = launch->rotation_y;
+    rotation.x = launch->rotation_x;
+    rotation.y = launch->rotation_y;
     wobble_phase = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
     wobble_speed = (s32)(launch->wobble_speed * (0.5f * ((3.0517578e-05f * (f32)rand()) + 1.0f)));
     wobble_height = launch->wobble_height;
@@ -149,8 +149,8 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissile
     velocity.y = 0.0f;
     velocity.z = gyaranzo_missile_speed_scale;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_y(0, rotation.y);
+    rotate_matrix_x(0, rotation.x);
     matrix_mult_vec(NULL, &velocity, &velocity);
     pop_matrix();
     timer = 0;

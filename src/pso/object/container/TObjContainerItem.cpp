@@ -442,7 +442,7 @@ void TObjContainerItem::draw_model() {
             set_texture_list(forest_box_textures);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
             draw_ginja_box_tree(model);
             pop_matrix();
@@ -533,7 +533,7 @@ void TObjContainerEnemy::draw_model() {
         set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree(model);
         pop_matrix();
@@ -646,7 +646,7 @@ void TObjContainerNoItem::draw_model() {
         set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree(this->model);
         pop_matrix();
@@ -737,7 +737,7 @@ void TObjContainerAbeItem::draw_model() {
             set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
@@ -840,7 +840,7 @@ void TObjContainerAbeEnemy::draw_model() {
             set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;

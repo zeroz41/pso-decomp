@@ -116,7 +116,7 @@ void TObjMapWarpAncient::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         begin_effect_render();
         if ((s32)set_params[1] >= 0) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
@@ -196,7 +196,7 @@ void TObjGoalWarpAncient::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         begin_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(beam_textures));
         draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);

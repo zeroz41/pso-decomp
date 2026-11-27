@@ -124,7 +124,7 @@ void TObjCityMainWarpChallenge::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_object(city_common_model_archive->models[12].model);
     begin_effect_render();
     draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, (f32)frame);

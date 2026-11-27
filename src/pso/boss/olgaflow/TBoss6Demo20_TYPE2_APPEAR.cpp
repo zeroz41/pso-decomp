@@ -45,7 +45,7 @@ const ParticleScheduleEntry boss6_type2_appear_particle_schedule[9] = {
     {100, 157, 377, -2}
 };
 const Vec boss6_type2_appear_camera_position = {-10000.0f, 0.0f, 0.0f};
-const CameraAngles boss6_type2_appear_camera_angles = {0, 0, 0};
+const Angle3 boss6_type2_appear_camera_angles = {0, 0, 0};
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {

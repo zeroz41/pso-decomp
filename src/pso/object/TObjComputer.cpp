@@ -156,7 +156,7 @@ void TObjComputer::draw_model() {
     set_texture_list(computer_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     if (TObjComputer::screen_model_indices[set_params[1]] == 1) {
         u32 tick = actor_frame_tick;
         if (tick != last_scroll_tick && uv_scroll_time >= 1.0f) {
@@ -215,7 +215,7 @@ void TObjGbAdvance::render() {
         set_texture_list(get_bml_texlist(TObjGbAdvance::resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 0));
         draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 1));
         draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 2));

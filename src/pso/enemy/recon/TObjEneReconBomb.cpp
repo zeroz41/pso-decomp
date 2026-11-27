@@ -70,7 +70,7 @@ void TObjEneReconBomb::render() {
     texlist = (saddr)get_bml_texlist(recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, position.x, 2.0f + position.y, position.z);
-    rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
+    rotate_matrix_zyx(0, rotation.x, rotation.y, rotation.z);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     draw_chunk_object(bml_model);
     pop_matrix();
@@ -178,10 +178,10 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const V
     blast_power = owner->get_bomb_power();
     launch_speed = owner->get_bomb_speed();
     lifetime = owner->calc_scaled_value();
-    rotation_y = ((TObjBase *)m_up)->rotation_y;
+    rotation.y = ((TObjBase *)m_up)->rotation.y;
     VecCopy(&position, pos);
-    s = sin_table_lookup(rotation_y);
-    c = cos_table_lookup(rotation_y);
+    s = sin_table_lookup(rotation.y);
+    c = cos_table_lookup(rotation.y);
     velocity.x = launch_speed * s;
     velocity.y = 0.0f;
     velocity.z = launch_speed * c;

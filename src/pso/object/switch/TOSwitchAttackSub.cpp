@@ -82,7 +82,7 @@ void TOSwitchAttack::create_sub(s32 stop_switch, s32 required_switch, s32 type, 
 void TOSwitchAttack::init_params() {
     f32 x;
 
-    this->effect_type = (u8) this->rotation_x;
+    this->effect_type = (u8) this->rotation.x;
     x = this->scale.x;
     this->range_sq = (f32) (x * x);
     this->damage = (f32) (this->scale.y * (2.0f * (game_difficulty_selection + 1)));

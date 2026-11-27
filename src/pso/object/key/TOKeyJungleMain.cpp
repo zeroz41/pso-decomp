@@ -85,7 +85,7 @@ void TOKeyJungleMain::render() {
             set_texture_list(get_bml_texlist(key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw_ginja_object(get_bml_model(key_jungle_main_static_model_resource, 1));
             pop_matrix();
             return;
@@ -93,7 +93,7 @@ void TOKeyJungleMain::render() {
             set_texture_list(get_bml_texlist(key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 1),
                                          get_bml_motion(key_jungle_main_static_model_resource, 1), switch_frame);
             begin_effect_render();

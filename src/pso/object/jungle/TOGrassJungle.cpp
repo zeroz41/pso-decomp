@@ -56,7 +56,7 @@ void TOGrassJungle::render() {
         set_texture_list(grass_jungle_grass_gvm_texture);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         draw_ginja_object(get_bml_model((BmlResource *)grass_jungle_bml_resource, this->model_index));
         pop_matrix();
     }

@@ -179,7 +179,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     wall_reach = lbl_805D9FBC;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
-    base_yaw = rotation_y;
+    base_yaw = rotation.y;
     draw_offset_y = lbl_805D9FAC;
     pad_3cc = 0;
     retarget_counter = 0;
@@ -504,7 +504,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
             if (d > re2_flower_lose_target_distance || current_target == NULL) {
                 transition_enemy_state(2);
             } else if (d < re2_flower_attack_distance) {
-                t = angle_difference_abs(rotation_y, target_angle);
+                t = angle_difference_abs(rotation.y, target_angle);
                 if (t < attack_params->get_attack_angle()) {
                     transition_enemy_state(5);
                 }
@@ -535,8 +535,8 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         update_velocity();
         state_timer++;
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
-        rotation_y = (s16)rotation_y;
+        rotation.y = approach_angle_limited(rotation.y, target_angle, movementParameters->turn_speed);
+        rotation.y = (s16)rotation.y;
         update_ground_contact();
         update_body_colliders();
         noop();
@@ -581,9 +581,9 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             VecCopy(&pos, &node_points[0]);
             pos.y = lbl_805D9FDC + position.y;
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
-                TTecMegid::create_ex(this, &pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
+                TTecMegid::create_ex(this, &pos, rotation.y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
-                new TObjEneRe2Flower_Bomb(this, &pos, rotation_y);
+                new TObjEneRe2Flower_Bomb(this, &pos, rotation.y);
             }
             play_sound_effect(remap_sound_for_variant(0x4003A10E), &node_points[0], 0, 0);
         }

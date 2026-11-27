@@ -72,7 +72,7 @@ bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
     }
     f32 facing[3] = {0.0f, 0.0f, -1.0f};
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, (int) player->rotation_y);
+    rotate_matrix_y(0, (int) player->rotation.y);
     rotate_vector_by_matrix(0, facing, facing);
     pop_matrix();
     to_self[0] = this->position.x - player->position.x;

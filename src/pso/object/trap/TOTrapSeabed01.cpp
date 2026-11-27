@@ -219,7 +219,7 @@ void TOTrapSeabed01::draw() {
         set_texture_list(trap_seabed01_texture_file);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_object_tree(model);
         pop_matrix();
         end_effect_render();
@@ -273,7 +273,7 @@ void TOTrapSeabed01::render_effect_layers() {
     set_model_node_callback(TOTrapSeabed01::trigger_by_id);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_depth_buffer_settings_3();
     set_draw_list_mask(1);
     draw_ginja_model_with_motion(model, current_motion, frame);
@@ -384,7 +384,7 @@ void TOTrapSeabed01::play_sounds() {
         v.y = 0.0f;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&position);
-        rotate_matrix_y(m, rotation_y);
+        rotate_matrix_y(m, rotation.y);
         matrix_mult_vec(m, &v, &v);
         TParticleCtrl *particle = spawn_particle_effect(&v, 0x8B);
         if (particle != NULL) {

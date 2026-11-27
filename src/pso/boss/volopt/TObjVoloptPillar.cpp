@@ -80,7 +80,7 @@ void TObjVoloptPillar::render() {
         scale = 0.011111111f * (90.0f - position.y) + 1.0f;
         push_matrix();
         translate_matrix(0, position.x, 0.3f, position.z);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         rotate_matrix_x(0, -0x4000);
         scale_matrix(0, scale, scale, scale);
         draw_blob_shadow(0);

@@ -83,9 +83,9 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         position.x = 17.0f;
         position.y = -10.5f;
         position.z = -40.0f;
-        rotation_x = 0;
-        rotation_y = 0xF3D5;
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 0xF3D5;
+        rotation.z = 0;
         spin_model = 1;
         break;
     case 1:
@@ -93,26 +93,26 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         position.x = 0.0f;
         position.y = -10.5f;
         position.z = -40.0f;
-        rotation_x = 0;
-        rotation_y = 0xF3D5;
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 0xF3D5;
+        rotation.z = 0;
         spin_model = 1;
         break;
     case 3:
         position.x = 28.0f * formation_index + -14.0f;
         position.y = -10.0f;
         position.z = -110.0f;
-        rotation_x = 0;
-        rotation_y = 182.04445f * (7.25f - 14.5f * formation_index);
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 182.04445f * (7.25f - 14.5f * formation_index);
+        rotation.z = 0;
         break;
     case 4:
         position.x = 19.0f * formation_index + -19.0f;
         position.y = -10.0f;
         position.z = -110.0f;
-        rotation_x = 0;
-        rotation_y = 182.04445f * (9.8f - 9.8f * formation_index);
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 182.04445f * (9.8f - 9.8f * formation_index);
+        rotation.z = 0;
         break;
     case 5: {
         f32 xs[4] = { -21.5f, -8.0f, 7.0f, 23.5f };
@@ -121,9 +121,9 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         position.x = xs[formation_index];
         position.y = -10.0f;
         position.z = zs[formation_index];
-        rotation_x = 0;
-        rotation_y = 182.04445f * rs[formation_index];
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 182.04445f * rs[formation_index];
+        rotation.z = 0;
         break;
     }
     }
@@ -195,19 +195,19 @@ void TAdChrSelPlayerGC::run_task() {
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
-            rotation_y = 0xF3D5;
+            rotation.y = 0xF3D5;
             break;
         case 1:
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
-            rotation_y = 0xF3D5;
+            rotation.y = 0xF3D5;
             break;
         case 2:
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
-            rotation_y = 0xF3D5;
+            rotation.y = 0xF3D5;
             break;
         case 3:
         case 4:
@@ -243,7 +243,7 @@ void TAdChrSelPlayerGC::run_task() {
             pending_state = 0;
         } else {
             if (spin_model == 1) {
-                rotation_y = rotation_y - 0x100;
+                rotation.y = rotation.y - 0x100;
             }
             animation_ticks = animation_ticks + 1;
             t = animation_ticks;
@@ -299,7 +299,7 @@ void TAdChrSelPlayerGC::render() {
 void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_texture_list(preview_data->get_status_sub());
     draw_model_with_arg(preview_data->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));

@@ -62,7 +62,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     activate_camera_mode(5);
     {
         CameraPlayback playback = {0, 4, 0, 0.0f, 0.5f};
-        CameraAngles angles = {0, this->angle, 0};
+        Angle3 angles = {0, this->angle, 0};
         set_scripted_camera_origin(&this->pos, &this->pos, &angles);
         playback.play(0x416C);
     }

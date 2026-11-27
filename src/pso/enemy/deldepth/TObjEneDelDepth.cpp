@@ -283,7 +283,7 @@ void TObjEneDelDepth::render() {
     Vec v = this->position;
     v.y += this->drawOffsetY;
     post_translate_matrix(&v.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     scale_matrix_vec3(0, (u8 *)&this->drawScale);
     this->motionController->draw_model_part();
     pop_matrix();
@@ -304,7 +304,7 @@ s32 TObjEneDelDepth::draw_if_visible() {
             Vec v = this->position;
             v.y += this->drawOffsetY;
             post_translate_matrix(&v.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             scale_matrix_vec3(0, (u8 *)&this->drawScale);
             this->motionController->draw_model_part();
             pop_matrix();
@@ -333,9 +333,9 @@ void TObjEneDelDepth::set_depth_offset(s32 minimum, s32 range) {
 #pragma fp_contract on
 s32 TObjEneDelDepth::adjust_height_to_ground() {
     Vec v = this->position;
-    v.x = 15.0f * cos_table_lookup(this->rotation_y) + v.x;
+    v.x = 15.0f * cos_table_lookup(this->rotation.y) + v.x;
     v.y += 5.0f;
-    v.x = 15.0f * sin_table_lookup(this->rotation_y) + v.x;
+    v.x = 15.0f * sin_table_lookup(this->rotation.y) + v.x;
     if (project_actor_to_ground(this, &v, 0) != 0) {
         this->position.y += 0.5f * (v.y - this->position.y);
         return 1;
@@ -620,7 +620,7 @@ void TObjEneDelDepth::update_movement() {
         this->direction.y = 0.0f;
         this->direction.z = s * this->direction.x + c * this->direction.z;
         normalize_vector(&this->direction);
-        this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->direction.x, this->direction.z));
+        this->rotation.y = (s32)(10430.38043493439 * atan2_float(this->direction.x, this->direction.z));
         VecCopy((Vec *)&this->position, (const Vec *)&this->prev_position);
     }
     if (this->progress <= 0.0f && 0.0f == this->movementSpeed) {
@@ -695,10 +695,10 @@ void TObjEneDelDepth::update_look_around() {
     if (f < 0.0f) {
         f = 0.0f;
     }
-    this->rotation_y = (s32)(f * (f32)this->turnSpeed + (f32)this->rotation_y);
+    this->rotation.y = (s32)(f * (f32)this->turnSpeed + (f32)this->rotation.y);
     if (this->targetPlayer == 0xFFFF) {
         id = find_nearest_visible_player(reinterpret_cast<TObjChara *>(ene_del_depth), &v, 162.5f);
-        if (id != 0xFFFF && angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) < 0x1C71) {
+        if (id != 0xFFFF && angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) < 0x1C71) {
             this->angle = 0;
             this->targetPlayer = id;
         }
@@ -712,7 +712,7 @@ void TObjEneDelDepth::update_look_around() {
             w.x = 1.0f;
     w.z = w.y = 0.0f;
             TObjPlayer::calc_distance_to_client(reinterpret_cast<const TObjBase *>(ene_del_depth), this->targetPlayer, &w);
-            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)), 0x280);
+            this->rotation.y = approach_angle_limited(this->rotation.y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)), 0x280);
         }
         if (this->timer > lim) {
             this->motionController->set_motion(0);
@@ -742,11 +742,11 @@ void TObjEneDelDepth::update_spin_search() {
     Vec sp;
     s32 r = 0;
     s32 t;
-    this->rotation_y = this->rotation_y + this->turnSpeed;
+    this->rotation.y = this->rotation.y + this->turnSpeed;
     if (this->find_nearest_enemy_with_flag(&sp, 500.0f) != 0xFFFF) {
         t = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
-        if (angle_difference_abs(this->rotation_y, t) < 0x444) {
-            this->rotation_y = t;
+        if (angle_difference_abs(this->rotation.y, t) < 0x444) {
+            this->rotation.y = t;
             r = 1;
         }
     }
@@ -769,8 +769,8 @@ void TObjEneDelDepth::move_toward_target() {
         TObjPlayer::calc_distance_to_client(this, static_cast<u16>(id), &v);
     }
     ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-    this->rotation_y = approach_angle_limited(this->rotation_y, ang, 0x200);
-    if (angle_difference_abs(this->rotation_y, ang) < 0x200) {
+    this->rotation.y = approach_angle_limited(this->rotation.y, ang, 0x200);
+    if (angle_difference_abs(this->rotation.y, ang) < 0x200) {
         this->timer = 0;
     }
     VecCopy(&this->prev_position, &this->position);
@@ -805,7 +805,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         set_motion_packed_rotation();
         push_matrix_from(identity_matrix);
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         this->calc_joint_matrices(8.0f);
         pop_matrix();
         push_matrix_from(anim_model_matrix_array[23]);
@@ -840,9 +840,9 @@ void TObjEneDelDepth::update_attack_cast() {
     this->attackTimer--;
     if (this->attackTimer <= 0 && this->attackTimer == 0) {
         if ((s32) game_difficulty_selection == 3) {
-            TTecMegid::create_ex(this, &this->position, this->rotation_y, tune_params->techniqueLevel);
+            TTecMegid::create_ex(this, &this->position, this->rotation.y, tune_params->techniqueLevel);
         } else {
-            TTecBarta::create_ex(this, &this->position, this->rotation_y, tune_params->techniqueLevel);
+            TTecBarta::create_ex(this, &this->position, this->rotation.y, tune_params->techniqueLevel);
         }
     }
     if (--this->timer <= 0) {
@@ -1051,10 +1051,10 @@ const char *del_depth_bomb_name = "TObjEneDelDepthBomb";
 TObjEneDelDepthBomb::TObjEneDelDepthBomb(TObjEneDelDepth *parent, TObjChara *attacker, const Vec *origin, s32 level) : TObjChara(parent) {
     m_name = del_depth_bomb_name;
     source = attacker;
-    rotation_y = ((TObjEneDelDepth *)m_up)->rotation_y;
+    rotation.y = ((TObjEneDelDepth *)m_up)->rotation.y;
     VecCopy(&position, origin);
-    f32 sine = sin_table_lookup(rotation_y);
-    f32 cosine = cos_table_lookup(rotation_y);
+    f32 sine = sin_table_lookup(rotation.y);
+    f32 cosine = cos_table_lookup(rotation.y);
     speed = ((TObjEneDelDepth *)m_up)->get_bomb_speed();
     velocity.x = speed * sine;
     velocity.y = 0.0f;
@@ -1121,7 +1121,7 @@ void TObjEneDelDepthBomb::render() {
     NJS_TEXLIST *texture = get_bml_texlist(data, 2);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
+    rotate_matrix_zyx(0, rotation.x, rotation.y, rotation.z);
     set_texture_list(texture);
     draw_chunk_object(model);
     pop_matrix();

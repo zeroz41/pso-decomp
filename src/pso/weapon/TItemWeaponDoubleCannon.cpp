@@ -53,7 +53,7 @@ void TItemWeaponDoubleCannon::fire_special_shots() {
         WeaponRangeRecord *range = get_weapon_range_record(this, 2);
         off.x = off.y = 0.0f;
         off.z = range->reach;
-        rotate_matrix_y(0, owner->rotation_y);
+        rotate_matrix_y(0, owner->rotation.y);
         transform_point_by_current_matrix(&off.x, &dst);
         pop_matrix();
         vec3_add_to(&dst, pos);
@@ -82,7 +82,7 @@ void TItemWeaponDoubleCannon::fire_special_shots() {
     }
     {
         WeaponRangeRecord *range = get_weapon_range_record(this, 2);
-        s32 ang = owner->rotation_y;
+        s32 ang = owner->rotation.y;
         Vec o;
         Vec v;
         for (i = 0; i != 4; i++, ang += 0x4000) {

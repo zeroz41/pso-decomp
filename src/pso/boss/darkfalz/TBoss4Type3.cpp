@@ -229,7 +229,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type3_start_position);
-    rotation_y = 0;
+    rotation.y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision = init_collision_body_parts(this, boss4_type3_collision_body_desc, 1);
     VecCopy(&body_center, &position);
@@ -394,7 +394,7 @@ void TBoss4Type3::run_task() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     matrix_mult_vec(0, &e[0], &v[0]);
     matrix_mult_vec(0, &e[1], &v[1]);
     pop_matrix();
@@ -426,12 +426,12 @@ void TBoss4Type3::draw() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_faded_models();
     pop_matrix();
     push_matrix();
     post_translate_matrix(&node_positions[0][5].x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     TObjPlayer::draw_player_model_by_id(captured_player, captured_fade);
     pop_matrix();
     end_effect_render();
@@ -712,7 +712,7 @@ void TBoss4Type3::interp_position_between_nodes() {
     s32 i;
 
     a = prev_heading << 12;
-    rotation_y = approach_angle_limited(rotation_y, -(a + (s32)(move_ratio * (f32)angle_diff_s16(a, heading << 12))), 0x888);
+    rotation.y = approach_angle_limited(rotation.y, -(a + (s32)(move_ratio * (f32)angle_diff_s16(a, heading << 12))), 0x888);
     ids[0] = prev_node;
     ids[1] = node;
     for (i = 0; i < 2; i++) {
@@ -765,15 +765,15 @@ void TBoss4Type3::turn_toward_player(s32 id) {
     if ((u16)id != 0xFFFF) {
         p = get_player_by_client_id((u16)id);
         if (p != NULL) {
-            rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(p->position.x - 10000.0f, p->position.z)), 0x888);
+            rotation.y = approach_angle_limited(rotation.y, (s32)(10430.38043493439 * atan2_float(p->position.x - 10000.0f, p->position.z)), 0x888);
             calc_grid_index();
         }
     }
 }
 
 void TBoss4Type3::calc_grid_index() {
-    prev_heading = (s32)(((u32)-(rotation_y + 0x800) >> 12) & 0xF);
-    heading = (s32)(((u32)-(rotation_y + 0x800) >> 12) & 0xF);
+    prev_heading = (s32)(((u32)-(rotation.y + 0x800) >> 12) & 0xF);
+    heading = (s32)(((u32)-(rotation.y + 0x800) >> 12) & 0xF);
 }
 
 void TBoss4Type3::send_random_action(s32 lo, s32 hi) {
@@ -1005,7 +1005,7 @@ void TBoss4Type3::update_cut() {
             push_matrix();
             set_matrix_identity(0);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             matrix_mult_vec(0, &e[0], &seg[0]);
             matrix_mult_vec(0, &e[1], &seg[1]);
             pop_matrix();

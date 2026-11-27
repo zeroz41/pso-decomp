@@ -137,7 +137,7 @@ void TObjDoorJung::render() {
         set_texture_list(door_jung_texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         draw_ginja_object(get_bml_model(door_jung_resource_handle, 0));
         begin_effect_render();
         draw_ginja_object(get_bml_model(door_jung_resource_handle, 1));
@@ -172,10 +172,10 @@ void TObjDoorJung::run_task() {
         this->update_door_switch_state();
     }
     if (this->door_flags & 1) {
-        minimap_render_gate(&this->position, 0xFF00FF00, (u16) this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFF00FF00, (u16) this->rotation.y, 0, 0);
         return;
     }
-    minimap_render_gate(&this->position, 0xFFFF0000, (u16) this->rotation_y, 0, 0);
+    minimap_render_gate(&this->position, 0xFFFF0000, (u16) this->rotation.y, 0, 0);
 }
 TObjDoorJung::~TObjDoorJung() {
     this->unregister_object_by_id();

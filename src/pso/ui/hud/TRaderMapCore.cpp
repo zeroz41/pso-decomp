@@ -847,7 +847,7 @@ void TRaderMapCore::gather_player_markers() {
         if (p->is_body_collision_inactive() == 0) {
             VecCopy(&me->position, &p->position);
             me->position.y = 10.0f;
-            me->rot_y = p->rotation_y;
+            me->rot_y = p->rotation.y;
             me->id = local_client_id;
             follow_marker = 0;
             if (SHOW(this) != 0) {
@@ -878,7 +878,7 @@ void TRaderMapCore::gather_player_markers() {
                 p->is_body_collision_inactive() == 0) {
                 VecCopy(&e->position, &p->position);
                 e->position.y = 10.0f;
-                e->rot_y = p->rotation_y;
+                e->rot_y = p->rotation.y;
                 e->id = i;
                 copy_argb(&e->color, (NJS_ARGB *)(&radar_player_slot_color_table[p->get_entity_id()]));
             } else {
@@ -891,7 +891,7 @@ void TRaderMapCore::gather_player_markers() {
                 p->is_body_collision_inactive() == 0) {
                 VecCopy(&e->position, &p->position);
                 e->position.y = 10.0f;
-                e->rot_y = p->rotation_y;
+                e->rot_y = p->rotation.y;
                 e->id = i;
                 if (team == 1) {
                     copy_argb(&e->color, (NJS_ARGB *)&radar_player_slot_color_table[0]);

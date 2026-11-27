@@ -725,16 +725,16 @@ s32 TObjEnemy::enemy_turn_toward_dest(s32 turn) {
     VecCopy(&d, &this->move_destination);
     subtract_vector(&d, &this->position);
     a = (s32)(angle_units_per_radian * atan2_float(d.x, d.z));
-    this->rotation_y = approach_angle_limited(this->rotation_y, a, turn);
-    return angle_difference_abs(this->rotation_y, a);
+    this->rotation.y = approach_angle_limited(this->rotation.y, a, turn);
+    return angle_difference_abs(this->rotation.y, a);
 }
 
 s32 TObjEnemy::turn_toward_direction(s32 max_step, Vec *direction) {
     s32 target_angle;
 
     target_angle = (s32) (angle_units_per_radian * atan2_float(direction->x, direction->z));
-    this->rotation_y = approach_angle_limited(this->rotation_y, target_angle, max_step);
-    return angle_difference_abs(this->rotation_y, target_angle);
+    this->rotation.y = approach_angle_limited(this->rotation.y, target_angle, max_step);
+    return angle_difference_abs(this->rotation.y, target_angle);
 }
 
 void enemy_turn_half_toward_dest(TObjChara *chara) {
@@ -743,8 +743,8 @@ void enemy_turn_half_toward_dest(TObjChara *chara) {
     VecCopy(&d, &chara->move_destination);
     subtract_vector(&d, &chara->position);
     a = (s32)(angle_units_per_radian * atan2_float(d.x, d.z));
-    chara->rotation_y = lerp_angle_half(chara->rotation_y, a);
-    angle_difference_abs(chara->rotation_y, a);
+    chara->rotation.y = lerp_angle_half(chara->rotation.y, a);
+    angle_difference_abs(chara->rotation.y, a);
 }
 
 s32 copy_position_if_valid(TObjChara *chara, Vec pos) {
@@ -951,7 +951,7 @@ f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) 
         this->move_timer = 0;
     } else {
         this->enemy_turn_toward_dest(turn);
-        enemy_set_heading_velocity(speed, this, this->rotation_y);
+        enemy_set_heading_velocity(speed, this, this->rotation.y);
         move_with_wall_slide(this);
         dist_sq = horizontal_distance_squared(&this->move_destination, &this->body_center);
         this->move_timer = this->move_timer + 1;
@@ -994,7 +994,7 @@ f32 enemy_pursue_point(TObjEnemy *enemy, s32 turn_speed, Vec point, f32 speed, f
         }
     }
     enemy->enemy_turn_toward_dest(turn_speed);
-    enemy_set_heading_velocity(speed, enemy, enemy->rotation_y);
+    enemy_set_heading_velocity(speed, enemy, enemy->rotation.y);
     move_with_wall_slide(enemy);
     return horizontal_distance_squared(&point, &enemy->body_center);
 }
@@ -1015,7 +1015,7 @@ f32 enemy_move_toward(TObjEnemy *enemy, s32 turn_speed, Vec dest, s32 flags, f32
         }
     }
     enemy->enemy_turn_toward_dest(turn_speed);
-    enemy_set_heading_velocity(speed, enemy, enemy->rotation_y);
+    enemy_set_heading_velocity(speed, enemy, enemy->rotation.y);
     move_with_wall_slide(enemy);
     return horizontal_distance_squared(&dest, &enemy->position);
 }
@@ -1041,14 +1041,14 @@ s32 TObjChara::is_target_in_attack_range() {
                     if (!(target->bodies[i].flags & 0x02000000)) {
                         VecCopy(&v, &target->bodies[i].offset);
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, target->rotation_y);
+                        rotate_matrix_y(0, target->rotation.y);
                         rotate_vector_by_matrix(0, &v, &v);
                         pop_matrix();
                         vec3_add_to(&v, &base);
                         subtract_vector(&v, &position);
                         dist = v.x * v.x + v.z * v.z;
                         range = (target->bodies[i].radius + get_attack_range()) * (target->bodies[i].radius + get_attack_range());
-                        ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(angle_units_per_radian * atan2_float(v.x, v.z))));
+                        ang = ((s32)angle_difference_abs(this->rotation.y, (s32)(angle_units_per_radian * atan2_float(v.x, v.z))));
                         if (dist < range && ang < get_attack_angle()) {
                             return 1;
                         }
@@ -1056,7 +1056,7 @@ s32 TObjChara::is_target_in_attack_range() {
                 }
             } else {
                 dist = calc_xz_distance_sq(this, reinterpret_cast<const TObjBase *>(t), &out);
-                ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(angle_units_per_radian * atan2_float(out.x, out.z))));
+                ang = ((s32)angle_difference_abs(this->rotation.y, (s32)(angle_units_per_radian * atan2_float(out.x, out.z))));
                 if (target->bodies != NULL) {
                     prod = (target->bodies->radius + get_attack_range()) * (target->bodies->radius + get_attack_range());
                 } else {
@@ -1342,7 +1342,7 @@ s32 TObjChara::select_melee_contact_body(TObjChara *attacker, f32 factor) {
         set_matrix_identity(0);
         translate_matrix(0, -attacker->position.x, -attacker->position.y, -attacker->position.z);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         for (i = 0; i < body_count; i++) {
             if (!(bodies[i].flags & 0x02000000)) {
                 VecCopy(&point, &bodies[i].offset);
@@ -1350,7 +1350,7 @@ s32 TObjChara::select_melee_contact_body(TObjChara *attacker, f32 factor) {
             }
             dist = point.x * point.x + point.z * point.z;
             r = (bodies[i].radius + attacker->get_attack_range()) * (bodies[i].radius + attacker->get_attack_range());
-            diff = angle_difference_abs(attacker->rotation_y, (s32)(angle_units_per_radian * atan2_float(point.x, point.z)));
+            diff = angle_difference_abs(attacker->rotation.y, (s32)(angle_units_per_radian * atan2_float(point.x, point.z)));
             if (dist < r && diff < attacker->get_attack_angle()) {
                 selected = i;
                 break;
@@ -1366,7 +1366,7 @@ s32 TObjChara::select_melee_contact_body(TObjChara *attacker, f32 factor) {
         dist2 = point.x * point.x + point.z * point.z;
         r2 = attacker->get_attack_range() * attacker->get_attack_range();
         r2 = r2 * r2;
-        diff = angle_difference_abs(attacker->rotation_y, (s32)(angle_units_per_radian * atan2_float(point.x, point.z)));
+        diff = angle_difference_abs(attacker->rotation.y, (s32)(angle_units_per_radian * atan2_float(point.x, point.z)));
         if (r2 < dist2 || attacker->get_attack_angle() < diff) {
             return 0;
         }
@@ -3121,7 +3121,7 @@ void TObjEnemy::draw_ground_shadow(const Vec *scale, s32 forceDraw) {
     translate_matrix(0, position.x, 0.3f + position.y, position.z);
     rotate_matrix_z(0, rotationZ);
     rotate_matrix_x(0, rotationX);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_matrix_x(0, -0x4000);
     if (scale != NULL) {
         scale_matrix(0, scale->x, scale->z, 1.0f);

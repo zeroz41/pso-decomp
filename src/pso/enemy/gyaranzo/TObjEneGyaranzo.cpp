@@ -61,7 +61,7 @@
 
 LAYOUT_ASSERT(GyaranzoPositionOffset, offsetof(TObjEneGyaranzo, position) == 0x38);
 
-LAYOUT_ASSERT(GyaranzoYawOffset, offsetof(TObjEneGyaranzo, rotation_y) == 0x60);
+LAYOUT_ASSERT(GyaranzoYawOffset, offsetof(TObjEneGyaranzo, rotation) == 0x5c);
 
 #pragma inline_depth(1)
 
@@ -393,7 +393,7 @@ void TObjEneGyaranzo::render() {
             toggle_particle_effect();
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             if (check_demo_mode() == 1) {
                 draw_chunk_object(model);
             } else if (behavior_flags & 4) {
@@ -573,7 +573,7 @@ void TObjEneGyaranzo::update_death_breakup() {
         timer--;
         if (timer < 0) {
             TBoss3Volopt::create_breakup_mdl(gyaranzo_breakup_model_obj, &gyaranzo_death_breakup_params,
-                               texlist, &body_center, rotation_y);
+                               texlist, &body_center, rotation.y);
             send_entity_set_flags();
             trigger_dell_biter_events(&body_center);
             play_sound_effect(remap_sound_for_area(0x4003AD10), &position, 0, 0);
@@ -661,7 +661,7 @@ void TObjEneGyaranzo::spawn_missile() {
     render_anim_model_at_pos();
     this->get_anim_node_position(0x18, &launch_position);
     spin = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
-    new TObjEneGyaranzoMine(this, &launch_position, rotation_y, spin);
+    new TObjEneGyaranzoMine(this, &launch_position, rotation.y, spin);
     spawn_particle_effect(&launch_position, 0xF3);
     play_sound_effect(this->remap_sound_for_area(0x4003B20D), &position, 0, 0);
 }
@@ -742,10 +742,10 @@ void TObjEneGyaranzo::spawn_missile_volley() {
     gyaranzo_missile_volley_end_time = get_gyaranzo_missile_int_parameter(1) + 0x96;
     render_anim_model_at_pos();
     {
-        GyaranzoMissileLaunch high_left = { &pos, -0x1000, rotation_y + 0x800, 1024.0f, 3.0f, 0.0f };
-        GyaranzoMissileLaunch low_left = { &pos, -0x2000, rotation_y + 0x800, 2048.0f, 10.0f, 0.4f };
-        GyaranzoMissileLaunch high_right = { &pos, -0x1000, rotation_y - 0x800, 1024.0f, 3.0f, 0.0f };
-        GyaranzoMissileLaunch low_right = { &pos, -0x2000, rotation_y - 0x800, 2048.0f, 10.0f, 0.4f };
+        GyaranzoMissileLaunch high_left = { &pos, -0x1000, rotation.y + 0x800, 1024.0f, 3.0f, 0.0f };
+        GyaranzoMissileLaunch low_left = { &pos, -0x2000, rotation.y + 0x800, 2048.0f, 10.0f, 0.4f };
+        GyaranzoMissileLaunch high_right = { &pos, -0x1000, rotation.y - 0x800, 1024.0f, 3.0f, 0.0f };
+        GyaranzoMissileLaunch low_right = { &pos, -0x2000, rotation.y - 0x800, 2048.0f, 10.0f, 0.4f };
         u16 ids[4] = { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF };
         s32 order[4] = { 0, 3, 1, 2 };
         for (i = 0; i < 4; i++) {

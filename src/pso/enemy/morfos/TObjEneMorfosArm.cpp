@@ -35,7 +35,7 @@ void TObjEneMorfosArm::render() {
     }
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     toggle_particle_effect();
     draw();
@@ -50,7 +50,7 @@ void TObjEneMorfosArm::run_task() {
         return;
     }
     VecCopy(&position, morfos->get_arm_point());
-    rotation_y = morfos->get_rotation_y();
+    rotation.y = morfos->get_rotation_y();
     if (motion_flags & 0x10) {
         queue_destruction();
     }
@@ -66,7 +66,7 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, TObjEneMorfos *owner) : TObj
     morfos = owner;
     morfos_id = morfos->get_entity_id();
     VecCopy(&position, morfos->get_arm_point());
-    rotation_y = morfos->get_rotation_y();
+    rotation.y = morfos->get_rotation_y();
     model = morfos_arm_parent_morfos_instance->models[0].model;
     resource = morfos_arm_parent_morfos_instance->models;
     texlist = resource->texlist;

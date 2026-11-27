@@ -140,9 +140,9 @@ void TObjDoor::run_task() {
     }
     (this->*update_fns[this->state])();
     if (this->state == 0) {
-        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation.y, 0, 0);
     } else {
-        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation.y, 0, 0);
     }
     if (door_masterkey_on != 0) {
         this->state = saved;
@@ -275,7 +275,7 @@ void TObjDoor::draw_locked() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_object(model_resource_ptrs.body);
     begin_effect_render();
     draw_ginja_model_with_motion(model_resource_ptrs.laser, motion_table[1], this->accentFrame);
@@ -310,7 +310,7 @@ void TObjDoor::draw_closed() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_object(model_resource_ptrs.body);
     begin_effect_render();
     saved_model_render_flags = model_render_flags;
@@ -336,7 +336,7 @@ void TObjDoor::draw_closing() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
     begin_effect_render();
     DoorModelSet *g1 = &model_resource_ptrs;
@@ -353,7 +353,7 @@ void TObjDoor::draw_opening() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
     begin_effect_render();
     saved_model_render_flags = model_render_flags;
@@ -379,7 +379,7 @@ void TObjDoor::draw_model() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
     begin_effect_render();
     DoorModelSet *g1 = &model_resource_ptrs;

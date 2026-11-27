@@ -585,7 +585,7 @@ void TBoss4DarkFalz::place_players_on_ring() {
             v.z += 2.5e+02f * cos_table_lookup(ang);
             p->set_position_from(&v);
             p->save_previous_position();
-            p->get_rotation()->yaw = ang + 0x8000;
+            p->get_rotation()->y = ang + 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -612,7 +612,7 @@ void TBoss4DarkFalz::place_players_for_demo() {
             v.z += 12.5f * cos_table_lookup(ang);
             p->set_position_from(&v);
             p->save_previous_position();
-            p->get_rotation()->yaw = 0x8000;
+            p->get_rotation()->y = 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);

@@ -42,12 +42,12 @@ void TItemWeaponYasminkov7000V::update_weapon() {
         break;
     case 3:
         this->state = 1;
-        angle = this->owner->rotation_y - 0x4000;
+        angle = this->owner->rotation.y - 0x4000;
         casing_velocity.x = sin_table_lookup(angle);
         casing_velocity.y = 1.0f;
         casing_velocity.z = cos_table_lookup(angle);
         casing_angles[0] = 0x4000;
-        casing_angles[1] = this->owner->rotation_y;
+        casing_angles[1] = this->owner->rotation.y;
         casing_angles[2] = 0;
         launch_weapon_casing(tl_05, this, 2, &casing_velocity, &casing_angles[0]);
         break;

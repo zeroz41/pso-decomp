@@ -43,7 +43,7 @@ void TSceneSora::render() {
         begin_effect_render();
         set_texture_list(get_bml_texlist(sky_bml_resource, 0));
         push_matrix();
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if (sky_motion != NULL) {
             draw_ginja_model_with_motion(sky_model, sky_motion, motion_frame);
         } else {
@@ -64,7 +64,7 @@ void TSceneSora::run_task() {
         switch (get_current_floor_area()) {
         case AREA_FOREST1:
         case AREA_FOREST2:
-            rotation_y++;
+            rotation.y++;
             break;
         }
     }

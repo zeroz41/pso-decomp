@@ -102,7 +102,7 @@ void TODoorCave03::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);

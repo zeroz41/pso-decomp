@@ -14,7 +14,7 @@ void TItemWeaponHildebearsCane::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &pos) != 0) {
             player = owner;
-            TTecFoie::create(player, &pos, player->rotation_y, get_tp());
+            TTecFoie::create(player, &pos, player->rotation.y, get_tp());
             roll_technique();
         }
     } else {

@@ -10,7 +10,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjCollidable.h"
 struct BmlMotionEntry;
-struct CameraAngles;
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {

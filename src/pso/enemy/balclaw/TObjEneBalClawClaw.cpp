@@ -79,9 +79,9 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClawBody *body
     set_group = body->set_group;
     VecCopy(&position, pos);
     VecCopy(&home_position, &body->home_position);
-    rotation_z = 0;
-    rotation_x = 0;
-    rotation_y = rot_y;
+    rotation.z = 0;
+    rotation.x = 0;
+    rotation.y = rot_y;
     init();
     set_entry = NULL;
     wobble_angle = body->wobble_angle;
@@ -509,14 +509,14 @@ void TObjEneBalClawClaw::render() {
             model_render_flags &= 0xFFFFFBFF;
             if (check_demo_mode() == 1) {
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 draw_chunk_object(model);
             } else {
                 translate_matrix(0, 0.0f, hover_height + wobble_offset, 0.0f);
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 if (behavior_flags & 4) {
                     if (fade.has_visible_opacity() != 0) {
                         fade.set_flags_and_apply_damage_color();
@@ -576,7 +576,7 @@ void TObjEneBalClawClaw::update_follow_parent() {
 
 void TObjEneBalClawClaw::detach_at(Vec *pos, s32 rot_y, s16 hp) {
     VecCopy(&position, pos);
-    rotation_y = rot_y;
+    rotation.y = rot_y;
     referenceHp = hp;
     this->hp = hp;
     detach();

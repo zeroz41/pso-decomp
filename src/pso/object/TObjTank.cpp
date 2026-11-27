@@ -40,7 +40,7 @@ void TObjTank::render() {
         set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         draw_ginja_object(get_bml_model(tank_bml_resource, 0));
         pop_matrix();
     }
@@ -56,7 +56,7 @@ TObjTank::~TObjTank() {
 TObjTank::TObjTank(TObject *parent, ObjectSetData *placement) : TObjCollidable(parent) {
     m_name = tank_class_name;
     VecCopy(&position, &placement->position);
-    copy_xyz(&rotation_x, placement->rotation);
+    copy_xyz(&rotation, placement->rotation);
     VecCopy(&scale, &placement->scale);
     init_collision_body_parts(this, &tobjtank_collision_body_parts, 1);
     actorFlags |= 0x40000000;

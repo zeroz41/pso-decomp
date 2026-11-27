@@ -66,15 +66,15 @@ void TOSwitchTimer::init_from_set_data() {
 
     this->state = 0;
     this->timer = 0;
-    this->mode = (u32)this->rotation_x;
+    this->mode = (u32)this->rotation.x;
     if (this->mode >= 2) {
         this->mode = 1;
     }
-    this->tick_sound = this->rotation_y;
+    this->tick_sound = this->rotation.y;
     if ((s32)this->tick_sound > 1) {
         this->tick_sound = 0;
     }
-    this->duration = this->rotation_z;
+    this->duration = this->rotation.z;
     if ((s32)this->duration < 0) {
         this->duration = 0;
     }

@@ -30,7 +30,7 @@ TObjCollision::~TObjCollision() {
 TObjCollision::TObjCollision(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = class_name;
     VecCopy(&position, &set_data->position);
-    copy_xyz(&rotation_x, set_data->rotation);
+    copy_xyz(&rotation, set_data->rotation);
     VecCopy(&scale, &set_data->scale);
     actorFlags |= 0x02000000;
     body.offset.x = 0.0f;

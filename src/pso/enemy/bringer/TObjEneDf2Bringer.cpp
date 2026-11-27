@@ -424,7 +424,7 @@ void TObjEneDf2Bringer::update_attack_child() {
     if (frame >= start && frame <= 13.0f) {
         points = df2_bringer_trail_buffer->lookup(frame);
         VecCopy(&collider->position, &position);
-        collider->rotation_y = rotation_y;
+        collider->rotation.y = rotation.y;
         VecCopy(&collider->bodies[0].offset, &points[1]);
         VecCopy(&collider->bodies[1].offset, &points[3]);
         collider->refresh_collision_body_centers();
@@ -485,7 +485,7 @@ void TObjEneDf2Bringer::spawn_offset_particle() {
     stack.x = -5.0f;
     stack.y = 0.0f;
     stack.z = 7.0f;
-    rotate_xz_pair_by_angle(&stack.x, &stack.z, rotation_y);
+    rotate_xz_pair_by_angle(&stack.x, &stack.z, rotation.y);
     vec3_add_to(&stack, &position);
     spawn_particle_effect(&stack, 0xF3);
 }
@@ -669,7 +669,7 @@ void TObjEneDf2Bringer::update_hidden_state(s32 reason) {
         if (((s32)this->update_linked_position(300.0f)) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
+            this->rotation.y = (s32) (10430.38043493439 * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
             this->transition_enemy_state(2);
         }
     case 5:
@@ -817,18 +817,18 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
             update_velocity();
         }
         ang = (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, ang, 0x300);
-        twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, twist_angle, ang, 0x200, 0x2000);
+        rotation.y = approach_angle_limited(rotation.y, ang, 0x300);
+        twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation.y, twist_angle, ang, 0x200, 0x2000);
         prm = df2_bringer_params;
         if (destination_distance <= (f32)prm->attack_distance) {
-            t = destination_direction.z * cos_table_lookup(rotation_y);
-            t = (destination_direction.x * sin_table_lookup(rotation_y)) + t;
+            t = destination_direction.z * cos_table_lookup(rotation.y);
+            t = (destination_direction.x * sin_table_lookup(rotation.y)) + t;
             if (t >= cos_table_lookup(0x1800)) {
                 step = 1;
             }
         } else {
-            t = cos_table_lookup(rotation_y);
-            move_clamped_on_ground(sin_table_lookup(rotation_y), t, prm->walk_speed);
+            t = cos_table_lookup(rotation.y);
+            move_clamped_on_ground(sin_table_lookup(rotation.y), t, prm->walk_speed);
         }
         check_collisions();
         play_move_sound();
@@ -879,8 +879,8 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
-            rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x280);
-            twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, twist_angle, rotation_y, 0x200, 0x2000);
+            rotation.y = approach_angle_limited(rotation.y, (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x280);
+            twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation.y, twist_angle, rotation.y, 0x200, 0x2000);
             check_collisions();
             break;
         case 1:
@@ -904,7 +904,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
                 VecCopy(&d, &current_target->position);
                 subtract_vector(&d, &position);
                 if (normalize_vector_xz(&d) >= 30.0f) {
-                    if (d.x * sin_table_lookup(rotation_y) + d.z * cos_table_lookup(rotation_y) < 0.0f) {
+                    if (d.x * sin_table_lookup(rotation.y) + d.z * cos_table_lookup(rotation.y) < 0.0f) {
                         hit = 1;
                     }
                 }
@@ -980,7 +980,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
         break;
     case 0:
         advance_animation();
-        angle = rotation_y;
+        angle = rotation.y;
         twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(angle, twist_angle, angle, 0x200, 0x2000);
         switch (counter) {
         case 0:
@@ -992,7 +992,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 matrix_mult_vec(0, &points[2], &edge[0]);
                 matrix_mult_vec(0, &points[0], &edge[1]);
                 pop_matrix();
@@ -1123,8 +1123,8 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
             }
             break;
         case 1:
-            rotation_y = approach_angle_limited(rotation_y, target_angle, 0x300);
-            if ((u16)rotation_y == target_angle) {
+            rotation.y = approach_angle_limited(rotation.y, target_angle, 0x300);
+            if ((u16)rotation.y == target_angle) {
                 step = 2;
                 requested_action = 5;
                 play_sound_effect(remap_sound_for_area(0x4003A80A), &position, 0, 0);
@@ -1349,7 +1349,7 @@ void TObjEneDf2Bringer::render() {
         if (show != 0) {
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             set_chunk_model_node_callback(bringer_render_node_callback);
             set_motion_packed_rotation();
             if (detail == 1) {
@@ -1393,7 +1393,7 @@ void TObjEneDf2Bringer::render_demo() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         i = (s32)parameters[0];
         if (i < 0) {
             i = 0;

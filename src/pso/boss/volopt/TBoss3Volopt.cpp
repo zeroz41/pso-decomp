@@ -1103,7 +1103,7 @@ void TBoss3Volopt::update_phase2_intro() {
         playback.frame_step = 1.0f;
         activate_camera_mode(5);
         playback.play(0x160A);
-        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
+        set_scripted_camera_origin(&position, &position, &rotation);
         state = 4;
         return;
     case 4:
@@ -1316,7 +1316,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
                     pos.z = offset.z + center_z;
                 }
             }
-            send_position(actor, &pos, actor->rotation_y);
+            send_position(actor, &pos, actor->rotation.y);
         }
     }
 }
@@ -1412,7 +1412,7 @@ void handle_6x17_set_entity_position_and_angle(TBoss3VoloptPositionPacket *packe
     actor = find_entity_by_id(packet->header.entity_id);
     if (actor != NULL) {
         VecCopy(&actor->position, &packet->pos);
-        actor->rotation_y = packet->rotation_y;
+        actor->rotation.y = packet->rotation_y;
         actor->refresh_collision_body_centers();
         if ((s32)packet->header.entity_id == local_client_id) {
             reset_cameras_to_actor(static_cast<TObjPlayer *>(actor), 0);

@@ -164,7 +164,7 @@ void TORockJungleS01::throw_debris() {
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         VecCopy(&params.pos, &position);
@@ -258,7 +258,7 @@ void TORockJungleM01::throw_debris() {
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         VecCopy(&params.pos, &position);

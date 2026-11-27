@@ -123,7 +123,7 @@ void TObjFish::render() {
         n = (s32)fish_count;
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         if (camera_ctrl_instance != NULL) {
             d.x = camera_ctrl_instance->pos.x - position.x;
             d.y = camera_ctrl_instance->pos.y - position.y;
@@ -311,7 +311,7 @@ void TObjFish::run_task() {
         turn *= 0.12f;
         f->angle += (s32)turn;
         if ((k & 3) == 0) {
-            turn = (s16)((s16)((s32)(10430.38043493439 * atan2_float(f->target.x - f->pos.x, f->target.z - f->pos.z)) - rotation_y) - f->yaw);
+            turn = (s16)((s16)((s32)(10430.38043493439 * atan2_float(f->target.x - f->pos.x, f->target.z - f->pos.z)) - rotation.y) - f->yaw);
             turn *= 0.8f;
             f->yaw += (s32)turn;
         }
@@ -404,7 +404,7 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = fish_class_name;
     fish = NULL;
     VecCopy(&position, &data->position);
-    copy_xyz(&rotation_x, data->rotation);
+    copy_xyz(&rotation, data->rotation);
     VecCopy(&scale, &data->scale);
     radius_max = scale.x;
     y = scale.y;

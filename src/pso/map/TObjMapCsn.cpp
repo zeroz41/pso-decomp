@@ -87,7 +87,7 @@ s32 TObjMapCsn::build_box_triangles() {
     corners[7].z = -(0.5f * scale.z);
     push_matrix_from(identity_matrix);
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     for (i = 0; i < 8; i++) {
         matrix_mult_vec(0, &corners[i], &collision_vertices[i]);
     }

@@ -87,7 +87,7 @@ void TSlicerHistory::run_task() {
 
 TSlicerHistory::TSlicerHistory(TTecSlicer *slicer, NJS_TEXLIST *texlist, NJS_ARGB *color, u32 weapon_handle) : TObject(slicer) {
     m_name = class_name;
-    copy_xyz(&rotation_x, &slicer->rotation_x);
+    copy_xyz(&rotation_x, &slicer->rotation);
     VecCopy(&position, &slicer->position);
     this->texlist = texlist;
     if (color != NULL) {
@@ -187,10 +187,10 @@ void TTecSlicer::set_launch_midpoint(TObjPlayer *player, Vec *first, Vec *second
 
 void TTecSlicer::init_launch_angles(TObjPlayer *player, s32 angle) {
     push_matrix();
-    rotation_y = angle;
-    rotation_x = -0x4000;
+    rotation.y = angle;
+    rotation.x = -0x4000;
     s32 remaining = get_remain_count();
-    rotation_z = launch_angle_table[remaining + player->has_valid_handle() * 3];
+    rotation.z = launch_angle_table[remaining + player->has_valid_handle() * 3];
     pop_matrix();
 }
 
@@ -213,7 +213,7 @@ TTecSlicer *TTecSlicer::create(SlicerLaunchState *launch) {
     if (launch != NULL) {
         TObjPlayer *player = get_player_by_client_id(launch->player_id);
         if (player != NULL) {
-            object = new TTecSlicer(launch, player, &player->position, player->rotation_y);
+            object = new TTecSlicer(launch, player, &player->position, player->rotation.y);
             TItemAttacker::spawn_item_timer(object, destroy_if_set, 0x5A);
         }
     }
@@ -236,9 +236,9 @@ void TTecSlicer::render() {
         begin_effect_render();
         push_matrix();
         post_translate_matrix((f32 *)&position);
-        rotate_matrix_y(0, rotation_y);
-        rotate_matrix_z(0, rotation_z);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_y(0, rotation.y);
+        rotate_matrix_z(0, rotation.z);
+        rotate_matrix_x(0, rotation.x);
         scale_current_matrix((f32 *)&scale);
         draw_ginja_object(model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
@@ -276,7 +276,7 @@ void TTecSlicer::run_task() {
         queue_destruction();
         return;
     }
-    rotation_x += spinVelocity;
+    rotation.x += spinVelocity;
     destroy_on_collision();
     currentWeapon = NULL;
     currentPlayer = NULL;

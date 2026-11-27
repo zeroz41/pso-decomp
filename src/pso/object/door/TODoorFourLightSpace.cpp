@@ -88,7 +88,7 @@ void TODoorFourLightRuins::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
@@ -96,7 +96,7 @@ void TODoorFourLightRuins::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
@@ -109,7 +109,7 @@ void TODoorFourLightRuins::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_object(this->model_tree);
             pop_matrix();
             break;
@@ -141,7 +141,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     push_matrix();
     set_texture_list(this->texlist);
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model(body->model);
     draw_ginja_model(body->child->model);
     }
@@ -288,7 +288,7 @@ void TODoorFourLightSpace::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
@@ -296,7 +296,7 @@ void TODoorFourLightSpace::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
@@ -309,7 +309,7 @@ void TODoorFourLightSpace::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_object(this->model_tree);
             pop_matrix();
             break;
@@ -342,7 +342,7 @@ void TODoorFourLightSpace::draw_lights() {
     push_matrix();
     set_texture_list(this->texlist);
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(mdl->pos);
     push_matrix();
     post_translate_matrix(mdl->child->pos);

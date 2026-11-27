@@ -179,7 +179,7 @@ TTecLuker::TTecLuker(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecC
                 Vec v = telepipe_placement_offset;
                 TObjBase *owner;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, this->source->rotation_y);
+                rotate_matrix_y(0, this->source->rotation.y);
                 matrix_mult_vec(0, &v, &v);
                 pop_matrices(1);
                 owner = this->source;
@@ -566,7 +566,7 @@ void TelepipeState::write_telepipe_record(u16 owner, s16 floor_index, const Vec 
     if (owner <= 4U) {
         player = get_player_by_client_id(owner);
         if (player != NULL) {
-            angle_y = player->rotation_y;
+            angle_y = player->rotation.y;
         }
     }
 }

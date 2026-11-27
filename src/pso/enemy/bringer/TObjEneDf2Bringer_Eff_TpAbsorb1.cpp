@@ -57,9 +57,9 @@ u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, TObjBase *source, TObj
     VecCopy(&displacement, &recipient->position);
     subtract_vector(&displacement, &source->position);
     displacement.y = 0.0f;
-    self->direction.x = sin_table_lookup(source->rotation_y);
+    self->direction.x = sin_table_lookup(source->rotation.y);
     self->direction.y = 0.0f;
-    self->direction.z = cos_table_lookup(source->rotation_y);
+    self->direction.z = cos_table_lookup(source->rotation.y);
     if (is_vec_xz_cross_negative(&self->direction, &displacement) != 0) {
         rotate_xz_pair_by_angle(&self->direction.x, &self->direction.z, -0x1800);
     } else {
@@ -273,10 +273,10 @@ TObjEneDf2Bringer_Eff_TpAbsorb1::~TObjEneDf2Bringer_Eff_TpAbsorb1() {}
 
 void TObjEneDf2Bringer_Eff_TpAbsorb1::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_power) {
     VecCopy(&position, origin);
-    rotation_y = angle;
-    direction.x = sin_table_lookup(rotation_y);
+    rotation.y = angle;
+    direction.x = sin_table_lookup(rotation.y);
     direction.y = 0.0f;
-    direction.z = cos_table_lookup(rotation_y);
+    direction.z = cos_table_lookup(rotation.y);
     active = 1;
     fill_value_array(attack_history);
     distance = 0.0f;

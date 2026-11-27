@@ -175,7 +175,7 @@ void TObjDoaEx01::try_open() {
         set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         this->draw_object_tree(bml_model);
         pop_matrix();
     }
@@ -190,7 +190,7 @@ void TObjDoaEx01::draw_model() {
         set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, (this->rotation_y));
+        rotate_matrix_y(0, (this->rotation.y));
         animation_frame = this->animation_frame;
         if (animation_frame > 0.0f) {
             draw_ginja_model_with_motion(get_bml_model(doa_ex01_resource_bundle, 0), get_bml_motion(doa_ex01_resource_bundle, 0), animation_frame);

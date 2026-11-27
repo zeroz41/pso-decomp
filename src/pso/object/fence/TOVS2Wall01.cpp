@@ -310,7 +310,7 @@ void TOVS2::render() {
     if ((s32) this->visible == 1) {
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
@@ -418,7 +418,7 @@ void TOVS2Wall01::render() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();

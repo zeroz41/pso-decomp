@@ -69,7 +69,7 @@ void TOSensorAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>((saddr)ancient_sensor_resource_pair_table[set_params[2]].red));
         object = model;
         post_translate_matrix(object->pos);

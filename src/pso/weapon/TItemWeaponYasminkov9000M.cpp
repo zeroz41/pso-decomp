@@ -65,12 +65,12 @@ void TItemWeaponYasminkov9000M::yasminkov_9000m_eject_casing(Vec *pos, s32 angle
     s32 a;
 
     if (owner != NULL) {
-        a = owner->rotation_y - angle_offset;
+        a = owner->rotation.y - angle_offset;
         dir.x = sin_table_lookup(a);
         dir.y = 1.0f;
         dir.z = cos_table_lookup(a);
         angle[0] = 0x4000;
-        angle[1] = owner->rotation_y;
+        angle[1] = owner->rotation.y;
         angle[2] = 0;
         spawn_weapon_casing(tl_05, this, pos, &dir, angle);
     }

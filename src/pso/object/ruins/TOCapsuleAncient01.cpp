@@ -34,7 +34,7 @@ void TOCapsuleAncient01::render() {
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         body = model;
         translate_matrix(0, body->pos[0], body->pos[1], body->pos[2]);

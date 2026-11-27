@@ -162,7 +162,7 @@ void TOQuestTalkBase::render() {
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (active == 1) {
             if (motion != NULL) {

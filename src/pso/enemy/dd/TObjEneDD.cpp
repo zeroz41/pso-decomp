@@ -241,9 +241,9 @@ void TObjEneDD::reset_state_fields() {
     position.x = 0.0f;
     position.y = 0.0f;
     position.z = 0.0f;
-    rotation_x = 0;
-    rotation_y = 0;
-    rotation_z = 0;
+    rotation.x = 0;
+    rotation.y = 0;
+    rotation.z = 0;
     for (i = 0; i < 5; i++) {
         parameters[i] = 0.0f;
     }
@@ -638,14 +638,14 @@ void TObjEneDD::set_part_local_pos(Vec *v, s32 i) {
     p = &bodies[i].offset;
     VecCopy(p, v);
     subtract_vector(p, &position);
-    rotate_xz_pair_by_angle(&p->x, &p->z, -rotation_y);
+    rotate_xz_pair_by_angle(&p->x, &p->z, -rotation.y);
 }
 
 void TObjEneDD::update_local_colliders_from_world(Vec *world_points) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(NULL, -this->rotation_y);
+    rotate_matrix_y(NULL, -this->rotation.y);
     translate_matrix(0, -this->position.x, -this->position.y, -this->position.z);
     for (i = 0; i < this->body_count; i++) {
         VecCopy(&this->bodies[i].center, world_points);
@@ -660,7 +660,7 @@ void TObjEneDD::set_part_position(TObjCollidable *actor, Vec *v, int i) {
     VecCopy(&actor->bodies[i].offset, v);
     p = &actor->bodies[i].center;
     VecCopy(p, v);
-    rotate_xz_pair_by_angle(&p->x, &p->z, actor->rotation_y);
+    rotate_xz_pair_by_angle(&p->x, &p->z, actor->rotation.y);
     vec3_add_to(p, &actor->position);
 }
 
@@ -669,7 +669,7 @@ void TObjEneDD::transform_part_positions() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_motion_packed_rotation();
     for (i = 0; i < this->body_count; i++) {
         matrix_mult_vec(NULL, &bodies[i].offset, &bodies[i].center);
@@ -1168,7 +1168,7 @@ s32 TObjEneDD_ST::update_death_check() {
 }
 
 void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
-    this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
+    this->rotation.y = (s16) approach_angle_limited(this->rotation.y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
 }
 
 void TObjEneDD_ST::turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32 scale) {
@@ -1176,7 +1176,7 @@ void TObjEneDD_ST::turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32
 
     dist = scale;
     turn_toward_target_direction(iscale);
-    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), dist);
+    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation.y)), (f32)(cos_table_lookup(this->rotation.y)), dist);
 }
 
 void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1185,8 +1185,8 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
+    dz = cos_table_lookup(this->rotation.y);
+    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation.y)), (dz), (dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1194,7 +1194,7 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
+    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation.y)), (f32)((f32)cos_table_lookup(this->rotation.y)), (dist));
 }
 
 CsnHit *TObjEneDD_ST::enemy_turn_and_move_shot_step(s32 iscale, f32 scale) {

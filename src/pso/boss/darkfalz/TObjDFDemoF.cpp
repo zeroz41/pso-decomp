@@ -26,7 +26,7 @@ const char *TObjDFDemoF::name = "TObjDFDemoF";
 s32 TObjDFDemoF::bml_model_id_table[3] = {0x0, 0x10, 0x11};
 s32 df_demof_motion_ids[3] = {-1, 0x26, 0x27};
 Vec df_demof_camera_position = {-20000.0f, 0.0f, 0.0f};
-CameraAngles df_demof_camera_angles = {0, 0, 0};
+Angle3 df_demof_camera_angles = {0, 0, 0};
 CameraPlayback df_demof_camera_playback = {0, 5, 0, 0.0f, 0.5f};
 Vec three_part_model_translate_offset = {-20000.0f, 0.0f, 0.0f};
 

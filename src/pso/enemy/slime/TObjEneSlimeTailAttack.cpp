@@ -588,7 +588,7 @@ void TObjEneSlimeOne::render() {
             v.y += this->draw_offset_y;
             post_translate_matrix(&v.x);
         }
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix_vec3(0, (u8 *)&this->draw_scale);
         this->animation->draw(deferred);
         pop_matrix();
@@ -784,7 +784,7 @@ void TObjEneSlimeOne::update_slide() {
     f32 accel;  // inferred: the per-frame speed-up added to move_speed
     s32 i;
     s32 ang;
-    rotation_y += 0x100;
+    rotation.y += 0x100;
     if (state_value > 0.0f) {
         motion_phase += 0xC00;
         accel = 0.25f * (0.5f * (0.5f + sin_table_lookup(motion_phase)));
@@ -885,11 +885,11 @@ void TObjEneSlimeOne::update_scan() {
     if (f < 0.0f) {
         f = 0.0f;
     }
-    this->rotation_y = f * (f32)this->turn_speed + (f32)this->rotation_y;
+    this->rotation.y = f * (f32)this->turn_speed + (f32)this->rotation.y;
     if (this->target_client_id == 0xFFFF) {
         r = find_nearest_visible_player(this, &to_player, 162.5f);
         if (r != 0xFFFF &&
-            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(to_player.x, to_player.z))) < 0x1C71) {
+            angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(to_player.x, to_player.z))) < 0x1C71) {
             this->motion_phase = 0;
             this->target_client_id = r;
         }
@@ -903,7 +903,7 @@ void TObjEneSlimeOne::update_scan() {
             direction.y = 0.0f;
             direction.z = 0.0f;
             TObjPlayer::calc_distance_to_client(this, this->target_client_id, &direction);
-            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z)), 0x280);
+            this->rotation.y = approach_angle_limited(this->rotation.y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z)), 0x280);
         }
         if (this->state_timer > n) {
             animation->set_state(0);
@@ -932,11 +932,11 @@ void TObjEneSlimeOne::update_aim_at_enemy() {
     Vec sp;
     s32 r = 0;
     s32 t;
-    this->rotation_y = this->rotation_y + this->turn_speed;
+    this->rotation.y = this->rotation.y + this->turn_speed;
     if (((TObjEneSlimeOne *)this)->find_nearest_enemy_with_flag(&sp, 500.0f) != 0xFFFF) {
         t = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
-        if (angle_difference_abs(this->rotation_y, t) < 0x444) {
-            this->rotation_y = t;
+        if (angle_difference_abs(this->rotation.y, t) < 0x444) {
+            this->rotation.y = t;
             r = 1;
         }
     }
@@ -958,8 +958,8 @@ void TObjEneSlimeOne::update_approach() {
         TObjPlayer::calc_distance_to_client(this, static_cast<u16>(target_client_id), &v);
     }
     t = (s32) (10430.38043493439 * atan2_float(v.x, v.z));
-    rotation_y = approach_angle_limited(rotation_y, t, 0x200);
-    if (angle_difference_abs(rotation_y, t) < 0x200) {
+    rotation.y = approach_angle_limited(rotation.y, t, 0x200);
+    if (angle_difference_abs(rotation.y, t) < 0x200) {
         state_timer = 0;
     }
     VecCopy(&prev_position, &position);
@@ -1054,7 +1054,7 @@ void TObjEneSlimeOne::start_tail_attack() {
     this->state_timer = 0x5A;
     animation->set_state(0);
     play_sound_effect(0x4003A318, &this->attack_position, 0, 0);
-    TObjEneSlimeTailAttack::create((saddr)this, &this->attack_position, this->rotation_y, this);
+    TObjEneSlimeTailAttack::create((saddr)this, &this->attack_position, this->rotation.y, this);
     set_display_mode(2);
 }
 
@@ -1254,10 +1254,10 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     f32 c;
     m_name = slime_water_bomb_name;
     this->owner = owner;
-    this->rotation_y = ((TObjEneSlimeOne *)m_up)->rotation_y;
+    this->rotation.y = ((TObjEneSlimeOne *)m_up)->rotation.y;
     VecCopy(&position, &((TObjEneSlimeOne *)m_up)->position);
-    s = sin_table_lookup(this->rotation_y);
-    c = cos_table_lookup(this->rotation_y);
+    s = sin_table_lookup(this->rotation.y);
+    c = cos_table_lookup(this->rotation.y);
     position.x += 15.0f * s;
     position.y += 20.0f;
     position.z += 15.0f * c;
@@ -1413,7 +1413,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     requested_action = 6;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    this->rotation_y = angle;
+    this->rotation.y = angle;
     VecCopy(&this->position, position);
     active = 1;
     last_hit_player = 0xFFFF;
@@ -1546,7 +1546,7 @@ void TObjEneSlimeTailAttack::render() {
 void TObjEneSlimeTailAttack::draw_body() {
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, (int) (this->rotation_y));
+    rotate_matrix_y(0, (int) (this->rotation.y));
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     if (active != 0) {
         reset_slime_tail_node_index();

@@ -101,7 +101,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
-                       get_bml_texlist(volopt_hiraisin_resources, 0x10), &body_center, rotation_y);
+                       get_bml_texlist(volopt_hiraisin_resources, 0x10), &body_center, rotation.y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     behavior_flags &= ~1;
@@ -199,7 +199,7 @@ void TBoss3VoloptHiraisin::render() {
             translate_matrix(0, 0.0f, 20.0f, 0.0f);
         }
         translate_matrix(0, 0.0f, sin_table_lookup(hover_angle), 0.0f);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {

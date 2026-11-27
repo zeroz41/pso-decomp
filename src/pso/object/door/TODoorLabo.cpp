@@ -100,7 +100,7 @@ void TODoorFourLightBase::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(model, motion, (f32)animation_frame);
         pop_matrix();
         break;
@@ -108,7 +108,7 @@ void TODoorFourLightBase::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(model, motion, (f32)animation_end_frame);
         pop_matrix();
         break;
@@ -120,7 +120,7 @@ void TODoorFourLightBase::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(model);
         pop_matrix();
         break;
@@ -160,7 +160,7 @@ void TODoorFourLightBase::render_lights() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_node_tree((u8 *)model);
     pop_matrix();
     end_effect_render();

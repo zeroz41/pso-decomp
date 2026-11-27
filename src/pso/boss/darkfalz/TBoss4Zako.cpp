@@ -103,8 +103,8 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     state_timer = 10.0f * (entity_id & 3);
-    rotation_x = 0;
-    rotation_y = entity_id << 14;
+    rotation.x = 0;
+    rotation.y = entity_id << 14;
     frame_count = 0;
     surfaced = 0;
     surface_timer = (entity_id % 6 + 1) * 450;
@@ -188,11 +188,11 @@ void TBoss4Zako::run_task() {
             spin_ratio = (f32)(480 - surface_timer) / 30.0f;
         }
         if (is_hunting() != 0 && spin_ratio > 0.0f) {
-            rotation_y = 4369.0f * spin_ratio + rotation_y;
+            rotation.y = 4369.0f * spin_ratio + rotation.y;
         }
         apply_contact_damage();
         update_prev_position();
-        queue_entry(&position, rotation_x, rotation_y);
+        queue_entry(&position, rotation.x, rotation.y);
         if (is_not_sinking() != 0) {
             if (surfaced != 0) {
                 collision->flags |= 1;
@@ -317,7 +317,7 @@ void TBoss4Zako::update_sink_state() {
     if ((y < 0.0f) && (y >= -0.33333334f)) {
         spawn_particle_effect(&position, 0xF3);
     }
-    rotation_x = (rotation_x + 0x111);
+    rotation.x = (rotation.x + 0x111);
     if (position.y < -13.0f) {
         queue_destruction();
     }
@@ -461,9 +461,9 @@ void TBoss4Uro::run_task() {
         }
         emitter->set_position(&v);
         if (is_not_sinking() != 0) {
-            rotation_y += 0x1111;
+            rotation.y += 0x1111;
         }
-        queue_entry(&position, rotation_x, rotation_y);
+        queue_entry(&position, rotation.x, rotation.y);
         apply_contact_damage();
         update_prev_position();
         if (is_not_sinking() != 0) {
@@ -559,7 +559,7 @@ void TBoss4Uro::update_sink_state() {
     if ((y < 0.0f) && (y >= -0.33333334f)) {
         spawn_particle_effect(&position, 0xF3);
     }
-    rotation_x = (rotation_x + 0x111);
+    rotation.x = (rotation.x + 0x111);
     if (position.y < -13.0f) {
         queue_destruction();
     }
@@ -658,9 +658,9 @@ void TBoss4Bishi::run_task() {
         }
         emitter->set_position(&v);
         if (is_not_sinking() != 0) {
-            rotation_y += 0x1111;
+            rotation.y += 0x1111;
         }
-        queue_entry(&position, rotation_x, rotation_y);
+        queue_entry(&position, rotation.x, rotation.y);
         apply_contact_damage();
         update_prev_position();
         if (is_not_sinking() != 0) {
@@ -700,7 +700,7 @@ void TBoss4Bishi::update_sink_state() {
     if ((y < 0.0f) && (y >= -0.33333334f)) {
         spawn_particle_effect(&position, 0xF3);
     }
-    rotation_x = (rotation_x + 0x111);
+    rotation.x = (rotation.x + 0x111);
     if (position.y < -13.0f) {
         queue_destruction();
     }

@@ -66,13 +66,13 @@ void TPlyPhotonChair::render() {
         position.x = node_pos.x;
         position.y = node_pos.y - 4.6f;
         position.z = node_pos.z;
-        copy_xyz(&rotation_x, &player->rotation_x);
+        copy_xyz(&rotation, &player->rotation);
         if (player->is_inactive() != 0) {
             save_model_draw_state(&marker);
             set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             scale_current_matrix(&scale.x);
             if (TMainTask::get_render_pass() != 0) {
                 begin_constant_color_draw(&marker, &color);

@@ -562,7 +562,7 @@ void TObjEnemy::apply_set_data(void *set_data) {
     entity_id = data->entity_id;
     VecCopy(&home_position, &data->position);
     VecCopy(&position, &home_position);
-    copy_xyz(&rotation_x, &data->rotation);
+    copy_xyz(&rotation, &data->rotation);
     for (i = 0; i < 5; i++) {
         parameters[i] = data->parameters[i];
     }

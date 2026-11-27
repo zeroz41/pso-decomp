@@ -95,7 +95,7 @@ void TObjWarpLobby::render() {
         set_texture_list(lobby_warp_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         begin_effect_render();
         draw_ginja_model_with_motion((NJS_OBJECT *)lobby_warp_bml_resource->models[0].model, lobby_warp_bml_resource->motions[0].motion, this->beam_frame);
         end_effect_render();

@@ -86,7 +86,7 @@ s32 TCameraController::predict_obstruction() {
         pop_matrices(1);
         camera_dir.y = 0.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, this->actor->rotation_y);
+        rotate_matrix_y(0, this->actor->rotation.y);
         matrix_mult_vec(0, &actor_dir, &actor_dir);
         pop_matrices(1);
         if (fabs_float(vec3_dot(&camera_dir, &actor_dir)) > 0.25f) {

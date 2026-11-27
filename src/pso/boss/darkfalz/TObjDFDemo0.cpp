@@ -47,7 +47,7 @@ extern "C" {
 s32 df_demo0_body_motion_ids[6] = {0x50, 0x4E, 0x19, 0x19, 0x19, 0x18};
 // Where the demo plays out: the camera looks from it, effects gather on it and sounds play from it.
 Vec df_demo0_center = {0.0f, 0.0f, -120.0f};
-CameraAngles df_demo0_camera_angles = {0, 0, 0};
+Angle3 df_demo0_camera_angles = {0, 0, 0};
 CameraPlayback df_demo0_camera_playback = {0, 1, 0, 0.0f, 0.5f};
 // Offsets from df_demo0_center of the bursts spawned on frames 0x8C-0x90, one per frame.
 Vec df_demo0_burst_offsets[5] = {

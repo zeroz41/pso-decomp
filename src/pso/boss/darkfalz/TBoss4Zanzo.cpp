@@ -147,7 +147,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type2_start_position);
-    rotation_y = 0;
+    rotation.y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, boss4_type2_collision_body_parts, 1);
     VecCopy(&body_center, &position);
@@ -291,7 +291,7 @@ void TBoss4Type2::init_hanger() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_hanger();
     pop_matrix();
     end_effect_render();
@@ -391,7 +391,7 @@ void TBoss4Type2::update_orbit_position() {
     position.x = radius * sin_table_lookup(angle);
     position.y = height;
     position.z = -radius * cos_table_lookup(angle);
-    rotation_y = -angle;
+    rotation.y = -angle;
 }
 #pragma pop
 
@@ -637,7 +637,7 @@ void TBoss4Type2::spawn_afterimages() {
     TBoss4ZanzoParams z;
     s32 i;
     VecCopy(&z.pos, &position);
-    z.rotation_y = rotation_y;
+    z.rotation_y = rotation.y;
     z.frame = anim_frame;
     z.fade_start = 0.75f;
     z.fade_end = 0.0f;

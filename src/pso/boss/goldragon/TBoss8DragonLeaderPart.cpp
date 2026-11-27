@@ -43,7 +43,7 @@ void TBoss8Dragon::place_parts_in_ring(s32 n, s32 hp, s32 seed) {
         leader = (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(0));
         leader->position.x = 320.0f * sin_table_lookup(ang);
         leader->position.z = 320.0f * cos_table_lookup(ang);
-        leader->rotation_y = (u16)(ang + 0x8000);
+        leader->rotation.y = (u16)(ang + 0x8000);
         for (i = 0; i < n; i++) {
             ang += step;
             v.x = 320.0f * sin_table_lookup(ang);

@@ -56,12 +56,12 @@ void TItemWeaponYasminkov2000H::update_weapon() {
         break;
     case 3:
         slide_state = 1;
-        a = owner->rotation_y - 0x4000;
+        a = owner->rotation.y - 0x4000;
         dir.x = sin_table_lookup(a);
         dir.y = 1.0f;
         dir.z = cos_table_lookup(a);
         angle[0] = 0x4000;
-        angle[1] = owner->rotation_y;
+        angle[1] = owner->rotation.y;
         angle[2] = 0;
         launch_weapon_casing(tl_05, this, 3, &dir, angle);
         break;

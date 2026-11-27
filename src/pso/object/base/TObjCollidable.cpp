@@ -115,7 +115,7 @@ void collect_body_contacts(CollisionBodySet *set, s32 start, s32 count) {
                 horizontal_distance_squared(&pos, &actor->position) < 40000.0f) {
                 Vec other_pos = actor->position;
                 other_body = actor->bodies;
-                other_facing = actor->rotation_y;
+                other_facing = actor->rotation.y;
                 other_count = actor->body_count;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, other_facing);
@@ -426,7 +426,7 @@ void TObjCollidable::refresh_collision_body_centers() {
     if (this != NULL && bodies != NULL && all_parents_unqueued_for_destruction() != 0) {
         n = body_count;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         for (i = 0; i < n; i++) {
             VecCopy(&center, &bodies[i].offset);
             rotate_vector_by_current_matrix(&center, &center);
@@ -519,7 +519,7 @@ s32 resolve_actor_sphere_contact(TObjCollidable *actor, TObjCollidable *, Collis
     }
     VecCopy(&displacement, &contact->center);
     subtract_vector(&displacement, &actor->prev_position);
-    angle = angle_diff_s16((10430.38043493439 * atan2_float(displacement.x, displacement.z)), actor->rotation_y);
+    angle = angle_diff_s16((10430.38043493439 * atan2_float(displacement.x, displacement.z)), actor->rotation.y);
     if ((s32)angle < 0x4000) {
         tangent_scale = 0.25f;
         turn = 0x4000;
@@ -591,7 +591,7 @@ s32 resolve_player_box_contact(TObjCollidable *actor, TObjCollidable *other, Col
         zl = hd * hd + actor->get_collision_body_radius(0);
         VecCopy(&scratch_vec, &radial);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, -other->rotation_y);
+        rotate_matrix_y(0, -other->rotation.y);
         rotate_vector_by_current_matrix(&scratch_vec, &scratch_vec);
         pop_matrix();
         xx = scratch_vec.x * scratch_vec.x;
@@ -602,7 +602,7 @@ s32 resolve_player_box_contact(TObjCollidable *actor, TObjCollidable *other, Col
             v.x = 0.0f;
             v.y = 0.0f;
             v.z = 0.1f;
-            TRY_STEP(actor->rotation_y);
+            TRY_STEP(actor->rotation.y);
         } else if (contact->flags & 0x20000000) {
             v.x = v.y = v.z = 0.0f;
             if (hd < hw) {
@@ -618,11 +618,11 @@ s32 resolve_player_box_contact(TObjCollidable *actor, TObjCollidable *other, Col
                     v.x = -0.1f;
                 }
             }
-            TRY_STEP(other->rotation_y);
+            TRY_STEP(other->rotation.y);
         } else if (dx < dz) {
             v.x = scratch_vec.x < 0.0f ? -0.1f : 0.1f;
             v.z = v.y = 0.0f;
-            TRY_STEP(other->rotation_y);
+            TRY_STEP(other->rotation.y);
             v.x = 0.0f;
             v.y = 0.0f;
             if (scratch_vec.z < 0.0f) {
@@ -630,7 +630,7 @@ s32 resolve_player_box_contact(TObjCollidable *actor, TObjCollidable *other, Col
             } else {
                 v.z = 0.010000001f;
             }
-            TRY_STEP(other->rotation_y);
+            TRY_STEP(other->rotation.y);
         } else {
             v.x = 0.0f;
             v.y = 0.0f;
@@ -639,16 +639,16 @@ s32 resolve_player_box_contact(TObjCollidable *actor, TObjCollidable *other, Col
             } else {
                 v.z = 0.1f;
             }
-            TRY_STEP(other->rotation_y);
+            TRY_STEP(other->rotation.y);
             v.x = scratch_vec.x < 0.0f ? -0.010000001f : 0.010000001f;
             v.z = v.y = 0.0f;
-            TRY_STEP(other->rotation_y);
+            TRY_STEP(other->rotation.y);
         }
         if (moved != 0) {
             return moved;
         }
     }
-    if (angle_difference_abs((s32)(10430.38043493439 * atan2_float(radial.x, radial.z)), actor->rotation_y) < 0x3000) {
+    if (angle_difference_abs((s32)(10430.38043493439 * atan2_float(radial.x, radial.z)), actor->rotation.y) < 0x3000) {
         return 0;
     }
     if (project_actor_to_ground(actor, &actor->prev_position, NULL) != 0) {
@@ -730,7 +730,7 @@ s32 test_player_overlap_with_players(TObjCollidable *, TObjCollidable *source, V
         a.colliders = source->bodies;
         a.count = source->body_count;
         VecCopy(&a.position, pos);
-        a.facing = source->rotation_y;
+        a.facing = source->rotation.y;
         for (i = registered_player_count; i < entity_table_count; i++) {
             other = TObjPlayer::get_player_data(i);
             if (other != NULL && other != source && other->test_actor_flags(0x80000800) == 0 && other->bodies != NULL &&
@@ -738,7 +738,7 @@ s32 test_player_overlap_with_players(TObjCollidable *, TObjCollidable *source, V
                 b.colliders = other->bodies;
                 b.count = other->body_count;
                 VecCopy(&b.position, &other->position);
-                b.facing = other->rotation_y;
+                b.facing = other->rotation.y;
                 hit = refresh_actor_body_spheres(a, b);
                 if (hit != NULL) {
                     if (out != NULL) {
@@ -763,14 +763,14 @@ s32 test_player_body_overlap_at(TObjMapWarp *, TObjCollidable *player, const Vec
         source.colliders = body;
         source.count = player->body_count;
         VecCopy(&source.position, pos);
-        source.facing = player->rotation_y;
+        source.facing = player->rotation.y;
         for (i = 0; i < entity_table_count; i++) {
             other = TObjPlayer::get_player_data(i);
             if (other != NULL && other != player && (body = other->bodies) != NULL) {
                 destination.colliders = body;
                 destination.count = other->body_count;
                 VecCopy(&destination.position, &other->position);
-                destination.facing = other->rotation_y;
+                destination.facing = other->rotation.y;
                 if (refresh_actor_body_spheres(source, destination) != NULL) {
                     return 1;
                 }
@@ -865,11 +865,11 @@ CollisionBody *TObjCollidable::find_actor_body_contact(TObjCollidable *target, f
             source.colliders = data;
             source.count = body_count;
             VecCopy(&source.position, &position);
-            source.facing = rotation_y;
+            source.facing = rotation.y;
             destination.colliders = target->bodies;
             destination.count = target->body_count;
             VecCopy(&destination.position, &target->position);
-            destination.facing = target->rotation_y;
+            destination.facing = target->rotation.y;
             result = refresh_actor_body_spheres(source, destination);
             if (result != NULL) {
                 find_or_alloc_battle_param_slot(reinterpret_cast<uaddr>(target));
@@ -925,11 +925,11 @@ u32 TObjCollidable::check_actor_body_contact(TObjCollidable *target, f32 range) 
             a.colliders = bodies;
             a.count = body_count;
             VecCopy(&a.position, &position);
-            a.facing = rotation_y;
+            a.facing = rotation.y;
             b.colliders = target->bodies;
             b.count = target->body_count;
             VecCopy(&b.position, &target->position);
-            b.facing = target->rotation_y;
+            b.facing = target->rotation.y;
             hit = refresh_actor_body_spheres(a, b);
             if (hit != NULL) {
                 find_or_alloc_battle_param_slot((uaddr)target);

@@ -778,7 +778,7 @@ TPlacementSearch::TPlacementSearch(TObject *parent, TObjBase *source, const Vec 
     } else {
         this->client_id = source->get_entity_id();
         this->room = source->get_room();
-        this->heading = source->rotation_y;
+        this->heading = source->rotation.y;
     }
     VecCopy(&this->origin, pos);
     this->slot = slot;
@@ -815,7 +815,7 @@ void *TPlacementSearch::find_obstruction(CollisionBodySet *probe) {
                 b.colliders = a->bodies;
                 b.count = a->body_count;
                 VecCopy(&b.position, &a->position);
-                b.facing = a->rotation_y;
+                b.facing = a->rotation.y;
                 r = refresh_actor_body_spheres(*probe, b);
                 if (r != 0) {
                     return r;

@@ -319,13 +319,13 @@ void TOTrapChainSaw::check_player_contact() {
             p = get_player_by_client_id(i);
             if (p != 0 && consume_counter(p) == 0) {
                 if (p->get_floor() == get_current_floor()) {
-                    t = rotation_y;
-                    rotation_y = t + yaw_offset;
+                    t = rotation.y;
+                    rotation.y = t + yaw_offset;
                     if (check_actor_body_contact(p, 100.0f) != 0) {
                         hit_player(p);
                         set_hit_cooldown_for_player(p);
                     }
-                    rotation_y = t;
+                    rotation.y = t;
                 }
             }
         }
@@ -335,13 +335,13 @@ void TOTrapChainSaw::check_player_contact() {
         q = get_player_by_client_id(local_client_id);
         if (q != 0 && consume_counter(q) == 0) {
             if (q->get_floor() == get_current_floor()) {
-                t2 = rotation_y;
-                rotation_y = t2 + yaw_offset;
+                t2 = rotation.y;
+                rotation.y = t2 + yaw_offset;
                 if (check_actor_body_contact(q, 100.0f) != 0) {
                     hit_player(q);
                     set_hit_cooldown_for_player(q);
                 }
-                rotation_y = t2;
+                rotation.y = t2;
             }
         }
     }
@@ -380,10 +380,10 @@ void TOTrapChainSaw::update_demo() {
     s32 base_yaw;
 
     if (check_demo_mode() == 1) {
-        base_yaw = rotation_y;
-        rotation_y = base_yaw + yaw_offset;
+        base_yaw = rotation.y;
+        rotation.y = base_yaw + yaw_offset;
         collision_update_stub();
-        rotation_y = base_yaw;
+        rotation.y = base_yaw;
     }
 }
 
@@ -479,7 +479,7 @@ void TOTrapChainSawDamage::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_y(NULL, yaw_offset);
     draw_ginja_model_with_motion(saw_model, motion, animation_end_frame);
     pop_matrix();
@@ -592,7 +592,7 @@ void TOTrapChainSawKey::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_y(NULL, yaw_offset);
     set_model_node_callback(draw_node_callback);
     draw_ginja_motion(saw_model, (NJS_MOTION *)motion, animation_end_frame);
@@ -696,7 +696,7 @@ void TOTrapChainSawEdge::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_y(NULL, yaw_offset);
     draw_ginja_model_with_motion(saw_model, motion, animation_end_frame);
     pop_matrix();

@@ -537,9 +537,9 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind,
             cur->set_body_exclude_mask(0);
             cur->set_actor_include_mask(0x60000000);
             cur->set_actor_exclude_mask(0x40800);
-            scratch_vec5[0] = 50.0f * sin_table_lookup(player->rotation_y) + player->body_center.x;
+            scratch_vec5[0] = 50.0f * sin_table_lookup(player->rotation.y) + player->body_center.x;
             scratch_vec5[1] = player->body_center.y;
-            scratch_vec5[2] = 50.0f * cos_table_lookup(player->rotation_y) + player->body_center.z;
+            scratch_vec5[2] = 50.0f * cos_table_lookup(player->rotation.y) + player->body_center.z;
             VecCopy(&cur->origin, (const Vec *)scratch_vec5);
             break;
         case 10:
@@ -845,7 +845,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, TObjCollidabl
         candidate->test_actor_flags(entry->get_actor_exclude_mask()) != 0) {
         return 0;
     }
-    yaw = owner->rotation_y;
+    yaw = owner->rotation.y;
     for (i = 0; i < candidate->body_count; i++) {
         c = &candidate->bodies[i];
         if (c == NULL) {

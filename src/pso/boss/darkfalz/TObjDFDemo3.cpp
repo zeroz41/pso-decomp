@@ -34,7 +34,7 @@
 
 const char *TObjDFDemo3::name = "TObjDFDemo3";
 extern "C" {
-__declspec(section ".rodata") CameraAngles df_demo3_zero_camera_angles = {0, 0, 0};
+__declspec(section ".rodata") Angle3 df_demo3_zero_camera_angles = {0, 0, 0};
 ModelNodePositionEntry df_demo3_node_capture_entries[2] = {{0}, {-1}};
 CameraPlayback df_demo3_camera_playback = {0, 6, 0, 0.0f, 1.0f};
 
@@ -66,8 +66,8 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObj
     this->emitters[0] = NULL;
     activate_camera_mode(5);
     {
-        CameraAngles c = df_demo3_zero_camera_angles;
-        c.yaw = this->angle;
+        Angle3 c = df_demo3_zero_camera_angles;
+        c.y = this->angle;
         const Vec *camera_position = &this->camera_position;
         set_scripted_camera_origin(camera_position, camera_position, &c);
     }

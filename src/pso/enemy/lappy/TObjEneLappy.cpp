@@ -310,7 +310,7 @@ void TObjEneLappy::render() {
             toggle_particle_effect();
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             if (this->lappy_flags & 0x400) {
                 scale_matrix(0, 2.0f, 1.5f, 2.0f);
                 lappy_render_scale_stub(0.6666667f);
@@ -464,7 +464,7 @@ void TObjEneLappy::update_attacking() {
         enemy_turn_toward_dest(movementParameters->turn_speed);
         apply_actor_gravity(this, NULL, 0.0f);
         if (is_passing_frame(11.0f) != 0) {
-            enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
+            enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
             velocity.y = 0.0f;
             phase = 1;
         }
@@ -591,7 +591,7 @@ void TObjEneLappy::update_moving() {
         case 2:
             break;
         case 3:
-            rotation_y = lerp_angle_half(rotation_y, flee_heading);
+            rotation.y = lerp_angle_half(rotation.y, flee_heading);
             if (action_flags == 1U) {
                 actorFlags &= 0xFBFFFFFF;
                 move_phase = 4;
@@ -603,15 +603,15 @@ void TObjEneLappy::update_moving() {
             break;
         case 4:
             if (flags == 1U) {
-                enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation_y);
+                enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation.y);
                 flee_turn_timer++;
-                if (((f32)flee_turn_timer > 15.0f) && (find_nearest_visible_player(this, &probe, 300.0f) != 0xFFFFU) && (angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(probe.x, probe.z))) < 0xAAA)) {
+                if (((f32)flee_turn_timer > 15.0f) && (find_nearest_visible_player(this, &probe, 300.0f) != 0xFFFFU) && (angle_difference_abs(rotation.y, (s32)(10430.38043493439 * atan2_float(probe.x, probe.z))) < 0xAAA)) {
                     if (random_ratio() >= 0.5f) {
                         turn = -0x4000;
                     } else {
                         turn = 0x4000;
                     }
-                    rotation_y = rotation_y + turn;
+                    rotation.y = rotation.y + turn;
                     flee_turn_timer = 0;
                 }
                 if (advance_flee_step() == 0) {
@@ -1053,7 +1053,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     apply_set_data(set);
     motion_list = rappy_bml_resource->motions;
     VecCopy(&position, &set->position);
-    copy_xyz(&rotation_x, set->rotation);
+    copy_xyz(&rotation, set->rotation);
     for (i = 0; i < 5; i++) {
         parameters[i] = set->parameters[i];
     }

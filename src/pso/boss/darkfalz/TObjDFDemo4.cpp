@@ -47,8 +47,8 @@ inline const CameraPlayback *intro_camera_playback() {
     static const CameraPlayback df_demo4_intro_camera_playback = {0, 3, 0, 0.0f, 0.5f};
     return &df_demo4_intro_camera_playback;
 }
-inline const CameraAngles *intro_camera_angles() {
-    static const CameraAngles df_demo4_intro_camera_angles = {0, 0, 0};
+inline const Angle3 *intro_camera_angles() {
+    static const Angle3 df_demo4_intro_camera_angles = {0, 0, 0};
     return &df_demo4_intro_camera_angles;
 }
 
@@ -79,8 +79,8 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     activate_camera_mode(5);
     {
         CameraPlayback playback = *intro_camera_playback();
-        CameraAngles angles = *intro_camera_angles();
-        angles.yaw = this->angle;
+        Angle3 angles = *intro_camera_angles();
+        angles.y = this->angle;
         set_scripted_camera_origin(&this->pos, &this->pos, &angles);
         playback.play(0x416C);
     }
@@ -145,7 +145,7 @@ void TObjDFDemo4::run_task() {
     }
     if (timer == 0x72) {
         Vec p = {10000.0f, -10.0f, 0.0f};
-        CameraAngles angles = {0, 0, 0};
+        Angle3 angles = {0, 0, 0};
         VecCopy(&pos, &p);
         angle = 0;
         set_scripted_camera_origin(&pos, &pos, &angles);

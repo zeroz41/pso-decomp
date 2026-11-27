@@ -218,7 +218,7 @@ void TObjNpcEnemy::draw_debug_info() {
     debug_printf_at(0x130018, "<- ENEMY NUMBER");
     debug_printf_at(0x13001A, "<- MOTION TEST");
     set_debug_text_color(0xF0F0F0FF);
-    p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
+    p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation.x);
     if (p != this->entry) {
         set_npc_data(p);
     }
@@ -236,13 +236,13 @@ void TObjNpcEnemy::draw_debug_info() {
         break;
     case 1:
     case 3:
-        if (p->animation.debug_action_limit <= this->rotation_z || this->rotation_z < 0) {
+        if (p->animation.debug_action_limit <= this->rotation.z || this->rotation.z < 0) {
             set_debug_text_color(0xFF0000FF);
             debug_printf_at(0x24001A, "ERROR");
             set_debug_text_color(0xF0F0F0FF);
             this->requested_action = 0;
         } else {
-            this->requested_action = this->rotation_z;
+            this->requested_action = this->rotation.z;
         }
         advance_animation();
         break;
@@ -288,7 +288,7 @@ void TObjNpcEnemy::render() {
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;
         translate_matrix(0, 0.0f, entry->y_offset, 0.0f);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         update_state();
         pop_matrix();
         if (is_not_jungle_grass() != 0) {
@@ -313,7 +313,7 @@ TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent
     register_object_by_id();
     update_prev_position();
     copy_position();
-    set_npc_data(get_entry_by_index((s16)rotation_x));
+    set_npc_data(get_entry_by_index((s16)rotation.x));
 }
 
 void *TObjNpcEnemy::create(void *set_data) {

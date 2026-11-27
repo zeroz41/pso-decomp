@@ -362,7 +362,7 @@ TechniqueContactList *TTecShot::query_technique_enemy_contacts(TObjBase *source)
     pos.y = 0.5f * (pos.y + prev->y);
     pos.z = 0.5f * (pos.z + prev->z);
     VecCopy(&collidable->position, &pos);
-    copy_xyz(&collidable->rotation_x, angles);
+    copy_xyz(&collidable->rotation, angles);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = TObjPlayer::get_player_data(i);
         if (pd == 0) continue;
@@ -420,7 +420,7 @@ TechniqueContactList *TTecShot::query_technique_player_contacts(TObjBase *source
     pos.y = 0.5f * (pos.y + prev->y);
     pos.z = 0.5f * (pos.z + prev->z);
     VecCopy(&collidable->position, &pos);
-    copy_xyz(&collidable->rotation_x, angles);
+    copy_xyz(&collidable->rotation, angles);
     if (source->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {

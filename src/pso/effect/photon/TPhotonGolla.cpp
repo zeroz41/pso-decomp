@@ -74,9 +74,9 @@ TPhotonGolla::TPhotonGolla(PhotonSummonParams *params) : TPhotonBlastSummon() {
     target = NULL;
     owner = find_entity_by_id(owner_id);
     if (owner != NULL) {
-        rotation_y = owner->rotation_y;
+        rotation.y = owner->rotation.y;
     } else {
-        rotation_y = 0;
+        rotation.y = 0;
     }
     model = photon_blast_shared_resource->models[4].model;
     texlist = photon_blast_shared_resource->models[4].texlist;
@@ -183,7 +183,7 @@ void TPhotonGolla::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         set_photon_blast_joint_callback();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
@@ -238,13 +238,13 @@ void TPhotonGolla::collect_hit_targets() {
                     forward.z = 1.0f;
                     push_matrix_from(identity_matrix);
                     if (owner_object != NULL) {
-                        rotate_matrix_y(0, owner_object->rotation_y + 0x1555);
+                        rotate_matrix_y(0, owner_object->rotation.y + 0x1555);
                     }
                     rotate_vector_by_matrix(0, &forward, &left);
                     pop_matrices(1);
                     push_matrix_from(identity_matrix);
                     if (owner_object != NULL) {
-                        rotate_matrix_y(0, owner_object->rotation_y - 0x1555);
+                        rotate_matrix_y(0, owner_object->rotation.y - 0x1555);
                     }
                     rotate_vector_by_matrix(0, &forward, &right);
                     pop_matrices(1);
@@ -282,7 +282,7 @@ void TPhotonGolla::spawn_concentrate() {
         local.z = 100.0f;
         push_matrix_from(identity_matrix);
         if (owner_object != NULL) {
-            rotate_matrix_y(0, owner_object->rotation_y);
+            rotate_matrix_y(0, owner_object->rotation.y);
         }
         rotate_vector_by_matrix(0, &local, &rotated);
         pop_matrices(1);

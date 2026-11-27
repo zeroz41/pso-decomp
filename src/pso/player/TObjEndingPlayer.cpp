@@ -99,7 +99,7 @@ void TObjEndingPlayer::render() {
         select_actor_lighting(this);
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         render_material_state.save();
         apply_material_color_override();
         set_texture_list(&body_textures.list);
@@ -115,7 +115,7 @@ void TObjEndingPlayer::render() {
     }
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     calc_joint_matrices(current_motion, frame, (saddr)joint_matrices);
     pop_matrix();
 }
@@ -141,7 +141,7 @@ TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : T
     set_floor_index(1);
     set_floor_index(1);
     VecCopy(&position, src->pose.get_pos());
-    rotation_y = src->pose.get_heading();
+    rotation.y = src->pose.get_heading();
     select_class_action_provider();
     joint_matrices = shared_model_buffer + this->get_entity_id() * 0xC00;
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
@@ -149,7 +149,7 @@ TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : T
     pause_motion();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
     pop_matrix();
     assign_lobby_slot_if_flagged(&src->equipment.items[0]);

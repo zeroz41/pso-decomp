@@ -33,7 +33,7 @@ void TODoorAncient05::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         if (motion != NULL && 0.0f != animation_frame) {
             draw_ginja_model_with_motion(model, motion, animation_frame);

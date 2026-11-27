@@ -404,7 +404,7 @@ void TObjEneRe4Bit::update_raise_state(s32 reason) {
                 this->state_step = 1;
                 this->cast_state = 2;
             }
-            this->rotation_y = this->rotation_y + 0x1800;
+            this->rotation.y = this->rotation.y + 0x1800;
             break;
         }
         this->update_homing_velocity();
@@ -438,7 +438,7 @@ void TObjEneRe4Bit::update_lower_state(s32 reason) {
         if (this->lift_height < 0.0f) {
             this->lift_height = 0.0f;
         }
-        this->rotation_y = this->rotation_y - 0x1800;
+        this->rotation.y = this->rotation.y - 0x1800;
         this->update_homing_velocity();
         this->update_position_flag();
         break;
@@ -551,7 +551,7 @@ void TObjEneRe4Bit::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, body_center.y - position.y, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, 2.0f, 2.0f, 2.0f);
         draw_chunk_object(model);
         pop_matrix();

@@ -53,9 +53,9 @@ void TODoorBase::run_task() {
         break;
     }
     if (door_flags & DOOR_FLAG_UNLOCKED) {
-        minimap_render_gate(&position, 0xFF00FF00, rotation_y, 0, 0);
+        minimap_render_gate(&position, 0xFF00FF00, rotation.y, 0, 0);
     } else {
-        minimap_render_gate(&position, 0xFFFF0000, rotation_y, 0, 0);
+        minimap_render_gate(&position, 0xFFFF0000, rotation.y, 0, 0);
     }
 }
 

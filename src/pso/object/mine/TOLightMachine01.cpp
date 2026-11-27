@@ -47,7 +47,7 @@ void TOLightMachine01::render() {
     if (this->update_object_view_visibility(view_range, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_model(model->model);
         push_matrix();

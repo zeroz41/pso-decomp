@@ -333,7 +333,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     update_prev_position();
     behavior_flags = 0x550000;
     set_actor_flags(0x04040000);
-    rotation_z = 0x8000;
+    rotation.z = 0x8000;
     render_y_offset = 0.0f;
     hover_speed = 0.0f;
     hover_height = 0.0f;
@@ -512,7 +512,7 @@ void TObjEneDarkGunner::update_wait() {
     case 0:
         if (behavior_flags & 0x10000) {
             actorFlags |= 0x04040000;
-            rotation_z = 0x8000;
+            rotation.z = 0x8000;
             state = 1;
         } else {
             requested_action = 0;
@@ -559,12 +559,12 @@ void TObjEneDarkGunner::update_move() {
         break;
     case 1:
         apply_actor_gravity(this, NULL, 0.0f);
-        rotation_z -= 0x1000;
-        if (rotation_z < 0) {
-            rotation_z = 0;
+        rotation.z -= 0x1000;
+        if (rotation.z < 0) {
+            rotation.z = 0;
         }
         if (actorFlags & 0x800000) {
-            rotation_z = 0;
+            rotation.z = 0;
             requested_action = 2;
             state = 2;
             actorFlags &= 0xFBFBFFFF;
@@ -582,7 +582,7 @@ void TObjEneDarkGunner::update_move() {
         }
         break;
     case 3:
-        rotation_z = 0;
+        rotation.z = 0;
         bodies->flags &= ~4;
         bodies->flags |= 2;
         advance_animation();
@@ -601,21 +601,21 @@ void TObjEneDarkGunner::update_move() {
         }
         break;
     case 6:
-        rotation_y += 0x555;
+        rotation.y += 0x555;
         spin_count++;
         if (spin_count >= 4) {
             state = 4;
         }
         break;
     case 4:
-        move_heading = rotation_y;
+        move_heading = rotation.y;
         move_speed = get_float_parameter(0);
         move_distance = 0.0f;
         turn_delay = 0;
         pad_39e = 0;
         requested_action = 1;
         state = 5;
-        rotation_z = 0;
+        rotation.z = 0;
         bodies->flags &= ~4;
         bodies->flags |= 2;
     case 5:
@@ -867,8 +867,8 @@ void TObjEneDarkGunner::render() {
             saved_model_render_flags = model_render_flags;
             model_render_flags &= ~0x10;
             translate_matrix(0, position.x, position.y + render_y_offset, position.z);
-            rotate_matrix_z(0, rotation_z);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_z(0, rotation.z);
+            rotate_matrix_y(0, rotation.y);
             if (behavior_flags & 0x400000) {
                 f32 s;
                 model_render_flags |= 0x820;
@@ -1014,8 +1014,8 @@ void TObjEneDarkGunner::update_hover() {
     hover_height = (hover_height < 0.0f) ? 0.0f : ((hover_height < 9.0f) ? hover_height : 9.0f);
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_z(0, rotation_z);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_z(0, rotation.z);
+    rotate_matrix_y(0, rotation.y);
     Vec t = dark_gunner_shadow_origin;
     lo = 5.0f + hover_height;
     t.y = lo + render_y_offset;

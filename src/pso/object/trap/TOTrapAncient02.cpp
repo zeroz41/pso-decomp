@@ -155,7 +155,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     h348 = 0.0f;
     h344 = 0.0f;
     spin_angle = 0;
-    if (rotation_z > 0) {
+    if (rotation.z > 0) {
         particle_tev = 1;
     } else {
         particle_tev = 0;
@@ -235,7 +235,7 @@ void TOTrapAncient02::draw_effect_chain() {
     push_matrix();
     set_texture_list(texlist);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     draw_ginja_model(n->model);
@@ -264,7 +264,7 @@ void TOTrapAncient02::render_particle_chain() {
     NJS_OBJECT *n;
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
@@ -511,7 +511,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
     h348 = 0.0f;
     h344 = 0.0f;
     spin_angle = 0;
-    if (rotation_z > 0) {
+    if (rotation.z > 0) {
         particle_tev = 1;
     } else {
         particle_tev = 0;
@@ -608,7 +608,7 @@ void TOTrapAncient02R::update_springing() {
                         scratch_vec2.x = scratch_vec2.y = 0.0f;
                         scratch_vec2.z = 1.0f;
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, rotation_y);
+                        rotate_matrix_y(0, rotation.y);
                         rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                         pop_matrix();
                     }

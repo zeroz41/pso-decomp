@@ -73,7 +73,7 @@ int TBoss4DarkFalz::is_floor_leader() { return this->not_floor_leader == 0; }
 s32 TBoss4Type3::get_action_state() { return state; }
 s32 TBoss4Type2::get_phase() { return action; }
 s32 TBoss4Type1::get_state() { return state; }
-CameraAngles *TObjBase::get_rotation() { return reinterpret_cast<CameraAngles *>(&rotation_x); }
+Angle3 *TObjBase::get_rotation() { return &rotation; }
 void TObjBase::save_previous_position() {
     VecCopy(&prev_position, &position);
 }
@@ -140,7 +140,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     TBoss4Thanks::check_ready();
     if (TBoss4DarkFalz::type3_instance != NULL) {
         TObjChara *form = TBoss4DarkFalz::type3_instance;
-        TObjDFDemo5::create(this, &form->position, form->rotation_y);
+        TObjDFDemo5::create(this, &form->position, form->rotation.y);
     } else {
         TObjDFDemo5::create(this, &dark_falz_demo5_position, 0);
     }
@@ -273,7 +273,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
         cinematic_position.x -= 75.0f * v.x;
         cinematic_position.z -= 75.0f * v.z;
         cinematic_position.y = 0.0f;
-        cinematic_angle = TBoss4DarkFalz::type2_instance->rotation_y;
+        cinematic_angle = TBoss4DarkFalz::type2_instance->rotation.y;
     } else {
         cinematic_position.x = cinematic_position.y = cinematic_position.z = 0.0f;
         cinematic_angle = 0;
@@ -326,7 +326,7 @@ void TBoss4DarkFalz::start_demo1() {
     freeze_all_players();
     if (TBoss4DarkFalz::type1_instance != NULL) {
         TObjChara *form = TBoss4DarkFalz::type1_instance;
-        TObjDFDemo1::create(this, &form->position, form->rotation_y);
+        TObjDFDemo1::create(this, &form->position, form->rotation.y);
     } else {
         TObjDFDemo1::create(this, &dark_falz_demo1_position, 0);
     }

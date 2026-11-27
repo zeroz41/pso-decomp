@@ -1022,7 +1022,7 @@ s32 TBoss2DeRolLe::get_shell_max_hp() {
 void TBoss2DeRolLe::set_position_index(s32 index) {
     VecCopy(&position, &TBoss2DeRolLe::position_point_table[index]);
     height_offset = 0.0f;
-    rotation_z = 0;
+    rotation.z = 0;
 }
 
 #pragma push
@@ -1042,10 +1042,10 @@ void TBoss2DeRolLe::set_move_target_point(s32 index) {
 void TBoss2DeRolLe::set_move_direction(s32) {
     if (position_index == 0) {
         position.x = -100.0f;
-        rotation_z = 0x500;
+        rotation.z = 0x500;
     } else {
         position.x = 100.0f;
-        rotation_z = -0x500;
+        rotation.z = -0x500;
     }
     position.z = 10.0f;
     height_offset = 4.0f;
@@ -1816,7 +1816,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
         state_flags &= ~0x100;
         position.x = 70.0f;
         height_offset = 0.0f;
-        rotation_z = 0;
+        rotation.z = 0;
         state_step = 1;
         state_ints[0] = 0;
         state_ints[1] = 0;
@@ -1874,7 +1874,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
                 position.y = 7.0f;
                 position.z = -190.0f;
                 height_offset = 0.0f;
-                rotation_z = 0;
+                rotation.z = 0;
             }
             break;
         case 1:
@@ -1964,7 +1964,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
         state_flags &= ~4;
         state_flags |= 0x100;
         height_offset = 0.0f;
-        rotation_z = 0;
+        rotation.z = 0;
         state_ints[0] = 1;
         state_ints[1] = 0;
         state_step = 0;
@@ -2737,7 +2737,7 @@ void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
                 f32 w = u * (h * u);
                 position.z = state_floats[6] + w;
             }
-            rotation_z = state_floats[7] * t;
+            rotation.z = state_floats[7] * t;
             break;
         }
         case 6:
@@ -2911,7 +2911,7 @@ void TBoss2DeRolLe::handle_roll_dive_state(u32 reason, s32 side) {
             if ((f32)state_ints[4] >= 16384.0f) {
                 state_ints[4] = 0x4000;
             }
-            rotation_z = (s32)((f32)state_ints[4] * -state_floats[1]);
+            rotation.z = (s32)((f32)state_ints[4] * -state_floats[1]);
             if (state_ints[0] == 0 && state_ints[4] >= 0x2200) {
                 state_ints[0] = 1;
                 play_sound(0x4003AD12, &sound_origins[0]);
@@ -2993,7 +2993,7 @@ void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
                 state_step = 2;
                 requested_action = 2;
                 position.z = -1200.0f;
-                rotation_z = 0x8000;
+                rotation.z = 0x8000;
                 height_offset = 93.0f;
             }
             break;
@@ -3041,7 +3041,7 @@ void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
                 requested_action = 1;
                 position_index = 1;
                 set_position_index(position_index);
-                rotation_z = 0;
+                rotation.z = 0;
                 height_offset = -137.0f;
                 TObjBoss2Tunnel::set_global_flag_400();
             }
@@ -3472,7 +3472,7 @@ void TBoss2DeRolLe::handle_deep_sink_state(u32 reason) {
         state_flags = state_flags | 4;
         state_flags = state_flags & 0xFFFFFEFF;
         set_all_intangible();
-        rotation_x = 0;
+        rotation.x = 0;
         height_offset = 0.0f;
         return;
     case 9:
@@ -3522,7 +3522,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         requested_action = 0x10;
         position_index = 3;
         set_position_index(position_index);
-        rotation_x = 0;
+        rotation.x = 0;
         height_offset = 0.0f;
         state_step = 0;
         state_ints[0] = 0;
@@ -3539,7 +3539,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         cam.frame_step = 0.7f;
         activate_camera_mode(5);
         cam.play(0x2AAA);
-        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
+        set_scripted_camera_origin(&position, &position, &rotation);
         break;
     case 2:
         if (debug_pad->pressed_buttons & 0x400) {
@@ -3746,9 +3746,9 @@ void TBoss2DeRolLe::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, height_offset, 0.0f);
-    rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, rotation_x);
-    rotate_matrix_z(0, rotation_z);
+    rotate_matrix_y(0, rotation.y);
+    rotate_matrix_x(0, rotation.x);
+    rotate_matrix_z(0, rotation.z);
     {
         Vec sc = {2.0f, 2.0f, 2.0f};
         scale_current_matrix(&sc.x);
@@ -3831,9 +3831,9 @@ void TBoss2DeRolLe::render_body() {
     TObjEneDD::clear_global_flag_400();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
-    rotate_matrix_x(0, this->rotation_x);
-    rotate_matrix_z(0, this->rotation_z);
+    rotate_matrix_y(0, this->rotation.y);
+    rotate_matrix_x(0, this->rotation.x);
+    rotate_matrix_z(0, this->rotation.z);
     Vec scale = {2.0f, 2.0f, 2.0f};
     TObjEneDD::check_v2_mode();
     scale_current_matrix(&scale.x);

@@ -420,7 +420,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
+void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation.y); set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     Vec ground_normal;
@@ -434,7 +434,7 @@ void TObjEnePanBARA::update_linked_effect() {
         post_translate_matrix(&shadow_position.x);
         direction_to_rotation_xz((u8 *)&ground_normal, &tilt_x, &tilt_z);
         rotate_matrix_z(NULL, tilt_z);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_matrix_x(NULL, tilt_x + 0x4000);
         scale_matrix(NULL, 2.0f, 2.0f, 1.0f);
         if (state != 7 && state != 8) {
@@ -454,10 +454,10 @@ void TObjEnePanBARA::run_death_reaction() {
         return;
     default:
         if (st == 0) {
-            this->rotation_y = this->body->rotation_y + panarms_turn_delta_table[this->half_index];
+            this->rotation.y = this->body->rotation.y + panarms_turn_delta_table[this->half_index];
             VecCopy(&this->position, &this->body->position);
-            this->position.x += 10.0f * sin_table_lookup(this->rotation_y);
-            this->position.z += 10.0f * cos_table_lookup(this->rotation_y);
+            this->position.x += 10.0f * sin_table_lookup(this->rotation.y);
+            this->position.z += 10.0f * cos_table_lookup(this->rotation.y);
             VecCopy(&this->body_center, &this->position);
         }
         set_state(7);
@@ -484,7 +484,7 @@ void TObjEnePanBARA::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanBARA::start_split() {
     VecCopy(&position, &body->position);
-    rotation_y = body->rotation_y;
+    rotation.y = body->rotation.y;
     set_state(1);
 }
 
@@ -571,13 +571,13 @@ void TObjEnePanBARA::calc_part_position(Vec *pos, s32 *rotation) {
 
     x = panarms_part_offset_table[this->half_index].x;
     z = panarms_part_offset_table[this->half_index].z;
-    s = sin_table_lookup(this->body->rotation_y);
-    c = cos_table_lookup(this->body->rotation_y);
+    s = sin_table_lookup(this->body->rotation.y);
+    c = cos_table_lookup(this->body->rotation.y);
     VecCopy(pos, &this->body->position);
     pos->x += x * c + z * s;
     pos->z += -x * s + z * c;
     if (rotation != NULL) {
-        *rotation = this->body->rotation_y - panbara_part_rotation_table[this->half_index];
+        *rotation = this->body->rotation.y - panbara_part_rotation_table[this->half_index];
     }
 }
 #pragma pop
@@ -587,7 +587,7 @@ void TObjEnePanBARA::calc_part_position(Vec *pos, s32 *rotation) {
 #pragma auto_inline off
 #pragma dont_inline off
 void TObjEnePanBARA::calc_default_part_position() {
-    calc_part_position(&position, &rotation_y);
+    calc_part_position(&position, &rotation.y);
 }
 #pragma pop
 
@@ -603,12 +603,12 @@ void TObjEnePanBARA::update_offset_from_parent() {
     f32 c;
     x = panarms_parent_offset_table[this->half_index].x;
     z = panarms_parent_offset_table[this->half_index].z;
-    s = sin_table_lookup(this->body->rotation_y);
-    c = cos_table_lookup(this->body->rotation_y);
+    s = sin_table_lookup(this->body->rotation.y);
+    c = cos_table_lookup(this->body->rotation.y);
     VecCopy(&this->rejoin_position, &this->body->position);
     this->rejoin_position.x += x * c + z * s;
     this->rejoin_position.z += -x * s + z * c;
-    this->rejoin_rotation = this->body->rotation_y;
+    this->rejoin_rotation = this->body->rotation.y;
     this->rejoin_rotation += panbara_parent_rotation_table[this->half_index];
 }
 #pragma pop
@@ -672,12 +672,12 @@ s32 TObjEnePanBARA::find_target_in_front() {
     if (get_state_flag() != 0) {
         ret = partner->is_chasing_or_attacking() == 0
             && (target_id = find_nearest_enemy_with_flag_alt_target(&direction, panbara_target_range[half_index])) != 0xffff
-            && angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z))) < 0x400;
+            && angle_difference_abs(rotation.y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z))) < 0x400;
         return (u8)ret;
     } else {
         ret = partner->is_chasing_or_attacking() == 0
             && (target_id = find_nearest_visible_player(this, &direction, panbara_target_range[half_index])) != 0xffff
-            && angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z))) < 0x400;
+            && angle_difference_abs(rotation.y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z))) < 0x400;
         return (u8)ret;
     }
 }
@@ -818,12 +818,12 @@ void TObjEnePanBARA::update_wait() {
     ok = 0;
     if (idx != 0xFFFF) {
         angle = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-        if (angle_difference_abs(this->rotation_y, angle) < 0x208) {
+        if (angle_difference_abs(this->rotation.y, angle) < 0x208) {
             ok = 1;
         }
     }
     if (ok != 0) {
-        this->rotation_y = approach_angle_limited(this->rotation_y, angle, 0x208);
+        this->rotation.y = approach_angle_limited(this->rotation.y, angle, 0x208);
         scale = 75.0f;
         p = get_player_by_client_id(idx);
         if (p != NULL) {
@@ -831,8 +831,8 @@ void TObjEnePanBARA::update_wait() {
                 scale *= -1.0f;
             }
             VecCopy(&a, &p->position);
-            a.x += scale * cos_table_lookup(this->rotation_y);
-            a.z -= scale * sin_table_lookup(this->rotation_y);
+            a.x += scale * cos_table_lookup(this->rotation.y);
+            a.z -= scale * sin_table_lookup(this->rotation.y);
             subtract_vector(&a, &position);
             a.y = 0.0f;
             if (vector_length(&a) <= 0.01f) {
@@ -843,12 +843,12 @@ void TObjEnePanBARA::update_wait() {
         }
     } else {
         if (this->half_index == 0) {
-            this->rotation_y -= 0x208;
+            this->rotation.y -= 0x208;
         } else {
-            this->rotation_y += 0x208;
+            this->rotation.y += 0x208;
         }
-        a.x = sin_table_lookup(this->rotation_y);
-        a.z = cos_table_lookup(this->rotation_y);
+        a.x = sin_table_lookup(this->rotation.y);
+        a.z = cos_table_lookup(this->rotation.y);
         a.y = 0.0f;
     }
     max = panbara_max_move_speed[this->half_index];
@@ -909,7 +909,7 @@ void TObjEnePanBARA::update_move_to_target() {
         step.x = step.z;
         step.z = -t;
     }
-    this->rotation_y = approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(step.x, step.z)), 0x208);
+    this->rotation.y = approach_angle_limited(this->rotation.y, (s32) (10430.38043493439 * atan2_float(step.x, step.z)), 0x208);
     if (dist > 15.0f) {
         if ((this->move_speed += 0.025f) > 0.6f) {
             this->move_speed = 0.6f;
@@ -957,7 +957,7 @@ void TObjEnePanBARA::update_slide_in() {
         step.y *= fraction;
         step.z *= fraction;
         vec3_add_to(&position, &step);
-        this->rotation_y = (s32) ((fraction * (f32) angle_diff_s16(this->rotation_y, this->rejoin_rotation)) + (f32) this->rotation_y);
+        this->rotation.y = (s32) ((fraction * (f32) angle_diff_s16(this->rotation.y, this->rejoin_rotation)) + (f32) this->rotation.y);
     } else if (frames_left == 0) {
         set_requested_action(0);
     }
@@ -968,7 +968,7 @@ void TObjEnePanBARA::update_slide_in() {
 void TObjEnePanBARA::restore_from_linked_object() {
     collision_body_parts->flags &= ~1;
     VecCopy(&this->position, &this->body->position);
-    this->rotation_y = this->body->rotation_y;
+    this->rotation.y = this->body->rotation.y;
     this->motion_flags |= 1;
     set_requested_action(8);
 }
@@ -1009,7 +1009,7 @@ void TObjEnePanBARA::enter_dead() {
     motion = 7;
     this->motion_flags &= ~1;
     if (find_nearest_visible_player(this, &v, 500.0f) != 0xFFFF) {
-        if (v.x * sin_table_lookup(this->rotation_y) + v.z * cos_table_lookup(this->rotation_y) < 0.0f) {
+        if (v.x * sin_table_lookup(this->rotation.y) + v.z * cos_table_lookup(this->rotation.y) < 0.0f) {
             motion = 6;
         }
     }
@@ -1079,7 +1079,7 @@ void TObjEnePanBARA::update_chase_target() {
     } else {
         normalize_vector(&step);
     }
-    this->rotation_y = approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(step.x, step.z)), 0x101);
+    this->rotation.y = approach_angle_limited(this->rotation.y, (s32) (10430.38043493439 * atan2_float(step.x, step.z)), 0x101);
     if (this->action_timer > 0) {
         if ((this->move_speed += 0.075f) > 1.25f) {
             this->move_speed = 1.25f;
@@ -1135,8 +1135,8 @@ void TObjEnePanBARA::update_retreat() {
             return;
         }
     }
-    v.x = this->move_speed * sin_table_lookup(this->rotation_y);
-    v.z = this->move_speed * cos_table_lookup(this->rotation_y);
+    v.x = this->move_speed * sin_table_lookup(this->rotation.y);
+    v.z = this->move_speed * cos_table_lookup(this->rotation.y);
     v.y = 0.0f;
     try_move_with_detour(&v);
     if (is_below_half_hp() != 0) {
@@ -1173,7 +1173,7 @@ void TObjEnePanBARA::update_attack() {
         play_sound_effect(remap_sound_for_area(0x4003B72F), &this->position, 0, 0);
     }
     if (this->frame < 5.0f) {
-        this->rotation_y = approach_angle_limited(this->rotation_y, panbara_retreat_angle_offset[this->half_index] + (s32) (10430.38043493439 * atan2_float(entity->position.x - this->position.x, entity->position.z - this->position.z)), 0x200);
+        this->rotation.y = approach_angle_limited(this->rotation.y, panbara_retreat_angle_offset[this->half_index] + (s32) (10430.38043493439 * atan2_float(entity->position.x - this->position.x, entity->position.z - this->position.z)), 0x200);
     }
     if (this->motion_flags & 0x10) {
         set_state(0xA);
@@ -1209,7 +1209,7 @@ void TObjEnePanBARA::update_call_partner() {
         set_state(2);
         return;
     }
-    this->rotation_y = approach_angle_limited(this->rotation_y, (int) ((s32) ((6144.0f * sin_table_lookup((int) (this->action_timer << 0xC))) + (f32) this->partner_angle)), 0x1111);
+    this->rotation.y = approach_angle_limited(this->rotation.y, (int) ((s32) ((6144.0f * sin_table_lookup((int) (this->action_timer << 0xC))) + (f32) this->partner_angle)), 0x1111);
     if (!(this->action_timer & 0x3F)) {
         play_sound_effect(this->remap_sound_for_area(0x4003BC2D), &this->position, 0, 0);
     }
@@ -1246,7 +1246,7 @@ void TObjEnePanBARA::update_move_to_partner() {
     } else {
         normalize_vector(&v);
     }
-    this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)), 0x888);
+    this->rotation.y = approach_angle_limited(this->rotation.y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)), 0x888);
     if (this->action_timer < 0x87) {
         if ((this->move_speed += 0.075f) > 1.25f) {
             this->move_speed = 1.25f;
@@ -1282,7 +1282,7 @@ void TObjEnePanBARA::update_move_timer() {
     if (--this->action_timer == 0) {
         play_sound_effect(remap_sound_for_area(0x4003B72F), &this->position, 0, 0);
     }
-    this->rotation_y = approach_angle_limited(this->rotation_y, this->partner_angle - 0x800, 0x200);
+    this->rotation.y = approach_angle_limited(this->rotation.y, this->partner_angle - 0x800, 0x200);
 }
 
 void TObjEnePanBARA::init_open_state() {
@@ -1322,11 +1322,11 @@ void TObjEnePanBARA::init_attack_state() {
     this->move_speed = 0.0f;
     this->action_timer = 0x3C;
     this->partner_death_seen = 1;
-    if (angle_difference_abs(this->rotation_y, this->partner_angle) < 0x2000) {
-        if (angle_diff_s16(this->rotation_y, this->partner_angle) >= 0) {
-            this->rotation_y = (this->partner_angle - 0x2000);
+    if (angle_difference_abs(this->rotation.y, this->partner_angle) < 0x2000) {
+        if (angle_diff_s16(this->rotation.y, this->partner_angle) >= 0) {
+            this->rotation.y = (this->partner_angle - 0x2000);
         } else {
-            this->rotation_y = (this->partner_angle + 0x2000);
+            this->rotation.y = (this->partner_angle + 0x2000);
         }
     }
     this->motion_flags &= ~1;
@@ -1340,9 +1340,9 @@ void TObjEnePanBARA::update_action_timer() {
         set_state(2);
         return;
     }
-    prev_rotation = this->rotation_y;
-    this->rotation_y = approach_angle_limited(this->rotation_y, this->partner_angle, 0x888);
-    if (angle_difference_abs(prev_rotation, this->rotation_y) == 0) {
+    prev_rotation = this->rotation.y;
+    this->rotation.y = approach_angle_limited(this->rotation.y, this->partner_angle, 0x888);
+    if (angle_difference_abs(prev_rotation, this->rotation.y) == 0) {
         set_requested_action(0);
     }
 }

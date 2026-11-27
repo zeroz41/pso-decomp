@@ -272,7 +272,7 @@ void TObjEneIllGill::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, this->scale.x, this->scale.y, this->scale.z);
         illGillModelNodeIndex = 0;
         set_chunk_model_node_callback(TObjEneIllGill::capture_effect_positions);
@@ -455,7 +455,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     if (this->project_step_to_ground(ang) == 1) {
         this->requested_action = 1;
         VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-        this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
+        this->rotation.y = approach_angle_limited(this->rotation.y, ang, this->movementParameters->turn_speed);
     } else {
         if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
             ang = (s32)(10430.38043493439 * atan2_float(scratch_vec.x, 0.0f));
@@ -465,7 +465,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
         if (this->project_step_to_ground(ang) == 1) {
             this->requested_action = 1;
             VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-            this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
+            this->rotation.y = approach_angle_limited(this->rotation.y, ang, this->movementParameters->turn_speed);
         } else {
             if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
                 ang = (s32)(10430.38043493439 * atan2_float(0.0f, scratch_vec.z));
@@ -475,14 +475,14 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
             if (this->project_step_to_ground(ang) == 1) {
                 this->requested_action = 1;
                 VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-                this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
+                this->rotation.y = approach_angle_limited(this->rotation.y, ang, this->movementParameters->turn_speed);
             } else {
                 this->requested_action = 0;
             }
         }
     }
     this->enemy_turn_toward_dest(this->movementParameters->turn_speed);
-    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
+    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation.y);
     (*(&this->body_center)).y += 5.0f;
     move_with_wall_slide(this);
 }
@@ -542,7 +542,7 @@ void TObjEneIllGill::update_forward_movement() {
     v.x = 0.0f;
     v.z = 1.0f;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
@@ -589,7 +589,7 @@ void TObjEneIllGill::update_chase_target() {
             d = enemy_move_toward(this, id, target->body_center, 0, 0.125f * r);
             VecCopy(&dir, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&dir, &body_center);
-            a = angle_difference_abs(this->rotation_y,
+            a = angle_difference_abs(this->rotation.y,
                                      (s32)(10430.38043493439 * atan2_float(dir.x, dir.z)));
             if (a < this->attack_params->get_attack_angle()) {
                 this->phase = 2;
@@ -641,7 +641,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             return 1;
         }
         dist = calc_xz_distance_sq(this, this->target, &v);
-        ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
+        ang = angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
         pl = this->target;
         if (pl->bodies != NULL) {
             rad = pl->bodies->radius - 1.0;
@@ -1118,7 +1118,7 @@ void TObjEneIllGill::update_shadow_attack() {
             Vec w;
             VecCopy(&w, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&w, &body_center);
-            a = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)));
+            a = angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)));
             if (a < ((AttackParams *)(ill_gill_combat_parameter_variants[2]))->get_attack_angle()) {
                 VecCopy(&w, (const Vec *)((u8 *)&target->position));
                 subtract_vector(&w, &shadowEffectPosition);
@@ -1319,7 +1319,7 @@ void TObjEneIllGill::update_charge_attack() {
                 spd *= 2.0f;
             }
             this->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn_speed));
-            enemy_set_heading_velocity(spd, this, this->rotation_y);
+            enemy_set_heading_velocity(spd, this, this->rotation.y);
             move_with_wall_slide(this);
             d2 = horizontal_distance_squared(&this->move_destination, &this->body_center);
             t = spd + this->bodies->radius;

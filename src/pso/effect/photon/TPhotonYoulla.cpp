@@ -51,7 +51,7 @@ void TPhotonYoulla::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -116,7 +116,7 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     owner = find_entity_by_id(owner_id);
     owner_object = owner;
     if (owner_object != NULL) {
-        rotation_y = owner_object->rotation_y;
+        rotation.y = owner_object->rotation.y;
     }
     model = photon_blast_shared_resource->models[11].model;
     texlist = photon_blast_shared_resource->models[11].texlist;

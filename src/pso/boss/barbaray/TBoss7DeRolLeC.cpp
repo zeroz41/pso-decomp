@@ -821,7 +821,7 @@ void TBoss7DeRolLeC::run_task() {
         set_matrix_identity(0);
         post_translate_matrix(&position.x);
         post_translate_matrix(&body_offset.x);
-        rotate_matrix_by_node_angles(&rotation_x, 1);
+        rotate_matrix_by_node_angles(&rotation.x, 1);
         scale_current_matrix(&boss7_derolle_c_model_scale.x);
         this->reset_node_transforms();
         node_recorder->record_pose((NJS_MOTION *)current_motion, get_frame());
@@ -963,16 +963,16 @@ s32 TBoss7Joint_get_shell_max_hp(void) {
 void TBoss7DeRolLeC::set_position_index(s32 index) {
     VecCopy(&position, &boss7_derolle_c_position_points[index]);
     body_offset.y = 0.0f;
-    rotation_z = 0;
+    rotation.z = 0;
 }
 
 void TBoss7DeRolLeC::set_swim_direction(s32) {
     if (position_slot == 0) {
         position.x = -100.0f;
-        rotation_z = 0x500;
+        rotation.z = 0x500;
     } else {
         position.x = 100.0f;
-        rotation_z = -0x500;
+        rotation.z = -0x500;
     }
     position.z = 10.0f;
     body_offset.y = 4.0f;
@@ -1792,7 +1792,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
         state_flags &= ~4;
         state_flags |= 0x100;
         body_offset.y = 0.0f;
-        rotation_z = 0;
+        rotation.z = 0;
         state_ints[0] = 1;
         state_ints[1] = 0;
         state_step = 0;
@@ -2653,7 +2653,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
             t2 = frame - 13.0f;
             { f32 h_ = 0.5f * state_floats[4]; d = t2 * (h_ * t2); }
             position.z = state_floats[6] + d;
-            rotation_z = state_floats[7] * t;
+            rotation.z = state_floats[7] * t;
             break;
         }
         case 6:
@@ -2822,7 +2822,7 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
             if (state_ints[4] >= 16384.0f) {
                 state_ints[4] = 0x4000;
             }
-            rotation_z = state_ints[4] * -state_floats[1];
+            rotation.z = state_ints[4] * -state_floats[1];
             if (state_ints[0] == 0 && state_ints[4] >= 0x2200) {
                 state_ints[0] = 1;
                 play_sound_at(0x39906, &sound_origins[0]);
@@ -3151,7 +3151,7 @@ void TBoss7DeRolLeC::handle_deep_sink_state(u32 event) {
         state_flags |= 4;
         state_flags &= ~0x100;
         set_all_intangible();
-        rotation_x = 0;
+        rotation.x = 0;
         body_offset.y = 0.0f;
         return;
     case 9:
@@ -3187,7 +3187,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         set_requested_action(0x10);
         position_slot = 3;
         set_position_index(position_slot);
-        rotation_x = 0;
+        rotation.x = 0;
         body_offset.y = 0.0f;
         state_step = 0;
         state_ints[0] = 0;

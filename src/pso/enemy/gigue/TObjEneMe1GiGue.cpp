@@ -375,7 +375,7 @@ void TObjEneMe1GiGue::render() {
     ok = 1;
     push_matrix();
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     model_render_flags &= ~0x400;
     if (check_demo_mode() == 1) {
         draw_chunk_object(model);
@@ -500,7 +500,7 @@ void TObjEneMe1GiGue::update_circling_state() {
             Vec d = ((TObjBase *)target)->position;
             subtract_vector(&d, &position);
             if (d.x * d.x + d.z * d.z <= attackRange * attackRange &&
-                angle_difference_abs(-(s32)(10430.38043493439 * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < attackAngle / 2) {
+                angle_difference_abs(-(s32)(10430.38043493439 * atan2_float(d.z, d.x)) + 0x4000, rotation.y) < attackAngle / 2) {
                 s32 next;
                 approachCount++;
                 if (approachCount > 2) {
@@ -514,8 +514,8 @@ void TObjEneMe1GiGue::update_circling_state() {
                 break;
             }
         }
-        rotation_y += movementParameters->turn_speed / 2;
-        enemy_set_heading_velocity(moveSpeed, this, rotation_y);
+        rotation.y += movementParameters->turn_speed / 2;
+        enemy_set_heading_velocity(moveSpeed, this, rotation.y);
         move_with_wall_slide(this);
         circlingAngle += movementParameters->turn_speed / 2;
         if (circlingAngle > 0x10000) {
@@ -983,7 +983,7 @@ void TObjEneMe1GiGue::break_apart() {
     VecCopy(&pos, &position);
     pos.y += 40.0f + flightHeight;
     TBoss3Volopt::create_breakup_mdl(gigue_breakup_model, NULL,
-                       texlist, &pos, rotation_y);
+                       texlist, &pos, rotation.y);
     refresh_lobby_state();
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);
@@ -1001,7 +1001,7 @@ void TObjEneMe1GiGue::move_around_center(const Vec *center, f32 radius) {
     }
     VecCopy(&this->move_destination, &this->moveDestination);
     enemy_turn_toward_dest(this->movementParameters->turn_speed);
-    enemy_set_heading_velocity(this->moveSpeed, this, this->rotation_y);
+    enemy_set_heading_velocity(this->moveSpeed, this, this->rotation.y);
     move_with_wall_slide(this);
 }
 
@@ -1009,7 +1009,7 @@ void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
     if (find_entity_by_id(targetIds[index]) != 0) {
         Angle3 angles;
         angles.x = 0;
-        angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
+        angles.y = rotation.y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;
         new TObjEneMe1GiGueHomingShot(&shotOrigin, targetIds[index], &angles, index * 3,
                           random_ratio() <= get_gigue_float_parameter(5),
@@ -1154,7 +1154,7 @@ void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
         subtract_vector(&v, &this->position);
         if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {
             angle = -(s32)(10430.38043493439 * atan2_float(v.z, v.x)) + 0x4000;
-            if (angle_difference_abs(angle, this->rotation_y) <= this->attackAngle / 2) {
+            if (angle_difference_abs(angle, this->rotation.y) <= this->attackAngle / 2) {
                 this->targetIds[this->targetCount++] = target->get_entity_id();
             }
         }
@@ -1174,7 +1174,7 @@ s32 TObjEneMe1GiGue::collect_shot_targets() {
 void TObjEneMe1GiGue::capture_shot_origins() {
     push_matrix_from(&identity_matrix);
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);
     clear_motion_packed_rotation();
@@ -1279,7 +1279,7 @@ Vec *TObjEneMe1GiGue::update_and_get_pos() {
     return &rootPosition;
 }
 
-s32 TObjEneMe1GiGue::get_rotation_y() { return rotation_y; }
+s32 TObjEneMe1GiGue::get_rotation_y() { return rotation.y; }
 
 s32 TObjEneMe1GiGue::get_barrier_duration() { return barrierDuration; }
 

@@ -418,8 +418,8 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
     best = 0.0f;
     id = 0xFFFF;
     limit = cos_table_lookup(0xAAA);
-    s = sin_table_lookup(rotation_y);
-    c = cos_table_lookup(rotation_y);
+    s = sin_table_lookup(rotation.y);
+    c = cos_table_lookup(rotation.y);
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
@@ -542,9 +542,9 @@ s32 TObjEneRe7Berura::step_toward_target(s32 angle, s32 max_step) {
     s32 reached;
 
     reached = 0;
-    diff = angle_diff_s16(this->rotation_y, angle);
+    diff = angle_diff_s16(this->rotation.y, angle);
     if (diff > max_step) {
-        this->rotation_y += max_step;
+        this->rotation.y += max_step;
         total_pos = this->turn_total;
         if (total_pos < 0) {
             this->turn_total = 0;
@@ -552,7 +552,7 @@ s32 TObjEneRe7Berura::step_toward_target(s32 angle, s32 max_step) {
             this->turn_total = total_pos + max_step;
         }
     } else if (diff < -max_step) {
-        this->rotation_y -= max_step;
+        this->rotation.y -= max_step;
         total_neg = this->turn_total;
         if (total_neg > 0) {
             this->turn_total = 0;
@@ -560,7 +560,7 @@ s32 TObjEneRe7Berura::step_toward_target(s32 angle, s32 max_step) {
             this->turn_total = total_neg - max_step;
         }
     } else {
-        this->rotation_y = angle;
+        this->rotation.y = angle;
         reached = 1;
     }
     return reached;
@@ -899,14 +899,14 @@ void TObjEneRe7Berura::update_walk_state(s32 reason) {
             if (enemy_has_live_target() != 0) {
                 target_angle = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
             } else {
-                target_angle = rotation_y;
+                target_angle = rotation.y;
             }
             counter = 1;
         case 1:
             if (step_toward_target(target_angle, 0x100) != 0) {
                 counter = 2;
-                walk_dir.x = sin_table_lookup(rotation_y);
-                walk_dir.z = cos_table_lookup(rotation_y);
+                walk_dir.x = sin_table_lookup(rotation.y);
+                walk_dir.z = cos_table_lookup(rotation.y);
                 reset_turn_total();
             }
             update_ground_contact();
@@ -921,7 +921,7 @@ void TObjEneRe7Berura::update_walk_state(s32 reason) {
                     if (enemy_has_live_target() != 0) {
                         target_angle = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
                     } else {
-                        target_angle = rotation_y;
+                        target_angle = rotation.y;
                     }
                     step_toward_target(target_angle, 0x100);
                 }
@@ -1015,7 +1015,7 @@ void TObjEneRe7Berura::update_punch_state(s32 reason) {
                 arm_flags[current_arm] |= 3;
                 arm_fade.reset_obstruction_fade();
                 VecCopy(&v, &re7_berura_detached_part_states[current_arm].launch_offset);
-                rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
+                rotate_xz_pair_by_angle(&v.x, &v.z, rotation.y);
                 vec3_add_to(&v, &position);
                 punch->launch(current_arm, &v, &destination);
                 step = 1;
@@ -1126,7 +1126,7 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
                 push_matrix();
                 set_matrix_identity(NULL);
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(NULL, rotation_y);
+                rotate_matrix_y(NULL, rotation.y);
                 matrix_mult_vec_array(NULL, entry, trail_points, 4);
                 pop_matrix();
                 attack_trails[0]->add_segment(&trail_points[0], &trail_points[1]);
@@ -1181,9 +1181,9 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 reason) {
             target_angle = t - 0xB;
             v = (target_angle > 0x100) ? 0x100 : target_angle;
             if (turn_total > 0) {
-                rotation_y += v;
+                rotation.y += v;
             } else {
-                rotation_y -= v;
+                rotation.y -= v;
             }
         }
         if ((step & 0x1F) < 0x10) {
@@ -1217,10 +1217,10 @@ void TObjEneRe7Berura::state_patrol(s32 reason) {
         status_flags = status_flags | 4;
         set_next_mode(9);
         step = 0;
-        target_angle = rotation_y + 0x3800;
+        target_angle = rotation.y + 0x3800;
         break;
     case 3:
-        if (rotation_y >= target_angle) {
+        if (rotation.y >= target_angle) {
             transition_enemy_state(5);
         }
         break;
@@ -1229,7 +1229,7 @@ void TObjEneRe7Berura::state_patrol(s32 reason) {
         if (is_motion_blending() == 0) {
             play_speed = 1.6f;
         }
-        rotation_y = rotation_y + 0x280;
+        rotation.y = rotation.y + 0x280;
         update_ground_contact();
         check_collisions();
         break;
@@ -1412,7 +1412,7 @@ void TObjEneRe7Berura::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (mode == 5) {
             re7_berura_demo_state = 0;
             berura_node_saved_render_flags = 0;
@@ -1513,7 +1513,7 @@ void TObjEneRe7Berura::render_demo() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         idx = (s32)parameters[0];
         if (idx < 0) {
             idx = 0;

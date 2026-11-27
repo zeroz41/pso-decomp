@@ -163,11 +163,11 @@ void TOChatSensor::init_params() {
     f32 x;
     s32 index;
 
-    this->kind = (u32) this->rotation_x;
+    this->kind = (u32) this->rotation.x;
     if ((u32) this->kind >= 2U) {
         this->kind = 0U;
     }
-    this->match_mode = (u32) this->rotation_y;
+    this->match_mode = (u32) this->rotation.y;
     if ((u32) this->match_mode >= 2U) {
         this->kind = 0U;
     }

@@ -493,7 +493,7 @@ void TObjEneRe4Sorcerer::warp_around_target(f32 speed) {
     this->update_ground_contact();
     VecCopy(&this->prev_position, &this->position);
     this->update_collision_center();
-    this->rotation_y = this->warp_angle + 0x8000;
+    this->rotation.y = this->warp_angle + 0x8000;
     this->calc_orb_positions();
     this->warp_angle += 0x2AAA;
     this->transform_part_positions();
@@ -600,8 +600,8 @@ void TObjEneRe4Sorcerer::calc_orb_positions() {
     f32 offset_z;
     f32 offset_x;
 
-    offset_x = 15.0f * cos_table_lookup(rotation_y);
-    offset_z = 15.0f * -sin_table_lookup(rotation_y);
+    offset_x = 15.0f * cos_table_lookup(rotation.y);
+    offset_z = 15.0f * -sin_table_lookup(rotation.y);
     bit_anchors[1].x = position.x + offset_x;
     bit_anchors[1].y = 18.0f + position.y;
     bit_anchors[1].z = position.z + offset_z;
@@ -613,7 +613,7 @@ void TObjEneRe4Sorcerer::calc_orb_positions() {
 void TObjEneRe4Sorcerer::turn_to_target() {
     enemy_copy_target_destination();
     update_velocity();
-    rotation_y = approach_angle_limited(rotation_y, (saddr)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0xA00);
+    rotation.y = approach_angle_limited(rotation.y, (saddr)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0xA00);
 }
 
 s32 TObjEneRe4Sorcerer::cast_technique() {
@@ -955,7 +955,7 @@ void TObjEneRe4Sorcerer::update_attack_state(s32 reason) {
                         this->behavior_flags |= 8;
                         this->set_photon_state();
                     }
-                    this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+                    this->rotation.y = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                 }
             } else if (this->state_timer >= 0xF0) {
                 this->state_step = 5;
@@ -1145,7 +1145,7 @@ void TObjEneRe4Sorcerer::update_cure_state(s32 reason) {
                             this->behavior_flags |= 8;
                             this->apply_mylla_effect();
                         }
-                        this->rotation_y = (saddr)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+                        this->rotation.y = (saddr)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                     } else {
                         this->state_step = 1;
                         this->requested_action = 1;
@@ -1353,7 +1353,7 @@ void TObjEneRe4Sorcerer::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             translate_matrix(0, 0.0f, 22.0f, 0.0f);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             re4_sorcerer_render_node_index = 0;
             re4_sorcerer_saved_render_flags = 0;
             re4_sorcerer_effect_render_scale = effect_scale;
@@ -1396,7 +1396,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 22.0f, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         strip_scroll = (strip_scroll + 5);
         re4_sorcerer_uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         texture_scroll += 0.01f;

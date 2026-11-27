@@ -400,8 +400,8 @@ void TObjEneRecobox::update_child_spawn() {
         dir.y = -5.0f;
         break;
     case 2:
-        dir.x = 2.0f * sin_table_lookup(rotation_y);
-        dir.z = 2.0f * cos_table_lookup(rotation_y);
+        dir.x = 2.0f * sin_table_lookup(rotation.y);
+        dir.z = 2.0f * cos_table_lookup(rotation.y);
         break;
     }
     id = alloc_child_id();
@@ -793,7 +793,7 @@ void TObjEneRecobox::render() {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             switch (mount_type) {
             case 1:
                 rotate_matrix_x(0, 0x8000);
@@ -850,7 +850,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         switch (this->mount_type) {
         case 1:
             rotate_matrix_x(0, 0x8000);
@@ -867,7 +867,7 @@ void TObjEneRecobox::draw_with_debug_info() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_chunk_object(debug_chunk_object);
     pop_matrix();
 }
@@ -879,7 +879,7 @@ s32 TObjEneRecobox::render_trap_model_if_visible() {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw();
             pop_matrix();
             restore_render_scissor(1);

@@ -59,7 +59,7 @@ TechniqueContactList *TNeedleShoot::collect_contacts(TObjBase *src) {
     a.y = 0.5f * (a.y + sd->y);
     a.z = 0.5f * (a.z + sd->z);
     VecCopy(&collider->position, &a);
-    copy_xyz(&collider->rotation_x, &rotation_x);
+    copy_xyz(&collider->rotation, &rotation_x);
     for (i = 0; i < TLobby::get_lobby_flag(); i++) {
         p = TObjPlayer::get_player_data(i);
         if (p == 0) continue;
@@ -99,7 +99,7 @@ TechniqueContactList *TNeedleShoot::collect_contacts_from_game_mode(TObjBase *sr
     a.y = 0.5f * (a.y + sd->y);
     a.z = 0.5f * (a.z + sd->z);
     VecCopy(&collider->position, &a);
-    copy_xyz(&collider->rotation_x, &rotation_x);
+    copy_xyz(&collider->rotation, &rotation_x);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         p = TObjPlayer::get_player_data(i);
         if (p == 0) continue;
@@ -142,7 +142,7 @@ TechniqueContactList *TNeedleShoot::collect_technique_contacts(TObjBase *src) {
     a.y = 0.5f * (a.y + sd->y);
     a.z = 0.5f * (a.z + sd->z);
     VecCopy(&collider->position, &a);
-    copy_xyz(&collider->rotation_x, &rotation_x);
+    copy_xyz(&collider->rotation, &rotation_x);
     if ((u16)src->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {

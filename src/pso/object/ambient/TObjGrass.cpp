@@ -329,7 +329,7 @@ void TObjGrass::render() {
     push_matrix();
     translate_matrix(0, (0.0f), parameters[2], (0.0f));
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     scale_matrix(0, (1.3f), scale.y, (1.3f));
     if (check_demo_mode() == 1) {
         draw_chunk_object(model);
@@ -553,7 +553,7 @@ void TObjGrass::update_ai() {
                 if (project_actor_to_ground(this, &scratch_vec2, NULL) == 1) {
                     requested_action = 1;
                     VecCopy(&position, &scratch_vec2);
-                    rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
+                    rotation.y = approach_angle_limited(rotation.y, ang, movementParameters->turn_speed);
                 } else {
                     f32 r = fabs_float(d->z);
                     if (fabs_float(scratch_vec.x) < r) {
@@ -572,7 +572,7 @@ void TObjGrass::update_ai() {
                     if (project_actor_to_ground(this, &scratch_vec2, NULL) == 1) {
                         requested_action = 1;
                         VecCopy(&position, &scratch_vec2);
-                        rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
+                        rotation.y = approach_angle_limited(rotation.y, ang, movementParameters->turn_speed);
                     } else {
                         s32 ang2;
                         r = fabs_float(d->z);
@@ -592,14 +592,14 @@ void TObjGrass::update_ai() {
                         if (project_actor_to_ground(this, &scratch_vec2, NULL) == 1) {
                             requested_action = 1;
                             VecCopy(&position, &scratch_vec2);
-                            rotation_y = approach_angle_limited(rotation_y, ang2, movementParameters->turn_speed);
+                            rotation.y = approach_angle_limited(rotation.y, ang2, movementParameters->turn_speed);
                         } else {
                             requested_action = 1;
                         }
                     }
                 }
                 enemy_turn_toward_dest(movementParameters->turn_speed);
-                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
+                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
                 move_with_wall_slide(this);
             } else {
                 enemy_wander_home((0.25f) * movementParameters->move_speed, (1e+02f), (5e+01f), movementParameters->turn_speed);
@@ -647,7 +647,7 @@ void TObjGrass::update_move_forward() {
     v.x = (0.0f);
     v.z = parameters[1];
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
@@ -692,7 +692,7 @@ void TObjGrass::update_chase_target() {
             dist = enemy_move_toward(this, turn, target->body_center, 0, (0.125f) * speed);
             VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
-            turn = angle_difference_abs(rotation_y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
+            turn = angle_difference_abs(rotation.y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
             if (turn < attack_params->get_attack_angle()) {
                 phase = 1;
             }
@@ -742,7 +742,7 @@ s32 TObjGrass::is_target_in_attack_range() {
         BIND(2)
     }
     dist = calc_xz_distance_sq(this, target, &v);
-    ang = angle_difference_abs(this->rotation_y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
+    ang = angle_difference_abs(this->rotation.y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
     t = this->target;
     if (t->bodies != NULL) {
         r = t->bodies->radius;
@@ -879,7 +879,7 @@ void TObjGrass::update_swing_attack() {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&this->position.x);
-                rotate_matrix_y(0, this->rotation_y);
+                rotate_matrix_y(0, this->rotation.y);
                 scale_matrix(0, (1.3f), (1.3f), (1.3f));
                 matrix_mult_vec_array(NULL, ent, &trace_base, 2);
                 pop_matrix();
@@ -1032,7 +1032,7 @@ void TObjGrass::update_charge_attack() {
                 spd *= (2.0f);
             }
             this->enemy_turn_toward_dest((s32)((2.0f) * (f32)prm->turn_speed));
-            enemy_set_heading_velocity(spd, this, this->rotation_y);
+            enemy_set_heading_velocity(spd, this, this->rotation.y);
             move_with_wall_slide(this);
             d2 = horizontal_distance_squared(&this->move_destination, &this->body_center);
             if (this->targetId == 0xFFFF) {
@@ -1059,7 +1059,7 @@ void TObjGrass::update_charge_attack() {
             w.x = (0.0f);
             w.z = (4.0f);
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             rotate_vector_by_matrix(0, &w, &w);
             pop_matrix();
             vec3_add_to(&this->camera_vec, &w);
@@ -1132,7 +1132,7 @@ void TObjGrass::update_web_attack() {
             s32 d;
             VecCopy(&v2, &target->body_center);
             subtract_vector(&v2, &body_center);
-            d = angle_difference_abs(rotation_y, (s32)((10430.38043493439) * atan2_float(v2.x, v2.z)));
+            d = angle_difference_abs(rotation.y, (s32)((10430.38043493439) * atan2_float(v2.x, v2.z)));
             if (d < grass_attack_params[1]->get_attack_angle()) {
                 VecCopy(&v2, &target->position);
                 subtract_vector(&v2, &render_vec);
@@ -1326,7 +1326,7 @@ void TObjGrass::update_dying() {
             v.x = (0.0f);
             v.z = (-15.0f);
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             rotate_vector_by_matrix(0, &v, &v);
             pop_matrices(1);
             vec3_add_to(&v, &position);

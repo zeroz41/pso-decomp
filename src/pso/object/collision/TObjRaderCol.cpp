@@ -200,13 +200,13 @@ void TObjRaderIcon::run_task() {
             }
         }
         if (all == 1) {
-            add_radar_scaled_gate(&position, 0xFF00FF00, rotation_y, 0, 0, size);
+            add_radar_scaled_gate(&position, 0xFF00FF00, rotation.y, 0, 0, size);
         } else {
-            add_radar_scaled_gate(&position, 0xFFFF0000, rotation_y, 0, 0, size);
+            add_radar_scaled_gate(&position, 0xFFFF0000, rotation.y, 0, 0, size);
         }
         break;
     case 1:
-        add_radar_scaled_gate(&position, color, rotation_y, 0, 0, size);
+        add_radar_scaled_gate(&position, color, rotation.y, 0, 0, size);
         break;
     }
 }

@@ -33,7 +33,7 @@ TItemEffNeedle::~TItemEffNeedle() {}
 TItemEffNeedleBase::TItemEffNeedleBase(TObject *parent, TItem *item) : TObject(parent) {
     m_name = class_name;
     item_id = item->get_item_id();
-    rotation[1] = item->rotation_y;
+    rotation[1] = item->rotation.y;
     rotation[2] = 0;
     rotation[0] = 0;
     model = NULL;
@@ -113,7 +113,7 @@ TItemEffNeedle::TItemEffNeedle(TObject *parent, TItem *item, u16 target_id, s32 
     if (target != NULL) {
         VecCopy(&position, &target->bodies[this->body_index].center);
         copy_xyz(rotation_offset, rotation);
-        rotation_offset[1] -= target->rotation_y;
+        rotation_offset[1] -= target->rotation.y;
     }
 }
 
@@ -124,7 +124,7 @@ int TItemEffNeedle::update_attachment() {
         return 0;
     }
     VecCopy(&position, &target->bodies[body_index].center);
-    rotation[1] = rotation_offset[1] + target->rotation_y;
+    rotation[1] = rotation_offset[1] + target->rotation.y;
     return 1;
 }
 

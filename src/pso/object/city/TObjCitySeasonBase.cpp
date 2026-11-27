@@ -146,7 +146,7 @@ void TObjCity_Season_EasterEgg::render() {
         set_texture_list(city_season_texlists[0]);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_chunk_object(resource->models[1].model);
         draw_chunk_object(resource->models[0].model);
         pop_matrix();
@@ -184,7 +184,7 @@ void TObjCity_Season_ValentineHeart::render() {
         set_texture_list(city_season_texlists[1]);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_model_motion(resource->models[2].model, resource->motions[2].motion, anim_time);
         pop_matrix();
     }
@@ -222,7 +222,7 @@ void TObjCity_Season_XmasTree::render() {
         set_texture_list(city_season_texlists[2]);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_model_motion(resource->models[7].model, resource->motions[1].motion, anim_time);
         draw_model_motion(resource->models[6].model, resource->motions[0].motion, anim_time);
         draw_chunk_object(resource->models[8].model);
@@ -249,7 +249,7 @@ void TObjCity_Season_XmasWreath::render() {
         set_texture_list(city_season_texlists[2]);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_chunk_object(resource->models[5].model);
         pop_matrix();
     }
@@ -268,7 +268,7 @@ void *TObjCity_Season_HalloweenPumpkin::create(void *set) {
 }
 void TObjCity_Season_HalloweenPumpkin::run_task() {
     if (city_season_resources[3] != NULL) {
-        this->rotation_y = (this->rotation_y + 0x40);
+        this->rotation.y = (this->rotation.y + 0x40);
     }
 }
 
@@ -279,7 +279,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
         set_texture_list(city_season_texlists[3]);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_chunk_object(resource->models[0].model);
         pop_matrix();
     }
@@ -326,7 +326,7 @@ void TObjCity_Season_21_21::render() {
             city_season_strips->scroll_uvs(0, uv_scroll);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             draw_chunk_object(resource->models[1].model);
             draw_model_motion(resource->models[0].model, resource->motions[0].motion, anim_time);
             pop_matrix();
@@ -367,7 +367,7 @@ void TObjCity_Season_SonicAdv2::render() {
         model = get_model_variant();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_model_motion(resource->models[model].model, resource->motions[model].motion, anim_time);
         pop_matrix();
         VecCopy(&pos, &position);
@@ -378,7 +378,7 @@ void TObjCity_Season_SonicAdv2::render() {
         scale.x = 1.0f;
         scale.y = 0.0f;
         scale.z = 1.3f;
-        TObjEneDD::draw_oriented_shadow(&pos, &normal, rotation_y, &scale);
+        TObjEneDD::draw_oriented_shadow(&pos, &normal, rotation.y, &scale);
     }
 }
 
@@ -413,7 +413,7 @@ void TObjCity_Season_Board::render() {
         city_season_board_strips->scroll_uvs(uv_scroll, 0);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_chunk_object(city_season_board_model);
         draw_chunk_object(city_season_board_pillar_model);
         pop_matrix();
@@ -464,12 +464,12 @@ void TObjCity_Season_FireWorkCtrl::draw_area_box() {
     if (update_object_view_visibility(250.0f, 10.0f) != 0) {
         Vec size;
         NJS_ARGB color = firework_area_box_color;
-        rotation_z = 0;
-        rotation_x = 0;
+        rotation.z = 0;
+        rotation.x = 0;
         size.x = scale.x;
         size.y = 3.0f;
         size.z = scale.z;
-        debug_draw_box(&position, &rotation_x, &size, &color);
+        debug_draw_box(&position, &rotation.x, &size, &color);
     }
 }
 void TObjCity_Season_FireWorkCtrl::draw_debug_labels(s32) {

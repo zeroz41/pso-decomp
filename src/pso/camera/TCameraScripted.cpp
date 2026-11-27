@@ -68,7 +68,7 @@ void TCameraScripted::run_task() {
             normalize_vector(&direction);
         }
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, angles.yaw);
+        rotate_matrix_y(0, angles.y);
         matrix_mult_vec(0, &offset, &offset);
         matrix_mult_vec(0, &direction, &direction);
         pop_matrices(1);
@@ -108,9 +108,9 @@ TCameraScripted::TCameraScripted() {
     target_origin.x = 0.0f;
     target_origin.y = 0.0f;
     target_origin.z = 0.0f;
-    angles.pitch = 0;
-    angles.yaw = 0;
-    angles.roll = 0;
+    angles.x = 0;
+    angles.y = 0;
+    angles.z = 0;
     motion = NULL;
     bank_file = NULL;
 }

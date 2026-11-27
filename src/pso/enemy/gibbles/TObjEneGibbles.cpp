@@ -352,7 +352,7 @@ void TObjEneGibbles::render() {
             break;
         }
         translate_matrix_vec3(NULL, (u8 *)&v);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         scale_matrix_vec3(NULL, (u8 *)&scale);
         gibbles_render_node_index = 0;
         gibbles_render_rotation_x = this->head_angle;
@@ -435,7 +435,7 @@ void TObjEneGibbles::turn_toward_target() {
     Vec d;
     VecCopy(&d, &target->body_center);
     subtract_vector(&d, &body_center);
-    clamp_angle(angle_diff_s16(rotation_y, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
+    clamp_angle(angle_diff_s16(rotation.y, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
 }
 
 void TObjEneGibbles::refresh_target() {
@@ -894,7 +894,7 @@ s32 TObjEneGibbles::is_target_in_attack_range() {
         obj = this->target;
         if (obj != NULL && this->attack_params != NULL && !(obj->actorFlags & 0x02000800)) {
             dist = calc_xz_distance_sq(this, obj, &v);
-            ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
+            ang = angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             body = this->target->bodies;
             if (body != NULL) {
                 rad = body->radius;
@@ -1362,7 +1362,7 @@ void TObjEneGibbles::state_jump_attack() {
                     goto done;
                 }
             }
-            enemy_set_heading_velocity(0.0f, this, rotation_y);
+            enemy_set_heading_velocity(0.0f, this, rotation.y);
             status_flags &= ~0x100;
             mode = 3;
             phase = 0;
@@ -1408,7 +1408,7 @@ void TObjEneGibbles::state_jump_attack() {
         }
         if (is_passing_frame(frame_count - 1.0f - play_speed) != 0) {
             actorFlags &= ~0x200000;
-            enemy_set_heading_velocity(0.0f, this, rotation_y);
+            enemy_set_heading_velocity(0.0f, this, rotation.y);
             status_flags &= ~0x100;
             mode = 3;
             phase = 0;
@@ -1436,11 +1436,11 @@ int TObjEneGibbles::test_flag_256() {
             pl = TObjPlayer::get_player_data(i);
             if (pl != NULL && !(pl->actorFlags & 0x800)
                 && TObjPlayer::calc_distance_to_client(this, i, &v) < 900.0f
-                && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
+                && angle_difference_abs(this->rotation.y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
                 && pl->test_action_mask(0xE0) != 0) {
                 VecCopy(&v, &body_center);
                 subtract_vector(&v, &pl->body_center);
-                if (angle_difference_abs(pl->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
+                if (angle_difference_abs(pl->rotation.y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
                     this->guarded_player = pl;
                     this->status_flags |= 0x20;
                     return 1;
@@ -1529,7 +1529,7 @@ void TObjEneGibbles::run_hit_reaction() {
             if (pl != NULL) {
                 VecCopy(&v, &pl->body_center);
                 subtract_vector(&v, &body_center);
-                angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z)));
+                angle_difference_abs(this->rotation.y, (s32) (10430.38043493439 * atan2_float(v.x, v.z)));
             }
             this->mode = 8;
             this->requested_action = 8;
@@ -1609,7 +1609,7 @@ void TObjEneGibbles::state_dead() {
             point.x = 0.0f;
             point.y = 0.0f;
             point.z = -10.0f;
-            rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y);
+            rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation.y);
             vec3_add_to(&point, &position);
             spawn_dead_spot_kind2_scale25(&point, 0xA);
             spawn_effect_at_ground(&point, 0x46);
@@ -1694,7 +1694,7 @@ void TObjEneGibbles::render_and_get_joint_pos(Vec *out, s32 node) {
     set_motion_packed_rotation();
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     scale_matrix_vec3(NULL, (u8 *)&scale);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);

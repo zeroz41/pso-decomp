@@ -253,7 +253,7 @@ void TObjWarpBoss::render() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(boss_warp_base_textures);
     draw_ginja_object(boss_warp_base_model);
     if (model != NULL) {
@@ -866,7 +866,7 @@ void TObjWarpBossMulti::render() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(model_handle));
     draw_ginja_object(base_model);
     begin_effect_render();

@@ -41,7 +41,7 @@ void TObjEneMe1GiGueBarrier::render() {
     if (defer_render() == 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         end_effect_render();
         draw();
@@ -56,7 +56,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
         return;
     }
     VecCopy(&position, gigue->update_and_get_pos());
-    rotation_y = owner->get_rotation_y();
+    rotation.y = owner->get_rotation_y();
     advance_animation();
     timer = timer - 1;
     switch (phase) {
@@ -98,7 +98,7 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, TObjEneMe1GiGue 
     owner = owner_obj;
     owner_id = owner->get_entity_id();
     VecCopy(&position, owner->update_and_get_pos());
-    rotation_y = owner->get_rotation_y();
+    rotation.y = owner->get_rotation_y();
     timer = owner->get_barrier_duration();
     owner->set_barrier_active();
     phase = 0;

@@ -129,7 +129,7 @@ void TOCtrlDubchik::render() {
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = model;
         post_translate_matrix(node->pos);
@@ -165,7 +165,7 @@ void TOCtrlDubchik::render() {
     translate_matrix(0, shadow_pos.x, 0.3f + shadow_pos.y, shadow_pos.z);
     rotate_matrix_z(NULL, rot_z);
     rotate_matrix_x(NULL, rot_x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_x(NULL, -0x4000);
     shadow_scale = 1.0f - 0.025f * (hover_height - 20.0f);
     scale[2] = 1.0f;

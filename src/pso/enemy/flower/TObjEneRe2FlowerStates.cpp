@@ -60,10 +60,10 @@ void TObjEneRe2Flower::state_die(s32 reason) {
             advance_animation();
             if (get_flag_b4() != 0) {
                 state_step = 1;
-                x = lbl_805D9FC4 * sin_table_lookup(rotation_y);
+                x = lbl_805D9FC4 * sin_table_lookup(rotation.y);
                 effect_pos.y = lbl_805D9FAC;
                 effect_pos.x = x;
-                effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation_y);
+                effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation.y);
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
                     spawn_dead_spot_kind0_scale7_5(&effect_pos, 0x32);

@@ -397,8 +397,8 @@ void spawn_mirror_pair(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase
         spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
-        new TMirrorPairParticle(tl_05, pos, target->rotation_y);
-        new TMirrorPairParticle(tl_05, pos, target->rotation_y - 0x8000);
+        new TMirrorPairParticle(tl_05, pos, target->rotation.y);
+        new TMirrorPairParticle(tl_05, pos, target->rotation.y - 0x8000);
     }
 }
 

@@ -35,7 +35,7 @@ void TObjSuisouLobby::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
@@ -134,7 +134,7 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
         push_matrix();
         set_matrix_identity(NULL);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         matrix_mult_vec(NULL, &pos, &pos);
         emitter0 = create_particle_emitter(&pos, 0x222);
         pop_matrix();
@@ -147,7 +147,7 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
         push_matrix();
         set_matrix_identity(NULL);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         matrix_mult_vec(NULL, &pos, &pos);
         emitter1 = create_particle_emitter(&pos, 0x222);
         pop_matrix();

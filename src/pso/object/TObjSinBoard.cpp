@@ -148,9 +148,9 @@ void TObjSinBoard::render() {
         begin_effect_render();
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
-        rotate_matrix_z(0, rotation_z);
-        rotate_matrix_x(0, rotation_x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_z(0, rotation.z);
+        rotate_matrix_x(0, rotation.x);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, scale.x, scale.y, scale.z);
         draw_tri_fan_3d(&fan, 4, 0xE);
         pop_matrix();

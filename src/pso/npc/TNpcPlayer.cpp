@@ -2470,7 +2470,7 @@ s32 NpcPlayerView::probe_obstacles() {
         return 0;
     }
     VecCopy(&sweep->position, &player->position);
-    probe->rotation_y = goal_angle;
+    probe->rotation.y = goal_angle;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + get_registered_object_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
@@ -2479,7 +2479,7 @@ s32 NpcPlayerView::probe_obstacles() {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
                         copy_collision_body(&obstacle_body, contact);
-                        obstacle_angle = actor->rotation_y;
+                        obstacle_angle = actor->rotation.y;
                         status |= NPC_STATUS_OBSTACLE_AHEAD;
                         return 1;
                     }

@@ -28,12 +28,12 @@ void TItemWeaponSRankBazooka::update_weapon() {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));
         if ((-2.0f) == barrel_offset) {
             recoil_state = 2;
-            ang = owner->rotation_y + 0x4000;
+            ang = owner->rotation.y + 0x4000;
             v.x = sin_table_lookup(ang);
             v.y = 0.0f;
             v.z = cos_table_lookup(ang);
             a[0] = 0x4000;
-            a[1] = owner->rotation_y;
+            a[1] = owner->rotation.y;
             a[2] = 0;
             launch_weapon_casing(tl_05, this, 3, &v, a);
         }

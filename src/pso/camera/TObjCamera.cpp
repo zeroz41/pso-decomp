@@ -76,7 +76,7 @@ void TObjCamera::init_sound_events() {
     for (i = 0; i < 8; i++) {
         sound_events[i] = camera_sound_events[i];
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         matrix_mult_vec(0, &sound_events[i].position, &sound_events[i].position);
         pop_matrix();
         vec3_add_to(&sound_events[i].position, &position);
@@ -131,7 +131,7 @@ void TObjCamera::render() {
         set_texture_list(get_bml_texlist(model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         node_scan_index = 0;
         set_model_node_callback(TObjCamera::record_lamp_positions);
         draw_ginja_model_with_motion(get_bml_model(model_resource, 0),

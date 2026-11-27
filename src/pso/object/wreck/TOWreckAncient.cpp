@@ -167,7 +167,7 @@ void TOWreckAncient::render() {
     if (update_object_view_visibility(view_far_depth, view_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
@@ -305,7 +305,7 @@ void TOWreckAncientBrakable::spawn_debris() {
     for (i = 0; i < 9; i++) {
         VecCopy(&tmp, &arr.offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         rotate_vector_by_matrix(0, &tmp, &tmp);
         pop_matrix();
         VecCopy(&p.pos, &position);

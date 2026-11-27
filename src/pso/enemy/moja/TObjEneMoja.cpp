@@ -403,7 +403,7 @@ void TObjEneMoja::render() {
         push_matrix();
         translate_matrix(0, 0.0f, sinkOffset, 0.0f);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
@@ -613,7 +613,7 @@ void TObjEneMoja::update_appearance_jump() {
         off.y = -500.0f;
         off.z = 200.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         rotate_vector_by_matrix(0, &off, &off);
         pop_matrices(1);
         VecCopy(&tmp, &home_position);
@@ -626,7 +626,7 @@ void TObjEneMoja::update_appearance_jump() {
         VecCopy(&move_origin, &position);
         VecCopy(&delta, &move_destination);
         subtract_vector(&delta, &position);
-        rotation_y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
+        rotation.y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
         jumpSpeed = newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
@@ -695,10 +695,10 @@ void TObjEneMoja::update_appearance_drop() {
     default:
         VecCopy((Vec *)&scratch_vec, &home_position);
         subtract_vector(&scratch_vec, &position);
-        rotation_y = approach_angle_limited(rotation_y,
+        rotation.y = approach_angle_limited(rotation.y,
             (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)),
             movementParameters->turn_speed);
-        if (rotation_y >= movementParameters->turn_speed) {
+        if (rotation.y >= movementParameters->turn_speed) {
             return;
         }
         requested_action = 5;
@@ -844,7 +844,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     if (this->mode > 1 && (t = this->target) != NULL &&
         this->attack_params != NULL && !(t->actorFlags & 0x02000800)) {
         dist = calc_xz_distance_sq(this, t, &d);
-        angd = angle_difference_abs(this->rotation_y,
+        angd = angle_difference_abs(this->rotation.y,
                                     (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
         c = this->target->bodies;
         if (c != NULL) {
@@ -971,7 +971,7 @@ void TObjEneMoja::update_punch_attack() {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 matrix_mult_vec_array(NULL, e, trail, 2);
                 pop_matrix();
                 trace = attack_trace;
@@ -1061,7 +1061,7 @@ void TObjEneMoja::update_technique_state() {
                 Vec cur = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&cur);
                 a = enemy_turn_toward_dest(movementParameters->turn_speed);
-                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
+                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
                 move_with_wall_slide(this);
             } else {
                 VecCopy(&dir, (const Vec *)&target->body_center);
@@ -1082,7 +1082,7 @@ void TObjEneMoja::update_technique_state() {
             pos.y = 3.0f;
             pos.z = 17.0f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             rotate_vector_by_matrix(0, &pos, &pos);
             pop_matrices(1);
             vec3_add_to(&pos, &body_center);
@@ -1099,7 +1099,7 @@ void TObjEneMoja::update_technique_state() {
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
                         TTecMegid::create(this, &pos, &target->body_center, calc_technique_level());
                     } else {
-                        TTecMegid::create_ex(this, &pos, rotation_y, calc_technique_level());
+                        TTecMegid::create_ex(this, &pos, rotation.y, calc_technique_level());
                     }
                     play_sound_effect(0x4002A60B, &pos, 0, 0);
                     break;
@@ -1111,7 +1111,7 @@ void TObjEneMoja::update_technique_state() {
                             dir.y = dir.x = 0.0f;
                             dir.z = 1.0f;
                             push_matrix_from(identity_matrix);
-                            rotate_matrix_y(0, rotation_y);
+                            rotate_matrix_y(0, rotation.y);
                             rotate_vector_by_matrix(0, &dir, &dir);
                             pop_matrix();
                         }
@@ -1125,7 +1125,7 @@ void TObjEneMoja::update_technique_state() {
                         dir.y = dir.x = 0.0f;
                         dir.z = 1.0f;
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, rotation_y);
+                        rotate_matrix_y(0, rotation.y);
                         rotate_vector_by_matrix(0, &dir, &dir);
                         pop_matrix();
                     }
@@ -1136,20 +1136,20 @@ void TObjEneMoja::update_technique_state() {
             } else {
                 switch (variant) {
                 case 1:
-                    TTecGiBarta::create_ex(this, &pos, rotation_y, calc_technique_level());
+                    TTecGiBarta::create_ex(this, &pos, rotation.y, calc_technique_level());
                     break;
                 default:
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
                         TTecFoie::create_ex(this, &pos, &target->body_center, calc_technique_level());
                     } else {
-                        TTecFoie::create(this, &pos, rotation_y, calc_technique_level());
+                        TTecFoie::create(this, &pos, rotation.y, calc_technique_level());
                     }
                     break;
                 }
                 dir.y = dir.x = 0.0f;
                 dir.z = 1.0f;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 rotate_vector_by_matrix(0, &dir, &dir);
                 pop_matrices(1);
                 {
@@ -1358,7 +1358,7 @@ void TObjEneMoja::update_death_state() {
         v.y = 10.0f;
         v.z = 0.5f * this->stat_block->proportions;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         rotate_vector_by_matrix(0, &v, &v);
         pop_matrix();
         vec3_add_to(&v, &position);

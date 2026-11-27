@@ -203,7 +203,7 @@ void TObjEneDarkGunCenter::run_task() {
                 for (i = 0; i < gunner_count; i++) {
                     gunner = (TObjEneDarkGunner *)get_enemy_entity(gunner_ids[i]);
                     if (gunner != NULL) {
-                        gunner->rotation_y = ang;
+                        gunner->rotation.y = ang;
                     }
                     ang += 0x1555;
                 }

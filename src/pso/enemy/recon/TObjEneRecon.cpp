@@ -86,7 +86,7 @@ void TObjEneRecon::render_shadows() {
     bml_texlist = get_bml_texlist(recon_recobox_static_instance, 2);
     push_matrix();
     translate_matrix(0, position.x, position.y, position.z);
-    rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
+    rotate_matrix_zyx(0, this->rotation.x, this->rotation.y, this->rotation.z);
     scale_matrix(0, 1.5f, 1.5f, 1.5f);
     set_texture_list(bml_texlist);
     draw_chunk_object(bml_model);
@@ -101,7 +101,7 @@ void TObjEneRecon::render_demo() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         draw_chunk_object(this->model);
@@ -117,7 +117,7 @@ s32 TObjEneRecon::render_model_if_visible() {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
-            rotate_matrix_y(0, (int) (this->rotation_y));
+            rotate_matrix_y(0, (int) (this->rotation.y));
             this->draw();
             pop_matrix();
             restore_render_scissor(1);
@@ -168,7 +168,7 @@ void TObjEneRecon::render() {
                     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
                     push_matrix();
                     translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
-                    rotate_matrix_y(0, (int) (rotation_y));
+                    rotate_matrix_y(0, (int) (rotation.y));
                     TObjEneDD::clear_global_flag_400();
                     recon_intro_stage = 0;
                     recon_model_matrix_ptr = &root_node_position;
@@ -338,8 +338,8 @@ void TObjEneRecon::state_death(s32 reason) {
                     rise_speed = 1.0f;
                     move_speed *= 0.98f;
                     if (velocity.x * velocity.x + velocity.z * velocity.z <= 0.3f) {
-                        velocity.x = 0.5f * sin_table_lookup(rotation_y);
-                        velocity.z = 0.5f * cos_table_lookup(rotation_y);
+                        velocity.x = 0.5f * sin_table_lookup(rotation.y);
+                        velocity.z = 0.5f * cos_table_lookup(rotation.y);
                     }
                 } else {
                     state_step = 2;
@@ -355,7 +355,7 @@ void TObjEneRecon::state_death(s32 reason) {
             spawn_particle_effect_with_flags(&position, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
             TBoss3Volopt::create_breakup_mdl(boss3_volopt_instance, &recon_breakup_params,
-                               texlist, &body_center, rotation_y);
+                               texlist, &body_center, rotation.y);
             break;
         }
         break;
@@ -481,7 +481,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
             state_step = 2;
         } else {
             state_step = 0;
-            orbit_angle = rotation_y + 0x8000;
+            orbit_angle = rotation.y + 0x8000;
             orbit_step = 0;
             bob_phase = 0;
         }
@@ -546,7 +546,7 @@ void TObjEneRecon::state_orbit(s32 reason) {
             hover_height = approach_value(hover_height, destination.y + h);
             clamp_min_height();
             t = current_target;
-            rotation_y = 10430.38043493439 * atan2_float(t->position.x - position.x, t->position.z - position.z);
+            rotation.y = 10430.38043493439 * atan2_float(t->position.x - position.x, t->position.z - position.z);
             check_collisions();
             spawn_trap_b();
         }
@@ -593,7 +593,7 @@ void TObjEneRecon::state_bomb_attack(s32 reason) {
         case 0:
             enemy_copy_target_destination();
             update_velocity();
-            rotation_y = approach_angle_limited(rotation_y,
+            rotation.y = approach_angle_limited(rotation.y,
                 (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)),
                 0x400);
             (state_timer)++;
@@ -665,8 +665,8 @@ void TObjEneRecon::state_attack(s32 reason) {
                 aim_above_target();
             }
             update_velocity();
-            velocity.x = sin_table_lookup(rotation_y);
-            velocity.z = cos_table_lookup(rotation_y);
+            velocity.x = sin_table_lookup(rotation.y);
+            velocity.z = cos_table_lookup(rotation.y);
             update_collide_flag();
             hover_height = approach_value(hover_height, destination.y);
             clamp_min_height();
@@ -749,7 +749,7 @@ void TObjEneRecon::state_search(s32 reason) {
         }
         sync_height();
         update_velocity();
-        rotation_y = (u16)(rotation_y + 0x400);
+        rotation.y = (u16)(rotation.y + 0x400);
         check_collisions();
         spawn_trap_b();
         break;
@@ -769,7 +769,7 @@ void TObjEneRecon::state_launch(s32 reason) {
         recon_flags |= 2;
         actorFlags |= 0x01000000;
         state_step = 0;
-        this->rotation_y = 10430.38043493439 * atan2_float(spawn_direction.x, spawn_direction.z);
+        this->rotation.y = 10430.38043493439 * atan2_float(spawn_direction.x, spawn_direction.z);
         enemy_clear_target();
         break;
     case 3:
@@ -1261,8 +1261,8 @@ void TObjEneRecon::run_task() {
                 if (TObjEneDD::check_v2_mode() != 0) {
                     side *= 3.0f;
                 }
-                dx = side * cos_table_lookup(rotation_y);
-                dz = side * -sin_table_lookup(rotation_y);
+                dx = side * cos_table_lookup(rotation.y);
+                dz = side * -sin_table_lookup(rotation.y);
                 emitter->position.x = body_center.x + dx;
                 emitter->position.y = -1.5f + body_center.y;
                 emitter->position.z = body_center.z + dz;

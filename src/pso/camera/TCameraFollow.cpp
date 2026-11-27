@@ -208,7 +208,7 @@ void request_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, u16 clie
         player = get_player_by_client_id(local_client_id);
     }
     if (player != NULL) {
-        angle = player->rotation_y + 0x8000;
+        angle = player->rotation.y + 0x8000;
     }
     apply_follow_camera_offsets(target_offset, eye_offset, angle, client_id);
 }
@@ -226,7 +226,7 @@ void apply_follow_camera_offsets(Vec *target_offset, Vec *eye_offset, s32 angle,
                     player = get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(i));
                     yaw = angle;
                     if (player != 0) {
-                        yaw = player->rotation_y + angle;
+                        yaw = player->rotation.y + angle;
                     }
                     camera->set_pos_target(target_offset, eye_offset, yaw);
                 }
@@ -305,7 +305,7 @@ void begin_conversation_camera() {
         camera->set_close_up(1);
         actor = camera->actor;
         if (actor != NULL) {
-            facing = actor->rotation_y;
+            facing = actor->rotation.y;
             diff = angle_difference_abs(camera->yaw, facing + 0x6000);
             if (diff > angle_difference_abs(camera->yaw, facing - 0x6000)) {
                 near_heading = facing - 0x6000;
@@ -374,8 +374,8 @@ void TCameraFollow::update_follow_motion_state() {
                     yaw = approach_camera_angle(yaw, get_target_yaw(), 0x16C);
                 } else {
                     eye_rate = 0.67f;
-                    set_target_yaw(this->actor->rotation_y + 0x8000);
-                    yaw = this->actor->rotation_y + 0x8000;
+                    set_target_yaw(this->actor->rotation.y + 0x8000);
+                    yaw = this->actor->rotation.y + 0x8000;
                 }
             } else {
                 rate = (follow & 4) ? 2 : 5;
@@ -394,7 +394,7 @@ void TCameraFollow::update_follow_motion_state() {
             }
             break;
         case 2:
-            set_target_yaw(this->actor->rotation_y + 0x8000);
+            set_target_yaw(this->actor->rotation.y + 0x8000);
             yaw = approach_camera_angle(yaw, get_target_yaw(), 3);
             if (moving != 0) {
                 motion_state = 1;
@@ -443,7 +443,7 @@ void TCameraFollow::select_follow_camera_offsets() {
         request_follow_camera_offsets(&target_offset, &eye_offset, 0xFFFF);
     } else {
         if (!(this->follow_flags & 8)) {
-            this->set_target_yaw(this->actor->rotation_y + 0x8000);
+            this->set_target_yaw(this->actor->rotation.y + 0x8000);
             this->target_offset.x = 0.0f;
             this->target_offset.y = 19.8f;
             this->target_offset.z = -5.0f;
@@ -519,7 +519,7 @@ void TCameraFollow::reset_to_actor(TObjPlayer *actor) {
     Vec d;
     CsnHit *hit;
     if (actor != NULL) {
-        this->yaw = actor->rotation_y + 0x8000;
+        this->yaw = actor->rotation.y + 0x8000;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, this->yaw);
         matrix_mult_vec(0, &v, &v);
@@ -554,7 +554,7 @@ void TCameraFollow::init_pose() {
     player = get_player_by_client_id(local_client_id);
     area = get_current_floor_area();
     if (player != NULL) {
-        this->yaw = player->rotation_y + 0x8000;
+        this->yaw = player->rotation.y + 0x8000;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, this->yaw);
         matrix_mult_vec(0, &v, &v);
@@ -613,7 +613,7 @@ void TCameraFollow::compute_follow_target() {
     d.z = pos->z - prev->z;
     vec_squared_length(&d);
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, this->actor->rotation_y + 0x8000);
+    rotate_matrix_y(0, this->actor->rotation.y + 0x8000);
     matrix_mult_vec(0, &this->target_offset, &o);
     pop_matrices(1);
     x = o.x + this->actor->position.x + 18.0f * d.x;
@@ -697,7 +697,7 @@ void TCameraFollow::run_task() {
         target.x = this->actor->position.x;
         target.y = 19.8f + this->actor->position.y;
         target.z = this->actor->position.z;
-        yaw = this->actor->rotation_y + 0x8000;
+        yaw = this->actor->rotation.y + 0x8000;
         state = 1;
         break;
     case 1:
@@ -707,7 +707,7 @@ void TCameraFollow::run_task() {
             i = get_camera_reset_button(i);
             if ((test_pressed_buttons_packed(&controller_input_state.controllers[player->get_controller_port()], i) != 0 && close_up == 0) || recenter_requested != 0) {
                 recenter_requested = 0;
-                yaw = this->actor->rotation_y + 0x8000;
+                yaw = this->actor->rotation.y + 0x8000;
             }
         }
         if (is_manual_camera_held() != 0) {

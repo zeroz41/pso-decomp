@@ -171,7 +171,7 @@ void TOKeyCave01::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_cave01_texture_lists[is_on]));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);

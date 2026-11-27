@@ -276,7 +276,7 @@ void TItemWeapon::fire_shot_at_target(Vec *origin, NJS_OBJECT *model, s32 angle)
         reset_weapon_effect_descriptor(&atk);
         fill_status_info(&atk);
         VecCopy(&atk.position, origin);
-        atk.rotation_y = owner->rotation_y + angle;
+        atk.rotation_y = owner->rotation.y + angle;
         atk.range = range->reach;
         atk.speed = shot_speed;
         atk.model = model;
@@ -352,7 +352,7 @@ void TItemWeapon::launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale)
         range = get_weapon_range_record(this, 2);
         v.x = v.y = 0.0f;
         v.z = range->reach;
-        rotate_matrix_y(0, owner->rotation_y);
+        rotate_matrix_y(0, owner->rotation.y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
         vec3_add_to(&pos, origin);
@@ -435,7 +435,7 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 target, s32 angle, s32 apply) {
                 fallback.y = 0.0f;
                 fallback.x = 0.0f;
                 fallback.z = range_record->reach;
-                rotate_matrix_y(0, owner->rotation_y + angle);
+                rotate_matrix_y(0, owner->rotation.y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
                 vec3_add_to(&endpoint, origin);
@@ -629,7 +629,7 @@ void TItemWeapon::perform_action() {
     Vec gun_point;
     Vec fallback_point;
     if (is_active_in_game() && !is_hidden() && is_current_area_item_enabled()) {
-        rotation_y=owner->rotation_y;
+        rotation.y=owner->rotation.y;
         stage=get_attack_stage();
         sound.clear();
         sound.group=get_item_group();

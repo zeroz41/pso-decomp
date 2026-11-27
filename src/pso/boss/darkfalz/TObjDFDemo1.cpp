@@ -76,7 +76,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     }
     activate_camera_mode(5);
     {
-        CameraAngles angles = {0, this->angle, 0};
+        Angle3 angles = {0, this->angle, 0};
         set_scripted_camera_origin(&this->pos, &this->pos, &angles);
     }
     df_demo1_camera_playback.play(0x4000);

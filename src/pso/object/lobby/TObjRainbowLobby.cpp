@@ -30,7 +30,7 @@ void TObjRainbowLobby::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (state != 3) {
             scale_matrix(NULL, scale, 1.0f, scale);
         }

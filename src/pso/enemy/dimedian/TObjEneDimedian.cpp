@@ -134,7 +134,7 @@ void TObjEneDimedian::update_attack_trail() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = attack_trails[idx];
@@ -224,7 +224,7 @@ void TObjEneDimedian::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {

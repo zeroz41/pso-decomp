@@ -49,7 +49,7 @@ void TKomorebi::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         post_translate_matrix(&position.x);
-        rotate_matrix_yxz(0, rotation_x, rotation_y, rotation_z);
+        rotate_matrix_yxz(0, rotation.x, rotation.y, rotation.z);
         horizontal_scale = scale.z;
         scale_matrix(0, horizontal_scale, scale.y, horizontal_scale);
         draw_ginja_object(model);
@@ -65,7 +65,7 @@ TKomorebi::~TKomorebi() {}
 TKomorebi::TKomorebi(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     VecCopy(&position, &set_data->position);
-    copy_xyz(&rotation_x, set_data->rotation);
+    copy_xyz(&rotation, set_data->rotation);
     VecCopy(&scale, &set_data->scale);
     model = get_bml_model(komorebi_bml_resource, 0);
     texlist = get_bml_texlist(komorebi_bml_resource, 0);

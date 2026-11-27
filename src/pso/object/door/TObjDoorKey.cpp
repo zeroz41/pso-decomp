@@ -121,7 +121,7 @@ void TObjDoorKey::draw_active_beam() {
     set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_ginja_object(door_key_ginja_model_table[0]);
     begin_effect_render();
     saved_model_render_flags = model_render_flags;
@@ -142,7 +142,7 @@ void TObjDoorKey::draw_inactive_badge() {
     set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_ginja_object(door_key_ginja_model_table[0]);
     begin_effect_render();
     saved_model_render_flags = model_render_flags;

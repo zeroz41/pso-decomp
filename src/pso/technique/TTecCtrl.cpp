@@ -463,7 +463,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     }
     n = td->get_section_clamped();
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, pl->rotation_y);
+    rotate_matrix_y(0, pl->rotation.y);
     matrix_mult_vec(0, &ofs, &ofs);
     pop_matrices(1);
     ofs.x += pl->position.x;
@@ -476,7 +476,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
             AIM_AT_TARGET()
             TTecFoie::create_ex(pl, &hand, &aim, get_cast_technique_level(td, 0));
         } else {
-            TTecFoie::create(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 0));
+            TTecFoie::create(pl, &hand, pl->rotation.y, get_cast_technique_level(td, 0));
         }
         break;
     case 1:
@@ -494,7 +494,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
             AIM_AT_TARGET()
             TTecBarta::create(pl, &pl->position, &aim, get_cast_technique_level(td, 3));
         } else {
-            TTecBarta::create_ex(pl, &pl->position, pl->rotation_y, get_cast_technique_level(td, 3));
+            TTecBarta::create_ex(pl, &pl->position, pl->rotation.y, get_cast_technique_level(td, 3));
         }
         break;
     case 4:
@@ -502,7 +502,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
             AIM_AT_TARGET()
             TTecGiBarta::create(pl, &hand, &aim, get_cast_technique_level(td, 4));
         } else {
-            TTecGiBarta::create_ex(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 4));
+            TTecGiBarta::create_ex(pl, &hand, pl->rotation.y, get_cast_technique_level(td, 4));
         }
         break;
     case 5:
@@ -575,7 +575,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
             AIM_AT_TARGET()
             TTecMegid::create(pl, &hand, &aim, get_cast_technique_level(td, 18));
         } else {
-            TTecMegid::create_ex(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 18));
+            TTecMegid::create_ex(pl, &hand, pl->rotation.y, get_cast_technique_level(td, 18));
         }
         break;
     }

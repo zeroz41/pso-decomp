@@ -31,7 +31,7 @@ void TOMonumentAncient01::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_ginja_object(get_bml_model(model_resource, 2));
         begin_effect_render();
         draw_ginja_object(get_bml_model(model_resource, 1));

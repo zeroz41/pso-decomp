@@ -384,7 +384,7 @@ void TObjEnePanarms::render() {
 void TObjEnePanarms::draw() {
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
     node_capture->install();
     TObjMotion::draw();
@@ -408,7 +408,7 @@ void TObjEnePanarms::draw_shadow() {
         translate_matrix(0, 0.25f * this->position.x + 0.75f * draw_positions[0].x, 0.2f + this->ground_y, 0.25f * this->position.z + 0.75f * draw_positions[0].z);
         direction_to_rotation_xz((u8 *)&ground_normal, &angle_x, &angle_z);
         rotate_matrix_z(0, angle_z);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_matrix_x(0, angle_x + 0x4000);
         d = this->position.y - this->ground_y;
         if (d > 40.0f) {
@@ -510,7 +510,7 @@ u16 TObjEnePanarms::turn_to_nearest_player(s32 max_step, s32 mode) {
                 var *= -1;
             }
         }
-        rotation_y = approach_angle_limited(rotation_y, var + (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), max_step);
+        rotation.y = approach_angle_limited(rotation.y, var + (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), max_step);
     }
     return t;
 }
@@ -521,10 +521,10 @@ void TObjEnePanarms::turn_toward_target(s32 max_step) {
         if (entity_id & 1) {
             max_step *= -1;
         }
-        rotation_y = rotation_y + max_step;
+        rotation.y = rotation.y + max_step;
         return;
     }
-    rotation_y = approach_angle_limited(rotation_y, (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), max_step);
+    rotation.y = approach_angle_limited(rotation.y, (s32) (10430.38043493439 * atan2_float(sp.x, sp.z)), max_step);
 }
 
 #pragma push
@@ -560,7 +560,7 @@ s32 TObjEnePanarms::find_combine_position() {
             VecCopy(&position, &probe);
             left = halves[0];
             right = halves[1];
-            rotation_y = (s32) (10430.38043493439 * atan2_float(
+            rotation.y = (s32) (10430.38043493439 * atan2_float(
                 right->position.x - left->position.x,
                 right->position.z - left->position.z)) + 0x4000;
             return 1;
@@ -650,7 +650,7 @@ void TObjEnePanarms::spawn_split_effect(s32 a, s32 b) {
     Vec origin;
     VecCopy(&origin, &body_center);
     origin.y += 10.0f;
-    create_particle_controller_with_rotation(&origin, (Angle3 *)&rotation_x, 0x106, a, b);
+    create_particle_controller_with_rotation(&origin, &rotation, 0x106, a, b);
 }
 
 s32 TObjEnePanarms::check_half_dying() {
@@ -711,7 +711,7 @@ void TObjEnePanarms::update_wait_hidden() {
     if (--this->state_timer < 0) {
         r = 1;
     } else if ((t = find_nearest_visible_player(this, &sp, (f32) this->search_range)) != 0xFFFF) {
-        this->rotation_y = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
+        this->rotation.y = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
         r = 1;
     }
     if (r != 0) {
@@ -801,8 +801,8 @@ void TObjEnePanarms::update_move() {
         if (this->step_right == 1) {
             r *= -1.0f;
         }
-        pos.x += r * cos_table_lookup(this->rotation_y);
-        pos.z += -r * sin_table_lookup(this->rotation_y);
+        pos.x += r * cos_table_lookup(this->rotation.y);
+        pos.z += -r * sin_table_lookup(this->rotation.y);
         try_warp_to_position(&pos);
     }
     if (get_state_flag() == 0) {
@@ -848,7 +848,7 @@ void TObjEnePanarms::enter_dead() {
     this->send_entity_set_flags();
     st = 5;
     if (find_nearest_visible_player(this, &v, 200.0f) != 0xFFFF) {
-        if (v.x * sin_table_lookup(this->rotation_y) + v.z * cos_table_lookup(this->rotation_y) < 0.0f) {
+        if (v.x * sin_table_lookup(this->rotation.y) + v.z * cos_table_lookup(this->rotation.y) < 0.0f) {
             st = 4;
         }
     }
@@ -938,14 +938,14 @@ void TObjEnePanarms::enter_beam_up() {
     s32 angle;
     this->collision_body_parts->flags |= 1;
     this->clear_actor_flags(0x04040000U);
-    angle = this->rotation_y + 0x4000;
+    angle = this->rotation.y + 0x4000;
     angles.y = 0;
     angles.x = angle;
     angles.z = 0x4000;
     particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[2], &angles, 0x105);
     direction.y = 0.0f;
-    direction.x = sin_table_lookup(this->rotation_y);
-    direction.z = cos_table_lookup(this->rotation_y);
+    direction.x = sin_table_lookup(this->rotation.y);
+    direction.z = cos_table_lookup(this->rotation.y);
     TObjEnePanarmsAtkColli::create(this, &draw_positions[2], &direction, 0);
     set_requested_action(7);
     this->state_timer = 0x5A;
@@ -992,15 +992,15 @@ void TObjEnePanarms::enter_beam_down() {
     s32 angle;
     this->collision_body_parts->flags |= 1;
     this->clear_actor_flags(0x04040000U);
-    spawn_directional_particle(&draw_positions[4], (Angle3 *)&rotation_x, 0x109);
-    angle = this->rotation_y - 0x4000;
+    spawn_directional_particle(&draw_positions[4], &rotation, 0x109);
+    angle = this->rotation.y - 0x4000;
     angles.y = 0;
     angles.x = angle;
     angles.z = 0x4000;
     particle_handles[0] = (TParticleCtrl *)spawn_continuous_particle_with_direction(&draw_positions[4], &angles, 0x108);
     direction.y = 0.0f;
-    direction.x = sin_table_lookup(this->rotation_y);
-    direction.z = cos_table_lookup(this->rotation_y);
+    direction.x = sin_table_lookup(this->rotation.y);
+    direction.z = cos_table_lookup(this->rotation.y);
     TObjEnePanarmsAtkColli::create(this, &draw_positions[4], &direction, 1);
     set_requested_action(9);
     this->state_timer = 0x5A;
@@ -1163,9 +1163,9 @@ void TObjEnePanarms::enter_spin() {
 void TObjEnePanarms::update_spin() {
 
     if (this->attack_count & 2) {
-        this->rotation_y = (this->rotation_y + 0x111);
+        this->rotation.y = (this->rotation.y + 0x111);
     } else {
-        this->rotation_y = (this->rotation_y - 0x111);
+        this->rotation.y = (this->rotation.y - 0x111);
     }
     if (--this->state_timer < 0) {
         set_state((saddr)((void*)(7)));

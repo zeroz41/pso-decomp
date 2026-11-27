@@ -60,7 +60,7 @@ void TItemWeaponSlicer::emit_marker_effects() {
     launch.damage_multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFv(color_tmp, this);
     copy_argb(&launch.color, (NJS_ARGB *)color_tmp);
-    launch.facing = owner->rotation_y;
+    launch.facing = owner->rotation.y;
     get_joint_position(1, &launch.first_joint);
     get_joint_position(2, &launch.second_joint);
     TTecSlicer::create(&launch);

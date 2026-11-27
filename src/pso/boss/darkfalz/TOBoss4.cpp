@@ -127,7 +127,7 @@ void TOBoss4Bird::render() {
             push_matrix();
             translate_matrix(0, 0.0f, bob_offset, 0.0f);
             post_translate_matrix(&offsets[i].x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             rotate_matrix_y(NULL, angles[i]);
             draw_ginja_model_with_motion(model, motion, animation_frame);
             pop_matrix();
@@ -159,12 +159,12 @@ void TOBoss4Bird::run_task() {
     case 1:
         VecCopy(&scratch_vec, &target);
         subtract_vector(&scratch_vec, &position);
-        rotation_y = approach_angle_limited(
-            rotation_y, (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)), 0x100);
+        rotation.y = approach_angle_limited(
+            rotation.y, (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)), 0x100);
         scratch_vec2.x = scratch_vec2.y = 0.0f;
         scratch_vec2.z = speed;
         push_matrix_from(&identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
         pop_matrices(1);
         vec3_add_to(&position, &scratch_vec2);
@@ -191,7 +191,7 @@ void TOBoss4Tower::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();

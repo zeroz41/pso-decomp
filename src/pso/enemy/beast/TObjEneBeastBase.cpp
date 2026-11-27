@@ -159,7 +159,7 @@ void TObjEneBeastBase::beast_update_hurt() {
     scratch_vec.x = scratch_vec.y = BEAST_ZERO_VECTOR_COMPONENT;
     scratch_vec.z = get_collision_body_radius(0);
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, -rotation_y);
+    rotate_matrix_y(0, -rotation.y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&v, &scratch_vec);
@@ -418,7 +418,7 @@ void TObjEneBeastBase::update_turn_toward_target() {
             Vec d;
             VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
-            ang = angle_difference_abs(rotation_y, (s32)(BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(d.x, d.z)));
+            ang = angle_difference_abs(rotation.y, (s32)(BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(d.x, d.z)));
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || children == 0) {
                 mode = 3;
                 phase = 1;
@@ -518,7 +518,7 @@ void TObjEneBeastBase::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, angle, movementParameters->turn_speed);
+            rotation.y = approach_angle_limited(rotation.y, angle, movementParameters->turn_speed);
             goto end;
         }
         r = fabs_float(scratch_vec.z);
@@ -537,7 +537,7 @@ void TObjEneBeastBase::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, angle, movementParameters->turn_speed);
+            rotation.y = approach_angle_limited(rotation.y, angle, movementParameters->turn_speed);
             goto end;
         }
         r = fabs_float(scratch_vec.z);
@@ -556,7 +556,7 @@ void TObjEneBeastBase::beast_idle_update() {
         if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
             VecCopy(&position, &scratch_vec2);
-            rotation_y = approach_angle_limited(rotation_y, angle2, movementParameters->turn_speed);
+            rotation.y = approach_angle_limited(rotation.y, angle2, movementParameters->turn_speed);
         } else {
             requested_action = 2;
         }

@@ -50,7 +50,7 @@ void TItemWeaponFlightFan::emit_marker_effects() {
     tec.color.r = 0.0f;
     tec.color.g = 1.0f;
     tec.color.b = 0.7f;
-    tec.facing = owner->rotation_y;
+    tec.facing = owner->rotation.y;
     get_joint_position(5, &tec.first_joint);
     get_joint_position(4, &tec.second_joint);
     TTecSlicer::create(&tec);

@@ -130,7 +130,7 @@ void TPhotonBlastSummon::begin_photon_summon_camera(s8 script) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.play(0x4222);
-    set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+    set_scripted_camera_origin(&this->position, &this->position, &this->rotation);
     camera_state = 1;
 }
 
@@ -170,7 +170,7 @@ void spawn_photon_blast_opening_effects(s32 kind, s32 owner_id) {
     for (i = 0; i < count; i++) {
         copy_effect_params(&effect, &effects[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, owner->rotation_y);
+        rotate_matrix_y(0, owner->rotation.y);
         matrix_mult_vec(0, &effect.offset, &pos);
         pop_matrices(1);
         pos.x += owner->position.x;
@@ -255,7 +255,7 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
                 matrix_mult_vec(0, &dir, &dir);
                 pop_matrices(1);
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 matrix_mult_vec(0, &dir, &dir);
                 pop_matrices(1);
                 direction_to_rotation_xz((u8 *)&dir, &rot.x, &rot.z);
@@ -344,7 +344,7 @@ void TPhotonBlastSummon::setup_photon_blast_camera() {
     player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, player->rotation_y);
+        rotate_matrix_y(0, player->rotation.y);
         matrix_mult_vec(0, &position, &position);
         matrix_mult_vec(0, &position_goal, &position_goal);
         matrix_mult_vec(0, &target, &target);

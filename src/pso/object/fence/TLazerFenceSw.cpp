@@ -100,7 +100,7 @@ void TLazerFenceSw::draw_laser_beam() {
     case 0:
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_ginja_object(lazer_fence_sw_ginja_model_table[1]);
         begin_effect_render();
         model_render_flags |= 0x01000000;
@@ -112,7 +112,7 @@ void TLazerFenceSw::draw_laser_beam() {
     case 1:
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], lazer_fence_beam_motions[1], (f32)switch_frame);
         begin_effect_render();
         model_render_flags |= 0x01000000;

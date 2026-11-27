@@ -534,12 +534,12 @@ void TObjEneBalClawBody::update_attack() {
     case 2:
         push_matrix_from(identity_matrix);
         post_translate_matrix(&this->body_center.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         this->calc_joint_matrices(this->frame);
         pop_matrix();
         this->get_anim_node_position(8, &this->attack_effect_position);
         this->attack_effect_angle.x = 0;
-        this->attack_effect_angle.y = this->rotation_y + 0x4000;
+        this->attack_effect_angle.y = this->rotation.y + 0x4000;
         this->attack_effect_angle.z = -0x4000;
         if (this->frame >= 9.0f && this->frame < 17.0f) {
             this->effects[2]->set_position(&this->attack_effect_position);
@@ -829,15 +829,15 @@ void TObjEneBalClawBody::render() {
             if (check_demo_mode() == 1) {
                 show_claw_arms(4);
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 draw_chunk_object(model);
             } else {
                 show_claw_arms(child_count);
                 translate_matrix(0, 0.0f, hover_height + wobble_offset, 0.0f);
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 if (behavior_flags & 4) {
                     if ((&fade)->has_visible_opacity() != 0) {
                         (&fade)->set_flags_and_apply_damage_color();
@@ -1022,7 +1022,7 @@ void TObjEneBalClawBody::calc_slot_offset_position(s32 slot, Vec *out, s32 *angl
     s32 angle;
     push_matrix();
     angle = (s32)(182.04445f * (f32)(slot * 0x5A + 0x2D));
-    *angle_out = this->rotation_y + angle;
+    *angle_out = this->rotation.y + angle;
     out->x = 0.0f;
     out->y = 0.0f;
     out->z = 13.0f;

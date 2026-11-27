@@ -69,7 +69,7 @@ void TOBind::render() {
     if (this->update_object_view_visibility(draw_distance, this->visibility_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->triggered != 1) {

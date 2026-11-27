@@ -28,7 +28,7 @@ void TItemWeaponFlightCutter::emit_marker_effects() {
     tec.color.r = 0.0f;
     tec.color.g = 1.0f;
     tec.color.b = 0.7f;
-    tec.facing = owner->rotation_y;
+    tec.facing = owner->rotation.y;
     get_joint_position(3, &tec.first_joint);
     get_joint_position(2, &tec.second_joint);
     TItemAttacker::spawn_item_timer(TTecSlicer::create(&tec), (ItemTimerCallback)enlarge_flight_cutter_slicer, 3);

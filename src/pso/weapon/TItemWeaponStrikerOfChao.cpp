@@ -38,7 +38,7 @@ void TItemWeaponStrikerOfChao::draw_held_model() {
         if (get_joint_position(1, &pos) != 0) {
             push_matrix();
             post_translate_matrix(&pos.x);
-            rotate_matrix_y(0, owner->rotation_y);
+            rotate_matrix_y(0, owner->rotation.y);
             draw_ginja_object(child);
             pop_matrix();
         }
