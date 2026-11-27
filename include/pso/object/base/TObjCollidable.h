@@ -100,4 +100,8 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 
 void free_collision_body_parts(TObjCollidable *actor);
 
+// Mark body index of bodies as team 0 (bit 31) or team 1 (bit 30) for battle mode; actor is unused.
+void set_collision_body_team0(TObjCollidable *actor, CollisionBody *bodies, s32 index);
+void set_collision_body_team1(TObjCollidable *actor, CollisionBody *bodies, s32 index);
+
 #endif

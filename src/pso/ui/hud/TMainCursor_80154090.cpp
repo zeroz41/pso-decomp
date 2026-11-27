@@ -6,18 +6,16 @@
 void TMainCursor::free_resources() {  }
 void TMainCursor::load_resources() {  }
 
-extern "C" {
-void set_collision_body_team0(void *unused, CollisionBody *arr, s32 i) {
-    if (arr != 0) {
-        arr[i].flags |= 0x80000000;
+void set_collision_body_team0(TObjCollidable *actor, CollisionBody *bodies, s32 index) {
+    if (bodies != NULL) {
+        bodies[index].flags |= 0x80000000;
     }
 }
 
-void set_collision_body_team1(void *unused, CollisionBody *arr, s32 i) {
-    if (arr != 0) {
-        arr[i].flags |= 0x40000000;
+void set_collision_body_team1(TObjCollidable *actor, CollisionBody *bodies, s32 index) {
+    if (bodies != NULL) {
+        bodies[index].flags |= 0x40000000;
     }
-}
 }
 
 void clear_bodies_collision_flag(CollisionBody *arr, s32 n) {

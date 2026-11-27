@@ -807,8 +807,6 @@ void TObjPlayer::place_on_area_entry() {
 
 
 extern "C" {
-void set_collision_body_team0(void *unused, CollisionBody *arr, s32 i);
-void set_collision_body_team1(void *unused, CollisionBody *arr, s32 i);
 bool is_trap_stock_empty(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s8 clamp_class_index(s8 cls);
