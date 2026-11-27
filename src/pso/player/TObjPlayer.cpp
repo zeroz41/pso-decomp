@@ -646,7 +646,7 @@ void TObjPlayer::init_action_provider() {
     } else if (get_player_action_provider_selector() == 0) {
         action_provider = new LobbyPlayerActionProvider;
     }
-    m_33b = 0;
+    pad_33b = 0;
     battle_mode = 0;
     class_flag_1 = 0;
     mag_level = 0;
@@ -699,9 +699,9 @@ void TObjPlayer::reset_state() {
     action_palette_state.init_tag();
     freeze_escape_step = 0;
     clear_state_flags(0x283);
-    m_3f4 = 0;
+    pad_3f4 = 0;
     target_heading = 0;
-    m_3ec = 0;
+    pad_3ec = 0;
     move_target.z = player_zero;
     move_target.y = player_zero;
     move_target.x = player_zero;

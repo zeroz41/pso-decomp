@@ -245,7 +245,7 @@ struct TObjPlayer : public TObjChara {
     u8 mag_level;     // class flag 0 of a character record (get_mag_level)
     s8 class_flag_1;
     u8 battle_mode;   // class flag 2 of a character record (get_battle_mode)
-    s8 m_33b;
+    s8 pad_33b;
     s32 action_state;
     PlayerActionPaletteState action_palette_state;
     PhotonChairSeat chair_seat;
@@ -272,9 +272,9 @@ struct TObjPlayer : public TObjChara {
     s32 current_area;
     s32 current_floor;
     s32 control_role;
-    s32 m_3ec;
+    s32 pad_3ec;
     s32 target_heading;
-    s32 m_3f4;
+    s32 pad_3f4;
     Vec move_target;  // (name inferred) run/walk-to target: calc_movement_target and handle_6x40/6x42 set x/z, update_*_movement steer to it
     Vec facing;  // (sin, 0, cos) of rotation_y (update_facing_vector)
     Vec ground_normal;
