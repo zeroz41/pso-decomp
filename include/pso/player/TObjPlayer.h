@@ -492,7 +492,6 @@ struct TObjPlayer : public TObjChara {
     void set_evade_materials_used(u8 v);
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
-    int get_action_motion_type();
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();

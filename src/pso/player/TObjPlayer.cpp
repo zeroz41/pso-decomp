@@ -5973,13 +5973,13 @@ s32 TObjPlayer::get_language() {
 s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
 void TObjPlayer::set_action_provider_variant(s16 variant) {
-    if (variant != ((TObjPlayer *)action_provider)->get_action_motion_type() && is_game_scene_phase(&main_phase_state) != 0) {
+    if (variant != action_provider->get_motion_type() && is_game_scene_phase(&main_phase_state) != 0) {
         action_provider->load_motion_set(get_entity_id(), has_valid_handle(), variant);
         this->apply_motion_entry();
     }
 }
 
-s16 TObjPlayer::get_handle_value() { return (s16)(((TObjPlayer *)this->action_provider)->get_action_motion_type()); }
+s16 TObjPlayer::get_handle_value() { return (s16)(this->action_provider->get_motion_type()); }
 
 f32 TObjPlayer::receive_physical_attack(TObjChara *attacker, f32 scale) {
     if (obj_isState2_324() != 0) {
