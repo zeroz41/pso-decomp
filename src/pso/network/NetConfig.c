@@ -390,10 +390,10 @@ void free_buffer_slot(u32 key) {
     }
 }
 
-s32 alloc_buffer_slot(s32 size) {
+saddr alloc_buffer_slot(s32 size) {
     LobbyBufferSlot *e = lobby_buffer_slots;
     s32 i;
-    s32 r = 0;
+    saddr r = 0;
     for (i = 0; i < lobby_buffer_slot_count; i++) {
         if (e->active == 0 && e->size >= size) {
             e->active = size;

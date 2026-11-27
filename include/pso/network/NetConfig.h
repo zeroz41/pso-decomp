@@ -10,7 +10,7 @@
 typedef struct LobbyBufferSlot {
     s32 active;
     s32 size;
-    u32 addr;
+    uaddr addr;
 } LobbyBufferSlot;
 LAYOUT_ASSERT(LobbyBufferSlot_size, sizeof(LobbyBufferSlot) == 12);
 
