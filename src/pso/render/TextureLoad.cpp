@@ -75,9 +75,9 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     GvrTextureDesc desc;
     char name[32];
     DVDFileInfo file;
-    u32 chunk;
+    u8 *chunk;
     s32 r;
-    uaddr header = (uaddr)gvrt_header_read_buffer;
+    u8 *header = gvrt_header_read_buffer;
     DVDFileInfo *pfile;
     u32 size;
     reset_texture_error();
@@ -92,12 +92,12 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
         return -1;
     }
     size = (file.length + 0x1F) & ~0x1F;
-    if (DVDReadPrio(pfile, (void *)header, 0x20, 0, 2) == -1) {
+    if (DVDReadPrio(pfile, header, 0x20, 0, 2) == -1) {
         DVDClose(pfile);
         return -1;
     }
-    chunk = (uaddr)find_gvrt_texture_chunk(&desc, (u32 *)&global_index, (u32 *)header);
-    if (chunk == 0) {
+    chunk = (u8 *)find_gvrt_texture_chunk(&desc, (u32 *)&global_index, (u32 *)header);
+    if (chunk == NULL) {
         DVDClose(pfile);
         return -1;
     }
@@ -109,8 +109,7 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
         DVDClose(pfile);
         return r;
     }
-    chunk -= header;
-    DVDReadPrio(pfile, texture_states[slot].surface->header.pixels, size - chunk, chunk, 2);
+    DVDReadPrio(pfile, texture_states[slot].surface->header.pixels, size - (chunk - header), chunk - header, 2);
     DVDClose(pfile);
     return 1;
 }
