@@ -218,7 +218,7 @@ extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color,
 }
 
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color) {}
-extern "C" void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
+void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
 
 f32 horizontal_distance_squared(const Vec *a, const Vec *b) {
     f32 dx = b->x - a->x;

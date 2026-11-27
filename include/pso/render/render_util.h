@@ -131,7 +131,7 @@ void debug_draw_marker(const Vec *pos, f32 size);
 void debug_draw_box(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color);
 extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size);
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color);
-extern "C" void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
+void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 f32 horizontal_distance_squared(const Vec *a, const Vec *b);
 // Normalizes v and returns 1, or returns 0 when v is (nearly) zero.
 s32 normalize_if_nonzero(Vec *v);

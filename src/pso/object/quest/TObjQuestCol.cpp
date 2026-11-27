@@ -37,8 +37,8 @@
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
-extern "C" {
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
+extern "C" {
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);

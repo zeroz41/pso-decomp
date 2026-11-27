@@ -27,6 +27,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecMegid.h"
@@ -72,9 +73,6 @@ s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid(saddr chara, saddr pos);
 }
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
-extern "C" {
-s32 minimap_render_dot(void *, int, int, int, f32);
-}
 
 // The Moja's models and motions, and the archive that holds them; the second
 // set is the one Ultimate loads.
@@ -362,7 +360,8 @@ void TObjEneMoja::run_task() {
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
         this->target = NULL;
     }
-    minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0, this->frame_timer++);
+    this->frame_timer++;
+    minimap_render_dot(&this->position, -0x5DB4, 1, 0);
 }
 
 void TObjEneMoja::render() {
