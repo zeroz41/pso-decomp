@@ -1238,7 +1238,6 @@ pso/object/base/ObjectFactoryTables.cpp
 pso/object/fence/TLazerFenceSw.cpp
 pso/object/key/TOKeyJungleMain.cpp
 pso/object/warp/TObjAreaWarpEndingJung.cpp
-pso/object/warp/TObjAreaWarp_80307B70.cpp
 pso/object/base/TObjBase.cpp
 pso/object/collision/TObjBgmColCtrl.cpp
 pso/object/TObjBigTuitate.cpp
