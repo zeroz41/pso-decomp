@@ -55,7 +55,7 @@ public:
     void update_load_progress();
 public:
     void reset_request();
-    static void *create(void *parent);
+    static void *create(TObjPlayer *parent);
     s32 sample_indices[3];  // the proportion samples the preview blends
     TChCrLoadAfs *sample_loads[6];  // 0-2 head samples, 3-5 body samples
     s32 holds_load_slot;

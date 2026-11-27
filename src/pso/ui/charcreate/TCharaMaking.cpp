@@ -613,9 +613,9 @@ void TCharaMaking::run_task() {
     if (update_main_menu()) return;
 }
 
-void *TCharaMaking::create(void *parent, void *appearance) {
+void *TCharaMaking::create(TObject *parent, void *appearance) {
     creation_player_character = (CharacterAppearanceFields *)appearance;
-    return new TCharaMaking((TObject *)parent);
+    return new TCharaMaking(parent);
 }
 
 TCharaMaking::~TCharaMaking() {

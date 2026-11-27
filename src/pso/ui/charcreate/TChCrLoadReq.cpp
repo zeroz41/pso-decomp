@@ -51,8 +51,8 @@ s32 is_node_tree_valid(NJS_OBJECT *object) {
 
 s32 chr_select_load_slot_count;
 
-void *TChCrLoadReq::create(void *parent) {
-    return new TChCrLoadReq((TObjPlayer *)parent);
+void *TChCrLoadReq::create(TObjPlayer *parent) {
+    return new TChCrLoadReq(parent);
 }
 
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args) {

@@ -452,7 +452,7 @@ const f32 serial_char_row_x_table[2][13] = {
     { 234.0f, 246.0f, 258.0f, 270.0f, 293.0f, 305.0f, 317.0f, 329.0f, 352.0f, 364.0f, 376.0f, 388.0f, 400.0f },
 };
 
-void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
+void TAdEnterSerialAccessGC::draw_serial_chars(WindowDrawContext *context) {
     char text[0xFF];
     char buf[8];
     NJS_POINT2 pos;
@@ -478,16 +478,17 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
         }
         pos.x = row[keyboard_control->get_cursor_position()];
         pos.y = 230.0f;
-        draw_text_cursor(static_cast<WindowDrawContext *>(context), &pos);
+        draw_text_cursor(context, &pos);
     }
 }
 
 void TAdEnterSerialAccessGC::draw_screen(void *window, void *context) {
-    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
+    WindowDrawContext *draw_context = static_cast<WindowDrawContext *>(context);
+    static_cast<TWindowBase *>(window)->draw_window_frame(draw_context);
     draw_menu_text_scaled(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
         get_localized_text_entry(0x17, 4), -1);
     draw_serial_plates();
-    draw_serial_chars(context);
+    draw_serial_chars(draw_context);
 }
 
 void TAdEnterSerialAccessGC::render() {

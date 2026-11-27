@@ -399,10 +399,7 @@ void *find_cached_glyph(u16 code) {
 
 // Binds the cached glyph's page and color, sets the quad's top-left uv and returns the glyph width.
 extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
-    void *cached_glyph;
-
-    cached_glyph = find_cached_glyph(glyph);
-    MenuGlyphEntry *entry = (MenuGlyphEntry *)cached_glyph;
+    MenuGlyphEntry *entry = (MenuGlyphEntry *)find_cached_glyph(glyph);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
     pos->u0 = (f32) ((f32) entry->x / 256.0f);
@@ -531,7 +528,6 @@ void load_menu_font(void) {
     s16 *t;
     s32 n;
     MenuGlyphEntry *g;
-    void *f;
     u32 i;
     u32 j;
     u32 k;
@@ -580,8 +576,7 @@ void load_menu_font(void) {
     }
     menu_font_upload_epoch = 0;
     menu_font_upload_flags = 3;
-    f = (void *)new TNECFontEORFunction();
-    menu_font_object = (TObject *)f;
+    menu_font_object = new TNECFontEORFunction();
 }
 #pragma pop
 

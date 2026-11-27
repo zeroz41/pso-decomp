@@ -10,6 +10,7 @@ class TAdSelectCurGC;
 class TKeyBoardControl;
 class TWindowBase;
 struct TWindowCallBack;
+struct WindowDrawContext;
 
 struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static const char *name;
@@ -31,7 +32,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static s32 get_serial_seed();
     static s32 get_serial_result();
     static void draw_screen(void *window, void *context);
-    static void draw_serial_chars(void *context);
+    static void draw_serial_chars(WindowDrawContext *context);
     static void draw_serial_separators();
     static void draw_serial_plates();
     static void format_dashed_serial(char *dst, const char *src, u32 count, const u32 *lengths);

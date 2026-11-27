@@ -34,7 +34,7 @@ struct TCharaMaking : public TObject {
     static s32 is_end();
     void update_light_direction();
     virtual void run_task();
-    static void *create(void *parent, void *appearance);
+    static void *create(TObject *parent, void *appearance);
     s32 update_main_menu();
 };
 
