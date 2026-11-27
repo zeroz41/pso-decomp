@@ -25,10 +25,9 @@ const char *TWindowMessage::class_name = "TWindowMessage";
 extern "C" {
 
 
-void TWindowMessage::scroll_up_line(u8 *line_entry) {
+void TWindowMessage::scroll_up_line(WindowTextEntry *entry) {
     f32 d;
     s32 i;
-    WindowTextEntry *entry = reinterpret_cast<WindowTextEntry *>(line_entry);
     WindowTextEntry *line;
     i = 0;
     d = 2.0f + entry->height;
@@ -41,7 +40,7 @@ void TWindowMessage::scroll_up_line(u8 *line_entry) {
     }
     entry->y = 0.0f;
     entry->height = 0.0f;
-    TWindowDuelResult::set_default_status(line_entry, 0);
+    TWindowDuelResult::set_default_status(entry, 0);
 }
 
 void TWindowMessage::advance_reveal_cursor() {
@@ -105,7 +104,7 @@ void TWindowMessage::retire_scrolled_lines() {
     e = static_cast<WindowTextEntry *>(get_array_entry(oldest_line));
     m = &lines[oldest_line];
     while (e->get_text() != 0 && e->y + e->height < scroll_offset[1]) {
-        scroll_up_line(reinterpret_cast<u8 *>(e));
+        scroll_up_line(e);
         m->flags = 0;
         m->timer = 0;
         if (reveal_line == oldest_line) {
@@ -187,7 +186,7 @@ s32 TWindowMessage::append_message_window_line(const char *text, s32 flags, s32 
     e = (WindowTextEntry *)this->get_array_entry(this->next_line);
     rec = &this->lines[this->next_line];
     if (e->get_text() != 0U) {
-        this->scroll_up_line((u8 *)e);
+        this->scroll_up_line(e);
     }
     if (flags & 0x80) {
         this->next_line_y = this->scroll_offset[1];

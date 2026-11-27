@@ -111,14 +111,14 @@ void TWindowSnapShot::run_task() {
 
 TWindowSnapShot::~TWindowSnapShot() {}
 TWindowSnapShot::TWindowSnapShot(const NJS_POINT2 *position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
-    saddr entry_1;
+    WindowTextEntry *entry_1;
     m_name = TWindowSnapShot::class_name;
     this->result_flags = 0U;
     if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
         this->result_flags = (u8) (this->result_flags | 2);
     }
-    entry_1 = reinterpret_cast<saddr>(this->get_array_entry(1));
-    TWindowDuelResult::set_default_status((void *) entry_1, get_localized_text_entry(0xF, 0x13));
+    entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
+    TWindowDuelResult::set_default_status(entry_1, get_localized_text_entry(0xF, 0x13));
 }
 
 RlcArchive *player_motion_archive;

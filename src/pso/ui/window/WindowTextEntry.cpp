@@ -163,7 +163,7 @@ void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags) {
 }
 #pragma pop
 
-int TWindowDuelResult::set_default_status(void* p, const char *text) { return ((int (*)(void *, const char *, int))set_text_entry_string)(p, text, 0); }
+void TWindowDuelResult::set_default_status(WindowTextEntry *entry, const char *text) { set_text_entry_string(entry, text, 0); }
 
 #pragma push
 #pragma fp_contract on
