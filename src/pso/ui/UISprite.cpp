@@ -302,7 +302,7 @@ NJS_TEXANIM creation_sprite_cells_other_language[49] = {
 const char *ccconsole_pvm_file_name_table[2] = { "ccconsole_j.pvm", "ccconsole_e.pvm" };
 #pragma const_strings reset
 
-__declspec(section ".rodata") NJS_POINT3 creation_ruler_line_vertices[32] = {
+const NJS_POINT3 creation_ruler_line_vertices[32] = {
     { -8.0f, 0.0f, 0.0f },
     { 8.0f, 0.0f, 0.0f },
     { -8.0f, 10.0f, 0.0f },
@@ -347,7 +347,7 @@ void draw_creation_ruler_lines(f32 fade) {
     for (i = 0; i < 32; i++) {
         colors[i] = c;
     }
-    d.p = creation_ruler_line_vertices;
+    d.p = const_cast<NJS_POINT3 *>(creation_ruler_line_vertices);
     d.col = colors;
     d.tex = NULL;
     d.num = 32;
