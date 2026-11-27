@@ -19,10 +19,10 @@ s32 quest_download_request_convert_all(saddr *args);
 s32 quest_download_request_turn_page(saddr *args);
 
 // Senders of conversion requests to the keyboard_soft_dispatch_fn_table handlers (same TU).
-s32 ime_request_0x28(char *text, char *rest);
-s32 ime_request_0x27(char *text, char *rest);
-s32 ime_request_0x26(char *text, char *rest);
-s32 ime_request_0x25(char *text, char *rest);
+s32 ime_request_convert_to_fullwidth(char *text, char *rest);
+s32 ime_request_convert_to_halfwidth_kana(char *text, char *rest);
+s32 ime_request_convert_to_hiragana(char *text, char *rest);
+s32 ime_request_convert_to_katakana(char *text, char *rest);
 s32 ime_request_next_segment(char *text, char *rest);
 s32 ime_request_prev_segment(char *text, char *rest);
 s32 ime_request_shrink_segment(char *text, char *rest);

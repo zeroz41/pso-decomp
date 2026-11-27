@@ -170,7 +170,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 turn_done;     // turn_toward_target_position finished
     s32 turn_sound_played;  // the full-speed turn sound plays once
     Vec move_origin;   // where the move to boss6_arena_center starts
-    s32 switch_timer;  // attribute switch countdown (set_state_0x34, update_countdown)
+    s32 switch_timer;  // attribute switch countdown (start_attribute_switch, update_countdown)
     s32 switch_pending;
     s32 lower_contact_index;
     Vec lower_contact_delta;
@@ -239,7 +239,7 @@ struct TBoss6Type2 : public TObjEnemy
     void play_phase_sound();
     void play_sound_if_no_target();
     void update_countdown();
-    void set_state_0x34();
+    void start_attribute_switch();
     void start_countdown_sound_state();
     void reset_indices();
     s32 get_hit_count();

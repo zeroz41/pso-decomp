@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// Takes no argument: the body calls is_door_0x97_open() without setting r3.
+// Takes no argument: the body calls is_thanks_earned() without setting r3.
 s32 is_boss4_door_open(void);
 
 #endif

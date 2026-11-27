@@ -555,7 +555,7 @@ void TBoss6Type2::set_target_state(s32 mode, s32 new_variant) {
     variant = new_variant;
     update_segments();
     if (old_mask != target_attribute_mask || old_variant != variant) {
-        set_state_0x34();
+        start_attribute_switch();
     }
     if (mags[0] != 0) {
         mags[0]->set_target_nodes(target_attribute_mask, variant);
@@ -1026,7 +1026,7 @@ void TBoss6Type2::start_countdown_sound_state() {
     play_sound_if_no_target();
 }
 
-void TBoss6Type2::set_state_0x34() {
+void TBoss6Type2::start_attribute_switch() {
     switch_timer = 0x34;
     switch_pending = 1;
     play_sound_if_no_target();
