@@ -82,35 +82,6 @@
 
 #pragma readonly_strings on
 
-
-
-
-#pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
-#pragma pop
-
-
-#pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-struct ByteBlock_8 { u8 bytes[0x8]; };
-#pragma pop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern "C" {
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
@@ -4738,7 +4709,7 @@ void G_SetPlayerPositionAndAngle_6x56::bswap() {
 G_SetPlayerPositionAndAngle_6x56 &G_SetPlayerPositionAndAngle_6x56::operator=(G_SetPlayerPositionAndAngle_6x56 &src) {
     copy_subcommand_header(this, &src);
     angle_y = src.angle_y;
-    *(ByteBlock_C *)&pos = *(ByteBlock_C *)&src.pos;
+    __memcpy(&pos, &src.pos, sizeof(pos));
     return *this;
 }
 extern int fold_flush_9;

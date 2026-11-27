@@ -109,12 +109,6 @@
 #pragma readonly_strings on
 
 typedef char LobbyPlayerName[16];
-struct ByteBlock_8 { u8 bytes[0x8]; };
-struct ByteBlock_10 { u8 bytes[0x10]; };
-struct ByteBlock_24 { u8 bytes[0x24]; };
-struct ByteBlock_50 { u8 bytes[0x50]; };
-struct ByteBlock_348 { u8 bytes[0x348]; };
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
@@ -2720,10 +2714,10 @@ void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet) {
 void *TLobby::copy_member_record(void *to, void *from) {
     TPlyJoinLobbyEntry *dst = (TPlyJoinLobbyEntry *)to;
     TPlyJoinLobbyEntry *src = (TPlyJoinLobbyEntry *)from;
-    *(ByteBlock_8 *)&dst->tag = *(ByteBlock_8 *)&src->tag;
+    __memcpy(&dst->tag, &src->tag, sizeof(dst->tag));
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
-    *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
+    __memcpy(dst->name, src->name, sizeof(dst->name));
     dst->char_data = src->char_data;
     return dst;
 }
@@ -2733,11 +2727,11 @@ TPlyCharData &TPlyCharData::operator=(TPlyCharData &src) {
     m_inventory.m_hp_materials_used = src.m_inventory.m_hp_materials_used;
     m_inventory.m_tp_materials_used = src.m_inventory.m_tp_materials_used;
     m_inventory.m_language = src.m_inventory.m_language;
-    *(ByteBlock_348 *)m_inventory.m_items = *(ByteBlock_348 *)src.m_inventory.m_items;
-    *(ByteBlock_24 *)&m_stats = *(ByteBlock_24 *)&src.m_stats;
-    *(ByteBlock_50 *)&m_disp_part2 = *(ByteBlock_50 *)&src.m_disp_part2;
+    __memcpy(m_inventory.m_items, src.m_inventory.m_items, sizeof(m_inventory.m_items));
+    __memcpy(&m_stats, &src.m_stats, sizeof(m_stats));
+    __memcpy(&m_disp_part2, &src.m_disp_part2, sizeof(m_disp_part2));
     copy_disp_config(&m_config, &src.m_config);
-    *(ByteBlock_14 *)m_tech_levels = *(ByteBlock_14 *)src.m_tech_levels;
+    __memcpy(m_tech_levels, src.m_tech_levels, sizeof(m_tech_levels));
     return *this;
 }
 
@@ -2830,7 +2824,7 @@ u8 *copy_join_lobby_entry(u8 *to, u8 *from) {
     __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&dst->tag, &src->tag);
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
-    *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
+    __memcpy(dst->name, src->name, sizeof(dst->name));
     copy_char_data(&dst->char_data, &src->char_data);
     return to;
 }
@@ -2840,11 +2834,11 @@ TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src) {
     dst->m_inventory.m_hp_materials_used = src->m_inventory.m_hp_materials_used;
     dst->m_inventory.m_tp_materials_used = src->m_inventory.m_tp_materials_used;
     dst->m_inventory.m_language = src->m_inventory.m_language;
-    *(ByteBlock_348 *)dst->m_inventory.m_items = *(ByteBlock_348 *)src->m_inventory.m_items;
-    *(ByteBlock_24 *)&dst->m_stats = *(ByteBlock_24 *)&src->m_stats;
-    *(ByteBlock_50 *)&dst->m_disp_part2 = *(ByteBlock_50 *)&src->m_disp_part2;
+    __memcpy(dst->m_inventory.m_items, src->m_inventory.m_items, sizeof(dst->m_inventory.m_items));
+    __memcpy(&dst->m_stats, &src->m_stats, sizeof(dst->m_stats));
+    __memcpy(&dst->m_disp_part2, &src->m_disp_part2, sizeof(dst->m_disp_part2));
     dst->m_config.copy_full(&src->m_config);
-    *(ByteBlock_14 *)dst->m_tech_levels = *(ByteBlock_14 *)src->m_tech_levels;
+    __memcpy(dst->m_tech_levels, src->m_tech_levels, sizeof(dst->m_tech_levels));
     return dst;
 }
 

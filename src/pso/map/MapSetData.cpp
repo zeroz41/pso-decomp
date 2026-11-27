@@ -29,7 +29,6 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/FileExtension.h"
 
-struct ByteBlock_14 { u8 bytes[0x14]; };
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
@@ -557,7 +556,7 @@ void bswap_item_data_record(AppendRecord *record) {
 void TLobby::copy_record_entry(saddr src) {
     AppendRecord *dst = (AppendRecord *)this;
     AppendRecord *from = (AppendRecord *)src;
-    *(ByteBlock_14 *)dst = *(const ByteBlock_14 *)from;
+    __memcpy(dst->f, from->f, sizeof(dst->f));
     dst->h[0] = from->h[0];
     dst->h[1] = from->h[1];
     dst->h[2] = from->h[2];
