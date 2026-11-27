@@ -133,7 +133,7 @@ s32 symbol_chat_flip_u;
 s32 symbol_chat_flip_v;
 s32 symbol_chat_mirror_mode;
 extern "C" {
-s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
+s32 add__16SymbolChatPresetFlllll(SymbolChatPreset *, int, int, int, int, int);
 
 void draw_second_window_arrow(TWindowSubSymbolChat *window);
 
@@ -944,11 +944,11 @@ void TWindowSubSymbolChat::add_part_at_cursor() {
   s32 pos_y;
   cursor_x = parts_set->get_cursor_x();
   cursor_pos = parts_set->get_cursor_pos();
-  add__16SymbolChatPresetFlllll((int)this->selected_preset, this->symbol_index, (int) ((s32) cursor_x), (int) ((s32) cursor_pos), (int) symbol_chat_flip_u, (int) symbol_chat_flip_v);
+  add__16SymbolChatPresetFlllll(this->selected_preset, this->symbol_index, (int) ((s32) cursor_x), (int) ((s32) cursor_pos), (int) symbol_chat_flip_u, (int) symbol_chat_flip_v);
   pos_y = (s32) cursor_pos;
   if (symbol_chat_mirror_mode != 0)
   {
-    add__16SymbolChatPresetFlllll((int)this->selected_preset, this->symbol_index, (int) (0x40 - cursor_x), (int) pos_y, (int) ((s32) ((u8) (symbol_chat_flip_u == 0))), (int) symbol_chat_flip_v);
+    add__16SymbolChatPresetFlllll(this->selected_preset, this->symbol_index, (int) (0x40 - cursor_x), (int) pos_y, (int) ((s32) ((u8) (symbol_chat_flip_u == 0))), (int) symbol_chat_flip_v);
   }
 }
 
