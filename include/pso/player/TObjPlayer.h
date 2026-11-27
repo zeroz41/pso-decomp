@@ -691,7 +691,7 @@ struct TObjPlayer : public TObjChara {
     s32 get_hospital_yaw();
     u8 *get_hospital_position();
     long get_anim_table_entry(s32 picture);
-    saddr get_table_entry_by_clamped_index();
+    const TObjMotionAction *get_table_entry_by_clamped_index();
     s32 get_footstep_floor_index();
     f32 get_photon_blast_complete_threshold();
     f32 get_photon_blast_upper_bound();

@@ -1466,7 +1466,7 @@ const char *format_item_description(TItemData *item) {
 }
 
 void TItemData::format_item_name(char *buf) {
-    s8 *slot;
+    const char *slot;
     const char *name;
     s32 *pmt;
     UnitPmtEntry *unit;
@@ -1510,7 +1510,7 @@ void TItemData::format_item_name(char *buf) {
             }
             return;
         }
-        slot = (s8 *)get_item_by_slot_flag(data1.data_u8[4]);
+        slot = get_item_by_slot_flag(data1.data_u8[4]);
         if (is_rare_item() != 0) {
             if (check_item_flags() == 1) {
                 if (data1.data_u8[3] != 0) {

@@ -115,7 +115,7 @@ void set_board_flags(saddr client_id, s32 value) {
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     this->parent = parent;
     client_id = client;
-    menu = (TWindowMenu *)create_option_menu_window();
+    menu = create_option_menu_window();
     value_window = 0;
     state = 0;
 }
@@ -162,7 +162,7 @@ void TWindowSubOption::run_task() {
 
 void TWindowSubOption::render() {  }
 
-saddr TWindowSubOption::create_option_menu_window() {
+TWindowMenu *TWindowSubOption::create_option_menu_window() {
     TWindowMenu *titled_window_menu;
 
     titled_window_menu = create_titled_window_menu(get_window_layout_position(0x15), 6, TWindowSubStatusDisp::get_message_10(0x2A), client_id);
@@ -180,7 +180,7 @@ saddr TWindowSubOption::create_option_menu_window() {
     titled_window_menu->update_layout_height(195.0f);
     align_menu_entry_positions(titled_window_menu);
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
-    return (saddr)titled_window_menu;
+    return titled_window_menu;
 }
 
 TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {

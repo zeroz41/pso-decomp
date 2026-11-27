@@ -112,8 +112,8 @@ long TObjPlayer::get_anim_table_entry(s32 picture) {
   return (*((s32 *) (((s8 *)player_anim_table_pointers) + row_offset))) + (picture * 4);
 }
 
-saddr TObjPlayer::get_table_entry_by_clamped_index() {
-    return *(s32 *)((s8 *)player_clamped_index_table_pointers + (this->get_clamped_index() * 4));
+const TObjMotionAction *TObjPlayer::get_table_entry_by_clamped_index() {
+    return player_clamped_index_table_pointers[this->get_clamped_index()];
 }
 
 s32 TObjPlayer::get_footstep_floor_index() {

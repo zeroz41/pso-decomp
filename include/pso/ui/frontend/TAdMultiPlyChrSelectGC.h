@@ -16,6 +16,7 @@ class TAdGameStartGC;
 struct TAdChrSelPlyPlateGC;
 struct TAdPlyPltAnimCtrlGC;
 struct TAdChrMoveEffectGC;
+struct TAdPlyPltAnimCtrlGC;
 class TAdFadeGC;
 
 class TAdChrSelPlayerGC;

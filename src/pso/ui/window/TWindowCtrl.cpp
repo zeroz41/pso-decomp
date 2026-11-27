@@ -541,28 +541,28 @@ void TWindowCtrl::update_pulse_color() {
 
 
 
-saddr get_party_member_name(s32 n) {
+const char *get_party_member_name(s32 n) {
     s32 i;
     TWindowSimpleStatus *status;
     TObjPlayer *player;
 
     if (TWindowCtrl::instance == NULL) {
-        return 0;
+        return NULL;
     }
     if (get_current_floor_area() == AREA_LOBBY) {
-        return 0;
+        return NULL;
     }
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
             player = get_player_by_client_id(status->get_width());
             if (player == NULL) {
-                return 0;
+                return NULL;
             }
-            return (saddr)player->get_name();
+            return player->get_name();
         }
     }
-    return 0;
+    return NULL;
 }
 
 

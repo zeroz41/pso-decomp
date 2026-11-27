@@ -479,7 +479,7 @@ void TWindowKeyBoardBase::insert_party_member_name(s32 slot) {
         }
         commit_composition_text();
     }
-    name = (const char *)get_party_member_name(slot);
+    name = get_party_member_name(slot);
     if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;

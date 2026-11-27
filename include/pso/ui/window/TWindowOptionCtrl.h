@@ -53,13 +53,13 @@ struct TWindowOptionCtrl : public TObject {
     static TWindowMessage *create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
     TWindowMessageYesNo *open_yes_no_window(s32 message_id, s32 index);
     TWindowCheckBox *create_udp_option_menu();
-    saddr create_sub_menu_window();
+    TWindowMenu *create_sub_menu_window();
     TWindowSnapShot *create_snap_shot_window();
     TWindowSoundBalance *create_sound_balance_window();
     TWindowCheckBox *create_sound_mode_menu();
-    saddr create_list_window();
+    TWindowMenu *create_list_window();
     TWindowCheckBox *create_select_menu_window();
-    saddr create_menu();
+    TWindowMenu *create_menu();
     virtual void render();
     virtual void run_task();
     static saddr get_chr_select_base_plus_1154c();

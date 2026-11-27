@@ -39,13 +39,13 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
 
-saddr get_item_pmt_entry(u8 index) {
+ItemChoiceList *get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
 
     if (table->count > index) {
-        return (saddr)&table->lists[index];
+        return &table->lists[index];
     }
-    return 0;
+    return NULL;
 }
 s32 is_unsealable_item(u8 *id) {
     ItemPmtCodeList *l = item_pmt_tbl->unsealable_items;
@@ -396,16 +396,16 @@ u8 get_weapon_class_motion_type(u8 group) {
     return 0U;
 }
 
-saddr get_item_by_slot_flag(u8 flags) {
+const char *get_item_by_slot_flag(u8 flags) {
     if (flags & 0x3F) {
         if (flags & 0x80) {
-            return (saddr)get_text_collection(0x1F4);
+            return get_text_collection(0x1F4);
         }
         if ((flags != 0) && (flags < 0x29U)) {
-            return (saddr)get_text_collection(flags + 0x1CB);
+            return get_text_collection(flags + 0x1CB);
         }
     }
-    return (saddr)empty_string;
+    return empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
     if (item != 0) {

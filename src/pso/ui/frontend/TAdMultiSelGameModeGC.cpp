@@ -84,7 +84,7 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(s32 menu, u32 idx) {
     }
 }
 
-saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
+TWindowMenu *TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     Point3 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
@@ -108,7 +108,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
         r->set_selected_index(a.v[menu]);
         align_menu_entry_positions(r);
     }
-    return (saddr)r;
+    return r;
     }
 }
 
@@ -209,7 +209,7 @@ void TAdMultiSelGameModeGC::run_state_1() {
         case 0:
         case 1:
         case 2:
-            menu = (TWindowMenu *)build_mode_menu(cursor->selection_index());
+            menu = build_mode_menu(cursor->selection_index());
             state = 2;
             break;
         case 3:
