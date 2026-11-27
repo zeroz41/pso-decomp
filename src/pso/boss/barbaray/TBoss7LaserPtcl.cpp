@@ -50,7 +50,7 @@ void TBoss7LaserImpact::run_task() {
     reset_global_table();
     collect_player_body_contacts(&hit_set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        ActorBodyHit *hit = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);
+        ActorBodyHit *hit = TObjOnlineEnding::get_attack_entry(i);
         static_cast<TBoss7DeRolLeC *>(m_up)->emit_hit_effect(&hit->target->position);
     }
     reset_global_table();

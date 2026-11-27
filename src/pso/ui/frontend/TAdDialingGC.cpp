@@ -143,12 +143,12 @@ void TAdDialingGC::draw_dialing_status() {
         a[0] = 0;
     }
     sprintf(b, dialing_message_format, a, get_dialing_phone_number());
-    sprintf(c, (char *)get_connection_message_text(1), b);
+    sprintf(c, get_connection_message_text(1), b);
     draw_menu_font_string_white(c, 23.0f, 351.0f);
 }
 
 void TAdDialingGC::init_dialog() {
-    draw_menu_font_string_white((const char *)get_connection_message_text(0), 23.0f, 331.0f);
+    draw_menu_font_string_white(get_connection_message_text(0), 23.0f, 331.0f);
 }
 
 void TAdDialingGC::refresh_display() { update_dialing_display(8); }
@@ -250,7 +250,7 @@ void TAdDialingGC::update_status_message() {
 }
 
 void TAdDialingGC::update_dialing_display(int id) {
-    draw_menu_font_string_white((const char *)get_connection_message_text(id), 23.0f, 331.0f);
+    draw_menu_font_string_white(get_connection_message_text(id), 23.0f, 331.0f);
 }
 
 void TAdDialingGC::update() {

@@ -341,7 +341,7 @@ void TObjOnlineEnding::close_window() {
     }
 }
 
-void *TObjOnlineEnding::get_attack_entry(int index) {
+ActorBodyHit *TObjOnlineEnding::get_attack_entry(int index) {
     return &player_unique_pair_entries[index];
 }
 

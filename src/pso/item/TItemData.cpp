@@ -1406,7 +1406,7 @@ void TItemData::init() {
     id = -1;
 }
 
-saddr TItemData::calc_buy_price() {
+const char *TItemData::calc_buy_price() {
     u8 special;
 
     if ((u8) this->data1.data_u8[0] == 0) {
@@ -1418,12 +1418,12 @@ saddr TItemData::calc_buy_price() {
             return get_item_description_text(0x1F4);
         }
     }
-    return (saddr)empty_string;
+    return empty_string;
 }
 }
 
 const char *format_item_description(TItemData *item) {
-    char *format;
+    const char *format;
     UnitPmtEntry *p;
     char *out;
     s32 name;
@@ -1432,7 +1432,7 @@ const char *format_item_description(TItemData *item) {
     if (p != NULL && out != NULL) {
         format = NULL;
         if (item->is_wrapped() != 0) {
-            format = (char *)get_item_description_text(0x77);
+            format = get_item_description_text(0x77);
         } else {
             name = p->id;
             if (name == 0x1F4) {
@@ -1440,21 +1440,21 @@ const char *format_item_description(TItemData *item) {
             }
             if (item->data1.data_u8[0] == 0) {
                 if (item->is_rare_item() != 0 && item->check_item_flags() == 0) {
-                    format = (char *)get_item_description_text(0x17E);
+                    format = get_item_description_text(0x17E);
                 } else {
-                    format = (char *)get_item_description_text(name);
+                    format = get_item_description_text(name);
                 }
             } else if (item->data1.data_u8[0] == 1 && item->data1.data_u8[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
-                        sprintf(out, (char *)get_item_description_text(name), p->stat_amount + TItemData::get_unit_modifier(item));
+                        sprintf(out, get_item_description_text(name), p->stat_amount + TItemData::get_unit_modifier(item));
                         return out;
                     }
                 } else {
-                    format = (char *)get_item_description_text(name);
+                    format = get_item_description_text(name);
                 }
             } else {
-                format = (char *)get_item_description_text(name);
+                format = get_item_description_text(name);
             }
         }
         if (format != NULL) {
@@ -1771,8 +1771,8 @@ s16 MagStats::get_pow_level() const {
 s32 TObjPlayer::can_use_more_materials_for_class() {
     return this->materials.can_use_more_materials(get_class_index());
 }
-saddr get_item_description_text(s32 name) {
-    return (saddr)text_language_group_table[1][name];
+const char *get_item_description_text(s32 name) {
+    return text_language_group_table[1][name];
 }
 const char *get_text_collection(s32 index) {
     return text_language_group_table[0][index];

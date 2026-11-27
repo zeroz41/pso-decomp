@@ -1219,7 +1219,7 @@ void TWindowHelpItem::format_description_with_price() {
     text_builder_reset();
     text_builder_append(format_item_description(active_item));
     text_builder_append("\n");
-    text_builder_append((const char *)(active_item->calc_buy_price()));
+    text_builder_append(active_item->calc_buy_price());
 }
 
 s32 TWindowHelpItem::is_item_already_equipped() {

@@ -100,7 +100,7 @@ void TItemAttackColBase::check_hits() {
         collect_player_body_contacts((CollisionBodySet *)&bodies);
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
+        hit = TObjOnlineEnding::get_attack_entry(i);
         if (try_add_hit_target(hit) != 0) {
             on_hit(hit);
             hits_left -= 1;
@@ -476,7 +476,7 @@ void TItemAttackCol::check_object_hits() {
     reset_global_table();
     collect_object_body_contacts((CollisionBodySet *)&bodies);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
+        hit = TObjOnlineEnding::get_attack_entry(i);
         if (try_add_hit_target(hit) != 0) {
             this->on_hit(hit);
             this->hits_left -= 1;

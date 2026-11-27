@@ -12,6 +12,7 @@ struct TWindowMenu;
 struct TWindowSoundBalance;
 struct TWindowSnapShot;
 struct TWindowMessageYesNo;
+struct TWindowMessage;
 class TSnapshotFileSetup;
 struct TWindowSoundBalance;
 struct TWindowSnapShot;
@@ -49,7 +50,7 @@ struct TWindowOptionCtrl : public TObject {
     static void set_udp_option(s32 unused, s16 option);
     static s32 get_udp_option(); // 0 auto, 1 UDP on, 2 UDP off
     static const char *text_or_default(const char *text);
-    static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
+    static TWindowMessage *create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
     TWindowMessageYesNo *open_yes_no_window(s32 message_id, s32 index);
     TWindowCheckBox *create_udp_option_menu();
     saddr create_sub_menu_window();

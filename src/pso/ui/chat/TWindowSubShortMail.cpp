@@ -239,7 +239,7 @@ void TWindowSubShortMail::run_task() {
     case 13:
         keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         keyboard->hide();
-        confirm_window = (TWindowMessageYesNo *)open_confirm_prompt(this, client_id);
+        confirm_window = open_confirm_prompt(this, client_id);
         state = 0xE;
     case 14:
         if (confirm_window->is_cancelled() != 0) {
@@ -469,13 +469,13 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
     return keyboard;
 }
 
-saddr TWindowSubShortMail::open_confirm_prompt(TObject *parent, int client_id) {
+TWindowMessageYesNo *TWindowSubShortMail::open_confirm_prompt(TObject *parent, int client_id) {
     TWindowMessageYesNo *dialog;
-    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(parent, client_id, 0, 0);
+    dialog = TWindowMessageYesNo::create(parent, client_id, 0, 0);
     open_yes_no_prompt(dialog, (TWindowSubStatusDisp::get_message_10(0x20)), (TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
     dialog->set_menu_selected_index(0);
     dialog->set_choice_menu_flag70_bit10();
-    return (saddr)dialog;
+    return dialog;
 }
 
 TWindowMenu *TWindowSubShortMail::create_confirm_menu_window(void) {

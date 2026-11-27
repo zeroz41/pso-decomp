@@ -89,7 +89,7 @@ void TBoss7Crawfish::register_attack_hits() {
     collect_player_body_contacts(&set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)hit_count < 4) {
-            entry = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);
+            entry = TObjOnlineEnding::get_attack_entry(i);
             for (j = 0; j != hit_count; j++) {
                 if (hits[j].target == entry->target && hits[j].body == entry->body) {
                     break;

@@ -361,7 +361,7 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 25:
         if (serial_info_window == NULL) {
-            serial_info_window = (TWindowBase *)TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
+            serial_info_window = TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
         }
         main_menu->open();
         state = 0x1A;
@@ -493,7 +493,7 @@ TWindowMessageYesNo *TWindowOptionCtrl::open_yes_no_window(s32 message_id, s32 i
   return window;
 }
 
-saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
+TWindowMessage *TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
     TWindowMessage *w;
     w = TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
     switch (kind) {
@@ -509,7 +509,7 @@ saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 ki
         break;
     }
     w->complete_reveal();
-    return (saddr)w;
+    return w;
 }
 
 const char *TWindowOptionCtrl::text_or_default(const char *text) {

@@ -121,7 +121,7 @@ struct TItemData {
     void add_armor_stat_contribution(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params,
                                      EquipStatBonus *stats, EquipHpTpBonus *hp_tp);
     f32 calc_clock_bonus(TObjPlayer *player);
-    saddr calc_buy_price();
+    const char *calc_buy_price();
     void format_item_name(char *buf);
     int calc_display_grade();
     s32 get_base_rarity();

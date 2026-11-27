@@ -601,7 +601,7 @@ void TWindowSubComCard::run_task() {
     case 0x23:
         this->keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         this->keyboard->hide();
-        this->confirm_window = (TWindowMessageYesNo *)TWindowSubShortMail::open_confirm_prompt(this, client_id);
+        this->confirm_window = TWindowSubShortMail::open_confirm_prompt(this, client_id);
         this->state = 0x24U;
     case 0x24:
         if (this->confirm_window->is_cancelled() != 0) {

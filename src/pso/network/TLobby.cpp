@@ -2486,7 +2486,7 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
             init_idle_timeout_timer((u8 *)p, parent);
         }
         join_state_flag = 1;
-        win = TLobby::create_dialing_message_window((const char *)get_connection_message_text(7), 1);
+        win = TLobby::create_dialing_message_window(get_connection_message_text(7), 1);
         switch (lobby_server_choice_stub()) {
         case 0:
         case 1:
@@ -2904,8 +2904,8 @@ u8 *get_raw_serial_input_buffer(void) {
     return (u8 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
 
-saddr get_connection_message_text(s32 id) {
-    return (saddr)text_language_group_table[12][id];
+const char *get_connection_message_text(s32 id) {
+    return text_language_group_table[12][id];
 }
 
 const char *get_online_message_text(s32 id) {

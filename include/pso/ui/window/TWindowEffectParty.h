@@ -7,6 +7,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 class TParticleCtrl;
+struct TWindowSimpleStatus;
 
 struct TWindowEffectParty : public TObject {
     static const char *class_name;
@@ -31,7 +32,7 @@ struct TWindowEffectParty : public TObject {
 
 LAYOUT_ASSERT(TWindowEffectParty_size, sizeof(TWindowEffectParty) == 0x34);
 
-void *get_simple_status_window(s8 i);
+TWindowSimpleStatus *get_simple_status_window(s8 i);
 
 
 #endif
