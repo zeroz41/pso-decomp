@@ -38,6 +38,8 @@ extern int quest_active_flag;
 extern int evt2_random_enemies_mode;
 
 char *expand_message_substitutions(u8 *source, char *result);
+// Hands a chat line the local player sent to the chat sensors and the sensor capture.
+void capture_chat_sensor(char *message);
 
 struct QuestCommand {
     const char *name;

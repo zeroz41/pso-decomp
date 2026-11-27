@@ -49,6 +49,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/GuildCardSaveData.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorPopulation.h"
@@ -262,10 +263,9 @@ const QuestCommandTable message_substitution_handlers = { {
 } };
 
 
-void TLobby::capture_chat_sensor() {
-    saddr message = (saddr)this;
-    TOChatSensor::dispatch_chat_message_to_children((char *)message);
-    TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
+void capture_chat_sensor(char *message) {
+    TOChatSensor::dispatch_chat_message_to_children(message);
+    TOChatSensorCapture::capture_message((u16)local_client_id, message);
 }
 
 char *expand_message_substitutions(u8 *source, char *result) {
@@ -1114,20 +1114,23 @@ void qst_op_tan() {
   u8 idx;
   idx = qst_args[0].i & 0xFFu;
   arg = qst_args[1].i;
-  f32 v = sin_table_lookup(arg) / cos_table_lookup(arg);
-  qst_registers[idx].i = *(s32 *)&v;
+  IntFloat v;
+  v.f = sin_table_lookup(arg) / cos_table_lookup(arg);
+  qst_registers[idx].i = v.i;
 }
 
 void qst_op_cos() {
     u8 idx = qst_args[0].i;
-    f32 v = cos_table_lookup(qst_args[1].i);
-    qst_registers[idx].i = *(s32 *)&v;
+    IntFloat v;
+    v.f = cos_table_lookup(qst_args[1].i);
+    qst_registers[idx].i = v.i;
 }
 
 void qst_op_sin() {
     u8 idx = qst_args[0].i;
-    f32 v = sin_table_lookup(qst_args[1].i);
-    qst_registers[idx].i = *(s32 *)&v;
+    IntFloat v;
+    v.f = sin_table_lookup(qst_args[1].i);
+    qst_registers[idx].i = v.i;
 }
 
 void qst_op_fdivi(u8 reg, s32 val) {
@@ -1616,11 +1619,11 @@ void qst_op_write_flag_buf_to_event_flags2(u8 reg) { qst_op_write_flag_buf_to_ev
 
 void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
     s32 creation_time;
-    void *state;
+    GuildCardSaveData *save;
 
-    state = (void *)(saddr)TAdSinglePlyChrSelectGC::get_state();
-    if (state != NULL) {
-        creation_time = *(s32 *)((s8 *)state + 0xE284);
+    save = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::get_state();
+    if (save != NULL) {
+        creation_time = save->timestamp_seconds;
     } else {
         creation_time = 0;
     }
@@ -2296,10 +2299,10 @@ void qst_op_kill_player(s32 slot_reg) {
 }
 
 void qst_op_get_guild_card_file_creation_time(s32 reg) {
-    u8 *state;
-    state = (u8 *)(saddr)TAdSinglePlyChrSelectGC::get_state();
-    if (state != NULL) {
-        qst_registers[(u8)reg].i = *(s32 *)((s8 *)state + 0xE284);
+    GuildCardSaveData *save;
+    save = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::get_state();
+    if (save != NULL) {
+        qst_registers[(u8)reg].i = save->timestamp_seconds;
         return;
     }
     qst_registers[(u8)reg].i = 0;
@@ -4415,14 +4418,8 @@ void qst_op_npc_param() {
 }
 
 void qst_op_npc_crt(void) {
-    s32 *npc_addr;
-    s32 npc_type;
     TLobby::free_luker_object();
-    npc_addr = &qst_args[0].i;
-    npc_addr = &qst_args[0].i;
-    npc_type = qst_args[1].i;
-    npc_addr = (s32 *)((u8 *)((s32 *)(uaddr) (u16) qst_args[0].i));
-    send_npc_create((saddr)npc_addr, npc_type);
+    send_npc_create((u16)qst_args[0].i, qst_args[1].i);
     TLobby::clear_quest_vm_flag();
 }
 

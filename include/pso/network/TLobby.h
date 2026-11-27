@@ -241,7 +241,6 @@ struct TLobby : public TObject {
     static s32 write_zero_padded_block(void *arg0p);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
-    void capture_chat_sensor();
     static void parse_message_tag();
     static void append_unit_list_name();
     static void append_card_window_text();
