@@ -101,7 +101,7 @@ void free_item_buff() {
         if (item_buffer_temp_mode != 0) {
             tmp_buf_release("TItemBuff");
         } else {
-            mem_free(item_buff_buffer);
+            ::operator delete[](item_buff_buffer);
         }
         item_buff_buffer = NULL;
     }
@@ -116,7 +116,7 @@ void *create_item_buff(s32 size) {
         if ((temp_available != 0) && (size < 0x40000)) {
             item_buff_buffer = tmp_buf_use_req("TItemBuff");
         } else {
-            item_buff_buffer = mem_alloc(size);
+            item_buff_buffer = ::operator new[](size);
         }
     }
     return item_buff_buffer;

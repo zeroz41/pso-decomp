@@ -542,7 +542,7 @@ void free_weapon_random_tables(void) {
     s32 i;
     for (i = 3; i >= 0; i--) {
         if (shop_weapon_stock_buffers[i] != NULL) {
-            mem_free(shop_weapon_stock_buffers[i]);
+            delete[] shop_weapon_stock_buffers[i];
             shop_weapon_stock_buffers[i] = NULL;
         }
     }
@@ -581,10 +581,10 @@ void load_weapon_random_tables(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            shop_weapon_stock_buffers[i] = (TItemData *)mem_alloc(0x140);
+            shop_weapon_stock_buffers[i] = new TItemData[16];
         }
     } else {
-        shop_weapon_stock_buffers[0] = (TItemData *)mem_alloc(0x140);
+        shop_weapon_stock_buffers[0] = new TItemData[16];
     }
     shop_weapon_stock_level = 0;
 }

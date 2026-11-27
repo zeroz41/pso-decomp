@@ -58,14 +58,14 @@ s32 PlayerActionProvider::load_motion(s32 set, s32 index, s32 size, s32 aram_add
     QuestDownloadFile *file;
     u8 *dst;
     aligned = (size + 0x1F) & 0xFFFFFFE0;
-    file = (QuestDownloadFile *)mem_alloc(aligned);
+    file = (QuestDownloadFile *)::operator new[](aligned);
     if (file == 0) {
         return 0;
     }
     read_player_motion(aram_addr, file, aligned);
     dst = get_cell_address(set, index);
     result = file->decrypt(size, dst, 0x4000);
-    mem_free(file);
+    delete[] file;
     return result;
 }
 
@@ -124,7 +124,7 @@ void PlayerMotionAramEntry::clear() { aram_addr = 0; size = 0; }
 
 void free_player_motion_directory() {
     if (player_motion_directory != NULL) {
-        mem_free(player_motion_directory);
+        delete[] player_motion_directory;
         player_motion_directory = NULL;
     }
 }
@@ -150,7 +150,7 @@ void alloc_player_motion_directory() {
     entries_size = entries_size * count;
     header_size = get_rlc_header_size();
     size = header_size + entries_size;
-    directory = (RlcHeader *)mem_alloc(size);
+    directory = (RlcHeader *)::operator new[](size);
     player_motion_directory = directory;
     if (directory != NULL)
     {

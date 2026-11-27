@@ -185,10 +185,10 @@ void finalize_player_shared() { TLobby::set_player_count(0); TObjPlayer::set_sha
 
 void TObjPlayer::alloc_shared_buffers() {
     if (shared_model_buffer == NULL) {
-        shared_model_buffer = static_cast<PlayerModelJointMatrices *>(mem_alloc(12 * sizeof(PlayerModelJointMatrices)));
+        shared_model_buffer = new PlayerModelJointMatrices[12];
     }
     if (player_shared_buffer_base == NULL) {
-        player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
+        player_shared_buffer_base = new PlayerJointMatrixSet[12];
     }
     if (shared_photon_blast_state == NULL) {
         shared_photon_blast_state = new PhotonBlastRegistry();
@@ -201,11 +201,11 @@ void TObjPlayer::free_shared_data() {
         shared_photon_blast_state = NULL;
     }
     if (player_shared_buffer_base != NULL) {
-        mem_free(player_shared_buffer_base);
+        delete[] player_shared_buffer_base;
         player_shared_buffer_base = NULL;
     }
     if (shared_model_buffer != NULL) {
-        mem_free(shared_model_buffer);
+        delete[] shared_model_buffer;
         shared_model_buffer = NULL;
     }
 }

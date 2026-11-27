@@ -70,13 +70,13 @@ void LoadUnloadSet::load() {
 
 LoadUnloadSet::~LoadUnloadSet() {
     unload();
-    mem_free(order);
+    delete[] order;
 }
 
 LoadUnloadSet::LoadUnloadSet(ItemClassLoadUnloadEntry *entries, s32 count) {
     this->entries = entries;
     this->count = count;
-    order = (u8 *)mem_alloc(count);
+    order = new u8[count];
     load();
 }
 

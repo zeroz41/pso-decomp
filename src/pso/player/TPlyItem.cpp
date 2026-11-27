@@ -574,14 +574,14 @@ InventorySortBuffer::InventorySortBuffer(s32 n) {
     count = n;
     // The runtime stores a 0x10-byte array cookie before the records.
     items = reinterpret_cast<InventorySortEntry *>(__construct_new_array(
-        mem_alloc(count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, NULL, sizeof(*items), count));
+        ::operator new[](count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, NULL, sizeof(*items), count));
 }
 
 InventorySortBuffer::~InventorySortBuffer() {
     InventorySortEntry *records = items;
     if (records != NULL) {
         if (records != NULL) {
-            mem_free(reinterpret_cast<u8 *>(records) - 0x10);
+            ::operator delete[](reinterpret_cast<u8 *>(records) - 0x10);
         }
     }
 }

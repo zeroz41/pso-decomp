@@ -34,7 +34,7 @@
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
-        mem_free(table->entries);
+        delete[] table->entries;
         ::operator delete(table->rngState);
         table->cursor = 0;
         table->count = 0;
@@ -62,7 +62,7 @@ s32 challenge_event_source_size;
 
 EventShuffleTable *construct_event_shuffle_table(EventShuffleTable *table, s32 capacity) {
     table->rngState = new SubtractiveRng;
-    table->entries = static_cast<s32 *>(mem_alloc(capacity * sizeof(*table->entries)));
+    table->entries = new s32[capacity];
     table->cursor = 0;
     table->count = capacity;
     table->capacity = capacity;

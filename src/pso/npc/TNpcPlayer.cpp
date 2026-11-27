@@ -1006,7 +1006,7 @@ void __sinit_TNpcPlayer_cpp() {
 
 void TNpcPlayer::ensure_rock_singleton() {
     if (npc_player_char_data_buffer == NULL) {
-        npc_player_char_data_buffer = static_cast<disp_data_part2 *>(mem_alloc(64 * sizeof(disp_data_part2)));
+        npc_player_char_data_buffer = new disp_data_part2[64];
     }
 }
 
@@ -1023,7 +1023,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
         copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&npc_player_char_data_buffer[index]);
     }
     npc_player_visual_record.bswap();
-    mem_free(npc_player_char_data_buffer);
+    delete[] npc_player_char_data_buffer;
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
     if (mode >= 0 && mode <= 2) {
@@ -1069,7 +1069,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
     if (npc_player_char_data_buffer != NULL) {
         return NULL;
     }
-    npc_player_char_data_buffer = static_cast<disp_data_part2 *>(mem_alloc(64 * sizeof(disp_data_part2)));
+    npc_player_char_data_buffer = new disp_data_part2[64];
     if (quest_npc_visual_pending != 0) {
         quest_npc_visual_pending = 0;
         copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&quest_npc_visual_record);
@@ -1078,7 +1078,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
         copy_player_visual_record((PlayerVisualRecord *)&npc_player_visual_record, (PlayerVisualRecord *)&npc_player_char_data_buffer[index]);
     }
     npc_player_visual_record.bswap();
-    mem_free(npc_player_char_data_buffer);
+    delete[] npc_player_char_data_buffer;
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
     if (mode >= 0 && mode <= 2) {

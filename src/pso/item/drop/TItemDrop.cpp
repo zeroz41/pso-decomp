@@ -309,15 +309,15 @@ void TItemDrop::refresh_drop_table_if_changed() {
 }
 
 void TItemDrop::free_unit_star_tables() {
-    mem_free(unit_star_bucket_counts);
+    delete[] unit_star_bucket_counts;
     unit_star_bucket_counts = 0;
-    mem_free(unit_star_classes);
+    delete[] unit_star_classes;
     unit_star_classes = 0;
 }
 
 void TItemDrop::alloc_unit_star_tables() {
-    unit_star_classes = (u8 *)mem_alloc(0x88);
-    unit_star_bucket_counts = (u8 *)mem_alloc(0xD);
+    unit_star_classes = new u8[0x88];
+    unit_star_bucket_counts = new u8[0xD];
     TItemDrop::count_unit_star_buckets();
 }
 
@@ -857,7 +857,7 @@ TItemDrop::~TItemDrop() {
     for (i = 0; i != 0x11; i++) {
         delete rngs[i];
     }
-    mem_free(rngs);
+    delete[] rngs;
     rngs = 0;
 }
 
@@ -875,7 +875,7 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
     u32 b;
     m_name = item_drop_class_name;
     section_id = section;
-    rngs = (SubtractiveRng **)mem_alloc(0x44);
+    rngs = new SubtractiveRng *[17];
     for (i = 0; i != 0x11; i++) {
         a = (u32)(item_drop_u32_scale * (item_drop_rand_reciprocal * (f32)rand()));
         b = (u32)(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));

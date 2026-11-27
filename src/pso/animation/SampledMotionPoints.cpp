@@ -108,7 +108,7 @@ void SampledMotionPoints::sample(NJS_OBJECT *model, NJS_MOTION *motion, const s3
 }
 
 SampledMotionPoints::~SampledMotionPoints() {
-    mem_free(points);
+    delete[] points;
     points = NULL;
 }
 
@@ -123,7 +123,7 @@ SampledMotionPoints::SampledMotionPoints(s32 points_per_sample, f32 start, f32 e
     this->start *= this->step;
     this->end *= this->step;
     n = sample_count * this->points_per_sample;
-    points = (Vec *)mem_alloc(n * sizeof(Vec));
+    points = new Vec[n];
     for (i = 0; i < n; i++) {
         points[i].x = 0.0f;
         points[i].y = 0.0f;

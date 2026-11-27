@@ -695,17 +695,17 @@ s32 TObjItemNameEntry::process_keyboard_input() {
     if (keyboard != NULL && keyboard->is_confirmed() != 0) {
         text = keyboard->realloc_buffer();
         if (strcmp(text, "") == 0) {
-            mem_free(text);
+            delete[] text;
             keyboard->clear_keyboard_flag60_bit1();
             return 0;
         }
         if (contains_profanity(text) != 0) {
             keyboard->clear_keyboard_flag60_bit1();
-            mem_free(text);
+            delete[] text;
             return 0;
         }
         set_entered_name(text);
-        mem_free(text);
+        delete[] text;
         return 1;
     }
     return 0;

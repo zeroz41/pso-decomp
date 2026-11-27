@@ -310,7 +310,7 @@ void __sinit_TItem_cpp() {
 
 void init_item_system() {
     item_registry_count = 0;
-    item_registry_sorted_entries = (TItem **)mem_alloc(0x1000);
+    item_registry_sorted_entries = new TItem *[1024];
     memset(item_registry_sorted_entries, 0, 0x1000);
     item_id_counters = new TItemIdCounters;
     TEquippedWeaponDrawTask::create_queue();
@@ -328,7 +328,7 @@ void free_item_system() {
         item_id_counters = NULL;
     }
     if (item_registry_sorted_entries != NULL) {
-        mem_free(item_registry_sorted_entries);
+        delete[] item_registry_sorted_entries;
         item_registry_sorted_entries = NULL;
     }
     item_registry_count = 0;

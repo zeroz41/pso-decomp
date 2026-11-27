@@ -724,7 +724,7 @@ void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     battle_frame_rate = get_video_standard() == 1 ? 0x19 : 0x1E;
     // The runtime stores a 0x10-byte array cookie before the 12 slots.
-    lobby_char_slot_array = (PlayerCharDataEntry *)__construct_new_array(mem_alloc(0x10 + 12 * sizeof(PlayerCharDataEntry)),
+    lobby_char_slot_array = (PlayerCharDataEntry *)__construct_new_array(::operator new[](0x10 + 12 * sizeof(PlayerCharDataEntry)),
         __ct__19PlayerCharDataEntryFv, __dt__19PlayerCharDataEntryFv, sizeof(PlayerCharDataEntry), 12);
     TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
