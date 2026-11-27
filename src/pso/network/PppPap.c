@@ -24,8 +24,8 @@ s32 init_net_block_620_secondary(void) {
     return 0;
 }
 
-s16 PP_pap_monitor(void *fsm, u32 timeout) {
-    PppFsm *c = (PppFsm *)fsm;
+s16 PP_pap_monitor(PppFsm *fsm, u32 timeout) {
+    PppFsm *c = fsm;
     NetThreadState *g;
     PppProtoBlocks *blocks;
 
