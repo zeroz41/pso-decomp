@@ -462,7 +462,6 @@ void TBoss5Gryphon::fill_follow_camera_params(Vec *target_offset, Vec *eye_offse
     }
 }
 
-extern "C" {
 // Inferred: TBoss5Gryphon's resource loader (paired with TBoss5Gryphon::cleanup in the boss resource table).
 void load_boss5_gryphon_resources(void) {
     switch (get_boss_asset_variant()) {
@@ -499,7 +498,6 @@ void load_boss5_gryphon_resources(void) {
     TBoss5GryphonLightningEff::load_texture();
 }
 
-}
 void *TBoss5Gryphon::create(void *data) {
     return new TBoss5Gryphon(tl_04, data);
 }
