@@ -502,7 +502,7 @@ void TBoss7TentacleNeedle::destroy_instance() {
 TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(parent) {
     s32 *pos_s32 = (s32 *)pos;
     m_name = boss7_tentacle_needle_name_ptr;
-    unk_34 = 1e-05f;
+    pad_34 = 1e-05f;
     rotation[0] = 0;
     rotation[1] = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
     rotation[2] = 0;

@@ -31,7 +31,7 @@ struct TBoss7TentacleNeedle : public TObject {
 
     Vec position;
     s32 rotation[3];
-    f32 unk_34;
+    f32 pad_34;
     s32 state;
     s32 timer;
     TParticleCtrl *particle_emitter; // create_particle_emitter(pos, 0x212) in the ctor
