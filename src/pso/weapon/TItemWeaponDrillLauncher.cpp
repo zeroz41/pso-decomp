@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "pso/weapon/TItemWeaponEvilCurst.h"
@@ -67,7 +68,7 @@ TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const
     if (owner != NULL) {
         shot = new TItemShootDrillLauncher(owner, pos, dir, life);
     }
-    particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
         particle->spawn_slot_emitter(0x1BB, 0);
     }

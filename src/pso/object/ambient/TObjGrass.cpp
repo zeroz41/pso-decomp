@@ -70,6 +70,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 player_stats *grass_base_stats;
 AttackParams **grass_attack_params;  // the three attack parameter sets
@@ -660,7 +661,7 @@ void TObjGrass::update_move_forward() {
     }
     apply_actor_gravity(this, (s32 *)(0), (0.0f));
     play_persistent_sound(remap_sound_for_area(0x4003A801), this, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
@@ -680,7 +681,7 @@ void TObjGrass::update_chase_target() {
         play_persistent_sound(remap_sound_for_area(0x4003A300), this, &position, 0, 0);
     } else {
         play_persistent_sound(remap_sound_for_area(0x4003A801), this, &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
     }
     advance_animation();
     if (target != NULL) {
@@ -905,7 +906,7 @@ void TObjGrass::update_swing_attack() {
     }
     update_collisions();
     play_persistent_sound(remap_sound_for_area(0x4003A801), this, &this->position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
     minimap_render_dot(&this->position, -0x5DB4, 1, 0);
 }
 
@@ -937,7 +938,7 @@ void TObjGrass::update_charge_attack() {
         this->clear_actor_flags(0x4000000);
         this->clear_player_status_flag(0, 0x80);
         play_persistent_sound(this->remap_sound_for_area(0x4003A801), this, &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         this->play_speed = (2.0f) * this->action_table[this->requested_action].speed;
         this->advance_animation();
         apply_actor_gravity(this, (s32 *)(0), (0.0f));
@@ -968,7 +969,7 @@ void TObjGrass::update_charge_attack() {
                     this->set_indexed_flags(0, 0x80);
                     copy_position_if_valid(this, this->body_center);
                     play_sound_effect(this->remap_sound_for_area(0x4003A806), &this->position, 0, 0);
-                    TObjPlayer::play_effect_if_v2(-0x200);
+                    play_effect_if_v2(-0x200);
                 } else {
                     if (this->targetId == 0xFFFF) {
                         this->target = NULL;
@@ -1170,7 +1171,7 @@ void TObjGrass::update_web_attack() {
     }
     update_collisions();
     play_persistent_sound(remap_sound_for_area(0x4003A801), this, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
@@ -1192,7 +1193,7 @@ void TObjGrass::update() {
     }
     update_collisions();
     play_persistent_sound(this->remap_sound_for_area(0x4003A801), (u8 *)this, &this->position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
     timer = this->timer;
     this->timer = (timer - 1);
     if (timer < 0) {
@@ -1223,7 +1224,7 @@ void TObjGrass::update_hit_reaction() {
   if (is_passing_frame((f32) (0.0f)) != 0)
   {
     play_sound_effect(remap_sound_for_area(0x4003A603), &this->position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
   }
   if ((this->action_flags) != 8U)
   {
@@ -1242,7 +1243,7 @@ void TObjGrass::update_hit_reaction() {
     this->referenceHp = this->hp;
   }
   play_persistent_sound(remap_sound_for_area(0x4003A801), this, &this->position, 0, 0);
-  TObjPlayer::play_effect_if_v2(-0x200);
+  play_effect_if_v2(-0x200);
   minimap_render_dot(&this->position, -0x5DB4, 1, 0);
 }
 

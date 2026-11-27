@@ -112,6 +112,7 @@ s32 bm5_wolf_render_joint_y_rotation;
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma defer_codegen on
 #pragma push
@@ -604,14 +605,14 @@ void TObjEneBm5Wolf::spawn_recoil_dust(Vec *dir) {
 void TObjEneBm5Wolf::play_footsteps() {
     if ((this->is_passing_frame(7.0f) != 0) || (this->is_passing_frame(24.0f) != 0)) {
         play_sound_effect(this->remap_sound_for_area(0x3C618), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x1000);
+        play_effect_if_v2(-0x1000);
     }
 }
 
 void TObjEneBm5Wolf::play_proximity_effect() {
     if (this->is_passing_frame(18.0f) != 0) {
         play_sound_effect(this->remap_sound_for_area(0x3C618), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x1000);
+        play_effect_if_v2(-0x1000);
     }
 }
 
@@ -808,7 +809,7 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
             }
             if (this->is_passing_frame(24.0f) != 0) {
                 play_sound_effect(this->remap_sound_for_area(0x4003A821), &this->position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x500);
+                play_effect_if_v2(-0x500);
             }
             if (this->frame <= 30.0f) {
                 t = this->frame - 15.0f;
@@ -960,7 +961,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
             is_passing_frame(7.0f);
         } else if (this->requested_action == 0xB && is_passing_frame(9.0f) != 0) {
             play_sound_effect(this->remap_sound_for_area(0x3A819), &this->position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x200);
+            play_effect_if_v2(-0x200);
         }
         if (this->substate == 0x3C) {
             for (p = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; p != NULL; p = p->next) {
@@ -1430,7 +1431,7 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
             }
             if (this->is_passing_frame(24.0f) != 0) {
                 play_sound_effect(this->remap_sound_for_area(0x4003A821), &this->position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x500);
+                play_effect_if_v2(-0x500);
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
                 this->near_target = 0;
@@ -1648,7 +1649,7 @@ void TObjEneBm5Wolf::action(s32 event) {
         advance_pose_turn(this->rotation.y);
         if (this->is_passing_frame(10.0f) != 0) {
             play_sound_effect(this->remap_sound_for_area(0x3AA1A), &this->position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x100);
+            play_effect_if_v2(-0x100);
         }
         this->substate = (this->substate + 1);
         if (this->substate == 0x1E) {
@@ -1672,7 +1673,7 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
         this->substate = 0;
         if (this->referenceHp - this->hp < 0x14) {
             play_sound_effect(this->remap_sound_for_area(0x3AB1B), &this->position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x500);
+            play_effect_if_v2(-0x500);
         }
         this->set_active();
         break;
@@ -1735,7 +1736,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         this->clear_intangible();
         this->refresh_and_send_entity_flags();
         play_sound_effect(this->remap_sound_for_area(0x3AD1D), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         if (select_death_direction(tgt) == 0) {
             this->requested_action = 0xF;
         } else {

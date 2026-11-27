@@ -130,7 +130,7 @@ f32 TPhotonBlastSequence::calc_photon_blast_power(s32 kind, f32 base_power) {
 }
 #pragma pop
 
-s32 TObjPlayer::is_any_teammate_in_state() {
+s32 is_any_teammate_in_state() {
     PhotonBlastChainCopy chain;
     s32 floor;
     s32 client;

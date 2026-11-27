@@ -48,6 +48,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 
 s16 TObjPlayer::get_atp() { return this->atp; }
@@ -64,22 +65,22 @@ void TObjEneDimedian::run_demo_task() {  }
 
 void TObjEneDimedian::play_group_chase_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD40), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_death_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD3D), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_hurt_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A83E), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_attack_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A83F), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_alert_sound() {
@@ -91,7 +92,7 @@ void TObjEneDimedian::play_alert_sound() {
         sound = remap_sound_for_area(0x4003B23C);
         play_sound_effect(sound, &position, 0, 0);
     }
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::spawn_death_effect() {

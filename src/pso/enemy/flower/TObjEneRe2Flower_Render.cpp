@@ -23,6 +23,7 @@ struct NJS_OBJECT;
 #include "pso/system/SoundEffect.h"
 #include "pso/render/DebugFont.h"
 #include "pso/boss/DragonAttackParams.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -286,7 +287,7 @@ void TObjEneRe2Flower::state_laugh(s32 reason) {
         set_next_mode(3);
         state_step = 0;
         play_sound_effect(remap_sound_for_variant(0x4003A315), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         return;
     case 3:
         if (is_passing_frame(frame_count - lbl_805D9FC0) != 0) {

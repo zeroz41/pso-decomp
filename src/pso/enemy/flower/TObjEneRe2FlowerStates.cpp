@@ -20,6 +20,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/audio/SoundRequests.h"
 
 
 void TObjEneRe2Flower::state_destroy(s32 reason) {
@@ -46,7 +47,7 @@ void TObjEneRe2Flower::state_die(s32 reason) {
         state_step = 0;
         sink_depth = lbl_805D9FAC;
         play_sound_effect(remap_sound_for_variant(0x4003A812), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         return;
     case 3:
         if (state_step == 2) {
@@ -108,7 +109,7 @@ void TObjEneRe2Flower::state_damaged(s32 reason) {
         flags &= ~8;
         debug_effect_hook(0xF2);
         play_sound_effect(remap_sound_for_variant(0x4003AB13), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         break;
     case 3:
         if (get_flag_b4() != 0) {
@@ -163,7 +164,7 @@ void TObjEneRe2Flower::state_curse(s32 reason) {
                 current_target = (TObjChara *)t;
                 state_timer = 1;
                 play_sound_effect(remap_sound_for_variant(0x4003A50F), &position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x200);
+                play_effect_if_v2(-0x200);
             }
         } else if (state_step == 0x19 && state_timer != 0 && current_target->is_alive() != 0) {
             if (is_tower_variant() != 0) {

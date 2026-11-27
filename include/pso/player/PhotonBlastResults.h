@@ -118,5 +118,6 @@ void release_photon_blast_resources(void);
 
 // Copies player's chain into output while it is pending or running; returns its state.
 s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player);
+s32 is_any_teammate_in_state();
 
 #endif

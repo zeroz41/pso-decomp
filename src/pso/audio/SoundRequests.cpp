@@ -24,7 +24,7 @@
 s8 sound_mode_value = 1;
 s32 last_sound_effect_slot = -1;
 
-void TObjPlayer::play_effect_if_v2(s32 pitch) {
+void play_effect_if_v2(s32 pitch) {
     if (TObjEneDD::check_v2_mode() != 0) {
         set_sound_pitch_request(last_sound_effect_slot, pitch, 0);
     }

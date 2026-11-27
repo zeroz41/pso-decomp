@@ -109,7 +109,7 @@ void close_windows_and_reset() {
         TQuestVmDownLoadServer::reset_download();
     }
 }
-void TQuestListOnline::handle_quest_ready() {
+void handle_quest_ready() {
     s32 i;
     TObjPlayer *p;
     OnlineQuestDownloadState *q;
@@ -170,7 +170,7 @@ void TQuestListOnline::handle_quest_ready() {
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
 }
-void TLobby::handle_quest_download_chunk(TRecvDownload &download) {
+void handle_quest_download_chunk(TRecvDownload &download) {
     TRecvDownload *p = &download;
     int *flag;
     u8 *buf;
@@ -203,12 +203,12 @@ void TLobby::handle_quest_download_chunk(TRecvDownload &download) {
             online_quest_download_barrier_window->set_depth(36000.0f);
             online_quest_download_barrier_window->complete_reveal();
         }
-        protocol_instance->send_quest_barrier();
+        TLobby::protocol_instance->send_quest_barrier();
     }
 }
 
 
-void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
+void begin_file_download(TRecvDownloadHead &file) {
     TRecvDownloadHead *head = &file;
     char buf[0x10];
     char *tok;
@@ -275,7 +275,7 @@ void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     }
 }
 
-void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
+void receive_quest_info(OnlineQuestInfo &info) {
     if (quest_list_online_selected_quest_info != NULL) {
         memcpy(quest_list_online_selected_quest_info, &info, sizeof(OnlineQuestInfo));
         set_quest_list_online_state(2);

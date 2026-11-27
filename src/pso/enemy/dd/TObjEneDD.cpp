@@ -98,6 +98,7 @@ TargetCandidate enemy_target_candidate_table[4];
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/LocalClientId.h"
+#include "pso/player/PhotonBlastResults.h"
 
 
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
@@ -972,7 +973,7 @@ s32 TObjEneDD::is_phase_e() {
 
 int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(); }
 
-int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
+int TObjEneDD::query_teammate_state() { return is_any_teammate_in_state(); }
 
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance) {
     f32 scale;

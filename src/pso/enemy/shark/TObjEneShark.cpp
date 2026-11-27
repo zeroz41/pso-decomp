@@ -47,6 +47,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 extern player_stats **shark_resource_node;
 extern AttackParams **shark_resource_buf;
@@ -63,12 +64,12 @@ void TObjEneShark::run_demo_task() {  }
 
 void TObjEneShark::play_death_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A60C), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x300);
+    play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::play_hurt_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A60B), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x300);
+    play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::play_attack_sound() {
@@ -77,7 +78,7 @@ void TObjEneShark::play_attack_sound() {
 
 void TObjEneShark::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A60B), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x300);
+    play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::spawn_death_effect() {

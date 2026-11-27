@@ -2603,9 +2603,9 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_C0_choice_search_option_packet = TLobby::handle_choice_search_options;
     protocol_instance->m_recv_handlers.handle_C4_choice_search_reply_packet = TLobby::handle_choice_search_results;
     protocol_instance->m_recv_handlers.handle_A2_recv_quest_menu_list = copy_quest_list_data;
-    protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = TQuestListOnline::receive_quest_info;
-    protocol_instance->m_recv_handlers.handle_44_recv_download_head = TQuestListOnline::begin_file_download;
-    protocol_instance->m_recv_handlers.handle_13_recv_download = TLobby::handle_quest_download_chunk;
+    protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = receive_quest_info;
+    protocol_instance->m_recv_handlers.handle_44_recv_download_head = begin_file_download;
+    protocol_instance->m_recv_handlers.handle_13_recv_download = handle_quest_download_chunk;
     protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
     protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = show_card_list_message;
     protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = TQuestVmDownLoadServer::begin_file_download;

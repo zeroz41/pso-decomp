@@ -764,7 +764,7 @@ void TObjEneRe7Berura::update_emerge_state(s32 reason) {
                 node1_color = grey | ((grey << 0x10) | 0xFF000000 | (grey << 8));
             }
             play_persistent_sound(remap_sound_for_area(0x4003C61E), this, &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x100);
+            play_effect_if_v2(-0x100);
             break;
         }
         update_ground_contact();
@@ -974,7 +974,7 @@ void TObjEneRe7Berura::update_punch_state(s32 reason) {
             re7_berura_animation_definitions[3].speed = 0.8f;
         }
         play_sound_effect(remap_sound_for_area(0x4003BC20), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x100);
+        play_effect_if_v2(-0x100);
         break;
     case 3:
         if (step == 3 && check_death_trigger() == 0) {
@@ -1021,7 +1021,7 @@ void TObjEneRe7Berura::update_punch_state(s32 reason) {
                 step = 1;
                 destroy_parts();
                 play_sound_effect(remap_sound_for_area(0x4003A321), &position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x100);
+                play_effect_if_v2(-0x100);
             }
             break;
         case 1:

@@ -1161,7 +1161,7 @@ void TMainCursor::validate_target() {
             return;
         }
     }
-    if (TObjPlayer::is_any_teammate_in_state() != 0) {
+    if (is_any_teammate_in_state() != 0) {
         hide();
         return;
     }

@@ -4,6 +4,8 @@
 #include "pso/weapon/TItemWeaponSRank.h"
 #include "pso/system/data/FlagWord.h"
 
+class TItemShoot;
+
 class TItemWeaponSRankPunch : public TItemWeaponSRank {
 public:
     TItemWeaponSRankPunch(TObject *parent, u8 *item);
@@ -20,6 +22,8 @@ public:
 
 // The weapon's hit callback (hit_callback).
 void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body);
+
+TItemShoot *spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames);
 
 void debug_weapon_attack_hook(void);
 void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);

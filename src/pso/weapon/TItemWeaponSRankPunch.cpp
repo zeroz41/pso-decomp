@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -62,12 +63,12 @@ TItemShootSRankPunch::TItemShootSRankPunch(void *owner, const Vec *pos, const Ve
     set_render_model(get_punch_shot_model((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
 }
 
-TItemShoot *TObjPlayer::spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames) {
+TItemShoot *spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames) {
     TItemShootSRankPunch *model = NULL;
     TItemShootParticle *particle;
     if (owner != NULL) {
         model = new TItemShootSRankPunch(owner, origin, end, frames);
-        particle = spawn_shoot_particle(owner, origin, end, frames);
+        particle = TItemShootParticle::spawn_shoot_particle(owner, origin, end, frames);
         if ((model != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
             particle->set_parent(model);
@@ -146,7 +147,7 @@ TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TItemW
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)notify_hit_target;
     hit_callback = (WeaponHitCallback)s_rank_punch_hit_effect;
-    shot_callback = TObjPlayer::spawn_shot_effect;
+    shot_callback = spawn_shot_effect;
     shot_speed = 10.0f;
     flags.reset();
 }

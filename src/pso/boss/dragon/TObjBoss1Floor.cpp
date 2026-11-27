@@ -31,6 +31,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PhotonBlastResults.h"
 
 const char *TObjBoss1Floor::name = "TObjBoss1Floor";
 
@@ -43,7 +44,7 @@ void TObjBoss1Floor::render() {
     u32 saved_flags;
     NJS_OBJECT *floor;
 
-    if ((TObjPlayer::is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
+    if ((is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
         saved_flags = model_render_flags;
         saved_model_render_flags = saved_flags;
         model_render_flags = saved_flags | 0x400;

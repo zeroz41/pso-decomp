@@ -130,7 +130,6 @@ struct TLobby : public TObject {
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
     // Takes one 13 download chunk of the quest .dat/.bin being downloaded.
-    static void handle_quest_download_chunk(TRecvDownload &download);
     static void send_challenge_records(TChallenge *challenge);
     static void set_fade_params(void (*callback)());
     void copy_record_entry(saddr src);

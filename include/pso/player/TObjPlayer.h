@@ -338,7 +338,6 @@ struct TObjPlayer : public TObjChara {
     s32 get_entrance_id();
     void set_entrance_id(s32 id);
     s32 is_action_available();
-    static s32 is_any_teammate_in_state();
     static void set_shared_flag(int flag);
     // Twelve model joint matrix blocks, one per player slot.
     static PlayerModelJointMatrices *shared_model_buffer;
@@ -417,8 +416,6 @@ struct TObjPlayer : public TObjChara {
     TItem *get_equipped_armor();
     TItem *get_equipped_shield();
     static s32 count_nearby_players_with_shield(u16 idx, u8 *item);
-    static TItemShootParticle *spawn_shoot_particle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
-    static TItemShoot *create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     void set_flag_10000();
     void set_state_flags(u32 v);
     s16 is_status_subsystem_ready();
@@ -714,7 +711,6 @@ struct TObjPlayer : public TObjChara {
     static void split_capped_value(u8 level, u8 *capped, u8 *overflow);
     static s32 validate_and_clear_slot(void *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
-    static void play_effect_if_v2(s32 pitch);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
@@ -762,7 +758,6 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     static void new_child_object(u16 player_id);
     int is_flag_b0_4();
-    static TItemShoot *spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames);
     static void start_photon_blast(s32 kind, s32 client_id);
     s32 get_total_deaths();
     void init_local_pad_binding();

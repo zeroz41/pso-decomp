@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
+#include "pso/player/PhotonBlastResults.h"
 #pragma defer_codegen on
 
 u32 TObjBoss2Tunnel::global_flags;
@@ -551,7 +552,7 @@ void TObjBoss2Tunnel::render() {
     GinjaTextureState *saved;
     s32 i;
     Vec v = {0.0f, 0.0f, 0.0f};
-    if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
+    if (is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {
         NJS_TEXNAME *entries = boss2_common_texture_list->textures;

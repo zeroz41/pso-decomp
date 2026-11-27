@@ -66,6 +66,7 @@
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
@@ -667,7 +668,7 @@ void TObjEneMoja::update_appearance_jump() {
         spawn_particle_effect(&position, 0xCB);
         spawn_particle_effect(&position, 0xF0);
         play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         break;
     case 2:
         apply_actor_gravity(this, 0, 0.0f);
@@ -747,7 +748,7 @@ void TObjEneMoja::update_appearance_drop() {
         spawn_particle_effect(&position, 0xCB);
         spawn_particle_effect(&position, 0xF0);
         play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         break;
     case 2:
         apply_actor_gravity(this, 0, 0.0f);
@@ -790,7 +791,7 @@ void TObjEneMoja::update_approach_state() {
         apply_actor_gravity(this, 0, 0.0f);
         if (is_passing_frame(0.0f) != 0) {
             play_sound_effect(remap_sound_for_area(0x3AD0A), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x200);
+            play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
             set_override_speed(moja_behavior_params[variant]->values.floats[3]);
@@ -823,7 +824,7 @@ void TObjEneMoja::update_approach_state() {
         }
         if (is_passing_frame(4.0f) != 0 || is_passing_frame(19.0f) != 0) {
             play_sound_effect(remap_sound_for_area(0x3A801), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x400);
+            play_effect_if_v2(-0x400);
         }
         break;
     }
@@ -943,7 +944,7 @@ void TObjEneMoja::update_punch_attack() {
         advance_animation();
         if (is_passing_frame(9.0f) != 0) {
             play_sound_effect(remap_sound_for_area(0x3AD04), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x300);
+            play_effect_if_v2(-0x300);
         }
         if (is_passing_frame(12.0f) != 0) {
             t = test_actor_flags(0x10);
@@ -999,7 +1000,7 @@ void TObjEneMoja::update_punch_attack() {
         advance_animation();
         if ((is_passing_frame(0.0f) != 0) && (roar == 1)) {
             play_sound_effect(remap_sound_for_area(0x3AD0A), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x200);
+            play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
             if ((f32)--timer < 0.0f) {
@@ -1245,7 +1246,7 @@ void TObjEneMoja::update_attack_jump() {
             spawn_particle_effect(&position, 0xCB);
             spawn_particle_effect(&position, 0xF0);
             play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x300);
+            play_effect_if_v2(-0x300);
         }
         break;
     case 2:
@@ -1320,7 +1321,7 @@ void TObjEneMoja::update_ground_effect() {
     advance_animation();
     if (is_passing_frame(0.0f) != 0) {
         play_sound_effect(remap_sound_for_area(0x3A807), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
     }
     velocity.z = 0.0f;
     velocity.x = 0.0f;
@@ -1363,7 +1364,7 @@ void TObjEneMoja::update_death_state() {
         pop_matrix();
         vec3_add_to(&v, &position);
         play_sound_effect(remap_sound_for_area(0x3AD03), &v, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         spawn_particle_effect(&v, 0xF0);
         spawn_dead_spot_kind2_scale15(&v, 0x14);
         spawn_effect_at_ground(&v, 0x32);

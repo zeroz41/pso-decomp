@@ -60,6 +60,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 // Written last function first: the unit is built with deferred code generation.
 #pragma defer_codegen on
 
@@ -544,7 +545,7 @@ void TObjEneMorfos::state_appear(s32 ev) {
                 texture_scroll = 0xC;
                 step = 2;
             }
-            TObjPlayer::play_effect_if_v2(-0x100);
+            play_effect_if_v2(-0x100);
             break;
         }
         this->update_ground_contact();

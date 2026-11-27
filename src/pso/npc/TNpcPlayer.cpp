@@ -51,6 +51,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
+#include "pso/player/PhotonBlastResults.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
@@ -2853,7 +2854,7 @@ void TNpcPlayer::deliver_partner_chatter() {
         chatter_id = 0x19;
         return;
     }
-    if (TObjPlayer::is_any_teammate_in_state() != 0) {
+    if (is_any_teammate_in_state() != 0) {
         return;
     }
     id = self_view->player->get_entity_id();

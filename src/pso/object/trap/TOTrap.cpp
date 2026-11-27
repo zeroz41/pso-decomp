@@ -14,6 +14,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/PhotonBlastResults.h"
 
 const char *TOTrap::class_name = "TOTrap";
 
@@ -150,7 +151,7 @@ void TOTrap::run_task() {
         this->run_demo();
         return;
     }
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         this->update_effects();
         switch (this->mode) {
         case 0:
@@ -185,7 +186,7 @@ void TOTrap::run_task() {
 
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         this->visible = this->update_object_view_visibility(4e+02f, 2e+01f);
         if (this->visible == 1) {
             push_matrix();

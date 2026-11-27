@@ -36,6 +36,7 @@
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/player/PhotonBlastResults.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";
@@ -407,7 +408,7 @@ void record_fog_collision_hit(s32 index, s32 level, s32 link) {
 
 void TObjFogCollision_Manager::run_task() {
     s32 level;
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         switch (cleared) {
         case 0:
             if (hit_count > 0) {

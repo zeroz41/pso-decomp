@@ -42,4 +42,6 @@ void update_sound_request_slots(void);
 
 extern s32 music_stream_base_gain;
 
+void play_effect_if_v2(s32 pitch);
+
 #endif

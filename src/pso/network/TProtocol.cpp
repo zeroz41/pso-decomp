@@ -16,6 +16,7 @@
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/system/memory.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
 LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
@@ -35,7 +36,7 @@ void TProtocol::send_keepalive() {
 
 void TProtocol::handle_cmd_AC(packet &pkt) {
     if (pkt.pkt.header.flags == 0) {
-        TQuestListOnline::handle_quest_ready();
+        handle_quest_ready();
         return;
     }
     m_is_invalid_packet = 1;

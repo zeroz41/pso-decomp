@@ -55,9 +55,9 @@
  *   A2 A4     TMenuList<QuestListEntry, 30, 0>  recv_quest_menu_list, recv_quest_list ->
  *                                   copy_quest_list_data, TLobby::open_download_list_window
  *   A3 A5     TPlyText<288>         recv_quest_menu_info, recv_quest_info ->
- *                                   TQuestListOnline::receive_quest_info, show_card_list_message
+ *                                   receive_quest_info, show_card_list_message
  *   AB        TRecvQuestStats       handle_cmd_AB -> the lobby's AB handler
- *   AC        packet_header         handle_cmd_AC -> TQuestListOnline::handle_quest_ready (flags 0)
+ *   AC        packet_header         handle_cmd_AC -> handle_quest_ready (flags 0)
  *   B0        TMessageBox           recv_emergency_call -> TLobby::disable_window_flags
  *   B1        TRecvServerTime       handle_cmd_B1 -> TLobby::reset_lobby_state
  *   C0        TRecvChoiceSearchOptions  handle_cmd_C0 -> TLobby::handle_choice_search_options

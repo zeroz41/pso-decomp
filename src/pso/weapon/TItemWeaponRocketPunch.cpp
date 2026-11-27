@@ -72,7 +72,7 @@ TItemShoot *rocket_punch_create_shot(TItemWeapon *owner, const Vec *pos, const V
 
     if (owner != NULL) {
         shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, pos, dir, life);
-        particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+        particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
         if ((shot != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
             particle->set_parent(shot);

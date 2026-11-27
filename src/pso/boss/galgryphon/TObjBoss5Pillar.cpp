@@ -15,13 +15,14 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PhotonBlastResults.h"
 
 #pragma readonly_strings on
 
 const char *TObjBoss5Pillar::class_name = "TObjBoss5Pillar";
 
 void TObjBoss5Pillar::render() {
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         push_matrix();
         set_texture_list(boss5_common_texture_list);
         post_translate_matrix(&this->position.x);

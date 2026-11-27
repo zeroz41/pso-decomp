@@ -52,6 +52,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma readonly_strings on
 
@@ -173,7 +174,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             height = 30.0f;
         }
         play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), this, origin, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x400);
+        play_effect_if_v2(-0x400);
         break;
     case 1:
         offset.y += 1.0f;
@@ -182,7 +183,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             velocity.y = 0.5f * distance;
         }
         play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), this, origin, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x400);
+        play_effect_if_v2(-0x400);
         break;
     case 2:
         spd = distance;
@@ -191,7 +192,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         if (v < 0.5f * -spd) {
             spawn_particle_effect(target, 0xC8);
             play_sound_effect(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003AB27), target, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x400);
+            play_effect_if_v2(-0x400);
             queue_destruction();
             break;
         }
@@ -201,7 +202,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         offset.x = velocity.x * v;
         offset.z = velocity.z * v;
         play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), this, target, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x400);
+        play_effect_if_v2(-0x400);
         break;
     }
 }
@@ -475,7 +476,7 @@ void TObjEneBm3FlyNest::spawn_child() {
             spawned_count++;
             spawn_particle_effect(&attachment_points[1], 0xC8);
             play_sound_effect(remap_sound_for_area(0x4003AB27), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x400);
+            play_effect_if_v2(-0x400);
         }
     }
 }

@@ -44,6 +44,7 @@ extern const f32 lbl_805D9FBC; // 5.0
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 const char *re2_flower_class_name = re2_flower_class_name_string;
 // The variant's movement block (dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
@@ -637,7 +638,7 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
                     }
                 }
                 play_sound_effect(remap_sound_for_variant(0x4003A814), &position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x200);
+                play_effect_if_v2(-0x200);
             }
             break;
         case 1:

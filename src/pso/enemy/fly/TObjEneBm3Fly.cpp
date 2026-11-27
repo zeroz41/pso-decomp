@@ -41,6 +41,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma defer_codegen on
 
@@ -428,12 +429,12 @@ u16 TObjEneBm3Fly::get_active_id() {
 
 void TObjEneBm3Fly::play_pitched_cue() {
     play_persistent_sound(this->remap_sound_for_area(0x40039E22), this, &this->position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x400);
+    play_effect_if_v2(-0x400);
 }
 
 void TObjEneBm3Fly::play_orbit_flight_sound() {
     play_persistent_sound(this->remap_sound_for_area(0x4003AB23), this, &this->position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x400);
+    play_effect_if_v2(-0x400);
 }
 
 s32 TObjEneBm3Fly::acquire_target(f32 range) {
@@ -770,7 +771,7 @@ void TObjEneBm3Fly::execute_action(s32 msg) {
                     }
                 }
                 play_sound_effect(this->remap_sound_for_area(0x4003A524), &this->position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x400);
+                play_effect_if_v2(-0x400);
             }
             if (this->get_flag_b4() != 0) {
                 if (this->strike_count >= 4) {

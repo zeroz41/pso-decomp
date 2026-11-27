@@ -9,6 +9,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/PhotonBlastResults.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,7 @@ void TObjBoss5FloorStone::trigger_switches_in_range(const Vec *pos, const Dragon
 const char *TObjBoss5FloorStone::name = "TObjBoss5FloorStone";
 
 void TObjBoss5FloorStone::render() {
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
     draw_shadowed_object(boss5_common_texture_list, boss5_common_bml_resource->models[5].model);
     }
 }

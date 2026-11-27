@@ -137,6 +137,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma defer_codegen on
 s32 TItem::get_item_id() { return (s32)this->item_id; }
@@ -711,7 +712,7 @@ void TObjEneDf2Bringer::update_emerge_state(s32 reason) {
                 this->counter = 1;
                 this->requested_action = 3;
                 play_sound_effect(this->remap_sound_for_area(0x4003B40E), &this->position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x200);
+                play_effect_if_v2(-0x200);
             }
             this->spawn_particle_if_in_band();
             this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, 1.2f);
@@ -916,7 +917,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
                 status_flags &= ~4;
                 set_next_mode(7);
                 play_sound_effect(remap_sound_for_area(0x4003B40E), &position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x200);
+                play_effect_if_v2(-0x200);
             }
             play_persistent_sound(remap_sound_for_area(0x4003AD09), this, &position, 0, 0);
             break;
@@ -1001,7 +1002,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
             update_attack_child();
             if (is_passing_frame(10.8f) != 0) {
                 play_sound_effect(remap_sound_for_area(0x4003A30C), &position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x200);
+                play_effect_if_v2(-0x200);
             }
             if (get_flag_b4() != 0) {
                 requested_action = 0;
@@ -1252,7 +1253,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
         create_particle_emitter_pair(&this->body_center);
         body_fade.start_fade_out();
         play_sound_effect(this->remap_sound_for_area(0x4003A511), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         return;
     case 0:
         this->advance_animation();

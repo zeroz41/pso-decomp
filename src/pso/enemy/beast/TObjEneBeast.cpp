@@ -61,6 +61,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/audio/SoundRequests.h"
 
 extern SampledMotionPoints *beast_claw_trail_instance;
 extern SampledMotionPoints *boss4_type3_instance;
@@ -70,19 +71,19 @@ void TObjEneBeast::play_group_chase_sound() {
 }
 void TObjEneBeast::play_death_sound() {
     play_sound_effect(0x4003AB2D, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
 }
 void TObjEneBeast::play_hurt_sound() {
     play_sound_effect(0x4003A32E, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::play_attack_sound() {
     play_sound_effect(0x4003A62F, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::play_alert_sound() {
     play_sound_effect(0x4003A82C, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
 }
 
 void TObjEneBeast::spawn_death_effect() {
