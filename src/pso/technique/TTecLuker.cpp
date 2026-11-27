@@ -94,7 +94,6 @@ static const Vec telepipe_town_position_table_b[4] = {
 };
 static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
 extern "C" {
-const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 }
 s32 PlacementSlot::is_placed() { return (u8)(state == 2); }

@@ -44,4 +44,6 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 
 void reset_telepipe_visit_counts(void);
 
+const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
+
 #endif
