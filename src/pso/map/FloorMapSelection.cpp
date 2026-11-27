@@ -9,6 +9,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 FloorMapSelection floor_map_registry[18];
 
@@ -398,7 +399,7 @@ void randomize_adventure_maps(void) {
   map = floor_map_registry;
   select_episode((saddr)selected_episode);
   main_phase = get_main_phase();
-  if (TRaderMapCore::is_not_split_screen() == 1)
+  if (is_not_split_screen() == 1)
   {
     main_phase = 0xF;
   }

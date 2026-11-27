@@ -79,6 +79,7 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/ui/TCharSaveSequence.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
@@ -516,7 +517,7 @@ void run_game_mode_select_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     noop();
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }

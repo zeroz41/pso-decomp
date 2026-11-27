@@ -36,6 +36,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
@@ -380,7 +381,7 @@ void TAdSinglePlyChrSelectGC::run_state_3() {
         this->state = 0;
         return;
     }
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         this->state = 4;
     }
 }

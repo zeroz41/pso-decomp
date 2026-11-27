@@ -28,6 +28,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/frontend/CardFileAccess.h"
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.
 
@@ -83,7 +84,7 @@ void load_memcard_file(void) {
         return;
     }
     memset(buf, 0, stat.blocks << 13);
-    TAdSinglePlyChrSelectGC::load_player_slot(slot, memcard_file_099_name, buf);
+    read_card_file(slot, memcard_file_099_name, buf);
     while (poll_memcard_result(slot) != 0) {
         run_frame();
     }

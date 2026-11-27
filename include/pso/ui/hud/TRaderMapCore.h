@@ -111,7 +111,6 @@ struct TRaderMapCore : public TObjBase {
     static void free_statics();
     static void load_frame_texture();
     static NJS_OBJECT *init_map_ptr(const s32 *counter, s32 index);
-    static s32 is_not_split_screen();
     static void clear();
     void gather_player_markers();
     void draw_enemy_gate_markers();

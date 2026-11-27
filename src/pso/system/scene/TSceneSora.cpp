@@ -27,6 +27,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma readonly_strings on
@@ -121,7 +122,7 @@ void TSceneSora::load_sky_resources() {
         ok = 0;
         tbl = (SceneTableEntry *)get_floor_scene_table(ref.area);
         replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size(name2);
         }

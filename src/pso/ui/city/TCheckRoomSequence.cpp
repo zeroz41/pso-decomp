@@ -37,6 +37,7 @@
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -62,7 +63,7 @@ u32 TCheckRoomSequence::slot_active_flags[4];
 s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);
 
 s32 TCheckRoomSequence::check_room_ready() {
-    if (TRaderMapCore::is_not_split_screen() == 0) {
+    if (is_not_split_screen() == 0) {
         return 1;
     }
     return (u32)__cntlzw(get_game_play_mode()) >> 5;

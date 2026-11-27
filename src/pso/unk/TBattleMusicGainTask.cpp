@@ -9,6 +9,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 TBattleMusicGainTask *duel_result_window;
 
@@ -45,7 +46,7 @@ TBattleMusicGainTask::TBattleMusicGainTask(TObject *parent, s32 gain, s32 durati
 
 
 BattleRanking *get_battle_rankings(void) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return get_split_screen_battle_rankings();
     }
     return duel_result_table;

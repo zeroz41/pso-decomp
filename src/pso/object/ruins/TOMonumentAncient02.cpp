@@ -34,6 +34,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestFloorDesignation.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // One monument model per area: Cave 1 (default), Cave 2 and Mine 2.
 const char *bm_fs_obj_o_monument01_model_names[] = {"fs_obj_o_monument01.gj", NULL};
@@ -108,7 +109,7 @@ void TOMonumentAncient02::run_task() {
         }
         return;
     case 1:
-        if ((TRaderMapCore::is_not_split_screen() != 1) && (in_view == 1)) {
+        if ((is_not_split_screen() != 1) && (in_view == 1)) {
             submit_cursor_candidate(this, -1);
         }
         if (effect != NULL) {

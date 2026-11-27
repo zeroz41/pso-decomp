@@ -37,6 +37,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 void TWindowCtrl::clear_flag_8() {
     if (instance != NULL) {
@@ -68,7 +69,7 @@ void TWindowMenu::update_cursor_pos() {
 s16 TWindowMenu::get_cursor_pos() { return selected_row; }
 
 void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
+    ::set_card_window_flags(client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {

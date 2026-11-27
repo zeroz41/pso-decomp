@@ -60,6 +60,8 @@
 #include "pso/system/MemoryMove.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
+#include "pso/ui/frontend/CardFileAccess.h"
 
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
@@ -809,7 +811,7 @@ s32 take_snapshot(void) {
     if (is_split_screen() != 0) {
         return 0;
     }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return 0;
     }
     pad = get_pad_slot(0x12);
@@ -918,7 +920,7 @@ s32 take_snapshot(void) {
         cmd.sound_id = 0x52B20;
         send_6xB2_play_sound(&cmd);
         if (memcard_check_snapshot(0, NULL) != 0) {
-            if (TAdSinglePlyChrSelectGC::load_player(1, snapshot_card_filename, frame->save_image, 0xF) == 0) {
+            if (write_card_file(1, snapshot_card_filename, frame->save_image, 0xF) == 0) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
@@ -974,7 +976,7 @@ s32 take_snapshot(void) {
 s32 memcard_check_snapshot(s32 for_save, s32 *error) {
     s32 card_file;
 
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return 0;
     }
     if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
@@ -1138,7 +1140,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.size = sizeof(ScreenSnapshot);
     TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel::snapshot_buffer, &c);
     release_card_banner_and_icon(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
+    if (write_card_file(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     memcard_access_active = 1;
@@ -1150,7 +1152,7 @@ s32 save_screen_snapshot(void) {
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
-    if (TAdSinglePlyChrSelectGC::load_player_slot(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer) != 0) {
+    if (read_card_file(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer) != 0) {
         return 0;
     }
     TObjBoss2Tunnel::snapshot_state = 2;

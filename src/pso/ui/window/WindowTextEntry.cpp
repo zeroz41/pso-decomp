@@ -15,6 +15,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
+#include "pso/ui/window/BoundedStrlen.h"
 #pragma readonly_strings on
 
 extern "C" {
@@ -147,7 +148,7 @@ void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags) {
         }
     }
     if ((str != 0U) && (flags & 0x20)) {
-        num = TWindowKeyBoardSoft::strnlen(str, 0x400);
+        num = bounded_strlen(str, 0x400);
         entry->text = (char *)mem_alloc(num + 1);
         strncpy(entry->text, str, num);
         *(char *)(num + (uaddr)entry->text) = 0;

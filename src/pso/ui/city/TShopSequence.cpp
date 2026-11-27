@@ -11,6 +11,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -87,7 +88,7 @@ void TShopSequence::close_window() {
 
     if (player != NULL) {
         TWindowCtrl::unsuppress_slot((u16)player->get_entity_id());
-        if (TRaderMapCore::is_not_split_screen() != 1) {
+        if (is_not_split_screen() != 1) {
             client = 0;
             do {
                 TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);
@@ -105,7 +106,7 @@ void TShopSequence::restore_player_state() {
 
     if (player != NULL) {
         player->init_effect_5f0();
-        if (TRaderMapCore::is_not_split_screen() != 1) {
+        if (is_not_split_screen() != 1) {
             client = 0;
             do {
                 TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);

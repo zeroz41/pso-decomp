@@ -47,6 +47,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 __declspec(section ".rodata") extern const char city_door_asset_de_obj_bigbeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_bigbeam.gj";
 __declspec(section ".rodata") extern const char city_door_asset_de_obj_citybeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_citybeam.gj";
@@ -328,7 +329,7 @@ void TObjCityDoor_Warp::render() {
 s32 TObjCityDoor_Warp::is_rader_map_active() {
     saddr stage;
 
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (get_game_play_mode() == 1) {
             return 0;
         }

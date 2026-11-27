@@ -11,6 +11,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/window/DeferredPackets.h"
 struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -342,7 +343,7 @@ void TObjMotion::enable_motion_blend() {
 
 void MaterialColorFade::set_speed(f32 v) { rate = v; }
 
-s32 TWindowKeyBoardHard::test_card_flag_2(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 2); }
+s32 TWindowKeyBoardHard::test_card_flag_2(s32 client_id) { return test_card_flag(client_id, 2); }
 
 s32 get_control_button_mask(s32 client_id) {
     return TWindowKeyBoardHard::test_card_flag_2(client_id) ? 0x20000 : 0x10000;

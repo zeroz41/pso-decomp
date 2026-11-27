@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/system/data/FlagWord.h"
+#include "pso/ui/hud/CollisionBodyFlags.h"
 
-void TMainCursor::free_resources() {  }
-void TMainCursor::load_resources() {  }
+void free_main_cursor_resources() {  }
+void load_main_cursor_resources() {  }
 
 void set_collision_body_team0(TObjCollidable *actor, CollisionBody *bodies, s32 index) {
     if (bodies != NULL) {

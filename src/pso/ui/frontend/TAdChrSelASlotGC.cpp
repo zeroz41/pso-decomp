@@ -25,6 +25,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout = { 180.0f, 38.0f, { 0xDD, 0x90, 0x48, 0x00 }, 0 };
 // Plate positions of the four entries (slot kind 0)
@@ -244,7 +245,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
 void TAdChrSelASlotGC::run_state_20() {}
 void TAdChrSelASlotGC::run_state_19() {}
 void TAdChrSelASlotGC::update_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         if ((u32) (TAdPlayerLoadGC::get_load_result(0) + 0x10000) == 0xFF81U) {
             this->state = 0x13;
             return;
@@ -258,7 +259,7 @@ void TAdChrSelASlotGC::set_state() {
     this->state = 0x12;
 }
 void TAdChrSelASlotGC::check_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         this->state = 1;
     }
 }

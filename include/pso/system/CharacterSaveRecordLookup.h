@@ -39,7 +39,7 @@ struct CharacterSaveRecord {
     u32 magic;              // 0xA205B064 once the slot holds a character
     // Seconds played; update_elapsed_time adds the time since the character was selected.
     s32 play_time;
-    s32 card_window_flags;  // test/set_card_window_flags (TWindowKeyBoardHard)
+    s32 card_window_flags;  // test_card_flag/set_card_window_flags
     u32 save_count;         // raised before every save; the copy with the higher count is newer
     u8 account[0x1C];       // the account's entry, copied in when the character is created
     u8 user_name[0x10];

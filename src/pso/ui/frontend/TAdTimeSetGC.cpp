@@ -36,6 +36,7 @@
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 #pragma push
 #pragma defer_codegen off
@@ -278,7 +279,7 @@ void TAdTimeSetGC::enter_state_2() {
 }
 
 void TAdTimeSetGC::run_state_2() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         system_file_loaded = 1;
         if (load_status == 0) {
             change_state(3);
@@ -303,7 +304,7 @@ void TAdTimeSetGC::enter_state_4() {
 }
 
 void TAdTimeSetGC::reset_on_load_complete() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         skip_apply_options = 0;
         change_state(0x18);
     }
@@ -455,7 +456,7 @@ void TAdTimeSetGC::run_state_12() {
     if (message_frames < 0) {
         message_frames = 0;
     }
-    if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
+    if (!(load_status & 2) && get_card_load_sequence_state() == 0) {
         if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
@@ -481,7 +482,7 @@ void TAdTimeSetGC::update_close_timer() {
     if (message_frames < 0) {
         message_frames = 0;
     }
-    if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
+    if (!(load_status & 2) && get_card_load_sequence_state() == 0) {
         if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
@@ -513,7 +514,7 @@ void TAdTimeSetGC::try_setup() {
 }
 
 void TAdTimeSetGC::update_close_on_load() {
-    if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
+    if (!(load_status & 2) && get_card_load_sequence_state() == 0) {
         close_windows();
         if (timer == 0) {
             state15_load_ended = 1;

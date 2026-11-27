@@ -32,6 +32,7 @@
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/quest/QuestFloorDesignation.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 struct BmlResource;
 struct NJS_TEXLIST;
@@ -278,7 +279,7 @@ s32 TODoorFourLightBase::init_door_switch_binding() {
     } else if (switch_id < 0) {
         this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
-        if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
+        if ((get_main_phase() == 0xF) || (is_not_split_screen() == 1)) {
             this->lock_mode = 3;
         } else {
             this->lock_mode = 2;

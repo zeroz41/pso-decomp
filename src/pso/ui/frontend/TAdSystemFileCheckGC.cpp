@@ -26,6 +26,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -357,7 +358,7 @@ void TAdSystemFileCheckGC::enter_state_3() {
     create_back_objects();
 }
 void TAdSystemFileCheckGC::update_mode_selection() {
-    if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((handle_mode_selection() == 0) && (get_card_load_sequence_state() == 0)) {
         set_state(2);
     }
 }
@@ -383,7 +384,7 @@ s32 TAdSystemFileCheckGC::handle_mode_selection() {
     return 0;
 }
 void TAdSystemFileCheckGC::run_state_7() {
-    if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((handle_mode_selection() == 0) && (get_card_load_sequence_state() == 0)) {
         set_state(8);
     }
 }
@@ -404,7 +405,7 @@ void TAdSystemFileCheckGC::check_player_load_result() {
     if (handle_mode_selection() != 0) {
         return;
     }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return;
     }
     switch (check_slot_a_card_save()) {

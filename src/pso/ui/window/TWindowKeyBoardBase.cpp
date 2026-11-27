@@ -33,6 +33,8 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/BoundedStrlen.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -978,7 +980,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *text) {
     rec = reinterpret_cast<CandidateRecord *>(current_candidate);
     idx = rec->len;
     p = (u8 *)(idx + (saddr)rec);
-    n = TWindowKeyBoardSoft::strnlen((const char *)text, 0x100);
+    n = bounded_strlen((const char *)text, 0x100);
     p[3] = idx;
     p[4] = n;
     p[5] = 1;
@@ -995,7 +997,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *text) {
 
 void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     u8 *p = current_candidate;
-    s32 n1 = TWindowKeyBoardSoft::strnlen(name, 0x100);
+    s32 n1 = bounded_strlen(name, 0x100);
     s32 n2;
     p[1] = n1;
     p[2] = candidate_index;
@@ -1003,7 +1005,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     strncpy((char *)p, name, n1);
     p += n1;
     n1 = (s8)n1;
-    n2 = TWindowKeyBoardSoft::strnlen(text, 0x100);
+    n2 = bounded_strlen(text, 0x100);
     p[0] = n1;
     p[1] = n2;
     p[2] = 1;
@@ -1018,8 +1020,8 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
 #pragma push
 #pragma optimization_level 2
 s32 TWindowKeyBoardBase::candidate_fits(char *name, char *text) {
-    s32 name_len = TWindowKeyBoardSoft::strnlen(name, 0x100);
-    s32 text_len = TWindowKeyBoardSoft::strnlen(text, 0x100);
+    s32 name_len = bounded_strlen(name, 0x100);
+    s32 text_len = bounded_strlen(text, 0x100);
     s32 room = 0x94 - (current_candidate - candidate_buffer);
 
     room -= 3;
@@ -1636,7 +1638,7 @@ void load_ask_dictionary() {
 }
 
 int TWindowKeyBoardBase::is_state_flag_8_set() { return (this->state_flags >> 3) & 0x1; }
-int test_keyboard_card_flag_128(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 128); }
-int test_keyboard_card_flag_64(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 64); }
-int test_keyboard_card_flag_32(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 32); }
-int test_keyboard_card_flag_16(s32 client) { return TWindowKeyBoardHard::test_card_flag(client, 16); }
+int test_keyboard_card_flag_128(s32 client) { return test_card_flag(client, 128); }
+int test_keyboard_card_flag_64(s32 client) { return test_card_flag(client, 64); }
+int test_keyboard_card_flag_32(s32 client) { return test_card_flag(client, 32); }
+int test_keyboard_card_flag_16(s32 client) { return test_card_flag(client, 16); }

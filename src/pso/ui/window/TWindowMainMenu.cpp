@@ -16,6 +16,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 struct TWindowSubItem;
 
@@ -63,7 +64,7 @@ extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 #include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
 
 
-int test_keyboard_card_flag4(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 4); }
+int test_keyboard_card_flag4(s32 client_id) { return test_card_flag(client_id, 4); }
 void TWindowMainMenu::on_submenu_closed() {  }
 
 void TWindowMainMenu::on_menu_opened() {  }

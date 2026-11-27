@@ -42,7 +42,6 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void update_close_mode();
     s32 hit_test_relative(WindowDrawContext *ctx, TexturedQuad *quad);
     void draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
-    static s32 strnlen(const char *str, u32 max);
     virtual void run_task();
     void calc_cursor_step(s32 *first_page, s32 *last_page);
     f32 calc_key_x(s32 col, s32 row);

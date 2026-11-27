@@ -36,6 +36,7 @@
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -149,7 +150,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, ObjectSetData *set_data) : T
         return;
     }
     warp_range = 15.0f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
         party_check = NULL;
@@ -206,7 +207,7 @@ TObjWarpJung::TObjWarpJung(TObject *parent, ObjectSetData *set_data) : TObjAreaW
         return;
     }
     warp_range = 15.0f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
         party_check = NULL;

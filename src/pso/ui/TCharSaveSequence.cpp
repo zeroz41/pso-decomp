@@ -45,6 +45,7 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -129,7 +130,7 @@ void TCharSaveSequence::handle_player_load() {
         close_message_window();
         return;
     }
-    switch (TAdPlayerLoadGC::get_instance()) {
+    switch (get_card_load_sequence_state()) {
     case 0:
         switch (poll_memcard_result(chr_select_state)) {
         case 0:
@@ -188,7 +189,7 @@ void TCharSaveSequence::wait_character_file_write() {
         close_message_window();
         return;
     }
-    switch (TAdPlayerLoadGC::get_instance()) {
+    switch (get_card_load_sequence_state()) {
     case 0:
         switch (poll_memcard_result(chr_select_state)) {
         case 0:

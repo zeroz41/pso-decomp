@@ -26,6 +26,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 
 // These records are consecutive in the overlay data, beginning at loading_texture_names.
@@ -142,7 +143,7 @@ void load_now_loading_texture() {
 
 void render_info_icon_overlay(void) {
     s32 instance;
-    instance = TAdPlayerLoadGC::get_instance();
+    instance = get_card_load_sequence_state();
     switch (instance) {
     case 5:
     case 6:

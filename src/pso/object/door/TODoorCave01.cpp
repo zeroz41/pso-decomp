@@ -30,6 +30,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *fs_obj_do_doa01_model_names[] = {"fs_obj_do_doa01.gj", NULL};
 const char *fs_obj_do_doa01_motion_names[] = {"fs_obj_do_doa01.njm", NULL};
@@ -88,7 +89,7 @@ s32 TODoorCave01::init_door_switch_binding() {
     } else if (switch_id < 0) {
         lock_mode = 1;
     } else if (set_params[2] < 0) {
-        if (get_main_phase() == 0xF || TRaderMapCore::is_not_split_screen() == 1) {
+        if (get_main_phase() == 0xF || is_not_split_screen() == 1) {
             lock_mode = 3;
         } else {
             lock_mode = 2;

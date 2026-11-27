@@ -18,6 +18,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/render/NinjaUtil.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 #undef PSO_SDK_COMPACT_MATH
 
 #pragma readonly_strings on
@@ -26,13 +27,13 @@ const char *hunter_guild_warning_name = "THunterGuildWarning";
 THunterGuildWarning *THunterGuildWarning::instance;
 
 void THunterGuildWarning::queue_destruction() {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance != NULL) && (THunterGuildWarning::instance->all_parents_unqueued_for_destruction() != 0)) {
+    if ((is_not_split_screen() == 1) && (THunterGuildWarning::instance != NULL) && (THunterGuildWarning::instance->all_parents_unqueued_for_destruction() != 0)) {
         THunterGuildWarning::instance->TObject::queue_destruction();
     }
 }
 
 void THunterGuildWarning::create_instance(s32 mode) {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
+    if ((is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
         new THunterGuildWarning(tl_05, mode);
     }
 }
@@ -250,7 +251,7 @@ int is_in_hunter_guild(int client_id) {
     s32 kind;
     s32 player;
     if (get_main_phase() == 14) {
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             if (get_game_play_mode() == 0) {
                 return 1;
             }

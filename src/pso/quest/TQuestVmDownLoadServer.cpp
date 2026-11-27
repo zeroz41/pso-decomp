@@ -26,6 +26,7 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
+#include "pso/ui/frontend/CardFileAccess.h"
 
 // .rodata: window_size {444,84} (the layout position is the other argument), "TQuestVmDownLoadServer",
 // window_size, "TMCFormatSequence", window_size, "%s%02d". The positions interleave with the class names,
@@ -811,7 +812,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
 void TQuestVmDownLoadServer::load_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
     memcard_access_active = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, this->slot_file_name, this->save_image, (s32)(this->slot_file_blocks)) == 0) {
+    if (write_card_file_protected(this->memcard_slot, this->slot_file_name, this->save_image, (s32)(this->slot_file_blocks)) == 0) {
         this->state = 0xA;
         show_status_message(get_message_text(0xC), 1);
         quest_download_in_progress = 1;
@@ -880,7 +881,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
 void TQuestVmDownLoadServer::write_quest_data_named() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
     memcard_access_active = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, this->state_file_name, this->save_image, this->state_file_blocks) == 0) {
+    if (write_card_file_protected(this->memcard_slot, this->state_file_name, this->save_image, this->state_file_blocks) == 0) {
         this->state = 0xD;
         show_status_message(get_message_text(0xC), 1);
         return;
@@ -960,7 +961,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
 void TQuestVmDownLoadServer::write_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
     memcard_access_active = 1;
-    if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, quest_file_99_name, this->save_image, (s32)(this->info_file_blocks)) == 0) {
+    if (write_card_file_protected(this->memcard_slot, quest_file_99_name, this->save_image, (s32)(this->info_file_blocks)) == 0) {
         this->state = 0x10;
         show_status_message(get_message_text(0xC), 1);
         return;

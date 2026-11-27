@@ -30,7 +30,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/nuReLoadTexture.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/network/TPacket.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/FileExtension.h"

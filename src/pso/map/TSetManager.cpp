@@ -64,6 +64,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -1092,7 +1093,7 @@ void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int 
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq) {
     s32 n;
     s32 i;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {

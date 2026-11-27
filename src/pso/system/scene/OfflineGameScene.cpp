@@ -52,7 +52,7 @@
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/item/TItem.h"
 #include "pso/map/MapSetData.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -106,6 +106,7 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/item/TItemIdCounters.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 void reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -115,7 +116,7 @@ void offline_scene_init_stub_b(void) {  }
 void offline_scene_init_stub_c(void) {  }
 
 void recreate_split_screen_players(void) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 1:
         case 2: {
@@ -262,7 +263,7 @@ void reload_offline_area() {
             q->set_parent(&holder);
         }
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 0:
             break;
@@ -341,7 +342,7 @@ void rebuild_area_keep_players() {
     TQuestThread::clear_all_floor_handlers();
     create_map_csn_ctrl();
     create_quad_sprites();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 0:
             break;
@@ -363,7 +364,7 @@ void rebuild_area_keep_players() {
     reset_enemy_and_object_ids();
     setup_quest_list();
     TQuestListVM::load_vm();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         load_area_scene_and_init(&floor_transition_state);
     } else {
         initialize_floor_transition(&floor_transition_state, 0, 0);

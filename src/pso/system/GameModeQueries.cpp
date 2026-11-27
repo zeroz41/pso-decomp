@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDrawCreate.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 
@@ -22,7 +23,7 @@ s32 is_online_ready() {
 }
 
 s32 is_camera_ctrl_active() {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return TCameraCtrl::get_view_count();
     }
     return 1;

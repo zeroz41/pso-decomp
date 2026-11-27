@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/network/TPacket.h"
 #include "pso/network/TProtocol.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/network/packet_copy.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
@@ -18,7 +18,7 @@ s32 lbl_805D5D00;
 s32 deferred_packet_buffer_state;
 }
 
-s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
+s32 test_card_flag(s32 client, s32 mask) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = get_character_save_record((u32)client);
@@ -28,7 +28,7 @@ s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
     return (character_save_record->card_window_flags & mask) ? 1 : 0;
 }
 
-void TWindowKeyBoardHard::set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask) {
+void set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask) {
     CharacterSaveRecord *character_save_record;
 
     character_save_record = get_character_save_record((u32)client_id);

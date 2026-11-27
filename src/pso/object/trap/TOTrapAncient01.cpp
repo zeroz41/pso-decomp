@@ -42,6 +42,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 BmlResource *trap_ancient01_bml_resource;
@@ -390,7 +391,7 @@ void TOTrapAncient01::play_sounds() {
 
 void TOTrapAncient01::release_trapped_player() {
     TObjPlayer *player;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (target != NULL) {
             player = get_player_by_client_id(target->get_entity_id());
             if (player != NULL) {

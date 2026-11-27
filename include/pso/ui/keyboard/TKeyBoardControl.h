@@ -36,8 +36,6 @@ struct TKeyBoardControl : public TObject {
     static void update();
     void clear_keyboard_flag60_bit1();
     void set_composer_flag62_bit4();
-    static void update_main_menu_scene();
-    static void clear_main_menu_scene_flag();
 };
 
 s32 get_key_state();
@@ -45,6 +43,5 @@ s32 get_key_state();
 s32 get_input();
 
 LAYOUT_ASSERT(TKeyBoardControl_size, sizeof(TKeyBoardControl) == 0x2C);
-extern u8 main_menu_scene_active_flag;
 
 #endif

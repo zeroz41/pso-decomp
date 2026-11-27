@@ -56,6 +56,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/door/TODoorVoShip.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 #pragma readonly_strings on
 
 
@@ -1441,7 +1442,7 @@ void TBoss3Volopt::update_phase() {
         TBoss3VoloptCtrl::dispatch_state(0);
         return;
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         TBoss3VoloptCtrl::dispatch_state(5);
         return;
     }

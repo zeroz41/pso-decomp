@@ -26,6 +26,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 BmlResource *TObjTuitate::bml_resource;
@@ -104,7 +105,7 @@ void TObjTuitate::render() {
         fade.restore();
     }
     set_cull_back();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         fading = 0;
     } else {
         fading = fade.isFading();
@@ -178,7 +179,7 @@ void TObjBigTuitate::render() {
         fade.restore();
     }
     set_cull_back();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         fading = 0;
     } else {
         fading = fade.isFading();

@@ -72,6 +72,7 @@
 #include "pso/player/PlayerBattleScore.h"
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/system/CxxRuntime.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 void PlayerSubObjectSlots::set_score(s32 v) { score = v; }
 
@@ -1326,7 +1327,7 @@ s32 get_ranked_battle_ctrl_value(void) {
 }
 
 s32 is_battle_mode_running(void) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return TPlayerBattleCtrl4P::is_battle_mode_active();
     }
     if (battle_mode_data_ptr != NULL) {

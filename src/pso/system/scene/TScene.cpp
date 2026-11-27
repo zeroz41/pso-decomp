@@ -52,6 +52,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -464,7 +465,7 @@ void TScene::load_current_floor() {
     TScene::load_scene_rel_file(ent);
     if (scene_material_root != NULL && scene_material_root->texlist != NULL) {
         found = 0;
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
             found = get_resource_file_size(path);
         }
@@ -533,7 +534,7 @@ void TScene::load_scene_rel_file(saddr ent) {
     map_rel_load_buffer = NULL;
     map_rel_load_size_limit = 0;
     scene_format_index = -1;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         replace_file_extension(id, (char *)ent, "nm.rel");
         size = get_resource_file_size(id);
     }
@@ -595,7 +596,7 @@ void TScene::load_map_texture_archive(saddr name) {
     texture_animation_buffer = NULL;
     size = 0;
     texture_animation_size_limit = 0;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         replace_file_extension(filename, (char *)name, "m.tam");
         size = get_resource_file_size(filename);
     }
@@ -627,7 +628,7 @@ void TScene::load_floor_bin_file(saddr name) {
     s32 size;
     floor_bin_buffer = NULL;
     floor_bin_file_size = 0;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         replace_file_extension(filename, (char *)name, "bm.bin");
     } else {
         replace_file_extension(filename, (char *)name, "b.bin");
@@ -746,7 +747,7 @@ void load_floor_scene(void) {
     load_scene_collision_file(ent);
     if (scene_material_root != NULL && scene_material_root->texlist != NULL) {
         found = 0;
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
             found = get_resource_file_size(path);
         }
@@ -1421,7 +1422,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       }
     }
     else
-      if (TRaderMapCore::is_not_split_screen() == 1)
+      if (is_not_split_screen() == 1)
     {
       set_material_alpha_compare_reference(scene_material_root->flags);
       draw_ginja_object(node);

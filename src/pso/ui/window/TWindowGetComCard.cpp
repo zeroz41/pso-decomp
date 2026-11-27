@@ -27,6 +27,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";
 __declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f, 370.0f};
@@ -86,7 +87,7 @@ void TWindowGetComCard::run_task() {
         }
         break;
     case 4:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             TWindowSubComCard::start_player_data_load(get_received_guild_card_tags());
             remove_first_received_card();
             queue_destruction();

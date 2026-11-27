@@ -28,9 +28,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     TWindowKeyBoardBase *m_control;
     void release_keyboard();
     virtual void render();
-    static s32 test_card_flag(s32 client, s32 mask);
     static s32 test_card_flag_2(s32 client_id);
-    static void set_card_window_flags(s32 client_id, s32 bits, s32 keep_mask);
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();
     static void set_bits_shift7(saddr client_id, s32 value);

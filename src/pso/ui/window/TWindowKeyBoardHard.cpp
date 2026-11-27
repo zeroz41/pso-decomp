@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 const char *TWindowKeyBoardHard::class_name = "TWindowKeyBoardHard";
 u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
@@ -639,16 +640,16 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
 
 
 void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 7), -0x81);
+    set_card_window_flags(client_id, (s32)(value << 7), -0x81);
 }
 void TWindowKeyBoardHard::update_card_window_page_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 6), -0x41);
+    set_card_window_flags(client_id, (s32)(value << 6), -0x41);
 }
 void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 4), -0x11);
+    set_card_window_flags(client_id, (s32)(value << 4), -0x11);
 }
 void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 5), -0x21);
+    set_card_window_flags(client_id, (s32)(value << 5), -0x21);
 }
 int TWindowKeyBoardHard::is_input_mode_3() { return (this->input_flags >> 6) & 0x1; }
 int TWindowKeyBoardHard::is_caps_lock_on() { return (this->input_flags >> 10) & 0x1; }

@@ -33,6 +33,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 s32 shop_section_id;
 s32 shop_world_player_level;
@@ -110,7 +111,7 @@ void calc_item_count(TObjPlayer *player, s32 *count) {
     TObjPlayer *local_player;
 
     level = 1;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         level = player->get_actor_level_index() + 1;
     } else {
         local_player = get_player_by_client_id(local_client_id);

@@ -77,6 +77,7 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/render/CameraCapture.h"
+#include "pso/ui/keyboard/MainMenuScene.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -345,7 +346,7 @@ MainPhaseEntry main_phase_table[] = {
     { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, release_scene_resources },
     { init_movie_phase, update_movie_phase, exit_movie_phase },
     { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, release_scene_resources },
-    { TKeyBoardControl::update_main_menu_scene, run_main_frame, exit_main_menu_scene },
+    { update_main_menu_scene, run_main_frame, exit_main_menu_scene },
     { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, release_scene_resources },
     { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, release_scene_resources },
     { start_ending_sequence, update_ending_sequence, exit_ending_sequence },

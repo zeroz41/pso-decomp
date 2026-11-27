@@ -92,6 +92,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -342,7 +343,7 @@ void TObjMapWarp::process_player_warps() {
     s32 i;
     TObjPlayer *t;
     s32 j;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             if (can_warp(i) == 0) {
                 if (playerPopups[i] != NULL) {
@@ -503,7 +504,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
 }
 
 s32 TObjAreaWarp::is_warp_enabled() {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (s32 i = 0; i < 4; i++) {
             TObjPlayer *player = get_player_by_client_id(i);
             if ((player != NULL) && (player->is_controls_locked() != 0)) {
@@ -615,7 +616,7 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, ObjectSetData *set_data)
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
         party_check = NULL;
@@ -705,7 +706,7 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, ObjectSetData *set_data) :
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
         party_check = NULL;
@@ -817,7 +818,7 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, ObjectSetData *set_data)
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
         party_check = NULL;
@@ -1083,7 +1084,7 @@ void TObjWarpString::render() {
 
 s64 TObjWarpString::get_screen_position(u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
         case 2:
             p = warp_string_screen_position_table + 1;

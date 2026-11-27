@@ -4,6 +4,7 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/BoundedStrlen.h"
 
 char * text_builder_write_cursor;
 char text_builder_buffer[0x100];
@@ -142,7 +143,7 @@ s8 *copy_message_page_text(const s8 *text) {
 
 void text_builder_append(const char *str) {
   s32 num;
-  num = TWindowKeyBoardSoft::strnlen(str, (u32)0xFFU);
+  num = bounded_strlen(str, (u32)0xFFU);
   strncpy(text_builder_write_cursor, str, num);
   text_builder_write_cursor[num] = 0;
   text_builder_write_cursor += num;

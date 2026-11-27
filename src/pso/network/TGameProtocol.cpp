@@ -6,7 +6,7 @@
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/LegacyEnemyKill.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/audio/SoundPlayback.h"

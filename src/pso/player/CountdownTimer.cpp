@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/player/CountdownTimer.h"
 
-s32 TObjPlayer::decrement_timer(s32 *timer) {
+s32 decrement_timer(s32 *timer) {
     *timer -= 1;
     if ((s32) *timer < 0) {
         *timer = 0;

@@ -16,6 +16,7 @@
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 #pragma readonly_strings on
 __declspec(section ".rodata") extern const char message_tag_error[];
 
@@ -43,7 +44,7 @@ void TMessageWindowController::append_block_space() {
 void TMessageWindowController::append_quest_title() {
     const char *text = NULL;
     s32 mode;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         mode = get_game_play_mode();
         switch (mode) {
         case 1:

@@ -26,6 +26,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 #pragma readonly_strings on
 
@@ -89,27 +90,27 @@ void TWindowSubQuestBoard::run_task() {
 void TWindowSubQuestBoard::render() {  }
 
 void set_card_flags_direct(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, value, -2);
+    set_card_window_flags(client_id, value, -2);
 }
 
 void set_card_flags_scaled(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 2, -3);
+    set_card_window_flags(client_id, value * 2, -3);
 }
 
 void set_card_flag_4(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 4, -5);
+    set_card_window_flags(client_id, value * 4, -5);
 }
 
 void clear_card_window_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, value * 8, -9);
+    set_card_window_flags(client_id, value * 8, -9);
 }
 
 void set_card_window_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 8, -0x301);
+    set_card_window_flags(client_id, value << 8, -0x301);
 }
 
 void set_board_flags(saddr client_id, s32 value) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, value << 0xA, -0x1C01);
+    set_card_window_flags(client_id, value << 0xA, -0x1C01);
 }
 
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {

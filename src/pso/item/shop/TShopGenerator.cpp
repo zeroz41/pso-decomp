@@ -33,6 +33,8 @@
 #include "pso/render/DebugFont.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 ShopService TShopGenerator::service_dispatch_table[7] = {
     {"WEAPON STORE", TShopEquipmentSequence::init_slot_active_flags, TShopEquipmentSequence::release_slot_active_flags,
@@ -106,10 +108,10 @@ void TShopGenerator::run_task() {
     if (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
         return;
     }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return;
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p == 0) continue;

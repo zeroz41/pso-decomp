@@ -46,6 +46,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 const char *seabed_trap_model_filenames[] = {
@@ -213,7 +214,7 @@ void TOTrapSeabed01::render() {
 }
 
 void TOTrapSeabed01::draw() {
-    if (TRaderMapCore::is_not_split_screen() != 1 || projected == 0) {
+    if (is_not_split_screen() != 1 || projected == 0) {
         set_depth_buffer_settings_3();
         set_draw_list_mask(1);
         begin_effect_render();
@@ -338,7 +339,7 @@ void TOTrapSeabed01::check_hold_player() {
             distance = horizontal_distance_squared(&target->position, &position);
             dist -= held->get_body_radius(0);
             if (distance < dist * dist) {
-                if (TRaderMapCore::is_not_split_screen() == 1) {
+                if (is_not_split_screen() == 1) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
                 } else if (player == local_client_id) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
@@ -403,7 +404,7 @@ f32 TOTrapSeabed01::receive_physical_attack(TObjChara *attacker, f32 damage) {
 // Lets the held player go (the twin of TOTrapAncient01::release_trapped_player).
 void TOTrapSeabed01::release_trapped_player() {
     TObjPlayer *held;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (target != NULL) {
             held = get_player_by_client_id(target->get_entity_id());
             if (held != NULL) {

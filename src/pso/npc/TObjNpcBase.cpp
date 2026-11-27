@@ -54,6 +54,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/object/CursorAction.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *TObjNpcBase::class_name = "TObjNpcBase";
 
@@ -207,7 +208,7 @@ void TObjNpcBase::update_conversation() {
         break;
     case 1:
         phase = 2;
-        if (TRaderMapCore::is_not_split_screen() == 0) {
+        if (is_not_split_screen() == 0) {
             switch (object_number) {
             case 0x3E9:
                 conversation_camera = create_conversation_camera(7);
@@ -474,7 +475,7 @@ void TObjNpcBase::run_task() {
     advance_animation();
     update_prev_position();
     copy_position();
-    if (message_label > 0 && TRaderMapCore::is_not_split_screen() == 0) {
+    if (message_label > 0 && is_not_split_screen() == 0) {
         submit_cursor_candidate(this, -1);
     }
     clear_actor_flags(0x1B3FU);

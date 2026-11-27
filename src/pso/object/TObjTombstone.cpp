@@ -43,6 +43,7 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 extern "C" {
@@ -605,7 +606,7 @@ s32 TObjTombstone::is_other_tombstone_closer() {
 s32 TObjTombstone::check_owner() {
     s32 active;
 
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         active = is_challenge_mode_active();
     } else {
         active = is_challenge_mode();

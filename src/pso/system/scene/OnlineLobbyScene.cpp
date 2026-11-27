@@ -59,7 +59,7 @@
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/item/TItem.h"
 #include "pso/map/FloorWaveEvents.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"

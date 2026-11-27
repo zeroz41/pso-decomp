@@ -13,6 +13,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -51,7 +52,7 @@ void TObjRaderCol::run_task() {
         this->state = 1;
         return;
     case 1:
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             check_any_player_in_range();
             return;
         }

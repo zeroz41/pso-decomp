@@ -160,6 +160,8 @@
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/player/CountdownTimer.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
@@ -4518,7 +4520,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
             p->send_6x4E_player_revivable();
             return;
         }
-        if (lobby_rule_settings.get_respawn_mode() == 2 && TObjPlayer::decrement_timer(&p->battle_score.timer) == 0) {
+        if (lobby_rule_settings.get_respawn_mode() == 2 && decrement_timer(&p->battle_score.timer) == 0) {
             p->send_6x4E_player_revivable();
             return;
         }
@@ -6351,7 +6353,7 @@ s32 TObjPlayer::is_player_valid_target(u16 client_index) {
 }
 
 s32 TObjPlayer::is_single_screen() {
-    return (u8) (TRaderMapCore::is_not_split_screen() == 1);
+    return (u8) (is_not_split_screen() == 1);
 }
 
 s32 TObjPlayer::is_camera_mode_active() {

@@ -23,6 +23,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // The default constant-material colour (owner unit not split yet; 27 files
 // declare it with their own types, see the lane report).
@@ -259,7 +260,7 @@ TOKeyCave01::TOKeyCave01(TObject *parent, ObjectSetData *set_data) : TOKey(paren
     view_range = 400.0f;
     model_radius = 20.0f;
     activate_range = 10.0f;
-    if (get_main_phase() == 0xF || TRaderMapCore::is_not_split_screen() == 1) {
+    if (get_main_phase() == 0xF || is_not_split_screen() == 1) {
         if (mode != KEY_MODE_NONE && set_params[1] < 0) {
             mode = KEY_MODE_TOGGLE;
         } else {

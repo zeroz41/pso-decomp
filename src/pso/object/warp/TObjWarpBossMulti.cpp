@@ -62,6 +62,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma defer_codegen on
@@ -170,10 +171,10 @@ void release_boss_warp_resources(void) {
 }
 
 void *TObjWarpBoss::create(ObjectSetData *set_data) {
-    if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
+    if ((is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
         return TObjWarpBossMulti::create(set_data);
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return TObjWarpBossMulti::create(set_data);
     }
     return new TObjWarpBoss(tl_05, set_data);
@@ -790,7 +791,7 @@ TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, ObjectSetData *set_data) :
     register_entity_by_id(this);
     update();
     init_warp_params();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         party_check = new WarpPartyCheck(&position, 19.0f);
     } else {
         party_check = NULL;

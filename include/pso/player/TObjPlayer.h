@@ -683,7 +683,6 @@ struct TObjPlayer : public TObjChara {
     void set_action_flag();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();
-    static s32 decrement_timer(s32 *timer);
     static void reset_particle_ctrl(s32 *ctrl);
     s32 get_getup_protection_ticks();
     s32 get_hurt_protection_ticks();

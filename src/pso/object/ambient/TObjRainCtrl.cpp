@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma readonly_strings on
@@ -16,7 +17,7 @@ const char *rain_ctrl_class_name = rain_ctrl_class_name_string;
 
 
 void TObjRainCtrl::create() {
-    if (TRaderMapCore::is_not_split_screen() == 0) {
+    if (is_not_split_screen() == 0) {
         new TObjRainCtrl(tl_particle);
     }
 }

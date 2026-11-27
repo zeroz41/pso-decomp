@@ -24,6 +24,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 void TAdDialingSelectGC::run_task() {
     Vec pos = {0.0f, 0.0f, 0.0f};
@@ -52,7 +53,7 @@ void TAdDialingSelectGC::run_task() {
         }
         this->state = 3;
     case 3:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             this->state = 4;
         }
         break;
@@ -73,7 +74,7 @@ void TAdDialingSelectGC::run_task() {
         }
         break;
     case 6:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             this->state = 8;
         } else {
             DialingWindowPos a = {80.0f, 176.0f};
@@ -84,7 +85,7 @@ void TAdDialingSelectGC::run_task() {
         }
         break;
     case 7:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             this->window->close();
             this->window = NULL;
             this->state = 8;

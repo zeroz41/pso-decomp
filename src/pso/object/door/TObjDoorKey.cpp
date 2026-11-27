@@ -36,6 +36,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/psoLoadTexture.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 struct BmlResource;
@@ -268,7 +269,7 @@ void TObjDoorKey::load_resources() {
 }
 
 void *TObjEnvSoundGlobal::create(ObjectSetData *rader_map_core) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSoundGlobal((TObject *)tl_05, rader_map_core);

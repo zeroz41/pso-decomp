@@ -102,9 +102,10 @@
 #include "pso/object/TObjControl.h"
 #include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/network/TradeSession.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 
 #pragma readonly_strings on
@@ -237,7 +238,7 @@ void TLobby::open_scroll_text_window(const char *text) {
     lobby_state = 0x1A;
 }
 
-void TLobby::render() { { (void)(TAdPlayerLoadGC::get_instance()); return; } }
+void TLobby::render() { { (void)(get_card_load_sequence_state()); return; } }
 
 
 // C5: the server's player records for the lobby.
@@ -2641,7 +2642,7 @@ void GameStateSyncScratch::bswap() {
     bswap_16(&sync_records_size);
     bswap_16(&switch_table_size);
 }
-s32 TLobby::open_hard_keyboard(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 0x40000); }
+s32 TLobby::open_hard_keyboard(s32 client_id) { return test_card_flag(client_id, 0x40000); }
 void TLobby::bswap_player_data(PlayerSyncRecord *record) {
     s32 i;
     bswap_16(&record->client_id);

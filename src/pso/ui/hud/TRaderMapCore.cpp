@@ -67,6 +67,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/FileExtension.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
@@ -261,8 +262,8 @@ void TRaderMapCore::unload_floor_map() {
 }
 
 void TRaderMapCore::create() {
-    if ((TRaderMapCore::is_not_split_screen() != 1) || (is_game_quest_active() != 1)) {
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+    if ((is_not_split_screen() != 1) || (is_game_quest_active() != 1)) {
+        if (is_not_split_screen() == 1) {
             new TRaderMapCore(tl_clipout);
         } else {
             new TRaderMapCore(tl_radermap);
@@ -315,13 +316,13 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     pan_x_speed = 0.0f;
     pan_z_speed = 0.0f;
     zoom_speed = 0.0f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         radar_render_flags = 0x800810;
         TRaderMapCore::view_mode = 2;
     } else {
         radar_render_flags = 0x800810;
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         alpha_limit = 0.8f;
     } else {
         alpha_limit = 0.8f;
@@ -359,11 +360,11 @@ void TRaderMapCore::run_task() {
             break;
         }
         gather_player_markers();
-        if ((TRaderMapCore::is_not_split_screen() == 1) && (target_player != NULL)) {
+        if ((is_not_split_screen() == 1) && (target_player != NULL)) {
             follow_marker = (u16)target_player->get_entity_id();
         }
         update_follow_projection(TRaderMapCore::view_mode);
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             i = 0;
             do {
                 player = get_player_by_client_id(i);
@@ -1329,7 +1330,7 @@ void TRaderMapCore::hide_radar() {
 void TRaderMapCore::reset_counter() { this->target_player = 0; }
 
 s32 TRaderMapCore::should_show_map(void) {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (is_game_quest_active() == 0)) {
+    if ((is_not_split_screen() == 1) && (is_game_quest_active() == 0)) {
         return 0;
     }
     return is_technique_ready();

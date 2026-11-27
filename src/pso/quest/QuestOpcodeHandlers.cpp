@@ -160,6 +160,7 @@
 #include "pso/boss/BossPhaseQuery.h"
 #include "pso/map/MapSetData.h"
 #include "pso/object/door/TODoorBase.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
@@ -3041,7 +3042,7 @@ void qst_op_cmode_stage() {
 void qst_op_ba_start(void) {
     s32 src;
     src = qst_args[0].i;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         TPlayerBattleCtrl4P::init_instance_with_text(&battle_rules, src);
         return;
     }

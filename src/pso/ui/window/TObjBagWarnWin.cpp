@@ -27,6 +27,7 @@
 
 
 #include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *TObjBagWarnWin::class_name = "TObjBagWarnWin";
 
@@ -230,7 +231,7 @@ s32 TObjBagWarnWin4P::check_can_open() {
 // The map is hidden only in single-screen solo play while the lobby state
 // reports it closed.
 s32 is_map_visible() {
-    if (TRaderMapCore::is_not_split_screen() != 1) {
+    if (is_not_split_screen() != 1) {
         return 1;
     }
     if (get_game_play_mode() != 1) {

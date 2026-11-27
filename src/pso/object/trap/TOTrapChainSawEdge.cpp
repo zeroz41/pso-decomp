@@ -57,6 +57,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -314,7 +315,7 @@ void TOTrapChainSaw::check_player_contact() {
     s32 i;
     TObjPlayer *p;
     s32 t;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != 0 && consume_counter(p) == 0) {

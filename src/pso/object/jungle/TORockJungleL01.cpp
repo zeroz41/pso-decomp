@@ -28,6 +28,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // The source is written from the last function back: the unit is built
 // -inline off,deferred, which emits it in reverse (the vtables L01, M01, S01
@@ -192,7 +193,7 @@ void TORockJungleM01::pre_draw() {
     } else {
         fade.restore();
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         fade_active = 0;
     } else {
         fade_active = fade.isFading();
@@ -319,7 +320,7 @@ void TORockJungleL01::pre_draw() {
     } else {
         fade.restore();
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         fade_active = 0;
     } else {
         fade_active = fade.isFading();

@@ -27,6 +27,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
@@ -90,7 +91,7 @@ GuildCardRecord *get_selected_guild_card_record(void) {
 }
 
 void TWindowSubComCard::set_com_param(saddr client_id, s32 com_param) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(com_param << 0x12), (s32)0xFFFBFFFF);
+    set_card_window_flags(client_id, (s32)(com_param << 0x12), (s32)0xFFFBFFFF);
 }
 
 TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(parent) {

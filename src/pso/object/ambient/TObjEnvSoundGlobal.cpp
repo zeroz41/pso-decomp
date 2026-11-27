@@ -14,6 +14,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // Per-area {sound cue, mode} rows, indexed by the object's set parameter.
 const EnvSoundRow env_sound_table_pioneer2[] = {
@@ -143,7 +144,7 @@ void TObjEnvSound::run_task() {
 void TObjEnvSound::render() {  }
 
 void *TObjEnvSound::create(ObjectSetData *set_data) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSound(tl_05, set_data);
@@ -154,7 +155,7 @@ s32 TObjEnvSound::is_within_camera_distance_sq(f32 distance_sq) {
 }
 
 s32 TObjEnvSound::is_sound_enabled(s32 cue) {
-    if (TRaderMapCore::is_not_split_screen() == 1 && get_current_floor_area() == AREA_FOREST2) {
+    if (is_not_split_screen() == 1 && get_current_floor_area() == AREA_FOREST2) {
         switch (cue) {
         case 0x43704:
         case 0x4BC05:
@@ -242,7 +243,7 @@ s32 TObjEnvSoundEx::init_sound_params() {
 }
 
 void *TObjEnvSoundEx::create(ObjectSetData *set_data) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSoundEx(tl_05, set_data);

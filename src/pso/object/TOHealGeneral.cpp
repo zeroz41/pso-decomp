@@ -25,6 +25,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *bm_fe_obj_kaifuku_moto_model_names[2] = { "fe_obj_kaifuku_moto.nj", NULL };
 const char *bm_fe_obj_kaifuku_moto_motion_names[1] = { NULL };
@@ -45,7 +46,7 @@ BmlResource *TOHealGeneral::model_resource;
 
 // In a game without a split screen every player counts as local.
 s32 TOHealGeneral::is_local_player(u16 client) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return 1;
     }
     return (u32)__cntlzw((u32)(local_client_id - client)) >> 5;

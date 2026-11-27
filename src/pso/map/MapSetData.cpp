@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
@@ -480,7 +481,7 @@ s32 map_set_file_buffer_size;
 void init_item_drop_rng(void) {
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         item_drop_server_seed = (u32)(seed_scale * (rand_reciprocal * (f32)rand()));
     }
     item_drop_rng = new SubtractiveRng(item_drop_server_seed);

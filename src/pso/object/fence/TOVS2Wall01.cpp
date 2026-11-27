@@ -45,6 +45,7 @@
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -405,7 +406,7 @@ void TOVS2Wall01::render() {
     fade.update();
     this->in_view = this->update_object_view_visibility(view_range, model_radius);
     if ((s32) this->in_view == 1) {
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             fading = 0;
         } else {
             fading = fade.updateFromCamera(&position);

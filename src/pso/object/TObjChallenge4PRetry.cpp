@@ -42,6 +42,7 @@
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/audio/SoundPlayback.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 void update_floor_state_deferred() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
@@ -65,7 +66,7 @@ s32 init_jungle_area(void) {
     } else {
         init_music_sequencer(5);
     }
-    if ((TRaderMapCore::is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
+    if ((is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
         TObjMistCtrl::create(tl_05, NULL);
     }
     return 1;

@@ -22,6 +22,7 @@
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/keyboard/MainMenuScene.h"
 
 extern "C" {
 s32 DVDCheckDisk();

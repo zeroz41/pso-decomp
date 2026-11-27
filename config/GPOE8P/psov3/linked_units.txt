@@ -672,7 +672,7 @@ pso/ui/keyboard/SystemBootInit.cpp
 pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/KeyboardKeyState.cpp
 pso/player/PlayerDataLoad.cpp
-pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
+pso/ui/keyboard/MainMenuScene.cpp
 pso/audio/AdxUiBridge.cpp
 pso/ui/keyboard/KBDXfer.c
 pso/effect/TKomorebi.cpp
@@ -804,7 +804,7 @@ pso/network/eth.c
 pso/ui/TLogo.cpp
 pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
-pso/ui/hud/TMainCursor_80154090.cpp
+pso/ui/hud/CollisionBodyFlags.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/object/TMotorcycle.cpp
@@ -956,7 +956,7 @@ pso/quest/AskDicFile.cpp
 pso/quest/QuestDownloadNameCache.cpp
 pso/quest/AskDicConvert.cpp
 pso/ui/hud/TRaderMapCore.cpp
-pso/ui/hud/TRaderMapCore_8030A808.cpp
+pso/ui/hud/SplitScreenQuery.cpp
 pso/system/save/TSaveChCr.cpp
 pso/system/scene/TScene.cpp
 pso/system/scene/TSceneSora.cpp
@@ -1047,9 +1047,9 @@ pso/ui/window/WindowHelpItemTextB.cpp
 pso/ui/window/TWindowInputNumber.cpp
 pso/ui/window/TWindowKeyBoardBase.cpp
 pso/ui/window/TWindowKeyBoardHard.cpp
-pso/ui/window/TWindowKeyBoardHard_801A529C.cpp
+pso/ui/window/DeferredPackets.cpp
 pso/ui/window/KeyboardTextBuffer.cpp
-pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
+pso/ui/window/BoundedStrlen.cpp
 pso/ui/window/WindowDrawContext.cpp
 pso/ui/window/TWindowLoadItemTexture.cpp
 pso/ui/window/TObjEnemy_RtIndex.cpp
@@ -1352,7 +1352,7 @@ pso/player/TObjPlayer.cpp
 pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayerActions.cpp
 pso/player/PlayerAttackController.cpp
-pso/player/TObjPlayer_801D6BC8.cpp
+pso/player/CountdownTimer.cpp
 pso/player/DamageStatSlot.cpp
 pso/player/TObjEndingPlayer.cpp
 pso/player/PlayerClassParams.cpp
@@ -1484,7 +1484,7 @@ pso/ui/frontend/TAdMultiPlyChrSelectTransitionGC.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
-pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
+pso/ui/frontend/CardLoadSequenceState.cpp
 pso/ui/frontend/TAdPlayerLoadGC_MemCard.cpp
 pso/system/save/McFsGcRequests.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
@@ -1504,7 +1504,7 @@ pso/ui/frontend/TTextureWave.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_Accessors.cpp
 pso/ui/city/BankItemRecord.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp
+pso/ui/frontend/CardFileAccess.cpp
 pso/ui/charcreate/CharacterLoadBuffer.cpp
 pso/ui/charcreate/TCMCharacter.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_BlockCounts.cpp

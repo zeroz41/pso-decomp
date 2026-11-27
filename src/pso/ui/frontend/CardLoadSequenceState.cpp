@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
-s32 TAdPlayerLoadGC::get_instance() {
+s32 get_card_load_sequence_state() {
     return card_load_sequence_state;
 }

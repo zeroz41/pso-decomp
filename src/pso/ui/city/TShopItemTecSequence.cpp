@@ -25,6 +25,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/item/shop/ShopToolStock.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 s32 TShopItemTecSequence::slot_table[4];
 extern "C" {
@@ -39,7 +40,7 @@ const char *shop_item_tec_sequence_class_name = "TShopItemTecSequence";
 
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) {
     TItem *found;
-    if (TRaderMapCore::is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->at_tekker != 0) {
+    if (is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->at_tekker != 0) {
         found->add_item_flags(0x80);
     }
 }

@@ -897,7 +897,7 @@ pso/object/TObjWarnChime.cpp:
 pso/system/TTokenList.cpp:
 	.text       start:0x80076B64 end:0x80076BBC
 
-pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp:
+pso/ui/frontend/CardLoadSequenceState.cpp:
 	.text       start:0x80076BBC end:0x80076BC4
 
 pso/ui/chat/ChatShortcuts.cpp:
@@ -3254,7 +3254,7 @@ pso/object/collision/TObjFogCollision.cpp:
 	.sdata      start:0x805D2E78 end:0x805D2E88
 	.sdata2     start:0x805DB250 end:0x805DB270
 
-pso/ui/hud/TMainCursor_80154090.cpp:
+pso/ui/hud/CollisionBodyFlags.cpp:
 	.text       start:0x80154090 end:0x801542CC
 
 pso/object/base/TObjCollidable.cpp:
@@ -4377,7 +4377,7 @@ pso/unk/TAdDialingSelectGC.cpp:
 	.data       start:0x804C22B0 end:0x804C22D8
 	.sdata2     start:0x805DC0A8 end:0x805DC0AC
 
-pso/ui/window/TWindowKeyBoardHard_801A529C.cpp:
+pso/ui/window/DeferredPackets.cpp:
 	.text       start:0x801A529C end:0x801A558C
 	.sbss       start:0x805D5CF8 end:0x805D5D08
 
@@ -4596,7 +4596,7 @@ pso/player/PhotonBlastGauge.cpp:
 pso/effect/particle/ParticleCtrlHandle.cpp:
 	.text       start:0x801D6B3C end:0x801D6BC8
 
-pso/player/TObjPlayer_801D6BC8.cpp:
+pso/player/CountdownTimer.cpp:
 	.text       start:0x801D6BC8 end:0x801D6BF8
 
 pso/player/PlayerBattleScore.cpp:
@@ -5226,7 +5226,7 @@ pso/system/TTokenListParse.cpp:
 	.data       start:0x804CC048 end:0x804CC060
 	.sdata2     start:0x805DC788 end:0x805DC790
 
-pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp:
+pso/ui/window/BoundedStrlen.cpp:
 	.text       start:0x80228BEC end:0x80228C30
 
 pso/ui/window/StringLength.cpp:
@@ -5532,7 +5532,7 @@ pso/system/PadRumble.cpp:
 	.bss        start:0x80518580 end:0x80518730
 	.sdata2     start:0x805DCA00 end:0x805DCA10
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp:
+pso/ui/frontend/CardFileAccess.cpp:
 	.text       start:0x80243218 end:0x802432F0
 
 pso/system/save/CardFileChannel.cpp:
@@ -6427,7 +6427,7 @@ pso/ui/charcreate/FigureRotationReset.cpp:
 pso/system/MainFrame.cpp:
 	.text       start:0x80290BEC end:0x80290CB0
 
-pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp:
+pso/ui/keyboard/MainMenuScene.cpp:
 	.text       start:0x80290CB0 end:0x80290D1C
 	.sbss       start:0x805D6560 end:0x805D6568
 
@@ -7571,7 +7571,7 @@ pso/effect/particle/TPlyFollowParticleCtrl.cpp:
 pso/system/GameModeQueries.cpp:
 	.text       start:0x8030A6A8 end:0x8030A808
 
-pso/ui/hud/TRaderMapCore_8030A808.cpp:
+pso/ui/hud/SplitScreenQuery.cpp:
 	.text       start:0x8030A808 end:0x8030A834
 
 pso/boss/darkfalz/TBoss4ZakoDrawCreate.cpp:
