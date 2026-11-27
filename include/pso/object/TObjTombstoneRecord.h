@@ -11,7 +11,7 @@ struct TObjTombstoneSpot {
     s8 phase;
     s8 layout;
     s8 floor;
-    u8 unk_3;
+    u8 pad_3;
     Vec position;
     void bswap();
 };
