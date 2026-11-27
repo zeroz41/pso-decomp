@@ -147,9 +147,9 @@ public:
     f32 vertical_speed;  // as TBoss1Dragon::vertical_speed
     f32 root_height_speed;  // as TBoss1Dragon::root_height_speed
     Vec action_point;  // the current action's point or step, as TBoss1Dragon::action_point
-    f32 m_884;
-    f32 m_888;
-    f32 m_88c;
+    f32 pad_884;
+    f32 pad_888;
+    f32 pad_88c;
     s32 ground_impact_done;  // as TBoss1Dragon::ground_impact_done: the dive has hit the ground
     TParticleCtrl *breath_particles[3];  // as TBoss1Dragon::breath_particles
     s32 lobby_state_changed;  // as TBoss1Dragon::lobby_state_changed: lobby_state became 0

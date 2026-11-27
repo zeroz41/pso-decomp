@@ -553,9 +553,9 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, EnemyPlacement *set_data) : TObjEneD
     this->action_point.x = 0.0f;
     this->action_point.y = 0.0f;
     this->action_point.z = 0.0f;
-    this->m_884 = 0.0f;
-    this->m_888 = 0.0f;
-    this->m_88c = 0.0f;
+    this->pad_884 = 0.0f;
+    this->pad_888 = 0.0f;
+    this->pad_88c = 0.0f;
     this->ground_impact_done = 0;
     this->breath_particles[0] = 0;
     this->breath_particles[1] = 0;
