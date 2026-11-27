@@ -19,7 +19,6 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/Language.h"

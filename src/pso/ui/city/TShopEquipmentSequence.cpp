@@ -5,7 +5,6 @@
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/MesetaWindowCreate.h"

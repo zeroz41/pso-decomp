@@ -70,7 +70,6 @@
 
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"

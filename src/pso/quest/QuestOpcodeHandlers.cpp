@@ -38,7 +38,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/item/TItemData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/CollisionActorLookup.h"

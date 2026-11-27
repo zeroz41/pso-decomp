@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "types.h"
 

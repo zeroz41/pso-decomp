@@ -46,7 +46,6 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/item/MaterialStats.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/ControllerInput.h"

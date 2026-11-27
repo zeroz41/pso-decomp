@@ -36,7 +36,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 

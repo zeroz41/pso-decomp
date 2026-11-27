@@ -1,5 +1,4 @@
 #include "pso/system/memory.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS

@@ -8,7 +8,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"

@@ -59,7 +59,6 @@
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

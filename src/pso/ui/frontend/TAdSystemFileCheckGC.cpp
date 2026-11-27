@@ -25,7 +25,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/audio/MusicControl.h"
 
 // Message text by id: table_a holds the English text, table_b the Japanese.

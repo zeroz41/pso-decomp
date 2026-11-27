@@ -47,7 +47,6 @@ void apply_multi_sel_rule(void) {
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/map/FloorMapSelection.h"
 

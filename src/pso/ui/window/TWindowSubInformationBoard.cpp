@@ -25,7 +25,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/InfoBoardState.h"
 #include "pso/network/InfoBoardRequests.h"
 

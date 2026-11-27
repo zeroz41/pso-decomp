@@ -26,7 +26,6 @@
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/HeadingEntry.h"
 void TWindowSubComCardList::draw_card_list_selection(WindowDrawContext *window_key_board_soft) {
   s16 page_row;

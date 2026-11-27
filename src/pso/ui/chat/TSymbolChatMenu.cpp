@@ -10,7 +10,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TSymbolChatMenu.h"
 
 // The symbol chat preset selection: its vtable follows a 4-byte pad after

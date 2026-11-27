@@ -57,7 +57,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/object/TDeadSpot.h"

@@ -35,7 +35,6 @@
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 
 const vec2f single_chr_select_item_rect_table[4] = {

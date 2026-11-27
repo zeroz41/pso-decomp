@@ -15,7 +15,6 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 
 

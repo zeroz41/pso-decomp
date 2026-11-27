@@ -30,7 +30,6 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/warp/TObjWarpBase.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/WindowLayout.h"

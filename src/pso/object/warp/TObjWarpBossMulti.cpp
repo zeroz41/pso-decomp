@@ -32,7 +32,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/DebugFont.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"

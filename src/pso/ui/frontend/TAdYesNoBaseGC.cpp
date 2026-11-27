@@ -15,7 +15,6 @@
 #include "pso/system/ControllerInput.h"
 
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC::class_name = "TAdYesNoBaseGC";

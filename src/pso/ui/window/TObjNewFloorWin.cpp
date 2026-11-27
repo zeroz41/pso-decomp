@@ -14,7 +14,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/TLobby.h"
 #include <stdio.h>
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/player/PlayerSlots.h"

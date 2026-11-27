@@ -37,7 +37,6 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/audio/SoundRequests.h"
 
 // The class name opens .rodata, then the menu window positions in this order, ahead of the

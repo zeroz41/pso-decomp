@@ -26,7 +26,6 @@
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 
 #pragma readonly_strings on

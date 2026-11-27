@@ -41,7 +41,6 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 u8 player_number_text_buffer[0x80];

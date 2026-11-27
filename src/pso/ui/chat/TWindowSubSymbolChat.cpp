@@ -108,7 +108,6 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
