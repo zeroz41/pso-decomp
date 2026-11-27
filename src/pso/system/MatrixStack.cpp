@@ -64,7 +64,7 @@ void premultiply_matrix(MtxP dest, const f32 (*source)[4]) {
 
 extern "C" {
 asm f32 normalize_vector(Vec *v) {
-#include "orig_asm/pso/unk/text_803D96A8/normalize_vector.inc"
+#include "orig_asm/pso/system/MatrixStack/normalize_vector.inc"
 }
 
 s32 push_matrix_from(void *src) {
@@ -90,7 +90,7 @@ s32 pop_matrices(s32 count) {
 extern "C" {
 
 asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
-#include "orig_asm/pso/unk/text_803D96A8/transform_point_by_current_matrix.inc"
+#include "orig_asm/pso/system/MatrixStack/transform_point_by_current_matrix.inc"
 }
 }
 
@@ -122,15 +122,15 @@ static f32 rotation_zero[2] = {0.0f, 0.0f};
 extern "C" {
 
 asm void rotate_vector_by_current_matrix(const Vec *src, Vec *dst) {
-#include "orig_asm/pso/unk/text_803D96A8/rotate_vector_by_current_matrix.inc"
+#include "orig_asm/pso/system/MatrixStack/rotate_vector_by_current_matrix.inc"
 }
 
 asm void rotate_matrix_by_node_angles(const s32 *ang, u32 zxy) {
-#include "orig_asm/pso/unk/text_803D96A8/rotate_matrix_by_node_angles.inc"
+#include "orig_asm/pso/system/MatrixStack/rotate_matrix_by_node_angles.inc"
 }
 
 asm s32 push_matrix(void) {
-#include "orig_asm/pso/unk/text_803D96A8/push_matrix.inc"
+#include "orig_asm/pso/system/MatrixStack/push_matrix.inc"
 }
 
 s32 pop_matrix(void) {
@@ -144,11 +144,11 @@ s32 pop_matrix(void) {
 }
 
 asm void scale_current_matrix(const f32 *v) {
-#include "orig_asm/pso/unk/text_803D96A8/scale_current_matrix.inc"
+#include "orig_asm/pso/system/MatrixStack/scale_current_matrix.inc"
 }
 
 asm void post_translate_matrix(const f32 *v) {
-#include "orig_asm/pso/unk/text_803D96A8/post_translate_matrix.inc"
+#include "orig_asm/pso/system/MatrixStack/post_translate_matrix.inc"
 }
 }
 

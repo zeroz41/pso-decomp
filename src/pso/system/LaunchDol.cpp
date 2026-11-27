@@ -25,7 +25,7 @@ s32 shared_memory_ready;
 extern "C" {
 
 asm void LaunchDol(register LaunchDolContext *context) {
-#include "orig_asm/pso/unk/text_8042E8C4/LaunchDol.inc"
+#include "orig_asm/pso/system/LaunchDol/LaunchDol.inc"
 }
 
 }

@@ -4,5 +4,5 @@
 static f32 Unit01[] = {0.0f, 1.0f};
 
 asm void matrix_apply_translation(MtxP m, f32 x, f32 y, f32 z) {
-#include "orig_asm/pso/unk/text_803D9650/matrix_apply_translation.inc"
+#include "orig_asm/pso/math/MatrixTranslate/matrix_apply_translation.inc"
 }

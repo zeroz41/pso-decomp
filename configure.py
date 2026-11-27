@@ -2089,13 +2089,22 @@ _ORIG_ASM_UNITS = ["TRK_MINNOW_DOLPHIN/targsupp.s", "TRK_MINNOW_DOLPHIN/exceptio
 
 
 def add_orig_asm_steps(config: ProjectConfig) -> None:
+    # Each include names the unit whose disassembly holds the body. A stale
+    # build/asm keeps the .s of a unit that was renamed, so check the name here
+    # rather than let a clean build fail on the missing file.
+    splits = Path("config") / config.version / "psov3" / "splits.txt"
+    units = set(re.findall(r"^(\S+)\.(?:c|cp|cpp|s):$", splits.read_text(encoding="utf-8"), re.M))
     outputs: List[Path] = []
     for root in (Path("libs"), Path("src")):
         for path in sorted(root.rglob("*")):
             if path.suffix in (".c", ".cp", ".cpp") and path.is_file():
                 text = path.read_text(encoding="utf-8", errors="replace")
                 if "orig_asm/" in text:
-                    outputs += [config.out_path() / "include" / inc for inc in _ORIG_ASM.findall(text)]
+                    for inc in _ORIG_ASM.findall(text):
+                        unit = inc[len("orig_asm/"):].rsplit("/", 1)[0]
+                        if unit not in units:
+                            sys.exit(f"{path}: {inc} names unit {unit}, which is not in {splits}")
+                        outputs.append(config.out_path() / "include" / inc)
     outputs += [config.out_path() / "orig_asm" / unit for unit in _ORIG_ASM_UNITS]
     symbols = Path("config") / config.version / "psov3" / "symbols.txt"
     config.custom_build_rules = [*(config.custom_build_rules or []), {
