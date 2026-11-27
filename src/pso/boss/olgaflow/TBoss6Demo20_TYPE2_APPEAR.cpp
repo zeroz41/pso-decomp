@@ -305,15 +305,9 @@ TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR::create(TBoss6PlotFalz *plo
     return new TBoss6Demo20_TYPE2_APPEAR(plot);
 }
 
-// Offsets the particle origin from the appearance origin, spelled out because the original keeps that Vec, zeroed,
-// in .data.
-void __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp() {
-    boss6_type2_appear_offset_particle_origin.x = boss6_type2_appear_origin.x;
-    boss6_type2_appear_offset_particle_origin.y = 50.0f + boss6_type2_appear_origin.y;
-    boss6_type2_appear_offset_particle_origin.z = boss6_type2_appear_origin.z;
-}
-__declspec(section ".ctors") static void *const boss6_type2_appear_global_initializer = (void *)__sinit_TBoss6Demo20_TYPE2_APPEAR_cpp;
-__declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
+// The particle origin, 50 above the appearance origin.
+__declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {
+    boss6_type2_appear_origin.x, 50.0f + boss6_type2_appear_origin.y, boss6_type2_appear_origin.z};
 extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
 __declspec(section ".sdata") AppearanceClassTag boss6_type2_appear_name_tag = {TBoss6Demo20_TYPE2_APPEAR::class_name, 0};

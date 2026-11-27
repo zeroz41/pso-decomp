@@ -35,7 +35,7 @@
 ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
 };
-ChallengeModeState challenge4p_mode_state = {0};
+ChallengeModeState challenge4p_mode_state = challenge_default_settings;
 __declspec(section ".data") char the_best_text[] = "theBest";
 
 
@@ -850,11 +850,6 @@ void TChallenge4P::run_task() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_max_size(16)
-// Copies the default settings into challenge4p_mode_state, spelled out because the original's static initializer
-// precedes this file's deferred constructor and destructor.
-void __sinit_TChallenge4P_cpp() {
-    __memcpy(&challenge4p_mode_state, &challenge_default_settings, sizeof(ChallengeModeState));
-}
 
 TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
     m_name = challenge4p_class_name;
@@ -871,5 +866,3 @@ TChallenge4P::~TChallenge4P() {
     challenge4p_mode_state = challenge_default_settings;
     challenge_retry_object = NULL;
 }
-
-__declspec(section ".ctors") static void *const challenge4p_global_initializer = (void *)__sinit_TChallenge4P_cpp;

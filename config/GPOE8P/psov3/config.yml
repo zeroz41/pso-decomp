@@ -1770,7 +1770,7 @@ force_active:
   - class_name__14TWindowCtrlSub
   - update_countdown__17TWindowCtrlPlayerFv
   - set_return_city_open__11TWindowCtrlFv
-  - __sinit_TWindowDD_WS_ScrollBar_cpp__Fv
+  - __sinit_TWindowDD_WS_ScrollBar_cpp
   - __ct__19TWindowDD_WS_StringFPfPfPCcl
   - __sinit_TWindowDD_WS_String_cpp
   - __ct__17TWindowDD_WS_WordFll
@@ -5338,7 +5338,7 @@ force_active:
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
   - set_parameters__15TEffStarLight2DFP19StarLightParameters
   - pop_fade_color__23TEquippedWeaponDrawTaskFv
-  - __sinit_TChallenge4P_cpp__Fv
+  - __sinit_TChallenge4P_cpp
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFP18TPlyJoinLobbyEntryP18TPlyJoinLobbyEntry
@@ -7171,7 +7171,7 @@ force_active:
   - __ct__13TBoss7BreakUpFP7TObject
   - __ct__16TItemWeaponRifleFP7TObjectPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
-  - __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp__Fv
+  - __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp
   - __ct__24TItemWeaponTheSighOfAGodFP7TObjectPUc
   - initialize_fmt1_materials__6TSceneFv
   - initialize_fmt2_materials__6TSceneFv
