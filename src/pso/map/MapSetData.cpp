@@ -631,7 +631,7 @@ void init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
 s32 load_enemy_set_file(s32 idx, const char *filename) {
     LoadEnemySetFileName name;
     s32 size;
-    LoadEnemySetFileEntry *p;
+    EnemySetRecord *p;
     s32 n;
     s32 i;
     s32 floor;
@@ -643,11 +643,11 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (LoadEnemySetFileEntry *)map_set_file_buffer;
-    n = size / sizeof(LoadEnemySetFileEntry);
+    p = (EnemySetRecord *)map_set_file_buffer;
+    n = size / sizeof(EnemySetRecord);
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
-        p->b = 0;
+        p->flags = 0;
     }
     floor = get_floor_area(idx);
     reserve_enemy_set_actor_ids((struct DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, n, floor);
@@ -746,7 +746,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char buf[0x28];
     const char *filename;
     s32 size;
-    u8 *p;
+    EnemySetRecord *p;
     s32 count;
     s32 i;
     MapSetVariant *t2;
@@ -784,11 +784,11 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = map_set_file_buffer;
-    count = (u32)size / 0x48;
-    for (i = 0; i < count; i++, p += 0x48) {
+    p = (EnemySetRecord *)map_set_file_buffer;
+    count = (u32)size / sizeof(EnemySetRecord);
+    for (i = 0; i < count; i++, p++) {
         bswap_enemy_set_row(p);
-        *(s16 *)(p + 2) = 0;
+        p->flags = 0;
     }
     reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
     TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);

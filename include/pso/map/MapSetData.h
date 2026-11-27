@@ -103,8 +103,6 @@ struct DestroyEventShuffleTableSpawnRecord {
 
 void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *slots, s32 count, s32 floor);
 
-struct LoadEnemySetFileEntry { s16 a; s16 b; u8 pad[0x48 - 4]; };
-
 struct LoadEnemySetFileName { char s[0x20]; };
 
 struct LoadObjectSetFileEntry { s16 a; s16 b; u8 pad[0x44 - 4]; };
