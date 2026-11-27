@@ -5657,15 +5657,11 @@ pso/ui/chat/TWindowSubShortMail_80246CB8.cpp:
 	.text       start:0x80246CB8 end:0x80246CE8
 
 pso/ui/window/TWindowChallengeResult.cpp:
-	.text       start:0x80246CE8 end:0x80246F8C
+	.text       start:0x80246CE8 end:0x80246FB0
 	.rodata     start:0x8044E778 end:0x8044E7C8
 	.data       start:0x804CE1E8 end:0x804CE2D0
 	.sdata      start:0x805D3898 end:0x805D38A0
-	.sdata2     start:0x805DCB60 end:0x805DCB70
-
-pso/ui/window/TWindowDD_80246F8C.cpp:
-	.text       start:0x80246F8C end:0x80246FB0
-	.sdata2     start:0x805DCB70 end:0x805DCB74
+	.sdata2     start:0x805DCB60 end:0x805DCB74
 
 pso/ui/window/TWindowSubShortCut_80246FB0.cpp:
 	.text       start:0x80246FB0 end:0x8024701C

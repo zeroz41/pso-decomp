@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
+
 #pragma push
 #pragma readonly_strings on
 
@@ -43,6 +44,10 @@ const char *challenge_result_labels[3] = {
     "Team Name : ", "Clear Time : ", "Death : ",
 };
 #pragma pop
+
+void measure_message_text_width_default(void *entry) {
+    static_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
+}
 
 TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count)
     : TWindowBase((u8 *)&challenge_result_window_descriptor, 4, (u8 *)get_window_layout_position(0x3F)) {
