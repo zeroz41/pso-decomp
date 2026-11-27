@@ -661,7 +661,7 @@ void TObjPlayer::init_action_provider() {
     set_move_mode(0);
     lobby_animation = -1;
     lobby_animation_frame = player_zero;
-    set_battle_flag(0);
+    set_return_destination(0);
     controller_input = NULL;
     inventory_objects = NULL;
     lock_on_cursor = NULL;
@@ -1124,7 +1124,7 @@ void TObjPlayer::load_pending_actions_from_sync_record(u8 *record) {
 }
 
 void TObjPlayer::reset_motion_fields() {
-    s32 anim_id;
+    s32 destination;
     TObjBase::reset_motion_fields();
     this->TObjCollidable::reset_motion_fields();
     this->TObjMotion::reset_motion_fields();
@@ -1153,7 +1153,7 @@ void TObjPlayer::reset_motion_fields() {
             }
             send_6x24_teleport_player(this->get_entity_id(), (const Vec *)this->get_hospital_position(), this->get_hospital_yaw());
             this->set_state_flags(0x800);
-            this->set_battle_flag(0);
+            this->set_return_destination(0);
         }
     }
     if ((this->is_locally_controlled() != 0) && (this->check_flag(0x800) != 0)) {
@@ -1166,8 +1166,8 @@ void TObjPlayer::reset_motion_fields() {
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
         }
-        anim_id = this->get_anim_id();
-        switch (anim_id) {
+        destination = this->get_return_destination();
+        switch (destination) {
         case 2:
             break;
         case 0:
@@ -1180,7 +1180,7 @@ void TObjPlayer::reset_motion_fields() {
             TObjPlayer::set_camera_mode(1);
             break;
         }
-        this->set_battle_flag(0);
+        this->set_return_destination(0);
     }
 }
 
@@ -3893,7 +3893,7 @@ void TObjPlayer::fill_player_record(PlayerSyncRecord *record) {
     record->inventory.items[2].m_present[3] = (u8)(flags >> 16);
     record->inventory.items[3].m_present[3] = (u8)(flags >> 24);
     record->set_class_flag_0(get_mag_level());
-    record->set_class_flag_1(get_byte_339());
+    record->set_class_flag_1(get_class_flag_1());
     record->set_class_flag_2(get_battle_mode());
     TLobby::bswap_player_data(record);
 }
@@ -4009,7 +4009,7 @@ s32 TObjPlayer::is_target_valid() {
     if (this->lock_on_cursor == NULL) {
         return 0;
     }
-    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (this->lock_on_cursor->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
+    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (this->lock_on_cursor->is_cursor_clear() == 0) || (this->test_hold_flag() != 0) || (test_action_mask(0x1E) == 0)) {
         return 0;
     }
     return 1;
@@ -4530,7 +4530,7 @@ s32 TObjPlayer::create_return_city_window() {
     return 0;
 }
 
-void TObjPlayer::stop_battle() { this->set_battle_flag(0); }
+void TObjPlayer::stop_battle() { this->set_return_destination(0); }
 
 void complete_deferred_player_death(TDeathTintFade *fade) {
     u8 lvl;
@@ -4572,7 +4572,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     }
     if (get_main_phase() == 0xE) {
         if (TObjPlayer::check_camera_mode() != 0) {
-            if (p->get_anim_id() == 1) {
+            if (p->get_return_destination() == 1) {
                 p->prepare_guild_return(0);
                 return;
             }
@@ -4594,7 +4594,7 @@ void TObjPlayer::prepare_hospital_return() {
     send_6x21_inter_level_warp(this, 0);
     set_arrival_override_pos(this->get_entity_id(), get_hospital_yaw(), (const Vec *)this->get_hospital_position());
     this->set_state_flags(0x800);
-    this->set_battle_flag(0);
+    this->set_return_destination(0);
     apply_to_players((s32)(floor_transition_state.get_next_floor()), get_npc_lobby_entry_position(), get_npc_lobby_entry_yaw());
 }
 
@@ -4602,7 +4602,7 @@ void handle_6x34(void) {  }
 
 int TObjPlayer::check_player_state_flag_2() { return death_flags.test_flags_any(2); }
 
-void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
+void TObjPlayer::set_return_hunter() { set_return_destination(1); }
 
 #pragma push
 #pragma scheduling off
@@ -4614,7 +4614,7 @@ void TObjPlayer::prepare_guild_return(s32) {
     mark_area_change_pending();
     set_arrival_override_pos(get_entity_id(), get_guild_return_yaw(), get_guild_return_position());
     set_state_flags(0x800);
-    set_battle_flag(1);
+    set_return_destination(1);
     send_6x21_inter_level_warp(this, floor_transition_state.get_next_floor());
     apply_to_players((s32)(floor_transition_state.get_next_floor()), get_party_position(), get_party_yaw());
 }

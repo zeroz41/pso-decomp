@@ -167,9 +167,9 @@ G_SetPlayerInvisible_6x22 &G_SetPlayerInvisible_6x22::operator=(const G_SetPlaye
 void clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
-void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
-s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
-int TObjPlayer::check_flag_0x40000000() { return (this->state_flags >> 30) & 0x1; }
+void TObjPlayer::set_return_destination(s32 v) { this->return_destination = v; }
+s32 TObjPlayer::get_return_destination() { return this->return_destination; }
+int TObjPlayer::test_hold_flag() { return (this->state_flags >> 30) & 0x1; }
 void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 
 
@@ -177,7 +177,7 @@ int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
 void PlayerSyncRecord::set_class_flag_2(u8 v) { inventory.items[15].m_present[3] = v; }
 u8 TObjPlayer::get_battle_mode() { return battle_mode; }
 void PlayerSyncRecord::set_class_flag_1(u8 v) { inventory.items[14].m_present[3] = v; }
-u8 TObjPlayer::get_byte_339() { return this->class_flag_1; }
+u8 TObjPlayer::get_class_flag_1() { return this->class_flag_1; }
 void PlayerSyncRecord::set_class_flag_0(u8 v) { inventory.items[13].m_present[3] = v; }
 u8 TObjPlayer::get_mag_level() { return mag_level; }
 void PlayerSyncRecord::set_luck_materials_used(u8 v) { inventory.items[12].m_present[3] = v; }

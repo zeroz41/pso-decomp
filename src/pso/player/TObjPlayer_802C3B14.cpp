@@ -35,7 +35,7 @@ void TObjPlayer::copy_battle_mode(TPlyCharData *record) {
 }
 
 void TObjPlayer::copy_byte_339_to_record(TPlyCharData *record) {
-    record->set_field_18f(get_byte_339());
+    record->set_class_flag_1(get_class_flag_1());
 }
 
 void TObjPlayer::copy_mag_level_to_record(TPlyCharData *record) {

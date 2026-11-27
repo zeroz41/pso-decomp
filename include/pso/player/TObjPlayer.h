@@ -248,7 +248,7 @@ struct TObjPlayer : public TObjChara {
     // (GamePlayerActionProvider or LobbyPlayerActionProvider).
     PlayerActionProvider *action_provider;
     PlayerFollowParticles follow_particles;
-    s32 m_3b4;
+    s32 return_destination;  // where the player returns from the field: 0 medical center, 1 hunter's guild
     TPlayerLobbyMarker *lobby_marker;  // set_lobby_marker creates it on the lobby floor
     s32 language;
     s16 lobby_animation;
@@ -448,7 +448,7 @@ struct TObjPlayer : public TObjChara {
     void set_kill_count(s16 count);
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
-    int check_flag_0x80();
+    int is_casting();
     static s32 is_final_phase();
     static s32 is_camera_ready();
     static s32 is_camera_mode_active();
@@ -501,11 +501,11 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_4000();
     void set_flag_4000();
     s32 is_flag_4000_set();
-    void set_battle_flag(s32 v);
+    void set_return_destination(s32 v);
     // Quest opcode set_returnhunter: battle flag 1.
     void set_return_hunter();
-    s32 get_anim_id();
-    int check_flag_0x40000000();
+    s32 get_return_destination();
+    int test_hold_flag();
     void clear_flag_0x2();
     int unregister_sub();
     void set_control_role(s32 v);
@@ -993,7 +993,7 @@ struct TObjPlayer : public TObjChara {
     u16 get_action_palette_entry(s32 index);
     int is_action_active();
     u8 get_battle_mode();
-    u8 get_byte_339();
+    u8 get_class_flag_1();
     u8 get_def_materials_used();
     u8 get_evade_materials_used();
     u8 get_mind_materials_used();

@@ -257,7 +257,7 @@ s32 update_challenge_result_player_locks() {
                 player->disable_palette_slot(1);
                 player->disable_palette_slot(2);
                 player->disable_palette_slot(3);
-                if ((player)->check_flag_0x40000000() == 0) set_player_hold_flag(player);
+                if ((player)->test_hold_flag() == 0) set_player_hold_flag(player);
                 TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
@@ -270,7 +270,7 @@ s32 update_challenge_result_player_locks() {
                 send_release_hold(player);
                 obj_clear_flag30_20000(player);
                 player->enable_all_palette_slots();
-                if ((player)->check_flag_0x40000000()) clear_player_hold_flag(player);
+                if ((player)->test_hold_flag()) clear_player_hold_flag(player);
                 TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();

@@ -108,7 +108,7 @@ void TPlyCharData::set_evade_materials_used(u8 count) { m_inventory.m_items[10].
 void TPlyCharData::set_mind_materials_used(u8 count) { m_inventory.m_items[9].m_present[3] = count; }
 void TPlyCharData::set_power_materials_used(u8 count) { m_inventory.m_items[8].m_present[3] = count; }
 void TPlyCharData::set_battle_mode(u8 mode) { m_inventory.m_items[15].m_present[3] = mode; }
-void TPlyCharData::set_field_18f(u8 value) { m_inventory.m_items[14].m_present[3] = value; }
+void TPlyCharData::set_class_flag_1(u8 value) { m_inventory.m_items[14].m_present[3] = value; }
 
 void TPlyCharData::stamp_save_time() {
     DateStamp date;
