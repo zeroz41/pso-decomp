@@ -923,9 +923,6 @@ s32 SoundControlState::reset_sound_state() {
     load_state = 4;
     return 0;
 }
-extern "C" {
-void sndAuxCallbackPrepareReverbHI(void *rev);
-}
 
 s32 SoundControlState::init_sound_aux_effects() {
     s32 i;
@@ -950,19 +947,19 @@ s32 SoundControlState::init_sound_aux_effects() {
         return 1;
     }
     reverb_level = 0.0f;
-    reverb_temp_disable = 0;
-    reverb_time = 2.0f;
-    reverb_pre_delay = 0.1f;
-    reverb_damping = 0.6f;
-    reverb_coloration = 0.9f;
-    reverb_crosstalk = 0.0f;
-    reverb_mix = 1.0f;
+    reverb.disabled = 0;
+    reverb.parameterTime = 2.0f;
+    reverb.parameterPreDelay = 0.1f;
+    reverb.parameterDamping = 0.6f;
+    reverb.parameterColoration = 0.9f;
+    reverb.parameterCrossTalk = 0.0f;
+    reverb.parameterMix = 1.0f;
     chorus.baseDelay = 15;
     chorus.variation = 0;
     chorus.period = 500;
-    sndAuxCallbackPrepareReverbHI(this);
+    sndAuxCallbackPrepareReverbHI(&reverb);
     sndAuxCallbackPrepareChorus(&chorus);
-    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, this, 0xFF, 0, sndAuxCallbackChorus, &chorus, 0xFF,
+    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, &reverb, 0xFF, 0, sndAuxCallbackChorus, &chorus, 0xFF,
                                  0);
     memset(musyx_sdir_buffers, 0, 38 * sizeof(void *));
     for (i = 0; i < 38; i++) {

@@ -29,6 +29,9 @@ struct SoundReverb {
 };
 LAYOUT_ASSERT(SoundReverbDelaySize, sizeof(SoundReverbDelay) == 0x14);
 LAYOUT_ASSERT(SoundReverbSize, sizeof(SoundReverb) == 0x1E0);
-extern "C" s32 ReverbHICreate(SoundReverb*, f32 coloration, f32 time,
+extern "C" {
+s32 ReverbHICreate(SoundReverb*, f32 coloration, f32 time,
     f32 mix, f32 damping, f32 preDelay, f32 crossTalk);
+void sndAuxCallbackPrepareReverbHI(SoundReverb *rev);
+}
 #endif

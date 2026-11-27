@@ -7,6 +7,7 @@ struct Vec;
 
 #include "types.h"
 #include "musyx/musyx.h"
+#include "pso/audio/SoundReverb.h"
 #include <stddef.h>
 
 // One sound group's bank files, as sndPushGroup takes them.
@@ -48,14 +49,7 @@ public:
     s32 update_sound_frame();
     s32 init_sound_aux_effects();
 
-    u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
-    u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
-    f32 reverb_coloration;
-    f32 reverb_mix;
-    f32 reverb_time;
-    f32 reverb_damping;
-    f32 reverb_pre_delay;
-    f32 reverb_crosstalk;
+    SoundReverb reverb;
     SND_AUX_CHORUS chorus;
     f32 reverb_level;
     s32 voice_volume_adjustment;
