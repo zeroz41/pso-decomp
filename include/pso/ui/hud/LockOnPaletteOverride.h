@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TUNK_804A7248_H
-#define PSO_UNK_TUNK_804A7248_H
+#ifndef PSO_UI_HUD_LOCKONPALETTEOVERRIDE_H
+#define PSO_UI_HUD_LOCKONPALETTEOVERRIDE_H
 
 #include "types.h"
 #include "pso/player/TPlyGuildCardTag.h"

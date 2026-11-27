@@ -6,7 +6,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/TUnk_804A7260.h"
+#include "pso/ui/hud/LockOnTask.h"
 #include "pso/unk/TLOC_ListClear.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"

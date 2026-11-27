@@ -13,7 +13,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TUnk_804A7248.h"
+#include "pso/ui/hud/LockOnPaletteOverride.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/system/GameModeQueries.h"
 
