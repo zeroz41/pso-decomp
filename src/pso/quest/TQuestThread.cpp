@@ -385,7 +385,7 @@ void TQuestThread::run_task() {
     }
     case QST_WAIT_MESSAGE_QB:
         if (get_player_by_client_id(local_client_id) != NULL) {
-            void *pad = &controller_input_state.controllers[0];
+            ControllerInputContext *pad = &controller_input_state.controllers[0];
             if (test_pressed_buttons_packed(pad, 4) != 0) {
                 state = QST_RUNNING;
             }

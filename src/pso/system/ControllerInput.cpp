@@ -677,9 +677,8 @@ s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
     return (pad->pressed_with_sticks & all_direction_mask(pad, mask)) != 0;
 }
 
-s32 test_pressed_buttons_packed(void *pad, s32 mask) {
-    ControllerInputContext *context = (ControllerInputContext *)pad;
-    return (context->pressed_with_sticks & pack_button_mask(context, mask)) != 0;
+s32 test_pressed_buttons_packed(ControllerInputContext *pad, s32 mask) {
+    return (pad->pressed_with_sticks & pack_button_mask(pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
@@ -689,9 +688,8 @@ s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
     return (pad->held_with_sticks & cstick_direction_mask(pad, mask)) != 0;
 }
-s32 test_previous_buttons_packed(void *pad, s32 mask) {
-    ControllerInputContext *context = (ControllerInputContext *)pad;
-    return (context->held_with_sticks & pack_button_mask(context, mask)) != 0;
+s32 test_previous_buttons_packed(ControllerInputContext *pad, s32 mask) {
+    return (pad->held_with_sticks & pack_button_mask(pad, mask)) != 0;
 }
 
 s32 test_buttons_press_or_repeat_color(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {

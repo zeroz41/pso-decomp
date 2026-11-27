@@ -1240,7 +1240,7 @@ void TLobby::update_card_list_window() {
     }
 }
 void TLobby::update_short_list() {
-    void *context;
+    ControllerInputContext *context;
 
     if (download_list_window != NULL) {
         context = &controller_input_state.controllers[0];
@@ -1263,7 +1263,7 @@ void TLobby::update_short_list() {
     reset_controller_input_state();
 }
 void TLobby::handle_short_list_input() {
-    void *context;
+    ControllerInputContext *context;
 
     if (join_entry_window_obj != 0U) {
         context = &controller_input_state.controllers[0];

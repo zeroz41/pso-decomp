@@ -1671,7 +1671,7 @@ void TAdMultiPlyChrSelectGC::run_state_33() {
 }
 
 void TAdMultiPlyChrSelectGC::handle_input() {
-    void *context;
+    ControllerInputContext *context;
 
     if (this->yes_no_dialog != NULL) {
         this->yes_no_dialog->close();

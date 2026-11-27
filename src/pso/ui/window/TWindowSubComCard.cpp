@@ -584,7 +584,7 @@ void TWindowSubComCard::run_task() {
         if (this->keyboard == NULL) {
             this->keyboard = TWindowSubShortMail::create_keyboard();
         }
-        this->keyboard->set_position((void *)(get_window_layout_position(0xBB)));
+        this->keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBB)));
         reinterpret_cast<TKeyBoardControl *>(keyboard)->clear_keyboard_flag60_bit1();
         this->keyboard->show();
         this->state = 0x22U;
@@ -599,7 +599,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x23:
-        this->keyboard->set_position((void *)(get_window_layout_position(0xBC)));
+        this->keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         this->keyboard->hide();
         this->confirm_window = (TWindowMessageYesNo *)TWindowSubShortMail::open_confirm_prompt(this, client_id);
         this->state = 0x24U;

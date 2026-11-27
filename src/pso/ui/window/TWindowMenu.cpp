@@ -103,12 +103,12 @@ void TWindowMenu::ensure_scroll_bar() {
 void TWindowMenu::reset_entries() {
     s32 i;
     TWindowMenuRow *r;
-    void *e;
+    WindowTextEntry *e;
     entry_count = 0;
     row_cursor = 0;
     r = rows;
     for (i = 0; i < row_count; i++, r++) {
-        e = ((void *)get_array_entry(i));
+        e = (WindowTextEntry *)get_array_entry(i);
         TWindowDuelResult::set_default_status(e, 0);
         measure_message_text_width_default(e);
         r->flags = 0;

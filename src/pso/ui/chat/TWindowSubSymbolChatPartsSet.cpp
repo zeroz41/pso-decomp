@@ -229,7 +229,7 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
 
 void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     s16 x;
-    void *camera_ctrl;
+    ControllerInputContext *camera_ctrl;
     camera_ctrl = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0xF0) != 0)) {
         if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {

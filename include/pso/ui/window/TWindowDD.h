@@ -9,6 +9,7 @@
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 s32 is_verb_word(s32 value);
 
+class WindowTextEntry;
 class TWindowDD_WS_Word;
 class TWindowDD_WS_String;
 class TWindowDD_WS_ScrollBar;
@@ -190,7 +191,7 @@ LAYOUT_ASSERT(WindowListSize, sizeof(TWindowDDValueList) == 8);
 LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
-void measure_message_text_width_default(void *entry);
+void measure_message_text_width_default(WindowTextEntry *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void load_word_select_data(void);
 void ws_data_load(void);

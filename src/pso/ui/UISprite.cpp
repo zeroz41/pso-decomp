@@ -448,7 +448,7 @@ void TChCrEffWall::draw_default_sprite(s32 sprite_id, const vec2f *position, f32
 }
 
 
-void *cmicon_instance;
+TObjCMIcon *cmicon_instance;
 s32 creation_sprite_table_index;
 
 void resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
@@ -466,7 +466,7 @@ void resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
 
 void free_creation_sprites(void) {
     if (cmicon_instance != NULL) {
-        ((TObject *)cmicon_instance)->queue_destruction();
+        cmicon_instance->queue_destruction();
     }
     cmicon_instance = NULL;
     release_texture_list(&creation_sprite_table);

@@ -109,7 +109,7 @@ void decay_page_arrow_offset(PageIndicator *o) {
 
 
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
-    void *pad;
+    ControllerInputContext *pad;
     s8 cur;
     decay_page_arrow_offset(page_indicator);
     cur = page_indicator->page;

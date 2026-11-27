@@ -44,8 +44,8 @@ const char *challenge_result_labels[3] = {
 };
 #pragma pop
 
-void measure_message_text_width_default(void *entry) {
-    static_cast<WindowTextEntry *>(entry)->measure_text(1000000.0f);
+void measure_message_text_width_default(WindowTextEntry *entry) {
+    entry->measure_text(1000000.0f);
 }
 
 TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count)

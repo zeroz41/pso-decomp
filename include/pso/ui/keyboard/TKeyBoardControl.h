@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct NJS_POINT2;
 struct TWindowKeyBoardBase;
 struct TWindowKeyBoardHard;
 struct TWindowKeyBoardSoft;
@@ -24,7 +25,7 @@ struct TKeyBoardControl : public TObject {
     void set_soft_flag60_bit1();
     s32 get_cursor_position();
     void set_depth(f32 depth);
-    void set_position(void *pos);
+    void set_position(NJS_POINT2 *pos);
     void set_soft_position(u8 *pos);
     void set_hard_position(u8 *pos);
     void set_sub_position(u8 *pos);

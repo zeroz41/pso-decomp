@@ -177,7 +177,7 @@ void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
 void TWindowSubSymbolChatHelp::handle_toggle_input() {
     s32 *first_flag;
     s32 *second_flag;
-    void *context;
+    ControllerInputContext *context;
 
     if (this->feature_flags & 4) {
         context = &controller_input_state.controllers[0];

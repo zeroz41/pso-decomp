@@ -72,7 +72,7 @@ TObjOnlineEndingHexMove::~TObjOnlineEndingHexMove() {}
 
 void TObjOnlineEndingHexMove::run_task() {
     G_Unknown_6x92 pkt;
-    void *pad;
+    ControllerInputContext *pad;
     f32 v;
     f32 step;
     f32 max;

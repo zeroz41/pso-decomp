@@ -32,7 +32,7 @@ public:
 public:
     s32 get_sprite_id(s32 sprite_id);
 
-    static void *create(void *object);
+    static TObjCMIcon *create(TObject *object);
     static void set_screen_position(const vec2f *pos);
     static void reset_icon_flags();
     static void show_creation_icon(s32 index);
