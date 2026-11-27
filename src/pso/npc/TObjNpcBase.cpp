@@ -499,7 +499,7 @@ TObjNpcBase::~TObjNpcBase() {
 
 TObjNpcBase::TObjNpcBase(TObject *parent) : TObjEnemy(parent) {
     m_name = class_name;
-    m_388 = 0;
+    pad_388 = 0;
     visible = 1;
     switch (get_current_floor_area()) {
     case AREA_LOBBY:
