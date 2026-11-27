@@ -29,6 +29,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -40,10 +41,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/BattleParamTables.h"
-
-extern "C" {
-void init_collision_body_parts(void *obj, void *parts, s32 count);
-}
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 
@@ -71,7 +68,7 @@ static TObjMotionAction volopt_p01_action_table[6] = {
     { 2, 2, 0xC, 1.0f, 0x0 },
 };
 static EnemyMoveParams volopt_p01_movement = {150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 }};
-static TBoss3VoloptP01CollisionPart volopt_p01_collision_parts = { 0, 18.0f, 0, 8.0f, 0, 0, 0x8003, 0, 0, 0, 0 };
+static CollisionBody volopt_p01_collision_parts = { {0.0f, 18.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f };
 static BreakUpParamRow volopt_p01_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 void TObjVoloptShutter::open() {
     state = 2;
