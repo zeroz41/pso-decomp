@@ -1425,7 +1425,7 @@ const char *format_item_description(TItemData *item) {
     char *out;
     s32 name;
     p = (UnitPmtEntry *)lookup_item_pmt_record(item->data1.data_u8);
-    out = (char *)get_item_chunk_buffer(0);
+    out = get_item_chunk_buffer(0);
     if (p != NULL && out != NULL) {
         format = NULL;
         if (item->is_wrapped() != 0) {
