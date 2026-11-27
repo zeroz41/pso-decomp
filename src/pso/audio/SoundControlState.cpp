@@ -935,7 +935,7 @@ s32 SoundControlState::init_sound_aux_effects() {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        sound_request_voices[i].set_field0(this);
+        sound_request_voices[i].set_owner(this);
     }
     tick = OSGetTick();
     elapsed = 0;

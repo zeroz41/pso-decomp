@@ -26,7 +26,7 @@ public:
     // Clamps the mix to 0..0x7F and sets the stream mix; surround only in output mode 2.
     void set_stream_mix(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
     s32 is_ready();
-    s32 get_field_308();
+    s32 get_ms();
     // Steps the sound random generator (x * 0x10DCD + 1) and returns it.
     s32 advance_rng();
     f32 get_surround_scale();

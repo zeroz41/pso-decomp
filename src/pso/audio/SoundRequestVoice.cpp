@@ -26,7 +26,7 @@
 #include "pso/audio/SoundPlayback.h"
 
 
-void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = owner; }
+void SoundRequestVoice::set_owner(SoundControlState *owner) { this->owner = owner; }
 
 
 void SoundRequestVoice::clamp_reverb(f32 scale) {
@@ -76,7 +76,7 @@ void SoundRequestVoice::update() {
             pitchSlide = (s32) pitchTarget;
         } else {
             pitchSlide = (s32) ((s32) (pitchTarget * (duration - remaining)) / duration);
-            pitchRemaining = (s32) (pitchRemaining - owner->get_field_308());
+            pitchRemaining = (s32) (pitchRemaining - owner->get_ms());
         }
     }
     pitch = (s32) (pitchStatic + pitchMoving + pitchSlide);
@@ -871,4 +871,4 @@ SoundRequestVoice::SoundRequestVoice() {
     owner = NULL;
     state = 0;
 }
-s32 SoundControlState::get_field_308() { return ms; }
+s32 SoundControlState::get_ms() { return ms; }
