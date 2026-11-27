@@ -397,7 +397,6 @@ struct TObjPlayer : public TObjChara {
     static void init_render_globals();
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
     s16 get_attack_stage();
-    TObjHMS_EZRope_Player *create_hairmove(TObjHMSRopeSpec *rope_spec, TObjHMSColliderSpec *collider_spec);
     void set_tp(s16 tp);
     s32 get_tp_bonus();
     s32 get_hp_bonus();

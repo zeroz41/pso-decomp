@@ -5,6 +5,7 @@
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/object/TObjEZBoneRotBase.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/object/TObjTailsTailsMove.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -534,7 +535,7 @@ void TObjWaitEntryHairMoveSim::create_hair_effects() {
             if (e->bone_rotation != NULL) {
                 TObjEZBoneRotPlayer::create(player, model, e->bone_rotation);
             } else if (e->rope_spec != NULL) {
-                player->create_hairmove(e->rope_spec, e->collider_spec);
+                TObjHMS_EZRope_Player::create_hairmove(player, e->rope_spec, e->collider_spec);
             }
         }
     }

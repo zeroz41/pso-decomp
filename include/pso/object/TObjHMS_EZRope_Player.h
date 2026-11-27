@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/object/TObjEZRopeBase.h"
 
+struct TObjPlayer;
+
 class TObjMotion;
 
 // One rope of the hair: hung at pos on the owner's bone, twisted by twist_offset from the owner's
@@ -25,6 +27,7 @@ class TObjHMS_EZRope_Player : public TObjEZRopeBase {
 public:
     static const char *class_name;
     TObjHMS_EZRope_Player(TObjMotion *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders);
+    static TObjHMS_EZRope_Player *create_hairmove(TObjPlayer *player, TObjHMSRopeSpec *rope_spec, TObjHMSColliderSpec *collider_spec);
     virtual ~TObjHMS_EZRope_Player();
     virtual void run_task();
     virtual void render();

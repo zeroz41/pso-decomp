@@ -252,8 +252,8 @@ void TObjHMS_EZRope_Player::draw_rope() {
     }
 }
 
-TObjHMS_EZRope_Player *TObjPlayer::create_hairmove(TObjHMSRopeSpec *rope_spec, TObjHMSColliderSpec *collider_spec) {
-    return new TObjHMS_EZRope_Player(this, rope_spec, collider_spec);
+TObjHMS_EZRope_Player *TObjHMS_EZRope_Player::create_hairmove(TObjPlayer *player, TObjHMSRopeSpec *rope_spec, TObjHMSColliderSpec *collider_spec) {
+    return new TObjHMS_EZRope_Player(player, rope_spec, collider_spec);
 }
 
 void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src) {

@@ -18,7 +18,7 @@ struct HairEffectEntry {
     s8 hair_model_hair;        // hair index that swings the hair model
     s8 attachment_model_head;  // head index that swings the attachment model
     EZBoneRotDesc *bone_rotation;
-    TObjHMSRopeSpec *rope_spec;  // TObjPlayer::create_hairmove's specs when there is no bone rotation
+    TObjHMSRopeSpec *rope_spec;  // TObjHMS_EZRope_Player::create_hairmove's specs when there is no bone rotation
     TObjHMSColliderSpec *collider_spec;
 };
 LAYOUT_ASSERT(HairEffectEntrySize, sizeof(HairEffectEntry) == 0x10);

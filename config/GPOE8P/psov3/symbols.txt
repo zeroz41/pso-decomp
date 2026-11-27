@@ -6044,7 +6044,7 @@ __ct__21TObjHMS_EZRope_PlayerFP10TObjMotionP15TObjHMSRopeSpecP19TObjHMSColliderS
 copy_ezrope_collider__FP18TObjEZRopeColliderP18TObjEZRopeCollider = .text:0x800FF1FC; // type:function size:0x24
 copy_ezrope_end__FP13TObjEZRopeEndP13TObjEZRopeEnd = .text:0x800FF220; // type:function size:0x24
 copy_ezrope_segment__FP17TObjEZRopeSegmentP17TObjEZRopeSegment = .text:0x800FF244; // type:function size:0x34
-create_hairmove__10TObjPlayerFP15TObjHMSRopeSpecP19TObjHMSColliderSpec = .text:0x800FF278; // type:function size:0x58
+create_hairmove__21TObjHMS_EZRope_PlayerFP10TObjPlayerP15TObjHMSRopeSpecP19TObjHMSColliderSpec = .text:0x800FF278; // type:function size:0x58
 draw_rope__21TObjHMS_EZRope_PlayerFv = .text:0x800FF2D0; // type:function size:0x2B0
 resolve_collisions__14TObjEZRopeBaseFP3Vecf = .text:0x800FF580; // type:function size:0x208
 update_ropes__14TObjEZRopeBaseFP3Vec = .text:0x800FF788; // type:function size:0x144
