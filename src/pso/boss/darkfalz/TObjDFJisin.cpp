@@ -163,8 +163,8 @@ void TObjDFUsoTower::render() {
 
 void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     TObjPlayer *player;
-    void *head;
-    void *hair;
+    NJS_OBJECT *head;
+    NJS_OBJECT *hair;
     NJS_TEXLIST *head_textures;
     uaddr attachment;
     NJS_TEXLIST *attachment_textures;
@@ -224,14 +224,14 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     }
 }
 
-void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
+void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, NJS_OBJECT *body, NJS_OBJECT *head, u32 hair, uaddr part, saddr appearance, f32 alpha) {
     if (0.0f != alpha) {
-        TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
+        TObjDFTenchuFuru::draw_node_tree(body);
         if (alpha < 1.0f) {
             begin_alpha_blend(alpha);
         }
         set_texture_list(body_texlist);
-        draw_chunk_object((void *)body);
+        draw_chunk_object(body);
         if (part != 0U) {
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
@@ -239,12 +239,12 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
             draw_chunk_object((void *)part);
             pop_matrix();
         }
-        if (head != 0U) {
+        if (head != NULL) {
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
             set_texture_list(head_texlist);
-            draw_chunk_object((void *)head);
+            draw_chunk_object(head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
@@ -266,8 +266,8 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
 extern "C" {
 void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha) {
     TObjPlayer *player;
-    void *head;
-    void *hair;
+    NJS_OBJECT *head;
+    NJS_OBJECT *hair;
     NJS_TEXLIST *head_textures;
     uaddr attachment;
     NJS_TEXLIST *attachment_textures;

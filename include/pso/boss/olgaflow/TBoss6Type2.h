@@ -67,8 +67,8 @@ struct Boss6PlayerLook {
     NJS_TEXLIST head_textures;
     NJS_TEXLIST attachment_textures;
     NJS_OBJECT *model;
-    void *head_model;
-    void *hair_model;
+    NJS_OBJECT *head_model;
+    NJS_OBJECT *hair_model;
     u32 attachment_model;
 };
 

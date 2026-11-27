@@ -522,9 +522,9 @@ void TObjWaitEntryHairMoveSim::create_hair_effects() {
     for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->appearance.classId; e++) {
         if (player->appearance.classId == e->class_id) {
             if (player->appearance.hair == e->head_model_hair) {
-                model = (NJS_OBJECT *)player->head_model;
+                model = player->head_model;
             } else if (player->appearance.hair == e->hair_model_hair) {
-                model = (NJS_OBJECT *)player->hair_model;
+                model = player->hair_model;
             } else if (player->appearance.head == e->attachment_model_head) {
                 model = (NJS_OBJECT *)player->attachment_model;
             } else {
@@ -577,7 +577,7 @@ void T_OWEHMS_Exp::run_task() {
 void TObjWaitEntryHairMoveSim::hair_model_stub(NJS_OBJECT *model) {  }
 
 void T_OWEHMS_Exp::start_bone_rotation() {
-    NJS_OBJECT *model = (NJS_OBJECT *)player->hair_model;
+    NJS_OBJECT *model = player->hair_model;
     TObjWaitEntryHairMoveSim::hair_model_stub(model);
     TObjEZBoneRotPlayer::create(player, model, &hair_bone_rotation_descriptor[descriptor_index]);
 }

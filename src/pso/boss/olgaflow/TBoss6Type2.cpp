@@ -2326,7 +2326,7 @@ void TBoss6Type2::draw() {
         post_translate_matrix((const f32 *)&this->node_positions[11]);
         rotate_matrix_y(NULL, this->rotation_y);
         boss6type2_draw_models(&saved_look.body_textures, &saved_look.head_textures, &saved_look.attachment_textures,
-                               (uaddr)saved_look.model, (uaddr)saved_look.head_model, (uaddr)saved_look.hair_model,
+                               saved_look.model, saved_look.head_model, (uaddr)saved_look.hair_model,
                                saved_look.attachment_model, (saddr)grab_appearance, 1.0f);
         pop_matrix();
     }

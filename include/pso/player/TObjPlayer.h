@@ -305,8 +305,8 @@ struct TObjPlayer : public TObjChara {
     CharacterAppearanceFields appearance;
     // The part models TChCrLoadReq loads after the body (TObjMotion::model):
     // the hair and head hang from node 0x3B, the attachment from node 0x3A.
-    void* hair_model;
-    void* head_model;
+    NJS_OBJECT *hair_model;
+    NJS_OBJECT *head_model;
     uaddr attachment_model;
     // Texture sets TChCrLoadReq fills for the head/hair, the attachment and the body.
     CharacterTextureLoadSet head_textures;
