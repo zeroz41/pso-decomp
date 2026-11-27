@@ -42,7 +42,7 @@ void copy_matrix(MtxP dest, const f32 (*source)[4]) {
 }
 #pragma pop
 
-asm void subtract_vector(Vec *v, const Vec *sub) {
+asm Vec *subtract_vector(Vec *v, const Vec *sub) {
 #include "orig_asm/pso/math/MatrixTransforms/subtract_vector.inc"
 }
 

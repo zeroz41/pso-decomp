@@ -3,6 +3,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -16,8 +17,6 @@
 #include "types.h"
 
 #pragma readonly_strings on
-
-extern "C" Vec *subtract_vector(Vec *v, const Vec *sub);
 
 const char *TeneFakeTecThunderEff::class_name = "TeneFakeTecThunderEff";
 // The bolt's textures (set up by init_fake_tec_texlist) and the texture
