@@ -7390,8 +7390,8 @@ force_active:
   - last_uv_scroll_tick__23TObjSeabedSuisoBrakable
   - layercmp
   - layout_entries__11TWindowMenuFv
-  - layout_entry_group__21TWindowSubCustomEquipFPv
-  - layout_selection_parts__21TWindowSubCustomEquipFPv
+  - layout_entry_group__21TWindowSubCustomEquipFl
+  - layout_selection_parts__21TWindowSubCustomEquipFl
   - lazer_fence4_class_name
   - lazer_fence_beam_motions
   - lazer_fence_beam_node_table
@@ -13860,7 +13860,7 @@ force_active:
   - read_be_u32__Fv
   - read_byte__24TMessageWindowControllerFv
   - read_byte_advance__6TLobbyFv
-  - read_data_sync__Flll
+  - read_data_sync__FP10AdxfHandlelPv
   - read_file_header__9TLanguageFPUcP13GvmFileHeader
   - read_into_buffer__9TLanguageFPvl
   - read_stream_u16__Fv
@@ -13950,7 +13950,7 @@ force_active:
   - recv_vm_download__9TProtocolFR6packet
   - recv_vm_download_head__9TProtocolFR6packet
   - ref_counted_load_buffer
-  - refill_gstream_buffer__Fl
+  - refill_gstream_buffer__FP10AdxfHandle
   - reflect_velocity_off_collision__12TObjGoGoBallFP3VecP3Vec
   - refresh__18TWindowSubItemListFv
   - refresh_display__12TAdDialingGCFv

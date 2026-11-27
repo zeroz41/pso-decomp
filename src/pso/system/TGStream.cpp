@@ -67,7 +67,7 @@ const char seabed01_multi_gsl_path[] = "gsl_seabed01_multi.gsl";
 const char seabed02_multi_gsl_path[] = "gsl_seabed02_multi.gsl";
 const char empty_gsl_path[4] = "";
 char *gsl_archive_path_buffer_ptr = (char *)gsl_archive_entries;
-saddr gstream_tmp_buffer;
+u8 *gstream_tmp_buffer;
 AdxfHandle *gsl_adxf_handle;
 s32 gsl_entry_count;
 s32 gsl_archive_write_mode;
@@ -184,7 +184,7 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
 
 void TGStream::read_sectors_sync(s32 sector_count, void *destination) {
     ADXF_ReadNw(adxf_handle, sector_count, destination);
-    set_read_params(&adxf_handle, (int)sector_count, (saddr)destination);
+    set_read_params(&adxf_handle, (int)sector_count, destination);
     for (;;) {
         if (ADXF_GetStat(adxf_handle) == 3) {
             break;
@@ -246,7 +246,7 @@ void open_gsl_archive(char *name) {
         if (gsl_adxf_handle != 0) {
             TGStream::reset();
             ADXF_ReadNw(gsl_adxf_handle, 6, gsl_archive_entries);
-            set_read_params(&gsl_adxf_handle, 6, (saddr)gsl_archive_entries);
+            set_read_params(&gsl_adxf_handle, 6, gsl_archive_entries);
             for (;;) {
                 if (ADXF_GetStat(gsl_adxf_handle) == 3) {
                     break;
@@ -270,14 +270,11 @@ void open_gsl_archive(char *name) {
     }
 }
 
-void read_data_sync(saddr handle, s32 sector_count, saddr destination) {
-    AdxfHandle *handle_addr;
-
-    handle_addr = (AdxfHandle *)handle;
-    ADXF_ReadNw(handle_addr, sector_count, (void *)destination);
-    set_read_params(&handle_addr, (int)sector_count, (int)destination);
+void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination) {
+    ADXF_ReadNw(handle, sector_count, destination);
+    set_read_params(&handle, (int)sector_count, destination);
     for (;;) {
-        if (ADXF_GetStat(handle_addr) == 3) {
+        if (ADXF_GetStat(handle) == 3) {
             break;
         }
         run_frame();
@@ -295,7 +292,7 @@ s32 TGStream::read_data(void *dst, s32 size) {
     s32 n;
     total = 0;
     while (size > 0) {
-        if (refill_gstream_buffer((saddr)adxf_handle) <= 0) {
+        if (refill_gstream_buffer(adxf_handle) <= 0) {
             break;
         }
         if (size < get_gstream_buffered_bytes()) {
@@ -303,7 +300,7 @@ s32 TGStream::read_data(void *dst, s32 size) {
         } else {
             n = get_gstream_buffered_bytes();
         }
-        move_data(dst, (const void *)(gstream_tmp_buffer + gstream_buffer_read_offset), n);
+        move_data(dst, gstream_tmp_buffer + gstream_buffer_read_offset, n);
         dst = (u8 *)dst + n;
         size -= n;
         total += n;
@@ -319,10 +316,10 @@ s32 get_gstream_buffered_bytes(void) {
   return (gstream_buffer_valid_size - gstream_buffer_read_offset) & (((s32) ((-unread) & (~unread))) >> 0x1F);
 }
 
-s32 refill_gstream_buffer(saddr handle) {
+s32 refill_gstream_buffer(AdxfHandle *handle) {
     s32 remaining;
     s32 chunk_size;
-    if (handle == 0) {
+    if (handle == NULL) {
         return 0;
     }
     if (get_gstream_buffered_bytes() == 0) {
@@ -376,14 +373,14 @@ TGStream::TGStream(const char *file, s32 direct_read_mode) {
         while (tmp_buf_is_free() == 0) {
             pump_frames();
         }
-        gstream_tmp_buffer = (saddr)tmp_buf_use_req(gstream_class_name);
+        gstream_tmp_buffer = tmp_buf_use_req(gstream_class_name);
     }
 }
 
 void free_chr_select_stub(void) {  }
 
 void reset_gstream_globals(void) {
-    gstream_tmp_buffer = 0;
+    gstream_tmp_buffer = NULL;
     gsl_adxf_handle = 0;
     gsl_archive_filename[0] = 0;
     gsl_archive_write_mode = 0;

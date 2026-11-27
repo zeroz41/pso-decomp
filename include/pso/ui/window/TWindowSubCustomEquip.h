@@ -35,8 +35,8 @@ struct TWindowSubCustomEquip : public TWindowBase {
     s16 cursor_frame;
     u32 angle;
     WindowHeading *status_disp;
-    void layout_selection_parts(void *selection);
-    void layout_entry_group(void *index);
+    void layout_selection_parts(s32 selection);
+    void layout_entry_group(s32 index);
     void reset_selection();
     void refresh_palette_slots();
     void update_rotate_anim();

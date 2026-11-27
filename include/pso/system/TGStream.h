@@ -39,12 +39,12 @@ void async_file_read_stub(void);
 void load_area_gsl(void);
 void free_chr_select_stub(void);
 s32 get_gstream_buffered_bytes(void);
-s32 refill_gstream_buffer(saddr adxf_handle);
+s32 refill_gstream_buffer(AdxfHandle *adxf_handle);
 void reset_gstream_globals(void);
 extern u8 gstream_sector_buffer[0x2000];
 
 void close_gsl_archive(void);
 void open_gsl_archive(char *name);
-void read_data_sync(saddr handle, s32 sector_count, saddr destination);
+void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination);
 
 #endif
