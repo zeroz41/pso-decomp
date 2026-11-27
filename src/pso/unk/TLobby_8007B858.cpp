@@ -70,6 +70,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/quest/TObjQuestCol.h"
 #include "pso/item/item_create.h"
+#include "pso/ui/window/TWindowGetComCard.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -325,4 +326,56 @@ void TLobby::send_status_packet() {
 
     ((TLobby *)lobby)->collect_active_card_ids();
     protocol_instance->send_c6_packet((TBlockedSenders *)lobby);
+}
+
+s32 TWindowSubComCard::init_card() {
+    return has_free_card_slot(reinterpret_cast<GuildCardEntry *>(TWindowSubComCard::get_card_slot(0)), 0x1C);
+}
+
+void TWindowSubComCard::remove_entry(s32 index) {
+    s32 tmp = TWindowSubComCard::get_card_slot(0);
+    remove_guild_card_entry(index, reinterpret_cast<GuildCardEntry *>(tmp), 0x1C);
+}
+
+s32 TWindowSubComCard::scroll_list(GuildCardEntry *card) {
+    s32 tmp = TWindowSubComCard::get_card_slot(0);
+    return update_matching_card_slot(static_cast<GuildCardSlotBase *>(card), reinterpret_cast<GuildCardSlotBase *>(tmp), 0x1C);
+}
+
+void TWindowSubComCard::handle_press_a(GuildCardEntry *card, s32 id) {
+    card->clear();
+    if ((fill_guild_card_from_short_mail(card, id) != 0) && (TWindowSubComCard::scroll_list(card) == 0)) {
+        TWindowSubComCard::select_card_entry(card);
+    }
+}
+
+void TWindowSubComCard::init_and_press_a(s32 id) {
+    GuildCardEntry card;
+
+    TWindowSubComCard::handle_press_a(&card, id);
+}
+
+void TWindowSubComCard::handle_press_b(GuildCardEntry *card, s32 client_id) {
+    card->clear();
+    if ((fill_guild_card_from_player(card, client_id) != 0) && (TWindowSubComCard::scroll_list(card) == 0)) {
+        TWindowSubComCard::select_card_entry(card);
+    }
+}
+
+void TWindowSubComCard::init_and_press_b(s32 client_id) {
+    GuildCardEntry card;
+
+    TWindowSubComCard::handle_press_b(&card, client_id);
+}
+
+void TWindowSubComCard::update_press(s32 index) {
+    GuildCardEntry *card_entry = TWindowSubComCard::get_card_entry(index);
+    if (TWindowSubComCard::scroll_list(card_entry) == 0) {
+        TWindowSubComCard::select_card_entry(card_entry);
+    }
+}
+
+void TWindowSubComCard::select_card_entry(GuildCardEntry *card) {
+    saddr slots = TWindowSubComCard::get_card_slot(0);
+    replace_matching_card(static_cast<GuildCardSlotBase *>(card), reinterpret_cast<GuildCardSlotBase *>(slots), 0x1C);
 }

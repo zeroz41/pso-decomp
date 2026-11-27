@@ -959,11 +959,8 @@ pso/ui/window/TWindowSubComCard_8007A810.cpp:
 	.sbss       start:0x805D4E80 end:0x805D4E84
 
 pso/unk/TLobby_8007B858.cpp:
-	.text       start:0x8007B6D8 end:0x8007BD24
+	.text       start:0x8007B6D8 end:0x8007BF8C
 	.data       start:0x8048D4C0 end:0x8048D5C8
-
-pso/ui/window/TWindowSubComCard_8007BD24.cpp:
-	.text       start:0x8007BD24 end:0x8007BF8C
 
 pso/network/PSOV3EncryptionTCP.cpp:
 	.text       start:0x8007BF8C end:0x8007C0CC
