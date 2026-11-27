@@ -4,7 +4,11 @@
 #include "types.h"
 
 struct EnemyPlacement;
+struct EnemySetRecord;
 struct ObjectSetData;
+
+// Where run_wave_event_actions reads its action stream from.
+struct WaveEventContext { u8* stream; s32 cursor; };
 
 void copy_game_variations(u32 *variations, s32 size);
 void init_city_area_stub(void);
@@ -14,10 +18,10 @@ void reset_reload_story_select(void);
 void reset_online_story_select(void);
 void free_forest_rel_work_buffer(void);
 void command_exit_stub(void);
-void set_wave_event_stream(void *a0);
+void set_wave_event_stream(WaveEventContext *context);
 s32 activate_first_floor_event(s32 idx, s32 id);
 void activate_triggered_floor_events(void);
-void bswap_enemy_set_row(void *row_ptr);
+void bswap_enemy_set_row(EnemySetRecord *row);
 void bswap_enemy_set_row_fields(EnemyPlacement *placement);
 void bswap_floor_event_set(s32 idx);
 void bswap_object_row_fields(ObjectSetData *placement);

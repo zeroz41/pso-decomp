@@ -43,12 +43,12 @@ void refresh_quest_list(const char *path) {
 }
 
 void TLobby::bswap_enemy_set_rows(u32 size) {
-    BswapEnemySetRowsEntry* p = (BswapEnemySetRowsEntry*)this;
-    u32 n = size / sizeof(BswapEnemySetRowsEntry);
+    EnemySetRecord *p = (EnemySetRecord *)this;
+    u32 n = size / sizeof(EnemySetRecord);
     u32 i;
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
-        p->b = 0;
+        p->flags = 0;
     }
 }
 

@@ -165,8 +165,7 @@ s32 run_floor_initialize_callbacks(s32 floor) {
 }
 
 s32 TLobby::update_key_machine() { return run_floor_initialize_callbacks(get_current_floor_area()); }
-void bswap_enemy_set_row(void *row_ptr) {
-    EnemySetRecord *row = (EnemySetRecord *)row_ptr;
+void bswap_enemy_set_row(EnemySetRecord *row) {
     bswap_16((u16 *)&row->type);
     bswap_enemy_set_row_fields(&row->placement);
 }
@@ -431,4 +430,7 @@ s32 run_wave_event_actions(void) {
 }
 
 
-void set_wave_event_stream(void *a0) { wave_event_stream_base = *(u8 **)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
+void set_wave_event_stream(WaveEventContext *context) {
+    wave_event_stream_base = context->stream;
+    wave_event_stream_cursor = context->cursor;
+}

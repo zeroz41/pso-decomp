@@ -2,6 +2,7 @@
 #define PSO_MAP_TSETEVTDESTROY_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "types.h"
 
 struct SetDestroyEventRecord {
@@ -13,7 +14,6 @@ struct SetDestroyEventRecord {
     s32 delay_ticks;
     s32 action_offset;
 };
-struct WaveEventContext { u8* stream; s32 cursor; };
 
 // One floor's ".evt" file from gsl_set_event.gsl: a header, then count event records. TSetEvtDestroy runs
 // the action stream that starts action_stream_offset bytes into the file (name inferred).
