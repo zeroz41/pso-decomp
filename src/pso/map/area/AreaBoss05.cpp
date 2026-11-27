@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjRainCtrl.h"

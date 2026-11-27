@@ -30,7 +30,7 @@
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/task/TMainTask.h"

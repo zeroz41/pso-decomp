@@ -47,7 +47,7 @@
 
 #include <stddef.h>
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"

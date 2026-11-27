@@ -63,7 +63,7 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/weapon/TItemWeaponHeavenPunisher.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"

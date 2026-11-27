@@ -4,7 +4,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdBackGC.h"

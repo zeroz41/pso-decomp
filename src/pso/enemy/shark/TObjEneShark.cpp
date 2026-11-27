@@ -38,7 +38,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"

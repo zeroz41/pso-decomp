@@ -35,7 +35,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"

@@ -220,7 +220,7 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_player_offset, offsetof(TAdSinglePlyChrSel
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_guide_offset, offsetof(TAdSinglePlyChrSelectGC, guide) == 0x34);
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_menu_choice_offset, offsetof(TAdSinglePlyChrSelectGC, menu_choice) == 0x5C);
 
-// Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
+// Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_CardSequence.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.
 extern CharacterFile *card_character_save_buffer;
 extern CharacterFile *secondary_card_character_save_buffer;

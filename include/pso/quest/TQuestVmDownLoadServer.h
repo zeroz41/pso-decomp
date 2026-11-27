@@ -122,7 +122,7 @@ QuestDownloadRecord *get_quest_download_file_header(void);
 // Set while a quest file is being downloaded (TQuestVmDownLoadServer::load_quest_data sets it).
 extern s32 quest_download_in_progress;
 
-// Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_801FBF54.cpp, next to
+// Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_CardSequence.cpp, next to
 // quest_memcard_key). Names inferred: the quest file requests store them in their
 // banner (+0x44) and icon (+0x48) fields, which set_card_banner_and_icon then replaces with the
 // loaded banner/icon buffers; build_save_file_image copies 0x1800 (banner) / 0x800 (icon) bytes from them.

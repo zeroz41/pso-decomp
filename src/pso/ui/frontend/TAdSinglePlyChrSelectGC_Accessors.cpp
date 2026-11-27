@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "types.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -177,7 +177,7 @@ Pso3CharacterSaveRecord::Pso3CharacterSaveRecord() {
 }
 extern "C" {
 
-// The generated GuildCardEntry constructor (emitted in TWindowSubComCard_8007A810.cpp).
+// The generated GuildCardEntry constructor (emitted in TWindowSubComCard_CardSlots.cpp).
 void *__ct__14GuildCardEntryFv(void *card);
 }
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { __ct__14GuildCardEntryFv(this); return this; }

@@ -339,7 +339,7 @@ void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
     f32 bottom;
     f32 step;
 
-    // TWindowDD::get_draw_count(hud_texlist), read inline here
+    // get_draw_count(hud_texlist), read inline here
     tex = hud_texlist->textures[2].texture->surface->id;
     if (rect->open_tick < 0) {
         return;

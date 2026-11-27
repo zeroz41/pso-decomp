@@ -710,15 +710,12 @@ struct TObjPlayer : public TObjChara {
     static s32 validate_and_clear_slot(PlayerTechniqueState *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
-    static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
     void export_state_to_record(TPlyCharData *record);
     void copy_battle_mode(TPlyCharData *record);
     void copy_byte_339_to_record(TPlyCharData *record);
     void copy_mag_level_to_record(TPlyCharData *record);
     void apply_pending_action(TPlyCharData *record);
-    static s32 sync_char_select_state();
-    static void init_battle_selection();
     void set_action_state(s16 state, s16 value);
     void clear_flag_80000();
     void set_flag_80000();

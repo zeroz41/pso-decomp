@@ -52,7 +52,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"

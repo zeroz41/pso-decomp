@@ -30,7 +30,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/npc/TargetPlayerLookup.h"

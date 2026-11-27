@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/FloorReflection.h"
 #include "pso/boss/goldragon/Boss8DemoObjects.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/map/area/Dragon2Scene.h"
 #include "pso/map/FloorWaveEvents.h"

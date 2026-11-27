@@ -39,7 +39,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/ScratchVectors.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"

@@ -9,6 +9,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/ScreenQuadDraw.h"
+#include "pso/ui/window/TWindowDD_WordSelect.h"
 
 
 
@@ -107,7 +108,7 @@ void TWindowWordSelectMode::render() {
     copy_window_point_table(points, 0);
     set_frame_column_vertices_x(ctx, points);
     set_frame_row_vertices_y(ctx, points, 0);
-    count = TWindowDD::get_draw_count(hud_texlist);
+    count = get_draw_count(hud_texlist);
     if (this->highlight_hidden == 0) {
         sel = this->selected_row;
     } else {

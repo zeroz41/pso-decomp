@@ -151,7 +151,6 @@ struct TWindowDD : public TObject
     static s32 count_chars_since_newline(const char *buf, s32 *pos);
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
-    static s32 get_draw_count(const NJS_TEXLIST *textures);
     static TWindowDDValueList *get_entry(s32 index);
     void handle_confirm_input();
     void update_selection_state();

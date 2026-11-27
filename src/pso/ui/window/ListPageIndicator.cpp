@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TextBuilder.h"

@@ -51,7 +51,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

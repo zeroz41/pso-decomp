@@ -1,5 +1,5 @@
 #define PSO_SDK_COMPACT_MATH
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/system/save/CardFileInfo.h"
 #include <stdio.h>

@@ -17,7 +17,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

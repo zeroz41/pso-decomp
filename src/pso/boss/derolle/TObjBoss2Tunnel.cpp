@@ -14,7 +14,7 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2TunnelSlide.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill.h"

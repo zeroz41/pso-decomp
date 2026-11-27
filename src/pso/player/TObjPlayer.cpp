@@ -124,7 +124,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/TBattleMusicGainTask.h"

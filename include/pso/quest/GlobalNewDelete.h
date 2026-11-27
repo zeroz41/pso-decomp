@@ -1,7 +1,8 @@
-#ifndef PSO_QUEST_TQUESTLISTVM_8007EAF8_H
-#define PSO_QUEST_TQUESTLISTVM_8007EAF8_H
+#ifndef PSO_QUEST_GLOBALNEWDELETE_H
+#define PSO_QUEST_GLOBALNEWDELETE_H
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct TQuestVmDownLoadServer;
 struct CameraParams;
@@ -15,5 +16,11 @@ void init_quest_vm_stub(void);
 u8 *alloc_zeroed_array(s32 count, s32 size);
 
 void debug_printf(const char *format, ...);
+
+class TUnk_8048DF58 : public TObject {
+public:
+    TUnk_8048DF58() : TObject(0) {}
+    virtual ~TUnk_8048DF58() {}
+};
 
 #endif

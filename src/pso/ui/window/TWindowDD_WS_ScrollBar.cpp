@@ -10,6 +10,7 @@
 #include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowDD_WordSelect.h"
 
 #pragma readonly_strings on
 
@@ -78,7 +79,7 @@ void TWindowDD_WS_ScrollBar::render() {
     f32 len;
 
     this->calc_inner_rect(rect);
-    tex = TWindowDD::get_draw_count(hud_texlist);
+    tex = get_draw_count(hud_texlist);
     reset_window_vertices(verts, word_select_inverse_depth(this->draw_depth, 0.0f), -1);
     uv = word_select_quad_points[6];
     s = rect->scale[1];

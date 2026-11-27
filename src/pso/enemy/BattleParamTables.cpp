@@ -7,7 +7,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/memory.h"

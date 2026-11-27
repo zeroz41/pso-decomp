@@ -15,7 +15,7 @@
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/item/TItemReverseTech.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include <stddef.h>

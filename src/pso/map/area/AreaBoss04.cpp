@@ -5,7 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/darkfalz/TBoss4CheckEmpty.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/audio/MusicControl.h"

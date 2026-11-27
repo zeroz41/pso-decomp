@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/save/CharacterFile.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

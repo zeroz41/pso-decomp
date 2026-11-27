@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 

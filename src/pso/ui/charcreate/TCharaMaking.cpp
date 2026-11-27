@@ -1,7 +1,7 @@
 #include "pso/render/model_render_state.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include <string.h>
@@ -30,7 +30,7 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"

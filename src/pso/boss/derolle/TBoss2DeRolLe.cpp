@@ -265,7 +265,7 @@ f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TSceneAmbientLight.h"
 #include "pso/quest/QuestStoryFlags.h"

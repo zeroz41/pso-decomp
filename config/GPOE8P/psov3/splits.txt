@@ -946,7 +946,7 @@ pso/map/CsnQuery.cpp:
 	.sbss       start:0x805D4E68 end:0x805D4E80
 	.sdata2     start:0x805D91F0 end:0x805D9210
 
-pso/ui/window/TWindowSubComCard_8007A810.cpp:
+pso/ui/window/TWindowSubComCard_CardSlots.cpp:
 	.text       start:0x8007A810 end:0x8007B6D8
 	.ctors      start:0x80433F50 end:0x80433F54
 	.bss        start:0x80500158 end:0x80500398
@@ -971,7 +971,7 @@ pso/boss/derolle/TObjBoss2Tunnel_Snapshot.cpp:
 	.sbss       start:0x805D4E88 end:0x805D4EB0
 	.sdata2     start:0x805D9210 end:0x805D9298
 
-pso/quest/TQuestListVM_8007EAF8.cpp:
+pso/quest/GlobalNewDelete.cpp:
 	.text       start:0x8007EAF8 end:0x8007ECF0
 	.ctors      start:0x80433F54 end:0x80433F58
 	.data       start:0x8048DF58 end:0x8048DF70
@@ -2745,7 +2745,7 @@ pso/ui/TLevelSelect.cpp:
 	.sbss       start:0x805D5550 end:0x805D5558
 	.sdata2     start:0x805DB080 end:0x805DB084
 
-pso/object/ambient/TObjLight_80133568.cpp:
+pso/object/ambient/TObjLight_SceneLights.cpp:
 	.text       start:0x801334E4 end:0x801349C8
 	.rodata     start:0x8043ED80 end:0x8043ED98
 	.data       start:0x804A6F28 end:0x804A6FD8
@@ -4571,7 +4571,7 @@ pso/player/PlayerAttackController.cpp:
 	.text       start:0x801D2E20 end:0x801D34E0
 	.sdata2     start:0x805DC3B8 end:0x805DC3C8
 
-pso/unk/text_801D34E0.cpp:
+pso/unk/ZeroedGlobalObject.cpp:
 	.text       start:0x801D34E0 end:0x801D3518
 	.ctors      start:0x80433F90 end:0x80433F94
 	.bss        start:0x80511DD8 end:0x80511DE8
@@ -4839,7 +4839,7 @@ pso/system/scene/SceneResourceIndex.cpp:
 pso/ui/window/TWindowCtrl_Flags.cpp:
 	.text       start:0x801FBA28 end:0x801FBA48
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
+pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.cpp:
 	.text       start:0x801FBA48 end:0x80202A68
 	.ctors      start:0x80433F9C end:0x80433FA0
 	.rodata     start:0x8044A7D0 end:0x8044A7E8
@@ -5497,7 +5497,7 @@ pso/player/PrsTextureLoad.cpp:
 	.bss        start:0x805161E0 end:0x805162E0
 	.sbss       start:0x805D63C0 end:0x805D63C8
 
-pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp:
+pso/ui/frontend/TAdMultiChgGameModeGC_Scenes.cpp:
 	.text       start:0x8023E7A8 end:0x8023F660
 	.rodata     start:0x8044DCE8 end:0x8044DD28
 	.data       start:0x804CCDA8 end:0x804CCFB8
@@ -6892,7 +6892,7 @@ pso/player/TPlayerFootStamp.cpp:
 	.sbss       start:0x805D6710 end:0x805D6718
 	.sdata2     start:0x805DE1F8 end:0x805DE214
 
-pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp:
+pso/boss/olgaflow/TBoss6PlotFalz_Phases.cpp:
 	.text       start:0x802B0228 end:0x802B0DCC
 	.ctors      start:0x80433FC4 end:0x80433FC8
 	.rodata     start:0x80470920 end:0x804709C0
@@ -6975,7 +6975,7 @@ pso/ui/frontend/TAdStorySelectGC.cpp:
 	.sbss       start:0x805D67C0 end:0x805D67C4
 	.sdata2     start:0x805DE528 end:0x805DE52C
 
-pso/player/TObjPlayer_802C367C.cpp:
+pso/player/PlayerCharacterRecord.cpp:
 	.text       start:0x802C367C end:0x802C4748
 	.sdata2     start:0x805DE530 end:0x805DE534
 
@@ -8269,7 +8269,7 @@ pso/ui/window/TWindowDD.cpp:
 	.sbss       start:0x805D6E08 end:0x805D6E38
 	.sdata2     start:0x805DFCB0 end:0x805DFCC0
 
-pso/ui/window/TWindowDD_8034435C.cpp:
+pso/ui/window/TWindowDD_WordSelect.cpp:
 	.text       start:0x8034435C end:0x80348E34
 	.rodata     start:0x80478650 end:0x804786B0
 	.data       start:0x804EFDC0 end:0x804EFF1C

@@ -170,7 +170,7 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include <stddef.h>
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/npc/TargetPlayerLookup.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 
 
 

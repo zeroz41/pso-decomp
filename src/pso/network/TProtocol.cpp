@@ -7,7 +7,7 @@
 #include "pso/network/PSOV3EncryptionTCP.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -579,7 +579,7 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 
 // ---- pso/network/TProtocol_801DB684
 
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include <stddef.h>
 
 LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);

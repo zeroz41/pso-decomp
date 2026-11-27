@@ -5261,7 +5261,7 @@ force_active:
   - __ct__16TItemWeaponAgitoFP7TObjectPUc
   - __ct__11TTecRaBartaFP8TObjBaseP3Vecl
   - __ct__15TItemWeaponCaneFP7TObjectPUc
-  - __sinit_TWindowSubComCard_8007A810_cpp
+  - __sinit_TWindowSubComCard_CardSlots_cpp
   - __ct__13GuildCardListFv
   - __ct__13GuildCardTagsFv
   - __ct__18TObjCityAirCar_CarFP7TObjectllf
@@ -6335,7 +6335,7 @@ force_active:
   - set_bank__18TPlyDispConfigSmthFv
   - decrement_state__19PhotonBlastDonationFv
   - initialize_battle__17TPlayerBattleCtrlFv
-  - __sinit_text_801D34E0_cpp__Fv
+  - __sinit_ZeroedGlobalObject_cpp__Fv
   - fn_801D371C
   - fn_801D6AB4
   - copy_arrow_color_entry__FP16TArrowColorEntryP16TArrowColorEntry

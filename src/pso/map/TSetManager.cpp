@@ -53,7 +53,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TSceneMaterial.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"

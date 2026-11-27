@@ -72,7 +72,7 @@ struct NJS_OBJECT;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/TAttackCollider.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

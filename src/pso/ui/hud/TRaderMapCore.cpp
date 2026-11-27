@@ -54,7 +54,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"

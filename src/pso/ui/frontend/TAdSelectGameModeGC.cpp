@@ -27,6 +27,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/scene/OfflineGameScene.h"
+#include "pso/player/PlayerCharacterRecord.h"
 
 
 const char *TAdSelectGameModeGC::name = "TAdSelectGameModeGC";
@@ -37,7 +38,7 @@ const SelectGameModeButtonRects select_game_mode_button_rect = {{{185.0f, 198.0f
 s32 TAdSelectGameModeGC::cached_mode_value;
 
 
-int on_local_player_created(void* p) { return TObjPlayer::sync_char_select_state(); }
+int on_local_player_created(void* p) { return sync_char_select_state(); }
 
 void TAdSelectGameModeGC::render() {  }
 

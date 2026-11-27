@@ -2,12 +2,11 @@
 #include "pso/system/debug_print.h"
 #include "pso/system/memory.h"
 #include "pso/network/TProtocol.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TUnk_8048DF58.h"
 #include "pso/player/TPlyDispData.h"
 
 // One TU: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.

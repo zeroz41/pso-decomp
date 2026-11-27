@@ -9,7 +9,7 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"

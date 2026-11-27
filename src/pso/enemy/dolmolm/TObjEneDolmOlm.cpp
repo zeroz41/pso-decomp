@@ -51,7 +51,7 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
 
 #include "pso/system/MatrixOps.h"

@@ -88,7 +88,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/object/TObjControl.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"

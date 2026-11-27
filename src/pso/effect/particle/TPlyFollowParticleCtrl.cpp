@@ -15,7 +15,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/player/TPlayerFootStamp.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"

@@ -5,7 +5,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TActorLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"

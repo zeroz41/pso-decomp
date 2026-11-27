@@ -11,7 +11,7 @@
 #include "pso/ui/window/ChallengeRank.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"

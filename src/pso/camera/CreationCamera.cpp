@@ -10,7 +10,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 
 static char active_challenge_title[12];
 

@@ -8,7 +8,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"

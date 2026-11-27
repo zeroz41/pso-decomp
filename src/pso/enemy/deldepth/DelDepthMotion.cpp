@@ -2,7 +2,7 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/deldepth/TObjEneDelDepth.h"

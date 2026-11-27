@@ -4,7 +4,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/MatrixStack.h"

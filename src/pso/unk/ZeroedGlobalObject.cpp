@@ -7,9 +7,9 @@ DestructorChain lbl_80511DD8;
 
 // Builds the global object above and registers its destructor, spelled out because the object's class (built by
 // clear_first_word, destroyed by delete_object_if_delete_flag) is not known.
-void __sinit_text_801D34E0_cpp() {
+void __sinit_ZeroedGlobalObject_cpp() {
     __register_global_object(clear_first_word(lbl_805D5DD8), (ObjectDestructor)delete_object_if_delete_flag,
         &lbl_80511DD8);
 }
 
-__declspec(section ".ctors") static void *const text_801D34E0_global_initializer = (void *)__sinit_text_801D34E0_cpp;
+__declspec(section ".ctors") static void *const zeroed_object_global_initializer = (void *)__sinit_ZeroedGlobalObject_cpp;

@@ -37,7 +37,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/map/FloorWaveEvents.h"

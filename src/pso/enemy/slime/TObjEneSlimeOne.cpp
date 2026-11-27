@@ -8,7 +8,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"

@@ -1,7 +1,7 @@
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/PlayerCharacterRecord.h"
 #include "pso/player/StartingInventory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/InventoryEntryCopy.h"
@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/item/TItem.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/npc/TNpcPlayer.h"
@@ -157,7 +157,7 @@ s32 TObjPlayer::begin_action_state(TPlyCharData *character) {
     return 1;
 }
 
-void TObjPlayer::begin_action_from_char_select() { begin_action_state(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
+void begin_action_from_char_select() { TObjPlayer::begin_action_state(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
 
 void TObjPlayer::copy_battle_mode(TPlyCharData *record) {
     record->set_battle_mode(get_battle_mode());
@@ -326,7 +326,7 @@ s32 capture_local_player_state(TPlyCharData *record) {
     return 1;
 }
 
-s32 TObjPlayer::sync_char_select_state() { return capture_local_player_state(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
+s32 sync_char_select_state() { return capture_local_player_state(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
 
 s32 TPlyCharData::capture_client_player(u16 client) {
     TObjPlayer *player = get_player_by_client_id(client);
@@ -346,7 +346,7 @@ s32 capture_local_player(TPlyCharData *record) {
     return 1;
 }
 
-void TObjPlayer::init_battle_selection() { capture_local_player(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
+void init_battle_selection() { capture_local_player(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
 
 void TPlyCharData::copy_from_player(TObjPlayer *player) {
     u8 *overflow;

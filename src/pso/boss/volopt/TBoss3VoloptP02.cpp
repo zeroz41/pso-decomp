@@ -38,7 +38,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/math/MatrixReflect.h"

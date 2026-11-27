@@ -61,7 +61,7 @@
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/QuestOpcodeHandlers.h"

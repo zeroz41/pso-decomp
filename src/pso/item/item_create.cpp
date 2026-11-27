@@ -135,7 +135,7 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

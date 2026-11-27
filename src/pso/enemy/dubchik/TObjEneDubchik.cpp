@@ -48,7 +48,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"

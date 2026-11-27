@@ -41,7 +41,7 @@ struct NJS_OBJECT;
 #include "pso/network/TLobby.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/volopt/EnemyEffectHelpers.h"

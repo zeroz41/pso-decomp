@@ -25,7 +25,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"

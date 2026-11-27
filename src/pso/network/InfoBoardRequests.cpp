@@ -3,7 +3,7 @@
 #include "pso/network/InfoBoardRequests.h"
 #include <string.h>
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TProtocol.h"

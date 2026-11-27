@@ -16,7 +16,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"

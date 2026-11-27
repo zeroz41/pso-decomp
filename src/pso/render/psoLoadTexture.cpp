@@ -24,7 +24,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/render/TextureLoad.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaDrawUtil.h"

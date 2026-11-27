@@ -33,6 +33,7 @@
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/ToUpperLatin1.h"
+#include "pso/ui/window/TWindowDD_WordSelect.h"
 
 
 s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
@@ -2475,7 +2476,7 @@ void TWindowDD_WS_String::draw(WindowDrawContext *ctx, s32 idx, f32 offset) {
     WindowVertex vertices[8];
     s32 draw_count;
 
-    draw_count = TWindowDD::get_draw_count(hud_texlist);
+    draw_count = get_draw_count(hud_texlist);
     reset_window_vertices(vertices, word_select_inverse_depth(draw_depth, offset), -1);
     copy_window_point_table(vertices, idx);
     set_frame_column_vertices_x(ctx, vertices);
@@ -2558,7 +2559,7 @@ f32 word_select_inverse_depth(f32 draw_depth, f32 offset) {
 }
 #pragma pop
 
-s32 TWindowDD::get_draw_count(const NJS_TEXLIST *textures) {
+s32 get_draw_count(const NJS_TEXLIST *textures) {
     return textures->textures[2].texture->surface->id;
 }
 

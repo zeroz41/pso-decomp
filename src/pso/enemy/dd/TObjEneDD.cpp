@@ -35,7 +35,7 @@ const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 
 #include "pso/ui/keyboard/SystemBootInit.h"

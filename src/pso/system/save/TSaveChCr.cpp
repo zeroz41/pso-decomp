@@ -23,6 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerCharacterRecord.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -176,7 +177,7 @@ void TSaveChCr::create_backgrounds() {
 
 s32 TSaveChCr::load_card_character() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
-    TObjPlayer::begin_action_from_char_select();
+    begin_action_from_char_select();
     return TAdSinglePlyChrSelectGC::load_character_from_card(1);
 }
 

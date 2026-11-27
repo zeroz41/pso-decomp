@@ -49,7 +49,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/GinjaUvScroll.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"

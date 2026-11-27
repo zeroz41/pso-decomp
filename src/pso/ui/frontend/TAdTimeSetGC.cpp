@@ -31,7 +31,7 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/charcreate/CharacterPreview.h"

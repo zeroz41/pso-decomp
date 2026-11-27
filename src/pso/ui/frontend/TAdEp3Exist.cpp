@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEp3Exist.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 
 #include "pso/ui/TLevelSelect.h"

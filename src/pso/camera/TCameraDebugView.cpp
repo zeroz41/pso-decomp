@@ -2,7 +2,7 @@
 #include "pso/camera/TCameraDebugView.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/ControllerInputState.h"

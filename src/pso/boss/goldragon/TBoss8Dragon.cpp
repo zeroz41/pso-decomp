@@ -80,7 +80,7 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

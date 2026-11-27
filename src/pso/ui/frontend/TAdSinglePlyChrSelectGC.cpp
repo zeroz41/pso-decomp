@@ -18,7 +18,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"

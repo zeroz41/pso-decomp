@@ -79,7 +79,7 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"

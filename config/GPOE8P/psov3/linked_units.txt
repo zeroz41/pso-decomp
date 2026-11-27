@@ -265,7 +265,7 @@ pso/boss/olgaflow/TBoss6Mag.cpp
 pso/boss/olgaflow/TBoss6MagMine.cpp
 pso/boss/olgaflow/TBoss6Mine.cpp
 pso/boss/olgaflow/TBoss6PlotFalz.cpp
-pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp
+pso/boss/olgaflow/TBoss6PlotFalz_Phases.cpp
 pso/boss/olgaflow/TBoss6Rock.cpp
 pso/boss/olgaflow/TBoss6RockChase.cpp
 pso/boss/olgaflow/TBoss6SwordShot.cpp
@@ -1032,7 +1032,7 @@ pso/ui/window/TWindowDD_WS_ScrollBar.cpp
 pso/ui/window/TWindowDD_WS_String.cpp
 pso/ui/window/TWindowDD_WS_Word.cpp
 pso/ui/window/TWindowDD.cpp
-pso/ui/window/TWindowDD_8034435C.cpp
+pso/ui/window/TWindowDD_WordSelect.cpp
 pso/ui/window/WordSelectDataTables.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
@@ -1089,7 +1089,7 @@ pso/ui/window/TWindowSubAreaMapDisp.cpp
 pso/ui/window/TWindowSubComCardList.cpp
 pso/ui/window/ChallengeWindow.cpp
 pso/ui/window/TWindowMenu_Cancelled.cpp
-pso/ui/window/TWindowSubComCard_8007A810.cpp
+pso/ui/window/TWindowSubComCard_CardSlots.cpp
 pso/ui/window/ProfanityFilter.cpp
 pso/ui/window/TWindowBase.cpp
 pso/ui/window/TWindowMenu.cpp
@@ -1274,7 +1274,7 @@ pso/object/warp/TObjLaboMapWarp.cpp
 pso/object/fence/TObjLazerFence4.cpp
 pso/object/fence/TObjLazerFenceNorm.cpp
 pso/object/ambient/TObjLight.cpp
-pso/object/ambient/TObjLight_80133568.cpp
+pso/object/ambient/TObjLight_SceneLights.cpp
 pso/technique/TTecFireCharge.cpp
 pso/object/TActorLight.cpp
 pso/technique/TTecSupportCharge.cpp
@@ -1363,7 +1363,7 @@ pso/render/GinjaMotionDraw.cpp
 pso/player/PrsTextureLoad.cpp
 pso/player/GinjaRenderTarget.cpp
 pso/player/PlayerCharDataInit.cpp
-pso/player/TObjPlayer_802C367C.cpp
+pso/player/PlayerCharacterRecord.cpp
 pso/weapon/TItemWeaponCard.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp
 pso/ui/frontend/EndingSequence.cpp
@@ -1401,7 +1401,7 @@ pso/quest/QuestOpcodeTables.cpp
 pso/quest/StoryQuestProgress.cpp
 pso/quest/TQuestListVM.cpp
 pso/ui/window/TObjNewFloorWin.cpp
-pso/quest/TQuestListVM_8007EAF8.cpp
+pso/quest/GlobalNewDelete.cpp
 pso/quest/TQuestThread.cpp
 pso/render/RenderUtilData.cpp
 pso/render/render_util.cpp
@@ -1475,7 +1475,7 @@ pso/ui/frontend/TAdMcSelectCursorGC.cpp
 pso/ui/frontend/TAdMcSelectGC.cpp
 pso/ui/frontend/TAdMcSelectMcGC.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC.cpp
-pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp
+pso/ui/frontend/TAdMultiChgGameModeGC_Scenes.cpp
 pso/ui/frontend/TAdSystemFileCheckGC.cpp
 pso/ui/frontend/TAdMultiConfirmGC.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
@@ -1501,7 +1501,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_GlobalState.cpp
 pso/unk/TBattleProximitySound.cpp
 pso/ui/frontend/TTextureWave.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
+pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_Accessors.cpp
 pso/ui/city/BankItemRecord.cpp
 pso/ui/frontend/CardFileAccess.cpp
@@ -1569,7 +1569,7 @@ pso/object/DoorWarpFactories.cpp
 pso/object/ObjectCreators.cpp
 pso/unk/TAdDialingSelectGC.cpp
 pso/render/GvplPaletteFile.cpp
-pso/unk/text_801D34E0.cpp
+pso/unk/ZeroedGlobalObject.cpp
 pso/player/CastTechniqueLevel.cpp
 pso/player/TechniqueLevelLearn.cpp
 pso/effect/sprite/TQuadSprite.cpp

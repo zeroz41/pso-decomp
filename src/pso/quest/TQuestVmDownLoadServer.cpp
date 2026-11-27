@@ -65,7 +65,7 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 #include "pso/system/MemoryMove.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/task/TMainTask.h"
 
 QuestDownloadRecord quest_download_file_state;
