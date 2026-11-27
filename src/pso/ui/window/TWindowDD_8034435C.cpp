@@ -2086,9 +2086,6 @@ void TWindowDD::refresh_word_select_message(WordSelectMessage *message) {
     TWindowDD_WS_String *s;
     WindowTextEntry *e;
     f32 x;
-    f32 c;
-    f32 max;
-    f32 f10;
     TWindowDD::format_message(message, TWindowDD::work_buffer, local_client_id);
     s = labels[3];
     if (s != NULL) {

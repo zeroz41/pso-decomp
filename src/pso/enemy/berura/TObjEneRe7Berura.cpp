@@ -1366,10 +1366,10 @@ void TObjEneRe7Berura::render() {
     s32 visible;
     s32 cam;
     s32 i;
-    s32 f1;
-    s32 f2;
-    s32 l3;
-    s32 l4;
+    s32 draw_arms;
+    s32 draw_body;
+    s32 arm;
+    s32 hand;
     if (TObjPlayer::check_demo_mode() != 0) {
         render_demo();
         return;
@@ -1430,11 +1430,11 @@ void TObjEneRe7Berura::render() {
                 re7_berura_demo_flag = 0;
                 berura_demo_flag = 0;
                 fade->set_flags_and_apply_damage_color();
-                f1 = 1;
+                draw_arms = 1;
                 if (defer_render() != 0) {
-                    f1 = 0;
+                    draw_arms = 0;
                 }
-                if (f1 != 0) {
+                if (draw_arms != 0) {
                     set_chunk_model_node_callback(TObjEneRe7Berura::demo_frame_callback);
                     draw();
                     set_chunk_model_node_callback(0);
@@ -1455,11 +1455,11 @@ void TObjEneRe7Berura::render() {
             if (status_flags & 2) {
                 if (body_fade.has_visible_opacity() != 0) {
                     body_fade.set_flags_and_apply_damage_color();
-                    f2 = 1;
+                    draw_body = 1;
                     if (defer_render() != 0) {
-                        f2 = 0;
+                        draw_body = 0;
                     }
-                    if (f2 != 0) {
+                    if (draw_body != 0) {
                         set_chunk_model_node_callback(TObjEneRe7Berura::advance_state);
                         draw();
                         set_chunk_model_node_callback(0);
@@ -1480,9 +1480,9 @@ void TObjEneRe7Berura::render() {
         }
         pop_matrix();
         update_primary_light();
-        for (l3 = 0; l3 < 2; l3++) {
-            if (arm_flags[l3] & 1) {
-                re7_berura_detached_part_states[l3].show();
+        for (arm = 0; arm < 2; arm++) {
+            if (arm_flags[arm] & 1) {
+                re7_berura_detached_part_states[arm].show();
             }
         }
         TParticleCtrl::end_effect_render();
@@ -1490,8 +1490,8 @@ void TObjEneRe7Berura::render() {
         return;
     }
     if (mode == 5) {
-        for (l4 = 0; l4 < 2; l4++) {
-            VecCopy(&hand_positions[l4], &position);
+        for (hand = 0; hand < 2; hand++) {
+            VecCopy(&hand_positions[hand], &position);
         }
     }
 }

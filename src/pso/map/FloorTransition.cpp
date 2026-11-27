@@ -120,7 +120,6 @@ void FloorTransition::set_next_floor(s32 floor, s32) {
 #pragma fp_contract on
 s32 select_area_entrance(FloorTransition *transition) {
     s32 floor_delta;
-    s32 temp_r3;
     if ((s32) transition->previous_floor > 0x11) {
         return 4;
     }
