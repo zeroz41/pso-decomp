@@ -7301,7 +7301,7 @@ force_active:
   - is_sphere_visible__12TBoss1DragonFP3Vecf
   - split_screen_active__Fv
   - is_stat_over_limit__Fl
-  - is_non_topic_word__9TWindowDDFl
+  - is_non_topic_word__9TWindowDDFs
   - is_target_in_attack_range__12TObjEneSaverFv
   - is_target_in_attack_range__14TObjEneIllGillFv
   - is_target_in_attack_range__16TBoss3VoloptCoreFv
