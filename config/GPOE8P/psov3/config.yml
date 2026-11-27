@@ -1705,7 +1705,7 @@ force_active:
   - material_info_buffer
   - render_callback
   - is_within_view_edge__6TSceneFP3VecP3VecP3Vecf
-  - is_node_visible__6TSceneFP17SceneMaterialNodeff
+  - is_node_visible__6TSceneFP10NJS_OBJECTff
   - get_cull_mode__6TSceneFv
   - release_material_nodes__6TSceneFv
   - empty_floor_loader_2__6TSceneFl
@@ -15520,7 +15520,7 @@ force_active:
   - set_symbol_chat_face_sprite__FPvUc
   - set_talk__12CursorActionFv
   - set_target__11TCameraCtrlFii
-  - set_target__16TBoss6RockMarkerFlP3VecPlllf
+  - set_target__16TBoss6RockMarkerFlP3VecPlP11NJS_TEXLISTP10NJS_OBJECTf
   - set_target_coords__11TCameraCtrlFii
   - set_target_flag_bit0__15TObjEneSlimeOneFv
   - set_target_from_action__13TBoss5GryphonFP28G_GalGryphonBossActions_6x9F

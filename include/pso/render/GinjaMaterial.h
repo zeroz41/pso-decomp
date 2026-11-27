@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct GinjaVertexArray;
+struct NJS_OBJECT;
 
 // Called once a Ginja model draw ends (install_depth_alpha_state sets it).
 typedef void (*GinjaDrawEndCallback)(void);
@@ -15,7 +16,7 @@ void set_ginja_draw_list_mask(s32 mask);
 
 extern "C" {
 void draw_ginja_model(void *model);
-void draw_ginja_object(void *child);
+void draw_ginja_object(NJS_OBJECT *child);
 void set_ginja_vertex_arrays(GinjaVertexArray *array);
 // Blend override used while model_render_flags bit 0x8000 is set: mode, source, destination, logic op.
 void set_color_blend_mode(s32 mode, s32 source, s32 destination, s32 operation);

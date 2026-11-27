@@ -5,7 +5,7 @@
 #include "types.h"
 
 struct SceneMaterialSection;
-struct SceneMaterialNode;
+struct NJS_OBJECT;
 struct Vec;
 
 // One record of the area's texture UV animations (texture_animation_buffer).
@@ -80,7 +80,7 @@ public:
     // Whether pos lies in front of the camera and no further than depth.
     BOOL is_in_view_depth(Vec *pos, f32 depth, f32);
     // True when the camera is inside the node's model radius or the node is in view depth.
-    s32 is_node_visible(SceneMaterialNode *node, f32 depth, f32 near_depth);
+    s32 is_node_visible(NJS_OBJECT *node, f32 depth, f32 near_depth);
     // Which of the four culling passes render runs this frame.
     s32 get_cull_mode();
     // Empty: the TEffIndirect nodes init_material_nodes creates are child tasks.
@@ -170,8 +170,8 @@ struct SceneMaterialStatic;
 struct SceneMaterialAnimated;
 
 s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c);
-SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *record);
-SceneMaterialNode *resolve_indirect_object_record(void *, SceneMaterialAnimated *record);
+NJS_OBJECT *resolve_indirect_node_record(void *, SceneMaterialStatic *record);
+NJS_OBJECT *resolve_indirect_object_record(void *, SceneMaterialAnimated *record);
 
 s32 player_auxiliary_surfaces_enabled();
 

@@ -118,14 +118,14 @@ s32 player_auxiliary_surfaces_enabled() {
     return table.enabled[get_current_floor_area()];
 }
 
-SceneMaterialNode *resolve_indirect_object_record(void *, SceneMaterialAnimated *record) {
+NJS_OBJECT *resolve_indirect_object_record(void *, SceneMaterialAnimated *record) {
     if (record->flags & 0x200) {
         return record->indirect->node;
     }
     return record->node;
 }
 
-SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *record) {
+NJS_OBJECT *resolve_indirect_node_record(void *, SceneMaterialStatic *record) {
     if (record->flags & 0x200) {
         return record->indirect->node;
     }
@@ -242,7 +242,7 @@ void TScene::tick_material_fmt2() {
     SceneMaterialStatic *object;
     s32 i;
     SceneMaterialAnimated *anim;
-    SceneMaterialNode *node;
+    NJS_OBJECT *node;
     SceneMaterialUv *uv;
     if (texture_animation_buffer == NULL || scene_material_root == NULL) {
         return;
@@ -274,7 +274,7 @@ void TScene::tick_material_fmt2() {
             if (object->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, object));
+            node = resolve_indirect_node_record(this, object);
             if (object->flags & 0x20) {
                 uv = object->uv;
                 uv->u += uv->du;
@@ -308,7 +308,7 @@ void TScene::tick_material_fmt2() {
             if (anim->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, anim));
+            node = resolve_indirect_object_record(this, anim);
             if (anim->flags & 0x20) {
                 uv = anim->uv;
                 uv->u += uv->du;
@@ -341,7 +341,7 @@ void TScene::tick_material_fmt1() {
     SceneMaterialStatic *object;
     s32 i;
     SceneMaterialAnimated *anim;
-    SceneMaterialNode *node;
+    NJS_OBJECT *node;
     SceneMaterialUv *uv;
     if (texture_animation_buffer == NULL || scene_material_root == NULL) {
         return;
@@ -373,13 +373,14 @@ void TScene::tick_material_fmt1() {
             if (object->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, object));
+            node = resolve_indirect_node_record(this, object);
             if (object->flags & 0x20) {
                 uv = object->uv;
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (fabs_float(uv->u) >= 1.0f || fabs_float(uv->v) >= 1.0f) {
-                    scroll_ginja_mesh_uvs(&node->model->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
+                    GinjaModel *model = static_cast<GinjaModel *>(node->model);
+                    scroll_ginja_mesh_uvs(model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
                 }
@@ -405,13 +406,14 @@ void TScene::tick_material_fmt1() {
             if (anim->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, anim));
+            node = resolve_indirect_object_record(this, anim);
             if (anim->flags & 0x20) {
                 uv = anim->uv;
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (uv->u >= 1.0f || uv->v >= 1.0f) {
-                    scroll_ginja_mesh_uvs(&node->model->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
+                    GinjaModel *model = static_cast<GinjaModel *>(node->model);
+                    scroll_ginja_mesh_uvs(model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
                 }
@@ -910,8 +912,8 @@ void TScene::initialize_fmt2_materials() {
                 if (find_uv_animation(&def) == 1) {
                     uv->id = def.id; uv->texture = def.texture;
                     uv->u = def.u; uv->v = def.v; uv->du = def.du; uv->dv = def.dv;
-                    SceneMaterialNode *node = resolve_indirect_node_record(task, object);
-                    uv->buffer = new UvScrollBuffer(reinterpret_cast<NJS_OBJECT *>(node), uv->texture);
+                    NJS_OBJECT *node = resolve_indirect_node_record(task, object);
+                    uv->buffer = new UvScrollBuffer(node, uv->texture);
                 } else {
                     object->flags &= ~0x20;
                 }
@@ -928,8 +930,8 @@ void TScene::initialize_fmt2_materials() {
                 if (find_uv_animation(&def2) == 1) {
                     uv2->id = def2.id; uv2->texture = def2.texture;
                     uv2->u = def2.u; uv2->v = def2.v; uv2->du = def2.du; uv2->dv = def2.dv;
-                    SceneMaterialNode *node2 = resolve_indirect_object_record(task, anim);
-                    uv2->buffer = new UvScrollBuffer(reinterpret_cast<NJS_OBJECT *>(node2), uv2->texture);
+                    NJS_OBJECT *node2 = resolve_indirect_object_record(task, anim);
+                    uv2->buffer = new UvScrollBuffer(node2, uv2->texture);
                 } else {
                     anim->flags &= ~0x20;
                 }
@@ -1229,7 +1231,7 @@ void TScene::render_map_sections() {
 void TScene::render_static_map_section(SceneMaterialSection *scene_material_section, s32 flagged_only) {
     SceneMaterialStatic *e;
     s32 i;
-    SceneMaterialNode *node;
+    NJS_OBJECT *node;
     TEffIndirect *tex;
 
     for (i = 0, e = scene_material_section->objects; i < scene_material_section->count; i++, e++) {
@@ -1252,17 +1254,17 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             model_render_flags |= 1;
         }
         if (e->flags & 0x10) {
-            SceneMaterialNode *sh = resolve_indirect_node_record(this, e);
+            NJS_OBJECT *sh = resolve_indirect_node_record(this, e);
             if (sh != NULL) {
                 Vec v;
                 SceneSectionAngles a;
-                v.x = sh->position[0];
-                v.y = sh->position[1];
-                v.z = sh->position[2];
+                v.x = sh->pos[0];
+                v.y = sh->pos[1];
+                v.z = sh->pos[2];
                 vec3_add_to(&v, &scene_material_section->position);
-                a.x = sh->angles[0] + scene_material_section->angles[0];
-                a.y = sh->angles[1] + scene_material_section->angles[1];
-                a.z = sh->angles[2] + scene_material_section->angles[2];
+                a.x = sh->ang[0] + scene_material_section->angles[0];
+                a.y = sh->ang[1] + scene_material_section->angles[1];
+                a.z = sh->ang[2] + scene_material_section->angles[2];
                 render_projected_shadow_receiver(&v.x, &a.x);
             }
         }
@@ -1270,13 +1272,13 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
         if (map_section_render_callback != NULL) {
             Vec v;
             SceneSectionAngles a;
-            v.x = node->position[0];
-            v.y = node->position[1];
-            v.z = node->position[2];
+            v.x = node->pos[0];
+            v.y = node->pos[1];
+            v.z = node->pos[2];
             vec3_add_to(&v, &scene_material_section->position);
-            a.x = node->angles[0] + scene_material_section->angles[0];
-            a.y = node->angles[1] + scene_material_section->angles[1];
-            a.z = node->angles[2] + scene_material_section->angles[2];
+            a.x = node->ang[0] + scene_material_section->angles[0];
+            a.y = node->ang[1] + scene_material_section->angles[1];
+            a.z = node->ang[2] + scene_material_section->angles[2];
             map_section_render_callback(&v, &a, e->flags);
         }
         if (e->flags & 0x200) {
@@ -1295,13 +1297,13 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 SceneIndirectRecord *m = e->indirect;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {
                     IndirectDrawRecord l;
-                    l.placement.position.x = node->position[0];
-                    l.placement.position.y = node->position[1];
-                    l.placement.position.z = node->position[2];
+                    l.placement.position.x = node->pos[0];
+                    l.placement.position.y = node->pos[1];
+                    l.placement.position.z = node->pos[2];
                     vec3_add_to(&l.placement.position, &scene_material_section->position);
-                    l.placement.angles.x = node->angles[0] + scene_material_section->angles[0];
-                    l.placement.angles.y = node->angles[1] + scene_material_section->angles[1];
-                    l.placement.angles.z = node->angles[2] + scene_material_section->angles[2];
+                    l.placement.angles.x = node->ang[0] + scene_material_section->angles[0];
+                    l.placement.angles.y = node->ang[1] + scene_material_section->angles[1];
+                    l.placement.angles.z = node->ang[2] + scene_material_section->angles[2];
                     l.texlist = scene_material_root->texlist;
                     l.model = node;
                     l.scene = scene_material_root->flags;
@@ -1342,7 +1344,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
   TEffIndirect *texture;
   SceneMaterialAnimated *e;
   s32 i;
-  SceneMaterialNode *node;
+  NJS_OBJECT *node;
   for (i = 0, e = scene_material_section->animated; i < scene_material_section->animatedCount; i++, e++)
   {
     if ((flagged_only != 0) && (!(e->flags & 0x10000)))
@@ -1378,26 +1380,26 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     {
       Vec v;
       SceneSectionAngles a;
-      v.x = node->position[0];
-      v.y = node->position[1];
-      v.z = node->position[2];
+      v.x = node->pos[0];
+      v.y = node->pos[1];
+      v.z = node->pos[2];
       vec3_add_to(&v, &scene_material_section->position);
-      a.x = node->angles[0] + scene_material_section->angles[0];
-      a.y = node->angles[1] + scene_material_section->angles[1];
-      a.z = node->angles[2] + scene_material_section->angles[2];
+      a.x = node->ang[0] + scene_material_section->angles[0];
+      a.y = node->ang[1] + scene_material_section->angles[1];
+      a.z = node->ang[2] + scene_material_section->angles[2];
       render_projected_shadow_receiver(&v.x, &a.x);
     }
     if (map_section_render_callback != 0)
     {
       Vec v;
       SceneSectionAngles a;
-      v.x = node->position[0];
-      v.y = node->position[1];
-      v.z = node->position[2];
+      v.x = node->pos[0];
+      v.y = node->pos[1];
+      v.z = node->pos[2];
       vec3_add_to(&v, &scene_material_section->position);
-      a.x = node->angles[0] + scene_material_section->angles[0];
-      a.y = node->angles[1] + scene_material_section->angles[1];
-      a.z = node->angles[2] + scene_material_section->angles[2];
+      a.x = node->ang[0] + scene_material_section->angles[0];
+      a.y = node->ang[1] + scene_material_section->angles[1];
+      a.z = node->ang[2] + scene_material_section->angles[2];
       map_section_render_callback(&v, &a, e->flags);
     }
     if (e->flags & 0x200)
@@ -1699,10 +1701,11 @@ void TScene::cull_sections() {
             SceneMaterialStatic *st = sec->objects;
             s32 j;
             for (j = 0; j < sec->count; j++, st++) {
-                SceneMaterialNode *n = resolve_indirect_node_record(this, st);
-                v.x = n->model->center[0] + (sec->position.x + n->position[0]);
-                v.y = n->model->center[1] + (sec->position.y + n->position[1]);
-                v.z = n->model->center[2] + (sec->position.z + n->position[2]);
+                NJS_OBJECT *n = resolve_indirect_node_record(this, st);
+                f32 *center = static_cast<SceneModel *>(n->model)->center;
+                v.x = center[0] + (sec->position.x + n->pos[0]);
+                v.y = center[1] + (sec->position.y + n->pos[1]);
+                v.z = center[2] + (sec->position.z + n->pos[2]);
                 if (is_in_view_depth(&v, s_near + s_pad, 100.0f) != 0) {
                     st->flags |= 0x10000;
                 } else {
@@ -1712,10 +1715,10 @@ void TScene::cull_sections() {
             {
                 SceneMaterialAnimated *an = sec->animated;
                 for (j = 0; j < sec->animatedCount; j++, an++) {
-                    SceneMaterialNode *n = resolve_indirect_object_record(this, an);
-                    v.x = sec->position.x + n->position[0];
-                    v.y = sec->position.y + n->position[1];
-                    v.z = sec->position.z + n->position[2];
+                    NJS_OBJECT *n = resolve_indirect_object_record(this, an);
+                    v.x = sec->position.x + n->pos[0];
+                    v.y = sec->position.y + n->pos[1];
+                    v.z = sec->position.z + n->pos[2];
                     if (is_in_view_depth(&v, s_near + s_pad, 100.0f) != 0) {
                         an->flags |= 0x10000;
                     } else {
@@ -1866,10 +1869,12 @@ BOOL TScene::is_in_view_depth(Vec *pos, f32 depth, f32) {
     }
     return TRUE;
 }
-s32 TScene::is_node_visible(SceneMaterialNode *node, f32 depth, f32 near_depth) {
+s32 TScene::is_node_visible(NJS_OBJECT *node, f32 depth, f32 near_depth) {
     if (node->model != NULL && camera_ctrl_instance != NULL) {
-        Vec *pos = (Vec *)node->position;
-        if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < node->model->radius * node->model->radius) {
+        Vec *pos = (Vec *)node->pos;
+        f32 distance = xz_distance_squared(&camera_ctrl_instance->pos, pos);
+        f32 radius = static_cast<SceneModel *>(node->model)->radius;
+        if (distance < radius * radius) {
             return 1;
         }
         return is_in_view_depth(pos, depth, near_depth);

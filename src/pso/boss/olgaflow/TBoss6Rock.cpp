@@ -158,9 +158,9 @@ void TBoss6Rock::run_task() {
         break;
     }
     if (marker != NULL) {
-        saddr model = (saddr)get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id);
+        NJS_OBJECT *model = get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id);
         u64 pos = (saddr)&position;
-        marker->set_target(fall_state != 0, (Vec *)pos, &rotation_x, (saddr)boss6_rock_texture_list, model,
+        marker->set_target(fall_state != 0, (Vec *)pos, &rotation_x, boss6_rock_texture_list, model,
                          boss6_rock_kind_params[kind_index].radius);
     }
 }
@@ -544,15 +544,15 @@ void TBoss6RockMarker::render() {
         rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_z(NULL, rotation_z);
-        set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        set_texture_list(texlist);
         TBoss6PlotFalz::set_fade_material_color(0.5f);
-        draw_ginja_object((void *)model);
+        draw_ginja_object(model);
         TBoss6PlotFalz::restore_fade_material_color();
         pop_matrix();
     }
 }
 
-void TBoss6RockMarker::set_target(s32 enabled, Vec *position, s32 *rotation, s32 texlist, s32 model, f32 radius) {
+void TBoss6RockMarker::set_target(s32 enabled, Vec *position, s32 *rotation, NJS_TEXLIST *texlist, NJS_OBJECT *model, f32 radius) {
     this->enabled = enabled;
     if (this->enabled != 0) {
         VecCopy(&this->position, position);

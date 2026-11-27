@@ -49,10 +49,10 @@ extern GXCompCnt ginja_vertex_component_counts[9];
 extern GXCompType ginja_vertex_component_types[11];
 extern GXTexMtx ginja_texture_matrix_ids[11];
 
-void draw_ginja_object(void *child) {
+void draw_ginja_object(NJS_OBJECT *child) {
     prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
-    traverse_model_node_tree((NJS_OBJECT *)child, queue_model_draw_current_matrix);
+    traverse_model_node_tree(child, queue_model_draw_current_matrix);
     flush_model_draw_queue();
     if (ginja_draw_end_callback != NULL) {
         ginja_draw_end_callback();
