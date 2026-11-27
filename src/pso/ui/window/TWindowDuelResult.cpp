@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/area/AreaScene.h"

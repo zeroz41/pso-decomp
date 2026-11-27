@@ -7,7 +7,7 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/network/BattleModeDataCmd.h"
 #include "pso/player/PlayerTrapCounts.h"

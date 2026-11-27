@@ -127,7 +127,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_player.h"

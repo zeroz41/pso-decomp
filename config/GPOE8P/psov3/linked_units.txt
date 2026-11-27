@@ -1042,7 +1042,7 @@ pso/ui/window/TWindowDD_8034435C.cpp
 pso/ui/window/WordSelectDataTables.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
-pso/ui/window/TWindowDuelResult_801C2528.cpp
+pso/unk/TBattleMusicGainTask.cpp
 pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
 pso/ui/window/TWindowFukidasi.cpp
@@ -1278,7 +1278,7 @@ pso/object/collision/TObjFogCollision.cpp
 pso/object/ambient/TObjGrass.cpp
 pso/enemy/gyaranzo/TObjEneGyaranzo.cpp
 pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp
-pso/enemy/gyaranzo/TObjGyaranzoMissile_800D40D8.cpp
+pso/enemy/gyaranzo/TObjEneGyaranzoMine.cpp
 pso/object/TObjHashi.cpp
 pso/object/collision/TObjInfoCol.cpp
 pso/object/lobby/TObjKabochaLobby.cpp

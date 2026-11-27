@@ -3,7 +3,7 @@
 #include "pso/unk/TBattleProximitySound.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

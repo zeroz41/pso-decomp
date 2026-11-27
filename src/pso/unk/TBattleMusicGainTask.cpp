@@ -4,7 +4,7 @@
 #include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
