@@ -76,11 +76,13 @@ static const s32 npc_player_combat_action_table[3][2] = {
 const char *npc_player_char_file_name = "npcplayerchar.dat";
 const char *TNpcPlayer::name = "TNpcPlayer";
 
-// npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
+// On CodeWarrior npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
-// of this file, which no compiler-generated __sinit reproduces.
+// of this file, which no compiler-generated __sinit reproduces; other compilers construct it.
+#ifdef __MWERKS__
 void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
+#endif
 
 int get_registered_object_count(void);
 TNpcPlayer::AiParams npc_player_ai_templates[64] = {
@@ -1000,9 +1002,11 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
+#ifdef __MWERKS__
 void __sinit_TNpcPlayer_cpp() {
     __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, &npc_player_char_data_dtor_chain);
 }
+#endif
 
 void TNpcPlayer::ensure_rock_singleton() {
     if (npc_player_char_data_buffer == NULL) {

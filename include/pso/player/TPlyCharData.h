@@ -83,11 +83,13 @@ LAYOUT_ASSERT(PlyCharDataAppearanceOffset, offsetof(TPlyCharData, m_disp_part2) 
 // Copies one 0x50-byte player visual record over another; returns dst.
 disp_data_part2 *copy_player_visual_record(disp_data_part2 *dst, disp_data_part2 *src);
 
-// TPlyCharData's constructor and destructor by symbol, for the static initializers that build and register a
-// global TPlyCharData (C++ cannot take a constructor's or destructor's address).
+#ifdef __MWERKS__
+// TPlyCharData's constructor and destructor by symbol, for CodeWarrior's hand-written static initializers that
+// build and register a global TPlyCharData (C++ cannot take a constructor's or destructor's address).
 extern "C" {
 void *__ct__12TPlyCharDataFv(void *object);
 void __dt__12TPlyCharDataFv(void *object, s16 flags);
 }
+#endif
 
 #endif

@@ -656,22 +656,26 @@ void TLobby::clear_quest_state() { lobby_online_ready_flag = 0; }
 void TScene::set_scene(int scene) { scene_resource_index = scene; }
 
 
-// The global character record. The original's static initializer precedes this
+// The global character record. On CodeWarrior the original's static initializer precedes this
 // file's inline copies, which a compiler-generated one never does, so the
-// initializer is spelled out.
+// initializer is spelled out; other compilers construct the record themselves.
+#ifdef __MWERKS__
 static void __sinit_OfflineGameScene_cpp();
+#endif
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
 static DestructorChain global_character_data_dtor_chain;
 TPlyCharData global_character_data;
 #pragma pop
+#ifdef __MWERKS__
 __declspec(section ".ctors") static void *const offline_game_scene_initializer = (void *)__sinit_OfflineGameScene_cpp;
 
 static void __sinit_OfflineGameScene_cpp() {
     __register_global_object(__ct__12TPlyCharDataFv(&global_character_data),
         __dt__12TPlyCharDataFv, &global_character_data_dtor_chain);
 }
+#endif
 
 void TLobby::reset_quest_counter() { lobby_quest_progress_flag = 0; }
 
