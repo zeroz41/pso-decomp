@@ -1153,7 +1153,6 @@ pso/ui/chat/SymbolChatPreset.cpp
 pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp
-pso/ui/window/TWindowSubTradeMain_80187C98.cpp
 pso/ui/window/TWindowSubTradeMain.cpp
 pso/ui/window/TWindowTimer.cpp
 pso/ui/window/TWindowTradeRequest.cpp
@@ -1246,7 +1245,6 @@ pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp
 pso/camera/TObjCamera.cpp
 pso/object/TObjChip.cpp
 pso/object/warp/TObjCityMainWarpChallenge.cpp
-pso/object/warp/TObjCityMainWarp.cpp
 pso/object/collision/TObjCollision.cpp
 pso/object/TObjComputer.cpp
 pso/object/TObjControl.cpp

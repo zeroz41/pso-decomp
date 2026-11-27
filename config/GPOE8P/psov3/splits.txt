@@ -4009,19 +4009,13 @@ pso/object/warp/TObjLaboMapWarp.cpp:
 	.sbss       start:0x805D5B50 end:0x805D5B60
 	.sdata2     start:0x805DBC80 end:0x805DBCA8
 
-pso/object/warp/TObjCityMainWarp.cpp:
-	.text       start:0x80186C44 end:0x801871D0
-	.sbss       start:0x805D5B60 end:0x805D5B64
-
 pso/object/warp/TObjCityMainWarpChallenge.cpp:
-	.text       start:0x801871D0 end:0x80187C98
+	.text       start:0x80186C44 end:0x80187D44
 	.rodata     start:0x80444A28 end:0x80444A70
 	.data       start:0x804B6188 end:0x804B61F8
 	.sdata      start:0x805D32B8 end:0x805D32BC
+	.sbss       start:0x805D5B60 end:0x805D5B64
 	.sdata2     start:0x805DBCA8 end:0x805DBCD8
-
-pso/ui/window/TWindowSubTradeMain_80187C98.cpp:
-	.text       start:0x80187C98 end:0x80187D44
 
 pso/object/TObjComputer.cpp:
 	.text       start:0x80187D44 end:0x80188584
