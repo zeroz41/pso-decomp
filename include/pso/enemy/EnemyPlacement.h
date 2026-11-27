@@ -9,11 +9,11 @@
 struct EnemyPlacement {
     s16 enemy_index;
     s16 child_count;
-    s16 unknown04;
+    s16 pad_04;
     u16 id;
     s16 room;
     s16 wave;
-    s16 unknown0c[2];
+    s16 pad_0c[2];
     Vec position;
     s32 rotation[3];
     f32 parameters[5];

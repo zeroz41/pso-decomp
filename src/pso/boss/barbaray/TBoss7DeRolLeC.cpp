@@ -3721,12 +3721,12 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Angle3 
         }
         set.enemy_index = set_index + offset.value;
         set.child_count = 1;
-        set.unknown04 = 0;
+        set.pad_04 = 0;
         set.id = id;
         set.room = room;
         set.wave = 0;
-        set.unknown0c[0] = 0;
-        set.unknown0c[1] = 0;
+        set.pad_0c[0] = 0;
+        set.pad_0c[1] = 0;
         VecCopy(&set.position, position);
         copy_xyz(&set.rotation, angle);
         if (flags & 1) {
