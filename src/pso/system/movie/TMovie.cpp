@@ -27,8 +27,6 @@ extern "C" {
 s32 DVDCheckDisk();
 }
 
-extern int opening_movie_selector;
-extern unsigned char main_menu_scene_active_flag;
 
 const char *TMovie::class_name = "TMovie";
 // The eye, target and up of the view a movie plays in.

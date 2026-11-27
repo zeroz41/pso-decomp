@@ -23,6 +23,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/npc/ChaoNpcSpawn.h"
 
 
 extern const char *bm_ply_photon_chair_model_names[3];
@@ -192,12 +193,11 @@ TDrawableModel::TDrawableModel() {
 
 void TDrawableModel::reset() { model = NULL; }
 
-extern uaddr chao_npc_instance_handle;
 
 void TPlyPhotonChair::free_instance() {
-    if ((u32) chao_npc_instance_handle != 0U) {
-        delete (BmlResource *)chao_npc_instance_handle;
-        chao_npc_instance_handle = 0U;
+    if (chao_npc_instance_handle != NULL) {
+        delete chao_npc_instance_handle;
+        chao_npc_instance_handle = NULL;
     }
 }
 

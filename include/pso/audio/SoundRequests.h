@@ -40,4 +40,6 @@ void clear_sound_listener_position(void);
 int enable_sound_requests(s32);
 void update_sound_request_slots(void);
 
+extern s32 music_stream_base_gain;
+
 #endif

@@ -27,4 +27,6 @@ typedef struct FileIntegrityEntry {
     u32 crc;
 } FileIntegrityEntry;
 
+extern s32 opening_movie_selector;
+
 #endif

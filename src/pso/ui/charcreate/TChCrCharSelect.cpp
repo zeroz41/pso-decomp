@@ -16,6 +16,7 @@
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
 
 
 const char *TChCrCharSelect::name = "TChCrCharSelect";
@@ -52,7 +53,6 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }
 
-extern TObject *tl_03;
 
 void TChCrCharSelect::tick_and_apply_selection() {
     s32 delay;

@@ -12,6 +12,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/render/DebugFont.h"
+#include "pso/map/MapCollisionSetup.h"
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -828,7 +829,6 @@ __declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void
 
 CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }
 
-extern TMapCsnCtrl *map_csn_ctrl_instance;
 
 TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
     return map_csn_ctrl_instance;

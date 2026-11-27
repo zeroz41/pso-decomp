@@ -10,6 +10,7 @@
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/system/task/TMainTask.h"
 
 const char *TChCrEffFade::class_name = "TChCrEffFade";
 
@@ -119,7 +120,6 @@ void TChCrEffFade::run_task() {
     }
 }
 
-extern TObject *tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
 TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject(tl_fade) {

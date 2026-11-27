@@ -5,4 +5,7 @@
 
 void load_and_spawn_chao_npc(void);
 
+struct BmlResource;
+extern BmlResource *chao_npc_instance_handle;
+
 #endif

@@ -14,4 +14,7 @@ extern s32 pending_adventure_map_floor;
 
 void create_map_csn_ctrl();
 
+class TMapCsnCtrl;
+extern TMapCsnCtrl *map_csn_ctrl_instance;
+
 #endif

@@ -68,6 +68,7 @@
 #include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/object/quest/TObjQuestCol.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -268,7 +269,6 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); invoke_callbac
 
 
 
-    extern short quest_collision_next_id;
 void reset_quest_collision_ids_on_floor_load(void) { quest_collision_next_id = 0; }
 
 void reset_quest_collision_ids_on_floor_free(void) { quest_collision_next_id = 0; }

@@ -446,4 +446,6 @@ saddr get_connection_message_text(s32 id);
 u8 *get_access_key_input_buffer(void);
 u8 *get_raw_serial_input_buffer(void);
 
+extern TObject *lobby_player_construction_window;
+
 #endif

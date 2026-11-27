@@ -35,6 +35,7 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -575,7 +576,6 @@ void request_chara_making_archives(void) {
 
 void chara_making_init_stub(void) {  }
 
-extern TObject *tl_03;
 
 void TCharaMaking::update_light_direction() {
     f32 cos_pitch;

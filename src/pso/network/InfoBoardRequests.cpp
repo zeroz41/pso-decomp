@@ -7,10 +7,9 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TProtocol.h"
+#include "pso/network/InfoBoardState.h"
 
 
-extern s32 info_board_state_flags;
-extern TRecvInfoBoard *information_board_response_buffer;
 
 
 void request_info_board(TRecvInfoBoard *buffer) {

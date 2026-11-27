@@ -88,4 +88,6 @@ struct WindowPos { f32 x; f32 y; };
 
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
+extern TQuestThreadBoard *quest_thread_board;
+
 #endif

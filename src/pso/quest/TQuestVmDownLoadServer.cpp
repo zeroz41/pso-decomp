@@ -49,9 +49,7 @@ s32 quest_total_download_bytes;
 s32 quest_received_file_bytes;
 TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
-extern TObject *tl_00;
 
-extern uaddr lobby_player_construction_window;
 
 
 #include "pso/render/TDLGraph.h"
@@ -67,6 +65,7 @@ extern uaddr lobby_player_construction_window;
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/system/task/TMainTask.h"
 
 QuestDownloadRecord quest_download_file_state;
 QuestDownloadRecord quest_download_file_slot;
@@ -75,7 +74,6 @@ QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 s32 calc_download_crc32(void *data, s32 size);
-extern TObject *tl_03;
 
 void TQuestVmDownLoadServer::reset_download_state() {
     quest_dat_download_complete = 0;
@@ -588,8 +586,8 @@ void TQuestVmDownLoadServer::update_mc_select() {
     if ((this->message_window == 0) || (TMessageWindowController::is_ready() != 0)) {
         if (this->mc_select == NULL) {
             TScene::reset_counter();
-            if (lobby_player_construction_window != 0) {
-                ((TObject *)((void *)lobby_player_construction_window))->disallow_rendering();
+            if (lobby_player_construction_window != NULL) {
+                lobby_player_construction_window->disallow_rendering();
             }
             this->mc_select = TAdMcSelectGC::create(tl_03);
         }
@@ -629,9 +627,9 @@ void TQuestVmDownLoadServer::update_mc_select() {
 void TQuestVmDownLoadServer::open() {
     if ((uaddr) this->mc_select == 0U) {
         TScene::reset_counter();
-        uaddr window = lobby_player_construction_window;
-        if (window != 0U) {
-            ((TObject *)((void *)window))->disallow_rendering();
+        TObject *window = lobby_player_construction_window;
+        if (window != NULL) {
+            window->disallow_rendering();
         }
         this->mc_select = TAdMcSelectGC::create(tl_03);
     }
@@ -988,8 +986,8 @@ void TQuestVmDownLoadServer::close_download() {
 }
 void TQuestVmDownLoadServer::destroy() {
     TScene::set_ready();
-    if (lobby_player_construction_window != 0) {
-        ((TObject *)((void *)lobby_player_construction_window))->allow_rendering();
+    if (lobby_player_construction_window != NULL) {
+        lobby_player_construction_window->allow_rendering();
     }
     TQuestVmDownLoadServer::free_buffers();
     queue_destruction();

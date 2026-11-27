@@ -32,6 +32,7 @@
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/system/task/TMainTask.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -41,7 +42,6 @@ static const NJS_POINT2 short_mail_item_size = {218.0f, 184.0f};
 static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
 
-extern TObject *tl_00;
 
 s8 ShortMailEntry::get_flags() { return flags; }
 

@@ -11,6 +11,7 @@
 #include "pso/ui/charcreate/TChCrEffWall.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 s32 TChCrLoadAfs::is_load_complete() {
     return load_state == 2;
@@ -111,7 +112,6 @@ void TLobby::free_chr_select_singleton() {
     }
 }
 
-extern TObject *tl_03;
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {

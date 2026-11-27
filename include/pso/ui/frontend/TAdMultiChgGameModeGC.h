@@ -86,4 +86,6 @@ struct MultiChgGameModeTextLayouts { TAdSelectTxtLayout v[3]; };
 struct MultiChgGameModePositions { NJS_POINT2 v[3]; };
 extern s32 multi_chr_select_state;
 
+extern int chg_game_mode_state_synced;
+
 #endif
