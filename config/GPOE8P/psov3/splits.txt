@@ -2933,7 +2933,7 @@ pso/network/NetworkConnect.cpp:
 	.sbss       start:0x805D56D8 end:0x805D5720
 	.sdata2     start:0x805DB1B0 end:0x805DB1B3
 
-pso/boss/darkfalz/TOBoss4Rock.cpp:
+pso/system/GlobalArrayNewDelete.cpp:
 	.text       start:0x80147A80 end:0x80147AC8
 
 pso/npc/TObjNpcAHM01.cpp:

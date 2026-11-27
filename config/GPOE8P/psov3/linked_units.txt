@@ -823,7 +823,7 @@ pso/object/fence/TOBarrierEnergy01.cpp
 pso/object/TOBind.cpp
 pso/object/ambient/TOBiwaMushi.cpp
 pso/boss/darkfalz/TOBoss4.cpp
-pso/boss/darkfalz/TOBoss4Rock.cpp
+pso/system/GlobalArrayNewDelete.cpp
 pso/render/TNodeMatrixRecorder.cpp
 pso/object/cave/TOCakeshopCave01.cpp
 pso/object/ruins/TOCapsuleAncient01.cpp
