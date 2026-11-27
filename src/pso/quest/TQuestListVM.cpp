@@ -67,7 +67,7 @@ TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjPlayer *
     confirm_window = NULL;
     tmp_buffer = NULL;
     card_buffer = alloc(0x20000);
-    unk_2390 = 0;
+    pad_2390 = 0;
     decrypted_quest_buffer = NULL;
     decompression_capacity = 0;
     quest_data_output_cursor = NULL;

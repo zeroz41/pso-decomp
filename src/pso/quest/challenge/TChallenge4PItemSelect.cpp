@@ -55,7 +55,7 @@ TChallenge4PResult::TChallenge4PResult(TObject *parent, u16 slot, s32 resultCode
     state_1c = 0;
     message_window = 0;
     wait_frames = 90;
-    unknown_30 = 0;
+    pad_30 = 0;
     for (s32 i = 0; i < 3; ++i) {
         (&reward_items[i])->init();
         reward_available[i] = 0;

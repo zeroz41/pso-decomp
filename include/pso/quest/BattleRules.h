@@ -21,7 +21,7 @@ struct BattleRules {
     u8 enable_sonar;
     s8 sonar_count;
     u8 forbid_scape_dolls;
-    u32 unknown_14;
+    u32 pad_14;
     u32 lives;
     u32 max_tech_level;
     u32 char_level;

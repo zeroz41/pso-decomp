@@ -36,8 +36,8 @@ struct TQuestListChallenge : public TShopWindowBase {
     TWindowMenuIconLine *list_window;
     TWindowMessage *description_window;
     TWindowMessage *info_window;
-    u32 unk_44;
-    u32 unk_48;
+    u32 pad_44;
+    u32 pad_48;
     s32 shown_index;
     s32 text_group;
     s32 count;

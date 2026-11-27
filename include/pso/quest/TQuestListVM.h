@@ -109,7 +109,7 @@ public:
     u8 *tmp_buffer;
     void *card_buffer;
     u8 pad_238C[0x4];
-    s32 unk_2390;
+    s32 pad_2390;
     u8 pad_2394[0x4];
     s32 scan_index;
     s32 scan_card_slot;

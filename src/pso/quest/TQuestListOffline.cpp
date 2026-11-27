@@ -84,7 +84,7 @@ TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence,
     description_window = NULL;
     confirm_window = NULL;
     this->player = player;
-    unk_48 = 0;
+    pad_48 = 0;
     shown_index = 0;
     on_cancel = NULL;
     on_accept = NULL;
