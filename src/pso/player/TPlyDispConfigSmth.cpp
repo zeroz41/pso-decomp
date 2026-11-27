@@ -108,9 +108,6 @@ void TPlyDispConfigSmth::bswap() {
 }
 
 extern "C" {
-u8 get_cast_technique_level(void *, int);
-}
-extern "C" {
 
 s32 is_trap_stock_empty(void *, s32);
 }
@@ -151,7 +148,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
         if (technique_state.test_flag_2() != 0 || test_actor_flags(0x20006) != 0 || get_camera_field() == 0) {
             return 0;
         }
-        if (tp - calc_technique_parameters(tec = sub, get_cast_technique_level(&technique_state, sub), get_entity_id())->tp_cost < 0) {
+        if (tp - calc_technique_parameters(tec = sub, technique_state.get_cast_technique_level(sub), get_entity_id())->tp_cost < 0) {
             return 0;
         }
         switch (tec) {

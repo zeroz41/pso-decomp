@@ -707,7 +707,7 @@ struct TObjPlayer : public TObjChara {
     s16 get_section_clamped();
     s32 get_section_id();
     static void split_capped_value(u8 level, u8 *capped, u8 *overflow);
-    static s32 validate_and_clear_slot(void *techs, s16 tech);
+    static s32 validate_and_clear_slot(PlayerTechniqueState *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();

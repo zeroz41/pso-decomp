@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-u8 get_cast_technique_level(void *techs, s16 technique);
 u8 get_class_technique_cap(s32 cls, s32 technique);
 }
 
@@ -21,8 +20,8 @@ u8 PlayerTechniqueState::clamp_to_max(u8 level, u8 max) {
     return clamped;
 }
 
-s32 TObjPlayer::validate_and_clear_slot(void *techs, s16 tech) {
-    return is_invalid_slot(get_cast_technique_level(techs, tech));
+s32 TObjPlayer::validate_and_clear_slot(PlayerTechniqueState *techs, s16 tech) {
+    return is_invalid_slot(techs->get_cast_technique_level(tech));
 }
 
 s32 TObjPlayer::is_invalid_slot(u8 level) {

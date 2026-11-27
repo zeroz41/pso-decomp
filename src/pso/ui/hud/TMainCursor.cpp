@@ -73,9 +73,6 @@ extern const f32 cursor_float_zero;
 extern const char *lock_on_start_task_name;
 }
 
-extern "C" {
-u8 get_cast_technique_level(void *, s16);
-}
 
 
 extern "C" void render__7TObjectFv();
@@ -508,7 +505,7 @@ void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s16 kind,
         break;
     case 3: {
         u16 client = player->get_entity_id();
-        s32 lvl = get_cast_technique_level(&player->technique_state, id);
+        s32 lvl = player->technique_state.get_cast_technique_level(id);
         s32 technique = id;
         tech = (TechniqueCursorParams *)calc_technique_parameters(technique, lvl, client);
         activate_action_channel(cur);
@@ -1177,7 +1174,7 @@ void TMainCursor::validate_target() {
         }
         return;
     case 3:
-        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(&t->technique_state, get_target_palette_slot(&target.palette_tag))) != 0) {
+        if (TObjPlayer::is_invalid_slot(t->technique_state.get_cast_technique_level(get_target_palette_slot(&target.palette_tag))) != 0) {
             this->update_target_sub();
             return;
         }
@@ -1194,7 +1191,7 @@ void TMainCursor::validate_target() {
             return;
         }
         if (t->tp - (calc_technique_parameters(get_target_palette_slot(&target.palette_tag),
-                                                      get_cast_technique_level(&t->technique_state, get_target_palette_slot(&target.palette_tag)),
+                                                      t->technique_state.get_cast_technique_level(get_target_palette_slot(&target.palette_tag)),
                                                       t->get_entity_id()))->tp_cost < 0) {
             this->update_target_sub();
             return;

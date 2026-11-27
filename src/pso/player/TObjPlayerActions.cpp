@@ -86,7 +86,6 @@ extern "C" {
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
-u8 get_cast_technique_level(void *techs, s16 tech);
 }
 int is_android_player(TObjPlayer *p);
 void remove_photon_blast_participant(s32 id);
@@ -2793,7 +2792,7 @@ s32 TObjPlayer::can_start_technique(s32 tech) {
         this->reset_volopt_state() == 0) {
         return 0;
     }
-    return this->tp - calc_technique_parameters(tech, get_cast_technique_level(&this->technique_state, tech), this->get_entity_id())->tp_cost >= 0 ? 1 : 0;
+    return this->tp - calc_technique_parameters(tech, this->technique_state.get_cast_technique_level(tech), this->get_entity_id())->tp_cost >= 0 ? 1 : 0;
 }
 
 void TObjPlayer::exit_technique_cast() {
@@ -2976,7 +2975,7 @@ void TObjPlayer::request_technique_cast() {
         ((TLockOnCursor *)lock_on_cursor)->set_cursor_pos(td->entity_id, td->index);
     }
     tech = technique_state.get_technique_id();
-    TObjPlayer::split_capped_value(get_cast_technique_level(&technique_state, tech), &hi, &lo);
+    TObjPlayer::split_capped_value(technique_state.get_cast_technique_level(tech), &hi, &lo);
     if (this == NULL || obj_isState2_324() == 0) {
         m1.init();
         m1.header.client_id = get_entity_id();

@@ -43,9 +43,6 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 
-extern "C" {
-u8 get_cast_technique_level(void *, int);
-}
 
 
 static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
@@ -855,7 +852,7 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
           {
             result |= 0x10001;
           }
-          cur = get_cast_technique_level(&player->technique_state, (s16) data1.data_u8[4]);
+          cur = player->technique_state.get_cast_technique_level((s32) data1.data_u8[4]);
           if ((TObjPlayer::is_invalid_slot(cur) == 0) && (data1.data_u8[2] <= cur))
           {
             result |= 0x10001;

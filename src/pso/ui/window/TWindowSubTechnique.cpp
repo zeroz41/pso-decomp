@@ -144,11 +144,6 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
 }
 }
 
-extern "C" {
-s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
-s32 get_cast_technique_level(void *, int);
-}
-
 
 TWindowMenu *TWindowSubTechnique::open_menu() {
     TWindowMenu *titled_window_menu;
@@ -169,39 +164,35 @@ TWindowMenu *TWindowSubTechnique::open_menu() {
 
 static const char technique_empty_line[4] = "";
 
-void TWindowSubTechnique::update_selected_help(s32 technique) {
-  s32 saved_reg_r30;
+void TWindowSubTechnique::update_selected_help(s16 technique) {
   TObjPlayer *player;
-  s32 tech;
-  s32 cast_technique_level;
-  tech = technique;
+  u8 cast_technique_level;
   toggle_help_window_on_button(help_window, playerIndex);
   player = get_player_by_client_id(this->playerIndex);
   if (player != NULL)
   {
-    if (validate_and_clear_slot__10TObjPlayerFPvs(&player->technique_state, tech) != 0)
+    if (TObjPlayer::validate_and_clear_slot(&player->technique_state, technique) != 0)
     {
-      tech = 0x13;
-      cast_technique_level = saved_reg_r30;
+      technique = 0x13;
     }
-    if (((s16) tech) != ((s16) help_technique))
+    if (technique != ((s16) help_technique))
     {
-      help_technique = (s16) tech;
-      if (((s16) tech) == 0x13)
+      help_technique = technique;
+      if (technique == 0x13)
       {
         help_window->append_line(technique_empty_line, 0x82);
         return;
       }
       text_builder_reset();
-      if ((((s16) tech) != 0x11) && (((s16) tech) != 0xE))
+      if ((technique != 0x11) && (technique != 0xE))
       {
-        cast_technique_level = get_cast_technique_level(&player->technique_state, (int) tech);
+        cast_technique_level = player->technique_state.get_cast_technique_level(technique);
         text_builder_append((const char *)((saddr) get_technique_description_text(0x13)));
-        text_builder_append_int((((u8) cast_technique_level) + 1));
+        text_builder_append_int(cast_technique_level + 1);
       }
       text_builder_append(get_help_text_string(0x2E));
-      text_builder_append_int(calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)->tp_cost);
-      text_builder_append((const char *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
+      text_builder_append_int(calc_technique_parameters(technique, cast_technique_level, 0xFFFF)->tp_cost);
+      text_builder_append((const char *)((saddr) get_technique_description_text(technique)));
       help_window->append_line(get_shared_text_buffer(), 0x82);
     }
   }

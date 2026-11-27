@@ -61,7 +61,6 @@ extern "C" {
 
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
-s8 get_cast_technique_level(void *, s16);
 
 void copy_player_visual_record(void *, void *);
 }
@@ -1820,11 +1819,11 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
             if (kind == TECHNIQUE_RESTA) {
                 ai_flags |= NPC_AI_CAST_RESTA;
             }
-            cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
+            cmd.params.level = player->technique_state.get_cast_technique_level(kind);
             cmd.targets[0].set_entity_id(leader_view->get_client_id());
             cmd.targets[0].set_index(0);
         } else {
-            cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
+            cmd.params.level = player->technique_state.get_cast_technique_level(kind);
             cmd.targets[0].set_entity_id((u16)self_view->get_target_id());
             cmd.targets[0].set_index(self_view->get_target_collider());
         }

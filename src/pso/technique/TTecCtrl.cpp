@@ -67,7 +67,6 @@ TechniqueBoostTable lbl_8051607C[4];
 
 extern "C" {
 void set_target__20PlayerTechniqueStateFlls(void *, int, u16, s16);
-u8 get_cast_technique_level(void *, int);
 }
 
 // The technique effects' models and motions, and the archive that holds them.
@@ -474,79 +473,79 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     case 0:
         if (n != 0) {
             AIM_AT_TARGET()
-            TTecFoie::create_ex(pl, &hand, &aim, get_cast_technique_level(td, 0));
+            TTecFoie::create_ex(pl, &hand, &aim, td->get_cast_technique_level(0));
         } else {
-            TTecFoie::create(pl, &hand, pl->rotation.y, get_cast_technique_level(td, 0));
+            TTecFoie::create(pl, &hand, pl->rotation.y, td->get_cast_technique_level(0));
         }
         break;
     case 1:
-        TTecGiFoie::create(pl, &hand, get_cast_technique_level(td, 1));
+        TTecGiFoie::create(pl, &hand, td->get_cast_technique_level(1));
         break;
     case 2:
         COLLECT_TARGETS()
         if (n == 0) {
             return;
         }
-        TTecRaFoie::create_ex(pl, &hand, &list, get_cast_technique_level(td, 2));
+        TTecRaFoie::create_ex(pl, &hand, &list, td->get_cast_technique_level(2));
         break;
     case 3:
         if (n != 0) {
             AIM_AT_TARGET()
-            TTecBarta::create(pl, &pl->position, &aim, get_cast_technique_level(td, 3));
+            TTecBarta::create(pl, &pl->position, &aim, td->get_cast_technique_level(3));
         } else {
-            TTecBarta::create_ex(pl, &pl->position, pl->rotation.y, get_cast_technique_level(td, 3));
+            TTecBarta::create_ex(pl, &pl->position, pl->rotation.y, td->get_cast_technique_level(3));
         }
         break;
     case 4:
         if (n != 0) {
             AIM_AT_TARGET()
-            TTecGiBarta::create(pl, &hand, &aim, get_cast_technique_level(td, 4));
+            TTecGiBarta::create(pl, &hand, &aim, td->get_cast_technique_level(4));
         } else {
-            TTecGiBarta::create_ex(pl, &hand, pl->rotation.y, get_cast_technique_level(td, 4));
+            TTecGiBarta::create_ex(pl, &hand, pl->rotation.y, td->get_cast_technique_level(4));
         }
         break;
     case 5:
-        TTecRaBarta::create(pl, &hand, get_cast_technique_level(td, 5));
+        TTecRaBarta::create(pl, &hand, td->get_cast_technique_level(5));
         break;
     case 6:
         COLLECT_TARGETS()
         if (n == 0) {
             return;
         }
-        TTecZonde::create(pl, &hand, &list, get_cast_technique_level(td, 6));
+        TTecZonde::create(pl, &hand, &list, td->get_cast_technique_level(6));
         break;
     case 7:
         COLLECT_TARGETS()
         if (n == 0) {
             return;
         }
-        TTecGiZonde::create(pl, &hand, &list, get_cast_technique_level(td, 7));
+        TTecGiZonde::create(pl, &hand, &list, td->get_cast_technique_level(7));
         break;
     case 8:
-        TTecRaZonde::create(pl, &hand, get_cast_technique_level(td, 8));
+        TTecRaZonde::create(pl, &hand, td->get_cast_technique_level(8));
         break;
     case 9:
         COLLECT_TARGETS()
         if (n == 0) {
             return;
         }
-        TTecGrants::create(pl, &hand, &list, get_cast_technique_level(td, 9));
+        TTecGrants::create(pl, &hand, &list, td->get_cast_technique_level(9));
         break;
     case 10:
         COLLECT_TARGETS()
-        TTecDeband::create(pl, &hand, &list, get_cast_technique_level(td, 10));
+        TTecDeband::create(pl, &hand, &list, td->get_cast_technique_level(10));
         break;
     case 11:
         COLLECT_TARGETS()
-        TTecJelin::create(pl, &hand, &list, get_cast_technique_level(td, 11));
+        TTecJelin::create(pl, &hand, &list, td->get_cast_technique_level(11));
         break;
     case 12:
         COLLECT_TARGETS()
-        TTecZarua::create_instance(pl, &hand, &list, get_cast_technique_level(td, 12));
+        TTecZarua::create_instance(pl, &hand, &list, td->get_cast_technique_level(12));
         break;
     case 13:
         COLLECT_TARGETS()
-        TTecSifta::create_instance(pl, &hand, &list, get_cast_technique_level(td, 13));
+        TTecSifta::create_instance(pl, &hand, &list, td->get_cast_technique_level(13));
         break;
     case 14:
         if (is_split_screen() != 0) {
@@ -557,25 +556,25 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
         break;
     case 15:
         COLLECT_TARGETS()
-        TTecResta::create(pl, &hand, &list, get_cast_technique_level(td, 15));
+        TTecResta::create(pl, &hand, &list, td->get_cast_technique_level(15));
         break;
     case 16:
         COLLECT_TARGETS()
-        TTecAnti::create(pl, &hand, &list, get_cast_technique_level(td, 16));
+        TTecAnti::create(pl, &hand, &list, td->get_cast_technique_level(16));
         break;
     case 17:
         COLLECT_TARGETS()
         if (n == 0) {
             return;
         }
-        TTecReverser::create(pl, &hand, &list, get_cast_technique_level(td, 17));
+        TTecReverser::create(pl, &hand, &list, td->get_cast_technique_level(17));
         break;
     case 18:
         if (n != 0) {
             AIM_AT_TARGET()
-            TTecMegid::create(pl, &hand, &aim, get_cast_technique_level(td, 18));
+            TTecMegid::create(pl, &hand, &aim, td->get_cast_technique_level(18));
         } else {
-            TTecMegid::create_ex(pl, &hand, pl->rotation.y, get_cast_technique_level(td, 18));
+            TTecMegid::create_ex(pl, &hand, pl->rotation.y, td->get_cast_technique_level(18));
         }
         break;
     }

@@ -29,9 +29,6 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/enemy/BattleParamTables.h"
 
-extern "C" {
-u8 get_cast_technique_level(void *, s16);
-}
 
 extern "C" {
 extern const f32 customize_help_window_size[2] = {190.0f, 168.0f};
@@ -147,7 +144,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
         }
         text_builder_append(get_technique_name(ev->slot));
         if (ev->slot != 0x11 && ev->slot != 0xE) {
-            lvl = get_cast_technique_level(&pl->technique_state, ev->slot);
+            lvl = pl->technique_state.get_cast_technique_level(ev->slot);
             if (current_language != LANGUAGE_JAPANESE) {
                 append_text_space();
             }

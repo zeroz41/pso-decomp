@@ -31,7 +31,7 @@ struct TWindowSubTechnique : public TObject {
 
     void rebuildTechniqueList(saddr list, s32 category);
     TWindowMenu *open_menu();
-    void update_selected_help(s32 technique);
+    void update_selected_help(s16 technique);
     virtual void render();
     virtual void run_task();
     static void get_selection(s16 *tp, s32 *hold_status, s32 client);
