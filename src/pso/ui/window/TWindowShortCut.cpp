@@ -18,7 +18,7 @@
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/unk/TLobby_8026B06C.h"
+#include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/WindowLayoutRecord.h"

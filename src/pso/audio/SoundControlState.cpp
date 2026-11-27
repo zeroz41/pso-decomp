@@ -494,7 +494,6 @@ u16 sound_bank_group_ids[38] = {
 
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/audio/SoundRequestVoice.h"
-#include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/system/main_loop.h"
 #include <string.h>

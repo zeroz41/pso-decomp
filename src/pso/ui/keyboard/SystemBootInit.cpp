@@ -59,7 +59,7 @@
 #include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/player/PlayerDataLoad.h"
 #include "pso/ui/LoadingInfoIcon.h"

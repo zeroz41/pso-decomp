@@ -56,12 +56,10 @@
 #include "pso/player/TPlyInventory.h"
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/TLobby_8013A874.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/unk/TLobby_8013AD38.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -2912,17 +2910,14 @@ s32 TWindowMakeTeam::get_field_20() { return kind; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
-extern "C" {
-
-s32 *get_access_key_input_buffer(void) {
-    return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;
+u8 *get_access_key_input_buffer(void) {
+    return (u8 *)TAdEnterSerialAccessGC::access_key_input_buffer;
 }
 
 char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decimal_string((const char *)get_raw_serial_input_buffer()); }
 
-s32 *get_raw_serial_input_buffer(void) {
-    return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
-}
+u8 *get_raw_serial_input_buffer(void) {
+    return (u8 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
 
 saddr get_connection_message_text(s32 id) {

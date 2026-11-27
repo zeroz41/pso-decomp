@@ -86,7 +86,8 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixTransforms.h"

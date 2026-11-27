@@ -12,7 +12,7 @@
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
-#include "pso/unk/text_801E3F24.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"

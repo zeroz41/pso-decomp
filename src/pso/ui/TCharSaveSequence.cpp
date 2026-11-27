@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/memory.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/system/TScreenFadeOut.h"

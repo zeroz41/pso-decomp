@@ -1,7 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
-#include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/network/TLobby.h"

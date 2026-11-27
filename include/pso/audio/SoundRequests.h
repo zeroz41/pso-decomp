@@ -34,4 +34,10 @@ void init_layout_positions();
 void reset_global();
 int init_sound_mode();
 
+// sound-request flag mask, read from memory by the request updates
+extern const u32 sound_request_reset_mask;
+void clear_sound_listener_position(void);
+int enable_sound_requests(s32);
+void update_sound_request_slots(void);
+
 #endif

@@ -56,4 +56,7 @@ struct LobbyLoadCallback {
     void (*release)(void);
 };
 
+void title_choice_stub(TTitleScene *scene);
+void initialize_lobby_title_scene(void);
+
 #endif

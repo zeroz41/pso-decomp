@@ -100,17 +100,6 @@ s32 password_entry_dispatch_state;
 
 s32 TAdEnterBaseGC::entry_mode;
 
-extern "C" {
-
-
-extern char serial_access_hex_string_buf[];
-
-u8 *get_access_key_input_buffer();
-
-u8 *get_raw_serial_input_buffer();
-
-
-}
 extern TObject *tl_clipout;
 char serial_access_hex_string_buf[0x40];
 

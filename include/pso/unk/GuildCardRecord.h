@@ -47,4 +47,6 @@ char *parse_csv_token(char *src, char *dst);
 char *skip_to_comma_field(char *s, s32 a, s32 b);
 void copy_guild_card_f4c(void *dst, void *src);
 
+void set_short_mail_flag_bit2(void);
+
 #endif

@@ -37,7 +37,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby_8013A874.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

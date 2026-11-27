@@ -33,7 +33,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/render/ScreenSpriteDraw.h"
-#include "pso/unk/text_801E3F24.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <stdlib.h>

@@ -20,4 +20,6 @@ struct TWindowMessageScroll : public TWindowMessageQuest {
 LAYOUT_ASSERT(TWindowMessageScroll_scroll_speed_offset, offsetof(TWindowMessageScroll, scroll_speed) == 0x94);
 LAYOUT_ASSERT(TWindowMessageScroll_size, sizeof(TWindowMessageScroll) == 0x9C);
 
+TWindowMessageScroll *open_message_scroll_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 *completion);
+
 #endif

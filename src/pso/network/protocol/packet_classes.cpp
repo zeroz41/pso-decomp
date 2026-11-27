@@ -7,7 +7,7 @@
 #include "pso/system/THeap.h"
 #include "pso/system/byteswap.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/unk/TLobby_8013A874.h"
+#include "pso/network/TLobby.h"
 
 // These packet classes were built by an older compiler than TProtocol.cpp. Their copy
 // constructors are the implicit ones, but the game links them as strong definitions from

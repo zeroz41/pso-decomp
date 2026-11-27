@@ -90,7 +90,6 @@
 #include "pso/quest/QuestFlagCommand.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/warp/TObjLaboMapWarp.h"
 #include "pso/quest/QuestActiveFlag.h"

@@ -26,7 +26,8 @@ void update_voice_stream_mix(AdxtPlayer *tracks) {
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/LoadingInfoIcon.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/MallocLoadFilePrc.h"
 
 void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }

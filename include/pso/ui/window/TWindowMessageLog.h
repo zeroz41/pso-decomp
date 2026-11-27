@@ -39,4 +39,9 @@ void post_chat_log_message(u16 id, const char *text);
 
 s32 find_free_chat_log_slot();
 
+void cache_last_chat_line(const char *text);
+void chat_log_add_line(const char *text);
+void chat_log_remove_line(saddr index);
+s32 chat_text_lacks_language_tag(const char *text);
+
 #endif

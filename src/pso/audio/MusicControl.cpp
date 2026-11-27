@@ -14,7 +14,6 @@
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/audio/MusicControl.h"

@@ -86,7 +86,6 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/door/TODoorJungleMain.h"
 #include "pso/network/TProtocol.h"

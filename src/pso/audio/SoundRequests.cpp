@@ -6,7 +6,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/network/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
-#include "pso/unk/TLobby_802268F4.h"
 #include "pso/audio/SoundPlayback.h"
 #include "pso/system/vector.h"
 #include "pso/audio/SoundRequests.h"

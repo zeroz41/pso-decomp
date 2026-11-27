@@ -450,4 +450,11 @@ TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
 u8 *get_password_input_buffer(void);
 
 extern TPlyChallenge lobby_player_status_records[];
+
+u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
+
+saddr get_connection_message_text(s32 id);
+u8 *get_access_key_input_buffer(void);
+u8 *get_raw_serial_input_buffer(void);
+
 #endif

@@ -9,7 +9,7 @@
 #include "pso/render/FloorReflection.h"
 #include "pso/boss/goldragon/Boss8DemoObjects.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/map/area/Dragon2Scene.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/audio/SoundPlayback.h"

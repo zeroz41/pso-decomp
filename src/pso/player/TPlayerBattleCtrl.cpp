@@ -39,7 +39,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/network/LegacyEnemyKill.h"
 #include <string.h>
 #include "pso/ui/Language.h"

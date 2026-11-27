@@ -48,7 +48,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/TLobby_802268F4.h"
+#include "pso/audio/SoundRequests.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/enemy/BattleParamTables.h"
