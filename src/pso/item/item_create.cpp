@@ -222,7 +222,7 @@ s32 get_item_icon_index();
 // This unit's .sbss, in address order.
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
-FlagWord lbl_805D5440;
+FlagWord pioneer2_item_respawn_flags;
 LoadUnloadSet *item_class_load_handle;
 int lobby_drop_flag;
 
@@ -754,7 +754,7 @@ void TMainTask::cleanup_game_objects() {
     TLobby::clear_object_count();
     respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
-        lbl_805D5440.set(1);
+        pioneer2_item_respawn_flags.set(1);
         if ((main_phase != 0xE) && (main_phase == 0xF)) {
             TItemDrop::refresh_drop_table_if_changed();
         }
@@ -1284,7 +1284,7 @@ void TObjPlayer::init_game_resources() {
     init_item_chunk_buffers();
     TItemLoad::init_resources();
     item_class_load_handle = create_load_unload_set(item_class_load_unload_table);
-    lbl_805D5440.reset();
+    pioneer2_item_respawn_flags.reset();
 }
 
 void set_first_inventory_item_flag(TPlyCharData *chr) { chr->m_inventory.m_items[0].m_present[3] |= 1; }

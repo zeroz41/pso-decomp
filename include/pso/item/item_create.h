@@ -4,6 +4,10 @@
 #include "types.h"
 
 struct TItemData;
+struct FlagWord;
+
+// Bit 0 is set on entering Pioneer 2; apply_sync_item_state then respawns floor 0's missing items.
+extern FlagWord pioneer2_item_respawn_flags;
 
 void set_boss_buf_entry(int value, u16 index);
 int get_sync_counter(u16 index);
