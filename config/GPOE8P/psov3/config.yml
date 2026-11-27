@@ -700,7 +700,7 @@ force_active:
   - stamp_joyboot_image__Fll
   - probe_gba_device__Fv
   - gba_clear_identifiers__Fv
-  - reset_joyboot_state__FPv
+  - reset_joyboot_state__FP15GbaJoybootState
   - title_choice_stub__FP11TTitleScene
   - dispatch_title_choice__11TTitleSceneFv
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
@@ -6698,7 +6698,7 @@ force_active:
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__13MaterialUsageFv
   - get_type__16PhotonBlastGaugeFv
-  - get_type__23TAdSinglePlyChrSelectGCFPv
+  - get_type__23TAdSinglePlyChrSelectGCFP13CharacterFile
   - get_vidlist
   - get_viewport_offset__17WindowDrawContextFl
   - get_weapon_set_multiplier__9TItemDataFP10TObjPlayer
@@ -15423,7 +15423,7 @@ force_active:
   - set_hit_flags_and_notify__19TBoss3VoloptMonitorFv
   - set_hold_flags__18TObjEneRe4SorcererFPv
   - set_hover_target_position__13TObjEneMorfosFv
-  - set_id__23TAdSinglePlyChrSelectGCFPvi
+  - set_id__23TAdSinglePlyChrSelectGCFP13CharacterFilei
   - set_texture_palette_bank__FP17GinjaTextureStatel
   - set_input_active__11TWindowChatFv
   - set_item_effect__22PlayerAttackControllerFv
@@ -17676,7 +17676,7 @@ force_active:
   - write_node_flags__FP10NJS_OBJECT
   - write_quest_data__22TQuestVmDownLoadServerFv
   - write_quest_data_named__22TQuestVmDownLoadServerFv
-  - write_telepipe_record__FPUcUssPUcl
+  - write_telepipe_record__13TelepipeStateFUssPC3Vecl
   - __ct__25TItemWeaponYasminkov2000HFP7TObjectPUc
   - yasminkov_9000m_eject_casing__25TItemWeaponYasminkov9000MFP3Vecl
   - adxt_encode_into_input

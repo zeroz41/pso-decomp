@@ -43,7 +43,7 @@ class TUserAns;
 void handle_user_search_answer(TUserAns &response);
 void add_found_user_com_card(TUserAns &response);
 void find_and_load_com_card(u32 serial);
-void init_player_entry(GuildCardRecord *entry, u8 *response);
+void init_player_entry(GuildCardRecord *entry, TUserAns *response);
 s32 remove_com_card_by_id(u32 id);
 void remove_com_card_entry(s32 index);
 char *build_text_from_comma_list(char *list);

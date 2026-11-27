@@ -178,7 +178,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 free_buffer();
     static void free_callbacks();
     static s32 free_data();
-    static s32 get_type(void* p);
+    static s32 get_type(CharacterFile *file);
     static void increment_counter();
     static void increment_counters();
     static s32 init_and_register(CharacterFile *source);
@@ -197,7 +197,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void render_frame();
     static void reset_save_header();
     static void save_character_file(int use_primary);
-    static void set_id(void* p, int v);
+    static void set_id(CharacterFile *file, int v);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
     static void update_pair(void* p);

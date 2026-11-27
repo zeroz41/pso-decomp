@@ -550,10 +550,10 @@ s32 get_character_file_seed(CharacterFile *file) {
     return file->cipher_seed;
 }
 
-void TAdSinglePlyChrSelectGC::set_id(void* p, int v) { *(s32*)((char*)p + 0x0) = v; }
+void TAdSinglePlyChrSelectGC::set_id(CharacterFile *file, int v) { file->checksum = v; }
 
 
-s32 TAdSinglePlyChrSelectGC::get_type(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 TAdSinglePlyChrSelectGC::get_type(CharacterFile *file) { return file->checksum; }
 
 
 s32 TAdSinglePlyChrSelectGC::is_entry_valid(CharacterFile *self, int i) {
@@ -897,7 +897,7 @@ s32 check_slot_a_card_save(void) {
     TAdPlayerLoadGC::reset_load_state(0, &serial_number);
     for (i = 0; i < 8; i++) {
         u8 b = ((u8 *)&serial_number)[i];
-        u8 a = ((u8 *)system_save_payload)[i + 0x110];
+        u8 a = system_save_payload->serial_number[i];
         if (a != b) return 1;
     }
     if (((TAdSinglePlyChrSelectGC *)card_character_save_buffer)->has_valid_slot() != 0) return 5;
@@ -913,7 +913,7 @@ s32 check_slot_b_card_save(void) {
     TAdPlayerLoadGC::reset_load_state(1, &serial_number);
     for (i = 0; i < 8; i++) {
         u8 b = ((u8 *)&serial_number)[i];
-        u8 a = ((u8 *)secondary_card_system_save_payload)[i + 0x110];
+        u8 a = secondary_card_system_save_payload->serial_number[i];
         if (a != b) return 1;
     }
     if (((TAdSinglePlyChrSelectGC *)secondary_card_character_save_buffer)->has_valid_slot() != 0) return 5;
@@ -2086,7 +2086,7 @@ void game_state_load(void) {
             }
         }
     }
-    *(s8 *)((s8 *)selected_character_data + 3) = (s8) current_language;
+    selected_character_data->m_inventory.m_language = current_language;
 }
 
 s32 TAdSinglePlyChrSelectGC::apply_loaded_character(int verify_only) {
@@ -2115,7 +2115,7 @@ s32 TAdSinglePlyChrSelectGC::apply_loaded_character(int verify_only) {
             }
         }
     }
-    *((s8 *)selected_character_data + 3) = (s8)current_language;
+    selected_character_data->m_inventory.m_language = current_language;
     TAdSinglePlyChrSelectGC::set_state(0);
     return 1;
 }
@@ -2275,7 +2275,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
             i += 1;
             result++;
         } while (i < 0x1E);
-        *(s8 *)((s8 *)selected_character_data + 0) = 0;
+        selected_character_data->m_inventory.m_num_items = 0;
         init_class_starting_inventory(selected_character_data);
         TPlyCharData *character = selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
