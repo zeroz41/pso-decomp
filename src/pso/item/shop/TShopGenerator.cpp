@@ -78,7 +78,7 @@ BOOL TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
 }
 #pragma pop
 
-s32 TShopGenerator::is_no_service_active(void *self, TObjBase *player) {
+s32 TShopGenerator::is_no_service_active(TObjBase *player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
@@ -132,7 +132,7 @@ void TShopGenerator::run_task() {
         if (TMedicalCenterMes::get_slot_flag(q->get_entity_id()) == 1) return;
         if (q->is_action_input_disabled() == 1) return;
         if (q->is_controls_locked() == 1) return;
-        if (is_no_service_active(this, q) == 0) return;
+        if (is_no_service_active(q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
         if (is_player_in_service_range(q, 20.0f) == 0) return;

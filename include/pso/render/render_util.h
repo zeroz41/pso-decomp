@@ -116,8 +116,8 @@ extern NJS_ARGB color_draw_saved_color;
 extern NJS_ARGB player_feedback_light_color;
 
 void restore_saved_depth_alpha_state(void);
-void *delete_object_if_delete_flag(void *self, s16 del);
-void *clear_first_word(void *self);
+void *delete_object_if_delete_flag(void *object, s16 del);
+void *clear_first_word(void *object);
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color);
 void debug_draw_marker(const Vec *pos, f32 size);
